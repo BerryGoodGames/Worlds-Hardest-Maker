@@ -111,8 +111,8 @@ public class MouseEvents : MonoBehaviour
                     // delete entities
                     if (multiplayer)
                     {
-                        // remove player
-                        pview.RPC("RemovePlayerAtPos", RpcTarget.All, gridX, gridY);
+                        // remove player (only own client)
+                        PlayerManager.Instance.RemovePlayerAtPosIgnoreOtherClients(gridX, gridY);
 
                         // remove coins
                         pview.RPC("RemoveCoin", RpcTarget.All, gridX, gridY);

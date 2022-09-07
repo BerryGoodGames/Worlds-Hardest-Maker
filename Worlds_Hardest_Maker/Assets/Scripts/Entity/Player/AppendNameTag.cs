@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,4 +29,6 @@ public class AppendNameTag : MonoBehaviour
     {
         nameTag.GetComponent<TMPro.TMP_Text>().text = name;
     }
+
+    
 }

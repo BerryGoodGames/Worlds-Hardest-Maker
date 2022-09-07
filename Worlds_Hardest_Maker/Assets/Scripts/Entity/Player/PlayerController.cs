@@ -81,11 +81,15 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
         startPos = transform.position;
 
         UpdateSpeedText();
+
+        if (GameManager.Instance.Multiplayer) photonView.RPC("SetNameTagActive", RpcTarget.All, GameManager.Instance.Playing);
     }
 
     private void Update()
     {
         movementInput = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+        if (GameManager.Instance.Multiplayer) photonView.RPC("SetNameTagActive", RpcTarget.All, GameManager.Instance.Playing);
     }
 
     private void FixedUpdate()
@@ -114,6 +118,15 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
         {
             sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
         }
+    }
+
+    [PunRPC]
+    public void SetNameTagActive(bool active)
+    {
+        if (!photonView.IsMine) print($"Setnametag {active}");
+
+        if (!GameManager.Instance.Multiplayer) throw new System.Exception("Trying to enable/disable name tag while in singleplayer");
+        nameTagController.nameTag.SetActive(active);
     }
 
     /// <returns>rounded position of player</returns>
