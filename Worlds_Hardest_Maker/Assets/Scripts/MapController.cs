@@ -46,7 +46,7 @@ public class MapController : MonoBehaviour
 
         if (Input.GetMouseButtonUp(1)) lastMousePos = null;
         float zoomInput = EventSystem.current.IsPointerOverGameObject() ? 0 : -Input.GetAxis("Mouse ScrollWheel");
-        if (zoomInput != 0f) // zoom
+        if (zoomInput != 0f && MouseManager.Instance.OnScreen) // zoom
         {
             if (GetComponent<Camera>().orthographicSize + zoomInput * zoomSpeed >= minZoom && GetComponent<Camera>().orthographicSize + zoomInput * zoomSpeed <= maxZoom)
             {

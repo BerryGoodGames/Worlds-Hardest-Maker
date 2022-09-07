@@ -12,6 +12,7 @@ public class MouseManager : MonoBehaviour
     [HideInInspector] public Vector2 MouseWorldPos { get; set; } = new();
     [HideInInspector] public Vector2 MouseWorldPosGrid { get; set; } = new();
     [HideInInspector] public Vector2 MouseWorldPosMatrix { get; set; } = new();
+    [HideInInspector] public bool OnScreen { get; set; } = true;
 
     public static Vector2 PosToGrid(Vector2 pos) { return new(Mathf.Round(pos.x * 2) / 2, Mathf.Round(pos.y * 2) / 2); }
     public static Vector2 PosToMatrix(Vector2 pos) { return new(Mathf.Round(pos.x), Mathf.Round(pos.y)); }
@@ -48,6 +49,9 @@ public class MouseManager : MonoBehaviour
         // update drag variables
         if (Input.GetMouseButtonDown(0)) Instance.MouseDragStart = Instance.MouseWorldPos;
         if (Input.GetMouseButton(0)) Instance.MouseDragEnd = Instance.MouseWorldPos;
+
+        Vector2 view = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        OnScreen = view.x > 0 && view.x < 1 && view.y > 0 && view.y < 1;
     }
 
     private void LateUpdate()
