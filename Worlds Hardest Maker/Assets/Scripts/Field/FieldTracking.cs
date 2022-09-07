@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
- * Apply this to every field which the player can stand on
- */
+/// <summary>
+/// Apply this to every field which the player can stand on
+/// </summary>
 public class FieldTracking : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)

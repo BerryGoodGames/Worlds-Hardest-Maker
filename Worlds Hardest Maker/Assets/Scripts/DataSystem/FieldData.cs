@@ -25,6 +25,6 @@ public class FieldData : IData
     {
         FieldManager.FieldType type = (FieldManager.FieldType)System.Enum.Parse(typeof(FieldManager.FieldType), fieldType);
 
-        FieldManager.SetField(position[0], position[1], type);
+        FieldManager.Instance.SetField(position[0], position[1], type);
     }
 }

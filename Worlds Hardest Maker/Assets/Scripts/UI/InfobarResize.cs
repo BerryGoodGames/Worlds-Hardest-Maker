@@ -17,9 +17,12 @@ public class InfobarResize : MonoBehaviour
         RectTransform bgrt = transform.GetChild(0).GetComponent<RectTransform>();
         bgrt.sizeDelta = new(bgrt.rect.width, height + 200);
 
-        foreach (GameObject text in infoTexts)
+        foreach (GameObject t in infoTexts)
         {
-            text.transform.localScale = new(height / 100, height / 100);
+            // text.transform.localScale = new(height / 100, height / 100);
+            TMPro.TMP_Text text = t.GetComponent<TMPro.TMP_Text>();
+
+            text.fontSize = infobarHeight * 0.514f;
         }
     }
 }

@@ -1,20 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
+using Photon.Pun;
 using System.Linq;
 
 // class for global functions
 // no active activities
 public class FieldManager : MonoBehaviour
 {
+    public static FieldManager Instance { get; private set; }
+
     public enum FieldType
     {
         WALL_FIELD, START_FIELD, GOAL_FIELD, START_AND_GOAL_FIELD, CHECKPOINT_FIELD, ONE_WAY_FIELD, GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD
-    }
-    public enum KeyDoorColor
-    {
-        GRAY, RED, GREEN, BLUE, YELLOW
     }
 
     public static bool IsEditModeFieldType(GameManager.EditMode mode)
@@ -107,7 +105,8 @@ public class FieldManager : MonoBehaviour
         return GetField((int)pos.x, (int)pos.y);
     }
 
-    public static void RemoveField(int mx, int my, bool updateOutlines = false)
+    [PunRPC]
+    public void RemoveField(int mx, int my, bool updateOutlines)
     {
         GameObject field = GetField(mx, my);
 
@@ -125,8 +124,14 @@ public class FieldManager : MonoBehaviour
             }
         }
     }
+    [PunRPC]
+    public void RemoveField(int mx, int my)
+    {
+        RemoveField(mx, my, false);
+    }
 
-    public static void SetField(int mx, int my, FieldType type, int rotation = 0)
+    [PunRPC]
+    public void SetField(int mx, int my, FieldType type, int rotation)
     {
         if (GetField(mx, my) == null || GetFieldType(GetField(mx, my)) != type)
         {
@@ -135,27 +140,82 @@ public class FieldManager : MonoBehaviour
 
             // place field according to edit mode
             Vector2 pos = new(mx, my);
-            GameObject prefab = GetPrefabByType(type);
-            Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), GameManager.Instance.FieldContainer.transform);
+            GameObject field = InstantiateField(pos, type, rotation);
+
+            // REF
+            string[] tags = { "StartField", "GoalField", "StartAndGoalField", "CheckpointField" };
+            
+            for(int i = 0; i < tags.Length; i++)
+            {
+                // TODO: similar code to GraphicsSettings.cs SetOneColorStartGoal
+                if (field.CompareTag(tags[i]))
+                {
+                    if (GraphicsSettings.Instance.oneColorStartGoal)
+                    {
+                        field.GetComponent<SpriteRenderer>().color = GameManager.Instance.StartGoalUniqueColor;
+
+                        if (field.TryGetComponent(out Animator anim))
+                        {
+                            anim.enabled = false;
+                        }
+                    }
+                    else
+                    {
+                        // set colorful colors to start, goal, checkpoints and startgoal fields
+                        Color[] colors = { GameManager.Instance.StartFieldColor, GameManager.Instance.GoalFieldColor, GameManager.Instance.StartAndGoalFieldColor, GameManager.Instance.CheckpointFieldColor };
+
+                        SpriteRenderer renderer = field.GetComponent<SpriteRenderer>();
+                        if (field.CompareTag(tags[i]))
+                        {
+                            renderer.color = colors[i];
+
+                            if (field.TryGetComponent(out Animator anim))
+                            {
+                                anim.enabled = true;
+                            }
+                        }
+                    }
+                }
+            }
 
             // remove player if at changed pos
             if (type != FieldType.START_FIELD && type != FieldType.START_AND_GOAL_FIELD)
             {
-                PlayerManager.RemovePlayerAtPos(mx, my);
+                PlayerManager.Instance.RemovePlayerAtPosIntersect(mx, my);
             }
 
             if (CoinManager.CantPlaceFields.Contains(type))
             {
+                // TODO: 9x bad performance than before
                 // remove coin if wall is placed
-                GameManager.RemoveObjectInContainer(mx, my, GameManager.Instance.CoinContainer);
+                GameManager.RemoveObjectInContainerIntersect(mx, my, GameManager.Instance.CoinContainer);
             }
 
             if (KeyManager.CantPlaceFields.Contains(type))
             {
+                // TODO: 9x bad performance than before
                 // remove key if wall is placed
-                GameManager.RemoveObjectInContainer(mx, my, GameManager.Instance.KeyContainer);
+                GameManager.RemoveObjectInContainerIntersect(mx, my, GameManager.Instance.KeyContainer);
             }
         }
+    }
+    [PunRPC]
+    public void SetField(int mx, int my, FieldType type)
+    {
+        SetField(mx, my, type, 0);
+    }
+    private static GameObject InstantiateField(Vector2 pos, FieldType type, int rotation)
+    {
+        GameObject res;
+        GameObject prefab = GetPrefabByType(type);
+        if (GameManager.Instance.Multiplayer)
+        {
+            res = PhotonNetwork.Instantiate(prefab.name, pos, Quaternion.Euler(0, 0, rotation));
+        } else
+        {
+            res = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), GameManager.Instance.FieldContainer.transform);
+        }
+        return res;
     }
 
     public static List<GameObject> GetNeighbours(GameObject field)
@@ -178,4 +238,84 @@ public class FieldManager : MonoBehaviour
         return neighbours;
     }
 
+    public static List<GameObject> GetFieldsAtPos(float mx, float my)
+    {
+        (int x, int y)[] checkPoses =
+        {
+            (Mathf.FloorToInt(mx), Mathf.FloorToInt(my)),
+            (Mathf.CeilToInt(mx), Mathf.FloorToInt(my)),
+            (Mathf.FloorToInt(mx), Mathf.CeilToInt(my)),
+            (Mathf.CeilToInt(mx), Mathf.CeilToInt(my))
+        };
+
+        checkPoses = checkPoses.Distinct().ToArray();
+
+        List<GameObject> res = new();
+        foreach (var (x, y) in checkPoses)
+        {
+            GameObject field = GetField(x, y);
+            if(field != null) res.Add(field);
+        }
+
+        return res;
+    }
+
+    #region FIELD INTERSECTION
+    public static bool IntersectingAnyFieldsAtPos(float mx, float my, params FieldType[] t)
+    {
+        List<FieldType> types = t.ToList();
+
+        List<GameObject> intersectingFields = GetFieldsAtPos(mx, my);
+        foreach(GameObject field in intersectingFields)
+        {
+            if (types.Contains((FieldType)GetFieldType(field))) return true;
+        }
+        return false;
+    }
+
+    public static bool IntersectingEveryFieldAtPos(float mx, float my, params FieldType[] t)
+    {
+        List<FieldType> types = t.ToList();
+        List<GameObject> intersectingFields = GetFieldsAtPos(mx, my);
+        foreach (GameObject field in intersectingFields)
+        {
+            if (!types.Contains((FieldType)GetFieldType(field))) return false;
+        }
+        return true;
+    }
+
+    public static bool IsPosCoveredWithFieldType(float mx, float my, params FieldType[] t)
+    {
+        List<FieldType> types = t.ToList();
+        List<GameObject> intersectingFields = GetFieldsAtPos(mx, my);
+        if (intersectingFields.Count == 0) return false;
+
+        int expectedCount = IntersectionCountAtPos(mx, my);
+        
+        foreach (GameObject field in intersectingFields)
+        {
+            if (expectedCount != intersectingFields.Count || !types.Contains((FieldType)GetFieldType(field))) return false;
+        }
+        return true;
+    }
+
+    public static int IntersectionCountAtPos(float mx, float my)
+    {
+        (int x, int y)[] checkPoses =
+        {
+            (Mathf.FloorToInt(mx), Mathf.FloorToInt(my)),
+            (Mathf.CeilToInt(mx), Mathf.FloorToInt(my)),
+            (Mathf.FloorToInt(mx), Mathf.CeilToInt(my)),
+            (Mathf.CeilToInt(mx), Mathf.CeilToInt(my))
+        };
+
+        return checkPoses.Distinct().ToArray().Length;
+    }
+    #endregion
+
+    private void Awake()
+    {
+        // init singleton
+        if (Instance == null) Instance = this;
+    }
 }

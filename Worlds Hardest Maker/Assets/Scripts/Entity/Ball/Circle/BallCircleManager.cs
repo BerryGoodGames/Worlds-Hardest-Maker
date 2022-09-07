@@ -1,44 +1,83 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class BallCircleManager : MonoBehaviour
 {
-    public static void SetBallCircle(int mx, int my, int r = 1, float speed = 0, float startAngle = Mathf.PI / 2)
+    public static BallCircleManager Instance { get; private set; }
+
+    [PunRPC]
+    public void SetBallCircle(float mx, float my, float r, float speed, float startAngle)
     {
         Vector2 originPos = new(mx, my);
 
-        GameObject ball = GameManager.Instance.BallCircle;
-
-        // instantiate prefab
-        GameObject levelObject = Instantiate(ball, Vector2.zero, Quaternion.identity, GameManager.Instance.BallCircleContainer.transform);
-
-        GameObject ballObject = levelObject.transform.GetChild(0).gameObject;
-        GameObject ballOrigin = levelObject.transform.GetChild(1).gameObject;
-
-        // set position
-        ballOrigin.transform.position = originPos;
-
-        // set speed, radius, angle
-        BallCircleController controller = ballObject.GetComponent<BallCircleController>();
-        controller.speed = speed;
-        controller.radius = r;
-        controller.startAngle = startAngle;
-        controller.currentAngle = startAngle;
-        controller.UpdateAnglePos();
-
-        // set circle
-        LineManager.SetFill(0, 0, 0);
-        LineManager.SetWeight(0.11f);
-        LineManager.DrawCircle(mx, my, r, 99, levelObject.transform);
+        if(!IsBallCircleThere(mx, my))
+        {
+            // instantiate prefab
+            InstantiateBallCircle(originPos, r, speed, startAngle);
+        }
+        
+    }
+    [PunRPC]
+    public void SetBallCircle(float mx, float my)
+    {
+        SetBallCircle(mx, my, 1, 0, Mathf.PI / 2);
     }
 
-    public static void RemoveBallCircle(int mx, int my)
+    public bool IsBallCircleThere(float mx, float my)
+    {
+        return GetBallCircles(mx, my).Count > 0;
+    }
+
+    public List<GameObject> GetBallCircles(float mx, float my)
+    {
+        List<GameObject> list = new();
+        BallCircleController[] ballCircles = FindObjectsOfType<BallCircleController>();
+        foreach(BallCircleController controller in ballCircles)
+        {
+            if (controller.origin.position.x == mx && controller.origin.position.y == my) list.Add(controller.gameObject);
+        }
+        return list;
+    }
+
+    private static GameObject InstantiateBallCircle(Vector2 pos, float r, float speed, float startAngle)
+    {
+        GameObject newBallCircle;
+        if (GameManager.Instance.Multiplayer)
+        {
+            newBallCircle = PhotonNetwork.Instantiate("BallCircle", Vector2.zero, Quaternion.identity);
+
+            PhotonView view = newBallCircle.transform.GetChild(0).GetComponent<PhotonView>();
+            view.RPC("SetRadius", RpcTarget.All, r); 
+            view.RPC("MoveOrigin", RpcTarget.All, pos.x, pos.y);
+            view.RPC("SetSpeed", RpcTarget.All, speed);
+            view.RPC("SetStartAngle", RpcTarget.All, startAngle);
+            view.RPC("SetCurrentAngle", RpcTarget.All, startAngle);
+            view.RPC("UpdateAnglePos", RpcTarget.All);
+        }
+        else
+        {
+            newBallCircle = Instantiate(GameManager.Instance.BallCircle, Vector2.zero, Quaternion.identity, GameManager.Instance.BallCircleContainer.transform);
+
+            BallCircleController controller = newBallCircle.transform.GetChild(0).GetComponent<BallCircleController>();
+            controller.SetRadius(r); 
+            controller.MoveOrigin(pos.x, pos.y);
+            controller.SetSpeed(speed);
+            controller.SetStartAngle(startAngle);
+            controller.SetCurrentAngle(startAngle);
+            controller.UpdateAnglePos();
+        }
+        return newBallCircle;
+    }
+
+    [PunRPC]
+    public void RemoveBallCircle(float mx, float my)
     {
         GameObject container = GameManager.Instance.BallCircleContainer;
         foreach (Transform bc in container.transform)
         {
-            Vector2 originPos = bc.GetChild(1).position;
+            Vector2 originPos = bc.GetChild(0).GetComponent<BallCircleController>().origin.position;
 
             if (originPos.x == mx && originPos.y == my)
             {
@@ -46,5 +85,19 @@ public class BallCircleManager : MonoBehaviour
                 Destroy(bc.gameObject);
             }
         }
+    }
+
+    public static bool PointOnCircle(Vector2 pos, Vector2 origin, float r, float deviation)
+    {
+        float maxDist = r + deviation;
+        float minDist = r - deviation;
+        float dist = Vector2.Distance(pos, origin);
+        return dist >= minDist && dist < maxDist;
+    }
+
+    private void Awake()
+    {
+        // init singleton
+        if (Instance == null) Instance = this;
     }
 }

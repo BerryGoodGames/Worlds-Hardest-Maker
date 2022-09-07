@@ -10,16 +10,26 @@ public class MouseOverUI : MonoBehaviour
 {
     [HideInInspector] public bool over = false;
     private RectTransform rt;
+    private bool updateSize = true;
+
+    private Rect rtConverted;
+    private float width;
+    private float height;
     private void Start()
     {
         rt = GetComponent<RectTransform>();
     }
 
-    void Update()
+    public void UpdateSize()
     {
-        Rect rtConverted = GameManager.RtToScreenSpace(rt);
-        float width = rtConverted.width;
-        float height = rtConverted.height;
+        rtConverted = GameManager.RtToScreenSpace(rt);
+        width = rtConverted.width;
+        height = rtConverted.height;
+    }
+
+    private void Update()
+    {
+        if(updateSize) UpdateSize();
         if (Input.mousePosition.x > rt.position.x - width / 2 && Input.mousePosition.x < rt.position.x + width / 2 && Input.mousePosition.y > rt.position.y - height / 2 && Input.mousePosition.y < rt.position.y + height / 2) over = true;
         else over = false;
     }

@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
- * script to detect player death event 
- * 
- * attach to ball objects
- */
+/// <summary>
+/// script to detect player death event
+/// attach to ball objects
+/// </summary>
 public class BallTriggerEvent : MonoBehaviour
 {
     private void OnTriggerStay2D(Collider2D collision)
@@ -15,7 +14,10 @@ public class BallTriggerEvent : MonoBehaviour
         if (collider.CompareTag("Player"))
         {
             PlayerController controller = collider.GetComponent<PlayerController>();
-            if (!controller.IsOnSafeField())
+
+            if (GameManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
+
+            if (!controller.IsOnSafeField() && !controller.inDeathAnim)
             {
                 controller.Die();
             }

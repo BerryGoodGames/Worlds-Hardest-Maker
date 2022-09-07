@@ -1,20 +1,81 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using UnityEngine.EventSystems;
 
 public class BallCircleController : IBallController
 {
-    public override float SpeedMin { get { return -10; } }
-    public override float SpeedMax { get { return 10; } }
-
-    [HideInInspector] public int radius;
+    [SerializeField] private float hoverDeviation;
+    [SerializeField] private int startAnglePositionCount;
+    [Space]
+    public Transform origin;
+    public Transform hoverHint;
+    [HideInInspector] public Transform line;
+    [Space]
+    [HideInInspector] public float radius;
     [HideInInspector] public float startAngle;
     [HideInInspector] public float currentAngle;
+    private bool isDragging = false;
+
+    private new void Awake()
+    {
+        base.Awake();
+
+        if (transform.parent.parent != GameManager.Instance.BallCircleContainer.transform)
+        {
+            transform.parent.SetParent(GameManager.Instance.BallCircleContainer.transform);
+        }
+
+        InitCircleObject();
+    }
 
     private void Update()
     {
-        GetOrigin().SetActive(!GameManager.Instance.Playing);
-        GetLine().SetActive(!GameManager.Instance.Playing);
+        Vector2 mousePos = MouseManager.Instance.MouseWorldPos;
+        bool mouseHovers = BallCircleManager.PointOnCircle(mousePos, origin.position, radius, hoverDeviation);
+        
+        origin.gameObject.SetActive(!GameManager.Instance.Playing);
+        line.gameObject.SetActive(!GameManager.Instance.Playing);
+
+        // TODO: improve
+        // set visibility of hover hint
+        if (!GameManager.Instance.Playing && mouseHovers &&
+            (Input.GetKey(GameManager.Instance.BallCircleAngleKey) || Input.GetKey(GameManager.Instance.BallCircleRadiusKey)))
+        {
+            // update pos of hoverhint
+            hoverHint.gameObject.SetActive(true);
+            hoverHint.position = GetPointOnCircleFromRayPos(MouseManager.Instance.MouseWorldPos);
+        }
+        else
+        {
+            hoverHint.gameObject.SetActive(false);
+        }
+
+        // check for startangle or radius change from user
+        if (!GameManager.Instance.Playing && isDragging &&
+            (Input.GetKey(GameManager.Instance.BallCircleAngleKey) || Input.GetKey(GameManager.Instance.BallCircleRadiusKey)))
+        {
+            
+            // check startangle
+            if (Input.GetMouseButton(0) && Input.GetKey(GameManager.Instance.BallCircleAngleKey) && !EventSystem.current.IsPointerOverGameObject())
+            {
+                SetStartAngle(GetAngleToOrigin(mousePos));
+            }
+
+            if(Input.GetMouseButton(0) && Input.GetKey(GameManager.Instance.BallCircleRadiusKey) && !EventSystem.current.IsPointerOverGameObject())
+            {
+                float mouseDist = GameManager.RoundToNearestStep(Vector2.Distance(origin.position, mousePos), 0.5f);
+                if(mouseDist > 0)
+                {
+                    SetRadius(mouseDist);
+                }
+            }
+        }
+
+        // detect hover and drag
+        if (!isDragging && Input.GetMouseButtonDown(0) && mouseHovers) isDragging = true;
+        if (Input.GetMouseButtonUp(0)) isDragging = false;
 
         // let ball circle around origin
         if (GameManager.Instance.Playing)
@@ -29,13 +90,14 @@ public class BallCircleController : IBallController
         return speed * Time.deltaTime / radius;
     }
 
-    public void MoveOrigin(int mx, int my)
+    [PunRPC]
+    public void MoveOrigin(float mx, float my)
     {
-        GetOrigin().transform.position = new(mx, my);
+        origin.position = new(mx, my);
         UpdateAnglePos();
 
         // update circle
-        GameObject stroke = GetLine();
+        GameObject stroke = line.gameObject;
 
         LineRenderer circle = stroke.GetComponent<LineRenderer>();
 
@@ -49,31 +111,76 @@ public class BallCircleController : IBallController
         }
     }
 
+    [PunRPC]
     public void UpdateAnglePos()
     {
-        GameObject origin = GetOrigin();
         Vector2 pos = new(
-            origin.transform.position.x + Mathf.Cos(currentAngle) * radius,
-            origin.transform.position.y + Mathf.Sin(currentAngle) * radius);
+            origin.position.x + Mathf.Cos(currentAngle) * radius,
+            origin.position.y + Mathf.Sin(currentAngle) * radius
+        );
         transform.position = pos;
     }
 
-    public GameObject GetOrigin()
-    {
-        return transform.parent.GetChild(1).gameObject;
+    // TODO: set radius with ACTUAL IMPACT
+    [PunRPC]
+    public void SetRadius(float radius) {
+        this.radius = radius;
+
+        InitCircleObject();
+        UpdateAnglePos();
     }
-    public Vector2 GetOriginPos()
-    {
-        return GetOrigin().transform.position;
+    [PunRPC]
+    public void SetStartAngle(float startAngle) {
+        // round input to nearest position
+        float angle = GameManager.RoundToNearestStep(startAngle, Mathf.PI * 2 / startAnglePositionCount);
+
+        this.startAngle = angle;
+        currentAngle = angle;
+        transform.position = GetPointOnCircleFromAngle(angle);
     }
-    public GameObject GetLine()
+    [PunRPC]
+    public void SetCurrentAngle(float angle) { currentAngle = angle; }
+
+    /// <summary>"Creates" ray from origin to pos and returns the point intersecting with path circle</summary>
+    /// <param name="pos"></param>
+    public Vector2 GetPointOnCircleFromRayPos(Vector2 pos)
     {
-        return transform.parent.GetChild(2).gameObject;
+        Vector2 diff = pos - (Vector2)origin.position;
+
+        float angle = -Vector2.SignedAngle(diff, Vector2.right) * Mathf.PI / 180;
+
+        return GetPointOnCircleFromAngle(angle);
+    }
+    /// <returns>Point on circle path by angle in radians</returns>
+    public Vector2 GetPointOnCircleFromAngle(float angle)
+    {
+        float resX = origin.position.x + Mathf.Cos(angle) * radius;
+        float resY = origin.position.y + Mathf.Sin(angle) * radius;
+        return new(resX, resY);
+    }
+    /// <returns>Angle from pos to origin in radians</returns>
+    public float GetAngleToOrigin(Vector2 pos) { return -Vector2.SignedAngle(pos - (Vector2)origin.position, Vector2.right) * Mathf.PI / 180; }
+
+    public void InitCircleObject()
+    {
+        if(line != null)
+        {
+            Destroy(line.gameObject);
+        }
+
+        // set circle
+        LineManager.SetFill(0, 0, 0);
+        LineManager.SetWeight(0.11f);
+        LineManager.SetOrderInLayer(-2);
+        LineManager.SetLayerID(LineManager.BallLayerID);
+        GameObject circleObj = LineManager.DrawCircle(origin.position, radius, transform.parent);
+
+        line = circleObj.transform;
     }
 
-    public override void MoveObject(Vector2 unitPos, GameObject movedObject)
+    [PunRPC]
+    public override void MoveObject(Vector2 unitPos, int id)
     {
-        base.MoveObject(unitPos, movedObject);
-        MoveOrigin((int)unitPos.x, (int)unitPos.y);
+        MoveOrigin(unitPos.x, unitPos.y);
     }
 }

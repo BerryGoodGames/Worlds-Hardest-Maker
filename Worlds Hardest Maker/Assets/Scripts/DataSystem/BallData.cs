@@ -9,29 +9,30 @@ using UnityEngine;
 public class BallData : IData
 {
     public float speed;
-    public int[] startPosition;
-    public int[] bouncePosition;
+    public float[] startPosition;
+    public float[] bouncePosition;
     
     public BallData(BallController controller)
     {
         speed = controller.speed;
         
-        startPosition = new int[2];
-        startPosition[0] = (int)controller.startPosition.x;
-        startPosition[1] = (int)controller.startPosition.y;
+        startPosition = new float[2];
+        startPosition[0] = controller.startPosition.x;
+        startPosition[1] = controller.startPosition.y;
 
-        bouncePosition = new int[2];
-        bouncePosition[0] = (int)controller.GetBouncePos().x;
-        bouncePosition[1] = (int)controller.GetBouncePos().y;
+        bouncePosition = new float[2];
+        bouncePosition[0] = controller.bounce.position.x;
+        bouncePosition[1] = controller.bounce.position.y;
     }
 
     public override void CreateObject()
     {
-        int[] ballPos = startPosition;
-        int[] bouncePos = { bouncePosition[0] - ballPos[0], bouncePosition[1] - ballPos[1] };
+        float[] ballPos = startPosition;
+        float[] bouncePos = { bouncePosition[0] - ballPos[0], bouncePosition[1] - ballPos[1] };
 
-        BallManager.SetBall(startPosition[0], startPosition[1],
+        BallManager.Instance.SetBall(startPosition[0], startPosition[1],
             bouncePos[0], bouncePos[1],
-            speed);
+            speed
+        );
     }
 }

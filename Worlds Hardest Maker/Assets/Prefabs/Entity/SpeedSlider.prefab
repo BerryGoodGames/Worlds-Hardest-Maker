@@ -254,7 +254,7 @@ RectTransform:
   m_GameObject: {fileID: 7860837862190609228}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.18264677, y: 0.18264677, z: 0.18264677}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2353679992352625347}
@@ -294,8 +294,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 100
+    m_Font: {fileID: 12800000, guid: c9238331c2032e74fb2d68b00307f50f, type: 3}
+    m_FontSize: 150
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -306,7 +306,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Speed
+  m_Text: 'Speed: 0.0'
 --- !u!114 &4761909849543428280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,8 +319,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
-  m_EffectDistance: {x: 1, y: 1}
+  m_EffectColor: {r: 0.87843144, g: 0.8588236, b: 0.9921569, a: 1}
+  m_EffectDistance: {x: 6, y: 6}
   m_UseGraphicAlpha: 1
 --- !u!1 &8017886087061505585
 GameObject:

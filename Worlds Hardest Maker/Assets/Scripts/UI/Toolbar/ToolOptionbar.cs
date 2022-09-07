@@ -1,8 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.UI;
 
+[ExecuteAlways]
 public class ToolOptionbar : MonoBehaviour
 {
     public GameObject background;
@@ -10,34 +14,25 @@ public class ToolOptionbar : MonoBehaviour
     public GameObject options;
     public float size;
     [HideInInspector] public Animator anim;
-    RectTransform hh;
-    RectTransform rtThis;
-    GridLayoutGroup gridLayout;
-    int toolCount;
-    float width;
-    float height;
+    private RectTransform hh;
+    private RectTransform rtThis;
+    private GridLayoutGroup gridLayout;
+    private int toolCount;
+    private float width;
+    private float height;
 
     private void Awake()
     {
+        // REF
         rtThis = GetComponent<RectTransform>();
         anim = GetComponent<Animator>();
 
-        RectTransform rt = background.GetComponent(typeof(RectTransform)) as RectTransform;
         hh = hoveringHitbox.GetComponent(typeof(RectTransform)) as RectTransform;
         gridLayout = options.GetComponent<GridLayoutGroup>();
         toolCount = options.transform.childCount;
 
-        width = gridLayout.cellSize.x * size;
-        height = (gridLayout.cellSize.y + gridLayout.spacing.y) * toolCount - gridLayout.spacing.y + gridLayout.cellSize.y * (size - 1);
-
-        rt.sizeDelta = new(width, height);
-
-        foreach (Transform tool in options.transform)
-        {
-            tool.localScale = new(0.7f, 0.7f);
-            
-        }
-
+        UpdateHeight();
+        ScaleOptions();
     }
 
     public void EnableOptionbar()
@@ -47,7 +42,7 @@ public class ToolOptionbar : MonoBehaviour
         rtThis.localPosition = new(0, -95);
     }
 
-    public void DisableOptionbar()  
+    public void DisableOptionbar()
     {
         if (!anim.GetBool("Hovered"))
         {
@@ -56,4 +51,50 @@ public class ToolOptionbar : MonoBehaviour
             rtThis.localPosition = new(0, 1000);
         }
     }
+
+    public void ScaleOptions()
+    {
+        foreach (Transform tool in options.transform)
+        {
+            tool.localScale = new(0.7f, 0.7f);
+        }
+    }
+    public void UpdateHeight()
+    {
+        RectTransform rt = background.GetComponent(typeof(RectTransform)) as RectTransform;
+        if (toolCount == 0)
+        {
+            rt.sizeDelta = new(100, 100);
+        } else
+        {
+            width = gridLayout.cellSize.x * size;
+            height = (gridLayout.cellSize.y + gridLayout.spacing.y) * toolCount - gridLayout.spacing.y + gridLayout.cellSize.y * (size - 1);
+
+            rt.sizeDelta = new(width, height);
+        }
+    }
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(ToolOptionbar))]
+public class ToolOpionbarEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        ToolOptionbar script = (ToolOptionbar)target;
+
+        if (GUILayout.Button("Scale options"))
+        {
+            script.ScaleOptions();
+        }
+
+        if(GUILayout.Button("Update Height"))
+        {
+            script.UpdateHeight();
+        }
+    }
+
+}
+#endif

@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using SFB;
+using Photon.Pun;
+using System.Runtime.InteropServices;
+//#if UNITY_WEBGL && !UNITY_EDITOR
+//using System.Text;
+//using System.Runtime.InteropServices;
+//#endif
 
 public static class SaveSystem
 {
@@ -17,12 +23,19 @@ public static class SaveSystem
 
             List<IData> levelData = new();
 
-            // serialize player
-            GameObject player = PlayerManager.GetCurrentPlayer();
-            if (player != null)
+            // serialize players
+            List<GameObject> players = PlayerManager.GetPlayers();
+            foreach(GameObject player in players)
             {
                 PlayerData playerData = new(player.GetComponent<PlayerController>());
                 levelData.Add(playerData);
+            }
+
+            // serialize anchors
+            foreach (Transform anchor in GameManager.Instance.AnchorContainer.transform)
+            {
+                AnchorData anchorData = new(anchor.GetComponentInChildren<PathController>(), anchor.GetComponentInChildren<AnchorController>().container.transform);
+                levelData.Add(anchorData);
             }
 
             // serialize balls
@@ -78,10 +91,26 @@ public static class SaveSystem
         }
     }
 
+//#if UNITY_WEBGL
+//    [DllImport("__Internal")]
+//    private static extern void UploadFile(string gameObjectName, string methodName, string filter, bool multiple);
+
+//    public static void OnFileUpload(string url) {
+//        Debug.Log(url);
+//    }
+//#endif
+
     public static List<IData> LoadLevel()
     {
-        // string path = Application.persistentDataPath + "/level.lvl";
+        //#if UNITY_WEBGL
+        //                Debug.Log("opening in webgl");
+        //                UploadFile("SaveSystem", "OnFileUpload", ".lvl", false);
+        //                return null;
+        //#else
+        //string path = Application.persistentDataPath + "/level.lvl";
+
         string[] pathArr = StandaloneFileBrowser.OpenFilePanel("Select your level (.lvl)", Application.persistentDataPath, "lvl", false);
+
         if (pathArr.Length > 0)
         {
             string path = pathArr[0];
@@ -89,7 +118,15 @@ public static class SaveSystem
             if (File.Exists(path))
             {
                 BinaryFormatter formatter = new();
+                //FileStream stream = new(path, FileMode.Open);
+                //using FileStream stream = File.OpenWrite(path);
                 FileStream stream = new(path, FileMode.Open);
+
+                if (GameManager.Instance.Multiplayer)
+                {
+                    // RPC to every other client with path
+                    SendLevel(path);
+                }
 
                 List<IData> data = formatter.Deserialize(stream) as List<IData>;
                 stream.Close();
@@ -107,6 +144,15 @@ public static class SaveSystem
             Debug.Log("Cancelled loading");
             return null;
         }
+//#endif
+    }
+
+    public static void SendLevel(string path)
+    {
+        string content = File.ReadAllText(path);
+
+        // RPC file content to other clients while loading oneself
+        GameManager.Instance.photonView.RPC("ReceiveLevel", RpcTarget.Others, content);
     }
 }
 

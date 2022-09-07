@@ -5,7 +5,7 @@ using UnityEngine;
 public class KeyDoorField : MonoBehaviour
 {
     public bool unlocked = false;
-    public FieldManager.KeyDoorColor color;
+    public KeyManager.KeyColor color;
 
     public void Lock(bool locked)
     {

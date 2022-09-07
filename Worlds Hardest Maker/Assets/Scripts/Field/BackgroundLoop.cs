@@ -8,8 +8,9 @@ using UnityEngine;
 /// </summary>
 public class BackgroundLoop : MonoBehaviour
 {
-    public GameObject tile;
-    public Transform container;
+    [SerializeField] private GameObject tile;
+    [SerializeField] private Transform container;
+    [SerializeField] private float defaultMaxZoom;
     private Camera cam;
     private Vector3 prevPosition;
     private float height;
@@ -18,7 +19,14 @@ public class BackgroundLoop : MonoBehaviour
     private void Start()
     {
         cam = GetComponent<Camera>();
-        CalcSize(GetComponent<MapController>().maxZoom);
+        if(TryGetComponent(out MapController mapController))
+        {
+            CalcSize(mapController.MaxZoom);
+        } 
+        else
+        {
+            CalcSize(defaultMaxZoom);
+        }
     }
 
     private void Update()

@@ -6,8 +6,8 @@ using UnityEngine;
 public class HoveringOnOptionbar : MonoBehaviour
 {
     public GameObject optionBar;
-    Animator anim;
-    MouseOverUI mo;
+    private Animator anim;
+    private MouseOverUI mo;
     private void Start()
     {
         mo = GetComponent<MouseOverUI>();
@@ -15,6 +15,6 @@ public class HoveringOnOptionbar : MonoBehaviour
     }
     private void Update()
     {
-        anim.SetBool("Hovered", mo.over && !GameManager.Instance.Playing);
+        anim.SetBool("Hovered", mo.over && !GameManager.Instance.Playing && !GameManager.Instance.Menu.activeSelf);
     }
 }

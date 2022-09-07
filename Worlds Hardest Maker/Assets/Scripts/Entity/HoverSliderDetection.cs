@@ -19,7 +19,7 @@ public class HoverSliderDetection : MonoBehaviour
     {
         foreach (Transform collider in transform.GetChild(0))
         {
-            if (collider.GetComponent<MouseOver>().over)
+            if (collider.GetComponent<MouseOver>().Over)
             {
                 if (roots.Contains(collider.gameObject))
                 {

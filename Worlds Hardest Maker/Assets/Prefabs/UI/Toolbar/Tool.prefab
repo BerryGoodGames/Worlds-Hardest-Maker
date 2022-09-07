@@ -276,6 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deselectedSprite: {fileID: 21300000, guid: 7f5a1e186338266479da6940d652784f, type: 3}
   selectedSprite: {fileID: 21300000, guid: ef3d49ad037729b479ae21d774043842, type: 3}
+  subSelectedSprite: {fileID: 21300000, guid: 0e3621a06592960449a7a4792e5b1926, type: 3}
 --- !u!1 &7465456736925731931
 GameObject:
   m_ObjectHideFlags: 0

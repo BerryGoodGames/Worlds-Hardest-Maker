@@ -1,32 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-/*
- * script for enabling drag and drop on ball objects, also bounce pos or origin pos
- * 
- * attach to gameobject to be dragged
- */
-public class BallDragDrop : MonoBehaviour
+/// <summary>
+/// script for enabling drag and drop on ball objects, also bounce pos or origin pos
+/// attach to gameobject to be dragged
+/// </summary>
+public class BallDragDrop : MonoBehaviourPun
 {
+    public static Dictionary<int, GameObject> DragDropList = new();
+
+    [SerializeField] private IBallController controller;
+    [SerializeField] private int id;
+    private void Awake()
+    {
+        // assign id
+        id = NextID();
+        DragDropList.Add(id, gameObject);
+    }
+
     private void OnMouseDrag()
     {
-        if (Input.GetKey(GameManager.Instance.BallDragKey))
+        if (Input.GetKey(GameManager.Instance.EntityMoveKey))
         {
-            Vector2 pos = GameManager.GetMouseWorldPos();
-            Vector2 unitPos = new(Mathf.Round(pos.x), Mathf.Round(pos.y));
-
-            IBallController controller = GetComponent<BallController>();
-            if(controller == null)
+            Vector2 unitPos = MouseManager.Instance.MouseWorldPosGrid;
+            if(GameManager.Instance.Multiplayer)
             {
-                controller = transform.parent.GetChild(0).GetComponent<BallController>();
+                PhotonView controllerView = controller.GetComponent<PhotonView>();
+                controllerView.RPC("MoveObject", RpcTarget.All, unitPos, id);
             }
-            if(controller == null)
-            {
-                controller = transform.parent.GetChild(0).GetComponent<BallCircleController>();
-            }
-
-            controller.MoveObject(unitPos, gameObject);
+            else controller.MoveObject(unitPos, id);
         }
+    }
+
+    private void OnDestroy()
+    {
+        DragDropList.Remove(id);
+    }
+
+    private static int NextID()
+    {
+        int res = DragDropList.Count;
+        while (DragDropList.ContainsKey(res))
+        {
+            res++;
+        }
+        return res;
     }
 }

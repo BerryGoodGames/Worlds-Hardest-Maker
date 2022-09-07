@@ -8,8 +8,9 @@ using UnityEngine;
 [System.Serializable]
 public class OneWayData : IData
 {
-    int[] position;
-    int rotation;
+    public int[] position;
+    public int rotation;
+
     public OneWayData(GameObject field)
     {
         position = new int[2];
@@ -19,6 +20,6 @@ public class OneWayData : IData
     }
     public override void CreateObject()
     {
-        FieldManager.SetField(position[0], position[1], FieldManager.FieldType.ONE_WAY_FIELD, rotation);
+        FieldManager.Instance.SetField(position[0], position[1], FieldManager.FieldType.ONE_WAY_FIELD, rotation);
     }
 }

@@ -11,14 +11,18 @@ using UnityEngine.UI;
 public class AppendSlider : MonoBehaviour
 {
     // specific slider to append
+    [SerializeField] private float min, max, step, startValue;
+    public float Min { get { return min; } set { min = value; } }
+    public float Max { get { return max; } set { max = value; } }
+    public float Step { get { return step; } set { step = value; } }
+    public float StartValue { get { return startValue; } set { startValue = value; } }
     [SerializeField] private GameObject sliderPrefab;
-    public float min, max, step, startValue;
-    [HideInInspector] public GameObject slider;
+    public GameObject Slider { get; private set; }
 
     private void Awake()
     {
-        slider = Instantiate(sliderPrefab, Vector2.zero, Quaternion.identity, GameManager.Instance.SliderContainer.transform);
-        Slider settings = slider.GetComponent<Slider>();
+        Slider = Instantiate(sliderPrefab, Vector2.zero, Quaternion.identity, GameManager.Instance.SliderContainer.transform);
+        Slider settings = Slider.GetComponent<Slider>();
         settings.minValue = min / step;
         settings.maxValue = max / step;
         settings.value = startValue / step;
@@ -27,18 +31,18 @@ public class AppendSlider : MonoBehaviour
     /// <returns>final value of slider</returns>
     public float GetValue()
     {
-        return slider.GetComponent<Slider>().value * step;
+        return Slider.GetComponent<Slider>().value * step;
     }
 
     /// <returns>Slider component from slider</returns>
     public Slider GetSlider()
     {
-        return slider.GetComponent<Slider>();
+        return Slider.GetComponent<Slider>();
     }
 
     /// <returns>slider object</returns>
     public GameObject GetSliderObject()
     {
-        return slider;
+        return Slider;
     }
 }

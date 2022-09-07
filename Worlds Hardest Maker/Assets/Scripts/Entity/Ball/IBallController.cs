@@ -2,54 +2,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
+/// <summary>
+/// parent class of every ball controller
+/// </summary>
 public abstract class IBallController : MonoBehaviour
 {
-    public abstract float SpeedMin { get; }
-    public abstract float SpeedMax { get; }
-    public static readonly float SpeedSliderStep = 0.5f;
-
     [HideInInspector] public float speed;
     [HideInInspector] public AppendSlider sliderController;
+    [HideInInspector] public PhotonView photonView;
     public void Awake()
     {
-        sliderController = GetComponent<AppendSlider>();
+        // if(GameManager.Instance.Multiplayer) print("Init ball at: " + GetComponent<PhotonView>().Controller.NickName);
 
+        sliderController = GetComponent<AppendSlider>();
+        photonView = GetComponent<PhotonView>();
+        
+        // slider follow settings
         UIFollowEntity follow = sliderController.GetSliderObject().GetComponent<UIFollowEntity>();
         follow.entity = gameObject;
         follow.offset = new(0, 0.5f);
 
+        // slider init
         Slider slider = sliderController.GetSlider();
         slider.onValueChanged.AddListener((value) =>
         {
-            speed = value * SpeedSliderStep;
+            float newSpeed = value * sliderController.Step;
+
+            speed = newSpeed;
+
+            if (GameManager.Instance.Multiplayer) photonView.RPC("SetSpeed", RpcTarget.Others, newSpeed);
         });
-        speed = sliderController.GetValue();
     }
 
-    
+    [PunRPC]
+    public void SetSpeed(float speed) { 
+        this.speed = speed;
+
+        // sync slider
+        float currentSliderValue = sliderController.GetValue() / sliderController.Step;
+        if(currentSliderValue != speed)
+        {
+            sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
+        }
+    }
 
     private void LateUpdate()
     {
         UpdateSpeedText();
     }
-
-    //public GameObject GetSlider()
-    //{
-    //    return transform.GetChild(0).gameObject;
-    //}
-    //public GameObject GetSliderObject()
-    //{
-    //    return GetSlider().transform.GetChild(0).GetChild(0).gameObject;
-    //}
-    //public void UpdateSliderPos()
-    //{
-    //    Vector2 sliderUnitPos = new(transform.position.x, transform.position.y + 0.58f);
-
-    //    GameObject slider = GetSlider();
-    //    Vector2 pos = Camera.main.WorldToScreenPoint(sliderUnitPos);
-    //    slider.transform.position = pos;
-    //}
 
     public void UpdateSpeedText()
     {
@@ -57,8 +59,6 @@ public abstract class IBallController : MonoBehaviour
         speedText.text = "Speed: " + speed.ToString("0.0");
     }
 
-    public virtual void MoveObject(Vector2 unitPos, GameObject movedObject)
-    {
-        movedObject.transform.position = unitPos;
-    }
+    [PunRPC]
+    public abstract void MoveObject(Vector2 unitPos, int id);
 }

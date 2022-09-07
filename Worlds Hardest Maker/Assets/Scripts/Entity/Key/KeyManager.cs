@@ -1,9 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Unity.Collections;
+using System.Drawing;
 
 public class KeyManager : MonoBehaviour
 {
+    public static KeyManager Instance { get; private set; }
+
+    public enum KeyColor
+    {
+        GRAY, RED, GREEN, BLUE, YELLOW
+    }
+
     public static readonly List<GameManager.EditMode> KeyModes = new(new GameManager.EditMode[]
     {
         GameManager.EditMode.GRAY_KEY,
@@ -38,73 +48,86 @@ public class KeyManager : MonoBehaviour
         FieldManager.FieldType.YELLOW_KEY_DOOR_FIELD
     });
 
-    public static void SetKey(int mx, int my, FieldManager.KeyDoorColor color)
+    [PunRPC]
+    public void SetKey(float mx, float my, KeyColor color)
     {
-        Vector2 pos = new(mx, my);
-        // place key if no key is there, the field is a canplacefield or default, the player is not there
-        if(!IsKeyThere(mx, my, color))
+        if(CanPlace(mx, my))
         {
-            GameObject currentField = FieldManager.GetField(mx, my);
-            FieldManager.FieldType? type = FieldManager.GetFieldType(currentField);
-            
-            if(type == null || !CantPlaceFields.Contains((FieldManager.FieldType)type))
+            Vector2 pos = new(mx, my);
+
+            RemoveKey(mx, my);
+
+            GameObject key = Instantiate(color.GetPrefabKey(), pos, Quaternion.identity, GameManager.Instance.KeyContainer.transform);
+                    
+            Animator anim = key.GetComponent<Animator>();
+            anim.SetBool("Playing", GameManager.Instance.Playing);
+
+            key.GetComponent<IntervalRandomAnimation>().enabled = GameManager.Instance.KonamiActive;
+        }
+    }
+    [PunRPC]
+    public void RemoveKey(float mx, float my)
+    {
+        foreach(Transform key in GameManager.Instance.KeyContainer.transform)
+        {
+            KeyController controller = key.GetChild(0).GetComponent<KeyController>();
+            if (controller.keyPosition == new Vector2(mx, my))
             {
-                GameObject player = PlayerManager.GetCurrentPlayer();
-                if (player == null || (Vector2)player.transform.position != pos)
-                {
-                    RemoveKey(mx, my);
-                    if(color == FieldManager.KeyDoorColor.GRAY) {
-                        Instantiate(GameManager.Instance.GrayKey, pos, Quaternion.identity, GameManager.Instance.KeyContainer.transform);
-                    }
-                    else if (color == FieldManager.KeyDoorColor.RED) {
-                        Instantiate(GameManager.Instance.RedKey, pos, Quaternion.identity, GameManager.Instance.KeyContainer.transform);
-                    }
-                    else if (color == FieldManager.KeyDoorColor.GREEN)
-                    {
-                        Instantiate(GameManager.Instance.GreenKey, pos, Quaternion.identity, GameManager.Instance.KeyContainer.transform);
-                    }
-                    else if (color == FieldManager.KeyDoorColor.BLUE)
-                    {
-                        Instantiate(GameManager.Instance.BlueKey, pos, Quaternion.identity, GameManager.Instance.KeyContainer.transform);
-                    }
-                    else if (color == FieldManager.KeyDoorColor.YELLOW)
-                    {
-                        Instantiate(GameManager.Instance.YellowKey, pos, Quaternion.identity, GameManager.Instance.KeyContainer.transform);
-                    }
-                }
+                DestroyImmediate(key.gameObject);
+
+                if(GameManager.Instance.Playing) controller.CheckAndUnlock(PlayerManager.GetClientPlayer());
             }
         }
     }
-    public static void RemoveKey(int mx, int my)
+
+    public static void SetKonamiMode(bool konami)
     {
-        GameObject container = GameManager.Instance.KeyContainer;
-
-        Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.25f);
-
-        foreach(Collider2D hit in hits)
+        foreach(Transform key in GameManager.Instance.KeyContainer.transform)
         {
-            Transform parent = hit.transform.parent;
-            if(parent.parent == container.transform)
-            {
-                Destroy(parent.gameObject);
-            }
+            key.GetComponent<IntervalRandomAnimation>().enabled = konami;
         }
     }
-    public static GameObject GetKey(int mx, int my)
+
+    public static bool CanPlace(float mx, float my)
+    {
+        // conditions: no key there, covered by canplacefield or default, no player there
+        return !PlayerManager.IsPlayerThere(mx, my) && !IsKeyThere(mx, my) && !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CantPlaceFields.ToArray());
+    }
+
+    public static GameObject GetKey(float mx, float my)
     {
         GameObject container = GameManager.Instance.KeyContainer;
         foreach (Transform key in container.transform)
         {
-            if ((Vector2)key.position == new Vector2(mx, my))
+            if (key.GetChild(0).GetComponent<KeyController>().keyPosition == new Vector2(mx, my))
             {
                 return key.gameObject;
             }
         }
         return null;
     }
-    public static bool IsKeyThere(int mx, int my, FieldManager.KeyDoorColor color)
+    public static bool IsKeyThere(float mx, float my, KeyColor color)
     {
         GameObject key = GetKey(mx, my);
         return key != null && key.transform.GetChild(0).GetComponent<KeyController>().color == color;
+    }
+    public static bool IsKeyThere(float mx, float my)
+    {
+        return GetKey(mx, my) != null;
+    }
+
+    public static bool IsKeyDoorEditMode(GameManager.EditMode mode)
+    {
+        return KeyDoorModes.Contains(mode);
+    }
+    public static bool IsKeyEditMode(GameManager.EditMode mode)
+    {
+        return KeyModes.Contains(mode);
+    }
+
+    private void Awake()
+    {
+        // init singleton
+        if (Instance == null) Instance = this;
     }
 }

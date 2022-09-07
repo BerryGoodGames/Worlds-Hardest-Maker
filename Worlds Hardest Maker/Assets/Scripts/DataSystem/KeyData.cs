@@ -8,19 +8,19 @@ using UnityEngine;
 [System.Serializable]
 public class KeyData : IData
 {
-    public int[] position;
-    public FieldManager.KeyDoorColor color;
+    public float[] position;
+    public KeyManager.KeyColor color;
 
     public KeyData(KeyController controller)
     {
-        position = new int[2];
-        position[0] = (int)controller.transform.position.x;
-        position[1] = (int)controller.transform.position.y;
+        position = new float[2];
+        position[0] = controller.transform.position.x;
+        position[1] = controller.transform.position.y;
         color = controller.color;
     }
 
     public override void CreateObject()
     {
-        KeyManager.SetKey(position[0], position[1], color);
+        KeyManager.Instance.SetKey(position[0], position[1], color);
     }
 }

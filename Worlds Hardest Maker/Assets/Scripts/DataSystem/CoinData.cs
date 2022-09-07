@@ -8,17 +8,17 @@ using UnityEngine;
 [System.Serializable]
 public class CoinData : IData
 {
-    public int[] position;
+    public float[] position;
 
     public CoinData(CoinController controller)
     {
-        position = new int[2];
-        position[0] = (int)controller.transform.position.x;
-        position[1] = (int)controller.transform.position.y;
+        position = new float[2];
+        position[0] = controller.transform.position.x;
+        position[1] = controller.transform.position.y;
     }
 
     public override void CreateObject()
     {
-        CoinManager.SetCoin(position[0], position[1]);
+        CoinManager.Instance.SetCoin(position[0], position[1]);
     }
 }

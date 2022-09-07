@@ -14,7 +14,7 @@ public class DestroyingOurProject : MonoBehaviour
     {
         print($"We're about to fill {Mathf.Pow(INTENSITY * 2 + 1, 2)} fields! (gotta go)");
 
-        FillManager.FillArea(new(-INTENSITY, -INTENSITY), new(INTENSITY, INTENSITY), FieldManager.FieldType.WALL_FIELD);
+        FillManager.Instance.FillArea(new(-INTENSITY, -INTENSITY), new(INTENSITY, INTENSITY), FieldManager.FieldType.WALL_FIELD);
         SaveSystem.SaveCurrentLevel();
     }
 }

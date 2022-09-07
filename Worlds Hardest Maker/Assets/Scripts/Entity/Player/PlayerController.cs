@@ -2,22 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
 {
+    [HideInInspector] public int id;
+
     public float speed;
-    public Rigidbody2D rb;
-    public Animator animator;
-    public List<GameObject> currentFields;
-    private Vector2 movementInput;
-    private bool inDeathAnim = false;
+
+    [HideInInspector] public int deaths = 0;
+
+    [HideInInspector] public List<GameObject> coinsCollected;
+    [HideInInspector] public List<GameObject> keysCollected;
+
+    [HideInInspector] public GameState currentState = null;
+
+    [HideInInspector] public Vector2 startPos;
+
+    [HideInInspector] public Rigidbody2D rb;
+    [HideInInspector] public Animator animator;
     private AppendSlider sliderController;
+    private AppendNameTag nameTagController = null;
+
+    [HideInInspector] public List<GameObject> currentFields;
+
+    private Vector2 movementInput;
+
+    [HideInInspector] public bool inDeathAnim = false;
+
+    [HideInInspector] public PhotonView photonView;
 
     private void Awake()
     {
+        coinsCollected = new();
+
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sliderController = GetComponent<AppendSlider>();
+
+        photonView = GetComponent<PhotonView>();
+
+        if (GameManager.Instance.Multiplayer)
+        {
+            nameTagController = GetComponent<AppendNameTag>();
+            nameTagController.SetNameTag(photonView.Controller.NickName);
+        }
 
         // make slider follow player
         GameObject sliderObject = sliderController.GetSliderObject();
@@ -27,14 +56,29 @@ public class PlayerController : MonoBehaviour
         Slider slider = sliderController.GetSlider();
         slider.onValueChanged.AddListener((value) =>
         {
-            speed = sliderController.GetValue();
+            float newSpeed = sliderController.GetValue();
+
+            speed = newSpeed;
 
             UpdateSpeedText();
+
+            if (GameManager.Instance.Multiplayer) photonView.RPC("SetSpeed", RpcTarget.Others, newSpeed);
         });
 
         UIFollowEntity follow = sliderController.GetSliderObject().GetComponent<UIFollowEntity>();
         follow.entity = gameObject;
         follow.offset = new(0, 0.5f);
+
+    }
+
+    private void Start()
+    {
+        if(transform.parent != GameManager.Instance.PlayerContainer.transform)
+        {
+            transform.SetParent(GameManager.Instance.PlayerContainer.transform);
+        }
+
+        startPos = transform.position;
 
         UpdateSpeedText();
     }
@@ -46,24 +90,32 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // movement
+        // movement (if player is yours in multiplayer mode)
         if (GameManager.Instance.Playing)
         {
-            rb.MovePosition((Vector2) rb.transform.position + speed * Time.fixedDeltaTime * movementInput.normalized);
+            if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
+
+            rb.MovePosition((Vector2) rb.transform.position + speed * Time.fixedDeltaTime * movementInput);
         }
     }
 
     /// <summary>
     /// always use SetSpeed instead of setting
     /// </summary>
-    public void SetSpeed(float newSpeed)
+    [PunRPC]
+    public void SetSpeed(float speed)
     {
-        speed = newSpeed;
+        // TODO: code duplication from IBallController
+        this.speed = speed;
 
-        Slider slider = sliderController.GetSlider();
-        slider.value = newSpeed / sliderController.step;
+        // sync slider
+        float currentSliderValue = sliderController.GetValue() / sliderController.Step;
+        if (currentSliderValue != speed)
+        {
+            sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
+        }
     }
-    
+
     /// <returns>rounded position of player</returns>
     public Vector2 GetMatrixPos()
     {
@@ -93,7 +145,7 @@ public class PlayerController : MonoBehaviour
     {
         // animation and play mode and that's it really
         animator.SetTrigger("Death");
-        GameManager.TogglePlay();
+        GameManager.Instance.TogglePlay();
     }
 
     public void Die()
@@ -102,81 +154,98 @@ public class PlayerController : MonoBehaviour
         if (!inDeathAnim)
         {
             // animation trigger and no movement
-            animator.SetTrigger("Death");
+            DeathAnim();
+            if (GameManager.Instance.Multiplayer) photonView.RPC("DeathAnim", RpcTarget.Others);
             rb.simulated = false;
             inDeathAnim = true;
         }
+
+        // avoid doing more if not own view in multiplayer
+        if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
+
         if (GameManager.Instance.Playing)
         {
             // sfx and death counter
             AudioManager.Instance.Play("Smack");
-            GameManager.Instance.PlayerDeaths++;
+            deaths++;
         }
 
         // update coin counter
-        GameManager.Instance.CollectedCoins = 0;
-        if (GameManager.Instance.CurrentState != null)
+        coinsCollected.Clear();
+        if (currentState != null)
         {
-            GameManager.Instance.CollectedCoins = GameManager.Instance.CurrentState.collectedCoins.Count;
+            foreach(Vector2 coinPos in currentState.collectedCoins)
+            {
+                GameObject coin = CoinManager.GetCoin(coinPos);
+                if (coin != null) coinsCollected.Add(coin);
+            }
         }
     }
 
-    public void ActivateCheckpoint(int mx, int my)
+    [PunRPC]
+    public void DeathAnim()
+    {
+        animator.SetTrigger("Death");
+    }
+
+    public void ActivateCheckpoint(float mx, float my)
     {
         // mx my coords of checkpointfield
         Vector2 statePlayerStartingPos = new(mx, my);
-        List<Vector2> coinsCollected = new();
-        List<Vector2> keysCollected = new();
 
         // serialize game state
-
-        foreach (Transform coin in GameManager.Instance.CoinContainer.transform)
+        // convert collectedCoins and collectedKeys to List<Vector2>
+        List<Vector2> coinPositions = new();
+        foreach(GameObject c in coinsCollected)
         {
-            CoinController controller = coin.GetChild(0).GetComponent<CoinController>();
-            if (controller.pickedUp)
-            {
-                coinsCollected.Add(coin.position);
-            }
+            coinPositions.Add(c.transform.position);
         }
 
-        foreach (Transform key in GameManager.Instance.KeyContainer.transform)
+        List<Vector2> keyPositions = new();
+        foreach (GameObject k in keysCollected)
         {
-            KeyController controller = key.GetChild(0).GetComponent<KeyController>();
-            if (controller.pickedUp)
-            {
-                keysCollected.Add(key.position);
-            }
+            keyPositions.Add(k.transform.position);
         }
 
-        GameState state = new(statePlayerStartingPos, coinsCollected, keysCollected);
-        GameManager.Instance.CurrentState = state;
-
+        currentState = new(statePlayerStartingPos, coinPositions, keyPositions);
+        
         print("Saved game state");
     }
 
     public bool CoinsCollected()
     {
-        foreach(Transform coin in GameManager.Instance.CoinContainer.transform)
-        {
-            CoinController controller = coin.GetChild(0).GetComponent<CoinController>();
-            if (!controller.pickedUp)
-            {
-                return false;
-            }
-        }
-        return true;
+        return coinsCollected.Count >= GameManager.Instance.CoinContainer.transform.childCount;
     }
-    public bool KeysCollected(FieldManager.KeyDoorColor color)
+    public void UncollectCoinAtPos(Vector2 pos)
     {
-        foreach (Transform key in GameManager.Instance.KeyContainer.transform)
+        for(int i = coinsCollected.Count - 1; i >= 0; i--)
         {
-            KeyController controller = key.GetChild(0).GetComponent<KeyController>();
-            if (!controller.pickedUp && controller.color == color)
+            GameObject c = coinsCollected[i];
+            if (c.GetComponent<CoinController>().coinPosition == pos)
             {
-                return false;
+                coinsCollected.Remove(c);
             }
         }
-        return true;
+    }
+    
+    public bool KeysCollected(KeyManager.KeyColor color)
+    {
+        // sum up collected keys with color
+        int collected = 0;
+        foreach(GameObject k in keysCollected)
+        {
+            if (k.GetComponent<KeyController>().color == color) collected++;
+        }
+
+        // sum up total keys with color
+        int total = 0;
+        foreach (Transform k in GameManager.Instance.KeyContainer.transform)
+        {
+            if (k.GetChild(0).GetComponent<KeyController>().color == color) total++;
+        }
+
+        print($"Current keys: collected {collected}, total {total}");
+        return total <= collected;
     }
 
     public void UpdateSpeedText()
@@ -187,37 +256,45 @@ public class PlayerController : MonoBehaviour
 
     public void ResetGame()
     {
-        rb.transform.position = (Vector2) GameManager.Instance.PlayerStartPos;
+        rb.transform.position = startPos;
+    }
+
+    public void DestroyPlayer(bool removeTargetFromCamera = true)
+    {
+        JumpToEntity camera = Camera.main.GetComponent<JumpToEntity>();
+        if (removeTargetFromCamera && camera.target == gameObject) camera.target = null;
+
+        Destroy(sliderController.GetSliderObject());
+        if (nameTagController != null) Destroy(nameTagController.nameTag);
+        Destroy(gameObject);
     }
 
     public void DeathAnimFinish()
     {
-        GameState state = GameManager.Instance.CurrentState;
+        DestroyPlayer(false);
+
+        if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
 
         inDeathAnim = false;
 
         float applySpeed = speed;
-
-        Destroy(sliderController.GetSliderObject());
-        Destroy(gameObject);
+        int deaths = this.deaths;
 
         // create new player at start position
-        GameObject player = GameManager.Instance.Player;
-        PlayerController playerController = player.GetComponent<PlayerController>();
-        playerController.speed = speed;
+        Vector2 spawnPos = !GameManager.Instance.Playing || currentState == null ? startPos : currentState.playerStartPos;
 
-        Vector2 spawnPos = !GameManager.Instance.Playing || state == null ? (Vector2) GameManager.Instance.PlayerStartPos : state.playerStartPos;
+        GameObject player = PlayerManager.InstantiatePlayer(spawnPos, applySpeed, GameManager.Instance.Multiplayer);
+        player.GetComponent<PlayerController>().deaths = deaths;
 
-        GameObject newPlayer = Instantiate(player, spawnPos, Quaternion.identity, GameManager.Instance.PlayerContainer.transform);
-        PlayerController controller = newPlayer.GetComponent<PlayerController>();
-        controller.SetSpeed(applySpeed);
+        JumpToEntity jumpToPlayer = Camera.main.GetComponent<JumpToEntity>();
+        if (jumpToPlayer.target == gameObject) jumpToPlayer.target = player;
 
         // reset coins
         foreach (Transform coin in GameManager.Instance.CoinContainer.transform)
         {
             bool respawns = true;
-            if(state != null) { 
-                foreach (Vector2 collected in state.collectedCoins)
+            if(currentState != null) { 
+                foreach (Vector2 collected in currentState.collectedCoins)
                 {
                     if (collected.x == coin.position.x && collected.y == coin.position.y)
                     {
@@ -230,8 +307,7 @@ public class PlayerController : MonoBehaviour
             
             if(respawns)
             {
-                CoinController coinController = coin.GetChild(0).GetComponent<CoinController>();
-                coinController.pickedUp = false;
+                coinsCollected.Remove(coin.gameObject);
 
                 Animator anim = coin.GetComponent<Animator>();
                 anim.SetBool("PickedUp", false);
@@ -242,9 +318,9 @@ public class PlayerController : MonoBehaviour
         foreach (Transform key in GameManager.Instance.KeyContainer.transform)
         {
             bool respawns = true;
-            if (state != null)
+            if (currentState != null)
             {
-                foreach (Vector2 collected in state.collectedKeys)
+                foreach (Vector2 collected in currentState.collectedKeys)
                 {
                     if (collected.x == key.position.x && collected.y == key.position.y)
                     {
@@ -257,8 +333,7 @@ public class PlayerController : MonoBehaviour
 
             if (respawns)
             {
-                KeyController keyController = key.GetChild(0).GetComponent<KeyController>();
-                keyController.pickedUp = false;
+                keysCollected.Remove(key.gameObject);
 
                 Animator anim = key.GetComponent<Animator>();
                 anim.SetBool("PickedUp", false);
@@ -274,6 +349,14 @@ public class PlayerController : MonoBehaviour
                 KeyDoorField comp = door.GetComponent<KeyDoorField>();
                 if(!KeysCollected(comp.color)) comp.Lock(true);
             }
+        }
+    }
+
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        if(transform.parent != GameManager.Instance.PlayerContainer.transform)
+        {
+            transform.SetParent(GameManager.Instance.PlayerContainer.transform);
         }
     }
 }

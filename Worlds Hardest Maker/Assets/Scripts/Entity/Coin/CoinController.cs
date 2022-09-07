@@ -4,40 +4,53 @@ using UnityEngine;
 
 public class CoinController : MonoBehaviour
 {
-    public bool pickedUp = false;
+    [HideInInspector] public Vector2 coinPosition;
+    [HideInInspector] public bool pickedUp = false;
+    private void Awake()
+    {
+        coinPosition = new(transform.position.x, transform.position.y);
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameObject collider = collision.gameObject;
-        if (collider.CompareTag("Player") && !pickedUp)
+        // check if collider is player
+        if (collision.TryGetComponent(out PlayerController controller))
         {
-            PickUp();
+            // check if player is of own client
+            if (GameManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
 
-            // check if player is in goal while collecting coin
-            PlayerController controller = collider.GetComponent<PlayerController>();
-            if(controller.CoinsCollected())
+            // check if that player hasnt picked coin up yet
+            if (!controller.coinsCollected.Contains(gameObject))
             {
-                foreach(GameObject field in controller.currentFields)
+                PickUp(collision.gameObject);
+
+                // check if player is in goal while collecting coin
+                if (controller.CoinsCollected())
                 {
-                    FieldManager.FieldType fieldType = (FieldManager.FieldType)FieldManager.GetFieldType(field);
-                    if (fieldType == FieldManager.FieldType.GOAL_FIELD || fieldType == FieldManager.FieldType.START_AND_GOAL_FIELD)
+                    foreach (GameObject field in controller.currentFields)
                     {
-                        controller.Win();
-                        break;
+                        FieldManager.FieldType fieldType = (FieldManager.FieldType)FieldManager.GetFieldType(field);
+                        if (fieldType == FieldManager.FieldType.GOAL_FIELD || fieldType == FieldManager.FieldType.START_AND_GOAL_FIELD)
+                        {
+                            controller.Win();
+                            break;
+                        }
                     }
                 }
             }
         }
     }
 
-    private void PickUp()
+    private void PickUp(GameObject player)
     {
+        PlayerController controller = player.GetComponent<PlayerController>();
+        controller.coinsCollected.Add(gameObject);
+
         // coin counter, sfx, animation
-        pickedUp = true;
-        GameManager.Instance.CollectedCoins++;
         AudioManager.Instance.Play("Ding");
 
         Animator anim = transform.parent.GetComponent<Animator>();
         anim.SetBool("PickedUp", true);
+        pickedUp = true;
     }
 }

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class UIFollowEntity : MonoBehaviour
 {
-    public GameObject entity;
-    public Vector2 offset;
+    [HideInInspector] public GameObject entity;
+    [HideInInspector] public Vector2 offset;
 
-    private void OnGUI()
+    private void LateUpdate()
     {
         Camera cam = Camera.main;
 

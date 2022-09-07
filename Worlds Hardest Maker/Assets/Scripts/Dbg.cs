@@ -30,14 +30,8 @@ public class Dbg : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
+        if(Instance == null) Instance = this;
+        else Destroy(this);
     }
 
     private void Update()
@@ -63,7 +57,6 @@ public class Dbg : MonoBehaviour
                 case DbgTextMode.MOUSE_POSITION_PIXELS:
                     Text((Vector2)Input.mousePosition);
                     break;
-                default: break;
             }
         }
     }

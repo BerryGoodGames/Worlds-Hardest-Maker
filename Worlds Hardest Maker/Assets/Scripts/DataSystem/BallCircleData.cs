@@ -9,8 +9,8 @@ using UnityEngine;
 public class BallCircleData : IData
 {
     public float speed;
-    public int radius;
-    public int[] originPosition;
+    public float radius;
+    public float[] originPosition;
     public float angle;
 
     public BallCircleData(BallCircleController controller)
@@ -19,15 +19,15 @@ public class BallCircleData : IData
 
         radius = controller.radius;
 
-        originPosition = new int[2];
-        originPosition[0] = (int)controller.GetOriginPos().x;
-        originPosition[1] = (int)controller.GetOriginPos().y;
+        originPosition = new float[2];
+        originPosition[0] = controller.origin.position.x;
+        originPosition[1] = controller.origin.position.y;
 
         angle = controller.startAngle;
     }
 
     public override void CreateObject()
     {
-        BallCircleManager.SetBallCircle(originPosition[0], originPosition[1], radius, speed, angle);
+        BallCircleManager.Instance.SetBallCircle(originPosition[0], originPosition[1], radius, speed, angle);
     }
 }

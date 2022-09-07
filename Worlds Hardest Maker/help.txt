@@ -1,0 +1,259 @@
+Gets info about revisions in changesets.
+
+Usage:
+
+    cm log [<csetspec> | <repspec>] [--from=<csetspec_from>] [--allbranches]
+           [--ancestors] [--csformat=<str_format>] [--itemformat=<str_format>]
+           [--xml[=<output_file>]] [--encoding=<name>]
+           [--repositorypaths | --fullpaths | --fp]
+
+Options:
+
+    csetspec            Returns all changes made in the specified changeset.
+                        (Use 'cm help objectspec' to learn more about changeset
+                        specs.)
+    repspec             Returns all changes made in the specified repository.
+                        (Use 'cm help objectspec' to learn more about repository
+                        specs.)
+    --from              Lists all the changes made in every changeset from the
+                        changeset specification [csetspec_from] to the
+                        changeset specification [csetspec].
+                        The [csetspec_from] changeset is not included in the
+                        output.
+                        Ignored when a repository spec is provided.
+    --allbranches       Shows information about the changesets created in a
+                        specified interval, for all the branches where those
+                        changesets were created.
+    --ancestors         Shows information about the reachable changesets by
+                        following the parent and merge links for the given
+                        changeset ([csetspec]). If the from changeset
+                        ([csetspec_from]) is provided too, it will be used as
+                        lower limit for all the paths. Remarks: The changeset
+                        changes will not be shown when this option is used.
+    --csformat          Retrieves the changeset info in a specific format. See
+                        Remarks for more info. This option cannot be combined
+                        with '--xml'.
+    --itemformat        Retrieves the item info in a specific format. See
+                        Remarks for more info. This option cannot be combined
+                        with '--xml'.
+    --xml               Prints the output in XML format to the standard output.
+                        It is possible to specify an output file. This option
+                        cannot be combined with '--csformat' and '--itemformat'.
+    --encoding          Used with the '--xml' option, specifies the encoding to
+                        use in the XML output, i.e.: utf-8.
+                        See the MSDN documentation at
+                        http://msdn.microsoft.com/en-us/library/system.text.encoding.aspx
+                        to get the table of supported encodings and its format,
+                        (at the end of the page, in the "Name" column).
+    --fullpaths, --fp   Force printing full workspace paths for files and
+                        directories when possible.
+    --repositorypaths   Prints repository paths (server paths) instead of
+                        workspace paths. (This option overrides the
+                        '--fullpaths' option).
+
+Remarks:
+
+    - If neither 'csetspec' nor option is specified, the command shows
+      information about every changeset created within the last month in every
+      branch.
+    - If only the option '--from' is included, the command shows the
+      information about every changeset from that specified changeset to the
+      last changeset in the branch where the changeset was created.
+    - If the option '--allbranches' appears without an interval, the command
+      retrieves the same information as it would do if only 'csetspec' was
+      specified.
+    - If the '--from' is used, the output contains information from the
+      'csetspec_from'+1 on.
+    - The repository used to show the changeset information is the one loaded
+      in the path where the command executes on.
+
+    This command accepts a format string for the items ('--itemformat') and a
+    format string for the changesets ('--csformat').
+
+    The output parameters of '--csformat' are the following:
+        {tab}           Inserts a tab space.
+        {newline}       Inserts a new line.
+        {changesetid}   Changeset number.
+        {branch}        Branch where the changeset was created.
+        {date}          Date of the changeset.
+        {owner}         Owner of the changeset.
+        {comment}       Comment of the changeset.
+        {items}         Items involved in the changeset.
+        {repository}    Repository where the changeset exists.
+        {repserver}     Server name.
+
+    The output parameters of '--itemformat' are the following:
+        {tab}           Inserts a tab space.
+        {newline}       Inserts a new line.
+        {path}          Item path.
+        {branch}        Branch where the changeset was created.
+        {date}          Date of the changeset.
+        {owner}         Owner of the changeset.
+        {shortstatus}   Prints the short format for the status. See below.
+        {fullstatus}    Prints the long format for the status. See below.
+
+        Short format and its corresponding long format:
+            'A'   Added
+            'D'   Deleted
+            'M'   Moved
+            'C'   Changed
+
+    These are valid output strings:
+        --csformat="{newline}Changeset {changesetid} created on {date};{tab} changed items: {items}."
+        --itemformat="{newline}The item {path} was changed in the branch {branch}."
+
+Examples:
+
+    cm log
+    (Shows information about every changeset created in the last month in every
+    branch.)
+
+    cm log cs:16
+    (Shows information about the changes done in the changeset 16 in the branch
+    where the changeset was created.)
+
+    cm log cs:16 --csformat="{newline}Changeset {changesetid} created on \
+      {date};{tab} changed items: {items}."
+    (Shows the information in the specified format.)
+
+    cm log --from=cs:20 cs:50
+    (Shows the information about every revision contained in every changeset
+    from the changeset 21 to the changeset 50.)
+
+    cm log --from=cs:20 cs:50 --allbranches
+    (Shows the information about every revision contained in every changeset
+    from the changeset 21 to the changeset 50 in every branch of the
+    repository.)
+
+    cm log rep:myrep@localhost:8084
+    (Shows information about the changes done in the specified repository.
+    No workspace is required to run the command.)
+
+    cm log --from=cs:20@rep:mainRep@localhost:8084
+    (Shows the information about every revision contained in every changeset
+    from the changeset 21. No workspace is required to run the command, because
+    the full changeset spec was specified.)
+
+
+Describes how to write object specs.
+
+Usage:
+    cm objectspec
+    To get all the information about how to build object specs.
+
+Several Plastic SCM commands expect 'object specs' as input to refer to a
+given object (typically a branch, changeset, repository, etc).
+
+This documentation describes the different "specs" available and how to
+build them.
+
+Each spec type begins with a unique tag, for example "rep:" or "cs:". The tag
+must be specified for commands that take a general object spec, for example
+"cm setowner object_spec", but can often be omitted for commands that take only
+a single type of spec, for example, "cm getfile revision_spec".
+
+-- Repository server spec (repserverspec) --
+    repserver:name:port
+
+    Examples:
+        cm repo list repserver:skull:8084
+        cm repo list skull:8084
+
+    Side note:
+        We call it 'repository server spec', instead of just 'server spec' for
+        historical reasons. Long ago, we had separate workspace and repository
+        servers, and the naming survived.
+
+-- Repository spec (repspec) --
+    rep:rep_name@[repserverspec]
+
+    Examples:
+        cm showowner rep:codice@localhost:6060
+        (Here the "rep:" is required because showowner admits not only repos
+        but also other types of objects. So it needs the user to indicate the
+         object type.)
+
+-- Branch spec (brspec) --
+    br:[/]br_name[@repspec]
+
+    Examples:
+        cm switch br:/main@rep:plastic@repserver:skull:9095
+        (In this case "br:", "rep" and "repserver" are not needed, so the
+         command admits a much shorter form:
+        "cm switch main@plastic@skull:9095".)
+
+        cm find revisions "where branch='br:/main/task001'"
+
+    Remark:
+        The initial '/' on the branch is not mandatory. We used to specify all
+        our branches as /main, /main/task001, and so on. But now, we prefer the
+        shorter form main, main/task001 which makes commands more compact.
+
+-- Changeset spec (csetspec) --
+    cs:cs_number|cs_guid[@repspec]
+
+    The number or GUID of the changeset can be specified.
+
+    Examples:
+        cm ls /code --tree=ae1390ed-7ce9-4ec3-a155-e5a61de0dc77@code@skull:7070
+
+-- Label spec (labelspec) --
+    lb:lb_name[@repspec]
+
+    Examples:
+        cm switch lb:RELEASE2.0
+        cm switch lb:RELEASE1.4@myrep@MYSERVER:8084
+
+-- Revision spec --
+There are different types of rev specs:
+
+    rev:item_path[#(brspec|csetspec|labelspec)]
+
+    rev:serverpath:item_path#(brspec|cset_spec|lb_spec)
+
+    rev:revid:rev_id[@rep_spec]
+
+    rev:itemid:item_id#(br_spec|cset_spec|lb_spec)
+
+    Examples:
+        cm diff rev:readme.txt#cs:19 rev:readme.txt#cs:20
+
+        cm diff serverpath:/doc/readme.txt#cs:19@myrepo \
+            serverpath:/doc/readme.txt#br:/main@myrepo@localhost:8084
+
+        cm cat revid:1230@rep:myrep@repserver:myserver:8084
+
+-- Item spec --
+    item:path
+    Rarely used.
+
+    Example:
+        cm find revision "where item='item:.'"
+
+-- Attribute spec --
+    att:att_name[@repspec]
+
+    Example:
+        cm attribute set att:merged@code@doe:8084 cs:25@code@doe:8084 done
+
+-- Shelve spec --
+    sh:sh_number[@repspec]
+
+    Example:
+        cm diff sh:2 sh:4
+
+-- Workspace specs --
+    wk:name@clientmachine
+
+Rarely used, since they only apply to workspace related commands. Useful to
+specify the workspace by name and machine instead of path.
+
+    Examples:
+        cm showselector wk:codebase@modok
+
+    Side note:
+        These specs come from the old days of Plastic SCM 2.x where 'workspace
+        servers' existed as a way to store workspace metadata in a centralized
+        way. Were deprecated due to performance issues.
+
+

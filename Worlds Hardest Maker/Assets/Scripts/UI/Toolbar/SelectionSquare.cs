@@ -8,6 +8,7 @@ public class SelectionSquare : MonoBehaviour
     Image image;
     public Sprite deselectedSprite;
     public Sprite selectedSprite;
+    public Sprite subSelectedSprite;
     RectTransform rt;
     private void Awake()
     {
@@ -28,5 +29,9 @@ public class SelectionSquare : MonoBehaviour
     public void Selected(bool selected)
     {
         image.sprite = selected ? selectedSprite : deselectedSprite;
+    }
+    public void SubSelected(bool subselected)
+    {
+        image.sprite = subselected ? subSelectedSprite : image.sprite;
     }
 }

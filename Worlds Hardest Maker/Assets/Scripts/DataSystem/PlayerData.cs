@@ -8,22 +8,25 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData : IData
 {
+    public int id;
     public float speed;
-    public int[] startPosition;
+    public float[] startPosition;
 
     public PlayerData(PlayerController controller)
     {
+        id = controller.id;
         speed = controller.speed;
 
-        Vector2 startPos = (Vector2)GameManager.Instance.PlayerStartPos;
+        //Vector2 startPos = GameManager.Instance.PlayerStartPoses[id];
+        //Vector2 startPos = GameManager.Instance.PlayerControllerList[id].startPos;
 
-        startPosition = new int[2];
-        startPosition[0] = (int)startPos.x;
-        startPosition[1] = (int)startPos.y;
+        startPosition = new float[2];
+        startPosition[0] = controller.startPos.x;
+        startPosition[1] = controller.startPos.y;
     }
 
     public override void CreateObject()
     {
-        PlayerManager.SetPlayer(startPosition[0], startPosition[1], speed);
+        PlayerManager.Instance.SetPlayer(startPosition[0], startPosition[1], speed);
     }
 }

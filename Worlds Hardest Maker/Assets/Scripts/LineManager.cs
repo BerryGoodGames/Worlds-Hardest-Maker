@@ -9,10 +9,23 @@ using UnityEngine;
 /// </summary>
 public class LineManager : MonoBehaviour
 {
+    public static int DefaultLayerID;
+    public static int OutlineLayerID;
+    public static int BallLayerID;
+
+    private void Awake()
+    {
+        DefaultLayerID = SortingLayer.NameToID("Line");
+        OutlineLayerID = SortingLayer.NameToID("Outline");
+        BallLayerID = SortingLayer.NameToID("Ball");
+    }
+
     // Settings for drawing
     public static float weight = 0.11f;
     public static Color fill = new(0, 0, 0);
     public static bool roundedCorners = true;
+    public static int layerID = DefaultLayerID;
+    public static int orderInLayer = 0;
 
     /// <summary>
     /// generate object containing a LineRenderer forming a rectangle
@@ -24,14 +37,15 @@ public class LineManager : MonoBehaviour
     /// <param name="sortingOrder">order in layer</param>
     /// <param name="alignCenter"></param>
     /// <param name="parent">parent the generated gameobject will be placed in, if nothing passed then DrawContainer</param>
-    public static void DrawRect(float x, float y, float w, float h, int sortingOrder, bool alignCenter = false, Transform parent = null)
+    public static GameObject DrawRect(float x, float y, float w, float h, bool alignCenter = false, Transform parent = null)
     {
         // generate object
         GameObject stroke = NewDrawObject("DrawRect", parent);
 
         LineRenderer rect = stroke.GetComponent<LineRenderer>();
         rect.positionCount = 5;
-        rect.sortingOrder = sortingOrder;
+        rect.sortingOrder = orderInLayer;
+        rect.sortingLayerID = layerID;
 
         // get positions
         Vector2[] positions = {
@@ -52,6 +66,8 @@ public class LineManager : MonoBehaviour
             }
             rect.SetPosition(i, positions[i]);
         }
+
+        return stroke;
     }
 
     /// <summary>
@@ -62,13 +78,17 @@ public class LineManager : MonoBehaviour
     /// <param name="radius">radius of circle</param>
     /// <param name="sortingOrder">order in layer</param>
     /// <param name="parent">parent the generated gameobject will be placed in, if nothing passed then DrawContainer</param>
-    public static void DrawCircle(float x, float y, float radius, int sortingOrder, Transform parent = null)
+    public static GameObject DrawCircle(Vector2 pos, float radius, Transform parent = null)
     {
+        float x = pos.x;
+        float y = pos.y;
+
         // generate object
         GameObject stroke = NewDrawObject("DrawCircle", parent);
 
         LineRenderer circle = stroke.GetComponent<LineRenderer>();
-        circle.sortingOrder = sortingOrder;
+        circle.sortingOrder = orderInLayer;
+        circle.sortingLayerID = layerID;
 
         // get points of circle
         int steps = 100;
@@ -80,6 +100,39 @@ public class LineManager : MonoBehaviour
         {
             circle.SetPosition(i, points[i]);
         }
+
+        return stroke;
+    }
+
+    /// <summary>
+    /// generate object containing a LineRenderer forming a circle
+    /// </summary>
+    /// <param name="x">x-coordinate of center</param>
+    /// <param name="y">y-coordinate of center</param>
+    /// <param name="radius">radius of circle</param>
+    /// <param name="sortingOrder">order in layer</param>
+    /// <param name="parent">parent the generated gameobject will be placed in, if nothing passed then DrawContainer</param>
+    public static GameObject DrawCircle(float x, float y, float radius, Transform parent = null)
+    {
+        // generate object
+        GameObject stroke = NewDrawObject("DrawCircle", parent);
+
+        LineRenderer circle = stroke.GetComponent<LineRenderer>();
+        circle.sortingOrder = orderInLayer;
+        circle.sortingLayerID = layerID;
+
+        // get points of circle
+        int steps = 100;
+        List<Vector2> points = GetCirclePoints(new(x, y), radius, steps);
+
+        // set points
+        circle.positionCount = steps + 1;
+        for (int i = 0; i < points.Count; i++)
+        {
+            circle.SetPosition(i, points[i]);
+        }
+
+        return stroke;
     }
 
     /// <summary>
@@ -91,14 +144,16 @@ public class LineManager : MonoBehaviour
     /// <param name="y2">y-coordinate of second point</param>
     /// <param name="sortingOrder">order in layer</param>
     /// <param name="parent">parent the generated gameobject will be placed in, if nothing passed then DrawContainer</param>
-    public static void DrawLine(float x1, float y1, float x2, float y2, int sortingOrder, Transform parent = null)
+    public static GameObject DrawLine(float x1, float y1, float x2, float y2, Transform parent = null)
     {
         // generate object
         GameObject stroke = NewDrawObject("DrawLine", parent);
 
         LineRenderer line = stroke.GetComponent<LineRenderer>();
-        line.sortingOrder = sortingOrder;
+        line.sortingOrder = orderInLayer;
+        line.sortingLayerID = layerID;
         line.positionCount = 2;
+        line.numCapVertices = 0;
 
         // set points
         Vector3 start = new(x1, y1, 0);
@@ -106,6 +161,8 @@ public class LineManager : MonoBehaviour
 
         line.SetPosition(0, start);
         line.SetPosition(1, end);
+
+        return stroke;
     }
 
     /// <summary>
@@ -115,7 +172,7 @@ public class LineManager : MonoBehaviour
     /// <param name="pos2">second point</param>
     /// <param name="sortingOrder">order in layer</param>
     /// <param name="parent">parent the generated gameobject will be placed in, if nothing passed then DrawContainer</param>
-    public static void DrawLine(Vector2 pos1, Vector2 pos2, int sortingOrder, Transform parent = null)
+    public static GameObject DrawLine(Vector2 pos1, Vector2 pos2, Transform parent = null)
     {
         if (parent == null)
         {
@@ -125,14 +182,18 @@ public class LineManager : MonoBehaviour
         GameObject stroke = NewDrawObject("DrawLine", parent);
 
         LineRenderer line = stroke.GetComponent<LineRenderer>();
-        line.sortingOrder = sortingOrder;
+        line.sortingOrder = orderInLayer;
+        line.sortingLayerID = layerID;
         line.positionCount = 2;
+        line.numCapVertices = 0;
 
         Vector3 start = new(pos1.x, pos1.y, 0);
         Vector3 end = new(pos2.x, pos2.y, 0);
 
         line.SetPosition(0, start);
         line.SetPosition(1, end);
+
+        return stroke;
     }
 
     private static GameObject NewDrawObject(string name, Transform parent)
@@ -190,5 +251,15 @@ public class LineManager : MonoBehaviour
     public static void SetRoundedCorners(bool set)
     {
         roundedCorners = set;
+    }
+
+    public static void SetLayerID(int id)
+    {
+        layerID = id;
+    }
+
+    public static void SetOrderInLayer(int order)
+    {
+        orderInLayer = order;
     }
 }

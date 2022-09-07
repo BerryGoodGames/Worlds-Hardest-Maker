@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class CoinManager : MonoBehaviour
 {
+    public static CoinManager Instance { get; private set; }
+
     public static List<FieldManager.FieldType> CantPlaceFields = new(new FieldManager.FieldType[]{
         FieldManager.FieldType.WALL_FIELD,
         FieldManager.FieldType.RED_KEY_DOOR_FIELD,
@@ -13,53 +16,68 @@ public class CoinManager : MonoBehaviour
         FieldManager.FieldType.GRAY_KEY_DOOR_FIELD
     });
 
-    public static void SetCoin(int mx, int my)
+    [PunRPC]
+    public void SetCoin(float mx, float my)
     {
-        Vector2 pos = new(mx, my);
+        if (CanPlace(mx, my))
+        {
+            Vector2 pos = new(mx, my);
 
-        // place coin if no coin is there, the field isnt a cantplacefield or default, the player is not there
-        if(!IsCoinThere(mx, my))
-        {
-            GameObject currentField = FieldManager.GetField(mx, my);
-            FieldManager.FieldType? type = FieldManager.GetFieldType(currentField);
-            
-            if(type == null || !CantPlaceFields.Contains((FieldManager.FieldType)type))
-            {
-                GameObject player = PlayerManager.GetCurrentPlayer();
-                if (player == null || (Vector2)player.transform.position != pos)
-                {
-                    Instantiate(GameManager.Instance.Coin, pos, Quaternion.identity, GameManager.Instance.CoinContainer.transform);
-                }
-            }
+            GameManager.Instance.TotalCoins++;
+            GameObject coin = Instantiate(GameManager.Instance.Coin, pos, Quaternion.identity, GameManager.Instance.CoinContainer.transform);
+                    
+            Animator anim = coin.GetComponent<Animator>();
+            anim.SetBool("Playing", GameManager.Instance.Playing);
         }
     }
-    public static void RemoveCoin(int mx, int my)
+    [PunRPC]
+    public void RemoveCoin(float mx, float my)
     {
-        GameObject container = GameManager.Instance.CoinContainer;
-        Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.25f);
-        foreach (Collider2D hit in hits)
+        foreach (Transform coin in GameManager.Instance.CoinContainer.transform)
         {
-            Transform parent = hit.transform.parent;
-            if (parent.parent == container.transform)
+            if (coin.GetChild(0).GetComponent<CoinController>().coinPosition == new Vector2(mx, my))
             {
-                Destroy(parent.gameObject);
+                Destroy(coin.gameObject);
+
+                GameObject currentPlayer = PlayerManager.GetPlayer();
+                if (currentPlayer != null) currentPlayer.GetComponent<PlayerController>().UncollectCoinAtPos(new(mx, my));
+
+                GameManager.Instance.TotalCoins = GameManager.Instance.CoinContainer.transform.childCount - 1;
             }
         }
     }
-    public static GameObject GetCoin(int mx, int my)
+    public static GameObject GetCoin(float mx, float my)
     {
         GameObject container = GameManager.Instance.CoinContainer;
         foreach (Transform coin in container.transform)
         {
-            if ((Vector2)coin.position == new Vector2(mx, my))
+            CoinController controller = coin.GetChild(0).GetComponent<CoinController>();
+            if (controller.coinPosition == new Vector2(mx, my))
             {
                 return coin.gameObject;
             }
         }
         return null;
     }
-    public static bool IsCoinThere(int mx, int my)
+    public static GameObject GetCoin(Vector2 pos)
+    {
+        return GetCoin(pos.x, pos.y);
+    }
+
+    public static bool IsCoinThere(float mx, float my)
     {
         return GetCoin(mx, my) != null;
+    }
+
+    public static bool CanPlace(float mx, float my)
+    {
+        // conditions: no coin there, doesnt intersect with any walls etc, no player there
+        return !IsCoinThere(mx, my) && !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CantPlaceFields.ToArray()) && !PlayerManager.IsPlayerThere(mx, my);
+    }
+
+    private void Awake()
+    {
+        // init singleton
+        if (Instance == null) Instance = this;
     }
 }

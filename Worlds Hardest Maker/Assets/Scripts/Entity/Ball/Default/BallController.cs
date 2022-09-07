@@ -1,89 +1,111 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BallController : IBallController
 {
-    public override float SpeedMin { get { return 0; } }
-    public override float SpeedMax { get { return 15; } }
-
+    public Transform bounce;
+    [HideInInspector] public Transform line;
     [HideInInspector] public Vector2 startPosition;
     [HideInInspector] public Vector2 currentTarget;
 
+    private void Start()
+    {
+        if(transform.parent.parent != GameManager.Instance.BallDefaultContainer.transform)
+        {
+            transform.parent.SetParent(GameManager.Instance.BallDefaultContainer.transform);
+        }
+
+        // set line
+        LineManager.SetFill(0, 0, 0);
+        LineManager.SetWeight(0.11f);
+        LineManager.SetOrderInLayer(2);
+        LineManager.SetLayerID(LineManager.BallLayerID);
+        GameObject line = LineManager.DrawLine(transform.position, bounce.position, transform.parent);
+
+        this.line = line.transform;
+    }
+
     private void Update()
     {
-        GetBounce().SetActive(!GameManager.Instance.Playing);
-        GetLine().SetActive(!GameManager.Instance.Playing);
+        bounce.gameObject.SetActive(!GameManager.Instance.Playing);
+        line.gameObject.SetActive(!GameManager.Instance.Playing);
 
         if (GameManager.Instance.Playing)
         {
             Move();
-        } else
+        } 
+        else
         {
             UpdateLine();
         }
     }
 
-    void Move()
+    private void Move()
     {
         // move towards the target
-        transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
 
         // switch target after bounce
         if((Vector2)transform.position == currentTarget)
         {
-            if(currentTarget == GetBouncePos())
+            if(currentTarget == (Vector2)bounce.position)
             {
                 currentTarget = startPosition;
             } 
             else if(currentTarget == (Vector2)transform.position)
             {
-                currentTarget = GetBouncePos();
+                currentTarget = bounce.position;
             }
         }
     }
 
-    public void ResetTarget()
+    [PunRPC]
+    public void SetObjectPos(Vector2 pos)
     {
-        currentTarget = GetBouncePos();
+        currentTarget = bounce.position;
+        startPosition = pos;
+        transform.position = pos;
     }
 
-    public GameObject GetBounce()
-    {
-        return transform.parent.GetChild(1).gameObject;
+    [PunRPC]
+    public void SetBouncePos(Vector2 pos) {
+        currentTarget = pos;
+        bounce.position = pos;
     }
-    public Vector2 GetBouncePos()
-    {
-        return GetBounce().transform.position;
-    }
-    public void SetBouncePos(int mx, int my)
-    {
-        GetBounce().transform.position = new(mx, my);
-    }
-    public GameObject GetLine()
-    {
-        return transform.parent.GetChild(2).gameObject;
-    }
+
     public void SetLinePoint(int index, Vector2 point)
     {
-        GameObject stroke = GetLine();
-        LineRenderer line = stroke.GetComponent<LineRenderer>();
+        GameObject stroke = line.gameObject;
+        LineRenderer renderer = stroke.GetComponent<LineRenderer>();
 
-        line.SetPosition(index, point);
+        renderer.SetPosition(index, point);
     }
     public void UpdateLine()
     {
         SetLinePoint(0, transform.position);
-        SetLinePoint(1, GetBouncePos());
+        SetLinePoint(1, bounce.position);
     }
 
-    public override void MoveObject(Vector2 unitPos, GameObject movedObject)
+    public void DestroyBall()
     {
-        base.MoveObject(unitPos, movedObject);
+        Destroy(GetComponent<AppendSlider>().GetSliderObject());
+        Destroy(transform.parent.gameObject);
+    }
 
+    [PunRPC]
+    public override void MoveObject(Vector2 unitPos, int id)
+    {
+        GameObject movedObject = BallDragDrop.DragDropList[id];
+
+        // call correct method to set position, either set object or set bounce
         if (movedObject.Equals(gameObject))
         {
-            startPosition = unitPos;
+            SetObjectPos(unitPos);
+        } else
+        {
+            SetBouncePos(unitPos);
         }
     }
 }

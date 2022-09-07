@@ -6,11 +6,13 @@ public class SpeedSliderAnim : MonoBehaviour
 {
     private RectTransform rt;
     private UIFollowEntity follow;
+    private Animator anim;
 
     private void Start()
     {
         rt = GetComponent<RectTransform>();
         follow = GetComponent<UIFollowEntity>();
+        anim = GetComponent<Animator>();
         
         Gone();
     }
@@ -32,8 +34,11 @@ public class SpeedSliderAnim : MonoBehaviour
 
     public void Gone()
     {
-        follow.enabled = false;
-        rt.position = new(2000, 2000);
+        if (!anim.GetBool("Visible"))
+        {
+            follow.enabled = false;
+            rt.position = new(2000, 2000);
+        }
     }
 
     public void Ungone()
