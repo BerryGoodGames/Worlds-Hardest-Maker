@@ -7,7 +7,7 @@ public class KonamiManager : MonoBehaviour
 {
     private int keyIndex = 0;
 
-    // Konami Code: ????????BA
+    // Konami Code: ???????BA
     private readonly KeyCode[] konamiKeys = {
         KeyCode.UpArrow, KeyCode.UpArrow, 
         KeyCode.DownArrow, KeyCode.DownArrow, 
