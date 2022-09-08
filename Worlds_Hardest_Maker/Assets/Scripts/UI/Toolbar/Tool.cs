@@ -59,7 +59,5 @@ public class Tool : MonoBehaviour
     {
         AlphaTweenUI tween = GetComponent<AlphaTweenUI>();
         tween.SetVisibility(visible);
-
-        print($"{visible} {transform.name}");
     }
 }
