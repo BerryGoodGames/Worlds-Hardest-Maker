@@ -20,7 +20,7 @@ public class Tool : MonoBehaviour
 
         inOptionbar = transform.parent.CompareTag("OptionContainer");
 
-        mouseOverUI.onHovered = () => SetTweenVisibility(true);
+        mouseOverUI.onHovered = () => SetTweenVisibility(!GameManager.Instance.Menu.activeSelf);
         mouseOverUI.onUnhovered = () => SetTweenVisibility(false);
     }
 
@@ -48,24 +48,18 @@ public class Tool : MonoBehaviour
             parentTool.SubSelected(true);
         }
 
-        if (selected)
-        {
-            SetTweenVisibility(true);
-        }
+        SetTweenVisibility(selected);
     }
     public void SubSelected(bool subselected)
     {
         selectionSquare.SubSelected(subselected);
     }
 
-    public bool Hovered()
-    {
-        return mouseOverUI.over && !GameManager.Instance.Menu.activeSelf;
-    }
-
     public void SetTweenVisibility(bool visible)
     {
         AlphaTweenUI tween = GetComponent<AlphaTweenUI>();
         tween.SetVisibility(visible);
+
+        print($"{visible} {transform.name}");
     }
 }
