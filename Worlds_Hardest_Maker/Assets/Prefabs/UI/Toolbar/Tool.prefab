@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 7465456736653454117}
   - component: {fileID: 7465456736653454118}
   - component: {fileID: 7465456736653454119}
-  - component: {fileID: 5551056745765573541}
   - component: {fileID: 5638722257995353207}
+  - component: {fileID: 6048408368453076281}
   m_Layer: 5
   m_Name: Tool
   m_TagString: Tool
@@ -152,26 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toolName: 0
   selected: 0
---- !u!95 &5551056745765573541
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7465456736653454113}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 38ac7dcbe6acb4d4e88be193ea53ffbb, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  inOptionbar: 0
 --- !u!114 &5638722257995353207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +166,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   over: 0
+--- !u!114 &6048408368453076281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7465456736653454113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65f3839b2757e3f43847fd7ed3d40e04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.2
+  delay: 0
+  alphaVisible: 1
+  alphaInvisible: 0.58
 --- !u!1 &7465456736660578978
 GameObject:
   m_ObjectHideFlags: 0

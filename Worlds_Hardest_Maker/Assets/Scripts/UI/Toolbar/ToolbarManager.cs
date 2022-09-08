@@ -27,7 +27,9 @@ public class ToolbarManager : MonoBehaviour
     {
         for(int i = 0; i < tools.Length; i++)
         {
-            tools[i].GetComponent<Tool>().Selected(false);
+            Tool tool = tools[i].GetComponent<Tool>();
+            tool.Selected(false);
+            tool.SetTweenVisibility(false);
         }
     }
 }

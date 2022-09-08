@@ -3,14 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+// REF
 public class Tool : MonoBehaviour
 {
     public GameManager.EditMode toolName;
     [HideInInspector] public bool selected;
     [HideInInspector] public bool inOptionbar;
-    private void Awake()
+
+    private MouseOverUI mouseOverUI;
+    private SelectionSquare selectionSquare;
+
+    private void Start()
     {
+        mouseOverUI = GetComponent<MouseOverUI>();
+        selectionSquare = transform.GetChild(1).GetComponent<SelectionSquare>();
+
         inOptionbar = transform.parent.CompareTag("OptionContainer");
+
+        mouseOverUI.onHovered = () => SetTweenVisibility(true);
+        mouseOverUI.onUnhovered = () => SetTweenVisibility(false);
     }
 
     public void SwitchGameMode(bool setEditModeVariable)
@@ -19,13 +30,15 @@ public class Tool : MonoBehaviour
         Selected(true);
         if(setEditModeVariable) GameManager.Instance.CurrentEditMode = toolName;
     }
+
     public void SwitchGameMode()
     {
         SwitchGameMode(true);
     }
+
     public void Selected(bool selected)
     {
-        transform.GetChild(1).GetComponent<SelectionSquare>().Selected(selected);
+        selectionSquare.Selected(selected);
 
         this.selected = selected;
 
@@ -34,20 +47,25 @@ public class Tool : MonoBehaviour
             Tool parentTool = transform.parent.parent.parent.GetComponent<Tool>();
             parentTool.SubSelected(true);
         }
+
+        if (selected)
+        {
+            SetTweenVisibility(true);
+        }
     }
     public void SubSelected(bool subselected)
     {
-        transform.GetChild(1).GetComponent<SelectionSquare>().SubSelected(subselected);
-    }
-
-    private void Update()
-    {
-        Animator anim = GetComponent<Animator>();
-        anim.SetBool("Visible", selected || Hovered());
+        selectionSquare.SubSelected(subselected);
     }
 
     public bool Hovered()
     {
-        return GetComponent<MouseOverUI>().over && !GameManager.Instance.Menu.activeSelf;
+        return mouseOverUI.over && !GameManager.Instance.Menu.activeSelf;
+    }
+
+    public void SetTweenVisibility(bool visible)
+    {
+        AlphaTweenUI tween = GetComponent<AlphaTweenUI>();
+        tween.SetVisibility(visible);
     }
 }
