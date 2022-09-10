@@ -45,13 +45,24 @@ public class MapController : MonoBehaviour
         }
 
         if (Input.GetMouseButtonUp(1)) lastMousePos = null;
+
         float zoomInput = EventSystem.current.IsPointerOverGameObject() ? 0 : -Input.GetAxis("Mouse ScrollWheel");
         if (zoomInput != 0f && MouseManager.Instance.OnScreen) // zoom
         {
-            if (GetComponent<Camera>().orthographicSize + zoomInput * zoomSpeed >= minZoom && GetComponent<Camera>().orthographicSize + zoomInput * zoomSpeed <= maxZoom)
+            Camera cam = GetComponent<Camera>();
+            if (cam.orthographicSize + zoomInput * zoomSpeed >= minZoom && GetComponent<Camera>().orthographicSize + zoomInput * zoomSpeed <= maxZoom)
             {
-                GetComponent<Camera>().orthographicSize += zoomInput * zoomSpeed;
-                // cam.GetComponent<BackgroundLoop>().CalcSize();
+                Vector2 prevMousePos = MouseManager.GetMouseWorldPos();
+                Vector2 prevMouseOffsetUnits = prevMousePos - (Vector2)transform.position;
+                Vector2 prevMouseOffsetPixels = GameManager.UnitToPixel(prevMouseOffsetUnits);
+
+                cam.orthographicSize *= zoomInput * zoomSpeed + 1;
+                if (cam.orthographicSize > maxZoom) cam.orthographicSize = maxZoom;
+                if (cam.orthographicSize < minZoom) cam.orthographicSize = minZoom;
+
+                Vector2 newMouseOffset = GameManager.PixelToUnit(prevMouseOffsetPixels);
+                Vector2 newCamPos = prevMousePos - newMouseOffset;
+                transform.position = new(newCamPos.x, newCamPos.y, transform.position.z);
             }
         }
     }

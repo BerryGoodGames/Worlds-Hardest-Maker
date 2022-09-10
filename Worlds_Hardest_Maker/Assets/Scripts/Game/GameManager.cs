@@ -242,10 +242,18 @@ public class GameManager : MonoBehaviourPun
         Camera cam = Camera.main;
         return pixel * 2 * cam.orthographicSize / cam.pixelHeight;
     }
+    public static Vector2 PixelToUnit(Vector2 pixel)
+    {
+        return new(PixelToUnit(pixel.x), PixelToUnit(pixel.y));
+    }
     public static float UnitToPixel(float unit)
     {
         Camera cam = Camera.main;
         return unit * cam.pixelHeight / (cam.orthographicSize * 2);
+    }
+    public static Vector2 UnitToPixel(Vector2 unit)
+    {
+        return new(UnitToPixel(unit.x), UnitToPixel(unit.y));
     }
     public static Rect RtToScreenSpace(RectTransform transform)
     {
