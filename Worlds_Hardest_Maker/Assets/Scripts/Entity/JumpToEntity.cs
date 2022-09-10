@@ -9,14 +9,16 @@ public class JumpToEntity : MonoBehaviour
     public bool smooth;
     public float speed;
     private bool jumping = false;
+    private Vector2 currentTarget;
 
     public void Jump()
     {
         if(target != null)
         {
-            Vector2 pos = target.transform.position;
+            currentTarget = target.transform.position;
+
             if (smooth) jumping = true;
-            else transform.position = new(pos.x, pos.y, transform.position.z);
+            else transform.position = new(currentTarget.x, currentTarget.y, transform.position.z);
         }
     }
 
@@ -24,12 +26,11 @@ public class JumpToEntity : MonoBehaviour
     {
         if (jumping)
         {
-            Vector2 pos = target.transform.position;
-            Vector2 newPos = Vector2.Lerp(transform.position, target.transform.position, Time.fixedDeltaTime * speed);
+            Vector2 newPos = Vector2.Lerp(transform.position, currentTarget, Time.fixedDeltaTime * speed);
             transform.position = new(newPos.x, newPos.y, transform.position.z);
             
-            if (Mathf.Round(transform.position.x * deviation) == Mathf.Round(pos.x * deviation) &&
-                Mathf.Round(transform.position.y * deviation) == Mathf.Round(pos.y * deviation)) jumping = false;
+            if (Mathf.Round(transform.position.x * deviation) == Mathf.Round(currentTarget.x * deviation) &&
+                Mathf.Round(transform.position.y * deviation) == Mathf.Round(currentTarget.y * deviation)) jumping = false;
         }
     }
 }

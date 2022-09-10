@@ -100,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: 0
   keyPosition: {x: 0, y: 0}
+  pickedUp: 0
 --- !u!60 &7199697486728400226
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -5060,3 +5061,5 @@ MonoBehaviour:
   intervalSeconds: 20
   animTriggerString: Sneeze
   limitDeviation: 0.8
+  triggerAtPlayMode: 0
+  soundEffect: Sneeze
