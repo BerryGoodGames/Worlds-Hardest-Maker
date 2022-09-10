@@ -12,15 +12,19 @@ public class AlphaTweenUI : MonoBehaviour
     [SerializeField] private float duration;
     [SerializeField] private float delay;
     [SerializeField] private bool startVisible;
+    private RectTransform rt;
 
     private void Start()
     {
+        rt = GetComponent<RectTransform>();
+
         SetVisibility(startVisible);
     }
 
     public void SetVisibility(bool visible)
     {
-        LeanTween.alpha(GetComponent<RectTransform>(), visible ? alphaVisible : alphaInvisible, duration)
+        print((rt, visible ? alphaVisible : alphaInvisible, duration));
+        LeanTween.alpha(rt, visible ? alphaVisible : alphaInvisible, duration)
             .setDelay(delay);
     }
 }
