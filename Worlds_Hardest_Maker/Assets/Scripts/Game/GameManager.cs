@@ -578,16 +578,16 @@ public class GameManager : MonoBehaviourPun
 
     public static void RemoveObjectInContainer(float mx, float my, GameObject container)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.2f, 128);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.005f, 128);
         foreach (Collider2D hit in hits)
         {
-            if (hit.gameObject.transform.parent == container.transform)
+            if (hit.transform.parent == container.transform)
             {
                 Destroy(hit.gameObject);
             }
-            else if(hit.gameObject.transform.parent.parent == container.transform)
+            else if(hit.transform.parent.parent == container.transform)
             {
-                Destroy(hit.gameObject.transform.parent.gameObject);
+                Destroy(hit.transform.parent.gameObject);
             }
         }
     }
