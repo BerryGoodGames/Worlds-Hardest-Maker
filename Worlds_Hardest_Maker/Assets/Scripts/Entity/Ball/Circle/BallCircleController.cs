@@ -121,7 +121,6 @@ public class BallCircleController : IBallController
         transform.position = pos;
     }
 
-    // TODO: set radius with ACTUAL IMPACT
     [PunRPC]
     public void SetRadius(float radius) {
         this.radius = radius;

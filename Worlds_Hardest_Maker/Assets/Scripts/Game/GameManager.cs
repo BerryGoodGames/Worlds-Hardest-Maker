@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviourPun
     public Color StartGoalUniqueColor;
     [Space]
     [Header("Key binds")]
+    public KeyCode FillKey;
     public KeyCode EntityDeleteKey;
     public KeyCode EntityMoveKey;
     public KeyCode BallCircleRadiusKey;
