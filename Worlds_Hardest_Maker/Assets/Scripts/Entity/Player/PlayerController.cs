@@ -79,6 +79,25 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
             transform.SetParent(GameManager.Instance.PlayerContainer.transform);
         }
 
+        // set progress from current state
+        if(currentState != null)
+        {
+            foreach(Vector2 coinCollectedPos in currentState.collectedCoins)
+            {
+                GameObject coin = CoinManager.GetCoin(coinCollectedPos);
+                if (coin == null) throw new System.Exception("Passed game state has null value for coin");
+
+                coinsCollected.Add(coin);
+            }
+
+            foreach (Vector2 keyCollectedPos in currentState.collectedKeys)
+            {
+                GameObject key = KeyManager.GetKey(keyCollectedPos);
+                if (key == null) throw new System.Exception("Passed game state has null value for key");
+
+                keysCollected.Add(key);
+            }
+        }
 
         UpdateSpeedText();
 
@@ -211,13 +230,15 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
         List<Vector2> coinPositions = new();
         foreach(GameObject c in coinsCollected)
         {
-            coinPositions.Add(c.transform.position);
+            CoinController coinController = c.GetComponent<CoinController>();
+            coinPositions.Add(coinController.coinPosition);
         }
 
         List<Vector2> keyPositions = new();
         foreach (GameObject k in keysCollected)
         {
-            keyPositions.Add(k.transform.position);
+            KeyController keyController = k.GetComponent<KeyController>();
+            keyPositions.Add(keyController.keyPosition);
         }
 
         currentState = new(statePlayerStartingPos, coinPositions, keyPositions);
@@ -307,11 +328,12 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
         // reset coins
         foreach (Transform coin in GameManager.Instance.CoinContainer.transform)
         {
+            CoinController coinController = coin.GetChild(0).GetComponent<CoinController>();
             bool respawns = true;
             if(currentState != null) { 
                 foreach (Vector2 collected in currentState.collectedCoins)
                 {
-                    if (collected.x == coin.position.x && collected.y == coin.position.y)
+                    if (collected.x == coinController.coinPosition.x && collected.y == coinController.coinPosition.y)
                     {
                         // if coin is collected or no state exists it doesnt respawn
                         respawns = false;
@@ -323,6 +345,8 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
             if(respawns)
             {
                 coinsCollected.Remove(coin.gameObject);
+
+                coinController.pickedUp = false;
 
                 Animator anim = coin.GetComponent<Animator>();
                 anim.SetBool("PickedUp", false);
