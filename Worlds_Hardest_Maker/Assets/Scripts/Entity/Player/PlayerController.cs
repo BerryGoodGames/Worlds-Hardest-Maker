@@ -264,22 +264,6 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
     
     public bool KeysCollected(KeyManager.KeyColor color)
     {
-        // sum up collected keys with color
-        //int collected = 0;
-        //foreach(GameObject k in keysCollected)
-        //{
-        //    KeyController controller = k.GetComponent<KeyController>();
-        //    if (controller.color == color && controller.pickedUp) collected++;
-        //}
-
-        //// sum up total keys with color
-        //int total = 0;
-        //foreach (Transform k in GameManager.Instance.KeyContainer.transform)
-        //{
-        //    KeyController controller = k.GetChild(0).GetComponent<KeyController>();
-        //    if (controller.color == color) total++;
-        //}
-
         foreach(Transform k in GameManager.Instance.KeyContainer.transform)
         {
             KeyController controller = k.GetChild(0).GetComponent<KeyController>(); ;
