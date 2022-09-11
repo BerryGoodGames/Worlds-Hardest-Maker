@@ -69,6 +69,7 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
         follow.entity = gameObject;
         follow.offset = new(0, 0.5f);
 
+        startPos = transform.position;
     }
 
     private void Start()
@@ -78,7 +79,6 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
             transform.SetParent(GameManager.Instance.PlayerContainer.transform);
         }
 
-        startPos = transform.position;
 
         UpdateSpeedText();
 
@@ -257,7 +257,6 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
             if (k.GetChild(0).GetComponent<KeyController>().color == color) total++;
         }
 
-        print($"Current keys: collected {collected}, total {total}");
         return total <= collected;
     }
 
@@ -297,7 +296,10 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
         Vector2 spawnPos = !GameManager.Instance.Playing || currentState == null ? startPos : currentState.playerStartPos;
 
         GameObject player = PlayerManager.InstantiatePlayer(spawnPos, applySpeed, GameManager.Instance.Multiplayer);
-        player.GetComponent<PlayerController>().deaths = deaths;
+        PlayerController newController = player.GetComponent<PlayerController>();
+        newController.deaths = deaths;
+        newController.startPos = startPos;
+        newController.currentState = currentState;
 
         JumpToEntity jumpToPlayer = Camera.main.GetComponent<JumpToEntity>();
         if (jumpToPlayer.target == gameObject) jumpToPlayer.target = player;
