@@ -8219,6 +8219,7 @@ MonoBehaviour:
   CheckpointFieldColor: {r: 1, g: 0.92549026, b: 0.48627454, a: 1}
   CheckpointFieldActivatedColor: {r: 0.9725491, g: 0.4156863, b: 0.2901961, a: 1}
   StartGoalUniqueColor: {r: 0.73333335, g: 1, b: 0.7058824, a: 1}
+  FillKey: 102
   EntityDeleteKey: 127
   EntityMoveKey: 304
   BallCircleRadiusKey: 304
