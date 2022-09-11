@@ -265,20 +265,28 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
     public bool KeysCollected(KeyManager.KeyColor color)
     {
         // sum up collected keys with color
-        int collected = 0;
-        foreach(GameObject k in keysCollected)
+        //int collected = 0;
+        //foreach(GameObject k in keysCollected)
+        //{
+        //    KeyController controller = k.GetComponent<KeyController>();
+        //    if (controller.color == color && controller.pickedUp) collected++;
+        //}
+
+        //// sum up total keys with color
+        //int total = 0;
+        //foreach (Transform k in GameManager.Instance.KeyContainer.transform)
+        //{
+        //    KeyController controller = k.GetChild(0).GetComponent<KeyController>();
+        //    if (controller.color == color) total++;
+        //}
+
+        foreach(Transform k in GameManager.Instance.KeyContainer.transform)
         {
-            if (k.GetComponent<KeyController>().color == color) collected++;
+            KeyController controller = k.GetChild(0).GetComponent<KeyController>(); ;
+            if (controller.color == color && !controller.pickedUp) return false;
         }
 
-        // sum up total keys with color
-        int total = 0;
-        foreach (Transform k in GameManager.Instance.KeyContainer.transform)
-        {
-            if (k.GetChild(0).GetComponent<KeyController>().color == color) total++;
-        }
-
-        return total <= collected;
+        return true;
     }
 
     public void UpdateSpeedText()
@@ -329,6 +337,7 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
         foreach (Transform coin in GameManager.Instance.CoinContainer.transform)
         {
             CoinController coinController = coin.GetChild(0).GetComponent<CoinController>();
+
             bool respawns = true;
             if(currentState != null) { 
                 foreach (Vector2 collected in currentState.collectedCoins)
@@ -356,12 +365,14 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
         // reset keys
         foreach (Transform key in GameManager.Instance.KeyContainer.transform)
         {
+            KeyController keyController = key.GetChild(0).GetComponent<KeyController>();
+
             bool respawns = true;
             if (currentState != null)
             {
                 foreach (Vector2 collected in currentState.collectedKeys)
                 {
-                    if (collected.x == key.position.x && collected.y == key.position.y)
+                    if (collected.x == keyController.keyPosition.x && collected.y == keyController.keyPosition.y)
                     {
                         // if key is collected or no state exists it doesnt respawn
                         respawns = false;
@@ -373,6 +384,8 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
             if (respawns)
             {
                 keysCollected.Remove(key.gameObject);
+
+                keyController.pickedUp = false;
 
                 Animator anim = key.GetComponent<Animator>();
                 anim.SetBool("PickedUp", false);
