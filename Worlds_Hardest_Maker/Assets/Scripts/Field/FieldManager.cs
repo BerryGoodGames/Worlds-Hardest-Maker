@@ -152,7 +152,7 @@ public class FieldManager : MonoBehaviour
                 {
                     if (GraphicsSettings.Instance.oneColorStartGoal)
                     {
-                        field.GetComponent<SpriteRenderer>().color = GameManager.Instance.StartGoalUniqueColor;
+                        field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[5];
 
                         if (field.TryGetComponent(out Animator anim))
                         {
@@ -162,7 +162,7 @@ public class FieldManager : MonoBehaviour
                     else
                     {
                         // set colorful colors to start, goal, checkpoints and startgoal fields
-                        Color[] colors = { GameManager.Instance.StartFieldColor, GameManager.Instance.GoalFieldColor, GameManager.Instance.StartAndGoalFieldColor, GameManager.Instance.CheckpointFieldColor };
+                        List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
 
                         SpriteRenderer renderer = field.GetComponent<SpriteRenderer>();
                         if (field.CompareTag(tags[i]))

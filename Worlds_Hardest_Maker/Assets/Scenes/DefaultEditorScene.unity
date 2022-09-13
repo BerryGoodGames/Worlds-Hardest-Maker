@@ -4618,6 +4618,14 @@ MonoBehaviour:
   - name: Ball
     colors:
     - {r: 0, g: 0, b: 1, a: 1}
+  - name: Start Goal Checkpoint
+    colors:
+    - {r: 0.5019608, g: 0.9176471, b: 1, a: 1}
+    - {r: 0.73333335, g: 1, b: 0.7058824, a: 1}
+    - {r: 0, g: 1, b: 0.627451, a: 1}
+    - {r: 1, g: 0.92549026, b: 0.48627454, a: 1}
+    - {r: 0.972549, g: 0.41568628, b: 0.2901961, a: 1}
+    - {r: 0.73333335, g: 1, b: 0.7058824, a: 1}
 --- !u!1 &1436984675
 GameObject:
   m_ObjectHideFlags: 0
