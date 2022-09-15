@@ -12,12 +12,16 @@ using UnityEngine;
 /// for doing color palettes'n'stuff
 /// </summary>
 
-[ExecuteInEditMode]
 public class ColorPaletteManager : MonoBehaviour
 {
     public static ColorPaletteManager Instance { get; private set; }
 
     public List<ColorPalette> colorPalettes;
+
+    private void Awake()
+    {
+        UpdateInstance();
+    }
 
     public void UpdateInstance()
     {
