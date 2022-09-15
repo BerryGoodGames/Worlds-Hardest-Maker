@@ -345,8 +345,8 @@ public class GameManager : MonoBehaviourPun
             anim.SetBool("PickedUp", key.GetChild(0).GetComponent<KeyController>().pickedUp);
         }
 
-        // camera jumps to last player
-        Camera.main.GetComponent<JumpToEntity>().Jump();
+        // camera jumps to last player if its not on screen
+        Camera.main.GetComponent<JumpToEntity>().Jump(true);
     }
     public static void SwitchToEdit()
     {
