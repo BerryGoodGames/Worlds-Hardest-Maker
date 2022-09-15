@@ -153,7 +153,9 @@ public class PreviewController : MonoBehaviour
                 spriteRenderer.color = prefabRenderer.color;
                 spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha / 255f);
                 transform.localScale = scale;
-                
+
+                rotate = false;
+                UpdateRotation();
             }
         }
         previousPlaying = GameManager.Instance.Playing;
