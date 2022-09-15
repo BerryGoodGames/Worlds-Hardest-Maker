@@ -29,6 +29,12 @@ public class MouseEvents : MonoBehaviour
             AnchorManager.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
         }
 
+        // rotate one way field
+        if(GameManager.Instance.CurrentEditMode == GameManager.EditMode.ONE_WAY_FIELD && Input.GetKeyDown(KeyCode.R))
+        {
+            GameManager.Instance.EditRotation = (GameManager.Instance.EditRotation + 90) % 360;
+        }
+
         // place / delete stuff when not hovering toolbar
         if (!GameManager.Instance.UIHovered && !GameManager.Instance.Playing && !GameManager.Instance.Filling)
         {
@@ -44,7 +50,10 @@ public class MouseEvents : MonoBehaviour
                         // place field
                         FieldManager.FieldType type = GameManager.ConvertEnum<GameManager.EditMode, FieldManager.FieldType>(editMode);
 
-                        FieldManager.Instance.SetField(matrixX, matrixY, type);
+                        // rotate it when its a one way field
+                        int rotation = GameManager.Instance.CurrentEditMode == GameManager.EditMode.ONE_WAY_FIELD ? GameManager.Instance.EditRotation : 0;
+
+                        FieldManager.Instance.SetField(matrixX, matrixY, type, rotation);
                     }
                     else if (editMode == GameManager.EditMode.DELETE_FIELD)
                     {

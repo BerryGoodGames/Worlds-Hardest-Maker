@@ -38,6 +38,7 @@ public class Dbg : MonoBehaviour
     {
         if(dbgEnabled)
         {
+            Text(GameManager.Instance.EditRotation);
             switch (textMode)
             {
                 case DbgTextMode.DISABLED:

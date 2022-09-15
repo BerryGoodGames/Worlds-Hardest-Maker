@@ -12,12 +12,13 @@ public class PreviewController : MonoBehaviour
 
     private bool previousPlaying;
 
-    private SpriteRenderer spriteRenderer;
-    public Sprite defaultSprite;
-    public Color defaultColor;
-    [Range(0, 255)] public int alpha;
+    private bool rotate;
 
-    public bool updateEveryFrame = true;
+    private SpriteRenderer spriteRenderer;
+    [SerializeField] private Sprite defaultSprite;
+    [SerializeField] private Color defaultColor;
+    [Range(0, 255)] public int alpha;
+    [SerializeField] private bool updateEveryFrame = true;
 
     private void Start()
     {
@@ -121,6 +122,8 @@ public class PreviewController : MonoBehaviour
                 spriteRenderer.color = previewSprite.color;
                 spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha / 255f);
                 transform.localScale = previewSprite.scale;
+                rotate = previewSprite.rotate;
+                UpdateRotation();
             }
             else
             {
@@ -155,5 +158,11 @@ public class PreviewController : MonoBehaviour
         }
         previousPlaying = GameManager.Instance.Playing;
         previousEditMode = GameManager.Instance.CurrentEditMode;
+    }
+
+    public void UpdateRotation()
+    {
+        if (rotate) transform.localRotation = Quaternion.Euler(0, 0, GameManager.Instance.EditRotation);
+        else transform.localRotation = Quaternion.identity;
     }
 }

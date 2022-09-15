@@ -62,10 +62,10 @@ public class GameManager : MonoBehaviourPun
     public GameObject Canvas;
     public GameObject TooltipCanvas;
     public GameObject Menu;
+    public GameObject PlacementPreview;
     [Header("Containers")]
     public GameObject ToolbarContainer;
     public GameObject BallWindows;
-    public GameObject PlacementPreview;
     public GameObject SliderContainer;
     public GameObject NameTagContainer;
     public GameObject DrawContainer;
@@ -177,6 +177,17 @@ public class GameManager : MonoBehaviourPun
     [HideInInspector] public List<Vector2> CurrentFillRange { get; set; } = null;
     [HideInInspector] public bool UIHovered { get; set; } = false;
     [HideInInspector] public int TotalCoins { get; set; } = 0;
+    private int editRotation = 0;
+    [HideInInspector] public int EditRotation
+    {
+        get => editRotation;
+        set
+        {
+            editRotation = value;
+
+            PlacementPreview.GetComponent<PreviewController>().UpdateRotation();
+        }
+    }
     #endregion
 
     private void Awake()
