@@ -25,11 +25,11 @@ public class SpeedSliderAnim : MonoBehaviour
 
         bool vis = !GameManager.Instance.Playing && Input.GetKey(GameManager.Instance.EditSpeedKey) && hoveredHitbox;
 
-        if (anim.GetBool("Visible") && !vis) HoverSliderDetection.sliderHovered = false;
+        if (!vis && anim.GetBool("Visible")) HoverSliderDetection.sliderHovered = false;
 
         anim.SetBool("Visible", vis);
 
-        if (hoveredHitbox && vis) HoverSliderDetection.sliderHovered = true;
+        if (vis && hoveredHitbox) HoverSliderDetection.sliderHovered = true;
     }
 
     public void Gone()

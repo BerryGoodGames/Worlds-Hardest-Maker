@@ -12,4 +12,5 @@ public class PreviewSprite : MonoBehaviour
     public Color color = Color.white;
     public Vector2 scale = Vector2.one;
     public bool showWhenFilling;
+    public bool rotate;
 }

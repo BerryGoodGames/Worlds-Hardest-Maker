@@ -53,7 +53,7 @@ public class GraphicsSettings : MonoBehaviour
                 {
                     if (field.CompareTag(tags[i]))
                     {
-                        field.GetComponent<SpriteRenderer>().color = GameManager.Instance.StartGoalUniqueColor;
+                        field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[5];
 
                         if (field.TryGetComponent(out Animator anim))
                         {
@@ -66,7 +66,7 @@ public class GraphicsSettings : MonoBehaviour
             {
                 // set colorful colors to start, goal, checkpoints and startgoal fields
                 string[] tags = { "StartField", "GoalField", "StartAndGoalField" };
-                Color[] colors = { GameManager.Instance.StartFieldColor, GameManager.Instance.GoalFieldColor, GameManager.Instance.StartAndGoalFieldColor };
+                List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
 
                 for (int i = 0; i < tags.Length; i++)
                 {
@@ -77,7 +77,11 @@ public class GraphicsSettings : MonoBehaviour
                     } else if (field.CompareTag("CheckpointField"))
                     {
                         CheckpointController checkpoint = field.GetComponent<CheckpointController>();
-                        renderer.color = checkpoint.activated ? GameManager.Instance.CheckpointFieldActivatedColor : GameManager.Instance.CheckpointFieldColor;
+                        Color checkpointUnactivated = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[3];
+                        Color checkpointActivated = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
+
+
+                        renderer.color = checkpoint.activated ? checkpointActivated : checkpointUnactivated;
 
                         if (field.TryGetComponent(out Animator anim))
                         {

@@ -4,9 +4,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 // hippety hoppety
+/// <summary>
+/// can return useful info ig
+/// </summary>
 public class MouseUIHoverDetection : MonoBehaviour
 {
-    int UILayer;
+    private int UILayer;
 
     private void Start()
     {

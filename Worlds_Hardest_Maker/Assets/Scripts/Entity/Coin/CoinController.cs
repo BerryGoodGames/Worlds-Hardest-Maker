@@ -13,27 +13,30 @@ public class CoinController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // check if collider is player
-        if (collision.TryGetComponent(out PlayerController controller))
+        if (!pickedUp)
         {
-            // check if player is of own client
-            if (GameManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
-
-            // check if that player hasnt picked coin up yet
-            if (!controller.coinsCollected.Contains(gameObject))
+            // check if collider is player
+            if (collision.TryGetComponent(out PlayerController controller))
             {
-                PickUp(collision.gameObject);
+                // check if player is of own client
+                if (GameManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
 
-                // check if player is in goal while collecting coin
-                if (controller.CoinsCollected())
+                // check if that player hasnt picked coin up yet
+                if (!controller.coinsCollected.Contains(gameObject))
                 {
-                    foreach (GameObject field in controller.currentFields)
+                    PickUp(collision.gameObject);
+
+                    // check if player is in goal while collecting coin
+                    if (controller.CoinsCollected())
                     {
-                        FieldManager.FieldType fieldType = (FieldManager.FieldType)FieldManager.GetFieldType(field);
-                        if (fieldType == FieldManager.FieldType.GOAL_FIELD || fieldType == FieldManager.FieldType.START_AND_GOAL_FIELD)
+                        foreach (GameObject field in controller.currentFields)
                         {
-                            controller.Win();
-                            break;
+                            FieldManager.FieldType fieldType = (FieldManager.FieldType)FieldManager.GetFieldType(field);
+                            if (fieldType == FieldManager.FieldType.GOAL_FIELD || fieldType == FieldManager.FieldType.START_AND_GOAL_FIELD)
+                            {
+                                controller.Win();
+                                break;
+                            }
                         }
                     }
                 }

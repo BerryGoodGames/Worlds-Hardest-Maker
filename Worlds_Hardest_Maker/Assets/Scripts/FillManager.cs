@@ -141,6 +141,9 @@ public class FillManager : MonoBehaviour
         if (GameManager.Instance.CurrentFillRange == null) return;
         GameManager.Instance.CurrentFillRange = null;
 
+        // set rotation
+        int rotation = GameManager.Instance.CurrentEditMode == GameManager.EditMode.ONE_WAY_FIELD ? GameManager.Instance.EditRotation : 0;
+
         // find bounds
         var (lowestX, highestX, lowestY, highestY) = GetBoundsMatrix(poses);
         int width = highestX - lowestX;
@@ -151,7 +154,7 @@ public class FillManager : MonoBehaviour
         {
             foreach (Vector2 pos in poses)
             {
-                FieldManager.Instance.SetField((int)pos.x, (int)pos.y, type);
+                FieldManager.Instance.SetField((int)pos.x, (int)pos.y, type, 0);
             }
             return;
         }
@@ -169,7 +172,7 @@ public class FillManager : MonoBehaviour
 
             // set field at pos
             GameObject prefab = FieldManager.GetPrefabByType(type);
-            GameObject field = Instantiate(prefab, pos, Quaternion.identity, GameManager.Instance.FieldContainer.transform);
+            GameObject field = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), GameManager.Instance.FieldContainer.transform);
             // REF
             string[] tags = { "StartField", "GoalField", "StartAndGoalField", "CheckpointField" };
 
@@ -180,7 +183,7 @@ public class FillManager : MonoBehaviour
                 {
                     if (GraphicsSettings.Instance.oneColorStartGoal)
                     {
-                        field.GetComponent<SpriteRenderer>().color = GameManager.Instance.StartGoalUniqueColor;
+                        field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[5];
 
                         if (field.TryGetComponent(out Animator anim))
                         {
@@ -190,7 +193,7 @@ public class FillManager : MonoBehaviour
                     else
                     {
                         // set colorful colors to start, goal, checkpoints and startgoal fields
-                        Color[] colors = { GameManager.Instance.StartFieldColor, GameManager.Instance.GoalFieldColor, GameManager.Instance.StartAndGoalFieldColor, GameManager.Instance.CheckpointFieldColor };
+                        List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
 
                         SpriteRenderer renderer = field.GetComponent<SpriteRenderer>();
                         if (field.CompareTag(tags[i]))

@@ -106,6 +106,11 @@ public class KeyManager : MonoBehaviour
         }
         return null;
     }
+    public static GameObject GetKey(Vector2 pos)
+    {
+        return GetKey(pos.x, pos.y);
+    }
+
     public static bool IsKeyThere(float mx, float my, KeyColor color)
     {
         GameObject key = GetKey(mx, my);

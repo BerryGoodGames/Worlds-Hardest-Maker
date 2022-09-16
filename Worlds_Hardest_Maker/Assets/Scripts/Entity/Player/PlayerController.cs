@@ -69,6 +69,7 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
         follow.entity = gameObject;
         follow.offset = new(0, 0.5f);
 
+        startPos = transform.position;
     }
 
     private void Start()
@@ -78,7 +79,25 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
             transform.SetParent(GameManager.Instance.PlayerContainer.transform);
         }
 
-        startPos = transform.position;
+        // set progress from current state
+        if(currentState != null)
+        {
+            foreach(Vector2 coinCollectedPos in currentState.collectedCoins)
+            {
+                GameObject coin = CoinManager.GetCoin(coinCollectedPos);
+                if (coin == null) throw new System.Exception("Passed game state has null value for coin");
+
+                coinsCollected.Add(coin);
+            }
+
+            foreach (Vector2 keyCollectedPos in currentState.collectedKeys)
+            {
+                GameObject key = KeyManager.GetKey(keyCollectedPos);
+                if (key == null) throw new System.Exception("Passed game state has null value for key");
+
+                keysCollected.Add(key);
+            }
+        }
 
         UpdateSpeedText();
 
@@ -211,13 +230,15 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
         List<Vector2> coinPositions = new();
         foreach(GameObject c in coinsCollected)
         {
-            coinPositions.Add(c.transform.position);
+            CoinController coinController = c.GetComponent<CoinController>();
+            coinPositions.Add(coinController.coinPosition);
         }
 
         List<Vector2> keyPositions = new();
         foreach (GameObject k in keysCollected)
         {
-            keyPositions.Add(k.transform.position);
+            KeyController keyController = k.GetComponent<KeyController>();
+            keyPositions.Add(keyController.keyPosition);
         }
 
         currentState = new(statePlayerStartingPos, coinPositions, keyPositions);
@@ -243,22 +264,13 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
     
     public bool KeysCollected(KeyManager.KeyColor color)
     {
-        // sum up collected keys with color
-        int collected = 0;
-        foreach(GameObject k in keysCollected)
+        foreach(Transform k in GameManager.Instance.KeyContainer.transform)
         {
-            if (k.GetComponent<KeyController>().color == color) collected++;
+            KeyController controller = k.GetChild(0).GetComponent<KeyController>(); ;
+            if (!controller.pickedUp && controller.color == color) return false;
         }
 
-        // sum up total keys with color
-        int total = 0;
-        foreach (Transform k in GameManager.Instance.KeyContainer.transform)
-        {
-            if (k.GetChild(0).GetComponent<KeyController>().color == color) total++;
-        }
-
-        print($"Current keys: collected {collected}, total {total}");
-        return total <= collected;
+        return true;
     }
 
     public void UpdateSpeedText()
@@ -297,7 +309,10 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
         Vector2 spawnPos = !GameManager.Instance.Playing || currentState == null ? startPos : currentState.playerStartPos;
 
         GameObject player = PlayerManager.InstantiatePlayer(spawnPos, applySpeed, GameManager.Instance.Multiplayer);
-        player.GetComponent<PlayerController>().deaths = deaths;
+        PlayerController newController = player.GetComponent<PlayerController>();
+        newController.deaths = deaths;
+        newController.startPos = startPos;
+        newController.currentState = currentState;
 
         JumpToEntity jumpToPlayer = Camera.main.GetComponent<JumpToEntity>();
         if (jumpToPlayer.target == gameObject) jumpToPlayer.target = player;
@@ -305,11 +320,13 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
         // reset coins
         foreach (Transform coin in GameManager.Instance.CoinContainer.transform)
         {
+            CoinController coinController = coin.GetChild(0).GetComponent<CoinController>();
+
             bool respawns = true;
             if(currentState != null) { 
                 foreach (Vector2 collected in currentState.collectedCoins)
                 {
-                    if (collected.x == coin.position.x && collected.y == coin.position.y)
+                    if (collected.x == coinController.coinPosition.x && collected.y == coinController.coinPosition.y)
                     {
                         // if coin is collected or no state exists it doesnt respawn
                         respawns = false;
@@ -322,6 +339,8 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
             {
                 coinsCollected.Remove(coin.gameObject);
 
+                coinController.pickedUp = false;
+
                 Animator anim = coin.GetComponent<Animator>();
                 anim.SetBool("PickedUp", false);
             }
@@ -330,12 +349,14 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
         // reset keys
         foreach (Transform key in GameManager.Instance.KeyContainer.transform)
         {
+            KeyController keyController = key.GetChild(0).GetComponent<KeyController>();
+
             bool respawns = true;
             if (currentState != null)
             {
                 foreach (Vector2 collected in currentState.collectedKeys)
                 {
-                    if (collected.x == key.position.x && collected.y == key.position.y)
+                    if (collected.x == keyController.keyPosition.x && collected.y == keyController.keyPosition.y)
                     {
                         // if key is collected or no state exists it doesnt respawn
                         respawns = false;
@@ -347,6 +368,8 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
             if (respawns)
             {
                 keysCollected.Remove(key.gameObject);
+
+                keyController.pickedUp = false;
 
                 Animator anim = key.GetComponent<Animator>();
                 anim.SetBool("PickedUp", false);

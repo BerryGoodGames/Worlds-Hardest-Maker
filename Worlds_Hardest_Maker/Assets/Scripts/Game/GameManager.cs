@@ -62,10 +62,10 @@ public class GameManager : MonoBehaviourPun
     public GameObject Canvas;
     public GameObject TooltipCanvas;
     public GameObject Menu;
+    public GameObject PlacementPreview;
     [Header("Containers")]
     public GameObject ToolbarContainer;
     public GameObject BallWindows;
-    public GameObject PlacementPreview;
     public GameObject SliderContainer;
     public GameObject NameTagContainer;
     public GameObject DrawContainer;
@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviourPun
     public Color StartGoalUniqueColor;
     [Space]
     [Header("Key binds")]
+    public KeyCode FillKey;
     public KeyCode EntityDeleteKey;
     public KeyCode EntityMoveKey;
     public KeyCode BallCircleRadiusKey;
@@ -176,6 +177,17 @@ public class GameManager : MonoBehaviourPun
     [HideInInspector] public List<Vector2> CurrentFillRange { get; set; } = null;
     [HideInInspector] public bool UIHovered { get; set; } = false;
     [HideInInspector] public int TotalCoins { get; set; } = 0;
+    private int editRotation = 0;
+    [HideInInspector] public int EditRotation
+    {
+        get => editRotation;
+        set
+        {
+            editRotation = value;
+
+            PlacementPreview.GetComponent<PreviewController>().UpdateRotation();
+        }
+    }
     #endregion
 
     private void Awake()
@@ -242,10 +254,18 @@ public class GameManager : MonoBehaviourPun
         Camera cam = Camera.main;
         return pixel * 2 * cam.orthographicSize / cam.pixelHeight;
     }
+    public static Vector2 PixelToUnit(Vector2 pixel)
+    {
+        return new(PixelToUnit(pixel.x), PixelToUnit(pixel.y));
+    }
     public static float UnitToPixel(float unit)
     {
         Camera cam = Camera.main;
         return unit * cam.pixelHeight / (cam.orthographicSize * 2);
+    }
+    public static Vector2 UnitToPixel(Vector2 unit)
+    {
+        return new(UnitToPixel(unit.x), UnitToPixel(unit.y));
     }
     public static Rect RtToScreenSpace(RectTransform transform)
     {
@@ -325,8 +345,8 @@ public class GameManager : MonoBehaviourPun
             anim.SetBool("PickedUp", key.GetChild(0).GetComponent<KeyController>().pickedUp);
         }
 
-        // camera jumps to last player
-        Camera.main.GetComponent<JumpToEntity>().Jump();
+        // camera jumps to last player if its not on screen
+        Camera.main.GetComponent<JumpToEntity>().Jump(true);
     }
     public static void SwitchToEdit()
     {
@@ -570,16 +590,16 @@ public class GameManager : MonoBehaviourPun
 
     public static void RemoveObjectInContainer(float mx, float my, GameObject container)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.2f, 128);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.005f, 128);
         foreach (Collider2D hit in hits)
         {
-            if (hit.gameObject.transform.parent == container.transform)
+            if (hit.transform.parent == container.transform)
             {
                 Destroy(hit.gameObject);
             }
-            else if(hit.gameObject.transform.parent.parent == container.transform)
+            else if(hit.transform.parent.parent == container.transform)
             {
-                Destroy(hit.gameObject.transform.parent.gameObject);
+                Destroy(hit.transform.parent.gameObject);
             }
         }
     }

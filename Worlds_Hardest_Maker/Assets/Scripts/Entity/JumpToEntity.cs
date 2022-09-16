@@ -8,28 +8,36 @@ public class JumpToEntity : MonoBehaviour
     public GameObject target;
     public bool smooth;
     public float speed;
-    private bool jumping = false;
+    [SerializeField] private bool cancelByRightClick = true;
 
-    public void Jump()
+    private bool jumping = false;
+    private Vector2 currentTarget;
+
+    public void Jump(bool onlyIfTargetOffScreen = false)
     {
-        if(target != null)
+        if((!onlyIfTargetOffScreen || (onlyIfTargetOffScreen && !target.GetComponent<Renderer>().isVisible)) && target != null)
         {
-            Vector2 pos = target.transform.position;
+            currentTarget = target.transform.position;
+
             if (smooth) jumping = true;
-            else transform.position = new(pos.x, pos.y, transform.position.z);
+            else transform.position = new(currentTarget.x, currentTarget.y, transform.position.z);
         }
+    }
+
+    private void Update()
+    {
+        if(cancelByRightClick && jumping && Input.GetMouseButton(1)) jumping = false;
     }
 
     private void FixedUpdate()
     {
         if (jumping)
         {
-            Vector2 pos = target.transform.position;
-            Vector2 newPos = Vector2.Lerp(transform.position, target.transform.position, Time.fixedDeltaTime * speed);
+            Vector2 newPos = Vector2.Lerp(transform.position, currentTarget, Time.fixedDeltaTime * speed);
             transform.position = new(newPos.x, newPos.y, transform.position.z);
             
-            if (Mathf.Round(transform.position.x * deviation) == Mathf.Round(pos.x * deviation) &&
-                Mathf.Round(transform.position.y * deviation) == Mathf.Round(pos.y * deviation)) jumping = false;
+            if (Mathf.Round(transform.position.x * deviation) == Mathf.Round(currentTarget.x * deviation) &&
+                Mathf.Round(transform.position.y * deviation) == Mathf.Round(currentTarget.y * deviation)) jumping = false;
         }
     }
 }

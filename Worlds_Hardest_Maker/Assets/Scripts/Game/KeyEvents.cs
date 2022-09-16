@@ -45,7 +45,12 @@ public class KeyEvents : MonoBehaviour
         if (!Input.GetKey(KeyCode.Tab) && !GameManager.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
 
         // push f to fill
-        GameManager.Instance.Filling = Input.GetKey(KeyCode.F);
+        GameManager.Instance.Filling = Input.GetKey(GameManager.Instance.FillKey);
+
+        if (Input.GetKeyUp(GameManager.Instance.FillKey))
+        {
+            FillManager.ResetPreview();
+        }
     }
 
     /// <summary>
