@@ -267,7 +267,7 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
         foreach(Transform k in GameManager.Instance.KeyContainer.transform)
         {
             KeyController controller = k.GetChild(0).GetComponent<KeyController>(); ;
-            if (controller.color == color && !controller.pickedUp) return false;
+            if (!controller.pickedUp && controller.color == color) return false;
         }
 
         return true;

@@ -9,7 +9,7 @@ public class CheckpointController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject collider = collision.gameObject;
-        if (collider.CompareTag("Player") && !activated)
+        if (!activated && collider.CompareTag("Player"))
         {
             ChainActivate();
 

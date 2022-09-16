@@ -48,6 +48,6 @@ public class Tool : MonoBehaviour
 
     public bool Hovered()
     {
-        return GetComponent<MouseOverUI>().over && !GameManager.Instance.Menu.activeSelf;
+        return !GameManager.Instance.Menu.activeSelf && GetComponent<MouseOverUI>().over;
     }
 }

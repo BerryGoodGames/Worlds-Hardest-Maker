@@ -7,14 +7,15 @@ public class JumpToEntity : MonoBehaviour
     public const float deviation = 1000;
     public GameObject target;
     public bool smooth;
-    [SerializeField] private bool cancelByRightClick = true;
     public float speed;
+    [SerializeField] private bool cancelByRightClick = true;
+
     private bool jumping = false;
     private Vector2 currentTarget;
 
     public void Jump(bool onlyIfTargetOffScreen = false)
     {
-        if(target != null && (!onlyIfTargetOffScreen || (onlyIfTargetOffScreen && !target.GetComponent<Renderer>().isVisible)))
+        if((!onlyIfTargetOffScreen || (onlyIfTargetOffScreen && !target.GetComponent<Renderer>().isVisible)) && target != null)
         {
             currentTarget = target.transform.position;
 
@@ -25,7 +26,7 @@ public class JumpToEntity : MonoBehaviour
 
     private void Update()
     {
-        if(jumping && Input.GetMouseButton(1)) jumping = false;
+        if(cancelByRightClick && jumping && Input.GetMouseButton(1)) jumping = false;
     }
 
     private void FixedUpdate()

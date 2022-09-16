@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class KeySneeze : MonoBehaviour
 {
-    private ParticleSystem particleSystem;
+    private ParticleSystem ps;
     private AudioSource audioSource;
     public void Particles()
     {
-        particleSystem ??= GetComponent<ParticleSystem>();
-        audioSource ??= GetComponent<AudioSource>();
+        ps = ps != null ? ps : GetComponent<ParticleSystem>();
+        audioSource = audioSource != null ? audioSource : GetComponent<AudioSource>();
 
-        particleSystem.Play();
+        ps.Play();
         audioSource.Play();
     }
 }

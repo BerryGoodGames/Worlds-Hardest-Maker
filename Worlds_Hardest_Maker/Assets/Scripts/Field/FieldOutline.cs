@@ -71,7 +71,7 @@ public class FieldOutline : MonoBehaviour
             // check if there are objects in that d
             foreach (RaycastHit2D r in hits)
             {
-                if(updateAround && r.collider.GetComponent<FieldOutline>() != null)
+                if (updateAround && r.collider.GetComponent<FieldOutline>() != null)
                 {
                     r.collider.gameObject.GetComponent<FieldOutline>().UpdateOutline(false);
                 }
