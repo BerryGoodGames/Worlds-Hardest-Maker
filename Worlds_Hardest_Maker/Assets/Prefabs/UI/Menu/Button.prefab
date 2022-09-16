@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 6428596671659184251}
   - component: {fileID: 1863641151029792261}
   - component: {fileID: 937469319813741190}
+  - component: {fileID: 3802935625325081582}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -320,7 +321,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4796778379937859287}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 18e3798cfd21ecb44889f3b526b34aef, type: 2}
   m_CullingMode: 0
@@ -347,6 +348,23 @@ MonoBehaviour:
   background: {fileID: 8277756281126178423}
   backgroundPanel: {fileID: 6108669949131332086}
   playSound: 0
+--- !u!114 &3802935625325081582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4796778379937859287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db2e2bc5bf2e4c4db555e4757248fa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  content: {fileID: 965931806672561080}
+  highlightElevation: 4.5
+  highlightFloating: 5
+  highlightElevateDuration: 0.3
+  highlightFloatingDuration: 1
 --- !u!1 &6482757864764283588
 GameObject:
   m_ObjectHideFlags: 0
