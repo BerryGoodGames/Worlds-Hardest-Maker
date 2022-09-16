@@ -61,8 +61,8 @@ public class LineManager : MonoBehaviour
         {
             if (alignCenter)
             {
-                positions[i].x -= w / 2;
-                positions[i].y -= h / 2;
+                positions[i].x -= w * 0.5f;
+                positions[i].y -= h * 0.5f;
             }
             rect.SetPosition(i, positions[i]);
         }

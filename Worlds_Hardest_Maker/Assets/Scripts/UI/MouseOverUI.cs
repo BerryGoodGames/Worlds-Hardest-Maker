@@ -35,10 +35,10 @@ public class MouseOverUI : MonoBehaviour
     private void Update()
     {
         if(updateSize) UpdateSize();
-        if (Input.mousePosition.x > rt.position.x - width / 2 &&
-            Input.mousePosition.x < rt.position.x + width / 2 &&
-            Input.mousePosition.y > rt.position.y - height / 2 &&
-            Input.mousePosition.y < rt.position.y + height / 2)
+        if (Input.mousePosition.x > rt.position.x - width * 0.5f &&
+            Input.mousePosition.x < rt.position.x + width * 0.5f &&
+            Input.mousePosition.y > rt.position.y - height * 0.5f &&
+            Input.mousePosition.y < rt.position.y + height * 0.5f)
         {
             if (!over)
             {

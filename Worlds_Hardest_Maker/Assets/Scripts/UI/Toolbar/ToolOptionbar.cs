@@ -38,7 +38,7 @@ public class ToolOptionbar : MonoBehaviour
     public void EnableOptionbar()
     {
         hh.sizeDelta = new(width, height + gridLayout.cellSize.y + gridLayout.spacing.y);
-        hh.localPosition = new(0, (2 - toolCount) * (gridLayout.cellSize.y + gridLayout.spacing.y) / 2);
+        hh.localPosition = new(0, (2 - toolCount) * (gridLayout.cellSize.y + gridLayout.spacing.y) * 0.5f);
         rtThis.localPosition = new(0, -95);
     }
 

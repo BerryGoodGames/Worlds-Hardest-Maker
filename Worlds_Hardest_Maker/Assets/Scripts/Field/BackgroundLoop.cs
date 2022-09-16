@@ -33,7 +33,7 @@ public class BackgroundLoop : MonoBehaviour
     {
         if(prevPosition != cam.transform.position)
         {
-            container.position = new(Mathf.Floor(cam.transform.position.x / 2) * 2, Mathf.Floor(cam.transform.position.y / 2) * 2);
+            container.position = new(Mathf.Floor(cam.transform.position.x * 0.5f) * 2, Mathf.Floor(cam.transform.position.y * 0.5f) * 2);
         }
         prevPosition = cam.transform.position;
     }

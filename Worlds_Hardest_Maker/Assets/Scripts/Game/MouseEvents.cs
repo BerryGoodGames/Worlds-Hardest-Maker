@@ -18,8 +18,8 @@ public class MouseEvents : MonoBehaviour
         Vector2 mousePos = MouseManager.GetMouseWorldPos();
         int matrixX = (int)Mathf.Round(mousePos.x);
         int matrixY = (int)Mathf.Round(mousePos.y);
-        float gridX = Mathf.Round(mousePos.x * 2) / 2;
-        float gridY = Mathf.Round(mousePos.y * 2) / 2;
+        float gridX = Mathf.Round(mousePos.x * 2) * 0.5f;
+        float gridY = Mathf.Round(mousePos.y * 2) * 0.5f;
 
         GameManager.EditMode editMode = GameManager.Instance.CurrentEditMode;
 

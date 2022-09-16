@@ -116,14 +116,14 @@ public class FieldOutline : MonoBehaviour
                         }
                     }
 
-                    LineManager.DrawLine(transform.localPosition.x - transform.localScale.x / 2 - (left ? weight : 0), transform.localPosition.y + d.y / 2 - d.y * weight / 2,
-                                        transform.localPosition.x + transform.localScale.x / 2 + (right ? weight : 0), transform.localPosition.y + d.y / 2 - d.y * weight / 2,
+                    LineManager.DrawLine(transform.localPosition.x - transform.localScale.x * 0.5f - (left ? weight : 0), transform.localPosition.y + d.y * 0.5f - d.y * weight * 0.5f,
+                                        transform.localPosition.x + transform.localScale.x * 0.5f + (right ? weight : 0), transform.localPosition.y + d.y * 0.5f - d.y * weight * 0.5f,
                                         lineContainer.transform);
                 }
                 else if (d.Equals(Vector2.left) || d.Equals(Vector2.right))
                 {
-                    LineManager.DrawLine(transform.localPosition.x + d.x / 2 - d.x * weight / 2, transform.localPosition.y + transform.localScale.y / 2,
-                                        transform.localPosition.x + d.x / 2 - d.x * weight / 2, transform.localPosition.y - transform.localScale.y / 2,
+                    LineManager.DrawLine(transform.localPosition.x + d.x * 0.5f - d.x * weight * 0.5f, transform.localPosition.y + transform.localScale.y * 0.5f,
+                                        transform.localPosition.x + d.x * 0.5f - d.x * weight * 0.5f, transform.localPosition.y - transform.localScale.y * 0.5f,
                                         lineContainer.transform);
                 }
             } 
@@ -192,14 +192,14 @@ public class FieldOutline : MonoBehaviour
                     }
                 }
 
-                LineManager.DrawLine(transform.localPosition.x - transform.localScale.x / 2 - (left ? weight : 0), transform.localPosition.y + d.y / 2 - d.y * weight / 2,
-                                    transform.localPosition.x + transform.localScale.x / 2 + (right ? weight : 0), transform.localPosition.y + d.y / 2 - d.y * weight / 2,
+                LineManager.DrawLine(transform.localPosition.x - transform.localScale.x * 0.5f - (left ? weight : 0), transform.localPosition.y + d.y * 0.5f - d.y * weight * 0.5f,
+                                    transform.localPosition.x + transform.localScale.x * 0.5f + (right ? weight : 0), transform.localPosition.y + d.y * 0.5f - d.y * weight * 0.5f,
                                     lineContainer.transform);
             }
             else if (d.Equals(Vector2.left) || d.Equals(Vector2.right))
             {
-                LineManager.DrawLine(transform.localPosition.x + d.x / 2 - d.x * weight / 2, transform.localPosition.y + transform.localScale.y / 2,
-                                    transform.localPosition.x + d.x / 2 - d.x * weight / 2, transform.localPosition.y - transform.localScale.y / 2,
+                LineManager.DrawLine(transform.localPosition.x + d.x * 0.5f - d.x * weight * 0.5f, transform.localPosition.y + transform.localScale.y * 0.5f,
+                                    transform.localPosition.x + d.x * 0.5f - d.x * weight * 0.5f, transform.localPosition.y - transform.localScale.y * 0.5f,
                                     lineContainer.transform);
             }
         }
