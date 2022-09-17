@@ -219,6 +219,7 @@ MonoBehaviour:
   image: {fileID: 0}
   text: {fileID: 0}
   canvasGroup: {fileID: 8391062113398478073}
+  startVisible: 0
   duration: 0.2
   alphaVisible: 1
   alphaInvisible: 0
