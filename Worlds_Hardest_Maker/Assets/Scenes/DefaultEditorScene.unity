@@ -10729,6 +10729,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454117, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454117, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: m_Color.b
       value: 0.627451
       objectReference: {fileID: 0}
@@ -10852,6 +10856,10 @@ PrefabInstance:
     - target: {fileID: 7465456736653454113, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454117, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454117, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: m_Color.b
@@ -11328,6 +11336,10 @@ PrefabInstance:
     - target: {fileID: 7465456736653454113, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: m_Name
       value: Checkpoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454117, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: m_Sprite
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454117, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: m_Color.b
