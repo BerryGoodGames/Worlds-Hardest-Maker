@@ -157,6 +157,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5556878449878348080, guid: c0c0feb35e0382041b783ac8b86d2225, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8612083318934363477, guid: c0c0feb35e0382041b783ac8b86d2225, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -243,7 +247,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8654298017628321502, guid: c0c0feb35e0382041b783ac8b86d2225, type: 3}
       propertyPath: m_Name
-      value: Option - Toggle
+      value: Option - Checkbox
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0c0feb35e0382041b783ac8b86d2225, type: 3}
