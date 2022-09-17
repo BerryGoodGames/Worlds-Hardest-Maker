@@ -8,9 +8,18 @@ public class Tool : MonoBehaviour
     public GameManager.EditMode toolName;
     [HideInInspector] public bool selected;
     [HideInInspector] public bool inOptionbar;
+    private SelectionSquare selectionSquare;
+    private AlphaUITween anim;
+
     private void Awake()
     {
         inOptionbar = transform.parent.CompareTag("OptionContainer");
+    }
+
+    private void Start()
+    {
+        anim = GetComponent<AlphaUITween>();
+        selectionSquare = transform.GetChild(1).GetComponent<SelectionSquare>();
     }
 
     public void SwitchGameMode(bool setEditModeVariable)
@@ -25,7 +34,7 @@ public class Tool : MonoBehaviour
     }
     public void Selected(bool selected)
     {
-        transform.GetChild(1).GetComponent<SelectionSquare>().Selected(selected);
+        selectionSquare.Selected(selected);
 
         this.selected = selected;
 
@@ -37,13 +46,14 @@ public class Tool : MonoBehaviour
     }
     public void SubSelected(bool subselected)
     {
-        transform.GetChild(1).GetComponent<SelectionSquare>().SubSelected(subselected);
+        selectionSquare.SubSelected(subselected);
     }
 
     private void Update()
     {
-        Animator anim = GetComponent<Animator>();
-        anim.SetBool("Visible", selected || Hovered());
+        //Animator anim = GetComponent<Animator>();
+        //anim.SetBool("Visible", selected || Hovered());
+        anim.SetVisible(selected || Hovered());
     }
 
     public bool Hovered()
