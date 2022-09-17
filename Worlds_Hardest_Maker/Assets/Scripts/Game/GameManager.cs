@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviourPun
     public GameObject Canvas;
     public GameObject TooltipCanvas;
     public GameObject Menu;
+    public GameObject PlayButton;
     public GameObject PlacementPreview;
     [Header("Containers")]
     public GameObject ToolbarContainer;
@@ -284,6 +285,8 @@ public class GameManager : MonoBehaviourPun
 
             Animator canvasAnim = Instance.Canvas.GetComponent<Animator>();
             canvasAnim.SetBool("Playing", Instance.Playing);
+
+            PlayButton.GetComponent<PlayButtonTween>().SetPlay(Instance.Playing);
         }
     }
     public static void SwitchToPlay()
