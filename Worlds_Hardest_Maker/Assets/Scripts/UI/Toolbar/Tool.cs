@@ -51,8 +51,6 @@ public class Tool : MonoBehaviour
 
     private void Update()
     {
-        //Animator anim = GetComponent<Animator>();
-        //anim.SetBool("Visible", selected || Hovered());
         anim.SetVisible(selected || Hovered());
     }
 

@@ -160,6 +160,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3489530221479793076}
   - component: {fileID: 6589540141501721908}
+  - component: {fileID: 8391062113398478073}
+  - component: {fileID: 2168215453208436125}
   - component: {fileID: 7200052041286052394}
   m_Layer: 5
   m_Name: ToolOptionbar
@@ -211,6 +213,36 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!225 &8391062113398478073
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3489530221479793079}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &2168215453208436125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3489530221479793079}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac2e35a7172e3644b4e54c46f96ce0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 0}
+  text: {fileID: 0}
+  canvasGroup: {fileID: 8391062113398478073}
+  duration: 0.15
+  alphaVisible: 1
+  alphaInvisible: 0
 --- !u!114 &7200052041286052394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,7 +259,6 @@ MonoBehaviour:
   hoveringHitbox: {fileID: 3728116019214060176}
   options: {fileID: 3489530221478452482}
   size: 1
-  anim: {fileID: 6589540141501721908}
 --- !u!1 &3489530221621854896
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,7 +453,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: -20}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &3489530223411639699
 GameObject:
