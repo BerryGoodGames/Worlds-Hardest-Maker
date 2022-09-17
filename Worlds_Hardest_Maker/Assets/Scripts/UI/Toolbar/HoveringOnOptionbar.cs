@@ -17,6 +17,7 @@ public class HoveringOnOptionbar : MonoBehaviour
         mo = GetComponent<MouseOverUI>();
         anim = optionBar.GetComponent<AlphaUITween>();
     }
+
     private void Update()
     {
         anim.SetVisible(mo.over && !GameManager.Instance.Playing && !GameManager.Instance.Menu.activeSelf);

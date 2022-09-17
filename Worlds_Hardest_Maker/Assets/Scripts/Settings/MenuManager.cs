@@ -93,7 +93,6 @@ public class MenuManager : MonoBehaviour
     public void SetSoundEffectVolume(float vol)
     {
         float newVol = Mathf.Log10((float)GameManager.Map(vol, 0, 100, 0.0001, 3)) * 20;
-        print(newVol);
         mainMixer.SetFloat("SoundEffectVolume", newVol);
     }
     #endregion
