@@ -11,6 +11,7 @@ public class AlphaUITween : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text text;
     [SerializeField] private CanvasGroup canvasGroup;
     [Space]
+    [SerializeField] private bool startVisible = true;
     [SerializeField] private float duration;
     [Range(0, 1)][SerializeField] private float alphaVisible = 1;
     [Range(0, 1)][SerializeField] private float alphaInvisible = 0;
@@ -61,7 +62,8 @@ public class AlphaUITween : MonoBehaviour
 
     private void Start()
     {
-        if (isVisible) TweenVis();
-        else TweenInvis();
+        if (image != null) image.color = new(image.color.r, image.color.g, image.color.b, startVisible ? alphaVisible : alphaInvisible);
+        if (text != null) text.color = new(image.color.r, image.color.g, image.color.b, startVisible ? alphaVisible : alphaInvisible);
+        if (canvasGroup != null) canvasGroup.alpha = startVisible ? alphaVisible : alphaInvisible;
     }
 }
