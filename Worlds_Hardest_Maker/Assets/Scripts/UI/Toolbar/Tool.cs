@@ -10,6 +10,7 @@ public class Tool : MonoBehaviour
     [HideInInspector] public bool inOptionbar;
     private SelectionSquare selectionSquare;
     private AlphaUITween anim;
+    private MouseOverUI mouseOverUI;
 
     private void Awake()
     {
@@ -19,6 +20,7 @@ public class Tool : MonoBehaviour
     private void Start()
     {
         anim = GetComponent<AlphaUITween>();
+        mouseOverUI = GetComponent<MouseOverUI>();
         selectionSquare = transform.GetChild(1).GetComponent<SelectionSquare>();
     }
 
@@ -51,13 +53,6 @@ public class Tool : MonoBehaviour
 
     private void Update()
     {
-        //Animator anim = GetComponent<Animator>();
-        //anim.SetBool("Visible", selected || Hovered());
-        anim.SetVisible(selected || Hovered());
-    }
-
-    public bool Hovered()
-    {
-        return GetComponent<MouseOverUI>().over && !GameManager.Instance.Menu.activeSelf;
+        anim.SetVisible(selected || (mouseOverUI.over && !GameManager.Instance.Menu.activeSelf));
     }
 }

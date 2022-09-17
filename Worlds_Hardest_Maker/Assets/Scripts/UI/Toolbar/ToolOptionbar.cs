@@ -13,10 +13,10 @@ public class ToolOptionbar : MonoBehaviour
     public GameObject hoveringHitbox;
     public GameObject options;
     public float size;
-    [HideInInspector] public Animator anim;
     private RectTransform hh;
     private RectTransform rtThis;
     private GridLayoutGroup gridLayout;
+    private AlphaUITween anim;
     private int toolCount;
     private float width;
     private float height;
@@ -25,7 +25,10 @@ public class ToolOptionbar : MonoBehaviour
     {
         // REF
         rtThis = GetComponent<RectTransform>();
-        anim = GetComponent<Animator>();
+        anim = GetComponent<AlphaUITween>();
+
+        anim.onSetVisible = () => EnableOptionbar();
+        anim.onIsInvisible = () => DisableOptionbar();
 
         hh = hoveringHitbox.GetComponent(typeof(RectTransform)) as RectTransform;
         gridLayout = options.GetComponent<GridLayoutGroup>();
@@ -44,7 +47,7 @@ public class ToolOptionbar : MonoBehaviour
 
     public void DisableOptionbar()
     {
-        if (!anim.GetBool("Hovered"))
+        if (!anim.IsVisible())
         {
             hh.sizeDelta = new(gridLayout.cellSize.x, gridLayout.cellSize.y);
             hh.localPosition = new(0, -1250);
