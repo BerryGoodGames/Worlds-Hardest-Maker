@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Photon.Pun;
 using System;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 /// <summary>
@@ -214,6 +214,12 @@ public class GameManager : MonoBehaviourPun
         } else {
             PlayerManager.Instance.SetPlayer(0.5f, 0.5f, 3);
         }
+    }
+
+    private void Update()
+    {
+        // check if toolbar background is hovered
+        Instance.UIHovered = EventSystem.current.IsPointerOverGameObject();
     }
 
     private void LateUpdate()
