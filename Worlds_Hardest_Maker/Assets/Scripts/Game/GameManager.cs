@@ -286,7 +286,7 @@ public class GameManager : MonoBehaviourPun
             Animator canvasAnim = Instance.Canvas.GetComponent<Animator>();
             canvasAnim.SetBool("Playing", Instance.Playing);
 
-            PlayButton.GetComponent<PlayButtonTween>().SetPlay(Instance.Playing);
+            PlayButton.GetComponent<BarTween>().SetPlay(Instance.Playing);
         }
     }
     public static void SwitchToPlay()
