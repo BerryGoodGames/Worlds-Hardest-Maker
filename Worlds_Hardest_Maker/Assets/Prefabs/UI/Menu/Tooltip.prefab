@@ -58,5 +58,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5998e77396b9b6c408c091aec837ce28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: 
+  text: ef
   fontSize: 20

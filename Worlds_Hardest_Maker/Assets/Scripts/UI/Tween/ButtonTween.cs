@@ -16,9 +16,11 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private float highlightFloatingDuration;
     [Space]
     [SerializeField] private bool isWarningButton;
+    [SerializeField] private float singleShakeDuration;
     [SerializeField] private float shake1;
     [SerializeField] private float shake2;
 
+    private RectTransform contentRT;
 
     private bool hovered = false;
 
@@ -27,19 +29,19 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         hovered = true;
 
         // elevate
-        content.DOLocalMove(new(-highlightElevation, highlightElevation + highlightFloating), highlightElevateDuration);
+        contentRT.DOAnchorPos(new(-highlightElevation, highlightElevation + highlightFloating), highlightElevateDuration);
 
         if (isWarningButton)
         {
             // add shake
             Sequence shakeSeq = DOTween.Sequence();
-            shakeSeq.Append(content.DORotate(new(0, 0, shake1), highlightElevateDuration / 3))
-                .Append(content.DORotate(new(0, 0, -shake2), highlightElevateDuration / 3))
-                .Append(content.DORotate(new(0, 0, 0), highlightElevateDuration / 3));
+            shakeSeq.Append(content.DORotate(new(0, 0, shake1), singleShakeDuration))
+                .Append(content.DORotate(new(0, 0, -shake2), singleShakeDuration))
+                .Append(content.DORotate(new(0, 0, 0), singleShakeDuration));
         }
 
         // loop floating
-        content.DOLocalMove(new(-highlightElevation, highlightElevation), highlightFloatingDuration * 0.5f)
+        contentRT.DOAnchorPos(new(-highlightElevation, highlightElevation), highlightFloatingDuration * 0.5f)
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo)
             .SetDelay(highlightElevateDuration);
@@ -50,23 +52,28 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         hovered = false;
 
         // idle anim move to original position
-        content.DOKill();
-        content.DOLocalMove(Vector2.zero, highlightElevateDuration);
+        contentRT.DOKill();
+        contentRT.DOAnchorPos(Vector2.zero, highlightElevateDuration);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         // click (& hold) animation
-        content.DOKill();
-        content.DOLocalMove(backgroundPanel.localPosition, clickDuration);
+        contentRT.DOKill();
+        contentRT.DOAnchorPos(((RectTransform)backgroundPanel).anchoredPosition, clickDuration);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         // release -> hover state if hovered, original state if not
-        content.DOKill();
+        contentRT.DOKill();
 
         if (hovered) OnPointerEnter(null);
         else OnPointerExit(null);
+    }
+
+    private void Start()
+    {
+        contentRT = (RectTransform)content;
     }
 }
