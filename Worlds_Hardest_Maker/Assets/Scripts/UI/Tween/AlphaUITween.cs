@@ -19,7 +19,7 @@ public class AlphaUITween : MonoBehaviour
     public Action onSetVisible = null;
     public Action onIsInvisible = null;
 
-    private bool isVisible = true;
+    private bool isVisible;
     
 
     private void TweenVis()
@@ -62,6 +62,8 @@ public class AlphaUITween : MonoBehaviour
 
     private void Start()
     {
+        isVisible = startVisible;
+
         if (image != null) image.color = new(image.color.r, image.color.g, image.color.b, startVisible ? alphaVisible : alphaInvisible);
         if (text != null) text.color = new(image.color.r, image.color.g, image.color.b, startVisible ? alphaVisible : alphaInvisible);
         if (canvasGroup != null) canvasGroup.alpha = startVisible ? alphaVisible : alphaInvisible;

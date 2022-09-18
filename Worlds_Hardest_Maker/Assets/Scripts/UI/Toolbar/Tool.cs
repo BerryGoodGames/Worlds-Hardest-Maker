@@ -34,6 +34,7 @@ public class Tool : MonoBehaviour
     {
         SwitchGameMode(true);
     }
+
     public void Selected(bool selected)
     {
         selectionSquare.Selected(selected);
@@ -46,6 +47,7 @@ public class Tool : MonoBehaviour
             parentTool.SubSelected(true);
         }
     }
+
     public void SubSelected(bool subselected)
     {
         selectionSquare.SubSelected(subselected);

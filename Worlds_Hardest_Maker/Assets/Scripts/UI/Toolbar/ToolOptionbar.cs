@@ -36,6 +36,8 @@ public class ToolOptionbar : MonoBehaviour
 
         UpdateHeight();
         ScaleOptions();
+
+        DisableOptionbar();
     }
 
     public void EnableOptionbar()
