@@ -9,8 +9,8 @@ using DG.Tweening;
 /// </summary>
 public class BarTween : MonoBehaviour
 {
-    [SerializeField] private float invisibleY;
     [SerializeField] private float visibleY;
+    [SerializeField] private float invisibleY;
     [SerializeField] private bool isVisibleOnlyOnEdit = true;
     [Space]
     [SerializeField] private float appearDuration;
