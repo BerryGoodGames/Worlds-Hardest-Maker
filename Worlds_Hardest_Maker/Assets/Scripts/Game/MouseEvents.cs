@@ -45,7 +45,7 @@ public class MouseEvents : MonoBehaviour
                 // ondrag
                 if (Input.GetMouseButton(0))
                 {
-                    if (FieldManager.IsEditModeFieldType(editMode))
+                    if (editMode.IsFieldType())
                     {
                         // place field
                         FieldManager.FieldType type = GameManager.ConvertEnum<GameManager.EditMode, FieldManager.FieldType>(editMode);
@@ -166,7 +166,7 @@ public class MouseEvents : MonoBehaviour
             // fill
             if (GameManager.Instance.Filling)
             {
-                if (!GameManager.Instance.Playing && FieldManager.IsEditModeFieldType(editMode) && !GameManager.Instance.UIHovered)
+                if (!GameManager.Instance.Playing && editMode.IsFieldType() && !GameManager.Instance.UIHovered)
                 {
                     // fill fields
                     FieldManager.FieldType type = GameManager.ConvertEnum<GameManager.EditMode, FieldManager.FieldType>(editMode);

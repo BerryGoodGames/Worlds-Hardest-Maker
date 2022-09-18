@@ -12,28 +12,7 @@ public class FieldManager : MonoBehaviour
 
     public enum FieldType
     {
-        WALL_FIELD, START_FIELD, GOAL_FIELD, START_AND_GOAL_FIELD, CHECKPOINT_FIELD, ONE_WAY_FIELD, GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD
-    }
-
-    public static bool IsEditModeFieldType(GameManager.EditMode mode)
-    {
-        // list of all field types
-        List<GameManager.EditMode> fieldModes = new()
-        {
-            GameManager.EditMode.WALL_FIELD,
-            GameManager.EditMode.START_FIELD,
-            GameManager.EditMode.GOAL_FIELD,
-            GameManager.EditMode.START_AND_GOAL_FIELD,
-            GameManager.EditMode.CHECKPOINT_FIELD,
-            GameManager.EditMode.ONE_WAY_FIELD,
-            GameManager.EditMode.GRAY_KEY_DOOR_FIELD,
-            GameManager.EditMode.RED_KEY_DOOR_FIELD,
-            GameManager.EditMode.GREEN_KEY_DOOR_FIELD,
-            GameManager.EditMode.BLUE_KEY_DOOR_FIELD,
-            GameManager.EditMode.YELLOW_KEY_DOOR_FIELD
-        };
-
-        return fieldModes.Contains(mode);
+        WALL_FIELD, START_FIELD, GOAL_FIELD, START_AND_GOAL_FIELD, CHECKPOINT_FIELD, ONE_WAY_FIELD, WATER, GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD
     }
 
     public static bool IsField(GameObject field)
@@ -51,6 +30,7 @@ public class FieldManager : MonoBehaviour
             GameManager.Instance.StartAndGoalField,
             GameManager.Instance.CheckpointField,
             GameManager.Instance.OneWayField,
+            GameManager.Instance.Water,
             GameManager.Instance.GrayKeyDoorField,
             GameManager.Instance.RedKeyDoorField,
             GameManager.Instance.GreenKeyDoorField,
@@ -69,6 +49,7 @@ public class FieldManager : MonoBehaviour
             "StartAndGoalField",
             "CheckpointField",
             "OneWayField",
+            "Water",
             "KeyDoorField",
             "RedKeyDoorField",
             "GreenKeyDoorField",

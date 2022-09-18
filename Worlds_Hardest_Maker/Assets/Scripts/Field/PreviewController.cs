@@ -38,7 +38,7 @@ public class PreviewController : MonoBehaviour
         if (!GameManager.Instance.Filling)
         {
             FollowMouse followMouse = GetComponent<FollowMouse>();
-            followMouse.worldPosition = FieldManager.IsEditModeFieldType(currentEditMode) || currentEditMode == GameManager.EditMode.DELETE_FIELD ?
+            followMouse.worldPosition = currentEditMode.IsFieldType() || currentEditMode == GameManager.EditMode.DELETE_FIELD ?
                 FollowMouse.WorldPosition.MATRIX : FollowMouse.WorldPosition.GRID;
         }
 
