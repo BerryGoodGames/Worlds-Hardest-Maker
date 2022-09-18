@@ -283,10 +283,11 @@ public class GameManager : MonoBehaviourPun
             if (Instance.Playing) SwitchToEdit();
             else SwitchToPlay();
 
-            Animator canvasAnim = Instance.Canvas.GetComponent<Animator>();
-            canvasAnim.SetBool("Playing", Instance.Playing);
-
-            PlayButton.GetComponent<BarTween>().SetPlay(Instance.Playing);
+            BarTween[] barTweens = FindObjectsOfType<BarTween>();
+            foreach(BarTween tween in barTweens)
+            {
+                tween.SetPlay(Instance.Playing);
+            }
         }
     }
     public static void SwitchToPlay()
