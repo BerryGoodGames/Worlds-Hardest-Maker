@@ -22,7 +22,7 @@ public class BallCircleManager : MonoBehaviour
     [PunRPC]
     public void SetBallCircle(float mx, float my)
     {
-        SetBallCircle(mx, my, 1, 0, Mathf.PI / 2);
+        SetBallCircle(mx, my, 1, 0, Mathf.PI * 0.5f);
     }
 
     public bool IsBallCircleThere(float mx, float my)

@@ -13,10 +13,10 @@ public class ToolOptionbar : MonoBehaviour
     public GameObject hoveringHitbox;
     public GameObject options;
     public float size;
-    [HideInInspector] public Animator anim;
     private RectTransform hh;
     private RectTransform rtThis;
     private GridLayoutGroup gridLayout;
+    private AlphaUITween anim;
     private int toolCount;
     private float width;
     private float height;
@@ -25,7 +25,10 @@ public class ToolOptionbar : MonoBehaviour
     {
         // REF
         rtThis = GetComponent<RectTransform>();
-        anim = GetComponent<Animator>();
+        anim = GetComponent<AlphaUITween>();
+
+        anim.onSetVisible = () => EnableOptionbar();
+        anim.onIsInvisible = () => DisableOptionbar();
 
         hh = hoveringHitbox.GetComponent(typeof(RectTransform)) as RectTransform;
         gridLayout = options.GetComponent<GridLayoutGroup>();
@@ -33,18 +36,20 @@ public class ToolOptionbar : MonoBehaviour
 
         UpdateHeight();
         ScaleOptions();
+
+        DisableOptionbar();
     }
 
     public void EnableOptionbar()
     {
         hh.sizeDelta = new(width, height + gridLayout.cellSize.y + gridLayout.spacing.y);
-        hh.localPosition = new(0, (2 - toolCount) * (gridLayout.cellSize.y + gridLayout.spacing.y) / 2);
+        hh.localPosition = new(0, (2 - toolCount) * (gridLayout.cellSize.y + gridLayout.spacing.y) * 0.5f);
         rtThis.localPosition = new(0, -95);
     }
 
     public void DisableOptionbar()
     {
-        if (!anim.GetBool("Hovered"))
+        if (!anim.IsVisible())
         {
             hh.sizeDelta = new(gridLayout.cellSize.x, gridLayout.cellSize.y);
             hh.localPosition = new(0, -1250);
