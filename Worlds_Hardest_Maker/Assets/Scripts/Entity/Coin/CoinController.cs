@@ -15,7 +15,7 @@ public class CoinController : MonoBehaviour
     {
         if (!pickedUp)
         {
-            // check if collider is player
+            // check if edgeCollider is player
             if (collision.TryGetComponent(out PlayerController controller))
             {
                 // check if player is of own client

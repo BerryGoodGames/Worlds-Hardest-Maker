@@ -8336,6 +8336,7 @@ MonoBehaviour:
   BallCircleAngleKey: 306
   EditSpeedKey: 306
   LineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  NoFriction: {fileID: 6200000, guid: 88face5bfde0aba43a3bbd9678a95eab, type: 2}
   EditModeText: {fileID: 208353116}
   FillingText: {fileID: 1392039350}
   DeathText: {fileID: 2013123740}

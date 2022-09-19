@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviourPun
     [Space]
     [Header("Materials")]
     public Material LineMaterial;
+    public PhysicsMaterial2D NoFriction;
     [Space]
     [Header("Text References")]
     public TMPro.TMP_Text EditModeText;
