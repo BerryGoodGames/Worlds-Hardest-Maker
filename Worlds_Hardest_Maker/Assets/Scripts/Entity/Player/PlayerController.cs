@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField][Range(0, 1)] private float waterDamping;
     [SerializeField] private float drownDuration;
     private float currentDrownDuration = 0;
+    [Space]
+    [SerializeField] private float iceFriction;
+    [SerializeField] private float maxIceSpeed;
 
     [HideInInspector] public int deaths = 0;
 
@@ -26,6 +29,7 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Animator animator;
+    [HideInInspector] public EdgeCollider2D edgeCollider;
     private AppendSlider sliderController;
     private AppendNameTag nameTagController = null;
 
@@ -44,6 +48,8 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sliderController = GetComponent<AppendSlider>();
+
+        edgeCollider = GetComponent<EdgeCollider2D>();
 
         photonView = GetComponent<PhotonView>();
 
@@ -134,12 +140,24 @@ public class PlayerController : MonoBehaviour
         float drown = currentDrownDuration / drownDuration;
         waterLevel.localScale = new(waterLevel.localScale.x, drown);
 
+        bool ice = IsOnIce();
+
         // movement (if player is yours in multiplayer mode)
         if (GameManager.Instance.Playing)
         {
             if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
 
-            rb.MovePosition((Vector2) rb.transform.position + (water ? waterDamping * speed : speed) * Time.fixedDeltaTime * movementInput);
+            if (!ice) 
+            { 
+                rb.MovePosition((Vector2)rb.transform.position + (water ? waterDamping * speed : speed) * Time.fixedDeltaTime * movementInput);
+            }
+            else
+            {
+                rb.drag = iceFriction;
+                rb.AddForce(iceFriction * speed * 1.2f * movementInput, ForceMode2D.Force);
+
+                rb.velocity = new(Mathf.Min(maxIceSpeed, rb.velocity.x), Mathf.Min(maxIceSpeed, rb.velocity.y));
+            }
         }
     }
 
@@ -201,17 +219,26 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
-    public bool IsOnWater() {
+    public bool IsFullyOnField(FieldManager.FieldType type)
+    {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.01f);
-        foreach(Collider2D hit in hits)
+        foreach (Collider2D hit in hits)
         {
             FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(hit.gameObject);
-            if (currentFieldType != null && currentFieldType == FieldManager.FieldType.WATER)
+            if (currentFieldType != null && currentFieldType == type)
             {
                 return true;
             }
         }
         return false;
+    }
+    public bool IsOnWater()
+    {
+        return IsFullyOnField(FieldManager.FieldType.WATER);
+    }
+    public bool IsOnIce()
+    {
+        return IsFullyOnField(FieldManager.FieldType.ICE);
     }
 
     public GameObject GetCurrentField()

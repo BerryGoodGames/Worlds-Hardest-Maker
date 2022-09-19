@@ -24,7 +24,7 @@ public class KeyController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // check if collider is player
+        // check if edgeCollider is player
         if(collision.TryGetComponent(out PlayerController controller))
         {
             // check if player is of own client

@@ -12,7 +12,11 @@ public class FieldManager : MonoBehaviour
 
     public enum FieldType
     {
-        WALL_FIELD, START_FIELD, GOAL_FIELD, START_AND_GOAL_FIELD, CHECKPOINT_FIELD, ONE_WAY_FIELD, WATER, GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD
+        WALL_FIELD, 
+        START_FIELD, GOAL_FIELD, START_AND_GOAL_FIELD, CHECKPOINT_FIELD, 
+        ONE_WAY_FIELD, 
+        WATER, ICE,
+        GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD
     }
 
     public static bool IsField(GameObject field)
@@ -31,6 +35,7 @@ public class FieldManager : MonoBehaviour
             GameManager.Instance.CheckpointField,
             GameManager.Instance.OneWayField,
             GameManager.Instance.Water,
+            GameManager.Instance.Ice,
             GameManager.Instance.GrayKeyDoorField,
             GameManager.Instance.RedKeyDoorField,
             GameManager.Instance.GreenKeyDoorField,
@@ -50,6 +55,7 @@ public class FieldManager : MonoBehaviour
             "CheckpointField",
             "OneWayField",
             "Water",
+            "Ice",
             "KeyDoorField",
             "RedKeyDoorField",
             "GreenKeyDoorField",

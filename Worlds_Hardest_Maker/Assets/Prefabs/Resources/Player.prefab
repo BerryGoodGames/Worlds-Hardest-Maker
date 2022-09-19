@@ -162,12 +162,12 @@ GameObject:
   - component: {fileID: 7464887056985239504}
   - component: {fileID: 4452671531424631131}
   - component: {fileID: 2294741680619993642}
-  - component: {fileID: 7464887056985239508}
   - component: {fileID: 1347314094112749841}
   - component: {fileID: 1103030783182041800}
   - component: {fileID: 1961154637363439688}
   - component: {fileID: 8166517329703902944}
   - component: {fileID: -8367187434094895155}
+  - component: {fileID: 7464887056985239508}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -297,32 +297,6 @@ MonoBehaviour:
   showOnlyWhenMultiplayer: 1
   nameTagPrefab: {fileID: 2234591564639502710, guid: d0c11e5b0d41f2d4a8c287eccabe7cc0, type: 3}
   nameTag: {fileID: 0}
---- !u!114 &7464887056985239508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7464887056985239505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bfa1f800246e80438c975735f3ad75f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
-  speed: 3
-  waterLevel: {fileID: 2970012482437784707}
-  waterDamping: 0.4
-  drownDuration: 10
-  deaths: 0
-  coinsCollected: []
-  keysCollected: []
-  startPos: {x: 0, y: 0}
-  rb: {fileID: 0}
-  animator: {fileID: 0}
-  currentFields: []
-  inDeathAnim: 0
-  photonView: {fileID: 0}
 --- !u!95 &1347314094112749841
 Animator:
   serializedVersion: 4
@@ -439,6 +413,35 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &7464887056985239508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7464887056985239505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bfa1f800246e80438c975735f3ad75f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  speed: 3
+  waterLevel: {fileID: 2970012482437784707}
+  waterDamping: 0.4
+  drownDuration: 10
+  iceFriction: 4
+  maxIceSpeed: 5
+  deaths: 0
+  coinsCollected: []
+  keysCollected: []
+  startPos: {x: 0, y: 0}
+  rb: {fileID: 0}
+  animator: {fileID: 0}
+  edgeCollider: {fileID: 0}
+  currentFields: []
+  inDeathAnim: 0
+  photonView: {fileID: 0}
 --- !u!1001 &2006160759769033844
 PrefabInstance:
   m_ObjectHideFlags: 0
