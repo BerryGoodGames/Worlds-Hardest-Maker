@@ -4,11 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
+public class PlayerController : MonoBehaviour
 {
     [HideInInspector] public int id;
 
     public float speed;
+    [Space]
+    [SerializeField] private Transform waterLevel;
+    [SerializeField][Range(0, 1)] private float waterDamping;
+    [SerializeField] private float drownDuration;
+    private float currentDrownDuration = 0;
 
     [HideInInspector] public int deaths = 0;
 
@@ -113,12 +118,28 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
 
     private void FixedUpdate()
     {
+        bool water = IsOnWater();
+
+        if (water && !inDeathAnim)
+        {
+            currentDrownDuration += Time.fixedDeltaTime;
+
+            if (currentDrownDuration >= drownDuration)
+            {
+                Die();
+            }
+        }
+        else if(!inDeathAnim && !water) currentDrownDuration = 0;
+
+        float drown = currentDrownDuration / drownDuration;
+        waterLevel.localScale = new(waterLevel.localScale.x, drown);
+
         // movement (if player is yours in multiplayer mode)
         if (GameManager.Instance.Playing)
         {
             if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
 
-            rb.MovePosition((Vector2) rb.transform.position + speed * Time.fixedDeltaTime * movementInput);
+            rb.MovePosition((Vector2) rb.transform.position + (water ? waterDamping * speed : speed) * Time.fixedDeltaTime * movementInput);
         }
     }
 
@@ -161,6 +182,31 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
             // check if current field is safe
             FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
             if (PlayerManager.SafeFields.Contains((FieldManager.FieldType)currentFieldType))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public bool IsOnField(FieldManager.FieldType type)
+    {
+        foreach (GameObject field in currentFields)
+        {
+            // check if current field is type
+            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            if (currentFieldType != null && currentFieldType == type)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public bool IsOnWater() {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.01f);
+        foreach(Collider2D hit in hits)
+        {
+            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(hit.gameObject);
+            if (currentFieldType != null && currentFieldType == FieldManager.FieldType.WATER)
             {
                 return true;
             }
@@ -266,7 +312,7 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
     {
         foreach(Transform k in GameManager.Instance.KeyContainer.transform)
         {
-            KeyController controller = k.GetChild(0).GetComponent<KeyController>(); ;
+            KeyController controller = k.GetChild(0).GetComponent<KeyController>();
             if (!controller.pickedUp && controller.color == color) return false;
         }
 
@@ -385,14 +431,6 @@ public class PlayerController : MonoBehaviour, IPunInstantiateMagicCallback
                 KeyDoorField comp = door.GetComponent<KeyDoorField>();
                 if(!KeysCollected(comp.color)) comp.Lock(true);
             }
-        }
-    }
-
-    public void OnPhotonInstantiate(PhotonMessageInfo info)
-    {
-        if(transform.parent != GameManager.Instance.PlayerContainer.transform)
-        {
-            transform.SetParent(GameManager.Instance.PlayerContainer.transform);
         }
     }
 }

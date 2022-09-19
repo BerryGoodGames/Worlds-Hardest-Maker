@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviourPun
         START_FIELD, GOAL_FIELD, START_AND_GOAL_FIELD,
         CHECKPOINT_FIELD, 
         ONE_WAY_FIELD, 
+        WATER,
         GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD, 
         PLAYER, 
         ANCHOR, 
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviourPun
     public GameObject StartAndGoalField;
     public GameObject CheckpointField;
     public GameObject OneWayField;
+    public GameObject Water;
     public GameObject GrayKeyDoorField;
     public GameObject RedKeyDoorField;
     public GameObject GreenKeyDoorField;
