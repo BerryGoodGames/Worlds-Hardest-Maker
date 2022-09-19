@@ -83,14 +83,6 @@ public class GameManager : MonoBehaviourPun
     public GameObject KeyContainer;
     public GameObject FieldContainer;
     [Space]
-    [Header("Colors")]
-    public Color StartFieldColor;
-    public Color GoalFieldColor;
-    public Color StartAndGoalFieldColor;
-    public Color CheckpointFieldColor;
-    public Color CheckpointFieldActivatedColor;
-    public Color StartGoalUniqueColor;
-    [Space]
     [Header("Key binds")]
     public KeyCode FillKey;
     public KeyCode EntityDeleteKey;

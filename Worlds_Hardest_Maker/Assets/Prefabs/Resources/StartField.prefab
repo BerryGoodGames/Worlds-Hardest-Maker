@@ -60,8 +60,12 @@ PrefabInstance:
       value: StartField
       objectReference: {fileID: 0}
     - target: {fileID: 8451419770457997880, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: m_Color.b
+      value: 0.62124455
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451419770457997880, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Color.g
-      value: 0.9176471
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8451419770457997880, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Color.r
