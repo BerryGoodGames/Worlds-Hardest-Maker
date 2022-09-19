@@ -5049,7 +5049,7 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 1, a: 1}
   - name: Start Goal Checkpoint
     colors:
-    - {r: 0.5019608, g: 0.9176471, b: 1, a: 1}
+    - {r: 0.5019608, g: 1, b: 0.62124455, a: 1}
     - {r: 0.73333335, g: 1, b: 0.7058824, a: 1}
     - {r: 0, g: 1, b: 0.627451, a: 1}
     - {r: 1, g: 0.92549026, b: 0.48627454, a: 1}
@@ -8323,12 +8323,6 @@ MonoBehaviour:
   CoinContainer: {fileID: 222980749}
   KeyContainer: {fileID: 139186753}
   FieldContainer: {fileID: 480599884}
-  StartFieldColor: {r: 0.5019608, g: 0.9176471, b: 1, a: 1}
-  GoalFieldColor: {r: 0.73333335, g: 1, b: 0.7058824, a: 1}
-  StartAndGoalFieldColor: {r: 0, g: 1, b: 0.627451, a: 1}
-  CheckpointFieldColor: {r: 1, g: 0.92549026, b: 0.48627454, a: 1}
-  CheckpointFieldActivatedColor: {r: 0.9725491, g: 0.4156863, b: 0.2901961, a: 1}
-  StartGoalUniqueColor: {r: 0.73333335, g: 1, b: 0.7058824, a: 1}
   FillKey: 102
   EntityDeleteKey: 127
   EntityMoveKey: 304
@@ -11567,8 +11561,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454117, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: m_Color.b
+      value: 0.61960787
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454117, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: m_Color.g
-      value: 0.91764706
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454117, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: m_Color.r
