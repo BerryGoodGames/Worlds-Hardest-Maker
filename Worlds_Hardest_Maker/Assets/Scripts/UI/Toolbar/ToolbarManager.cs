@@ -16,12 +16,6 @@ public class ToolbarManager : MonoBehaviour
         // editmode wall when starting
         transform.GetChild(0).GetComponent<Tool>().SwitchGameMode();
     }
-    private void Update()
-    {
-        // check if toolbar background is hovered
-        GameManager.Instance.UIHovered = toolbarBackground.GetComponent<MouseUIHoverDetection>().IsPointerOverUIElement() ||
-                                         infobarBackground.GetComponent<MouseUIHoverDetection>().IsPointerOverUIElement();
-    }
 
     public static void DeselectAll()
     {
