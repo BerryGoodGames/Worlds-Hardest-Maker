@@ -23,6 +23,7 @@ TagManager:
   - BallObject
   - DontDestroy
   - Water
+  - Ice
   layers:
   - Default
   - TransparentFX
