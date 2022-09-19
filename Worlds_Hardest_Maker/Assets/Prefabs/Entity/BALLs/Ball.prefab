@@ -191,3 +191,4 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 1, a: 1}
   scale: {x: 0.5, y: 0.5}
   showWhenFilling: 0
+  rotate: 0

@@ -339,6 +339,7 @@ MonoBehaviour:
   color: {r: 1, g: 1, b: 1, a: 1}
   scale: {x: 0.9, y: 0.9}
   showWhenFilling: 0
+  rotate: 0
 --- !u!1 &3267163145518031903 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4146727745612350080, guid: 590116fe8feedf1458d12057a8816bf5, type: 3}
