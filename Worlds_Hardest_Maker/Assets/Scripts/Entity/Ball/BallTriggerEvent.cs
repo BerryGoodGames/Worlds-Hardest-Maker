@@ -17,7 +17,7 @@ public class BallTriggerEvent : MonoBehaviour
 
             if (GameManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
 
-            if (!controller.inDeathAnim && !controller.IsOnSafeField())
+            if (!controller.IsOnSafeField())
             {
                 controller.Die();
             }
