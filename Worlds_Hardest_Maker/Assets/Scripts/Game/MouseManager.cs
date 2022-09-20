@@ -9,7 +9,19 @@ public class MouseManager : MonoBehaviour
     [HideInInspector] public Vector2? MouseDragStart { get; set; } = null;
     [HideInInspector] public Vector2? MouseDragEnd { get; set; } = null;
     [HideInInspector] public Vector2 PrevMousePos { get; set; }
-    [HideInInspector] public Vector2 MouseWorldPos { get; set; } = new();
+    private Vector2 mouseWorldPos = Vector2.positiveInfinity;
+    [HideInInspector] public Vector2 MouseWorldPos { get
+        {
+            if(mouseWorldPos.Equals(Vector2.positiveInfinity))
+            {
+                mouseWorldPos = GetMouseWorldPos();
+            }
+            return (Vector2)mouseWorldPos;
+        } private set 
+        { 
+            mouseWorldPos = value;
+        } }
+    [HideInInspector] public Vector2 PrevMouseWorldPos { get; set; } = new();
     [HideInInspector] public Vector2 MouseWorldPosGrid { get; set; } = new();
     [HideInInspector] public Vector2 MouseWorldPosMatrix { get; set; } = new();
     [HideInInspector] public bool OnScreen { get; set; } = true;
@@ -42,7 +54,6 @@ public class MouseManager : MonoBehaviour
     private void Update()
     {
         // update position variables
-        MouseWorldPos = GetMouseWorldPos();
         MouseWorldPosGrid = new(Mathf.Round(MouseWorldPos.x * 2) * 0.5f, Mathf.Round(MouseWorldPos.y * 2) * 0.5f);
         MouseWorldPosMatrix = new(Mathf.Round(MouseWorldPos.x), Mathf.Round(MouseWorldPos.y));
 
@@ -58,6 +69,8 @@ public class MouseManager : MonoBehaviour
     {
         // set previous mouse pos
         Instance.PrevMousePos = Input.mousePosition;
+        Instance.PrevMouseWorldPos = Instance.MouseWorldPos;
+        Instance.MouseWorldPos = Vector2.positiveInfinity;
     }
 
     private void Awake()
