@@ -28,6 +28,11 @@ public class Waypoint
         this.rotationSpeed = waypoint.rotationSpeed;
         this.rotateWhileDelay = waypoint.rotateWhileDelay;
     }
+
+    public Waypoint Clone()
+    {
+        return new(position, rotateWhileDelay, delay, speed, rotationSpeed);
+    }
 }
 
 

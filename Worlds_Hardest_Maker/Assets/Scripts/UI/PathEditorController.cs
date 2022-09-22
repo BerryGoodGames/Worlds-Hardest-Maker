@@ -32,7 +32,11 @@ public class PathEditorController : MonoBehaviour
     public void AddWaypoint()
     {
         if (AnchorManager.Instance.SelectedAnchor == null) return;
-        AnchorManager.Instance.selectedPathController.waypoints.Add(new(new(0, 0), true, 0, 1, 0));
+        int waypointCount = AnchorManager.Instance.selectedPathController.waypoints.Count;
+
+        Waypoint prevWaypoint = AnchorManager.Instance.selectedPathController.waypoints[waypointCount - 1];
+
+        AnchorManager.Instance.selectedPathController.waypoints.Add(prevWaypoint.Clone());
         UpdateUI();
 
         if(GameManager.Instance.Multiplayer)

@@ -27,13 +27,14 @@ public class WaypointEditorController : MonoBehaviour
         get
         {
             // get x and y pos from input fields, return 0 if input field is empty
-            int x;
-            if (positionX.text != string.Empty) x = int.Parse(positionX.text);
+            print(positionX.text + " " + positionY.text);
+            float x;
+            if (positionX.text != string.Empty) x = float.Parse(positionX.text);
 
             else x = 0;
 
-            int y;
-            if (positionY.text != string.Empty) y = int.Parse(positionY.text);
+            float y;
+            if (positionY.text != string.Empty) y = float.Parse(positionY.text);
 
             else y = 0;
 
