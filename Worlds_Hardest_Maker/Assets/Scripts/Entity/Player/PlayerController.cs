@@ -174,16 +174,20 @@ public class PlayerController : MonoBehaviour
 
             // check void death
             GameObject currentVoid = CurrentVoid();
-            if(currentVoid != null)
+            if(!inDeathAnim && currentVoid != null)
             {
                 // get sucked to void
                 Vector2 suckPosition = currentVoid.transform.position;
 
-                spriteRenderer.DOFade(0, voidSuckDuration);
-                transform.DOMove(suckPosition, voidSuckDuration);
+                spriteRenderer.material.DOFade(0, voidSuckDuration)
+                    .SetEase(Ease.Linear);
+                transform.DOMove(suckPosition, voidSuckDuration)
+                    .SetEase(Ease.OutQuint);
                 transform.DOScale(Vector2.zero, voidSuckDuration)
-                
+                    .SetEase(Ease.OutQuad)
                     .OnComplete(DeathAnimFinish);
+
+                inDeathAnim = true;
             }
         }
     }
