@@ -171,7 +171,7 @@ public class PlayerController : MonoBehaviour
                 // snappy movement (when not on ice)
                 rb.MovePosition((Vector2)rb.transform.position + (water ? waterDamping * speed : speed) * Time.fixedDeltaTime * movementInput);
             }
-
+            ;
             // check void death
             GameObject currentVoid = CurrentVoid();
             if(!inDeathAnim && currentVoid != null)
@@ -329,7 +329,8 @@ public class PlayerController : MonoBehaviour
     public void DieVoid(GameObject voidField)
     {
         // dying through void
-        Vector2 suckPosition = voidField.transform.position;
+        Vector2 suckPosition = (Vector2)transform.position + (new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) / 2);
+
 
         spriteRenderer.material.DOFade(0, voidSuckDuration)
             .SetEase(Ease.Linear);
