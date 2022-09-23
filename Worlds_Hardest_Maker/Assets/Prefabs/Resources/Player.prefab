@@ -432,6 +432,7 @@ MonoBehaviour:
   drownDuration: 10
   iceFriction: 4
   maxIceSpeed: 5
+  voidSuckDuration: 1
   deaths: 0
   coinsCollected: []
   keysCollected: []

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,36 +11,42 @@ public class PlayerController : MonoBehaviour
 
     public float speed;
     [Space]
+    // water settings
     [SerializeField] private Transform waterLevel;
     [SerializeField][Range(0, 1)] private float waterDamping;
     [SerializeField] private float drownDuration;
     private float currentDrownDuration = 0;
     [Space]
+    // ice settings
     [SerializeField] private float iceFriction;
     [SerializeField] private float maxIceSpeed;
+    [Space]
+    // void setting(s)
+    [SerializeField] private float voidSuckDuration;
 
     [HideInInspector] public int deaths = 0;
 
     [HideInInspector] public List<GameObject> coinsCollected;
     [HideInInspector] public List<GameObject> keysCollected;
 
+    [HideInInspector] public List<GameObject> currentFields;
+
     [HideInInspector] public GameState currentState = null;
 
     [HideInInspector] public Vector2 startPos;
 
+    // components
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Animator animator;
     [HideInInspector] public EdgeCollider2D edgeCollider;
     private AppendSlider sliderController;
     private AppendNameTag nameTagController = null;
-
-    [HideInInspector] public List<GameObject> currentFields;
+    [HideInInspector] public PhotonView photonView;
+    private SpriteRenderer spriteRenderer;
 
     private Vector2 movementInput;
 
     [HideInInspector] public bool inDeathAnim = false;
-
-    [HideInInspector] public PhotonView photonView;
 
     private void Awake()
     {
@@ -52,6 +59,8 @@ public class PlayerController : MonoBehaviour
         edgeCollider = GetComponent<EdgeCollider2D>();
 
         photonView = GetComponent<PhotonView>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         if (GameManager.Instance.Multiplayer)
         {
@@ -124,6 +133,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // check water and update drown level
         bool water = IsOnWater();
 
         if (water && !inDeathAnim)
@@ -140,6 +150,7 @@ public class PlayerController : MonoBehaviour
         float drown = currentDrownDuration / drownDuration;
         waterLevel.localScale = new(waterLevel.localScale.x, drown);
 
+
         bool ice = IsOnIce();
 
         // movement (if player is yours in multiplayer mode)
@@ -147,16 +158,32 @@ public class PlayerController : MonoBehaviour
         {
             if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
 
-            if (!ice) 
+            if (ice) 
             { 
-                rb.MovePosition((Vector2)rb.transform.position + (water ? waterDamping * speed : speed) * Time.fixedDeltaTime * movementInput);
-            }
-            else
-            {
+                // acceleration on ice
                 rb.drag = iceFriction;
                 rb.AddForce(iceFriction * speed * 1.2f * movementInput, ForceMode2D.Force);
 
                 rb.velocity = new(Mathf.Min(maxIceSpeed, rb.velocity.x), Mathf.Min(maxIceSpeed, rb.velocity.y));
+            }
+            else
+            {
+                // snappy movement (when not on ice)
+                rb.MovePosition((Vector2)rb.transform.position + (water ? waterDamping * speed : speed) * Time.fixedDeltaTime * movementInput);
+            }
+
+            // check void death
+            GameObject currentVoid = CurrentVoid();
+            if(currentVoid != null)
+            {
+                // get sucked to void
+                Vector2 suckPosition = currentVoid.transform.position;
+
+                spriteRenderer.DOFade(0, voidSuckDuration);
+                transform.DOMove(suckPosition, voidSuckDuration);
+                transform.DOScale(Vector2.zero, voidSuckDuration)
+                
+                    .OnComplete(DeathAnimFinish);
             }
         }
     }
@@ -219,12 +246,23 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
-    public bool IsFullyOnField(FieldManager.FieldType type)
+    public List<GameObject> GetFullyOnFields()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.01f);
+        // finds every field the player is at least half way on
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.001f);
+        List<GameObject> res = new();
         foreach (Collider2D hit in hits)
         {
-            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(hit.gameObject);
+            res.Add(hit.gameObject);
+        }
+        return res;
+    }
+    public bool IsFullyOnField(FieldManager.FieldType type)
+    {
+        List<GameObject> fullyOnFields = GetFullyOnFields();
+        foreach(GameObject field in fullyOnFields)
+        {
+            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
             if (currentFieldType != null && currentFieldType == type)
             {
                 return true;
@@ -239,6 +277,25 @@ public class PlayerController : MonoBehaviour
     public bool IsOnIce()
     {
         return IsFullyOnField(FieldManager.FieldType.ICE);
+    }
+    public GameObject CurrentVoid()
+    {
+        // returns the void the player gets sucked to (null if none)
+        List<GameObject> fullyOnFields = GetFullyOnFields();
+        foreach (GameObject field in fullyOnFields)
+        {
+            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            if (currentFieldType != null && currentFieldType == FieldManager.FieldType.VOID)
+            {
+                return field;
+            }
+        }
+        return null;
+    }
+    public bool IsOnVoid()
+    {
+        // we dont need that, its just there lol
+        return IsFullyOnField(FieldManager.FieldType.VOID);
     }
 
     public GameObject GetCurrentField()
