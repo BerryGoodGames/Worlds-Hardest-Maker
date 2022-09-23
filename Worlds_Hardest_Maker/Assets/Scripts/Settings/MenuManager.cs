@@ -37,14 +37,9 @@ public class MenuManager : MonoBehaviour
         infobarPlayResize = infobarPlay.GetComponent<InfobarResize>();
         infobarEditResize = infobarEdit.GetComponent<InfobarResize>();
 
-        // prevMenuTab = currentMenuTab;
-
 #if UNITY_EDITOR
         mainMixer.SetFloat("MusicVolume", -80);
-        if(Instance != null)
-        {
-            Instance = this;
-        }
+        if(Instance != null) Instance = this;
 #endif
     }
 
