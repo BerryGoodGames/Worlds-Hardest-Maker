@@ -19,7 +19,7 @@ public class BallTriggerEvent : MonoBehaviour
 
             if (!controller.IsOnSafeField())
             {
-                controller.Die();
+                controller.DieNormal();
             }
         }
     }

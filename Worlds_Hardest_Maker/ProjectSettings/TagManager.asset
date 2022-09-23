@@ -24,6 +24,7 @@ TagManager:
   - DontDestroy
   - Water
   - Ice
+  - Void
   layers:
   - Default
   - TransparentFX

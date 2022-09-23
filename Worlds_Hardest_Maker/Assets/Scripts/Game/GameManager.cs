@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviourPun
         CHECKPOINT_FIELD, 
         ONE_WAY_FIELD, 
         WATER, ICE,
+        VOID,
         GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD, 
         PLAYER, 
         ANCHOR, 
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviourPun
     public GameObject OneWayField;
     public GameObject Water;
     public GameObject Ice;
+    public GameObject Void;
     public GameObject GrayKeyDoorField;
     public GameObject RedKeyDoorField;
     public GameObject GreenKeyDoorField;
@@ -440,7 +442,7 @@ public class GameManager : MonoBehaviourPun
         {
             PlayerController controller = player.GetComponent<PlayerController>();
             if (Instance.Multiplayer && !controller.photonView.IsMine) continue;
-            controller.Die();
+            controller.DieNormal();
         }
         
 

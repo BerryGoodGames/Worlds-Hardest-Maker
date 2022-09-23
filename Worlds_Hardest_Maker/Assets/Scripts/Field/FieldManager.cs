@@ -16,6 +16,7 @@ public class FieldManager : MonoBehaviour
         START_FIELD, GOAL_FIELD, START_AND_GOAL_FIELD, CHECKPOINT_FIELD, 
         ONE_WAY_FIELD, 
         WATER, ICE,
+        VOID,
         GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD
     }
 
@@ -36,6 +37,7 @@ public class FieldManager : MonoBehaviour
             GameManager.Instance.OneWayField,
             GameManager.Instance.Water,
             GameManager.Instance.Ice,
+            GameManager.Instance.Void,
             GameManager.Instance.GrayKeyDoorField,
             GameManager.Instance.RedKeyDoorField,
             GameManager.Instance.GreenKeyDoorField,
@@ -56,6 +58,7 @@ public class FieldManager : MonoBehaviour
             "OneWayField",
             "Water",
             "Ice",
+            "Void",
             "KeyDoorField",
             "RedKeyDoorField",
             "GreenKeyDoorField",

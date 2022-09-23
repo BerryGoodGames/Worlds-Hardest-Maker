@@ -27,8 +27,8 @@ public class ToolOptionbar : MonoBehaviour
         rtThis = GetComponent<RectTransform>();
         anim = GetComponent<AlphaUITween>();
 
-        anim.onSetVisible = () => EnableOptionbar();
-        anim.onIsInvisible = () => DisableOptionbar();
+        anim.onSetVisible += () => EnableOptionbar();
+        anim.onIsInvisible += () => DisableOptionbar();
 
         hh = hoveringHitbox.GetComponent(typeof(RectTransform)) as RectTransform;
         gridLayout = options.GetComponent<GridLayoutGroup>();
