@@ -177,17 +177,7 @@ public class PlayerController : MonoBehaviour
             if(!inDeathAnim && currentVoid != null)
             {
                 // get sucked to void
-                Vector2 suckPosition = currentVoid.transform.position;
-
-                spriteRenderer.material.DOFade(0, voidSuckDuration)
-                    .SetEase(Ease.Linear);
-                transform.DOMove(suckPosition, voidSuckDuration)
-                    .SetEase(Ease.OutQuint);
-                transform.DOScale(Vector2.zero, voidSuckDuration)
-                    .SetEase(Ease.OutQuad)
-                    .OnComplete(DeathAnimFinish);
-
-                inDeathAnim = true;
+                DieVoid(currentVoid);
             }
         }
     }
@@ -314,16 +304,15 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.TogglePlay();
     }
 
-    public void Die()
+    public void DieNormal()
     {
+        // default dying
         // avoid dying while in animation
         if (!inDeathAnim)
         {
             // animation trigger and no movement
             DeathAnim();
             if (GameManager.Instance.Multiplayer) photonView.RPC("DeathAnim", RpcTarget.Others);
-            rb.simulated = false;
-            inDeathAnim = true;
         }
 
         // avoid doing more if not own view in multiplayer
@@ -333,14 +322,45 @@ public class PlayerController : MonoBehaviour
         {
             // sfx and death counter
             AudioManager.Instance.Play("Smack");
-            deaths++;
         }
+
+        Die();
+    }
+    public void DieVoid(GameObject voidField)
+    {
+        // dying through void
+        Vector2 suckPosition = voidField.transform.position;
+
+        spriteRenderer.material.DOFade(0, voidSuckDuration)
+            .SetEase(Ease.Linear);
+        transform.DOMove(suckPosition, voidSuckDuration)
+            .SetEase(Ease.OutQuint);
+        transform.DOScale(Vector2.zero, voidSuckDuration)
+            .SetEase(Ease.OutQuad)
+            .OnComplete(DeathAnimFinish);
+
+
+        AudioManager.Instance.Play("Void");
+
+        Die();
+    }
+    private void Die()
+    {
+        // general method when dying in any way
+
+        rb.simulated = false;
+        inDeathAnim = true;
+
+        // avoid doing more if not own view in multiplayer
+        if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
+
+        if(GameManager.Instance.Playing) deaths++;
 
         // update coin counter
         coinsCollected.Clear();
         if (currentState != null)
         {
-            foreach(Vector2 coinPos in currentState.collectedCoins)
+            foreach (Vector2 coinPos in currentState.collectedCoins)
             {
                 GameObject coin = CoinManager.GetCoin(coinPos);
                 if (coin != null) coinsCollected.Add(coin);

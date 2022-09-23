@@ -3762,7 +3762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454112, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454112, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: m_AnchorMax.x
@@ -5290,7 +5290,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454112, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454112, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: m_AnchorMax.x
@@ -6965,7 +6965,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454112, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454112, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: m_AnchorMax.x
@@ -8240,6 +8240,15 @@ MonoBehaviour:
     playOnAwake: 0
     loop: 0
     volume: 1
+    pitch: 1
+    source: {fileID: 0}
+  - name: Void
+    AudioClip: {fileID: 8300000, guid: 4cbe3a8ca623e584890e8675bfd4047e, type: 3}
+    Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    mute: 0
+    playOnAwake: 0
+    loop: 0
+    volume: 0.6
     pitch: 1
     source: {fileID: 0}
   - name: Music
@@ -11181,7 +11190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454112, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454112, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: m_AnchorMax.x
@@ -11298,10 +11307,10 @@ RectTransform:
   - {fileID: 1800353906}
   - {fileID: 1475299346}
   - {fileID: 1787395756}
+  - {fileID: 1281356348}
   - {fileID: 1600437776}
   - {fileID: 847154803}
   - {fileID: 863848187}
-  - {fileID: 1281356348}
   - {fileID: 763596879}
   - {fileID: 1984147276}
   - {fileID: 307255300}

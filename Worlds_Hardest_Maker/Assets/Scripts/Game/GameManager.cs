@@ -442,7 +442,7 @@ public class GameManager : MonoBehaviourPun
         {
             PlayerController controller = player.GetComponent<PlayerController>();
             if (Instance.Multiplayer && !controller.photonView.IsMine) continue;
-            controller.Die();
+            controller.DieNormal();
         }
         
 
