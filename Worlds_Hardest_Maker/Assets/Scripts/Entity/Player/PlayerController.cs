@@ -177,7 +177,7 @@ public class PlayerController : MonoBehaviour
             if(!inDeathAnim && currentVoid != null)
             {
                 // get sucked to void
-                DieVoid(currentVoid);
+                DieVoid();
             }
         }
     }
@@ -326,11 +326,10 @@ public class PlayerController : MonoBehaviour
 
         Die();
     }
-    public void DieVoid(GameObject voidField)
+    public void DieVoid()
     {
         // dying through void
-        Vector2 suckPosition = (Vector2)transform.position + (new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) / 2);
-
+        Vector2 suckPosition = (Vector2)transform.position + (new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * 0.5f);
 
         spriteRenderer.material.DOFade(0, voidSuckDuration)
             .SetEase(Ease.Linear);
@@ -339,7 +338,6 @@ public class PlayerController : MonoBehaviour
         transform.DOScale(Vector2.zero, voidSuckDuration)
             .SetEase(Ease.OutQuad)
             .OnComplete(DeathAnimFinish);
-
 
         AudioManager.Instance.Play("Void");
 
