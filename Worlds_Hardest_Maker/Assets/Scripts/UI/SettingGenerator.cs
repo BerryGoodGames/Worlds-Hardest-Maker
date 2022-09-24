@@ -5,29 +5,30 @@ using UnityEngine;
 
 public class SettingGenerator : MonoBehaviour
 {
-    private enum settingVersion
+    private enum SettingVersion
     {
-        DROPDOWN, CHECKBOX, SLIDER
+        DROPDOWN, CHECKBOX, SLIDER, NUMBER_INPUT
     }
 
     #region OPTIONS
 #if UNITY_EDITOR
     [Header("Options")]
     [SerializeField] private string label;
-    [SerializeField] private settingVersion version;
+    [SerializeField] private SettingVersion version;
     [SerializeField] private int amount = 1;
 #endif
-#endregion
+    #endregion
 
     [Space]
 
-#region REFERENCES
+    #region REFERENCES
     [Header("References")]
     [SerializeField] private GameObject dropdownPrefab;
     [SerializeField] private GameObject checkboxPrefab;
     [SerializeField] private GameObject sliderPrefab;
+    [SerializeField] private GameObject numberInputPrefab;
     [SerializeField] private Transform container;
-#endregion
+    #endregion
 
     public void GenerateSetting()
     {
@@ -36,14 +37,17 @@ public class SettingGenerator : MonoBehaviour
         // get right prefab, defaults to dropdow prefab
         switch(version)
         {
-            case settingVersion.DROPDOWN:
+            case SettingVersion.DROPDOWN:
                 prefab = dropdownPrefab;
                 break;
-            case settingVersion.CHECKBOX:
+            case SettingVersion.CHECKBOX:
                 prefab = checkboxPrefab;
                 break;
-            case settingVersion.SLIDER:
+            case SettingVersion.SLIDER:
                 prefab = sliderPrefab;
+                break;
+            case SettingVersion.NUMBER_INPUT:
+                prefab = numberInputPrefab;
                 break;
             default:
                 Debug.LogWarning("you probably forgor ?? to put prefab here, defaulted to dropdown");
