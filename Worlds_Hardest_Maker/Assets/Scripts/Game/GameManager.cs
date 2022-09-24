@@ -213,6 +213,12 @@ public class GameManager : MonoBehaviourPun
         } else {
             PlayerManager.Instance.SetPlayer(0.5f, 0.5f, 3);
         }
+
+        LevelSettings.Instance.SetDrownDuration();
+        LevelSettings.Instance.SetIceFriction();
+        LevelSettings.Instance.SetIceMaxSpeed();
+        LevelSettings.Instance.SetWaterDamping();
+
     }
 
     private void Update()

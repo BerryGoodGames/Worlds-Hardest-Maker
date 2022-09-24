@@ -122,6 +122,8 @@ public class PlayerController : MonoBehaviour
         UpdateSpeedText();
 
         if (GameManager.Instance.Multiplayer) photonView.RPC("SetNameTagActive", RpcTarget.All, GameManager.Instance.Playing);
+
+        SyncToLevelSettings();
     }
 
     private void Update()
@@ -147,9 +149,11 @@ public class PlayerController : MonoBehaviour
         }
         else if(!inDeathAnim && !water) currentDrownDuration = 0;
 
-        float drown = currentDrownDuration / drownDuration;
-        waterLevel.localScale = new(waterLevel.localScale.x, drown);
-
+        if (drownDuration != 0)
+        {
+            float drown = currentDrownDuration / drownDuration;
+            waterLevel.localScale = new(waterLevel.localScale.x, drown);
+        }
 
         bool ice = IsOnIce();
 
@@ -539,5 +543,13 @@ public class PlayerController : MonoBehaviour
                 if(!KeysCollected(comp.color)) comp.Lock(true);
             }
         }
+    }
+
+    public void SyncToLevelSettings()
+    {
+        drownDuration = LevelSettings.Instance.drownDuration;
+        waterDamping = LevelSettings.Instance.waterDamping;
+        iceFriction = LevelSettings.Instance.iceFriction;
+        maxIceSpeed = LevelSettings.Instance.iceMaxSpeed;
     }
 }

@@ -34,7 +34,7 @@ public class NumberInput : MonoBehaviour
     }
 
     private void SetNumberText(float num) { numberText.text = num.ToString(); }
-    private float GetCurrentNumber() { return float.Parse(numberText.text); }
+    public float GetCurrentNumber() { return float.Parse(numberText.text); }
 
     private void Start()
     {
