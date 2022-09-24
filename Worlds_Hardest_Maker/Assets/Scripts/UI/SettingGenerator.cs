@@ -62,7 +62,7 @@ public class SettingGenerator : MonoBehaviour
             GameObject setting = (GameObject)PrefabUtility.InstantiatePrefab(prefab, container);
 
             // set label and object name
-            setting.GetComponentInChildren<TMPro.TMP_Text>().text = label;
+            setting.transform.GetChild(setting.transform.childCount - 1).GetComponent<TMPro.TMP_Text>().text = label;
             setting.name = setting.name.Replace("Option", label);
 
         }
