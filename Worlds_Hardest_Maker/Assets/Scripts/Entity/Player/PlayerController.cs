@@ -243,7 +243,7 @@ public class PlayerController : MonoBehaviour
     public List<GameObject> GetFullyOnFields()
     {
         // finds every field the player is at least half way on
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.001f);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.011f);
         List<GameObject> res = new();
         foreach (Collider2D hit in hits)
         {
