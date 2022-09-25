@@ -12,7 +12,6 @@ public class LevelSettings : MonoBehaviour
     [SerializeField] private Slider waterDampingSlider;
     [SerializeField] private NumberInput iceFrictionInput;
     [SerializeField] private NumberInput iceMaxSpeedInput;
-
     #endregion
 
     #region SETTING VARIABLES
@@ -26,18 +25,22 @@ public class LevelSettings : MonoBehaviour
     public void SetDrownDuration()
     {
         Instance.drownDuration = drownDurationInput.GetCurrentNumber();
+        SyncPlayersToSettings();
     }
     public void SetWaterDamping()
     {
-        Instance.waterDamping = waterDampingSlider.value;
+        Instance.waterDamping = 1 - waterDampingSlider.value;
+        SyncPlayersToSettings();
     }
     public void SetIceFriction()
     {
         Instance.iceFriction = iceFrictionInput.GetCurrentNumber();
+        SyncPlayersToSettings();
     }
     public void SetIceMaxSpeed()
     {
         Instance.iceMaxSpeed = iceMaxSpeedInput.GetCurrentNumber();
+        SyncPlayersToSettings();
     }
     #endregion
 

@@ -163,7 +163,10 @@ public class PlayerController : MonoBehaviour
             if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
 
             if (ice) 
-            { 
+            {
+                // transfer velocity to ice when entering
+                if (rb.velocity == Vector2.zero) rb.velocity = (water ? waterDamping * speed : speed) * movementInput;
+
                 // acceleration on ice
                 rb.drag = iceFriction;
                 rb.AddForce(iceFriction * speed * 1.2f * movementInput, ForceMode2D.Force);
@@ -172,10 +175,12 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                rb.velocity = Vector2.zero;
+
                 // snappy movement (when not on ice)
                 rb.MovePosition((Vector2)rb.transform.position + (water ? waterDamping * speed : speed) * Time.fixedDeltaTime * movementInput);
             }
-            ;
+            
             // check void death
             GameObject currentVoid = CurrentVoid();
             if(!inDeathAnim && currentVoid != null)
