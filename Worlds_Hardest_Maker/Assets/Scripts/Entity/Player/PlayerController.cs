@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector] public bool inDeathAnim = false;
 
+    private bool onWater = false;
+
     private void Awake()
     {
         coinsCollected = new();
@@ -136,18 +138,25 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         // check water and update drown level
-        bool water = IsOnWater();
+        bool onWaterNow = IsOnWater();
+        if (!onWater && onWaterNow)
+        {
+            // frame player enters water
+            AudioManager.Instance.Play("WaterEnter");
+        }
 
-        if (water && !inDeathAnim)
+        onWater = onWaterNow;
+
+        if (onWater && !inDeathAnim)
         {
             currentDrownDuration += Time.fixedDeltaTime;
 
             if (currentDrownDuration >= drownDuration)
             {
-                DieNormal();
+                DieNormal("Drown");
             }
         }
-        else if(!inDeathAnim && !water) currentDrownDuration = 0;
+        else if(!inDeathAnim && !onWater) currentDrownDuration = 0;
 
         if (drownDuration != 0)
         {
@@ -165,7 +174,7 @@ public class PlayerController : MonoBehaviour
             if (ice) 
             {
                 // transfer velocity to ice when entering
-                if (rb.velocity == Vector2.zero) rb.velocity = (water ? waterDamping * speed : speed) * movementInput;
+                if (rb.velocity == Vector2.zero) rb.velocity = (onWater ? waterDamping * speed : speed) * movementInput;
 
                 // acceleration on ice
                 rb.drag = iceFriction;
@@ -178,7 +187,7 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = Vector2.zero;
 
                 // snappy movement (when not on ice)
-                rb.MovePosition((Vector2)rb.transform.position + (water ? waterDamping * speed : speed) * Time.fixedDeltaTime * movementInput);
+                rb.MovePosition((Vector2)rb.transform.position + (onWater ? waterDamping * speed : speed) * Time.fixedDeltaTime * movementInput);
             }
             
             // check void death
@@ -315,7 +324,7 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.TogglePlay();
     }
 
-    public void DieNormal()
+    public void DieNormal(string soundEffect = "Smack")
     {
         // default dying
         // avoid dying while in animation
@@ -332,7 +341,7 @@ public class PlayerController : MonoBehaviour
         if (GameManager.Instance.Playing)
         {
             // sfx and death counter
-            AudioManager.Instance.Play("Smack");
+            AudioManager.Instance.Play(soundEffect);
         }
 
         Die();

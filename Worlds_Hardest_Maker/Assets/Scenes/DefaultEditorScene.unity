@@ -9274,6 +9274,24 @@ MonoBehaviour:
     volume: 0.3
     pitch: 1
     source: {fileID: 0}
+  - name: WaterEnter
+    AudioClip: {fileID: 8300000, guid: 456d06fa26492c241aa89373cf1afc25, type: 3}
+    Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    mute: 0
+    playOnAwake: 0
+    loop: 0
+    volume: 0.3
+    pitch: 1
+    source: {fileID: 0}
+  - name: Drown
+    AudioClip: {fileID: 8300000, guid: 663125b1034952e40b237f5113491f72, type: 3}
+    Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    mute: 0
+    playOnAwake: 0
+    loop: 0
+    volume: 0.3
+    pitch: 1
+    source: {fileID: 0}
 --- !u!114 &3252578248619094238
 MonoBehaviour:
   m_ObjectHideFlags: 0
