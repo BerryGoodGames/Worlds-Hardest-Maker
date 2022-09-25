@@ -9305,7 +9305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dbgEnabled: 1
-  textMode: 1
+  textMode: 4
   count: 0
   wallOutlines: 1
   drawRays: 0
