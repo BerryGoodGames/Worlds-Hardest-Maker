@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour
 
             if (currentDrownDuration >= drownDuration)
             {
-                Die();
+                DieNormal();
             }
         }
         else if(!inDeathAnim && !water) currentDrownDuration = 0;
@@ -223,6 +223,7 @@ public class PlayerController : MonoBehaviour
         return new(Mathf.Floor(transform.position.x), Mathf.Floor(transform.position.y));
     }
 
+    #region FIELD DETECTION
     public bool IsOnSafeField()
     {
         foreach (GameObject field in currentFields)
@@ -305,6 +306,7 @@ public class PlayerController : MonoBehaviour
     {
         return FieldManager.GetField((int)Mathf.Round(transform.position.x), (int)Mathf.Round(transform.position.y));
     }
+    #endregion
 
     public void Win()
     {
