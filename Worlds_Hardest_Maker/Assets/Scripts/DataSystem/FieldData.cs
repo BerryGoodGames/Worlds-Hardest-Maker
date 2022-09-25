@@ -21,7 +21,7 @@ public class FieldData : IData
         fieldType = typeEnum.ToString();
     }
 
-    public override void CreateObject()
+    public override void ImportToLevel()
     {
         FieldManager.FieldType type = (FieldManager.FieldType)System.Enum.Parse(typeof(FieldManager.FieldType), fieldType);
 

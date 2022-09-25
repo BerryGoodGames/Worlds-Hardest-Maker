@@ -42,7 +42,7 @@ public class AnchorData : IData
         ballPositions = ballPositionsList.ToArray();
     }
 
-    public override void CreateObject()
+    public override void ImportToLevel()
     {
         // create object
         GameObject anchor = AnchorManager.Instance.SetAnchor(position[0], position[1]);

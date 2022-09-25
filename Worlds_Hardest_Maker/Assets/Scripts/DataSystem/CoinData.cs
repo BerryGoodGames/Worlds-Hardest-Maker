@@ -17,7 +17,7 @@ public class CoinData : IData
         position[1] = controller.transform.position.y;
     }
 
-    public override void CreateObject()
+    public override void ImportToLevel()
     {
         CoinManager.Instance.SetCoin(position[0], position[1]);
     }

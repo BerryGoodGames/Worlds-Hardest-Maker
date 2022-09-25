@@ -25,7 +25,7 @@ public class BallData : IData
         bouncePosition[1] = controller.bounce.position.y;
     }
 
-    public override void CreateObject()
+    public override void ImportToLevel()
     {
         float[] ballPos = startPosition;
         float[] bouncePos = { bouncePosition[0] - ballPos[0], bouncePosition[1] - ballPos[1] };

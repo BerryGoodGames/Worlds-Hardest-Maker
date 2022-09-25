@@ -22,29 +22,56 @@ public class LevelSettings : MonoBehaviour
     #endregion
 
     #region LEVEL SETTINGS
-    public void SetDrownDuration()
+    public void SetDrownDuration(bool syncPlayers = true)
     {
         Instance.drownDuration = drownDurationInput.GetCurrentNumber();
-        SyncPlayersToSettings();
+        if(syncPlayers) SyncPlayersToSettings();
     }
-    public void SetWaterDamping()
+    public void SetDrownDuration(float drownDuration, bool syncPlayers = true)
+    {
+        Instance.drownDuration = drownDuration;
+        drownDurationInput.SetNumberText(drownDuration);
+        if (syncPlayers) SyncPlayersToSettings();
+    }
+
+    public void SetWaterDamping(bool syncPlayers = true)
     {
         Instance.waterDamping = 1 - waterDampingSlider.value;
-        SyncPlayersToSettings();
+        if (syncPlayers) SyncPlayersToSettings();
     }
-    public void SetIceFriction()
+    public void SetWaterDamping(float waterDamping, bool syncPlayers = true)
+    {
+        Instance.waterDamping = waterDamping;
+        waterDampingSlider.value = 1 - waterDamping;
+        if (syncPlayers) SyncPlayersToSettings();
+    }
+
+    public void SetIceFriction(bool syncPlayers = true)
     {
         Instance.iceFriction = iceFrictionInput.GetCurrentNumber();
-        SyncPlayersToSettings();
+        if (syncPlayers) SyncPlayersToSettings();
     }
-    public void SetIceMaxSpeed()
+    public void SetIceFriction(float friction, bool syncPlayers = true)
+    {
+        Instance.iceFriction = friction;
+        iceFrictionInput.SetNumberText(friction);
+        if (syncPlayers) SyncPlayersToSettings();
+    }
+
+    public void SetIceMaxSpeed(bool syncPlayers = true)
     {
         Instance.iceMaxSpeed = iceMaxSpeedInput.GetCurrentNumber();
-        SyncPlayersToSettings();
+        if (syncPlayers) SyncPlayersToSettings();
+    }
+    public void SetIceMaxSpeed(float speed, bool syncPlayers = true)
+    {
+        Instance.iceMaxSpeed = speed;
+        iceMaxSpeedInput.SetNumberText(speed);
+        if (syncPlayers) SyncPlayersToSettings();
     }
     #endregion
 
-    private void SyncPlayersToSettings()
+    public void SyncPlayersToSettings()
     {
         PlayerController[] controllers = FindObjectsOfType<PlayerController>();
         foreach(PlayerController p in controllers)

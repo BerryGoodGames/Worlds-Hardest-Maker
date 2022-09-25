@@ -10,7 +10,7 @@ public class NumberInput : MonoBehaviour
     [SerializeField] private float min;
     [SerializeField] private float max;
     [Space]
-    [SerializeField] private TMPro.TMP_Text numberText;
+    public TMPro.TMP_Text numberText;
     private NumberInputTween tweenController;
     
     public void Increase()
@@ -33,7 +33,7 @@ public class NumberInput : MonoBehaviour
         }
     }
 
-    private void SetNumberText(float num) { numberText.text = num.ToString(); }
+    public void SetNumberText(float num) { numberText.text = num.ToString(); }
     public float GetCurrentNumber() { return float.Parse(numberText.text); }
 
     private void Start()

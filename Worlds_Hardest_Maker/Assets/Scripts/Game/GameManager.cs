@@ -223,6 +223,7 @@ public class GameManager : MonoBehaviourPun
 
     private void Update()
     {
+        print(LevelSettings.Instance.drownDuration);
         // check if toolbar background is hovered
         Instance.UIHovered = EventSystem.current.IsPointerOverGameObject();
     }
@@ -534,6 +535,7 @@ public class GameManager : MonoBehaviourPun
         ClearLevel();
         List<FieldData> fieldDatas = new();
         PlayerData playerData = null;
+        LevelSettingsData levelSettingsData = null;
 
         // load ball, coins
         foreach (IData levelObject in levelData)
@@ -548,21 +550,26 @@ public class GameManager : MonoBehaviourPun
                 playerData = (PlayerData)levelObject;
                 continue;
             }
-            levelObject.CreateObject();
+            else if (levelObject.GetType() == typeof(LevelSettingsData))
+            {
+                levelSettingsData = (LevelSettingsData)levelObject;
+                continue;
+            }
+            levelObject.ImportToLevel();
         }
 
 
         // load fields
         foreach (FieldData field in fieldDatas)
         {
-            field.CreateObject();
+            field.ImportToLevel();
         }
 
         // load player last
-        if (playerData != null)
-        {
-            playerData.CreateObject();
-        }
+        if (playerData != null) playerData.ImportToLevel();
+
+        // load level settings
+        if (levelSettingsData != null) levelSettingsData.ImportToLevel();
     }
     [PunRPC]
     public void ReceiveLevel(string content)
