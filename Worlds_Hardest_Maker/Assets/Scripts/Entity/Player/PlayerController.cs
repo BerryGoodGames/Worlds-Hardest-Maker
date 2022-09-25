@@ -350,7 +350,7 @@ public class PlayerController : MonoBehaviour
     {
 
         // dying through void
-        Vector2 suckPosition = (Vector2)transform.position + movementInput;
+        Vector2 suckPosition = (Vector2)transform.position + movementInput * 0.5f;
 
         spriteRenderer.material.DOFade(0, voidSuckDuration)
             .SetEase(Ease.Linear);
