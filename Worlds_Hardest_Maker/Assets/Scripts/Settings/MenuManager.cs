@@ -9,9 +9,10 @@ public class MenuManager : MonoBehaviour
     public static MenuManager Instance { get; private set; }
     public enum MenuTab
     {
-        GRAPHIC = 0, UI = 1, SOUND = 2
+        LEVEL = 0, GRAPHIC = 1, UI = 2, SOUND = 3
     }
     [Header("Constants & References")]
+    public GameObject levelSettingsUI;
     public GameObject graphicSettingsUI;
     public GameObject UISettingsUI;
     public GameObject soundSettingsUI;
@@ -36,33 +37,35 @@ public class MenuManager : MonoBehaviour
         infobarPlayResize = infobarPlay.GetComponent<InfobarResize>();
         infobarEditResize = infobarEdit.GetComponent<InfobarResize>();
 
-        prevMenuTab = currentMenuTab;
-
 #if UNITY_EDITOR
         mainMixer.SetFloat("MusicVolume", -80);
-        if(Instance != null)
-        {
-            Instance = this;
-        }
+        if(Instance != null) Instance = this;
 #endif
     }
 
-    public void ChangeMenuTab(int tab)
+    private void Start()
+    {
+        ChangeMenuTab(currentMenuTab);
+    }
+    
+    public void ChangeMenuTab(MenuTab tab)
     {
         // REF
-        MenuTab newTab = (MenuTab)tab;
-
-        if(newTab != prevMenuTab)
+        if (tab != prevMenuTab)
         {
             Dictionary<MenuTab, GameObject> dict = GetTabDict();
             for (int i = 0; i < System.Enum.GetValues(typeof(MenuTab)).Length; i++)
             {
                 dict[(MenuTab)i].SetActive(false);
             }
-            dict[newTab].SetActive(true);
-            currentMenuTab = (MenuTab)tab;
+            dict[tab].SetActive(true);
+            currentMenuTab = tab;
         }
-        prevMenuTab = newTab;
+        prevMenuTab = tab;
+    }
+    public void ChangeMenuTab(int tab)
+    {
+        ChangeMenuTab((MenuTab)tab);
     }
 
     public Dictionary<MenuTab, GameObject> GetTabDict()
@@ -70,6 +73,7 @@ public class MenuManager : MonoBehaviour
         // REF
         Dictionary<MenuTab, GameObject> dict = new()
         {
+            { MenuTab.LEVEL, levelSettingsUI },
             { MenuTab.GRAPHIC, graphicSettingsUI },
             { MenuTab.SOUND, soundSettingsUI } ,
             { MenuTab.UI, UISettingsUI }

@@ -46,6 +46,8 @@ public class BarTween : MonoBehaviour
 
     private void TweenInvis()
     {
+        rt.DOKill();
+
         Tween t = rt.DOAnchorPosY(invisibleY, disappearDuration);
         if (easeDisappearCurve.length > 1) t.SetEase(easeDisappearCurve);
         else t.SetEase(easeDisappear);
@@ -53,6 +55,8 @@ public class BarTween : MonoBehaviour
 
     private void TweenVis()
     {
+        rt.DOKill();
+
         Tween t = rt.DOAnchorPosY(visibleY, appearDuration);
         if (easeAppearCurve.length > 1) t.SetEase(easeAppearCurve);
         else t.SetEase(easeAppear);
