@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector] public bool inDeathAnim = false;
 
+    private bool onWater = false;
+
     private void Awake()
     {
         coinsCollected = new();
@@ -122,6 +124,8 @@ public class PlayerController : MonoBehaviour
         UpdateSpeedText();
 
         if (GameManager.Instance.Multiplayer) photonView.RPC("SetNameTagActive", RpcTarget.All, GameManager.Instance.Playing);
+
+        SyncToLevelSettings();
     }
 
     private void Update()
@@ -134,22 +138,31 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         // check water and update drown level
-        bool water = IsOnWater();
+        bool onWaterNow = IsOnWater();
+        if (!onWater && onWaterNow)
+        {
+            // frame player enters water
+            AudioManager.Instance.Play("WaterEnter");
+        }
 
-        if (water && !inDeathAnim)
+        onWater = onWaterNow;
+
+        if (onWater && !inDeathAnim)
         {
             currentDrownDuration += Time.fixedDeltaTime;
 
             if (currentDrownDuration >= drownDuration)
             {
-                Die();
+                DieNormal("Drown");
             }
         }
-        else if(!inDeathAnim && !water) currentDrownDuration = 0;
+        else if(!inDeathAnim && !onWater) currentDrownDuration = 0;
 
-        float drown = currentDrownDuration / drownDuration;
-        waterLevel.localScale = new(waterLevel.localScale.x, drown);
-
+        if (drownDuration != 0)
+        {
+            float drown = currentDrownDuration / drownDuration;
+            waterLevel.localScale = new(waterLevel.localScale.x, drown);
+        }
 
         bool ice = IsOnIce();
 
@@ -159,7 +172,10 @@ public class PlayerController : MonoBehaviour
             if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
 
             if (ice) 
-            { 
+            {
+                // transfer velocity to ice when entering
+                if (rb.velocity == Vector2.zero) rb.velocity = (onWater ? waterDamping * speed : speed) * movementInput;
+
                 // acceleration on ice
                 rb.drag = iceFriction;
                 rb.AddForce(iceFriction * speed * 1.2f * movementInput, ForceMode2D.Force);
@@ -168,10 +184,12 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                rb.velocity = Vector2.zero;
+
                 // snappy movement (when not on ice)
-                rb.MovePosition((Vector2)rb.transform.position + (water ? waterDamping * speed : speed) * Time.fixedDeltaTime * movementInput);
+                rb.MovePosition((Vector2)rb.transform.position + (onWater ? waterDamping * speed : speed) * Time.fixedDeltaTime * movementInput);
             }
-            ;
+            
             // check void death
             GameObject currentVoid = CurrentVoid();
             if(!inDeathAnim && currentVoid != null)
@@ -214,6 +232,7 @@ public class PlayerController : MonoBehaviour
         return new(Mathf.Floor(transform.position.x), Mathf.Floor(transform.position.y));
     }
 
+    #region FIELD DETECTION
     public bool IsOnSafeField()
     {
         foreach (GameObject field in currentFields)
@@ -296,6 +315,7 @@ public class PlayerController : MonoBehaviour
     {
         return FieldManager.GetField((int)Mathf.Round(transform.position.x), (int)Mathf.Round(transform.position.y));
     }
+    #endregion
 
     public void Win()
     {
@@ -304,7 +324,7 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.TogglePlay();
     }
 
-    public void DieNormal()
+    public void DieNormal(string soundEffect = "Smack")
     {
         // default dying
         // avoid dying while in animation
@@ -321,7 +341,7 @@ public class PlayerController : MonoBehaviour
         if (GameManager.Instance.Playing)
         {
             // sfx and death counter
-            AudioManager.Instance.Play("Smack");
+            AudioManager.Instance.Play(soundEffect);
         }
 
         Die();
@@ -539,5 +559,13 @@ public class PlayerController : MonoBehaviour
                 if(!KeysCollected(comp.color)) comp.Lock(true);
             }
         }
+    }
+
+    public void SyncToLevelSettings()
+    {
+        drownDuration = LevelSettings.Instance.drownDuration;
+        waterDamping = LevelSettings.Instance.waterDamping;
+        iceFriction = LevelSettings.Instance.iceFriction;
+        maxIceSpeed = LevelSettings.Instance.iceMaxSpeed;
     }
 }

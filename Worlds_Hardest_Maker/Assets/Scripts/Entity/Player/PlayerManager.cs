@@ -64,7 +64,7 @@ public class PlayerManager : MonoBehaviour
     [PunRPC]
     public void SetPlayer(float mx, float my)
     {
-        SetPlayer(mx, my, 3);
+        SetPlayer(mx, my, 2.5f);
     }
 
     [PunRPC]

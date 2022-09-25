@@ -12,6 +12,7 @@ using UnityEditor.Events;
 public class SyncInputToSlider : MonoBehaviour
 {
     [SerializeField] private Slider slider;
+    [SerializeField] private float decimals = 2;
     private TMP_InputField input;
 
     private void Start()
@@ -26,7 +27,7 @@ public class SyncInputToSlider : MonoBehaviour
     public void UpdateSlider()
     {
         // try to read input text and set slider value
-        if(float.TryParse(input.text, out float value)) slider.value = value;
+        if (float.TryParse(input.text, out float value)) slider.value = Rounded(value);
     }
 
     /// <summary>
@@ -37,7 +38,7 @@ public class SyncInputToSlider : MonoBehaviour
     {
         if(input == null) input = GetComponent<TMP_InputField>();
         // convert slider value to text and put in into the input
-        input.text = slider.value.ToString();
+        input.text = Rounded(slider.value).ToString();
     }
 
     /// <summary>
@@ -55,6 +56,8 @@ public class SyncInputToSlider : MonoBehaviour
         UnityEventTools.AddPersistentListener(slider.onValueChanged, (float input) => { UpdateInput(); }); ; // add Update Input to persistnent event listener
 #endif
     }
+
+    private float Rounded(float value) { return Mathf.Round(value * Mathf.Pow(10, decimals)) * Mathf.Pow(10, -decimals); }
 }
 
 

@@ -68,6 +68,7 @@ public class KeyEvents : MonoBehaviour
             { new KeyCode[] { KeyCode.O }, GameManager.EditMode.ONE_WAY_FIELD },
             { new KeyCode[] { KeyCode.W, KeyCode.A }, GameManager.EditMode.WATER },
             { new KeyCode[] { KeyCode.I }, GameManager.EditMode.ICE },
+            { new KeyCode[] { KeyCode.V }, GameManager.EditMode.VOID },
             { new KeyCode[] { KeyCode.P }, GameManager.EditMode.PLAYER },
             { new KeyCode[] { KeyCode.B }, GameManager.EditMode.BALL_DEFAULT },
             { new KeyCode[] { KeyCode.C }, GameManager.EditMode.COIN },
