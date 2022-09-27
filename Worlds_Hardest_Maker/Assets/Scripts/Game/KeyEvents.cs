@@ -78,7 +78,6 @@ public class KeyEvents : MonoBehaviour
             { new KeyCode[] { KeyCode.B, KeyCode.K }, GameManager.EditMode.BLUE_KEY },
             { new KeyCode[] { KeyCode.Y, KeyCode.K }, GameManager.EditMode.YELLOW_KEY },
             { new KeyCode[] { KeyCode.B, KeyCode.C }, GameManager.EditMode.BALL_CIRCLE },
-            { new KeyCode[] { KeyCode.S, KeyCode.G }, GameManager.EditMode.START_AND_GOAL_FIELD },
             { new KeyCode[] { KeyCode.H, KeyCode.C }, GameManager.EditMode.CHECKPOINT_FIELD }
         };
         return keys;

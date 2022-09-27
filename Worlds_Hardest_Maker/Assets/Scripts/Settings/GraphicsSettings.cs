@@ -48,7 +48,7 @@ public class GraphicsSettings : MonoBehaviour
             if (oneColor)
             {
                 // set start, goal, checkpoints and startgoal fields unique color
-                string[] tags = { "StartField", "GoalField", "StartAndGoalField", "CheckpointField" };
+                string[] tags = { "StartField", "GoalField", "CheckpointField" };
                 for(int i = 0; i < tags.Length; i++)
                 {
                     if (field.CompareTag(tags[i]))
@@ -65,7 +65,7 @@ public class GraphicsSettings : MonoBehaviour
             else
             {
                 // set colorful colors to start, goal, checkpoints and startgoal fields
-                string[] tags = { "StartField", "GoalField", "StartAndGoalField" };
+                string[] tags = { "StartField", "GoalField" };
                 List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
 
                 for (int i = 0; i < tags.Length; i++)

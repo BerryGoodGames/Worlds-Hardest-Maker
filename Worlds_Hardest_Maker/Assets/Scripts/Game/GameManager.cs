@@ -18,8 +18,7 @@ public class GameManager : MonoBehaviourPun
     {
         DELETE_FIELD, 
         WALL_FIELD, 
-        START_FIELD, GOAL_FIELD, START_AND_GOAL_FIELD,
-        CHECKPOINT_FIELD, 
+        START_FIELD, GOAL_FIELD, CHECKPOINT_FIELD, 
         ONE_WAY_FIELD, 
         WATER, ICE,
         VOID,
@@ -37,7 +36,6 @@ public class GameManager : MonoBehaviourPun
     public GameObject WallField;
     public GameObject StartField;
     public GameObject GoalField;
-    public GameObject StartAndGoalField;
     public GameObject CheckpointField;
     public GameObject OneWayField;
     public GameObject Water;
@@ -309,6 +307,7 @@ public class GameManager : MonoBehaviourPun
 
             if (Instance.Multiplayer && !controller.photonView.IsMine) continue;
 
+            controller.currentFields.Clear();
             controller.currentState = null;
             controller.deaths = 0;
         }

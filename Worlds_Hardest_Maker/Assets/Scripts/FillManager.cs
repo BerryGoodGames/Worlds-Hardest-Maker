@@ -174,7 +174,7 @@ public class FillManager : MonoBehaviour
             GameObject prefab = FieldManager.GetPrefabByType(type);
             GameObject field = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), GameManager.Instance.FieldContainer.transform);
             // REF
-            string[] tags = { "StartField", "GoalField", "StartAndGoalField", "CheckpointField" };
+            string[] tags = { "StartField", "GoalField", "CheckpointField" };
 
             for (int i = 0; i < tags.Length; i++)
             {

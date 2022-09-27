@@ -13,7 +13,7 @@ public class FieldManager : MonoBehaviour
     public enum FieldType
     {
         WALL_FIELD, 
-        START_FIELD, GOAL_FIELD, START_AND_GOAL_FIELD, CHECKPOINT_FIELD, 
+        START_FIELD, GOAL_FIELD, CHECKPOINT_FIELD, 
         ONE_WAY_FIELD, 
         WATER, ICE,
         VOID,
@@ -32,7 +32,6 @@ public class FieldManager : MonoBehaviour
             GameManager.Instance.WallField,
             GameManager.Instance.StartField,
             GameManager.Instance.GoalField,
-            GameManager.Instance.StartAndGoalField,
             GameManager.Instance.CheckpointField,
             GameManager.Instance.OneWayField,
             GameManager.Instance.Water,
@@ -53,7 +52,6 @@ public class FieldManager : MonoBehaviour
             "WallField",
             "StartField",
             "GoalField",
-            "StartAndGoalField",
             "CheckpointField",
             "OneWayField",
             "Water",
@@ -133,7 +131,7 @@ public class FieldManager : MonoBehaviour
             GameObject field = InstantiateField(pos, type, rotation);
 
             // REF
-            string[] tags = { "StartField", "GoalField", "StartAndGoalField", "CheckpointField" };
+            string[] tags = { "StartField", "GoalField", "CheckpointField" };
             
             for(int i = 0; i < tags.Length; i++)
             {
@@ -169,7 +167,7 @@ public class FieldManager : MonoBehaviour
             }
 
             // remove player if at changed pos
-            if (type != FieldType.START_FIELD && type != FieldType.START_AND_GOAL_FIELD)
+            if (!PlayerManager.StartFields.Contains(type))
             {
                 PlayerManager.Instance.RemovePlayerAtPosIntersect(mx, my);
             }

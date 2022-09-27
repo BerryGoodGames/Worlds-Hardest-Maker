@@ -32,7 +32,7 @@ public class CoinController : MonoBehaviour
                         foreach (GameObject field in controller.currentFields)
                         {
                             FieldManager.FieldType fieldType = (FieldManager.FieldType)FieldManager.GetFieldType(field);
-                            if (fieldType == FieldManager.FieldType.GOAL_FIELD || fieldType == FieldManager.FieldType.START_AND_GOAL_FIELD)
+                            if (fieldType == FieldManager.FieldType.GOAL_FIELD)
                             {
                                 controller.Win();
                                 break;

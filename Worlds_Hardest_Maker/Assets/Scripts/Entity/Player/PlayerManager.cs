@@ -12,14 +12,12 @@ public class PlayerManager : MonoBehaviour
 
     // list of fields which are safe for player
     public static readonly List<FieldManager.FieldType> SafeFields = new(new FieldManager.FieldType[]{
-        FieldManager.FieldType.START_FIELD,
-        FieldManager.FieldType.CHECKPOINT_FIELD,
-        FieldManager.FieldType.START_AND_GOAL_FIELD
+        
     });
     public static readonly List<FieldManager.FieldType> StartFields = new(new FieldManager.FieldType[]
     {
         FieldManager.FieldType.START_FIELD,
-        FieldManager.FieldType.START_AND_GOAL_FIELD
+        FieldManager.FieldType.GOAL_FIELD
     });
 
     public void SetPlayer(float mx, float my, float speed)
