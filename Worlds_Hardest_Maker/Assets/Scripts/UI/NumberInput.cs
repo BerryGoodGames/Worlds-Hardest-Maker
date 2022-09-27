@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +10,7 @@ public class NumberInput : MonoBehaviour
     [SerializeField] private float min;
     [SerializeField] private float max;
     [Space]
-    public TMPro.TMP_Text numberText;
+    public TMPro.TMP_InputField numberInput;
     private NumberInputTween tweenController;
     
     public void Increase()
@@ -33,8 +33,8 @@ public class NumberInput : MonoBehaviour
         }
     }
 
-    public void SetNumberText(float num) { numberText.text = num.ToString(); }
-    public float GetCurrentNumber() { return float.Parse(numberText.text); }
+    public void SetNumberText(float num) => numberInput.text = num.ToString();
+    public float GetCurrentNumber() => float.Parse(numberInput.text); 
 
     private void Start()
     {
