@@ -20,6 +20,15 @@ public class KeyEvents : MonoBehaviour
 
         // toggle menu
         if(Input.GetKeyDown(KeyCode.Escape)) GameManager.Instance.Menu.SetActive(!GameManager.Instance.Menu.activeSelf);
+
+        // teleport player to mouse pos
+        if(GameManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))
+        {
+            print(PlayerManager.GetPlayer().transform.position);
+            GameObject player = PlayerManager.GetPlayer();
+            if(player != null)
+                player.transform.position = MouseManager.Instance.MouseWorldPosGrid;
+        }
         
 #if UNITY_EDITOR
             KeyCode ctrl = KeyCode.Tab;
