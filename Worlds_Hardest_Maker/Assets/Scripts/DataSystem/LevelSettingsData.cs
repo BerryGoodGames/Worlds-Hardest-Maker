@@ -23,7 +23,6 @@ public class LevelSettingsData : IData
 
     public override void ImportToLevel()
     {
-        Debug.Log($"import, {drownDuration}, {waterDamping}");
         LevelSettings.Instance.SetDrownDuration(drownDuration, false);
         LevelSettings.Instance.SetIceFriction(iceFriction, false);
         LevelSettings.Instance.SetIceMaxSpeed(iceMaxSpeed, false);

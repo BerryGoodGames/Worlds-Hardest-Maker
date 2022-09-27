@@ -223,7 +223,6 @@ public class GameManager : MonoBehaviourPun
 
     private void Update()
     {
-        print(LevelSettings.Instance.drownDuration);
         // check if toolbar background is hovered
         Instance.UIHovered = EventSystem.current.IsPointerOverGameObject();
     }

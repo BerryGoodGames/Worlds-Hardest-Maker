@@ -363,8 +363,6 @@ public class PlayerController : MonoBehaviour
         AudioManager.Instance.Play("Void");
 
         Die();
-
-        print(inDeathAnim);
     }
     private void Die()
     {
