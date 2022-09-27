@@ -1171,6 +1171,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1196254605}
     m_Modifications:
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3252578248619094837}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetIceMaxSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelSettings, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3147622571459938932, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
       propertyPath: m_text
       value: Ice max speed
@@ -1961,6 +1993,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1196254605}
     m_Modifications:
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3252578248619094837}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetIceFriction
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelSettings, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3147622571459938932, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
       propertyPath: m_text
       value: Ice friction
@@ -5681,6 +5745,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1196254605}
     m_Modifications:
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3252578248619094837}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetDrownDuration
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelSettings, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3147622571459938932, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
       propertyPath: m_text
       value: Drown Duration
