@@ -321,7 +321,8 @@ public class PlayerController : MonoBehaviour
     {
         // animation and play mode and that's it really
         animator.SetTrigger("Death");
-        GameManager.Instance.TogglePlay();
+        AudioManager.Instance.Play("Win");
+        GameManager.Instance.TogglePlay(false);
     }
 
     public void DieNormal(string soundEffect = "Smack")

@@ -284,11 +284,11 @@ public class GameManager : MonoBehaviourPun
     #endregion
 
     #region PLAY / EDIT MODE METHODS
-    public void TogglePlay()
+    public void TogglePlay(bool playSoundEffect = true)
     {
         if (!Instance.Menu.activeSelf)
         {
-            if (Instance.Playing) SwitchToEdit();
+            if (Instance.Playing) SwitchToEdit(playSoundEffect);
             else SwitchToPlay();
 
             BarTween[] barTweens = FindObjectsOfType<BarTween>();
@@ -361,11 +361,11 @@ public class GameManager : MonoBehaviourPun
         // camera jumps to last player if its not on screen
         Camera.main.GetComponent<JumpToEntity>().Jump(true);
     }
-    public static void SwitchToEdit()
+    public static void SwitchToEdit(bool playSoundEffect = true)
     {
         Instance.Playing = false;
 
-        AudioManager.Instance.Play("Bell");
+        if(playSoundEffect) AudioManager.Instance.Play("Bell");
         AudioManager.Instance.MusicFiltered(true);
 
         ResetGame();
