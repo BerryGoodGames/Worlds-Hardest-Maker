@@ -47,9 +47,10 @@ public class KeyController : MonoBehaviour
         int randRotation = Random.Range(0, 2) * 90;
         transform.Rotate(0, 0, randRotation);
 
-        // pickup animation
+        // pickup animation and sound
         Animator anim = transform.parent.GetComponent<Animator>();
         anim.SetBool("PickedUp", true);
+        AudioManager.Instance.Play("Key");
 
         pickedUp = true;
 
