@@ -9339,7 +9339,7 @@ MonoBehaviour:
   filteredState: {fileID: 4007947744481246619, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
   sounds:
   - name: MainMusic
-    AudioClip: {fileID: 8300000, guid: fc6fc7a0bf4fab84686efbd7e053222b, type: 3}
+    AudioClip: {fileID: 8300000, guid: b218ba2646183ed449e81c925a1fc46a, type: 3}
     Output: {fileID: 0}
     mute: 0
     playOnAwake: 0
@@ -9357,7 +9357,7 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Smack
-    AudioClip: {fileID: 8300000, guid: ece00f43a9c58ce43b676e7f92dce789, type: 3}
+    AudioClip: {fileID: 8300000, guid: 36df95ebf81daaa4d9f870b972b62051, type: 3}
     Output: {fileID: 0}
     mute: 0
     playOnAwake: 0
@@ -9366,7 +9366,7 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Void
-    AudioClip: {fileID: 8300000, guid: 4cbe3a8ca623e584890e8675bfd4047e, type: 3}
+    AudioClip: {fileID: 8300000, guid: ab007b9500517bb4e9bdaaed230b7e5d, type: 3}
     Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
@@ -9375,7 +9375,7 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Music
-    AudioClip: {fileID: 8300000, guid: fc6fc7a0bf4fab84686efbd7e053222b, type: 3}
+    AudioClip: {fileID: 8300000, guid: b218ba2646183ed449e81c925a1fc46a, type: 3}
     Output: {fileID: 1135677753749239577, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 1
@@ -9384,7 +9384,7 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Ding
-    AudioClip: {fileID: 8300000, guid: 2b2f78790bc0f1649b13eb19f7a8d238, type: 3}
+    AudioClip: {fileID: 8300000, guid: b61931f4c8db5224a90b9fbeaf52336b, type: 3}
     Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
@@ -9411,7 +9411,7 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: WaterEnter
-    AudioClip: {fileID: 8300000, guid: 456d06fa26492c241aa89373cf1afc25, type: 3}
+    AudioClip: {fileID: 8300000, guid: 7c4aa47e781affe478d422b5cad4b066, type: 3}
     Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
@@ -9420,7 +9420,16 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Drown
-    AudioClip: {fileID: 8300000, guid: 663125b1034952e40b237f5113491f72, type: 3}
+    AudioClip: {fileID: 8300000, guid: 6b6e69eb74199c74498480d9a5e57f62, type: 3}
+    Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    mute: 0
+    playOnAwake: 0
+    loop: 0
+    volume: 0.3
+    pitch: 1
+    source: {fileID: 0}
+  - name: Win
+    AudioClip: {fileID: 8300000, guid: 271ad4118e429f0418f3611dc8746d5f, type: 3}
     Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
