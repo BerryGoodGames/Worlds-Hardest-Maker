@@ -403,10 +403,12 @@ public class PlayerController : MonoBehaviour
         // serialize game state
         // convert collectedCoins and collectedKeys to List<Vector2>
         List<Vector2> coinPositions = new();
+        print(coinsCollected.Count);
         foreach(GameObject c in coinsCollected)
         {
             CoinController coinController = c.GetComponent<CoinController>();
-            coinPositions.Add(coinController.coinPosition);
+            if(coinController != null)
+                coinPositions.Add(coinController.coinPosition);
         }
 
         List<Vector2> keyPositions = new();
@@ -432,6 +434,7 @@ public class PlayerController : MonoBehaviour
             GameObject c = coinsCollected[i];
             if (c.GetComponent<CoinController>().coinPosition == pos)
             {
+                print("removedCoin");
                 coinsCollected.Remove(c);
             }
         }
