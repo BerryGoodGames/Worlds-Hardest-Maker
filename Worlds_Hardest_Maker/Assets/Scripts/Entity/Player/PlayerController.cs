@@ -135,6 +135,25 @@ public class PlayerController : MonoBehaviour
         if (GameManager.Instance.Multiplayer) photonView.RPC("SetNameTagActive", RpcTarget.All, GameManager.Instance.Playing);
     }
 
+    private void OnCollisionStay2D(Collision2D collider)
+    {
+        // do wall corner pushy thingy
+        if(collider.transform.CompareTag("WallField"))
+        {
+
+            Vector2 roundedPos = new(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
+            // do horizontal
+            if (Input.GetAxisRaw("Horizontal") != 0 && Mathf.Round(transform.position.y) != Mathf.Round(collider.transform.position.y))
+            {
+                Vector2 posCheck = new(Mathf.Round(transform.position.x + Input.GetAxisRaw("Horizontal")), Mathf.Round(transform.position.y + (Mathf.Round(transform.position.y) == 0 ? -1 : 1)));
+                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
+                {
+                    print((transform.position.y % 1 > 0.5 ? -1 : 1) * transform.lossyScale.y * 0.25f);
+                    transform.position = roundedPos + new Vector2(transform.position.x % 1, (transform.position.y % 1 > 0.5 ? -1 : 1) * (1 - transform.lossyScale.y) * 0.5f);
+                }
+            }
+        }
+    }
     private void FixedUpdate()
     {
         // check water and update drown level
