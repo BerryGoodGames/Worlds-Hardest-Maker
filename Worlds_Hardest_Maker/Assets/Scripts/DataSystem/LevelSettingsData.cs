@@ -10,6 +10,7 @@ public class LevelSettingsData : IData
     public float waterDamping;
     public float iceFriction;
     public float iceMaxSpeed;
+    public bool reusableCheckpoints;
     #endregion
 
     public LevelSettingsData(LevelSettings settings)
@@ -19,6 +20,7 @@ public class LevelSettingsData : IData
         waterDamping = settings.waterDamping;
         iceFriction = settings.iceFriction;
         iceMaxSpeed = settings.iceMaxSpeed;
+        reusableCheckpoints = settings.reusableCheckpoints;
     }
 
     public override void ImportToLevel()
@@ -27,6 +29,7 @@ public class LevelSettingsData : IData
         LevelSettings.Instance.SetIceFriction(iceFriction, false);
         LevelSettings.Instance.SetIceMaxSpeed(iceMaxSpeed, false);
         LevelSettings.Instance.SetWaterDamping(waterDamping, false);
+        LevelSettings.Instance.SetReusableCheckpoints(reusableCheckpoints, false);
         LevelSettings.Instance.SyncPlayersToSettings();
     }
 }

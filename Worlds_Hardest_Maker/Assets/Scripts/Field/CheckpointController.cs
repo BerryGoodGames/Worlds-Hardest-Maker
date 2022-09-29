@@ -5,15 +5,28 @@ using UnityEngine;
 public class CheckpointController : MonoBehaviour
 {
     public bool activated = false;
+    private static bool reusableCheckpoints = true;
+    public static bool ReusableCheckpoints {
+        get { return reusableCheckpoints; }
+        set
+        {
+            if(value)
+                ClearCheckpoints();
+
+            reusableCheckpoints = value;
+        }
+    }
 
     private static List<CheckpointController> activatedCheckpoints = new();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject collider = collision.gameObject;
-        if (!activated && collider.CompareTag("Player"))
+        if ((!activated || reusableCheckpoints) && collider.CompareTag("Player"))
         {
-            ClearCheckpoints();
+            if (reusableCheckpoints)
+                ClearCheckpoints();
+
             ChainActivate();
 
             PlayerController controller = collider.GetComponent<PlayerController>();
@@ -49,12 +62,21 @@ public class CheckpointController : MonoBehaviour
             activatedCheckpoints.Remove(this);
 
     }
+    private static void ToggleReusableCheckpoints()
+    {
+        if (reusableCheckpoints) reusableCheckpoints = false;
+        else
+        {
+            ClearCheckpoints();
+            reusableCheckpoints = true;
+        }
+    }
+
     private static void ClearCheckpoints()
     {
-        print(activatedCheckpoints);
-        foreach(CheckpointController controller in activatedCheckpoints)
+        foreach (CheckpointController controller in activatedCheckpoints)
         {
-            if(controller != null)
+            if (controller != null)
                 controller.Deactivate(false);
         }
 

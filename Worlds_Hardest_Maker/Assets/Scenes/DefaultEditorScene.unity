@@ -3071,7 +3071,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1965554921294799084, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -91.66667
+      value: -91.65631
       objectReference: {fileID: 0}
     - target: {fileID: 1965554921294799084, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3227,8 +3227,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 800, y: -900}
-  m_SizeDelta: {x: 1600, y: 183.33334}
+  m_AnchoredPosition: {x: 800, y: -899.93787}
+  m_SizeDelta: {x: 1600, y: 183.31262}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &909674249
 MonoBehaviour:
@@ -3415,7 +3415,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1965554921294799084, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -91.66667
+      value: -91.65631
       objectReference: {fileID: 0}
     - target: {fileID: 1965554921294799084, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3805,8 +3805,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 800, y: -450}
-  m_SizeDelta: {x: 1600, y: 533.3333}
+  m_AnchoredPosition: {x: 800, y: -449.96893}
+  m_SizeDelta: {x: 1600, y: 533.3126}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1019106133
 MonoBehaviour:
@@ -3872,7 +3872,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 800, y: 0}
-  m_SizeDelta: {x: 1600, y: 183.33334}
+  m_SizeDelta: {x: 1600, y: 183.31262}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1043672708
 MonoBehaviour:
@@ -4714,7 +4714,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7101550166895800707, guid: 9ca7054ba1e79984183bb584b9ca4342, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -91.66667
+      value: -91.65631
       objectReference: {fileID: 0}
     - target: {fileID: 7101550166895800707, guid: 9ca7054ba1e79984183bb584b9ca4342, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5430,6 +5430,127 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1392039348}
   m_CullTransparentMesh: 1
+--- !u!1001 &1403256926
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1196254605}
+    m_Modifications:
+    - target: {fileID: 1097176830489001686, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_text
+      value: Reusable checkpoints
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3252578248619094837}
+    - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetReusableCheckpoints
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelSettings, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1652224904760726094, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_Name
+      value: Reusable checkpoints - Checkbox
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -440
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833980840341486021, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
 --- !u!1 &1420917100
 GameObject:
   m_ObjectHideFlags: 0
@@ -6691,6 +6812,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 9129395691176777981, guid: 840b4e83d3fed374a8081e570c5f2efc, type: 3}
   m_PrefabInstance: {fileID: 372786439}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1673844914 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+  m_PrefabInstance: {fileID: 1403256926}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1711896958 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9129395691176777980, guid: 840b4e83d3fed374a8081e570c5f2efc, type: 3}
@@ -7043,7 +7175,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1965554921294799084, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -91.66667
+      value: -91.65631
       objectReference: {fileID: 0}
     - target: {fileID: 1965554921294799084, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -7204,15 +7336,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 917516803659758717, guid: 840b4e83d3fed374a8081e570c5f2efc, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 380
+      value: 480
       objectReference: {fileID: 0}
     - target: {fileID: 3348052347875401960, guid: 840b4e83d3fed374a8081e570c5f2efc, type: 3}
       propertyPath: label
-      value: Ice max speed
+      value: Reusable checkpoints
       objectReference: {fileID: 0}
     - target: {fileID: 3348052347875401960, guid: 840b4e83d3fed374a8081e570c5f2efc, type: 3}
       propertyPath: version
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9129395691176777980, guid: 840b4e83d3fed374a8081e570c5f2efc, type: 3}
       propertyPath: m_Name
@@ -7598,7 +7730,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1965554921294799084, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -91.66667
+      value: -91.65631
       objectReference: {fileID: 0}
     - target: {fileID: 1965554921294799084, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -7835,7 +7967,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7101550166895800707, guid: 9ca7054ba1e79984183bb584b9ca4342, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -91.66667
+      value: -91.65631
       objectReference: {fileID: 0}
     - target: {fileID: 7101550166895800707, guid: 9ca7054ba1e79984183bb584b9ca4342, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -8437,7 +8569,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6159430753301994918, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.4
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6159430753301994918, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_AnchorMax.y
@@ -8445,7 +8577,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6159430753301994918, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.4
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6159430753369451047, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_Value
@@ -9799,6 +9931,7 @@ MonoBehaviour:
   waterDampingSlider: {fileID: 1281367186}
   iceFrictionInput: {fileID: 1454603358}
   iceMaxSpeedInput: {fileID: 1873151923}
+  reusableCheckpointCheckbox: {fileID: 1673844914}
   drownDuration: 0
   waterDamping: 0
   iceFriction: 0

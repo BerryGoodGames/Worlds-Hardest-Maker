@@ -12,6 +12,7 @@ public class LevelSettings : MonoBehaviour
     [SerializeField] private Slider waterDampingSlider;
     [SerializeField] private NumberInput iceFrictionInput;
     [SerializeField] private NumberInput iceMaxSpeedInput;
+    [SerializeField] private Toggle reusableCheckpointCheckbox;
     #endregion
 
     #region SETTING VARIABLES
@@ -19,6 +20,11 @@ public class LevelSettings : MonoBehaviour
     [HideInInspector] public float waterDamping;
     [HideInInspector] public float iceFriction;
     [HideInInspector] public float iceMaxSpeed;
+    [HideInInspector] public bool reusableCheckpoints
+    {
+        get { return CheckpointController.ReusableCheckpoints; }
+        set { CheckpointController.ReusableCheckpoints = value; }
+    }
     #endregion
 
     #region LEVEL SETTINGS
@@ -67,6 +73,19 @@ public class LevelSettings : MonoBehaviour
     {
         Instance.iceMaxSpeed = speed;
         iceMaxSpeedInput.SetNumberText(speed);
+        if (syncPlayers) SyncPlayersToSettings();
+    }
+
+    public void SetReusableCheckpoints(bool reusableCheckpoint, bool syncPlayers = true)
+    {
+        CheckpointController.ReusableCheckpoints = reusableCheckpoint;
+        reusableCheckpointCheckbox.isOn = reusableCheckpoint;
+        if (syncPlayers) SyncPlayersToSettings();
+    }
+    public void SetReusableCheckpoints(bool syncPlayers = true)
+    {
+        CheckpointController.ReusableCheckpoints = reusableCheckpointCheckbox.isOn;
+        reusableCheckpointCheckbox.isOn = reusableCheckpointCheckbox.isOn;
         if (syncPlayers) SyncPlayersToSettings();
     }
     #endregion
