@@ -78,13 +78,13 @@ public class LevelSettings : MonoBehaviour
 
     public void SetReusableCheckpoints(bool reusableCheckpoint, bool syncPlayers = true)
     {
-        CheckpointController.ReusableCheckpoints = reusableCheckpoint;
+        Instance.reusableCheckpoints = reusableCheckpoint;
         reusableCheckpointCheckbox.isOn = reusableCheckpoint;
         if (syncPlayers) SyncPlayersToSettings();
     }
     public void SetReusableCheckpoints(bool syncPlayers = true)
     {
-        CheckpointController.ReusableCheckpoints = reusableCheckpointCheckbox.isOn;
+        Instance.reusableCheckpoints = reusableCheckpointCheckbox.isOn;
         reusableCheckpointCheckbox.isOn = reusableCheckpointCheckbox.isOn;
         if (syncPlayers) SyncPlayersToSettings();
     }

@@ -29,6 +29,7 @@ public class LevelSettingsData : IData
         LevelSettings.Instance.SetIceFriction(iceFriction, false);
         LevelSettings.Instance.SetIceMaxSpeed(iceMaxSpeed, false);
         LevelSettings.Instance.SetWaterDamping(waterDamping, false);
+        Debug.Log(reusableCheckpoints);
         LevelSettings.Instance.SetReusableCheckpoints(reusableCheckpoints, false);
         LevelSettings.Instance.SyncPlayersToSettings();
     }
