@@ -15,8 +15,9 @@ public class Tool : MonoBehaviour
 
     private void Awake()
     {
-        if (!GameManager.EditMode.TryParse(toolType, out toolName))
+        if (!System.Enum.TryParse(toolType, out toolName))
             Debug.LogError($"{toolType} was not a valid type");
+
         inOptionbar = transform.parent.CompareTag("OptionContainer");
     }
 
