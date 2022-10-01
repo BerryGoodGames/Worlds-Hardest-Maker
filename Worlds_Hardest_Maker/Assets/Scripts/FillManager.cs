@@ -183,7 +183,7 @@ public class FillManager : MonoBehaviour
                 {
                     if (GraphicsSettings.Instance.oneColorStartGoal)
                     {
-                        field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[5];
+                        field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
 
                         if (field.TryGetComponent(out Animator anim))
                         {

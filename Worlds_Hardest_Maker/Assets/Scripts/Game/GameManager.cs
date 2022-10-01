@@ -496,8 +496,8 @@ public class GameManager : MonoBehaviourPun
         {
             if (field.CompareTag("CheckpointField"))
             {
-                Animator anim = field.GetComponent<Animator>();
-                anim.SetBool("Active", false);
+                CheckpointTween anim = field.GetComponent<CheckpointTween>();
+                anim.Deactivate();
 
                 CheckpointController controller = field.GetComponent<CheckpointController>();
                 controller.activated = false;

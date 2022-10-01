@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[ExecuteAlways]
 public class LevelSettings : MonoBehaviour
 {
     public static LevelSettings Instance { get; private set; }
