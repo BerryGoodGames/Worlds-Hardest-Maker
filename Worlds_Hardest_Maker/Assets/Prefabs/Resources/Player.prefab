@@ -434,6 +434,7 @@ MonoBehaviour:
   iceFriction: 4
   maxIceSpeed: 5
   voidSuckDuration: 0.8
+  cornerCuttingBias: 0.1
   deaths: 0
   coinsCollected: []
   keysCollected: []
