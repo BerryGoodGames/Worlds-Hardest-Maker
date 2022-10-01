@@ -135,6 +135,33 @@ public class PlayerController : MonoBehaviour
         if (GameManager.Instance.Multiplayer) photonView.RPC("SetNameTagActive", RpcTarget.All, GameManager.Instance.Playing);
     }
 
+    private void OnCollisionStay2D(Collision2D collider)
+    {
+        // do wall corner pushy thingy
+        if(collider.transform.CompareTag("WallField"))
+        {
+
+            Vector2 roundedPos = new(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
+            // do horizontal
+            if (Input.GetAxisRaw("Horizontal") != 0 && roundedPos.y != Mathf.Round(collider.transform.position.y))
+            {
+                Vector2 posCheck = new(Mathf.Round(transform.position.x + Input.GetAxisRaw("Horizontal")), Mathf.Round(transform.position.y + (Mathf.Round(transform.position.y) == 0 ? -1 : 1)));
+                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
+                {
+                    transform.position = new Vector2(transform.position.x, roundedPos.y + (transform.position.y % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.y) * 0.5f);
+                }
+            }
+            // do vertical
+            if (Input.GetAxisRaw("Vertical") != 0 && roundedPos.x != Mathf.Round(collider.transform.position.x))
+            {
+                Vector2 posCheck = new(Mathf.Round(transform.position.y + Input.GetAxisRaw("Horizontal")), Mathf.Round(transform.position.x + (Mathf.Round(transform.position.x) == 0 ? -1 : 1)));
+                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
+                {
+                    transform.position = new Vector2(roundedPos.x + (transform.position.x % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.x) * 0.5f, transform.position.y);
+                }
+            }
+        }
+    }
     private void FixedUpdate()
     {
         // check water and update drown level
