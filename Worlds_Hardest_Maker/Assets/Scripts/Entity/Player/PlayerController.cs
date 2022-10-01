@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
                 GameObject coin = CoinManager.GetCoin(coinCollectedPos);
                 if (coin == null) throw new System.Exception("Passed game state has null value for coin");
 
-                coinsCollected.Add(coin);
+                coinsCollected.Add(coin.transform.GetChild(0).gameObject);
             }
 
             foreach (Vector2 keyCollectedPos in currentState.collectedKeys)
@@ -436,6 +436,7 @@ public class PlayerController : MonoBehaviour
         
         foreach(GameObject c in coinsCollected)
         {
+            print(c);
             coinPositions.Add(c.GetComponent<CoinController>().coinPosition);
         }
 
