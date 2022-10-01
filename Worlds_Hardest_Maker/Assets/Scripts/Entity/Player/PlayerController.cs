@@ -24,8 +24,8 @@ public class PlayerController : MonoBehaviour
     [Space]
     // void setting(s)
     [SerializeField] private float voidSuckDuration;
-    [Space]
-    [Range(0, 0.5f)][SerializeField] private float cornerCuttingBias;
+    //[Space]
+    //[Range(0, 0.5f)][SerializeField] private float cornerCuttingBias;
 
     [HideInInspector] public int deaths = 0;
 
@@ -48,7 +48,6 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     private Vector2 movementInput = new(0, 0);
-    private Vector2 cornerCuttingMovement = new(0, 0);
 
     [HideInInspector] public bool inDeathAnim = false;
 
@@ -210,11 +209,11 @@ public class PlayerController : MonoBehaviour
             if (ice) 
             {
                 // transfer velocity to ice when entering
-                if (rb.velocity == Vector2.zero) rb.velocity = (onWater ? waterDamping * speed : speed) * (movementInput + cornerCuttingMovement);
+                if (rb.velocity == Vector2.zero) rb.velocity = (onWater ? waterDamping * speed : speed) * movementInput;
 
                 // acceleration on ice
                 rb.drag = iceFriction;
-                rb.AddForce(iceFriction * speed * 1.2f * (movementInput + cornerCuttingMovement), ForceMode2D.Force);
+                rb.AddForce(iceFriction * speed * 1.2f * movementInput, ForceMode2D.Force);
 
                 rb.velocity = new(Mathf.Min(maxIceSpeed, rb.velocity.x), Mathf.Min(maxIceSpeed, rb.velocity.y));
             }
@@ -223,47 +222,47 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = Vector2.zero;
 
                 // snappy movement (when not on ice)
-                rb.MovePosition((Vector2)rb.transform.position + (onWater ? waterDamping * speed : speed) * Time.fixedDeltaTime * (movementInput + cornerCuttingMovement));
+                rb.MovePosition((Vector2)rb.transform.position + (onWater ? waterDamping * speed : speed) * Time.fixedDeltaTime * movementInput);
             }
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        float playerWidth = transform.lossyScale.x;
-        float playerHeight = transform.lossyScale.y;
+    //private void OnCollisionStay2D(Collision2D collision)
+    //{
+    //    float playerWidth = transform.lossyScale.x;
+    //    float playerHeight = transform.lossyScale.y;
 
-        GameObject collider = collision.gameObject;
-        if (collider.tag.IsSolidFieldTag())
-        {
-            // horizontal
-            if(movementInput.x != 0 && movementInput.y == 0)
-            {
-                float sign = Mathf.Sign(movementInput.x);
+    //    GameObject collider = collision.gameObject;
+    //    if (collider.tag.IsSolidFieldTag())
+    //    {
+    //        // horizontal
+    //        if(movementInput.x != 0 && movementInput.y == 0)
+    //        {
+    //            float sign = Mathf.Sign(movementInput.x);
 
-                float rayX1 = transform.position.x + (playerWidth * 0.5f + 0.05f) * sign;
-                float rayY1 = transform.position.y + playerHeight * 0.5f - cornerCuttingBias * playerHeight;
-                RaycastHit2D topHit = Physics2D.Raycast(new(rayX1, rayY1), new(sign, 0));
+    //            float rayX1 = transform.position.x + (playerWidth * 0.5f + 0.05f) * sign;
+    //            float rayY1 = transform.position.y + playerHeight * 0.5f - cornerCuttingBias * playerHeight;
+    //            RaycastHit2D topHit = Physics2D.Raycast(new(rayX1, rayY1), new(sign, 0));
 
-                float rayX2 = transform.position.x + (playerWidth * 0.5f + 0.05f) * sign;
-                float rayY2 = transform.position.y - playerHeight * 0.5f + cornerCuttingBias * playerHeight;
-                RaycastHit2D bottomHit = Physics2D.Raycast(new(rayX2, rayY2), new(sign, 0));
+    //            float rayX2 = transform.position.x + (playerWidth * 0.5f + 0.05f) * sign;
+    //            float rayY2 = transform.position.y - playerHeight * 0.5f + cornerCuttingBias * playerHeight;
+    //            RaycastHit2D bottomHit = Physics2D.Raycast(new(rayX2, rayY2), new(sign, 0));
 
-                Debug.DrawRay(new(rayX1, rayY1), new(sign, 0));
-                Debug.DrawRay(new(rayX2, rayY2), new(sign, 0));
-                if (topHit ^ bottomHit)
-                {
-                    RaycastHit2D hit = topHit ? topHit : bottomHit;
-                    if (hit.collider.tag.IsSolidFieldTag())
-                    {
-                        cornerCuttingMovement = new(0, topHit ? -1 : 1);
-                        return;
-                    }
-                }
-            }
-        }
-        //cornerCuttingMovement = new(0, 0);
-    }
+    //            Debug.DrawRay(new(rayX1, rayY1), new(sign, 0));
+    //            Debug.DrawRay(new(rayX2, rayY2), new(sign, 0));
+    //            if (topHit ^ bottomHit)
+    //            {
+    //                RaycastHit2D hit = topHit ? topHit : bottomHit;
+    //                if (hit.collider.tag.IsSolidFieldTag())
+    //                {
+    //                    cornerCuttingMovement = new(0, topHit ? -1 : 1);
+    //                    return;
+    //                }
+    //            }
+    //        }
+    //    }
+    //    //cornerCuttingMovement = new(0, 0);
+    //}
 
     /// <summary>
     /// always use SetSpeed instead of setting
