@@ -20,52 +20,16 @@ public class FieldManager : MonoBehaviour
         GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD
     }
 
-    public static bool IsField(GameObject field)
+    public static readonly List<FieldType> SolidFields = new(new FieldType[]
     {
-        return GetFieldTypeByTag(field.tag) != (FieldType)(-1);
-    }
-
-    public static GameObject GetPrefabByType(FieldType type)
-    {
-        // return prefab according to type
-        return new GameObject[] {
-            GameManager.Instance.WallField,
-            GameManager.Instance.StartField,
-            GameManager.Instance.GoalField,
-            GameManager.Instance.CheckpointField,
-            GameManager.Instance.OneWayField,
-            GameManager.Instance.Water,
-            GameManager.Instance.Ice,
-            GameManager.Instance.Void,
-            GameManager.Instance.GrayKeyDoorField,
-            GameManager.Instance.RedKeyDoorField,
-            GameManager.Instance.GreenKeyDoorField,
-            GameManager.Instance.BlueKeyDoorField,
-            GameManager.Instance.YellowKeyDoorField,
-        }[(int)type];
-    }
-
-    public static FieldType GetFieldTypeByTag(string tag)
-    {
-        List<string> tags = new()
-        {
-            "WallField",
-            "StartField",
-            "GoalField",
-            "CheckpointField",
-            "OneWayField",
-            "Water",
-            "Ice",
-            "Void",
-            "KeyDoorField",
-            "RedKeyDoorField",
-            "GreenKeyDoorField",
-            "BlueKeyDoorField",
-            "YellowKeyDoorField"
-        };
-
-        return (FieldType)tags.IndexOf(tag);
-    }
+        FieldType.WALL_FIELD,
+        FieldType.ONE_WAY_FIELD,
+        FieldType.GRAY_KEY_DOOR_FIELD,
+        FieldType.RED_KEY_DOOR_FIELD,
+        FieldType.GREEN_KEY_DOOR_FIELD,
+        FieldType.BLUE_KEY_DOOR_FIELD,
+        FieldType.YELLOW_KEY_DOOR_FIELD
+    });
 
     public static FieldType? GetFieldType(GameObject field)
     {
@@ -73,7 +37,7 @@ public class FieldManager : MonoBehaviour
         {
             return null;
         }
-        return GetFieldTypeByTag(field.tag);
+        return field.tag.GetFieldType();
     }
 
     public static GameObject GetField(int mx, int my)
@@ -81,7 +45,7 @@ public class FieldManager : MonoBehaviour
         Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(new(mx, my), 0.1f);
         foreach (Collider2D c in collidedGameObjects)
         {
-            if (IsField(c.gameObject))
+            if (c.gameObject.IsField())
             {
                 return c.gameObject;
             }
@@ -195,7 +159,7 @@ public class FieldManager : MonoBehaviour
     private static GameObject InstantiateField(Vector2 pos, FieldType type, int rotation)
     {
         GameObject res;
-        GameObject prefab = GetPrefabByType(type);
+        GameObject prefab = type.GetPrefab();
         if (GameManager.Instance.Multiplayer)
         {
             res = PhotonNetwork.Instantiate(prefab.name, pos, Quaternion.Euler(0, 0, rotation));
