@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using DG.Tweening;
-using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -24,8 +23,6 @@ public class PlayerController : MonoBehaviour
     [Space]
     // void setting(s)
     [SerializeField] private float voidSuckDuration;
-    //[Space]
-    //[Range(0, 0.5f)][SerializeField] private float cornerCuttingBias;
 
     [HideInInspector] public int deaths = 0;
 
@@ -47,7 +44,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PhotonView photonView;
     private SpriteRenderer spriteRenderer;
 
-    private Vector2 movementInput = new(0, 0);
+    private Vector2 movementInput;
 
     [HideInInspector] public bool inDeathAnim = false;
 
@@ -112,7 +109,7 @@ public class PlayerController : MonoBehaviour
                 GameObject coin = CoinManager.GetCoin(coinCollectedPos);
                 if (coin == null) throw new System.Exception("Passed game state has null value for coin");
 
-                coinsCollected.Add(coin.transform.GetChild(0).gameObject);
+                coinsCollected.Add(coin);
             }
 
             foreach (Vector2 keyCollectedPos in currentState.collectedKeys)
@@ -153,6 +150,7 @@ public class PlayerController : MonoBehaviour
                 if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
                 {
                     transform.position = new Vector2(transform.position.x, roundedPos.y + (transform.position.y % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.y) * 0.5f);
+
                 }
             }
             // do vertical
@@ -202,10 +200,6 @@ public class PlayerController : MonoBehaviour
         {
             if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
 
-            // corner cutting
-            float playerWidth = transform.lossyScale.x;
-            float playerHeight = transform.lossyScale.y;
-
             if (ice) 
             {
                 // transfer velocity to ice when entering
@@ -224,45 +218,16 @@ public class PlayerController : MonoBehaviour
                 // snappy movement (when not on ice)
                 rb.MovePosition((Vector2)rb.transform.position + (onWater ? waterDamping * speed : speed) * Time.fixedDeltaTime * movementInput);
             }
+            
+            //// check void death
+            //GameObject currentVoid = CurrentVoid();
+            //if(!inDeathAnim && currentVoid != null)
+            //{
+            //    // get sucked to void
+            //    DieVoid();
+            //}
         }
     }
-
-    //private void OnCollisionStay2D(Collision2D collision)
-    //{
-    //    float playerWidth = transform.lossyScale.x;
-    //    float playerHeight = transform.lossyScale.y;
-
-    //    GameObject collider = collision.gameObject;
-    //    if (collider.tag.IsSolidFieldTag())
-    //    {
-    //        // horizontal
-    //        if(movementInput.x != 0 && movementInput.y == 0)
-    //        {
-    //            float sign = Mathf.Sign(movementInput.x);
-
-    //            float rayX1 = transform.position.x + (playerWidth * 0.5f + 0.05f) * sign;
-    //            float rayY1 = transform.position.y + playerHeight * 0.5f - cornerCuttingBias * playerHeight;
-    //            RaycastHit2D topHit = Physics2D.Raycast(new(rayX1, rayY1), new(sign, 0));
-
-    //            float rayX2 = transform.position.x + (playerWidth * 0.5f + 0.05f) * sign;
-    //            float rayY2 = transform.position.y - playerHeight * 0.5f + cornerCuttingBias * playerHeight;
-    //            RaycastHit2D bottomHit = Physics2D.Raycast(new(rayX2, rayY2), new(sign, 0));
-
-    //            Debug.DrawRay(new(rayX1, rayY1), new(sign, 0));
-    //            Debug.DrawRay(new(rayX2, rayY2), new(sign, 0));
-    //            if (topHit ^ bottomHit)
-    //            {
-    //                RaycastHit2D hit = topHit ? topHit : bottomHit;
-    //                if (hit.collider.tag.IsSolidFieldTag())
-    //                {
-    //                    cornerCuttingMovement = new(0, topHit ? -1 : 1);
-    //                    return;
-    //                }
-    //            }
-    //        }
-    //    }
-    //    //cornerCuttingMovement = new(0, 0);
-    //}
 
     /// <summary>
     /// always use SetSpeed instead of setting
@@ -473,7 +438,6 @@ public class PlayerController : MonoBehaviour
         
         foreach(GameObject c in coinsCollected)
         {
-            print(c);
             coinPositions.Add(c.GetComponent<CoinController>().coinPosition);
         }
 
