@@ -10,8 +10,7 @@ public class CheckpointController : MonoBehaviour
         get { return reusableCheckpoints; }
         set
         {
-            if(value)
-                ClearCheckpoints();
+            if(value) ClearCheckpoints();
 
             reusableCheckpoints = value;
         }
@@ -19,23 +18,31 @@ public class CheckpointController : MonoBehaviour
 
     private static List<CheckpointController> activatedCheckpoints = new();
 
+    private CheckpointTween anim;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameObject collider = collision.gameObject;
-        if ((!activated || reusableCheckpoints) && collider.CompareTag("Player"))
+        GameObject player = collision.gameObject;
+        if (player.CompareTag("Player"))
         {
-            if (reusableCheckpoints)
-                ClearCheckpoints();
+            // check if player wasnt on checkpoint before
+            PlayerController controller = player.GetComponent<PlayerController>();
+            bool alreadyOnField = controller.IsOnField(FieldManager.FieldType.CHECKPOINT_FIELD);
 
-            ChainActivate();
+            if ((!activated || reusableCheckpoints) && !alreadyOnField)
+            {
+                if (reusableCheckpoints) ClearCheckpoints();
 
-            PlayerController controller = collider.GetComponent<PlayerController>();
-            controller.ActivateCheckpoint((int)transform.position.x, (int)transform.position.y);
+                ChainActivate();
+
+                controller.ActivateCheckpoint((int)transform.position.x, (int)transform.position.y);
+            }
         }
     }
     public void ChainActivate()
     {
         Activate();
+
         List<GameObject> neighbours = FieldManager.GetNeighbours(gameObject);
         foreach(GameObject n in neighbours)
         {
@@ -48,38 +55,34 @@ public class CheckpointController : MonoBehaviour
     public void Activate()
     {
         activated = true;
-        Animator anim = GetComponent<Animator>();
-        anim.SetBool("Active", true);
+
         activatedCheckpoints.Add(this);
+
+        anim.Activate(reusableCheckpoints);
     }
 
     public void Deactivate(bool remove = true)
     {
         activated = false;
-        Animator anim = GetComponent<Animator>();
-        anim.SetBool("Active", false);
-        if(remove)
-            activatedCheckpoints.Remove(this);
 
-    }
-    private static void ToggleReusableCheckpoints()
-    {
-        if (reusableCheckpoints) reusableCheckpoints = false;
-        else
-        {
-            ClearCheckpoints();
-            reusableCheckpoints = true;
-        }
+        if (remove) activatedCheckpoints.Remove(this);
+
+        anim.Deactivate();
     }
 
     private static void ClearCheckpoints()
     {
+        // deactivate every checkpoint
         foreach (CheckpointController controller in activatedCheckpoints)
         {
-            if (controller != null)
-                controller.Deactivate(false);
+            if (controller != null) controller.Deactivate(false);
         }
 
         activatedCheckpoints.Clear();
+    }
+
+    private void Start()
+    {
+        anim = GetComponent<CheckpointTween>();
     }
 }

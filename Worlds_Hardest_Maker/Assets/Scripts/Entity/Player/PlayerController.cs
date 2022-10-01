@@ -397,18 +397,19 @@ public class PlayerController : MonoBehaviour
 
     public void ActivateCheckpoint(float mx, float my)
     {
+        coinsCollected.RemoveAll(e => e == null);
+        keysCollected.RemoveAll(e => e == null);
+
         // mx my coords of checkpointfield
         Vector2 statePlayerStartingPos = new(mx, my);
 
         // serialize game state
         // convert collectedCoins and collectedKeys to List<Vector2>
         List<Vector2> coinPositions = new();
-        print(coinsCollected.Count);
+        
         foreach(GameObject c in coinsCollected)
         {
-            CoinController coinController = c.GetComponent<CoinController>();
-            if(coinController != null)
-                coinPositions.Add(coinController.coinPosition);
+            coinPositions.Add(c.GetComponent<CoinController>().coinPosition);
         }
 
         List<Vector2> keyPositions = new();

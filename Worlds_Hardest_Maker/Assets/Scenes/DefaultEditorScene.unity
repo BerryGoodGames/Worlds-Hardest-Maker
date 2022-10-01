@@ -4302,6 +4302,10 @@ PrefabInstance:
       propertyPath: toolName
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: WATER
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
 --- !u!1001 &1194005388
@@ -5442,24 +5446,56 @@ PrefabInstance:
       value: Reusable checkpoints
       objectReference: {fileID: 0}
     - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3252578248619094837}
     - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1673844916}
+    - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetReusableCheckpoints
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetCheck
       objectReference: {fileID: 0}
     - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: LevelSettings, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: CheckboxTween, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526575086403956903, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1652224904760726094, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
       propertyPath: m_Name
@@ -5648,12 +5684,12 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 1, a: 1}
   - name: Start Goal Checkpoint
     colors:
-    - {r: 0.5019608, g: 1, b: 0.62124455, a: 1}
+    - {r: 0.5019608, g: 1, b: 0.61960787, a: 1}
     - {r: 0.73333335, g: 1, b: 0.7058824, a: 1}
-    - {r: 0, g: 1, b: 0.627451, a: 1}
     - {r: 1, g: 0.92549026, b: 0.48627454, a: 1}
-    - {r: 0.972549, g: 0.41568628, b: 0.2901961, a: 1}
+    - {r: 1, g: 0.84727204, b: 0.042452812, a: 1}
     - {r: 0.73333335, g: 1, b: 0.7058824, a: 1}
+    - {r: 0.5019608, g: 1, b: 0.61960787, a: 1}
 --- !u!1 &1436984675
 GameObject:
   m_ObjectHideFlags: 0
@@ -6194,6 +6230,10 @@ PrefabInstance:
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: VOID
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
@@ -6821,6 +6861,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1673844916 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6761733657060936952, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+  m_PrefabInstance: {fileID: 1403256926}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11c6edaea684f9b4cbb2f07e2d84810a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1711896958 stripped
@@ -8181,6 +8232,10 @@ PrefabInstance:
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: ICE
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
@@ -9933,7 +9988,7 @@ MonoBehaviour:
   iceMaxSpeedInput: {fileID: 1873151923}
   reusableCheckpointCheckbox: {fileID: 1673844914}
   drownDuration: 0
-  waterDamping: 0
+  waterDamping: 0.75
   iceFriction: 0
   iceMaxSpeed: 0
 --- !u!1 &3469053329403155088
@@ -10199,6 +10254,10 @@ PrefabInstance:
       propertyPath: toolName
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: ANCHOR
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
 --- !u!114 &3914619140078990980
@@ -10414,6 +10473,10 @@ PrefabInstance:
       propertyPath: toolName
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: GREEN_KEY_DOOR_FIELD
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
 --- !u!1001 &3914619140241414563
@@ -10542,6 +10605,10 @@ PrefabInstance:
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: GRAY_KEY_DOOR_FIELD
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
@@ -10757,6 +10824,10 @@ PrefabInstance:
       propertyPath: toolName
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: PLAYER
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
 --- !u!1001 &3914619140477405727
@@ -10877,6 +10948,10 @@ PrefabInstance:
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
       value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: YELLOW_KEY_DOOR_FIELD
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
@@ -11007,6 +11082,10 @@ PrefabInstance:
       propertyPath: toolName
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: GRAY_KEY
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
 --- !u!1001 &3914619140734159916
@@ -11120,6 +11199,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 341b2d94eeaae5b40bedaf12ef53222e, type: 3}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: DELETE_FIELD
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
 --- !u!1001 &3914619140736268915
@@ -11236,6 +11319,10 @@ PrefabInstance:
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
       value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: BALL_DEFAULT
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
@@ -11362,6 +11449,10 @@ PrefabInstance:
       propertyPath: toolName
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: BLUE_KEY_DOOR_FIELD
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
 --- !u!1001 &3914619140808469394
@@ -11486,6 +11577,10 @@ PrefabInstance:
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
       value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: RED_KEY
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
@@ -11612,6 +11707,10 @@ PrefabInstance:
       propertyPath: toolName
       value: 22
       objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: GREEN_KEY
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
 --- !u!1001 &3914619140908857500
@@ -11736,6 +11835,10 @@ PrefabInstance:
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: RED_KEY_DOOR_FIELD
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
@@ -11870,6 +11973,10 @@ PrefabInstance:
       propertyPath: toolName
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: GOAL_FIELD
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
 --- !u!1001 &3914619141086689806
@@ -11998,6 +12105,10 @@ PrefabInstance:
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: WALL_FIELD
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
@@ -12229,6 +12340,10 @@ PrefabInstance:
       propertyPath: toolName
       value: 24
       objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: YELLOW_KEY
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
 --- !u!1001 &3914619141156638714
@@ -12354,6 +12469,10 @@ PrefabInstance:
       propertyPath: toolName
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: CHECKPOINT_FIELD
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
 --- !u!1001 &3914619141332550051
@@ -12458,6 +12577,10 @@ PrefabInstance:
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: ONE_WAY_FIELD
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
@@ -12690,6 +12813,10 @@ PrefabInstance:
       propertyPath: toolName
       value: 19
       objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: COIN
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
 --- !u!114 &3914619141678712068
@@ -12899,6 +13026,10 @@ PrefabInstance:
       propertyPath: toolName
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: START_FIELD
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
 --- !u!1001 &3914619141805181206
@@ -13023,6 +13154,10 @@ PrefabInstance:
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
       value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: BLUE_KEY
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
@@ -13153,6 +13288,10 @@ PrefabInstance:
       propertyPath: toolName
       value: 16
       objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: BALL
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
 --- !u!1001 &3914619141996350964
@@ -13273,6 +13412,10 @@ PrefabInstance:
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
       value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+      propertyPath: toolType
+      value: BALL_CIRCLE
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}

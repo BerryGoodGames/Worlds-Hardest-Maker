@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class GraphicsSettings : MonoBehaviour
@@ -53,7 +52,7 @@ public class GraphicsSettings : MonoBehaviour
                 {
                     if (field.CompareTag(tags[i]))
                     {
-                        field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[5];
+                        field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
 
                         if (field.TryGetComponent(out Animator anim))
                         {
@@ -77,9 +76,8 @@ public class GraphicsSettings : MonoBehaviour
                     } else if (field.CompareTag("CheckpointField"))
                     {
                         CheckpointController checkpoint = field.GetComponent<CheckpointController>();
-                        Color checkpointUnactivated = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[3];
-                        Color checkpointActivated = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
-
+                        Color checkpointUnactivated = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[2];
+                        Color checkpointActivated = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[3];
 
                         renderer.color = checkpoint.activated ? checkpointActivated : checkpointUnactivated;
 
@@ -98,7 +96,6 @@ public class GraphicsSettings : MonoBehaviour
 
     private void UpdateResolutionOptions()
     {
-        // REF pls correct my comments if im wrong
         // dropdown for resolution: clear and fill in unity's resolutions options
         resolutions = Screen.resolutions;
 
