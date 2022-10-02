@@ -9,11 +9,12 @@ using UnityEngine;
 /// </summary>
 public class EntityDragDrop : MonoBehaviour
 {
+    [SerializeField] private bool halfGrid = false;
     private void OnMouseDrag()
     {
         if(!GameManager.Instance.Playing && Input.GetKey(GameManager.Instance.EntityMoveKey))
         {
-            Vector2 newPos = MouseManager.Instance.MouseWorldPosMatrix;
+            Vector2 newPos = halfGrid? MouseManager.Instance.MouseWorldPosGrid : MouseManager.Instance.MouseWorldPosMatrix;
             transform.position = newPos;
             if (TryGetComponent(out PathController controller))
             {
