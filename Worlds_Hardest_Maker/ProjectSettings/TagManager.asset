@@ -18,7 +18,6 @@ TagManager:
   - GreenKeyDoorField
   - BlueKeyDoorField
   - YellowKeyDoorField
-  - StartAndGoalField
   - Anchor
   - BallObject
   - DontDestroy

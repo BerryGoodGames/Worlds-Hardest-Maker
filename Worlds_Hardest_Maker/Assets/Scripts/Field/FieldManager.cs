@@ -13,61 +13,23 @@ public class FieldManager : MonoBehaviour
     public enum FieldType
     {
         WALL_FIELD, 
-        START_FIELD, GOAL_FIELD, START_AND_GOAL_FIELD, CHECKPOINT_FIELD, 
+        START_FIELD, GOAL_FIELD, CHECKPOINT_FIELD, 
         ONE_WAY_FIELD, 
         WATER, ICE,
         VOID,
         GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD
     }
 
-    public static bool IsField(GameObject field)
+    public static readonly List<FieldType> SolidFields = new(new FieldType[]
     {
-        return GetFieldTypeByTag(field.tag) != (FieldType)(-1);
-    }
-
-    public static GameObject GetPrefabByType(FieldType type)
-    {
-        // return prefab according to type
-        return new GameObject[] {
-            GameManager.Instance.WallField,
-            GameManager.Instance.StartField,
-            GameManager.Instance.GoalField,
-            GameManager.Instance.StartAndGoalField,
-            GameManager.Instance.CheckpointField,
-            GameManager.Instance.OneWayField,
-            GameManager.Instance.Water,
-            GameManager.Instance.Ice,
-            GameManager.Instance.Void,
-            GameManager.Instance.GrayKeyDoorField,
-            GameManager.Instance.RedKeyDoorField,
-            GameManager.Instance.GreenKeyDoorField,
-            GameManager.Instance.BlueKeyDoorField,
-            GameManager.Instance.YellowKeyDoorField,
-        }[(int)type];
-    }
-
-    public static FieldType GetFieldTypeByTag(string tag)
-    {
-        List<string> tags = new()
-        {
-            "WallField",
-            "StartField",
-            "GoalField",
-            "StartAndGoalField",
-            "CheckpointField",
-            "OneWayField",
-            "Water",
-            "Ice",
-            "Void",
-            "KeyDoorField",
-            "RedKeyDoorField",
-            "GreenKeyDoorField",
-            "BlueKeyDoorField",
-            "YellowKeyDoorField"
-        };
-
-        return (FieldType)tags.IndexOf(tag);
-    }
+        FieldType.WALL_FIELD,
+        FieldType.ONE_WAY_FIELD,
+        FieldType.GRAY_KEY_DOOR_FIELD,
+        FieldType.RED_KEY_DOOR_FIELD,
+        FieldType.GREEN_KEY_DOOR_FIELD,
+        FieldType.BLUE_KEY_DOOR_FIELD,
+        FieldType.YELLOW_KEY_DOOR_FIELD
+    });
 
     public static FieldType? GetFieldType(GameObject field)
     {
@@ -75,7 +37,7 @@ public class FieldManager : MonoBehaviour
         {
             return null;
         }
-        return GetFieldTypeByTag(field.tag);
+        return field.tag.GetFieldType();
     }
 
     public static GameObject GetField(int mx, int my)
@@ -83,7 +45,7 @@ public class FieldManager : MonoBehaviour
         Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(new(mx, my), 0.1f);
         foreach (Collider2D c in collidedGameObjects)
         {
-            if (IsField(c.gameObject))
+            if (c.gameObject.IsField())
             {
                 return c.gameObject;
             }
@@ -133,7 +95,7 @@ public class FieldManager : MonoBehaviour
             GameObject field = InstantiateField(pos, type, rotation);
 
             // REF
-            string[] tags = { "StartField", "GoalField", "StartAndGoalField", "CheckpointField" };
+            string[] tags = { "StartField", "GoalField", "CheckpointField" };
             
             for(int i = 0; i < tags.Length; i++)
             {
@@ -142,7 +104,7 @@ public class FieldManager : MonoBehaviour
                 {
                     if (GraphicsSettings.Instance.oneColorStartGoal)
                     {
-                        field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[5];
+                        field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
 
                         if (field.TryGetComponent(out Animator anim))
                         {
@@ -169,7 +131,7 @@ public class FieldManager : MonoBehaviour
             }
 
             // remove player if at changed pos
-            if (type != FieldType.START_FIELD && type != FieldType.START_AND_GOAL_FIELD)
+            if (!PlayerManager.StartFields.Contains(type))
             {
                 PlayerManager.Instance.RemovePlayerAtPosIntersect(mx, my);
             }
@@ -197,7 +159,7 @@ public class FieldManager : MonoBehaviour
     private static GameObject InstantiateField(Vector2 pos, FieldType type, int rotation)
     {
         GameObject res;
-        GameObject prefab = GetPrefabByType(type);
+        GameObject prefab = type.GetPrefab();
         if (GameManager.Instance.Multiplayer)
         {
             res = PhotonNetwork.Instantiate(prefab.name, pos, Quaternion.Euler(0, 0, rotation));

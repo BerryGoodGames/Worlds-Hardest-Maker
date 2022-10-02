@@ -67,6 +67,8 @@ public class PathController : MonoBehaviour
             waypoints[0].position = transform.position;
             if(WaypointEditorController.startPosition != null) WaypointEditorController.startPosition.UpdateInputValues();
         }
+
+        AnchorManager.Instance.selectedPathController.DrawLines();
     }
 
     private IEnumerator Move()

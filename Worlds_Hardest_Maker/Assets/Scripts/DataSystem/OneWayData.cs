@@ -18,7 +18,7 @@ public class OneWayData : IData
         position[1] = (int)field.transform.position.y;
         rotation = (int)field.transform.rotation.eulerAngles.z;
     }
-    public override void CreateObject()
+    public override void ImportToLevel()
     {
         FieldManager.Instance.SetField(position[0], position[1], FieldManager.FieldType.ONE_WAY_FIELD, rotation);
     }

@@ -15,7 +15,8 @@ public class JumpToEntity : MonoBehaviour
 
     public void Jump(bool onlyIfTargetOffScreen = false)
     {
-        if((!onlyIfTargetOffScreen || (onlyIfTargetOffScreen && !target.GetComponent<Renderer>().isVisible)) && target != null)
+        if (target == null) return;
+        if((!onlyIfTargetOffScreen || (onlyIfTargetOffScreen && !target.GetComponent<Renderer>().isVisible)) && target != null) 
         {
             currentTarget = target.transform.position;
 

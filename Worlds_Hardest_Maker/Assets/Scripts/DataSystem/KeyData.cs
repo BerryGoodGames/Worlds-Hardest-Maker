@@ -19,7 +19,7 @@ public class KeyData : IData
         color = controller.color;
     }
 
-    public override void CreateObject()
+    public override void ImportToLevel()
     {
         KeyManager.Instance.SetKey(position[0], position[1], color);
     }

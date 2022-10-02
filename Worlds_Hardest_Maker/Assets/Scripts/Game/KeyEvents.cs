@@ -19,7 +19,21 @@ public class KeyEvents : MonoBehaviour
         }
 
         // toggle menu
-        if(Input.GetKeyDown(KeyCode.Escape)) GameManager.Instance.Menu.SetActive(!GameManager.Instance.Menu.activeSelf);
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            AlphaUITween anim = GameManager.Instance.Menu.GetComponent<AlphaUITween>();
+            anim.SetVisible(!anim.IsVisible());
+            //GameManager.Instance.Menu.SetActive(!GameManager.Instance.Menu.activeSelf);
+        }
+
+        // teleport player to mouse pos
+        if(GameManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))
+        {
+            print(PlayerManager.GetPlayer().transform.position);
+            GameObject player = PlayerManager.GetPlayer();
+            if(player != null)
+                player.transform.position = MouseManager.Instance.MouseWorldPosGrid;
+        }
         
 #if UNITY_EDITOR
             KeyCode ctrl = KeyCode.Tab;
@@ -78,7 +92,6 @@ public class KeyEvents : MonoBehaviour
             { new KeyCode[] { KeyCode.B, KeyCode.K }, GameManager.EditMode.BLUE_KEY },
             { new KeyCode[] { KeyCode.Y, KeyCode.K }, GameManager.EditMode.YELLOW_KEY },
             { new KeyCode[] { KeyCode.B, KeyCode.C }, GameManager.EditMode.BALL_CIRCLE },
-            { new KeyCode[] { KeyCode.S, KeyCode.G }, GameManager.EditMode.START_AND_GOAL_FIELD },
             { new KeyCode[] { KeyCode.H, KeyCode.C }, GameManager.EditMode.CHECKPOINT_FIELD }
         };
         return keys;

@@ -5,7 +5,8 @@ using UnityEngine.EventSystems;
 
 public class Tool : MonoBehaviour
 {
-    public GameManager.EditMode toolName;
+    [HideInInspector] public GameManager.EditMode toolName;
+    [SerializeField] private string toolType;
     [HideInInspector] public bool selected;
     [HideInInspector] public bool inOptionbar;
     private SelectionSquare selectionSquare;
@@ -14,6 +15,9 @@ public class Tool : MonoBehaviour
 
     private void Awake()
     {
+        if (!System.Enum.TryParse(toolType, out toolName))
+            Debug.LogError($"{toolType} was not a valid type");
+
         inOptionbar = transform.parent.CompareTag("OptionContainer");
     }
 

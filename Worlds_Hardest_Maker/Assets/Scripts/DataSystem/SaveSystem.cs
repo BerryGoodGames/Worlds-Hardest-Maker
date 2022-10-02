@@ -80,6 +80,9 @@ public static class SaveSystem
                 }
             }
 
+            // serialize current level settings
+            levelData.Add(new LevelSettingsData(LevelSettings.Instance));
+
             formatter.Serialize(stream, levelData);
             stream.Close();
 
@@ -159,5 +162,5 @@ public static class SaveSystem
 [System.Serializable]
 public abstract class IData
 {
-    public abstract void CreateObject();
+    public abstract void ImportToLevel();
 }

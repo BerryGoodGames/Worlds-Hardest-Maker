@@ -52,6 +52,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: m_Size.x
+      value: 0.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: m_Size.y
+      value: 0.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 6200000, guid: 88face5bfde0aba43a3bbd9678a95eab, type: 2}
@@ -125,3 +133,4 @@ MonoBehaviour:
   color: {r: 0.7137255, g: 0.6901961, b: 0.9803922, a: 1}
   scale: {x: 1, y: 1}
   showWhenFilling: 0
+  rotate: 0

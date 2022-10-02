@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[ExecuteAlways]
 public class LevelSettings : MonoBehaviour
 {
     public static LevelSettings Instance { get; private set; }
@@ -12,6 +13,7 @@ public class LevelSettings : MonoBehaviour
     [SerializeField] private Slider waterDampingSlider;
     [SerializeField] private NumberInput iceFrictionInput;
     [SerializeField] private NumberInput iceMaxSpeedInput;
+    [SerializeField] private Toggle reusableCheckpointCheckbox;
     #endregion
 
     #region SETTING VARIABLES
@@ -19,32 +21,77 @@ public class LevelSettings : MonoBehaviour
     [HideInInspector] public float waterDamping;
     [HideInInspector] public float iceFriction;
     [HideInInspector] public float iceMaxSpeed;
+    [HideInInspector] public bool reusableCheckpoints
+    {
+        get { return CheckpointController.ReusableCheckpoints; }
+        set { CheckpointController.ReusableCheckpoints = value; }
+    }
     #endregion
 
     #region LEVEL SETTINGS
-    public void SetDrownDuration()
+    public void SetDrownDuration(bool syncPlayers = true)
     {
         Instance.drownDuration = drownDurationInput.GetCurrentNumber();
-        SyncPlayersToSettings();
+        if(syncPlayers) SyncPlayersToSettings();
     }
-    public void SetWaterDamping()
+    public void SetDrownDuration(float drownDuration, bool syncPlayers = true)
+    {
+        Instance.drownDuration = drownDuration;
+        drownDurationInput.SetNumberText(drownDuration);
+        if (syncPlayers) SyncPlayersToSettings();
+    }
+
+    public void SetWaterDamping(bool syncPlayers = true)
     {
         Instance.waterDamping = 1 - waterDampingSlider.value;
-        SyncPlayersToSettings();
+        if (syncPlayers) SyncPlayersToSettings();
     }
-    public void SetIceFriction()
+    public void SetWaterDamping(float waterDamping, bool syncPlayers = true)
+    {
+        Instance.waterDamping = waterDamping;
+        waterDampingSlider.value = 1 - waterDamping;
+        if (syncPlayers) SyncPlayersToSettings();
+    }
+
+    public void SetIceFriction(bool syncPlayers = true)
     {
         Instance.iceFriction = iceFrictionInput.GetCurrentNumber();
-        SyncPlayersToSettings();
+        if (syncPlayers) SyncPlayersToSettings();
     }
-    public void SetIceMaxSpeed()
+    public void SetIceFriction(float friction, bool syncPlayers = true)
+    {
+        Instance.iceFriction = friction;
+        iceFrictionInput.SetNumberText(friction);
+        if (syncPlayers) SyncPlayersToSettings();
+    }
+
+    public void SetIceMaxSpeed(bool syncPlayers = true)
     {
         Instance.iceMaxSpeed = iceMaxSpeedInput.GetCurrentNumber();
-        SyncPlayersToSettings();
+        if (syncPlayers) SyncPlayersToSettings();
+    }
+    public void SetIceMaxSpeed(float speed, bool syncPlayers = true)
+    {
+        Instance.iceMaxSpeed = speed;
+        iceMaxSpeedInput.SetNumberText(speed);
+        if (syncPlayers) SyncPlayersToSettings();
+    }
+
+    public void SetReusableCheckpoints(bool reusableCheckpoint, bool syncPlayers = true)
+    {
+        Instance.reusableCheckpoints = reusableCheckpoint;
+        reusableCheckpointCheckbox.isOn = reusableCheckpoint;
+        if (syncPlayers) SyncPlayersToSettings();
+    }
+    public void SetReusableCheckpoints(bool syncPlayers = true)
+    {
+        Instance.reusableCheckpoints = reusableCheckpointCheckbox.isOn;
+        reusableCheckpointCheckbox.isOn = reusableCheckpointCheckbox.isOn;
+        if (syncPlayers) SyncPlayersToSettings();
     }
     #endregion
 
-    private void SyncPlayersToSettings()
+    public void SyncPlayersToSettings()
     {
         PlayerController[] controllers = FindObjectsOfType<PlayerController>();
         foreach(PlayerController p in controllers)

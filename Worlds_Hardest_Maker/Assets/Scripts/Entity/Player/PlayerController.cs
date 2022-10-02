@@ -135,6 +135,37 @@ public class PlayerController : MonoBehaviour
         if (GameManager.Instance.Multiplayer) photonView.RPC("SetNameTagActive", RpcTarget.All, GameManager.Instance.Playing);
     }
 
+    private void OnCollisionStay2D(Collision2D collider)
+    {
+        Vector2 roundedPos = new(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
+
+        // do wall corner pushy thingy
+        if (collider.transform.CompareTag("WallField") && (collider.transform.position.x == roundedPos.x + movementInput.x || collider.transform.position.y == roundedPos.y + movementInput.y))
+        {
+
+            // do horizontal
+            if (movementInput.x != 0 && roundedPos.y != Mathf.Round(collider.transform.position.y))
+            {
+                Vector2 posCheck = new(Mathf.Round(transform.position.x + movementInput.x), roundedPos.y);
+                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
+                {
+                    //transform.position = new Vector2(transform.position.x, roundedPos.y + (transform.position.y % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.y) * 0.5f);
+                    transform.position += new Vector3(0, (rb.position.y % 1 > 0.5f ? 1 : -1)) * (onWater ? waterDamping * speed : speed) * Time.fixedDeltaTime;
+                    return;
+                }
+            }
+            // do vertical
+            if (movementInput.y != 0 && roundedPos.x != Mathf.Round(collider.transform.position.x))
+            {
+                Vector2 posCheck = new(Mathf.Round(transform.position.y + movementInput.y), roundedPos.x);
+                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
+                {
+                    //transform.position = new Vector2(roundedPos.x + (transform.position.x % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.x) * 0.5f, transform.position.y);
+                    transform.position += new Vector3((rb.position.x % 1 > 0.5f ? 1 : -1) * (onWater ? waterDamping * speed : speed), 0) * Time.fixedDeltaTime;
+                }
+            }
+        }
+    }
     private void FixedUpdate()
     {
         // check water and update drown level
@@ -321,7 +352,8 @@ public class PlayerController : MonoBehaviour
     {
         // animation and play mode and that's it really
         animator.SetTrigger("Death");
-        GameManager.Instance.TogglePlay();
+        AudioManager.Instance.Play("Win");
+        GameManager.Instance.TogglePlay(false);
     }
 
     public void DieNormal(string soundEffect = "Smack")
@@ -363,8 +395,6 @@ public class PlayerController : MonoBehaviour
         AudioManager.Instance.Play("Void");
 
         Die();
-
-        print(inDeathAnim);
     }
     private void Die()
     {
@@ -398,16 +428,19 @@ public class PlayerController : MonoBehaviour
 
     public void ActivateCheckpoint(float mx, float my)
     {
+        coinsCollected.RemoveAll(e => e == null);
+        keysCollected.RemoveAll(e => e == null);
+
         // mx my coords of checkpointfield
         Vector2 statePlayerStartingPos = new(mx, my);
 
         // serialize game state
         // convert collectedCoins and collectedKeys to List<Vector2>
         List<Vector2> coinPositions = new();
+        
         foreach(GameObject c in coinsCollected)
         {
-            CoinController coinController = c.GetComponent<CoinController>();
-            coinPositions.Add(coinController.coinPosition);
+            coinPositions.Add(c.GetComponent<CoinController>().coinPosition);
         }
 
         List<Vector2> keyPositions = new();
@@ -433,6 +466,7 @@ public class PlayerController : MonoBehaviour
             GameObject c = coinsCollected[i];
             if (c.GetComponent<CoinController>().coinPosition == pos)
             {
+                print("removedCoin");
                 coinsCollected.Remove(c);
             }
         }

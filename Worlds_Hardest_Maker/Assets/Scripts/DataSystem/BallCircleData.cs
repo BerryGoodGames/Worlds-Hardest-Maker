@@ -26,7 +26,7 @@ public class BallCircleData : IData
         angle = controller.startAngle;
     }
 
-    public override void CreateObject()
+    public override void ImportToLevel()
     {
         BallCircleManager.Instance.SetBallCircle(originPosition[0], originPosition[1], radius, speed, angle);
     }

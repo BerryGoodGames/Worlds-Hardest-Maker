@@ -171,10 +171,10 @@ public class FillManager : MonoBehaviour
             int my = (int)pos.y;
 
             // set field at pos
-            GameObject prefab = FieldManager.GetPrefabByType(type);
+            GameObject prefab = type.GetPrefab();
             GameObject field = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), GameManager.Instance.FieldContainer.transform);
             // REF
-            string[] tags = { "StartField", "GoalField", "StartAndGoalField", "CheckpointField" };
+            string[] tags = { "StartField", "GoalField", "CheckpointField" };
 
             for (int i = 0; i < tags.Length; i++)
             {
@@ -183,7 +183,7 @@ public class FillManager : MonoBehaviour
                 {
                     if (GraphicsSettings.Instance.oneColorStartGoal)
                     {
-                        field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[5];
+                        field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
 
                         if (field.TryGetComponent(out Animator anim))
                         {
@@ -229,7 +229,7 @@ public class FillManager : MonoBehaviour
         }
 
         // update outlines
-        if (FieldManager.GetPrefabByType(type).GetComponent<FieldOutline>() != null)
+        if (type.GetPrefab().GetComponent<FieldOutline>() != null)
         {
             FieldOutline FOComp;
             for (int i = lowestX; i <= highestX; i++)

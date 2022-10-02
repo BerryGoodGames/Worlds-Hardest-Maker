@@ -18,8 +18,7 @@ public class GameManager : MonoBehaviourPun
     {
         DELETE_FIELD, 
         WALL_FIELD, 
-        START_FIELD, GOAL_FIELD, START_AND_GOAL_FIELD,
-        CHECKPOINT_FIELD, 
+        START_FIELD, GOAL_FIELD, CHECKPOINT_FIELD, 
         ONE_WAY_FIELD, 
         WATER, ICE,
         VOID,
@@ -37,7 +36,6 @@ public class GameManager : MonoBehaviourPun
     public GameObject WallField;
     public GameObject StartField;
     public GameObject GoalField;
-    public GameObject StartAndGoalField;
     public GameObject CheckpointField;
     public GameObject OneWayField;
     public GameObject Water;
@@ -286,11 +284,11 @@ public class GameManager : MonoBehaviourPun
     #endregion
 
     #region PLAY / EDIT MODE METHODS
-    public void TogglePlay()
+    public void TogglePlay(bool playSoundEffect = true)
     {
         if (!Instance.Menu.activeSelf)
         {
-            if (Instance.Playing) SwitchToEdit();
+            if (Instance.Playing) SwitchToEdit(playSoundEffect);
             else SwitchToPlay();
 
             BarTween[] barTweens = FindObjectsOfType<BarTween>();
@@ -309,6 +307,7 @@ public class GameManager : MonoBehaviourPun
 
             if (Instance.Multiplayer && !controller.photonView.IsMine) continue;
 
+            controller.currentFields.Clear();
             controller.currentState = null;
             controller.deaths = 0;
         }
@@ -362,11 +361,11 @@ public class GameManager : MonoBehaviourPun
         // camera jumps to last player if its not on screen
         Camera.main.GetComponent<JumpToEntity>().Jump(true);
     }
-    public static void SwitchToEdit()
+    public static void SwitchToEdit(bool playSoundEffect = true)
     {
         Instance.Playing = false;
 
-        AudioManager.Instance.Play("Bell");
+        if(playSoundEffect) AudioManager.Instance.Play("Bell");
         AudioManager.Instance.MusicFiltered(true);
 
         ResetGame();
@@ -497,8 +496,8 @@ public class GameManager : MonoBehaviourPun
         {
             if (field.CompareTag("CheckpointField"))
             {
-                Animator anim = field.GetComponent<Animator>();
-                anim.SetBool("Active", false);
+                CheckpointTween anim = field.GetComponent<CheckpointTween>();
+                anim.Deactivate();
 
                 CheckpointController controller = field.GetComponent<CheckpointController>();
                 controller.activated = false;
@@ -534,6 +533,7 @@ public class GameManager : MonoBehaviourPun
         ClearLevel();
         List<FieldData> fieldDatas = new();
         PlayerData playerData = null;
+        LevelSettingsData levelSettingsData = null;
 
         // load ball, coins
         foreach (IData levelObject in levelData)
@@ -548,21 +548,26 @@ public class GameManager : MonoBehaviourPun
                 playerData = (PlayerData)levelObject;
                 continue;
             }
-            levelObject.CreateObject();
+            else if (levelObject.GetType() == typeof(LevelSettingsData))
+            {
+                levelSettingsData = (LevelSettingsData)levelObject;
+                continue;
+            }
+            levelObject.ImportToLevel();
         }
 
 
         // load fields
         foreach (FieldData field in fieldDatas)
         {
-            field.CreateObject();
+            field.ImportToLevel();
         }
 
         // load player last
-        if (playerData != null)
-        {
-            playerData.CreateObject();
-        }
+        if (playerData != null) playerData.ImportToLevel();
+
+        // load level settings
+        if (levelSettingsData != null) levelSettingsData.ImportToLevel();
     }
     [PunRPC]
     public void ReceiveLevel(string content)
