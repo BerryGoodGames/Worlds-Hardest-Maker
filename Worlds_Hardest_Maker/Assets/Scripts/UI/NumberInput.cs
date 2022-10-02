@@ -34,7 +34,7 @@ public class NumberInput : MonoBehaviour
     }
 
     public void SetNumberText(float num) => numberInput.text = num.ToString();
-    public float GetCurrentNumber() => float.Parse(numberInput.text); 
+    public float GetCurrentNumber() => float.Parse(numberInput.text.Replace("​" /* Zero Space Character */, "")); 
 
     private void Start()
     {
