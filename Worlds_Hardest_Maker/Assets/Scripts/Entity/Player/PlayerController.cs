@@ -150,6 +150,7 @@ public class PlayerController : MonoBehaviour
                 if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
                 {
                     //transform.position = new Vector2(transform.position.x, roundedPos.y + (transform.position.y % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.y) * 0.5f);
+                    print("Vertical");
                     transform.position += new Vector3(0, (rb.position.y % 1 > 0.5f ? 1 : -1)) * (onWater ? waterDamping * speed : speed) * Time.fixedDeltaTime;
                     return;
                 }
@@ -160,6 +161,7 @@ public class PlayerController : MonoBehaviour
                 Vector2 posCheck = new(Mathf.Round(transform.position.y + movementInput.y), roundedPos.x);
                 if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
                 {
+                    print("Horizontal");
                     //transform.position = new Vector2(roundedPos.x + (transform.position.x % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.x) * 0.5f, transform.position.y);
                     transform.position += new Vector3((rb.position.x % 1 > 0.5f ? 1 : -1) * (onWater ? waterDamping * speed : speed), 0) * Time.fixedDeltaTime;
                 }
