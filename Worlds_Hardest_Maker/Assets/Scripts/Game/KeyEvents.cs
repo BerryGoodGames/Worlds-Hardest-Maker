@@ -21,9 +21,9 @@ public class KeyEvents : MonoBehaviour
         // toggle menu
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            AlphaUITween anim = GameManager.Instance.Menu.GetComponent<AlphaUITween>();
-            anim.SetVisible(!anim.IsVisible());
-            //GameManager.Instance.Menu.SetActive(!GameManager.Instance.Menu.activeSelf);
+            //AlphaUITween anim = GameManager.Instance.Menu.GetComponent<AlphaUITween>();
+            //anim.SetVisible(!anim.IsVisible());
+            GameManager.Instance.Menu.SetActive(!GameManager.Instance.Menu.activeSelf);
         }
 
         // teleport player to mouse pos
