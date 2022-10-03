@@ -36,6 +36,8 @@ public class CheckpointController : MonoBehaviour
                 ChainActivate();
 
                 controller.ActivateCheckpoint((int)transform.position.x, (int)transform.position.y);
+
+                AudioManager.Instance.Play("Checkpoint");
             }
         }
     }
