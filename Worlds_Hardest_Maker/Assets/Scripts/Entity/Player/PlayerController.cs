@@ -428,35 +428,6 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("Death");
     }
 
-    public void ActivateCheckpoint(float mx, float my)
-    {
-        coinsCollected.RemoveAll(e => e == null);
-        keysCollected.RemoveAll(e => e == null);
-
-        // mx my coords of checkpointfield
-        Vector2 statePlayerStartingPos = new(mx, my);
-
-        // serialize game state
-        // convert collectedCoins and collectedKeys to List<Vector2>
-        List<Vector2> coinPositions = new();
-        
-        foreach(GameObject c in coinsCollected)
-        {
-            coinPositions.Add(c.GetComponent<CoinController>().coinPosition);
-        }
-
-        List<Vector2> keyPositions = new();
-        foreach (GameObject k in keysCollected)
-        {
-            KeyController keyController = k.GetComponent<KeyController>();
-            keyPositions.Add(keyController.keyPosition);
-        }
-
-        currentState = new(statePlayerStartingPos, coinPositions, keyPositions);
-        
-        print("Saved game state");
-    }
-
     public bool CoinsCollected()
     {
         return coinsCollected.Count >= GameManager.Instance.CoinContainer.transform.childCount;
@@ -504,6 +475,48 @@ public class PlayerController : MonoBehaviour
         Destroy(sliderController.GetSliderObject());
         if (nameTagController != null) Destroy(nameTagController.nameTag);
         Destroy(gameObject);
+    }
+
+    public void ActivateCheckpoint(float mx, float my)
+    {
+        // mx my coords of checkpointfield
+        Vector2 statePlayerStartingPos = new(mx, my);
+
+        GameState newState = GetGameStateNow();
+        newState.playerStartPos = statePlayerStartingPos;
+
+        currentState = newState;
+
+        print("Saved game state");
+    }
+
+    public GameState GetGameStateNow()
+    {
+        coinsCollected.RemoveAll(e => e == null);
+        keysCollected.RemoveAll(e => e == null);
+
+        // mx my coords of checkpointfield
+        Vector2 statePlayerStartingPos = currentState != null ? currentState.playerStartPos : startPos;
+
+        // serialize game state
+        // convert collectedCoins and collectedKeys to List<Vector2>
+        List<Vector2> coinPositions = new();
+
+        foreach (GameObject c in coinsCollected)
+        {
+            coinPositions.Add(c.GetComponent<CoinController>().coinPosition);
+        }
+
+        List<Vector2> keyPositions = new();
+        foreach (GameObject k in keysCollected)
+        {
+            KeyController keyController = k.GetComponent<KeyController>();
+            keyPositions.Add(keyController.keyPosition);
+        }
+
+        GameState res = new(statePlayerStartingPos, coinPositions, keyPositions);
+
+        return res;
     }
 
     public void DeathAnimFinish()
