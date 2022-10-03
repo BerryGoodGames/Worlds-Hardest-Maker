@@ -50,7 +50,7 @@ public class CoinController : MonoBehaviour
         controller.coinsCollected.Add(gameObject);
 
         // coin counter, sfx, animation
-        AudioManager.Instance.Play("Ding");
+        AudioManager.Instance.Play("Coin");
 
         Animator anim = transform.parent.GetComponent<Animator>();
         anim.SetBool("PickedUp", true);
