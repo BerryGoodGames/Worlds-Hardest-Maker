@@ -139,29 +139,33 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 roundedPos = new(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
 
+        float err = 0.00001f;
+
         // do wall corner pushy thingy
-        if (collider.transform.CompareTag("WallField") && (collider.transform.position.x == roundedPos.x + movementInput.x || collider.transform.position.y == roundedPos.y + movementInput.y))
+        if (collider.transform.tag.IsSolidFieldTag() && (collider.transform.position.x == roundedPos.x + movementInput.x || collider.transform.position.y == roundedPos.y + movementInput.y))
         {
 
             // do horizontal
-            if (movementInput.x != 0 && roundedPos.y != Mathf.Round(collider.transform.position.y))
+            if (movementInput.x != 0 && roundedPos.y != Mathf.Round(collider.transform.position.y) && 
+                Mathf.Abs(transform.position.y) % 1 > ((1 - transform.lossyScale.y) * 0.5f + err) && 
+                Mathf.Abs(transform.position.y) % 1 < (1 - ((1 - transform.lossyScale.y) * 0.5f + err)))
             {
                 Vector2 posCheck = new(Mathf.Round(transform.position.x + movementInput.x), roundedPos.y);
                 if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
                 {
                     //transform.position = new Vector2(transform.position.x, roundedPos.y + (transform.position.y % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.y) * 0.5f);
-                    print("Vertical");
                     transform.position += new Vector3(0, (rb.position.y % 1 > 0.5f ? 1 : -1)) * (onWater ? waterDamping * speed : speed) * Time.fixedDeltaTime;
                     return;
                 }
             }
             // do vertical
-            if (movementInput.y != 0 && roundedPos.x != Mathf.Round(collider.transform.position.x))
+            if (movementInput.y != 0 && roundedPos.x != Mathf.Round(collider.transform.position.x) && 
+                Mathf.Abs(transform.position.x) % 1 > ((1 - transform.lossyScale.x) * 0.5f + err) && 
+                Mathf.Abs(transform.position.x) % 1 < (1 - ((1 - transform.lossyScale.x) * 0.5f + err)))
             {
                 Vector2 posCheck = new(Mathf.Round(transform.position.y + movementInput.y), roundedPos.x);
                 if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
                 {
-                    print("Horizontal");
                     //transform.position = new Vector2(roundedPos.x + (transform.position.x % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.x) * 0.5f, transform.position.y);
                     transform.position += new Vector3((rb.position.x % 1 > 0.5f ? 1 : -1) * (onWater ? waterDamping * speed : speed), 0) * Time.fixedDeltaTime;
                 }
