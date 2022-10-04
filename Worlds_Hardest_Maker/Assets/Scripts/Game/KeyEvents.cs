@@ -31,7 +31,7 @@ public class KeyEvents : MonoBehaviour
         {
             GameObject player = PlayerManager.GetPlayer();
             if(player != null)
-                player.transform.position = MouseManager.Instance.MouseWorldPosGrid;
+                player.GetComponent<Rigidbody2D>().MovePosition(MouseManager.Instance.MouseWorldPosGrid);
         }
         
 #if UNITY_EDITOR
