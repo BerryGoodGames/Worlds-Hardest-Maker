@@ -29,10 +29,9 @@ public class KeyEvents : MonoBehaviour
         // teleport player to mouse pos
         if(GameManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))
         {
-            print(PlayerManager.GetPlayer().transform.position);
             GameObject player = PlayerManager.GetPlayer();
             if(player != null)
-                player.transform.position = MouseManager.Instance.MouseWorldPosGrid;
+                player.GetComponent<Rigidbody2D>().MovePosition(MouseManager.Instance.MouseWorldPosGrid);
         }
         
 #if UNITY_EDITOR

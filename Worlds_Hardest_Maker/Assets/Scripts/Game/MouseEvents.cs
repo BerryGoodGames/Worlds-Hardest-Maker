@@ -32,7 +32,7 @@ public class MouseEvents : MonoBehaviour
         // rotate one way field
         if (GameManager.Instance.CurrentEditMode == GameManager.EditMode.ONE_WAY_FIELD && Input.GetKeyDown(KeyCode.R))
         {
-            GameManager.Instance.EditRotation = (GameManager.Instance.EditRotation + 90) % 360;
+            GameManager.Instance.EditRotation = (GameManager.Instance.EditRotation - 90) % 360;
         }
 
         // place / delete stuff when not hovering toolbar

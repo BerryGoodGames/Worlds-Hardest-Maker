@@ -27,6 +27,7 @@ public class CheckpointController : MonoBehaviour
         {
             // check if player wasnt on checkpoint before
             PlayerController controller = player.GetComponent<PlayerController>();
+
             bool alreadyOnField = controller.IsOnField(FieldManager.FieldType.CHECKPOINT_FIELD);
 
             if ((!activated || reusableCheckpoints) && !alreadyOnField)
@@ -36,6 +37,8 @@ public class CheckpointController : MonoBehaviour
                 ChainActivate();
 
                 controller.ActivateCheckpoint((int)transform.position.x, (int)transform.position.y);
+
+                AudioManager.Instance.Play("Checkpoint");
             }
         }
     }

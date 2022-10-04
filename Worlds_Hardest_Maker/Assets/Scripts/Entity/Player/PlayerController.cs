@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     private Vector2 movementInput;
+    private Vector2 extraMovementInput;
 
     [HideInInspector] public bool inDeathAnim = false;
 
@@ -137,31 +138,37 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collider)
     {
-        Vector2 roundedPos = new(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
+        Vector2 roundedPos = new(Mathf.Round(rb.position.x), Mathf.Round(rb.position.y));
+
+        float err = 0.00001f;
 
         // do wall corner pushy thingy
-        if (collider.transform.CompareTag("WallField") && (collider.transform.position.x == roundedPos.x + movementInput.x || collider.transform.position.y == roundedPos.y + movementInput.y))
+        if (collider.transform.tag.IsSolidFieldTag() && (collider.transform.position.x == roundedPos.x + movementInput.x || collider.transform.position.y == roundedPos.y + movementInput.y))
         {
 
             // do horizontal
-            if (movementInput.x != 0 && roundedPos.y != Mathf.Round(collider.transform.position.y))
+            if (movementInput.x != 0 && roundedPos.y != Mathf.Round(collider.transform.position.y) && 
+                Mathf.Abs(rb.position.y) % 1 > ((1 - transform.lossyScale.y) * 0.5f + err) && 
+                Mathf.Abs(rb.position.y) % 1 < (1 - ((1 - transform.lossyScale.y) * 0.5f + err)))
             {
-                Vector2 posCheck = new(Mathf.Round(transform.position.x + movementInput.x), roundedPos.y);
+                Vector2 posCheck = new(Mathf.Round(rb.position.x + movementInput.x), roundedPos.y);
                 if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
                 {
                     //transform.position = new Vector2(transform.position.x, roundedPos.y + (transform.position.y % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.y) * 0.5f);
-                    transform.position += new Vector3(0, (rb.position.y % 1 > 0.5f ? 1 : -1)) * (onWater ? waterDamping * speed : speed) * Time.fixedDeltaTime;
+                    extraMovementInput = new Vector2(movementInput.x, (rb.position.y % 1 > 0.5f ? 1 : -1));
                     return;
                 }
             }
             // do vertical
-            if (movementInput.y != 0 && roundedPos.x != Mathf.Round(collider.transform.position.x))
+            if (movementInput.y != 0 && roundedPos.x != Mathf.Round(collider.transform.position.x) && 
+                Mathf.Abs(rb.position.x) % 1 > ((1 - transform.lossyScale.x) * 0.5f + err) && 
+                Mathf.Abs(rb.position.x) % 1 < (1 - ((1 - transform.lossyScale.x) * 0.5f + err)))
             {
-                Vector2 posCheck = new(Mathf.Round(transform.position.y + movementInput.y), roundedPos.x);
+                Vector2 posCheck = new(Mathf.Round(rb.position.y + movementInput.y), roundedPos.x);
                 if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
                 {
                     //transform.position = new Vector2(roundedPos.x + (transform.position.x % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.x) * 0.5f, transform.position.y);
-                    transform.position += new Vector3((rb.position.x % 1 > 0.5f ? 1 : -1) * (onWater ? waterDamping * speed : speed), 0) * Time.fixedDeltaTime;
+                    extraMovementInput = new Vector2((rb.position.x % 1 > 0.5f ? 1 : -1), movementInput.y);
                 }
             }
         }
@@ -218,7 +225,10 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = Vector2.zero;
 
                 // snappy movement (when not on ice)
-                rb.MovePosition((Vector2)rb.transform.position + (onWater ? waterDamping * speed : speed) * Time.fixedDeltaTime * movementInput);
+                Vector2 temp = rb.position;
+                if (!movementInput.Equals(Vector2.zero))
+                    rb.MovePosition(rb.position + (onWater ? waterDamping * speed : speed) * Time.fixedDeltaTime * new Vector2(Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1), Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1)));
+                extraMovementInput = Vector2.zero;
             }
             
             //// check void death
@@ -426,35 +436,6 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("Death");
     }
 
-    public void ActivateCheckpoint(float mx, float my)
-    {
-        coinsCollected.RemoveAll(e => e == null);
-        keysCollected.RemoveAll(e => e == null);
-
-        // mx my coords of checkpointfield
-        Vector2 statePlayerStartingPos = new(mx, my);
-
-        // serialize game state
-        // convert collectedCoins and collectedKeys to List<Vector2>
-        List<Vector2> coinPositions = new();
-        
-        foreach(GameObject c in coinsCollected)
-        {
-            coinPositions.Add(c.GetComponent<CoinController>().coinPosition);
-        }
-
-        List<Vector2> keyPositions = new();
-        foreach (GameObject k in keysCollected)
-        {
-            KeyController keyController = k.GetComponent<KeyController>();
-            keyPositions.Add(keyController.keyPosition);
-        }
-
-        currentState = new(statePlayerStartingPos, coinPositions, keyPositions);
-        
-        print("Saved game state");
-    }
-
     public bool CoinsCollected()
     {
         return coinsCollected.Count >= GameManager.Instance.CoinContainer.transform.childCount;
@@ -491,7 +472,7 @@ public class PlayerController : MonoBehaviour
 
     public void ResetGame()
     {
-        rb.transform.position = startPos;
+        rb.MovePosition(startPos);
     }
 
     public void DestroyPlayer(bool removeTargetFromCamera = true)
@@ -502,6 +483,48 @@ public class PlayerController : MonoBehaviour
         Destroy(sliderController.GetSliderObject());
         if (nameTagController != null) Destroy(nameTagController.nameTag);
         Destroy(gameObject);
+    }
+
+    public void ActivateCheckpoint(float mx, float my)
+    {
+        // mx my coords of checkpointfield
+        Vector2 statePlayerStartingPos = new(mx, my);
+
+        GameState newState = GetGameStateNow();
+        newState.playerStartPos = statePlayerStartingPos;
+
+        currentState = newState;
+
+        print("Saved game state");
+    }
+
+    public GameState GetGameStateNow()
+    {
+        coinsCollected.RemoveAll(e => e == null);
+        keysCollected.RemoveAll(e => e == null);
+
+        // mx my coords of checkpointfield
+        Vector2 statePlayerStartingPos = currentState != null ? currentState.playerStartPos : startPos;
+
+        // serialize game state
+        // convert collectedCoins and collectedKeys to List<Vector2>
+        List<Vector2> coinPositions = new();
+
+        foreach (GameObject c in coinsCollected)
+        {
+            coinPositions.Add(c.GetComponent<CoinController>().coinPosition);
+        }
+
+        List<Vector2> keyPositions = new();
+        foreach (GameObject k in keysCollected)
+        {
+            KeyController keyController = k.GetComponent<KeyController>();
+            keyPositions.Add(keyController.keyPosition);
+        }
+
+        GameState res = new(statePlayerStartingPos, coinPositions, keyPositions);
+
+        return res;
     }
 
     public void DeathAnimFinish()
