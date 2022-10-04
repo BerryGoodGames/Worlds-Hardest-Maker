@@ -51,12 +51,13 @@ public class PathController : MonoBehaviour
             Target = waypoints[0];
             targetIndex = 0;
         }
+
+        moveCoroutine = Move();
     }
 
     private void Start()
     {
         if (setElement0ToStartingPos && waypoints[0] != null) waypoints[0].position = transform.position;
-        moveCoroutine = Move();
         StartCoroutine(moveCoroutine);
     }
 
@@ -80,7 +81,7 @@ public class PathController : MonoBehaviour
                 yield return null;
                 continue;
             }
-            
+
             if ((Vector2)transform.position == target.position)
             {
                 // delay next move

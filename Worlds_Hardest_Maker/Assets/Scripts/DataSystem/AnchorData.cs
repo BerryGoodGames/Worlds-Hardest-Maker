@@ -59,13 +59,20 @@ public class AnchorData : IData
         // set path mode
         pathController.pathMode = pathMode;
 
+        // reset state
+        pathController.ResetState();
+
 
         // set balls (hihi)
-        Transform container = anchor.GetComponentInChildren<AnchorController>().container.transform;
+        AnchorController anchorController = anchor.GetComponentInChildren<AnchorController>();
+        Transform container = anchorController.container.transform;
 
         for (int i = 0; i < ballPositions.Length; i += 2)
         {
             AnchorBallManager.SetAnchorBall(ballPositions[i], ballPositions[i + 1], container);
         }
+
+        // fade balls in
+        anchorController.BallFadeIn(1, 0.1f);
     }
 }
