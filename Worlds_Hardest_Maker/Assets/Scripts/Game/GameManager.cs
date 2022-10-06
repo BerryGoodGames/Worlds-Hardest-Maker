@@ -185,6 +185,8 @@ public class GameManager : MonoBehaviourPun
             PlacementPreview.GetComponent<PreviewController>().UpdateRotation();
         }
     }
+
+    public event Action onGameQuit;
     #endregion
 
     private void Awake()
@@ -648,5 +650,12 @@ public class GameManager : MonoBehaviourPun
         double range2 = stop2 - start2;
 
         return range2 / range1 * (value - start1) + start2;
+    }
+
+    public static void QuitGame()
+    {
+        Instance.onGameQuit();
+
+        Application.Quit();
     }
 }

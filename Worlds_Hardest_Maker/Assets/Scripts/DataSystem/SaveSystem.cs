@@ -103,7 +103,7 @@ public static class SaveSystem
 //    }
 //#endif
 
-    public static List<IData> LoadLevel()
+    public static List<IData> LoadLevel(bool updateDiscordActivity = true)
     {
         //#if UNITY_WEBGL
         //                Debug.Log("opening in webgl");
@@ -129,6 +129,14 @@ public static class SaveSystem
                 {
                     // RPC to every other client with path
                     SendLevel(path);
+                }
+
+                // set discord activity
+                if(updateDiscordActivity)
+                {
+                    string[] splittedPath = stream.Name.Split("\\");
+                    string levelName = splittedPath[splittedPath.Length - 1].Replace(".lvl", "");
+                    DiscordManager.State = $"Last opened Level: {levelName}";
                 }
 
                 List<IData> data = formatter.Deserialize(stream) as List<IData>;
