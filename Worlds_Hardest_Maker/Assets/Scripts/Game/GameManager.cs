@@ -188,6 +188,11 @@ public class GameManager : MonoBehaviourPun
     }
     #endregion
 
+    #region EVENTS
+    public static event Action onPlay;
+    public static event Action onEdit;
+    #endregion
+
     private void Awake()
     {
         // init singleton
@@ -361,6 +366,8 @@ public class GameManager : MonoBehaviourPun
 
         // camera jumps to last player if its not on screen
         Camera.main.GetComponent<JumpToEntity>().Jump(true);
+        if(onPlay != null)
+            onPlay();
     }
     public static void SwitchToEdit(bool playSoundEffect = true)
     {
@@ -435,6 +442,8 @@ public class GameManager : MonoBehaviourPun
 
             controller.currentState = null;
         }
+        if (onEdit != null)
+            onEdit();
     }
 
     /// <summary>
