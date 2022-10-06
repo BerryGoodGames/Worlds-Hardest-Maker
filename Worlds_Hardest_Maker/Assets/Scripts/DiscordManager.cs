@@ -68,7 +68,6 @@ public class DiscordManager : MonoBehaviour
         currentActivity = new Discord.Activity { Details = details, State = state };
         Instance.activityManager.UpdateActivity(currentActivity, (res) =>
         {
-            print(res);
             if (res != Discord.Result.Ok)
             {
                 Debug.LogError("Discord status failed!");

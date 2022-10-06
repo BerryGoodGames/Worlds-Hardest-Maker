@@ -654,7 +654,8 @@ public class GameManager : MonoBehaviourPun
 
     public static void QuitGame()
     {
-        Instance.onGameQuit();
+        if(Instance.onGameQuit != null)
+            Instance.onGameQuit();
 
         Application.Quit();
     }
