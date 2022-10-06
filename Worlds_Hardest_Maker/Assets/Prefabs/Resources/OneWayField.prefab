@@ -53,19 +53,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Size.x
-      value: 0.97
-      objectReference: {fileID: 0}
-    - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
-      propertyPath: m_Size.y
       value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: m_Size.y
+      value: 0.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Offset.x
-      value: 0.015
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Offset.y
-      value: 0
+      value: 0.015
       objectReference: {fileID: 0}
     - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_IsTrigger
@@ -122,7 +122,7 @@ PlatformEffector2D:
   m_ColliderMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RotationalOffset: 90
+  m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 1
   m_SurfaceArc: 90
