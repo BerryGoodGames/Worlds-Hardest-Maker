@@ -163,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 0.2
   rotateAngle: {x: 0, y: 0, z: 90}
+  disableCollision: 1
 --- !u!114 &-3016554834474145244
 MonoBehaviour:
   m_ObjectHideFlags: 0

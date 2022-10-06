@@ -10,6 +10,14 @@ public class FieldRotation : MonoBehaviour
     public float duration;
     public Vector3 rotateAngle;
     private bool rotating;
+    [SerializeField] private bool disableCollision;
+    private BoxCollider2D boxCollider;
+
+    private void Start()
+    {
+        if(!TryGetComponent(out boxCollider))
+            disableCollision = false;
+    }
 
     private IEnumerator Rotate(Vector3 angles, float d)
     {
@@ -23,7 +31,8 @@ public class FieldRotation : MonoBehaviour
         }
         transform.rotation = endRotation;
         rotating = false;
-        GetComponent<BoxCollider2D>().isTrigger = false;
+        if(disableCollision)
+            boxCollider.isTrigger = false;
     }
 
     [PunRPC]
@@ -31,7 +40,8 @@ public class FieldRotation : MonoBehaviour
     {
         if (!rotating && !EventSystem.current.IsPointerOverGameObject())
         {
-            GetComponent<BoxCollider2D>().isTrigger = true;
+            if(disableCollision)
+                boxCollider.isTrigger = true;
 
             Animator anim = GetComponent<Animator>();
             anim.SetTrigger("Rotate");

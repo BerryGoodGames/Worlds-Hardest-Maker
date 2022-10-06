@@ -237,7 +237,6 @@ public class PlayerController : MonoBehaviour
         ConveyorController conveyor = GetCurrentConveyor();
         if (conveyor != null)
         {
-            print(conveyor.transform.rotation * Vector2.up);
             Vector2 conveyorVector = conveyor.Strength * Time.fixedDeltaTime * (conveyor.transform.rotation * Vector2.up);
 
             conveyorVector = Quaternion.Euler(0, 0, conveyor.Rotation) * conveyorVector;
