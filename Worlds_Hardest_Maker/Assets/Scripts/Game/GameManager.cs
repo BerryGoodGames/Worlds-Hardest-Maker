@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviourPun
         DELETE_FIELD, 
         WALL_FIELD, 
         START_FIELD, GOAL_FIELD, CHECKPOINT_FIELD, 
-        ONE_WAY_FIELD, 
+        ONE_WAY_FIELD, CONVEYOR,
         WATER, ICE,
         VOID,
         GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD, 
@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviourPun
     public GameObject GoalField;
     public GameObject CheckpointField;
     public GameObject OneWayField;
+    public GameObject Conveyor;
     public GameObject Water;
     public GameObject Ice;
     public GameObject Void;

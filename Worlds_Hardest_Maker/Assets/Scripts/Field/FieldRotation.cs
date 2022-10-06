@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
-
-using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class OneWayRotation : MonoBehaviour
+public class FieldRotation : MonoBehaviour
 {
     // hippety hoppety
     public float duration;
