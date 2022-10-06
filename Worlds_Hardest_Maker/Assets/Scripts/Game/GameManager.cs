@@ -638,6 +638,15 @@ public class GameManager : MonoBehaviourPun
         return (EnumTo)Enum.Parse(typeof(EnumTo), e.ToString());
     }
 
+    public static object TryConvertEnum<EnumFrom, EnumTo>(EnumFrom e)
+    {
+        object convEnum;
+
+        Enum.TryParse(typeof(EnumTo), e.ToString(), out convEnum);
+
+        return convEnum;
+    }
+
     public static float RoundToNearestStep(float value, float step)
     {
         return Mathf.Round(value / step) * step;
