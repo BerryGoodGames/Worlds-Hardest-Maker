@@ -175,7 +175,7 @@ public class GameManager : MonoBehaviourPun
     [HideInInspector] public List<Vector2> CurrentFillRange { get; set; } = null;
     [HideInInspector] public bool UIHovered { get; set; } = false;
     [HideInInspector] public int TotalCoins { get; set; } = 0;
-    private int editRotation = 0;
+    private int editRotation = 270;
     [HideInInspector] public int EditRotation
     {
         get => editRotation;
