@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviourPun
         DELETE_FIELD, 
         WALL_FIELD, 
         START_FIELD, GOAL_FIELD, CHECKPOINT_FIELD, 
-        ONE_WAY_FIELD, 
+        ONE_WAY_FIELD, CONVEYOR,
         WATER, ICE,
         VOID,
         GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD, 
@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviourPun
     public GameObject GoalField;
     public GameObject CheckpointField;
     public GameObject OneWayField;
+    public GameObject Conveyor;
     public GameObject Water;
     public GameObject Ice;
     public GameObject Void;
@@ -174,7 +175,7 @@ public class GameManager : MonoBehaviourPun
     [HideInInspector] public List<Vector2> CurrentFillRange { get; set; } = null;
     [HideInInspector] public bool UIHovered { get; set; } = false;
     [HideInInspector] public int TotalCoins { get; set; } = 0;
-    private int editRotation = 0;
+    private int editRotation = 270;
     [HideInInspector] public int EditRotation
     {
         get => editRotation;
@@ -187,6 +188,11 @@ public class GameManager : MonoBehaviourPun
     }
 
     public event Action onGameQuit;
+    #endregion
+
+    #region EVENTS
+    public static event Action onPlay;
+    public static event Action onEdit;
     #endregion
 
     private void Awake()
@@ -362,6 +368,8 @@ public class GameManager : MonoBehaviourPun
 
         // camera jumps to last player if its not on screen
         Camera.main.GetComponent<JumpToEntity>().Jump(true);
+        if(onPlay != null)
+            onPlay();
     }
     public static void SwitchToEdit(bool playSoundEffect = true)
     {
@@ -436,6 +444,8 @@ public class GameManager : MonoBehaviourPun
 
             controller.currentState = null;
         }
+        if (onEdit != null)
+            onEdit();
     }
 
     /// <summary>
@@ -637,6 +647,15 @@ public class GameManager : MonoBehaviourPun
     public static EnumTo ConvertEnum<EnumFrom, EnumTo>(EnumFrom e)
     {
         return (EnumTo)Enum.Parse(typeof(EnumTo), e.ToString());
+    }
+
+    public static object TryConvertEnum<EnumFrom, EnumTo>(EnumFrom e)
+    {
+        object convEnum;
+
+        Enum.TryParse(typeof(EnumTo), e.ToString(), out convEnum);
+
+        return convEnum;
     }
 
     public static float RoundToNearestStep(float value, float step)

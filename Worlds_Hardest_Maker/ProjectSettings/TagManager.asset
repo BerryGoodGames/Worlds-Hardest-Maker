@@ -24,6 +24,7 @@ TagManager:
   - Water
   - Ice
   - Void
+  - Conveyor
   layers:
   - Default
   - TransparentFX

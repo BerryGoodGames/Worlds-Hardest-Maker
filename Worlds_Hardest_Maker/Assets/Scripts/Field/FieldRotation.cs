@@ -1,17 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
-
-using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class OneWayRotation : MonoBehaviour
+public class FieldRotation : MonoBehaviour
 {
     // hippety hoppety
     public float duration;
     public Vector3 rotateAngle;
     private bool rotating;
+    [SerializeField] private bool disableCollision;
+    private BoxCollider2D boxCollider;
+
+    private void Start()
+    {
+        if(!TryGetComponent(out boxCollider))
+            disableCollision = false;
+    }
 
     private IEnumerator Rotate(Vector3 angles, float d)
     {
@@ -25,7 +31,8 @@ public class OneWayRotation : MonoBehaviour
         }
         transform.rotation = endRotation;
         rotating = false;
-        GetComponent<BoxCollider2D>().isTrigger = false;
+        if(disableCollision)
+            boxCollider.isTrigger = false;
     }
 
     [PunRPC]
@@ -33,7 +40,8 @@ public class OneWayRotation : MonoBehaviour
     {
         if (!rotating && !EventSystem.current.IsPointerOverGameObject())
         {
-            GetComponent<BoxCollider2D>().isTrigger = true;
+            if(disableCollision)
+                boxCollider.isTrigger = true;
 
             Animator anim = GetComponent<Animator>();
             anim.SetTrigger("Rotate");
@@ -44,7 +52,7 @@ public class OneWayRotation : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        if (!GameManager.Instance.Filling && !GameManager.Instance.Playing && GameManager.Instance.CurrentEditMode.ToString() == FieldManager.GetFieldType(gameObject).ToString())
+        if (!GameManager.Instance.Filling && !GameManager.Instance.Playing && GameManager.Instance.CurrentEditMode == GameManager.ConvertEnum<FieldManager.FieldType, GameManager.EditMode>((FieldManager.FieldType)FieldManager.GetFieldType(gameObject)))
         {
             if (GameManager.Instance.Multiplayer)
             {
