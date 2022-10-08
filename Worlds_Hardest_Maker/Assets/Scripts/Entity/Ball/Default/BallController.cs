@@ -44,9 +44,6 @@ public class BallController : IBallController
 
     private void Move()
     {
-        // move towards the target
-        transform.position = Vector2.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
-
         // switch target after bounce
         if((Vector2)transform.position == currentTarget)
         {
@@ -59,6 +56,9 @@ public class BallController : IBallController
                 currentTarget = bounce.position;
             }
         }
+
+        // move towards the target
+        transform.position = Vector2.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
     }
 
     [PunRPC]
