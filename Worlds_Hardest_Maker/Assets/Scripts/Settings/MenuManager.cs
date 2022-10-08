@@ -82,7 +82,7 @@ public class MenuManager : MonoBehaviour
     }
     public static void ExitGame()
     {
-        Application.Quit();
+        GameManager.QuitGame();
     }    
 
     #region SOUND SETTINGS

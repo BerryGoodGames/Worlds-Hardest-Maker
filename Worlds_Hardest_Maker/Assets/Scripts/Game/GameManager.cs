@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviourPun
         DELETE_FIELD, 
         WALL_FIELD, 
         START_FIELD, GOAL_FIELD, CHECKPOINT_FIELD, 
-        ONE_WAY_FIELD, 
+        ONE_WAY_FIELD, CONVEYOR,
         WATER, ICE,
         VOID,
         GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD, 
@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviourPun
     public GameObject GoalField;
     public GameObject CheckpointField;
     public GameObject OneWayField;
+    public GameObject Conveyor;
     public GameObject Water;
     public GameObject Ice;
     public GameObject Void;
@@ -174,7 +175,7 @@ public class GameManager : MonoBehaviourPun
     [HideInInspector] public List<Vector2> CurrentFillRange { get; set; } = null;
     [HideInInspector] public bool UIHovered { get; set; } = false;
     [HideInInspector] public int TotalCoins { get; set; } = 0;
-    private int editRotation = 0;
+    private int editRotation = 270;
     [HideInInspector] public int EditRotation
     {
         get => editRotation;
@@ -185,6 +186,13 @@ public class GameManager : MonoBehaviourPun
             PlacementPreview.GetComponent<PreviewController>().UpdateRotation();
         }
     }
+
+    public event Action onGameQuit;
+    #endregion
+
+    #region EVENTS
+    public static event Action onPlay;
+    public static event Action onEdit;
     #endregion
 
     private void Awake()
@@ -209,7 +217,7 @@ public class GameManager : MonoBehaviourPun
         {
             OnIsMultiplayer();
         } else {
-            PlayerManager.Instance.SetPlayer(0.5f, 0.5f, 2.5f);
+            PlayerManager.Instance.SetPlayer(0.5f, 0.5f, 3f);
         }
 
         LevelSettings.Instance.SetDrownDuration();
@@ -360,6 +368,8 @@ public class GameManager : MonoBehaviourPun
 
         // camera jumps to last player if its not on screen
         Camera.main.GetComponent<JumpToEntity>().Jump(true);
+        if(onPlay != null)
+            onPlay();
     }
     public static void SwitchToEdit(bool playSoundEffect = true)
     {
@@ -434,6 +444,8 @@ public class GameManager : MonoBehaviourPun
 
             controller.currentState = null;
         }
+        if (onEdit != null)
+            onEdit();
     }
 
     /// <summary>
@@ -637,6 +649,15 @@ public class GameManager : MonoBehaviourPun
         return (EnumTo)Enum.Parse(typeof(EnumTo), e.ToString());
     }
 
+    public static object TryConvertEnum<EnumFrom, EnumTo>(EnumFrom e)
+    {
+        object convEnum;
+
+        Enum.TryParse(typeof(EnumTo), e.ToString(), out convEnum);
+
+        return convEnum;
+    }
+
     public static float RoundToNearestStep(float value, float step)
     {
         return Mathf.Round(value / step) * step;
@@ -648,5 +669,13 @@ public class GameManager : MonoBehaviourPun
         double range2 = stop2 - start2;
 
         return range2 / range1 * (value - start1) + start2;
+    }
+
+    public static void QuitGame()
+    {
+        if(Instance.onGameQuit != null)
+            Instance.onGameQuit();
+
+        Application.Quit();
     }
 }

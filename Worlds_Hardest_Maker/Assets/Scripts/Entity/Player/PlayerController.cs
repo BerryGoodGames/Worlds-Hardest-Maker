@@ -204,6 +204,18 @@ public class PlayerController : MonoBehaviour
 
         bool ice = IsOnIce();
 
+
+        Vector2 totalMovement = Vector2.zero;
+        // get conveyor speed
+        ConveyorController conveyor = GetCurrentConveyor();
+        if (conveyor != null)
+        {
+            Vector2 conveyorVector = conveyor.Strength * Time.fixedDeltaTime * (conveyor.transform.rotation * Vector2.up);
+
+            conveyorVector = Quaternion.Euler(0, 0, conveyor.Rotation) * conveyorVector;
+            totalMovement += conveyorVector;
+        }
+
         // movement (if player is yours in multiplayer mode)
         if (GameManager.Instance.Playing)
         {
@@ -212,11 +224,12 @@ public class PlayerController : MonoBehaviour
             if (ice) 
             {
                 // transfer velocity to ice when entering
-                if (rb.velocity == Vector2.zero) rb.velocity = (onWater ? waterDamping * speed : speed) * movementInput;
+                if (rb.velocity == Vector2.zero) rb.velocity = (onWater ? waterDamping * speed : speed) * new Vector2(Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1), Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1));
 
                 // acceleration on ice
                 rb.drag = iceFriction;
-                rb.AddForce(iceFriction * speed * 1.2f * movementInput, ForceMode2D.Force);
+                rb.AddForce(iceFriction * speed * 1.2f * new Vector2(Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1), Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1)), ForceMode2D.Force);
+                extraMovementInput = Vector2.zero;
 
                 rb.velocity = new(Mathf.Min(maxIceSpeed, rb.velocity.x), Mathf.Min(maxIceSpeed, rb.velocity.y));
             }
@@ -225,20 +238,15 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = Vector2.zero;
 
                 // snappy movement (when not on ice)
-                Vector2 temp = rb.position;
                 if (!movementInput.Equals(Vector2.zero))
-                    rb.MovePosition(rb.position + (onWater ? waterDamping * speed : speed) * Time.fixedDeltaTime * new Vector2(Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1), Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1)));
+                    totalMovement += (onWater ? waterDamping * speed : speed) * Time.fixedDeltaTime * new Vector2(Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1), Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1));
                 extraMovementInput = Vector2.zero;
             }
-            
-            //// check void death
-            //GameObject currentVoid = CurrentVoid();
-            //if(!inDeathAnim && currentVoid != null)
-            //{
-            //    // get sucked to void
-            //    DieVoid();
-            //}
         }
+
+        
+        if(!ice)
+            rb.MovePosition(rb.position + totalMovement);
     }
 
     /// <summary>
@@ -331,6 +339,22 @@ public class PlayerController : MonoBehaviour
     public bool IsOnIce()
     {
         return IsFullyOnField(FieldManager.FieldType.ICE);
+    }
+    public ConveyorController GetCurrentConveyor()
+    {
+        if (IsFullyOnField(FieldManager.FieldType.CONVEYOR))
+        {
+            List<GameObject> fullyOnFields = GetFullyOnFields();
+            foreach (GameObject field in fullyOnFields)
+            {
+                FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
+                if (currentFieldType != null && currentFieldType == FieldManager.FieldType.CONVEYOR)
+                {
+                    return field.GetComponent<ConveyorController>();
+                }
+            }
+        }
+        return null;
     }
     public GameObject CurrentVoid()
     {

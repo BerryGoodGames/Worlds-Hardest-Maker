@@ -29,8 +29,8 @@ public class MouseEvents : MonoBehaviour
             AnchorManager.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
         }
 
-        // rotate one way field
-        if (GameManager.Instance.CurrentEditMode == GameManager.EditMode.ONE_WAY_FIELD && Input.GetKeyDown(KeyCode.R))
+        // rotate rotatable fields
+        if (FieldManager.IsRotatable(GameManager.Instance.CurrentEditMode) && Input.GetKeyDown(KeyCode.R))
         {
             GameManager.Instance.EditRotation = (GameManager.Instance.EditRotation - 90) % 360;
         }
@@ -49,7 +49,7 @@ public class MouseEvents : MonoBehaviour
                     {
                         // place field
 
-                        int rotation = GameManager.Instance.CurrentEditMode == GameManager.EditMode.ONE_WAY_FIELD ? GameManager.Instance.EditRotation : 0;
+                        int rotation = FieldManager.IsRotatable(GameManager.Instance.CurrentEditMode) ? GameManager.Instance.EditRotation : 0;
 
                         FieldManager.FieldType type = GameManager.ConvertEnum<GameManager.EditMode, FieldManager.FieldType>(editMode);
 

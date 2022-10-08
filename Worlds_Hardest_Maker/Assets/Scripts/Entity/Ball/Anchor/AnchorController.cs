@@ -111,7 +111,18 @@ public class AnchorController : MonoBehaviour
     {
         float endOpacity = animationEvent.floatParameter;
         if (float.TryParse(animationEvent.stringParameter, out float time))
-            StartCoroutine(container.GetComponent<ChildrenOpacity>().FadeIn(endOpacity, time));
+            BallFadeIn(endOpacity, time);
     }
 
+    public void BallFadeIn(float endOpacity, float time)
+    {
+        StartCoroutine(container.GetComponent<ChildrenOpacity>().FadeIn(endOpacity, time));
+    }
+
+    public IEnumerator FadeInOnNextFrame(float endOpacity, float time)
+    {
+        yield return null;
+        BallFadeIn(endOpacity, time);
+        yield break;
+    }
 }

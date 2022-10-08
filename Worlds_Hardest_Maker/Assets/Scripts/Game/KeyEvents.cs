@@ -23,7 +23,6 @@ public class KeyEvents : MonoBehaviour
         {
             AlphaUITween anim = GameManager.Instance.Menu.GetComponent<AlphaUITween>();
             anim.SetVisible(!anim.IsVisible());
-            //GameManager.Instance.Menu.SetActive(!GameManager.Instance.Menu.activeSelf);
         }
 
         // teleport player to mouse pos
@@ -31,7 +30,7 @@ public class KeyEvents : MonoBehaviour
         {
             GameObject player = PlayerManager.GetPlayer();
             if(player != null)
-                player.GetComponent<Rigidbody2D>().MovePosition(MouseManager.Instance.MouseWorldPosGrid);
+                player.GetComponent<Rigidbody2D>().position = MouseManager.Instance.MouseWorldPosGrid;
         }
         
 #if UNITY_EDITOR
@@ -47,11 +46,11 @@ public class KeyEvents : MonoBehaviour
 #if !UNTIY_WEBGL
             if (Input.GetKeyDown(KeyCode.O)) GameManager.Instance.LoadLevel();
 #endif
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                if (GameManager.Instance.Multiplayer) view.RPC("ClearLevel", RpcTarget.All);
-                else GameManager.Instance.ClearLevel();
-            }
+            //if (Input.GetKeyDown(KeyCode.C))
+            //{
+            //    if (GameManager.Instance.Multiplayer) view.RPC("ClearLevel", RpcTarget.All);
+            //    else GameManager.Instance.ClearLevel();
+            //}
         }
 
         // check edit mode toggling if no ctrl and not playing

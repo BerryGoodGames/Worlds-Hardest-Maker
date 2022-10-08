@@ -14,7 +14,7 @@ public class FieldManager : MonoBehaviour
     {
         WALL_FIELD, 
         START_FIELD, GOAL_FIELD, CHECKPOINT_FIELD, 
-        ONE_WAY_FIELD, 
+        ONE_WAY_FIELD, CONVEYOR,
         WATER, ICE,
         VOID,
         GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD
@@ -30,6 +30,21 @@ public class FieldManager : MonoBehaviour
         FieldType.BLUE_KEY_DOOR_FIELD,
         FieldType.YELLOW_KEY_DOOR_FIELD
     });
+
+    public static readonly List<FieldType> RotatableFields = new(new FieldType[]
+    {
+        FieldType.ONE_WAY_FIELD,
+        FieldType.CONVEYOR,
+    });
+
+    public static bool IsRotatable(GameManager.EditMode editMode)
+    {
+        FieldType? fieldType = (FieldType?)GameManager.TryConvertEnum<GameManager.EditMode, FieldType>(editMode);
+
+        if (fieldType != null)
+            return RotatableFields.Contains((FieldType)fieldType);
+        else return false;
+    }
 
     public static FieldType? GetFieldType(GameObject field)
     {

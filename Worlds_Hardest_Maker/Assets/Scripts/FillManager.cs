@@ -142,7 +142,7 @@ public class FillManager : MonoBehaviour
         GameManager.Instance.CurrentFillRange = null;
 
         // set rotation
-        int rotation = GameManager.Instance.CurrentEditMode == GameManager.EditMode.ONE_WAY_FIELD ? GameManager.Instance.EditRotation : 0;
+        int rotation = FieldManager.IsRotatable(GameManager.Instance.CurrentEditMode) ? GameManager.Instance.EditRotation : 0;
 
         // find bounds
         var (lowestX, highestX, lowestY, highestY) = GetBoundsMatrix(poses);

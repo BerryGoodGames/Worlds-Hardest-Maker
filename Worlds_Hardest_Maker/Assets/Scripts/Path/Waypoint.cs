@@ -29,6 +29,11 @@ public class Waypoint
         this.rotateWhileDelay = waypoint.rotateWhileDelay;
     }
 
+    public override string ToString()
+    {
+        return $"position: {position}, speed: {speed}, delay: {delay}, rotationSpeed: {rotationSpeed}, rotateWhileDelay {rotateWhileDelay}";
+    }
+
     public Waypoint Clone()
     {
         return new(position, rotateWhileDelay, delay, speed, rotationSpeed);

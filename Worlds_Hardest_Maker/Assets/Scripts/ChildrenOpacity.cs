@@ -61,6 +61,13 @@ public class ChildrenOpacity : MonoBehaviour
         UpdateChildren();
         if (endOpacity <= 0) yield break;
 
+        if(time <= 0)
+        {
+            opacity = endOpacity;
+            UpdateOpacity();
+            yield break;
+        }
+
         while (opacity <= endOpacity)
         {
 

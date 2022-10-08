@@ -23,6 +23,8 @@ public class Dbg : MonoBehaviour
     [Space]
     public bool wallOutlines = true;
     public bool drawRays = false;
+    [Space]
+    public float gameSpeed = 1;
 
     [Space]
     [Header("References")]
@@ -33,11 +35,11 @@ public class Dbg : MonoBehaviour
         if(Instance == null) Instance = this;
         else Destroy(this);
     }
-
     private void Update()
     {
         if(dbgEnabled)
         {
+            Time.timeScale = gameSpeed;
             switch (textMode)
             {
                 case DbgTextMode.DISABLED:
