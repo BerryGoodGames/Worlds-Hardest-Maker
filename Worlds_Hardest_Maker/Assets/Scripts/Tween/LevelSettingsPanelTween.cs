@@ -12,7 +12,7 @@ public class LevelSettingsPanelTween : MonoBehaviour
     [Space]
     [SerializeField] private float duration;
     [SerializeField] private bool open = false;
-    [SerializeField] private float closedX;
+    private float closedX;
     private float openedX;
 
     public void Toggle()
@@ -28,7 +28,8 @@ public class LevelSettingsPanelTween : MonoBehaviour
 
     private void Start()
     {
-        openedX = closedX + panel.rect.width;
+        closedX = -panel.rect.width;
+        openedX = 0;
         panel.anchoredPosition = new(open ? openedX : closedX, panel.anchoredPosition.y);
     }
 }
