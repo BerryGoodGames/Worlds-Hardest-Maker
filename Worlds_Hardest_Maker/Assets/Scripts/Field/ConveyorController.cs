@@ -6,6 +6,8 @@ public class ConveyorController : MonoBehaviour
 {
     private FieldRotation rotationController;
     private Animator anim;
+    private float animSpeed;
+
     [SerializeField] private float strength;
     public float Strength { get { return strength; } set { strength = value; } }
     public float Rotation { get { return transform.rotation.z; } }
@@ -28,6 +30,8 @@ public class ConveyorController : MonoBehaviour
     {
         if (anim == null)
             GetComponent<Animator>();
+
+        anim.speed = Strength;
         anim.SetBool("Running", true);
     }
 
