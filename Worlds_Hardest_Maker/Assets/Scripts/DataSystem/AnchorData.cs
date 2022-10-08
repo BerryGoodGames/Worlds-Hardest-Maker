@@ -73,6 +73,6 @@ public class AnchorData : IData
         }
 
         // fade balls in
-        anchorController.BallFadeIn(1, 0.1f);
+        anchorController.StartCoroutine(anchorController.FadeInOnNextFrame(1, 0.1f));
     }
 }
