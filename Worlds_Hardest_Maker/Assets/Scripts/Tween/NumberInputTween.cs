@@ -7,18 +7,18 @@ public class NumberInputTween : MonoBehaviour
 {
     [SerializeField] private RectTransform leftArrow;
     [SerializeField] private RectTransform rightArrow;
-    private float leftArrowX;
-    private float rightArrowX;
     [Space]
     [SerializeField] private float duration;
     [SerializeField] private float wiggle;
     private readonly Ease wiggleStartEase = Ease.OutCubic;
     private readonly Ease wiggleReturnEase = Ease.InOutSine;
 
-
     public void IncreaseTween()
     {
         rightArrow.DOKill();
+
+        float leftArrowX = leftArrow.position.x;
+        float rightArrowX = rightArrow.position.x;
 
         Sequence seq = DOTween.Sequence();
         seq.Append(rightArrow.DOMoveX(rightArrowX + wiggle, duration * 0.5f).SetEase(wiggleStartEase))
@@ -29,14 +29,11 @@ public class NumberInputTween : MonoBehaviour
     {
         leftArrow.DOKill();
 
+        float leftArrowX = leftArrow.position.x;
+        float rightArrowX = rightArrow.position.x;
+
         Sequence seq = DOTween.Sequence();
         seq.Append(leftArrow.DOMoveX(leftArrowX - wiggle, duration * 0.5f).SetEase(wiggleStartEase))
             .Append(leftArrow.DOMoveX(leftArrowX, duration * 0.5f).SetEase(wiggleReturnEase));
-    }
-
-    private void Start()
-    {
-        leftArrowX = leftArrow.position.x;
-        rightArrowX = rightArrow.position.x;
     }
 }
