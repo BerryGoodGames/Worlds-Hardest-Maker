@@ -16,6 +16,8 @@ public class SettingGenerator : MonoBehaviour
     [SerializeField] private string label;
     [SerializeField] private SettingVersion version;
     [SerializeField] private int amount = 1;
+    [SerializeField] private float fontSize = 40;
+    [SerializeField] private float height = 80;
 #endif
     #endregion
 
@@ -61,10 +63,13 @@ public class SettingGenerator : MonoBehaviour
             // generate setting
             GameObject setting = (GameObject)PrefabUtility.InstantiatePrefab(prefab, container);
 
-            // set label and object name
-            setting.transform.GetChild(setting.transform.childCount - 1).GetComponent<TMPro.TMP_Text>().text = label;
-            setting.name = setting.name.Replace("Option", label);
+            SettingOption option = setting.GetComponent<SettingOption>();
 
+            // set label and object name
+            option.label.text = label;
+            option.SetHeight(height);
+            option.SetFontSize(fontSize);
+            setting.name = setting.name.Replace("Option", label);
         }
 
 #endif

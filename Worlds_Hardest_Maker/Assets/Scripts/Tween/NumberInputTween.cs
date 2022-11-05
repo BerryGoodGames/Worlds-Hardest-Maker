@@ -14,8 +14,8 @@ public class NumberInputTween : MonoBehaviour
     [SerializeField] private float hover;
     private float leftArrowX;
     private float rightArrowX;
+    private Vector2 unhoveredScl = Vector2.one;
     private Vector2 hoveredScl;
-    private Vector2 unhoveredScl;
 
     private readonly Ease wiggleStartEase = Ease.OutCubic;
     private readonly Ease wiggleReturnEase = Ease.InOutSine;
@@ -42,14 +42,12 @@ public class NumberInputTween : MonoBehaviour
     public void HoverEventArrow(RectTransform arrow, bool enter)
     {
         // boolean enter: did the mouse enter or leave the arrow
-        arrow.DOKill();
         arrow.DOScale(enter ? hoveredScl : unhoveredScl, hoverDuration);
     }
 
     private void Start()
     {
-        unhoveredScl = leftArrow.transform.localScale;
-        hoveredScl = new(unhoveredScl.x + hover, unhoveredScl.y + hover);
+        hoveredScl = Vector2.one * hover + unhoveredScl;
         
         leftArrowX = leftArrow.position.x;
         rightArrowX = rightArrow.position.x;

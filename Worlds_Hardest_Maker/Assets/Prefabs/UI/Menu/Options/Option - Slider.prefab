@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slider with Input
       objectReference: {fileID: 0}
+    - target: {fileID: 5590605081535049434, guid: 0e10f1d737b56ef43affa7d3bbce9492, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -5.000061
+      objectReference: {fileID: 0}
     - target: {fileID: 5590605081623504402, guid: 0e10f1d737b56ef43affa7d3bbce9492, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
