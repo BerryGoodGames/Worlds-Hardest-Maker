@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteAlways]
 public class LevelSettings : MonoBehaviour
 {
     public static LevelSettings Instance { get; private set; }
@@ -28,6 +27,7 @@ public class LevelSettings : MonoBehaviour
     }
     #endregion
 
+
     #region LEVEL SETTINGS
     public void SetDrownDuration(bool syncPlayers = true)
     {
@@ -43,14 +43,20 @@ public class LevelSettings : MonoBehaviour
 
     public void SetWaterDamping(bool syncPlayers = true)
     {
-        Instance.waterDamping = 1 - waterDampingSlider.value;
-        if (syncPlayers) SyncPlayersToSettings();
+        if (Instance != null)
+        {
+            Instance.waterDamping = 1 - waterDampingSlider.value;
+            if (syncPlayers) SyncPlayersToSettings();
+        }
     }
     public void SetWaterDamping(float waterDamping, bool syncPlayers = true)
     {
-        Instance.waterDamping = waterDamping;
-        waterDampingSlider.value = 1 - waterDamping;
-        if (syncPlayers) SyncPlayersToSettings();
+        if (Instance != null)
+        {
+            Instance.waterDamping = waterDamping;
+            waterDampingSlider.value = 1 - waterDamping;
+            if (syncPlayers) SyncPlayersToSettings();
+        }
     }
 
     public void SetIceFriction(bool syncPlayers = true)
