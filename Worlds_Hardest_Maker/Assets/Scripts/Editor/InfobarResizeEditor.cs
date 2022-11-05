@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-#if UNITY_EDITOR
+
 [CustomEditor(typeof(InfobarResize))]
 public class InfobarResizeEditor : Editor
 {
@@ -17,4 +17,3 @@ public class InfobarResizeEditor : Editor
         }
     }
 }
-#endif

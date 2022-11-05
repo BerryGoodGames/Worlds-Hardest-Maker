@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 public class TextColorManager : MonoBehaviour
 {
@@ -23,20 +20,3 @@ public class TextColorManager : MonoBehaviour
         }
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(TextColorManager))]
-public class TextColorManagerEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-
-        TextColorManager script = (TextColorManager)target;
-        if (GUILayout.Button("Apply Default Color"))
-        {
-            script.ApplyDefaultColor();
-        }
-    }
-}
-#endif

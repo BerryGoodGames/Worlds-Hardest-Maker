@@ -1,8 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 
 public class ToolbarSizing : MonoBehaviour
@@ -46,32 +43,3 @@ public class ToolbarSizing : MonoBehaviour
         }
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(ToolbarSizing))]
-public class ToolbarSpacingEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-
-        ToolbarSizing script = (ToolbarSizing)target;
-
-        if (GUILayout.Button("Set Toolbar height"))
-        {
-            script.UpdateSize();
-        }
-
-        if(GUILayout.Button("Scale every option in optionbars"))
-        {
-            script.ScaleOptionsInOptionbars();
-        }
-
-        if(GUILayout.Button("Update optionbar heights"))
-        {
-            script.UpdateOptionbarHeights();
-        }
-    }
-
-}
-#endif

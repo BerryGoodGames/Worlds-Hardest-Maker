@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 public class BackgroundLineSize : MonoBehaviour
 {
@@ -28,20 +25,3 @@ public class BackgroundLineSize : MonoBehaviour
         }
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(BackgroundLineSize))]
-public class SomeScriptEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-
-        BackgroundLineSize script = (BackgroundLineSize)target;
-        if (GUILayout.Button("Set Line Size"))
-        {
-            script.SetLineSize();
-        }
-    }
-}
-#endif

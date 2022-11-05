@@ -3,9 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 
 /// <summary>
@@ -49,22 +46,3 @@ public class ColorPaletteManager : MonoBehaviour
         return null;
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(ColorPaletteManager))]
-public class ColorPaletteManagerEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-
-        ColorPaletteManager script = (ColorPaletteManager)target;
-        if (GUILayout.Button("Update Color Palettes"))
-        {
-            script.UpdateInstance();
-            script.UpdateColorPalettes();
-            EditorApplication.QueuePlayerLoopUpdate();
-        }
-    }
-}
-#endif
