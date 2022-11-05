@@ -163,6 +163,8 @@ public class PreviewController : MonoBehaviour
         }
         previousPlaying = GameManager.Instance.Playing;
         previousEditMode = GameManager.Instance.CurrentEditMode;
+
+        // for filling preview go to FillManager.cs
     }
 
     public void UpdateRotation()
