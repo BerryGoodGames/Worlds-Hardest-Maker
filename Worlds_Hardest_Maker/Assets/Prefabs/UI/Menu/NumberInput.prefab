@@ -258,8 +258,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftArrow: {fileID: 6331248990355835297}
   rightArrow: {fileID: 6331248992234627981}
-  duration: 0.2
+  wiggleDuration: 0
   wiggle: 5
+  hoverDuration: 0
+  hover: 0
 --- !u!1 &6331248991720292099
 GameObject:
   m_ObjectHideFlags: 0

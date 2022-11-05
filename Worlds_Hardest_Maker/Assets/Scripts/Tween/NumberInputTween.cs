@@ -2,19 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using UnityEngine.EventSystems;
 
 public class NumberInputTween : MonoBehaviour
 {
     [SerializeField] private RectTransform leftArrow;
     [SerializeField] private RectTransform rightArrow;
-    private float leftArrowX;
-    private float rightArrowX;
     [Space]
     [SerializeField] private float wiggleDuration;
     [SerializeField] private float wiggle;
     [SerializeField] private float hoverDuration;
     [SerializeField] private float hover;
+    private float leftArrowX;
+    private float rightArrowX;
     private Vector2 hoveredScl;
     private Vector2 unhoveredScl;
 
