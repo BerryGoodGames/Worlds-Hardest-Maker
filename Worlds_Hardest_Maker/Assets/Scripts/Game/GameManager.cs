@@ -271,9 +271,18 @@ public class GameManager : MonoBehaviourPun
         Camera cam = Camera.main;
         return pixel * 2 * cam.orthographicSize / cam.pixelHeight;
     }
+    public static float PixelToUnit(float pixel, float ortho)
+    {
+        Camera cam = Camera.main;
+        return pixel * 2 * ortho / cam.pixelHeight;
+    }
     public static Vector2 PixelToUnit(Vector2 pixel)
     {
         return new(PixelToUnit(pixel.x), PixelToUnit(pixel.y));
+    }
+    public static Vector2 PixelToUnit(Vector2 pixel, float ortho)
+    {
+        return new(PixelToUnit(pixel.x, ortho), PixelToUnit(pixel.y, ortho));
     }
     public static float UnitToPixel(float unit)
     {
