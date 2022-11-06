@@ -5,16 +5,18 @@ using UnityEngine.EventSystems;
 
 public class NumberInputArrowTweenController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] private RectTransform rt;
+    [SerializeField] private bool left;
     [SerializeField] private NumberInputTween tween;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        tween.HoverEventArrow(rt, true);
+        if(left) tween.HoverEventArrowLeft(true);
+        else tween.HoverEventArrowRight(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        tween.HoverEventArrow(rt, false);
+        if (left) tween.HoverEventArrowLeft(false);
+        else tween.HoverEventArrowRight(false);
     }
 }
