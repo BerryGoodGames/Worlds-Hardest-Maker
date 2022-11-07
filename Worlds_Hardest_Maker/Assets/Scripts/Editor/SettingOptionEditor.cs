@@ -16,5 +16,8 @@ public class SettingOptionEditor : Editor
     }
 }
 
-[CustomEditor(typeof(DropdownMenu))]
-public class DropdownMenuEditor : SettingOptionEditor { }
+[CustomEditor(typeof(DropdownMenuOption))]
+public class DropdownMenuOptionEditor : SettingOptionEditor { }
+
+[CustomEditor(typeof(NumberInputOption))]
+public class NumberInputOptionEditor : SettingOptionEditor { }

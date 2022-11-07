@@ -9,6 +9,7 @@ public class SettingGeneratorEditor : Editor
         DrawDefaultInspector();
 
         SettingGenerator script = (SettingGenerator)target;
+
         // generates setting on click
         if (GUILayout.Button("Generate"))
         {
