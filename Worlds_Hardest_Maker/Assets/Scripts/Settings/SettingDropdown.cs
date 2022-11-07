@@ -2,9 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SettingDropdown : SettingOption
+public class SettingDropdown : MonoBehaviour
 {
-    [SerializeField] private float lineSize;
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
 
-
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 }

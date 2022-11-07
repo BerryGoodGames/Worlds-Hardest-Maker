@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,12 +9,12 @@ public class SettingOptionEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        SettingOption script = (SettingOption)target;
-
         base.OnInspectorGUI();
 
-        script.UpdateHeight();
-        script.UpdateFontSize();
+        SettingOption script = (SettingOption)target;
+        script.Response();
     }
-
 }
+
+[CustomEditor(typeof(DropdownMenu))]
+public class DropdownMenuEditor : SettingOptionEditor { }

@@ -3,17 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DropdownMenu : MonoBehaviour
+public class DropdownMenu : SettingOption
 {
-    public RectTransform rt;
-    public RectTransform arrowRt;
-    public BackgroundLineSize bgLineSize;
     [Space]
-    public float originalHeight = 80;
-    public float originalLineSize = 4;
-    public float originalBaseLineSize = 10;
-    public float originalArrowScl = 0.3f;
-    public float originalArrowDist = -15;
+    [SerializeField] private RectTransform arrowRt;
+    [SerializeField] private BackgroundLineSize bgLineSize;
     [Space]
-    public float height = 100;
+    [SerializeField] private float originalHeight = 80;
+    [SerializeField] private float originalLineSize = 4;
+    [SerializeField] private float originalBaseLineSize = 10;
+    [SerializeField] private float originalArrowScl = 0.3f;
+    [SerializeField] private float originalArrowDist = -15;
+
+    public override void Response()
+    {
+        base.Response();
+
+        // calculate line sizes + arrow scale
+        float mLineSize = originalLineSize / originalHeight;
+        float mBaseLineSize = originalBaseLineSize / originalHeight;
+        float mArrowScl = originalArrowScl / originalHeight;
+        float mArrowDist = originalArrowDist / originalHeight;
+
+        float newLineSize = mLineSize * height;
+        float newBaseLineSize = mBaseLineSize * height;
+        float newArrowScl = mArrowScl * height;
+        float newArrowDist = mArrowDist * height;
+
+        BackgroundLineSize lineSizeController = bgLineSize;
+
+        lineSizeController.SetLineSize(newLineSize);
+        lineSizeController.SetLineSizeBottom(newBaseLineSize);
+
+        arrowRt.localScale = newArrowScl * Vector2.one;
+        arrowRt.anchoredPosition = new(newArrowDist, arrowRt.anchoredPosition.y);
+    }
 }

@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class SettingOption : MonoBehaviour
 {
-    [SerializeField] private RectTransform rectTransform;
+    [SerializeField] protected RectTransform rectTransform;
     public TMP_Text label;
     [Space]
     [SerializeField] private float fontSize = 40;
-    [SerializeField] private float height = 80;
+    [SerializeField] protected float height = 80;
 
     public void SetHeight(float h)
     {
@@ -28,5 +28,11 @@ public class SettingOption : MonoBehaviour
     public void UpdateFontSize()
     {
         SetFontSize(fontSize);
+    }
+
+    public virtual void Response()
+    {
+        UpdateHeight();
+        UpdateFontSize();
     }
 }
