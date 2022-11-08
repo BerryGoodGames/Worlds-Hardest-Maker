@@ -67,8 +67,10 @@ public class SettingGenerator : MonoBehaviour
 
             // set label and object name
             option.label.text = label;
-            option.SetHeight(height);
-            option.SetFontSize(fontSize);
+            option.FontSize = fontSize;
+            option.Height = height;
+            option.Response();
+
             setting.name = setting.name.Replace("Option", label);
         }
 
