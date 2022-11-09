@@ -100,6 +100,11 @@ public class SettingGenerator : MonoBehaviour
             switch (version)
             {
                 case SettingVersion.DROPDOWN:
+                    DropdownMenuOption dmo = (DropdownMenuOption)option;
+
+                    // width
+                    dmo.OriginalWidth = dmo.OriginalHeight * dropdownWidth / height;
+                    dmo.Response();
 
                     break;
 

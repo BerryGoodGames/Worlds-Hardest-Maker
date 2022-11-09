@@ -325,7 +325,9 @@ MonoBehaviour:
   height: 80
   arrowRt: {fileID: 5903786754078140326}
   bgLineSize: {fileID: 1582036083167950893}
+  aspectRatioFitter: {fileID: 7007416836553514493}
   originalHeight: 80
+  originalWidth: 250
   originalLineSize: 4
   originalBaseLineSize: 10
   originalArrowScl: 0.3
