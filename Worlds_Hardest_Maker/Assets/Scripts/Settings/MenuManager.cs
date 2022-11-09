@@ -67,6 +67,10 @@ public class MenuManager : MonoBehaviour
     {
         ChangeMenuTab((MenuTab)tab);
     }
+    public void ChangeMenuTab()
+    {
+        ChangeMenuTab(currentMenuTab);
+    }
 
     public Dictionary<MenuTab, GameObject> GetTabDict()
     {
