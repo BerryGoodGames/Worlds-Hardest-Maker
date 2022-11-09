@@ -21,3 +21,6 @@ public class DropdownMenuOptionEditor : SettingOptionEditor { }
 
 [CustomEditor(typeof(NumberInputOption))]
 public class NumberInputOptionEditor : SettingOptionEditor { }
+
+[CustomEditor(typeof(SliderOption))]
+public class SliderOptionEditor : SettingOptionEditor { }

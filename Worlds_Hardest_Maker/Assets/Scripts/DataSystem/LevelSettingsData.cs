@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class LevelSettingsData : IData
 {
-    #region SETTING VARIABLES
+    #region Setting variables
     public float drownDuration;
     public float waterDamping;
     public float iceFriction;

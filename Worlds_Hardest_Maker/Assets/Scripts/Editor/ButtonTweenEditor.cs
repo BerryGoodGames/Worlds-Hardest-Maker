@@ -33,6 +33,7 @@ public class ButtonTweenEditor : Editor
     SerializedProperty shake1;
     SerializedProperty shake2;
     #endregion
+
     private void OnEnable()
     {
         content = serializedObject.FindProperty("content");

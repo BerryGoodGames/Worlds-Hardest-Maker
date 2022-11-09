@@ -12,18 +12,16 @@ public class SliderUI : MonoBehaviour
     [SerializeField] private RectTransform rightBounce;
     [Space]
     [SerializeField] private float width = 400;
+    public float Width { get { return width; } set { width = value; } }
     [SerializeField] private float height = 80;
+    public float Height { get { return height; } set { height = value; } }
     [SerializeField] private float size = 10;
+    public float Size { get { return size; } set { size = value; } }
     [Space]
     [SerializeField] private float originalSize;
     [SerializeField] private float originalBackgroundSize;
     [SerializeField] private float originalHandleSize;
     [SerializeField] private float originalBounceSize;
-
-    public void SetWidth(float w)
-    {
-
-    }
 
     public void Response()
     {

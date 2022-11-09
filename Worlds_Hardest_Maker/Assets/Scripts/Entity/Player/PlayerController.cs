@@ -277,7 +277,7 @@ public class PlayerController : MonoBehaviour
         return new(Mathf.Floor(transform.position.x), Mathf.Floor(transform.position.y));
     }
 
-    #region FIELD DETECTION
+    #region Field detection
     public bool IsOnSafeField()
     {
         foreach (GameObject field in currentFields)

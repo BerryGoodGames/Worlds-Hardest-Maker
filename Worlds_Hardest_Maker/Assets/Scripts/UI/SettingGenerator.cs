@@ -5,25 +5,39 @@ using UnityEngine;
 
 public class SettingGenerator : MonoBehaviour
 {
-    private enum SettingVersion
+    public enum SettingVersion
     {
         DROPDOWN, CHECKBOX, SLIDER, NUMBER_INPUT
     }
 
-    #region OPTIONS
+    #region Fields
+    #region Options
 #if UNITY_EDITOR
     [Header("Options")]
     [SerializeField] private string label;
-    [SerializeField] private SettingVersion version;
+    public SettingVersion version;
     [SerializeField] private int amount = 1;
     [SerializeField] private float fontSize = 40;
     [SerializeField] private float height = 80;
+
+    // custom properties
+    // dropdown: dropdown width
+    [SerializeField] private float dropdownWidth;
+
+    // checkbox: none
+
+    // slider: slider width, slider size
+    [SerializeField] private float sliderWidth = 400;
+    [SerializeField] private float sliderSize = 10;
+
+    // numberinput: input width
+    [SerializeField] private float numberInputWidth = 250;
 #endif
     #endregion
 
     [Space]
 
-    #region REFERENCES
+    #region References
     [Header("References")]
     [SerializeField] private GameObject dropdownPrefab;
     [SerializeField] private GameObject checkboxPrefab;
@@ -31,12 +45,21 @@ public class SettingGenerator : MonoBehaviour
     [SerializeField] private GameObject numberInputPrefab;
     [SerializeField] private Transform container;
     #endregion
+    #endregion
+
 
     public void GenerateSetting()
     {
 #if UNITY_EDITOR
+        if(label.Length == 0)
+        {
+            Debug.LogWarning("You need to specify label!");
+            return;
+        }
+
         GameObject prefab;
-        // get right prefab, defaults to dropdow prefab
+
+        // get correct prefab, defaults to dropdown prefab
         switch(version)
         {
             case SettingVersion.DROPDOWN:
@@ -52,7 +75,7 @@ public class SettingGenerator : MonoBehaviour
                 prefab = numberInputPrefab;
                 break;
             default:
-                Debug.LogWarning("you probably forgor ?? to put prefab here, defaulted to dropdown");
+                Debug.LogWarning($"You probably forgot to put a prefab for {version} here, defaulted to dropdown");
                 prefab = dropdownPrefab;
                 break;
         }
@@ -72,8 +95,37 @@ public class SettingGenerator : MonoBehaviour
             option.Response();
 
             setting.name = setting.name.Replace("Option", label);
-        }
 
+            // set customized settings
+            switch (version)
+            {
+                case SettingVersion.DROPDOWN:
+
+                    break;
+
+                case SettingVersion.NUMBER_INPUT:
+                    NumberInputOption nio = (NumberInputOption)option;
+
+                    // width
+                    nio.Width = numberInputWidth;
+                    nio.Response();                    
+                    break;
+
+                case SettingVersion.CHECKBOX:
+
+                    break;
+
+                case SettingVersion.SLIDER:
+                    SliderUI s = ((SliderOption)option).sliderUI;
+
+                    // width, size
+                    s.Width = sliderWidth;
+                    s.Size = sliderSize;
+
+                    s.Response();
+                    break;
+            }
+        }
 #endif
     }
 }

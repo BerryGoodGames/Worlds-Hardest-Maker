@@ -7,7 +7,7 @@ public class LevelSettings : MonoBehaviour
 {
     public static LevelSettings Instance { get; private set; }
 
-    #region SETTING UI ELEMENT REFERENCES
+    #region Setting UI element references
     [SerializeField] private NumberInput drownDurationInput;
     [SerializeField] private Slider waterDampingSlider;
     [SerializeField] private NumberInput iceFrictionInput;
@@ -15,7 +15,7 @@ public class LevelSettings : MonoBehaviour
     [SerializeField] private Toggle reusableCheckpointCheckbox;
     #endregion
 
-    #region SETTING VARIABLES
+    #region Setting variables
     [HideInInspector] public float drownDuration;
     [HideInInspector] public float waterDamping;
     [HideInInspector] public float iceFriction;
@@ -28,7 +28,7 @@ public class LevelSettings : MonoBehaviour
     #endregion
 
 
-    #region LEVEL SETTINGS
+    #region Level settings
     public void SetDrownDuration(bool syncPlayers = true)
     {
         Instance.drownDuration = drownDurationInput.GetCurrentNumber();

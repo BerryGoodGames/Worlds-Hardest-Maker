@@ -89,7 +89,7 @@ public class MenuManager : MonoBehaviour
         GameManager.QuitGame();
     }    
 
-    #region SOUND SETTINGS
+    #region Sound settings
     public void SetMusicVolume(float vol)
     {
         // map vol from 0 - 100 to 0.0001 - 1 and convert it so vol acts linear
@@ -105,7 +105,7 @@ public class MenuManager : MonoBehaviour
     }
     #endregion
 
-    #region UI SETTINGS
+    #region UI Settings
     public void SetToolbarSize(float size)
     {
         if(toolbarSpacing != null)

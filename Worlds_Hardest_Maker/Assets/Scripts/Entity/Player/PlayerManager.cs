@@ -141,7 +141,7 @@ public class PlayerManager : MonoBehaviour
         return highestID + 1;
     }
 
-    #region GET PLAYER
+    #region Get player
     public static GameObject GetClientPlayer()
     {
         if (!GameManager.Instance.Multiplayer) throw new System.Exception("Trying to acces player of client while singleplayer");

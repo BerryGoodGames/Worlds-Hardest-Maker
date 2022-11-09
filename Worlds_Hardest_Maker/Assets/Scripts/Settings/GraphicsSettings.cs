@@ -9,14 +9,14 @@ public class GraphicsSettings : MonoBehaviour
     public TMPro.TMP_Dropdown resolutionDropdown;
     private Resolution[] resolutions;
 
-    #region SETTING VARIABLES
+    #region Setting variables
     [HideInInspector] public int qualityLevel;
     [HideInInspector] public bool fullscreen;
     [HideInInspector] public Resolution resolution;
     [HideInInspector] public bool oneColorStartGoal;
     #endregion
 
-    #region GRAPHICS SETTINGS
+    #region Graphics settings
     public static void SetQuality(int index)
     {
         QualitySettings.SetQualityLevel(index);
