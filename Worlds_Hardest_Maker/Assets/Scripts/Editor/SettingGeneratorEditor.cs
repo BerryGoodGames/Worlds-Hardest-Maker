@@ -35,10 +35,6 @@ public class SettingGeneratorEditor : Editor
     SerializedProperty fontSize;
     SerializedProperty height;
 
-    SerializedProperty dropdownPrefab;
-    SerializedProperty checkboxPrefab;
-    SerializedProperty sliderPrefab;
-    SerializedProperty numberInputPrefab;
     SerializedProperty container;
 
     SerializedProperty dropdownWidth;
@@ -57,10 +53,6 @@ public class SettingGeneratorEditor : Editor
         fontSize = serializedObject.FindProperty("fontSize");
         height = serializedObject.FindProperty("height");
 
-        dropdownPrefab = serializedObject.FindProperty("dropdownPrefab");
-        checkboxPrefab = serializedObject.FindProperty("checkboxPrefab");
-        sliderPrefab = serializedObject.FindProperty("sliderPrefab");
-        numberInputPrefab = serializedObject.FindProperty("numberInputPrefab");
         container = serializedObject.FindProperty("container");
 
         dropdownWidth = serializedObject.FindProperty("dropdownWidth");
@@ -78,10 +70,6 @@ public class SettingGeneratorEditor : Editor
 
         serializedObject.Update();
 
-        EditorGUILayout.PropertyField(dropdownPrefab);
-        EditorGUILayout.PropertyField(checkboxPrefab);
-        EditorGUILayout.PropertyField(sliderPrefab);
-        EditorGUILayout.PropertyField(numberInputPrefab);
         EditorGUILayout.PropertyField(container);
 
         EditorGUILayout.Space();

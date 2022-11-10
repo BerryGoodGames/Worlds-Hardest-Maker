@@ -7,7 +7,7 @@ public class SettingGenerator : MonoBehaviour
 {
     public enum SettingVersion
     {
-        DROPDOWN, CHECKBOX, SLIDER, NUMBER_INPUT
+        DROPDOWN, CHECKBOX, SLIDER, NUMBER_INPUT, HEADER, SPACE
     }
 
     #region Fields
@@ -36,15 +36,7 @@ public class SettingGenerator : MonoBehaviour
     #endregion
 
     [Space]
-
-    #region References
-    [Header("References")]
-    [SerializeField] private GameObject dropdownPrefab;
-    [SerializeField] private GameObject checkboxPrefab;
-    [SerializeField] private GameObject sliderPrefab;
-    [SerializeField] private GameObject numberInputPrefab;
     [SerializeField] private Transform container;
-    #endregion
     #endregion
 
 
@@ -57,29 +49,8 @@ public class SettingGenerator : MonoBehaviour
             return;
         }
 
-        GameObject prefab;
-
-        // get correct prefab, defaults to dropdown prefab
-        switch(version)
-        {
-            case SettingVersion.DROPDOWN:
-                prefab = dropdownPrefab;
-                break;
-            case SettingVersion.CHECKBOX:
-                prefab = checkboxPrefab;
-                break;
-            case SettingVersion.SLIDER:
-                prefab = sliderPrefab;
-                break;
-            case SettingVersion.NUMBER_INPUT:
-                prefab = numberInputPrefab;
-                break;
-            default:
-                Debug.LogWarning($"You probably forgot to put a prefab for {version} here, defaulted to dropdown");
-                prefab = dropdownPrefab;
-                break;
-        }
-
+        GameObject prefab = version.GetPrefab();
+        
         // iterate for the amount
         for (int i = 0; i < amount; i++)
         {
@@ -128,6 +99,14 @@ public class SettingGenerator : MonoBehaviour
                     s.Size = sliderSize;
 
                     s.Response();
+                    break;
+
+                case SettingVersion.HEADER:
+
+                    break;
+
+                case SettingVersion.SPACE:
+
                     break;
             }
         }
