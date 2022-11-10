@@ -19,7 +19,7 @@ public class KeyEvents : MonoBehaviour
         }
 
         // toggle menu
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M))
         {
             AlphaUITween anim = GameManager.Instance.Menu.GetComponent<AlphaUITween>();
             anim.SetVisible(!anim.IsVisible());
@@ -63,6 +63,8 @@ public class KeyEvents : MonoBehaviour
         {
             FillManager.ResetPreview();
         }
+
+        
     }
 
     /// <summary>
