@@ -19,6 +19,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2778013406168189572, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3926511750526139795, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -29,6 +33,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3926511750526139795, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
       propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3926511750526139795, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6331248990355835297, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
@@ -126,6 +134,10 @@ PrefabInstance:
     - target: {fileID: 6331248992234627981, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7854351464840360911, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
+      propertyPath: wiggle
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}

@@ -9,7 +9,7 @@ public class MenuManager : MonoBehaviour
     public static MenuManager Instance { get; private set; }
     public enum MenuTab
     {
-        LEVEL = 0, GRAPHIC = 1, UI = 2, SOUND = 3
+        GRAPHIC = 0, UI = 1, SOUND = 2
     }
     [Header("Constants & References")]
     public GameObject levelSettingsUI;
@@ -77,7 +77,6 @@ public class MenuManager : MonoBehaviour
         // REF
         Dictionary<MenuTab, GameObject> dict = new()
         {
-            { MenuTab.LEVEL, levelSettingsUI },
             { MenuTab.GRAPHIC, graphicSettingsUI },
             { MenuTab.SOUND, soundSettingsUI } ,
             { MenuTab.UI, UISettingsUI }
