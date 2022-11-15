@@ -11,7 +11,7 @@ public class LevelSettingsPanelTween : MonoBehaviour
     [SerializeField] private AnimationCurve closeEase;
     [Space]
     [SerializeField] private float duration;
-    [SerializeField] private bool open = false;
+    public bool open = false;
     private float closedX;
     private float openedX;
 

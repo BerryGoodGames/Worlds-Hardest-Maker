@@ -22,8 +22,8 @@ public class ConveyorController : MonoBehaviour
         rotationController = GetComponent<FieldRotation>();
         anim = GetComponent<Animator>();
 
-        GameManager.onPlay += SwitchAnimToRunning;
-        GameManager.onEdit += SwitchAnimToStaying;
+        GameManager.OnPlay += SwitchAnimToRunning;
+        GameManager.OnEdit += SwitchAnimToStaying;
     }
 
     private void SwitchAnimToRunning()
@@ -44,7 +44,7 @@ public class ConveyorController : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.onPlay -= SwitchAnimToRunning;
-        GameManager.onEdit -= SwitchAnimToStaying;
+        GameManager.OnPlay -= SwitchAnimToRunning;
+        GameManager.OnEdit -= SwitchAnimToStaying;
     }
 }

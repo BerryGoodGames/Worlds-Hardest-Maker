@@ -1756,9 +1756,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 352423160}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.000030517578, y: 0, z: 0}
-  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1553620290}
@@ -10876,6 +10876,7 @@ MonoBehaviour:
   count: 0
   wallOutlines: 1
   drawRays: 0
+  gameSpeed: 1
   DebugText: {fileID: 1281434031}
 --- !u!114 &3252578248619094239
 MonoBehaviour:
@@ -11020,6 +11021,7 @@ MonoBehaviour:
   Menu: {fileID: 1006894544}
   PlayButton: {fileID: 1830893215}
   PlacementPreview: {fileID: 2046466257}
+  LevelSettingsPanel: {fileID: 516759318}
   ToolbarContainer: {fileID: 3914619141356778195}
   BallWindows: {fileID: 4673024329375387179}
   SliderContainer: {fileID: 2134541448}

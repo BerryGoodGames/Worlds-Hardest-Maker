@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviourPun
     public GameObject Menu;
     public GameObject PlayButton;
     public GameObject PlacementPreview;
+    public GameObject LevelSettingsPanel;
     [Header("Containers")]
     public GameObject ToolbarContainer;
     public GameObject BallWindows;
@@ -187,12 +188,12 @@ public class GameManager : MonoBehaviourPun
         }
     }
 
-    public event Action onGameQuit;
+    public event Action OnGameQuit;
     #endregion
 
     #region Events
-    public static event Action onPlay;
-    public static event Action onEdit;
+    public static event Action OnPlay;
+    public static event Action OnEdit;
     #endregion
 
     private void Awake()
@@ -225,6 +226,7 @@ public class GameManager : MonoBehaviourPun
         LevelSettings.Instance.SetIceMaxSpeed();
         LevelSettings.Instance.SetWaterDamping();
 
+        SetCameraUnitWidth(23);
     }
 
     private void Update()
@@ -377,8 +379,11 @@ public class GameManager : MonoBehaviourPun
 
         // camera jumps to last player if its not on screen
         Camera.main.GetComponent<JumpToEntity>().Jump(true);
-        if(onPlay != null)
-            onPlay();
+        OnPlay?.Invoke();
+
+        // close level settings panel if open
+        LevelSettingsPanelTween lspt = Instance.LevelSettingsPanel.GetComponent<LevelSettingsPanelTween>();
+        if (lspt.open) lspt.Toggle();
     }
     public static void SwitchToEdit(bool playSoundEffect = true)
     {
@@ -453,8 +458,7 @@ public class GameManager : MonoBehaviourPun
 
             controller.currentState = null;
         }
-        if (onEdit != null)
-            onEdit();
+        OnEdit?.Invoke();
     }
 
     /// <summary>
@@ -613,6 +617,17 @@ public class GameManager : MonoBehaviourPun
     }
     #endregion
 
+    public static void SetCameraUnitWidth(float width)
+    {
+        Camera cam = Camera.main;
+        cam.orthographicSize = width * 0.5f / cam.aspect;
+    }
+    public static void SetCamerUnitHeight(float height)
+    {
+        Camera cam = Camera.main;
+        cam.orthographicSize = height * 0.5f;
+    }
+
 
     [PunRPC]
     public void ClearLevel()
@@ -682,8 +697,8 @@ public class GameManager : MonoBehaviourPun
 
     public static void QuitGame()
     {
-        if(Instance.onGameQuit != null)
-            Instance.onGameQuit();
+        if(Instance.OnGameQuit != null)
+            Instance.OnGameQuit();
 
         Application.Quit();
     }
