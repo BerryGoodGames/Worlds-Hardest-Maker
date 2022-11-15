@@ -9,6 +9,6 @@ public class PlayerSpawner : MonoBehaviour
 
     private void Start()
     {
-        PlayerManager.InstantiatePlayer(spawnPoint.position, 3, true);
+        MPlayer.InstantiatePlayer(spawnPoint.position, 3, true);
     }
 }

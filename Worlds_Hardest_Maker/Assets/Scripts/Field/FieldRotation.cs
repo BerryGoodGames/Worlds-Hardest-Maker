@@ -52,9 +52,9 @@ public class FieldRotation : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        if (!GameManager.Instance.Filling && !GameManager.Instance.Playing && GameManager.Instance.CurrentEditMode == GameManager.ConvertEnum<FieldManager.FieldType, GameManager.EditMode>((FieldManager.FieldType)FieldManager.GetFieldType(gameObject)))
+        if (!MGame.Instance.Filling && !MGame.Instance.Playing && MGame.Instance.CurrentEditMode == MGame.ConvertEnum<MField.FieldType, MGame.EditMode>((MField.FieldType)MField.GetFieldType(gameObject)))
         {
-            if (GameManager.Instance.Multiplayer)
+            if (MGame.Instance.Multiplayer)
             {
                 PhotonView view = PhotonView.Get(this);
                 view.RPC("StartRotation", RpcTarget.All);

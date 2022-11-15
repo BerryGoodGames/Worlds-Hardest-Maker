@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Tool : MonoBehaviour
 {
-    [HideInInspector] public GameManager.EditMode toolName;
+    [HideInInspector] public MGame.EditMode toolName;
     [SerializeField] private string toolType;
     [HideInInspector] public bool selected;
     [HideInInspector] public bool inOptionbar;
@@ -30,9 +30,9 @@ public class Tool : MonoBehaviour
 
     public void SwitchGameMode(bool setEditModeVariable)
     {
-        ToolbarManager.DeselectAll();
+        MToolbar.DeselectAll();
         Selected(true);
-        if (setEditModeVariable) GameManager.Instance.CurrentEditMode = toolName;
+        if (setEditModeVariable) MGame.Instance.CurrentEditMode = toolName;
     }
     public void SwitchGameMode()
     {
@@ -59,6 +59,6 @@ public class Tool : MonoBehaviour
 
     private void Update()
     {
-        anim.SetVisible(selected || (mouseOverUI.over && !GameManager.Instance.Menu.activeSelf));
+        anim.SetVisible(selected || (mouseOverUI.over && !MGame.Instance.Menu.activeSelf));
     }
 }

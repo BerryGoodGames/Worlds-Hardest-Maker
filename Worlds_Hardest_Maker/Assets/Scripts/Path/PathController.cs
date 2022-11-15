@@ -69,14 +69,14 @@ public class PathController : MonoBehaviour
             if(WaypointEditorController.startPosition != null) WaypointEditorController.startPosition.UpdateInputValues();
         }
 
-        AnchorManager.Instance.selectedPathController.DrawLines();
+        MAnchor.Instance.selectedPathController.DrawLines();
     }
 
     private IEnumerator Move()
     {
         while (true)
         {
-            if ((!GameManager.Instance.Playing && onlyMoveWhenPlaying) || stop || waypoints == null)
+            if ((!MGame.Instance.Playing && onlyMoveWhenPlaying) || stop || waypoints == null)
             {
                 yield return null;
                 continue;
@@ -188,16 +188,16 @@ public class PathController : MonoBehaviour
         {
             Waypoint prevWaypoint = waypoints[i - 1];
             Waypoint currWaypoint = waypoints[i];
-            LineManager.SetFill(Color.black);
-            LineManager.SetWeight(0.1f);
-            LineManager.SetLayerID(LineManager.DefaultLayerID);
-            LineManager.SetOrderInLayer(0);
-            LineManager.DrawLine(prevWaypoint.position, currWaypoint.position, LineContainer);
+            MLine.SetFill(Color.black);
+            MLine.SetWeight(0.1f);
+            MLine.SetLayerID(MLine.DefaultLayerID);
+            MLine.SetOrderInLayer(0);
+            MLine.DrawLine(prevWaypoint.position, currWaypoint.position, LineContainer);
         }
 
         if (pathMode == PathMode.LOOP && waypoints.Count > 1)
         {
-            LineManager.DrawLine(waypoints[^1].position, waypoints[0].position, LineContainer);
+            MLine.DrawLine(waypoints[^1].position, waypoints[0].position, LineContainer);
         }
     }
 

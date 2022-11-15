@@ -26,7 +26,7 @@ public class SpeedSliderAnim : MonoBehaviour
         // set visible status (if no other slider is hovered)
         bool hoveredHitbox = follow.entity.GetComponent<HoverSliderDetection>().MouseHoverSlider() && (!HoverSliderDetection.sliderHovered || anim.IsVisible());
 
-        bool vis = !GameManager.Instance.Playing && Input.GetKey(GameManager.Instance.EditSpeedKey) && hoveredHitbox;
+        bool vis = !MGame.Instance.Playing && Input.GetKey(MGame.Instance.EditSpeedKey) && hoveredHitbox;
 
         if (!vis && anim.IsVisible()) HoverSliderDetection.sliderHovered = false;
 

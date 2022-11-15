@@ -85,21 +85,21 @@ public class MenuManager : MonoBehaviour
     }
     public static void ExitGame()
     {
-        GameManager.QuitGame();
+        MGame.QuitGame();
     }    
 
     #region Sound settings
     public void SetMusicVolume(float vol)
     {
         // map vol from 0 - 100 to 0.0001 - 1 and convert it so vol acts linear
-        float newVol = Mathf.Log10((float)GameManager.Map(vol, 0, 100, 0.0001, 3)) * 20;
+        float newVol = Mathf.Log10((float)MGame.Map(vol, 0, 100, 0.0001, 3)) * 20;
 
         mainMixer.SetFloat("MusicVolume", newVol);
     }
 
     public void SetSoundEffectVolume(float vol)
     {
-        float newVol = Mathf.Log10((float)GameManager.Map(vol, 0, 100, 0.0001, 3)) * 20;
+        float newVol = Mathf.Log10((float)MGame.Map(vol, 0, 100, 0.0001, 3)) * 20;
         mainMixer.SetFloat("SoundEffectVolume", newVol);
     }
     #endregion

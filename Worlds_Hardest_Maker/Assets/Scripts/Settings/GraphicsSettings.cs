@@ -42,7 +42,7 @@ public class GraphicsSettings : MonoBehaviour
     public void SetOneColorStartGoal(bool oneColor)
     {
         // REF
-        foreach (Transform field in GameManager.Instance.FieldContainer.transform)
+        foreach (Transform field in MGame.Instance.FieldContainer.transform)
         {
             if (oneColor)
             {
@@ -52,7 +52,7 @@ public class GraphicsSettings : MonoBehaviour
                 {
                     if (field.CompareTag(tags[i]))
                     {
-                        field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
+                        field.GetComponent<SpriteRenderer>().color = MColorPalette.GetColorPalette("Start Goal Checkpoint").colors[4];
 
                         if (field.TryGetComponent(out Animator anim))
                         {
@@ -65,7 +65,7 @@ public class GraphicsSettings : MonoBehaviour
             {
                 // set colorful colors to start, goal, checkpoints and startgoal fields
                 string[] tags = { "StartField", "GoalField" };
-                List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
+                List<Color> colors = MColorPalette.GetColorPalette("Start Goal Checkpoint").colors;
 
                 for (int i = 0; i < tags.Length; i++)
                 {
@@ -75,9 +75,9 @@ public class GraphicsSettings : MonoBehaviour
                         renderer.color = colors[i];
                     } else if (field.CompareTag("CheckpointField"))
                     {
-                        CheckpointController checkpoint = field.GetComponent<CheckpointController>();
-                        Color checkpointUnactivated = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[2];
-                        Color checkpointActivated = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[3];
+                        CCheckpoint checkpoint = field.GetComponent<CCheckpoint>();
+                        Color checkpointUnactivated = MColorPalette.GetColorPalette("Start Goal Checkpoint").colors[2];
+                        Color checkpointActivated = MColorPalette.GetColorPalette("Start Goal Checkpoint").colors[3];
 
                         renderer.color = checkpoint.activated ? checkpointActivated : checkpointUnactivated;
 

@@ -10,7 +10,7 @@ public class CoinData : IData
 {
     public float[] position;
 
-    public CoinData(CoinController controller)
+    public CoinData(CCoin controller)
     {
         position = new float[2];
         position[0] = controller.transform.position.x;
@@ -19,6 +19,6 @@ public class CoinData : IData
 
     public override void ImportToLevel()
     {
-        CoinManager.Instance.SetCoin(position[0], position[1]);
+        MCoin.Instance.SetCoin(position[0], position[1]);
     }
 }

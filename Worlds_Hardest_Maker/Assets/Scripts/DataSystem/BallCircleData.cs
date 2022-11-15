@@ -13,7 +13,7 @@ public class BallCircleData : IData
     public float[] originPosition;
     public float angle;
 
-    public BallCircleData(BallCircleController controller)
+    public BallCircleData(CBallCircle controller)
     {
         speed = controller.speed;
 
@@ -28,6 +28,6 @@ public class BallCircleData : IData
 
     public override void ImportToLevel()
     {
-        BallCircleManager.Instance.SetBallCircle(originPosition[0], originPosition[1], radius, speed, angle);
+        MBallCircle.Instance.SetBallCircle(originPosition[0], originPosition[1], radius, speed, angle);
     }
 }

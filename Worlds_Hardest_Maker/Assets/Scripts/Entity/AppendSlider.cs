@@ -21,7 +21,7 @@ public class AppendSlider : MonoBehaviour
 
     private void Awake()
     {
-        Slider = Instantiate(sliderPrefab, Vector2.zero, Quaternion.identity, GameManager.Instance.SliderContainer.transform);
+        Slider = Instantiate(sliderPrefab, Vector2.zero, Quaternion.identity, MGame.Instance.SliderContainer.transform);
         Slider settings = Slider.GetComponent<Slider>();
         settings.minValue = min / step;
         settings.maxValue = max / step;

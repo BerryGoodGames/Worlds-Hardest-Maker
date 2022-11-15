@@ -9,9 +9,9 @@ using UnityEngine;
 public class KeyData : IData
 {
     public float[] position;
-    public KeyManager.KeyColor color;
+    public MKey.KeyColor color;
 
-    public KeyData(KeyController controller)
+    public KeyData(CKey controller)
     {
         position = new float[2];
         position[0] = controller.transform.position.x;
@@ -21,6 +21,6 @@ public class KeyData : IData
 
     public override void ImportToLevel()
     {
-        KeyManager.Instance.SetKey(position[0], position[1], color);
+        MKey.Instance.SetKey(position[0], position[1], color);
     }
 }

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class VoidDetection : MonoBehaviour
 {
-    private PlayerController playerController;
+    private CPlayer playerController;
 
     private void Start()
     {
-        playerController = GetComponent<PlayerController>();
+        playerController = GetComponent<CPlayer>();
     }
     private void FixedUpdate()
     {

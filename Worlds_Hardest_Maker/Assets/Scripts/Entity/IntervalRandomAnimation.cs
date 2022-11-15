@@ -28,7 +28,7 @@ public class IntervalRandomAnimation : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (triggerOnlyAtPlayMode && !GameManager.Instance.Playing) return;
+        if (triggerOnlyAtPlayMode && !MGame.Instance.Playing) return;
 
         if(lastTrigger >= intervalSeconds / Time.fixedDeltaTime * limitDeviation)
         {
@@ -38,7 +38,7 @@ public class IntervalRandomAnimation : MonoBehaviour
             {
                 anim.SetTrigger(animTriggerString);
 
-                if(!soundEffect.Equals("")) AudioManager.Instance.Play(soundEffect);
+                if(!soundEffect.Equals("")) MAudio.Instance.Play(soundEffect);
 
                 lastTrigger = 0;
                 return;

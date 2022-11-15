@@ -1,14 +1,14 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(ColorPaletteController))]
+[CustomEditor(typeof(CColorPalette))]
 public class ColorPaletteControllerEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
 
-        ColorPaletteController script = (ColorPaletteController)target;
+        CColorPalette script = (CColorPalette)target;
         if (GUILayout.Button("Update Color"))
         {
             script.UpdateColor();
