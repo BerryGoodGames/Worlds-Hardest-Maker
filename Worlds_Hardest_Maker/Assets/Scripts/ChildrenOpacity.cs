@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -79,22 +78,3 @@ public class ChildrenOpacity : MonoBehaviour
         opacity = endOpacity;
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(ChildrenOpacity))]
-public class ChildrenOpacityEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-
-        ChildrenOpacity script = (ChildrenOpacity)target;
-
-        if (GUILayout.Button("Update Opacity"))
-        {
-            script.UpdateOpacity();
-        }
-    }
-
-}
-#endif

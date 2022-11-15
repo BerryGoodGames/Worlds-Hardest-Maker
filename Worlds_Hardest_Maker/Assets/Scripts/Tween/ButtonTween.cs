@@ -8,14 +8,14 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 {
     [SerializeField] private Transform content;
     [SerializeField] private Transform backgroundPanel;
-    [Space]
+
     [SerializeField] private float clickDuration;
     [SerializeField] private float highlightElevation;
     [SerializeField] private float highlightFloating;
     [SerializeField] private float highlightElevateDuration;
     [SerializeField] private float highlightFloatingDuration;
-    [Space]
-    [SerializeField] private bool isWarningButton;
+
+    public bool isWarningButton;
     [SerializeField] private float singleShakeDuration;
     [SerializeField] private float shake1;
     [SerializeField] private float shake2;

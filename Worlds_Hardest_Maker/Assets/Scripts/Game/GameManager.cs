@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviourPun
         GRAY_KEY, RED_KEY, GREEN_KEY, BLUE_KEY, YELLOW_KEY
     }
 
-    #region CONSTANTS & REFERENCES
+    #region Constants & references
     [Header("Constants & References")]
     [Header("Prefabs")]
     public GameObject WallField;
@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviourPun
     public TMPro.TMP_Text CoinText;
     #endregion
 
-    #region VARIABLES
+    #region Variables
     [Header("Variables")]
 
     [SerializeField] private bool playing = false;
@@ -190,7 +190,7 @@ public class GameManager : MonoBehaviourPun
     public event Action onGameQuit;
     #endregion
 
-    #region EVENTS
+    #region Events
     public static event Action onPlay;
     public static event Action onEdit;
     #endregion
@@ -264,16 +264,25 @@ public class GameManager : MonoBehaviourPun
         FindObjectOfType<PlayerSpawner>().enabled = true;
     }
 
-    #region UNIT PIXEL CONVERSION METHODS
+    #region Unit pixel conversion methods
     // convert stuff
     public static float PixelToUnit(float pixel)
     {
         Camera cam = Camera.main;
         return pixel * 2 * cam.orthographicSize / cam.pixelHeight;
     }
+    public static float PixelToUnit(float pixel, float ortho)
+    {
+        Camera cam = Camera.main;
+        return pixel * 2 * ortho / cam.pixelHeight;
+    }
     public static Vector2 PixelToUnit(Vector2 pixel)
     {
         return new(PixelToUnit(pixel.x), PixelToUnit(pixel.y));
+    }
+    public static Vector2 PixelToUnit(Vector2 pixel, float ortho)
+    {
+        return new(PixelToUnit(pixel.x, ortho), PixelToUnit(pixel.y, ortho));
     }
     public static float UnitToPixel(float unit)
     {
@@ -291,7 +300,7 @@ public class GameManager : MonoBehaviourPun
     }
     #endregion
 
-    #region PLAY / EDIT MODE METHODS
+    #region Play / Edit mode methods
     public void TogglePlay(bool playSoundEffect = true)
     {
         if (!Instance.Menu.activeSelf)
@@ -529,7 +538,7 @@ public class GameManager : MonoBehaviourPun
     }
     #endregion
 
-    #region SAVE SYSTEM
+    #region Save system
     public void LoadLevel()
     {
         List<IData> levelData = SaveSystem.LoadLevel();

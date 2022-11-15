@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 using TMPro;
 #if UNITY_EDITOR
 using UnityEditor.Events;
@@ -59,22 +58,3 @@ public class SyncInputToSlider : MonoBehaviour
 
     private float Rounded(float value) { return Mathf.Round(value * Mathf.Pow(10, decimals)) * Mathf.Pow(10, -decimals); }
 }
-
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(SyncInputToSlider))]
-public class SyncInputToSliderEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-
-        SyncInputToSlider script = (SyncInputToSlider)target;
-        if (GUILayout.Button("Synchronise"))
-        {
-            script.Synchronise();
-            script.UpdateInput();
-        }
-    }
-}
-#endif

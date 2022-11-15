@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 /// <summary>
 /// controls placement, visibility and display of preview
@@ -19,6 +20,8 @@ public class PreviewController : MonoBehaviour
     [SerializeField] private Color defaultColor;
     [Range(0, 255)] public int alpha;
     [SerializeField] private bool updateEveryFrame = true;
+    [SerializeField] private bool smoothRotation;
+    [SerializeField] private float rotateDuration;
 
     private void Start()
     {
@@ -160,11 +163,23 @@ public class PreviewController : MonoBehaviour
         }
         previousPlaying = GameManager.Instance.Playing;
         previousEditMode = GameManager.Instance.CurrentEditMode;
+
+        // for filling preview go to FillManager.cs
     }
 
     public void UpdateRotation()
     {
-        if (rotate) transform.localRotation = Quaternion.Euler(0, 0, GameManager.Instance.EditRotation);
+        if (rotate)
+        {
+            Quaternion rotation = Quaternion.Euler(0, 0, GameManager.Instance.EditRotation);
+            if (smoothRotation)
+            {
+                transform.DOKill();
+                transform.DORotateQuaternion(rotation, rotateDuration)
+                    .SetEase(Ease.OutCubic);
+            }
+            else transform.localRotation = rotation;
+        }
         else transform.localRotation = Quaternion.identity;
     }
 }

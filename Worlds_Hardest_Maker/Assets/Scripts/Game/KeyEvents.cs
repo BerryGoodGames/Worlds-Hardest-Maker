@@ -14,7 +14,8 @@ public class KeyEvents : MonoBehaviour
         PhotonView view = GameManager.Instance.photonView;
 
         // toggle playing
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Space)) 
+        {
             GameManager.Instance.TogglePlay(); 
         }
 

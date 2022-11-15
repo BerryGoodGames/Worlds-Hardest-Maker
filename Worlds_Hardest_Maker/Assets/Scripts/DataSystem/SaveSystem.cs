@@ -5,11 +5,6 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using SFB;
 using Photon.Pun;
-using System.Runtime.InteropServices;
-//#if UNITY_WEBGL && !UNITY_EDITOR
-//using System.Text;
-//using System.Runtime.InteropServices;
-//#endif
 
 public static class SaveSystem
 {
@@ -81,6 +76,7 @@ public static class SaveSystem
             }
 
             // serialize current level settings
+            Debug.Log(LevelSettings.Instance.drownDuration);
             levelData.Add(new LevelSettingsData(LevelSettings.Instance));
 
             formatter.Serialize(stream, levelData);

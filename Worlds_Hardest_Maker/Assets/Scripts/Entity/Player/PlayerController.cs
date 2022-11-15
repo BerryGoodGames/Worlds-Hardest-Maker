@@ -206,16 +206,6 @@ public class PlayerController : MonoBehaviour
 
 
         Vector2 totalMovement = Vector2.zero;
-        // get conveyor speed
-        ConveyorController conveyor = GetCurrentConveyor();
-        if (conveyor != null)
-        {
-            Vector2 conveyorVector = conveyor.Strength * Time.fixedDeltaTime * (conveyor.transform.rotation * Vector2.up);
-
-            conveyorVector = Quaternion.Euler(0, 0, conveyor.Rotation) * conveyorVector;
-            totalMovement += conveyorVector;
-        }
-
         // movement (if player is yours in multiplayer mode)
         if (GameManager.Instance.Playing)
         {
@@ -224,12 +214,11 @@ public class PlayerController : MonoBehaviour
             if (ice) 
             {
                 // transfer velocity to ice when entering
-                if (rb.velocity == Vector2.zero) rb.velocity = (onWater ? waterDamping * speed : speed) * new Vector2(Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1), Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1));
+                if (rb.velocity == Vector2.zero) rb.velocity = (onWater ? waterDamping * speed : speed) * movementInput;
 
                 // acceleration on ice
                 rb.drag = iceFriction;
-                rb.AddForce(iceFriction * speed * 1.2f * new Vector2(Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1), Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1)), ForceMode2D.Force);
-                extraMovementInput = Vector2.zero;
+                rb.AddForce(iceFriction * speed * 1.2f * movementInput, ForceMode2D.Force);
 
                 rb.velocity = new(Mathf.Min(maxIceSpeed, rb.velocity.x), Mathf.Min(maxIceSpeed, rb.velocity.y));
             }
@@ -244,9 +233,16 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        
-        if(!ice)
-            rb.MovePosition(rb.position + totalMovement);
+        // get conveyor speed
+        ConveyorController conveyor = GetCurrentConveyor();
+        if (conveyor != null)
+        {
+            Vector2 conveyorVector = conveyor.Strength * Time.fixedDeltaTime * (conveyor.transform.rotation * Vector2.up);
+
+            conveyorVector = Quaternion.Euler(0, 0, conveyor.Rotation) * conveyorVector;
+            totalMovement += conveyorVector;
+        }
+        rb.MovePosition(rb.position + totalMovement);
     }
 
     /// <summary>
@@ -281,7 +277,7 @@ public class PlayerController : MonoBehaviour
         return new(Mathf.Floor(transform.position.x), Mathf.Floor(transform.position.y));
     }
 
-    #region FIELD DETECTION
+    #region Field detection
     public bool IsOnSafeField()
     {
         foreach (GameObject field in currentFields)

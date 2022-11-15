@@ -1,8 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,21 +29,3 @@ public class ColorPaletteController : MonoBehaviour
         }
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(ColorPaletteController))]
-public class ColorPaletteControllerEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-
-        ColorPaletteController script = (ColorPaletteController)target;
-        if (GUILayout.Button("Update Color"))
-        {
-            script.UpdateColor();
-            EditorApplication.QueuePlayerLoopUpdate();
-        }
-    }
-}
-#endif

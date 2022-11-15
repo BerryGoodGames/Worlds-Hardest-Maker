@@ -8,32 +8,61 @@ public class NumberInputTween : MonoBehaviour
     [SerializeField] private RectTransform leftArrow;
     [SerializeField] private RectTransform rightArrow;
     [Space]
-    [SerializeField] private float duration;
+    [SerializeField] private float wiggleDuration;
     [SerializeField] private float wiggle;
+    [SerializeField] private float hoverDuration;
+    [SerializeField] private float hover;
+    private float leftArrowX;
+    private float rightArrowX;
+    private Vector2 unhoveredScl = Vector2.one;
+    private Vector2 hoveredScl;
+
     private readonly Ease wiggleStartEase = Ease.OutCubic;
     private readonly Ease wiggleReturnEase = Ease.InOutSine;
+
+    private Sequence wiggleSeqLeft;
+    private Sequence wiggleSeqRight;
 
     public void IncreaseTween()
     {
         rightArrow.DOKill();
 
-        float leftArrowX = leftArrow.position.x;
-        float rightArrowX = rightArrow.position.x;
-
-        Sequence seq = DOTween.Sequence();
-        seq.Append(rightArrow.DOMoveX(rightArrowX + wiggle, duration * 0.5f).SetEase(wiggleStartEase))
-            .Append(rightArrow.DOMoveX(rightArrowX, duration * 0.5f).SetEase(wiggleReturnEase));
+        wiggleSeqRight = DOTween.Sequence();
+        wiggleSeqRight.Append(rightArrow.DOMoveX(rightArrowX + wiggle, wiggleDuration * 0.5f).SetEase(wiggleStartEase))
+            .Append(rightArrow.DOMoveX(rightArrowX, wiggleDuration * 0.5f).SetEase(wiggleReturnEase));
     }
 
     public void DecreaseTween()
     {
         leftArrow.DOKill();
 
-        float leftArrowX = leftArrow.position.x;
-        float rightArrowX = rightArrow.position.x;
+        wiggleSeqLeft = DOTween.Sequence();
+        wiggleSeqLeft.Append(leftArrow.DOMoveX(leftArrowX - wiggle, wiggleDuration * 0.5f).SetEase(wiggleStartEase))
+            .Append(leftArrow.DOMoveX(leftArrowX, wiggleDuration * 0.5f).SetEase(wiggleReturnEase));
+    }
 
-        Sequence seq = DOTween.Sequence();
-        seq.Append(leftArrow.DOMoveX(leftArrowX - wiggle, duration * 0.5f).SetEase(wiggleStartEase))
-            .Append(leftArrow.DOMoveX(leftArrowX, duration * 0.5f).SetEase(wiggleReturnEase));
+    public void HoverEventArrowLeft(bool enter)
+    {
+        // boolean enter: did the mouse enter or leave the arrow
+        leftArrow.DOScale(enter ? hoveredScl : unhoveredScl, hoverDuration);
+    }
+
+    public void HoverEventArrowRight(bool enter)
+    {
+        // boolean enter: did the mouse enter or leave the arrow
+        rightArrow.DOScale(enter ? hoveredScl : unhoveredScl, hoverDuration);
+    }
+
+
+
+    private void Start()
+    {
+        hoveredScl = Vector2.one * hover + unhoveredScl;
+        
+        leftArrowX = leftArrow.position.x;
+        rightArrowX = rightArrow.position.x;
+
+        wiggleSeqRight = DOTween.Sequence();
+        wiggleSeqLeft = DOTween.Sequence();
     }
 }

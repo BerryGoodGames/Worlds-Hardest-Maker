@@ -9,7 +9,7 @@ public class MenuManager : MonoBehaviour
     public static MenuManager Instance { get; private set; }
     public enum MenuTab
     {
-        LEVEL = 0, GRAPHIC = 1, UI = 2, SOUND = 3
+        GRAPHIC = 0, UI = 1, SOUND = 2
     }
     [Header("Constants & References")]
     public GameObject levelSettingsUI;
@@ -67,13 +67,16 @@ public class MenuManager : MonoBehaviour
     {
         ChangeMenuTab((MenuTab)tab);
     }
+    public void ChangeMenuTab()
+    {
+        ChangeMenuTab(currentMenuTab);
+    }
 
     public Dictionary<MenuTab, GameObject> GetTabDict()
     {
         // REF
         Dictionary<MenuTab, GameObject> dict = new()
         {
-            { MenuTab.LEVEL, levelSettingsUI },
             { MenuTab.GRAPHIC, graphicSettingsUI },
             { MenuTab.SOUND, soundSettingsUI } ,
             { MenuTab.UI, UISettingsUI }
@@ -85,7 +88,7 @@ public class MenuManager : MonoBehaviour
         GameManager.QuitGame();
     }    
 
-    #region SOUND SETTINGS
+    #region Sound settings
     public void SetMusicVolume(float vol)
     {
         // map vol from 0 - 100 to 0.0001 - 1 and convert it so vol acts linear
@@ -101,7 +104,7 @@ public class MenuManager : MonoBehaviour
     }
     #endregion
 
-    #region UI SETTINGS
+    #region UI Settings
     public void SetToolbarSize(float size)
     {
         if(toolbarSpacing != null)

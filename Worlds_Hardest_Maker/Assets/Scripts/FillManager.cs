@@ -89,7 +89,7 @@ public class FillManager : MonoBehaviour
         }
     }
 
-    #region GET BOUNDS
+    #region Get bounds
     // get bounds of multiple points (in matrix)
     private static (float, float, float, float) GetBounds(List<Vector2> points)
     {

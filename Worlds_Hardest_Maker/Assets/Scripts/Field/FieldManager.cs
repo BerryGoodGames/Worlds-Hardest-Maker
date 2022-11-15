@@ -227,7 +227,7 @@ public class FieldManager : MonoBehaviour
         return res;
     }
 
-    #region FIELD INTERSECTION
+    #region Field intersection
     public static bool IntersectingAnyFieldsAtPos(float mx, float my, params FieldType[] t)
     {
         List<FieldType> types = t.ToList();
