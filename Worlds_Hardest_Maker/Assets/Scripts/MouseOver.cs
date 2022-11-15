@@ -21,7 +21,7 @@ public class MouseOver : MonoBehaviour
 
     private void Update()
     {
-        Vector2 mousePos = MMouse.Instance.MouseWorldPos;
+        Vector2 mousePos = MouseManager.Instance.MouseWorldPos;
         if(updateChildrenEveryFrame) colliders = GetComponentsInChildren<Collider2D>();
 
         foreach(Collider2D collider in colliders)

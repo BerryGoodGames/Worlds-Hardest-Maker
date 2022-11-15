@@ -20,6 +20,6 @@ public class OneWayData : IData
     }
     public override void ImportToLevel()
     {
-        MField.Instance.SetField(position[0], position[1], MField.FieldType.ONE_WAY_FIELD, rotation);
+        FieldManager.Instance.SetField(position[0], position[1], FieldManager.FieldType.ONE_WAY_FIELD, rotation);
     }
 }

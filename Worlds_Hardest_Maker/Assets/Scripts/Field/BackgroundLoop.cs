@@ -19,7 +19,7 @@ public class BackgroundLoop : MonoBehaviour
     private void Start()
     {
         cam = GetComponent<Camera>();
-        if(TryGetComponent(out CMap mapController))
+        if(TryGetComponent(out MapController mapController))
         {
             CalcSize(mapController.MaxZoom);
         } 

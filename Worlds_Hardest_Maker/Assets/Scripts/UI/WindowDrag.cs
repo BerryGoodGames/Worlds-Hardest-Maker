@@ -20,7 +20,7 @@ public class WindowDrag : MonoBehaviour, IDragHandler
 
     private void Start()
     {
-        canvas = MGame.Instance.Canvas.GetComponent<Canvas>();
+        canvas = GameManager.Instance.Canvas.GetComponent<Canvas>();
     }
 
     public void OnDrag(PointerEventData eventData)

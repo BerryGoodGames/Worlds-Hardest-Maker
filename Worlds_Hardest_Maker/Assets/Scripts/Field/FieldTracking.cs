@@ -12,7 +12,7 @@ public class FieldTracking : MonoBehaviour
         GameObject collider = collision.gameObject;
         if (collider.CompareTag("Player"))
         {
-            CPlayer controller = collider.GetComponent<CPlayer>();
+            PlayerController controller = collider.GetComponent<PlayerController>();
             controller.currentFields.Add(gameObject);
         }
     }
@@ -22,7 +22,7 @@ public class FieldTracking : MonoBehaviour
         GameObject collider = collision.gameObject;
         if (collider.CompareTag("Player"))
         {
-            CPlayer controller = collider.GetComponent<CPlayer>();
+            PlayerController controller = collider.GetComponent<PlayerController>();
             controller.currentFields.Remove(gameObject);
         }
     }

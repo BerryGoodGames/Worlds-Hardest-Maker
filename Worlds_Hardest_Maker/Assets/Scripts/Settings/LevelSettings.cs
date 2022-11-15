@@ -22,8 +22,8 @@ public class LevelSettings : MonoBehaviour
     [HideInInspector] public float iceMaxSpeed;
     [HideInInspector] public bool reusableCheckpoints
     {
-        get { return CCheckpoint.ReusableCheckpoints; }
-        set { CCheckpoint.ReusableCheckpoints = value; }
+        get { return CheckpointController.ReusableCheckpoints; }
+        set { CheckpointController.ReusableCheckpoints = value; }
     }
     #endregion
 
@@ -99,8 +99,8 @@ public class LevelSettings : MonoBehaviour
 
     public void SyncPlayersToSettings()
     {
-        CPlayer[] controllers = FindObjectsOfType<CPlayer>();
-        foreach(CPlayer p in controllers)
+        PlayerController[] controllers = FindObjectsOfType<PlayerController>();
+        foreach(PlayerController p in controllers)
         {
             p.SyncToLevelSettings();
         }

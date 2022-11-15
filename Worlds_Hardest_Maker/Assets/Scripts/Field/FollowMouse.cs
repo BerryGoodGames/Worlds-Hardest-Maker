@@ -26,8 +26,8 @@ public class FollowMouse : MonoBehaviour
 
     public static Vector2 GetCurrentMouseWorldPos(WorldPosition mode)
     {
-        return mode == WorldPosition.ANY ? MMouse.Instance.MouseWorldPos :
-                      mode == WorldPosition.GRID ? MMouse.Instance.MouseWorldPosGrid :
-                      MMouse.Instance.MouseWorldPosMatrix;
+        return mode == WorldPosition.ANY ? MouseManager.Instance.MouseWorldPos :
+                      mode == WorldPosition.GRID ? MouseManager.Instance.MouseWorldPosGrid :
+                      MouseManager.Instance.MouseWorldPosMatrix;
     }
 }

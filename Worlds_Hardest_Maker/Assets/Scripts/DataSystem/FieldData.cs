@@ -17,14 +17,14 @@ public class FieldData : IData
         position[0] = (int)field.transform.position.x;
         position[1] = (int)field.transform.position.y;
 
-        MField.FieldType typeEnum = (MField.FieldType)MField.GetFieldType(field);
+        FieldManager.FieldType typeEnum = (FieldManager.FieldType)FieldManager.GetFieldType(field);
         fieldType = typeEnum.ToString();
     }
 
     public override void ImportToLevel()
     {
-        MField.FieldType type = (MField.FieldType)System.Enum.Parse(typeof(MField.FieldType), fieldType);
+        FieldManager.FieldType type = (FieldManager.FieldType)System.Enum.Parse(typeof(FieldManager.FieldType), fieldType);
 
-        MField.Instance.SetField(position[0], position[1], type);
+        FieldManager.Instance.SetField(position[0], position[1], type);
     }
 }

@@ -14,7 +14,7 @@ public abstract class IBallController : MonoBehaviour
     [HideInInspector] public PhotonView photonView;
     public void Awake()
     {
-        // if(MGame.Instance.Multiplayer) print("Init ball at: " + GetComponent<PhotonView>().Controller.NickName);
+        // if(GameManager.Instance.Multiplayer) print("Init ball at: " + GetComponent<PhotonView>().Controller.NickName);
 
         sliderController = GetComponent<AppendSlider>();
         photonView = GetComponent<PhotonView>();
@@ -32,7 +32,7 @@ public abstract class IBallController : MonoBehaviour
 
             speed = newSpeed;
 
-            if (MGame.Instance.Multiplayer) photonView.RPC("SetSpeed", RpcTarget.Others, newSpeed);
+            if (GameManager.Instance.Multiplayer) photonView.RPC("SetSpeed", RpcTarget.Others, newSpeed);
         });
     }
 

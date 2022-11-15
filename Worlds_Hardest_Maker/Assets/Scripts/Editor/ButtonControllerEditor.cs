@@ -1,14 +1,14 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(CButton))]
+[CustomEditor(typeof(ButtonController))]
 public class ButtonControllerEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
 
-        CButton script = (CButton)target;
+        ButtonController script = (ButtonController)target;
         if (GUILayout.Button("Update outline / background panel size"))
         {
             script.UpdateSomeShit();
@@ -16,7 +16,7 @@ public class ButtonControllerEditor : Editor
 
         if (GUILayout.Button("Update EVERY button"))
         {
-            CButton.UpdateEVERYFUCKINGShit();
+            ButtonController.UpdateEVERYFUCKINGShit();
         }
     }
 }

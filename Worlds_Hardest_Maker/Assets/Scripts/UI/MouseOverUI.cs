@@ -27,7 +27,7 @@ public class MouseOverUI : MonoBehaviour
 
     public void UpdateSize()
     {
-        rtConverted = MGame.RtToScreenSpace(rt);
+        rtConverted = GameManager.RtToScreenSpace(rt);
         width = rtConverted.width;
         height = rtConverted.height;
     }

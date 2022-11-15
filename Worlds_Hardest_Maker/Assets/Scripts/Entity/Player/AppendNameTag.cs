@@ -16,9 +16,9 @@ public class AppendNameTag : MonoBehaviour
 
     private void Awake()
     {
-        if (!MGame.Instance.Multiplayer && showOnlyWhenMultiplayer) return;
+        if (!GameManager.Instance.Multiplayer && showOnlyWhenMultiplayer) return;
 
-        nameTag = Instantiate(nameTagPrefab, Vector2.zero, Quaternion.identity, MGame.Instance.NameTagContainer.transform);
+        nameTag = Instantiate(nameTagPrefab, Vector2.zero, Quaternion.identity, GameManager.Instance.NameTagContainer.transform);
 
         UIFollowEntity followSettings = nameTag.GetComponent<UIFollowEntity>();
         followSettings.entity = gameObject;

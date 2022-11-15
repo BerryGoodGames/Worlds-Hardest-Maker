@@ -19,9 +19,9 @@ public class Tooltip : MonoBehaviour
             mouseOver = gameObject.AddComponent<MouseOverUI>();
         }
 
-        tooltip = Instantiate(MGame.Instance.Tooltip, Vector2.zero, Quaternion.identity, MGame.Instance.TooltipCanvas.transform);
+        tooltip = Instantiate(GameManager.Instance.Tooltip, Vector2.zero, Quaternion.identity, GameManager.Instance.TooltipCanvas.transform);
         tooltipRectTransform = tooltip.GetComponent<RectTransform>();
-        tooltipText = tooltip.GetComponent<MTooltip>().Text;
+        tooltipText = tooltip.GetComponent<TooltipController>().Text;
         tooltipText.text = text;
         tooltipText.fontSize = fontSize;
         tooltip.SetActive(false);

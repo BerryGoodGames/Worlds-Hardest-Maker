@@ -6,13 +6,13 @@ using UnityEngine;
 public class FieldOutline : MonoBehaviour
 {
     // array not dynamic
-    public static readonly MField.FieldType[] TypesWithOutlines = {
-        MField.FieldType.WALL_FIELD,
-        MField.FieldType.GRAY_KEY_DOOR_FIELD,
-        MField.FieldType.RED_KEY_DOOR_FIELD,
-        MField.FieldType.BLUE_KEY_DOOR_FIELD,
-        MField.FieldType.GREEN_KEY_DOOR_FIELD,
-        MField.FieldType.YELLOW_KEY_DOOR_FIELD
+    public static readonly FieldManager.FieldType[] TypesWithOutlines = {
+        FieldManager.FieldType.WALL_FIELD,
+        FieldManager.FieldType.GRAY_KEY_DOOR_FIELD,
+        FieldManager.FieldType.RED_KEY_DOOR_FIELD,
+        FieldManager.FieldType.BLUE_KEY_DOOR_FIELD,
+        FieldManager.FieldType.GREEN_KEY_DOOR_FIELD,
+        FieldManager.FieldType.YELLOW_KEY_DOOR_FIELD
     };
 
     public Color color = Color.black;
@@ -85,10 +85,10 @@ public class FieldOutline : MonoBehaviour
 
             if(!there)
             {
-                MLine.SetWeight(weight);
-                MLine.SetFill(color);
-                MLine.SetLayerID(MLine.OutlineLayerID);
-                MLine.SetOrderInLayer(order);
+                LineManager.SetWeight(weight);
+                LineManager.SetFill(color);
+                LineManager.SetLayerID(LineManager.OutlineLayerID);
+                LineManager.SetOrderInLayer(order);
                 if (d.Equals(Vector2.up) || d.Equals(Vector2.down))
                 {
                     // TODO: unefficient with rays n stuff
@@ -116,13 +116,13 @@ public class FieldOutline : MonoBehaviour
                         }
                     }
 
-                    MLine.DrawLine(transform.localPosition.x - transform.localScale.x * 0.5f - (left ? weight : 0), transform.localPosition.y + d.y * 0.5f - d.y * weight * 0.5f,
+                    LineManager.DrawLine(transform.localPosition.x - transform.localScale.x * 0.5f - (left ? weight : 0), transform.localPosition.y + d.y * 0.5f - d.y * weight * 0.5f,
                                         transform.localPosition.x + transform.localScale.x * 0.5f + (right ? weight : 0), transform.localPosition.y + d.y * 0.5f - d.y * weight * 0.5f,
                                         lineContainer.transform);
                 }
                 else if (d.Equals(Vector2.left) || d.Equals(Vector2.right))
                 {
-                    MLine.DrawLine(transform.localPosition.x + d.x * 0.5f - d.x * weight * 0.5f, transform.localPosition.y + transform.localScale.y * 0.5f,
+                    LineManager.DrawLine(transform.localPosition.x + d.x * 0.5f - d.x * weight * 0.5f, transform.localPosition.y + transform.localScale.y * 0.5f,
                                         transform.localPosition.x + d.x * 0.5f - d.x * weight * 0.5f, transform.localPosition.y - transform.localScale.y * 0.5f,
                                         lineContainer.transform);
                 }
@@ -161,10 +161,10 @@ public class FieldOutline : MonoBehaviour
 
         if(!there)
         {
-            MLine.SetWeight(weight);
-            MLine.SetFill(color);
-            MLine.SetLayerID(MLine.OutlineLayerID);
-            MLine.SetOrderInLayer(order);
+            LineManager.SetWeight(weight);
+            LineManager.SetFill(color);
+            LineManager.SetLayerID(LineManager.OutlineLayerID);
+            LineManager.SetOrderInLayer(order);
             if (d.Equals(Vector2.up) || d.Equals(Vector2.down))
             {
                 // TODO: unefficient with rays n stuff
@@ -192,13 +192,13 @@ public class FieldOutline : MonoBehaviour
                     }
                 }
 
-                MLine.DrawLine(transform.localPosition.x - transform.localScale.x * 0.5f - (left ? weight : 0), transform.localPosition.y + d.y * 0.5f - d.y * weight * 0.5f,
+                LineManager.DrawLine(transform.localPosition.x - transform.localScale.x * 0.5f - (left ? weight : 0), transform.localPosition.y + d.y * 0.5f - d.y * weight * 0.5f,
                                     transform.localPosition.x + transform.localScale.x * 0.5f + (right ? weight : 0), transform.localPosition.y + d.y * 0.5f - d.y * weight * 0.5f,
                                     lineContainer.transform);
             }
             else if (d.Equals(Vector2.left) || d.Equals(Vector2.right))
             {
-                MLine.DrawLine(transform.localPosition.x + d.x * 0.5f - d.x * weight * 0.5f, transform.localPosition.y + transform.localScale.y * 0.5f,
+                LineManager.DrawLine(transform.localPosition.x + d.x * 0.5f - d.x * weight * 0.5f, transform.localPosition.y + transform.localScale.y * 0.5f,
                                     transform.localPosition.x + d.x * 0.5f - d.x * weight * 0.5f, transform.localPosition.y - transform.localScale.y * 0.5f,
                                     lineContainer.transform);
             }

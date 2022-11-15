@@ -12,7 +12,7 @@ public class BallData : IData
     public float[] startPosition;
     public float[] bouncePosition;
     
-    public BallData(CBall controller)
+    public BallData(BallController controller)
     {
         speed = controller.speed;
         
@@ -30,7 +30,7 @@ public class BallData : IData
         float[] ballPos = startPosition;
         float[] bouncePos = { bouncePosition[0] - ballPos[0], bouncePosition[1] - ballPos[1] };
 
-        MBall.Instance.SetBall(startPosition[0], startPosition[1],
+        BallManager.Instance.SetBall(startPosition[0], startPosition[1],
             bouncePos[0], bouncePos[1],
             speed
         );

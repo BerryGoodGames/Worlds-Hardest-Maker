@@ -12,7 +12,7 @@ public class PlayerData : IData
     public float speed;
     public float[] startPosition;
 
-    public PlayerData(CPlayer controller)
+    public PlayerData(PlayerController controller)
     {
         id = controller.id;
         speed = controller.speed;
@@ -24,6 +24,6 @@ public class PlayerData : IData
 
     public override void ImportToLevel()
     {
-        MPlayer.Instance.SetPlayer(startPosition[0], startPosition[1], speed);
+        PlayerManager.Instance.SetPlayer(startPosition[0], startPosition[1], speed);
     }
 }

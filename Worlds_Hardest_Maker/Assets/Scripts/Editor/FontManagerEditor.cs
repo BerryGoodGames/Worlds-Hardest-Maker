@@ -1,14 +1,14 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(MFont))]
+[CustomEditor(typeof(FontManager))]
 public class FontManagerEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
 
-        MFont script = (MFont)target;
+        FontManager script = (FontManager)target;
         if (GUILayout.Button("Apply Default Font"))
         {
             script.ApplyDefaultFont();

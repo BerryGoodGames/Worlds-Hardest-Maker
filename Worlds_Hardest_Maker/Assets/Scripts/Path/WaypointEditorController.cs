@@ -20,7 +20,7 @@ public class WaypointEditorController : MonoBehaviour
     [SerializeField] private TMPro.TMP_InputField delay;
     [SerializeField] private Toggle rotateWhileDelay;
 
-    private CAnchor anchorController;
+    private AnchorController anchorController;
 
     public Vector2 InputPosition
     {
@@ -125,7 +125,7 @@ public class WaypointEditorController : MonoBehaviour
     {
         get
         {
-            return MAnchor.Instance.selectedPathController.waypoints[waypointIndex];
+            return AnchorManager.Instance.selectedPathController.waypoints[waypointIndex];
         }
     }
 
@@ -133,7 +133,7 @@ public class WaypointEditorController : MonoBehaviour
     {
         get
         {
-            return MAnchor.Instance.selectedPathController.waypoints;
+            return AnchorManager.Instance.selectedPathController.waypoints;
         }
     }
 
@@ -144,14 +144,14 @@ public class WaypointEditorController : MonoBehaviour
 
         Waypoint.WaypointEditor = this;
 
-        anchorController = MAnchor.Instance.SelectedAnchor.GetComponent<CAnchor>();
+        anchorController = AnchorManager.Instance.SelectedAnchor.GetComponent<AnchorController>();
     }
 
     public void UpdatePosition()
     {
         SetPosition(InputPosition);
 
-        if(MGame.Instance.Multiplayer)
+        if(GameManager.Instance.Multiplayer)
         {
             if(anchorController != null)
                 anchorController.View.RPC("RPCSetWaypointPosition", RpcTarget.Others, InputPosition, waypointIndex);
@@ -162,14 +162,14 @@ public class WaypointEditorController : MonoBehaviour
     {
         Waypoint.position = pos;
 
-        MAnchor.Instance.selectedPathController.DrawLines();
+        AnchorManager.Instance.selectedPathController.DrawLines();
     }
 
     public void UpdateSpeed()
     {
         SetSpeed(InputSpeed);
 
-        if (MGame.Instance.Multiplayer)
+        if (GameManager.Instance.Multiplayer)
         {
             if (anchorController != null)
                 anchorController.View.RPC("RPCSetWaypointSpeed", RpcTarget.Others, InputSpeed, waypointIndex);
@@ -185,7 +185,7 @@ public class WaypointEditorController : MonoBehaviour
     {
         SetRotationSpeed(InputRotationSpeed);
 
-        if (MGame.Instance.Multiplayer)
+        if (GameManager.Instance.Multiplayer)
         {
             if (anchorController != null)
                 anchorController.View.RPC("RPCSetWaypointRotationSpeed", RpcTarget.Others, InputRotationSpeed, waypointIndex);
@@ -206,7 +206,7 @@ public class WaypointEditorController : MonoBehaviour
 
         //SetTurns(InputTurns);
 
-        //if (MGame.Instance.Multiplayer)
+        //if (GameManager.Instance.Multiplayer)
         //{
         //    if (anchorController != null)
         //        anchorController.View.RPC("RPCSetWaypointRotationSpeed", RpcTarget.Others, InputRotationSpeed, waypointIndex);
@@ -224,7 +224,7 @@ public class WaypointEditorController : MonoBehaviour
     {
         SetDelay(InputDelay);
 
-        if (MGame.Instance.Multiplayer)
+        if (GameManager.Instance.Multiplayer)
         {
             if (anchorController != null)
                 anchorController.View.RPC("RPCSetWaypointDelay", RpcTarget.Others, InputDelay, waypointIndex);
@@ -242,7 +242,7 @@ public class WaypointEditorController : MonoBehaviour
     {
         SetRotateWhileDelay(InputRotateWhileDelay);
 
-        if (MGame.Instance.Multiplayer)
+        if (GameManager.Instance.Multiplayer)
         {
             if (anchorController != null)
                 anchorController.View.RPC("RPCSetWaypointRotateWhileDelay", RpcTarget.Others, InputRotateWhileDelay, waypointIndex);
@@ -256,13 +256,13 @@ public class WaypointEditorController : MonoBehaviour
 
     public void DeleteThisWaypoint()
     {
-        if (MGame.Instance.Multiplayer)
+        if (GameManager.Instance.Multiplayer)
         {
             if (anchorController != null)
                 anchorController.View.RPC("RPCDeleteWaypoint", RpcTarget.Others, waypointIndex);
         }
-        MAnchor.Instance.selectedPathController.waypoints.Remove(Waypoint);
-        transform.parent.parent.parent.parent.GetComponent<CPathEditor>().UpdateUI();
+        AnchorManager.Instance.selectedPathController.waypoints.Remove(Waypoint);
+        transform.parent.parent.parent.parent.GetComponent<PathEditorController>().UpdateUI();
     }
 
     public void UpdateInputValues()

@@ -14,9 +14,9 @@ public class EntityDragDrop : MonoBehaviour
     public event Action onMove;
     private void OnMouseDrag()
     {
-        if(!MGame.Instance.Playing && Input.GetKey(MGame.Instance.EntityMoveKey))
+        if(!GameManager.Instance.Playing && Input.GetKey(GameManager.Instance.EntityMoveKey))
         {
-            Vector2 newPos = halfGrid? MMouse.Instance.MouseWorldPosGrid : MMouse.Instance.MouseWorldPosMatrix;
+            Vector2 newPos = halfGrid? MouseManager.Instance.MouseWorldPosGrid : MouseManager.Instance.MouseWorldPosMatrix;
             if (newPos != (Vector2)transform.position)
             {
                 transform.position = newPos;

@@ -10,26 +10,26 @@ public static class SettingVersionExtension
         switch (version)
         {
             case SettingGenerator.SettingVersion.DROPDOWN:
-                prefab = MPrefab.Instance.DropdownOptionPrefab;
+                prefab = PrefabManager.Instance.DropdownOptionPrefab;
                 break;
             case SettingGenerator.SettingVersion.CHECKBOX:
-                prefab = MPrefab.Instance.CheckboxOptionPrefab;
+                prefab = PrefabManager.Instance.CheckboxOptionPrefab;
                 break;
             case SettingGenerator.SettingVersion.SLIDER:
-                prefab = MPrefab.Instance.SliderOptionPrefab;
+                prefab = PrefabManager.Instance.SliderOptionPrefab;
                 break;
             case SettingGenerator.SettingVersion.NUMBER_INPUT:
-                prefab = MPrefab.Instance.NumberInputOptionPrefab;
+                prefab = PrefabManager.Instance.NumberInputOptionPrefab;
                 break;
             case SettingGenerator.SettingVersion.HEADER:
-                prefab = MPrefab.Instance.HeaderOptionPrefab;
+                prefab = PrefabManager.Instance.HeaderOptionPrefab;
                 break;
             case SettingGenerator.SettingVersion.SPACE:
-                prefab = MPrefab.Instance.SpaceOptionPrefab;
+                prefab = PrefabManager.Instance.SpaceOptionPrefab;
                 break;
             default:
                 Debug.LogWarning($"You probably forgot to put a prefab for {version} here, defaulted to dropdown");
-                prefab = MPrefab.Instance.DropdownOptionPrefab;
+                prefab = PrefabManager.Instance.DropdownOptionPrefab;
                 break;
         }
         return prefab;

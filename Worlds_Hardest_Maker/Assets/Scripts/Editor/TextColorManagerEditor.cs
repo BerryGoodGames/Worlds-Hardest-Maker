@@ -1,14 +1,14 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(MTextColor))]
+[CustomEditor(typeof(TextColorManager))]
 public class TextColorManagerEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
 
-        MTextColor script = (MTextColor)target;
+        TextColorManager script = (TextColorManager)target;
         if (GUILayout.Button("Apply Default Color"))
         {
             script.ApplyDefaultColor();

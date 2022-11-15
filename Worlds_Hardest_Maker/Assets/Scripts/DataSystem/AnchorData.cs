@@ -45,7 +45,7 @@ public class AnchorData : IData
     public override void ImportToLevel()
     {
         // create object
-        GameObject anchor = MAnchor.Instance.SetAnchor(position[0], position[1]);
+        GameObject anchor = AnchorManager.Instance.SetAnchor(position[0], position[1]);
         PathController pathController = anchor.GetComponentInChildren<PathController>();
 
         // set waypoints
@@ -64,12 +64,12 @@ public class AnchorData : IData
 
 
         // set balls (hihi)
-        CAnchor anchorController = anchor.GetComponentInChildren<CAnchor>();
+        AnchorController anchorController = anchor.GetComponentInChildren<AnchorController>();
         Transform container = anchorController.container.transform;
 
         for (int i = 0; i < ballPositions.Length; i += 2)
         {
-            MAnchorBall.SetAnchorBall(ballPositions[i], ballPositions[i + 1], container);
+            AnchorBallManager.SetAnchorBall(ballPositions[i], ballPositions[i + 1], container);
         }
 
         // fade balls in
