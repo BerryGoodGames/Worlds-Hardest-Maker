@@ -38,7 +38,7 @@ public class PreviewController : MonoBehaviour
         GameManager.EditMode currentEditMode = GameManager.Instance.CurrentEditMode;
         if (updateEveryFrame && (previousEditMode != currentEditMode || previousPlaying != GameManager.Instance.Playing)) UpdateSprite();
 
-        if (!GameManager.Instance.Filling)
+        if (!GameManager.Instance.Selecting)
         {
             FollowMouse followMouse = GetComponent<FollowMouse>();
             followMouse.worldPosition = currentEditMode.IsFieldType() || currentEditMode == GameManager.EditMode.DELETE_FIELD ?
@@ -73,9 +73,9 @@ public class PreviewController : MonoBehaviour
             Input.GetKey(GameManager.Instance.EntityDeleteKey)) return false;
 
         // check if preview of prefab not allowed during filling
-        if (GameManager.Instance.Filling)
+        if (GameManager.Instance.Selecting)
         {
-            if (FillManager.NoFillPreviewModes.Contains(mode)) return false;
+            if (SelectionManager.NoFillPreviewModes.Contains(mode)) return false;
         }
 
         FollowMouse.WorldPosition positionMode = GetComponent<FollowMouse>().worldPosition;
@@ -118,7 +118,7 @@ public class PreviewController : MonoBehaviour
         else
         {
             GameObject currentPrefab = GameManager.Instance.CurrentEditMode.GetPrefab();
-            if (currentPrefab.TryGetComponent(out PreviewSprite previewSprite) && (!GameManager.Instance.Filling || previewSprite.showWhenFilling))
+            if (currentPrefab.TryGetComponent(out PreviewSprite previewSprite) && (!GameManager.Instance.Selecting || previewSprite.showWhenSelecting))
             {
                 // apply PreviewSprite settings if it has one
                 spriteRenderer.sprite = previewSprite.sprite;

@@ -8,9 +8,9 @@ using Photon.Pun;
 /// contains methods for filling: GetFillRange, FillArea, GetBounds, GetBoundsMatrix
 /// attach to game manager
 /// </summary>
-public class FillManager : MonoBehaviour
+public class SelectionManager : MonoBehaviour
 {
-    public static FillManager Instance { get; private set; }
+    public static SelectionManager Instance { get; private set; }
 
     public static readonly List<GameManager.EditMode> NoFillPreviewModes = new(new GameManager.EditMode[]
     {
@@ -28,8 +28,8 @@ public class FillManager : MonoBehaviour
     private Vector2 prevEnd;
     private void Update()
     {
-        // update fill markings
-        if (!GameManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null && MouseManager.Instance.MouseDragEnd != null && GameManager.Instance.Filling)
+        // update selection markings
+        if (!GameManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null && MouseManager.Instance.MouseDragEnd != null && GameManager.Instance.Selecting)
         {
             // get drag positions and world position mode
             FollowMouse.WorldPosition worldPosition = GameManager.Instance.CurrentEditMode.GetWorldPosition();
@@ -41,18 +41,13 @@ public class FillManager : MonoBehaviour
 
             if (prevStart == null || !prevStart.Equals(start) || !prevEnd.Equals(end))
             {
-                // reset fill marking
+                // reset selection marking
                 foreach (Transform stroke in GameManager.Instance.FillOutlineContainer.transform)
                 {
                     Destroy(stroke.gameObject);
                 }
-                // reset fill previews
-                foreach (Transform preview in GameManager.Instance.FillPreviewContainer.transform)
-                {
-                    Destroy(preview.gameObject);
-                }
 
-                // get fill range
+                // get selection range
                 List<Vector2> fillRange = GetFillRange(start, end, worldPosition);
 
                 // set new outline
@@ -71,15 +66,6 @@ public class FillManager : MonoBehaviour
                     height > 0? height + 1 : height - 1, 
                     alignCenter: false, parent: GameManager.Instance.FillOutlineContainer.transform
                 );
-
-                // set new previews, only if editmode not in NoFillPreviewModes
-                if (!NoFillPreviewModes.Contains(GameManager.Instance.CurrentEditMode))
-                {
-                    foreach (Vector2 pos in fillRange)
-                    {
-                        Instantiate(GameManager.Instance.FillPreview, pos, Quaternion.identity, GameManager.Instance.FillPreviewContainer.transform);
-                    }
-                }
 
                 GameManager.Instance.CurrentFillRange = fillRange;
             }
@@ -134,6 +120,29 @@ public class FillManager : MonoBehaviour
         }
         return res;
     }
+
+    #region PREVIEW
+    private static void ShowPreview(List<Vector2> range)
+    {
+        // set new previews, only if editmode not in NoFillPreviewModes
+        if (!NoFillPreviewModes.Contains(GameManager.Instance.CurrentEditMode))
+        {
+            foreach (Vector2 pos in range)
+            {
+                Instantiate(GameManager.Instance.FillPreview, pos, Quaternion.identity, GameManager.Instance.FillPreviewContainer.transform);
+            }
+        }
+    }
+
+    private static void HidePreview()
+    {
+        // destroy selection previews
+        foreach (Transform preview in GameManager.Instance.FillPreviewContainer.transform)
+        {
+            Destroy(preview.gameObject);
+        }
+    }
+    #endregion
 
     [PunRPC]
     public void FillArea(List<Vector2> poses, FieldManager.FieldType type)
@@ -292,10 +301,7 @@ public class FillManager : MonoBehaviour
         }
 
         // reset preview
-        foreach (Transform preview in GameManager.Instance.FillPreviewContainer.transform)
-        {
-            Destroy(preview.gameObject);
-        }
+        HidePreview();
 
         // enable placement preview
         if (!GameManager.Instance.Playing)

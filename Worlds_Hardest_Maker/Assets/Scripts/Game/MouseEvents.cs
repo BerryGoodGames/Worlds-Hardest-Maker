@@ -36,7 +36,7 @@ public class MouseEvents : MonoBehaviour
         }
 
         // place / delete stuff when not hovering toolbar
-        if (!GameManager.Instance.UIHovered && !GameManager.Instance.Playing && !GameManager.Instance.Filling)
+        if (!GameManager.Instance.UIHovered && !GameManager.Instance.Playing && !GameManager.Instance.Selecting)
         {
             if (!Input.GetKey(GameManager.Instance.EntityMoveKey) &&
                 !Input.GetKey(GameManager.Instance.EditSpeedKey) &&
@@ -202,7 +202,7 @@ public class MouseEvents : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             // fill
-            if (GameManager.Instance.Filling)
+            if (GameManager.Instance.Selecting)
             {
                 if (!GameManager.Instance.Playing && editMode.IsFieldType() && !GameManager.Instance.UIHovered)
                 {
@@ -210,7 +210,7 @@ public class MouseEvents : MonoBehaviour
                     FieldManager.FieldType type = GameManager.ConvertEnum<GameManager.EditMode, FieldManager.FieldType>(editMode);
 
                     if (multiplayer) pview.RPC("FillArea", RpcTarget.All, MouseManager.Instance.MouseDragStart, MouseManager.Instance.MouseDragEnd, type);
-                    else FillManager.Instance.FillArea((Vector2)MouseManager.Instance.MouseDragStart, (Vector2)MouseManager.Instance.MouseDragEnd, type);
+                    else SelectionManager.Instance.FillArea((Vector2)MouseManager.Instance.MouseDragStart, (Vector2)MouseManager.Instance.MouseDragEnd, type);
                 }
                 else if (editMode == GameManager.EditMode.DELETE_FIELD)
                 {
@@ -255,7 +255,7 @@ public class MouseEvents : MonoBehaviour
             MouseManager.Instance.MouseDragStart = null;
             MouseManager.Instance.MouseDragEnd = null;
 
-            FillManager.ResetPreview();
+            SelectionManager.ResetPreview();
         }
     }
 }

@@ -85,7 +85,8 @@ public class GameManager : MonoBehaviourPun
     public GameObject FieldContainer;
     [Space]
     [Header("Key binds")]
-    public KeyCode FillKey;
+    public int SelectionMouseButton;
+    public int PanMouseButton;
     public KeyCode EntityDeleteKey;
     public KeyCode EntityMoveKey;
     public KeyCode BallCircleRadiusKey;
@@ -98,7 +99,7 @@ public class GameManager : MonoBehaviourPun
     [Space]
     [Header("Text References")]
     public TMPro.TMP_Text EditModeText;
-    public TMPro.TMP_Text FillingText;
+    public TMPro.TMP_Text SelectingText;
     public TMPro.TMP_Text DeathText;
     public TMPro.TMP_Text CoinText;
     #endregion
@@ -169,7 +170,7 @@ public class GameManager : MonoBehaviourPun
         }
     }
 
-    public bool Filling { get; set; } = false;
+    public bool Selecting { get; set; } = false;
     public bool Multiplayer { get; set; } = false;
     public bool KonamiActive { get; set; } = false;
     [HideInInspector] public List<Vector2> CurrentFillRange { get; set; } = null;
@@ -253,7 +254,7 @@ public class GameManager : MonoBehaviourPun
 
         // set edit mode text ui
         Instance.EditModeText.text = $"Edit: {Instance.CurrentEditMode.GetUIString()}";
-        Instance.FillingText.text = $"Filling: {Filling}";
+        Instance.SelectingText.text = $"Selecting: {Selecting}";
         Instance.DeathText.text = $"Deaths: {playerDeaths}";
         Instance.CoinText.text = $"Coins: {playerCoinsCollected}/{Instance.TotalCoins}";
     }
