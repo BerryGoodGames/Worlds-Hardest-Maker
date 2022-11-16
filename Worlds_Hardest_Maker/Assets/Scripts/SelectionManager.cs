@@ -10,6 +10,9 @@ using Photon.Pun;
 /// </summary>
 public class SelectionManager : MonoBehaviour
 {
+    [SerializeField] private GameObject selectionOptions;
+    private RectTransform selectionOptionsRect;
+
     public static SelectionManager Instance { get; private set; }
 
     public static readonly List<GameManager.EditMode> NoFillPreviewModes = new(new GameManager.EditMode[]
@@ -69,10 +72,35 @@ public class SelectionManager : MonoBehaviour
 
                 GameManager.Instance.CurrentFillRange = fillRange;
             }
+            if(Input.GetMouseButtonDown(GameManager.Instance.SelectionMouseButton))
+            {
+                selectionOptions.SetActive(false);
+            }
+            else if(Input.GetMouseButtonUp(GameManager.Instance.SelectionMouseButton))
+            {
+                selectionOptions.SetActive(true);
+                float width = end.x - start.x;
+                float height = end.y - start.y;
 
+                Vector2 endToScreen = Camera.main.WorldToScreenPoint(new(width < 0 ? end.x - 0.5f : end.x + 0.5f, height < 0 ? end.y - 0.5f : end.y + 0.5f));
+                selectionOptionsRect.pivot = new(width > 0 ? 0 : 1, height > 0 ? 0 : 1);
+                selectionOptionsRect.position = endToScreen;
+            }
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if(MouseManager.Instance.MouseDragStart != null && MouseManager.Instance.MouseDragEnd != null)
+        {
             prevStart = (Vector2)MouseManager.Instance.MouseDragStart;
             prevEnd = (Vector2)MouseManager.Instance.MouseDragEnd;
         }
+    }
+
+    private void Start()
+    {
+        selectionOptionsRect = selectionOptions.GetComponent<RectTransform>();
     }
 
     #region Get bounds
