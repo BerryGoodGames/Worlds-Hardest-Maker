@@ -72,7 +72,7 @@ public class SelectionManager : MonoBehaviour
 
                 GameManager.Instance.CurrentFillRange = fillRange;
             }
-            if(Input.GetMouseButtonDown(GameManager.Instance.SelectionMouseButton))
+            if (Input.GetMouseButtonDown(GameManager.Instance.SelectionMouseButton))
             {
                 selectionOptions.SetActive(false);
             }

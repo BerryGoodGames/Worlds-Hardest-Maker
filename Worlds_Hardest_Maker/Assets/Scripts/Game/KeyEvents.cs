@@ -58,7 +58,7 @@ public class KeyEvents : MonoBehaviour
         if (!Input.GetKey(KeyCode.Tab) && !GameManager.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
 
         // select
-        GameManager.Instance.Selecting = Input.GetMouseButton(GameManager.Instance.SelectionMouseButton);
+        GameManager.Instance.Selecting = Input.GetMouseButton(GameManager.Instance.SelectionMouseButton) || Input.GetMouseButtonUp(GameManager.Instance.SelectionMouseButton);
         
     }
 
