@@ -57,8 +57,6 @@ public class KeyEvents : MonoBehaviour
         // check edit mode toggling if no ctrl and not playing
         if (!Input.GetKey(KeyCode.Tab) && !GameManager.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
 
-        // select
-        GameManager.Instance.Selecting = Input.GetMouseButton(GameManager.Instance.SelectionMouseButton) || Input.GetMouseButtonUp(GameManager.Instance.SelectionMouseButton);
         
     }
 

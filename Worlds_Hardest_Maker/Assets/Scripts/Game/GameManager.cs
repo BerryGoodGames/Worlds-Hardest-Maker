@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviourPun
     public bool Selecting { get; set; } = false;
     public bool Multiplayer { get; set; } = false;
     public bool KonamiActive { get; set; } = false;
-    [HideInInspector] public List<Vector2> CurrentFillRange { get; set; } = null;
+    [HideInInspector] public List<Vector2> CurrentSelectionRange { get; set; } = null;
     [HideInInspector] public bool UIHovered { get; set; } = false;
     [HideInInspector] public int TotalCoins { get; set; } = 0;
     private int editRotation = 270;

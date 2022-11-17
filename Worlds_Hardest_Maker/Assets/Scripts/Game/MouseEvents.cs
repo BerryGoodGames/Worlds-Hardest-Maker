@@ -215,7 +215,7 @@ public class MouseEvents : MonoBehaviour
                 else if (editMode == GameManager.EditMode.DELETE_FIELD)
                 {
                     // fill delete
-                    foreach (Vector2 pos in GameManager.Instance.CurrentFillRange)
+                    foreach (Vector2 pos in GameManager.Instance.CurrentSelectionRange)
                     {
                         int fillX = (int)pos.x;
                         int fillY = (int)pos.y;
@@ -241,7 +241,7 @@ public class MouseEvents : MonoBehaviour
                 else if (editMode == GameManager.EditMode.COIN)
                 {
                     // fill coins
-                    foreach (Vector2 pos in GameManager.Instance.CurrentFillRange)
+                    foreach (Vector2 pos in GameManager.Instance.CurrentSelectionRange)
                     {
                         float fillX = pos.x;
                         float fillY = pos.y;
@@ -254,8 +254,6 @@ public class MouseEvents : MonoBehaviour
 
             MouseManager.Instance.MouseDragStart = null;
             MouseManager.Instance.MouseDragEnd = null;
-
-            SelectionManager.ResetPreview();
         }
     }
 }

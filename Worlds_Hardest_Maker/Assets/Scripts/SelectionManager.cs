@@ -31,6 +31,9 @@ public class SelectionManager : MonoBehaviour
     private Vector2 prevEnd;
     private void Update()
     {
+        if (Input.GetMouseButton(GameManager.Instance.SelectionMouseButton))
+            GameManager.Instance.Selecting = true;
+
         // update selection markings
         if (!GameManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null && MouseManager.Instance.MouseDragEnd != null && GameManager.Instance.Selecting)
         {
@@ -70,7 +73,7 @@ public class SelectionManager : MonoBehaviour
                     alignCenter: false, parent: GameManager.Instance.FillOutlineContainer.transform
                 );
 
-                GameManager.Instance.CurrentFillRange = fillRange;
+                GameManager.Instance.CurrentSelectionRange = fillRange;
             }
             if (Input.GetMouseButtonDown(GameManager.Instance.SelectionMouseButton))
             {
@@ -172,11 +175,28 @@ public class SelectionManager : MonoBehaviour
     }
     #endregion
 
+    public void FillSelectedArea()
+    {
+        print(GameManager.Instance.Selecting);
+
+        if (!GameManager.Instance.Selecting) return;
+
+        FieldManager.FieldType? fieldType = (FieldManager.FieldType?)GameManager.TryConvertEnum<GameManager.EditMode, FieldManager.FieldType>(GameManager.Instance.CurrentEditMode); ;
+
+        if(fieldType != null)
+        {
+            FillArea(GameManager.Instance.CurrentSelectionRange, (FieldManager.FieldType) fieldType);
+            ResetPreview();
+            GameManager.Instance.Selecting = false;
+        }
+    }
+
+
     [PunRPC]
     public void FillArea(List<Vector2> poses, FieldManager.FieldType type)
     {
-        if (GameManager.Instance.CurrentFillRange == null) return;
-        GameManager.Instance.CurrentFillRange = null;
+        if (GameManager.Instance.CurrentSelectionRange == null) return;
+        GameManager.Instance.CurrentSelectionRange = null;
 
         // set rotation
         int rotation = FieldManager.IsRotatable(GameManager.Instance.CurrentEditMode) ? GameManager.Instance.EditRotation : 0;
