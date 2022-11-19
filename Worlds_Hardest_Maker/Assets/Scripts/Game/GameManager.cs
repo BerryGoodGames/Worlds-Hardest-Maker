@@ -629,6 +629,14 @@ public class GameManager : MonoBehaviourPun
         }
     }
 
+    public static bool PointOnScreen(Vector2 point, bool worldPoint)
+    {
+        Vector3 screenPoint = worldPoint ? Camera.main.WorldToViewportPoint(point) : point;
+        bool onScreen = screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
+        return onScreen;
+    }
+
+
     public static void RemoveObjectInContainer(float mx, float my, GameObject container)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.005f, 128);
@@ -661,9 +669,7 @@ public class GameManager : MonoBehaviourPun
 
     public static object TryConvertEnum<EnumFrom, EnumTo>(EnumFrom e)
     {
-        object convEnum;
-
-        Enum.TryParse(typeof(EnumTo), e.ToString(), out convEnum);
+        Enum.TryParse(typeof(EnumTo), e.ToString(), out object convEnum);
 
         return convEnum;
     }

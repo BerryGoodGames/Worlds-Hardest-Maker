@@ -9298,6 +9298,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   point: {x: 0, y: 0}
+  zoomWithCamera: 0
+  restrictToScreen: 1
+  restrictPadding: 10
 --- !u!1001 &1912563953
 PrefabInstance:
   m_ObjectHideFlags: 0
