@@ -2417,7 +2417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoomSpeed: 1.2
-  maxZoom: 15
+  maxZoom: 20
   minZoom: 3
   zoomAnimDuration: 0.07
 --- !u!114 &519420034
