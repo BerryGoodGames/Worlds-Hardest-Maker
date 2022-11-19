@@ -86,9 +86,13 @@ public class SelectionManager : MonoBehaviour
                 float width = end.x - start.x;
                 float height = end.y - start.y;
 
-                Vector2 endToScreen = Camera.main.WorldToScreenPoint(new(width < 0 ? end.x - 0.5f : end.x + 0.5f, height < 0 ? end.y - 0.5f : end.y + 0.5f));
-                selectionOptionsRect.pivot = new(width > 0 ? 0 : 1, height > 0 ? 0 : 1);
-                selectionOptionsRect.position = endToScreen;
+                Vector2 position = new(width < 0 ? (end.x - 0.5f) : (end.x + 0.5f), height < 0 ? (end.y - 0.5f) : (end.y + 0.5f));
+                UIAttachToPoint posController = selectionOptions.GetComponent<UIAttachToPoint>();
+
+                posController.point = position;
+                //Vector2 endToScreen = Camera.main.WorldToScreenPoint(position);
+                //selectionOptionsRect.pivot = new(width > 0 ? 0 : 1, height > 0 ? 0 : 1);
+                //selectionOptionsRect.position = endToScreen;
             }
         }
     }
