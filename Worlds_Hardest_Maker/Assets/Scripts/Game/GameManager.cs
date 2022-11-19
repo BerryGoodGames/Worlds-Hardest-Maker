@@ -226,7 +226,7 @@ public class GameManager : MonoBehaviourPun
         LevelSettings.Instance.SetIceMaxSpeed();
         LevelSettings.Instance.SetWaterDamping();
 
-        SetCameraUnitWidth(23);
+        // SetCameraUnitWidth(23);
     }
 
     private void Update()
