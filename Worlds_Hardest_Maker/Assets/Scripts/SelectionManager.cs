@@ -75,6 +75,7 @@ public class SelectionManager : MonoBehaviour
 
                 GameManager.Instance.CurrentSelectionRange = fillRange;
             }
+
             if (Input.GetMouseButtonDown(GameManager.Instance.SelectionMouseButton))
             {
                 selectionOptions.SetActive(false);
@@ -177,8 +178,6 @@ public class SelectionManager : MonoBehaviour
 
     public void FillSelectedArea()
     {
-        print(GameManager.Instance.Selecting);
-
         if (!GameManager.Instance.Selecting) return;
 
         FieldManager.FieldType? fieldType = (FieldManager.FieldType?)GameManager.TryConvertEnum<GameManager.EditMode, FieldManager.FieldType>(GameManager.Instance.CurrentEditMode); ;
@@ -188,6 +187,7 @@ public class SelectionManager : MonoBehaviour
             FillArea(GameManager.Instance.CurrentSelectionRange, (FieldManager.FieldType) fieldType);
             ResetPreview();
             GameManager.Instance.Selecting = false;
+            selectionOptions.SetActive(false);
         }
     }
 

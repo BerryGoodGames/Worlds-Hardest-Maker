@@ -72,6 +72,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 1e468412a96509e4daf556823fe32b16, type: 3}
     - target: {fileID: 8451419770457997880, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: m_Color.a
+      value: 0.74509805
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451419770457997880, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
@@ -142,7 +146,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 1e468412a96509e4daf556823fe32b16, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
   scale: {x: 1, y: 1}
-  showWhenFilling: 1
+  showWhenSelecting: 0
   rotate: 1
 --- !u!114 &2743606388072990998
 MonoBehaviour:
