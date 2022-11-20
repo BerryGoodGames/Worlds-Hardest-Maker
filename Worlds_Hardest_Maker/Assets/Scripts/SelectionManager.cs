@@ -29,6 +29,9 @@ public class SelectionManager : MonoBehaviour
 
     private Vector2 prevStart;
     private Vector2 prevEnd;
+    public static Vector2? selectionStart;
+    public static Vector2? selectionEnd;
+
     private void Update()
     {
         if (Input.GetMouseButton(GameManager.Instance.SelectionMouseButton))
@@ -53,8 +56,9 @@ public class SelectionManager : MonoBehaviour
                     Destroy(stroke.gameObject);
                 }
 
-                // get selection range
-                List<Vector2> fillRange = GetFillRange(start, end, worldPosition);
+                // set selection start and end
+                selectionStart = start;
+                selectionEnd = end;
 
                 // set new outline
                 LineManager.SetWeight(0.1f);
@@ -72,8 +76,6 @@ public class SelectionManager : MonoBehaviour
                     height > 0? height + 1 : height - 1, 
                     alignCenter: false, parent: GameManager.Instance.FillOutlineContainer.transform
                 );
-
-                GameManager.Instance.CurrentSelectionRange = fillRange;
             }
 
             if (Input.GetMouseButtonDown(GameManager.Instance.SelectionMouseButton))
@@ -183,26 +185,26 @@ public class SelectionManager : MonoBehaviour
         }
         return res;
     }
+    public static List<Vector2> GetCurrentFillRange()
+    {
+        if(selectionStart == null || selectionEnd == null) return null;
+        return GetFillRange((Vector2)selectionStart, (Vector2)selectionEnd, GameManager.Instance.CurrentEditMode.GetWorldPosition());
+    }
 
     public void FillSelectedArea()
     {
         if (!GameManager.Instance.Selecting) return;
 
-        FieldManager.FieldType? fieldType = (FieldManager.FieldType?)GameManager.TryConvertEnum<GameManager.EditMode, FieldManager.FieldType>(GameManager.Instance.CurrentEditMode); ;
-
-        if(fieldType != null)
-        {
-            FillArea(GameManager.Instance.CurrentSelectionRange, (FieldManager.FieldType) fieldType);
-            ResetPreview();
-            GameManager.Instance.Selecting = false;
-            selectionOptions.SetActive(false);
+        FillArea(GameManager.Instance.CurrentSelectionRange, GameManager.Instance.CurrentEditMode);
+        ResetPreview();
+        GameManager.Instance.Selecting = false;
+        selectionOptions.SetActive(false);
         }
-    }
 
 
-    [PunRPC]
     public void FillArea(List<Vector2> poses, FieldManager.FieldType type)
     {
+        print(GameManager.Instance.CurrentSelectionRange == null);
         if (GameManager.Instance.CurrentSelectionRange == null) return;
         GameManager.Instance.CurrentSelectionRange = null;
 
@@ -342,7 +344,22 @@ public class SelectionManager : MonoBehaviour
             }
         }
     }
-    [PunRPC]
+    public void FillArea(List<Vector2> poses, GameManager.EditMode editMode)
+    {
+        FieldManager.FieldType? fieldType = (FieldManager.FieldType?)GameManager.TryConvertEnum<GameManager.EditMode, FieldManager.FieldType>(editMode);
+        if(fieldType != null)
+        {
+            FillArea(poses, (FieldManager.FieldType)fieldType);
+            return;
+        }
+
+        DeleteArea(poses);
+
+        foreach(Vector2 pos in poses)
+        {
+            GameManager.Set(editMode, pos);
+        }
+    }
     public void FillArea(Vector2 start, Vector2 end, FieldManager.FieldType type)
     {
         Instance.FillArea(GetFillRange(start, end, FollowMouse.WorldPosition.MATRIX), type);
@@ -394,9 +411,16 @@ public class SelectionManager : MonoBehaviour
             preview.transform.position = FollowMouse.GetCurrentMouseWorldPos(preview.GetComponent<FollowMouse>().worldPosition);
         }
 
+    }
+
+    public static void CancelSelection()
+    {
+        ResetPreview();
 
         // hide selection menu
         Instance.selectionOptions.SetActive(false);
+
+        GameManager.Instance.Selecting = false;
     }
 
     private void Awake()

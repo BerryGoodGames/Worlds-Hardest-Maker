@@ -16,8 +16,10 @@ public class MouseEvents : MonoBehaviour
 
         // get mouse position and scale it to units
         Vector2 mousePos = MouseManager.GetMouseWorldPos();
+
         int matrixX = (int)Mathf.Round(mousePos.x);
         int matrixY = (int)Mathf.Round(mousePos.y);
+
         float gridX = Mathf.Round(mousePos.x * 2) * 0.5f;
         float gridY = Mathf.Round(mousePos.y * 2) * 0.5f;
 
@@ -49,7 +51,7 @@ public class MouseEvents : MonoBehaviour
                     {
                         // place field
 
-                        int rotation = FieldManager.IsRotatable(GameManager.Instance.CurrentEditMode) ? GameManager.Instance.EditRotation : 0;
+                        int rotation = FieldManager.IsRotatable(editMode) ? GameManager.Instance.EditRotation : 0;
 
                         FieldManager.FieldType type = GameManager.ConvertEnum<GameManager.EditMode, FieldManager.FieldType>(editMode);
 
@@ -90,40 +92,11 @@ public class MouseEvents : MonoBehaviour
                                 else error += incS;
                             }
                         }
-                        else 
+                        else
                             FieldManager.Instance.SetField(matrixX, matrixY, type, rotation);
                     }
-                    else if (editMode == GameManager.EditMode.DELETE_FIELD)
-                    {
-                        // delete field
-                        if (multiplayer) pview.RPC("RemoveField", RpcTarget.All, matrixX, matrixY, true);
-                        else FieldManager.Instance.RemoveField(matrixX, matrixY, updateOutlines: true);
-
-                        // remove player if at deleted pos
-                        if (multiplayer) pview.RPC("RemovePlayerAtPosIntersect", RpcTarget.All, (float)matrixX, (float)matrixY);
-                        else PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixX, matrixY);
-                    }
-                    else if (editMode == GameManager.EditMode.PLAYER)
-                    {
-                        // place player
-                        PlayerManager.Instance.SetPlayer(gridX, gridY);
-                    }
-                    else if (editMode == GameManager.EditMode.COIN)
-                    {
-                        // place coin
-                        if (multiplayer) pview.RPC("SetCoin", RpcTarget.All, gridX, gridY);
-                        else CoinManager.Instance.SetCoin(gridX, gridY);
-                    }
-                    else if (KeyManager.IsKeyEditMode(editMode))
-                    {
-                        // get keycolor
-                        string keyColorStr = editMode.ToString()[..^4];
-                        KeyManager.KeyColor keyColor = (KeyManager.KeyColor)Enum.Parse(typeof(KeyManager.KeyColor), keyColorStr);
-
-                        // place key
-                        if (multiplayer) pview.RPC("SetKey", RpcTarget.All, gridX, gridY, keyColor);
-                        else KeyManager.Instance.SetKey(gridX, gridY, keyColor);
-                    }
+                    else
+                        GameManager.Set(editMode, mousePos);
                 }
 
                 // onclick
@@ -198,60 +171,9 @@ public class MouseEvents : MonoBehaviour
             }
         }
 
-        // track drag positions and filling
+        // track drag positions
         if (Input.GetMouseButtonUp(0))
         {
-            // fill
-            if (GameManager.Instance.Selecting)
-            {
-                if (!GameManager.Instance.Playing && editMode.IsFieldType() && !GameManager.Instance.UIHovered)
-                {
-                    // fill fields
-                    FieldManager.FieldType type = GameManager.ConvertEnum<GameManager.EditMode, FieldManager.FieldType>(editMode);
-
-                    if (multiplayer) pview.RPC("FillArea", RpcTarget.All, MouseManager.Instance.MouseDragStart, MouseManager.Instance.MouseDragEnd, type);
-                    else SelectionManager.Instance.FillArea((Vector2)MouseManager.Instance.MouseDragStart, (Vector2)MouseManager.Instance.MouseDragEnd, type);
-                }
-                else if (editMode == GameManager.EditMode.DELETE_FIELD)
-                {
-                    // fill delete
-                    foreach (Vector2 pos in GameManager.Instance.CurrentSelectionRange)
-                    {
-                        int fillX = (int)pos.x;
-                        int fillY = (int)pos.y;
-
-                        if (multiplayer)
-                        {
-                            // remove field
-                            pview.RPC("RemoveField", RpcTarget.All, fillX, fillY, true);
-
-                            // remove player if at deleted pos
-                            pview.RPC("RemovePlayerAtPos", RpcTarget.All, fillX, fillY);
-                        } else
-                        {
-                            // remove field
-                            FieldManager.Instance.RemoveField(fillX, fillY, true);
-
-                            // TODO: 9x worse performance
-                            // remove player if at deleted pos
-                            PlayerManager.Instance.RemovePlayerAtPosIntersect(fillX, fillY);
-                        }
-                    }
-                }
-                else if (editMode == GameManager.EditMode.COIN)
-                {
-                    // fill coins
-                    foreach (Vector2 pos in GameManager.Instance.CurrentSelectionRange)
-                    {
-                        float fillX = pos.x;
-                        float fillY = pos.y;
-
-                        if(multiplayer) pview.RPC("SetCoin", RpcTarget.All, fillX, fillY);
-                        else CoinManager.Instance.SetCoin(fillX, fillY);
-                    }
-                }
-            }
-
             MouseManager.Instance.MouseDragStart = null;
             MouseManager.Instance.MouseDragCurrent = null;
             MouseManager.Instance.MouseDragEnd = null;

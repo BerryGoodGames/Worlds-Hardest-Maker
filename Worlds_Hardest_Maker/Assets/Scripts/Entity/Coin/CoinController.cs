@@ -10,6 +10,10 @@ public class CoinController : MonoBehaviour
     {
         coinPosition = new(transform.position.x, transform.position.y);
     }
+    private void OnDestroy()
+    {
+        Destroy(transform.parent.gameObject);
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

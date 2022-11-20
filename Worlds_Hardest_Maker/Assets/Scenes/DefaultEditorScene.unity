@@ -8129,7 +8129,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3252578248619094839}
         m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
-        m_MethodName: ResetPreview
+        m_MethodName: CancelSelection
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

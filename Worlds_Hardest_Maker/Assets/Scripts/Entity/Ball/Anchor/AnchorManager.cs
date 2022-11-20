@@ -39,6 +39,7 @@ public class AnchorManager : MonoBehaviour
 
     [HideInInspector] public PathController selectedPathController;
 
+
     /// <summary>
     /// places anchor at position
     /// </summary>

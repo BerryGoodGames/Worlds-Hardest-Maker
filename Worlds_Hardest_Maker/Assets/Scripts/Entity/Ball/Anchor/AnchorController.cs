@@ -27,6 +27,10 @@ public class AnchorController : MonoBehaviour
 
         View = PhotonView.Get(this);
     }
+    private void OnDestroy()
+    {
+        Destroy(transform.parent.gameObject);
+    }
 
     [PunRPC]
     private void RPCSetBall(Vector2 pos)

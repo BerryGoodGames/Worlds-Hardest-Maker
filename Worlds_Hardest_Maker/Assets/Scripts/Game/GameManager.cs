@@ -173,7 +173,13 @@ public class GameManager : MonoBehaviourPun
     public bool Selecting { get; set; } = false;
     public bool Multiplayer { get; set; } = false;
     public bool KonamiActive { get; set; } = false;
-    [HideInInspector] public List<Vector2> CurrentSelectionRange { get; set; } = null;
+    public List<Vector2> CurrentSelectionRange { get => SelectionManager.selectionStart == null || SelectionManager.selectionEnd == null ? null : SelectionManager.GetCurrentFillRange(); set { 
+            if(value == null)
+            {
+                SelectionManager.selectionStart = null;
+                SelectionManager.selectionEnd = null;
+            }
+        } }
     [HideInInspector] public bool UIHovered { get; set; } = false;
     [HideInInspector] public int TotalCoins { get; set; } = 0;
     private int editRotation = 270;
@@ -456,6 +462,57 @@ public class GameManager : MonoBehaviourPun
         }
         if (onEdit != null)
             onEdit();
+    }
+
+    /// <summary>
+    /// Sets edit mode at position
+    /// </summary>
+    /// <param name="editMode">the type of field/entity you want</param>
+    /// <param name="pos">the position where it will be set</param>
+    public static void Set(EditMode editMode, Vector2 pos)
+    {
+        int matrixX = (int)Mathf.Round(pos.x);
+        int matrixY = (int)Mathf.Round(pos.y);
+
+        bool multiplayer = Instance.Multiplayer;
+        PhotonView pview = Instance.photonView;
+
+        float gridX = Mathf.Round(pos.x * 2) * 0.5f;
+        float gridY = Mathf.Round(pos.y * 2) * 0.5f;
+
+        if (editMode.IsFieldType())
+            FieldManager.Instance.SetField((int)pos.x, (int)pos.y, ConvertEnum<EditMode, FieldManager.FieldType>(editMode));
+        else if (editMode == EditMode.DELETE_FIELD)
+        {
+            // delete field
+            if (multiplayer) pview.RPC("RemoveField", RpcTarget.All, matrixX, matrixY, true);
+            else FieldManager.Instance.RemoveField(matrixX, matrixY, updateOutlines: true);
+
+            // remove player if at deleted pos
+            if (multiplayer) pview.RPC("RemovePlayerAtPosIntersect", RpcTarget.All, (float)matrixX, (float)matrixY);
+            else PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixX, matrixY);
+        }
+        else if (editMode == EditMode.PLAYER)
+        {
+            // place player
+            PlayerManager.Instance.SetPlayer(gridX, gridY);
+        }
+        else if (editMode == EditMode.COIN)
+        {
+            // place coin
+            if (multiplayer) pview.RPC("SetCoin", RpcTarget.All, gridX, gridY);
+            else CoinManager.Instance.SetCoin(gridX, gridY);
+        }
+        else if (KeyManager.IsKeyEditMode(editMode))
+        {
+            // get keycolor
+            string keyColorStr = editMode.ToString()[..^4];
+            KeyManager.KeyColor keyColor = (KeyManager.KeyColor)Enum.Parse(typeof(KeyManager.KeyColor), keyColorStr);
+
+            // place key
+            if (multiplayer) pview.RPC("SetKey", RpcTarget.All, gridX, gridY, keyColor);
+            else KeyManager.Instance.SetKey(gridX, gridY, keyColor);
+        }
     }
 
     /// <summary>

@@ -22,6 +22,11 @@ public class KeyController : MonoBehaviour
         renderer.sortingOrder = highestOrder + 1;
     }
 
+    private void OnDestroy()
+    {
+        Destroy(transform.parent.gameObject);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // check if edgeCollider is player
