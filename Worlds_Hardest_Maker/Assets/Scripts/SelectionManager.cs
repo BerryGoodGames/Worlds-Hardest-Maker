@@ -164,7 +164,7 @@ public class SelectionManager : MonoBehaviour
 
     #region FILL
 
-public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2, FollowMouse.WorldPosition worldPosition)
+    public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2, FollowMouse.WorldPosition worldPosition)
     {
         bool inMatrix = worldPosition == FollowMouse.WorldPosition.MATRIX;
 
@@ -350,11 +350,31 @@ public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2, FollowMouse.Wor
 
     #endregion
 
-    public static void DeleteArea(List<Vector2> poses)
-    {
+    #region DELETE
 
+    public static void DeleteSelectedArea()
+    {
+        DeleteArea(GameManager.Instance.CurrentSelectionRange);
     }
 
+    public static void DeleteArea(List<Vector2> poses)
+    {
+        // get everything in area
+        Vector2 lowestPos = poses[0];
+        Vector2 highestPos = poses.Last();
+        Vector2 castPos = Vector2.Lerp(lowestPos, highestPos, 0.5f);
+        Vector2 castSize = highestPos - lowestPos;
+
+        Collider2D[] hits = Physics2D.OverlapBoxAll(castPos, castSize, 0, 3712);
+
+        // DESTROY IT MUHAHAHAHAHAHHAHAHAHAHAHAHAHAHA
+        foreach(Collider2D collider in hits)
+        {
+            Destroy(collider.gameObject);
+        }
+    }
+
+    #endregion
     public static void ResetPreview()
     {
         // reset fill marking

@@ -300,6 +300,7 @@ GameObject:
   - component: {fileID: 42787707}
   - component: {fileID: 42787706}
   - component: {fileID: 42787705}
+  - component: {fileID: 42787708}
   m_Layer: 5
   m_Name: Fill
   m_TagString: Untagged
@@ -421,6 +422,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 42787703}
   m_CullTransparentMesh: 1
+--- !u!114 &42787708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42787703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5998e77396b9b6c408c091aec837ce28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Fill (f)
+  fontSize: 20
 --- !u!1 &94700667
 GameObject:
   m_ObjectHideFlags: 0
@@ -8040,6 +8055,7 @@ GameObject:
   - component: {fileID: 1725568424}
   - component: {fileID: 1725568423}
   - component: {fileID: 1725568422}
+  - component: {fileID: 1725568425}
   m_Layer: 5
   m_Name: Cancel
   m_TagString: Untagged
@@ -8110,7 +8126,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1725568423}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3252578248619094839}
+        m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
+        m_MethodName: ResetPreview
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1725568423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8149,6 +8177,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1725568420}
   m_CullTransparentMesh: 1
+--- !u!114 &1725568425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725568420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5998e77396b9b6c408c091aec837ce28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Cancel (esc)
+  fontSize: 20
 --- !u!1001 &1738116252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9716,6 +9758,7 @@ GameObject:
   - component: {fileID: 1992008944}
   - component: {fileID: 1992008943}
   - component: {fileID: 1992008942}
+  - component: {fileID: 1992008945}
   m_Layer: 5
   m_Name: Delete
   m_TagString: Untagged
@@ -9786,7 +9829,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1992008943}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3252578248619094839}
+        m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
+        m_MethodName: DeleteSelectedArea
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1992008943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9825,6 +9880,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1992008940}
   m_CullTransparentMesh: 1
+--- !u!114 &1992008945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992008940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5998e77396b9b6c408c091aec837ce28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Delete (del)
+  fontSize: 20
 --- !u!1 &2013123738
 GameObject:
   m_ObjectHideFlags: 0
@@ -10462,6 +10531,7 @@ GameObject:
   - component: {fileID: 2071949018}
   - component: {fileID: 2071949017}
   - component: {fileID: 2071949016}
+  - component: {fileID: 2071949019}
   m_Layer: 5
   m_Name: Copy
   m_TagString: Untagged
@@ -10571,6 +10641,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2071949014}
   m_CullTransparentMesh: 1
+--- !u!114 &2071949019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071949014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5998e77396b9b6c408c091aec837ce28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Copy (c)
+  fontSize: 20
 --- !u!1001 &2119603664
 PrefabInstance:
   m_ObjectHideFlags: 0
