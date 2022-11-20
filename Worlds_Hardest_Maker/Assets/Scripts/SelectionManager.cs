@@ -90,8 +90,10 @@ public class SelectionManager : MonoBehaviour
                 UIAttachToPoint posController = selectionOptions.GetComponent<UIAttachToPoint>();
 
                 posController.point = position;
+
+                selectionOptionsRect.pivot = new(width > 0 ? 0 : 1, height > 0 ? 0 : 1);
+
                 //Vector2 endToScreen = Camera.main.WorldToScreenPoint(position);
-                //selectionOptionsRect.pivot = new(width > 0 ? 0 : 1, height > 0 ? 0 : 1);
                 //selectionOptionsRect.position = endToScreen;
             }
         }
@@ -137,26 +139,6 @@ public class SelectionManager : MonoBehaviour
     private static (int, int, int, int) GetBoundsMatrix(params Vector2[] points) { return GetBoundsMatrix(points.ToList()); }
     #endregion
 
-    public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2, FollowMouse.WorldPosition worldPosition)
-    {
-        bool inMatrix = worldPosition == FollowMouse.WorldPosition.MATRIX;
-
-        // find bounds
-        var (lowestX, highestX, lowestY, highestY) = inMatrix ? GetBoundsMatrix(p1, p2) : GetBounds(p1, p2);
-
-        // collect every pos in range
-        float increment = inMatrix ? 1 : 0.5f;
-        List<Vector2> res = new();
-        for (float x = lowestX; x <= highestX; x += increment)
-        {
-            for (float y = lowestY; y <= highestY; y += increment)
-            {
-                res.Add(new(x, y));
-            }
-        }
-        return res;
-    }
-
     #region PREVIEW
     private static void ShowPreview(List<Vector2> range)
     {
@@ -179,6 +161,28 @@ public class SelectionManager : MonoBehaviour
         }
     }
     #endregion
+
+    #region FILL
+
+public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2, FollowMouse.WorldPosition worldPosition)
+    {
+        bool inMatrix = worldPosition == FollowMouse.WorldPosition.MATRIX;
+
+        // find bounds
+        var (lowestX, highestX, lowestY, highestY) = inMatrix ? GetBoundsMatrix(p1, p2) : GetBounds(p1, p2);
+
+        // collect every pos in range
+        float increment = inMatrix ? 1 : 0.5f;
+        List<Vector2> res = new();
+        for (float x = lowestX; x <= highestX; x += increment)
+        {
+            for (float y = lowestY; y <= highestY; y += increment)
+            {
+                res.Add(new(x, y));
+            }
+        }
+        return res;
+    }
 
     public void FillSelectedArea()
     {
@@ -344,6 +348,13 @@ public class SelectionManager : MonoBehaviour
         Instance.FillArea(GetFillRange(start, end, FollowMouse.WorldPosition.MATRIX), type);
     }
 
+    #endregion
+
+    public static void DeleteArea(List<Vector2> poses)
+    {
+
+    }
+
     public static void ResetPreview()
     {
         // reset fill marking
@@ -362,7 +373,10 @@ public class SelectionManager : MonoBehaviour
             preview.SetActive(true);
             preview.transform.position = FollowMouse.GetCurrentMouseWorldPos(preview.GetComponent<FollowMouse>().worldPosition);
         }
-        
+
+
+        // hide selection menu
+        Instance.selectionOptions.SetActive(false);
     }
 
     private void Awake()

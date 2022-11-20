@@ -42,6 +42,12 @@ public class Tooltip : MonoBehaviour
             tooltip.SetActive(false);
         }
     }
+
+    private void OnDisable()
+    {
+        tooltip.SetActive(false);
+    }
+
     private void OnDestroy()
     {
         Destroy(tooltip);
