@@ -59,7 +59,7 @@ public class MouseManager : MonoBehaviour
 
         // update drag variables
         if (Input.GetMouseButtonDown(GameManager.Instance.SelectionMouseButton)) Instance.MouseDragStart = Instance.MouseWorldPos;
-        if (Input.GetMouseButton(GameManager.Instance.SelectionMouseButton)) Instance.MouseDragEnd = Instance.MouseWorldPos;
+        if (Input.GetMouseButtonUp(GameManager.Instance.SelectionMouseButton)) Instance.MouseDragEnd = Instance.MouseWorldPos;
 
         Vector2 view = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         OnScreen = view.x > 0 && view.x < 1 && view.y > 0 && view.y < 1;
