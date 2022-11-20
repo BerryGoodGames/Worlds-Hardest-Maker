@@ -35,7 +35,7 @@ public class SelectionManager : MonoBehaviour
             GameManager.Instance.Selecting = true;
 
         // update selection markings
-        if (!GameManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null && MouseManager.Instance.MouseDragEnd != null && GameManager.Instance.Selecting)
+        if (!GameManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null && MouseManager.Instance.MouseDragCurrent != null && GameManager.Instance.Selecting)
         {
             // get drag positions and world position mode
             FollowMouse.WorldPosition worldPosition = GameManager.Instance.CurrentEditMode.GetWorldPosition();
@@ -101,10 +101,10 @@ public class SelectionManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(MouseManager.Instance.MouseDragStart != null && MouseManager.Instance.MouseDragEnd != null)
+        if(MouseManager.Instance.MouseDragStart != null && MouseManager.Instance.MouseDragCurrent != null)
         {
             prevStart = (Vector2)MouseManager.Instance.MouseDragStart;
-            prevEnd = (Vector2)MouseManager.Instance.MouseDragEnd;
+            prevEnd = (Vector2)MouseManager.Instance.MouseDragCurrent;
         }
     }
 

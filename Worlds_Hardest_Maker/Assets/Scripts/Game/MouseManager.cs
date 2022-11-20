@@ -7,6 +7,7 @@ public class MouseManager : MonoBehaviour
     public static MouseManager Instance { get; private set; }
 
     [HideInInspector] public Vector2? MouseDragStart { get; set; } = null;
+    [HideInInspector] public Vector2? MouseDragCurrent { get; set; } = null;
     [HideInInspector] public Vector2? MouseDragEnd { get; set; } = null;
     [HideInInspector] public Vector2 PrevMousePos { get; set; }
     private Vector2 mouseWorldPos = Vector2.positiveInfinity;
@@ -42,10 +43,10 @@ public class MouseManager : MonoBehaviour
     /// <exception cref="System.Exception"></exception>
     public static (Vector2, Vector2) GetDragPositions(FollowMouse.WorldPosition worldPosition)
     {
-        if (Instance.MouseDragStart == null || Instance.MouseDragEnd == null) throw new System.Exception("Trying to access drag start and end positions when neither recorded");
+        if (Instance.MouseDragStart == null || Instance.MouseDragCurrent == null) throw new System.Exception("Trying to access drag start and end positions when neither recorded");
         
         Vector2 start = (Vector2)Instance.MouseDragStart;
-        Vector2 end = (Vector2)Instance.MouseDragEnd;
+        Vector2 end = (Vector2)Instance.MouseDragCurrent;
 
         return worldPosition == FollowMouse.WorldPosition.ANY ? (start, end) : 
             worldPosition == FollowMouse.WorldPosition.GRID ? (PosToGrid(start), PosToGrid(end)) : (PosToMatrix(start), PosToMatrix(end));
@@ -59,6 +60,7 @@ public class MouseManager : MonoBehaviour
 
         // update drag variables
         if (Input.GetMouseButtonDown(GameManager.Instance.SelectionMouseButton)) Instance.MouseDragStart = Instance.MouseWorldPos;
+        if (Input.GetMouseButton(GameManager.Instance.SelectionMouseButton)) Instance.MouseDragCurrent = Instance.MouseWorldPos;
         if (Input.GetMouseButtonUp(GameManager.Instance.SelectionMouseButton)) Instance.MouseDragEnd = Instance.MouseWorldPos;
 
         Vector2 view = Camera.main.ScreenToViewportPoint(Input.mousePosition);
