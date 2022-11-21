@@ -204,7 +204,6 @@ public class SelectionManager : MonoBehaviour
 
     public void FillArea(List<Vector2> poses, FieldManager.FieldType type)
     {
-        print(GameManager.Instance.CurrentSelectionRange == null);
         if (GameManager.Instance.CurrentSelectionRange == null) return;
         GameManager.Instance.CurrentSelectionRange = null;
 
@@ -213,8 +212,6 @@ public class SelectionManager : MonoBehaviour
 
         // find bounds
         var (lowestX, highestX, lowestY, highestY) = GetBoundsMatrix(poses);
-        int width = highestX - lowestX;
-        int height = highestY - lowestY;
 
         // check if its 1 wide
         if (lowestX == highestX || lowestY == highestY)
@@ -295,8 +292,69 @@ public class SelectionManager : MonoBehaviour
             }
         }
 
+        UpdateOutlinesInArea(type.GetPrefab().GetComponent<FieldOutline>() != null, new(lowestX, lowestY), new(highestX, highestY));
+    }
+    public void FillArea(List<Vector2> poses, GameManager.EditMode editMode)
+    {
+        FieldManager.FieldType? fieldType = (FieldManager.FieldType?)GameManager.TryConvertEnum<GameManager.EditMode, FieldManager.FieldType>(editMode);
+        if(fieldType != null)
+        {
+            FillArea(poses, (FieldManager.FieldType)fieldType);
+            return;
+        }
+
+        DeleteArea(poses);
+
+        foreach(Vector2 pos in poses)
+        {
+            GameManager.Set(editMode, pos);
+        }
+    }
+    public void FillArea(Vector2 start, Vector2 end, FieldManager.FieldType type)
+    {
+        Instance.FillArea(GetFillRange(start, end, FollowMouse.WorldPosition.MATRIX), type);
+    }
+    #endregion
+
+    #region DELETE
+
+    public static void DeleteSelectedArea()
+    {
+        DeleteArea(GameManager.Instance.CurrentSelectionRange);
+        CancelSelection();
+    }
+
+    public static void DeleteArea(List<Vector2> poses)
+    {
+        // get everything in area
+        Vector2 lowestPos = poses[0];
+        Vector2 highestPos = poses.Last();
+        Vector2 castPos = Vector2.Lerp(lowestPos, highestPos, 0.5f);
+        Vector2 castSize = highestPos - lowestPos;
+
+        Collider2D[] hits = Physics2D.OverlapBoxAll(castPos, castSize, 0, 3712);
+
+        // DESTROY IT MUHAHAHAHAHAHHAHAHAHAHAHAHAHAHA
+        foreach(Collider2D collider in hits)
+        {
+            Destroy(collider.gameObject);
+        }
+
+        UpdateOutlinesInArea(false, lowestPos, highestPos);
+    }
+
+    #endregion
+    private static void UpdateOutlinesInArea(bool hasOutline, Vector2 lowestPos, Vector2 highestPos)
+    {
+        int highestX = (int)highestPos.x;
+        int highestY = (int)highestPos.y;
+        int lowestX = (int)lowestPos.x;
+        int lowestY = (int)lowestPos.y;
+        int width = highestX - lowestX;
+        int height = highestY - lowestY;
+
         // update outlines
-        if (type.GetPrefab().GetComponent<FieldOutline>() != null)
+        if (hasOutline == true)
         {
             FieldOutline FOComp;
             for (int i = lowestX; i <= highestX; i++)
@@ -344,54 +402,6 @@ public class SelectionManager : MonoBehaviour
             }
         }
     }
-    public void FillArea(List<Vector2> poses, GameManager.EditMode editMode)
-    {
-        FieldManager.FieldType? fieldType = (FieldManager.FieldType?)GameManager.TryConvertEnum<GameManager.EditMode, FieldManager.FieldType>(editMode);
-        if(fieldType != null)
-        {
-            FillArea(poses, (FieldManager.FieldType)fieldType);
-            return;
-        }
-
-        DeleteArea(poses);
-
-        foreach(Vector2 pos in poses)
-        {
-            GameManager.Set(editMode, pos);
-        }
-    }
-    public void FillArea(Vector2 start, Vector2 end, FieldManager.FieldType type)
-    {
-        Instance.FillArea(GetFillRange(start, end, FollowMouse.WorldPosition.MATRIX), type);
-    }
-
-    #endregion
-
-    #region DELETE
-
-    public static void DeleteSelectedArea()
-    {
-        DeleteArea(GameManager.Instance.CurrentSelectionRange);
-    }
-
-    public static void DeleteArea(List<Vector2> poses)
-    {
-        // get everything in area
-        Vector2 lowestPos = poses[0];
-        Vector2 highestPos = poses.Last();
-        Vector2 castPos = Vector2.Lerp(lowestPos, highestPos, 0.5f);
-        Vector2 castSize = highestPos - lowestPos;
-
-        Collider2D[] hits = Physics2D.OverlapBoxAll(castPos, castSize, 0, 3712);
-
-        // DESTROY IT MUHAHAHAHAHAHHAHAHAHAHAHAHAHAHA
-        foreach(Collider2D collider in hits)
-        {
-            Destroy(collider.gameObject);
-        }
-    }
-
-    #endregion
     public static void ResetPreview()
     {
         // reset fill marking
