@@ -187,8 +187,8 @@ public class PlayerManager : MonoBehaviour
         try { return container.transform.GetChild(0).gameObject; }
         catch (System.Exception) { return null; }
     }
-    public static GameObject GetPlayer(int id) { return PlayerIDList()[id]; }
-    public static bool IsPlayerThere(float mx, float my) { return GetPlayer(mx, my) != null; }
+    public static GameObject GetPlayer(int id) => PlayerIDList()[id];
+    public static bool IsPlayerThere(float mx, float my) => GetPlayer(mx, my) != null;
     public static bool IsPlayerThereIntersect(float mx, float my)
     {
         float[] dx = { -0.5f, 0, 0.5f, -0.5f, 0, 0.5f, -0.5f, 0, 0.5f };

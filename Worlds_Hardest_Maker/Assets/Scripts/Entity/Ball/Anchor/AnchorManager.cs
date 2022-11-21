@@ -16,7 +16,7 @@ public class AnchorManager : MonoBehaviour
 
     public GameObject SelectedAnchor
     {
-        get { return selectedAnchor; }
+        get => selectedAnchor;
         set
         {
             if (value.TryGetComponent(out AnchorController AC))

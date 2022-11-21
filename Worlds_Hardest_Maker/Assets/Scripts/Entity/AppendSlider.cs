@@ -12,10 +12,10 @@ public class AppendSlider : MonoBehaviour
 {
     // specific slider to append
     [SerializeField] private float min, max, step, startValue;
-    public float Min { get { return min; } set { min = value; } }
-    public float Max { get { return max; } set { max = value; } }
-    public float Step { get { return step; } set { step = value; } }
-    public float StartValue { get { return startValue; } set { startValue = value; } }
+    public float Min { get => min; set { min = value; } }
+    public float Max { get => max; set { max = value; } }
+    public float Step { get => step; set { step = value; } }
+    public float StartValue { get => startValue; set { startValue = value; } }
     [SerializeField] private GameObject sliderPrefab;
     public GameObject Slider { get; private set; }
 

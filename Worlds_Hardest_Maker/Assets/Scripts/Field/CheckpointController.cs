@@ -6,11 +6,12 @@ public class CheckpointController : MonoBehaviour
 {
     public bool activated = false;
     private static bool reusableCheckpoints = true;
-    public static bool ReusableCheckpoints {
-        get { return reusableCheckpoints; }
+    public static bool ReusableCheckpoints
+    {
+        get => reusableCheckpoints;
         set
         {
-            if(value) ClearCheckpoints();
+            if (value) ClearCheckpoints();
 
             reusableCheckpoints = value;
         }

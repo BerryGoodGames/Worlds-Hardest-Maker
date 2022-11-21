@@ -372,6 +372,7 @@ MonoBehaviour:
   - {fileID: 754391215425719926}
   - {fileID: 754391215617527485}
   newLineSize: 5
+  newColor: {r: 0.44705886, g: 0.38823533, b: 0.8313726, a: 1}
 --- !u!1 &754391216420513806
 GameObject:
   m_ObjectHideFlags: 0

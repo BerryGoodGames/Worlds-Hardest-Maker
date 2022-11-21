@@ -106,13 +106,13 @@ public class FillManager : MonoBehaviour
         }
         return (lowestX, highestX, lowestY, highestY);
     }
-    private static (float, float, float, float) GetBounds(params Vector2[] points) { return GetBounds(points.ToList()); }
+    private static (float, float, float, float) GetBounds(params Vector2[] points) => GetBounds(points.ToList());
     private static (int, int, int, int) GetBoundsMatrix(List<Vector2> points)
     {
         var (lowestX, highestX, lowestY, highestY) = GetBounds(points);
         return (Mathf.RoundToInt(lowestX), Mathf.RoundToInt(highestX), Mathf.RoundToInt(lowestY), Mathf.RoundToInt(highestY));
     }
-    private static (int, int, int, int) GetBoundsMatrix(params Vector2[] points) { return GetBoundsMatrix(points.ToList()); }
+    private static (int, int, int, int) GetBoundsMatrix(params Vector2[] points) => GetBoundsMatrix(points.ToList());
     #endregion
 
     public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2, FollowMouse.WorldPosition worldPosition)

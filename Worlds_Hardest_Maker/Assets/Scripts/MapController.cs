@@ -11,13 +11,13 @@ using DG.Tweening;
 public class MapController : MonoBehaviour
 {
     [SerializeField] private float zoomSpeed = 4f;
-    public float ZoomSpeed { get { return zoomSpeed; } set { zoomSpeed = value; } }
+    public float ZoomSpeed { get => zoomSpeed; set { zoomSpeed = value; } }
 
     [SerializeField] private float maxZoom = 15;
-    public float MaxZoom { get { return maxZoom; } set { maxZoom = value; } }
+    public float MaxZoom { get => maxZoom; set { maxZoom = value; } }
 
     [SerializeField] private float minZoom = 3;
-    public float MinZoom { get { return minZoom; } set { minZoom = value; } }
+    public float MinZoom { get => minZoom; set { minZoom = value; } }
 
     [SerializeField] private float zoomAnimDuration;
 

@@ -26,8 +26,8 @@ public class MouseManager : MonoBehaviour
     [HideInInspector] public Vector2 MouseWorldPosMatrix { get; set; } = new();
     [HideInInspector] public bool OnScreen { get; set; } = true;
 
-    public static Vector2 PosToGrid(Vector2 pos) { return new(Mathf.Round(pos.x * 2) * 0.5f, Mathf.Round(pos.y * 2) * 0.5f); }
-    public static Vector2 PosToMatrix(Vector2 pos) { return new(Mathf.Round(pos.x), Mathf.Round(pos.y)); }
+    public static Vector2 PosToGrid(Vector2 pos) => new(Mathf.Round(pos.x * 2) * 0.5f, Mathf.Round(pos.y * 2) * 0.5f);
+    public static Vector2 PosToMatrix(Vector2 pos) => new(Mathf.Round(pos.x), Mathf.Round(pos.y));
     public static Vector2 GetMouseWorldPos()
     {
         Vector2 mousePos = Input.mousePosition;

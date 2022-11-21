@@ -108,12 +108,12 @@ public class GameManager : MonoBehaviourPun
     [Header("Variables")]
 
     [SerializeField] private bool playing = false;
-    public bool Playing { get { return playing; } set { playing = value; } }
+    public bool Playing { get => playing; set { playing = value; } }
 
     [SerializeField] private EditMode currentEditMode = EditMode.WALL_FIELD;
     public EditMode CurrentEditMode
     {
-        get { return currentEditMode; }
+        get => currentEditMode;
         set
         {
             currentEditMode = value;

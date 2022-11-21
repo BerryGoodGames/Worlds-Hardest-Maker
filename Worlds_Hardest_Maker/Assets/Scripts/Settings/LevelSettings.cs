@@ -22,7 +22,7 @@ public class LevelSettings : MonoBehaviour
     [HideInInspector] public float iceMaxSpeed;
     [HideInInspector] public bool reusableCheckpoints
     {
-        get { return CheckpointController.ReusableCheckpoints; }
+        get => CheckpointController.ReusableCheckpoints;
         set { CheckpointController.ReusableCheckpoints = value; }
     }
     #endregion

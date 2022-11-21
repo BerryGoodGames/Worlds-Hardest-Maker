@@ -9,8 +9,8 @@ public class ConveyorController : MonoBehaviour
     private float animSpeed;
 
     [SerializeField] private float strength;
-    public float Strength { get { return strength; } set { strength = value; } }
-    public float Rotation { get { return transform.rotation.z; } }
+    public float Strength { get => strength; set { strength = value; } }
+    public float Rotation { get => transform.rotation.z; }
 
     public void Rotate()
     {

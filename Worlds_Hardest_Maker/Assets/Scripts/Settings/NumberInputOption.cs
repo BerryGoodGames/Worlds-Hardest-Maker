@@ -5,7 +5,7 @@ using UnityEngine;
 public class NumberInputOption : SettingOption
 {
     [SerializeField] private float width = 250;
-    public float Width { get { return width; } set { width = value; } }
+    public float Width { get => width; set { width = value; } }
     [Space]
     [SerializeField] private RectTransform numberInputObjRt;
 

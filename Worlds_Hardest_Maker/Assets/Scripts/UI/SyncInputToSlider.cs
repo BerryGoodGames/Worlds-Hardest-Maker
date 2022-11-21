@@ -56,5 +56,5 @@ public class SyncInputToSlider : MonoBehaviour
 #endif
     }
 
-    private float Rounded(float value) { return Mathf.Round(value * Mathf.Pow(10, decimals)) * Mathf.Pow(10, -decimals); }
+    private float Rounded(float value) => Mathf.Round(value * Mathf.Pow(10, decimals)) * Mathf.Pow(10, -decimals);
 }

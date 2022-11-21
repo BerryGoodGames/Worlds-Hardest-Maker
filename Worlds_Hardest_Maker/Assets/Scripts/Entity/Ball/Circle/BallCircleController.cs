@@ -158,7 +158,7 @@ public class BallCircleController : IBallController
         return new(resX, resY);
     }
     /// <returns>Angle from pos to origin in radians</returns>
-    public float GetAngleToOrigin(Vector2 pos) { return -Vector2.SignedAngle(pos - (Vector2)origin.position, Vector2.right) * Mathf.PI / 180; }
+    public float GetAngleToOrigin(Vector2 pos) => -Vector2.SignedAngle(pos - (Vector2)origin.position, Vector2.right) * Mathf.PI / 180;
 
     public void InitCircleObject()
     {
