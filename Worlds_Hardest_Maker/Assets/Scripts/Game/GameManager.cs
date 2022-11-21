@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviourPun
     public GameObject YellowKey;
     public GameObject FillPreview;
     public GameObject Tooltip;
+    public GameObject LevelRoom;
     [Space]
     [Header("Objects")]
     public GameObject Manager;
@@ -84,6 +85,7 @@ public class GameManager : MonoBehaviourPun
     public GameObject CoinContainer;
     public GameObject KeyContainer;
     public GameObject FieldContainer;
+    public GameObject LevelRoomContainer;
     [Space]
     [Header("Key binds")]
     public KeyCode FillKey;
@@ -227,6 +229,7 @@ public class GameManager : MonoBehaviourPun
         LevelSettings.Instance.SetWaterDamping();
 
         // SetCameraUnitWidth(23);
+        LevelRoomManager.CreateRoom(new(0.5f, 0.5f));
     }
 
     private void Update()
@@ -675,9 +678,8 @@ public class GameManager : MonoBehaviourPun
 
     public static object TryConvertEnum<EnumFrom, EnumTo>(EnumFrom e)
     {
-        object convEnum;
 
-        Enum.TryParse(typeof(EnumTo), e.ToString(), out convEnum);
+        Enum.TryParse(typeof(EnumTo), e.ToString(), out object convEnum);
 
         return convEnum;
     }

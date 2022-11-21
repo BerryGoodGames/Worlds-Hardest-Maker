@@ -11,12 +11,23 @@ public class LevelRoomManager : MonoBehaviour
     public int currentID = 0;
     public List<LevelRoom> levelRooms = new();
 
+    public static GameObject CreateRoom(Vector2 center, params (int, int)[] links)
+    {
+        GameObject levelRoom = Instantiate(GameManager.Instance.LevelRoom, Vector2.zero, Quaternion.identity, GameManager.Instance.LevelRoomContainer.transform);
+        LevelRoomController roomController = levelRoom.GetComponent<LevelRoomController>();
 
-    public static void AddRoom(LevelRoom newRoom)
+        LevelRoom roomObject = AddRoom(center, links);
+
+        roomController.roomID = roomObject.id;
+
+        return levelRoom;
+    }
+    public static LevelRoom AddRoom(LevelRoom newRoom)
     {
         Instance.levelRooms.Add(newRoom);
+        return newRoom;
     }
-    public static void AddRoom(Vector2 center, params (int, int)[] links)
+    private static LevelRoom AddRoom(Vector2 center, params (int, int)[] links)
     {
         LevelRoom room = new(center);
 
@@ -26,6 +37,8 @@ public class LevelRoomManager : MonoBehaviour
         }
 
         AddRoom(room);
+
+        return room;
     }
     public static LevelRoom GetRoom(int id)
     {
@@ -38,6 +51,11 @@ public class LevelRoomManager : MonoBehaviour
     public static void DeleteRoom(LevelRoom room)
     {
         Instance.levelRooms.Remove(room);
+    }
+
+    public static void SetRoomSize(float width, float height)
+    {
+        LevelRoom.size = new(width, height);
     }
 
 
