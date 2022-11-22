@@ -338,7 +338,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 3a783f32a8b91a440b613c0b172b5550, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
   scale: {x: 0.9, y: 0.9}
-  showWhenFilling: 0
+  showWhenSelecting: 0
   rotate: 0
 --- !u!1 &3267163145518031903 stripped
 GameObject:
