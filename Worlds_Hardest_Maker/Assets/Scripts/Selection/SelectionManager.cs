@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Photon.Pun;
+using System.Runtime.Serialization.Formatters.Binary;
 
 /// <summary>
 /// contains methods for filling: GetFillRange, FillArea, GetBounds, GetBoundsMatrix
@@ -32,9 +33,10 @@ public class SelectionManager : MonoBehaviour
     public static Vector2? selectionStart;
     public static Vector2? selectionEnd;
 
+
     private void Update()
     {
-        if (Input.GetMouseButton(GameManager.Instance.SelectionMouseButton))
+        if (Input.GetMouseButton(GameManager.Instance.SelectionMouseButton) && !GameManager.Instance.Playing)
             GameManager.Instance.Selecting = true;
 
         // update selection markings
@@ -113,6 +115,7 @@ public class SelectionManager : MonoBehaviour
     private void Start()
     {
         selectionOptionsRect = selectionOptions.GetComponent<RectTransform>();
+        GameManager.onPlay += CancelSelection;
     }
 
     #region Get bounds
@@ -344,6 +347,19 @@ public class SelectionManager : MonoBehaviour
     }
 
     #endregion
+
+    #region COPY
+    public static void CopySelection()
+    {
+        Vector2 lowestPos = GameManager.Instance.CurrentSelectionRange[0];
+        Vector2 highestPos = GameManager.Instance.CurrentSelectionRange.Last();
+
+        CopyManager.Copy(lowestPos, highestPos);
+
+        CancelSelection();
+    }
+    #endregion
+
     private static void UpdateOutlinesInArea(bool hasOutline, Vector2 lowestPos, Vector2 highestPos)
     {
         int highestX = (int)highestPos.x;

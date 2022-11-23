@@ -47,6 +47,16 @@ public class KeyEvents : MonoBehaviour
 #if !UNTIY_WEBGL
             if (Input.GetKeyDown(KeyCode.O)) GameManager.Instance.LoadLevel();
 #endif
+            // paste
+            if (Input.GetKey(GameManager.Instance.PasteKey))
+            {
+                Vector2 mousePos = MouseManager.GetMouseWorldPos();
+
+                int matrixX = (int)Mathf.Round(mousePos.x);
+                int matrixY = (int)Mathf.Round(mousePos.y);
+
+                CopyManager.Paste(new(matrixX, matrixY));
+            }
             //if (Input.GetKeyDown(KeyCode.C))
             //{
             //    if (GameManager.Instance.Multiplayer) view.RPC("ClearLevel", RpcTarget.All);
@@ -55,7 +65,7 @@ public class KeyEvents : MonoBehaviour
         }
 
         // check edit mode toggling if no ctrl and not playing
-        if (!Input.GetKey(KeyCode.Tab) && !GameManager.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
+        if (!Input.GetKey(ctrl) && !GameManager.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
 
         
     }

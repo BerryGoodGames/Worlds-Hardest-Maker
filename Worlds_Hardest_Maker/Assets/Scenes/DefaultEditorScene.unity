@@ -10599,7 +10599,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2071949017}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3252578248619094839}
+        m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
+        m_MethodName: CopySelection
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2071949017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11859,6 +11871,7 @@ MonoBehaviour:
   BallCircleRadiusKey: 304
   BallCircleAngleKey: 306
   EditSpeedKey: 306
+  PasteKey: 118
   LineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   NoFriction: {fileID: 6200000, guid: 88face5bfde0aba43a3bbd9678a95eab, type: 2}
   EditModeText: {fileID: 208353116}
@@ -11918,6 +11931,7 @@ GameObject:
   - component: {fileID: 3252578248619094824}
   - component: {fileID: 3252578248619094838}
   - component: {fileID: 3252578248619094839}
+  - component: {fileID: 3252578248619094840}
   - component: {fileID: 3252578248619094237}
   - component: {fileID: 3252578248619094238}
   - component: {fileID: 3252578248619094239}
@@ -12069,6 +12083,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectionOptions: {fileID: 1898372879}
+--- !u!114 &3252578248619094840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3252578248619094831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3937e6e0e3128a41a456eee94ca9929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3469053329403155088
 GameObject:
   m_ObjectHideFlags: 0

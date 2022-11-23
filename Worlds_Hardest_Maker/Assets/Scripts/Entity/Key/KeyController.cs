@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KeyController : MonoBehaviour
+public class KeyController : Controller
 {
     [HideInInspector] public KeyManager.KeyColor color;
     [HideInInspector] public Vector2 keyPosition;
@@ -77,5 +77,10 @@ public class KeyController : MonoBehaviour
                 controller.Lock(false);
             }
         }
+    }
+
+    public override IData GetData()
+    {
+        return new KeyData(this);
     }
 }

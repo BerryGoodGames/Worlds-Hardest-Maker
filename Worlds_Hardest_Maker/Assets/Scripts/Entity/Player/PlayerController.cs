@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using DG.Tweening;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Controller
 {
     [HideInInspector] public int id;
 
@@ -647,5 +647,10 @@ public class PlayerController : MonoBehaviour
         waterDamping = LevelSettings.Instance.waterDamping;
         iceFriction = LevelSettings.Instance.iceFriction;
         maxIceSpeed = LevelSettings.Instance.iceMaxSpeed;
+    }
+
+    public override IData GetData()
+    {
+        return new PlayerData(this);
     }
 }

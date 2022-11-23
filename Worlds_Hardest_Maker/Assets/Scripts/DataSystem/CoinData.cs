@@ -19,6 +19,11 @@ public class CoinData : IData
 
     public override void ImportToLevel()
     {
-        CoinManager.Instance.SetCoin(position[0], position[1]);
+        ImportToLevel(new(position[0], position[1]));
+    }
+
+    public override void ImportToLevel(Vector2 pos)
+    {
+        CoinManager.Instance.SetCoin(pos);
     }
 }

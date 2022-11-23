@@ -111,4 +111,9 @@ public class BallController : IBallController
             SetBouncePos(unitPos);
         }
     }
+
+    public override IData GetData()
+    {
+        return new BallData(this);
+    }
 }

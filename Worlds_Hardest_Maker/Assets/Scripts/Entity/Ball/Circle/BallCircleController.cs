@@ -182,4 +182,9 @@ public class BallCircleController : IBallController
     {
         MoveOrigin(unitPos.x, unitPos.y);
     }
+
+    public override IData GetData()
+    {
+        return new BallCircleData(this);
+    }
 }

@@ -65,6 +65,11 @@ public class KeyManager : MonoBehaviour
             key.GetComponent<IntervalRandomAnimation>().enabled = GameManager.Instance.KonamiActive;
         }
     }
+
+    public void SetKey(Vector2 pos, KeyColor color)
+    {
+        SetKey(pos.x, pos.y, color);
+    }
     [PunRPC]
     public void RemoveKey(float mx, float my)
     {

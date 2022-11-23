@@ -57,7 +57,7 @@ public class FieldManager : MonoBehaviour
 
     public static GameObject GetField(int mx, int my)
     {
-        Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(new(mx, my), 0.1f);
+        Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(new(mx, my), 0.1f, 3072);
         foreach (Collider2D c in collidedGameObjects)
         {
             if (c.gameObject.IsField())
@@ -165,6 +165,11 @@ public class FieldManager : MonoBehaviour
                 GameManager.RemoveObjectInContainerIntersect(mx, my, GameManager.Instance.KeyContainer);
             }
         }
+    }
+
+    public void SetField(Vector2 pos, FieldType type, int rotation)
+    {
+        SetField((int)pos.x, (int)pos.y, type, rotation);
     }
     [PunRPC]
     public void SetField(int mx, int my, FieldType type)

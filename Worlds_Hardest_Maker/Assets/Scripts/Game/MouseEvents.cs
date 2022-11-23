@@ -124,6 +124,7 @@ public class MouseEvents : MonoBehaviour
                 }
             }
 
+
             if (Input.GetKey(GameManager.Instance.EntityDeleteKey))
             {
                 if (Input.GetMouseButton(0) && (Input.GetMouseButtonDown(0) || !Input.mousePosition.Equals(MouseManager.Instance.PrevMousePos)))

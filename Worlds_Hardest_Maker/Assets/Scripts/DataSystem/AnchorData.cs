@@ -42,10 +42,10 @@ public class AnchorData : IData
         ballPositions = ballPositionsList.ToArray();
     }
 
-    public override void ImportToLevel()
+    public override void ImportToLevel(Vector2 pos)
     {
         // create object
-        GameObject anchor = AnchorManager.Instance.SetAnchor(position[0], position[1]);
+        GameObject anchor = AnchorManager.Instance.SetAnchor(pos);
         PathController pathController = anchor.GetComponentInChildren<PathController>();
 
         // set waypoints
@@ -74,5 +74,10 @@ public class AnchorData : IData
 
         // fade balls in
         anchorController.StartCoroutine(anchorController.FadeInOnNextFrame(1, 0.1f));
+    }
+
+    public override void ImportToLevel()
+    {
+        ImportToLevel(new(position[0], position[1]));
     }
 }

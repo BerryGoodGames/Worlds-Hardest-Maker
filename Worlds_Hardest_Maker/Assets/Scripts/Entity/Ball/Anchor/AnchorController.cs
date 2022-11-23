@@ -6,7 +6,7 @@ using Photon.Pun;
 /// <summary>
 /// controlles the anchor (duh)
 /// </summary>
-public class AnchorController : MonoBehaviour
+public class AnchorController : Controller
 {
     public GameObject outline;
     public GameObject container;
@@ -128,5 +128,10 @@ public class AnchorController : MonoBehaviour
         yield return null;
         BallFadeIn(endOpacity, time);
         yield break;
+    }
+
+    public override IData GetData()
+    {
+        return new AnchorData(pathController, container.transform);
     }
 }

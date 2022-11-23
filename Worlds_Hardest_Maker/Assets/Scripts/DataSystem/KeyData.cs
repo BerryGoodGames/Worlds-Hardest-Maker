@@ -19,8 +19,13 @@ public class KeyData : IData
         color = controller.color;
     }
 
+    public override void ImportToLevel(Vector2 pos)
+    {
+        KeyManager.Instance.SetKey(pos, color);
+    }
+
     public override void ImportToLevel()
     {
-        KeyManager.Instance.SetKey(position[0], position[1], color);
+        ImportToLevel(new(position[0], position[1]));
     }
 }

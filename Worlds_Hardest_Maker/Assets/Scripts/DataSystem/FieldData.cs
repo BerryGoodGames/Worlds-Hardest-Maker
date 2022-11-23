@@ -23,8 +23,13 @@ public class FieldData : IData
 
     public override void ImportToLevel()
     {
+        ImportToLevel(new(position[0], position[1]));
+    }
+
+    public override void ImportToLevel(Vector2 pos)
+    {
         FieldManager.FieldType type = (FieldManager.FieldType)System.Enum.Parse(typeof(FieldManager.FieldType), fieldType);
 
-        FieldManager.Instance.SetField(position[0], position[1], type);
+        FieldManager.Instance.SetField(pos, type, 0);
     }
 }

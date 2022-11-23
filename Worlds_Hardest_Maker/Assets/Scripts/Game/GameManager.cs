@@ -92,6 +92,7 @@ public class GameManager : MonoBehaviourPun
     public KeyCode BallCircleRadiusKey;
     public KeyCode BallCircleAngleKey;
     public KeyCode EditSpeedKey;
+    public KeyCode PasteKey;
     [Space]
     [Header("Materials")]
     public Material LineMaterial;

@@ -30,6 +30,11 @@ public class CoinManager : MonoBehaviour
             anim.SetBool("Playing", GameManager.Instance.Playing);
         }
     }
+
+    public void SetCoin(Vector2 pos)
+    {
+        SetCoin(pos.x, pos.y);
+    }
     [PunRPC]
     public void RemoveCoin(float mx, float my)
     {
