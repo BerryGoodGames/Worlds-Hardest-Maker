@@ -48,8 +48,7 @@ public class MouseManager : MonoBehaviour
         Vector2 start = (Vector2)Instance.MouseDragStart;
         Vector2 end = (Vector2)Instance.MouseDragCurrent;
 
-        return worldPosition == FollowMouse.WorldPosition.ANY ? (start, end) : 
-            worldPosition == FollowMouse.WorldPosition.GRID ? (PosToGrid(start), PosToGrid(end)) : (PosToMatrix(start), PosToMatrix(end));
+        return (start.ConvertPosition(worldPosition), end.ConvertPosition(worldPosition));
     }
 
     private void Update()

@@ -13,7 +13,7 @@ public class PreviewController : MonoBehaviour
 
     private bool previousPlaying;
 
-    private SpriteRenderer spriteRenderer;
+    [HideInInspector] public SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite defaultSprite;
     [SerializeField] private Color defaultColor;
     [Range(0, 255)] public int alpha;
@@ -26,6 +26,11 @@ public class PreviewController : MonoBehaviour
 
     private void Awake()
     {
+        Awake_();
+    }
+
+    public void Awake_()
+    {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         spriteRenderer.sprite = defaultSprite;
@@ -36,8 +41,6 @@ public class PreviewController : MonoBehaviour
     private void Start()
     {
         previousEditMode = GameManager.Instance.CurrentEditMode;
-
-        // if (changeSpriteToCurrentEditMode) UpdateSprite();
     }
 
     private void Update()

@@ -119,6 +119,10 @@ public class GameManager : MonoBehaviourPun
         {
             currentEditMode = value;
 
+            if (prevEditMode != null && prevEditMode != currentEditMode) OnEditModeChanged();
+
+            prevEditMode = currentEditMode;
+
             // update toolbar
             GameObject[] tools = ToolbarManager.tools;
             foreach (GameObject tool in tools)
@@ -170,6 +174,7 @@ public class GameManager : MonoBehaviourPun
             }
         }
     }
+    private EditMode? prevEditMode = null;
 
     public bool Selecting { get; set; } = false;
     public bool Multiplayer { get; set; } = false;
@@ -743,6 +748,11 @@ public class GameManager : MonoBehaviourPun
         double range2 = stop2 - start2;
 
         return range2 / range1 * (value - start1) + start2;
+    }
+
+    public static void OnEditModeChanged()
+    {
+        SelectionManager.OnEditModeChanged();
     }
 
     public static void QuitGame()

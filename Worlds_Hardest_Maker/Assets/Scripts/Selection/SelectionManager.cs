@@ -51,53 +51,10 @@ public class SelectionManager : MonoBehaviour
             // disable normal placement preview
             GameManager.Instance.PlacementPreview.SetActive(false);
 
-            if (prevStart == null || !prevStart.Equals(start) || !prevEnd.Equals(end))
-            {
-                // reset selection marking
-                foreach (Transform stroke in GameManager.Instance.FillOutlineContainer.transform)
-                {
-                    Destroy(stroke.gameObject);
-                }
+            if (prevStart == null || !prevStart.Equals(start) || !prevEnd.Equals(end)) OnAreaSelectionChanged(start, end);
 
-                // set selection start and end
-                selectionStart = start;
-                selectionEnd = end;
-
-                // set new outline
-                LineManager.SetWeight(0.1f);
-                LineManager.SetFill(Color.black);
-
-                float width = end.x - start.x;
-                float height = end.y - start.y;
-
-                LineManager.SetLayerID(LineManager.DefaultLayerID);
-                LineManager.SetOrderInLayer(0);
-                LineManager.DrawRect(
-                    width > 0 ? start.x - 0.5f : start.x + 0.5f, 
-                    height > 0 ? start.y - 0.5f : start.y + 0.5f, 
-                    width > 0 ? width + 1 : width - 1, 
-                    height > 0? height + 1 : height - 1, 
-                    alignCenter: false, parent: GameManager.Instance.FillOutlineContainer.transform
-                );
-            }
-
-            if (Input.GetMouseButtonDown(GameManager.Instance.SelectionMouseButton))
-            {
-                selectionOptions.SetActive(false);
-            }
-            else if(Input.GetMouseButtonUp(GameManager.Instance.SelectionMouseButton))
-            {
-                selectionOptions.SetActive(true);
-                float width = end.x - start.x;
-                float height = end.y - start.y;
-
-                Vector2 position = new(width < 0 ? (end.x - 0.5f) : (end.x + 0.5f), height < 0 ? (end.y - 0.5f) : (end.y + 0.5f));
-                UIAttachToPoint posController = selectionOptions.GetComponent<UIAttachToPoint>();
-
-                posController.point = position;
-
-                selectionOptionsRect.pivot = new(width > 0 ? 0 : 1, height > 0 ? 0 : 1);
-            }
+            if (Input.GetMouseButtonDown(GameManager.Instance.SelectionMouseButton)) OnStartSelect();
+            else if(Input.GetMouseButtonUp(GameManager.Instance.SelectionMouseButton)) OnAreaSelected(start, end);
         }
     }
 
@@ -105,8 +62,8 @@ public class SelectionManager : MonoBehaviour
     {
         if(MouseManager.Instance.MouseDragStart != null && MouseManager.Instance.MouseDragCurrent != null)
         {
-            prevStart = (Vector2)MouseManager.Instance.MouseDragStart;
-            prevEnd = (Vector2)MouseManager.Instance.MouseDragCurrent;
+            prevStart = ((Vector2)MouseManager.Instance.MouseDragStart).ConvertPosition(GameManager.Instance.CurrentEditMode.GetWorldPosition());
+            prevEnd = ((Vector2)MouseManager.Instance.MouseDragCurrent).ConvertPosition(GameManager.Instance.CurrentEditMode.GetWorldPosition());
         }
     }
 
@@ -115,9 +72,68 @@ public class SelectionManager : MonoBehaviour
         selectionOptionsRect = selectionOptions.GetComponent<RectTransform>();
         GameManager.onPlay += CancelSelection;
 
-        fillMouseOver.onHovered += ShowSelectedPreview;
-        fillMouseOver.onUnhovered += DestoryPreview;
+        fillMouseOver.onHovered += SetPreviewVisible;
+        fillMouseOver.onUnhovered += SetPreviewInvisible;
     }
+
+    #region Callbacks
+    private void OnAreaSelectionChanged(Vector2 start, Vector2 end)
+    {
+        // reset selection marking
+        foreach (Transform stroke in GameManager.Instance.FillOutlineContainer.transform)
+        {
+            Destroy(stroke.gameObject);
+        }
+
+        // set selection start and end
+        selectionStart = start;
+        selectionEnd = end;
+
+        // set new outline
+        LineManager.SetWeight(0.1f);
+        LineManager.SetFill(Color.black);
+
+        float width = end.x - start.x;
+        float height = end.y - start.y;
+
+        LineManager.SetLayerID(LineManager.DefaultLayerID);
+        LineManager.SetOrderInLayer(0);
+        LineManager.DrawRect(
+            width > 0 ? start.x - 0.5f : start.x + 0.5f,
+            height > 0 ? start.y - 0.5f : start.y + 0.5f,
+            width > 0 ? width + 1 : width - 1,
+            height > 0 ? height + 1 : height - 1,
+            alignCenter: false, parent: GameManager.Instance.FillOutlineContainer.transform
+        );
+
+        DestroyPreview();
+        InitSelectedPreview();
+    }
+    public static void OnEditModeChanged()
+    {
+        UpdatePreviewSprite();
+        UpdatePreviewRotation();
+    }
+    private void OnAreaSelected(Vector2 start, Vector2 end)
+    {
+        // called when mouse button was released and area was selected
+        selectionOptions.SetActive(true);
+        float width = end.x - start.x;
+        float height = end.y - start.y;
+
+        Vector2 position = new(width < 0 ? (end.x - 0.5f) : (end.x + 0.5f), height < 0 ? (end.y - 0.5f) : (end.y + 0.5f));
+        UIAttachToPoint posController = selectionOptions.GetComponent<UIAttachToPoint>();
+
+        posController.point = position;
+
+        selectionOptionsRect.pivot = new(width > 0 ? 0 : 1, height > 0 ? 0 : 1);
+    }
+    private void OnStartSelect()
+    {
+        // called when mouse button was pressed and user starts selecting
+        selectionOptions.SetActive(false);
+    }
+    #endregion
 
     #region Get bounds
     // get bounds of multiple points (in matrix)
@@ -146,7 +162,7 @@ public class SelectionManager : MonoBehaviour
     #endregion
 
     #region Preview
-    private static void ShowPreview(List<Vector2> range)
+    private static void InitPreview(List<Vector2> range)
     {
         // set new previews, only if editmode not in NoFillPreviewModes
         if (!NoFillPreviewModes.Contains(GameManager.Instance.CurrentEditMode))
@@ -154,15 +170,16 @@ public class SelectionManager : MonoBehaviour
             foreach (Vector2 pos in range)
             {
                 GameObject preview = Instantiate(GameManager.Instance.FillPreview, pos, Quaternion.identity, GameManager.Instance.FillPreviewContainer.transform);
-
+                
                 PreviewController c = preview.GetComponent<PreviewController>();
+                c.Awake_();
                 c.UpdateSprite();
                 c.UpdateRotation(smooth: false);
             }
         }
     }
 
-    private static void DestoryPreview()
+    private static void DestroyPreview()
     {
         // destroy selection previews
         foreach (Transform preview in GameManager.Instance.FillPreviewContainer.transform)
@@ -171,9 +188,9 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-    private static void ShowSelectedPreview()
+    private static void InitSelectedPreview()
     {
-        ShowPreview(GetCurrentFillRange());
+        InitPreview(GetCurrentFillRange());
     }
 
     public static void UpdatePreviewRotation()
@@ -182,6 +199,23 @@ public class SelectionManager : MonoBehaviour
         {
             preview.GetComponent<PreviewController>().UpdateRotation();
         }
+    }
+
+    public static void UpdatePreviewSprite()
+    {
+        foreach (Transform preview in GameManager.Instance.FillPreviewContainer.transform)
+        {
+            preview.GetComponent<PreviewController>().UpdateSprite();
+        }
+    }
+
+    private static void SetPreviewVisible()
+    {
+        GameManager.Instance.FillPreviewContainer.SetActive(true);
+    }
+    private static void SetPreviewInvisible()
+    {
+        GameManager.Instance.FillPreviewContainer.SetActive(false);
     }
 
     #endregion
@@ -221,7 +255,7 @@ public class SelectionManager : MonoBehaviour
         ResetPreview();
         GameManager.Instance.Selecting = false;
         selectionOptions.SetActive(false);
-        }
+    }
 
 
     public void FillArea(List<Vector2> poses, FieldManager.FieldType type)
@@ -446,7 +480,7 @@ public class SelectionManager : MonoBehaviour
         }
 
         // reset preview
-        DestoryPreview();
+        DestroyPreview();
 
         // enable placement preview
         if (!GameManager.Instance.Playing)
@@ -455,7 +489,6 @@ public class SelectionManager : MonoBehaviour
             preview.SetActive(true);
             preview.transform.position = FollowMouse.GetCurrentMouseWorldPos(preview.GetComponent<FollowMouse>().worldPosition);
         }
-
     }
 
     public static void CancelSelection()
