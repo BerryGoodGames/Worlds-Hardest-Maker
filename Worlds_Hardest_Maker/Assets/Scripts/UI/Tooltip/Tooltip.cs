@@ -9,7 +9,7 @@ public class Tooltip : MonoBehaviour
 {
     [SerializeField] private string text;
     [SerializeField] private int fontSize = 20;
-    [SerializeField] private float tweenDelay = 2;
+    [SerializeField] private float tweenDelay = 1.5f;
     private MouseOverUI mouseOver;
     private AlphaUITween fadeTween;
     private GameObject tooltip;
