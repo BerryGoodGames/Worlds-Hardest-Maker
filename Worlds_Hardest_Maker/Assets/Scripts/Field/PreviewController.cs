@@ -180,8 +180,6 @@ public class PreviewController : MonoBehaviour
     {
         if (!resetRotation)
         {
-            print(GameManager.Instance.EditRotation);
-
             Quaternion rotation = Quaternion.Euler(0, 0, GameManager.Instance.EditRotation);
             if (smoothRotation && smooth)
             {
