@@ -20,6 +20,7 @@ public class PreviewController : MonoBehaviour
     public bool changeSpriteToCurrentEditMode = true;
     public bool updateEveryFrame = true;
     public bool followMouse;
+    public bool showSpriteWhenPasting = false;
     [SerializeField] private bool smoothRotation;
     [SerializeField] private float rotateDuration;
 
@@ -78,6 +79,8 @@ public class PreviewController : MonoBehaviour
             Input.GetKey(GameManager.Instance.EditSpeedKey) ||
             Input.GetKey(GameManager.Instance.EntityDeleteKey)) return false;
 
+        if (CopyManager.pasting) return false;
+
         // check if preview of prefab not allowed during filling
         if (GameManager.Instance.Selecting)
         {
@@ -132,7 +135,7 @@ public class PreviewController : MonoBehaviour
         else
         {
             GameObject currentPrefab = editMode.GetPrefab();
-            if (currentPrefab.TryGetComponent(out PreviewSprite previewSprite) && (!GameManager.Instance.Selecting || previewSprite.showWhenSelecting))
+            if (currentPrefab.TryGetComponent(out PreviewSprite previewSprite) && (!GameManager.Instance.Selecting && !CopyManager.pasting || previewSprite.showWhenSelecting || showSpriteWhenPasting))
             {
                 // apply PreviewSprite settings if it has one
                 spriteRenderer.sprite = previewSprite.sprite;
