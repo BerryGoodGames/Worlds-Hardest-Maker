@@ -28,15 +28,16 @@ public class PreviewController : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-    }
 
-    private void Start()
-    {
         previousEditMode = GameManager.Instance.CurrentEditMode;
         spriteRenderer.sprite = defaultSprite;
         spriteRenderer.color = defaultColor;
         transform.localScale = new(1, 1);
-        if(changeSpriteToCurrentEditMode)
+    }
+
+    private void Start()
+    {
+        if (changeSpriteToCurrentEditMode)
             UpdateSprite();
     }
 
