@@ -302,6 +302,7 @@ GameObject:
   - component: {fileID: 42787705}
   - component: {fileID: 42787708}
   - component: {fileID: 42787709}
+  - component: {fileID: 42787710}
   m_Layer: 5
   m_Name: Fill
   m_TagString: Untagged
@@ -437,6 +438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: Fill
   fontSize: 20
+  tweenDelay: 1.5
 --- !u!114 &42787709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,6 +452,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   over: 0
+--- !u!114 &42787710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42787703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac2e35a7172e3644b4e54c46f96ce0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 0}
+  text: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  startVisible: 1
+  duration: 0
+  disableObjectWhenInvisible: 0
+  alphaVisible: 1
+  alphaInvisible: 0
 --- !u!1 &94700667
 GameObject:
   m_ObjectHideFlags: 0
@@ -8077,6 +8099,8 @@ GameObject:
   - component: {fileID: 1725568423}
   - component: {fileID: 1725568422}
   - component: {fileID: 1725568425}
+  - component: {fileID: 1725568427}
+  - component: {fileID: 1725568426}
   m_Layer: 5
   m_Name: Cancel
   m_TagString: Untagged
@@ -8212,6 +8236,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: Cancel
   fontSize: 20
+  tweenDelay: 1.5
+--- !u!114 &1725568426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725568420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac2e35a7172e3644b4e54c46f96ce0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 0}
+  text: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  startVisible: 1
+  duration: 0
+  disableObjectWhenInvisible: 0
+  alphaVisible: 1
+  alphaInvisible: 0
+--- !u!114 &1725568427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725568420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46dea2531bd4fc479c3cbe79db2d4ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  over: 0
 --- !u!1001 &1738116252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9796,6 +9854,8 @@ GameObject:
   - component: {fileID: 1992008943}
   - component: {fileID: 1992008942}
   - component: {fileID: 1992008945}
+  - component: {fileID: 1992008947}
+  - component: {fileID: 1992008946}
   m_Layer: 5
   m_Name: Delete
   m_TagString: Untagged
@@ -9931,6 +9991,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: Delete
   fontSize: 20
+  tweenDelay: 1.5
+--- !u!114 &1992008946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992008940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac2e35a7172e3644b4e54c46f96ce0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 0}
+  text: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  startVisible: 1
+  duration: 0
+  disableObjectWhenInvisible: 0
+  alphaVisible: 1
+  alphaInvisible: 0
+--- !u!114 &1992008947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992008940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46dea2531bd4fc479c3cbe79db2d4ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  over: 0
 --- !u!1 &2013123738
 GameObject:
   m_ObjectHideFlags: 0
@@ -10576,6 +10670,8 @@ GameObject:
   - component: {fileID: 2071949017}
   - component: {fileID: 2071949016}
   - component: {fileID: 2071949019}
+  - component: {fileID: 2071949021}
+  - component: {fileID: 2071949020}
   m_Layer: 5
   m_Name: Copy
   m_TagString: Untagged
@@ -10711,6 +10807,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: Copy
   fontSize: 20
+  tweenDelay: 1.5
+--- !u!114 &2071949020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071949014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac2e35a7172e3644b4e54c46f96ce0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 0}
+  text: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  startVisible: 1
+  duration: 0
+  disableObjectWhenInvisible: 0
+  alphaVisible: 1
+  alphaInvisible: 0
+--- !u!114 &2071949021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071949014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46dea2531bd4fc479c3cbe79db2d4ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  over: 0
 --- !u!1001 &2119603664
 PrefabInstance:
   m_ObjectHideFlags: 0
