@@ -31,7 +31,10 @@ public class CopyManager : MonoBehaviour
             {
                 IData data = controller.GetData();
 
-                CopyData copyData = new(data, (Vector2)hit.transform.position - lowestPos);
+                Vector2 pos = controller.GetType() == typeof(BallCircleController)? ((BallCircleController)controller).origin.position : (Vector2)hit.transform.position;
+
+
+                CopyData copyData = new(data, pos - lowestPos);
                 clipBoard.Add(copyData);
             }
         }
