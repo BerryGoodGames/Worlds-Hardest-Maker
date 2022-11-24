@@ -435,7 +435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5998e77396b9b6c408c091aec837ce28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Fill (f)
+  text: Fill
   fontSize: 20
 --- !u!114 &42787709
 MonoBehaviour:
@@ -873,7 +873,7 @@ Transform:
   - {fileID: 222980750}
   - {fileID: 139186754}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &200426108
 PrefabInstance:
@@ -2023,7 +2023,7 @@ Transform:
   - {fileID: 1553620290}
   - {fileID: 722155290}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &359020452 stripped
 GameObject:
@@ -2163,6 +2163,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 855017613331376723, guid: b59519c6f50891a409e47ded5b343679, type: 3}
   m_PrefabInstance: {fileID: 297008606}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &441104386
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 441104387}
+  m_Layer: 0
+  m_Name: CopyPreview
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &441104387
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441104386}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.067916, y: 9.544531, z: -21.066246}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &444785543 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6800344379520973717, guid: 34df788c1c8e47f4db37b0e7c2a2d8ba, type: 3}
@@ -2238,7 +2269,7 @@ Transform:
   - {fileID: 343403045}
   - {fileID: 438610356}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &503401290 stripped
 MonoBehaviour:
@@ -7042,7 +7073,7 @@ Transform:
   - {fileID: 914302643}
   - {fileID: 2059336040}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1538664795 stripped
 Transform:
@@ -7091,7 +7122,7 @@ Transform:
   - {fileID: 1598753940}
   - {fileID: 282166553}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1553620289
 GameObject:
@@ -8179,7 +8210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5998e77396b9b6c408c091aec837ce28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Cancel (esc)
+  text: Cancel
   fontSize: 20
 --- !u!1001 &1738116252
 PrefabInstance:
@@ -9898,7 +9929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5998e77396b9b6c408c091aec837ce28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Delete (del)
+  text: Delete
   fontSize: 20
 --- !u!1 &2013123738
 GameObject:
@@ -10421,6 +10452,7 @@ MonoBehaviour:
   alpha: 125
   changeSpriteToCurrentEditMode: 1
   updateEveryFrame: 1
+  followMouse: 1
   smoothRotation: 1
   rotateDuration: 0.2
 --- !u!95 &2046466262
@@ -10677,7 +10709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5998e77396b9b6c408c091aec837ce28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Copy (c)
+  text: Copy
   fontSize: 20
 --- !u!1001 &2119603664
 PrefabInstance:
@@ -10813,7 +10845,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2131202555
 GameObject:
@@ -12112,6 +12144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3937e6e0e3128a41a456eee94ca9929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewContainer: {fileID: 441104387}
 --- !u!114 &3252578248619094841
 MonoBehaviour:
   m_ObjectHideFlags: 0

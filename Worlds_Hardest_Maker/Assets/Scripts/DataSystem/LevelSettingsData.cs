@@ -37,4 +37,9 @@ public class LevelSettingsData : IData
     {
         ImportToLevel();
     }
+
+    public override GameManager.EditMode GetEditMode()
+    {
+        return GameManager.EditMode.WALL_FIELD;
+    }
 }

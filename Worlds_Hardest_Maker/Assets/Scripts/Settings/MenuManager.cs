@@ -30,6 +30,8 @@ public class MenuManager : MonoBehaviour
     private InfobarResize infobarPlayResize;
     private InfobarResize infobarEditResize;
 
+    [HideInInspector] public static bool blockMenu;
+
     private void Awake()
     {
         toolbarSpacing = toolBar.GetComponent<ToolbarSizing>();

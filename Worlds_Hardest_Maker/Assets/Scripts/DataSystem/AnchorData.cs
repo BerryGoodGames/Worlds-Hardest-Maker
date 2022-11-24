@@ -81,4 +81,9 @@ public class AnchorData : IData
     {
         ImportToLevel(new(position[0], position[1]));
     }
+
+    public override GameManager.EditMode GetEditMode()
+    {
+        return GameManager.EditMode.ANCHOR;
+    }
 }

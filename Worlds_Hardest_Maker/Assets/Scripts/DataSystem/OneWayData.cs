@@ -27,4 +27,9 @@ public class OneWayData : IData
     {
         ImportToLevel(new(position[0], position[1]));
     }
+
+    public override GameManager.EditMode GetEditMode()
+    {
+        return GameManager.EditMode.ONE_WAY_FIELD;
+    }
 }

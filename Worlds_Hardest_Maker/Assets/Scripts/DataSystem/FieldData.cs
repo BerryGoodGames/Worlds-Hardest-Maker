@@ -32,4 +32,9 @@ public class FieldData : IData
 
         FieldManager.Instance.SetField(pos, type, 0);
     }
+
+    public override GameManager.EditMode GetEditMode()
+    {
+        return (GameManager.EditMode)System.Enum.Parse(typeof(GameManager.EditMode), fieldType);    
+    }
 }

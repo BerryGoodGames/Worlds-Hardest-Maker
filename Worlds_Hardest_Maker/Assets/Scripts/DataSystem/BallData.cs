@@ -40,4 +40,9 @@ public class BallData : IData
             speed
         );
     }
+
+    public override GameManager.EditMode GetEditMode()
+    {
+        return GameManager.EditMode.BALL_DEFAULT;
+    }
 }

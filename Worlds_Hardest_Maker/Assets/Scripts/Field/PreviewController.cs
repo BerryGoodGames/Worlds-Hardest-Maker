@@ -19,19 +19,25 @@ public class PreviewController : MonoBehaviour
     [SerializeField] private Sprite defaultSprite;
     [SerializeField] private Color defaultColor;
     [Range(0, 255)] public int alpha;
-    [SerializeField] private bool changeSpriteToCurrentEditMode = true;
-    [SerializeField] private bool updateEveryFrame = true;
+    public bool changeSpriteToCurrentEditMode = true;
+    public bool updateEveryFrame = true;
+    public bool followMouse;
     [SerializeField] private bool smoothRotation;
     [SerializeField] private float rotateDuration;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     private void Start()
     {
         previousEditMode = GameManager.Instance.CurrentEditMode;
-        spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = defaultSprite;
         spriteRenderer.color = defaultColor;
         transform.localScale = new(1, 1);
-        UpdateSprite();
+        if(changeSpriteToCurrentEditMode)
+            UpdateSprite();
     }
 
     private void Update()
@@ -39,7 +45,7 @@ public class PreviewController : MonoBehaviour
         GameManager.EditMode currentEditMode = GameManager.Instance.CurrentEditMode;
         if (updateEveryFrame && (previousEditMode != currentEditMode || previousPlaying != GameManager.Instance.Playing)) UpdateSprite();
 
-        if (!GameManager.Instance.Selecting)
+        if (!GameManager.Instance.Selecting && followMouse)
         {
             FollowMouse followMouse = GetComponent<FollowMouse>();
             followMouse.worldPosition = currentEditMode.IsFieldType() || currentEditMode == GameManager.EditMode.DELETE_FIELD ?
@@ -131,10 +137,10 @@ public class PreviewController : MonoBehaviour
             {
                 // apply PreviewSprite settings if it has one
                 spriteRenderer.sprite = previewSprite.sprite;
-                spriteRenderer.color = previewSprite.color;
-                spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha / 255f);
+                spriteRenderer.color = new(previewSprite.color.r, previewSprite.color.g, previewSprite.color.b, alpha / 255f);
                 transform.localScale = previewSprite.scale;
                 rotate = previewSprite.rotate;
+
                 UpdateRotation();
             }
             else
@@ -145,7 +151,6 @@ public class PreviewController : MonoBehaviour
                 // get sprite and scale
                 if (currentPrefab.TryGetComponent(out SpriteRenderer prefabRenderer))
                 {
-                    prefabRenderer = currentPrefab.GetComponent<SpriteRenderer>();
                     scale = currentPrefab.transform.localScale;
                 }
                 else
@@ -162,8 +167,7 @@ public class PreviewController : MonoBehaviour
 
                 // apply
                 spriteRenderer.sprite = prefabRenderer.sprite;
-                spriteRenderer.color = prefabRenderer.color;
-                spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha / 255f);
+                spriteRenderer.color = new(prefabRenderer.color.r, prefabRenderer.color.g, prefabRenderer.color.b, alpha / 255f);
                 transform.localScale = scale;
 
                 rotate = false;
@@ -172,6 +176,7 @@ public class PreviewController : MonoBehaviour
         }
 
         // for filling preview go to FillManager.cs
+
     }
 
     public void UpdateRotation()

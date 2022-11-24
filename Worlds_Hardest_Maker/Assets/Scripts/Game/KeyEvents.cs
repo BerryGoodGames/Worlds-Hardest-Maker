@@ -20,7 +20,7 @@ public class KeyEvents : MonoBehaviour
         }
 
         // toggle menu
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M))
+        if (!MenuManager.blockMenu && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)))
         {
             AlphaUITween anim = GameManager.Instance.Menu.GetComponent<AlphaUITween>();
             anim.SetVisible(!anim.IsVisible());
@@ -50,12 +50,7 @@ public class KeyEvents : MonoBehaviour
             // paste
             if (Input.GetKey(GameManager.Instance.PasteKey))
             {
-                Vector2 mousePos = MouseManager.GetMouseWorldPos();
-
-                int matrixX = (int)Mathf.Round(mousePos.x);
-                int matrixY = (int)Mathf.Round(mousePos.y);
-
-                CopyManager.Paste(new(matrixX, matrixY));
+                StartCoroutine(CopyManager.StartPaste());
             }
             //if (Input.GetKeyDown(KeyCode.C))
             //{
