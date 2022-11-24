@@ -46,6 +46,7 @@ public class AnchorData : IData
     {
         // create object
         GameObject anchor = AnchorManager.Instance.SetAnchor(pos);
+        if (anchor == null) return;
         PathController pathController = anchor.GetComponentInChildren<PathController>();
 
         // set waypoints

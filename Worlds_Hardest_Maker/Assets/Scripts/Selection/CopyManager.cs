@@ -18,9 +18,13 @@ public class CopyManager : MonoBehaviour
 
         foreach(Collider2D hit in hits)
         {
-            IData data = hit.GetComponent<Controller>().GetData();
-            CopyData copyData = new(data, (Vector2)hit.transform.position - lowestPos);
-            copyDataList.Add(copyData);
+            if(hit.TryGetComponent(out Controller controller))
+            {
+                IData data = controller.GetData();
+
+                CopyData copyData = new(data, (Vector2)hit.transform.position - lowestPos);
+                copyDataList.Add(copyData);
+            }
         }
     }
 

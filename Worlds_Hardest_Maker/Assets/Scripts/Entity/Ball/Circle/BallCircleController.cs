@@ -84,6 +84,10 @@ public class BallCircleController : IBallController
             UpdateAnglePos();
         }
     }
+    private void OnDestroy()
+    {
+        Destroy(transform.parent.gameObject);
+    }
 
     private float GetAngularSpeed()
     {

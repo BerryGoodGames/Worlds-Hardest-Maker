@@ -76,7 +76,6 @@ public static class SaveSystem
             }
 
             // serialize current level settings
-            Debug.Log(LevelSettings.Instance.drownDuration);
             levelData.Add(new LevelSettingsData(LevelSettings.Instance));
 
             formatter.Serialize(stream, levelData);
