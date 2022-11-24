@@ -33,9 +33,17 @@ public class KeyEvents : MonoBehaviour
             if(player != null)
                 player.GetComponent<Rigidbody2D>().position = MouseManager.Instance.MouseWorldPosGrid;
         }
-        
+
+        // rotate rotatable fields
+        if (FieldManager.IsRotatable(GameManager.Instance.CurrentEditMode) && Input.GetKeyDown(KeyCode.R))
+        {
+            GameManager.Instance.EditRotation = (GameManager.Instance.EditRotation - 90) % 360;
+
+            if (GameManager.Instance.Selecting) SelectionManager.UpdatePreviewRotation();
+        }
+
 #if UNITY_EDITOR
-            KeyCode ctrl = KeyCode.Tab;
+        KeyCode ctrl = KeyCode.Tab;
 #else
             KeyCode ctrl = KeyCode.LeftControl;
 #endif

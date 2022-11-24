@@ -97,9 +97,6 @@ public class SelectionManager : MonoBehaviour
                 posController.point = position;
 
                 selectionOptionsRect.pivot = new(width > 0 ? 0 : 1, height > 0 ? 0 : 1);
-
-                //Vector2 endToScreen = Camera.main.WorldToScreenPoint(position);
-                //selectionOptionsRect.position = endToScreen;
             }
         }
     }
@@ -148,7 +145,7 @@ public class SelectionManager : MonoBehaviour
     private static (int, int, int, int) GetBoundsMatrix(params Vector2[] points) { return GetBoundsMatrix(points.ToList()); }
     #endregion
 
-    #region PREVIEW
+    #region Preview
     private static void ShowPreview(List<Vector2> range)
     {
         // set new previews, only if editmode not in NoFillPreviewModes
@@ -156,7 +153,11 @@ public class SelectionManager : MonoBehaviour
         {
             foreach (Vector2 pos in range)
             {
-                Instantiate(GameManager.Instance.FillPreview, pos, Quaternion.identity, GameManager.Instance.FillPreviewContainer.transform);
+                GameObject preview = Instantiate(GameManager.Instance.FillPreview, pos, Quaternion.identity, GameManager.Instance.FillPreviewContainer.transform);
+
+                PreviewController c = preview.GetComponent<PreviewController>();
+                c.UpdateSprite();
+                c.UpdateRotation(smooth: false);
             }
         }
     }
@@ -175,9 +176,17 @@ public class SelectionManager : MonoBehaviour
         ShowPreview(GetCurrentFillRange());
     }
 
+    public static void UpdatePreviewRotation()
+    {
+        foreach(Transform preview in GameManager.Instance.FillPreviewContainer.transform)
+        {
+            preview.GetComponent<PreviewController>().UpdateRotation();
+        }
+    }
+
     #endregion
 
-    #region FILL
+    #region Fill
 
     public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2, FollowMouse.WorldPosition worldPosition)
     {
@@ -329,7 +338,7 @@ public class SelectionManager : MonoBehaviour
     }
     #endregion
 
-    #region DELETE
+    #region Delete
 
     public static void DeleteSelectedArea()
     {
@@ -358,7 +367,7 @@ public class SelectionManager : MonoBehaviour
 
     #endregion
 
-    #region COPY
+    #region Copy
     public static void CopySelection()
     {
         Vector2 lowestPos = GameManager.Instance.CurrentSelectionRange[0];

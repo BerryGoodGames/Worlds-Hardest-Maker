@@ -31,12 +31,6 @@ public class MouseEvents : MonoBehaviour
             AnchorManager.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
         }
 
-        // rotate rotatable fields
-        if (FieldManager.IsRotatable(GameManager.Instance.CurrentEditMode) && Input.GetKeyDown(KeyCode.R))
-        {
-            GameManager.Instance.EditRotation = (GameManager.Instance.EditRotation - 90) % 360;
-        }
-
         // place / delete stuff when not hovering toolbar
         if (!GameManager.Instance.UIHovered && !GameManager.Instance.Playing && !GameManager.Instance.Selecting)
         {

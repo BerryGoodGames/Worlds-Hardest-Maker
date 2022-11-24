@@ -13,8 +13,6 @@ public class PreviewController : MonoBehaviour
 
     private bool previousPlaying;
 
-    private bool rotate;
-
     private SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite defaultSprite;
     [SerializeField] private Color defaultColor;
@@ -29,7 +27,6 @@ public class PreviewController : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        previousEditMode = GameManager.Instance.CurrentEditMode;
         spriteRenderer.sprite = defaultSprite;
         spriteRenderer.color = defaultColor;
         transform.localScale = new(1, 1);
@@ -37,8 +34,9 @@ public class PreviewController : MonoBehaviour
 
     private void Start()
     {
-        if (changeSpriteToCurrentEditMode)
-            UpdateSprite();
+        previousEditMode = GameManager.Instance.CurrentEditMode;
+
+        // if (changeSpriteToCurrentEditMode) UpdateSprite();
     }
 
     private void Update()
@@ -140,9 +138,8 @@ public class PreviewController : MonoBehaviour
                 spriteRenderer.sprite = previewSprite.sprite;
                 spriteRenderer.color = new(previewSprite.color.r, previewSprite.color.g, previewSprite.color.b, alpha / 255f);
                 transform.localScale = previewSprite.scale;
-                rotate = previewSprite.rotate;
 
-                UpdateRotation();
+                UpdateRotation(!previewSprite.rotate);
             }
             else
             {
@@ -171,8 +168,7 @@ public class PreviewController : MonoBehaviour
                 spriteRenderer.color = new(prefabRenderer.color.r, prefabRenderer.color.g, prefabRenderer.color.b, alpha / 255f);
                 transform.localScale = scale;
 
-                rotate = false;
-                UpdateRotation();
+                UpdateRotation(true);
             }
         }
 
@@ -180,12 +176,14 @@ public class PreviewController : MonoBehaviour
 
     }
 
-    public void UpdateRotation()
+    public void UpdateRotation(bool resetRotation = false, bool smooth = true)
     {
-        if (rotate)
+        if (!resetRotation)
         {
+            print(GameManager.Instance.EditRotation);
+
             Quaternion rotation = Quaternion.Euler(0, 0, GameManager.Instance.EditRotation);
-            if (smoothRotation)
+            if (smoothRotation && smooth)
             {
                 transform.DOKill();
                 transform.DORotateQuaternion(rotation, rotateDuration)

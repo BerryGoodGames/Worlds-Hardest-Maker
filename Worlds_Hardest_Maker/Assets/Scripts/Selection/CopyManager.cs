@@ -12,12 +12,6 @@ public class CopyManager : MonoBehaviour
 
     [SerializeField] private Transform previewContainer;
 
-    private void Awake()
-    {
-        if (Instance == null) Instance = this;
-        else Destroy(this);
-    }
-
     public static void Copy(Vector2 lowestPos, Vector2 highestPos)
     {
         Vector2 castPos = Vector2.Lerp(lowestPos, highestPos, 0.5f);
@@ -81,10 +75,11 @@ public class CopyManager : MonoBehaviour
             yield return null;
         }
 
-        
 
         Paste(new(matrixX, matrixY));
+
         MenuManager.blockMenu = false;
+
         ClearPreview();
         Instance.previewContainer.position = Vector2.zero;
         yield break;
@@ -115,5 +110,11 @@ public class CopyManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+    }
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(this);
     }
 }
