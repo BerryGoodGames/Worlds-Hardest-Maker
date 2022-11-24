@@ -7,10 +7,14 @@ public class CopyManager : MonoBehaviour
 {
     private static List<CopyData> copyDataList = new();
 
+    public static Vector2 size = Vector2.zero;
+
     public static void Copy(Vector2 lowestPos, Vector2 highestPos)
     {
         Vector2 castPos = Vector2.Lerp(lowestPos, highestPos, 0.5f);
         Vector2 castSize = highestPos - lowestPos;
+
+        size = castSize;
 
         Collider2D[] hits = Physics2D.OverlapBoxAll(castPos, castSize, 0, 3200);
 
@@ -35,4 +39,5 @@ public class CopyManager : MonoBehaviour
             copyData.Paste(pos);
         }
     }
+
 }

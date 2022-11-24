@@ -12,6 +12,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 public class SelectionManager : MonoBehaviour
 {
     [SerializeField] private GameObject selectionOptions;
+    [SerializeField] private MouseOverUI fillMouseOver;
     private RectTransform selectionOptionsRect;
 
     public static SelectionManager Instance { get; private set; }
@@ -116,6 +117,9 @@ public class SelectionManager : MonoBehaviour
     {
         selectionOptionsRect = selectionOptions.GetComponent<RectTransform>();
         GameManager.onPlay += CancelSelection;
+
+        fillMouseOver.onHovered += ShowSelectedPreview;
+        fillMouseOver.onUnhovered += DestoryPreview;
     }
 
     #region Get bounds
@@ -157,7 +161,7 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
-    private static void HidePreview()
+    private static void DestoryPreview()
     {
         // destroy selection previews
         foreach (Transform preview in GameManager.Instance.FillPreviewContainer.transform)
@@ -165,6 +169,12 @@ public class SelectionManager : MonoBehaviour
             Destroy(preview.gameObject);
         }
     }
+
+    private static void ShowSelectedPreview()
+    {
+        ShowPreview(GetCurrentFillRange());
+    }
+
     #endregion
 
     #region FILL
@@ -427,7 +437,7 @@ public class SelectionManager : MonoBehaviour
         }
 
         // reset preview
-        HidePreview();
+        DestoryPreview();
 
         // enable placement preview
         if (!GameManager.Instance.Playing)

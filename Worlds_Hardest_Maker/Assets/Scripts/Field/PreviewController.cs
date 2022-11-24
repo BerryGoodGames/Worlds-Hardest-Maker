@@ -19,6 +19,7 @@ public class PreviewController : MonoBehaviour
     [SerializeField] private Sprite defaultSprite;
     [SerializeField] private Color defaultColor;
     [Range(0, 255)] public int alpha;
+    [SerializeField] private bool changeSpriteToCurrentEditMode = true;
     [SerializeField] private bool updateEveryFrame = true;
     [SerializeField] private bool smoothRotation;
     [SerializeField] private float rotateDuration;
@@ -108,7 +109,15 @@ public class PreviewController : MonoBehaviour
     /// </summary>
     public void UpdateSprite()
     {
-        if (GameManager.Instance.CurrentEditMode == GameManager.EditMode.DELETE_FIELD)
+        SetSprite(GameManager.Instance.CurrentEditMode);
+
+        previousPlaying = GameManager.Instance.Playing;
+        previousEditMode = GameManager.Instance.CurrentEditMode;
+    }
+
+    public void SetSprite(GameManager.EditMode editMode)
+    {
+        if (editMode == GameManager.EditMode.DELETE_FIELD)
         {
             // defaultSprite for preview when deleting
             spriteRenderer.sprite = defaultSprite;
@@ -117,7 +126,7 @@ public class PreviewController : MonoBehaviour
         }
         else
         {
-            GameObject currentPrefab = GameManager.Instance.CurrentEditMode.GetPrefab();
+            GameObject currentPrefab = editMode.GetPrefab();
             if (currentPrefab.TryGetComponent(out PreviewSprite previewSprite) && (!GameManager.Instance.Selecting || previewSprite.showWhenSelecting))
             {
                 // apply PreviewSprite settings if it has one
@@ -161,8 +170,6 @@ public class PreviewController : MonoBehaviour
                 UpdateRotation();
             }
         }
-        previousPlaying = GameManager.Instance.Playing;
-        previousEditMode = GameManager.Instance.CurrentEditMode;
 
         // for filling preview go to FillManager.cs
     }
