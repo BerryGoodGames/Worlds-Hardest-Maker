@@ -7,9 +7,11 @@ using UnityEngine;
 [RequireComponent(typeof(MouseOverUI))]
 public class Tooltip : MonoBehaviour
 {
-    [SerializeField] private string text;
-    [SerializeField] private int fontSize = 20;
-    [SerializeField] private float tweenDelay = 1.5f;
+    public string text;
+    public int fontSize = 20;
+    public bool customTweenDelay = false;
+    public float tweenDelay = 1.5f;
+    private const float defaultTweenDelay = 1;
     private MouseOverUI mouseOver;
     private AlphaUITween fadeTween;
     private GameObject tooltip;
@@ -17,6 +19,12 @@ public class Tooltip : MonoBehaviour
     private TMPro.TMP_Text tooltipText;
 
     private float hovered = 0;
+
+    private void Awake()
+    {
+        if (!customTweenDelay)
+            tweenDelay = defaultTweenDelay;
+    }
 
     private void Start()
     {
