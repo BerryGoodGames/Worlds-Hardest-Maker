@@ -124,6 +124,7 @@ public class CopyManager : MonoBehaviour
             previewController.changeSpriteToCurrentEditMode = false;
             previewController.updateEveryFrame = false;
             previewController.showSpriteWhenPasting = true;
+            previewController.rotateToRotation = false;
 
             // set spire of preview
             previewController.SetSprite(copyData.GetEditMode(), false);

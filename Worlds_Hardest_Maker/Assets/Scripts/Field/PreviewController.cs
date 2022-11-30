@@ -21,6 +21,7 @@ public class PreviewController : MonoBehaviour
     public bool updateEveryFrame = true;
     public bool followMouse;
     public bool showSpriteWhenPasting = false;
+    public bool rotateToRotation = true;
     [SerializeField] private bool smoothRotation;
     [SerializeField] private float rotateDuration;
 
@@ -193,6 +194,8 @@ public class PreviewController : MonoBehaviour
     {
         if (!resetRotation)
         {
+            if (!rotateToRotation) return;
+
             Quaternion rotation = Quaternion.Euler(0, 0, GameManager.Instance.EditRotation);
             if (smoothRotation && smooth)
             {
