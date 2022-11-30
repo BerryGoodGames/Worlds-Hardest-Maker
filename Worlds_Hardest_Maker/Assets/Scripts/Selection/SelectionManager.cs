@@ -397,6 +397,7 @@ public class SelectionManager : MonoBehaviour
         foreach(Collider2D collider in hits)
         {
             Destroy(collider.gameObject);
+            DestroyImmediate(collider);
         }
 
         UpdateOutlinesInArea(false, lowestPos, highestPos);
@@ -474,6 +475,7 @@ public class SelectionManager : MonoBehaviour
             }
         }
     }
+
     public static void ResetPreview()
     {
         // reset fill marking
