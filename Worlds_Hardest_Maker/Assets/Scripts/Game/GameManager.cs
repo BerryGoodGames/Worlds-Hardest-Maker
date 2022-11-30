@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviourPun
     public GameObject SliderContainer;
     public GameObject NameTagContainer;
     public GameObject DrawContainer;
-    public GameObject FillOutlineContainer;
+    public GameObject SelectionOutlineContainer;
     public GameObject FillPreviewContainer;
     public GameObject PlayerContainer;
     public GameObject AnchorContainer;
