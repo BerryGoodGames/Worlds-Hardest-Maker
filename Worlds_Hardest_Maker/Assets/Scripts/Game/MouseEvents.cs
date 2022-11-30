@@ -9,7 +9,7 @@ using Photon.Pun;
 /// </summary>
 public class MouseEvents : MonoBehaviour
 {
-    private const float selectionCancelMaxTime = 0.2f;
+    private const float selectionCancelMaxTime = 0.15f;
 
     void Update()
     {
