@@ -44,7 +44,9 @@ public class SelectionManager : MonoBehaviour
         if (!GameManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null && MouseManager.Instance.MouseDragCurrent != null && GameManager.Instance.Selecting)
         {
             // get drag positions and world position mode
-            (Vector2 start, Vector2 end) = MouseManager.GetDragPositions(FollowMouse.WorldPosition.GRID);
+            FollowMouse.WorldPosition worldPosition = GameManager.Instance.CurrentEditMode.GetWorldPosition();
+
+            (Vector2 start, Vector2 end) = MouseManager.GetDragPositions(worldPosition);
 
             // disable normal placement preview
             GameManager.Instance.PlacementPreview.SetActive(false);
@@ -388,6 +390,7 @@ public class SelectionManager : MonoBehaviour
     public static void DeleteArea(List<Vector2> poses)
     {
         // get everything in area
+        if (poses.Count == 0) return;
         Vector2 lowestPos = poses[0];
         Vector2 highestPos = poses.Last();
         Vector2 castPos = Vector2.Lerp(lowestPos, highestPos, 0.5f);
