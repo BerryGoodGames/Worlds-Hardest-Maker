@@ -132,7 +132,7 @@ public class PreviewController : MonoBehaviour
         previousEditMode = GameManager.Instance.CurrentEditMode;
     }
 
-    public void SetSprite(GameManager.EditMode editMode)
+    public void SetSprite(GameManager.EditMode editMode, bool updateRotation = false)
     {
         if (editMode == GameManager.EditMode.DELETE_FIELD)
         {
@@ -179,8 +179,8 @@ public class PreviewController : MonoBehaviour
                 spriteRenderer.sprite = prefabRenderer.sprite;
                 spriteRenderer.color = new(prefabRenderer.color.r, prefabRenderer.color.g, prefabRenderer.color.b, alpha / 255f);
                 transform.localScale = scale;
-
-                UpdateRotation(true);
+                if(updateRotation)
+                    UpdateRotation(true);
             }
         }
 

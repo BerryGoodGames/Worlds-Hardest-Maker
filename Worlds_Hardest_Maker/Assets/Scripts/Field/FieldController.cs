@@ -12,8 +12,5 @@ public class FieldController : Controller
         }
     }
 
-    public override IData GetData()
-    {
-        return new FieldData(gameObject);
-    }
+    public override IData GetData() => new FieldData(gameObject);
 }

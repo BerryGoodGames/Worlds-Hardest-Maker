@@ -10,12 +10,14 @@ public class FieldData : IData
 {
     public int[] position;
     public string fieldType;
+    public int rotation;
 
     public FieldData(GameObject field)
     {
         position = new int[2];
         position[0] = (int)field.transform.position.x;
         position[1] = (int)field.transform.position.y;
+        rotation = (int)field.transform.rotation.eulerAngles.z;
 
         FieldManager.FieldType typeEnum = (FieldManager.FieldType)FieldManager.GetFieldType(field);
         fieldType = typeEnum.ToString();
@@ -30,7 +32,7 @@ public class FieldData : IData
     {
         FieldManager.FieldType type = (FieldManager.FieldType)System.Enum.Parse(typeof(FieldManager.FieldType), fieldType);
 
-        FieldManager.Instance.SetField(pos, type, 0);
+        FieldManager.Instance.SetField(pos, type, rotation);
     }
 
     public override GameManager.EditMode GetEditMode()

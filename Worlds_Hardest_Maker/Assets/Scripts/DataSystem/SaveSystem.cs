@@ -63,16 +63,8 @@ public static class SaveSystem
             // serialize fields
             foreach (Transform field in GameManager.Instance.FieldContainer.transform)
             {
-                if (field.transform.CompareTag("OneWayField"))
-                {
-                    OneWayData fieldData = new(field.gameObject);
-                    levelData.Add(fieldData);
-                }
-                else
-                {
-                    FieldData fieldData = new(field.gameObject);
-                    levelData.Add(fieldData);
-                }
+                FieldData fieldData = new(field.gameObject);
+                levelData.Add(fieldData);
             }
 
             // serialize current level settings
