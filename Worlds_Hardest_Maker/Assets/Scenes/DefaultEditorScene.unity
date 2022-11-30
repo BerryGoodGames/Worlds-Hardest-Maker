@@ -438,6 +438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: Fill
   fontSize: 20
+  customTweenDelay: 0
   tweenDelay: 1.5
 --- !u!114 &42787709
 MonoBehaviour:
@@ -4221,6 +4222,7 @@ MonoBehaviour:
   infobarEdit: {fileID: 1060004923}
   infobarPlay: {fileID: 660451849}
   currentMenuTab: 0
+  blockMenu: 0
 --- !u!114 &1006894547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8236,6 +8238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: Cancel
   fontSize: 20
+  customTweenDelay: 0
   tweenDelay: 1.5
 --- !u!114 &1725568426
 MonoBehaviour:
@@ -9991,6 +9994,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: Delete
   fontSize: 20
+  customTweenDelay: 0
   tweenDelay: 1.5
 --- !u!114 &1992008946
 MonoBehaviour:
@@ -10549,6 +10553,7 @@ MonoBehaviour:
   updateEveryFrame: 1
   followMouse: 1
   showSpriteWhenPasting: 0
+  rotateToRotation: 1
   smoothRotation: 1
   rotateDuration: 0.2
 --- !u!95 &2046466262
@@ -10809,6 +10814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: Copy
   fontSize: 20
+  customTweenDelay: 0
   tweenDelay: 1.5
 --- !u!114 &2071949020
 MonoBehaviour:
