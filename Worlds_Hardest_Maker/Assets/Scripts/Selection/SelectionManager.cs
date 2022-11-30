@@ -105,9 +105,6 @@ public class SelectionManager : MonoBehaviour
             height > 0 ? height + 1 : height - 1,
             alignCenter: false, parent: GameManager.Instance.FillOutlineContainer.transform
         );
-
-        DestroyPreview();
-        InitSelectedPreview();
     }
     public static void OnEditModeChanged()
     {
@@ -132,6 +129,7 @@ public class SelectionManager : MonoBehaviour
     {
         // called when mouse button was pressed and user starts selecting
         selectionOptions.SetActive(false);
+        CancelSelection();
     }
     #endregion
 
@@ -211,6 +209,12 @@ public class SelectionManager : MonoBehaviour
 
     private static void SetPreviewVisible()
     {
+        if (GameManager.Instance.FillPreviewContainer.transform.childCount == 0)
+        {
+            DestroyPreview();
+            InitSelectedPreview();
+        }
+
         GameManager.Instance.FillPreviewContainer.SetActive(true);
     }
     private static void SetPreviewInvisible()
