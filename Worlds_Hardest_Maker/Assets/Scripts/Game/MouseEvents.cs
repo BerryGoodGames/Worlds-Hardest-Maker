@@ -9,6 +9,8 @@ using Photon.Pun;
 /// </summary>
 public class MouseEvents : MonoBehaviour
 {
+    private const float selectionCancelMaxTime = 0.2f;
+
     void Update()
     {
         PhotonView pview = GameManager.Instance.photonView;
@@ -24,6 +26,8 @@ public class MouseEvents : MonoBehaviour
         float gridY = Mathf.Round(mousePos.y * 2) * 0.5f;
 
         GameManager.EditMode editMode = GameManager.Instance.CurrentEditMode;
+
+        if (Input.GetMouseButtonDown(GameManager.Instance.SelectionMouseButton)) StartCoroutine(StartCancelSelection());
 
         // select Anchor
         if (Input.GetKey(GameManager.Instance.EditSpeedKey) && Input.GetMouseButtonDown(0))
@@ -175,5 +179,17 @@ public class MouseEvents : MonoBehaviour
             MouseManager.Instance.MouseDragCurrent = null;
             MouseManager.Instance.MouseDragEnd = null;
         }
+    }
+
+    private IEnumerator StartCancelSelection()
+    {
+        float passedTime = 0;
+        while(Input.GetMouseButton(GameManager.Instance.SelectionMouseButton))
+        {
+            if(passedTime > selectionCancelMaxTime || MouseManager.Instance.MousePosDelta.magnitude > 10) yield break;
+            passedTime += Time.deltaTime;
+            yield return null;
+        }
+        SelectionManager.CancelSelection();
     }
 }
