@@ -44,9 +44,7 @@ public class SelectionManager : MonoBehaviour
         if (!GameManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null && MouseManager.Instance.MouseDragCurrent != null && GameManager.Instance.Selecting)
         {
             // get drag positions and world position mode
-            FollowMouse.WorldPosition worldPosition = GameManager.Instance.CurrentEditMode.GetWorldPosition();
-
-            (Vector2 start, Vector2 end) = MouseManager.GetDragPositions(worldPosition);
+            (Vector2 start, Vector2 end) = MouseManager.GetDragPositions(FollowMouse.WorldPosition.GRID);
 
             // disable normal placement preview
             GameManager.Instance.PlacementPreview.SetActive(false);
@@ -71,6 +69,7 @@ public class SelectionManager : MonoBehaviour
     {
         selectionOptionsRect = selectionOptions.GetComponent<RectTransform>();
         GameManager.onPlay += CancelSelection;
+        GameManager.onEditModeChange += RemakePreview;
 
         fillMouseOver.onHovered += SetPreviewVisible;
         fillMouseOver.onUnhovered += SetPreviewInvisible;
@@ -105,11 +104,6 @@ public class SelectionManager : MonoBehaviour
             height > 0 ? height + 1 : height - 1,
             alignCenter: false, parent: GameManager.Instance.FillOutlineContainer.transform
         );
-    }
-    public static void OnEditModeChanged()
-    {
-        UpdatePreviewSprite();
-        UpdatePreviewRotation();
     }
     private void OnAreaSelected(Vector2 start, Vector2 end)
     {
@@ -154,12 +148,19 @@ public class SelectionManager : MonoBehaviour
     private static (int, int, int, int) GetBoundsMatrix(List<Vector2> points)
     {
         var (lowestX, highestX, lowestY, highestY) = GetBounds(points);
-        return (Mathf.RoundToInt(lowestX), Mathf.RoundToInt(highestX), Mathf.RoundToInt(lowestY), Mathf.RoundToInt(highestY));
+        return (Mathf.CeilToInt(lowestX), Mathf.FloorToInt(highestX), Mathf.CeilToInt(lowestY), Mathf.FloorToInt(highestY));
     }
     private static (int, int, int, int) GetBoundsMatrix(params Vector2[] points) { return GetBoundsMatrix(points.ToList()); }
     #endregion
 
     #region Preview
+    private static void RemakePreview()
+    {
+        if (GameManager.Instance.FillPreviewContainer.transform.childCount == 0) return;
+        DestroyPreview();
+        InitSelectedPreview();
+    }
+
     private static void InitPreview(List<Vector2> range)
     {
         // set new previews, only if editmode not in NoFillPreviewModes
@@ -173,6 +174,7 @@ public class SelectionManager : MonoBehaviour
                 c.Awake_();
                 c.UpdateSprite();
                 c.UpdateRotation(smooth: false);
+                c.changeSpriteToCurrentEditMode = false;
             }
         }
     }

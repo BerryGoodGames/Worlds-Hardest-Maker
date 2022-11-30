@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviourPun
         {
             currentEditMode = value;
 
-            if (prevEditMode != null && prevEditMode != currentEditMode) OnEditModeChanged();
+            if (prevEditMode != null && prevEditMode != currentEditMode) onEditModeChange();
 
             prevEditMode = currentEditMode;
 
@@ -206,6 +206,7 @@ public class GameManager : MonoBehaviourPun
     #region Events
     public static event Action onPlay;
     public static event Action onEdit;
+    public static event Action onEditModeChange;
     #endregion
 
     private void Awake()
@@ -748,11 +749,6 @@ public class GameManager : MonoBehaviourPun
         double range2 = stop2 - start2;
 
         return range2 / range1 * (value - start1) + start2;
-    }
-
-    public static void OnEditModeChanged()
-    {
-        SelectionManager.OnEditModeChanged();
     }
 
     public static void QuitGame()
