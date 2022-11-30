@@ -10,6 +10,7 @@ public class MouseManager : MonoBehaviour
     [HideInInspector] public Vector2? MouseDragCurrent { get; set; } = null;
     [HideInInspector] public Vector2? MouseDragEnd { get; set; } = null;
     [HideInInspector] public Vector2 PrevMousePos { get; set; }
+    [HideInInspector] public Vector2 MousePosDelta { get; set; } = Vector2.zero;
     private Vector2 mouseWorldPos = Vector2.positiveInfinity;
     [HideInInspector] public Vector2 MouseWorldPos { get
         {
@@ -64,6 +65,8 @@ public class MouseManager : MonoBehaviour
 
         Vector2 view = Camera.main.ScreenToViewportPoint(Input.mousePosition);
         OnScreen = view.x > 0 && view.x < 1 && view.y > 0 && view.y < 1;
+
+        MousePosDelta = (Vector2)Input.mousePosition - PrevMousePos;
     }
 
     private void LateUpdate()
