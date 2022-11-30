@@ -56,6 +56,9 @@ public class SelectionManager : MonoBehaviour
             if (Input.GetMouseButtonDown(GameManager.Instance.SelectionMouseButton)) OnStartSelect();
             else if(Input.GetMouseButtonUp(GameManager.Instance.SelectionMouseButton)) OnAreaSelected(start, end);
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+            CancelSelection();
     }
 
     private void LateUpdate()
@@ -126,6 +129,7 @@ public class SelectionManager : MonoBehaviour
         // called when mouse button was pressed and user starts selecting
         selectionOptions.SetActive(false);
         CancelSelection();
+        MenuManager.Instance.blockMenu = true;
     }
     #endregion
 
@@ -509,6 +513,8 @@ public class SelectionManager : MonoBehaviour
         Instance.selectionOptions.SetActive(false);
 
         GameManager.Instance.Selecting = false;
+
+        MenuManager.Instance.blockMenu = false;
     }
 
     private void Awake()

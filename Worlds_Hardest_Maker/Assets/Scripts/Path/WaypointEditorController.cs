@@ -229,8 +229,6 @@ public class WaypointEditorController : MonoBehaviour
             if (anchorController != null)
                 anchorController.View.RPC("RPCSetWaypointDelay", RpcTarget.Others, InputDelay, waypointIndex);
         }
-
-        print("Delay updated!");
     }
 
     private void SetDelay(float delay)

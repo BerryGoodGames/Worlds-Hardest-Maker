@@ -56,7 +56,7 @@ public class CopyManager : MonoBehaviour
         // check if there smth. in clipboard
         if (clipBoard.Count == 0) yield break;
         // block menu from beeing openend and some other stuff
-        MenuManager.blockMenu = true;
+        MenuManager.Instance.blockMenu = true;
         pasting = true;
 
         // get position where to paste
@@ -73,7 +73,7 @@ public class CopyManager : MonoBehaviour
             // cancel if these things happen
             if(Input.GetKey(KeyCode.Escape) || GameManager.Instance.Selecting || GameManager.Instance.Playing)
             {
-                MenuManager.blockMenu = false;
+                MenuManager.Instance.blockMenu = false;
                 ClearPreview();
                 Instance.previewContainer.position = Vector2.zero;
                 pasting = false;
@@ -95,7 +95,7 @@ public class CopyManager : MonoBehaviour
         Paste(new(matrixX, matrixY));
 
         // remove some blocks etc.
-        MenuManager.blockMenu = false;
+        MenuManager.Instance.blockMenu = false;
 
         ClearPreview();
         Instance.previewContainer.position = Vector2.zero;
