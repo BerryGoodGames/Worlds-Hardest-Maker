@@ -190,6 +190,6 @@ public class MouseEvents : MonoBehaviour
             passedTime += Time.deltaTime;
             yield return null;
         }
-        SelectionManager.CancelSelection();
+        SelectionManager.Instance.CancelSelection();
     }
 }
