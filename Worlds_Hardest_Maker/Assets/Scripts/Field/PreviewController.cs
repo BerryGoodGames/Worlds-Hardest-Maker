@@ -24,6 +24,8 @@ public class PreviewController : MonoBehaviour
     [SerializeField] private bool smoothRotation;
     [SerializeField] private float rotateDuration;
 
+    private bool ranAwake = false;
+
     private void Awake()
     {
         Awake_();
@@ -31,11 +33,14 @@ public class PreviewController : MonoBehaviour
 
     public void Awake_()
     {
+        if (ranAwake) return;
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         spriteRenderer.sprite = defaultSprite;
         spriteRenderer.color = defaultColor;
         transform.localScale = new(1, 1);
+
+        ranAwake = true;
     }
 
     private void Start()
@@ -45,6 +50,7 @@ public class PreviewController : MonoBehaviour
 
     private void Update()
     {
+
         GameManager.EditMode currentEditMode = GameManager.Instance.CurrentEditMode;
         if (updateEveryFrame && (previousEditMode != currentEditMode || previousPlaying != GameManager.Instance.Playing)) UpdateSprite();
 
@@ -179,6 +185,7 @@ public class PreviewController : MonoBehaviour
         }
 
         // for filling preview go to FillManager.cs
+
 
     }
 

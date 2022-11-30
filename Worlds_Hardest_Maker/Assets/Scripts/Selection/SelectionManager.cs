@@ -211,7 +211,6 @@ public class SelectionManager : MonoBehaviour
     {
         if (GameManager.Instance.FillPreviewContainer.transform.childCount == 0)
         {
-            DestroyPreview();
             InitSelectedPreview();
         }
 
