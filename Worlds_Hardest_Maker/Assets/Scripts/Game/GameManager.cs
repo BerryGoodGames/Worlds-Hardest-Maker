@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviourPun
         {
             currentEditMode = value;
 
-            if (prevEditMode != null && prevEditMode != currentEditMode) onEditModeChange();
+            if (prevEditMode != null && prevEditMode != currentEditMode) OnEditModeChange();
 
             prevEditMode = currentEditMode;
 
@@ -205,9 +205,9 @@ public class GameManager : MonoBehaviourPun
     #endregion
 
     #region Events
-    public static event Action onPlay;
-    public static event Action onEdit;
-    public static event Action onEditModeChange;
+    public static event Action OnPlay;
+    public static event Action OnEdit;
+    public static event Action OnEditModeChange;
     #endregion
 
     private void Awake()
