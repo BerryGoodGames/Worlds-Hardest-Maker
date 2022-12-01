@@ -406,6 +406,12 @@ public class SelectionManager : MonoBehaviour
 
         CancelSelection();
     }
+
+    public void CutSelection()
+    {
+        CopySelection();
+        DeleteSelectedArea();
+    }
     #endregion
 
     #region Selection outline
