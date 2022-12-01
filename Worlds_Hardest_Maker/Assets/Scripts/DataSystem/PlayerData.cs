@@ -24,6 +24,16 @@ public class PlayerData : IData
 
     public override void ImportToLevel()
     {
-        PlayerManager.Instance.SetPlayer(startPosition[0], startPosition[1], speed);
+        ImportToLevel(new(startPosition[0], startPosition[1]));
+    }
+
+    public override void ImportToLevel(Vector2 pos)
+    {
+        PlayerManager.Instance.SetPlayer(pos, speed);
+    }
+
+    public override GameManager.EditMode GetEditMode()
+    {
+        return GameManager.EditMode.PLAYER;
     }
 }

@@ -63,20 +63,11 @@ public static class SaveSystem
             // serialize fields
             foreach (Transform field in GameManager.Instance.FieldContainer.transform)
             {
-                if (field.transform.CompareTag("OneWayField"))
-                {
-                    OneWayData fieldData = new(field.gameObject);
-                    levelData.Add(fieldData);
-                }
-                else
-                {
-                    FieldData fieldData = new(field.gameObject);
-                    levelData.Add(fieldData);
-                }
+                FieldData fieldData = new(field.gameObject);
+                levelData.Add(fieldData);
             }
 
             // serialize current level settings
-            Debug.Log(LevelSettings.Instance.drownDuration);
             levelData.Add(new LevelSettingsData(LevelSettings.Instance));
 
             formatter.Serialize(stream, levelData);
@@ -167,4 +158,7 @@ public static class SaveSystem
 public abstract class IData
 {
     public abstract void ImportToLevel();
+    public abstract void ImportToLevel(Vector2 pos);
+
+    public abstract GameManager.EditMode GetEditMode();
 }

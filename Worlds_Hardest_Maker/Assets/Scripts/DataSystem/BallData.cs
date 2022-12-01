@@ -27,12 +27,22 @@ public class BallData : IData
 
     public override void ImportToLevel()
     {
+        ImportToLevel(new(startPosition[0], startPosition[1]));
+    }
+
+    public override void ImportToLevel(Vector2 pos)
+    {
         float[] ballPos = startPosition;
         float[] bouncePos = { bouncePosition[0] - ballPos[0], bouncePosition[1] - ballPos[1] };
 
-        BallManager.Instance.SetBall(startPosition[0], startPosition[1],
+        BallManager.Instance.SetBall(pos.x, pos.y,
             bouncePos[0], bouncePos[1],
             speed
         );
+    }
+
+    public override GameManager.EditMode GetEditMode()
+    {
+        return GameManager.EditMode.BALL_DEFAULT;
     }
 }

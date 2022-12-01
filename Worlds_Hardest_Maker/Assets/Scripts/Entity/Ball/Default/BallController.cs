@@ -26,7 +26,10 @@ public class BallController : IBallController
 
         this.line = line.transform;
     }
-
+    private void OnDestroy()
+    {
+        Destroy(transform.parent.gameObject);
+    }
     private void Update()
     {
         bounce.gameObject.SetActive(!GameManager.Instance.Playing);
@@ -107,5 +110,10 @@ public class BallController : IBallController
         {
             SetBouncePos(unitPos);
         }
+    }
+
+    public override IData GetData()
+    {
+        return new BallData(this);
     }
 }

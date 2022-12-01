@@ -20,7 +20,7 @@ public class KeyEvents : MonoBehaviour
         }
 
         // toggle menu
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M))
+        if (!MenuManager.Instance.blockMenu && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)))
         {
             AlphaUITween anim = GameManager.Instance.Menu.GetComponent<AlphaUITween>();
             anim.SetVisible(!anim.IsVisible());
@@ -33,9 +33,17 @@ public class KeyEvents : MonoBehaviour
             if(player != null)
                 player.GetComponent<Rigidbody2D>().position = MouseManager.Instance.MouseWorldPosGrid;
         }
-        
+
+        // rotate rotatable fields
+        if (FieldManager.IsRotatable(GameManager.Instance.CurrentEditMode) && Input.GetKeyDown(KeyCode.R))
+        {
+            GameManager.Instance.EditRotation = (GameManager.Instance.EditRotation - 90) % 360;
+
+            if (GameManager.Instance.Selecting) SelectionManager.UpdatePreviewRotation();
+        }
+
 #if UNITY_EDITOR
-            KeyCode ctrl = KeyCode.Tab;
+        KeyCode ctrl = KeyCode.Tab;
 #else
             KeyCode ctrl = KeyCode.LeftControl;
 #endif
@@ -47,6 +55,11 @@ public class KeyEvents : MonoBehaviour
 #if !UNTIY_WEBGL
             if (Input.GetKeyDown(KeyCode.O)) GameManager.Instance.LoadLevel();
 #endif
+            // paste
+            if (Input.GetKey(GameManager.Instance.PasteKey))
+            {
+                StartCoroutine(CopyManager.StartPaste());
+            }
             //if (Input.GetKeyDown(KeyCode.C))
             //{
             //    if (GameManager.Instance.Multiplayer) view.RPC("ClearLevel", RpcTarget.All);
@@ -55,15 +68,7 @@ public class KeyEvents : MonoBehaviour
         }
 
         // check edit mode toggling if no ctrl and not playing
-        if (!Input.GetKey(KeyCode.Tab) && !GameManager.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
-
-        // push f to fill
-        GameManager.Instance.Filling = Input.GetKey(GameManager.Instance.FillKey);
-
-        if (Input.GetKeyUp(GameManager.Instance.FillKey))
-        {
-            FillManager.ResetPreview();
-        }
+        if (!Input.GetKey(ctrl) && !GameManager.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
 
         
     }

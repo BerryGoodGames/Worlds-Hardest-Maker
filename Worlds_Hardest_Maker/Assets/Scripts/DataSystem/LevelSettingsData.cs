@@ -32,4 +32,14 @@ public class LevelSettingsData : IData
         LevelSettings.Instance.SetReusableCheckpoints(reusableCheckpoints, false);
         LevelSettings.Instance.SyncPlayersToSettings();
     }
+
+    public override void ImportToLevel(Vector2 pos)
+    {
+        ImportToLevel();
+    }
+
+    public override GameManager.EditMode GetEditMode()
+    {
+        return GameManager.EditMode.WALL_FIELD;
+    }
 }

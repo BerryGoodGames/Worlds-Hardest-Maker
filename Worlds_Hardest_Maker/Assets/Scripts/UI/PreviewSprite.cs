@@ -11,6 +11,6 @@ public class PreviewSprite : MonoBehaviour
     public Sprite sprite;
     public Color color = Color.white;
     public Vector2 scale = Vector2.one;
-    public bool showWhenFilling;
+    public bool showWhenSelecting;
     public bool rotate;
 }

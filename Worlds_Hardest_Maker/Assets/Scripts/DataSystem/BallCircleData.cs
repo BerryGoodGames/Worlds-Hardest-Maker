@@ -28,6 +28,16 @@ public class BallCircleData : IData
 
     public override void ImportToLevel()
     {
-        BallCircleManager.Instance.SetBallCircle(originPosition[0], originPosition[1], radius, speed, angle);
+        ImportToLevel(new(originPosition[0], originPosition[1]));
+    }
+
+    public override void ImportToLevel(Vector2 pos)
+    {
+        BallCircleManager.Instance.SetBallCircle(pos.x, pos.y, radius, speed, angle);
+    }
+
+    public override GameManager.EditMode GetEditMode()
+    {
+        return GameManager.EditMode.BALL_CIRCLE;
     }
 }

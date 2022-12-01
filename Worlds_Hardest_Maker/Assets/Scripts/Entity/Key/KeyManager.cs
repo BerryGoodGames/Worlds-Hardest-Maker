@@ -65,19 +65,15 @@ public class KeyManager : MonoBehaviour
             key.GetComponent<IntervalRandomAnimation>().enabled = GameManager.Instance.KonamiActive;
         }
     }
+
+    public void SetKey(Vector2 pos, KeyColor color)
+    {
+        SetKey(pos.x, pos.y, color);
+    }
     [PunRPC]
     public void RemoveKey(float mx, float my)
     {
-        foreach(Transform key in GameManager.Instance.KeyContainer.transform)
-        {
-            KeyController controller = key.GetChild(0).GetComponent<KeyController>();
-            if (controller.keyPosition == new Vector2(mx, my))
-            {
-                DestroyImmediate(key.gameObject);
-
-                if(GameManager.Instance.Playing) controller.CheckAndUnlock(PlayerManager.GetClientPlayer());
-            }
-        }
+        DestroyImmediate(GetKey(mx, my));
     }
 
     public static void SetKonamiMode(bool konami)
@@ -96,12 +92,12 @@ public class KeyManager : MonoBehaviour
 
     public static GameObject GetKey(float mx, float my)
     {
-        GameObject container = GameManager.Instance.KeyContainer;
-        foreach (Transform key in container.transform)
+        Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.01f, 128);
+        foreach (Collider2D hit in hits)
         {
-            if (key.GetChild(0).GetComponent<KeyController>().keyPosition == new Vector2(mx, my))
+            if (hit.GetComponent<KeyController>() != null)
             {
-                return key.gameObject;
+                return hit.transform.parent.gameObject;
             }
         }
         return null;

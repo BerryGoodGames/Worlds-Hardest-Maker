@@ -7,7 +7,7 @@ using Photon.Pun;
 /// <summary>
 /// parent class of every ball controller
 /// </summary>
-public abstract class IBallController : MonoBehaviour
+public abstract class IBallController : Controller
 {
     [HideInInspector] public float speed;
     [HideInInspector] public AppendSlider sliderController;

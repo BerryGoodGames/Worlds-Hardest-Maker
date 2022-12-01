@@ -84,6 +84,10 @@ public class BallCircleController : IBallController
             UpdateAnglePos();
         }
     }
+    private void OnDestroy()
+    {
+        Destroy(transform.parent.gameObject);
+    }
 
     private float GetAngularSpeed()
     {
@@ -181,5 +185,10 @@ public class BallCircleController : IBallController
     public override void MoveObject(Vector2 unitPos, int id)
     {
         MoveOrigin(unitPos.x, unitPos.y);
+    }
+
+    public override IData GetData()
+    {
+        return new BallCircleData(this);
     }
 }

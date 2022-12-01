@@ -40,7 +40,7 @@ public class DiscordManager : MonoBehaviour
         } 
     }
 
-    public static Discord.Activity currentActivity;
+    public static Discord.Activity currentActivity = new();
 
     private void Awake()
     {

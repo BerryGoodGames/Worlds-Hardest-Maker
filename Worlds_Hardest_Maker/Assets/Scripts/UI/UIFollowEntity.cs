@@ -16,8 +16,7 @@ public class UIFollowEntity : MonoBehaviour
         RectTransform rt = GetComponent<RectTransform>();
         rt.position = cam.WorldToScreenPoint((Vector2)target.position + offset);
 
-        // dividing by scale of ball for some reason???? 
-        float scl = (float)(6.5 / cam.orthographicSize / 0.64);
+        float scl = 10.0f / cam.orthographicSize;
         rt.localScale = new(scl, scl);
     }
 }

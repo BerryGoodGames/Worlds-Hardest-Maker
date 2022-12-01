@@ -30,12 +30,17 @@ public class MenuManager : MonoBehaviour
     private InfobarResize infobarPlayResize;
     private InfobarResize infobarEditResize;
 
+    [HideInInspector] public bool blockMenu;
+
     private void Awake()
     {
         toolbarSpacing = toolBar.GetComponent<ToolbarSizing>();
 
         infobarPlayResize = infobarPlay.GetComponent<InfobarResize>();
         infobarEditResize = infobarEdit.GetComponent<InfobarResize>();
+
+        if (Instance == null) Instance = this;
+        else Destroy(this);
 
 #if UNITY_EDITOR
         mainMixer.SetFloat("MusicVolume", -80);

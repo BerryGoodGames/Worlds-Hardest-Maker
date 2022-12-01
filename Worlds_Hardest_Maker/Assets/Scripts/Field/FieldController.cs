@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FieldController : MonoBehaviour
+public class FieldController : Controller
 {
     private void Start()
     {
@@ -11,4 +11,6 @@ public class FieldController : MonoBehaviour
             transform.SetParent(GameManager.Instance.FieldContainer.transform);
         }
     }
+
+    public override IData GetData() => new FieldData(gameObject);
 }

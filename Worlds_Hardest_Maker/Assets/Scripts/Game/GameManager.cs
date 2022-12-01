@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviourPun
     public GameObject SliderContainer;
     public GameObject NameTagContainer;
     public GameObject DrawContainer;
-    public GameObject FillOutlineContainer;
+    public GameObject SelectionOutlineContainer;
     public GameObject FillPreviewContainer;
     public GameObject PlayerContainer;
     public GameObject AnchorContainer;
@@ -86,12 +86,14 @@ public class GameManager : MonoBehaviourPun
     public GameObject FieldContainer;
     [Space]
     [Header("Key binds")]
-    public KeyCode FillKey;
+    public int SelectionMouseButton;
+    public int PanMouseButton;
     public KeyCode EntityDeleteKey;
     public KeyCode EntityMoveKey;
     public KeyCode BallCircleRadiusKey;
     public KeyCode BallCircleAngleKey;
     public KeyCode EditSpeedKey;
+    public KeyCode PasteKey;
     [Space]
     [Header("Materials")]
     public Material LineMaterial;
@@ -99,7 +101,7 @@ public class GameManager : MonoBehaviourPun
     [Space]
     [Header("Text References")]
     public TMPro.TMP_Text EditModeText;
-    public TMPro.TMP_Text FillingText;
+    public TMPro.TMP_Text SelectingText;
     public TMPro.TMP_Text DeathText;
     public TMPro.TMP_Text CoinText;
     #endregion
@@ -117,6 +119,10 @@ public class GameManager : MonoBehaviourPun
         set
         {
             currentEditMode = value;
+
+            if (prevEditMode != null && prevEditMode != currentEditMode) onEditModeChange();
+
+            prevEditMode = currentEditMode;
 
             // update toolbar
             GameObject[] tools = ToolbarManager.tools;
@@ -169,11 +175,18 @@ public class GameManager : MonoBehaviourPun
             }
         }
     }
+    private EditMode? prevEditMode = null;
 
-    public bool Filling { get; set; } = false;
+    public bool Selecting { get; set; } = false;
     public bool Multiplayer { get; set; } = false;
     public bool KonamiActive { get; set; } = false;
-    [HideInInspector] public List<Vector2> CurrentFillRange { get; set; } = null;
+    public List<Vector2> CurrentSelectionRange { get => SelectionManager.selectionStart == null || SelectionManager.selectionEnd == null ? null : SelectionManager.GetCurrentFillRange(); set { 
+            if(value == null)
+            {
+                SelectionManager.selectionStart = null;
+                SelectionManager.selectionEnd = null;
+            }
+        } }
     [HideInInspector] public bool UIHovered { get; set; } = false;
     [HideInInspector] public int TotalCoins { get; set; } = 0;
     private int editRotation = 270;
@@ -192,8 +205,9 @@ public class GameManager : MonoBehaviourPun
     #endregion
 
     #region Events
-    public static event Action OnPlay;
-    public static event Action OnEdit;
+    public static event Action onPlay;
+    public static event Action onEdit;
+    public static event Action onEditModeChange;
     #endregion
 
     private void Awake()
@@ -255,7 +269,7 @@ public class GameManager : MonoBehaviourPun
 
         // set edit mode text ui
         Instance.EditModeText.text = $"Edit: {Instance.CurrentEditMode.GetUIString()}";
-        Instance.FillingText.text = $"Filling: {Filling}";
+        Instance.SelectingText.text = $"Selecting: {Selecting}";
         Instance.DeathText.text = $"Deaths: {playerDeaths}";
         Instance.CoinText.text = $"Coins: {playerCoinsCollected}/{Instance.TotalCoins}";
     }
@@ -462,6 +476,57 @@ public class GameManager : MonoBehaviourPun
     }
 
     /// <summary>
+    /// Sets edit mode at position
+    /// </summary>
+    /// <param name="editMode">the type of field/entity you want</param>
+    /// <param name="pos">the position where it will be set</param>
+    public static void Set(EditMode editMode, Vector2 pos)
+    {
+        int matrixX = (int)Mathf.Round(pos.x);
+        int matrixY = (int)Mathf.Round(pos.y);
+
+        bool multiplayer = Instance.Multiplayer;
+        PhotonView pview = Instance.photonView;
+
+        float gridX = Mathf.Round(pos.x * 2) * 0.5f;
+        float gridY = Mathf.Round(pos.y * 2) * 0.5f;
+
+        if (editMode.IsFieldType())
+            FieldManager.Instance.SetField((int)pos.x, (int)pos.y, ConvertEnum<EditMode, FieldManager.FieldType>(editMode));
+        else if (editMode == EditMode.DELETE_FIELD)
+        {
+            // delete field
+            if (multiplayer) pview.RPC("RemoveField", RpcTarget.All, matrixX, matrixY, true);
+            else FieldManager.Instance.RemoveField(matrixX, matrixY, updateOutlines: true);
+
+            // remove player if at deleted pos
+            if (multiplayer) pview.RPC("RemovePlayerAtPosIntersect", RpcTarget.All, (float)matrixX, (float)matrixY);
+            else PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixX, matrixY);
+        }
+        else if (editMode == EditMode.PLAYER)
+        {
+            // place player
+            PlayerManager.Instance.SetPlayer(gridX, gridY);
+        }
+        else if (editMode == EditMode.COIN)
+        {
+            // place coin
+            if (multiplayer) pview.RPC("SetCoin", RpcTarget.All, gridX, gridY);
+            else CoinManager.Instance.SetCoin(gridX, gridY);
+        }
+        else if (KeyManager.IsKeyEditMode(editMode))
+        {
+            // get keycolor
+            string keyColorStr = editMode.ToString()[..^4];
+            KeyManager.KeyColor keyColor = (KeyManager.KeyColor)Enum.Parse(typeof(KeyManager.KeyColor), keyColorStr);
+
+            // place key
+            if (multiplayer) pview.RPC("SetKey", RpcTarget.All, gridX, gridY, keyColor);
+            else KeyManager.Instance.SetKey(gridX, gridY, keyColor);
+        }
+    }
+
+    /// <summary>
     /// resets every field and entity to its starting state
     /// used when switched to edit mode
     /// </summary>
@@ -643,6 +708,14 @@ public class GameManager : MonoBehaviourPun
         }
     }
 
+    public static bool PointOnScreen(Vector2 point, bool worldPoint)
+    {
+        Vector3 screenPoint = worldPoint ? Camera.main.WorldToViewportPoint(point) : point;
+        bool onScreen = screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
+        return onScreen;
+    }
+
+
     public static void RemoveObjectInContainer(float mx, float my, GameObject container)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.005f, 128);
@@ -675,9 +748,7 @@ public class GameManager : MonoBehaviourPun
 
     public static object TryConvertEnum<EnumFrom, EnumTo>(EnumFrom e)
     {
-        object convEnum;
-
-        Enum.TryParse(typeof(EnumTo), e.ToString(), out convEnum);
+        Enum.TryParse(typeof(EnumTo), e.ToString(), out object convEnum);
 
         return convEnum;
     }

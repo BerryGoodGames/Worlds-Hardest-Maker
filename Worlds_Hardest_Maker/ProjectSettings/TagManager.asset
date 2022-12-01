@@ -25,6 +25,8 @@ TagManager:
   - Ice
   - Void
   - Conveyor
+  - Coin
+  - Key
   layers:
   - Default
   - TransparentFX

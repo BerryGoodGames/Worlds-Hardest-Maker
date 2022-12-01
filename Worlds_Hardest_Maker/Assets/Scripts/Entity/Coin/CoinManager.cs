@@ -30,31 +30,30 @@ public class CoinManager : MonoBehaviour
             anim.SetBool("Playing", GameManager.Instance.Playing);
         }
     }
+
+    public void SetCoin(Vector2 pos)
+    {
+        SetCoin(pos.x, pos.y);
+    }
     [PunRPC]
     public void RemoveCoin(float mx, float my)
     {
-        foreach (Transform coin in GameManager.Instance.CoinContainer.transform)
-        {
-            if (coin.GetChild(0).GetComponent<CoinController>().coinPosition == new Vector2(mx, my))
-            {
-                Destroy(coin.gameObject);
 
-                GameObject currentPlayer = PlayerManager.GetPlayer();
-                if (currentPlayer != null) currentPlayer.GetComponent<PlayerController>().UncollectCoinAtPos(new(mx, my));
+        Destroy(GetCoin(mx, my));
 
-                GameManager.Instance.TotalCoins = GameManager.Instance.CoinContainer.transform.childCount - 1;
-            }
-        }
+        GameObject currentPlayer = PlayerManager.GetPlayer();
+        if (currentPlayer != null) currentPlayer.GetComponent<PlayerController>().UncollectCoinAtPos(new(mx, my));
+
+        GameManager.Instance.TotalCoins = GameManager.Instance.CoinContainer.transform.childCount - 1;
     }
     public static GameObject GetCoin(float mx, float my)
     {
-        GameObject container = GameManager.Instance.CoinContainer;
-        foreach (Transform coin in container.transform)
+        Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.1f, 128);
+        foreach(Collider2D hit in hits)
         {
-            CoinController controller = coin.GetChild(0).GetComponent<CoinController>();
-            if (controller.coinPosition == new Vector2(mx, my))
+            if(hit.GetComponent<CoinController>() != null)
             {
-                return coin.gameObject;
+                return hit.transform.parent.gameObject;
             }
         }
         return null;

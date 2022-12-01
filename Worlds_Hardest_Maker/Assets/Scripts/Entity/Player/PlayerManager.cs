@@ -59,6 +59,11 @@ public class PlayerManager : MonoBehaviour
             Camera.main.GetComponent<JumpToEntity>().target = newPlayer;
         }
     }
+
+    public void SetPlayer(Vector2 pos, float speed)
+    {
+        SetPlayer(pos.x, pos.y, speed);
+    }
     [PunRPC]
     public void SetPlayer(float mx, float my)
     {
