@@ -76,8 +76,8 @@ public class SelectionManager : MonoBehaviour
     private void Start()
     {
         selectionOptionsRect = selectionOptions.GetComponent<RectTransform>();
-        GameManager.onPlay += CancelSelection;
-        GameManager.onEditModeChange += RemakePreview;
+        GameManager.OnPlay += CancelSelection;
+        GameManager.OnEditModeChange += RemakePreview;
 
         fillMouseOver.onHovered += SetPreviewVisible;
         fillMouseOver.onUnhovered += SetPreviewInvisible;
