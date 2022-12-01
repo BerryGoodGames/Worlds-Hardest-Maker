@@ -371,6 +371,8 @@ public class SelectionManager : MonoBehaviour
     }
     public void FillArea(List<Vector2> poses, GameManager.EditMode editMode)
     {
+        if (poses.Count == 0) return;
+
         FieldManager.FieldType? fieldType = (FieldManager.FieldType?)GameManager.TryConvertEnum<GameManager.EditMode, FieldManager.FieldType>(editMode);
         if(fieldType != null)
         {
@@ -384,6 +386,8 @@ public class SelectionManager : MonoBehaviour
         {
             GameManager.Set(editMode, pos);
         }
+
+        UpdateOutlinesInArea(false, poses[0].Floor(), poses.Last().Ceil());
     }
     public void FillArea(Vector2 start, Vector2 end, FieldManager.FieldType type)
     {

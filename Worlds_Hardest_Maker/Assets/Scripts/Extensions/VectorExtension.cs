@@ -19,4 +19,38 @@ public static class VectorExtention
     {
         return pos.x > point1.x && pos.x < point2.x && pos.y > point1.y && pos.y < point2.y;
     }
+
+    public static Vector3 Ceil(this Vector3 vector)
+    {
+        int ceiledX = Mathf.CeilToInt(vector.x);
+        int ceiledY = Mathf.CeilToInt(vector.y);
+        int ceiledZ = Mathf.CeilToInt(vector.z);
+
+        return new (ceiledX, ceiledY, ceiledZ);
+    }
+
+    public static Vector3 Floor(this Vector3 vector)
+    {
+        int flooredX = Mathf.FloorToInt(vector.x);
+        int flooredY = Mathf.FloorToInt(vector.y);
+        int flooredZ = Mathf.FloorToInt(vector.z);
+
+        return new(flooredX, flooredY, flooredZ);
+    }
+
+    public static Vector2 Ceil(this Vector2 vector)
+    {
+        int ceiledX = Mathf.CeilToInt(vector.x);
+        int ceiledY = Mathf.CeilToInt(vector.y);
+
+        return new(ceiledX, ceiledY);
+    }
+
+    public static Vector2 Floor(this Vector2 vector)
+    {
+        int flooredX = Mathf.FloorToInt(vector.x);
+        int flooredY = Mathf.FloorToInt(vector.y);
+
+        return new(flooredX, flooredY);
+    }
 }
