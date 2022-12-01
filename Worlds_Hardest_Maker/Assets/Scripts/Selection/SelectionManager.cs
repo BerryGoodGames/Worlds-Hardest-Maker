@@ -250,95 +250,120 @@ public class SelectionManager : MonoBehaviour
         GameManager.Instance.Selecting = false;
         selectionOptions.SetActive(false);
     }
-
-
     public void FillArea(List<Vector2> poses, FieldManager.FieldType type)
     {
         if (GameManager.Instance.CurrentSelectionRange == null) return;
         GameManager.Instance.CurrentSelectionRange = null;
-
         // set rotation
         int rotation = FieldManager.IsRotatable(GameManager.Instance.CurrentEditMode) ? GameManager.Instance.EditRotation : 0;
 
         // find bounds
         var (lowestX, highestX, lowestY, highestY) = GetBoundsMatrix(poses);
 
+        Vector2 lowestPos = new(lowestX, lowestY);
+        Vector2 highestPos = new(highestX, highestY);
+
         // check if its 1 wide
         if (lowestX == highestX || lowestY == highestY)
         {
             foreach (Vector2 pos in poses)
             {
-                FieldManager.Instance.SetField((int)pos.x, (int)pos.y, type, 0);
+                FieldManager.Instance.SetField((int)pos.x, (int)pos.y, type, rotation);
             }
             return;
         }
 
-        // clear area
-        foreach (Vector2 pos in poses)
+        // clear fields in area
+        if(type == FieldManager.FieldType.WALL_FIELD) // also destroy keys/coins
         {
-            FieldManager.Instance.RemoveField((int)pos.x, (int)pos.y);
+            Collider2D[] hits = Physics2D.OverlapAreaAll(lowestPos, highestPos, 3200);
+            foreach (Collider2D hit in hits)
+            {
+                if(hit.gameObject.IsField() || hit.CompareTag("Key") || hit.CompareTag("Coin"))
+                    Destroy(hit.gameObject);
+            }
         }
+        else
+        {
+            Collider2D[] hits = Physics2D.OverlapAreaAll(lowestPos, highestPos, 3072);
+            foreach (Collider2D hit in hits)
+            {
+                Destroy(hit.gameObject);
+            }
+        }
+
+        // REF
+        // get prefab
+        GameObject prefab = type.GetPrefab();
+
+        // search if tag is in tags
+        string tag = "";
+        int? tagIndex = null;
+
+        string[] tags = { "StartField", "GoalField", "CheckpointField" };
+
+        for (int i = 0; i < tags.Length; i++)
+        {
+            if (prefab.CompareTag(tags[i]))
+            {
+                tag = tags[i];
+                tagIndex = i;
+                break;
+            }
+        }
+
+        // get colorful colors to start, goal, checkpoints and startgoal fields
+        List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
+
+        // remove player if at changed pos
+        if (!PlayerManager.StartFields.Contains(type))
+        {
+            // TODO: 9x bad performance than before
+            GameObject player = PlayerManager.GetPlayer();
+            if (player != null && player.transform.position.Between(lowestPos, highestPos))
+                Destroy(player);
+        }
+
 
         foreach (Vector2 pos in poses)
         {
             int mx = (int)pos.x;
             int my = (int)pos.y;
 
+
             // set field at pos
-            GameObject prefab = type.GetPrefab();
             GameObject field = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), GameManager.Instance.FieldContainer.transform);
-            // REF
-            string[] tags = { "StartField", "GoalField", "CheckpointField" };
 
-            for (int i = 0; i < tags.Length; i++)
+            if (tagIndex != null)
             {
-                // TODO: similar code to GraphicsSettings.cs SetOneColorStartGoal + VERY bad performance
-                if (field.CompareTag(tags[i]))
+                if (GraphicsSettings.Instance.oneColorStartGoal)
                 {
-                    if (GraphicsSettings.Instance.oneColorStartGoal)
+                    field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
+
+                    if (field.TryGetComponent(out Animator anim))
                     {
-                        field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
-
-                        if (field.TryGetComponent(out Animator anim))
-                        {
-                            anim.enabled = false;
-                        }
-                    }
-                    else
-                    {
-                        // set colorful colors to start, goal, checkpoints and startgoal fields
-                        List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
-
-                        SpriteRenderer renderer = field.GetComponent<SpriteRenderer>();
-                        if (field.CompareTag(tags[i]))
-                        {
-                            renderer.color = colors[i];
-
-                            if (field.TryGetComponent(out Animator anim))
-                            {
-                                anim.enabled = true;
-                            }
-                        }
+                        anim.enabled = false;
                     }
                 }
+                //else
+                //{
+
+                //    SpriteRenderer renderer = field.GetComponent<SpriteRenderer>();
+                //    if (field.CompareTag(tag))
+                //    {
+                //        renderer.color = colors[(int)tagIndex];
+
+                //        if (field.TryGetComponent(out Animator anim))
+                //        {
+                //            anim.enabled = true;
+                //        }
+                //    }
+                //}
             }
 
             if (field.TryGetComponent(out FieldOutline FOComp))
             {
                 FOComp.updateOnStart = false;
-            }
-            // remove player if at changed pos
-            if (!PlayerManager.StartFields.Contains(type))
-            {
-                // TODO: 9x bad performance than before
-                PlayerManager.Instance.RemovePlayerAtPosIntersect(mx, my);
-            }
-
-            // remove coin if wall is placed
-            if (type == FieldManager.FieldType.WALL_FIELD)
-            {
-                // TODO: 9x bad performance than before
-                GameManager.RemoveObjectInContainerIntersect(mx, my, GameManager.Instance.CoinContainer);
             }
         }
 
@@ -484,23 +509,72 @@ public class SelectionManager : MonoBehaviour
         if (hasOutline == true)
         {
             FieldOutline FOComp;
-            for (int i = lowestX; i <= highestX; i++)
-            {
-                if (FieldManager.GetField(i, lowestY).TryGetComponent(out FOComp))
-                    FOComp.UpdateOutline(Vector2.down, true);
+            RaycastHit2D[] hits;
 
-                if (FieldManager.GetField(i, highestY).TryGetComponent(out FOComp))
+            // update lowest and highest field seperately cause raycasting
+            GameObject lowestField = FieldManager.GetField(lowestPos);
+            if (lowestField.TryGetComponent(out FOComp))
+            {
+                FOComp.UpdateOutline(Vector2.left, true);
+                FOComp.UpdateOutline(Vector2.down, true);
+            }
+
+            GameObject highestField = FieldManager.GetField(highestPos);
+            if (highestField.TryGetComponent(out FOComp))
+            {
+                FOComp.UpdateOutline(Vector2.right, true);
+                FOComp.UpdateOutline(Vector2.up, true);
+            }
+
+            // bottom Fields
+            hits = Physics2D.RaycastAll(lowestPos, Vector2.right, width);
+            foreach(RaycastHit2D hit in hits)
+            {
+                if(hit.transform.TryGetComponent(out FOComp))
+                    FOComp.UpdateOutline(Vector2.down, true);
+            }
+
+            // left Fields
+            hits = Physics2D.RaycastAll(lowestPos, Vector2.up, height);
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.transform.TryGetComponent(out FOComp))
+                    FOComp.UpdateOutline(Vector2.left, true);
+            }
+
+            // top Fields
+            hits = Physics2D.RaycastAll(highestPos, Vector2.left, width);
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.transform.TryGetComponent(out FOComp))
                     FOComp.UpdateOutline(Vector2.up, true);
             }
 
-            for (int i = lowestY; i <= highestY; i++)
+            // right Fields
+            hits = Physics2D.RaycastAll(highestPos, Vector2.down, height);
+            foreach (RaycastHit2D hit in hits)
             {
-                if (FieldManager.GetField(lowestX, i).TryGetComponent(out FOComp))
-                    FOComp.UpdateOutline(Vector2.left, true);
-
-                if (FieldManager.GetField(highestX, i).TryGetComponent(out FOComp))
+                if (hit.transform.TryGetComponent(out FOComp))
                     FOComp.UpdateOutline(Vector2.right, true);
             }
+
+            //for (int i = lowestX; i <= highestX; i++)
+            //{
+            //    if (FieldManager.GetField(i, lowestY).TryGetComponent(out FOComp))
+            //        FOComp.UpdateOutline(Vector2.down, true);
+
+            //    if (FieldManager.GetField(i, highestY).TryGetComponent(out FOComp))
+            //        FOComp.UpdateOutline(Vector2.up, true);
+            //}
+
+            //for (int i = lowestY; i <= highestY; i++)
+            //{
+            //    if (FieldManager.GetField(lowestX, i).TryGetComponent(out FOComp))
+            //        FOComp.UpdateOutline(Vector2.left, true);
+
+            //    if (FieldManager.GetField(highestX, i).TryGetComponent(out FOComp))
+            //        FOComp.UpdateOutline(Vector2.right, true);
+            //}
         }
         else
         {
