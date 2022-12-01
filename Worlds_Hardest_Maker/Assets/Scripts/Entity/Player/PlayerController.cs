@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using DG.Tweening;
+using Ookii.Dialogs;
 
 public class PlayerController : Controller
 {
@@ -134,6 +135,8 @@ public class PlayerController : Controller
         movementInput = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
         if (GameManager.Instance.Multiplayer) photonView.RPC("SetNameTagActive", RpcTarget.All, GameManager.Instance.Playing);
+
+        // print(rb.velocity);
     }
 
     private void OnCollisionStay2D(Collision2D collider)
@@ -175,6 +178,38 @@ public class PlayerController : Controller
     }
     private void FixedUpdate()
     {
+        UpdateWaterState();
+
+        Move();
+    }
+
+    #region Physics, Movement
+    private void Move()
+    {
+        bool ice = IsOnIce();
+
+        Vector2 totalMovement = Vector2.zero;
+        // movement (if player is yours in multiplayer mode)
+        if (GameManager.Instance.Playing)
+        {
+            if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
+
+            if (ice || true)
+            {
+                IcePhysics();
+            }
+            else
+            {
+                UpdateMovement(ref totalMovement);
+            }
+        }
+
+        UpdateConveyorMovement(ref totalMovement);
+
+        rb.MovePosition(rb.position + totalMovement);
+    }
+    private void UpdateWaterState()
+    {
         // check water and update drown level
         bool onWaterNow = IsOnWater();
         if (!onWater && onWaterNow)
@@ -194,46 +229,37 @@ public class PlayerController : Controller
                 DieNormal("Drown");
             }
         }
-        else if(!inDeathAnim && !onWater) currentDrownDuration = 0;
+        else if (!inDeathAnim && !onWater) currentDrownDuration = 0;
 
         if (drownDuration != 0)
         {
             float drown = currentDrownDuration / drownDuration;
             waterLevel.localScale = new(waterLevel.localScale.x, drown);
         }
+    }
+    private void IcePhysics()
+    {
+        // transfer velocity to ice when entering
+        if (rb.velocity == Vector2.zero) rb.velocity = GetCurrentSpeed() * movementInput;
 
-        bool ice = IsOnIce();
+        // acceleration on ice
+        rb.drag = 5f;
+        rb.AddForce(50 * speed * movementInput);
 
+        print(rb.velocity);
+        // rb.velocity = new(Mathf.Min(maxIceSpeed, rb.velocity.x), Mathf.Min(maxIceSpeed, rb.velocity.y));
+    }
+    private void UpdateMovement(ref Vector2 totalMovement)
+    {
+        rb.velocity = Vector2.zero;
 
-        Vector2 totalMovement = Vector2.zero;
-        // movement (if player is yours in multiplayer mode)
-        if (GameManager.Instance.Playing)
-        {
-            if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
-
-            if (ice) 
-            {
-                // transfer velocity to ice when entering
-                if (rb.velocity == Vector2.zero) rb.velocity = (onWater ? waterDamping * speed : speed) * movementInput;
-
-                // acceleration on ice
-                rb.drag = iceFriction;
-                rb.AddForce(iceFriction * speed * 1.2f * movementInput, ForceMode2D.Force);
-
-                rb.velocity = new(Mathf.Min(maxIceSpeed, rb.velocity.x), Mathf.Min(maxIceSpeed, rb.velocity.y));
-            }
-            else
-            {
-                rb.velocity = Vector2.zero;
-
-                // snappy movement (when not on ice)
-                if (!movementInput.Equals(Vector2.zero))
-                    totalMovement += (onWater ? waterDamping * speed : speed) * Time.fixedDeltaTime * new Vector2(Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1), Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1));
-                extraMovementInput = Vector2.zero;
-            }
-        }
-
-        // get conveyor speed
+        // snappy movement (when not on ice)
+        if (!movementInput.Equals(Vector2.zero))
+            totalMovement += GetCurrentSpeed() * Time.fixedDeltaTime * new Vector2(Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1), Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1));
+        extraMovementInput = Vector2.zero;
+    }
+    private void UpdateConveyorMovement(ref Vector2 totalMovement)
+    {
         ConveyorController conveyor = GetCurrentConveyor();
         if (conveyor != null)
         {
@@ -242,8 +268,10 @@ public class PlayerController : Controller
             conveyorVector = Quaternion.Euler(0, 0, conveyor.Rotation) * conveyorVector;
             totalMovement += conveyorVector;
         }
-        rb.MovePosition(rb.position + totalMovement);
     }
+
+    private float GetCurrentSpeed() => onWater ? waterDamping * speed : speed;
+    #endregion
 
     /// <summary>
     /// always use SetSpeed instead of setting

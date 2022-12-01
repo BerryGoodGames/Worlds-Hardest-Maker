@@ -104,6 +104,8 @@ public class SelectionManager : MonoBehaviour
         posController.point = position;
 
         selectionOptionsRect.pivot = new(width > 0 ? 0 : 1, height > 0 ? 0 : 1);
+
+        RemakePreview();
     }
     private void OnStartSelect(Vector2 start)
     {
