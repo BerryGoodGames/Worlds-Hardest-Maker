@@ -12,7 +12,7 @@ public class Dbg : MonoBehaviour
     public static Dbg Instance { get; private set; }
     public enum DbgTextMode
     {
-        DISABLED, CUSTOM, COUNT, FPS, MOUSE_POSITION_UNITS, MOUSE_POSITION_PIXELS
+        DISABLED, CUSTOM, COUNT, FPS, PLAYER_POSITION, MOUSE_POSITION_UNITS, MOUSE_POSITION_PIXELS
     }
 
     [Header("Settings")]
@@ -52,6 +52,10 @@ public class Dbg : MonoBehaviour
                     break;
                 case DbgTextMode.FPS:
                     Text(Mathf.Round(1 / Time.deltaTime));
+                    break;
+                case DbgTextMode.PLAYER_POSITION:
+                    try { Text((Vector2)PlayerManager.GetPlayer().transform.position); }
+                    catch(System.Exception) { Text("-"); }
                     break;
                 case DbgTextMode.MOUSE_POSITION_UNITS:
                     Text((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition));

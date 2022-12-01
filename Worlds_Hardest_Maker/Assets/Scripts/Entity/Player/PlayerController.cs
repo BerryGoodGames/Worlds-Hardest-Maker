@@ -167,7 +167,7 @@ public class PlayerController : Controller
                 Mathf.Abs(rb.position.x) % 1 > ((1 - transform.lossyScale.x) * 0.5f + err) && 
                 Mathf.Abs(rb.position.x) % 1 < (1 - ((1 - transform.lossyScale.x) * 0.5f + err)))
             {
-                Vector2 posCheck = new(Mathf.Round(rb.position.y + movementInput.y), roundedPos.x);
+                Vector2 posCheck = new(roundedPos.x, Mathf.Round(rb.position.y + movementInput.y));
                 if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
                 {
                     //transform.position = new Vector2(roundedPos.x + (transform.position.x % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.x) * 0.5f, transform.position.y);
