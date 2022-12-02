@@ -8,20 +8,20 @@ public static class FieldTypeExtension
     {
         // return prefab according to type
         return new GameObject[] {
-            GameManager.Instance.WallField,
-            GameManager.Instance.StartField,
-            GameManager.Instance.GoalField,
-            GameManager.Instance.CheckpointField,
-            GameManager.Instance.OneWayField,
-            GameManager.Instance.Conveyor,
-            GameManager.Instance.Water,
-            GameManager.Instance.Ice,
-            GameManager.Instance.Void,
-            GameManager.Instance.GrayKeyDoorField,
-            GameManager.Instance.RedKeyDoorField,
-            GameManager.Instance.GreenKeyDoorField,
-            GameManager.Instance.BlueKeyDoorField,
-            GameManager.Instance.YellowKeyDoorField,
+            PrefabManager.Instance.WallField,
+            PrefabManager.Instance.StartField,
+            PrefabManager.Instance.GoalField,
+            PrefabManager.Instance.CheckpointField,
+            PrefabManager.Instance.OneWayField,
+            PrefabManager.Instance.Conveyor,
+            PrefabManager.Instance.Water,
+            PrefabManager.Instance.Ice,
+            PrefabManager.Instance.Void,
+            PrefabManager.Instance.GrayKeyDoorField,
+            PrefabManager.Instance.RedKeyDoorField,
+            PrefabManager.Instance.GreenKeyDoorField,
+            PrefabManager.Instance.BlueKeyDoorField,
+            PrefabManager.Instance.YellowKeyDoorField,
         }[(int)type];
     }
 

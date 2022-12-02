@@ -8,11 +8,11 @@ public static class KeyColorExtension
     {
         Dictionary<KeyManager.KeyColor, GameObject> prefabs = new()
         {
-            { KeyManager.KeyColor.GRAY, GameManager.Instance.GrayKey },
-            { KeyManager.KeyColor.RED, GameManager.Instance.RedKey },
-            { KeyManager.KeyColor.BLUE, GameManager.Instance.BlueKey },
-            { KeyManager.KeyColor.GREEN, GameManager.Instance.GreenKey },
-            { KeyManager.KeyColor.YELLOW, GameManager.Instance.YellowKey }
+            { KeyManager.KeyColor.GRAY, PrefabManager.Instance.GrayKey },
+            { KeyManager.KeyColor.RED, PrefabManager.Instance.RedKey },
+            { KeyManager.KeyColor.BLUE, PrefabManager.Instance.BlueKey },
+            { KeyManager.KeyColor.GREEN, PrefabManager.Instance.GreenKey },
+            { KeyManager.KeyColor.YELLOW, PrefabManager.Instance.YellowKey }
         };
         return prefabs[color];
     }
@@ -21,11 +21,11 @@ public static class KeyColorExtension
     {
         Dictionary<KeyManager.KeyColor, GameObject> prefabs = new()
         {
-            { KeyManager.KeyColor.GRAY, GameManager.Instance.GrayKeyDoorField },
-            { KeyManager.KeyColor.RED, GameManager.Instance.RedKeyDoorField },
-            { KeyManager.KeyColor.BLUE, GameManager.Instance.BlueKeyDoorField },
-            { KeyManager.KeyColor.GREEN, GameManager.Instance.GreenKeyDoorField },
-            { KeyManager.KeyColor.YELLOW, GameManager.Instance.YellowKeyDoorField }
+            { KeyManager.KeyColor.GRAY, PrefabManager.Instance.GrayKeyDoorField },
+            { KeyManager.KeyColor.RED, PrefabManager.Instance.RedKeyDoorField },
+            { KeyManager.KeyColor.BLUE, PrefabManager.Instance.BlueKeyDoorField },
+            { KeyManager.KeyColor.GREEN, PrefabManager.Instance.GreenKeyDoorField },
+            { KeyManager.KeyColor.YELLOW, PrefabManager.Instance.YellowKeyDoorField }
         };
         return prefabs[color];
     }

@@ -32,35 +32,6 @@ public class GameManager : MonoBehaviourPun
 
     #region Constants & references
     [Header("Constants & References")]
-    [Header("Prefabs")]
-    public GameObject WallField;
-    public GameObject StartField;
-    public GameObject GoalField;
-    public GameObject CheckpointField;
-    public GameObject OneWayField;
-    public GameObject Conveyor;
-    public GameObject Water;
-    public GameObject Ice;
-    public GameObject Void;
-    public GameObject GrayKeyDoorField;
-    public GameObject RedKeyDoorField;
-    public GameObject GreenKeyDoorField;
-    public GameObject BlueKeyDoorField;
-    public GameObject YellowKeyDoorField;
-    public GameObject Player;
-    public GameObject Anchor;
-    public GameObject Ball;
-    public GameObject BallDefault;
-    public GameObject BallCircle;
-    public GameObject Coin;
-    public GameObject GrayKey;
-    public GameObject RedKey;
-    public GameObject GreenKey;
-    public GameObject BlueKey;
-    public GameObject YellowKey;
-    public GameObject FillPreview;
-    public GameObject Tooltip;
-    [Space]
     [Header("Objects")]
     public GameObject Manager;
     public GameObject Canvas;

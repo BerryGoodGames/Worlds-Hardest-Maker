@@ -24,7 +24,7 @@ public class CoinManager : MonoBehaviour
             Vector2 pos = new(mx, my);
 
             GameManager.Instance.TotalCoins++;
-            GameObject coin = Instantiate(GameManager.Instance.Coin, pos, Quaternion.identity, GameManager.Instance.CoinContainer.transform);
+            GameObject coin = Instantiate(PrefabManager.Instance.Coin, pos, Quaternion.identity, GameManager.Instance.CoinContainer.transform);
                     
             Animator anim = coin.GetComponent<Animator>();
             anim.SetBool("Playing", GameManager.Instance.Playing);

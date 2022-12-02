@@ -58,7 +58,7 @@ public class BallCircleManager : MonoBehaviour
         }
         else
         {
-            newBallCircle = Instantiate(GameManager.Instance.BallCircle, Vector2.zero, Quaternion.identity, GameManager.Instance.BallCircleContainer.transform);
+            newBallCircle = Instantiate(PrefabManager.Instance.BallCircle, Vector2.zero, Quaternion.identity, GameManager.Instance.BallCircleContainer.transform);
 
             BallCircleController controller = newBallCircle.transform.GetChild(0).GetComponent<BallCircleController>();
             controller.SetRadius(r); 

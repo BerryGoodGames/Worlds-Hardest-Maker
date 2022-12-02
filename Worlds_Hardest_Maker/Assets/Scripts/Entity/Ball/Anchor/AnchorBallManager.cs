@@ -23,13 +23,13 @@ public class AnchorBallManager : MonoBehaviour
         }
         else
         {
-            GameObject ball = Instantiate(GameManager.Instance.Ball, Vector2.zero, Quaternion.identity, AnchorManager.Instance.SelectedAnchor.GetComponent<AnchorController>().container.transform);
+            GameObject ball = Instantiate(PrefabManager.Instance.Ball, Vector2.zero, Quaternion.identity, AnchorManager.Instance.SelectedAnchor.GetComponent<AnchorController>().container.transform);
             ball.transform.GetChild(0).position = pos;
         }
     }
     public static void SetAnchorBall(Vector2 pos, Transform container)
     {
-        GameObject ball = Instantiate(GameManager.Instance.Ball, Vector2.zero, Quaternion.identity, container);
+        GameObject ball = Instantiate(PrefabManager.Instance.Ball, Vector2.zero, Quaternion.identity, container);
         ball.transform.GetChild(0).position = pos;
     }
     public static void SetAnchorBall(float mx, float my) { SetAnchorBall(new(mx, my)); }

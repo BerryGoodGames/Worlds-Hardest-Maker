@@ -159,7 +159,7 @@ public class SelectionManager : MonoBehaviour
         {
             foreach (Vector2 pos in range)
             {
-                GameObject preview = Instantiate(GameManager.Instance.FillPreview, pos, Quaternion.identity, GameManager.Instance.FillPreviewContainer.transform);
+                GameObject preview = Instantiate(PrefabManager.Instance.FillPreview, pos, Quaternion.identity, GameManager.Instance.FillPreviewContainer.transform);
                 
                 PreviewController c = preview.GetComponent<PreviewController>();
                 c.Awake_();

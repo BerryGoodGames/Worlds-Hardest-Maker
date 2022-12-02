@@ -222,14 +222,14 @@ public class PlayerManager : MonoBehaviour
         GameObject newPlayer;
         if (multiplayer)
         {
-            newPlayer = PhotonNetwork.Instantiate(GameManager.Instance.Player.name, pos, Quaternion.identity);
+            newPlayer = PhotonNetwork.Instantiate(PrefabManager.Instance.Player.name, pos, Quaternion.identity);
 
             PhotonView view = newPlayer.GetComponent<PhotonView>();
             view.RPC("SetSpeed", RpcTarget.All, speed);
         }
         else
         {
-            newPlayer = Instantiate(GameManager.Instance.Player, pos, Quaternion.identity, GameManager.Instance.PlayerContainer.transform);
+            newPlayer = Instantiate(PrefabManager.Instance.Player, pos, Quaternion.identity, GameManager.Instance.PlayerContainer.transform);
             
             PlayerController controller_ = newPlayer.GetComponent<PlayerController>();
             controller_.SetSpeed(speed);
