@@ -135,8 +135,6 @@ public class PlayerController : Controller
         movementInput = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
         if (GameManager.Instance.Multiplayer) photonView.RPC("SetNameTagActive", RpcTarget.All, GameManager.Instance.Playing);
-
-        // print(rb.velocity);
     }
 
     private void OnCollisionStay2D(Collision2D collider)
@@ -194,7 +192,7 @@ public class PlayerController : Controller
         {
             if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
 
-            if (ice || true)
+            if (ice)
             {
                 IcePhysics();
             }
@@ -206,7 +204,7 @@ public class PlayerController : Controller
 
         UpdateConveyorMovement(ref totalMovement);
 
-        rb.MovePosition(rb.position + totalMovement);
+        if(totalMovement != Vector2.zero) rb.MovePosition(rb.position + totalMovement);
     }
     private void UpdateWaterState()
     {
@@ -240,13 +238,22 @@ public class PlayerController : Controller
     private void IcePhysics()
     {
         // transfer velocity to ice when entering
-        if (rb.velocity == Vector2.zero) rb.velocity = GetCurrentSpeed() * movementInput;
+        if (rb.velocity == Vector2.zero)
+        {
+            rb.velocity = GetCurrentSpeed() * movementInput;
+        }
+
+        rb.drag = iceFriction;
 
         // acceleration on ice
-        rb.drag = 5f;
-        rb.AddForce(50 * speed * movementInput);
+        // convert to units / second
+        float force = speed / Time.fixedDeltaTime;
+        rb.AddForce(force * movementInput, ForceMode2D.Force);
         
-        // rb.velocity = new(Mathf.Min(maxIceSpeed, rb.velocity.x), Mathf.Min(maxIceSpeed, rb.velocity.y));
+        rb.velocity = new(
+            Mathf.Clamp(rb.velocity.x, -maxIceSpeed, maxIceSpeed),
+            Mathf.Clamp(rb.velocity.y, -maxIceSpeed, maxIceSpeed)
+        );
     }
     private void UpdateMovement(ref Vector2 totalMovement)
     {
