@@ -245,8 +245,7 @@ public class PlayerController : Controller
         // acceleration on ice
         rb.drag = 5f;
         rb.AddForce(50 * speed * movementInput);
-
-        print(rb.velocity);
+        
         // rb.velocity = new(Mathf.Min(maxIceSpeed, rb.velocity.x), Mathf.Min(maxIceSpeed, rb.velocity.y));
     }
     private void UpdateMovement(ref Vector2 totalMovement)

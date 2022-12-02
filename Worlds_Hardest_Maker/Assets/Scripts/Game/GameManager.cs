@@ -104,6 +104,7 @@ public class GameManager : MonoBehaviourPun
     public TMPro.TMP_Text SelectingText;
     public TMPro.TMP_Text DeathText;
     public TMPro.TMP_Text CoinText;
+    public TMPro.TMP_Text Timer;
     #endregion
 
     #region Variables
@@ -201,6 +202,9 @@ public class GameManager : MonoBehaviourPun
         }
     }
 
+    private float timerTime;
+    private Coroutine timerCoroutine;
+
     public event Action OnGameQuit;
     #endregion
 
@@ -241,6 +245,9 @@ public class GameManager : MonoBehaviourPun
         LevelSettings.Instance.SetWaterDamping();
 
         SetCameraUnitWidth(23);
+
+        OnEdit += StopTimer;
+        OnPlay += StartTimer;
     }
 
     private void Update()
@@ -715,7 +722,6 @@ public class GameManager : MonoBehaviourPun
         return onScreen;
     }
 
-
     public static void RemoveObjectInContainer(float mx, float my, GameObject container)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.005f, 128);
@@ -772,5 +778,29 @@ public class GameManager : MonoBehaviourPun
             Instance.OnGameQuit();
 
         Application.Quit();
+    }
+
+    private void StartTimer()
+    {
+        print(timerCoroutine == null);
+        timerCoroutine = StartCoroutine(DoTimer());
+    }
+
+    private void StopTimer()
+    {
+        StopCoroutine(timerCoroutine);
+    }
+
+    private IEnumerator DoTimer()
+    {
+        timerTime = 0;
+        Timer.text = timerTime.ToString();
+        while (true)
+        {
+            timerTime += Time.deltaTime;
+
+            Timer.text = timerTime.ToString();
+            yield return null;
+        }
     }
 }
