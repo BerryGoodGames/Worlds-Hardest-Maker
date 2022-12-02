@@ -1522,7 +1522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2457176558949902235, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
       propertyPath: m_Text
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3147622571459938932, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
       propertyPath: m_text
@@ -1731,6 +1731,18 @@ PrefabInstance:
     - target: {fileID: 4875996626199540237, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4875996626224164504, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_text
+      value: "5\u200B"
+      objectReference: {fileID: 0}
+    - target: {fileID: 4875996626224164505, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4875996626224164505, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.000020981
       objectReference: {fileID: 0}
     - target: {fileID: 7370477241943501348, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
       propertyPath: width
@@ -10584,6 +10596,18 @@ PrefabInstance:
     - target: {fileID: 4875996626199540237, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4875996626224164504, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_text
+      value: "18\u200B"
+      objectReference: {fileID: 0}
+    - target: {fileID: 4875996626224164505, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4875996626224164505, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.000020981
       objectReference: {fileID: 0}
     - target: {fileID: 7370477241943501348, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
       propertyPath: width
