@@ -24,7 +24,7 @@ public class CoinManager : MonoBehaviour
             Vector2 pos = new(mx, my);
 
             GameManager.Instance.TotalCoins++;
-            GameObject coin = Instantiate(GameManager.Instance.Coin, pos, Quaternion.identity, GameManager.Instance.CoinContainer.transform);
+            GameObject coin = Instantiate(PrefabManager.Instance.Coin, pos, Quaternion.identity, ReferenceManager.Instance.CoinContainer);
                     
             Animator anim = coin.GetComponent<Animator>();
             anim.SetBool("Playing", GameManager.Instance.Playing);
@@ -44,7 +44,7 @@ public class CoinManager : MonoBehaviour
         GameObject currentPlayer = PlayerManager.GetPlayer();
         if (currentPlayer != null) currentPlayer.GetComponent<PlayerController>().UncollectCoinAtPos(new(mx, my));
 
-        GameManager.Instance.TotalCoins = GameManager.Instance.CoinContainer.transform.childCount - 1;
+        GameManager.Instance.TotalCoins = ReferenceManager.Instance.CoinContainer.childCount - 1;
     }
     public static GameObject GetCoin(float mx, float my)
     {

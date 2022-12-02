@@ -22,9 +22,9 @@ public class BallCircleController : IBallController
     {
         base.Awake();
 
-        if (transform.parent.parent != GameManager.Instance.BallCircleContainer.transform)
+        if (transform.parent.parent != ReferenceManager.Instance.BallCircleContainer)
         {
-            transform.parent.SetParent(GameManager.Instance.BallCircleContainer.transform);
+            transform.parent.SetParent(ReferenceManager.Instance.BallCircleContainer);
         }
 
         InitCircleObject();

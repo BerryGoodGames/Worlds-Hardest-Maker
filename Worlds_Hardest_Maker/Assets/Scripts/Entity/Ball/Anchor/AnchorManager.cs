@@ -64,7 +64,7 @@ public class AnchorManager : MonoBehaviour
             }
             else
             {
-                GameObject anchor = Instantiate(GameManager.Instance.Anchor, pos, Quaternion.identity, GameManager.Instance.AnchorContainer.transform);
+                GameObject anchor = Instantiate(PrefabManager.Instance.Anchor, pos, Quaternion.identity, ReferenceManager.Instance.AnchorContainer);
                 return anchor;
             }
         }

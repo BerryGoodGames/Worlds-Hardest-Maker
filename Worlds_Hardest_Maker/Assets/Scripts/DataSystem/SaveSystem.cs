@@ -27,41 +27,41 @@ public static class SaveSystem
             }
 
             // serialize anchors
-            foreach (Transform anchor in GameManager.Instance.AnchorContainer.transform)
+            foreach (Transform anchor in ReferenceManager.Instance.AnchorContainer)
             {
                 AnchorData anchorData = new(anchor.GetComponentInChildren<PathController>(), anchor.GetComponentInChildren<AnchorController>().container.transform);
                 levelData.Add(anchorData);
             }
 
             // serialize balls
-            foreach (Transform ball in GameManager.Instance.BallDefaultContainer.transform)
+            foreach (Transform ball in ReferenceManager.Instance.BallDefaultContainer)
             {
                 BallData ballData = new(ball.GetChild(0).GetComponent<BallController>());
                 levelData.Add(ballData);
             }
 
             // serialize ball circles
-            foreach (Transform ball in GameManager.Instance.BallCircleContainer.transform)
+            foreach (Transform ball in ReferenceManager.Instance.BallCircleContainer)
             {
                 BallCircleData ballCircleData = new(ball.GetChild(0).GetComponent<BallCircleController>());
                 levelData.Add(ballCircleData);
             }
 
             // serialize coins
-            foreach (Transform coin in GameManager.Instance.CoinContainer.transform)
+            foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
             {
                 CoinData coinData = new(coin.GetChild(0).GetComponent<CoinController>());
                 levelData.Add(coinData);
             }
             // serialize keys
-            foreach (Transform key in GameManager.Instance.KeyContainer.transform)
+            foreach (Transform key in ReferenceManager.Instance.KeyContainer)
             {
                 KeyData keyData = new(key.GetChild(0).GetComponent<KeyController>());
                 levelData.Add(keyData);
             }
 
             // serialize fields
-            foreach (Transform field in GameManager.Instance.FieldContainer.transform)
+            foreach (Transform field in ReferenceManager.Instance.FieldContainer)
             {
                 FieldData fieldData = new(field.gameObject);
                 levelData.Add(fieldData);

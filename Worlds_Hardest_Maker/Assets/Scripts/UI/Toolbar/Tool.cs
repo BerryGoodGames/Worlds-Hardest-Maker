@@ -59,6 +59,6 @@ public class Tool : MonoBehaviour
 
     private void Update()
     {
-        anim.SetVisible(selected || (mouseOverUI.over && !GameManager.Instance.Menu.activeSelf));
+        anim.SetVisible(selected || (mouseOverUI.over && !ReferenceManager.Instance.Menu.activeSelf));
     }
 }
