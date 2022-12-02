@@ -155,14 +155,14 @@ public class FieldManager : MonoBehaviour
             {
                 // TODO: 9x bad performance than before
                 // remove coin if wall is placed
-                GameManager.RemoveObjectInContainerIntersect(mx, my, GameManager.Instance.CoinContainer);
+                GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.CoinContainer);
             }
 
             if (KeyManager.CantPlaceFields.Contains(type))
             {
                 // TODO: 9x bad performance than before
                 // remove key if wall is placed
-                GameManager.RemoveObjectInContainerIntersect(mx, my, GameManager.Instance.KeyContainer);
+                GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.KeyContainer);
             }
         }
     }
@@ -185,7 +185,7 @@ public class FieldManager : MonoBehaviour
             res = PhotonNetwork.Instantiate(prefab.name, pos, Quaternion.Euler(0, 0, rotation));
         } else
         {
-            res = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), GameManager.Instance.FieldContainer.transform);
+            res = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), ReferenceManager.Instance.FieldContainer);
         }
         return res;
     }

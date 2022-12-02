@@ -57,7 +57,7 @@ public class KeyManager : MonoBehaviour
 
             RemoveKey(mx, my);
 
-            GameObject key = Instantiate(color.GetPrefabKey(), pos, Quaternion.identity, GameManager.Instance.KeyContainer.transform);
+            GameObject key = Instantiate(color.GetPrefabKey(), pos, Quaternion.identity, ReferenceManager.Instance.KeyContainer);
                     
             Animator anim = key.GetComponent<Animator>();
             anim.SetBool("Playing", GameManager.Instance.Playing);
@@ -78,7 +78,7 @@ public class KeyManager : MonoBehaviour
 
     public static void SetKonamiMode(bool konami)
     {
-        foreach(Transform key in GameManager.Instance.KeyContainer.transform)
+        foreach(Transform key in ReferenceManager.Instance.KeyContainer)
         {
             key.GetComponent<IntervalRandomAnimation>().enabled = konami;
         }

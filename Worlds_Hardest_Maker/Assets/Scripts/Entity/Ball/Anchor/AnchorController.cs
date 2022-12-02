@@ -21,7 +21,7 @@ public class AnchorController : Controller
 
         transform.parent.position = Vector2.zero;
 
-        transform.parent.SetParent(GameManager.Instance.AnchorContainer.transform);
+        transform.parent.SetParent(ReferenceManager.Instance.AnchorContainer);
 
         pathController = GetComponent<PathController>();
 
@@ -101,7 +101,7 @@ public class AnchorController : Controller
     {
         pathController.waypoints.Add(new(new(0, 0), true, 0, 1, 0));
         if (pathController.waypoints.Count > 0 && pathController.waypoints[0].WaypointEditor != null)
-            GameManager.Instance.BallWindows.GetComponentInChildren<PathEditorController>().UpdateUI();
+            ReferenceManager.Instance.BallWindows.GetComponentInChildren<PathEditorController>().UpdateUI();
     }
 
     public void BallFadeOut(AnimationEvent animationEvent)

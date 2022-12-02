@@ -51,7 +51,7 @@ public class BallManager : MonoBehaviour
         }
         else
         {
-            newBall = Instantiate(PrefabManager.Instance.BallDefault, Vector2.zero, Quaternion.identity, GameManager.Instance.BallDefaultContainer.transform);
+            newBall = Instantiate(PrefabManager.Instance.BallDefault, Vector2.zero, Quaternion.identity, ReferenceManager.Instance.BallDefaultContainer);
 
             BallController controller = newBall.transform.GetChild(0).GetComponent<BallController>();
             controller.SetObjectPos(pos);

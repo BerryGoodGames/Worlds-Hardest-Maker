@@ -58,7 +58,7 @@ public class BallCircleManager : MonoBehaviour
         }
         else
         {
-            newBallCircle = Instantiate(PrefabManager.Instance.BallCircle, Vector2.zero, Quaternion.identity, GameManager.Instance.BallCircleContainer.transform);
+            newBallCircle = Instantiate(PrefabManager.Instance.BallCircle, Vector2.zero, Quaternion.identity, ReferenceManager.Instance.BallCircleContainer);
 
             BallCircleController controller = newBallCircle.transform.GetChild(0).GetComponent<BallCircleController>();
             controller.SetRadius(r); 
@@ -74,8 +74,8 @@ public class BallCircleManager : MonoBehaviour
     [PunRPC]
     public void RemoveBallCircle(float mx, float my)
     {
-        GameObject container = GameManager.Instance.BallCircleContainer;
-        foreach (Transform bc in container.transform)
+        Transform container = ReferenceManager.Instance.BallCircleContainer;
+        foreach (Transform bc in container)
         {
             Vector2 originPos = bc.GetChild(0).GetComponent<BallCircleController>().origin.position;
 

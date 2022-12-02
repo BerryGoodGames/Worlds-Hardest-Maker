@@ -98,9 +98,9 @@ public class PlayerController : Controller
 
     private void Start()
     {
-        if(transform.parent != GameManager.Instance.PlayerContainer.transform)
+        if(transform.parent != ReferenceManager.Instance.PlayerContainer)
         {
-            transform.SetParent(GameManager.Instance.PlayerContainer.transform);
+            transform.SetParent(ReferenceManager.Instance.PlayerContainer);
         }
 
         // set progress from current state
@@ -485,7 +485,7 @@ public class PlayerController : Controller
 
     public bool CoinsCollected()
     {
-        return coinsCollected.Count >= GameManager.Instance.CoinContainer.transform.childCount;
+        return coinsCollected.Count >= ReferenceManager.Instance.CoinContainer.childCount;
     }
     public void UncollectCoinAtPos(Vector2 pos)
     {
@@ -502,7 +502,7 @@ public class PlayerController : Controller
     
     public bool KeysCollected(KeyManager.KeyColor color)
     {
-        foreach(Transform k in GameManager.Instance.KeyContainer.transform)
+        foreach(Transform k in ReferenceManager.Instance.KeyContainer)
         {
             KeyController controller = k.GetChild(0).GetComponent<KeyController>();
             if (!controller.pickedUp && controller.color == color) return false;
@@ -598,7 +598,7 @@ public class PlayerController : Controller
         if (jumpToPlayer.target == gameObject) jumpToPlayer.target = player;
 
         // reset coins
-        foreach (Transform coin in GameManager.Instance.CoinContainer.transform)
+        foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
         {
             CoinController coinController = coin.GetChild(0).GetComponent<CoinController>();
 
@@ -627,7 +627,7 @@ public class PlayerController : Controller
         }
 
         // reset keys
-        foreach (Transform key in GameManager.Instance.KeyContainer.transform)
+        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
         {
             KeyController keyController = key.GetChild(0).GetComponent<KeyController>();
 

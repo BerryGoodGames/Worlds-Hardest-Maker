@@ -14,7 +14,7 @@ public class KeyController : Controller
 
         SpriteRenderer renderer = GetComponent<SpriteRenderer>();
         int highestOrder = 0;
-        foreach(Transform key in GameManager.Instance.KeyContainer.transform)
+        foreach(Transform key in ReferenceManager.Instance.KeyContainer)
         {
             int order = key.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder;
             if (order > highestOrder) highestOrder = order;

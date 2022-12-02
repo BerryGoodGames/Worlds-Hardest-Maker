@@ -42,7 +42,7 @@ public class GraphicsSettings : MonoBehaviour
     public void SetOneColorStartGoal(bool oneColor)
     {
         // REF
-        foreach (Transform field in GameManager.Instance.FieldContainer.transform)
+        foreach (Transform field in ReferenceManager.Instance.FieldContainer)
         {
             if (oneColor)
             {

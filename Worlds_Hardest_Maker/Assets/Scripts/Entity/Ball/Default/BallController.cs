@@ -12,9 +12,9 @@ public class BallController : IBallController
 
     private void Start()
     {
-        if(transform.parent.parent != GameManager.Instance.BallDefaultContainer.transform)
+        if(transform.parent.parent != ReferenceManager.Instance.BallDefaultContainer)
         {
-            transform.parent.SetParent(GameManager.Instance.BallDefaultContainer.transform);
+            transform.parent.SetParent(ReferenceManager.Instance.BallDefaultContainer);
         }
 
         // set line

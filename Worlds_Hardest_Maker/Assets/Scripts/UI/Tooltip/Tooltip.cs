@@ -30,7 +30,7 @@ public class Tooltip : MonoBehaviour
     {
         mouseOver = GetComponent<MouseOverUI>();
 
-        tooltip = Instantiate(PrefabManager.Instance.Tooltip, Vector2.zero, Quaternion.identity, GameManager.Instance.TooltipCanvas.transform);
+        tooltip = Instantiate(PrefabManager.Instance.Tooltip, Vector2.zero, Quaternion.identity, ReferenceManager.Instance.TooltipCanvas.transform);
         fadeTween = tooltip.GetComponent<AlphaUITween>();
 
         tooltipRectTransform = tooltip.GetComponent<RectTransform>();

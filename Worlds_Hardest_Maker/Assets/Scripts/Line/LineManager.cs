@@ -176,7 +176,7 @@ public class LineManager : MonoBehaviour
     {
         if (parent == null)
         {
-            parent = GameManager.Instance.DrawContainer.transform;
+            parent = ReferenceManager.Instance.DrawContainer;
         }
 
         GameObject stroke = NewDrawObject("DrawLine", parent);
@@ -199,7 +199,7 @@ public class LineManager : MonoBehaviour
     private static GameObject NewDrawObject(string name, Transform parent)
     {
         // DrawContainer is default container
-        if (parent == null) parent = GameManager.Instance.DrawContainer.transform;
+        if (parent == null) parent = ReferenceManager.Instance.DrawContainer;
 
         GameObject stroke = new(){ name = name };
         stroke.transform.parent = parent;

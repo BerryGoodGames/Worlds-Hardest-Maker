@@ -52,7 +52,7 @@ public class SelectionManager : MonoBehaviour
             (Vector2 start, Vector2 end) = MouseManager.GetDragPositions(worldPosition);
 
             // disable normal placement preview
-            GameManager.Instance.PlacementPreview.SetActive(false);
+            ReferenceManager.Instance.PlacementPreview.SetActive(false);
 
             if (Input.GetMouseButtonDown(GameManager.Instance.SelectionMouseButton)) OnStartSelect(start);
             else if (Input.GetMouseButtonUp(GameManager.Instance.SelectionMouseButton)) OnAreaSelected(start, end);
@@ -147,7 +147,7 @@ public class SelectionManager : MonoBehaviour
     #region Preview
     private static void RemakePreview()
     {
-        if (GameManager.Instance.FillPreviewContainer.transform.childCount == 0) return;
+        if (ReferenceManager.Instance.FillPreviewContainer.childCount == 0) return;
         DestroyPreview();
         InitSelectedPreview();
     }
@@ -159,7 +159,7 @@ public class SelectionManager : MonoBehaviour
         {
             foreach (Vector2 pos in range)
             {
-                GameObject preview = Instantiate(PrefabManager.Instance.FillPreview, pos, Quaternion.identity, GameManager.Instance.FillPreviewContainer.transform);
+                GameObject preview = Instantiate(PrefabManager.Instance.FillPreview, pos, Quaternion.identity, ReferenceManager.Instance.FillPreviewContainer);
                 
                 PreviewController c = preview.GetComponent<PreviewController>();
                 c.Awake_();
@@ -173,7 +173,7 @@ public class SelectionManager : MonoBehaviour
     private static void DestroyPreview()
     {
         // destroy selection previews
-        foreach (Transform preview in GameManager.Instance.FillPreviewContainer.transform)
+        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer)
         {
             Destroy(preview.gameObject);
         }
@@ -186,7 +186,7 @@ public class SelectionManager : MonoBehaviour
 
     public static void UpdatePreviewRotation()
     {
-        foreach(Transform preview in GameManager.Instance.FillPreviewContainer.transform)
+        foreach(Transform preview in ReferenceManager.Instance.FillPreviewContainer)
         {
             preview.GetComponent<PreviewController>().UpdateRotation();
         }
@@ -194,7 +194,7 @@ public class SelectionManager : MonoBehaviour
 
     public static void UpdatePreviewSprite()
     {
-        foreach (Transform preview in GameManager.Instance.FillPreviewContainer.transform)
+        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer)
         {
             preview.GetComponent<PreviewController>().UpdateSprite();
         }
@@ -202,16 +202,16 @@ public class SelectionManager : MonoBehaviour
 
     private static void SetPreviewVisible()
     {
-        if (GameManager.Instance.FillPreviewContainer.transform.childCount == 0)
+        if (ReferenceManager.Instance.FillPreviewContainer.childCount == 0)
         {
             InitSelectedPreview();
         }
 
-        GameManager.Instance.FillPreviewContainer.SetActive(true);
+        ReferenceManager.Instance.FillPreviewContainer.gameObject.SetActive(true);
     }
     private static void SetPreviewInvisible()
     {
-        GameManager.Instance.FillPreviewContainer.SetActive(false);
+        ReferenceManager.Instance.FillPreviewContainer.gameObject.SetActive(false);
     }
 
     #endregion
@@ -334,7 +334,7 @@ public class SelectionManager : MonoBehaviour
 
 
             // set field at pos
-            GameObject field = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), GameManager.Instance.FieldContainer.transform);
+            GameObject field = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), ReferenceManager.Instance.FieldContainer);
 
             if (tagIndex != null)
             {
@@ -466,7 +466,7 @@ public class SelectionManager : MonoBehaviour
             start.y + 0.5f,
             -1,
             -1,
-            alignCenter: false, parent: GameManager.Instance.SelectionOutlineContainer.transform
+            alignCenter: false, parent: ReferenceManager.Instance.SelectionOutlineContainer
         );
 
         selectionOutlineAnim = selectionOutline.AddComponent<LineAnimator>();
@@ -618,7 +618,7 @@ public class SelectionManager : MonoBehaviour
         // enable placement preview
         if (!GameManager.Instance.Playing)
         {
-            GameObject preview = GameManager.Instance.PlacementPreview;
+            GameObject preview = ReferenceManager.Instance.PlacementPreview;
             preview.SetActive(true);
             preview.transform.position = FollowMouse.GetCurrentMouseWorldPos(preview.GetComponent<FollowMouse>().worldPosition);
         }

@@ -12332,27 +12332,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f2714199ba2e442ad4b4508d6b2e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Manager: {fileID: 3252578248619094831}
-  Canvas: {fileID: 1436984675}
-  TooltipCanvas: {fileID: 914302642}
-  Menu: {fileID: 1006894544}
-  PlayButton: {fileID: 1830893215}
-  PlacementPreview: {fileID: 2046466257}
-  LevelSettingsPanel: {fileID: 516759318}
-  ToolbarContainer: {fileID: 3914619141356778195}
-  BallWindows: {fileID: 4673024329375387179}
-  SliderContainer: {fileID: 2134541448}
-  NameTagContainer: {fileID: 1659196505}
-  DrawContainer: {fileID: 1552703639}
-  SelectionOutlineContainer: {fileID: 1598753939}
-  FillPreviewContainer: {fileID: 282166552}
-  PlayerContainer: {fileID: 2131202555}
-  AnchorContainer: {fileID: 3469053329403155088}
-  BallDefaultContainer: {fileID: 446761088}
-  BallCircleContainer: {fileID: 1784506610}
-  CoinContainer: {fileID: 222980749}
-  KeyContainer: {fileID: 139186753}
-  FieldContainer: {fileID: 480599884}
   SelectionMouseButton: 1
   PanMouseButton: 2
   EntityDeleteKey: 127
@@ -12419,6 +12398,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3252578248619094825}
   - component: {fileID: 3252578248619094824}
+  - component: {fileID: 3252578248619094842}
   - component: {fileID: 3252578248619094838}
   - component: {fileID: 3252578248619094839}
   - component: {fileID: 3252578248619094840}
@@ -12586,8 +12566,8 @@ MonoBehaviour:
   NumberInputOptionPrefab: {fileID: 3637377166554687212, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
   HeaderOptionPrefab: {fileID: 2368007494792109334, guid: a6b7a0f0fae743a45b285f8893593211, type: 3}
   SpaceOptionPrefab: {fileID: 1492080202677860167, guid: feda6681672e0d248813daa25467d30e, type: 3}
-  FillPreview: {fileID: 0}
-  Tooltip: {fileID: 0}
+  FillPreview: {fileID: 4652236031313732080, guid: 0f8817e424b9b4547b47abeab323c2e9, type: 3}
+  Tooltip: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
 --- !u!114 &3252578248619094839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12627,6 +12607,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64622f8246b9aa2419e8d04e1ff4064f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3252578248619094842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3252578248619094831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d49f63c499640d0428d8e1086e153a7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Manager: {fileID: 3252578248619094831}
+  Canvas: {fileID: 1436984675}
+  TooltipCanvas: {fileID: 914302642}
+  Menu: {fileID: 1006894544}
+  PlayButton: {fileID: 1830893215}
+  PlacementPreview: {fileID: 2046466257}
+  LevelSettingsPanel: {fileID: 516759318}
+  BallWindows: {fileID: 4673024329375387179}
+  ToolbarContainer: {fileID: 3914619140277756239}
+  SliderContainer: {fileID: 2134541449}
+  NameTagContainer: {fileID: 1659196506}
+  DrawContainer: {fileID: 1552703640}
+  SelectionOutlineContainer: {fileID: 1598753940}
+  FillPreviewContainer: {fileID: 282166553}
+  PlayerContainer: {fileID: 2131202556}
+  AnchorContainer: {fileID: 3469053329403155091}
+  BallDefaultContainer: {fileID: 446761089}
+  BallCircleContainer: {fileID: 1784506611}
+  CoinContainer: {fileID: 222980750}
+  KeyContainer: {fileID: 139186754}
+  FieldContainer: {fileID: 480599885}
 --- !u!1 &3469053329403155088
 GameObject:
   m_ObjectHideFlags: 0
