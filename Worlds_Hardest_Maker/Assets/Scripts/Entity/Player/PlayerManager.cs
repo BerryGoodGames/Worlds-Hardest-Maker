@@ -20,54 +20,71 @@ public class PlayerManager : MonoBehaviour
         FieldType.GOAL_FIELD
     });
 
-    public void SetPlayer(float mx, float my, float speed)
+    public void SetPlayer(float mx, float my, float speed, bool placeStartField = false)
     {
-        if (CanPlace(mx, my))
+        if (!CanPlace(mx, my))
         {
-            // clear area from coins and keys
-            GameManager.RemoveObjectInContainer(mx, my, ReferenceManager.Instance.CoinContainer);
-            GameManager.RemoveObjectInContainer(mx, my, ReferenceManager.Instance.KeyContainer);
-
-            // clear all players (only from this client tho)
-            if (GameManager.Instance.Multiplayer)
+            if (placeStartField)
             {
-                PlayerController[] players = FindObjectsOfType<PlayerController>();
-                foreach (PlayerController p in players)
+                (int x, int y)[] poses =
                 {
-                    PhotonView view = p.GetComponent<PhotonView>();
-                    // check if player is from own client
-                    if (view.IsMine)
-                    {
-                        // remove player
-                        GameManager.Instance.photonView.RPC("RemovePlayerAtPosOnlyOtherClients", RpcTarget.Others, p.transform.position.x, p.transform.position.y);
-                        RemovePlayerAtPosIgnoreOtherClients(p.transform.position.x, p.transform.position.y);
-                    }
+                    (Mathf.FloorToInt(mx), Mathf.FloorToInt(my)),
+                    (Mathf.CeilToInt(mx), Mathf.FloorToInt(my)),
+                    (Mathf.FloorToInt(mx), Mathf.CeilToInt(my)),
+                    (Mathf.CeilToInt(mx), Mathf.CeilToInt(my))
+                };
+
+                foreach(var pos in poses)
+                {
+                    FieldManager.Instance.SetField(pos.x, pos.y, FieldType.START_FIELD);
                 }
             }
-            else
-            {
-                RemoveAllPlayers();
-            }
-
-            // place player
-            GameObject newPlayer = InstantiatePlayer(mx, my, speed, GameManager.Instance.Multiplayer);
-            
-            int newID = AvailableID();
-            newPlayer.GetComponent<PlayerController>().id = newID;
-
-            // set target of camera
-            Camera.main.GetComponent<JumpToEntity>().target = newPlayer;
+            else return;
         }
+
+        // clear area from coins and keys
+        GameManager.RemoveObjectInContainer(mx, my, ReferenceManager.Instance.CoinContainer);
+        GameManager.RemoveObjectInContainer(mx, my, ReferenceManager.Instance.KeyContainer);
+
+        // clear all players (only from this client tho)
+        if (GameManager.Instance.Multiplayer)
+        {
+            PlayerController[] players = FindObjectsOfType<PlayerController>();
+            foreach (PlayerController p in players)
+            {
+                PhotonView view = p.GetComponent<PhotonView>();
+                // check if player is from own client
+                if (view.IsMine)
+                {
+                    // remove player
+                    GameManager.Instance.photonView.RPC("RemovePlayerAtPosOnlyOtherClients", RpcTarget.Others, p.transform.position.x, p.transform.position.y);
+                    RemovePlayerAtPosIgnoreOtherClients(p.transform.position.x, p.transform.position.y);
+                }
+            }
+        }
+        else
+        {
+            RemoveAllPlayers();
+        }
+
+        // place player
+        GameObject newPlayer = InstantiatePlayer(mx, my, speed, GameManager.Instance.Multiplayer);
+
+        int newID = AvailableID();
+        newPlayer.GetComponent<PlayerController>().id = newID;
+
+        // set target of camera
+        Camera.main.GetComponent<JumpToEntity>().target = newPlayer;
     }
 
-    public void SetPlayer(Vector2 pos, float speed)
+    public void SetPlayer(Vector2 pos, float speed, bool placeStartField = false)
     {
-        SetPlayer(pos.x, pos.y, speed);
+        SetPlayer(pos.x, pos.y, speed, placeStartField);
     }
     [PunRPC]
-    public void SetPlayer(float mx, float my)
+    public void SetPlayer(float mx, float my, bool placeStartField = false)
     {
-        SetPlayer(mx, my, 3f);
+        SetPlayer(mx, my, 3f, placeStartField);
     }
 
     [PunRPC]

@@ -392,7 +392,7 @@ public class GameManager : MonoBehaviourPun
         else if (editMode == EditMode.PLAYER)
         {
             // place player
-            PlayerManager.Instance.SetPlayer(gridX, gridY);
+            PlayerManager.Instance.SetPlayer(gridX, gridY, placeStartField: true) ;
         }
         else if (editMode == EditMode.COIN)
         {
