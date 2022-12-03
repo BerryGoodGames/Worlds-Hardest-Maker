@@ -247,13 +247,8 @@ public class PlayerController : Controller
 
         // acceleration on ice
         // convert to units / second
-        float force = speed / Time.fixedDeltaTime;
-        rb.AddForce(force * movementInput, ForceMode2D.Force);
-        
-        rb.velocity = new(
-            Mathf.Clamp(rb.velocity.x, -maxIceSpeed, maxIceSpeed),
-            Mathf.Clamp(rb.velocity.y, -maxIceSpeed, maxIceSpeed)
-        );
+        float force = maxIceSpeed;
+        rb.AddForce(force * iceFriction * movementInput, ForceMode2D.Force);
     }
     private void UpdateMovement(ref Vector2 totalMovement)
     {

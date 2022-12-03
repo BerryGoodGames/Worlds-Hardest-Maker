@@ -13,7 +13,6 @@ public class FieldManager : MonoBehaviour
     public static readonly List<FieldType> SolidFields = new(new FieldType[]
     {
         FieldType.WALL_FIELD,
-        FieldType.ONE_WAY_FIELD,
         FieldType.GRAY_KEY_DOOR_FIELD,
         FieldType.RED_KEY_DOOR_FIELD,
         FieldType.GREEN_KEY_DOOR_FIELD,
