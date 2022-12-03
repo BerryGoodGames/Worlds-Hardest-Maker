@@ -9,7 +9,7 @@ using DG.Tweening;
 /// </summary>
 public class BarTween : MonoBehaviour
 {
-    public static List<BarTween> tweenList;
+    public static List<BarTween> tweenList = new();
 
     [SerializeField] private float visibleY;
     [SerializeField] private float invisibleY;

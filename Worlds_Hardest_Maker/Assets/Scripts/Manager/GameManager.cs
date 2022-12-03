@@ -6,6 +6,9 @@ using Photon.Pun;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Globalization;
+using System.Threading;
+using Ookii.Dialogs;
 
 /// <summary>
 /// manages game (duh)
@@ -127,6 +130,8 @@ public class GameManager : MonoBehaviourPun
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
+
+        ForceDecimalSeparator(".");
 
         // check if multiplayer or not
         Instance.Multiplayer = PhotonNetwork.CurrentRoom != null;
@@ -640,11 +645,20 @@ public class GameManager : MonoBehaviourPun
     }
     public static void QuitGame()
     {
-        if(Instance.OnGameQuit != null)
-            Instance.OnGameQuit();
+        Instance.OnGameQuit?.Invoke();
 
         Application.Quit();
     }
 
-    
+    public static void ForceDecimalSeparator(string separator)
+    {
+        string cultureName = Thread.CurrentThread.CurrentCulture.Name;
+        CultureInfo ci = new(cultureName);
+        if (ci.NumberFormat.NumberDecimalSeparator != separator)
+        {
+            // Forcing use of decimal separator for numerical values
+            ci.NumberFormat.NumberDecimalSeparator = separator;
+            Thread.CurrentThread.CurrentCulture = ci;
+        }
+    }
 }
