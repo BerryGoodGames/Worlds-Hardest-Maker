@@ -25,7 +25,6 @@ public class Dbg : MonoBehaviour
     public bool drawRays = false;
     [Space]
     public float gameSpeed = 1;
-
     [Space]
     [Header("References")]
     public GameObject DebugText;
