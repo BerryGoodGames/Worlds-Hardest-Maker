@@ -19,7 +19,7 @@ public class FieldData : IData
         position[1] = (int)field.transform.position.y;
         rotation = (int)field.transform.rotation.eulerAngles.z;
 
-        FieldManager.FieldType typeEnum = (FieldManager.FieldType)FieldManager.GetFieldType(field);
+        FieldType typeEnum = (FieldType)FieldManager.GetFieldType(field);
         fieldType = typeEnum.ToString();
     }
 
@@ -30,13 +30,13 @@ public class FieldData : IData
 
     public override void ImportToLevel(Vector2 pos)
     {
-        FieldManager.FieldType type = (FieldManager.FieldType)System.Enum.Parse(typeof(FieldManager.FieldType), fieldType);
+        FieldType type = (FieldType)System.Enum.Parse(typeof(FieldType), fieldType);
 
         FieldManager.Instance.SetField(pos, type, rotation);
     }
 
-    public override GameManager.EditMode GetEditMode()
+    public override EditMode GetEditMode()
     {
-        return (GameManager.EditMode)System.Enum.Parse(typeof(GameManager.EditMode), fieldType);    
+        return (EditMode)System.Enum.Parse(typeof(EditMode), fieldType);    
     }
 }

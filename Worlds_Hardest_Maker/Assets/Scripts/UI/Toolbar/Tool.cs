@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Tool : MonoBehaviour
 {
-    [HideInInspector] public GameManager.EditMode toolName;
+    [HideInInspector] public EditMode toolName;
     [SerializeField] private string toolType;
     [HideInInspector] public bool selected;
     [HideInInspector] public bool inOptionbar;

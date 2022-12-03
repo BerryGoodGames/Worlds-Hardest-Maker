@@ -160,5 +160,5 @@ public abstract class IData
     public abstract void ImportToLevel();
     public abstract void ImportToLevel(Vector2 pos);
 
-    public abstract GameManager.EditMode GetEditMode();
+    public abstract EditMode GetEditMode();
 }

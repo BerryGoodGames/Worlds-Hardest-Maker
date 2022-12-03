@@ -7,13 +7,13 @@ public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance { get; private set; }
 
-    public static List<FieldManager.FieldType> CantPlaceFields = new(new FieldManager.FieldType[]{
-        FieldManager.FieldType.WALL_FIELD,
-        FieldManager.FieldType.RED_KEY_DOOR_FIELD,
-        FieldManager.FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldManager.FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldManager.FieldType.YELLOW_KEY_DOOR_FIELD,
-        FieldManager.FieldType.GRAY_KEY_DOOR_FIELD
+    public static List<FieldType> CantPlaceFields = new(new FieldType[]{
+        FieldType.WALL_FIELD,
+        FieldType.RED_KEY_DOOR_FIELD,
+        FieldType.BLUE_KEY_DOOR_FIELD,
+        FieldType.GREEN_KEY_DOOR_FIELD,
+        FieldType.YELLOW_KEY_DOOR_FIELD,
+        FieldType.GRAY_KEY_DOOR_FIELD
     });
 
     [PunRPC]

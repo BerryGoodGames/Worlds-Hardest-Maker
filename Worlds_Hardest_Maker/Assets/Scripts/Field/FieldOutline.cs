@@ -6,13 +6,13 @@ using UnityEngine;
 public class FieldOutline : MonoBehaviour
 {
     // array not dynamic
-    public static readonly FieldManager.FieldType[] TypesWithOutlines = {
-        FieldManager.FieldType.WALL_FIELD,
-        FieldManager.FieldType.GRAY_KEY_DOOR_FIELD,
-        FieldManager.FieldType.RED_KEY_DOOR_FIELD,
-        FieldManager.FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldManager.FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldManager.FieldType.YELLOW_KEY_DOOR_FIELD
+    public static readonly FieldType[] TypesWithOutlines = {
+        FieldType.WALL_FIELD,
+        FieldType.GRAY_KEY_DOOR_FIELD,
+        FieldType.RED_KEY_DOOR_FIELD,
+        FieldType.BLUE_KEY_DOOR_FIELD,
+        FieldType.GREEN_KEY_DOOR_FIELD,
+        FieldType.YELLOW_KEY_DOOR_FIELD
     };
 
     public Color color = Color.black;

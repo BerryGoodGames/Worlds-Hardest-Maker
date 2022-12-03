@@ -25,7 +25,7 @@ public class MouseEvents : MonoBehaviour
         float gridX = Mathf.Round(mousePos.x * 2) * 0.5f;
         float gridY = Mathf.Round(mousePos.y * 2) * 0.5f;
 
-        GameManager.EditMode editMode = GameManager.Instance.CurrentEditMode;
+        EditMode editMode = GameManager.Instance.CurrentEditMode;
 
         if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton)) StartCoroutine(StartCancelSelection());
 
@@ -53,7 +53,7 @@ public class MouseEvents : MonoBehaviour
 
                         int rotation = FieldManager.IsRotatable(editMode) ? GameManager.Instance.EditRotation : 0;
 
-                        FieldManager.FieldType type = GameManager.ConvertEnum<GameManager.EditMode, FieldManager.FieldType>(editMode);
+                        FieldType type = GameManager.ConvertEnum<EditMode, FieldType>(editMode);
 
                         // fill path between two mouse pos for smoother placing on low framerate
                         if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) > 1.414f)
@@ -102,21 +102,21 @@ public class MouseEvents : MonoBehaviour
                 // onclick
                 if (Input.GetMouseButtonDown(0))
                 {
-                    if(editMode == GameManager.EditMode.ANCHOR)
+                    if(editMode == EditMode.ANCHOR)
                     {
                         // place new anchor
                         AnchorManager.Instance.SetAnchor(gridX, gridY);
                     }
-                    if (editMode == GameManager.EditMode.BALL)
+                    if (editMode == EditMode.BALL)
                     {
                         AnchorBallManager.SetAnchorBall(gridX, gridY);
                     }
-                    if (editMode == GameManager.EditMode.BALL_DEFAULT)
+                    if (editMode == EditMode.BALL_DEFAULT)
                     {
                         // place new ball
                         BallManager.Instance.SetBall(gridX, gridY);
                     }
-                    else if (editMode == GameManager.EditMode.BALL_CIRCLE)
+                    else if (editMode == EditMode.BALL_CIRCLE)
                     {
                         // place new ball circle
                         BallCircleManager.Instance.SetBallCircle(gridX, gridY);

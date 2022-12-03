@@ -41,8 +41,8 @@ public class BallData : IData
         );
     }
 
-    public override GameManager.EditMode GetEditMode()
+    public override EditMode GetEditMode()
     {
-        return GameManager.EditMode.BALL_DEFAULT;
+        return EditMode.BALL_DEFAULT;
     }
 }

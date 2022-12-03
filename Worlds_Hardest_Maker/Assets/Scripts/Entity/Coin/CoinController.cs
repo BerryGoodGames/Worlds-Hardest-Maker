@@ -35,8 +35,8 @@ public class CoinController : Controller
                     {
                         foreach (GameObject field in controller.currentFields)
                         {
-                            FieldManager.FieldType fieldType = (FieldManager.FieldType)FieldManager.GetFieldType(field);
-                            if (fieldType == FieldManager.FieldType.GOAL_FIELD)
+                            FieldType fieldType = (FieldType)FieldManager.GetFieldType(field);
+                            if (fieldType == FieldType.GOAL_FIELD)
                             {
                                 controller.Win();
                                 break;

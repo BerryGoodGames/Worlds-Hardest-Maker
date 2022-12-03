@@ -14,21 +14,7 @@ public class GameManager : MonoBehaviourPun
 {
     public static GameManager Instance { get; private set; }
 
-    public enum EditMode
-    {
-        DELETE_FIELD, 
-        WALL_FIELD, 
-        START_FIELD, GOAL_FIELD, CHECKPOINT_FIELD, 
-        ONE_WAY_FIELD, CONVEYOR,
-        WATER, ICE,
-        VOID,
-        GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD, 
-        PLAYER, 
-        ANCHOR, 
-        BALL, BALL_DEFAULT, BALL_CIRCLE, 
-        COIN, 
-        GRAY_KEY, RED_KEY, GREEN_KEY, BLUE_KEY, YELLOW_KEY
-    }
+    
 
     #region Constants & references
     
@@ -432,7 +418,7 @@ public class GameManager : MonoBehaviourPun
         float gridY = Mathf.Round(pos.y * 2) * 0.5f;
 
         if (editMode.IsFieldType())
-            FieldManager.Instance.SetField((int)pos.x, (int)pos.y, ConvertEnum<EditMode, FieldManager.FieldType>(editMode));
+            FieldManager.Instance.SetField((int)pos.x, (int)pos.y, ConvertEnum<EditMode, FieldType>(editMode));
         else if (editMode == EditMode.DELETE_FIELD)
         {
             // delete field

@@ -29,16 +29,16 @@ public class KeyData : IData
         ImportToLevel(new(position[0], position[1]));
     }
 
-    public override GameManager.EditMode GetEditMode()
+    public override EditMode GetEditMode()
     {
         return color switch
         {
-            KeyManager.KeyColor.GRAY => GameManager.EditMode.GRAY_KEY,
-            KeyManager.KeyColor.RED => GameManager.EditMode.RED_KEY,
-            KeyManager.KeyColor.GREEN => GameManager.EditMode.GREEN_KEY,
-            KeyManager.KeyColor.BLUE => GameManager.EditMode.BLUE_KEY,
-            KeyManager.KeyColor.YELLOW => GameManager.EditMode.YELLOW_KEY,
-            _ => GameManager.EditMode.GRAY_KEY,
+            KeyManager.KeyColor.GRAY => EditMode.GRAY_KEY,
+            KeyManager.KeyColor.RED => EditMode.RED_KEY,
+            KeyManager.KeyColor.GREEN => EditMode.GREEN_KEY,
+            KeyManager.KeyColor.BLUE => EditMode.BLUE_KEY,
+            KeyManager.KeyColor.YELLOW => EditMode.YELLOW_KEY,
+            _ => EditMode.GRAY_KEY,
         };
     }
 }

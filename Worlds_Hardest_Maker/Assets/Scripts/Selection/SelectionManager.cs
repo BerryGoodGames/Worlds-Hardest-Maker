@@ -20,16 +20,16 @@ public class SelectionManager : MonoBehaviour
 
     public static SelectionManager Instance { get; private set; }
 
-    public static readonly List<GameManager.EditMode> NoFillPreviewModes = new(new GameManager.EditMode[]
+    public static readonly List<EditMode> NoFillPreviewModes = new(new EditMode[]
     {
-        GameManager.EditMode.BALL_DEFAULT,
-        GameManager.EditMode.BALL_CIRCLE,
-        GameManager.EditMode.GRAY_KEY,
-        GameManager.EditMode.RED_KEY,
-        GameManager.EditMode.BLUE_KEY,
-        GameManager.EditMode.GREEN_KEY,
-        GameManager.EditMode.YELLOW_KEY,
-        GameManager.EditMode.PLAYER
+        EditMode.BALL_DEFAULT,
+        EditMode.BALL_CIRCLE,
+        EditMode.GRAY_KEY,
+        EditMode.RED_KEY,
+        EditMode.BLUE_KEY,
+        EditMode.GREEN_KEY,
+        EditMode.YELLOW_KEY,
+        EditMode.PLAYER
     });
 
     private Vector2 prevStart;
@@ -252,7 +252,7 @@ public class SelectionManager : MonoBehaviour
         GameManager.Instance.Selecting = false;
         selectionOptions.SetActive(false);
     }
-    public void FillArea(List<Vector2> poses, FieldManager.FieldType type)
+    public void FillArea(List<Vector2> poses, FieldType type)
     {
         if (GameManager.Instance.CurrentSelectionRange == null) return;
         GameManager.Instance.CurrentSelectionRange = null;
@@ -276,7 +276,7 @@ public class SelectionManager : MonoBehaviour
         }
 
         // clear fields in area
-        if(type == FieldManager.FieldType.WALL_FIELD) // also destroy keys/coins
+        if(type == FieldType.WALL_FIELD) // also destroy keys/coins
         {
             Collider2D[] hits = Physics2D.OverlapAreaAll(lowestPos, highestPos, 3200);
             foreach (Collider2D hit in hits)
@@ -371,14 +371,14 @@ public class SelectionManager : MonoBehaviour
 
         UpdateOutlinesInArea(type.GetPrefab().GetComponent<FieldOutline>() != null, new(lowestX, lowestY), new(highestX, highestY));
     }
-    public void FillArea(List<Vector2> poses, GameManager.EditMode editMode)
+    public void FillArea(List<Vector2> poses, EditMode editMode)
     {
         if (poses.Count == 0) return;
 
-        FieldManager.FieldType? fieldType = (FieldManager.FieldType?)GameManager.TryConvertEnum<GameManager.EditMode, FieldManager.FieldType>(editMode);
+        FieldType? fieldType = (FieldType?)GameManager.TryConvertEnum<EditMode, FieldType>(editMode);
         if(fieldType != null)
         {
-            FillArea(poses, (FieldManager.FieldType)fieldType);
+            FillArea(poses, (FieldType)fieldType);
             return;
         }
 
@@ -391,7 +391,7 @@ public class SelectionManager : MonoBehaviour
 
         UpdateOutlinesInArea(false, poses[0].Floor(), poses.Last().Ceil());
     }
-    public void FillArea(Vector2 start, Vector2 end, FieldManager.FieldType type)
+    public void FillArea(Vector2 start, Vector2 end, FieldType type)
     {
         Instance.FillArea(GetFillRange(start, end, FollowMouse.WorldPosition.MATRIX), type);
     }

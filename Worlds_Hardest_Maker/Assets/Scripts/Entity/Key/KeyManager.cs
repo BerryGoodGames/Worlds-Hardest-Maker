@@ -14,38 +14,38 @@ public class KeyManager : MonoBehaviour
         GRAY, RED, GREEN, BLUE, YELLOW
     }
 
-    public static readonly List<GameManager.EditMode> KeyModes = new(new GameManager.EditMode[]
+    public static readonly List<EditMode> KeyModes = new(new EditMode[]
     {
-        GameManager.EditMode.GRAY_KEY,
-        GameManager.EditMode.RED_KEY,
-        GameManager.EditMode.BLUE_KEY,
-        GameManager.EditMode.GREEN_KEY,
-        GameManager.EditMode.YELLOW_KEY
+        EditMode.GRAY_KEY,
+        EditMode.RED_KEY,
+        EditMode.BLUE_KEY,
+        EditMode.GREEN_KEY,
+        EditMode.YELLOW_KEY
     });
-    public static readonly List<GameManager.EditMode> KeyDoorModes = new(new GameManager.EditMode[]
+    public static readonly List<EditMode> KeyDoorModes = new(new EditMode[]
     {
-        GameManager.EditMode.GRAY_KEY_DOOR_FIELD,
-        GameManager.EditMode.RED_KEY_DOOR_FIELD,
-        GameManager.EditMode.BLUE_KEY_DOOR_FIELD,
-        GameManager.EditMode.GREEN_KEY_DOOR_FIELD,
-        GameManager.EditMode.YELLOW_KEY_DOOR_FIELD
+        EditMode.GRAY_KEY_DOOR_FIELD,
+        EditMode.RED_KEY_DOOR_FIELD,
+        EditMode.BLUE_KEY_DOOR_FIELD,
+        EditMode.GREEN_KEY_DOOR_FIELD,
+        EditMode.YELLOW_KEY_DOOR_FIELD
     });
-    public static readonly List<FieldManager.FieldType> KeyDoorTypes = new(new FieldManager.FieldType[]
+    public static readonly List<FieldType> KeyDoorTypes = new(new FieldType[]
     {
-        FieldManager.FieldType.GRAY_KEY_DOOR_FIELD,
-        FieldManager.FieldType.RED_KEY_DOOR_FIELD,
-        FieldManager.FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldManager.FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldManager.FieldType.YELLOW_KEY_DOOR_FIELD
+        FieldType.GRAY_KEY_DOOR_FIELD,
+        FieldType.RED_KEY_DOOR_FIELD,
+        FieldType.BLUE_KEY_DOOR_FIELD,
+        FieldType.GREEN_KEY_DOOR_FIELD,
+        FieldType.YELLOW_KEY_DOOR_FIELD
     });
 
-    public static List<FieldManager.FieldType> CantPlaceFields = new(new FieldManager.FieldType[]{
-        FieldManager.FieldType.WALL_FIELD,
-        FieldManager.FieldType.GRAY_KEY_DOOR_FIELD,
-        FieldManager.FieldType.RED_KEY_DOOR_FIELD,
-        FieldManager.FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldManager.FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldManager.FieldType.YELLOW_KEY_DOOR_FIELD
+    public static List<FieldType> CantPlaceFields = new(new FieldType[]{
+        FieldType.WALL_FIELD,
+        FieldType.GRAY_KEY_DOOR_FIELD,
+        FieldType.RED_KEY_DOOR_FIELD,
+        FieldType.BLUE_KEY_DOOR_FIELD,
+        FieldType.GREEN_KEY_DOOR_FIELD,
+        FieldType.YELLOW_KEY_DOOR_FIELD
     });
 
     [PunRPC]
@@ -117,11 +117,11 @@ public class KeyManager : MonoBehaviour
         return GetKey(mx, my) != null;
     }
 
-    public static bool IsKeyDoorEditMode(GameManager.EditMode mode)
+    public static bool IsKeyDoorEditMode(EditMode mode)
     {
         return KeyDoorModes.Contains(mode);
     }
-    public static bool IsKeyEditMode(GameManager.EditMode mode)
+    public static bool IsKeyEditMode(EditMode mode)
     {
         return KeyModes.Contains(mode);
     }
