@@ -53,4 +53,11 @@ public static class VectorExtention
 
         return new(flooredX, flooredY);
     }
+
+    public static bool PointOnScreen(this Vector2 point, bool worldPoint)
+    {
+        Vector3 screenPoint = worldPoint ? Camera.main.WorldToViewportPoint(point) : point;
+        bool onScreen = screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
+        return onScreen;
+    }
 }

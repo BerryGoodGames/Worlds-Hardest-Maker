@@ -148,11 +148,6 @@ public class GameManager : MonoBehaviourPun
         Instance.UIHovered = EventSystem.current.IsPointerOverGameObject();
     }
 
-    private void LateUpdate()
-    {
-        
-    }
-
     private void OnIsMultiplayer()
     {
         // enable photon player spawning
@@ -586,13 +581,6 @@ public class GameManager : MonoBehaviourPun
         }
     }
 
-    public static bool PointOnScreen(Vector2 point, bool worldPoint)
-    {
-        Vector3 screenPoint = worldPoint ? Camera.main.WorldToViewportPoint(point) : point;
-        bool onScreen = screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
-        return onScreen;
-    }
-
     public static void RemoveObjectInContainer(float mx, float my, Transform container)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.005f, 128);
@@ -617,24 +605,20 @@ public class GameManager : MonoBehaviourPun
             RemoveObjectInContainer(mx + dx[i], my + dy[i], container);
         }
     }
-
     public static EnumTo ConvertEnum<EnumFrom, EnumTo>(EnumFrom e)
     {
         return (EnumTo)Enum.Parse(typeof(EnumTo), e.ToString());
     }
-
     public static object TryConvertEnum<EnumFrom, EnumTo>(EnumFrom e)
     {
         Enum.TryParse(typeof(EnumTo), e.ToString(), out object convEnum);
 
         return convEnum;
     }
-
     public static float RoundToNearestStep(float value, float step)
     {
         return Mathf.Round(value / step) * step;
     }
-
     public static double Map(double value, double start1, double stop1, double start2, double stop2)
     {
         double range1 = stop1 - start1;
@@ -642,7 +626,6 @@ public class GameManager : MonoBehaviourPun
 
         return range2 / range1 * (value - start1) + start2;
     }
-
     public static void QuitGame()
     {
         if(Instance.OnGameQuit != null)
