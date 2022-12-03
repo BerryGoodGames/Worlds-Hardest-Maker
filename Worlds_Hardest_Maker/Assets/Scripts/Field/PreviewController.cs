@@ -103,10 +103,10 @@ public class PreviewController : MonoBehaviour
             positionMode == FollowMouse.WorldPosition.GRID ? MouseManager.Instance.MouseWorldPosGrid : MouseManager.Instance.MouseWorldPosMatrix;
 
         // check player placement
-        if (mode == EditMode.PLAYER)
-        {
-            if (!PlayerManager.CanPlace(mousePos.x, mousePos.y)) return false;
-        }
+        //if (mode == EditMode.PLAYER)
+        //{
+        //    if (!PlayerManager.CanPlace(mousePos.x, mousePos.y)) return false;
+        //}
 
         // check coin placement
         if (mode == EditMode.COIN)
