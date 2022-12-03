@@ -26,27 +26,8 @@ public class PlayerManager : MonoBehaviour
         {
             if (placeStartField)
             {
-                foreach(Transform player in ReferenceManager.Instance.PlayerContainer)
                 (int x, int y)[] poses =
                 {
-                    PlayerController p = player.GetComponent<PlayerController>();
-                    PhotonView view = player.GetComponent<PhotonView>();
-
-                    // check if player is from own client
-                    if (view.IsMine)
-                    {
-                        // remove player
-                        GameManager.Instance.photonView.RPC("RemovePlayerAtPosOnlyOtherClients", RpcTarget.Others, p.transform.position.x, p.transform.position.y);
-                        RemovePlayerAtPosIgnoreOtherClients(p.transform.position.x, p.transform.position.y);
-                    }
-                    PhotonView view = p.GetComponent<PhotonView>();
-                    // check if player is from own client
-                    if (view.IsMine)
-                    {
-                        // remove player
-                        GameManager.Instance.photonView.RPC("RemovePlayerAtPosOnlyOtherClients", RpcTarget.Others, p.transform.position.x, p.transform.position.y);
-                        RemovePlayerAtPosIgnoreOtherClients(p.transform.position.x, p.transform.position.y);
-                    }
                     (Mathf.FloorToInt(mx), Mathf.FloorToInt(my)),
                     (Mathf.CeilToInt(mx), Mathf.FloorToInt(my)),
                     (Mathf.FloorToInt(mx), Mathf.CeilToInt(my)),
@@ -68,10 +49,11 @@ public class PlayerManager : MonoBehaviour
         // clear all players (only from this client tho)
         if (GameManager.Instance.Multiplayer)
         {
-            PlayerController[] players = FindObjectsOfType<PlayerController>();
-            foreach (PlayerController p in players)
+            foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
             {
-                PhotonView view = p.GetComponent<PhotonView>();
+                PlayerController p = player.GetComponent<PlayerController>();
+                PhotonView view = player.GetComponent<PhotonView>();
+
                 // check if player is from own client
                 if (view.IsMine)
                 {
