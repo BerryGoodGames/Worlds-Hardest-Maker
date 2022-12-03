@@ -15,6 +15,7 @@ public class ReferenceManager : MonoBehaviour
     public GameObject PlacementPreview;
     public GameObject LevelSettingsPanel;
     public GameObject BallWindows;
+    public PlayerSpawner PlayerSpawner;
     [Space]
     [Header("Containers")]
     public Transform ToolbarContainer;

@@ -9,6 +9,8 @@ using DG.Tweening;
 /// </summary>
 public class BarTween : MonoBehaviour
 {
+    public static List<BarTween> tweenList;
+
     [SerializeField] private float visibleY;
     [SerializeField] private float invisibleY;
     [SerializeField] private bool isVisibleOnlyOnEdit = true;
@@ -68,5 +70,10 @@ public class BarTween : MonoBehaviour
 
         if (GameManager.Instance.Playing) rt.anchoredPosition = new(rt.anchoredPosition.x, isVisibleOnlyOnEdit ? invisibleY : visibleY);
         else rt.anchoredPosition = new(rt.anchoredPosition.x, !isVisibleOnlyOnEdit ? invisibleY : visibleY);
+    }
+
+    private void Awake()
+    {
+        tweenList.Add(this);
     }
 }

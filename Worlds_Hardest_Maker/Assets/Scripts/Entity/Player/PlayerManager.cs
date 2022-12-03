@@ -31,10 +31,11 @@ public class PlayerManager : MonoBehaviour
             // clear all players (only from this client tho)
             if (GameManager.Instance.Multiplayer)
             {
-                PlayerController[] players = FindObjectsOfType<PlayerController>();
-                foreach (PlayerController p in players)
+                foreach(Transform player in ReferenceManager.Instance.PlayerContainer)
                 {
-                    PhotonView view = p.GetComponent<PhotonView>();
+                    PlayerController p = player.GetComponent<PlayerController>();
+                    PhotonView view = player.GetComponent<PhotonView>();
+
                     // check if player is from own client
                     if (view.IsMine)
                     {

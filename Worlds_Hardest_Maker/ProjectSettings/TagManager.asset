@@ -27,6 +27,8 @@ TagManager:
   - Conveyor
   - Coin
   - Key
+  - BallCircleOrigin
+  - BallDefaultObject
   layers:
   - Default
   - TransparentFX

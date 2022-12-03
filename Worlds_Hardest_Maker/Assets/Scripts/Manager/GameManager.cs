@@ -164,7 +164,7 @@ public class GameManager : MonoBehaviourPun
     private void OnIsMultiplayer()
     {
         // enable photon player spawning
-        FindObjectOfType<PlayerSpawner>().enabled = true;
+        ReferenceManager.Instance.PlayerSpawner.enabled = true;
     }
 
     #region Unit pixel conversion methods
@@ -211,8 +211,7 @@ public class GameManager : MonoBehaviourPun
             if (Instance.Playing) SwitchToEdit(playSoundEffect);
             else SwitchToPlay();
 
-            BarTween[] barTweens = FindObjectsOfType<BarTween>();
-            foreach(BarTween tween in barTweens)
+            foreach(BarTween tween in BarTween.tweenList)
             {
                 tween.SetPlay(Instance.Playing);
             }
