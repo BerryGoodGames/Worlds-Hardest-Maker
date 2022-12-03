@@ -62,7 +62,7 @@ public class KeyManager : MonoBehaviour
             Animator anim = key.GetComponent<Animator>();
             anim.SetBool("Playing", GameManager.Instance.Playing);
 
-            key.GetComponent<IntervalRandomAnimation>().enabled = GameManager.Instance.KonamiActive;
+            key.GetComponent<IntervalRandomAnimation>().enabled = KonamiManager.KonamiActive;
         }
     }
 

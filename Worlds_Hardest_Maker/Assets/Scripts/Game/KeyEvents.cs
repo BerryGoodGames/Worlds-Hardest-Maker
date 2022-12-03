@@ -39,7 +39,7 @@ public class KeyEvents : MonoBehaviour
         {
             GameManager.Instance.EditRotation = (GameManager.Instance.EditRotation - 90) % 360;
 
-            if (GameManager.Instance.Selecting) SelectionManager.UpdatePreviewRotation();
+            if (SelectionManager.Instance.Selecting) SelectionManager.UpdatePreviewRotation();
         }
 
 #if UNITY_EDITOR

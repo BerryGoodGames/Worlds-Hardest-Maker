@@ -36,13 +36,13 @@ public class MouseEvents : MonoBehaviour
         }
 
         // place / delete stuff when not hovering toolbar
-        if (!GameManager.Instance.UIHovered && !GameManager.Instance.Playing && !GameManager.Instance.Selecting && !CopyManager.pasting)
+        if (!GameManager.Instance.UIHovered && !GameManager.Instance.Playing && !SelectionManager.Instance.Selecting && !CopyManager.pasting)
         {
             if (!Input.GetKey(KeybindManager.Instance.EntityMoveKey) &&
                 !Input.GetKey(KeybindManager.Instance.EditSpeedKey) &&
                 !Input.GetKey(KeybindManager.Instance.EntityDeleteKey) &&
                 !CopyManager.pasting &&
-                !GameManager.Instance.Selecting) 
+                !SelectionManager.Instance.Selecting) 
             {
                 // ondrag
                 if (Input.GetMouseButton(0))

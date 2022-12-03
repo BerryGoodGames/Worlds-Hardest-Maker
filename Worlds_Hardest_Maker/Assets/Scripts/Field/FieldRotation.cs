@@ -52,7 +52,7 @@ public class FieldRotation : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        if (!GameManager.Instance.Selecting && !CopyManager.pasting && !GameManager.Instance.Playing && GameManager.Instance.CurrentEditMode == GameManager.ConvertEnum<FieldType, EditMode>((FieldType)FieldManager.GetFieldType(gameObject)))
+        if (!SelectionManager.Instance.Selecting && !CopyManager.pasting && !GameManager.Instance.Playing && GameManager.Instance.CurrentEditMode == GameManager.ConvertEnum<FieldType, EditMode>((FieldType)FieldManager.GetFieldType(gameObject)))
         {
             if (GameManager.Instance.Multiplayer)
             {

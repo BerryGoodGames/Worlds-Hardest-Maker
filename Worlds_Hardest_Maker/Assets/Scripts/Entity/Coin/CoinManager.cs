@@ -15,6 +15,7 @@ public class CoinManager : MonoBehaviour
         FieldType.YELLOW_KEY_DOOR_FIELD,
         FieldType.GRAY_KEY_DOOR_FIELD
     });
+    [HideInInspector] public int TotalCoins { get; set; } = 0;
 
     [PunRPC]
     public void SetCoin(float mx, float my)
@@ -23,7 +24,7 @@ public class CoinManager : MonoBehaviour
         {
             Vector2 pos = new(mx, my);
 
-            GameManager.Instance.TotalCoins++;
+            TotalCoins++;
             GameObject coin = Instantiate(PrefabManager.Instance.Coin, pos, Quaternion.identity, ReferenceManager.Instance.CoinContainer);
                     
             Animator anim = coin.GetComponent<Animator>();
@@ -44,7 +45,7 @@ public class CoinManager : MonoBehaviour
         GameObject currentPlayer = PlayerManager.GetPlayer();
         if (currentPlayer != null) currentPlayer.GetComponent<PlayerController>().UncollectCoinAtPos(new(mx, my));
 
-        GameManager.Instance.TotalCoins = ReferenceManager.Instance.CoinContainer.childCount - 1;
+        TotalCoins = ReferenceManager.Instance.CoinContainer.childCount - 1;
     }
     public static GameObject GetCoin(float mx, float my)
     {
@@ -78,5 +79,10 @@ public class CoinManager : MonoBehaviour
     {
         // init singleton
         if (Instance == null) Instance = this;
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.OnPlay += () => Instance.TotalCoins = ReferenceManager.Instance.CoinContainer.transform.childCount;
     }
 }

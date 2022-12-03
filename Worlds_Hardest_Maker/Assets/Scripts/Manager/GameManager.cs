@@ -14,18 +14,6 @@ public class GameManager : MonoBehaviourPun
 {
     public static GameManager Instance { get; private set; }
 
-    
-
-    #region Constants & references
-    
-    [Header("Text References")]
-    public TMPro.TMP_Text EditModeText;
-    public TMPro.TMP_Text SelectingText;
-    public TMPro.TMP_Text DeathText;
-    public TMPro.TMP_Text CoinText;
-    public TMPro.TMP_Text Timer;
-    #endregion
-
     #region Variables
     [Header("Variables")]
 
@@ -96,19 +84,8 @@ public class GameManager : MonoBehaviourPun
         }
     }
     private EditMode? prevEditMode = null;
-
-    public bool Selecting { get; set; } = false;
     public bool Multiplayer { get; set; } = false;
-    public bool KonamiActive { get; set; } = false;
-    public List<Vector2> CurrentSelectionRange { get => SelectionManager.selectionStart == null || SelectionManager.selectionEnd == null ? null : SelectionManager.GetCurrentFillRange(); set { 
-            if(value == null)
-            {
-                SelectionManager.selectionStart = null;
-                SelectionManager.selectionEnd = null;
-            }
-        } }
     [HideInInspector] public bool UIHovered { get; set; } = false;
-    [HideInInspector] public int TotalCoins { get; set; } = 0;
     private int editRotation = 270;
     [HideInInspector] public int EditRotation
     {
@@ -120,17 +97,13 @@ public class GameManager : MonoBehaviourPun
             ReferenceManager.Instance.PlacementPreview.GetComponent<PreviewController>().UpdateRotation();
         }
     }
-
-    private float timerTime;
-    private Coroutine timerCoroutine;
-
-    public event Action OnGameQuit;
     #endregion
 
     #region Events
-    public static event Action OnPlay;
-    public static event Action OnEdit;
-    public static event Action OnEditModeChange;
+    public event Action OnGameQuit;
+    public event Action OnPlay;
+    public event Action OnEdit;
+    public event Action OnEditModeChange;
     #endregion
 
     private void Awake()
@@ -165,8 +138,8 @@ public class GameManager : MonoBehaviourPun
 
         SetCameraUnitWidth(23);
 
-        OnEdit += StopTimer;
-        OnPlay += StartTimer;
+        OnEdit += TextManager.Instance.StopTimer;
+        OnPlay += TextManager.Instance.StartTimer;
     }
 
     private void Update()
@@ -177,27 +150,7 @@ public class GameManager : MonoBehaviourPun
 
     private void LateUpdate()
     {
-        object playerDeaths;
-        object playerCoinsCollected;
-
-        try
-        {
-            PlayerController currentPlayer = PlayerManager.GetPlayer().GetComponent<PlayerController>();
-            playerDeaths = currentPlayer.deaths;
-            playerCoinsCollected = currentPlayer.coinsCollected.Count;
-        }
-        catch (Exception)
-        {
-            // no player placed
-            playerDeaths = "-";
-            playerCoinsCollected = "-";
-        }
-
-        // set edit mode text ui
-        Instance.EditModeText.text = $"Edit: {Instance.CurrentEditMode.GetUIString()}";
-        Instance.SelectingText.text = $"Selecting: {Selecting}";
-        Instance.DeathText.text = $"Deaths: {playerDeaths}";
-        Instance.CoinText.text = $"Coins: {playerCoinsCollected}/{Instance.TotalCoins}";
+        
     }
 
     private void OnIsMultiplayer()
@@ -272,7 +225,6 @@ public class GameManager : MonoBehaviourPun
         }
 
         Instance.Playing = true;
-        Instance.TotalCoins = ReferenceManager.Instance.CoinContainer.transform.childCount;
 
         AudioManager.Instance.Play("Bell");
         AudioManager.Instance.MusicFiltered(false);
@@ -319,7 +271,7 @@ public class GameManager : MonoBehaviourPun
 
         // camera jumps to last player if its not on screen
         Camera.main.GetComponent<JumpToEntity>().Jump(true);
-        OnPlay?.Invoke();
+        Instance.OnPlay?.Invoke();
 
         // close level settings panel if open
         LevelSettingsPanelTween lspt = ReferenceManager.Instance.LevelSettingsPanel.GetComponent<LevelSettingsPanelTween>();
@@ -398,7 +350,7 @@ public class GameManager : MonoBehaviourPun
 
             controller.currentState = null;
         }
-        OnEdit?.Invoke();
+        Instance.OnEdit?.Invoke();
     }
 
     /// <summary>
@@ -699,27 +651,5 @@ public class GameManager : MonoBehaviourPun
         Application.Quit();
     }
 
-    private void StartTimer()
-    {
-        print(timerCoroutine == null);
-        timerCoroutine = StartCoroutine(DoTimer());
-    }
-
-    private void StopTimer()
-    {
-        StopCoroutine(timerCoroutine);
-    }
-
-    private IEnumerator DoTimer()
-    {
-        timerTime = 0;
-        Timer.text = timerTime.ToString();
-        while (true)
-        {
-            timerTime += Time.deltaTime;
-
-            Timer.text = timerTime.ToString();
-            yield return null;
-        }
-    }
+    
 }

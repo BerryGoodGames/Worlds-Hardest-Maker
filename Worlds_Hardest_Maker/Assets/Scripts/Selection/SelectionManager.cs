@@ -17,7 +17,18 @@ public class SelectionManager : MonoBehaviour
 
     private GameObject selectionOutline;
     private LineAnimator selectionOutlineAnim;
-
+    public bool Selecting { get; set; } = false;
+    [HideInInspector] public List<Vector2> CurrentSelectionRange
+    {
+        get => selectionStart == null || selectionEnd == null ? null : GetCurrentFillRange(); set
+        {
+            if (value == null)
+            {
+                selectionStart = null;
+                selectionEnd = null;
+            }
+        }
+    }
     public static SelectionManager Instance { get; private set; }
 
     public static readonly List<EditMode> NoFillPreviewModes = new(new EditMode[]
@@ -41,10 +52,10 @@ public class SelectionManager : MonoBehaviour
     private void Update()
     {
         if (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton) && !GameManager.Instance.Playing)
-            GameManager.Instance.Selecting = true;
+            Selecting = true;
 
         // update selection markings
-        if (!GameManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null && MouseManager.Instance.MouseDragCurrent != null && GameManager.Instance.Selecting)
+        if (!GameManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null && MouseManager.Instance.MouseDragCurrent != null && Selecting)
         {
             // get drag positions and world position mode
             FollowMouse.WorldPosition worldPosition = GameManager.Instance.CurrentEditMode.GetWorldPosition();
@@ -76,8 +87,8 @@ public class SelectionManager : MonoBehaviour
     private void Start()
     {
         selectionOptionsRect = selectionOptions.GetComponent<RectTransform>();
-        GameManager.OnPlay += CancelSelection;
-        GameManager.OnEditModeChange += RemakePreview;
+        GameManager.Instance.OnPlay += CancelSelection;
+        GameManager.Instance.OnEditModeChange += RemakePreview;
 
         fillMouseOver.onHovered += SetPreviewVisible;
         fillMouseOver.onUnhovered += SetPreviewInvisible;
@@ -245,17 +256,17 @@ public class SelectionManager : MonoBehaviour
 
     public void FillSelectedArea()
     {
-        if (!GameManager.Instance.Selecting) return;
+        if (!Selecting) return;
 
-        FillArea(GameManager.Instance.CurrentSelectionRange, GameManager.Instance.CurrentEditMode);
+        FillArea(CurrentSelectionRange, GameManager.Instance.CurrentEditMode);
         ResetPreview();
-        GameManager.Instance.Selecting = false;
+        Selecting = false;
         selectionOptions.SetActive(false);
     }
     public void FillArea(List<Vector2> poses, FieldType type)
     {
-        if (GameManager.Instance.CurrentSelectionRange == null) return;
-        GameManager.Instance.CurrentSelectionRange = null;
+        if (CurrentSelectionRange == null) return;
+        CurrentSelectionRange = null;
         // set rotation
         int rotation = FieldManager.IsRotatable(GameManager.Instance.CurrentEditMode) ? GameManager.Instance.EditRotation : 0;
 
@@ -400,7 +411,7 @@ public class SelectionManager : MonoBehaviour
     #region Delete
     public void DeleteSelectedArea()
     {
-        DeleteArea(GameManager.Instance.CurrentSelectionRange);
+        DeleteArea(CurrentSelectionRange);
         CancelSelection();
     }
 
@@ -430,8 +441,8 @@ public class SelectionManager : MonoBehaviour
     #region Copy
     public void CopySelection()
     {
-        Vector2 lowestPos = GameManager.Instance.CurrentSelectionRange[0];
-        Vector2 highestPos = GameManager.Instance.CurrentSelectionRange.Last();
+        Vector2 lowestPos = CurrentSelectionRange[0];
+        Vector2 highestPos = CurrentSelectionRange.Last();
 
         CopyManager.Copy(lowestPos, highestPos);
 
@@ -634,7 +645,7 @@ public class SelectionManager : MonoBehaviour
         // hide selection menu
         Instance.selectionOptions.SetActive(false);
 
-        GameManager.Instance.Selecting = false;
+        Selecting = false;
 
         MenuManager.Instance.blockMenu = false;
     }
