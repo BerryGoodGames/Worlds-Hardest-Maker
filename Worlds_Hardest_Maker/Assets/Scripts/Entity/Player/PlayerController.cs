@@ -45,7 +45,7 @@ public class PlayerController : Controller
     [HideInInspector] public PhotonView photonView;
     private SpriteRenderer spriteRenderer;
 
-    private Vector2 movementInput;
+    public Vector2 movementInput;
     private Vector2 extraMovementInput;
 
     [HideInInspector] public bool inDeathAnim = false;
@@ -238,22 +238,24 @@ public class PlayerController : Controller
     private void IcePhysics()
     {
         // transfer velocity to ice when entering
-        if (rb.velocity == Vector2.zero)
-        {
-            rb.velocity = GetCurrentSpeed() * movementInput;
-        }
+        //if (rb.velocity == Vector2.zero)
+        //{
+        //    rb.velocity = GetCurrentSpeed() * movementInput;
+        //    print("add");
+        //}
 
         rb.drag = iceFriction;
 
         // acceleration on ice
         // convert to units / second
         float force = speed / Time.fixedDeltaTime;
-        rb.AddForce(force * movementInput, ForceMode2D.Force);
-        
+        rb.AddForce(0.03f * force * iceFriction * movementInput, ForceMode2D.Force);
+
         rb.velocity = new(
             Mathf.Clamp(rb.velocity.x, -maxIceSpeed, maxIceSpeed),
             Mathf.Clamp(rb.velocity.y, -maxIceSpeed, maxIceSpeed)
         );
+        Dbg.Text(rb.velocity.x);
     }
     private void UpdateMovement(ref Vector2 totalMovement)
     {
@@ -276,7 +278,7 @@ public class PlayerController : Controller
         }
     }
 
-    private float GetCurrentSpeed() => onWater ? waterDamping * speed : speed;
+    public float GetCurrentSpeed() => onWater ? waterDamping * speed : speed;
     #endregion
 
     /// <summary>

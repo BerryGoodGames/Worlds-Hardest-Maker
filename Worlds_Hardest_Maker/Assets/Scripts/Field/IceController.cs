@@ -12,9 +12,10 @@ public class IceController : MonoBehaviour
             PlayerController controller = collider.GetComponent<PlayerController>();
             if (!controller.IsOnIce())
             {
+                print("pawdo");
                 // frame player entered ice
                 // transition between normal ground and ice
-                controller.rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * controller.speed;
+                controller.rb.velocity = controller.movementInput * controller.GetCurrentSpeed();
             }
         }
     }
