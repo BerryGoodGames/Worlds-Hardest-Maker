@@ -14,97 +14,6 @@ public class GameManager : MonoBehaviourPun
 {
     public static GameManager Instance { get; private set; }
 
-    public enum EditMode
-    {
-        DELETE_FIELD, 
-        WALL_FIELD, 
-        START_FIELD, GOAL_FIELD, CHECKPOINT_FIELD, 
-        ONE_WAY_FIELD, CONVEYOR,
-        WATER, ICE,
-        VOID,
-        GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD, 
-        PLAYER, 
-        ANCHOR, 
-        BALL, BALL_DEFAULT, BALL_CIRCLE, 
-        COIN, 
-        GRAY_KEY, RED_KEY, GREEN_KEY, BLUE_KEY, YELLOW_KEY
-    }
-
-    #region Constants & references
-    [Header("Constants & References")]
-    [Header("Prefabs")]
-    public GameObject WallField;
-    public GameObject StartField;
-    public GameObject GoalField;
-    public GameObject CheckpointField;
-    public GameObject OneWayField;
-    public GameObject Conveyor;
-    public GameObject Water;
-    public GameObject Ice;
-    public GameObject Void;
-    public GameObject GrayKeyDoorField;
-    public GameObject RedKeyDoorField;
-    public GameObject GreenKeyDoorField;
-    public GameObject BlueKeyDoorField;
-    public GameObject YellowKeyDoorField;
-    public GameObject Player;
-    public GameObject Anchor;
-    public GameObject Ball;
-    public GameObject BallDefault;
-    public GameObject BallCircle;
-    public GameObject Coin;
-    public GameObject GrayKey;
-    public GameObject RedKey;
-    public GameObject GreenKey;
-    public GameObject BlueKey;
-    public GameObject YellowKey;
-    public GameObject FillPreview;
-    public GameObject Tooltip;
-    [Space]
-    [Header("Objects")]
-    public GameObject Manager;
-    public GameObject Canvas;
-    public GameObject TooltipCanvas;
-    public GameObject Menu;
-    public GameObject PlayButton;
-    public GameObject PlacementPreview;
-    [Header("Containers")]
-    public GameObject ToolbarContainer;
-    public GameObject BallWindows;
-    public GameObject SliderContainer;
-    public GameObject NameTagContainer;
-    public GameObject DrawContainer;
-    public GameObject SelectionOutlineContainer;
-    public GameObject FillPreviewContainer;
-    public GameObject PlayerContainer;
-    public GameObject AnchorContainer;
-    public GameObject BallDefaultContainer;
-    public GameObject BallCircleContainer;
-    public GameObject CoinContainer;
-    public GameObject KeyContainer;
-    public GameObject FieldContainer;
-    [Space]
-    [Header("Key binds")]
-    public int SelectionMouseButton;
-    public int PanMouseButton;
-    public KeyCode EntityDeleteKey;
-    public KeyCode EntityMoveKey;
-    public KeyCode BallCircleRadiusKey;
-    public KeyCode BallCircleAngleKey;
-    public KeyCode EditSpeedKey;
-    public KeyCode PasteKey;
-    [Space]
-    [Header("Materials")]
-    public Material LineMaterial;
-    public PhysicsMaterial2D NoFriction;
-    [Space]
-    [Header("Text References")]
-    public TMPro.TMP_Text EditModeText;
-    public TMPro.TMP_Text SelectingText;
-    public TMPro.TMP_Text DeathText;
-    public TMPro.TMP_Text CoinText;
-    #endregion
-
     #region Variables
     [Header("Variables")]
 
@@ -119,7 +28,7 @@ public class GameManager : MonoBehaviourPun
         {
             currentEditMode = value;
 
-            if (prevEditMode != null && prevEditMode != currentEditMode) onEditModeChange();
+            if (prevEditMode != null && prevEditMode != currentEditMode) OnEditModeChange();
 
             prevEditMode = currentEditMode;
 
@@ -139,7 +48,7 @@ public class GameManager : MonoBehaviourPun
             if (currentEditMode == EditMode.ANCHOR || currentEditMode == EditMode.BALL)
             {
                 // enable stuff
-                BallWindows.SetActive(true);
+                ReferenceManager.Instance.BallWindows.gameObject.SetActive(true);
                 if (AnchorManager.Instance.SelectedAnchor != null)
                 {
                     // enable lines
@@ -157,7 +66,7 @@ public class GameManager : MonoBehaviourPun
             else if (currentEditMode != EditMode.ANCHOR && currentEditMode != EditMode.BALL)
             {
                 // disable stuff
-                BallWindows.SetActive(false);
+                ReferenceManager.Instance.BallWindows.SetActive(false);
                 if (AnchorManager.Instance.SelectedAnchor != null)
                 {
                     // disable lines
@@ -175,19 +84,8 @@ public class GameManager : MonoBehaviourPun
         }
     }
     private EditMode? prevEditMode = null;
-
-    public bool Selecting { get; set; } = false;
     public bool Multiplayer { get; set; } = false;
-    public bool KonamiActive { get; set; } = false;
-    public List<Vector2> CurrentSelectionRange { get => SelectionManager.selectionStart == null || SelectionManager.selectionEnd == null ? null : SelectionManager.GetCurrentFillRange(); set { 
-            if(value == null)
-            {
-                SelectionManager.selectionStart = null;
-                SelectionManager.selectionEnd = null;
-            }
-        } }
     [HideInInspector] public bool UIHovered { get; set; } = false;
-    [HideInInspector] public int TotalCoins { get; set; } = 0;
     private int editRotation = 270;
     [HideInInspector] public int EditRotation
     {
@@ -196,17 +94,16 @@ public class GameManager : MonoBehaviourPun
         {
             editRotation = value;
 
-            PlacementPreview.GetComponent<PreviewController>().UpdateRotation();
+            ReferenceManager.Instance.PlacementPreview.GetComponent<PreviewController>().UpdateRotation();
         }
     }
-
-    public event Action onGameQuit;
     #endregion
 
     #region Events
-    public static event Action onPlay;
-    public static event Action onEdit;
-    public static event Action onEditModeChange;
+    public event Action OnGameQuit;
+    public event Action OnPlay;
+    public event Action OnEdit;
+    public event Action OnEditModeChange;
     #endregion
 
     private void Awake()
@@ -225,7 +122,7 @@ public class GameManager : MonoBehaviourPun
 
     private void Start()
     {
-        Menu.GetComponent<MenuManager>().SetMusicVolume(0.0001f);
+        ReferenceManager.Instance.Menu.GetComponent<MenuManager>().SetMusicVolume(0.0001f);
 
         if (Instance.Multiplayer)
         {
@@ -239,37 +136,16 @@ public class GameManager : MonoBehaviourPun
         LevelSettings.Instance.SetIceMaxSpeed();
         LevelSettings.Instance.SetWaterDamping();
 
+        SetCameraUnitWidth(23);
+
+        OnEdit += TextManager.Instance.StopTimer;
+        OnPlay += TextManager.Instance.StartTimer;
     }
 
     private void Update()
     {
         // check if toolbar background is hovered
         Instance.UIHovered = EventSystem.current.IsPointerOverGameObject();
-    }
-
-    private void LateUpdate()
-    {
-        object playerDeaths;
-        object playerCoinsCollected;
-
-        try
-        {
-            PlayerController currentPlayer = PlayerManager.GetPlayer().GetComponent<PlayerController>();
-            playerDeaths = currentPlayer.deaths;
-            playerCoinsCollected = currentPlayer.coinsCollected.Count;
-        }
-        catch (Exception)
-        {
-            // no player placed
-            playerDeaths = "-";
-            playerCoinsCollected = "-";
-        }
-
-        // set edit mode text ui
-        Instance.EditModeText.text = $"Edit: {Instance.CurrentEditMode.GetUIString()}";
-        Instance.SelectingText.text = $"Selecting: {Selecting}";
-        Instance.DeathText.text = $"Deaths: {playerDeaths}";
-        Instance.CoinText.text = $"Coins: {playerCoinsCollected}/{Instance.TotalCoins}";
     }
 
     private void OnIsMultiplayer()
@@ -317,7 +193,7 @@ public class GameManager : MonoBehaviourPun
     #region Play / Edit mode methods
     public void TogglePlay(bool playSoundEffect = true)
     {
-        if (!Instance.Menu.activeSelf)
+        if (!ReferenceManager.Instance.Menu.activeSelf)
         {
             if (Instance.Playing) SwitchToEdit(playSoundEffect);
             else SwitchToPlay();
@@ -332,7 +208,7 @@ public class GameManager : MonoBehaviourPun
     public static void SwitchToPlay()
     {
         //foreach (KeyValuePair<int, PlayerController> pair in Instance.PlayerControllerList)
-        foreach (Transform player in Instance.PlayerContainer.transform)
+        foreach (Transform player in ReferenceManager.Instance.PlayerContainer.transform)
         {
             PlayerController controller = player.GetComponent<PlayerController>();
 
@@ -344,16 +220,15 @@ public class GameManager : MonoBehaviourPun
         }
 
         Instance.Playing = true;
-        Instance.TotalCoins = Instance.CoinContainer.transform.childCount;
 
         AudioManager.Instance.Play("Bell");
         AudioManager.Instance.MusicFiltered(false);
 
         // disable placement preview
-        Instance.PlacementPreview.SetActive(false);
+        ReferenceManager.Instance.PlacementPreview.SetActive(false);
 
         // disable windows
-        Instance.BallWindows.SetActive(false);
+        ReferenceManager.Instance.BallWindows.SetActive(false);
 
         Animator anim;
 
@@ -374,7 +249,7 @@ public class GameManager : MonoBehaviourPun
         }
 
         // activate coin animations
-        foreach (Transform coin in Instance.CoinContainer.transform)
+        foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
         {
             anim = coin.GetComponent<Animator>();
             anim.SetBool("Playing", true);
@@ -382,7 +257,7 @@ public class GameManager : MonoBehaviourPun
         }
 
         // activate key animations
-        foreach (Transform key in Instance.KeyContainer.transform)
+        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
         {
             anim = key.GetComponent<Animator>();
             anim.SetBool("Playing", true);
@@ -391,8 +266,11 @@ public class GameManager : MonoBehaviourPun
 
         // camera jumps to last player if its not on screen
         Camera.main.GetComponent<JumpToEntity>().Jump(true);
-        if(onPlay != null)
-            onPlay();
+        Instance.OnPlay?.Invoke();
+
+        // close level settings panel if open
+        LevelSettingsPanelTween lspt = ReferenceManager.Instance.LevelSettingsPanel.GetComponent<LevelSettingsPanelTween>();
+        if (lspt.open) lspt.Toggle();
     }
     public static void SwitchToEdit(bool playSoundEffect = true)
     {
@@ -404,12 +282,12 @@ public class GameManager : MonoBehaviourPun
         ResetGame();
 
         // enable placement preview and place it at mouse
-        Instance.PlacementPreview.SetActive(true);
-        Instance.PlacementPreview.transform.position = FollowMouse.GetCurrentMouseWorldPos(Instance.PlacementPreview.GetComponent<FollowMouse>().worldPosition);
+        ReferenceManager.Instance.PlacementPreview.SetActive(true);
+        ReferenceManager.Instance.PlacementPreview.transform.position = FollowMouse.GetCurrentMouseWorldPos(ReferenceManager.Instance.PlacementPreview.GetComponent<FollowMouse>().worldPosition);
 
         // enable windows
         if(Instance.CurrentEditMode == EditMode.ANCHOR || Instance.CurrentEditMode == EditMode.BALL)
-            Instance.BallWindows.SetActive(true);
+            ReferenceManager.Instance.BallWindows.SetActive(true);
 
         
         if (AnchorManager.Instance.selectedPathController != null)
@@ -440,7 +318,7 @@ public class GameManager : MonoBehaviourPun
         }
 
         // deactivate coin animations
-        foreach (Transform coin in Instance.CoinContainer.transform)
+        foreach (Transform coin in ReferenceManager.Instance.CoinContainer.transform)
         {
             coin.GetChild(0).GetComponent<CoinController>().pickedUp = false;
 
@@ -450,7 +328,7 @@ public class GameManager : MonoBehaviourPun
         }
 
         // deactivate key animations
-        foreach (Transform key in Instance.KeyContainer.transform)
+        foreach (Transform key in ReferenceManager.Instance.KeyContainer.transform)
         {
             key.GetChild(0).GetComponent<KeyController>().pickedUp = false;
 
@@ -461,14 +339,13 @@ public class GameManager : MonoBehaviourPun
 
         // remove game states from players
         //foreach (KeyValuePair<int, PlayerController> pair in Instance.PlayerControllerList)
-        foreach (Transform player in Instance.PlayerContainer.transform)
+        foreach (Transform player in ReferenceManager.Instance.PlayerContainer.transform)
         {
             PlayerController controller = player.GetComponent<PlayerController>();
 
             controller.currentState = null;
         }
-        if (onEdit != null)
-            onEdit();
+        Instance.OnEdit?.Invoke();
     }
 
     /// <summary>
@@ -488,7 +365,7 @@ public class GameManager : MonoBehaviourPun
         float gridY = Mathf.Round(pos.y * 2) * 0.5f;
 
         if (editMode.IsFieldType())
-            FieldManager.Instance.SetField((int)pos.x, (int)pos.y, ConvertEnum<EditMode, FieldManager.FieldType>(editMode));
+            FieldManager.Instance.SetField((int)pos.x, (int)pos.y, ConvertEnum<EditMode, FieldType>(editMode));
         else if (editMode == EditMode.DELETE_FIELD)
         {
             // delete field
@@ -538,14 +415,14 @@ public class GameManager : MonoBehaviourPun
         
 
         // reset balls
-        foreach (Transform ball in Instance.BallDefaultContainer.transform)
+        foreach (Transform ball in ReferenceManager.Instance.BallDefaultContainer)
         {
             GameObject ballObject = ball.GetChild(0).gameObject;
             BallController controller = ballObject.GetComponent<BallController>();
 
             ballObject.transform.position = controller.startPosition;
         }
-        foreach (Transform ball in Instance.BallCircleContainer.transform)
+        foreach (Transform ball in ReferenceManager.Instance.BallCircleContainer)
         {
             GameObject ballObject = ball.GetChild(0).gameObject;
             BallCircleController controller = ballObject.GetComponent<BallCircleController>();
@@ -555,7 +432,7 @@ public class GameManager : MonoBehaviourPun
         }
 
         // reset coins
-        foreach (Transform coin in Instance.CoinContainer.transform)
+        foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
         {
             Animator anim = coin.GetComponent<Animator>();
             anim.SetBool("Playing", false);
@@ -563,7 +440,7 @@ public class GameManager : MonoBehaviourPun
         }
 
         // reset keys
-        foreach (Transform key in Instance.KeyContainer.transform)
+        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
         {
             Animator anim = key.GetComponent<Animator>();
             anim.SetBool("Playing", false);
@@ -578,7 +455,7 @@ public class GameManager : MonoBehaviourPun
         }
 
         // reset checkpoints
-        foreach (Transform field in Instance.FieldContainer.transform)
+        foreach (Transform field in ReferenceManager.Instance.FieldContainer)
         {
             if (field.CompareTag("CheckpointField"))
             {
@@ -678,45 +555,48 @@ public class GameManager : MonoBehaviourPun
     }
     #endregion
 
+    public static void SetCameraUnitWidth(float width)
+    {
+        Camera cam = Camera.main;
+        cam.orthographicSize = width * 0.5f / cam.aspect;
+    }
+    public static void SetCamerUnitHeight(float height)
+    {
+        Camera cam = Camera.main;
+        cam.orthographicSize = height * 0.5f;
+    }
+
 
     [PunRPC]
     public void ClearLevel()
     {
         PlayerManager.Instance.RemoveAllPlayers();
-        GameObject[] containers = { Instance.FieldContainer, Instance.PlayerContainer, Instance.BallDefaultContainer, Instance.BallCircleContainer, Instance.CoinContainer, Instance.KeyContainer, Instance.AnchorContainer };
-        foreach (GameObject container in containers)
+        Transform[] containers = { ReferenceManager.Instance.FieldContainer, ReferenceManager.Instance.PlayerContainer, ReferenceManager.Instance.BallDefaultContainer, ReferenceManager.Instance.BallCircleContainer, ReferenceManager.Instance.CoinContainer, ReferenceManager.Instance.KeyContainer, ReferenceManager.Instance.AnchorContainer };
+        foreach (Transform container in containers)
         {
-            for (int i = container.transform.childCount - 1; i >= 0; i--)
+            for (int i = container.childCount - 1; i >= 0; i--)
             {
-                DestroyImmediate(container.transform.GetChild(i).gameObject);
+                DestroyImmediate(container.GetChild(i).gameObject);
             }
         }
     }
 
-    public static bool PointOnScreen(Vector2 point, bool worldPoint)
-    {
-        Vector3 screenPoint = worldPoint ? Camera.main.WorldToViewportPoint(point) : point;
-        bool onScreen = screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
-        return onScreen;
-    }
-
-
-    public static void RemoveObjectInContainer(float mx, float my, GameObject container)
+    public static void RemoveObjectInContainer(float mx, float my, Transform container)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.005f, 128);
         foreach (Collider2D hit in hits)
         {
-            if (hit.transform.parent == container.transform)
+            if (hit.transform.parent == container)
             {
                 Destroy(hit.gameObject);
             }
-            else if(hit.transform.parent.parent == container.transform)
+            else if(hit.transform.parent.parent == container)
             {
                 Destroy(hit.transform.parent.gameObject);
             }
         }
     }
-    public static void RemoveObjectInContainerIntersect(float mx, float my, GameObject container)
+    public static void RemoveObjectInContainerIntersect(float mx, float my, Transform container)
     {
         float[] dx = { -0.5f, 0, 0.5f, -0.5f, 0, 0.5f, -0.5f, 0, 0.5f };
         float[] dy = { -0.5f, -0.5f, -0.5f, 0, 0, 0, 0.5f, 0.5f, 0.5f };
@@ -725,24 +605,20 @@ public class GameManager : MonoBehaviourPun
             RemoveObjectInContainer(mx + dx[i], my + dy[i], container);
         }
     }
-
     public static EnumTo ConvertEnum<EnumFrom, EnumTo>(EnumFrom e)
     {
         return (EnumTo)Enum.Parse(typeof(EnumTo), e.ToString());
     }
-
     public static object TryConvertEnum<EnumFrom, EnumTo>(EnumFrom e)
     {
         Enum.TryParse(typeof(EnumTo), e.ToString(), out object convEnum);
 
         return convEnum;
     }
-
     public static float RoundToNearestStep(float value, float step)
     {
         return Mathf.Round(value / step) * step;
     }
-
     public static double Map(double value, double start1, double stop1, double start2, double stop2)
     {
         double range1 = stop1 - start1;
@@ -750,12 +626,13 @@ public class GameManager : MonoBehaviourPun
 
         return range2 / range1 * (value - start1) + start2;
     }
-
     public static void QuitGame()
     {
-        if(Instance.onGameQuit != null)
-            Instance.onGameQuit();
+        if(Instance.OnGameQuit != null)
+            Instance.OnGameQuit();
 
         Application.Quit();
     }
+
+    
 }

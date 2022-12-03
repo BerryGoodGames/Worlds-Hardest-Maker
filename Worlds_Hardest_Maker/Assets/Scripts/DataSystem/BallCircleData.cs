@@ -36,8 +36,8 @@ public class BallCircleData : IData
         BallCircleManager.Instance.SetBallCircle(pos.x, pos.y, radius, speed, angle);
     }
 
-    public override GameManager.EditMode GetEditMode()
+    public override EditMode GetEditMode()
     {
-        return GameManager.EditMode.BALL_CIRCLE;
+        return EditMode.BALL_CIRCLE;
     }
 }

@@ -22,9 +22,9 @@ public class BallCircleController : IBallController
     {
         base.Awake();
 
-        if (transform.parent.parent != GameManager.Instance.BallCircleContainer.transform)
+        if (transform.parent.parent != ReferenceManager.Instance.BallCircleContainer)
         {
-            transform.parent.SetParent(GameManager.Instance.BallCircleContainer.transform);
+            transform.parent.SetParent(ReferenceManager.Instance.BallCircleContainer);
         }
 
         InitCircleObject();
@@ -41,7 +41,7 @@ public class BallCircleController : IBallController
         // TODO: improve
         // set visibility of hover hint
         if (!GameManager.Instance.Playing && mouseHovers &&
-            (Input.GetKey(GameManager.Instance.BallCircleAngleKey) || Input.GetKey(GameManager.Instance.BallCircleRadiusKey)))
+            (Input.GetKey(KeybindManager.Instance.BallCircleAngleKey) || Input.GetKey(KeybindManager.Instance.BallCircleRadiusKey)))
         {
             // update pos of hoverhint
             hoverHint.gameObject.SetActive(true);
@@ -54,16 +54,16 @@ public class BallCircleController : IBallController
 
         // check for startangle or radius change from user
         if (!GameManager.Instance.Playing && isDragging &&
-            (Input.GetKey(GameManager.Instance.BallCircleAngleKey) || Input.GetKey(GameManager.Instance.BallCircleRadiusKey)))
+            (Input.GetKey(KeybindManager.Instance.BallCircleAngleKey) || Input.GetKey(KeybindManager.Instance.BallCircleRadiusKey)))
         {
             
             // check startangle
-            if (Input.GetMouseButton(0) && Input.GetKey(GameManager.Instance.BallCircleAngleKey) && !EventSystem.current.IsPointerOverGameObject())
+            if (Input.GetMouseButton(0) && Input.GetKey(KeybindManager.Instance.BallCircleAngleKey) && !EventSystem.current.IsPointerOverGameObject())
             {
                 SetStartAngle(GetAngleToOrigin(mousePos));
             }
 
-            if(Input.GetMouseButton(0) && Input.GetKey(GameManager.Instance.BallCircleRadiusKey) && !EventSystem.current.IsPointerOverGameObject())
+            if(Input.GetMouseButton(0) && Input.GetKey(KeybindManager.Instance.BallCircleRadiusKey) && !EventSystem.current.IsPointerOverGameObject())
             {
                 float mouseDist = GameManager.RoundToNearestStep(Vector2.Distance(origin.position, mousePos), 0.5f);
                 if(mouseDist > 0)

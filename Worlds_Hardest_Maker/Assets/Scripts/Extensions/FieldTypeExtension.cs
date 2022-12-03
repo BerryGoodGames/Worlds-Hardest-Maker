@@ -4,28 +4,28 @@ using UnityEngine;
 
 public static class FieldTypeExtension
 {
-    public static GameObject GetPrefab(this FieldManager.FieldType type)
+    public static GameObject GetPrefab(this FieldType type)
     {
         // return prefab according to type
         return new GameObject[] {
-            GameManager.Instance.WallField,
-            GameManager.Instance.StartField,
-            GameManager.Instance.GoalField,
-            GameManager.Instance.CheckpointField,
-            GameManager.Instance.OneWayField,
-            GameManager.Instance.Conveyor,
-            GameManager.Instance.Water,
-            GameManager.Instance.Ice,
-            GameManager.Instance.Void,
-            GameManager.Instance.GrayKeyDoorField,
-            GameManager.Instance.RedKeyDoorField,
-            GameManager.Instance.GreenKeyDoorField,
-            GameManager.Instance.BlueKeyDoorField,
-            GameManager.Instance.YellowKeyDoorField,
+            PrefabManager.Instance.WallField,
+            PrefabManager.Instance.StartField,
+            PrefabManager.Instance.GoalField,
+            PrefabManager.Instance.CheckpointField,
+            PrefabManager.Instance.OneWayField,
+            PrefabManager.Instance.Conveyor,
+            PrefabManager.Instance.Water,
+            PrefabManager.Instance.Ice,
+            PrefabManager.Instance.Void,
+            PrefabManager.Instance.GrayKeyDoorField,
+            PrefabManager.Instance.RedKeyDoorField,
+            PrefabManager.Instance.GreenKeyDoorField,
+            PrefabManager.Instance.BlueKeyDoorField,
+            PrefabManager.Instance.YellowKeyDoorField,
         }[(int)type];
     }
 
-    public static FieldManager.FieldType GetFieldType(this string tag)
+    public static FieldType GetFieldType(this string tag)
     {
         List<string> tags = new()
         {
@@ -44,12 +44,12 @@ public static class FieldTypeExtension
             "BlueKeyDoorField",
             "YellowKeyDoorField"
         };
-        return (FieldManager.FieldType)tags.IndexOf(tag);
+        return (FieldType)tags.IndexOf(tag);
     }
 
     public static bool IsField(this GameObject field)
     {
-        return field.tag.GetFieldType() != (FieldManager.FieldType)(-1);
+        return field.tag.GetFieldType() != (FieldType)(-1);
     }
 
     public static bool IsSolidField(this GameObject field)

@@ -71,7 +71,7 @@ public class CopyManager : MonoBehaviour
         while (!Input.GetMouseButton(0))
         {
             // cancel if these things happen
-            if(Input.GetKey(KeyCode.Escape) || GameManager.Instance.Selecting || GameManager.Instance.Playing)
+            if(Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || GameManager.Instance.Playing)
             {
                 MenuManager.Instance.blockMenu = false;
                 ClearPreview();
@@ -114,7 +114,7 @@ public class CopyManager : MonoBehaviour
         foreach(CopyData copyData in clipBoard)
         {
             Quaternion rotation = copyData.data.GetType() == typeof(FieldData) ? Quaternion.Euler(0, 0, ((FieldData)copyData.data).rotation) : Quaternion.identity;
-            GameObject preview = Instantiate(GameManager.Instance.FillPreview, Vector2.zero, rotation, Instance.previewContainer);
+            GameObject preview = Instantiate(PrefabManager.Instance.FillPreview, Vector2.zero, rotation, Instance.previewContainer);
 
             preview.transform.localPosition = copyData.relativePos;
 

@@ -11,13 +11,13 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance { get; private set; }
 
     // list of fields which are safe for player
-    public static readonly List<FieldManager.FieldType> SafeFields = new(new FieldManager.FieldType[]{
+    public static readonly List<FieldType> SafeFields = new(new FieldType[]{
         
     });
-    public static readonly List<FieldManager.FieldType> StartFields = new(new FieldManager.FieldType[]
+    public static readonly List<FieldType> StartFields = new(new FieldType[]
     {
-        FieldManager.FieldType.START_FIELD,
-        FieldManager.FieldType.GOAL_FIELD
+        FieldType.START_FIELD,
+        FieldType.GOAL_FIELD
     });
 
     public void SetPlayer(float mx, float my, float speed)
@@ -25,8 +25,8 @@ public class PlayerManager : MonoBehaviour
         if (CanPlace(mx, my))
         {
             // clear area from coins and keys
-            GameManager.RemoveObjectInContainer(mx, my, GameManager.Instance.CoinContainer);
-            GameManager.RemoveObjectInContainer(mx, my, GameManager.Instance.KeyContainer);
+            GameManager.RemoveObjectInContainer(mx, my, ReferenceManager.Instance.CoinContainer);
+            GameManager.RemoveObjectInContainer(mx, my, ReferenceManager.Instance.KeyContainer);
 
             // clear all players (only from this client tho)
             if (GameManager.Instance.Multiplayer)
@@ -73,7 +73,7 @@ public class PlayerManager : MonoBehaviour
     [PunRPC]
     public void RemoveAllPlayers()
     {
-        foreach(Transform player in GameManager.Instance.PlayerContainer.transform)
+        foreach(Transform player in ReferenceManager.Instance.PlayerContainer)
         {
             player.GetComponent<PlayerController>().DestroyPlayer();
         }
@@ -82,7 +82,7 @@ public class PlayerManager : MonoBehaviour
     public void RemovePlayerAtPos(float mx, float my)
     {
         // remove player only if at pos
-        foreach (Transform player in GameManager.Instance.PlayerContainer.transform)
+        foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
         {
             if(player.position.x == mx && player.position.y == my)
             {
@@ -94,7 +94,7 @@ public class PlayerManager : MonoBehaviour
     public void RemovePlayerAtPosOnlyOtherClients(float mx, float my)
     {
         // remove player only if at pos
-        foreach (Transform player in GameManager.Instance.PlayerContainer.transform)
+        foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
         {
             if (GameManager.Instance.Multiplayer && player.GetComponent<PhotonView>().IsMine) continue;
             if (player.position.x == mx && player.position.y == my)
@@ -107,7 +107,7 @@ public class PlayerManager : MonoBehaviour
     public void RemovePlayerAtPosIgnoreOtherClients(float mx, float my)
     {
         // remove player only if at pos
-        foreach (Transform player in GameManager.Instance.PlayerContainer.transform)
+        foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
         {
             if (GameManager.Instance.Multiplayer && !player.GetComponent<PhotonView>().IsMine) continue;
             if (player.position.x == mx && player.position.y == my)
@@ -138,7 +138,7 @@ public class PlayerManager : MonoBehaviour
         if (GetPlayers().Count == 0) return 0;
 
         int highestID = 0;
-        foreach (Transform p in GameManager.Instance.PlayerContainer.transform)
+        foreach (Transform p in ReferenceManager.Instance.PlayerContainer)
         {
             PlayerController controller = p.GetComponent<PlayerController>();
             if (controller.id > highestID) highestID = controller.id;
@@ -163,11 +163,11 @@ public class PlayerManager : MonoBehaviour
 
     public static List<GameObject> GetPlayers()
     {
-        GameObject container = GameManager.Instance.PlayerContainer;
+        Transform container = ReferenceManager.Instance.PlayerContainer;
         List<GameObject> players = new();
-        for(int i = 0; i < container.transform.childCount; i++)
+        for(int i = 0; i < container.childCount; i++)
         {
-            players.Add(container.transform.GetChild(i).gameObject);
+            players.Add(container.GetChild(i).gameObject);
         }
         return players;
     }
@@ -186,10 +186,10 @@ public class PlayerManager : MonoBehaviour
         if (GameManager.Instance.Multiplayer) return GetClientPlayer();
 
         // getting the one player in singleplayer
-        GameObject container = GameManager.Instance.PlayerContainer;
+        Transform container = ReferenceManager.Instance.PlayerContainer;
         if (container.transform.childCount > 1) throw new System.Exception("There are multiple player objects within GameManager.PlayerContainer while trying to access the specific player in singleplayer");
 
-        try { return container.transform.GetChild(0).gameObject; }
+        try { return container.GetChild(0).gameObject; }
         catch (System.Exception) { return null; }
     }
     public static GameObject GetPlayer(int id) { return PlayerIDList()[id]; }
@@ -209,7 +209,7 @@ public class PlayerManager : MonoBehaviour
     public static Dictionary<int, GameObject> PlayerIDList()
     {
         Dictionary<int, GameObject> res = new();
-        foreach (Transform p in GameManager.Instance.PlayerContainer.transform)
+        foreach (Transform p in ReferenceManager.Instance.PlayerContainer)
         {
             PlayerController controller = p.GetComponent<PlayerController>();
             res.Add(controller.id, p.gameObject);
@@ -222,14 +222,14 @@ public class PlayerManager : MonoBehaviour
         GameObject newPlayer;
         if (multiplayer)
         {
-            newPlayer = PhotonNetwork.Instantiate(GameManager.Instance.Player.name, pos, Quaternion.identity);
+            newPlayer = PhotonNetwork.Instantiate(PrefabManager.Instance.Player.name, pos, Quaternion.identity);
 
             PhotonView view = newPlayer.GetComponent<PhotonView>();
             view.RPC("SetSpeed", RpcTarget.All, speed);
         }
         else
         {
-            newPlayer = Instantiate(GameManager.Instance.Player, pos, Quaternion.identity, GameManager.Instance.PlayerContainer.transform);
+            newPlayer = Instantiate(PrefabManager.Instance.Player, pos, Quaternion.identity, ReferenceManager.Instance.PlayerContainer);
             
             PlayerController controller_ = newPlayer.GetComponent<PlayerController>();
             controller_.SetSpeed(speed);

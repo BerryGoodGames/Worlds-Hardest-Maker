@@ -45,7 +45,7 @@ public class PlayerController : Controller
     [HideInInspector] public PhotonView photonView;
     private SpriteRenderer spriteRenderer;
 
-    public Vector2 movementInput;
+    private Vector2 movementInput;
     private Vector2 extraMovementInput;
 
     [HideInInspector] public bool inDeathAnim = false;
@@ -98,9 +98,9 @@ public class PlayerController : Controller
 
     private void Start()
     {
-        if(transform.parent != GameManager.Instance.PlayerContainer.transform)
+        if(transform.parent != ReferenceManager.Instance.PlayerContainer)
         {
-            transform.SetParent(GameManager.Instance.PlayerContainer.transform);
+            transform.SetParent(ReferenceManager.Instance.PlayerContainer);
         }
 
         // set progress from current state
@@ -153,7 +153,7 @@ public class PlayerController : Controller
                 Mathf.Abs(rb.position.y) % 1 < (1 - ((1 - transform.lossyScale.y) * 0.5f + err)))
             {
                 Vector2 posCheck = new(Mathf.Round(rb.position.x + movementInput.x), roundedPos.y);
-                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
+                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldType.WALL_FIELD)
                 {
                     //transform.position = new Vector2(transform.position.x, roundedPos.y + (transform.position.y % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.y) * 0.5f);
                     extraMovementInput = new Vector2(movementInput.x, (rb.position.y % 1 > 0.5f ? 1 : -1));
@@ -165,8 +165,8 @@ public class PlayerController : Controller
                 Mathf.Abs(rb.position.x) % 1 > ((1 - transform.lossyScale.x) * 0.5f + err) && 
                 Mathf.Abs(rb.position.x) % 1 < (1 - ((1 - transform.lossyScale.x) * 0.5f + err)))
             {
-                Vector2 posCheck = new(Mathf.Round(rb.position.y + movementInput.y), roundedPos.x);
-                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
+                Vector2 posCheck = new(roundedPos.x, Mathf.Round(rb.position.y + movementInput.y));
+                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldType.WALL_FIELD)
                 {
                     //transform.position = new Vector2(roundedPos.x + (transform.position.x % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.x) * 0.5f, transform.position.y);
                     extraMovementInput = new Vector2((rb.position.x % 1 > 0.5f ? 1 : -1), movementInput.y);
@@ -238,24 +238,22 @@ public class PlayerController : Controller
     private void IcePhysics()
     {
         // transfer velocity to ice when entering
-        //if (rb.velocity == Vector2.zero)
-        //{
-        //    rb.velocity = GetCurrentSpeed() * movementInput;
-        //    print("add");
-        //}
+        if (rb.velocity == Vector2.zero)
+        {
+            rb.velocity = GetCurrentSpeed() * movementInput;
+        }
 
         rb.drag = iceFriction;
 
         // acceleration on ice
         // convert to units / second
         float force = speed / Time.fixedDeltaTime;
-        rb.AddForce(0.03f * force * iceFriction * movementInput, ForceMode2D.Force);
-
+        rb.AddForce(force * movementInput, ForceMode2D.Force);
+        
         rb.velocity = new(
             Mathf.Clamp(rb.velocity.x, -maxIceSpeed, maxIceSpeed),
             Mathf.Clamp(rb.velocity.y, -maxIceSpeed, maxIceSpeed)
         );
-        Dbg.Text(rb.velocity.x);
     }
     private void UpdateMovement(ref Vector2 totalMovement)
     {
@@ -278,7 +276,7 @@ public class PlayerController : Controller
         }
     }
 
-    public float GetCurrentSpeed() => onWater ? waterDamping * speed : speed;
+    private float GetCurrentSpeed() => onWater ? waterDamping * speed : speed;
     #endregion
 
     /// <summary>
@@ -319,20 +317,20 @@ public class PlayerController : Controller
         foreach (GameObject field in currentFields)
         {
             // check if current field is safe
-            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
-            if (PlayerManager.SafeFields.Contains((FieldManager.FieldType)currentFieldType))
+            FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            if (PlayerManager.SafeFields.Contains((FieldType)currentFieldType))
             {
                 return true;
             }
         }
         return false;
     }
-    public bool IsOnField(FieldManager.FieldType type)
+    public bool IsOnField(FieldType type)
     {
         foreach (GameObject field in currentFields)
         {
             // check if current field is type
-            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            FieldType? currentFieldType = FieldManager.GetFieldType(field);
             if (currentFieldType != null && currentFieldType == type)
             {
                 return true;
@@ -351,12 +349,12 @@ public class PlayerController : Controller
         }
         return res;
     }
-    public bool IsFullyOnField(FieldManager.FieldType type)
+    public bool IsFullyOnField(FieldType type)
     {
         List<GameObject> fullyOnFields = GetFullyOnFields();
         foreach(GameObject field in fullyOnFields)
         {
-            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            FieldType? currentFieldType = FieldManager.GetFieldType(field);
             if (currentFieldType != null && currentFieldType == type)
             {
                 return true;
@@ -366,21 +364,21 @@ public class PlayerController : Controller
     }
     public bool IsOnWater()
     {
-        return IsFullyOnField(FieldManager.FieldType.WATER);
+        return IsFullyOnField(FieldType.WATER);
     }
     public bool IsOnIce()
     {
-        return IsFullyOnField(FieldManager.FieldType.ICE);
+        return IsFullyOnField(FieldType.ICE);
     }
     public ConveyorController GetCurrentConveyor()
     {
-        if (IsFullyOnField(FieldManager.FieldType.CONVEYOR))
+        if (IsFullyOnField(FieldType.CONVEYOR))
         {
             List<GameObject> fullyOnFields = GetFullyOnFields();
             foreach (GameObject field in fullyOnFields)
             {
-                FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
-                if (currentFieldType != null && currentFieldType == FieldManager.FieldType.CONVEYOR)
+                FieldType? currentFieldType = FieldManager.GetFieldType(field);
+                if (currentFieldType != null && currentFieldType == FieldType.CONVEYOR)
                 {
                     return field.GetComponent<ConveyorController>();
                 }
@@ -394,8 +392,8 @@ public class PlayerController : Controller
         List<GameObject> fullyOnFields = GetFullyOnFields();
         foreach (GameObject field in fullyOnFields)
         {
-            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
-            if (currentFieldType != null && currentFieldType == FieldManager.FieldType.VOID)
+            FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            if (currentFieldType != null && currentFieldType == FieldType.VOID)
             {
                 return field;
             }
@@ -405,7 +403,7 @@ public class PlayerController : Controller
     public bool IsOnVoid()
     {
         // we dont need that, its just there lol
-        return IsFullyOnField(FieldManager.FieldType.VOID);
+        return IsFullyOnField(FieldType.VOID);
     }
 
     public GameObject GetCurrentField()
@@ -494,7 +492,7 @@ public class PlayerController : Controller
 
     public bool CoinsCollected()
     {
-        return coinsCollected.Count >= GameManager.Instance.CoinContainer.transform.childCount;
+        return coinsCollected.Count >= ReferenceManager.Instance.CoinContainer.childCount;
     }
     public void UncollectCoinAtPos(Vector2 pos)
     {
@@ -511,7 +509,7 @@ public class PlayerController : Controller
     
     public bool KeysCollected(KeyManager.KeyColor color)
     {
-        foreach(Transform k in GameManager.Instance.KeyContainer.transform)
+        foreach(Transform k in ReferenceManager.Instance.KeyContainer)
         {
             KeyController controller = k.GetChild(0).GetComponent<KeyController>();
             if (!controller.pickedUp && controller.color == color) return false;
@@ -607,7 +605,7 @@ public class PlayerController : Controller
         if (jumpToPlayer.target == gameObject) jumpToPlayer.target = player;
 
         // reset coins
-        foreach (Transform coin in GameManager.Instance.CoinContainer.transform)
+        foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
         {
             CoinController coinController = coin.GetChild(0).GetComponent<CoinController>();
 
@@ -636,7 +634,7 @@ public class PlayerController : Controller
         }
 
         // reset keys
-        foreach (Transform key in GameManager.Instance.KeyContainer.transform)
+        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
         {
             KeyController keyController = key.GetChild(0).GetComponent<KeyController>();
 

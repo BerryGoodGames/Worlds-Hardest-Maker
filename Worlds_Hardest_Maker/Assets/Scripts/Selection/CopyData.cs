@@ -18,7 +18,7 @@ public class CopyData
         data.ImportToLevel(pos + relativePos);
     }
 
-    public GameManager.EditMode GetEditMode()
+    public EditMode GetEditMode()
     {
         return data.GetEditMode();
     }
