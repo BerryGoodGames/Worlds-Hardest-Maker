@@ -38,8 +38,8 @@ public class LevelSettingsData : IData
         ImportToLevel();
     }
 
-    public override GameManager.EditMode GetEditMode()
+    public override EditMode GetEditMode()
     {
-        return GameManager.EditMode.WALL_FIELD;
+        return EditMode.WALL_FIELD;
     }
 }

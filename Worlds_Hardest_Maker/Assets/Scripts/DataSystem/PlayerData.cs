@@ -32,8 +32,8 @@ public class PlayerData : IData
         PlayerManager.Instance.SetPlayer(pos, speed);
     }
 
-    public override GameManager.EditMode GetEditMode()
+    public override EditMode GetEditMode()
     {
-        return GameManager.EditMode.PLAYER;
+        return EditMode.PLAYER;
     }
 }

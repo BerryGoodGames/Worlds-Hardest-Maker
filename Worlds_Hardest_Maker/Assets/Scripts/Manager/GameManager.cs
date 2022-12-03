@@ -14,48 +14,6 @@ public class GameManager : MonoBehaviourPun
 {
     public static GameManager Instance { get; private set; }
 
-    public enum EditMode
-    {
-        DELETE_FIELD, 
-        WALL_FIELD, 
-        START_FIELD, GOAL_FIELD, CHECKPOINT_FIELD, 
-        ONE_WAY_FIELD, CONVEYOR,
-        WATER, ICE,
-        VOID,
-        GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD, 
-        PLAYER, 
-        ANCHOR, 
-        BALL, BALL_DEFAULT, BALL_CIRCLE, 
-        COIN, 
-        GRAY_KEY, RED_KEY, GREEN_KEY, BLUE_KEY, YELLOW_KEY
-    }
-
-    #region Constants & references
-    [Header("Constants & References")]
-    
-    [Space]
-    [Header("Key binds")]
-    public int SelectionMouseButton;
-    public int PanMouseButton;
-    public KeyCode EntityDeleteKey;
-    public KeyCode EntityMoveKey;
-    public KeyCode BallCircleRadiusKey;
-    public KeyCode BallCircleAngleKey;
-    public KeyCode EditSpeedKey;
-    public KeyCode PasteKey;
-    [Space]
-    [Header("Materials")]
-    public Material LineMaterial;
-    public PhysicsMaterial2D NoFriction;
-    [Space]
-    [Header("Text References")]
-    public TMPro.TMP_Text EditModeText;
-    public TMPro.TMP_Text SelectingText;
-    public TMPro.TMP_Text DeathText;
-    public TMPro.TMP_Text CoinText;
-    public TMPro.TMP_Text Timer;
-    #endregion
-
     #region Variables
     [Header("Variables")]
 
@@ -126,19 +84,8 @@ public class GameManager : MonoBehaviourPun
         }
     }
     private EditMode? prevEditMode = null;
-
-    public bool Selecting { get; set; } = false;
     public bool Multiplayer { get; set; } = false;
-    public bool KonamiActive { get; set; } = false;
-    public List<Vector2> CurrentSelectionRange { get => SelectionManager.selectionStart == null || SelectionManager.selectionEnd == null ? null : SelectionManager.GetCurrentFillRange(); set { 
-            if(value == null)
-            {
-                SelectionManager.selectionStart = null;
-                SelectionManager.selectionEnd = null;
-            }
-        } }
     [HideInInspector] public bool UIHovered { get; set; } = false;
-    [HideInInspector] public int TotalCoins { get; set; } = 0;
     private int editRotation = 270;
     [HideInInspector] public int EditRotation
     {
@@ -150,17 +97,13 @@ public class GameManager : MonoBehaviourPun
             ReferenceManager.Instance.PlacementPreview.GetComponent<PreviewController>().UpdateRotation();
         }
     }
-
-    private float timerTime;
-    private Coroutine timerCoroutine;
-
-    public event Action OnGameQuit;
     #endregion
 
     #region Events
-    public static event Action OnPlay;
-    public static event Action OnEdit;
-    public static event Action OnEditModeChange;
+    public event Action OnGameQuit;
+    public event Action OnPlay;
+    public event Action OnEdit;
+    public event Action OnEditModeChange;
     #endregion
 
     private void Awake()
@@ -195,39 +138,14 @@ public class GameManager : MonoBehaviourPun
 
         SetCameraUnitWidth(23);
 
-        OnEdit += StopTimer;
-        OnPlay += StartTimer;
+        OnEdit += TextManager.Instance.StopTimer;
+        OnPlay += TextManager.Instance.StartTimer;
     }
 
     private void Update()
     {
         // check if toolbar background is hovered
         Instance.UIHovered = EventSystem.current.IsPointerOverGameObject();
-    }
-
-    private void LateUpdate()
-    {
-        object playerDeaths;
-        object playerCoinsCollected;
-
-        try
-        {
-            PlayerController currentPlayer = PlayerManager.GetPlayer().GetComponent<PlayerController>();
-            playerDeaths = currentPlayer.deaths;
-            playerCoinsCollected = currentPlayer.coinsCollected.Count;
-        }
-        catch (Exception)
-        {
-            // no player placed
-            playerDeaths = "-";
-            playerCoinsCollected = "-";
-        }
-
-        // set edit mode text ui
-        Instance.EditModeText.text = $"Edit: {Instance.CurrentEditMode.GetUIString()}";
-        Instance.SelectingText.text = $"Selecting: {Selecting}";
-        Instance.DeathText.text = $"Deaths: {playerDeaths}";
-        Instance.CoinText.text = $"Coins: {playerCoinsCollected}/{Instance.TotalCoins}";
     }
 
     private void OnIsMultiplayer()
@@ -302,7 +220,6 @@ public class GameManager : MonoBehaviourPun
         }
 
         Instance.Playing = true;
-        Instance.TotalCoins = ReferenceManager.Instance.CoinContainer.transform.childCount;
 
         AudioManager.Instance.Play("Bell");
         AudioManager.Instance.MusicFiltered(false);
@@ -349,7 +266,7 @@ public class GameManager : MonoBehaviourPun
 
         // camera jumps to last player if its not on screen
         Camera.main.GetComponent<JumpToEntity>().Jump(true);
-        OnPlay?.Invoke();
+        Instance.OnPlay?.Invoke();
 
         // close level settings panel if open
         LevelSettingsPanelTween lspt = ReferenceManager.Instance.LevelSettingsPanel.GetComponent<LevelSettingsPanelTween>();
@@ -428,7 +345,7 @@ public class GameManager : MonoBehaviourPun
 
             controller.currentState = null;
         }
-        OnEdit?.Invoke();
+        Instance.OnEdit?.Invoke();
     }
 
     /// <summary>
@@ -448,7 +365,7 @@ public class GameManager : MonoBehaviourPun
         float gridY = Mathf.Round(pos.y * 2) * 0.5f;
 
         if (editMode.IsFieldType())
-            FieldManager.Instance.SetField((int)pos.x, (int)pos.y, ConvertEnum<EditMode, FieldManager.FieldType>(editMode));
+            FieldManager.Instance.SetField((int)pos.x, (int)pos.y, ConvertEnum<EditMode, FieldType>(editMode));
         else if (editMode == EditMode.DELETE_FIELD)
         {
             // delete field
@@ -664,13 +581,6 @@ public class GameManager : MonoBehaviourPun
         }
     }
 
-    public static bool PointOnScreen(Vector2 point, bool worldPoint)
-    {
-        Vector3 screenPoint = worldPoint ? Camera.main.WorldToViewportPoint(point) : point;
-        bool onScreen = screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
-        return onScreen;
-    }
-
     public static void RemoveObjectInContainer(float mx, float my, Transform container)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.005f, 128);
@@ -695,24 +605,20 @@ public class GameManager : MonoBehaviourPun
             RemoveObjectInContainer(mx + dx[i], my + dy[i], container);
         }
     }
-
     public static EnumTo ConvertEnum<EnumFrom, EnumTo>(EnumFrom e)
     {
         return (EnumTo)Enum.Parse(typeof(EnumTo), e.ToString());
     }
-
     public static object TryConvertEnum<EnumFrom, EnumTo>(EnumFrom e)
     {
         Enum.TryParse(typeof(EnumTo), e.ToString(), out object convEnum);
 
         return convEnum;
     }
-
     public static float RoundToNearestStep(float value, float step)
     {
         return Mathf.Round(value / step) * step;
     }
-
     public static double Map(double value, double start1, double stop1, double start2, double stop2)
     {
         double range1 = stop1 - start1;
@@ -720,7 +626,6 @@ public class GameManager : MonoBehaviourPun
 
         return range2 / range1 * (value - start1) + start2;
     }
-
     public static void QuitGame()
     {
         if(Instance.OnGameQuit != null)
@@ -729,27 +634,5 @@ public class GameManager : MonoBehaviourPun
         Application.Quit();
     }
 
-    private void StartTimer()
-    {
-        print(timerCoroutine == null);
-        timerCoroutine = StartCoroutine(DoTimer());
-    }
-
-    private void StopTimer()
-    {
-        StopCoroutine(timerCoroutine);
-    }
-
-    private IEnumerator DoTimer()
-    {
-        timerTime = 0;
-        Timer.text = timerTime.ToString();
-        while (true)
-        {
-            timerTime += Time.deltaTime;
-
-            Timer.text = timerTime.ToString();
-            yield return null;
-        }
-    }
+    
 }

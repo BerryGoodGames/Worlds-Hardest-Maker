@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class FieldTypeExtension
 {
-    public static GameObject GetPrefab(this FieldManager.FieldType type)
+    public static GameObject GetPrefab(this FieldType type)
     {
         // return prefab according to type
         return new GameObject[] {
@@ -25,7 +25,7 @@ public static class FieldTypeExtension
         }[(int)type];
     }
 
-    public static FieldManager.FieldType GetFieldType(this string tag)
+    public static FieldType GetFieldType(this string tag)
     {
         List<string> tags = new()
         {
@@ -44,12 +44,12 @@ public static class FieldTypeExtension
             "BlueKeyDoorField",
             "YellowKeyDoorField"
         };
-        return (FieldManager.FieldType)tags.IndexOf(tag);
+        return (FieldType)tags.IndexOf(tag);
     }
 
     public static bool IsField(this GameObject field)
     {
-        return field.tag.GetFieldType() != (FieldManager.FieldType)(-1);
+        return field.tag.GetFieldType() != (FieldType)(-1);
     }
 
     public static bool IsSolidField(this GameObject field)

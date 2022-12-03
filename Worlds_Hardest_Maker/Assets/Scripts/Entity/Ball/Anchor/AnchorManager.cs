@@ -128,8 +128,8 @@ public class AnchorManager : MonoBehaviour
         if (anchor != null)
         {
             Instance.SelectedAnchor = anchor;
-            if(GameManager.Instance.CurrentEditMode != GameManager.EditMode.BALL)
-                GameManager.Instance.CurrentEditMode = GameManager.EditMode.ANCHOR;
+            if(GameManager.Instance.CurrentEditMode != EditMode.BALL)
+                GameManager.Instance.CurrentEditMode = EditMode.ANCHOR;
 
             Animator anim = anchor.GetComponent<Animator>();
             anim.SetBool("Selected", true);

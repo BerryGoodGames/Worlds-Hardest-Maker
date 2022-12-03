@@ -27,8 +27,8 @@ public class CoinData : IData
         CoinManager.Instance.SetCoin(pos);
     }
 
-    public override GameManager.EditMode GetEditMode()
+    public override EditMode GetEditMode()
     {
-        return GameManager.EditMode.COIN;
+        return EditMode.COIN;
     }
 }

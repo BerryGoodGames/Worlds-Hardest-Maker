@@ -39,7 +39,7 @@ public class KeyEvents : MonoBehaviour
         {
             GameManager.Instance.EditRotation = (GameManager.Instance.EditRotation - 90) % 360;
 
-            if (GameManager.Instance.Selecting) SelectionManager.UpdatePreviewRotation();
+            if (SelectionManager.Instance.Selecting) SelectionManager.UpdatePreviewRotation();
         }
 
 #if UNITY_EDITOR
@@ -56,7 +56,7 @@ public class KeyEvents : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.O)) GameManager.Instance.LoadLevel();
 #endif
             // paste
-            if (Input.GetKey(GameManager.Instance.PasteKey))
+            if (Input.GetKey(KeybindManager.Instance.PasteKey))
             {
                 StartCoroutine(CopyManager.StartPaste());
             }
@@ -77,28 +77,28 @@ public class KeyEvents : MonoBehaviour
     /// 
     /// </summary>
     /// <returns>list of keyboard shortcuts for edit modes</returns>
-    public static Dictionary<KeyCode[], GameManager.EditMode> GetKeyboardShortcuts()
+    public static Dictionary<KeyCode[], EditMode> GetKeyboardShortcuts()
     {
-        Dictionary<KeyCode[], GameManager.EditMode> keys = new()
+        Dictionary<KeyCode[], EditMode> keys = new()
         {
-            { new KeyCode[] { KeyCode.D }, GameManager.EditMode.DELETE_FIELD },
-            { new KeyCode[] { KeyCode.W }, GameManager.EditMode.WALL_FIELD },
-            { new KeyCode[] { KeyCode.S }, GameManager.EditMode.START_FIELD },
-            { new KeyCode[] { KeyCode.G }, GameManager.EditMode.GOAL_FIELD },
-            { new KeyCode[] { KeyCode.O }, GameManager.EditMode.ONE_WAY_FIELD },
-            { new KeyCode[] { KeyCode.W, KeyCode.A }, GameManager.EditMode.WATER },
-            { new KeyCode[] { KeyCode.I }, GameManager.EditMode.ICE },
-            { new KeyCode[] { KeyCode.V }, GameManager.EditMode.VOID },
-            { new KeyCode[] { KeyCode.P }, GameManager.EditMode.PLAYER },
-            { new KeyCode[] { KeyCode.B }, GameManager.EditMode.BALL_DEFAULT },
-            { new KeyCode[] { KeyCode.C }, GameManager.EditMode.COIN },
-            { new KeyCode[] { KeyCode.K }, GameManager.EditMode.GRAY_KEY },
-            { new KeyCode[] { KeyCode.R, KeyCode.K }, GameManager.EditMode.RED_KEY },
-            { new KeyCode[] { KeyCode.G, KeyCode.K }, GameManager.EditMode.GREEN_KEY },
-            { new KeyCode[] { KeyCode.B, KeyCode.K }, GameManager.EditMode.BLUE_KEY },
-            { new KeyCode[] { KeyCode.Y, KeyCode.K }, GameManager.EditMode.YELLOW_KEY },
-            { new KeyCode[] { KeyCode.B, KeyCode.C }, GameManager.EditMode.BALL_CIRCLE },
-            { new KeyCode[] { KeyCode.H, KeyCode.C }, GameManager.EditMode.CHECKPOINT_FIELD }
+            { new KeyCode[] { KeyCode.D }, EditMode.DELETE_FIELD },
+            { new KeyCode[] { KeyCode.W }, EditMode.WALL_FIELD },
+            { new KeyCode[] { KeyCode.S }, EditMode.START_FIELD },
+            { new KeyCode[] { KeyCode.G }, EditMode.GOAL_FIELD },
+            { new KeyCode[] { KeyCode.O }, EditMode.ONE_WAY_FIELD },
+            { new KeyCode[] { KeyCode.W, KeyCode.A }, EditMode.WATER },
+            { new KeyCode[] { KeyCode.I }, EditMode.ICE },
+            { new KeyCode[] { KeyCode.V }, EditMode.VOID },
+            { new KeyCode[] { KeyCode.P }, EditMode.PLAYER },
+            { new KeyCode[] { KeyCode.B }, EditMode.BALL_DEFAULT },
+            { new KeyCode[] { KeyCode.C }, EditMode.COIN },
+            { new KeyCode[] { KeyCode.K }, EditMode.GRAY_KEY },
+            { new KeyCode[] { KeyCode.R, KeyCode.K }, EditMode.RED_KEY },
+            { new KeyCode[] { KeyCode.G, KeyCode.K }, EditMode.GREEN_KEY },
+            { new KeyCode[] { KeyCode.B, KeyCode.K }, EditMode.BLUE_KEY },
+            { new KeyCode[] { KeyCode.Y, KeyCode.K }, EditMode.YELLOW_KEY },
+            { new KeyCode[] { KeyCode.B, KeyCode.C }, EditMode.BALL_CIRCLE },
+            { new KeyCode[] { KeyCode.H, KeyCode.C }, EditMode.CHECKPOINT_FIELD }
         };
         return keys;
     }
@@ -106,10 +106,10 @@ public class KeyEvents : MonoBehaviour
     private void CheckEditModeKeyEvents()
     {
         // get every user shortcut for switching edit mode
-        Dictionary<KeyCode[], GameManager.EditMode> keyboardShortcuts = GetKeyboardShortcuts();
+        Dictionary<KeyCode[], EditMode> keyboardShortcuts = GetKeyboardShortcuts();
 
         // check every event and set edit mode accordingly
-        foreach(KeyValuePair<KeyCode[], GameManager.EditMode> shortcut in keyboardShortcuts)
+        foreach(KeyValuePair<KeyCode[], EditMode> shortcut in keyboardShortcuts)
         {
             bool combinationPressed = true;
             foreach(KeyCode shortcutKey in shortcut.Key)

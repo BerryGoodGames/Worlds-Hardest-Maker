@@ -153,7 +153,7 @@ public class PlayerController : Controller
                 Mathf.Abs(rb.position.y) % 1 < (1 - ((1 - transform.lossyScale.y) * 0.5f + err)))
             {
                 Vector2 posCheck = new(Mathf.Round(rb.position.x + movementInput.x), roundedPos.y);
-                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
+                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldType.WALL_FIELD)
                 {
                     //transform.position = new Vector2(transform.position.x, roundedPos.y + (transform.position.y % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.y) * 0.5f);
                     extraMovementInput = new Vector2(movementInput.x, (rb.position.y % 1 > 0.5f ? 1 : -1));
@@ -166,7 +166,7 @@ public class PlayerController : Controller
                 Mathf.Abs(rb.position.x) % 1 < (1 - ((1 - transform.lossyScale.x) * 0.5f + err)))
             {
                 Vector2 posCheck = new(roundedPos.x, Mathf.Round(rb.position.y + movementInput.y));
-                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
+                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldType.WALL_FIELD)
                 {
                     //transform.position = new Vector2(roundedPos.x + (transform.position.x % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.x) * 0.5f, transform.position.y);
                     extraMovementInput = new Vector2((rb.position.x % 1 > 0.5f ? 1 : -1), movementInput.y);
@@ -317,20 +317,20 @@ public class PlayerController : Controller
         foreach (GameObject field in currentFields)
         {
             // check if current field is safe
-            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
-            if (PlayerManager.SafeFields.Contains((FieldManager.FieldType)currentFieldType))
+            FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            if (PlayerManager.SafeFields.Contains((FieldType)currentFieldType))
             {
                 return true;
             }
         }
         return false;
     }
-    public bool IsOnField(FieldManager.FieldType type)
+    public bool IsOnField(FieldType type)
     {
         foreach (GameObject field in currentFields)
         {
             // check if current field is type
-            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            FieldType? currentFieldType = FieldManager.GetFieldType(field);
             if (currentFieldType != null && currentFieldType == type)
             {
                 return true;
@@ -349,12 +349,12 @@ public class PlayerController : Controller
         }
         return res;
     }
-    public bool IsFullyOnField(FieldManager.FieldType type)
+    public bool IsFullyOnField(FieldType type)
     {
         List<GameObject> fullyOnFields = GetFullyOnFields();
         foreach(GameObject field in fullyOnFields)
         {
-            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            FieldType? currentFieldType = FieldManager.GetFieldType(field);
             if (currentFieldType != null && currentFieldType == type)
             {
                 return true;
@@ -364,21 +364,21 @@ public class PlayerController : Controller
     }
     public bool IsOnWater()
     {
-        return IsFullyOnField(FieldManager.FieldType.WATER);
+        return IsFullyOnField(FieldType.WATER);
     }
     public bool IsOnIce()
     {
-        return IsFullyOnField(FieldManager.FieldType.ICE);
+        return IsFullyOnField(FieldType.ICE);
     }
     public ConveyorController GetCurrentConveyor()
     {
-        if (IsFullyOnField(FieldManager.FieldType.CONVEYOR))
+        if (IsFullyOnField(FieldType.CONVEYOR))
         {
             List<GameObject> fullyOnFields = GetFullyOnFields();
             foreach (GameObject field in fullyOnFields)
             {
-                FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
-                if (currentFieldType != null && currentFieldType == FieldManager.FieldType.CONVEYOR)
+                FieldType? currentFieldType = FieldManager.GetFieldType(field);
+                if (currentFieldType != null && currentFieldType == FieldType.CONVEYOR)
                 {
                     return field.GetComponent<ConveyorController>();
                 }
@@ -392,8 +392,8 @@ public class PlayerController : Controller
         List<GameObject> fullyOnFields = GetFullyOnFields();
         foreach (GameObject field in fullyOnFields)
         {
-            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
-            if (currentFieldType != null && currentFieldType == FieldManager.FieldType.VOID)
+            FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            if (currentFieldType != null && currentFieldType == FieldType.VOID)
             {
                 return field;
             }
@@ -403,7 +403,7 @@ public class PlayerController : Controller
     public bool IsOnVoid()
     {
         // we dont need that, its just there lol
-        return IsFullyOnField(FieldManager.FieldType.VOID);
+        return IsFullyOnField(FieldType.VOID);
     }
 
     public GameObject GetCurrentField()

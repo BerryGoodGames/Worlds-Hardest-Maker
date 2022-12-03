@@ -6,6 +6,7 @@ using UnityEngine;
 public class KonamiManager : MonoBehaviour
 {
     private int keyIndex = 0;
+    public static bool KonamiActive { get; set; } = false;
 
     // Konami Code: ???????BA
     private readonly KeyCode[] konamiKeys = {
@@ -29,11 +30,11 @@ public class KonamiManager : MonoBehaviour
                 // check if code is finished
                 if (keyIndex >= konamiKeys.Length)
                 {
-                    GameManager.Instance.KonamiActive = !GameManager.Instance.KonamiActive;
+                    KonamiActive = !KonamiActive;
 
-                    KeyManager.SetKonamiMode(GameManager.Instance.KonamiActive);
+                    KeyManager.SetKonamiMode(KonamiActive);
 
-                    print($"Konami {(GameManager.Instance.KonamiActive ? "en" : "dis")}abled");
+                    print($"Konami {(KonamiActive ? "en" : "dis")}abled");
                     keyIndex = 0;
                 }
             }

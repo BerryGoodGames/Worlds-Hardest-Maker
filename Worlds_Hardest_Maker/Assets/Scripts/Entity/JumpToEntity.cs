@@ -27,7 +27,7 @@ public class JumpToEntity : MonoBehaviour
 
     private void Update()
     {
-        if(cancelByRightClick && jumping && Input.GetMouseButton(GameManager.Instance.PanMouseButton)) jumping = false;
+        if(cancelByRightClick && jumping && Input.GetMouseButton(KeybindManager.Instance.PanMouseButton)) jumping = false;
     }
 
     private void FixedUpdate()

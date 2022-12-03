@@ -9,7 +9,7 @@ using DG.Tweening;
 /// </summary>
 public class PreviewController : MonoBehaviour
 {
-    private GameManager.EditMode previousEditMode;
+    private EditMode previousEditMode;
 
     private bool previousPlaying;
 
@@ -52,13 +52,13 @@ public class PreviewController : MonoBehaviour
     private void Update()
     {
 
-        GameManager.EditMode currentEditMode = GameManager.Instance.CurrentEditMode;
+        EditMode currentEditMode = GameManager.Instance.CurrentEditMode;
         if (updateEveryFrame && (previousEditMode != currentEditMode || previousPlaying != GameManager.Instance.Playing)) UpdateSprite();
 
-        if (!GameManager.Instance.Selecting && followMouse)
+        if (!SelectionManager.Instance.Selecting && followMouse)
         {
             FollowMouse followMouse = GetComponent<FollowMouse>();
-            followMouse.worldPosition = currentEditMode.IsFieldType() || currentEditMode == GameManager.EditMode.DELETE_FIELD ?
+            followMouse.worldPosition = currentEditMode.IsFieldType() || currentEditMode == EditMode.DELETE_FIELD ?
                 FollowMouse.WorldPosition.MATRIX : FollowMouse.WorldPosition.GRID;
         }
 
@@ -82,17 +82,17 @@ public class PreviewController : MonoBehaviour
     /// </summary>
     /// <param name="mode">edit mode which needs to be checked</param>
     /// <returns></returns>
-    private bool CheckVisibility(GameManager.EditMode mode)
+    private bool CheckVisibility(EditMode mode)
     {
         if (GameManager.Instance.UIHovered ||
-            Input.GetKey(GameManager.Instance.EntityMoveKey) ||
-            Input.GetKey(GameManager.Instance.EditSpeedKey) ||
-            Input.GetKey(GameManager.Instance.EntityDeleteKey)) return false;
+            Input.GetKey(KeybindManager.Instance.EntityMoveKey) ||
+            Input.GetKey(KeybindManager.Instance.EditSpeedKey) ||
+            Input.GetKey(KeybindManager.Instance.EntityDeleteKey)) return false;
 
         if (CopyManager.pasting) return false;
 
         // check if preview of prefab not allowed during filling
-        if (GameManager.Instance.Selecting)
+        if (SelectionManager.Instance.Selecting)
         {
             if (SelectionManager.NoFillPreviewModes.Contains(mode)) return false;
         }
@@ -103,13 +103,13 @@ public class PreviewController : MonoBehaviour
             positionMode == FollowMouse.WorldPosition.GRID ? MouseManager.Instance.MouseWorldPosGrid : MouseManager.Instance.MouseWorldPosMatrix;
 
         // check player placement
-        if (mode == GameManager.EditMode.PLAYER)
+        if (mode == EditMode.PLAYER)
         {
             if (!PlayerManager.CanPlace(mousePos.x, mousePos.y)) return false;
         }
 
         // check coin placement
-        if (mode == GameManager.EditMode.COIN)
+        if (mode == EditMode.COIN)
         {
             if (!CoinManager.CanPlace(mousePos.x, mousePos.y)) return false;
         }
@@ -133,9 +133,9 @@ public class PreviewController : MonoBehaviour
         previousEditMode = GameManager.Instance.CurrentEditMode;
     }
 
-    public void SetSprite(GameManager.EditMode editMode, bool updateRotation = false)
+    public void SetSprite(EditMode editMode, bool updateRotation = false)
     {
-        if (editMode == GameManager.EditMode.DELETE_FIELD)
+        if (editMode == EditMode.DELETE_FIELD)
         {
             // defaultSprite for preview when deleting
             spriteRenderer.sprite = defaultSprite;
@@ -145,7 +145,7 @@ public class PreviewController : MonoBehaviour
         else
         {
             GameObject currentPrefab = editMode.GetPrefab();
-            if (currentPrefab.TryGetComponent(out PreviewSprite previewSprite) && (!GameManager.Instance.Selecting && !CopyManager.pasting || previewSprite.showWhenSelecting || showSpriteWhenPasting))
+            if (currentPrefab.TryGetComponent(out PreviewSprite previewSprite) && (!SelectionManager.Instance.Selecting && !CopyManager.pasting || previewSprite.showWhenSelecting || showSpriteWhenPasting))
             {
                 // apply PreviewSprite settings if it has one
                 spriteRenderer.sprite = previewSprite.sprite;
