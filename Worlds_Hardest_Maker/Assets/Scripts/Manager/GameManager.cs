@@ -6,6 +6,9 @@ using Photon.Pun;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Globalization;
+using System.Threading;
+using Ookii.Dialogs;
 
 /// <summary>
 /// manages game (duh)
@@ -128,6 +131,8 @@ public class GameManager : MonoBehaviourPun
         }
         else Destroy(gameObject);
 
+        ForceDecimalSeparator(".");
+
         // check if multiplayer or not
         Instance.Multiplayer = PhotonNetwork.CurrentRoom != null;
     }
@@ -164,7 +169,7 @@ public class GameManager : MonoBehaviourPun
     private void OnIsMultiplayer()
     {
         // enable photon player spawning
-        FindObjectOfType<PlayerSpawner>().enabled = true;
+        ReferenceManager.Instance.PlayerSpawner.enabled = true;
     }
 
     #region Unit pixel conversion methods
@@ -211,8 +216,7 @@ public class GameManager : MonoBehaviourPun
             if (Instance.Playing) SwitchToEdit(playSoundEffect);
             else SwitchToPlay();
 
-            BarTween[] barTweens = FindObjectsOfType<BarTween>();
-            foreach(BarTween tween in barTweens)
+            foreach(BarTween tween in BarTween.tweenList)
             {
                 tween.SetPlay(Instance.Playing);
             }
@@ -641,11 +645,20 @@ public class GameManager : MonoBehaviourPun
     }
     public static void QuitGame()
     {
-        if(Instance.OnGameQuit != null)
-            Instance.OnGameQuit();
+        Instance.OnGameQuit?.Invoke();
 
         Application.Quit();
     }
 
-    
+    public static void ForceDecimalSeparator(string separator)
+    {
+        string cultureName = Thread.CurrentThread.CurrentCulture.Name;
+        CultureInfo ci = new(cultureName);
+        if (ci.NumberFormat.NumberDecimalSeparator != separator)
+        {
+            // Forcing use of decimal separator for numerical values
+            ci.NumberFormat.NumberDecimalSeparator = separator;
+            Thread.CurrentThread.CurrentCulture = ci;
+        }
+    }
 }

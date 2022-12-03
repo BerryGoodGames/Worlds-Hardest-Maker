@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4051616246965461088}
   m_Layer: 15
   m_Name: Origin
-  m_TagString: Untagged
+  m_TagString: BallCircleOrigin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

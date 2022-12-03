@@ -11,16 +11,8 @@ using Photon.Pun;
 public class RoomItem : MonoBehaviour
 {
     public RoomInfo info;
-    public TMPro.TMP_Text roomNameTxt;
-    public TMPro.TMP_Text playerCountTxt;
-
-    private LobbyManager manager;
-
-    private void Start()
-    {
-        // find global lobby manager script
-        manager = FindObjectOfType<LobbyManager>();
-    }
+    public TMP_Text roomNameTxt;
+    public TMP_Text playerCountTxt;
 
     public void SetRoomName(string _roomName)
     {

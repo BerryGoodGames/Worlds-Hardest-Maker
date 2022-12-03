@@ -64,31 +64,27 @@ public class BallManager : MonoBehaviour
     [PunRPC]
     public void RemoveBall(float mx, float my)
     {
-        //GameObject container = GameManager.Instance.BallDefaultContainer;
-        //Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.4f);
-        //foreach(Collider2D hit in hits)
-        //{
-        //    if(hit.gameObject.name == "BallObject" && hit.gameObject.transform.parent.parent == container.transform)
-        //    {
-        //        hit.GetComponent<BallController>().DestroyBall();
-        //        break;
-        //    }
-        //}
-
-        BallController[] controllers = FindObjectsOfType<BallController>();
-        foreach(BallController c in controllers)
+        Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.01f, 128);
+        foreach(Collider2D hit in hits)
         {
-            if (c.startPosition.x == mx && c.startPosition.y == my) c.DestroyBall();
+            if (hit.TryGetComponent(out BallController b))
+            {
+                if (b.startPosition.x == mx && b.startPosition.y == my) b.DestroyBall();
+            }
         }
     }
 
     public List<GameObject> GetBalls(float mx, float my)
     {
         List<GameObject> list = new();
-        BallController[] controllers = FindObjectsOfType<BallController>();
-        foreach (BallController c in controllers)
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.01f, 128);
+        foreach (Collider2D hit in hits)
         {
-            if (c.startPosition.x == mx && c.startPosition.y == my) list.Add(c.gameObject);
+            if (hit.TryGetComponent(out BallController b))
+            {
+                if (b.startPosition.x == mx && b.startPosition.y == my) list.Add(b.gameObject);
+            }
         }
         return list;
     }
