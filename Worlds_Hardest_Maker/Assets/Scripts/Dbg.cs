@@ -69,13 +69,14 @@ public class Dbg : MonoBehaviour
 
     public static void Text(object obj)
     {
+        Text comp = Instance.DebugText.GetComponent<Text>();
         try
         {
-            Instance.DebugText.GetComponent<Text>().text = obj.ToString();
+            comp.text = obj.ToString();
         }
         catch
         {
-            Instance.DebugText.GetComponent<Text>().text = "failed";
+            comp.text = "failed";
         }
     }
 }
