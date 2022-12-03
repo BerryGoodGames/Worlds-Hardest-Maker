@@ -40,7 +40,7 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButton(GameManager.Instance.SelectionMouseButton) && !GameManager.Instance.Playing)
+        if (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton) && !GameManager.Instance.Playing)
             GameManager.Instance.Selecting = true;
 
         // update selection markings
@@ -54,8 +54,8 @@ public class SelectionManager : MonoBehaviour
             // disable normal placement preview
             ReferenceManager.Instance.PlacementPreview.SetActive(false);
 
-            if (Input.GetMouseButtonDown(GameManager.Instance.SelectionMouseButton)) OnStartSelect(start);
-            else if (Input.GetMouseButtonUp(GameManager.Instance.SelectionMouseButton)) OnAreaSelected(start, end);
+            if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton)) OnStartSelect(start);
+            else if (Input.GetMouseButtonUp(KeybindManager.Instance.SelectionMouseButton)) OnAreaSelected(start, end);
 
             if (prevStart == null || !prevStart.Equals(start) || !prevEnd.Equals(end)) OnAreaSelectionChanged(start, end);
         }

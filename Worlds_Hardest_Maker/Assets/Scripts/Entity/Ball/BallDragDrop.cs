@@ -22,7 +22,7 @@ public class BallDragDrop : MonoBehaviourPun
 
     private void OnMouseDrag()
     {
-        if (Input.GetKey(GameManager.Instance.EntityMoveKey))
+        if (Input.GetKey(KeybindManager.Instance.EntityMoveKey))
         {
             Vector2 unitPos = MouseManager.Instance.MouseWorldPosGrid;
             if(GameManager.Instance.Multiplayer)

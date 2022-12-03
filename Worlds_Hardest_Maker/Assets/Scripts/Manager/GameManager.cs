@@ -31,18 +31,7 @@ public class GameManager : MonoBehaviourPun
     }
 
     #region Constants & references
-    [Header("Constants & References")]
     
-    [Space]
-    [Header("Key binds")]
-    public int SelectionMouseButton;
-    public int PanMouseButton;
-    public KeyCode EntityDeleteKey;
-    public KeyCode EntityMoveKey;
-    public KeyCode BallCircleRadiusKey;
-    public KeyCode BallCircleAngleKey;
-    public KeyCode EditSpeedKey;
-    public KeyCode PasteKey;
     [Space]
     [Header("Materials")]
     public Material LineMaterial;

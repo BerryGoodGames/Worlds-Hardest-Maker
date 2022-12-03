@@ -27,10 +27,10 @@ public class MouseEvents : MonoBehaviour
 
         GameManager.EditMode editMode = GameManager.Instance.CurrentEditMode;
 
-        if (Input.GetMouseButtonDown(GameManager.Instance.SelectionMouseButton)) StartCoroutine(StartCancelSelection());
+        if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton)) StartCoroutine(StartCancelSelection());
 
         // select Anchor
-        if (Input.GetKey(GameManager.Instance.EditSpeedKey) && Input.GetMouseButtonDown(0))
+        if (Input.GetKey(KeybindManager.Instance.EditSpeedKey) && Input.GetMouseButtonDown(0))
         {
             AnchorManager.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
         }
@@ -38,9 +38,9 @@ public class MouseEvents : MonoBehaviour
         // place / delete stuff when not hovering toolbar
         if (!GameManager.Instance.UIHovered && !GameManager.Instance.Playing && !GameManager.Instance.Selecting && !CopyManager.pasting)
         {
-            if (!Input.GetKey(GameManager.Instance.EntityMoveKey) &&
-                !Input.GetKey(GameManager.Instance.EditSpeedKey) &&
-                !Input.GetKey(GameManager.Instance.EntityDeleteKey) &&
+            if (!Input.GetKey(KeybindManager.Instance.EntityMoveKey) &&
+                !Input.GetKey(KeybindManager.Instance.EditSpeedKey) &&
+                !Input.GetKey(KeybindManager.Instance.EntityDeleteKey) &&
                 !CopyManager.pasting &&
                 !GameManager.Instance.Selecting) 
             {
@@ -125,7 +125,7 @@ public class MouseEvents : MonoBehaviour
             }
 
 
-            if (Input.GetKey(GameManager.Instance.EntityDeleteKey))
+            if (Input.GetKey(KeybindManager.Instance.EntityDeleteKey))
             {
                 if (Input.GetMouseButton(0) && (Input.GetMouseButtonDown(0) || !Input.mousePosition.Equals(MouseManager.Instance.PrevMousePos)))
                 {
@@ -184,7 +184,7 @@ public class MouseEvents : MonoBehaviour
     private IEnumerator StartCancelSelection()
     {
         float passedTime = 0;
-        while(Input.GetMouseButton(GameManager.Instance.SelectionMouseButton))
+        while(Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton))
         {
             if(passedTime > selectionCancelMaxTime || MouseManager.Instance.MousePosDelta.magnitude > 10) yield break;
             passedTime += Time.deltaTime;

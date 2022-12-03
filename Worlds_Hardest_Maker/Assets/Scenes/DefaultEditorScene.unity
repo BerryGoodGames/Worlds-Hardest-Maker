@@ -12332,14 +12332,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f2714199ba2e442ad4b4508d6b2e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectionMouseButton: 1
-  PanMouseButton: 2
-  EntityDeleteKey: 127
-  EntityMoveKey: 304
-  BallCircleRadiusKey: 304
-  BallCircleAngleKey: 306
-  EditSpeedKey: 306
-  PasteKey: 118
   LineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   NoFriction: {fileID: 6200000, guid: 88face5bfde0aba43a3bbd9678a95eab, type: 2}
   EditModeText: {fileID: 208353116}
@@ -12400,6 +12392,7 @@ GameObject:
   - component: {fileID: 3252578248619094824}
   - component: {fileID: 3252578248619094842}
   - component: {fileID: 3252578248619094838}
+  - component: {fileID: 3252578248619094843}
   - component: {fileID: 3252578248619094839}
   - component: {fileID: 3252578248619094840}
   - component: {fileID: 3252578248619094237}
@@ -12640,6 +12633,26 @@ MonoBehaviour:
   CoinContainer: {fileID: 222980750}
   KeyContainer: {fileID: 139186754}
   FieldContainer: {fileID: 480599885}
+--- !u!114 &3252578248619094843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3252578248619094831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef1f7017eb24045489c2f2e782c9b4e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectionMouseButton: 1
+  PanMouseButton: 2
+  EntityDeleteKey: 127
+  EntityMoveKey: 304
+  BallCircleRadiusKey: 304
+  BallCircleAngleKey: 306
+  EditSpeedKey: 306
+  PasteKey: 118
 --- !u!1 &3469053329403155088
 GameObject:
   m_ObjectHideFlags: 0
