@@ -97,6 +97,18 @@ public class GameManager : MonoBehaviourPun
             ReferenceManager.Instance.PlacementPreview.GetComponent<PreviewController>().UpdateRotation();
         }
     }
+    private bool cheated = false;
+    [HideInInspector]
+    public bool Cheated
+    {
+        get => cheated;
+        set
+        {
+            cheated = value;
+            if (cheated) TextManager.Instance.Timer.color = TextManager.Instance.cheatedTimerColor;
+            else TextManager.Instance.Timer.color = Color.black;
+        }
+    }
     #endregion
 
     #region Events
@@ -139,6 +151,7 @@ public class GameManager : MonoBehaviourPun
         SetCameraUnitWidth(23);
 
         OnEdit += TextManager.Instance.StopTimer;
+        OnEdit += () => Cheated = false;
         OnPlay += TextManager.Instance.StartTimer;
     }
 

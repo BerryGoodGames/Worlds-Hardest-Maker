@@ -31,7 +31,10 @@ public class KeyEvents : MonoBehaviour
         {
             GameObject player = PlayerManager.GetPlayer();
             if(player != null)
+            {
                 player.GetComponent<Rigidbody2D>().position = MouseManager.Instance.MouseWorldPosGrid;
+                GameManager.Instance.Cheated = true;
+            }
         }
 
         // rotate rotatable fields
