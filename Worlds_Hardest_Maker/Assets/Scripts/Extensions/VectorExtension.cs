@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class VectorExtention
+public static class VectorExtension
 {
     public static Vector2 ConvertPosition(this Vector2 pos, FollowMouse.WorldPosition worldPosition)
     {
@@ -52,6 +52,11 @@ public static class VectorExtention
         int flooredY = Mathf.FloorToInt(vector.y);
 
         return new(flooredX, flooredY);
+    }
+
+    public static Vector2 Clamp(this Vector2 v, float min, float max)
+    {
+        return new(Mathf.Clamp(v.x, min, max), Mathf.Clamp(v.y, min, max));
     }
 
     public static bool PointOnScreen(this Vector2 point, bool worldPoint)
