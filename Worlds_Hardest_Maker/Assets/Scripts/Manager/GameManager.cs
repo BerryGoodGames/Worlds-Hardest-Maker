@@ -32,11 +32,6 @@ public class GameManager : MonoBehaviourPun
 
     #region Constants & references
     
-    [Space]
-    [Header("Materials")]
-    public Material LineMaterial;
-    public PhysicsMaterial2D NoFriction;
-    [Space]
     [Header("Text References")]
     public TMPro.TMP_Text EditModeText;
     public TMPro.TMP_Text SelectingText;

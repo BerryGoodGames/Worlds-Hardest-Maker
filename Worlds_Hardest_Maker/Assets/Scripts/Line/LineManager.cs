@@ -205,7 +205,7 @@ public class LineManager : MonoBehaviour
         stroke.transform.parent = parent;
 
         LineRenderer line = stroke.AddComponent<LineRenderer>();
-        line.material = GameManager.Instance.LineMaterial;
+        line.material = MaterialManager.Instance.LineMaterial;
 
         line.startWidth = weight;
         line.endWidth = weight;
