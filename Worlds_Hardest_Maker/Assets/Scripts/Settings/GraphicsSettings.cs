@@ -17,7 +17,7 @@ public class GraphicsSettings : MonoBehaviour
     #endregion
 
     #region Graphics settings
-    public static void SetQuality(int index, bool setPrefs = true)
+    public void SetQuality(int index, bool setPrefs)
     {
         QualitySettings.SetQualityLevel(index);
 
@@ -25,8 +25,9 @@ public class GraphicsSettings : MonoBehaviour
 
         if (setPrefs) SettingsManager.Instance.SavePrefs();
     }
+    public void SetQuality(int index) => SetQuality(index, true);
 
-    public static void Fullscreen(bool fullscreen, bool setPrefs = true)
+    public void Fullscreen(bool fullscreen, bool setPrefs)
     {
         Screen.fullScreen = fullscreen;
 
@@ -34,8 +35,9 @@ public class GraphicsSettings : MonoBehaviour
 
         if (setPrefs) SettingsManager.Instance.SavePrefs();
     }
+    public void Fullscreen(bool fullscreen) => Fullscreen(fullscreen, true);
 
-    public static void SetResolution(int index, bool setPrefs = true)
+    public void SetResolution(int index, bool setPrefs)
     {
         Resolution res = Instance.resolutions[index];
         Screen.SetResolution(res.width, res.height, Screen.fullScreen);
@@ -44,8 +46,9 @@ public class GraphicsSettings : MonoBehaviour
 
         if (setPrefs) SettingsManager.Instance.SavePrefs();
     }
+    public void SetResolution(int index) => SetResolution(index, true);
 
-    public static void SetOneColorStartGoal(bool oneColor, bool setPrefs = true)
+    public void SetOneColorStartGoal(bool oneColor, bool setPrefs)
     {
         // REF
         foreach (Transform field in ReferenceManager.Instance.FieldContainer)
@@ -100,6 +103,8 @@ public class GraphicsSettings : MonoBehaviour
 
         if (setPrefs) SettingsManager.Instance.SavePrefs();
     }
+    public void SetOneColorStartGoal(bool oneColor) => SetOneColorStartGoal(oneColor, true);
+
     #endregion
 
     private void UpdateResolutionOptions()

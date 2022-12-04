@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -53,13 +51,13 @@ public class SettingsManager : MonoBehaviour
         SetInfobarSize(PlayerPrefs.GetFloat("InfobarSize"), false);
 
         // graphics
-        GraphicsSettings.SetQuality(PlayerPrefs.GetInt("Quality"), false);
-        GraphicsSettings.Fullscreen(PlayerPrefs.GetInt("Fullscreen") == 1, false);
-        GraphicsSettings.SetOneColorStartGoal(PlayerPrefs.GetInt("OneColorStartGoal") == 1, false);
+        GraphicsSettings.Instance.SetQuality(PlayerPrefs.GetInt("Quality"), false);
+        GraphicsSettings.Instance.Fullscreen(PlayerPrefs.GetInt("Fullscreen") == 1, false);
+        GraphicsSettings.Instance.SetOneColorStartGoal(PlayerPrefs.GetInt("OneColorStartGoal") == 1, false);
     }
 
     #region Sound settings
-    public void SetMusicVolume(float vol, bool setPrefs = true)
+    public void SetMusicVolume(float vol, bool setPrefs)
     {
         // map vol from 0 - 100 to 0.0001 - 1 and convert it so vol acts linear
         float newVol = Mathf.Log10((float)GameManager.Map(vol, 0, 100, 0.0001, 3)) * 20;
@@ -68,7 +66,8 @@ public class SettingsManager : MonoBehaviour
 
         if (setPrefs) SavePrefs();
     }
-    public void SetSoundEffectVolume(float vol, bool setPrefs = true)
+    public void SetMusicVolume(float vol) => SetMusicVolume(vol, true);
+    public void SetSoundEffectVolume(float vol, bool setPrefs)
     {
         float newVol = Mathf.Log10((float)GameManager.Map(vol, 0, 100, 0.0001, 3)) * 20;
 
@@ -76,6 +75,7 @@ public class SettingsManager : MonoBehaviour
 
         if (setPrefs) SavePrefs();
     }
+    public void SetSoundEffectVolume(float vol) => SetSoundEffectVolume(vol, true);
     public float GetMusicVolume() 
     {
         if (mainMixer.GetFloat("MusicVolume", out float value))
@@ -92,11 +92,10 @@ public class SettingsManager : MonoBehaviour
         }
         throw new System.Exception("Failed to acces sound effect volume");
     }
-
     #endregion
 
     #region UI Settings
-    public void SetToolbarSize(float size, bool setPrefs = true)
+    public void SetToolbarSize(float size, bool setPrefs)
     {
         if (toolbarSpacing != null)
         {
@@ -106,13 +105,16 @@ public class SettingsManager : MonoBehaviour
             if (setPrefs) SavePrefs();
         }
     }
-    public void SetToolbarSize(string size, bool setPrefs = true)
+    public void SetToolbarSize(string size, bool setPrefs)
     {
         if (float.TryParse(size, out float conv)) SetToolbarSize(conv, setPrefs);
     }
+    public void SetToolbarSize(float size) => SetToolbarSize(size, true);
+    public void SetToolbarSize(string size) => SetToolbarSize(size, true);
+
     public float GetToolbarSize() => toolbarSpacing.toolbarHeight;
 
-    public void SetInfobarSize(float size, bool setPrefs = true)
+    public void SetInfobarSize(float size, bool setPrefs)
     {
         if (infobarPlayResize != null && infobarEditResize != null)
         {
@@ -124,10 +126,13 @@ public class SettingsManager : MonoBehaviour
             if(setPrefs) SavePrefs();
         }
     }
-    public void SetInfobarSize(string size, bool setPrefs = true)
+    public void SetInfobarSize(string size, bool setPrefs)
     {
         if (float.TryParse(size, out float conv)) SetInfobarSize(conv, setPrefs);
     }
+    public void SetInfobarSize(float size) => SetInfobarSize(size, true);
+    public void SetInfobarSize(string size) => SetInfobarSize(size, true);
+
     public float GetInfobarSize() => infobarPlayResize.infobarHeight;
     #endregion
 }
