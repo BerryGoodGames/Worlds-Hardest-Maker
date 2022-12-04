@@ -435,7 +435,7 @@ public class SelectionManager : MonoBehaviour
 
         GameObject player = PlayerManager.GetPlayer();
 
-        if (!PlayerManager.CanPlace(player.transform.position))
+        if (!PlayerManager.CanPlace(player.transform.position, false))
             PlayerManager.Instance.RemovePlayerAtPos(player.transform.position);
 
         UpdateOutlinesInArea(false, lowestPos, highestPos);

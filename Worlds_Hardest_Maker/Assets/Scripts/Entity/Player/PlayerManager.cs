@@ -158,15 +158,15 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public static bool CanPlace(float mx, float my)
+    public static bool CanPlace(float mx, float my, bool checkForPlayer = true)
     {
         // conditions: no player there, position is covered with possible start fields
-        return !IsPlayerThere(mx, my) && FieldManager.IsPosCoveredWithFieldType(mx, my, StartFields.ToArray());
+        return !(checkForPlayer && IsPlayerThere(mx, my)) && FieldManager.IsPosCoveredWithFieldType(mx, my, StartFields.ToArray());
     }
 
-    public static bool CanPlace(Vector2 pos)
+    public static bool CanPlace(Vector2 pos, bool checkForPlayer = true)
     {
-        return CanPlace(pos.x, pos.y);
+        return CanPlace(pos.x, pos.y, checkForPlayer);
     }
 
     public static int AvailableID()
