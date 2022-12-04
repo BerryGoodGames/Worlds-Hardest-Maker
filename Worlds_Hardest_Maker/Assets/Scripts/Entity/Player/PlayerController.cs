@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using DG.Tweening;
-using Ookii.Dialogs;
 
 public class PlayerController : Controller
 {

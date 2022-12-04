@@ -8,7 +8,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Globalization;
 using System.Threading;
-using Ookii.Dialogs;
+using UnityEditor;
 
 /// <summary>
 /// manages game (duh)
@@ -136,6 +136,7 @@ public class GameManager : MonoBehaviourPun
 
         // check if multiplayer or not
         Instance.Multiplayer = PhotonNetwork.CurrentRoom != null;
+
     }
 
     private void Start()
@@ -171,6 +172,7 @@ public class GameManager : MonoBehaviourPun
         // enable photon player spawning
         ReferenceManager.Instance.PlayerSpawner.enabled = true;
     }
+
 
     #region Unit pixel conversion methods
     // convert stuff
