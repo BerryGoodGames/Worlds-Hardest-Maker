@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviourPun
         {
             cheated = value;
             if (cheated) TextManager.Instance.Timer.color = TextManager.Instance.cheatedTimerColor;
+            else TextManager.Instance.Timer.color = Color.black;
         }
     }
     #endregion

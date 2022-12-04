@@ -104,10 +104,11 @@ public class PlayerController : Controller
         {
             if (won && animator != null)
                 animator.SetTrigger("Death");
-            won = false;
         };
 
-        if(transform.parent != ReferenceManager.Instance.PlayerContainer)
+        GameManager.Instance.OnPlay += () => won = false;
+
+        if (transform.parent != ReferenceManager.Instance.PlayerContainer)
         {
             transform.SetParent(ReferenceManager.Instance.PlayerContainer);
         }
@@ -228,7 +229,7 @@ public class PlayerController : Controller
 
         onWater = onWaterNow;
 
-        if (onWater && !inDeathAnim)
+        if (onWater && !inDeathAnim && !won)
         {
             currentDrownDuration += Time.fixedDeltaTime;
 
@@ -419,7 +420,7 @@ public class PlayerController : Controller
 
     public void Win()
     {
-        if (inDeathAnim) return;
+        if (inDeathAnim || won) return;
         // animation and play mode and that's it really
         AudioManager.Instance.Play("Win");
         won = true;
@@ -428,6 +429,7 @@ public class PlayerController : Controller
 
     public void DieNormal(string soundEffect = "Smack")
     {
+        if (won) return;
         // default dying
         // avoid dying while in animation
         if (!inDeathAnim)
@@ -468,7 +470,6 @@ public class PlayerController : Controller
     }
     private void Die()
     {
-        if(won) return ;
         // general method when dying in any way
 
         rb.simulated = false;
