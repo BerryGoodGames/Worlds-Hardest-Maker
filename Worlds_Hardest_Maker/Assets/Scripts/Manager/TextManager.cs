@@ -15,6 +15,7 @@ public class TextManager : MonoBehaviour
     public TMPro.TMP_Text CoinText;
     [Header("Colors")]
     public Color cheatedTimerColor;
+    public Color finishedTimerColor;
     #endregion
 
     private float timerSeconds;
@@ -27,6 +28,11 @@ public class TextManager : MonoBehaviour
         // init singleton
         if (Instance == null) Instance = this;
         else Destroy(this);
+    }
+    private void Start()
+    {
+        GameManager.Instance.OnPlay += StartTimer;
+        PlayerManager.Instance.OnWin += FinishTimer;
     }
 
     private void LateUpdate()
@@ -56,12 +62,21 @@ public class TextManager : MonoBehaviour
 
     public void StartTimer()
     {
+        Timer.color = Color.black;
         timerCoroutine = StartCoroutine(DoTimer());
     }
 
     public void StopTimer()
     {
         StopCoroutine(timerCoroutine);
+    }
+
+    public void FinishTimer()
+    {
+        StopTimer();
+
+        if (!GameManager.Instance.Cheated)
+            Timer.color = finishedTimerColor;
     }
 
     private IEnumerator DoTimer()

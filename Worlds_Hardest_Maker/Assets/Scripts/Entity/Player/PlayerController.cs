@@ -52,6 +52,8 @@ public class PlayerController : Controller
 
     private bool onWater = false;
 
+    private bool won;
+
     private void Awake()
     {
         coinsCollected = new();
@@ -98,6 +100,13 @@ public class PlayerController : Controller
 
     private void Start()
     {
+        GameManager.Instance.OnEdit += () =>
+        {
+            if (won && animator != null)
+                animator.SetTrigger("Death");
+            won = false;
+        };
+
         if(transform.parent != ReferenceManager.Instance.PlayerContainer)
         {
             transform.SetParent(ReferenceManager.Instance.PlayerContainer);
@@ -184,6 +193,7 @@ public class PlayerController : Controller
     #region Physics, Movement
     private void Move()
     {
+        if (won) return;
         bool ice = IsOnIce();
 
         Vector2 totalMovement = Vector2.zero;
@@ -409,10 +419,11 @@ public class PlayerController : Controller
 
     public void Win()
     {
+        if (inDeathAnim) return;
         // animation and play mode and that's it really
-        animator.SetTrigger("Death");
         AudioManager.Instance.Play("Win");
-        GameManager.Instance.TogglePlay(false);
+        won = true;
+        PlayerManager.Instance.InvokeOnWin();
     }
 
     public void DieNormal(string soundEffect = "Smack")
@@ -439,7 +450,7 @@ public class PlayerController : Controller
     }
     public void DieVoid()
     {
-
+        if (won) return;
         // dying through void
         Vector2 suckPosition = (Vector2)transform.position + movementInput * 0.5f;
 
@@ -457,6 +468,7 @@ public class PlayerController : Controller
     }
     private void Die()
     {
+        if(won) return ;
         // general method when dying in any way
 
         rb.simulated = false;
