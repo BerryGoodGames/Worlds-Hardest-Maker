@@ -116,6 +116,11 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
+
+    public void RemovePlayerAtPos(Vector2 pos)
+    {
+        RemovePlayerAtPos(pos.x, pos.y);
+    }
     [PunRPC]
     public void RemovePlayerAtPosOnlyOtherClients(float mx, float my)
     {
@@ -157,6 +162,11 @@ public class PlayerManager : MonoBehaviour
     {
         // conditions: no player there, position is covered with possible start fields
         return !IsPlayerThere(mx, my) && FieldManager.IsPosCoveredWithFieldType(mx, my, StartFields.ToArray());
+    }
+
+    public static bool CanPlace(Vector2 pos)
+    {
+        return CanPlace(pos.x, pos.y);
     }
 
     public static int AvailableID()

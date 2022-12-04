@@ -433,6 +433,11 @@ public class SelectionManager : MonoBehaviour
             DestroyImmediate(collider);
         }
 
+        GameObject player = PlayerManager.GetPlayer();
+
+        if (!PlayerManager.CanPlace(player.transform.position))
+            PlayerManager.Instance.RemovePlayerAtPos(player.transform.position);
+
         UpdateOutlinesInArea(false, lowestPos, highestPos);
     }
 
