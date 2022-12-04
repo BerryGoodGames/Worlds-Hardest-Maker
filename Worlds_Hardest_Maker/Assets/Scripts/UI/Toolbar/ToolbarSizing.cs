@@ -11,7 +11,7 @@ public class ToolbarSizing : MonoBehaviour
 
     public void UpdateSize()
     {
-        // set height of toolbar and scale values
+        // set height of toolbarContainer and scale values
         RectTransform rt = transform.parent.GetComponent<RectTransform>();
         rt.sizeDelta = new(0, toolbarHeight);
 

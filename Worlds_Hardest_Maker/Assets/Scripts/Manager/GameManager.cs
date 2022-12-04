@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviourPun
 
             prevEditMode = currentEditMode;
 
-            // update toolbar
+            // update toolbarContainer
             GameObject[] tools = ToolbarManager.tools;
             foreach (GameObject tool in tools)
             {
@@ -140,7 +140,9 @@ public class GameManager : MonoBehaviourPun
 
     private void Start()
     {
-        ReferenceManager.Instance.Menu.GetComponent<MenuManager>().SetMusicVolume(0.0001f);
+        SettingsManager.Instance.SetMusicVolume(0.0001f);
+
+        SettingsManager.Instance.LoadPrefs();
 
         if (Instance.Multiplayer)
         {
@@ -160,7 +162,7 @@ public class GameManager : MonoBehaviourPun
 
     private void Update()
     {
-        // check if toolbar background is hovered
+        // check if toolbarContainer background is hovered
         Instance.UIHovered = EventSystem.current.IsPointerOverGameObject();
     }
 

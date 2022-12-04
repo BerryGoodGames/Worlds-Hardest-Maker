@@ -35,7 +35,7 @@ public class MouseEvents : MonoBehaviour
             AnchorManager.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
         }
 
-        // place / delete stuff when not hovering toolbar
+        // place / delete stuff when not hovering toolbarContainer
         if (!GameManager.Instance.UIHovered && !GameManager.Instance.Playing && !SelectionManager.Instance.Selecting && !CopyManager.pasting)
         {
             if (!Input.GetKey(KeybindManager.Instance.EntityMoveKey) &&

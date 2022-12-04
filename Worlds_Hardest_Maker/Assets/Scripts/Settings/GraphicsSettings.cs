@@ -17,29 +17,35 @@ public class GraphicsSettings : MonoBehaviour
     #endregion
 
     #region Graphics settings
-    public static void SetQuality(int index)
+    public static void SetQuality(int index, bool setPrefs = true)
     {
         QualitySettings.SetQualityLevel(index);
 
         Instance.qualityLevel = index;
+
+        if (setPrefs) SettingsManager.Instance.SavePrefs();
     }
 
-    public static void Fullscreen(bool fullscreen)
+    public static void Fullscreen(bool fullscreen, bool setPrefs = true)
     {
         Screen.fullScreen = fullscreen;
 
         Instance.fullscreen = fullscreen;
+
+        if (setPrefs) SettingsManager.Instance.SavePrefs();
     }
 
-    public void SetResolution(int index)
+    public static void SetResolution(int index, bool setPrefs = true)
     {
-        Resolution res = resolutions[index];
+        Resolution res = Instance.resolutions[index];
         Screen.SetResolution(res.width, res.height, Screen.fullScreen);
 
         Instance.resolution = res;
+
+        if (setPrefs) SettingsManager.Instance.SavePrefs();
     }
 
-    public void SetOneColorStartGoal(bool oneColor)
+    public static void SetOneColorStartGoal(bool oneColor, bool setPrefs = true)
     {
         // REF
         foreach (Transform field in ReferenceManager.Instance.FieldContainer)
@@ -91,6 +97,8 @@ public class GraphicsSettings : MonoBehaviour
         }
 
         Instance.oneColorStartGoal = oneColor;
+
+        if (setPrefs) SettingsManager.Instance.SavePrefs();
     }
     #endregion
 

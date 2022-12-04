@@ -12,47 +12,32 @@ public class MenuManager : MonoBehaviour
         GRAPHIC = 0, UI = 1, SOUND = 2
     }
     [Header("Constants & References")]
-    public GameObject levelSettingsUI;
     public GameObject graphicSettingsUI;
     public GameObject UISettingsUI;
     public GameObject soundSettingsUI;
-    [Space]
-    public AudioMixer mainMixer;
-    public GameObject toolBar;
-    public GameObject infobarEdit;
-    public GameObject infobarPlay;
     [Space]
     [Header("Variables")]
     public MenuTab currentMenuTab;
     private MenuTab prevMenuTab;
 
-    private ToolbarSizing toolbarSpacing;
-    private InfobarResize infobarPlayResize;
-    private InfobarResize infobarEditResize;
-
     [HideInInspector] public bool blockMenu;
 
     private void Awake()
     {
-        toolbarSpacing = toolBar.GetComponent<ToolbarSizing>();
-
-        infobarPlayResize = infobarPlay.GetComponent<InfobarResize>();
-        infobarEditResize = infobarEdit.GetComponent<InfobarResize>();
-
         if (Instance == null) Instance = this;
         else Destroy(this);
-
-#if UNITY_EDITOR
-        mainMixer.SetFloat("MusicVolume", -80);
-        if(Instance != null) Instance = this;
-#endif
     }
 
     private void Start()
     {
         ChangeMenuTab(currentMenuTab);
     }
-    
+    public static void ExitGame()
+    {
+        GameManager.QuitGame();
+    }
+
+    #region Menu Tab
     public void ChangeMenuTab(MenuTab tab)
     {
         // REF
@@ -87,56 +72,6 @@ public class MenuManager : MonoBehaviour
             { MenuTab.UI, UISettingsUI }
         };
         return dict;
-    }
-    public static void ExitGame()
-    {
-        GameManager.QuitGame();
-    }    
-
-    #region Sound settings
-    public void SetMusicVolume(float vol)
-    {
-        // map vol from 0 - 100 to 0.0001 - 1 and convert it so vol acts linear
-        float newVol = Mathf.Log10((float)GameManager.Map(vol, 0, 100, 0.0001, 3)) * 20;
-
-        mainMixer.SetFloat("MusicVolume", newVol);
-    }
-
-    public void SetSoundEffectVolume(float vol)
-    {
-        float newVol = Mathf.Log10((float)GameManager.Map(vol, 0, 100, 0.0001, 3)) * 20;
-        mainMixer.SetFloat("SoundEffectVolume", newVol);
-    }
-    #endregion
-
-    #region UI Settings
-    public void SetToolbarSize(float size)
-    {
-        if(toolbarSpacing != null)
-        {
-            toolbarSpacing.toolbarHeight = size;
-            toolbarSpacing.UpdateSize();
-        }
-    }
-
-    public void SetToolbarSize(string size) 
-    {
-        if (float.TryParse(size, out float conv)) SetToolbarSize(conv);
-    }
-
-    public void SetInfobarSize(float size)
-    {
-        if (infobarPlayResize != null && infobarEditResize != null)
-        {
-            infobarPlayResize.infobarHeight = size;
-            infobarEditResize.infobarHeight = size;
-            infobarPlayResize.UpdateSize();
-            infobarEditResize.UpdateSize();
-        }
-    }
-    public void SetInfobarSize(string size)
-    {
-        if (float.TryParse(size, out float conv)) SetInfobarSize(conv);
     }
     #endregion
 }
