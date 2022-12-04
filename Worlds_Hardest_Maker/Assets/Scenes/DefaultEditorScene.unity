@@ -3131,7 +3131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoomSpeed: 1.2
-  maxZoom: 15
+  maxZoom: 20
   minZoom: 3
   zoomAnimDuration: 0.07
 --- !u!114 &519420034
@@ -10364,7 +10364,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 341b2d94eeaae5b40bedaf12ef53222e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8ce5714548e2ee546a9f29b1a3759400, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
