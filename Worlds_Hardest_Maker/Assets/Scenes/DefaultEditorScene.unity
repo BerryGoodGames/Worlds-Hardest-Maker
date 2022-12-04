@@ -12800,7 +12800,8 @@ MonoBehaviour:
   DeathText: {fileID: 2013123740}
   Timer: {fileID: 211911997}
   CoinText: {fileID: 1602660789}
-  cheatedTimerColor: {r: 0, g: 0, b: 0, a: 0}
+  cheatedTimerColor: {r: 0.8, g: 0, b: 0, a: 1}
+  finishedTimerColor: {r: 0, g: 0.7, b: 0, a: 1}
 --- !u!1 &3469053329403155088
 GameObject:
   m_ObjectHideFlags: 0
@@ -14028,7 +14029,7 @@ PrefabInstance:
     - target: {fileID: 7465456736653454117, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 341b2d94eeaae5b40bedaf12ef53222e, type: 3}
+      objectReference: {fileID: 21300000, guid: 8ce5714548e2ee546a9f29b1a3759400, type: 3}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolType
       value: DELETE_FIELD
