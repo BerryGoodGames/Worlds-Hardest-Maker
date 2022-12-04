@@ -72,5 +72,4 @@ public class Tooltip : MonoBehaviour
     {
         Destroy(tooltip);
     }
-
 }
