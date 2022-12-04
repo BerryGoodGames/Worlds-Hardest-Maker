@@ -106,8 +106,6 @@ public class PlayerController : Controller
                 animator.SetTrigger("Death");
         };
 
-        GameManager.Instance.OnPlay += () => won = false;
-
         if (transform.parent != ReferenceManager.Instance.PlayerContainer)
         {
             transform.SetParent(ReferenceManager.Instance.PlayerContainer);
@@ -424,6 +422,7 @@ public class PlayerController : Controller
         // animation and play mode and that's it really
         AudioManager.Instance.Play("Win");
         won = true;
+        print("jo " + inDeathAnim);
         PlayerManager.Instance.InvokeOnWin();
     }
 
@@ -509,7 +508,6 @@ public class PlayerController : Controller
             GameObject c = coinsCollected[i];
             if (c.GetComponent<CoinController>().coinPosition == pos)
             {
-                print("removedCoin");
                 coinsCollected.Remove(c);
             }
         }
@@ -595,6 +593,7 @@ public class PlayerController : Controller
 
         if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
 
+        won = false;
         inDeathAnim = false;
 
         float applySpeed = speed;

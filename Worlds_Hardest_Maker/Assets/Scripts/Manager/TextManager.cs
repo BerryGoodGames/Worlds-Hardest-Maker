@@ -62,13 +62,16 @@ public class TextManager : MonoBehaviour
 
     public void StartTimer()
     {
+        StopTimer();
+
         Timer.color = Color.black;
         timerCoroutine = StartCoroutine(DoTimer());
     }
 
     public void StopTimer()
     {
-        StopCoroutine(timerCoroutine);
+        if(timerCoroutine != null)
+            StopCoroutine(timerCoroutine);
     }
 
     public void FinishTimer()
