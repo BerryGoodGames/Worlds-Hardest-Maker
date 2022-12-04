@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviourPun
         {
             OnIsMultiplayer();
         } else {
-            PlayerManager.Instance.SetPlayer(-.5f, -.5f, 3f);
+            PlayerManager.Instance.SetPlayer(0, 0, 3f);
         }
 
         LevelSettings.Instance.SetDrownDuration();
