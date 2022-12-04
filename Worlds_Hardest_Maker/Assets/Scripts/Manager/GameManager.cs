@@ -109,7 +109,6 @@ public class GameManager : MonoBehaviourPun
         {
             cheated = value;
             if (cheated) TextManager.Instance.Timer.color = TextManager.Instance.cheatedTimerColor;
-            else TextManager.Instance.Timer.color = Color.black;
         }
     }
     #endregion
@@ -154,10 +153,7 @@ public class GameManager : MonoBehaviourPun
         LevelSettings.Instance.SetWaterDamping();
 
         SetCameraUnitWidth(23);
-
-        OnEdit += TextManager.Instance.StopTimer;
         OnEdit += () => Cheated = false;
-        OnPlay += TextManager.Instance.StartTimer;
     }
 
     private void Update()

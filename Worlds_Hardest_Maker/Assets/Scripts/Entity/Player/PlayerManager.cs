@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System;
 
 /// <summary>
 /// manages player duh
@@ -19,6 +20,13 @@ public class PlayerManager : MonoBehaviour
         FieldType.START_FIELD,
         FieldType.GOAL_FIELD
     });
+
+    public event Action OnWin;
+
+    public void InvokeOnWin()
+    {
+        OnWin();
+    }
 
     public void SetPlayer(float mx, float my, float speed, bool placeStartField = false)
     {
