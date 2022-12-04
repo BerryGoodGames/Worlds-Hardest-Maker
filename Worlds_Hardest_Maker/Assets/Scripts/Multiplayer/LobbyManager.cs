@@ -10,7 +10,7 @@ using Photon.Realtime;
 /// </summary>
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
-    public static LobbyManager IndestructableInstance = null;
+    public static LobbyManager Instance { get; private set; }
 
     public GameObject RoomItem;
     public GameObject PlayerItem;
@@ -245,5 +245,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 return true;
         }
         return false;
+    }
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
     }
 }

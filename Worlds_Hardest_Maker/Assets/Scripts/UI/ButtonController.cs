@@ -1,8 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -53,25 +50,3 @@ public class ButtonController : MonoBehaviour
         }
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(ButtonController))]
-public class ButtonControllerEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-
-        ButtonController script = (ButtonController)target;
-        if (GUILayout.Button("Update outline / background panel size"))
-        {
-            script.UpdateSomeShit();
-        }
-
-        if(GUILayout.Button("Update EVERY button"))
-        {
-            ButtonController.UpdateEVERYFUCKINGShit();
-        }
-    }
-}
-#endif

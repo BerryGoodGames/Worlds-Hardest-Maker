@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Photon.Pun;
 using DG.Tweening;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Controller
 {
     [HideInInspector] public int id;
 
@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool inDeathAnim = false;
 
     private bool onWater = false;
+
+    public bool won;
 
     private void Awake()
     {
@@ -97,9 +99,15 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        if(transform.parent != GameManager.Instance.PlayerContainer.transform)
+        GameManager.Instance.OnEdit += () =>
         {
-            transform.SetParent(GameManager.Instance.PlayerContainer.transform);
+            if (won && animator != null)
+                animator.SetTrigger("Death");
+        };
+
+        if (transform.parent != ReferenceManager.Instance.PlayerContainer)
+        {
+            transform.SetParent(ReferenceManager.Instance.PlayerContainer);
         }
 
         // set progress from current state
@@ -152,7 +160,7 @@ public class PlayerController : MonoBehaviour
                 Mathf.Abs(rb.position.y) % 1 < (1 - ((1 - transform.lossyScale.y) * 0.5f + err)))
             {
                 Vector2 posCheck = new(Mathf.Round(rb.position.x + movementInput.x), roundedPos.y);
-                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
+                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldType.WALL_FIELD)
                 {
                     //transform.position = new Vector2(transform.position.x, roundedPos.y + (transform.position.y % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.y) * 0.5f);
                     extraMovementInput = new Vector2(movementInput.x, (rb.position.y % 1 > 0.5f ? 1 : -1));
@@ -164,8 +172,8 @@ public class PlayerController : MonoBehaviour
                 Mathf.Abs(rb.position.x) % 1 > ((1 - transform.lossyScale.x) * 0.5f + err) && 
                 Mathf.Abs(rb.position.x) % 1 < (1 - ((1 - transform.lossyScale.x) * 0.5f + err)))
             {
-                Vector2 posCheck = new(Mathf.Round(rb.position.y + movementInput.y), roundedPos.x);
-                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldManager.FieldType.WALL_FIELD)
+                Vector2 posCheck = new(roundedPos.x, Mathf.Round(rb.position.y + movementInput.y));
+                if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldType.WALL_FIELD)
                 {
                     //transform.position = new Vector2(roundedPos.x + (transform.position.x % 1 > 0.5f ? -1 : 1) * (1 - transform.lossyScale.x) * 0.5f, transform.position.y);
                     extraMovementInput = new Vector2((rb.position.x % 1 > 0.5f ? 1 : -1), movementInput.y);
@@ -174,6 +182,39 @@ public class PlayerController : MonoBehaviour
         }
     }
     private void FixedUpdate()
+    {
+        UpdateWaterState();
+
+        Move();
+    }
+
+    #region Physics, Movement
+    private void Move()
+    {
+        if (won) return;
+        bool ice = IsOnIce();
+
+        Vector2 totalMovement = Vector2.zero;
+        // movement (if player is yours in multiplayer mode)
+        if (GameManager.Instance.Playing)
+        {
+            if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
+
+            if (ice)
+            {
+                IcePhysics();
+            }
+            else
+            {
+                UpdateMovement(ref totalMovement);
+            }
+        }
+
+        UpdateConveyorMovement(ref totalMovement);
+
+        if(totalMovement != Vector2.zero) rb.MovePosition(rb.position + totalMovement);
+    }
+    private void UpdateWaterState()
     {
         // check water and update drown level
         bool onWaterNow = IsOnWater();
@@ -185,7 +226,7 @@ public class PlayerController : MonoBehaviour
 
         onWater = onWaterNow;
 
-        if (onWater && !inDeathAnim)
+        if (onWater && !inDeathAnim && !won)
         {
             currentDrownDuration += Time.fixedDeltaTime;
 
@@ -194,19 +235,40 @@ public class PlayerController : MonoBehaviour
                 DieNormal("Drown");
             }
         }
-        else if(!inDeathAnim && !onWater) currentDrownDuration = 0;
+        else if (!inDeathAnim && !onWater) currentDrownDuration = 0;
 
         if (drownDuration != 0)
         {
             float drown = currentDrownDuration / drownDuration;
             waterLevel.localScale = new(waterLevel.localScale.x, drown);
         }
+    }
+    private void IcePhysics()
+    {
+        // transfer velocity to ice when entering
+        if (rb.velocity == Vector2.zero)
+        {
+            rb.velocity = GetCurrentSpeed() * movementInput;
+        }
 
-        bool ice = IsOnIce();
+        rb.drag = iceFriction;
 
+        // acceleration on ice
+        // convert to units / second
+        float force = maxIceSpeed;
+        rb.AddForce(force * iceFriction * movementInput, ForceMode2D.Force);
+    }
+    private void UpdateMovement(ref Vector2 totalMovement)
+    {
+        rb.velocity = Vector2.zero;
 
-        Vector2 totalMovement = Vector2.zero;
-        // get conveyor speed
+        // snappy movement (when not on ice)
+        if (!movementInput.Equals(Vector2.zero))
+            totalMovement += GetCurrentSpeed() * Time.fixedDeltaTime * new Vector2(Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1), Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1));
+        extraMovementInput = Vector2.zero;
+    }
+    private void UpdateConveyorMovement(ref Vector2 totalMovement)
+    {
         ConveyorController conveyor = GetCurrentConveyor();
         if (conveyor != null)
         {
@@ -215,39 +277,10 @@ public class PlayerController : MonoBehaviour
             conveyorVector = Quaternion.Euler(0, 0, conveyor.Rotation) * conveyorVector;
             totalMovement += conveyorVector;
         }
-
-        // movement (if player is yours in multiplayer mode)
-        if (GameManager.Instance.Playing)
-        {
-            if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
-
-            if (ice) 
-            {
-                // transfer velocity to ice when entering
-                if (rb.velocity == Vector2.zero) rb.velocity = (onWater ? waterDamping * speed : speed) * new Vector2(Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1), Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1));
-
-                // acceleration on ice
-                rb.drag = iceFriction;
-                rb.AddForce(iceFriction * speed * 1.2f * new Vector2(Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1), Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1)), ForceMode2D.Force);
-                extraMovementInput = Vector2.zero;
-
-                rb.velocity = new(Mathf.Min(maxIceSpeed, rb.velocity.x), Mathf.Min(maxIceSpeed, rb.velocity.y));
-            }
-            else
-            {
-                rb.velocity = Vector2.zero;
-
-                // snappy movement (when not on ice)
-                if (!movementInput.Equals(Vector2.zero))
-                    totalMovement += (onWater ? waterDamping * speed : speed) * Time.fixedDeltaTime * new Vector2(Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1), Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1));
-                extraMovementInput = Vector2.zero;
-            }
-        }
-
-        
-        if(!ice)
-            rb.MovePosition(rb.position + totalMovement);
     }
+
+    private float GetCurrentSpeed() => onWater ? waterDamping * speed : speed;
+    #endregion
 
     /// <summary>
     /// always use SetSpeed instead of setting
@@ -281,26 +314,26 @@ public class PlayerController : MonoBehaviour
         return new(Mathf.Floor(transform.position.x), Mathf.Floor(transform.position.y));
     }
 
-    #region FIELD DETECTION
+    #region Field detection
     public bool IsOnSafeField()
     {
         foreach (GameObject field in currentFields)
         {
             // check if current field is safe
-            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
-            if (PlayerManager.SafeFields.Contains((FieldManager.FieldType)currentFieldType))
+            FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            if (PlayerManager.SafeFields.Contains((FieldType)currentFieldType))
             {
                 return true;
             }
         }
         return false;
     }
-    public bool IsOnField(FieldManager.FieldType type)
+    public bool IsOnField(FieldType type)
     {
         foreach (GameObject field in currentFields)
         {
             // check if current field is type
-            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            FieldType? currentFieldType = FieldManager.GetFieldType(field);
             if (currentFieldType != null && currentFieldType == type)
             {
                 return true;
@@ -319,12 +352,12 @@ public class PlayerController : MonoBehaviour
         }
         return res;
     }
-    public bool IsFullyOnField(FieldManager.FieldType type)
+    public bool IsFullyOnField(FieldType type)
     {
         List<GameObject> fullyOnFields = GetFullyOnFields();
         foreach(GameObject field in fullyOnFields)
         {
-            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            FieldType? currentFieldType = FieldManager.GetFieldType(field);
             if (currentFieldType != null && currentFieldType == type)
             {
                 return true;
@@ -334,21 +367,21 @@ public class PlayerController : MonoBehaviour
     }
     public bool IsOnWater()
     {
-        return IsFullyOnField(FieldManager.FieldType.WATER);
+        return IsFullyOnField(FieldType.WATER);
     }
     public bool IsOnIce()
     {
-        return IsFullyOnField(FieldManager.FieldType.ICE);
+        return IsFullyOnField(FieldType.ICE);
     }
     public ConveyorController GetCurrentConveyor()
     {
-        if (IsFullyOnField(FieldManager.FieldType.CONVEYOR))
+        if (IsFullyOnField(FieldType.CONVEYOR))
         {
             List<GameObject> fullyOnFields = GetFullyOnFields();
             foreach (GameObject field in fullyOnFields)
             {
-                FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
-                if (currentFieldType != null && currentFieldType == FieldManager.FieldType.CONVEYOR)
+                FieldType? currentFieldType = FieldManager.GetFieldType(field);
+                if (currentFieldType != null && currentFieldType == FieldType.CONVEYOR)
                 {
                     return field.GetComponent<ConveyorController>();
                 }
@@ -362,8 +395,8 @@ public class PlayerController : MonoBehaviour
         List<GameObject> fullyOnFields = GetFullyOnFields();
         foreach (GameObject field in fullyOnFields)
         {
-            FieldManager.FieldType? currentFieldType = FieldManager.GetFieldType(field);
-            if (currentFieldType != null && currentFieldType == FieldManager.FieldType.VOID)
+            FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            if (currentFieldType != null && currentFieldType == FieldType.VOID)
             {
                 return field;
             }
@@ -373,7 +406,7 @@ public class PlayerController : MonoBehaviour
     public bool IsOnVoid()
     {
         // we dont need that, its just there lol
-        return IsFullyOnField(FieldManager.FieldType.VOID);
+        return IsFullyOnField(FieldType.VOID);
     }
 
     public GameObject GetCurrentField()
@@ -384,14 +417,17 @@ public class PlayerController : MonoBehaviour
 
     public void Win()
     {
+        if (inDeathAnim || won) return;
         // animation and play mode and that's it really
-        animator.SetTrigger("Death");
         AudioManager.Instance.Play("Win");
-        GameManager.Instance.TogglePlay(false);
+        won = true;
+        print("jo " + inDeathAnim);
+        PlayerManager.Instance.InvokeOnWin();
     }
 
     public void DieNormal(string soundEffect = "Smack")
     {
+        if (won) return;
         // default dying
         // avoid dying while in animation
         if (!inDeathAnim)
@@ -414,7 +450,7 @@ public class PlayerController : MonoBehaviour
     }
     public void DieVoid()
     {
-
+        if (won) return;
         // dying through void
         Vector2 suckPosition = (Vector2)transform.position + movementInput * 0.5f;
 
@@ -462,7 +498,7 @@ public class PlayerController : MonoBehaviour
 
     public bool CoinsCollected()
     {
-        return coinsCollected.Count >= GameManager.Instance.CoinContainer.transform.childCount;
+        return coinsCollected.Count >= ReferenceManager.Instance.CoinContainer.childCount;
     }
     public void UncollectCoinAtPos(Vector2 pos)
     {
@@ -471,7 +507,6 @@ public class PlayerController : MonoBehaviour
             GameObject c = coinsCollected[i];
             if (c.GetComponent<CoinController>().coinPosition == pos)
             {
-                print("removedCoin");
                 coinsCollected.Remove(c);
             }
         }
@@ -479,7 +514,7 @@ public class PlayerController : MonoBehaviour
     
     public bool KeysCollected(KeyManager.KeyColor color)
     {
-        foreach(Transform k in GameManager.Instance.KeyContainer.transform)
+        foreach(Transform k in ReferenceManager.Instance.KeyContainer)
         {
             KeyController controller = k.GetChild(0).GetComponent<KeyController>();
             if (!controller.pickedUp && controller.color == color) return false;
@@ -557,6 +592,7 @@ public class PlayerController : MonoBehaviour
 
         if (GameManager.Instance.Multiplayer && !photonView.IsMine) return;
 
+        won = false;
         inDeathAnim = false;
 
         float applySpeed = speed;
@@ -575,7 +611,7 @@ public class PlayerController : MonoBehaviour
         if (jumpToPlayer.target == gameObject) jumpToPlayer.target = player;
 
         // reset coins
-        foreach (Transform coin in GameManager.Instance.CoinContainer.transform)
+        foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
         {
             CoinController coinController = coin.GetChild(0).GetComponent<CoinController>();
 
@@ -604,7 +640,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // reset keys
-        foreach (Transform key in GameManager.Instance.KeyContainer.transform)
+        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
         {
             KeyController keyController = key.GetChild(0).GetComponent<KeyController>();
 
@@ -651,5 +687,10 @@ public class PlayerController : MonoBehaviour
         waterDamping = LevelSettings.Instance.waterDamping;
         iceFriction = LevelSettings.Instance.iceFriction;
         maxIceSpeed = LevelSettings.Instance.iceMaxSpeed;
+    }
+
+    public override IData GetData()
+    {
+        return new PlayerData(this);
     }
 }

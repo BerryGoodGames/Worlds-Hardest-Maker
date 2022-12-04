@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FieldController : MonoBehaviour
+public class FieldController : Controller
 {
     private void Start()
     {
-        if(transform.parent != GameManager.Instance.FieldContainer.transform)
+        if(transform.parent != ReferenceManager.Instance.FieldContainer)
         {
-            transform.SetParent(GameManager.Instance.FieldContainer.transform);
+            transform.SetParent(ReferenceManager.Instance.FieldContainer);
         }
     }
+
+    public override IData GetData() => new FieldData(gameObject);
 }

@@ -214,6 +214,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 4146727745612350080, guid: 590116fe8feedf1458d12057a8816bf5, type: 3}
+      propertyPath: m_TagString
+      value: BallDefaultObject
+      objectReference: {fileID: 0}
     - target: {fileID: 6627164438041839701, guid: 590116fe8feedf1458d12057a8816bf5, type: 3}
       propertyPath: controller
       value: 

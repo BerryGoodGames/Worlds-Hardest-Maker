@@ -6,7 +6,7 @@ using Photon.Pun;
 /// <summary>
 /// controlles the anchor (duh)
 /// </summary>
-public class AnchorController : MonoBehaviour
+public class AnchorController : Controller
 {
     public GameObject outline;
     public GameObject container;
@@ -21,11 +21,15 @@ public class AnchorController : MonoBehaviour
 
         transform.parent.position = Vector2.zero;
 
-        transform.parent.SetParent(GameManager.Instance.AnchorContainer.transform);
+        transform.parent.SetParent(ReferenceManager.Instance.AnchorContainer);
 
         pathController = GetComponent<PathController>();
 
         View = PhotonView.Get(this);
+    }
+    private void OnDestroy()
+    {
+        Destroy(transform.parent.gameObject);
     }
 
     [PunRPC]
@@ -97,7 +101,7 @@ public class AnchorController : MonoBehaviour
     {
         pathController.waypoints.Add(new(new(0, 0), true, 0, 1, 0));
         if (pathController.waypoints.Count > 0 && pathController.waypoints[0].WaypointEditor != null)
-            GameManager.Instance.BallWindows.GetComponentInChildren<PathEditorController>().UpdateUI();
+            ReferenceManager.Instance.BallWindows.GetComponentInChildren<PathEditorController>().UpdateUI();
     }
 
     public void BallFadeOut(AnimationEvent animationEvent)
@@ -124,5 +128,10 @@ public class AnchorController : MonoBehaviour
         yield return null;
         BallFadeIn(endOpacity, time);
         yield break;
+    }
+
+    public override IData GetData()
+    {
+        return new AnchorData(pathController, container.transform);
     }
 }

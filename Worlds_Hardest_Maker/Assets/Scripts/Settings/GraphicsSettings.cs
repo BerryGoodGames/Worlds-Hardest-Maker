@@ -9,40 +9,49 @@ public class GraphicsSettings : MonoBehaviour
     public TMPro.TMP_Dropdown resolutionDropdown;
     private Resolution[] resolutions;
 
-    #region SETTING VARIABLES
+    #region Setting variables
     [HideInInspector] public int qualityLevel;
     [HideInInspector] public bool fullscreen;
     [HideInInspector] public Resolution resolution;
     [HideInInspector] public bool oneColorStartGoal;
     #endregion
 
-    #region GRAPHICS SETTINGS
-    public static void SetQuality(int index)
+    #region Graphics settings
+    public void SetQuality(int index, bool setPrefs)
     {
         QualitySettings.SetQualityLevel(index);
 
         Instance.qualityLevel = index;
-    }
 
-    public static void Fullscreen(bool fullscreen)
+        if (setPrefs) SettingsManager.Instance.SavePrefs();
+    }
+    public void SetQuality(int index) => SetQuality(index, true);
+
+    public void Fullscreen(bool fullscreen, bool setPrefs)
     {
         Screen.fullScreen = fullscreen;
 
         Instance.fullscreen = fullscreen;
-    }
 
-    public void SetResolution(int index)
+        if (setPrefs) SettingsManager.Instance.SavePrefs();
+    }
+    public void Fullscreen(bool fullscreen) => Fullscreen(fullscreen, true);
+
+    public void SetResolution(int index, bool setPrefs)
     {
-        Resolution res = resolutions[index];
+        Resolution res = Instance.resolutions[index];
         Screen.SetResolution(res.width, res.height, Screen.fullScreen);
 
         Instance.resolution = res;
-    }
 
-    public void SetOneColorStartGoal(bool oneColor)
+        if (setPrefs) SettingsManager.Instance.SavePrefs();
+    }
+    public void SetResolution(int index) => SetResolution(index, true);
+
+    public void SetOneColorStartGoal(bool oneColor, bool setPrefs)
     {
         // REF
-        foreach (Transform field in GameManager.Instance.FieldContainer.transform)
+        foreach (Transform field in ReferenceManager.Instance.FieldContainer)
         {
             if (oneColor)
             {
@@ -91,7 +100,11 @@ public class GraphicsSettings : MonoBehaviour
         }
 
         Instance.oneColorStartGoal = oneColor;
+
+        if (setPrefs) SettingsManager.Instance.SavePrefs();
     }
+    public void SetOneColorStartGoal(bool oneColor) => SetOneColorStartGoal(oneColor, true);
+
     #endregion
 
     private void UpdateResolutionOptions()

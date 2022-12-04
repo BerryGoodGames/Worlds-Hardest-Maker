@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class LevelSettingsData : IData
 {
-    #region SETTING VARIABLES
+    #region Setting variables
     public float drownDuration;
     public float waterDamping;
     public float iceFriction;
@@ -31,5 +31,15 @@ public class LevelSettingsData : IData
         LevelSettings.Instance.SetWaterDamping(waterDamping, false);
         LevelSettings.Instance.SetReusableCheckpoints(reusableCheckpoints, false);
         LevelSettings.Instance.SyncPlayersToSettings();
+    }
+
+    public override void ImportToLevel(Vector2 pos)
+    {
+        ImportToLevel();
+    }
+
+    public override EditMode GetEditMode()
+    {
+        return EditMode.WALL_FIELD;
     }
 }

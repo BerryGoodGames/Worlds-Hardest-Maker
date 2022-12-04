@@ -17,7 +17,6 @@ public class BallCircleManager : MonoBehaviour
             // instantiate prefab
             InstantiateBallCircle(originPos, r, speed, startAngle);
         }
-        
     }
     [PunRPC]
     public void SetBallCircle(float mx, float my)
@@ -33,10 +32,12 @@ public class BallCircleManager : MonoBehaviour
     public List<GameObject> GetBallCircles(float mx, float my)
     {
         List<GameObject> list = new();
-        BallCircleController[] ballCircles = FindObjectsOfType<BallCircleController>();
-        foreach(BallCircleController controller in ballCircles)
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.01f, 32768);
+        
+        foreach(Collider2D hit in hits)
         {
-            if (controller.origin.position.x == mx && controller.origin.position.y == my) list.Add(controller.gameObject);
+            if (hit.CompareTag("BallCircleOrigin")) list.Add(hit.transform.parent.GetChild(0).gameObject);
         }
         return list;
     }
@@ -58,7 +59,7 @@ public class BallCircleManager : MonoBehaviour
         }
         else
         {
-            newBallCircle = Instantiate(GameManager.Instance.BallCircle, Vector2.zero, Quaternion.identity, GameManager.Instance.BallCircleContainer.transform);
+            newBallCircle = Instantiate(PrefabManager.Instance.BallCircle, Vector2.zero, Quaternion.identity, ReferenceManager.Instance.BallCircleContainer);
 
             BallCircleController controller = newBallCircle.transform.GetChild(0).GetComponent<BallCircleController>();
             controller.SetRadius(r); 
@@ -74,8 +75,8 @@ public class BallCircleManager : MonoBehaviour
     [PunRPC]
     public void RemoveBallCircle(float mx, float my)
     {
-        GameObject container = GameManager.Instance.BallCircleContainer;
-        foreach (Transform bc in container.transform)
+        Transform container = ReferenceManager.Instance.BallCircleContainer;
+        foreach (Transform bc in container)
         {
             Vector2 originPos = bc.GetChild(0).GetComponent<BallCircleController>().origin.position;
 

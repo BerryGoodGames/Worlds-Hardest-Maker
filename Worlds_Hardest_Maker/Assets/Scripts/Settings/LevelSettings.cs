@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteAlways]
 public class LevelSettings : MonoBehaviour
 {
     public static LevelSettings Instance { get; private set; }
 
-    #region SETTING UI ELEMENT REFERENCES
+    #region Setting UI element references
     [SerializeField] private NumberInput drownDurationInput;
     [SerializeField] private Slider waterDampingSlider;
     [SerializeField] private NumberInput iceFrictionInput;
@@ -16,7 +15,7 @@ public class LevelSettings : MonoBehaviour
     [SerializeField] private Toggle reusableCheckpointCheckbox;
     #endregion
 
-    #region SETTING VARIABLES
+    #region Setting variables
     [HideInInspector] public float drownDuration;
     [HideInInspector] public float waterDamping;
     [HideInInspector] public float iceFriction;
@@ -28,7 +27,8 @@ public class LevelSettings : MonoBehaviour
     }
     #endregion
 
-    #region LEVEL SETTINGS
+
+    #region Level settings
     public void SetDrownDuration(bool syncPlayers = true)
     {
         Instance.drownDuration = drownDurationInput.GetCurrentNumber();
@@ -43,14 +43,20 @@ public class LevelSettings : MonoBehaviour
 
     public void SetWaterDamping(bool syncPlayers = true)
     {
-        Instance.waterDamping = 1 - waterDampingSlider.value;
-        if (syncPlayers) SyncPlayersToSettings();
+        if (Instance != null)
+        {
+            Instance.waterDamping = 1 - waterDampingSlider.value;
+            if (syncPlayers) SyncPlayersToSettings();
+        }
     }
     public void SetWaterDamping(float waterDamping, bool syncPlayers = true)
     {
-        Instance.waterDamping = waterDamping;
-        waterDampingSlider.value = 1 - waterDamping;
-        if (syncPlayers) SyncPlayersToSettings();
+        if (Instance != null)
+        {
+            Instance.waterDamping = waterDamping;
+            waterDampingSlider.value = 1 - waterDamping;
+            if (syncPlayers) SyncPlayersToSettings();
+        }
     }
 
     public void SetIceFriction(bool syncPlayers = true)
@@ -93,9 +99,9 @@ public class LevelSettings : MonoBehaviour
 
     public void SyncPlayersToSettings()
     {
-        PlayerController[] controllers = FindObjectsOfType<PlayerController>();
-        foreach(PlayerController p in controllers)
+        foreach(Transform player in ReferenceManager.Instance.PlayerContainer)
         {
+            PlayerController p = player.GetComponent<PlayerController>();
             p.SyncToLevelSettings();
         }
     }

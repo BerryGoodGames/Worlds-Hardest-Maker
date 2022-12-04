@@ -25,6 +25,10 @@ TagManager:
   - Ice
   - Void
   - Conveyor
+  - Coin
+  - Key
+  - BallCircleOrigin
+  - BallDefaultObject
   layers:
   - Default
   - TransparentFX

@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 public class FontManager : MonoBehaviour
 {
@@ -23,20 +20,3 @@ public class FontManager : MonoBehaviour
         }
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(FontManager))]
-public class FontManagerEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-
-        FontManager script = (FontManager)target;
-        if (GUILayout.Button("Apply Default Font"))
-        {
-            script.ApplyDefaultFont();
-        }
-    }
-}
-#endif

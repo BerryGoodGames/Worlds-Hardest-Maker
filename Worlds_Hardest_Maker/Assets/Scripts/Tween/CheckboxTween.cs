@@ -8,6 +8,7 @@ public class CheckboxTween : MonoBehaviour
 {
     [SerializeField] private RectTransform checkMark;
     [SerializeField] private Toggle toggle;
+    [Space]
     [SerializeField] private float duration;
     [SerializeField] private Ease easeType;
 

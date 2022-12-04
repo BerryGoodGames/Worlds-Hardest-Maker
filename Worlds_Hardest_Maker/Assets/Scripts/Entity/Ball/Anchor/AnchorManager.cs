@@ -39,6 +39,7 @@ public class AnchorManager : MonoBehaviour
 
     [HideInInspector] public PathController selectedPathController;
 
+
     /// <summary>
     /// places anchor at position
     /// </summary>
@@ -63,7 +64,7 @@ public class AnchorManager : MonoBehaviour
             }
             else
             {
-                GameObject anchor = Instantiate(GameManager.Instance.Anchor, pos, Quaternion.identity, GameManager.Instance.AnchorContainer.transform);
+                GameObject anchor = Instantiate(PrefabManager.Instance.Anchor, pos, Quaternion.identity, ReferenceManager.Instance.AnchorContainer);
                 return anchor;
             }
         }
@@ -127,8 +128,8 @@ public class AnchorManager : MonoBehaviour
         if (anchor != null)
         {
             Instance.SelectedAnchor = anchor;
-            if(GameManager.Instance.CurrentEditMode != GameManager.EditMode.BALL)
-                GameManager.Instance.CurrentEditMode = GameManager.EditMode.ANCHOR;
+            if(GameManager.Instance.CurrentEditMode != EditMode.BALL)
+                GameManager.Instance.CurrentEditMode = EditMode.ANCHOR;
 
             Animator anim = anchor.GetComponent<Animator>();
             anim.SetBool("Selected", true);

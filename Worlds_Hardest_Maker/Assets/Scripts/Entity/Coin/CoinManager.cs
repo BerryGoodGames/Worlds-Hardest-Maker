@@ -7,14 +7,15 @@ public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance { get; private set; }
 
-    public static List<FieldManager.FieldType> CantPlaceFields = new(new FieldManager.FieldType[]{
-        FieldManager.FieldType.WALL_FIELD,
-        FieldManager.FieldType.RED_KEY_DOOR_FIELD,
-        FieldManager.FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldManager.FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldManager.FieldType.YELLOW_KEY_DOOR_FIELD,
-        FieldManager.FieldType.GRAY_KEY_DOOR_FIELD
+    public static List<FieldType> CantPlaceFields = new(new FieldType[]{
+        FieldType.WALL_FIELD,
+        FieldType.RED_KEY_DOOR_FIELD,
+        FieldType.BLUE_KEY_DOOR_FIELD,
+        FieldType.GREEN_KEY_DOOR_FIELD,
+        FieldType.YELLOW_KEY_DOOR_FIELD,
+        FieldType.GRAY_KEY_DOOR_FIELD
     });
+    [HideInInspector] public int TotalCoins { get; set; } = 0;
 
     [PunRPC]
     public void SetCoin(float mx, float my)
@@ -23,38 +24,37 @@ public class CoinManager : MonoBehaviour
         {
             Vector2 pos = new(mx, my);
 
-            GameManager.Instance.TotalCoins++;
-            GameObject coin = Instantiate(GameManager.Instance.Coin, pos, Quaternion.identity, GameManager.Instance.CoinContainer.transform);
+            TotalCoins++;
+            GameObject coin = Instantiate(PrefabManager.Instance.Coin, pos, Quaternion.identity, ReferenceManager.Instance.CoinContainer);
                     
             Animator anim = coin.GetComponent<Animator>();
             anim.SetBool("Playing", GameManager.Instance.Playing);
         }
     }
+
+    public void SetCoin(Vector2 pos)
+    {
+        SetCoin(pos.x, pos.y);
+    }
     [PunRPC]
     public void RemoveCoin(float mx, float my)
     {
-        foreach (Transform coin in GameManager.Instance.CoinContainer.transform)
-        {
-            if (coin.GetChild(0).GetComponent<CoinController>().coinPosition == new Vector2(mx, my))
-            {
-                Destroy(coin.gameObject);
 
-                GameObject currentPlayer = PlayerManager.GetPlayer();
-                if (currentPlayer != null) currentPlayer.GetComponent<PlayerController>().UncollectCoinAtPos(new(mx, my));
+        Destroy(GetCoin(mx, my));
 
-                GameManager.Instance.TotalCoins = GameManager.Instance.CoinContainer.transform.childCount - 1;
-            }
-        }
+        GameObject currentPlayer = PlayerManager.GetPlayer();
+        if (currentPlayer != null) currentPlayer.GetComponent<PlayerController>().UncollectCoinAtPos(new(mx, my));
+
+        TotalCoins = ReferenceManager.Instance.CoinContainer.childCount - 1;
     }
     public static GameObject GetCoin(float mx, float my)
     {
-        GameObject container = GameManager.Instance.CoinContainer;
-        foreach (Transform coin in container.transform)
+        Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.1f, 128);
+        foreach(Collider2D hit in hits)
         {
-            CoinController controller = coin.GetChild(0).GetComponent<CoinController>();
-            if (controller.coinPosition == new Vector2(mx, my))
+            if(hit.GetComponent<CoinController>() != null)
             {
-                return coin.gameObject;
+                return hit.transform.parent.gameObject;
             }
         }
         return null;
@@ -79,5 +79,10 @@ public class CoinManager : MonoBehaviour
     {
         // init singleton
         if (Instance == null) Instance = this;
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.OnPlay += () => Instance.TotalCoins = ReferenceManager.Instance.CoinContainer.transform.childCount;
     }
 }

@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 1150115118659219530}
   - component: {fileID: 440906165075069479}
   - component: {fileID: 820035501870139319}
+  - component: {fileID: 1696379741430247205}
   - component: {fileID: 5586849039478671229}
   m_Layer: 5
   m_Name: TooltipObject
@@ -238,6 +239,26 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &1696379741430247205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4055570121836575833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac2e35a7172e3644b4e54c46f96ce0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 0}
+  text: {fileID: 0}
+  canvasGroup: {fileID: 820035501870139319}
+  startVisible: 0
+  duration: 0.4
+  disableObjectWhenInvisible: 1
+  alphaVisible: 1
+  alphaInvisible: 0
 --- !u!114 &5586849039478671229
 MonoBehaviour:
   m_ObjectHideFlags: 0

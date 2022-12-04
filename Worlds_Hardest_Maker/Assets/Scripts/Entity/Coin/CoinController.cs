@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinController : MonoBehaviour
+public class CoinController : Controller
 {
     [HideInInspector] public Vector2 coinPosition;
     [HideInInspector] public bool pickedUp = false;
     private void Awake()
     {
         coinPosition = new(transform.position.x, transform.position.y);
+    }
+    private void OnDestroy()
+    {
+        Destroy(transform.parent.gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -31,8 +35,8 @@ public class CoinController : MonoBehaviour
                     {
                         foreach (GameObject field in controller.currentFields)
                         {
-                            FieldManager.FieldType fieldType = (FieldManager.FieldType)FieldManager.GetFieldType(field);
-                            if (fieldType == FieldManager.FieldType.GOAL_FIELD)
+                            FieldType fieldType = (FieldType)FieldManager.GetFieldType(field);
+                            if (fieldType == FieldType.GOAL_FIELD)
                             {
                                 controller.Win();
                                 break;
@@ -55,5 +59,9 @@ public class CoinController : MonoBehaviour
         Animator anim = transform.parent.GetComponent<Animator>();
         anim.SetBool("PickedUp", true);
         pickedUp = true;
+    }
+    public override IData GetData()
+    {
+        return new CoinData(this);
     }
 }

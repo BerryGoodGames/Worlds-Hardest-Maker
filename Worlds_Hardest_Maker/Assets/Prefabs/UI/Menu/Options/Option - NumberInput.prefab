@@ -7,6 +7,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4459959278281149799}
     m_Modifications:
+    - target: {fileID: 2778013406168189572, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778013406168189572, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778013406168189572, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2778013406168189572, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3926511750526139795, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3926511750526139795, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3926511750526139795, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3926511750526139795, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6331248990355835297, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6331248990807799952, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
       propertyPath: m_Name
       value: NumberInput
@@ -95,12 +131,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6331248991720292125, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
-      propertyPath: m_fontSize
-      value: 51.15
+    - target: {fileID: 6331248992234627981, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7854351464840360911, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
+      propertyPath: wiggle
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
+--- !u!224 &4875996625311869204 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6331248990807799953, guid: a5d8467a4d01c6d43ab27ff9ee793440, type: 3}
+  m_PrefabInstance: {fileID: 1474392801890374021}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5359478664981483570
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -196,8 +241,43 @@ PrefabInstance:
       propertyPath: m_Name
       value: Option - NumberInput
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 173008180124997499, guid: c0c0feb35e0382041b783ac8b86d2225, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c0c0feb35e0382041b783ac8b86d2225, type: 3}
+--- !u!114 &3147622571459938932 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7047618289150630470, guid: c0c0feb35e0382041b783ac8b86d2225, type: 3}
+  m_PrefabInstance: {fileID: 5359478664981483570}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &3637377166554687212 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8654298017628321502, guid: c0c0feb35e0382041b783ac8b86d2225, type: 3}
+  m_PrefabInstance: {fileID: 5359478664981483570}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7370477241943501348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3637377166554687212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: add4dfee320e57a4f8c61b8b8e4d2ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rectTransform: {fileID: 4459959278281149799}
+  label: {fileID: 3147622571459938932}
+  fontSize: 40
+  height: 80
+  width: 250
+  numberInputObjRt: {fileID: 4875996625311869204}
 --- !u!224 &4459959278281149799 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8612083318934363477, guid: c0c0feb35e0382041b783ac8b86d2225, type: 3}

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KeyController : MonoBehaviour
+public class KeyController : Controller
 {
     [HideInInspector] public KeyManager.KeyColor color;
     [HideInInspector] public Vector2 keyPosition;
@@ -14,12 +14,17 @@ public class KeyController : MonoBehaviour
 
         SpriteRenderer renderer = GetComponent<SpriteRenderer>();
         int highestOrder = 0;
-        foreach(Transform key in GameManager.Instance.KeyContainer.transform)
+        foreach(Transform key in ReferenceManager.Instance.KeyContainer)
         {
             int order = key.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder;
             if (order > highestOrder) highestOrder = order;
         }
         renderer.sortingOrder = highestOrder + 1;
+    }
+
+    private void OnDestroy()
+    {
+        Destroy(transform.parent.gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -72,5 +77,10 @@ public class KeyController : MonoBehaviour
                 controller.Lock(false);
             }
         }
+    }
+
+    public override IData GetData()
+    {
+        return new KeyData(this);
     }
 }

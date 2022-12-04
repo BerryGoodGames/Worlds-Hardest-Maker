@@ -10,20 +10,9 @@ public class FieldManager : MonoBehaviour
 {
     public static FieldManager Instance { get; private set; }
 
-    public enum FieldType
-    {
-        WALL_FIELD, 
-        START_FIELD, GOAL_FIELD, CHECKPOINT_FIELD, 
-        ONE_WAY_FIELD, CONVEYOR,
-        WATER, ICE,
-        VOID,
-        GRAY_KEY_DOOR_FIELD, RED_KEY_DOOR_FIELD, GREEN_KEY_DOOR_FIELD, BLUE_KEY_DOOR_FIELD, YELLOW_KEY_DOOR_FIELD
-    }
-
     public static readonly List<FieldType> SolidFields = new(new FieldType[]
     {
         FieldType.WALL_FIELD,
-        FieldType.ONE_WAY_FIELD,
         FieldType.GRAY_KEY_DOOR_FIELD,
         FieldType.RED_KEY_DOOR_FIELD,
         FieldType.GREEN_KEY_DOOR_FIELD,
@@ -37,9 +26,9 @@ public class FieldManager : MonoBehaviour
         FieldType.CONVEYOR,
     });
 
-    public static bool IsRotatable(GameManager.EditMode editMode)
+    public static bool IsRotatable(EditMode editMode)
     {
-        FieldType? fieldType = (FieldType?)GameManager.TryConvertEnum<GameManager.EditMode, FieldType>(editMode);
+        FieldType? fieldType = (FieldType?)GameManager.TryConvertEnum<EditMode, FieldType>(editMode);
 
         if (fieldType != null)
             return RotatableFields.Contains((FieldType)fieldType);
@@ -57,7 +46,7 @@ public class FieldManager : MonoBehaviour
 
     public static GameObject GetField(int mx, int my)
     {
-        Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(new(mx, my), 0.1f);
+        Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(new(mx, my), 0.1f, 3072);
         foreach (Collider2D c in collidedGameObjects)
         {
             if (c.gameObject.IsField())
@@ -155,16 +144,21 @@ public class FieldManager : MonoBehaviour
             {
                 // TODO: 9x bad performance than before
                 // remove coin if wall is placed
-                GameManager.RemoveObjectInContainerIntersect(mx, my, GameManager.Instance.CoinContainer);
+                GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.CoinContainer);
             }
 
             if (KeyManager.CantPlaceFields.Contains(type))
             {
                 // TODO: 9x bad performance than before
                 // remove key if wall is placed
-                GameManager.RemoveObjectInContainerIntersect(mx, my, GameManager.Instance.KeyContainer);
+                GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.KeyContainer);
             }
         }
+    }
+
+    public void SetField(Vector2 pos, FieldType type, int rotation)
+    {
+        SetField((int)pos.x, (int)pos.y, type, rotation);
     }
     [PunRPC]
     public void SetField(int mx, int my, FieldType type)
@@ -180,7 +174,7 @@ public class FieldManager : MonoBehaviour
             res = PhotonNetwork.Instantiate(prefab.name, pos, Quaternion.Euler(0, 0, rotation));
         } else
         {
-            res = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), GameManager.Instance.FieldContainer.transform);
+            res = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), ReferenceManager.Instance.FieldContainer);
         }
         return res;
     }
@@ -227,7 +221,7 @@ public class FieldManager : MonoBehaviour
         return res;
     }
 
-    #region FIELD INTERSECTION
+    #region Field intersection
     public static bool IntersectingAnyFieldsAtPos(float mx, float my, params FieldType[] t)
     {
         List<FieldType> types = t.ToList();
