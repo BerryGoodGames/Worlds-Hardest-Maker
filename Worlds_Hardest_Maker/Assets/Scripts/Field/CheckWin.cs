@@ -12,8 +12,9 @@ public class CheckWin : MonoBehaviour
         if (GameManager.Instance.Playing && collider.gameObject.TryGetComponent(out PlayerController controller))
         {
             // check if every coin is collected
-            if (controller.CoinsCollected())
+            if (!controller.inDeathAnim && !controller.won && controller.CoinsCollected())
             {
+                print("aowdpk");
                 controller.Win();
             }
         }

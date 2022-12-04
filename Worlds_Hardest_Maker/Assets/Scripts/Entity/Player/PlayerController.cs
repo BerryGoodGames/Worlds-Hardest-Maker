@@ -52,7 +52,7 @@ public class PlayerController : Controller
 
     private bool onWater = false;
 
-    private bool won;
+    public bool won;
 
     private void Awake()
     {
