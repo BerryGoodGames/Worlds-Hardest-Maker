@@ -6,7 +6,7 @@ using UnityEngine;
 /// script for consistent seemless background
 /// attach to main camera
 /// </summary>
-public class BackgroundLoop : MonoBehaviour
+public class LevelBackground : MonoBehaviour
 {
     [SerializeField] private GameObject tile;
     [SerializeField] private Transform container;
@@ -19,14 +19,7 @@ public class BackgroundLoop : MonoBehaviour
     private void Start()
     {
         cam = GetComponent<Camera>();
-        if(TryGetComponent(out MapController mapController))
-        {
-            CalcSize(mapController.MaxZoom);
-        } 
-        else
-        {
-            CalcSize(defaultMaxZoom);
-        }
+        CalcSize(TryGetComponent(out MapController mapController) ? mapController.MaxZoom : defaultMaxZoom);
     }
 
     private void Update()

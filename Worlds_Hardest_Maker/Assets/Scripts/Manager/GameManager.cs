@@ -137,6 +137,7 @@ public class GameManager : MonoBehaviourPun
         // check if multiplayer or not
         Instance.Multiplayer = PhotonNetwork.CurrentRoom != null;
 
+        SetCameraUnitWidth(23);
     }
 
     private void Start()
@@ -157,7 +158,6 @@ public class GameManager : MonoBehaviourPun
         LevelSettings.Instance.SetIceMaxSpeed();
         LevelSettings.Instance.SetWaterDamping();
 
-        SetCameraUnitWidth(23);
         OnEdit += () => Cheated = false;
     }
 
