@@ -31,12 +31,12 @@ public class GameManager : MonoBehaviourPun
         {
             currentEditMode = value;
 
-            if (prevEditMode != null && prevEditMode != currentEditMode) OnEditModeChange();
+            if (prevEditMode != null && prevEditMode != currentEditMode) OnEditModeChange?.Invoke();
 
             prevEditMode = currentEditMode;
 
             // update toolbarContainer
-            GameObject[] tools = ToolbarManager.tools;
+            GameObject[] tools = ToolbarManager.Tools;
             foreach (GameObject tool in tools)
             {
                 Tool t = tool.GetComponent<Tool>();

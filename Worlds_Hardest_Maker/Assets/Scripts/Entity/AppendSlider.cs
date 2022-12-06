@@ -1,27 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Script for e.g. balls or player
-/// to add a slider following attached gameobject
-/// and splitting gameobject and slider
+///     Script for e.g. balls or player
+///     to add a slider following attached gameobject
+///     and splitting gameobject and slider
 /// </summary>
 public class AppendSlider : MonoBehaviour
 {
     // specific slider to append
     [SerializeField] private float min, max, step, startValue;
-    public float Min { get { return min; } set { min = value; } }
-    public float Max { get { return max; } set { max = value; } }
-    public float Step { get { return step; } set { step = value; } }
-    public float StartValue { get { return startValue; } set { startValue = value; } }
     [SerializeField] private GameObject sliderPrefab;
+
+    public float Min
+    {
+        get => min;
+        set => min = value;
+    }
+
+    public float Max
+    {
+        get => max;
+        set => max = value;
+    }
+
+    public float Step
+    {
+        get => step;
+        set => step = value;
+    }
+
+    public float StartValue
+    {
+        get => startValue;
+        set => startValue = value;
+    }
+
     public GameObject Slider { get; private set; }
 
     private void Awake()
     {
-        Slider = Instantiate(sliderPrefab, Vector2.zero, Quaternion.identity, ReferenceManager.Instance.SliderContainer);
+        Slider = Instantiate(sliderPrefab, Vector2.zero, Quaternion.identity,
+            ReferenceManager.Instance.SliderContainer);
         Slider settings = Slider.GetComponent<Slider>();
         settings.minValue = min / step;
         settings.maxValue = max / step;

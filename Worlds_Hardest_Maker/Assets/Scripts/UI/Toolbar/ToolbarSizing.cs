@@ -15,7 +15,7 @@ public class ToolbarSizing : MonoBehaviour
         RectTransform rt = transform.parent.GetComponent<RectTransform>();
         rt.sizeDelta = new(0, toolbarHeight);
 
-        // scale tools
+        // scale Tools
         foreach (Transform tool in transform)
         {
             tool.localScale = new(toolbarHeight / 100, toolbarHeight / 100);

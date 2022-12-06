@@ -1,27 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class ToolbarManager : MonoBehaviour
 {
-    public GameObject toolbarBackground;
-    public GameObject infobarBackground;
+    public static GameObject[] Tools;
 
-    public static GameObject[] tools;
-    void Start()
+    private void Start()
     {
-        tools = GameObject.FindGameObjectsWithTag("Tool");
+        Tools = GameObject.FindGameObjectsWithTag("Tool");
 
-        // editmode wall when starting
-        transform.GetChild(0).GetComponent<Tool>().SwitchGameMode();
+        // edit mode wall when starting
+        Tool firstTool = transform.GetChild(0).GetComponent<Tool>();
+        firstTool.SwitchGameMode();
     }
 
     public static void DeselectAll()
     {
-        for(int i = 0; i < tools.Length; i++)
+        foreach (GameObject t in Tools)
         {
-            Tool tool = tools[i].GetComponent<Tool>();
+            Tool tool = t.GetComponent<Tool>();
             tool.Selected(false);
         }
     }
