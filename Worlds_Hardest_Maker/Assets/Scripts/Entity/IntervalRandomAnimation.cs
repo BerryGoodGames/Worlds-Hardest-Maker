@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// animation at random intervals
-/// attach to gameobject holding animator
+/// attach to gameObject holding animator
 /// </summary>
 public class IntervalRandomAnimation : MonoBehaviour
 {

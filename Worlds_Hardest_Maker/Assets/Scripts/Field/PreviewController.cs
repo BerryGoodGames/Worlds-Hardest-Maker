@@ -5,7 +5,7 @@ using DG.Tweening;
 
 /// <summary>
 /// controls placement, visibility and display of preview
-/// attach to gameobject PlacementPreview
+/// attach to gameObject PlacementPreview
 /// </summary>
 public class PreviewController : MonoBehaviour
 {

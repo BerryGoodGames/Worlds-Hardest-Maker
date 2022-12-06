@@ -5,8 +5,8 @@ using UnityEngine;
 
 /// <summary>
 /// Script for player
-/// to add a name tag following attached gameobject
-/// and splitting gameobject and name tag
+/// to add a name tag following attached gameObject
+/// and splitting gameObject and name tag
 /// </summary>
 public class AppendNameTag : MonoBehaviour
 {

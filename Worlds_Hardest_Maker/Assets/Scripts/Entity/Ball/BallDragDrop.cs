@@ -5,7 +5,7 @@ using Photon.Pun;
 
 /// <summary>
 /// script for enabling drag and drop on ball objects, also bounce pos or origin pos
-/// attach to gameobject to be dragged
+/// attach to gameObject to be dragged
 /// </summary>
 public class BallDragDrop : MonoBehaviourPun
 {

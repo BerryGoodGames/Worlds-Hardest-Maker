@@ -36,7 +36,7 @@ public class LineManager : MonoBehaviour
     /// <param name="h">height of rectangle</param>
     /// <param name="sortingOrder">order in layer</param>
     /// <param name="alignCenter"></param>
-    /// <param name="parent">parent the generated gameobject will be placed in, if nothing passed then DrawContainer</param>
+    /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
     public static GameObject DrawRect(float x, float y, float w, float h, bool alignCenter = false, Transform parent = null)
     {
         // generate object
@@ -77,7 +77,7 @@ public class LineManager : MonoBehaviour
     /// <param name="y">y-coordinate of center</param>
     /// <param name="radius">radius of circle</param>
     /// <param name="sortingOrder">order in layer</param>
-    /// <param name="parent">parent the generated gameobject will be placed in, if nothing passed then DrawContainer</param>
+    /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
     public static GameObject DrawCircle(Vector2 pos, float radius, Transform parent = null)
     {
         float x = pos.x;
@@ -111,7 +111,7 @@ public class LineManager : MonoBehaviour
     /// <param name="y">y-coordinate of center</param>
     /// <param name="radius">radius of circle</param>
     /// <param name="sortingOrder">order in layer</param>
-    /// <param name="parent">parent the generated gameobject will be placed in, if nothing passed then DrawContainer</param>
+    /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
     public static GameObject DrawCircle(float x, float y, float radius, Transform parent = null)
     {
         // generate object
@@ -143,7 +143,7 @@ public class LineManager : MonoBehaviour
     /// <param name="x2">x-coordinate of first point</param>
     /// <param name="y2">y-coordinate of second point</param>
     /// <param name="sortingOrder">order in layer</param>
-    /// <param name="parent">parent the generated gameobject will be placed in, if nothing passed then DrawContainer</param>
+    /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
     public static GameObject DrawLine(float x1, float y1, float x2, float y2, Transform parent = null)
     {
         // generate object
@@ -171,7 +171,7 @@ public class LineManager : MonoBehaviour
     /// <param name="pos1">first point</param>
     /// <param name="pos2">second point</param>
     /// <param name="sortingOrder">order in layer</param>
-    /// <param name="parent">parent the generated gameobject will be placed in, if nothing passed then DrawContainer</param>
+    /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
     public static GameObject DrawLine(Vector2 pos1, Vector2 pos2, Transform parent = null)
     {
         if (parent == null)

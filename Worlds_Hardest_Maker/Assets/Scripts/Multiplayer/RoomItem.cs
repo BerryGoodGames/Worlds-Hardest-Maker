@@ -27,7 +27,7 @@ public class RoomItem : MonoBehaviour
     }
 
     /// <summary>
-    /// onclick method for gameobject: join room with specific title
+    /// onclick method for gameObject: join room with specific title
     /// </summary>
     public void OnClickItem()
     {

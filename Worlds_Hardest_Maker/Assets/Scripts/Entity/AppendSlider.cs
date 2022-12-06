@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 /// <summary>
 ///     Script for e.g. balls or player
-///     to add a slider following attached gameobject
-///     and splitting gameobject and slider
+///     to add a slider following attached gameObject
+///     and splitting gameObject and slider
 /// </summary>
 public class AppendSlider : MonoBehaviour
 {
