@@ -19,20 +19,20 @@ public class HoverSliderDetection : MonoBehaviour
     {
         foreach (Transform collider in transform.GetChild(0))
         {
-            if (collider.GetComponent<MouseOver>().Over)
-            {
-                if (roots.Contains(collider.gameObject))
-                {
-                    hovered = true;
-                    return true;
-                }
+            if (!collider.GetComponent<MouseOver>().Over) continue;
 
-                if (hovered || roots.Length == 0)
-                {
-                    return true;
-                }
+            if (roots.Contains(collider.gameObject))
+            {
+                hovered = true;
+                return true;
+            }
+
+            if (hovered || roots.Length == 0)
+            {
+                return true;
             }
         }
+
         hovered = false;
         return false;
     }

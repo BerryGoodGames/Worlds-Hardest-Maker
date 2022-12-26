@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,18 +11,24 @@ public class JumpToEntity : MonoBehaviour
     public float speed;
     [SerializeField] private bool cancelByRightClick = true;
 
-    private bool jumping = false;
+    private bool jumping;
     private Vector2 currentTarget;
 
     public void Jump(bool onlyIfTargetOffScreen = false)
     {
         if (target == null) return;
-        if((!onlyIfTargetOffScreen || (onlyIfTargetOffScreen && !target.GetComponent<Renderer>().isVisible)) && target != null) 
-        {
-            currentTarget = target.transform.position;
 
-            if (smooth) jumping = true;
-            else transform.position = new(currentTarget.x, currentTarget.y, transform.position.z);
+        Renderer targetRenderer = target.GetComponent<Renderer>();
+
+        if ((onlyIfTargetOffScreen && targetRenderer.isVisible) || target == null) return;
+
+        currentTarget = target.transform.position;
+
+        if (smooth) jumping = true;
+        else
+        {
+            Transform t = transform;
+            t.position = new(currentTarget.x, currentTarget.y, t.position.z);
         }
     }
 
@@ -32,13 +39,13 @@ public class JumpToEntity : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (jumping)
-        {
-            Vector2 newPos = Vector2.Lerp(transform.position, currentTarget, Time.fixedDeltaTime * speed);
-            transform.position = new(newPos.x, newPos.y, transform.position.z);
+        if (!jumping) return;
+
+        Vector2 newPos = Vector2.Lerp(transform.position, currentTarget, Time.fixedDeltaTime * speed);
+        transform.position = new(newPos.x, newPos.y, transform.position.z);
             
-            if (Mathf.Round(transform.position.x * deviation) == Mathf.Round(currentTarget.x * deviation) &&
-                Mathf.Round(transform.position.y * deviation) == Mathf.Round(currentTarget.y * deviation)) jumping = false;
-        }
+        if (Math.Abs(Mathf.Round(transform.position.x * deviation) - Mathf.Round(currentTarget.x * deviation)) == 0 &&
+            Math.Abs(Mathf.Round(transform.position.y * deviation) - Mathf.Round(currentTarget.y * deviation)) == 0)
+            jumping = false;
     }
 }

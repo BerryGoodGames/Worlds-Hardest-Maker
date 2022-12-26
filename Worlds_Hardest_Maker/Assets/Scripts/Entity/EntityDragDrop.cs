@@ -12,22 +12,22 @@ public class EntityDragDrop : MonoBehaviour
 {
     [SerializeField] private bool halfGrid = false;
     public event Action onMove;
+
     private void OnMouseDrag()
     {
-        if(!GameManager.Instance.Playing && Input.GetKey(KeybindManager.Instance.EntityMoveKey))
-        {
-            Vector2 newPos = halfGrid? MouseManager.Instance.MouseWorldPosGrid : MouseManager.Instance.MouseWorldPosMatrix;
-            if (newPos != (Vector2)transform.position)
-            {
-                transform.position = newPos;
+        if (GameManager.Instance.Playing || !Input.GetKey(KeybindManager.Instance.EntityMoveKey)) return;
 
-                if (onMove != null)
-                    onMove();
-            }
-            if (TryGetComponent(out PathController controller))
-            {
-                controller.UpdateStartingPosition();
-            }
+        Vector2 newPos = halfGrid? MouseManager.Instance.MouseWorldPosGrid : MouseManager.Instance.MouseWorldPosMatrix;
+        if (newPos != (Vector2)transform.position)
+        {
+            transform.position = newPos;
+
+            onMove?.Invoke();
+        }
+
+        if (TryGetComponent(out PathController controller))
+        {
+            controller.UpdateStartingPosition();
         }
     }
 }
