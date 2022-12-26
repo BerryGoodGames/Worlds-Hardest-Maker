@@ -113,7 +113,7 @@ public class CopyManager : MonoBehaviour
 
         foreach(CopyData copyData in clipBoard)
         {
-            Quaternion rotation = copyData.data.GetType() == typeof(FieldData) ? Quaternion.Euler(0, 0, ((FieldData)copyData.data).rotation) : Quaternion.identity;
+            Quaternion rotation = copyData.data.GetType() == typeof(FieldData) ? Quaternion.Euler(0, 0, ((FieldData)copyData.data).Rotation) : Quaternion.identity;
             GameObject preview = Instantiate(PrefabManager.Instance.FillPreview, Vector2.zero, rotation, Instance.previewContainer);
 
             preview.transform.localPosition = copyData.relativePos;

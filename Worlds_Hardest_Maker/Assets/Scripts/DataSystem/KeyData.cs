@@ -8,30 +8,30 @@ using UnityEngine;
 [System.Serializable]
 public class KeyData : IData
 {
-    public float[] position;
-    public KeyManager.KeyColor color;
+    public float[] Position;
+    public KeyManager.KeyColor Color;
 
     public KeyData(KeyController controller)
     {
-        position = new float[2];
-        position[0] = controller.transform.position.x;
-        position[1] = controller.transform.position.y;
-        color = controller.color;
+        Position = new float[2];
+        Position[0] = controller.transform.position.x;
+        Position[1] = controller.transform.position.y;
+        Color = controller.color;
     }
 
     public override void ImportToLevel(Vector2 pos)
     {
-        KeyManager.Instance.SetKey(pos, color);
+        KeyManager.Instance.SetKey(pos, Color);
     }
 
     public override void ImportToLevel()
     {
-        ImportToLevel(new(position[0], position[1]));
+        ImportToLevel(new(Position[0], Position[1]));
     }
 
     public override EditMode GetEditMode()
     {
-        return color switch
+        return Color switch
         {
             KeyManager.KeyColor.GRAY => EditMode.GRAY_KEY,
             KeyManager.KeyColor.RED => EditMode.RED_KEY,

@@ -8,16 +8,16 @@ using UnityEngine;
 [System.Serializable]
 public class AnchorData : IData
 {
-    public float[] position = new float[2];
-    public WaypointSerializable[] waypoints;
-    public PathController.PathMode pathMode;
-    public float[] ballPositions;
+    public float[] Position = new float[2];
+    public WaypointSerializable[] Waypoints;
+    public PathController.PathMode PathMode;
+    public float[] BallPositions;
 
     public AnchorData(PathController pathController, Transform ballContainer)
     {
-        position[0] = pathController.transform.position.x;
-        position[1] = pathController.transform.position.y;
-        pathMode = pathController.pathMode;
+        Position[0] = pathController.transform.position.x;
+        Position[1] = pathController.transform.position.y;
+        PathMode = pathController.pathMode;
 
         // convert Waypoints
         List<WaypointSerializable> waypointsList = new();
@@ -27,7 +27,7 @@ public class AnchorData : IData
             waypointsList.Add(new(waypoint));
         }
 
-        waypoints = waypointsList.ToArray();
+        Waypoints = waypointsList.ToArray();
 
         // convert balls (hihi)
         List<float> ballPositionsList = new();
@@ -39,7 +39,7 @@ public class AnchorData : IData
             ballPositionsList.Add(child.position.y);
         }
 
-        ballPositions = ballPositionsList.ToArray();
+        BallPositions = ballPositionsList.ToArray();
     }
 
     public override void ImportToLevel(Vector2 pos)
@@ -52,13 +52,13 @@ public class AnchorData : IData
         // set waypoints
         pathController.waypoints.Clear();
 
-        foreach (WaypointSerializable waypoint in waypoints)
+        foreach (WaypointSerializable waypoint in Waypoints)
         {
             pathController.waypoints.Add(new(waypoint));
         }
 
         // set path mode
-        pathController.pathMode = pathMode;
+        pathController.pathMode = PathMode;
 
         // reset state
         pathController.ResetState();
@@ -68,9 +68,9 @@ public class AnchorData : IData
         AnchorController anchorController = anchor.GetComponentInChildren<AnchorController>();
         Transform container = anchorController.container.transform;
 
-        for (int i = 0; i < ballPositions.Length; i += 2)
+        for (int i = 0; i < BallPositions.Length; i += 2)
         {
-            AnchorBallManager.SetAnchorBall(ballPositions[i], ballPositions[i + 1], container);
+            AnchorBallManager.SetAnchorBall(BallPositions[i], BallPositions[i + 1], container);
         }
 
         // fade balls in
@@ -79,7 +79,7 @@ public class AnchorData : IData
 
     public override void ImportToLevel()
     {
-        ImportToLevel(new(position[0], position[1]));
+        ImportToLevel(new(Position[0], Position[1]));
     }
 
     public override EditMode GetEditMode()

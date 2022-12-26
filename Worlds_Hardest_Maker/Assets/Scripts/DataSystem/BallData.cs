@@ -8,36 +8,36 @@ using UnityEngine;
 [System.Serializable]
 public class BallData : IData
 {
-    public float speed;
-    public float[] startPosition;
-    public float[] bouncePosition;
+    public float Speed;
+    public float[] StartPosition;
+    public float[] BouncePosition;
     
     public BallData(BallController controller)
     {
-        speed = controller.speed;
+        Speed = controller.speed;
         
-        startPosition = new float[2];
-        startPosition[0] = controller.startPosition.x;
-        startPosition[1] = controller.startPosition.y;
+        StartPosition = new float[2];
+        StartPosition[0] = controller.startPosition.x;
+        StartPosition[1] = controller.startPosition.y;
 
-        bouncePosition = new float[2];
-        bouncePosition[0] = controller.bounce.position.x;
-        bouncePosition[1] = controller.bounce.position.y;
+        BouncePosition = new float[2];
+        BouncePosition[0] = controller.bounce.position.x;
+        BouncePosition[1] = controller.bounce.position.y;
     }
 
     public override void ImportToLevel()
     {
-        ImportToLevel(new(startPosition[0], startPosition[1]));
+        ImportToLevel(new(StartPosition[0], StartPosition[1]));
     }
 
     public override void ImportToLevel(Vector2 pos)
     {
-        float[] ballPos = startPosition;
-        float[] bouncePos = { bouncePosition[0] - ballPos[0], bouncePosition[1] - ballPos[1] };
+        float[] ballPos = StartPosition;
+        float[] bouncePos = { BouncePosition[0] - ballPos[0], BouncePosition[1] - ballPos[1] };
 
         BallManager.Instance.SetBall(pos.x, pos.y,
             bouncePos[0], bouncePos[1],
-            speed
+            Speed
         );
     }
 
