@@ -4899,10 +4899,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e31fa94458f53034cb5752708f6d60e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setScreenWidth: 1
-  setScreenHeight: 0
-  hasRectTransform: 0
-  canvas: {fileID: 0}
 --- !u!1 &1006894544
 GameObject:
   m_ObjectHideFlags: 0
@@ -7464,10 +7460,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e31fa94458f53034cb5752708f6d60e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setScreenWidth: 0
-  setScreenHeight: 1
-  hasRectTransform: 0
-  canvas: {fileID: 0}
 --- !u!1 &1420917100
 GameObject:
   m_ObjectHideFlags: 0
@@ -16105,8 +16097,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e87f345db9dad459e680506cd4ea89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toolbarBackground: {fileID: 3914619140078990982}
-  infobarBackground: {fileID: 2133235235}
 --- !u!222 &3914619141356778198
 CanvasRenderer:
   m_ObjectHideFlags: 0
