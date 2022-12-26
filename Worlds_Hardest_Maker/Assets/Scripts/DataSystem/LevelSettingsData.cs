@@ -6,30 +6,30 @@ using UnityEngine;
 public class LevelSettingsData : IData
 {
     #region Setting variables
-    public float DrownDuration;
-    public float WaterDamping;
-    public float IceFriction;
-    public float IceMaxSpeed;
-    public bool ReusableCheckpoints;
+    public float drownDuration;
+    public float waterDamping;
+    public float iceFriction;
+    public float iceMaxSpeed;
+    public bool reusableCheckpoints;
     #endregion
 
     public LevelSettingsData(LevelSettings settings)
     {
         // fetch variables
-        DrownDuration = settings.drownDuration;
-        WaterDamping = settings.waterDamping;
-        IceFriction = settings.iceFriction;
-        IceMaxSpeed = settings.iceMaxSpeed;
-        ReusableCheckpoints = settings.reusableCheckpoints;
+        drownDuration = settings.drownDuration;
+        waterDamping = settings.waterDamping;
+        iceFriction = settings.iceFriction;
+        iceMaxSpeed = settings.iceMaxSpeed;
+        reusableCheckpoints = settings.reusableCheckpoints;
     }
 
     public override void ImportToLevel()
     {
-        LevelSettings.Instance.SetDrownDuration(DrownDuration, false);
-        LevelSettings.Instance.SetIceFriction(IceFriction, false);
-        LevelSettings.Instance.SetIceMaxSpeed(IceMaxSpeed, false);
-        LevelSettings.Instance.SetWaterDamping(WaterDamping, false);
-        LevelSettings.Instance.SetReusableCheckpoints(ReusableCheckpoints, false);
+        LevelSettings.Instance.SetDrownDuration(drownDuration, false);
+        LevelSettings.Instance.SetIceFriction(iceFriction, false);
+        LevelSettings.Instance.SetIceMaxSpeed(iceMaxSpeed, false);
+        LevelSettings.Instance.SetWaterDamping(waterDamping, false);
+        LevelSettings.Instance.SetReusableCheckpoints(reusableCheckpoints, false);
         LevelSettings.Instance.SyncPlayersToSettings();
     }
 

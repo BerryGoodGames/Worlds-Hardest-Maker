@@ -8,18 +8,18 @@ using UnityEngine;
 [System.Serializable]
 public class CoinData : IData
 {
-    public float[] Position;
+    public float[] position;
 
     public CoinData(CoinController controller)
     {
-        Position = new float[2];
-        Position[0] = controller.transform.position.x;
-        Position[1] = controller.transform.position.y;
+        position = new float[2];
+        position[0] = controller.transform.position.x;
+        position[1] = controller.transform.position.y;
     }
 
     public override void ImportToLevel()
     {
-        ImportToLevel(new(Position[0], Position[1]));
+        ImportToLevel(new(position[0], position[1]));
     }
 
     public override void ImportToLevel(Vector2 pos)

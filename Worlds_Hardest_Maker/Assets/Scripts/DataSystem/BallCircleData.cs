@@ -8,32 +8,32 @@ using UnityEngine;
 [System.Serializable]
 public class BallCircleData : IData
 {
-    public float Speed;
-    public float Radius;
-    public float[] OriginPosition;
-    public float Angle;
+    public float speed;
+    public float radius;
+    public float[] originPosition;
+    public float angle;
 
     public BallCircleData(BallCircleController controller)
     {
-        Speed = controller.speed;
+        speed = controller.speed;
 
-        Radius = controller.radius;
+        radius = controller.radius;
 
-        OriginPosition = new float[2];
-        OriginPosition[0] = controller.origin.position.x;
-        OriginPosition[1] = controller.origin.position.y;
+        originPosition = new float[2];
+        originPosition[0] = controller.origin.position.x;
+        originPosition[1] = controller.origin.position.y;
 
-        Angle = controller.startAngle;
+        angle = controller.startAngle;
     }
 
     public override void ImportToLevel()
     {
-        ImportToLevel(new(OriginPosition[0], OriginPosition[1]));
+        ImportToLevel(new(originPosition[0], originPosition[1]));
     }
 
     public override void ImportToLevel(Vector2 pos)
     {
-        BallCircleManager.Instance.SetBallCircle(pos.x, pos.y, Radius, Speed, Angle);
+        BallCircleManager.Instance.SetBallCircle(pos.x, pos.y, radius, speed, angle);
     }
 
     public override EditMode GetEditMode()

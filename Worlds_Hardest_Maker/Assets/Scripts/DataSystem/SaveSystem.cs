@@ -12,127 +12,137 @@ public static class SaveSystem
     {
         BinaryFormatter formatter = new();
         string path = StandaloneFileBrowser.SaveFilePanel("Save your level (.lvl)", Application.persistentDataPath, "MyLevel.lvl", "lvl");
+        if(!path.Equals(""))
+        {
+            FileStream stream = new(path, FileMode.Create);
 
-        // check if user didn't pick any path
-        if (path.Equals(""))
+            List<IData> levelData = new();
+
+            // serialize players
+            List<GameObject> players = PlayerManager.GetPlayers();
+            foreach(GameObject player in players)
+            {
+                PlayerData playerData = new(player.GetComponent<PlayerController>());
+                levelData.Add(playerData);
+            }
+
+            // serialize anchors
+            foreach (Transform anchor in ReferenceManager.Instance.AnchorContainer)
+            {
+                AnchorData anchorData = new(anchor.GetComponentInChildren<PathController>(), anchor.GetComponentInChildren<AnchorController>().container.transform);
+                levelData.Add(anchorData);
+            }
+
+            // serialize balls
+            foreach (Transform ball in ReferenceManager.Instance.BallDefaultContainer)
+            {
+                BallData ballData = new(ball.GetChild(0).GetComponent<BallController>());
+                levelData.Add(ballData);
+            }
+
+            // serialize ball circles
+            foreach (Transform ball in ReferenceManager.Instance.BallCircleContainer)
+            {
+                BallCircleData ballCircleData = new(ball.GetChild(0).GetComponent<BallCircleController>());
+                levelData.Add(ballCircleData);
+            }
+
+            // serialize coins
+            foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
+            {
+                CoinData coinData = new(coin.GetChild(0).GetComponent<CoinController>());
+                levelData.Add(coinData);
+            }
+            // serialize keys
+            foreach (Transform key in ReferenceManager.Instance.KeyContainer)
+            {
+                KeyData keyData = new(key.GetChild(0).GetComponent<KeyController>());
+                levelData.Add(keyData);
+            }
+
+            // serialize fields
+            foreach (Transform field in ReferenceManager.Instance.FieldContainer)
+            {
+                FieldData fieldData = new(field.gameObject);
+                levelData.Add(fieldData);
+            }
+
+            // serialize current level settings
+            levelData.Add(new LevelSettingsData(LevelSettings.Instance));
+
+            formatter.Serialize(stream, levelData);
+            stream.Close();
+
+            Debug.Log($"Saved level at {path}");
+        }
+        else
         {
             Debug.Log("Cancelled saving");
-            return;
         }
-        
-        // create file
-        FileStream stream = new(path, FileMode.Create);
-
-        List<IData> levelData = SerializeCurrentLevel();
-
-        formatter.Serialize(stream, levelData);
-        stream.Close();
-
-        Debug.Log($"Saved level at {path}");
     }
 
-    private static List<IData> SerializeCurrentLevel()
-    {
-        List<IData> levelData = new();
+//#if UNITY_WEBGL
+//    [DllImport("__Internal")]
+//    private static extern void UploadFile(string gameObjectName, string methodName, string filter, bool multiple);
 
-        // serialize players
-        List<GameObject> players = PlayerManager.GetPlayers();
-        foreach (GameObject player in players)
-        {
-            PlayerData playerData = new(player.GetComponent<PlayerController>());
-            levelData.Add(playerData);
-        }
-
-        // serialize anchors
-        foreach (Transform anchor in ReferenceManager.Instance.AnchorContainer)
-        {
-            AnchorData anchorData = new(anchor.GetComponentInChildren<PathController>(), anchor.GetComponentInChildren<AnchorController>().container.transform);
-            levelData.Add(anchorData);
-        }
-
-        // serialize balls
-        foreach (Transform ball in ReferenceManager.Instance.BallDefaultContainer)
-        {
-            BallData ballData = new(ball.GetChild(0).GetComponent<BallController>());
-            levelData.Add(ballData);
-        }
-
-        // serialize ball circles
-        foreach (Transform ball in ReferenceManager.Instance.BallCircleContainer)
-        {
-            BallCircleData ballCircleData = new(ball.GetChild(0).GetComponent<BallCircleController>());
-            levelData.Add(ballCircleData);
-        }
-
-        // serialize coins
-        foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
-        {
-            CoinData coinData = new(coin.GetChild(0).GetComponent<CoinController>());
-            levelData.Add(coinData);
-        }
-        // serialize keys
-        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
-        {
-            KeyData keyData = new(key.GetChild(0).GetComponent<KeyController>());
-            levelData.Add(keyData);
-        }
-
-        // serialize fields
-        foreach (Transform field in ReferenceManager.Instance.FieldContainer)
-        {
-            FieldData fieldData = new(field.gameObject);
-            levelData.Add(fieldData);
-        }
-
-        // serialize current level settings
-        levelData.Add(new LevelSettingsData(LevelSettings.Instance));
-
-        return levelData;
-    }
+//    public static void OnFileUpload(string url) {
+//        Debug.Log(url);
+//    }
+//#endif
 
     public static List<IData> LoadLevel(bool updateDiscordActivity = true)
     {
-        // requests path from user and returns level in form of List<IData>
+        //#if UNITY_WEBGL
+        //                Debug.Log("opening in webgl");
+        //                UploadFile("SaveSystem", "OnFileUpload", ".lvl", false);
+        //                return null;
+        //#else
+        //string path = Application.persistentDataPath + "/level.lvl";
+
         string[] pathArr = StandaloneFileBrowser.OpenFilePanel("Select your level (.lvl)", Application.persistentDataPath, "lvl", false);
 
-        // check if user selected nothing
-        if (pathArr.Length != 1)
+        if (pathArr.Length > 0)
+        {
+            string path = pathArr[0];
+
+            if (File.Exists(path))
+            {
+                BinaryFormatter formatter = new();
+                //FileStream stream = new(path, FileMode.Open);
+                //using FileStream stream = File.OpenWrite(path);
+                FileStream stream = new(path, FileMode.Open);
+
+                if (GameManager.Instance.Multiplayer)
+                {
+                    // RPC to every other client with path
+                    SendLevel(path);
+                }
+
+                // set discord activity
+                if(updateDiscordActivity)
+                {
+                    string[] splittedPath = stream.Name.Split("\\");
+                    string levelName = splittedPath[splittedPath.Length - 1].Replace(".lvl", "");
+                    DiscordManager.State = $"Last opened Level: {levelName}";
+                }
+
+                List<IData> data = formatter.Deserialize(stream) as List<IData>;
+                stream.Close();
+
+                return data;
+            }
+            else
+            {
+                Debug.LogError($"Save file not found in {path}");
+                return null;
+            }
+        }
+        else
         {
             Debug.Log("Cancelled loading");
             return null;
         }
-        
-        string path = pathArr[0];
-
-        // check if file exists
-        if (!File.Exists(path))
-        {
-            Debug.LogError($"Save file not found in {path}");
-            return null;
-        }
-        
-        // // load / deserialize file
-        BinaryFormatter formatter = new();
-        FileStream stream = new(path, FileMode.Open);
-
-        if (GameManager.Instance.Multiplayer)
-        {
-            // RPC to every other client with path
-            SendLevel(path);
-        }
-
-        // set discord activity
-        if(updateDiscordActivity)
-        {
-            string[] splitPath = stream.Name.Split("\\");
-            string levelName = splitPath[^1].Replace(".lvl", "");
-            DiscordManager.State = $"Last opened Level: {levelName}";
-        }
-
-        List<IData> data = formatter.Deserialize(stream) as List<IData>;
-        stream.Close();
-
-        return data;
+//#endif
     }
 
     public static void SendLevel(string path)

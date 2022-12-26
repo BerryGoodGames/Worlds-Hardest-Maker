@@ -8,35 +8,35 @@ using UnityEngine;
 [System.Serializable]
 public class FieldData : IData
 {
-    public int[] Position;
-    public string FieldType;
-    public int Rotation;
+    public int[] position;
+    public string fieldType;
+    public int rotation;
 
     public FieldData(GameObject field)
     {
-        Position = new int[2];
-        Position[0] = (int)field.transform.position.x;
-        Position[1] = (int)field.transform.position.y;
-        Rotation = (int)field.transform.rotation.eulerAngles.z;
-        
+        position = new int[2];
+        position[0] = (int)field.transform.position.x;
+        position[1] = (int)field.transform.position.y;
+        rotation = (int)field.transform.rotation.eulerAngles.z;
+
         FieldType typeEnum = (FieldType)FieldManager.GetFieldType(field);
-        FieldType = typeEnum.ToString();
+        fieldType = typeEnum.ToString();
     }
 
     public override void ImportToLevel()
     {
-        ImportToLevel(new(Position[0], Position[1]));
+        ImportToLevel(new(position[0], position[1]));
     }
 
     public override void ImportToLevel(Vector2 pos)
     {
-        FieldType type = (FieldType)System.Enum.Parse(typeof(FieldType), FieldType);
+        FieldType type = (FieldType)System.Enum.Parse(typeof(FieldType), fieldType);
 
-        FieldManager.Instance.SetField(pos, type, Rotation);
+        FieldManager.Instance.SetField(pos, type, rotation);
     }
 
     public override EditMode GetEditMode()
     {
-        return (EditMode)System.Enum.Parse(typeof(EditMode), FieldType);    
+        return (EditMode)System.Enum.Parse(typeof(EditMode), fieldType);    
     }
 }

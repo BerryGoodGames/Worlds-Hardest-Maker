@@ -8,28 +8,28 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData : IData
 {
-    public int Id;
-    public float Speed;
-    public float[] StartPosition;
+    public int id;
+    public float speed;
+    public float[] startPosition;
 
     public PlayerData(PlayerController controller)
     {
-        Id = controller.id;
-        Speed = controller.speed;
+        id = controller.id;
+        speed = controller.speed;
 
-        StartPosition = new float[2];
-        StartPosition[0] = controller.startPos.x;
-        StartPosition[1] = controller.startPos.y;
+        startPosition = new float[2];
+        startPosition[0] = controller.startPos.x;
+        startPosition[1] = controller.startPos.y;
     }
 
     public override void ImportToLevel()
     {
-        ImportToLevel(new(StartPosition[0], StartPosition[1]));
+        ImportToLevel(new(startPosition[0], startPosition[1]));
     }
 
     public override void ImportToLevel(Vector2 pos)
     {
-        PlayerManager.Instance.SetPlayer(pos, Speed);
+        PlayerManager.Instance.SetPlayer(pos, speed);
     }
 
     public override EditMode GetEditMode()
