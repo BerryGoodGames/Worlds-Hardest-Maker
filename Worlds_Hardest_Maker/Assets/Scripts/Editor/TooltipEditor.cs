@@ -1,15 +1,13 @@
 using UnityEditor;
 
 
-
-#if UNITY_EDITOR
 [CustomEditor(typeof(Tooltip))]
 public class TooltipEditor : Editor
 {
-    SerializedProperty text;
-    SerializedProperty fontSize;
-    SerializedProperty customTweenDelay;
-    SerializedProperty tweenDelay;
+    private SerializedProperty text;
+    private SerializedProperty fontSize;
+    private SerializedProperty customTweenDelay;
+    private SerializedProperty tweenDelay;
 
     public override void OnInspectorGUI()
     {
@@ -32,4 +30,3 @@ public class TooltipEditor : Editor
         tweenDelay = serializedObject.FindProperty("tweenDelay");
     }
 }
-#endif

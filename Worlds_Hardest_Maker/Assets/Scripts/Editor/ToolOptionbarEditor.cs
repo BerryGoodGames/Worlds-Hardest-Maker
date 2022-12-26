@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(ToolOptionbar))]
-public class ToolOpionbarEditor : Editor
+public class ToolOptionbarEditor : Editor
 {
     public override void OnInspectorGUI()
     {
