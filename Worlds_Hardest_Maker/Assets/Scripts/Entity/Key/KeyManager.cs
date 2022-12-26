@@ -48,22 +48,23 @@ public class KeyManager : MonoBehaviour
         FieldType.YELLOW_KEY_DOOR_FIELD
     });
 
+    private static readonly int Playing = Animator.StringToHash("Playing");
+
     [PunRPC]
     public void SetKey(float mx, float my, KeyColor color)
     {
-        if(CanPlace(mx, my))
-        {
-            Vector2 pos = new(mx, my);
+        if (!CanPlace(mx, my)) return;
 
-            RemoveKey(mx, my);
+        Vector2 pos = new(mx, my);
 
-            GameObject key = Instantiate(color.GetPrefabKey(), pos, Quaternion.identity, ReferenceManager.Instance.KeyContainer);
+        RemoveKey(mx, my);
+
+        GameObject key = Instantiate(color.GetPrefabKey(), pos, Quaternion.identity, ReferenceManager.Instance.KeyContainer);
                     
-            Animator anim = key.GetComponent<Animator>();
-            anim.SetBool("Playing", GameManager.Instance.Playing);
+        Animator anim = key.GetComponent<Animator>();
+        anim.SetBool(Playing, GameManager.Instance.Playing);
 
-            key.GetComponent<IntervalRandomAnimation>().enabled = KonamiManager.KonamiActive;
-        }
+        key.GetComponent<IntervalRandomAnimation>().enabled = KonamiManager.KonamiActive;
     }
 
     public void SetKey(Vector2 pos, KeyColor color)
@@ -87,7 +88,9 @@ public class KeyManager : MonoBehaviour
     public static bool CanPlace(float mx, float my)
     {
         // conditions: no key there, covered by canplacefield or default, no player there
-        return !PlayerManager.IsPlayerThere(mx, my) && !IsKeyThere(mx, my) && !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CantPlaceFields.ToArray());
+        return !PlayerManager.IsPlayerThere(mx, my) && 
+               !IsKeyThere(mx, my) &&
+               !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CantPlaceFields.ToArray());
     }
 
     public static GameObject GetKey(float mx, float my)

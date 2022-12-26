@@ -6,6 +6,7 @@ public class KeySneeze : MonoBehaviour
 {
     private ParticleSystem ps;
     private AudioSource audioSource;
+
     public void Particles()
     {
         ps = ps != null ? ps : GetComponent<ParticleSystem>();

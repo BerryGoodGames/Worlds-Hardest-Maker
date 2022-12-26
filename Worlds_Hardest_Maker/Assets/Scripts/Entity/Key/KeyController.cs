@@ -6,20 +6,15 @@ public class KeyController : Controller
 {
     [HideInInspector] public KeyManager.KeyColor color;
     [HideInInspector] public Vector2 keyPosition;
-    [HideInInspector] public bool pickedUp = false;
+    [HideInInspector] public bool pickedUp;
 
     private void Awake()
     {
-        keyPosition = new(transform.position.x, transform.position.y);
+        keyPosition = transform.position;
 
         SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-        int highestOrder = 0;
-        foreach(Transform key in ReferenceManager.Instance.KeyContainer)
-        {
-            int order = key.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder;
-            if (order > highestOrder) highestOrder = order;
-        }
-        renderer.sortingOrder = highestOrder + 1;
+
+        SetOrderInLayer();
     }
 
     private void OnDestroy()
@@ -41,6 +36,17 @@ public class KeyController : Controller
                 PickUp(collision.gameObject);
             }
         }
+    }
+
+    private void SetOrderInLayer()
+    {
+        int highestOrder = 0;
+        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
+        {
+            int order = key.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder;
+            if (order > highestOrder) highestOrder = order;
+        }
+        GetComponent<Renderer>().sortingOrder = highestOrder + 1;
     }
 
     private void PickUp(GameObject player)
