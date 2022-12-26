@@ -11,16 +11,16 @@ public class BallTriggerEvent : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         GameObject collider = collision.gameObject;
-        if (collider.CompareTag("Player"))
+
+        if (!collider.CompareTag("Player")) return;
+
+        PlayerController controller = collider.GetComponent<PlayerController>();
+
+        if (GameManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
+
+        if (!controller.IsOnSafeField())
         {
-            PlayerController controller = collider.GetComponent<PlayerController>();
-
-            if (GameManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
-
-            if (!controller.IsOnSafeField())
-            {
-                controller.DieNormal();
-            }
+            controller.DieNormal();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,10 +13,11 @@ public abstract class IBallController : Controller
     [HideInInspector] public float speed;
     [HideInInspector] public AppendSlider sliderController;
     [HideInInspector] public PhotonView photonView;
+
+    private Text speedText;
+
     public void Awake()
     {
-        // if(GameManager.Instance.Multiplayer) print("Init ball at: " + GetComponent<PhotonView>().Controller.NickName);
-
         sliderController = GetComponent<AppendSlider>();
         photonView = GetComponent<PhotonView>();
         
@@ -34,6 +36,11 @@ public abstract class IBallController : Controller
 
             if (GameManager.Instance.Multiplayer) photonView.RPC("SetSpeed", RpcTarget.Others, newSpeed);
         });
+    }
+
+    private void Start()
+    {
+        speedText = sliderController.GetSliderObject().transform.GetChild(0).GetComponent<Text>();
     }
 
     [PunRPC]
@@ -55,7 +62,6 @@ public abstract class IBallController : Controller
 
     public void UpdateSpeedText()
     {
-        Text speedText = sliderController.GetSliderObject().transform.GetChild(0).GetComponent<Text>();
         speedText.text = "Speed: " + speed.ToString("0.0");
     }
 

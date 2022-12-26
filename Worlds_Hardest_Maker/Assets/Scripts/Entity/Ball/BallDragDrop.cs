@@ -13,6 +13,7 @@ public class BallDragDrop : MonoBehaviourPun
 
     [SerializeField] private IBallController controller;
     [SerializeField] private int id;
+
     private void Awake()
     {
         // assign id
@@ -22,16 +23,15 @@ public class BallDragDrop : MonoBehaviourPun
 
     private void OnMouseDrag()
     {
-        if (Input.GetKey(KeybindManager.Instance.EntityMoveKey))
+        if (!Input.GetKey(KeybindManager.Instance.EntityMoveKey)) return;
+
+        Vector2 unitPos = MouseManager.Instance.MouseWorldPosGrid;
+        if(GameManager.Instance.Multiplayer)
         {
-            Vector2 unitPos = MouseManager.Instance.MouseWorldPosGrid;
-            if(GameManager.Instance.Multiplayer)
-            {
-                PhotonView controllerView = controller.GetComponent<PhotonView>();
-                controllerView.RPC("MoveObject", RpcTarget.All, unitPos, id);
-            }
-            else controller.MoveObject(unitPos, id);
+            PhotonView controllerView = controller.GetComponent<PhotonView>();
+            controllerView.RPC("MoveObject", RpcTarget.All, unitPos, id);
         }
+        else controller.MoveObject(unitPos, id);
     }
 
     private void OnDestroy()
