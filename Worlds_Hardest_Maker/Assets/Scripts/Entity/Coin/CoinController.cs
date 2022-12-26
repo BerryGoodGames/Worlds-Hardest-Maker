@@ -5,10 +5,13 @@ using UnityEngine;
 public class CoinController : Controller
 {
     [HideInInspector] public Vector2 coinPosition;
-    [HideInInspector] public bool pickedUp = false;
+    [HideInInspector] public bool pickedUp;
+
+    private static readonly int PickedUp = Animator.StringToHash("PickedUp");
+
     private void Awake()
     {
-        coinPosition = new(transform.position.x, transform.position.y);
+        coinPosition = transform.position;
     }
     private void OnDestroy()
     {
@@ -17,34 +20,29 @@ public class CoinController : Controller
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!pickedUp)
+        if (pickedUp) return;
+
+        // check if edgeCollider is player
+        if (!collision.TryGetComponent(out PlayerController controller)) return;
+
+        // check if player is of own client
+        if (GameManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
+
+        // check if that player hasn't picked coin up yet
+        if (controller.coinsCollected.Contains(gameObject)) return;
+
+        PickUp(collision.gameObject);
+
+        // check if player is in goal while collecting coin
+        if (!controller.CoinsCollected()) return;
+
+        foreach (GameObject field in controller.currentFields)
         {
-            // check if edgeCollider is player
-            if (collision.TryGetComponent(out PlayerController controller))
-            {
-                // check if player is of own client
-                if (GameManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
+            FieldType fieldType = (FieldType)FieldManager.GetFieldType(field);
+            if (fieldType != FieldType.GOAL_FIELD) continue;
 
-                // check if that player hasnt picked coin up yet
-                if (!controller.coinsCollected.Contains(gameObject))
-                {
-                    PickUp(collision.gameObject);
-
-                    // check if player is in goal while collecting coin
-                    if (controller.CoinsCollected())
-                    {
-                        foreach (GameObject field in controller.currentFields)
-                        {
-                            FieldType fieldType = (FieldType)FieldManager.GetFieldType(field);
-                            if (fieldType == FieldType.GOAL_FIELD)
-                            {
-                                controller.Win();
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+            controller.Win();
+            break;
         }
     }
 
@@ -57,7 +55,7 @@ public class CoinController : Controller
         AudioManager.Instance.Play("Coin");
 
         Animator anim = transform.parent.GetComponent<Animator>();
-        anim.SetBool("PickedUp", true);
+        anim.SetBool(PickedUp, true);
         pickedUp = true;
     }
     public override IData GetData()

@@ -15,21 +15,23 @@ public class CoinManager : MonoBehaviour
         FieldType.YELLOW_KEY_DOOR_FIELD,
         FieldType.GRAY_KEY_DOOR_FIELD
     });
-    [HideInInspector] public int TotalCoins { get; set; } = 0;
+
+    private static readonly int Playing = Animator.StringToHash("Playing");
+
+    public int TotalCoins { get; set; }
 
     [PunRPC]
     public void SetCoin(float mx, float my)
     {
-        if (CanPlace(mx, my))
-        {
-            Vector2 pos = new(mx, my);
+        if (!CanPlace(mx, my)) return;
 
-            TotalCoins++;
-            GameObject coin = Instantiate(PrefabManager.Instance.Coin, pos, Quaternion.identity, ReferenceManager.Instance.CoinContainer);
+        Vector2 pos = new(mx, my);
+
+        TotalCoins++;
+        GameObject coin = Instantiate(PrefabManager.Instance.Coin, pos, Quaternion.identity, ReferenceManager.Instance.CoinContainer);
                     
-            Animator anim = coin.GetComponent<Animator>();
-            anim.SetBool("Playing", GameManager.Instance.Playing);
-        }
+        Animator anim = coin.GetComponent<Animator>();
+        anim.SetBool(Playing, GameManager.Instance.Playing);
     }
 
     public void SetCoin(Vector2 pos)
@@ -71,8 +73,10 @@ public class CoinManager : MonoBehaviour
 
     public static bool CanPlace(float mx, float my)
     {
-        // conditions: no coin there, doesnt intersect with any walls etc, no player there
-        return !IsCoinThere(mx, my) && !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CantPlaceFields.ToArray()) && !PlayerManager.IsPlayerThere(mx, my);
+        // conditions: no coin there, doesn't intersect with any walls etc, no player there
+        return !IsCoinThere(mx, my) && 
+               !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CantPlaceFields.ToArray()) &&
+               !PlayerManager.IsPlayerThere(mx, my);
     }
 
     private void Awake()
