@@ -12,6 +12,7 @@ public class AppendNameTag : MonoBehaviour
 {
     [SerializeField] private bool showOnlyWhenMultiplayer = true;
     [SerializeField] private GameObject nameTagPrefab;
+
     [HideInInspector] public GameObject nameTag;
 
     private void Awake()
@@ -29,6 +30,4 @@ public class AppendNameTag : MonoBehaviour
     {
         nameTag.GetComponent<TMPro.TMP_Text>().text = name;
     }
-
-    
 }

@@ -15,7 +15,7 @@ public class PlayerManager : MonoBehaviour
     public static readonly List<FieldType> SafeFields = new(new FieldType[]{
         
     });
-    public static readonly List<FieldType> StartFields = new(new FieldType[]
+    public static readonly List<FieldType> StartFields = new(new[]
     {
         FieldType.START_FIELD,
         FieldType.GOAL_FIELD
@@ -25,16 +25,18 @@ public class PlayerManager : MonoBehaviour
 
     public void InvokeOnWin()
     {
-        OnWin();
+        OnWin?.Invoke();
     }
 
+    #region Set player
     public void SetPlayer(float mx, float my, float speed, bool placeStartField = false)
     {
+        // TODO: improve
         if (!CanPlace(mx, my))
         {
             if (placeStartField)
             {
-                (int x, int y)[] poses =
+                (int, int)[] poses =
                 {
                     (Mathf.FloorToInt(mx), Mathf.FloorToInt(my)),
                     (Mathf.CeilToInt(mx), Mathf.FloorToInt(my)),
@@ -42,9 +44,9 @@ public class PlayerManager : MonoBehaviour
                     (Mathf.CeilToInt(mx), Mathf.CeilToInt(my))
                 };
 
-                foreach(var pos in poses)
+                foreach((int x, int y) in poses)
                 {
-                    FieldManager.Instance.SetField(pos.x, pos.y, FieldType.START_FIELD);
+                    FieldManager.Instance.SetField(x, y, FieldType.START_FIELD);
                 }
             }
             else return;
@@ -63,12 +65,13 @@ public class PlayerManager : MonoBehaviour
                 PhotonView view = player.GetComponent<PhotonView>();
 
                 // check if player is from own client
-                if (view.IsMine)
-                {
-                    // remove player
-                    GameManager.Instance.photonView.RPC("RemovePlayerAtPosOnlyOtherClients", RpcTarget.Others, p.transform.position.x, p.transform.position.y);
-                    RemovePlayerAtPosIgnoreOtherClients(p.transform.position.x, p.transform.position.y);
-                }
+                if (!view.IsMine) continue;
+
+                Vector2 playerPos = p.transform.position;
+
+                // remove player
+                GameManager.Instance.photonView.RPC("RemovePlayerAtPosOnlyOtherClients", RpcTarget.Others, playerPos.x, playerPos.y);
+                RemovePlayerAtPosIgnoreOtherClients(playerPos.x, playerPos.y);
             }
         }
         else
@@ -83,7 +86,7 @@ public class PlayerManager : MonoBehaviour
         newPlayer.GetComponent<PlayerController>().id = newID;
 
         // set target of camera
-        Camera.main.GetComponent<JumpToEntity>().target = newPlayer;
+        if (Camera.main != null) Camera.main.GetComponent<JumpToEntity>().target = newPlayer;
     }
 
     public void SetPlayer(Vector2 pos, float speed, bool placeStartField = false)
@@ -95,6 +98,7 @@ public class PlayerManager : MonoBehaviour
     {
         SetPlayer(mx, my, 3f, placeStartField);
     }
+    #endregion
 
     [PunRPC]
     public void RemoveAllPlayers()
@@ -195,8 +199,6 @@ public class PlayerManager : MonoBehaviour
         }
         return null;
     }
-
-
     public static List<GameObject> GetPlayers()
     {
         Transform container = ReferenceManager.Instance.PlayerContainer;
@@ -221,12 +223,12 @@ public class PlayerManager : MonoBehaviour
     {
         if (GameManager.Instance.Multiplayer) return GetClientPlayer();
 
-        // getting the one player in singleplayer
+        // getting the one player in single player
         Transform container = ReferenceManager.Instance.PlayerContainer;
-        if (container.transform.childCount > 1) throw new System.Exception("There are multiple player objects within GameManager.PlayerContainer while trying to access the specific player in singleplayer");
+        if (container.transform.childCount > 1) throw new Exception("There are multiple player objects within GameManager.PlayerContainer while trying to access the specific player in singleplayer");
 
         try { return container.GetChild(0).gameObject; }
-        catch (System.Exception) { return null; }
+        catch (Exception) { return null; }
     }
     public static GameObject GetPlayer(int id) { return PlayerIDList()[id]; }
     public static bool IsPlayerThere(float mx, float my) { return GetPlayer(mx, my) != null; }

@@ -54,6 +54,24 @@ public static class VectorExtension
         return new(flooredX, flooredY);
     }
 
+    public static Vector2 Round(this Vector2 vector)
+    {
+        int roundedX = Mathf.RoundToInt(vector.x);
+        int roundedY = Mathf.RoundToInt(vector.y);
+
+        return new(roundedX, roundedY);
+    }
+
+    public static Vector3 Round(this Vector3 vector)
+    {
+        int roundedX = Mathf.RoundToInt(vector.x);
+        int roundedY = Mathf.RoundToInt(vector.y);
+        int roundedZ = Mathf.RoundToInt(vector.z);
+        
+        return new(roundedX, roundedY, roundedZ);
+    }
+
+
     public static Vector2 Clamp(this Vector2 v, float min, float max)
     {
         return new(Mathf.Clamp(v.x, min, max), Mathf.Clamp(v.y, min, max));

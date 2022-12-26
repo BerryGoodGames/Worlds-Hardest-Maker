@@ -233,7 +233,7 @@ public class GameManager : MonoBehaviourPun
             if (Instance.Multiplayer && !controller.photonView.IsMine) continue;
 
             controller.currentFields.Clear();
-            controller.currentState = null;
+            controller.currentGameState = null;
             controller.deaths = 0;
         }
 
@@ -361,7 +361,7 @@ public class GameManager : MonoBehaviourPun
         {
             PlayerController controller = player.GetComponent<PlayerController>();
 
-            controller.currentState = null;
+            controller.currentGameState = null;
         }
         Instance.OnEdit?.Invoke();
     }
