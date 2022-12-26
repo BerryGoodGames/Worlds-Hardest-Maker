@@ -4,22 +4,45 @@ using UnityEngine;
 [CustomEditor(typeof(SettingGenerator), true)]
 public class SettingGeneratorEditor : Editor
 {
+    //    #region FIELDS
+    //    #region OPTIONS
+    //#if UNITY_EDITOR
+    //    [Header("Options")]
+    //    [SerializeField] private string label;
+    //    [SerializeField] private SettingVersion version;
+    //    [SerializeField] private int amount = 1;
+    //    [SerializeField] private float fontSize = 40;
+    //    [SerializeField] private float height = 80;
+    //#endif
+    //    #endregion
+
+    //    [Space]
+
+    //    #region REFERENCES
+    //    [Header("References")]
+    //    [SerializeField] private GameObject dropdownPrefab;
+    //    [SerializeField] private GameObject checkboxPrefab;
+    //    [SerializeField] private GameObject sliderPrefab;
+    //    [SerializeField] private GameObject numberInputPrefab;
+    //    [SerializeField] private Transform container;
+    //    #endregion
+    //    #endregion
 
     #region Properties
-    private SerializedProperty label;
-    private SerializedProperty version;
-    private SerializedProperty amount;
-    private SerializedProperty fontSize;
-    private SerializedProperty height;
+    SerializedProperty label;
+    SerializedProperty version;
+    SerializedProperty amount;
+    SerializedProperty fontSize;
+    SerializedProperty height;
 
-    private SerializedProperty container;
+    SerializedProperty container;
 
-    private SerializedProperty dropdownWidth;
+    SerializedProperty dropdownWidth;
 
-    private SerializedProperty sliderWidth;
-    private SerializedProperty sliderSize;
+    SerializedProperty sliderWidth;
+    SerializedProperty sliderSize;
 
-    private SerializedProperty numberInputWidth;
+    SerializedProperty numberInputWidth;
     #endregion
 
     private void OnEnable()

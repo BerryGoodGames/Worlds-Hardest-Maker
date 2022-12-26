@@ -4,20 +4,34 @@ using UnityEditor;
 [CustomEditor(typeof(ButtonTween))]
 public class ButtonTweenEditor : Editor
 {
+    //[SerializeField] private Transform content;
+    //[SerializeField] private Transform backgroundPanel;
+    //[Space]
+    //[SerializeField] private float clickDuration;
+    //[SerializeField] private float highlightElevation;
+    //[SerializeField] private float highlightFloating;
+    //[SerializeField] private float highlightElevateDuration;
+    //[SerializeField] private float highlightFloatingDuration;
+    //[Space]
+    //[SerializeField] private bool isWarningButton;
+    //[SerializeField] private float singleShakeDuration;
+    //[SerializeField] private float shake1;
+    //[SerializeField] private float shake2;
+
     #region Properties
-    private SerializedProperty content;
-    private SerializedProperty backgroundPanel;
+    SerializedProperty content;
+    SerializedProperty backgroundPanel;
 
-    private SerializedProperty clickDuration;
-    private SerializedProperty highlightElevation;
-    private SerializedProperty highlightFloating;
-    private SerializedProperty highlightElevateDuration;
-    private SerializedProperty highlightFloatingDuration;
+    SerializedProperty clickDuration;
+    SerializedProperty highlightElevation;
+    SerializedProperty highlightFloating;
+    SerializedProperty highlightElevateDuration;
+    SerializedProperty highlightFloatingDuration;
 
-    private SerializedProperty isWarningButton;
-    private SerializedProperty singleShakeDuration;
-    private SerializedProperty shake1;
-    private SerializedProperty shake2;
+    SerializedProperty isWarningButton;
+    SerializedProperty singleShakeDuration;
+    SerializedProperty shake1;
+    SerializedProperty shake2;
     #endregion
 
     private void OnEnable()

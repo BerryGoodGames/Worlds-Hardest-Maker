@@ -6,10 +6,10 @@ using UnityEditor;
 // [CustomEditor(typeof(UIAttachToPoint))]
 public class UIAttachToPointEditor : Editor
 {
-    private SerializedProperty point;
-    private SerializedProperty zoomSizeWithCamera;
-    private SerializedProperty zoomPositionWithCamera;
-    private SerializedProperty restrictToScreen;
+    SerializedProperty point;
+    SerializedProperty zoomSizeWithCamera;
+    SerializedProperty zoomPositionWithCamera;
+    SerializedProperty restrictToScreen;
 
     public override void OnInspectorGUI()
     {

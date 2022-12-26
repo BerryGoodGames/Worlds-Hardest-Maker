@@ -6,10 +6,10 @@ using UnityEngine;
 // [CustomEditor(typeof(UIRestrict))]
 public class UIRestrictEditor : Editor
 {
-    private SerializedProperty restrictPaddingLeft;
-    private SerializedProperty restrictPaddingRight;
-    private SerializedProperty restrictPaddingTop;
-    private SerializedProperty restrictPaddingBottom;
+    SerializedProperty restrictPaddingLeft;
+    SerializedProperty restrictPaddingRight;
+    SerializedProperty restrictPaddingTop;
+    SerializedProperty restrictPaddingBottom;
 
     public override void OnInspectorGUI()
     {
