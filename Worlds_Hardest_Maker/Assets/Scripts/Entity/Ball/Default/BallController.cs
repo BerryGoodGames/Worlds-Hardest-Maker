@@ -17,14 +17,7 @@ public class BallController : IBallController
             transform.parent.SetParent(ReferenceManager.Instance.BallDefaultContainer);
         }
 
-        // set line
-        LineManager.SetFill(0, 0, 0);
-        LineManager.SetWeight(0.11f);
-        LineManager.SetOrderInLayer(2);
-        LineManager.SetLayerID(LineManager.BallLayerID);
-        GameObject line = LineManager.DrawLine(transform.position, bounce.position, transform.parent);
-
-        this.line = line.transform;
+        InitLine();
     }
     private void OnDestroy()
     {
@@ -43,6 +36,18 @@ public class BallController : IBallController
         {
             UpdateLine();
         }
+    }
+
+    private void InitLine()
+    {
+        // set line
+        LineManager.SetFill(0, 0, 0);
+        LineManager.SetWeight(0.11f);
+        LineManager.SetOrderInLayer(2);
+        LineManager.SetLayerID(LineManager.BallLayerID);
+        GameObject line = LineManager.DrawLine(transform.position, bounce.position, transform.parent);
+
+        this.line = line.transform;
     }
 
     private void Move()
