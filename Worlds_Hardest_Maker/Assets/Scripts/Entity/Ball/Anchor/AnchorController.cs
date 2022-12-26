@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 
 /// <summary>
-/// controlles the anchor (duh)
+/// controls the anchor (duh)
 /// </summary>
 public class AnchorController : Controller
 {
@@ -16,12 +16,14 @@ public class AnchorController : Controller
 
     private void Start()
     {
+        Transform t = transform;
+        Transform parent = t.parent;
 
-        transform.localPosition = transform.parent.position;
+        t.localPosition = parent.position;
 
-        transform.parent.position = Vector2.zero;
+        parent.position = Vector2.zero;
 
-        transform.parent.SetParent(ReferenceManager.Instance.AnchorContainer);
+        parent.SetParent(ReferenceManager.Instance.AnchorContainer);
 
         pathController = GetComponent<PathController>();
 
@@ -127,7 +129,6 @@ public class AnchorController : Controller
     {
         yield return null;
         BallFadeIn(endOpacity, time);
-        yield break;
     }
 
     public override IData GetData()
