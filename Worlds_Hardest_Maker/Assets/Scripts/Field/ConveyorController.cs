@@ -9,8 +9,14 @@ public class ConveyorController : MonoBehaviour
     private float animSpeed;
 
     [SerializeField] private float strength;
-    public float Strength { get { return strength; } set { strength = value; } }
-    public float Rotation { get { return transform.rotation.z; } }
+
+    private static readonly int Running = Animator.StringToHash("Running");
+
+    public float Strength { 
+        get => strength;
+        set => strength = value;
+    }
+    public float Rotation => transform.rotation.z;
 
     public void Rotate()
     {
@@ -32,14 +38,14 @@ public class ConveyorController : MonoBehaviour
             GetComponent<Animator>();
 
         anim.speed = Strength;
-        anim.SetBool("Running", true);
+        anim.SetBool(Running, true);
     }
 
     private void SwitchAnimToStaying()
     {
         if (anim == null)
             GetComponent<Animator>();
-        anim.SetBool("Running", false);
+        anim.SetBool(Running, false);
     }
 
     private void OnDestroy()

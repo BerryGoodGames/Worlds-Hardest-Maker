@@ -601,9 +601,13 @@ public class GameManager : MonoBehaviourPun
 
     public static void RemoveObjectInContainer(float mx, float my, Transform container)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.005f, 128);
+        Collider2D[] hits = new Collider2D[container.childCount];
+        _ = Physics2D.OverlapCircleNonAlloc(new(mx, my), 0.005f, hits, 128);
+        
         foreach (Collider2D hit in hits)
         {
+            if (hit == null) continue;
+            
             if (hit.transform.parent == container)
             {
                 Destroy(hit.gameObject);
@@ -661,5 +665,12 @@ public class GameManager : MonoBehaviourPun
             ci.NumberFormat.NumberDecimalSeparator = separator;
             Thread.CurrentThread.CurrentCulture = ci;
         }
+    }
+
+    public static bool DoFloatsEqual(float x, float y, float tolerance = 1e-10f)
+    {
+        float diff = Math.Abs(x - y);
+
+        return diff <= tolerance || diff <= Math.Max(Math.Abs(x), Math.Abs(y)) * tolerance;
     }
 }

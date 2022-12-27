@@ -30,9 +30,7 @@ public class FieldManager : MonoBehaviour
     {
         FieldType? fieldType = (FieldType?)GameManager.TryConvertEnum<EditMode, FieldType>(editMode);
 
-        if (fieldType != null)
-            return RotatableFields.Contains((FieldType)fieldType);
-        else return false;
+        return fieldType != null && RotatableFields.Contains((FieldType)fieldType);
     }
 
     public static FieldType? GetFieldType(GameObject field)
@@ -47,6 +45,7 @@ public class FieldManager : MonoBehaviour
     public static GameObject GetField(int mx, int my)
     {
         Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(new(mx, my), 0.1f, 3072);
+
         foreach (Collider2D c in collidedGameObjects)
         {
             if (c.gameObject.IsField())
@@ -68,15 +67,14 @@ public class FieldManager : MonoBehaviour
 
         if(field != null) DestroyImmediate(field);
 
-        if (updateOutlines)
+        if (!updateOutlines) return;
+
+        // update outlines beside removed field
+        foreach (GameObject neighbor in GetNeighbors(mx, my))
         {
-            // update outlines beside removed field
-            foreach (GameObject neighbour in GetNeighbours(mx, my))
+            if (neighbor.TryGetComponent(out FieldOutline comp))
             {
-                if (neighbour.TryGetComponent(out FieldOutline comp))
-                {
-                    comp.UpdateOutline();
-                }
+                comp.UpdateOutline();
             }
         }
     }
@@ -89,73 +87,37 @@ public class FieldManager : MonoBehaviour
     [PunRPC]
     public void SetField(int mx, int my, FieldType type, int rotation)
     {
-        if (GetField(mx, my) == null || GetFieldType(GetField(mx, my)) != type)
+        if (GetField(mx, my) != null && GetFieldType(GetField(mx, my)) == type) return;
+
+        // remove any field at pos
+        RemoveField(mx, my, true);
+
+        // place field according to edit mode
+        Vector2 pos = new(mx, my);
+        GameObject field = InstantiateField(pos, type, rotation);
+
+        ApplyStartGoalCheckpointFieldColor(ref field);
+
+        // remove player if at changed pos
+        if (!PlayerManager.StartFields.Contains(type))
         {
-            // remove any field at pos
-            RemoveField(mx, my, true);
+            PlayerManager.Instance.RemovePlayerAtPosIntersect(mx, my);
+        }
 
-            // place field according to edit mode
-            Vector2 pos = new(mx, my);
-            GameObject field = InstantiateField(pos, type, rotation);
+        if (CoinManager.CantPlaceFields.Contains(type))
+        {
+            // TODO: 9x bad performance than before
+            // remove coin if wall is placed
+            GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.CoinContainer);
+        }
 
-            // REF
-            string[] tags = { "StartField", "GoalField", "CheckpointField" };
-            
-            for(int i = 0; i < tags.Length; i++)
-            {
-                // TODO: similar code to GraphicsSettings.cs SetOneColorStartGoal
-                if (field.CompareTag(tags[i]))
-                {
-                    if (GraphicsSettings.Instance.oneColorStartGoal)
-                    {
-                        field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
-
-                        if (field.TryGetComponent(out Animator anim))
-                        {
-                            anim.enabled = false;
-                        }
-                    }
-                    else
-                    {
-                        // set colorful colors to start, goal, checkpoints and startgoal fields
-                        List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
-
-                        SpriteRenderer renderer = field.GetComponent<SpriteRenderer>();
-                        if (field.CompareTag(tags[i]))
-                        {
-                            renderer.color = colors[i];
-
-                            if (field.TryGetComponent(out Animator anim))
-                            {
-                                anim.enabled = true;
-                            }
-                        }
-                    }
-                }
-            }
-
-            // remove player if at changed pos
-            if (!PlayerManager.StartFields.Contains(type))
-            {
-                PlayerManager.Instance.RemovePlayerAtPosIntersect(mx, my);
-            }
-
-            if (CoinManager.CantPlaceFields.Contains(type))
-            {
-                // TODO: 9x bad performance than before
-                // remove coin if wall is placed
-                GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.CoinContainer);
-            }
-
-            if (KeyManager.CantPlaceFields.Contains(type))
-            {
-                // TODO: 9x bad performance than before
-                // remove key if wall is placed
-                GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.KeyContainer);
-            }
+        if (KeyManager.CantPlaceFields.Contains(type))
+        {
+            // TODO: 9x bad performance than before
+            // remove key if wall is placed
+            GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.KeyContainer);
         }
     }
-
     public void SetField(Vector2 pos, FieldType type, int rotation)
     {
         SetField((int)pos.x, (int)pos.y, type, rotation);
@@ -165,38 +127,73 @@ public class FieldManager : MonoBehaviour
     {
         SetField(mx, my, type, 0);
     }
+
+    private static void ApplyStartGoalCheckpointFieldColor(ref GameObject field)
+    {
+        // REF
+        string[] tags = { "StartField", "GoalField", "CheckpointField" };
+
+        for (int i = 0; i < tags.Length; i++)
+        {
+            // TODO: similar code to GraphicsSettings.cs SetOneColorStartGoal
+            if (!field.CompareTag(tags[i])) continue;
+
+            if (GraphicsSettings.Instance.oneColorStartGoalCheckpoint)
+            {
+                field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
+
+                if (field.TryGetComponent(out Animator anim))
+                {
+                    anim.enabled = false;
+                }
+            }
+            else
+            {
+                // set colorful colors to start, goal, checkpoints fields
+                List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
+
+                SpriteRenderer renderer = field.GetComponent<SpriteRenderer>();
+
+                if (!field.CompareTag(tags[i])) continue;
+
+                renderer.color = colors[i];
+
+                if (field.TryGetComponent(out Animator anim))
+                {
+                    anim.enabled = true;
+                }
+            }
+        }
+    }
     private static GameObject InstantiateField(Vector2 pos, FieldType type, int rotation)
     {
-        GameObject res;
         GameObject prefab = type.GetPrefab();
-        if (GameManager.Instance.Multiplayer)
-        {
-            res = PhotonNetwork.Instantiate(prefab.name, pos, Quaternion.Euler(0, 0, rotation));
-        } else
-        {
-            res = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), ReferenceManager.Instance.FieldContainer);
-        }
+        GameObject res = GameManager.Instance.Multiplayer
+            ? PhotonNetwork.Instantiate(prefab.name, pos, Quaternion.Euler(0, 0, rotation))
+            : Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), ReferenceManager.Instance.FieldContainer);
+
         return res;
     }
 
-    public static List<GameObject> GetNeighbours(GameObject field)
+    public static List<GameObject> GetNeighbors(GameObject field)
     {
-        return GetNeighbours((int)field.transform.position.x, (int)field.transform.position.y);
+        Vector2 pos = field.transform.position;
+        return GetNeighbors((int)pos.x, (int)pos.y);
     }
-    public static List<GameObject> GetNeighbours(int mx, int my)
+    public static List<GameObject> GetNeighbors(int mx, int my)
     {
-        List<GameObject> neighbours = new();
+        List<GameObject> neighbors = new();
         int[] dx = { 1, -1, 0, 0 };
         int[] dy = { 0, 0, 1, -1 };
         for (int d = 0; d < dx.Length; d++)
         {
-            GameObject neighbour = GetField(dx[d] + mx, dy[d] + my);
-            if (neighbour != null)
+            GameObject neighbor = GetField(dx[d] + mx, dy[d] + my);
+            if (neighbor != null)
             {
-                neighbours.Add(neighbour);
+                neighbors.Add(neighbor);
             }
         }
-        return neighbours;
+        return neighbors;
     }
 
     public static List<GameObject> GetFieldsAtPos(float mx, float my)
@@ -212,7 +209,7 @@ public class FieldManager : MonoBehaviour
         checkPoses = checkPoses.Distinct().ToArray();
 
         List<GameObject> res = new();
-        foreach (var (x, y) in checkPoses)
+        foreach ((int x, int y) in checkPoses)
         {
             GameObject field = GetField(x, y);
             if(field != null) res.Add(field);

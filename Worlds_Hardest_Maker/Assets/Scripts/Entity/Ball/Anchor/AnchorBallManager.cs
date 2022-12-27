@@ -37,6 +37,7 @@ public class AnchorBallManager : MonoBehaviour
     [PunRPC]
     public void RemoveAnchorBall(Vector2 pos)
     {
+        // ReSharper disable once Unity.PreferNonAllocApi
         Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.05f);
 
         foreach (Collider2D hit in hits)

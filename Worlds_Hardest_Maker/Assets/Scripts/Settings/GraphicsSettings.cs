@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GraphicsSettings : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class GraphicsSettings : MonoBehaviour
     [HideInInspector] public int qualityLevel;
     [HideInInspector] public bool fullscreen;
     [HideInInspector] public Resolution resolution;
-    [HideInInspector] public bool oneColorStartGoal;
+    [FormerlySerializedAs("oneColorStartGoal")] [HideInInspector] public bool oneColorStartGoalCheckpoint;
     #endregion
 
     #region Graphics settings
@@ -99,7 +100,7 @@ public class GraphicsSettings : MonoBehaviour
             }
         }
 
-        Instance.oneColorStartGoal = oneColor;
+        Instance.oneColorStartGoalCheckpoint = oneColor;
 
         if (setPrefs) SettingsManager.Instance.SavePrefs();
     }
@@ -138,7 +139,7 @@ public class GraphicsSettings : MonoBehaviour
         Instance.qualityLevel = QualitySettings.GetQualityLevel();
         Instance.resolution = resolutions[0];
         Instance.fullscreen = false;
-        Instance.oneColorStartGoal = false;
+        Instance.oneColorStartGoalCheckpoint = false;
     }
 
     private void Awake()

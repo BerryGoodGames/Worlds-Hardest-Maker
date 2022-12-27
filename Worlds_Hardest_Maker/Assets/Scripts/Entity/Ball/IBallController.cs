@@ -49,7 +49,7 @@ public abstract class IBallController : Controller
 
         // sync slider
         float currentSliderValue = sliderController.GetValue() / sliderController.Step;
-        if(currentSliderValue != speed)
+        if(!GameManager.DoFloatsEqual(currentSliderValue, speed))
         {
             sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
         }

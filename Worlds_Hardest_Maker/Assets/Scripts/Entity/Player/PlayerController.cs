@@ -68,6 +68,7 @@ public class PlayerController : Controller
 
     private void Awake()
     {
+
         InitComponents();
         InitSlider();
 
@@ -88,7 +89,7 @@ public class PlayerController : Controller
         }
 
         ApplyCurrentState();
-
+        
         UpdateSpeedText();
 
         if (GameManager.Instance.Multiplayer) photonView.RPC("SetNameTagActive", RpcTarget.All, GameManager.Instance.Playing);
@@ -257,10 +258,10 @@ public class PlayerController : Controller
     {
         // TODO: code duplication from IBallController
         this.speed = speed;
-
+        
         // sync slider
         float currentSliderValue = sliderController.GetValue() / sliderController.Step;
-        if (currentSliderValue != speed)
+        if (!GameManager.DoFloatsEqual(currentSliderValue, speed))
         {
             sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
         }
@@ -342,16 +343,15 @@ public class PlayerController : Controller
     }
     public ConveyorController GetCurrentConveyor()
     {
-        if (IsFullyOnField(FieldType.CONVEYOR))
+        if (!IsFullyOnField(FieldType.CONVEYOR)) return null;
+
+        List<GameObject> fullyOnFields = GetFullyOnFields();
+        foreach (GameObject field in fullyOnFields)
         {
-            List<GameObject> fullyOnFields = GetFullyOnFields();
-            foreach (GameObject field in fullyOnFields)
+            FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            if (currentFieldType == FieldType.CONVEYOR)
             {
-                FieldType? currentFieldType = FieldManager.GetFieldType(field);
-                if (currentFieldType == FieldType.CONVEYOR)
-                {
-                    return field.GetComponent<ConveyorController>();
-                }
+                return field.GetComponent<ConveyorController>();
             }
         }
         return null;
@@ -686,12 +686,12 @@ public class PlayerController : Controller
 
         spriteRenderer = GetComponent<SpriteRenderer>();
 
+        speedText = sliderController.GetSliderObject().transform.GetChild(0).GetComponent<Text>();
+
         if (!GameManager.Instance.Multiplayer) return;
 
         nameTagController = GetComponent<AppendNameTag>();
         nameTagController.SetNameTag(photonView.Controller.NickName);
-
-        speedText = sliderController.GetSliderObject().transform.GetChild(0).GetComponent<Text>();
     }
 
     private void InitSlider()
@@ -702,7 +702,7 @@ public class PlayerController : Controller
 
         // update speed every time changed
         Slider slider = sliderController.GetSlider();
-        slider.onValueChanged.AddListener((value) =>
+        slider.onValueChanged.AddListener(_ =>
         {
             float newSpeed = sliderController.GetValue();
 

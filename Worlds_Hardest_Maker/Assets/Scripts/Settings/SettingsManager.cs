@@ -39,7 +39,7 @@ public class SettingsManager : MonoBehaviour
         // graphics
         PlayerPrefs.SetInt("Quality", GraphicsSettings.Instance.qualityLevel);
         PlayerPrefs.SetInt("Fullscreen", GraphicsSettings.Instance.fullscreen ? 1 : 0);
-        PlayerPrefs.SetInt("OneColorStartGoal", GraphicsSettings.Instance.oneColorStartGoal ? 1 : 0);
+        PlayerPrefs.SetInt("OneColorStartGoal", GraphicsSettings.Instance.oneColorStartGoalCheckpoint ? 1 : 0);
 
     }
 

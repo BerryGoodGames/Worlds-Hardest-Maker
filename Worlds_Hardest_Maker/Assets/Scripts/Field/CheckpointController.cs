@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class CheckpointController : MonoBehaviour
 {
-    public bool activated = false;
+    public bool activated;
     private static bool reusableCheckpoints = true;
     public static bool ReusableCheckpoints {
-        get { return reusableCheckpoints; }
+        get => reusableCheckpoints;
         set
         {
-            if(value) ClearCheckpoints();
+            if(value) ResetCheckpoints();
 
             reusableCheckpoints = value;
         }
@@ -23,34 +23,35 @@ public class CheckpointController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject player = collision.gameObject;
-        if (player.CompareTag("Player"))
-        {
-            // check if player wasnt on checkpoint before
-            PlayerController controller = player.GetComponent<PlayerController>();
+        if (!player.CompareTag("Player")) return;
 
-            bool alreadyOnField = controller.IsOnField(FieldType.CHECKPOINT_FIELD);
+        // check if player wasn't on checkpoint before
+        PlayerController controller = player.GetComponent<PlayerController>();
 
-            if ((!activated || reusableCheckpoints) && !alreadyOnField)
-            {
-                if (reusableCheckpoints) ClearCheckpoints();
+        bool alreadyOnField = controller.IsOnField(FieldType.CHECKPOINT_FIELD);
 
-                ChainActivate();
+        if ((activated && !reusableCheckpoints) || alreadyOnField) return;
+        
+        if (reusableCheckpoints) ResetCheckpoints();
 
-                controller.ActivateCheckpoint((int)transform.position.x, (int)transform.position.y);
+        ChainActivate();
 
-                AudioManager.Instance.Play("Checkpoint");
-            }
-        }
+        Vector2 pos = transform.position;
+        controller.ActivateCheckpoint(pos.x, pos.y);
+
+        AudioManager.Instance.Play("Checkpoint");
     }
     public void ChainActivate()
     {
         Activate();
 
-        List<GameObject> neighbours = FieldManager.GetNeighbours(gameObject);
-        foreach(GameObject n in neighbours)
+        List<GameObject> neighbors = FieldManager.GetNeighbors(gameObject);
+        foreach(GameObject n in neighbors)
         {
             CheckpointController checkpoint = n.GetComponent<CheckpointController>();
+
             if (checkpoint == null || checkpoint.activated) continue;
+
             checkpoint.ChainActivate();
         }
     }
@@ -73,7 +74,7 @@ public class CheckpointController : MonoBehaviour
         anim.Deactivate();
     }
 
-    private static void ClearCheckpoints()
+    private static void ResetCheckpoints()
     {
         // deactivate every checkpoint
         foreach (CheckpointController controller in activatedCheckpoints)

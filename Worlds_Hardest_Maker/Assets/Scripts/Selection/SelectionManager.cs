@@ -349,7 +349,7 @@ public class SelectionManager : MonoBehaviour
 
             if (tagIndex != null)
             {
-                if (GraphicsSettings.Instance.oneColorStartGoal)
+                if (GraphicsSettings.Instance.oneColorStartGoalCheckpoint)
                 {
                     field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
 
