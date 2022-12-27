@@ -7,7 +7,7 @@ public static class FieldTypeExtension
     public static GameObject GetPrefab(this FieldType type)
     {
         // return prefab according to type
-        return new GameObject[] {
+        return new[] {
             PrefabManager.Instance.WallField,
             PrefabManager.Instance.StartField,
             PrefabManager.Instance.GoalField,
