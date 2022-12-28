@@ -22,7 +22,6 @@ public class SyncInputToSlider : MonoBehaviour
     /// <summary>
     /// Updates the slider
     /// </summary>
-    /// <param name="val">value that the slider is set to</param>
     public void UpdateSlider()
     {
         // try to read input text and set slider value
@@ -32,7 +31,6 @@ public class SyncInputToSlider : MonoBehaviour
     /// <summary>
     /// Updates the input
     /// </summary>
-    /// <param name="val">value that the input is set to</param>
     public void UpdateInput()
     {
         if(input == null) input = GetComponent<TMP_InputField>();
@@ -52,7 +50,7 @@ public class SyncInputToSlider : MonoBehaviour
         UnityEventTools.AddPersistentListener(input.onValueChanged, (string input) => { UpdateSlider(); }); // add Update Slider to persistent event listener
 
         // set stuff in slider //
-        UnityEventTools.AddPersistentListener(slider.onValueChanged, (float input) => { UpdateInput(); }); ; // add Update Input to persistnent event listener
+        UnityEventTools.AddPersistentListener(slider.onValueChanged, (float input) => { UpdateInput(); }); ; // add Update Input to persistent event listener
 #endif
     }
 

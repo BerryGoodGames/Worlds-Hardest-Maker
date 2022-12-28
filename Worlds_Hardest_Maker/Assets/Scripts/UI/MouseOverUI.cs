@@ -9,9 +9,9 @@ using UnityEngine;
 /// </summary>
 public class MouseOverUI : MonoBehaviour
 {
-    [HideInInspector] public bool over = false;
+    [HideInInspector] public bool over;
     private RectTransform rt;
-    private readonly bool updateSize = true;
+    private const bool updateSize = true;
 
     private Rect rtConverted;
     private float width;

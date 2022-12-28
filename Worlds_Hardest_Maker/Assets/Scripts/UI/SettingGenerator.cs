@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 
@@ -39,10 +40,9 @@ public class SettingGenerator : MonoBehaviour
     [SerializeField] private Transform container;
     #endregion
 
-
+#if UNITY_EDITOR
     public void GenerateSetting()
     {
-#if UNITY_EDITOR
         if(label.Length == 0)
         {
             Debug.LogWarning("You need to specify label!");
@@ -68,48 +68,53 @@ public class SettingGenerator : MonoBehaviour
             setting.name = setting.name.Replace("Option", label);
 
             // set customized settings
-            switch (version)
-            {
-                case SettingVersion.DROPDOWN:
-                    DropdownMenuOption dmo = (DropdownMenuOption)option;
-
-                    // width
-                    dmo.OriginalWidth = dmo.OriginalHeight * dropdownWidth / height;
-                    dmo.Response();
-
-                    break;
-
-                case SettingVersion.NUMBER_INPUT:
-                    NumberInputOption nio = (NumberInputOption)option;
-
-                    // width
-                    nio.Width = numberInputWidth;
-                    nio.Response();                    
-                    break;
-
-                case SettingVersion.CHECKBOX:
-
-                    break;
-
-                case SettingVersion.SLIDER:
-                    SliderUI s = ((SliderOption)option).sliderUI;
-
-                    // width, size
-                    s.Width = sliderWidth;
-                    s.Size = sliderSize;
-
-                    s.Response();
-                    break;
-
-                case SettingVersion.HEADER:
-
-                    break;
-
-                case SettingVersion.SPACE:
-
-                    break;
-            }
+            CustomizeSettingOption(ref option, version);
         }
-#endif
     }
+
+    private void CustomizeSettingOption(ref SettingOption option, SettingVersion version)
+    {
+        switch (version)
+        {
+            case SettingVersion.DROPDOWN:
+                DropdownMenuOption dmo = (DropdownMenuOption)option;
+
+                // width
+                dmo.OriginalWidth = dmo.OriginalHeight * dropdownWidth / height;
+                dmo.Response();
+
+                break;
+
+            case SettingVersion.NUMBER_INPUT:
+                NumberInputOption nio = (NumberInputOption)option;
+
+                // width
+                nio.Width = numberInputWidth;
+                nio.Response();
+                break;
+
+            case SettingVersion.CHECKBOX:
+
+                break;
+
+            case SettingVersion.SLIDER:
+                SliderUI s = ((SliderOption)option).sliderUI;
+
+                // width, size
+                s.Width = sliderWidth;
+                s.Size = sliderSize;
+
+                s.Response();
+                break;
+
+            case SettingVersion.HEADER:
+
+                break;
+
+            case SettingVersion.SPACE:
+
+                break;
+        }
+    }
+#endif
 }

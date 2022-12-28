@@ -16,21 +16,21 @@ public class NumberInput : MonoBehaviour
     public void Increase()
     {
         float increased = GetCurrentNumber() + step;
-        if (noMaxLimit || increased <= max)
-        {
-            SetNumberText(increased);
-            tweenController.IncreaseTween();
-        }
+
+        if (!noMaxLimit && increased > max) return;
+
+        SetNumberText(increased);
+        tweenController.IncreaseTween();
     }
 
     public void Decrease()
     {
         float decreased = GetCurrentNumber() - step;
-        if (noMinLimit || decreased >= min)
-        {
-            SetNumberText(decreased);
-            tweenController.DecreaseTween();
-        }
+
+        if (!noMinLimit && decreased < min) return;
+
+        SetNumberText(decreased);
+        tweenController.DecreaseTween();
     }
 
     public void SetNumberText(float num) => numberInput.text = num.ToString();

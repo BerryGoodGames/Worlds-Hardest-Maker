@@ -45,11 +45,10 @@ public class Tool : MonoBehaviour
 
         this.selected = selected;
 
-        if (inOptionbar && selected)
-        {
-            Tool parentTool = transform.parent.parent.parent.GetComponent<Tool>();
-            parentTool.SubSelected(true);
-        }
+        if (!inOptionbar || !selected) return;
+
+        Tool parentTool = transform.parent.parent.parent.GetComponent<Tool>();
+        parentTool.SubSelected(true);
     }
 
     public void SubSelected(bool subselected)

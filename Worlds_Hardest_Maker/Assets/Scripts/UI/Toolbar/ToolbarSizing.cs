@@ -22,8 +22,8 @@ public class ToolbarSizing : MonoBehaviour
         }
 
         Transform background = transform.parent.GetChild(0);
-        RectTransform bgrt = background.GetComponent<RectTransform>();
-        bgrt.sizeDelta = new(0, toolbarHeight + 200);
+        RectTransform backgroundRectTransform = background.GetComponent<RectTransform>();
+        backgroundRectTransform.sizeDelta = new(0, toolbarHeight + 200);
     }
 
     public void ScaleOptionsInOptionbars()

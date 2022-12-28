@@ -9,7 +9,7 @@ public class Tooltip : MonoBehaviour
 {
     public string text;
     public int fontSize = 20;
-    public bool customTweenDelay = false;
+    public bool customTweenDelay;
     public float tweenDelay = 1.5f;
     private const float defaultTweenDelay = 1;
     private MouseOverUI mouseOver;
@@ -18,7 +18,7 @@ public class Tooltip : MonoBehaviour
     private RectTransform tooltipRectTransform;
     private TMPro.TMP_Text tooltipText;
 
-    private float hovered = 0;
+    private float hovered;
 
     private void Awake()
     {

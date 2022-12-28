@@ -8,16 +8,16 @@ public class UIRestrict : MonoBehaviour
     public float bottom;
 
     private Vector2 canvasSize;
+    private RectTransform rt;
 
     private void Awake()
     {
         canvasSize = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>().rect.size;
+        rt = GetComponent<RectTransform>();
     }
 
     private void LateUpdate()
     {
-        RectTransform rt = GetComponent<RectTransform>();
-
         Vector2 pos = rt.localPosition;
         Vector2 pivot = rt.pivot;
         Vector2 size = rt.rect.size;

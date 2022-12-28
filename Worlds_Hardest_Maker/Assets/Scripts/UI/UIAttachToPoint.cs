@@ -9,15 +9,16 @@ public class UIAttachToPoint : MonoBehaviour
     public bool zoomPositionWithCamera;    
 
     private Camera cam;
+    private RectTransform rt;
 
     private void Awake()
     {
         cam = Camera.main;
+        rt = GetComponent<RectTransform>();
     }
 
     private void LateUpdate()
     {
-        RectTransform rt = GetComponent<RectTransform>();
         rt.position = cam.WorldToScreenPoint(point);
 
         if (zoomSizeWithCamera)
