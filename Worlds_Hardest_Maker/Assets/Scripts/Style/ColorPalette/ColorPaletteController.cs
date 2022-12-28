@@ -13,7 +13,7 @@ public class ColorPaletteController : MonoBehaviour
         ColorPalette colorPalette = ColorPaletteManager.GetColorPalette(colorPaletteName);
         if (colorPalette == null || colorPalette.colors.Count <= colorPaletteIndex)
         {
-            Debug.LogWarning("ColorPaletteController: color does't exist");
+            Debug.LogWarning("ColorPaletteController: color doesn't exist");
             return;
         }
 

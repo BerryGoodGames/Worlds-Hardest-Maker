@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using UnityEngine;
 
 /// <summary>
-/// for doing color palettes'n'stuff
+/// for doing color palettes 'n' stuff
 /// </summary>
 
 public class ColorPaletteManager : MonoBehaviour
