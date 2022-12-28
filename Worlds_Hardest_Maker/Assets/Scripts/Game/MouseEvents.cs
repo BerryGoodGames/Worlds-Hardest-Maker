@@ -2,6 +2,8 @@ using System.Collections;
 using System;
 using UnityEngine;
 using Photon.Pun;
+using UnityEditor;
+using UnityEditorInternal;
 
 /// <summary>
 /// controls mouse events: placing, filling, deleting
@@ -11,9 +13,9 @@ public class MouseEvents : MonoBehaviour
 {
     private const float selectionCancelMaxTime = 0.15f;
 
-    void Update()
+    private void Update()
     {
-        PhotonView pview = GameManager.Instance.photonView;
+        PhotonView photonView = GameManager.Instance.photonView;
         bool multiplayer = GameManager.Instance.Multiplayer;
 
         // get mouse position and scale it to units
@@ -27,6 +29,7 @@ public class MouseEvents : MonoBehaviour
 
         EditMode editMode = GameManager.Instance.CurrentEditMode;
 
+        // selection
         if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton)) StartCoroutine(StartCancelSelection());
 
         // select Anchor
@@ -35,153 +38,31 @@ public class MouseEvents : MonoBehaviour
             AnchorManager.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
         }
 
-        // place / delete stuff when not hovering toolbarContainer
+        // place / delete stuff
         if (!GameManager.Instance.UIHovered && !GameManager.Instance.Playing && !SelectionManager.Instance.Selecting && !CopyManager.pasting)
         {
+            // if none of the relevant keys is held, check field placement + entity placement
             if (!Input.GetKey(KeybindManager.Instance.EntityMoveKey) &&
                 !Input.GetKey(KeybindManager.Instance.EditSpeedKey) &&
                 !Input.GetKey(KeybindManager.Instance.EntityDeleteKey) &&
-                !CopyManager.pasting &&
                 !SelectionManager.Instance.Selecting) 
             {
-                // ondrag
-                if (Input.GetMouseButton(0))
-                {
-                    if (editMode.IsFieldType())
-                    {
-                        // place field
-
-                        int rotation = FieldManager.IsRotatable(editMode) ? GameManager.Instance.EditRotation : 0;
-
-                        FieldType type = GameManager.ConvertEnum<EditMode, FieldType>(editMode);
-
-                        // fill path between two mouse pos for smoother placing on low framerate
-                        if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) > 1.414f)
-                        {
-                            // generalized Bresenham's Line Algorithm optimized without /, find (unoptimized) algorithm here: https://www.uobabylon.edu.iq/eprints/publication_2_22893_6215.pdf
-                            // I tried my best to explain the variables, but I have no idea how it works
-
-                            Vector2 A = MouseManager.Instance.MouseWorldPos;
-                            Vector2 B = MouseManager.Instance.PrevMouseWorldPos;
-
-                            // increment and delta x
-                            float incX = Mathf.Sign(B.x - A.x);
-                            float dX = Mathf.Abs(B.x - A.x);
-
-                            // increment and delta y
-                            float incY = Mathf.Sign(B.y - A.y);
-                            float dY = Mathf.Abs(B.y - A.y);
-
-                            bool XaY = dX > dY; // if delta x is bigger than y
-                            float cmpt = Mathf.Max(dX, dY); // max of both numbers
-                            float incD = -2 * Mathf.Abs(dX - dY); // increment of delta
-                            float incS = 2 * Mathf.Min(dX, dY); // I have no idea
-
-                            float error = incD + cmpt; // error of line
-                            float X = A.x; // where we are x
-                            float Y = A.y; // where we are y
-
-                            while (cmpt >= 0)
-                            {
-                                FieldManager.Instance.SetField((int)X, (int)Y, type, rotation);
-                                cmpt -= 1;
-
-                                if (error >= 0 || XaY) X += incX;
-                                if (error >= 0 || !XaY) Y += incY;
-                                if (error >= 0) error += incD;
-                                else error += incS;
-                            }
-                        }
-                        else
-                            FieldManager.Instance.SetField(matrixX, matrixY, type, rotation);
-                    }
-                    else
-                        GameManager.Set(editMode, mousePos);
-                }
-
-                // onclick
-                if (Input.GetMouseButtonDown(0))
-                {
-                    if(editMode == EditMode.ANCHOR)
-                    {
-                        // place new anchor
-                        AnchorManager.Instance.SetAnchor(gridX, gridY);
-                    }
-                    if (editMode == EditMode.BALL)
-                    {
-                        AnchorBallManager.SetAnchorBall(gridX, gridY);
-                    }
-                    if (editMode == EditMode.BALL_DEFAULT)
-                    {
-                        // place new ball
-                        BallManager.Instance.SetBall(gridX, gridY);
-                    }
-                    else if (editMode == EditMode.BALL_CIRCLE)
-                    {
-                        // place new ball circle
-                        BallCircleManager.Instance.SetBallCircle(gridX, gridY);
-                    }
-                }
+                CheckFieldPlacement(editMode, matrixX, matrixY, mousePos);
+                CheckEntityPlacement(editMode, gridX, gridY);
             }
 
-
-            if (Input.GetKey(KeybindManager.Instance.EntityDeleteKey))
-            {
-                if (Input.GetMouseButton(0) && (Input.GetMouseButtonDown(0) || !Input.mousePosition.Equals(MouseManager.Instance.PrevMousePos)))
-                {
-                    // delete entities
-                    if (multiplayer)
-                    {
-                        // remove player (only own client)
-                        PlayerManager.Instance.RemovePlayerAtPosIgnoreOtherClients(gridX, gridY);
-
-                        // remove coins
-                        pview.RPC("RemoveCoin", RpcTarget.All, gridX, gridY);
-
-                        // remove balls
-                        pview.RPC("RemoveBall", RpcTarget.All, gridX, gridY);
-                        pview.RPC("RemoveBallCircle", RpcTarget.All, gridX, gridY);
-                        pview.RPC("RemoveAnchorBall", RpcTarget.All, gridX, gridY);
-
-                        // remove anchors
-                        pview.RPC("RemoveAnchor", RpcTarget.All, gridX, gridY);
-
-                        // remove keys
-                        pview.RPC("RemoveKey", RpcTarget.All, gridX, gridY);
-                    } else
-                    {
-                        // remove player
-                        PlayerManager.Instance.RemovePlayerAtPos(gridX, gridY);
-
-                        // remove coins
-                        CoinManager.Instance.RemoveCoin(gridX, gridY);
-
-                        // remove balls
-                        BallManager.Instance.RemoveBall(gridX, gridY);
-                        BallCircleManager.Instance.RemoveBallCircle(gridX, gridY);
-                        AnchorBallManager.Instance.RemoveAnchorBall(gridX, gridY);
-                        // AnchorBallManager.Instance.RemoveBall(new(matrixX, matrixY));
-
-                        // remove anchors
-                        AnchorManager.Instance.RemoveAnchor(gridX, gridY);
-
-                        // remove keys
-                        KeyManager.Instance.RemoveKey(gridX, gridY);
-                    }
-                }
-            }
+            CheckEntityDelete(gridX, gridY, photonView, multiplayer);
         }
 
         // track drag positions
-        if (Input.GetMouseButtonUp(0))
-        {
-            MouseManager.Instance.MouseDragStart = null;
-            MouseManager.Instance.MouseDragCurrent = null;
-            MouseManager.Instance.MouseDragEnd = null;
-        }
+        if (!Input.GetMouseButtonUp(0)) return;
+
+        MouseManager.Instance.MouseDragStart = null;
+        MouseManager.Instance.MouseDragCurrent = null;
+        MouseManager.Instance.MouseDragEnd = null;
     }
 
-    private IEnumerator StartCancelSelection()
+    private static IEnumerator StartCancelSelection()
     {
         float passedTime = 0;
         while(Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton))
@@ -192,4 +73,105 @@ public class MouseEvents : MonoBehaviour
         }
         SelectionManager.Instance.CancelSelection();
     }
+
+    private static void CheckFieldPlacement(EditMode editMode, int matrixX, int matrixY, Vector2 mousePos)
+    {
+        // on drag: place fields
+        if (!Input.GetMouseButton(0)) return;
+
+        if (!editMode.IsFieldType())
+        {
+            GameManager.Set(editMode, mousePos);
+            return;
+        }
+        
+        // place field
+        int rotation = FieldManager.IsRotatable(editMode) ? GameManager.Instance.EditRotation : 0;
+
+        FieldType type = GameManager.ConvertEnum<EditMode, FieldType>(editMode);
+
+        // if user didn't drag to fast, just place field normally
+        if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) < 1.414f)
+        {
+            FieldManager.Instance.SetField(matrixX, matrixY, type, rotation);
+            return;
+        }
+
+        // if user did drag to fast, fill path between two mouse pos for smoother placing on low framerate
+        FieldManager.FillPathWithFields(type, rotation);
+    }
+    private static void CheckEntityPlacement(EditMode editMode, float gridX, float gridY)
+    {
+        // onclick: place entities
+        if (!Input.GetMouseButtonDown(0)) return;
+
+        switch (editMode)
+        {
+            case EditMode.ANCHOR:
+                // place new anchor
+                AnchorManager.Instance.SetAnchor(gridX, gridY);
+                break;
+            case EditMode.BALL:
+                AnchorBallManager.SetAnchorBall(gridX, gridY);
+                break;
+            case EditMode.BALL_DEFAULT:
+                // place new ball
+                BallManager.Instance.SetBall(gridX, gridY);
+                break;
+            case EditMode.BALL_CIRCLE:
+                // place new ball circle
+                BallCircleManager.Instance.SetBallCircle(gridX, gridY);
+                break;
+        }
+    }
+    private static void CheckEntityDelete(float gridX, float gridY, PhotonView photonView, bool multiplayer)
+    {
+        if (!Input.GetKey(KeybindManager.Instance.EntityDeleteKey)) return;
+
+        //if (!Input.GetMouseButton(0) || (!Input.GetMouseButtonDown(0) && Input.mousePosition.Equals(MouseManager.Instance.PrevMousePos)))
+        if (!Input.GetMouseButton(0) && !Input.GetMouseButtonDown(0)) return;
+
+        // delete entities
+        if (multiplayer)
+        {
+            // remove player (only own client)
+            PlayerManager.Instance.RemovePlayerAtPosIgnoreOtherClients(gridX, gridY);
+
+            // remove coins
+            photonView.RPC("RemoveCoin", RpcTarget.All, gridX, gridY);
+
+            // remove balls
+            photonView.RPC("RemoveBall", RpcTarget.All, gridX, gridY);
+            photonView.RPC("RemoveBallCircle", RpcTarget.All, gridX, gridY);
+            photonView.RPC("RemoveAnchorBall", RpcTarget.All, gridX, gridY);
+
+            // remove anchors
+            photonView.RPC("RemoveAnchor", RpcTarget.All, gridX, gridY);
+
+            // remove keys
+            photonView.RPC("RemoveKey", RpcTarget.All, gridX, gridY);
+        }
+        else
+        {
+            // remove player
+            PlayerManager.Instance.RemovePlayerAtPos(gridX, gridY);
+
+            // remove coins
+            CoinManager.Instance.RemoveCoin(gridX, gridY);
+
+            // remove balls
+            BallManager.Instance.RemoveBall(gridX, gridY);
+            BallCircleManager.Instance.RemoveBallCircle(gridX, gridY);
+            AnchorBallManager.Instance.RemoveAnchorBall(gridX, gridY);
+            // AnchorBallManager.Instance.RemoveBall(new(matrixX, matrixY));
+
+            // remove anchors
+            AnchorManager.Instance.RemoveAnchor(gridX, gridY);
+
+            // remove keys
+            KeyManager.Instance.RemoveKey(gridX, gridY);
+        }
+    }
+
+    
 }
