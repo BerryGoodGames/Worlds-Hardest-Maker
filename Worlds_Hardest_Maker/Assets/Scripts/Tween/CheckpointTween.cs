@@ -44,12 +44,12 @@ public class CheckpointTween : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
     }
 
-    private Color GetActiveColor()
+    private static Color GetActiveColor()
     {
         List<Color> palette = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
         return GraphicsSettings.Instance.oneColorStartGoalCheckpoint ? palette[5] : palette[3];
     }
-    private Color GetInactiveColor()
+    private static Color GetInactiveColor()
     {
         List<Color> palette = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
         return GraphicsSettings.Instance.oneColorStartGoalCheckpoint ? palette[4] : palette[2];

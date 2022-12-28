@@ -23,7 +23,7 @@ public class BarTween : MonoBehaviour
     [SerializeField] private AnimationCurve easeAppearCurve;
     [SerializeField] private AnimationCurve easeDisappearCurve;
 
-    private bool playing = false;
+    private bool playing;
 
     private RectTransform rt;
 

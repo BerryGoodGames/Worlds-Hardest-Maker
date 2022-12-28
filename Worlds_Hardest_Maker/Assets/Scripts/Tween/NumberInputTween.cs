@@ -17,8 +17,8 @@ public class NumberInputTween : MonoBehaviour
     private Vector2 unhoveredScl = Vector2.one;
     private Vector2 hoveredScl;
 
-    private readonly Ease wiggleStartEase = Ease.OutCubic;
-    private readonly Ease wiggleReturnEase = Ease.InOutSine;
+    private const Ease wiggleStartEase = Ease.OutCubic;
+    private const Ease wiggleReturnEase = Ease.InOutSine;
 
     private Sequence wiggleSeqLeft;
     private Sequence wiggleSeqRight;

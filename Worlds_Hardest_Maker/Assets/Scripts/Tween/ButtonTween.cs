@@ -22,7 +22,7 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private RectTransform contentRT;
 
-    private bool hovered = false;
+    private bool hovered;
 
     public void OnPointerEnter(PointerEventData eventData)
     {

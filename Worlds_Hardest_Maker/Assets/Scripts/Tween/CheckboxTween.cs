@@ -16,18 +16,19 @@ public class CheckboxTween : MonoBehaviour
 
     public void SetCheck(bool check)
     {
-        if (isChecked && !check)
+        switch (isChecked)
         {
-            // the frame setting to unchecked
-            checkMark.DOScale(Vector2.zero, duration)
-                .SetEase(easeType);
-        }
+            case true when !check:
+                // the frame setting to unchecked
+                checkMark.DOScale(Vector2.zero, duration)
+                    .SetEase(easeType);
+                break;
 
-        if (!isChecked && check)
-        {
-            // the frame setting to checked
-            checkMark.DOScale(new Vector2(1, 1), duration)
-                .SetEase(easeType);
+            case false when check:
+                // the frame setting to checked
+                checkMark.DOScale(new Vector2(1, 1), duration)
+                    .SetEase(easeType);
+                break;
         }
 
         isChecked = check;

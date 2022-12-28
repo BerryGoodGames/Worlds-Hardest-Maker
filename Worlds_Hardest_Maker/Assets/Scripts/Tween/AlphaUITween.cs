@@ -13,9 +13,9 @@ public class AlphaUITween : MonoBehaviour
     [Space]
     [SerializeField] private bool startVisible = true;
     [SerializeField] private float duration;
-    [SerializeField] private bool disableObjectWhenInvisible = false;
+    [SerializeField] private bool disableObjectWhenInvisible;
     [Range(0, 1)][SerializeField] private float alphaVisible = 1;
-    [Range(0, 1)][SerializeField] private float alphaInvisible = 0;
+    [Range(0, 1)][SerializeField] private float alphaInvisible;
 
     public Action onSetVisible = null;
     public Action onIsInvisible = null;
@@ -94,10 +94,10 @@ public class AlphaUITween : MonoBehaviour
             if (disableObjectWhenInvisible) text.gameObject.SetActive(startVisible);
             text.color = new(image.color.r, image.color.g, image.color.b, startVisible ? alphaVisible : alphaInvisible);
         }
-        if (canvasGroup != null)
-        {
-            if (disableObjectWhenInvisible) canvasGroup.gameObject.SetActive(startVisible);
-            canvasGroup.alpha = startVisible ? alphaVisible : alphaInvisible;
-        }
+
+        if (canvasGroup == null) return;
+
+        if (disableObjectWhenInvisible) canvasGroup.gameObject.SetActive(startVisible);
+        canvasGroup.alpha = startVisible ? alphaVisible : alphaInvisible;
     }
 }

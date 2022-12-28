@@ -12,7 +12,7 @@ public class PlayButtonTween : MonoBehaviour
     [SerializeField] private Ease easeAppear;
     [SerializeField] private AnimationCurve easeDisappear;
 
-    private bool playing = false;
+    private bool playing;
 
     public void SetPlay(bool play)
     {
