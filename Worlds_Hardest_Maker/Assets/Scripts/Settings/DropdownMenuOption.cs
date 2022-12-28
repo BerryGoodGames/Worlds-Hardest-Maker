@@ -12,9 +12,15 @@ public class DropdownMenuOption : SettingOption
     [SerializeField] private AspectRatioFitter aspectRatioFitter;
     [Space]
     [SerializeField] private float originalHeight = 80;
-    public float OriginalHeight { get { return originalHeight; } set { originalHeight = value; } }
+    public float OriginalHeight {
+        get => originalHeight;
+        set => originalHeight = value;
+    }
     [SerializeField] private float originalWidth = 250;
-    public float OriginalWidth { get { return originalWidth; } set { originalWidth = value; } }
+    public float OriginalWidth { 
+        get => originalWidth;
+        set => originalWidth = value;
+    }
     [SerializeField] private float originalLineSize = 4;
     [SerializeField] private float originalBaseLineSize = 10;
     [SerializeField] private float originalArrowScl = 0.3f;

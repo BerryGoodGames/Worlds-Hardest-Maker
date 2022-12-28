@@ -20,10 +20,10 @@ public class LevelSettings : MonoBehaviour
     [HideInInspector] public float waterDamping;
     [HideInInspector] public float iceFriction;
     [HideInInspector] public float iceMaxSpeed;
-    [HideInInspector] public bool reusableCheckpoints
+    public bool ReusableCheckpoints
     {
-        get { return CheckpointController.ReusableCheckpoints; }
-        set { CheckpointController.ReusableCheckpoints = value; }
+        get => CheckpointController.ReusableCheckpoints;
+        set => CheckpointController.ReusableCheckpoints = value;
     }
     #endregion
 
@@ -43,20 +43,18 @@ public class LevelSettings : MonoBehaviour
 
     public void SetWaterDamping(bool syncPlayers = true)
     {
-        if (Instance != null)
-        {
-            Instance.waterDamping = 1 - waterDampingSlider.value;
-            if (syncPlayers) SyncPlayersToSettings();
-        }
+        if (Instance == null) return;
+
+        Instance.waterDamping = 1 - waterDampingSlider.value;
+        if (syncPlayers) SyncPlayersToSettings();
     }
     public void SetWaterDamping(float waterDamping, bool syncPlayers = true)
     {
-        if (Instance != null)
-        {
-            Instance.waterDamping = waterDamping;
-            waterDampingSlider.value = 1 - waterDamping;
-            if (syncPlayers) SyncPlayersToSettings();
-        }
+        if (Instance == null) return;
+
+        Instance.waterDamping = waterDamping;
+        waterDampingSlider.value = 1 - waterDamping;
+        if (syncPlayers) SyncPlayersToSettings();
     }
 
     public void SetIceFriction(bool syncPlayers = true)
@@ -85,13 +83,13 @@ public class LevelSettings : MonoBehaviour
 
     public void SetReusableCheckpoints(bool reusableCheckpoint, bool syncPlayers = true)
     {
-        Instance.reusableCheckpoints = reusableCheckpoint;
+        Instance.ReusableCheckpoints = reusableCheckpoint;
         reusableCheckpointCheckbox.isOn = reusableCheckpoint;
         if (syncPlayers) SyncPlayersToSettings();
     }
     public void SetReusableCheckpoints(bool syncPlayers = true)
     {
-        Instance.reusableCheckpoints = reusableCheckpointCheckbox.isOn;
+        Instance.ReusableCheckpoints = reusableCheckpointCheckbox.isOn;
         reusableCheckpointCheckbox.isOn = reusableCheckpointCheckbox.isOn;
         if (syncPlayers) SyncPlayersToSettings();
     }

@@ -32,7 +32,7 @@ public class SettingsManager : MonoBehaviour
     public void SavePrefs()
     {
         PlayerPrefs.SetFloat("MusicVolume", GetMusicVolume());
-        PlayerPrefs.SetFloat("SoundEffectVolume", GetSoudEffectVolume());
+        PlayerPrefs.SetFloat("SoundEffectVolume", GetSoundEffectVolume());
         PlayerPrefs.SetFloat("ToolbarSize", GetToolbarSize());
         PlayerPrefs.SetFloat("InfobarSize", GetInfobarSize());
 
@@ -82,28 +82,27 @@ public class SettingsManager : MonoBehaviour
         {
             return value;
         }
-        throw new System.Exception("Failed to acces music volume");
+        throw new System.Exception("Failed to access music volume");
     }
-    public float GetSoudEffectVolume()
+    public float GetSoundEffectVolume()
     {
         if (mainMixer.GetFloat("SoundEffectVolume", out float value))
         {
             return value;
         }
-        throw new System.Exception("Failed to acces sound effect volume");
+        throw new System.Exception("Failed to access sound effect volume");
     }
     #endregion
 
     #region UI Settings
     public void SetToolbarSize(float size, bool setPrefs)
     {
-        if (toolbarSpacing != null)
-        {
-            toolbarSpacing.toolbarHeight = size;
-            toolbarSpacing.UpdateSize();
+        if (toolbarSpacing == null) return;
 
-            if (setPrefs) SavePrefs();
-        }
+        toolbarSpacing.toolbarHeight = size;
+        toolbarSpacing.UpdateSize();
+
+        if (setPrefs) SavePrefs();
     }
     public void SetToolbarSize(string size, bool setPrefs)
     {
@@ -116,15 +115,14 @@ public class SettingsManager : MonoBehaviour
 
     public void SetInfobarSize(float size, bool setPrefs)
     {
-        if (infobarPlayResize != null && infobarEditResize != null)
-        {
-            infobarPlayResize.infobarHeight = size;
-            infobarEditResize.infobarHeight = size;
-            infobarPlayResize.UpdateSize();
-            infobarEditResize.UpdateSize();
+        if (infobarPlayResize == null || infobarEditResize == null) return;
 
-            if(setPrefs) SavePrefs();
-        }
+        infobarPlayResize.infobarHeight = size;
+        infobarEditResize.infobarHeight = size;
+        infobarPlayResize.UpdateSize();
+        infobarEditResize.UpdateSize();
+
+        if(setPrefs) SavePrefs();
     }
     public void SetInfobarSize(string size, bool setPrefs)
     {

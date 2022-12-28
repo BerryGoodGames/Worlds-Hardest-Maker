@@ -20,7 +20,7 @@ public class LevelSettingsData : IData
         waterDamping = settings.waterDamping;
         iceFriction = settings.iceFriction;
         iceMaxSpeed = settings.iceMaxSpeed;
-        reusableCheckpoints = settings.reusableCheckpoints;
+        reusableCheckpoints = settings.ReusableCheckpoints;
     }
 
     public override void ImportToLevel()

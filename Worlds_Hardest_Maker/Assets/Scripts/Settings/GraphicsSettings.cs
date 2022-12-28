@@ -13,7 +13,7 @@ public class GraphicsSettings : MonoBehaviour
     #region Setting variables
     [HideInInspector] public int qualityLevel;
     [HideInInspector] public bool fullscreen;
-    [HideInInspector] public Resolution resolution;
+    public Resolution resolution;
     [FormerlySerializedAs("oneColorStartGoal")] [HideInInspector] public bool oneColorStartGoalCheckpoint;
     #endregion
 
@@ -54,28 +54,27 @@ public class GraphicsSettings : MonoBehaviour
         // REF
         foreach (Transform field in ReferenceManager.Instance.FieldContainer)
         {
+            List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
             if (oneColor)
             {
-                // set start, goal, checkpoints and startgoal fields unique color
+                // set start, goal, checkpoints fields unique color
                 string[] tags = { "StartField", "GoalField", "CheckpointField" };
-                for(int i = 0; i < tags.Length; i++)
+                foreach (string t in tags)
                 {
-                    if (field.CompareTag(tags[i]))
-                    {
-                        field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
+                    if (!field.CompareTag(t)) continue;
 
-                        if (field.TryGetComponent(out Animator anim))
-                        {
-                            anim.enabled = false;
-                        }
+                    field.GetComponent<SpriteRenderer>().color = colors[4];
+
+                    if (field.TryGetComponent(out Animator anim))
+                    {
+                        anim.enabled = false;
                     }
                 }
             }
             else
             {
-                // set colorful colors to start, goal, checkpoints and startgoal fields
+                // set colorful colors to start, goal, checkpoints fields
                 string[] tags = { "StartField", "GoalField" };
-                List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
 
                 for (int i = 0; i < tags.Length; i++)
                 {
@@ -116,7 +115,7 @@ public class GraphicsSettings : MonoBehaviour
         resolutionDropdown.ClearOptions();
         List<string> options = new();
 
-        int currResIndex = 0;
+        int currentResIndex = 0;
         for (int i = 0; i < resolutions.Length; i++)
         {
             options.Add(resolutions[i].ToString().Replace(" ", string.Empty));
@@ -124,11 +123,11 @@ public class GraphicsSettings : MonoBehaviour
             if (resolutions[i].width == Screen.currentResolution.width &&
                 resolutions[i].height == Screen.currentResolution.height)
             {
-                currResIndex = i;
+                currentResIndex = i;
             }
         }
         resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currResIndex;
+        resolutionDropdown.value = currentResIndex;
         resolutionDropdown.RefreshShownValue();
     }
 
