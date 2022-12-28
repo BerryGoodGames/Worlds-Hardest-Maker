@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,27 +7,28 @@ public class MouseManager : MonoBehaviour
 {
     public static MouseManager Instance { get; private set; }
 
-    [HideInInspector] public Vector2? MouseDragStart { get; set; } = null;
-    [HideInInspector] public Vector2? MouseDragCurrent { get; set; } = null;
-    [HideInInspector] public Vector2? MouseDragEnd { get; set; } = null;
-    [HideInInspector] public Vector2 PrevMousePos { get; set; }
-    [HideInInspector] public Vector2 MousePosDelta { get; set; } = Vector2.zero;
+    public Vector2? MouseDragStart { get; set; }
+    public Vector2? MouseDragCurrent { get; set; }
+    public Vector2? MouseDragEnd { get; set; }
+    public Vector2 PrevMousePos { get; set; }
+    public Vector2 MousePosDelta { get; set; } = Vector2.zero;
     private Vector2 mouseWorldPos = Vector2.positiveInfinity;
-    [HideInInspector] public Vector2 MouseWorldPos { get
+
+    public Vector2 MouseWorldPos { 
+        get
         {
             if(mouseWorldPos.Equals(Vector2.positiveInfinity))
             {
                 mouseWorldPos = GetMouseWorldPos();
             }
-            return (Vector2)mouseWorldPos;
-        } private set 
-        { 
-            mouseWorldPos = value;
-        } }
-    [HideInInspector] public Vector2 PrevMouseWorldPos { get; set; } = new();
-    [HideInInspector] public Vector2 MouseWorldPosGrid { get; set; } = new();
-    [HideInInspector] public Vector2 MouseWorldPosMatrix { get; set; } = new();
-    [HideInInspector] public bool OnScreen { get; set; } = true;
+            return mouseWorldPos;
+        } private set => mouseWorldPos = value;
+    }
+
+    public Vector2 PrevMouseWorldPos { get; set; }
+    public Vector2 MouseWorldPosGrid { get; set; }
+    public Vector2 MouseWorldPosMatrix { get; set; }
+    public bool OnScreen { get; set; } = true;
 
     public static Vector2 PosToGrid(Vector2 pos) { return new(Mathf.Round(pos.x * 2) * 0.5f, Mathf.Round(pos.y * 2) * 0.5f); }
     public static Vector2 PosToMatrix(Vector2 pos) { return new(Mathf.Round(pos.x), Mathf.Round(pos.y)); }
@@ -34,13 +36,14 @@ public class MouseManager : MonoBehaviour
     {
         Vector2 mousePos = Input.mousePosition;
 
-        return Camera.main.ScreenToWorldPoint(mousePos);
+        if (Camera.main != null) return Camera.main.ScreenToWorldPoint(mousePos);
+        throw new Exception("Couldn't get mouse world position because main camera is null");
     }
     /// <summary>
     /// Returns a tuple: (start of drag, end of drag);
     /// exception when trying to access drag positions while they are null (-> no current dragging)
     /// </summary>
-    /// <param name="worldPosition">The worldposition mode, you want the output to be in (-> any, grid, matrix)</param>
+    /// <param name="worldPosition">The world position mode, you want the output to be in (-> any, grid, matrix)</param>
     /// <exception cref="System.Exception"></exception>
     public static (Vector2, Vector2) GetDragPositions(FollowMouse.WorldPosition worldPosition)
     {
@@ -63,8 +66,13 @@ public class MouseManager : MonoBehaviour
         if (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton)) Instance.MouseDragCurrent = Instance.MouseWorldPos;
         if (Input.GetMouseButtonUp(KeybindManager.Instance.SelectionMouseButton)) Instance.MouseDragEnd = Instance.MouseWorldPos;
 
-        Vector2 view = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-        OnScreen = view.x > 0 && view.x < 1 && view.y > 0 && view.y < 1;
+        // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
+        Camera cam = Camera.main;
+        if (cam != null)
+        {
+            Vector2 view = cam.ScreenToViewportPoint(Input.mousePosition);
+            OnScreen = view.x is > 0 and < 1 && view.y is > 0 and < 1;
+        }
 
         MousePosDelta = (Vector2)Input.mousePosition - PrevMousePos;
     }

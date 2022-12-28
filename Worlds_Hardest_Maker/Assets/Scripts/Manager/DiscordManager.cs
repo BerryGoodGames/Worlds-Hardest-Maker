@@ -7,9 +7,9 @@ using UnityEngine;
 /// </summary>
 public class DiscordManager : MonoBehaviour
 {
-    // conntect to application (i think)
-    public Discord.Discord discord = new Discord.Discord(1027577124812496937, (ulong)Discord.CreateFlags.Default);
-    Discord.ActivityManager activityManager;
+    // connect to application (i think)
+    public Discord.Discord discord = new(1027577124812496937, (ulong)Discord.CreateFlags.Default);
+    private Discord.ActivityManager activityManager;
 
     public static DiscordManager Instance { get; private set; }
 
@@ -20,11 +20,7 @@ public class DiscordManager : MonoBehaviour
     public static string Details
     {
         get => details;
-
-        set
-        {
-            SetActivity(value, currentActivity.State);
-        }
+        set => SetActivity(value, currentActivity.State);
     }
     private static string state = "";
     /// <summary>
@@ -33,14 +29,10 @@ public class DiscordManager : MonoBehaviour
     public static string State 
     { 
         get => state;
-
-        set 
-        {
-            SetActivity(currentActivity.Details, value);  
-        } 
+        set => SetActivity(currentActivity.Details, value);
     }
 
-    public static Discord.Activity currentActivity = new();
+    public static Discord.Activity currentActivity;
 
     private void Awake()
     {
@@ -79,7 +71,7 @@ public class DiscordManager : MonoBehaviour
     /// </summary>
     public static void ClearActivity()
     {
-        Instance.activityManager.ClearActivity((res) =>
+        Instance.activityManager.ClearActivity(res =>
         {
             if (res != Discord.Result.Ok)
             {

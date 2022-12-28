@@ -110,17 +110,17 @@ public class TextManager : MonoBehaviour
 
     private string GetTimerTime()
     {
-        string[] splitted = timerSeconds.ToString().Split('.');
+        string[] split = timerSeconds.ToString().Split('.');
 
         string seconds;
         string milliseconds;
         string minutes = timerMinutes.ToString();
         string hours = timerHours.ToString();
 
-        if (splitted.Length > 1)
+        if (split.Length > 1)
         {
-            seconds = splitted[0];
-            milliseconds = splitted[1];
+            seconds = split[0];
+            milliseconds = split[1];
         }
         else
         {

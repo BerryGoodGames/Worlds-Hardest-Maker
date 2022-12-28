@@ -81,7 +81,7 @@ public class MouseEvents : MonoBehaviour
 
         if (!editMode.IsFieldType())
         {
-            GameManager.Set(editMode, mousePos);
+            GameManager.PlaceEditModeAtPosition(editMode, mousePos);
             return;
         }
         

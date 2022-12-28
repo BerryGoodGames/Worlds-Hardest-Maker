@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MaterialManager : MonoBehaviour
 {
-    public static MaterialManager Instance { get; private set; } // singleton
+    public static MaterialManager Instance { get; private set; }
 
     [Header("Materials")]
     public Material LineMaterial;

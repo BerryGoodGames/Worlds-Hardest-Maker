@@ -8,7 +8,9 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Globalization;
 using System.Threading;
-using UnityEditor;
+using static UnityEngine.Rendering.DebugUI;
+using System.Windows.Forms;
+using Debug = System.Diagnostics.Debug;
 
 /// <summary>
 /// manages game (duh)
@@ -20,96 +22,38 @@ public class GameManager : MonoBehaviourPun
     #region Variables
     [Header("Variables")]
 
-    [SerializeField] private bool playing = false;
-    public bool Playing { get { return playing; } set { playing = value; } }
+    [SerializeField] private bool playing;
+    public bool Playing { 
+        get => playing;
+        set => playing = value;
+    }
 
     [SerializeField] private EditMode currentEditMode = EditMode.WALL_FIELD;
     public EditMode CurrentEditMode
     {
-        get { return currentEditMode; }
-        set
-        {
-            currentEditMode = value;
-
-            if (prevEditMode != null && prevEditMode != currentEditMode) OnEditModeChange?.Invoke();
-
-            prevEditMode = currentEditMode;
-
-            // update toolbarContainer
-            GameObject[] tools = ToolbarManager.Tools;
-            foreach (GameObject tool in tools)
-            {
-                Tool t = tool.GetComponent<Tool>();
-                if (t.toolName == value)
-                {
-                    // avoid recursion
-                    t.SwitchGameMode(false);
-                }
-            }
-
-            // enable/disable outlines and window when switching to/away from anchors/balls
-            if (currentEditMode == EditMode.ANCHOR || currentEditMode == EditMode.BALL)
-            {
-                // enable stuff
-                ReferenceManager.Instance.BallWindows.gameObject.SetActive(true);
-                if (AnchorManager.Instance.SelectedAnchor != null)
-                {
-                    // enable lines
-                    AnchorManager.Instance.selectedPathController.drawLines = true;
-                    AnchorManager.Instance.selectedPathController.DrawLines();
-
-                    // switch animation to editing
-                    foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
-                    {
-                        Animator anim = anchor.GetComponentInChildren<Animator>();
-                        anim.SetBool("Editing", true);
-                    }
-                }
-            }
-            else if (currentEditMode != EditMode.ANCHOR && currentEditMode != EditMode.BALL)
-            {
-                // disable stuff
-                ReferenceManager.Instance.BallWindows.SetActive(false);
-                if (AnchorManager.Instance.SelectedAnchor != null)
-                {
-                    // disable lines
-                    AnchorManager.Instance.selectedPathController.drawLines = false;
-                    AnchorManager.Instance.selectedPathController.ClearLines();
-
-                    // switch animation to editing
-                    foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
-                    {
-                        Animator anim = anchor.GetComponentInChildren<Animator>();
-                        anim.SetBool("Editing", false);
-                    }
-                }
-            }
-        }
+        get => currentEditMode;
+        set => Instance.SetEditMode(value);
     }
-    private EditMode? prevEditMode = null;
-    public bool Multiplayer { get; set; } = false;
-    [HideInInspector] public bool UIHovered { get; set; } = false;
+    private EditMode? prevEditMode;
+    public bool Multiplayer { get; set; }
+    public bool UIHovered { get; set; }
     private int editRotation = 270;
-    [HideInInspector] public int EditRotation
+    public int EditRotation
     {
         get => editRotation;
-        set
-        {
-            editRotation = value;
-
-            ReferenceManager.Instance.PlacementPreview.GetComponent<PreviewController>().UpdateRotation();
-        }
+        set => Instance.SetEditRotation(value);
     }
-    private bool cheated = false;
-    [HideInInspector]
+    private bool cheated;
+    private static readonly int PlayingString = Animator.StringToHash("Playing");
+    private static readonly int PickedUp = Animator.StringToHash("PickedUp");
+
     public bool Cheated
     {
         get => cheated;
         set
         {
             cheated = value;
-            if (cheated) TextManager.Instance.Timer.color = TextManager.Instance.cheatedTimerColor;
-            else TextManager.Instance.Timer.color = Color.black;
+            TextManager.Instance.Timer.color = cheated ? TextManager.Instance.cheatedTimerColor : Color.black;
         }
     }
     #endregion
@@ -166,7 +110,7 @@ public class GameManager : MonoBehaviourPun
         Instance.UIHovered = EventSystem.current.IsPointerOverGameObject();
     }
 
-    private void OnIsMultiplayer()
+    private static void OnIsMultiplayer()
     {
         // enable photon player spawning
         ReferenceManager.Instance.PlayerSpawner.enabled = true;
@@ -178,12 +122,14 @@ public class GameManager : MonoBehaviourPun
     public static float PixelToUnit(float pixel)
     {
         Camera cam = Camera.main;
-        return pixel * 2 * cam.orthographicSize / cam.pixelHeight;
+        if (cam != null) return pixel * 2 * cam.orthographicSize / cam.pixelHeight;
+        throw new Exception($"Couldn't convert {pixel} pixels to units because main camera is null");
     }
     public static float PixelToUnit(float pixel, float ortho)
     {
         Camera cam = Camera.main;
-        return pixel * 2 * ortho / cam.pixelHeight;
+        if (cam != null) return pixel * 2 * ortho / cam.pixelHeight;
+        throw new Exception($"Couldn't convert {pixel} pixels to units because main camera is null");
     }
     public static Vector2 PixelToUnit(Vector2 pixel)
     {
@@ -196,7 +142,8 @@ public class GameManager : MonoBehaviourPun
     public static float UnitToPixel(float unit)
     {
         Camera cam = Camera.main;
-        return unit * cam.pixelHeight / (cam.orthographicSize * 2);
+        if (cam != null) return unit * cam.pixelHeight / (cam.orthographicSize * 2);
+        throw new Exception($"Couldn't convert {unit} units to pixels because main camera is null");
     }
     public static Vector2 UnitToPixel(Vector2 unit)
     {
@@ -205,27 +152,89 @@ public class GameManager : MonoBehaviourPun
     public static Rect RtToScreenSpace(RectTransform transform)
     {
         Vector2 size = Vector2.Scale(transform.rect.size, transform.lossyScale);
-        return new((Vector2)transform.position - (size * 0.5f), size);
+        return new((Vector2)transform.position - size * 0.5f, size);
     }
     #endregion
 
     #region Play / Edit mode methods
+    private void SetEditRotation(int value)
+    {
+        editRotation = value;
+
+        ReferenceManager.Instance.PlacementPreview.GetComponent<PreviewController>().UpdateRotation();
+    }
+    private void SetEditMode(EditMode value)
+    {
+        currentEditMode = value;
+
+        if (prevEditMode != null && prevEditMode != currentEditMode) OnEditModeChange?.Invoke();
+
+        prevEditMode = currentEditMode;
+
+        // update toolbarContainer
+        GameObject[] tools = ToolbarManager.Tools;
+        foreach (GameObject tool in tools)
+        {
+            Tool t = tool.GetComponent<Tool>();
+            if (t.toolName == value)
+            {
+                // avoid recursion
+                t.SwitchGameMode(false);
+            }
+        }
+
+        // enable/disable outlines and window when switching to/away from anchors/balls
+        if (currentEditMode == EditMode.ANCHOR || currentEditMode == EditMode.BALL)
+        {
+            // enable stuff
+            ReferenceManager.Instance.BallWindows.gameObject.SetActive(true);
+            if (AnchorManager.Instance.SelectedAnchor != null)
+            {
+                // enable lines
+                AnchorManager.Instance.selectedPathController.drawLines = true;
+                AnchorManager.Instance.selectedPathController.DrawLines();
+
+                // switch animation to editing
+                foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
+                {
+                    Animator anim = anchor.GetComponentInChildren<Animator>();
+                    anim.SetBool("Editing", true);
+                }
+            }
+        }
+        else if (currentEditMode != EditMode.ANCHOR && currentEditMode != EditMode.BALL)
+        {
+            // disable stuff
+            ReferenceManager.Instance.BallWindows.SetActive(false);
+            if (AnchorManager.Instance.SelectedAnchor != null)
+            {
+                // disable lines
+                AnchorManager.Instance.selectedPathController.drawLines = false;
+                AnchorManager.Instance.selectedPathController.ClearLines();
+
+                // switch animation to editing
+                foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
+                {
+                    Animator anim = anchor.GetComponentInChildren<Animator>();
+                    anim.SetBool("Editing", false);
+                }
+            }
+        }
+    }
     public void TogglePlay(bool playSoundEffect = true)
     {
-        if (!ReferenceManager.Instance.Menu.activeSelf)
-        {
-            if (Instance.Playing) SwitchToEdit(playSoundEffect);
-            else SwitchToPlay();
+        if (ReferenceManager.Instance.Menu.activeSelf) return;
 
-            foreach(BarTween tween in BarTween.tweenList)
-            {
-                tween.SetPlay(Instance.Playing);
-            }
+        if (Instance.Playing) SwitchToEdit(playSoundEffect);
+        else SwitchToPlay();
+
+        foreach(BarTween tween in BarTween.tweenList)
+        {
+            tween.SetPlay(Instance.Playing);
         }
     }
     public static void SwitchToPlay()
     {
-        //foreach (KeyValuePair<int, PlayerController> pair in Instance.PlayerControllerList)
         foreach (Transform player in ReferenceManager.Instance.PlayerContainer.transform)
         {
             PlayerController controller = player.GetComponent<PlayerController>();
@@ -261,7 +270,7 @@ public class GameManager : MonoBehaviourPun
             foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
             {
                 anim = anchor.GetComponentInChildren<Animator>();
-                anim.SetBool("Playing", true);
+                anim.SetBool(PlayingString, true);
             }
 
         }
@@ -270,20 +279,20 @@ public class GameManager : MonoBehaviourPun
         foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
         {
             anim = coin.GetComponent<Animator>();
-            anim.SetBool("Playing", true);
-            anim.SetBool("PickedUp", coin.GetChild(0).GetComponent<CoinController>().pickedUp);
+            anim.SetBool(PlayingString, true);
+            anim.SetBool(PickedUp, coin.GetChild(0).GetComponent<CoinController>().pickedUp);
         }
 
         // activate key animations
         foreach (Transform key in ReferenceManager.Instance.KeyContainer)
         {
             anim = key.GetComponent<Animator>();
-            anim.SetBool("Playing", true);
-            anim.SetBool("PickedUp", key.GetChild(0).GetComponent<KeyController>().pickedUp);
+            anim.SetBool(PlayingString, true);
+            anim.SetBool(PickedUp, key.GetChild(0).GetComponent<KeyController>().pickedUp);
         }
 
         // camera jumps to last player if its not on screen
-        Camera.main.GetComponent<JumpToEntity>().Jump(true);
+        if (Camera.main != null) Camera.main.GetComponent<JumpToEntity>().Jump(true);
         Instance.OnPlay?.Invoke();
 
         // close level settings panel if open
@@ -304,15 +313,9 @@ public class GameManager : MonoBehaviourPun
         ReferenceManager.Instance.PlacementPreview.transform.position = FollowMouse.GetCurrentMouseWorldPos(ReferenceManager.Instance.PlacementPreview.GetComponent<FollowMouse>().worldPosition);
 
         // enable windows
-        if(Instance.CurrentEditMode == EditMode.ANCHOR || Instance.CurrentEditMode == EditMode.BALL)
+        if(Instance.CurrentEditMode is EditMode.ANCHOR or EditMode.BALL)
             ReferenceManager.Instance.BallWindows.SetActive(true);
-
         
-        if (AnchorManager.Instance.selectedPathController != null)
-        {
-            // WTF
-        }
-
         Animator anim;
 
         if (AnchorManager.Instance.SelectedAnchor != null)
@@ -325,7 +328,7 @@ public class GameManager : MonoBehaviourPun
             foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
             {
                 anim = anchor.GetComponentInChildren<Animator>();
-                anim.SetBool("Playing", false);
+                anim.SetBool(PlayingString, false);
             }
         }
 
@@ -341,8 +344,8 @@ public class GameManager : MonoBehaviourPun
             coin.GetChild(0).GetComponent<CoinController>().pickedUp = false;
 
             anim = coin.GetComponent<Animator>();
-            anim.SetBool("Playing", false);
-            anim.SetBool("PickedUp", false);
+            anim.SetBool(PlayingString, false);
+            anim.SetBool(PickedUp, false);
         }
 
         // deactivate key animations
@@ -351,12 +354,11 @@ public class GameManager : MonoBehaviourPun
             key.GetChild(0).GetComponent<KeyController>().pickedUp = false;
 
             anim = key.GetComponent<Animator>();
-            anim.SetBool("Playing", false);
-            anim.SetBool("PickedUp", false);
+            anim.SetBool(PlayingString, false);
+            anim.SetBool(PickedUp, false);
         }
 
         // remove game states from players
-        //foreach (KeyValuePair<int, PlayerController> pair in Instance.PlayerControllerList)
         foreach (Transform player in ReferenceManager.Instance.PlayerContainer.transform)
         {
             PlayerController controller = player.GetComponent<PlayerController>();
@@ -367,53 +369,62 @@ public class GameManager : MonoBehaviourPun
     }
 
     /// <summary>
-    /// Sets edit mode at position
+    /// Place edit mode at position
     /// </summary>
     /// <param name="editMode">the type of field/entity you want</param>
     /// <param name="pos">the position where it will be set</param>
-    public static void Set(EditMode editMode, Vector2 pos)
+    public static void PlaceEditModeAtPosition(EditMode editMode, Vector2 pos)
     {
         int matrixX = (int)Mathf.Round(pos.x);
         int matrixY = (int)Mathf.Round(pos.y);
 
         bool multiplayer = Instance.Multiplayer;
-        PhotonView pview = Instance.photonView;
+        PhotonView photonView = Instance.photonView;
 
         float gridX = Mathf.Round(pos.x * 2) * 0.5f;
         float gridY = Mathf.Round(pos.y * 2) * 0.5f;
 
         if (editMode.IsFieldType())
             FieldManager.Instance.SetField((int)pos.x, (int)pos.y, ConvertEnum<EditMode, FieldType>(editMode));
-        else if (editMode == EditMode.DELETE_FIELD)
+        else switch (editMode)
         {
-            // delete field
-            if (multiplayer) pview.RPC("RemoveField", RpcTarget.All, matrixX, matrixY, true);
-            else FieldManager.Instance.RemoveField(matrixX, matrixY, updateOutlines: true);
+            case EditMode.DELETE_FIELD:
+            {
+                // delete field
+                if (multiplayer) photonView.RPC("RemoveField", RpcTarget.All, matrixX, matrixY, true);
+                else FieldManager.Instance.RemoveField(matrixX, matrixY, updateOutlines: true);
 
-            // remove player if at deleted pos
-            if (multiplayer) pview.RPC("RemovePlayerAtPosIntersect", RpcTarget.All, (float)matrixX, (float)matrixY);
-            else PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixX, matrixY);
-        }
-        else if (editMode == EditMode.PLAYER)
-        {
-            // place player
-            PlayerManager.Instance.SetPlayer(gridX, gridY, placeStartField: true) ;
-        }
-        else if (editMode == EditMode.COIN)
-        {
-            // place coin
-            if (multiplayer) pview.RPC("SetCoin", RpcTarget.All, gridX, gridY);
-            else CoinManager.Instance.SetCoin(gridX, gridY);
-        }
-        else if (KeyManager.IsKeyEditMode(editMode))
-        {
-            // get keycolor
-            string keyColorStr = editMode.ToString()[..^4];
-            KeyManager.KeyColor keyColor = (KeyManager.KeyColor)Enum.Parse(typeof(KeyManager.KeyColor), keyColorStr);
+                // remove player if at deleted pos
+                if (multiplayer) photonView.RPC("RemovePlayerAtPosIntersect", RpcTarget.All, (float)matrixX, (float)matrixY);
+                else PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixX, matrixY);
+                break;
+            }
+            case EditMode.PLAYER:
+                // place player
+                PlayerManager.Instance.SetPlayer(gridX, gridY, placeStartField: true) ;
+                break;
+            case EditMode.COIN when multiplayer:
+                // place coin
+                photonView.RPC("SetCoin", RpcTarget.All, gridX, gridY);
+                break;
+            case EditMode.COIN:
+                CoinManager.Instance.SetCoin(gridX, gridY);
+                break;
+            default:
+            {
+                if (KeyManager.IsKeyEditMode(editMode))
+                {
+                    // get key color
+                    string keyColorStr = editMode.ToString()[..^4];
+                    KeyManager.KeyColor keyColor = (KeyManager.KeyColor)Enum.Parse(typeof(KeyManager.KeyColor), keyColorStr);
 
-            // place key
-            if (multiplayer) pview.RPC("SetKey", RpcTarget.All, gridX, gridY, keyColor);
-            else KeyManager.Instance.SetKey(gridX, gridY, keyColor);
+                    // place key
+                    if (multiplayer) photonView.RPC("SetKey", RpcTarget.All, gridX, gridY, keyColor);
+                    else KeyManager.Instance.SetKey(gridX, gridY, keyColor);
+                }
+
+                break;
+            }
         }
     }
 
@@ -453,16 +464,16 @@ public class GameManager : MonoBehaviourPun
         foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
         {
             Animator anim = coin.GetComponent<Animator>();
-            anim.SetBool("Playing", false);
-            anim.SetBool("PickedUp", false);
+            anim.SetBool(PlayingString, false);
+            anim.SetBool(PickedUp, false);
         }
 
         // reset keys
         foreach (Transform key in ReferenceManager.Instance.KeyContainer)
         {
             Animator anim = key.GetComponent<Animator>();
-            anim.SetBool("Playing", false);
-            anim.SetBool("PickedUp", false);
+            anim.SetBool(PlayingString, false);
+            anim.SetBool(PickedUp, false);
         }
 
         foreach(GameObject player in PlayerManager.GetPlayers())
@@ -512,7 +523,7 @@ public class GameManager : MonoBehaviourPun
     public void LoadLevelFromData(IData[] levelData)
     {
         ClearLevel();
-        List<FieldData> fieldDatas = new();
+        List<FieldData> fieldData = new();
         PlayerData playerData = null;
         LevelSettingsData levelSettingsData = null;
 
@@ -521,15 +532,15 @@ public class GameManager : MonoBehaviourPun
         {
             if (levelObject.GetType() == typeof(FieldData))
             {
-                fieldDatas.Add((FieldData)levelObject);
+                fieldData.Add((FieldData)levelObject);
                 continue;
             }
-            else if (levelObject.GetType() == typeof(PlayerData))
+            if (levelObject.GetType() == typeof(PlayerData))
             {
                 playerData = (PlayerData)levelObject;
                 continue;
             }
-            else if (levelObject.GetType() == typeof(LevelSettingsData))
+            if (levelObject.GetType() == typeof(LevelSettingsData))
             {
                 levelSettingsData = (LevelSettingsData)levelObject;
                 continue;
@@ -539,16 +550,16 @@ public class GameManager : MonoBehaviourPun
 
 
         // load fields
-        foreach (FieldData field in fieldDatas)
+        foreach (FieldData field in fieldData)
         {
             field.ImportToLevel();
         }
 
         // load player last
-        if (playerData != null) playerData.ImportToLevel();
+        playerData?.ImportToLevel();
 
         // load level settings
-        if (levelSettingsData != null) levelSettingsData.ImportToLevel();
+        levelSettingsData?.ImportToLevel();
     }
     [PunRPC]
     public void ReceiveLevel(string content)
@@ -559,10 +570,10 @@ public class GameManager : MonoBehaviourPun
         List<IData> data = formatter.Deserialize(s) as List<IData>;
 
         s.Close();
-
+        
         LoadLevelFromData(data.ToArray());
     }
-    private Stream GenerateStreamFromString(string s)
+    private static Stream GenerateStreamFromString(string s)
     {
         MemoryStream stream = new();
         StreamWriter writer = new(stream);
@@ -576,12 +587,14 @@ public class GameManager : MonoBehaviourPun
     public static void SetCameraUnitWidth(float width)
     {
         Camera cam = Camera.main;
-        cam.orthographicSize = width * 0.5f / cam.aspect;
+        if (cam != null) cam.orthographicSize = width * 0.5f / cam.aspect;
+        else throw new Exception($"Couldn't set camera width (in units) to {width} because main camera is null");
     }
-    public static void SetCamerUnitHeight(float height)
+    public static void SetCameraUnitHeight(float height)
     {
         Camera cam = Camera.main;
-        cam.orthographicSize = height * 0.5f;
+        if (cam != null) cam.orthographicSize = height * 0.5f;
+        else throw new Exception($"Couldn't set camera height (in units) to {height} because main camera is null");
     }
 
 
@@ -652,19 +665,18 @@ public class GameManager : MonoBehaviourPun
     {
         Instance.OnGameQuit?.Invoke();
 
-        Application.Quit();
+        UnityEngine.Application.Quit();
     }
 
     public static void ForceDecimalSeparator(string separator)
     {
         string cultureName = Thread.CurrentThread.CurrentCulture.Name;
         CultureInfo ci = new(cultureName);
-        if (ci.NumberFormat.NumberDecimalSeparator != separator)
-        {
-            // Forcing use of decimal separator for numerical values
-            ci.NumberFormat.NumberDecimalSeparator = separator;
-            Thread.CurrentThread.CurrentCulture = ci;
-        }
+        if (ci.NumberFormat.NumberDecimalSeparator == separator) return;
+
+        // Forcing use of decimal separator for numerical values
+        ci.NumberFormat.NumberDecimalSeparator = separator;
+        Thread.CurrentThread.CurrentCulture = ci;
     }
 
     public static bool DoFloatsEqual(float x, float y, float tolerance = 1e-10f)

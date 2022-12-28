@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using DG.Tweening;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class PlayerController : Controller
 {
@@ -270,7 +271,7 @@ public class PlayerController : Controller
     [PunRPC]
     public void SetNameTagActive(bool active)
     {
-        if (!photonView.IsMine) print($"Set name tag {active}");
+        if (!photonView.IsMine) print($"PlaceEditModeAtPosition name tag {active}");
 
         if (!GameManager.Instance.Multiplayer) throw new System.Exception("Trying to enable/disable name tag while in singleplayer");
         nameTagController.nameTag.SetActive(active);
@@ -568,14 +569,8 @@ public class PlayerController : Controller
         CreateRespawnPlayer();
         
         ResetCoinsToCurrentGameState();
-        
         ResetKeysToCurrentGameState();
-        
-        ResetKeyDoors();
-    }
 
-    private void ResetKeyDoors()
-    {
         string[] tags = { "KeyDoorField", "RedKeyDoorField", "GreenKeyDoorField", "BlueKeyDoorField", "YellowKeyDoorField" };
         foreach (string tag in tags)
         {
@@ -586,6 +581,8 @@ public class PlayerController : Controller
             }
         }
     }
+
+    
     private void ResetCoinsToCurrentGameState()
     {
         // TODO: code duplication coin / key

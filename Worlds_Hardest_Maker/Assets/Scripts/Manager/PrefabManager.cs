@@ -7,7 +7,7 @@ public class PrefabManager : MonoBehaviour
 {
     public static PrefabManager Instance { get; private set; }
 
-    // TODO transfer prefas from gamemanager to here
+    // TODO transfer prefabs from game manager to here
 
     [Header("Fields")]
     public GameObject WallField;

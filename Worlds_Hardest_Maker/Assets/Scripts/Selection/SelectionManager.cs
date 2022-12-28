@@ -397,7 +397,7 @@ public class SelectionManager : MonoBehaviour
 
         foreach(Vector2 pos in poses)
         {
-            GameManager.Set(editMode, pos);
+            GameManager.PlaceEditModeAtPosition(editMode, pos);
         }
 
         UpdateOutlinesInArea(false, poses[0].Floor(), poses.Last().Ceil());
