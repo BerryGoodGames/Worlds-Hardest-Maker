@@ -20,7 +20,7 @@ public class LineAnimator : MonoBehaviour
     }
     public void AnimateAllPoints(List<Vector2> poses, float duration, Ease ease = Ease.InOutSine)
     {
-        if (poses.Count != lineRenderer.positionCount) throw new System.Exception($"Tried to animate {poses.Count} line vertecies but line has {lineRenderer.positionCount}");
+        if (poses.Count != lineRenderer.positionCount) throw new System.Exception($"Tried to animate {poses.Count} line vertices but line has {lineRenderer.positionCount}");
 
         for (int i = 0; i < lineRenderer.positionCount; i++)
         {

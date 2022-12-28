@@ -34,7 +34,6 @@ public class LineManager : MonoBehaviour
     /// <param name="y">y-coordinate of top right corner / center of rectangle</param>
     /// <param name="w">width of rectangle</param>
     /// <param name="h">height of rectangle</param>
-    /// <param name="sortingOrder">order in layer</param>
     /// <param name="alignCenter"></param>
     /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
     public static GameObject DrawRect(float x, float y, float w, float h, bool alignCenter = false, Transform parent = null)
@@ -73,16 +72,11 @@ public class LineManager : MonoBehaviour
     /// <summary>
     /// generate object containing a LineRenderer forming a circle
     /// </summary>
-    /// <param name="x">x-coordinate of center</param>
-    /// <param name="y">y-coordinate of center</param>
+    /// <param name="pos">point of origin</param>
     /// <param name="radius">radius of circle</param>
-    /// <param name="sortingOrder">order in layer</param>
     /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
     public static GameObject DrawCircle(Vector2 pos, float radius, Transform parent = null)
     {
-        float x = pos.x;
-        float y = pos.y;
-
         // generate object
         GameObject stroke = NewDrawObject("DrawCircle", parent);
 
@@ -91,8 +85,8 @@ public class LineManager : MonoBehaviour
         circle.sortingLayerID = layerID;
 
         // get points of circle
-        int steps = 100;
-        List<Vector2> points = GetCirclePoints(new(x, y), radius, steps);
+        const int steps = 100;
+        List<Vector2> points = GetCirclePoints(pos, radius, steps);
 
         // set points
         circle.positionCount = steps + 1;
@@ -103,36 +97,16 @@ public class LineManager : MonoBehaviour
 
         return stroke;
     }
-
     /// <summary>
     /// generate object containing a LineRenderer forming a circle
     /// </summary>
     /// <param name="x">x-coordinate of center</param>
     /// <param name="y">y-coordinate of center</param>
     /// <param name="radius">radius of circle</param>
-    /// <param name="sortingOrder">order in layer</param>
     /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
     public static GameObject DrawCircle(float x, float y, float radius, Transform parent = null)
     {
-        // generate object
-        GameObject stroke = NewDrawObject("DrawCircle", parent);
-
-        LineRenderer circle = stroke.GetComponent<LineRenderer>();
-        circle.sortingOrder = orderInLayer;
-        circle.sortingLayerID = layerID;
-
-        // get points of circle
-        int steps = 100;
-        List<Vector2> points = GetCirclePoints(new(x, y), radius, steps);
-
-        // set points
-        circle.positionCount = steps + 1;
-        for (int i = 0; i < points.Count; i++)
-        {
-            circle.SetPosition(i, points[i]);
-        }
-
-        return stroke;
+        return DrawCircle(new(x, y), radius, parent);
     }
 
     /// <summary>
@@ -142,10 +116,25 @@ public class LineManager : MonoBehaviour
     /// <param name="y1">y-coordinate of second point</param>
     /// <param name="x2">x-coordinate of first point</param>
     /// <param name="y2">y-coordinate of second point</param>
-    /// <param name="sortingOrder">order in layer</param>
     /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
     public static GameObject DrawLine(float x1, float y1, float x2, float y2, Transform parent = null)
     {
+        return DrawLine(new(x1, y1), new(x2, y2), parent);
+    }
+
+    /// <summary>
+    /// generate object containing a LineRenderer
+    /// </summary>
+    /// <param name="start">first point</param>
+    /// <param name="end">second point</param>
+    /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
+    public static GameObject DrawLine(Vector2 start, Vector2 end, Transform parent = null)
+    {
+        if (parent == null)
+        {
+            parent = ReferenceManager.Instance.DrawContainer;
+        }
+
         // generate object
         GameObject stroke = NewDrawObject("DrawLine", parent);
 
@@ -154,41 +143,6 @@ public class LineManager : MonoBehaviour
         line.sortingLayerID = layerID;
         line.positionCount = 2;
         line.numCapVertices = 0;
-
-        // set points
-        Vector3 start = new(x1, y1, 0);
-        Vector3 end = new(x2, y2, 0);
-
-        line.SetPosition(0, start);
-        line.SetPosition(1, end);
-
-        return stroke;
-    }
-
-    /// <summary>
-    /// generate object containing a LineRenderer
-    /// </summary>
-    /// <param name="pos1">first point</param>
-    /// <param name="pos2">second point</param>
-    /// <param name="sortingOrder">order in layer</param>
-    /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
-    public static GameObject DrawLine(Vector2 pos1, Vector2 pos2, Transform parent = null)
-    {
-        if (parent == null)
-        {
-            parent = ReferenceManager.Instance.DrawContainer;
-        }
-
-        GameObject stroke = NewDrawObject("DrawLine", parent);
-
-        LineRenderer line = stroke.GetComponent<LineRenderer>();
-        line.sortingOrder = orderInLayer;
-        line.sortingLayerID = layerID;
-        line.positionCount = 2;
-        line.numCapVertices = 0;
-
-        Vector3 start = new(pos1.x, pos1.y, 0);
-        Vector3 end = new(pos2.x, pos2.y, 0);
 
         line.SetPosition(0, start);
         line.SetPosition(1, end);
@@ -201,8 +155,11 @@ public class LineManager : MonoBehaviour
         // DrawContainer is default container
         if (parent == null) parent = ReferenceManager.Instance.DrawContainer;
 
-        GameObject stroke = new(){ name = name };
-        stroke.transform.parent = parent;
+        GameObject stroke = new()
+        {
+            name = name,
+            transform = { parent = parent }
+        };
 
         LineRenderer line = stroke.AddComponent<LineRenderer>();
         line.material = MaterialManager.Instance.LineMaterial;
