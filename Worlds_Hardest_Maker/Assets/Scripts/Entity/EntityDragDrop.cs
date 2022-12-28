@@ -10,7 +10,7 @@ using UnityEngine;
 /// </summary>
 public class EntityDragDrop : MonoBehaviour
 {
-    [SerializeField] private bool halfGrid = false;
+    [SerializeField] private bool halfGrid;
     public event Action onMove;
 
     private void OnMouseDrag()

@@ -22,60 +22,65 @@ public class Dbg : MonoBehaviour
     public float count;
     [Space]
     public bool wallOutlines = true;
-    public bool drawRays = false;
+    public bool drawRays;
     [Space]
     public float gameSpeed = 1;
     [Space]
     [Header("References")]
     public GameObject DebugText;
 
+    private Camera cam;
+    private Text dbgText;
+
     private void Awake()
     {
         if(Instance == null) Instance = this;
         else Destroy(this);
+
+        cam = Camera.main;
+
+        dbgText = Instance.DebugText.GetComponent<Text>();
     }
     private void Update()
     {
-        if(dbgEnabled)
+        if (!dbgEnabled) return;
+
+        Time.timeScale = gameSpeed;
+        switch (textMode)
         {
-            Time.timeScale = gameSpeed;
-            switch (textMode)
-            {
-                case DbgTextMode.DISABLED:
-                    Text(string.Empty);
-                    break;
-                case DbgTextMode.CUSTOM: 
-                    break;
-                case DbgTextMode.COUNT:
-                    Text(count);
-                    break;
-                case DbgTextMode.FPS:
-                    Text(Mathf.Round(1 / Time.deltaTime));
-                    break;
-                case DbgTextMode.PLAYER_POSITION:
-                    try { Text((Vector2)PlayerManager.GetPlayer().transform.position); }
-                    catch(System.Exception) { Text("-"); }
-                    break;
-                case DbgTextMode.MOUSE_POSITION_UNITS:
-                    Text((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition));
-                    break;
-                case DbgTextMode.MOUSE_POSITION_PIXELS:
-                    Text((Vector2)Input.mousePosition);
-                    break;
-            }
+            case DbgTextMode.DISABLED:
+                Text(string.Empty);
+                break;
+            case DbgTextMode.CUSTOM: 
+                break;
+            case DbgTextMode.COUNT:
+                Text(count);
+                break;
+            case DbgTextMode.FPS:
+                Text(Mathf.Round(1 / Time.deltaTime));
+                break;
+            case DbgTextMode.PLAYER_POSITION:
+                try { Text((Vector2)PlayerManager.GetPlayer().transform.position); }
+                catch(System.Exception) { Text("-"); }
+                break;
+            case DbgTextMode.MOUSE_POSITION_UNITS:
+                Text((Vector2)cam.ScreenToWorldPoint(Input.mousePosition));
+                break;
+            case DbgTextMode.MOUSE_POSITION_PIXELS:
+                Text((Vector2)Input.mousePosition);
+                break;
         }
     }
 
     public static void Text(object obj)
     {
-        Text comp = Instance.DebugText.GetComponent<Text>();
         try
-        {
-            comp.text = obj.ToString();
+        { 
+            Instance.dbgText.text = obj.ToString();
         }
         catch
         {
-            comp.text = "failed";
+            Instance.dbgText.text = "failed";
         }
     }
 }

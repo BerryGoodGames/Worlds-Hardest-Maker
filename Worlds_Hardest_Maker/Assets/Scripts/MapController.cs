@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,17 +12,27 @@ using DG.Tweening;
 public class MapController : MonoBehaviour
 {
     [SerializeField] private float zoomSpeed = 4f;
-    public float ZoomSpeed { get { return zoomSpeed; } set { zoomSpeed = value; } }
+    public float ZoomSpeed {
+        get => zoomSpeed;
+        set => zoomSpeed = value;
+    }
 
     [SerializeField] private float maxZoom = 15;
-    public float MaxZoom { get { return maxZoom; } set { maxZoom = value; } }
+    public float MaxZoom {
+        get => maxZoom;
+        set => maxZoom = value;
+    }
 
     [SerializeField] private float minZoom = 3;
-    public float MinZoom { get { return minZoom; } set { minZoom = value; } }
+    public float MinZoom {
+        get => minZoom;
+        set => minZoom = value;
+    }
 
     [SerializeField] private float zoomAnimDuration;
 
-    private Vector2? lastMousePos = null;
+    private Vector2? lastMousePos;
+    private Camera cam;
 
     private void Update()
     {
@@ -57,28 +68,31 @@ public class MapController : MonoBehaviour
 
     private void Zoom(float zoomInput)
     {
-        if (zoomInput != 0f && MouseManager.Instance.OnScreen) // zoom
-        {
-            Camera cam = GetComponent<Camera>();
-            if (cam.orthographicSize + zoomInput * zoomSpeed >= minZoom && cam.orthographicSize + zoomInput * zoomSpeed <= maxZoom)
-            {
-                Vector2 prevMousePos = MouseManager.Instance.MouseWorldPos;
-                Vector2 prevMouseOffsetUnits = prevMousePos - (Vector2)transform.position;
-                Vector2 prevMouseOffsetPixels = GameManager.UnitToPixel(prevMouseOffsetUnits);
+        if (zoomInput == 0f || !MouseManager.Instance.OnScreen) return; // zoom
+        
+        if (!(cam.orthographicSize + zoomInput * zoomSpeed >= minZoom) ||
+            !(cam.orthographicSize + zoomInput * zoomSpeed <= maxZoom)) return;
 
-                float newOrthoSize = cam.orthographicSize * (zoomInput * zoomSpeed + 1);
-                if (newOrthoSize > maxZoom) newOrthoSize = maxZoom;
-                if (newOrthoSize < minZoom) newOrthoSize = minZoom;
+        Vector2 prevMousePos = MouseManager.Instance.MouseWorldPos;
+        Vector2 prevMouseOffsetUnits = prevMousePos - (Vector2)transform.position;
+        Vector2 prevMouseOffsetPixels = GameManager.UnitToPixel(prevMouseOffsetUnits);
 
-                Vector2 newMouseOffset = GameManager.PixelToUnit(prevMouseOffsetPixels, newOrthoSize);
-                Vector3 newCamPos = prevMousePos - newMouseOffset;
+        float newOrthoSize = cam.orthographicSize * (zoomInput * zoomSpeed + 1);
+        if (newOrthoSize > maxZoom) newOrthoSize = maxZoom;
+        if (newOrthoSize < minZoom) newOrthoSize = minZoom;
 
-                // apply
-                cam.DOKill();
-                cam.DOOrthoSize(newOrthoSize, zoomAnimDuration);
-                transform.DOKill();
-                transform.DOMove(new Vector3(newCamPos.x, newCamPos.y, transform.position.z), zoomAnimDuration);
-            }
-        }
+        Vector2 newMouseOffset = GameManager.PixelToUnit(prevMouseOffsetPixels, newOrthoSize);
+        Vector3 newCamPos = prevMousePos - newMouseOffset;
+
+        // apply
+        cam.DOKill();
+        cam.DOOrthoSize(newOrthoSize, zoomAnimDuration);
+        transform.DOKill();
+        transform.DOMove(new Vector3(newCamPos.x, newCamPos.y, transform.position.z), zoomAnimDuration);
+    }
+
+    private void Start()
+    {
+        cam = GetComponent<Camera>();
     }
 }

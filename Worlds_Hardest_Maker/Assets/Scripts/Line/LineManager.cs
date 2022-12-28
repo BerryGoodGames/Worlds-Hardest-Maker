@@ -25,7 +25,7 @@ public class LineManager : MonoBehaviour
     public static Color fill = new(0, 0, 0);
     public static bool roundedCorners = true;
     public static int layerID = DefaultLayerID;
-    public static int orderInLayer = 0;
+    public static int orderInLayer;
 
     /// <summary>
     /// generate object containing a LineRenderer forming a rectangle

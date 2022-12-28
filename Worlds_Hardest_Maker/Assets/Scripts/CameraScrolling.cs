@@ -23,7 +23,7 @@ public class CameraScrolling : MonoBehaviour
         }
         else
         {
-            dir = new((float)Mathf.Cos(scrollDirAngle * Mathf.PI / 180), (float)Mathf.Sin(scrollDirAngle * Mathf.PI / 180));
+            dir = new(Mathf.Cos(scrollDirAngle * Mathf.PI / 180), Mathf.Sin(scrollDirAngle * Mathf.PI / 180));
         }
     }
 

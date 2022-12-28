@@ -8,17 +8,19 @@ public class LockToCamera : MonoBehaviour
     [SerializeField] private bool lockY;
 
     private Vector2 offset;
+    private Camera cam;
 
     private void Awake()
     {
-        offset = transform.position - Camera.main.transform.position;
+        cam = Camera.main;
+        if (cam != null) offset = transform.position - cam.transform.position;
     }
 
     private void LateUpdate()
     {
         transform.position = new(
-            lockX ? Camera.main.transform.position.x + offset.x : transform.position.x,
-            lockY ? Camera.main.transform.position.y + offset.y : transform.position.y
+            lockX ? cam.transform.position.x + offset.x : transform.position.x,
+            lockY ? cam.transform.position.y + offset.y : transform.position.y
         );
     }
 }

@@ -18,6 +18,8 @@ public class SetScreenDimensions : MonoBehaviour
         } else
         {
             Camera cam = Camera.main;
+            if (cam == null) return;
+
             MapController map = cam.GetComponent<MapController>();
             float zoom = map.MaxZoom;
             float height = 2 * zoom;

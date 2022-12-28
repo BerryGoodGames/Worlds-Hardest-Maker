@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// checks if gameobjects colliders is hovered by mouse:
+/// checks if game objects colliders is hovered by mouse:
 /// GetComponent<MouseOver>().Over
 /// </summary>
 public class MouseOver : MonoBehaviour
 {
-    public bool Over { get; set; } = false;
+    public bool Over { get; set; }
 
-    [SerializeField] private bool updateChildrenEveryFrame = false;
+    [SerializeField] private bool updateChildrenEveryFrame;
 
     private Collider2D[] colliders;
 
@@ -26,11 +26,10 @@ public class MouseOver : MonoBehaviour
 
         foreach(Collider2D collider in colliders)
         {
-            if (collider.bounds.Contains(mousePos))
-            {
-                Over = true;
-                return;
-            }
+            if (!collider.bounds.Contains(mousePos)) continue;
+
+            Over = true;
+            return;
         }
         Over = false;
     }
