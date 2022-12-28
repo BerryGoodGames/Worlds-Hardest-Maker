@@ -48,6 +48,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public GameObject playButton;
 
+    private static readonly int Load = Animator.StringToHash("Load");
+
     private void Start()
     {
         // start of lobby scene: join photon lobby
@@ -82,7 +84,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     /// </summary>
     public override void OnJoinedRoom()
     {
-        // hide lobbypanel, show roompanel with title
+        // hide lobby panel, show room panel with title
         lobbyPanel.SetActive(false);
         roomPanel.SetActive(true);
 
@@ -98,39 +100,38 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         // check for cooldown
-        if(Time.time >= nextUpdateTime)
+        if (!(Time.time >= nextUpdateTime)) return;
+
+        // update room list
+        // -> clear list
+        foreach (RoomItem item in roomItemsList)
         {
-            // update room list
-            // -> clear list
-            foreach (RoomItem item in roomItemsList)
-            {
-                if(item != null && item.gameObject != null)
-                    Destroy(item.gameObject);
-            }
-            roomItemsList.Clear();
-
-            // fill list with new RoomItem gameobjects
-            foreach (RoomInfo room in roomList)
-            {
-                RoomItem controller;
-                if(!room.Name.StartsWith(privateRoomStart))
-                {
-                    // new RoomItem in roomContainer
-                    GameObject newRoom = Instantiate(RoomItem, roomContainer.transform);
-                    controller = newRoom.GetComponent<RoomItem>();
-                }
-                // create controller
-                else controller = new();
-
-                // set name and add to list
-                controller.SetRoomName(room.Name);
-                controller.SetPlayerCount(room.PlayerCount);
-                controller.info = room;
-                roomItemsList.Add(controller);
-            }
-
-            nextUpdateTime = Time.time + timeBetweenUpdates;
+            if(item != null && item.gameObject != null)
+                Destroy(item.gameObject);
         }
+        roomItemsList.Clear();
+
+        // fill list with new RoomItem game objects
+        foreach (RoomInfo room in roomList)
+        {
+            RoomItem controller;
+            if(!room.Name.StartsWith(privateRoomStart))
+            {
+                // new RoomItem in roomContainer
+                GameObject newRoom = Instantiate(RoomItem, roomContainer.transform);
+                controller = newRoom.GetComponent<RoomItem>();
+            }
+            // create controller
+            else controller = new();
+
+            // set name and add to list
+            controller.SetRoomName(room.Name);
+            controller.SetPlayerCount(room.PlayerCount);
+            controller.info = room;
+            roomItemsList.Add(controller);
+        }
+
+        nextUpdateTime = Time.time + timeBetweenUpdates;
     }
 
     /// <summary>
@@ -155,7 +156,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby();
     }
 
-    void UpdatePlayerList()
+    private void UpdatePlayerList()
     {
         // update player list
         // -> clear player item list
@@ -166,19 +167,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         playerItemsList.Clear();
 
         // check if in a room
-        if(PhotonNetwork.CurrentRoom != null)
-        {
-            // fill in all connected player
-            foreach(KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
-            {
-                // init new player item
-                GameObject newPlayerItem = Instantiate(PlayerItem, playerItemContainer.transform);
+        if (PhotonNetwork.CurrentRoom == null) return;
 
-                // add to list
-                PlayerItem controller = newPlayerItem.GetComponent<PlayerItem>();
-                controller.SetPlayerInfo(player.Value);
-                playerItemsList.Add(controller);
-            }
+        // fill in all connected player
+        foreach(KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
+        {
+            // init new player item
+            GameObject newPlayerItem = Instantiate(PlayerItem, playerItemContainer.transform);
+
+            // add to list
+            PlayerItem controller = newPlayerItem.GetComponent<PlayerItem>();
+            controller.SetPlayerInfo(player.Value);
+            playerItemsList.Add(controller);
         }
     }
 
@@ -219,7 +219,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private void StartLoading()
     {
         Animator anim = loadingPanel.GetComponent<Animator>();
-        anim.SetTrigger("Load");
+        anim.SetTrigger(Load);
 
         StartCoroutine(UpdateLoadingSlider());
     }

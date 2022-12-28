@@ -12,15 +12,14 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
     public void OnClickConnect()
     {
-        if(usernameInput.text.Length > 0)
-        {
-            PhotonNetwork.NickName = usernameInput.text;
-            buttonText.text = "Connecting...";
+        if (usernameInput.text.Length <= 0) return;
 
-            PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.NickName = usernameInput.text;
+        buttonText.text = "Connecting...";
 
-            PhotonNetwork.ConnectUsingSettings();
-        }
+        PhotonNetwork.AutomaticallySyncScene = true;
+
+        PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()
