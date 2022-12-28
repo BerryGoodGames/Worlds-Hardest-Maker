@@ -585,7 +585,9 @@ public class SelectionManager : MonoBehaviour
             _ = Physics2D.RaycastNonAlloc(Origin, Direction, currentHits, Length);
 
             foreach (RaycastHit2D r in currentHits)
-            {
+            { 
+                if(r.collider == null) continue;
+
                 GameObject collider = r.collider.gameObject;
 
                 if (collider.TryGetComponent(out FieldOutline outline))
