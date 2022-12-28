@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class WaypointEditorController : MonoBehaviour
 {
-    public static WaypointEditorController startPosition { get; private set; }
+    public static WaypointEditorController StartPosition { get; private set; }
 
     public int waypointIndex;
 
@@ -41,7 +41,6 @@ public class WaypointEditorController : MonoBehaviour
         }
         set
         {
-
             // set input fields to position
             positionX.text = value.x.ToString();
             positionY.text = value.y.ToString();
@@ -52,11 +51,7 @@ public class WaypointEditorController : MonoBehaviour
 
     public float InputSpeed
     {
-        get
-        {
-            if (speed.text != string.Empty) return float.Parse(speed.text);
-            else return 0f;
-        }
+        get => speed.text != string.Empty ? float.Parse(speed.text) : 0f;
         set
         {
             speed.text = value.ToString();
@@ -66,11 +61,7 @@ public class WaypointEditorController : MonoBehaviour
 
     public float InputRotationSpeed
     {
-        get
-        {
-            if (rotationSpeed.text != string.Empty) return float.Parse(rotationSpeed.text);
-            else return 0f;
-        }
+        get => rotationSpeed.text != string.Empty ? float.Parse(rotationSpeed.text) : 0f;
         set
         {
             rotationSpeed.text = value.ToString();
@@ -80,67 +71,37 @@ public class WaypointEditorController : MonoBehaviour
 
     public float InputTurns
     {
-        get
-        {
-            if (turns.text != string.Empty) return float.Parse(turns.text);
-            else return 0f;
-        }
+        get => turns.text != string.Empty ? float.Parse(turns.text) : 0f;
         set
         {
-            if (Waypoints.Count > 1)
-            {
-                turns.text = value.ToString();
-                rotationSpeed.text = GetRotationSpeed().ToString();
-            }
-            
+            if (Waypoints.Count <= 1) return;
+
+            turns.text = value.ToString();
+            rotationSpeed.text = GetRotationSpeed().ToString();
         }
     }
 
     public float InputDelay
     {
-        get
-        {
-            if (delay.text != string.Empty) return float.Parse(delay.text);
-            else return 0f;
-        }
-        set
-        {
-            delay.text = value.ToString();
-        }
+        get => delay.text != string.Empty ? float.Parse(delay.text) : 0f;
+        set => delay.text = value.ToString();
     }
 
     public bool InputRotateWhileDelay
     {
-        get
-        {
-            return rotateWhileDelay.isOn;
-        }
-        set
-        {
-            rotateWhileDelay.isOn = value;
-        }
+        get => rotateWhileDelay.isOn;
+        set => rotateWhileDelay.isOn = value;
     }
 
-    private Waypoint Waypoint
-    {
-        get
-        {
-            return AnchorManager.Instance.selectedPathController.waypoints[waypointIndex];
-        }
-    }
+    private Waypoint Waypoint => AnchorManager.Instance.selectedPathController.waypoints[waypointIndex];
 
-    private List<Waypoint> Waypoints
-    {
-        get
-        {
-            return AnchorManager.Instance.selectedPathController.waypoints;
-        }
-    }
+    private static List<Waypoint> Waypoints => AnchorManager.Instance.selectedPathController.waypoints;
 
     private void Start()
     {
         noTxt.text = $"No. {waypointIndex + 1}";
-        if (waypointIndex == 0) startPosition = this;
+
+        if (waypointIndex == 0) StartPosition = this;
 
         Waypoint.WaypointEditor = this;
 
@@ -151,11 +112,10 @@ public class WaypointEditorController : MonoBehaviour
     {
         SetPosition(InputPosition);
 
-        if(GameManager.Instance.Multiplayer)
-        {
-            if(anchorController != null)
-                anchorController.View.RPC("RPCSetWaypointPosition", RpcTarget.Others, InputPosition, waypointIndex);
-        }  
+        if (!GameManager.Instance.Multiplayer) return;
+
+        if(anchorController != null)
+            anchorController.View.RPC("RPCSetWaypointPosition", RpcTarget.Others, InputPosition, waypointIndex);
     }
 
     private void SetPosition(Vector2 pos)
@@ -169,11 +129,10 @@ public class WaypointEditorController : MonoBehaviour
     {
         SetSpeed(InputSpeed);
 
-        if (GameManager.Instance.Multiplayer)
-        {
-            if (anchorController != null)
-                anchorController.View.RPC("RPCSetWaypointSpeed", RpcTarget.Others, InputSpeed, waypointIndex);
-        }
+        if (!GameManager.Instance.Multiplayer) return;
+
+        if (anchorController != null)
+            anchorController.View.RPC("RPCSetWaypointSpeed", RpcTarget.Others, InputSpeed, waypointIndex);
     }
 
     private void SetSpeed(float speed)
@@ -185,11 +144,10 @@ public class WaypointEditorController : MonoBehaviour
     {
         SetRotationSpeed(InputRotationSpeed);
 
-        if (GameManager.Instance.Multiplayer)
-        {
-            if (anchorController != null)
-                anchorController.View.RPC("RPCSetWaypointRotationSpeed", RpcTarget.Others, InputRotationSpeed, waypointIndex);
-        }
+        if (!GameManager.Instance.Multiplayer) return;
+
+        if (anchorController != null)
+            anchorController.View.RPC("RPCSetWaypointRotationSpeed", RpcTarget.Others, InputRotationSpeed, waypointIndex);
     }
 
     private void SetRotationSpeed(float speed)
@@ -224,11 +182,10 @@ public class WaypointEditorController : MonoBehaviour
     {
         SetDelay(InputDelay);
 
-        if (GameManager.Instance.Multiplayer)
-        {
-            if (anchorController != null)
-                anchorController.View.RPC("RPCSetWaypointDelay", RpcTarget.Others, InputDelay, waypointIndex);
-        }
+        if (!GameManager.Instance.Multiplayer) return;
+
+        if (anchorController != null)
+            anchorController.View.RPC("RPCSetWaypointDelay", RpcTarget.Others, InputDelay, waypointIndex);
     }
 
     private void SetDelay(float delay)
@@ -240,11 +197,10 @@ public class WaypointEditorController : MonoBehaviour
     {
         SetRotateWhileDelay(InputRotateWhileDelay);
 
-        if (GameManager.Instance.Multiplayer)
-        {
-            if (anchorController != null)
-                anchorController.View.RPC("RPCSetWaypointRotateWhileDelay", RpcTarget.Others, InputRotateWhileDelay, waypointIndex);
-        }
+        if (!GameManager.Instance.Multiplayer) return;
+
+        if (anchorController != null)
+            anchorController.View.RPC("RPCSetWaypointRotateWhileDelay", RpcTarget.Others, InputRotateWhileDelay, waypointIndex);
     }
 
     private void SetRotateWhileDelay(bool rotateWhileDelay)
@@ -278,7 +234,7 @@ public class WaypointEditorController : MonoBehaviour
         if (Waypoints.Count > 1 && Vector2.Distance(Waypoint.position, nextWaypoint.position) != 0)
             return (Vector2.Distance(Waypoint.position, nextWaypoint.position) / Waypoint.speed *
                     Waypoint.rotationSpeed) / 360f;
-        else return 0f;
+        return 0f;
     }
 
     public float GetRotationSpeed()
@@ -286,6 +242,6 @@ public class WaypointEditorController : MonoBehaviour
         Waypoint nextWaypoint = Waypoints[(waypointIndex + 1) % Waypoints.Count];
         if (Waypoints.Count > 1 && Vector2.Distance(Waypoint.position, nextWaypoint.position) != 0)
             return (InputTurns * 360f) / (Vector2.Distance(Waypoint.position, nextWaypoint.position) / Waypoint.speed);
-        else return 0f;
+        return 0f;
     }
 }

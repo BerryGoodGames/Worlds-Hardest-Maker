@@ -46,7 +46,7 @@ public class PathController : MonoBehaviour
 
     private void Awake()
     {
-        if (waypoints != null && waypoints.Count > 0)
+        if (waypoints is { Count: > 0 })
         {
             Target = waypoints[0];
             targetIndex = 0;
@@ -66,7 +66,7 @@ public class PathController : MonoBehaviour
         if (setElement0ToStartingPos && waypoints[0] != null)
         {
             waypoints[0].position = transform.position;
-            if(WaypointEditorController.startPosition != null) WaypointEditorController.startPosition.UpdateInputValues();
+            if(WaypointEditorController.StartPosition != null) WaypointEditorController.StartPosition.UpdateInputValues();
         }
 
         AnchorManager.Instance.selectedPathController.DrawLines();
@@ -98,56 +98,49 @@ public class PathController : MonoBehaviour
                         yield return new WaitForSeconds(target.delay);
                 }
 
-                // bounce path mode
-                if (pathMode == PathMode.BOUNCE)
+                switch (pathMode)
                 {
-                    if (waypoints.Count <= 1)
-                    {
-                    }
-                    else if (targetIndex == waypoints.Count - 1)
-                    {
+                    // bounce path mode
+                    case PathMode.BOUNCE when waypoints.Count <= 1:
+                        break;
+                    case PathMode.BOUNCE when targetIndex == waypoints.Count - 1:
                         onReturn = true;
                         targetIndex--;
                         target = waypoints[targetIndex];
-                    }
-                    else if (targetIndex == 0)
-                    {
+                        break;
+                    case PathMode.BOUNCE when targetIndex == 0:
                         onReturn = false;
                         targetIndex++;
                         Target = waypoints[targetIndex];
-                    }
-                    else
-                    {
+                        break;
+                    case PathMode.BOUNCE:
                         targetIndex += onReturn ? -1 : 1;
                         target = waypoints[targetIndex];
                         attributeTarget = onReturn ? waypoints[targetIndex + 1] : target;
-                    }
-                }
-
-                // loop path mode
-                else if (pathMode == PathMode.LOOP)
-                {
-                    targetIndex = (targetIndex + 1) % waypoints.Count;
-                    Target = waypoints[targetIndex];
-                }
-
-                // stop path mode
-                else if (pathMode == PathMode.STOP)
-                {
-                    targetIndex++;
-                    if (targetIndex >= waypoints.Count)
+                        break;
+                    // loop path mode
+                    case PathMode.LOOP:
+                        targetIndex = (targetIndex + 1) % waypoints.Count;
+                        Target = waypoints[targetIndex];
+                        break;
+                    // stop path mode
+                    case PathMode.STOP:
                     {
-                        stop = true;
-                        yield break;
-                    }
+                        targetIndex++;
+                        if (targetIndex >= waypoints.Count)
+                        {
+                            stop = true;
+                            yield break;
+                        }
 
-                    Target = waypoints[targetIndex];
+                        Target = waypoints[targetIndex];
+                        break;
+                    }
                 }
             }
 
             // move towards target
-            transform.position =
-                Vector2.MoveTowards(transform.position, target.position, attributeTarget.speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, target.position, attributeTarget.speed * Time.deltaTime);
 
             transform.Rotate(new Vector3(0, 0, attributeTarget.rotationSpeed * Time.deltaTime));
             yield return null;
@@ -187,12 +180,12 @@ public class PathController : MonoBehaviour
         for (int i = 1; i < waypoints.Count; i++)
         {
             Waypoint prevWaypoint = waypoints[i - 1];
-            Waypoint currWaypoint = waypoints[i];
+            Waypoint currentWaypoint = waypoints[i];
             LineManager.SetFill(Color.black);
             LineManager.SetWeight(0.1f);
             LineManager.SetLayerID(LineManager.DefaultLayerID);
             LineManager.SetOrderInLayer(0);
-            LineManager.DrawLine(prevWaypoint.position, currWaypoint.position, LineContainer);
+            LineManager.DrawLine(prevWaypoint.position, currentWaypoint.position, LineContainer);
         }
 
         if (pathMode == PathMode.LOOP && waypoints.Count > 1)
