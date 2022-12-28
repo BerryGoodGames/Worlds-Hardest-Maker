@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.Runtime.Serialization;
 using Photon.Pun;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -17,21 +18,20 @@ public class SelectionManager : MonoBehaviour
 
     private GameObject selectionOutline;
     private LineAnimator selectionOutlineAnim;
-    public bool Selecting { get; set; } = false;
-    [HideInInspector] public List<Vector2> CurrentSelectionRange
+    public bool Selecting { get; set; }
+    public List<Vector2> CurrentSelectionRange
     {
-        get => selectionStart == null || selectionEnd == null ? null : GetCurrentFillRange(); set
+        get => selectionStart == null || selectionEnd == null ? null : GetCurrentFillRange(); 
+        set
         {
-            if (value == null)
-            {
-                selectionStart = null;
-                selectionEnd = null;
-            }
+            if (value != null) return;
+            selectionStart = null;
+            selectionEnd = null;
         }
     }
     public static SelectionManager Instance { get; private set; }
 
-    public static readonly List<EditMode> NoFillPreviewModes = new(new EditMode[]
+    public static readonly List<EditMode> NoFillPreviewModes = new(new[]
     {
         EditMode.BALL_DEFAULT,
         EditMode.BALL_CIRCLE,
@@ -68,7 +68,7 @@ public class SelectionManager : MonoBehaviour
             if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton)) OnStartSelect(start);
             else if (Input.GetMouseButtonUp(KeybindManager.Instance.SelectionMouseButton)) OnAreaSelected(start, end);
 
-            if (prevStart == null || !prevStart.Equals(start) || !prevEnd.Equals(end)) OnAreaSelectionChanged(start, end);
+            if (!prevStart.Equals(start) || !prevEnd.Equals(end)) OnAreaSelectionChanged(start, end);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -77,11 +77,10 @@ public class SelectionManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(MouseManager.Instance.MouseDragStart != null && MouseManager.Instance.MouseDragCurrent != null)
-        {
-            prevStart = ((Vector2)MouseManager.Instance.MouseDragStart).ConvertPosition(GameManager.Instance.CurrentEditMode.GetWorldPosition());
-            prevEnd = ((Vector2)MouseManager.Instance.MouseDragCurrent).ConvertPosition(GameManager.Instance.CurrentEditMode.GetWorldPosition());
-        }
+        if (MouseManager.Instance.MouseDragStart == null || MouseManager.Instance.MouseDragCurrent == null) return;
+
+        prevStart = ((Vector2)MouseManager.Instance.MouseDragStart).ConvertPosition(GameManager.Instance.CurrentEditMode.GetWorldPosition());
+        prevEnd = ((Vector2)MouseManager.Instance.MouseDragCurrent).ConvertPosition(GameManager.Instance.CurrentEditMode.GetWorldPosition());
     }
 
     private void Start()
@@ -99,7 +98,7 @@ public class SelectionManager : MonoBehaviour
     {
         // called when area selection changed (lol)
 
-        // set selection outline (if u didnt already see)
+        // set selection outline (if u didn't already see)
         AnimSelectionOutline(start, end);
     }
     private void OnAreaSelected(Vector2 start, Vector2 end)
@@ -109,7 +108,7 @@ public class SelectionManager : MonoBehaviour
         float width = end.x - start.x;
         float height = end.y - start.y;
 
-        Vector2 position = new(width < 0 ? (end.x - 0.5f) : (end.x + 0.5f), height < 0 ? (end.y - 0.5f) : (end.y + 0.5f));
+        Vector2 position = new(width < 0 ? end.x - 0.5f : end.x + 0.5f, height < 0 ? end.y - 0.5f : end.y + 0.5f);
         UIAttachToPoint posController = selectionOptions.GetComponent<UIAttachToPoint>();
 
         posController.point = position;
@@ -165,19 +164,18 @@ public class SelectionManager : MonoBehaviour
 
     private static void InitPreview(List<Vector2> range)
     {
-        // set new previews, only if editmode not in NoFillPreviewModes
-        if (!NoFillPreviewModes.Contains(GameManager.Instance.CurrentEditMode))
+        // set new previews, only if edit mode not in NoFillPreviewModes
+        if (NoFillPreviewModes.Contains(GameManager.Instance.CurrentEditMode)) return;
+
+        foreach (Vector2 pos in range)
         {
-            foreach (Vector2 pos in range)
-            {
-                GameObject preview = Instantiate(PrefabManager.Instance.FillPreview, pos, Quaternion.identity, ReferenceManager.Instance.FillPreviewContainer);
+            GameObject preview = Instantiate(PrefabManager.Instance.FillPreview, pos, Quaternion.identity, ReferenceManager.Instance.FillPreviewContainer);
                 
-                PreviewController c = preview.GetComponent<PreviewController>();
-                c.Awake_();
-                c.UpdateSprite();
-                c.UpdateRotation(smooth: false);
-                c.changeSpriteToCurrentEditMode = false;
-            }
+            PreviewController c = preview.GetComponent<PreviewController>();
+            c.Awake_();
+            c.UpdateSprite();
+            c.UpdateRotation(smooth: false);
+            c.changeSpriteToCurrentEditMode = false;
         }
     }
 
@@ -228,7 +226,6 @@ public class SelectionManager : MonoBehaviour
     #endregion
 
     #region Fill
-
     public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2, FollowMouse.WorldPosition worldPosition)
     {
         bool inMatrix = worldPosition == FollowMouse.WorldPosition.MATRIX;
@@ -267,11 +264,12 @@ public class SelectionManager : MonoBehaviour
     {
         if (CurrentSelectionRange == null) return;
         CurrentSelectionRange = null;
+
         // set rotation
         int rotation = FieldManager.IsRotatable(GameManager.Instance.CurrentEditMode) ? GameManager.Instance.EditRotation : 0;
 
         // find bounds
-        var (lowestX, highestX, lowestY, highestY) = GetBoundsMatrix(poses);
+        (int lowestX, int highestX, int lowestY, int highestY) = GetBoundsMatrix(poses);
 
         Vector2 lowestPos = new(lowestX, lowestY);
         Vector2 highestPos = new(highestX, highestY);
@@ -289,9 +287,16 @@ public class SelectionManager : MonoBehaviour
         // clear fields in area
         if(type == FieldType.WALL_FIELD) // also destroy keys/coins
         {
-            Collider2D[] hits = Physics2D.OverlapAreaAll(lowestPos, highestPos, 3200);
+            int fieldCount = ReferenceManager.Instance.FieldContainer.childCount;
+            int coinCount = ReferenceManager.Instance.CoinContainer.childCount;
+            int keyCount = ReferenceManager.Instance.KeyContainer.childCount;
+            Collider2D[] hits = new Collider2D[fieldCount + coinCount + keyCount];
+
+            _ = Physics2D.OverlapAreaNonAlloc(lowestPos, highestPos, hits, 3200);
             foreach (Collider2D hit in hits)
             {
+                if (hit == null) continue;
+
                 if(hit.gameObject.IsField() || hit.CompareTag("Key") || hit.CompareTag("Coin"))
                     Destroy(hit.gameObject);
             }
@@ -310,22 +315,19 @@ public class SelectionManager : MonoBehaviour
         GameObject prefab = type.GetPrefab();
 
         // search if tag is in tags
-        string tag = "";
         int? tagIndex = null;
 
         string[] tags = { "StartField", "GoalField", "CheckpointField" };
 
         for (int i = 0; i < tags.Length; i++)
         {
-            if (prefab.CompareTag(tags[i]))
-            {
-                tag = tags[i];
-                tagIndex = i;
-                break;
-            }
+            if (!prefab.CompareTag(tags[i])) continue;
+
+            tagIndex = i;
+            break;
         }
 
-        // get colorful colors to start, goal, checkpoints and startgoal fields
+        // get colorful colors to start, goal, checkpoints and start goal fields
         List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
 
         // remove player if at changed pos
@@ -333,6 +335,7 @@ public class SelectionManager : MonoBehaviour
         {
             // TODO: 9x bad performance than before
             GameObject player = PlayerManager.GetPlayer();
+
             if (player != null && player.transform.position.Between(lowestPos, highestPos))
                 Destroy(player);
         }
@@ -340,10 +343,6 @@ public class SelectionManager : MonoBehaviour
 
         foreach (Vector2 pos in poses)
         {
-            int mx = (int)pos.x;
-            int my = (int)pos.y;
-
-
             // set field at pos
             GameObject field = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), ReferenceManager.Instance.FieldContainer);
 
@@ -351,27 +350,13 @@ public class SelectionManager : MonoBehaviour
             {
                 if (GraphicsSettings.Instance.oneColorStartGoalCheckpoint)
                 {
-                    field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
+                    field.GetComponent<SpriteRenderer>().color = colors[4];
 
                     if (field.TryGetComponent(out Animator anim))
                     {
                         anim.enabled = false;
                     }
                 }
-                //else
-                //{
-
-                //    SpriteRenderer renderer = field.GetComponent<SpriteRenderer>();
-                //    if (field.CompareTag(tag))
-                //    {
-                //        renderer.color = colors[(int)tagIndex];
-
-                //        if (field.TryGetComponent(out Animator anim))
-                //        {
-                //            anim.enabled = true;
-                //        }
-                //    }
-                //}
             }
 
             if (field.TryGetComponent(out FieldOutline FOComp))
@@ -489,32 +474,31 @@ public class SelectionManager : MonoBehaviour
     }
     public void AnimSelectionOutline(Vector2 start, Vector2 end)
     {
-        if(selectionOutlineAnim != null)
+        if (selectionOutlineAnim == null) return;
+
+        // set selection start and end
+        selectionStart = start;
+        selectionEnd = end;
+
+        // get position and stuff
+        float width = end.x - start.x;
+        float height = end.y - start.y;
+
+        float x = width > 0 ? start.x - 0.5f : start.x + 0.5f;
+        float y = height > 0 ? start.y - 0.5f : start.y + 0.5f;
+        float w = width > 0 ? width + 1 : width - 1;
+        float h = height > 0 ? height + 1 : height - 1;
+
+        List<Vector2> lineVertices = new(new Vector2[]
         {
-            // set selection start and end
-            selectionStart = start;
-            selectionEnd = end;
-
-            // get position and stuff
-            float width = end.x - start.x;
-            float height = end.y - start.y;
-
-            float x = width > 0 ? start.x - 0.5f : start.x + 0.5f;
-            float y = height > 0 ? start.y - 0.5f : start.y + 0.5f;
-            float w = width > 0 ? width + 1 : width - 1;
-            float h = height > 0 ? height + 1 : height - 1;
-
-            List<Vector2> lineVertecies = new(new Vector2[]
-            {
-                new(x, y),
-                new(x + w, y),
-                new(x + w, y + h),
-                new(x, y + h),
-                new(x, y)
-            });
+            new(x, y),
+            new(x + w, y),
+            new(x + w, y + h),
+            new(x, y + h),
+            new(x, y)
+        });
             
-            selectionOutlineAnim.AnimateAllPoints(lineVertecies, .1f, DG.Tweening.Ease.OutSine);
-        }
+        selectionOutlineAnim.AnimateAllPoints(lineVertices, .1f, DG.Tweening.Ease.OutSine);
     }
     #endregion
 
@@ -528,14 +512,11 @@ public class SelectionManager : MonoBehaviour
         int height = highestY - lowestY;
 
         // update outlines
-        if (hasOutline == true)
+        if (hasOutline)
         {
-            FieldOutline FOComp;
-            RaycastHit2D[] hits;
-
-            // update lowest and highest field seperately cause raycasting
+            // update lowest and highest field separately cause ray casting
             GameObject lowestField = FieldManager.GetField(lowestPos);
-            if (lowestField.TryGetComponent(out FOComp))
+            if (lowestField.TryGetComponent(out FieldOutline FOComp))
             {
                 FOComp.UpdateOutline(Vector2.left, true);
                 FOComp.UpdateOutline(Vector2.down, true);
@@ -548,79 +529,68 @@ public class SelectionManager : MonoBehaviour
                 FOComp.UpdateOutline(Vector2.up, true);
             }
 
+            // // horizontal
+            RaycastHit2D[] hits = new RaycastHit2D[width];
+
             // bottom Fields
-            hits = Physics2D.RaycastAll(lowestPos, Vector2.right, width);
+            _ = Physics2D.RaycastNonAlloc(lowestPos, Vector2.right, hits, width);
             foreach(RaycastHit2D hit in hits)
             {
                 if(hit.transform.TryGetComponent(out FOComp))
                     FOComp.UpdateOutline(Vector2.down, true);
             }
 
-            // left Fields
-            hits = Physics2D.RaycastAll(lowestPos, Vector2.up, height);
-            foreach (RaycastHit2D hit in hits)
-            {
-                if (hit.transform.TryGetComponent(out FOComp))
-                    FOComp.UpdateOutline(Vector2.left, true);
-            }
-
             // top Fields
-            hits = Physics2D.RaycastAll(highestPos, Vector2.left, width);
+            _ = Physics2D.RaycastNonAlloc(highestPos, Vector2.left, hits, width);
             foreach (RaycastHit2D hit in hits)
             {
                 if (hit.transform.TryGetComponent(out FOComp))
                     FOComp.UpdateOutline(Vector2.up, true);
             }
 
+            // // vertical
+            hits = new RaycastHit2D[height];
+
+            // left Fields
+            _ = Physics2D.RaycastNonAlloc(lowestPos, Vector2.up, hits, height);
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.transform.TryGetComponent(out FOComp))
+                    FOComp.UpdateOutline(Vector2.left, true);
+            }
+            
             // right Fields
-            hits = Physics2D.RaycastAll(highestPos, Vector2.down, height);
+            _ = Physics2D.RaycastNonAlloc(highestPos, Vector2.down, hits, height);
             foreach (RaycastHit2D hit in hits)
             {
                 if (hit.transform.TryGetComponent(out FOComp))
                     FOComp.UpdateOutline(Vector2.right, true);
             }
 
-            //for (int i = lowestX; i <= highestX; i++)
-            //{
-            //    if (FieldManager.GetField(i, lowestY).TryGetComponent(out FOComp))
-            //        FOComp.UpdateOutline(Vector2.down, true);
-
-            //    if (FieldManager.GetField(i, highestY).TryGetComponent(out FOComp))
-            //        FOComp.UpdateOutline(Vector2.up, true);
-            //}
-
-            //for (int i = lowestY; i <= highestY; i++)
-            //{
-            //    if (FieldManager.GetField(lowestX, i).TryGetComponent(out FOComp))
-            //        FOComp.UpdateOutline(Vector2.left, true);
-
-            //    if (FieldManager.GetField(highestX, i).TryGetComponent(out FOComp))
-            //        FOComp.UpdateOutline(Vector2.right, true);
-            //}
+            return;
         }
-        else
+        
+        // update fields around fill area
+        (Vector2, Vector2, int)[] rays =
         {
-            // update fields around fill area
-            (Vector2, Vector2, int)[] rays =
-            {
-                (new(lowestX - 1, lowestY - 1), Vector2.right, width + 2),
-                (new(lowestX - 1, lowestY - 1), Vector2.up, height + 2),
-                (new(highestX + 1, highestY + 1), Vector2.left, width + 2),
-                (new(highestX + 1, highestY + 1), Vector2.down, height + 2)
-            };
+            (new(lowestX - 1, lowestY - 1), Vector2.right, width + 2),
+            (new(lowestX - 1, lowestY - 1), Vector2.up, height + 2),
+            (new(highestX + 1, highestY + 1), Vector2.left, width + 2),
+            (new(highestX + 1, highestY + 1), Vector2.down, height + 2)
+        };
 
-            foreach ((Vector2 Origin, Vector2 Direction, int Length) in rays)
-            {
-                RaycastHit2D[] currentHits = Physics2D.RaycastAll(Origin, Direction, Length);
+        foreach ((Vector2 Origin, Vector2 Direction, int Length) in rays)
+        {
+            RaycastHit2D[] currentHits = new RaycastHit2D[Length];
+            _ = Physics2D.RaycastNonAlloc(Origin, Direction, currentHits, Length);
 
-                foreach (RaycastHit2D r in currentHits)
+            foreach (RaycastHit2D r in currentHits)
+            {
+                GameObject collider = r.collider.gameObject;
+
+                if (collider.TryGetComponent(out FieldOutline outline))
                 {
-                    GameObject collider = r.collider.gameObject;
-
-                    if (collider.TryGetComponent(out FieldOutline outline))
-                    {
-                        outline.UpdateOutline(false);
-                    }
+                    outline.UpdateOutline();
                 }
             }
         }
