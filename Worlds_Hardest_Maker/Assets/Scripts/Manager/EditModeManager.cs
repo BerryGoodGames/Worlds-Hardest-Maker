@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EditModeManager : MonoBehaviour
@@ -12,6 +10,7 @@ public class EditModeManager : MonoBehaviour
     // current edit mode
     [SerializeField] private EditMode currentEditMode;
     private EditMode? prevEditMode;
+
     public EditMode CurrentEditMode
     {
         get => currentEditMode;
@@ -20,6 +19,7 @@ public class EditModeManager : MonoBehaviour
 
     // editing
     public bool editing;
+
     public bool Playing
     {
         get => !editing;
@@ -28,6 +28,7 @@ public class EditModeManager : MonoBehaviour
 
     // edit rotation
     private int editRotation = 270;
+
     public int EditRotation
     {
         get => editRotation;
@@ -44,6 +45,7 @@ public class EditModeManager : MonoBehaviour
 
     #endregion
 
+    #region Methods
 
     public void SetEditMode(EditMode value)
     {
@@ -103,11 +105,19 @@ public class EditModeManager : MonoBehaviour
             }
         }
     }
+
     private void SetEditRotation(int value)
     {
         editRotation = value;
 
         ReferenceManager.Instance.placementPreview.GetComponent<PreviewController>().UpdateRotation();
+    }
+
+    #endregion
+
+    private void Start()
+    {
+        Instance.OnEdit += () => PlayManager.Instance.Cheated = false;
     }
 
     private void Awake()

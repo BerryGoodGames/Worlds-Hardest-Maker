@@ -56,7 +56,7 @@ public class FieldRotation : MonoBehaviour
     {
         if (SelectionManager.Instance.Selecting || CopyManager.pasting || EditModeManager.Instance.Playing ||
             EditModeManager.Instance.CurrentEditMode !=
-            GameManager.ConvertEnum<FieldType, EditMode>((FieldType)FieldManager.GetFieldType(gameObject))) return;
+            Utils.ConvertEnum<FieldType, EditMode>((FieldType)FieldManager.GetFieldType(gameObject))) return;
 
         if (MultiplayerManager.Instance.Multiplayer)
         {

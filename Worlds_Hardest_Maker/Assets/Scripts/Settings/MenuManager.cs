@@ -35,7 +35,7 @@ public class MenuManager : MonoBehaviour
 
     public static void ExitGame()
     {
-        GameManager.QuitGame();
+        PlayManager.QuitGame();
     }
 
     #region Menu Tab

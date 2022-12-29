@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MultiplayerManager : MonoBehaviour
@@ -9,6 +6,20 @@ public class MultiplayerManager : MonoBehaviour
 
     public bool Multiplayer { get; set; }
 
+
+    public static void OnIsMultiplayer()
+    {
+        // enable photon player spawning
+        ReferenceManager.Instance.playerSpawner.enabled = true;
+    }
+
+    private void Start()
+    {
+        if (Multiplayer)
+        {
+            OnIsMultiplayer();
+        }
+    }
 
     private void Awake()
     {

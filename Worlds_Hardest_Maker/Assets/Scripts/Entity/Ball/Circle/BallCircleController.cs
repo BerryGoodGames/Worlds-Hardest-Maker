@@ -91,7 +91,7 @@ public class BallCircleController : BallController
             if (Input.GetMouseButton(0) && Input.GetKey(KeybindManager.Instance.ballCircleRadiusKey) &&
                 !EventSystem.current.IsPointerOverGameObject())
             {
-                float mouseDist = GameManager.RoundToNearestStep(Vector2.Distance(origin.position, mousePos), 0.5f);
+                float mouseDist = Utils.RoundToNearestStep(Vector2.Distance(origin.position, mousePos), 0.5f);
                 if (mouseDist > 0)
                 {
                     SetRadius(mouseDist);
@@ -149,7 +149,7 @@ public class BallCircleController : BallController
     public void SetStartAngle(float startAngle)
     {
         // round input to nearest position
-        float angle = GameManager.RoundToNearestStep(startAngle, Mathf.PI * 2 / startAnglePositionCount);
+        float angle = Utils.RoundToNearestStep(startAngle, Mathf.PI * 2 / startAnglePositionCount);
 
         this.startAngle = angle;
         currentAngle = angle;

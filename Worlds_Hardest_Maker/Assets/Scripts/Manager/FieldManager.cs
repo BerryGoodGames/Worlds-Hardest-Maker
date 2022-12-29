@@ -27,7 +27,7 @@ public class FieldManager : MonoBehaviour
 
     public static bool IsRotatable(EditMode editMode)
     {
-        FieldType? fieldType = (FieldType?)GameManager.TryConvertEnum<EditMode, FieldType>(editMode);
+        FieldType? fieldType = (FieldType?)Utils.TryConvertEnum<EditMode, FieldType>(editMode);
 
         return fieldType != null && rotatableFields.Contains((FieldType)fieldType);
     }

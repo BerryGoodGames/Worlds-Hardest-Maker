@@ -81,7 +81,7 @@ public class TextManager : MonoBehaviour
     {
         StopTimer();
 
-        if (!GameManager.Instance.Cheated)
+        if (!PlayManager.Instance.Cheated)
             timer.color = finishedTimerColor;
     }
 

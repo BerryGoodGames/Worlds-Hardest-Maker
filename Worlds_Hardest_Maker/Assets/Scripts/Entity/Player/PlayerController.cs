@@ -288,7 +288,7 @@ public class PlayerController : Controller
 
         // sync slider
         float currentSliderValue = sliderController.GetValue() / sliderController.Step;
-        if (!GameManager.DoFloatsEqual(currentSliderValue, speed))
+        if (!Utils.DoFloatsEqual(currentSliderValue, speed))
         {
             sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
         }

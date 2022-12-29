@@ -30,6 +30,12 @@ public class SettingsManager : MonoBehaviour
 #endif
     }
 
+    private void Start()
+    {
+        Instance.SetMusicVolume(0.0001f);
+        Instance.LoadPrefs();
+    }
+
     public void SavePrefs()
     {
         PlayerPrefs.SetFloat("MusicVolume", GetMusicVolume());
@@ -61,7 +67,7 @@ public class SettingsManager : MonoBehaviour
     public void SetMusicVolume(float vol, bool setPrefs)
     {
         // map vol from 0 - 100 to 0.0001 - 1 and convert it so vol acts linear
-        float newVol = Mathf.Log10((float)GameManager.Map(vol, 0, 100, 0.0001, 3)) * 20;
+        float newVol = Mathf.Log10((float)Utils.Map(vol, 0, 100, 0.0001, 3)) * 20;
 
         mainMixer.SetFloat("MusicVolume", newVol);
 
@@ -75,7 +81,7 @@ public class SettingsManager : MonoBehaviour
 
     public void SetSoundEffectVolume(float vol, bool setPrefs)
     {
-        float newVol = Mathf.Log10((float)GameManager.Map(vol, 0, 100, 0.0001, 3)) * 20;
+        float newVol = Mathf.Log10((float)Utils.Map(vol, 0, 100, 0.0001, 3)) * 20;
 
         mainMixer.SetFloat("SoundEffectVolume", newVol);
 

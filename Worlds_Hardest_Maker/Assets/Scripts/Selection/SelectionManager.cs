@@ -404,7 +404,7 @@ public class SelectionManager : MonoBehaviour
     {
         if (poses.Count == 0) return;
 
-        FieldType? fieldType = (FieldType?)GameManager.TryConvertEnum<EditMode, FieldType>(editMode);
+        FieldType? fieldType = (FieldType?)Utils.TryConvertEnum<EditMode, FieldType>(editMode);
         if (fieldType != null)
         {
             FillArea(poses, (FieldType)fieldType);

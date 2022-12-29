@@ -14,7 +14,7 @@ public class KeyEvents : MonoBehaviour
         // toggle playing
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameManager.Instance.TogglePlay();
+            PlayManager.Instance.TogglePlay();
         }
 
         // toggle menu
@@ -31,7 +31,7 @@ public class KeyEvents : MonoBehaviour
             if (player != null)
             {
                 player.GetComponent<Rigidbody2D>().position = MouseManager.Instance.MouseWorldPosGrid;
-                GameManager.Instance.Cheated = true;
+                PlayManager.Instance.Cheated = true;
             }
         }
 
