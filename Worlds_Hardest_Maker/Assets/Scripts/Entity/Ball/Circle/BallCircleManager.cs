@@ -46,7 +46,7 @@ public class BallCircleManager : MonoBehaviour
     private static GameObject InstantiateBallCircle(Vector2 pos, float r, float speed, float startAngle)
     {
         GameObject newBallCircle;
-        if (GameManager.Instance.Multiplayer)
+        if (MultiplayerManager.Instance.Multiplayer)
         {
             newBallCircle = PhotonNetwork.Instantiate("BallCircle", Vector2.zero, Quaternion.identity);
 

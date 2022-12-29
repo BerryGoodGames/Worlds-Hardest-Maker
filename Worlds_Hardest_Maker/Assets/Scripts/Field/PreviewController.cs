@@ -50,15 +50,15 @@ public class PreviewController : MonoBehaviour
     {
         followMouseComp = GetComponent<FollowMouse>();
 
-        previousEditMode = GameManager.Instance.CurrentEditMode;
+        previousEditMode = EditModeManager.Instance.CurrentEditMode;
     }
 
     private void Update()
     {
-        EditMode currentEditMode = GameManager.Instance.CurrentEditMode;
+        EditMode currentEditMode = EditModeManager.Instance.CurrentEditMode;
 
         if (updateEveryFrame &&
-            (previousEditMode != currentEditMode || previousPlaying != GameManager.Instance.Playing)) UpdateSprite();
+            (previousEditMode != currentEditMode || previousPlaying != EditModeManager.Instance.Playing)) UpdateSprite();
 
         if (!SelectionManager.Instance.Selecting && followMouse)
         {
@@ -80,7 +80,7 @@ public class PreviewController : MonoBehaviour
     /// <returns></returns>
     private bool CheckVisibility()
     {
-        return CheckVisibility(GameManager.Instance.CurrentEditMode);
+        return CheckVisibility(EditModeManager.Instance.CurrentEditMode);
     }
 
     /// <summary>
@@ -127,10 +127,10 @@ public class PreviewController : MonoBehaviour
     /// </summary>
     public void UpdateSprite()
     {
-        SetSprite(GameManager.Instance.CurrentEditMode);
+        SetSprite(EditModeManager.Instance.CurrentEditMode);
 
-        previousPlaying = GameManager.Instance.Playing;
-        previousEditMode = GameManager.Instance.CurrentEditMode;
+        previousPlaying = EditModeManager.Instance.Playing;
+        previousEditMode = EditModeManager.Instance.CurrentEditMode;
     }
 
     public void SetSprite(EditMode editMode, bool updateRotation = false)

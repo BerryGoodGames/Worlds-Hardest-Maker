@@ -14,7 +14,7 @@ public class BallTriggerEvent : MonoBehaviour
 
         PlayerController controller = collider.GetComponent<PlayerController>();
 
-        if (GameManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
+        if (MultiplayerManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
 
         if (!controller.IsOnSafeField())
         {

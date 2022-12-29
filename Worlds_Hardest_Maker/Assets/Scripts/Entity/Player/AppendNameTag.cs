@@ -15,7 +15,7 @@ public class AppendNameTag : MonoBehaviour
 
     private void Awake()
     {
-        if (!GameManager.Instance.Multiplayer && showOnlyWhenMultiplayer) return;
+        if (!MultiplayerManager.Instance.Multiplayer && showOnlyWhenMultiplayer) return;
 
         nameTag = Instantiate(nameTagPrefab, Vector2.zero, Quaternion.identity,
             ReferenceManager.Instance.nameTagContainer);

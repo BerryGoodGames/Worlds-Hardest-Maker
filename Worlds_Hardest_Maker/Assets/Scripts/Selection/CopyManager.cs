@@ -75,7 +75,7 @@ public class CopyManager : MonoBehaviour
         while (!Input.GetMouseButton(0))
         {
             // cancel if these things happen
-            if (Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || GameManager.Instance.Playing)
+            if (Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || EditModeManager.Instance.Playing)
             {
                 MenuManager.Instance.blockMenu = false;
                 ClearPreview();

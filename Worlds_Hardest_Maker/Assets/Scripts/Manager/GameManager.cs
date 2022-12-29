@@ -16,38 +16,19 @@ public class GameManager : MonoBehaviourPun
     public static GameManager Instance { get; private set; }
 
     #region Variables
-
-    [Header("Variables")] [SerializeField] private bool playing;
-
-    public bool Playing
-    {
-        get => playing;
-        set => playing = value;
-    }
-
-    [SerializeField] private EditMode currentEditMode = EditMode.WALL_FIELD;
-
-    public EditMode CurrentEditMode
-    {
-        get => currentEditMode;
-        set => Instance.SetEditMode(value);
-    }
-
-    private EditMode? prevEditMode;
-    public bool Multiplayer { get; set; }
     public bool UIHovered { get; set; }
-    private int editRotation = 270;
 
+    private int editRotation = 270;
     public int EditRotation
     {
         get => editRotation;
         set => Instance.SetEditRotation(value);
     }
 
-    private bool cheated;
     private static readonly int playingString = Animator.StringToHash("Playing");
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
-
+    
+    private bool cheated;
     public bool Cheated
     {
         get => cheated;
@@ -63,9 +44,6 @@ public class GameManager : MonoBehaviourPun
     #region Events
 
     public event Action OnGameQuit;
-    public event Action OnPlay;
-    public event Action OnEdit;
-    public event Action OnEditModeChange;
 
     #endregion
 
@@ -82,7 +60,7 @@ public class GameManager : MonoBehaviourPun
         ForceDecimalSeparator(".");
 
         // check if multiplayer or not
-        Instance.Multiplayer = PhotonNetwork.CurrentRoom != null;
+        MultiplayerManager.Instance.Multiplayer = PhotonNetwork.CurrentRoom != null;
 
         SetCameraUnitWidth(23);
     }
@@ -93,7 +71,7 @@ public class GameManager : MonoBehaviourPun
 
         SettingsManager.Instance.LoadPrefs();
 
-        if (Instance.Multiplayer)
+        if (MultiplayerManager.Instance.Multiplayer)
         {
             OnIsMultiplayer();
         }
@@ -107,7 +85,7 @@ public class GameManager : MonoBehaviourPun
         LevelSettings.Instance.SetIceMaxSpeed();
         LevelSettings.Instance.SetWaterDamping();
 
-        OnEdit += () => Cheated = false;
+        EditModeManager.Instance.OnEdit += () => Cheated = false;
     }
 
     private void Update()
@@ -179,75 +157,18 @@ public class GameManager : MonoBehaviourPun
         ReferenceManager.Instance.placementPreview.GetComponent<PreviewController>().UpdateRotation();
     }
 
-    private void SetEditMode(EditMode value)
-    {
-        currentEditMode = value;
-
-        if (prevEditMode != null && prevEditMode != currentEditMode) OnEditModeChange?.Invoke();
-
-        prevEditMode = currentEditMode;
-
-        // update toolbarContainer
-        GameObject[] tools = ToolbarManager.tools;
-        foreach (GameObject tool in tools)
-        {
-            Tool t = tool.GetComponent<Tool>();
-            if (t.toolName == value)
-            {
-                // avoid recursion
-                t.SwitchGameMode(false);
-            }
-        }
-
-        // enable/disable outlines and window when switching to/away from anchors/balls
-        if (currentEditMode == EditMode.ANCHOR || currentEditMode == EditMode.BALL)
-        {
-            // enable stuff
-            ReferenceManager.Instance.ballWindows.gameObject.SetActive(true);
-            if (AnchorManager.Instance.SelectedAnchor != null)
-            {
-                // enable lines
-                AnchorManager.Instance.selectedPathController.drawLines = true;
-                AnchorManager.Instance.selectedPathController.DrawLines();
-
-                // switch animation to editing
-                foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
-                {
-                    Animator anim = anchor.GetComponentInChildren<Animator>();
-                    anim.SetBool("Editing", true);
-                }
-            }
-        }
-        else if (currentEditMode != EditMode.ANCHOR && currentEditMode != EditMode.BALL)
-        {
-            // disable stuff
-            ReferenceManager.Instance.ballWindows.SetActive(false);
-            if (AnchorManager.Instance.SelectedAnchor != null)
-            {
-                // disable lines
-                AnchorManager.Instance.selectedPathController.drawLines = false;
-                AnchorManager.Instance.selectedPathController.ClearLines();
-
-                // switch animation to editing
-                foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
-                {
-                    Animator anim = anchor.GetComponentInChildren<Animator>();
-                    anim.SetBool("Editing", false);
-                }
-            }
-        }
-    }
+    
 
     public void TogglePlay(bool playSoundEffect = true)
     {
         if (ReferenceManager.Instance.menu.activeSelf) return;
 
-        if (Instance.Playing) SwitchToEdit(playSoundEffect);
+        if (EditModeManager.Instance.Playing) SwitchToEdit(playSoundEffect);
         else SwitchToPlay();
 
         foreach (BarTween tween in BarTween.tweenList)
         {
-            tween.SetPlay(Instance.Playing);
+            tween.SetPlay(EditModeManager.Instance.Playing);
         }
     }
 
@@ -257,14 +178,14 @@ public class GameManager : MonoBehaviourPun
         {
             PlayerController controller = player.GetComponent<PlayerController>();
 
-            if (Instance.Multiplayer && !controller.photonView.IsMine) continue;
+            if (MultiplayerManager.Instance.Multiplayer && !controller.photonView.IsMine) continue;
 
             controller.currentFields.Clear();
             controller.currentGameState = null;
             controller.deaths = 0;
         }
 
-        Instance.Playing = true;
+        EditModeManager.Instance.Playing = true;
 
         AudioManager.Instance.Play("Bell");
         AudioManager.Instance.MusicFiltered(false);
@@ -309,7 +230,7 @@ public class GameManager : MonoBehaviourPun
 
         // camera jumps to last player if its not on screen
         if (Camera.main != null) Camera.main.GetComponent<JumpToEntity>().Jump(true);
-        Instance.OnPlay?.Invoke();
+        EditModeManager.Instance.OnPlay?.Invoke();
 
         // close level settings panel if open
         LevelSettingsPanelTween lspt =
@@ -319,7 +240,7 @@ public class GameManager : MonoBehaviourPun
 
     public static void SwitchToEdit(bool playSoundEffect = true)
     {
-        Instance.Playing = false;
+        EditModeManager.Instance.Playing = false;
 
         if (playSoundEffect) AudioManager.Instance.Play("Bell");
         AudioManager.Instance.MusicFiltered(true);
@@ -333,7 +254,7 @@ public class GameManager : MonoBehaviourPun
                 .worldPosition);
 
         // enable windows
-        if (Instance.CurrentEditMode is EditMode.ANCHOR or EditMode.BALL)
+        if (EditModeManager.Instance.CurrentEditMode is EditMode.ANCHOR or EditMode.BALL)
             ReferenceManager.Instance.ballWindows.SetActive(true);
 
         Animator anim;
@@ -385,8 +306,8 @@ public class GameManager : MonoBehaviourPun
 
             controller.currentGameState = null;
         }
-
-        Instance.OnEdit?.Invoke();
+        
+        EditModeManager.Instance.OnEdit?.Invoke();
     }
 
     /// <summary>
@@ -399,7 +320,7 @@ public class GameManager : MonoBehaviourPun
         int matrixX = (int)Mathf.Round(pos.x);
         int matrixY = (int)Mathf.Round(pos.y);
 
-        bool multiplayer = Instance.Multiplayer;
+        bool multiplayer = MultiplayerManager.Instance.Multiplayer;
         PhotonView photonView = Instance.photonView;
 
         float gridX = Mathf.Round(pos.x * 2) * 0.5f;
@@ -462,7 +383,7 @@ public class GameManager : MonoBehaviourPun
         foreach (GameObject player in PlayerManager.GetPlayers())
         {
             PlayerController controller = player.GetComponent<PlayerController>();
-            if (Instance.Multiplayer && !controller.photonView.IsMine) continue;
+            if (MultiplayerManager.Instance.Multiplayer && !controller.photonView.IsMine) continue;
             controller.DieNormal();
         }
 

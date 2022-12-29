@@ -25,7 +25,7 @@ public class BallDragDrop : MonoBehaviourPun
         if (!Input.GetKey(KeybindManager.Instance.entityMoveKey)) return;
 
         Vector2 unitPos = MouseManager.Instance.MouseWorldPosGrid;
-        if (GameManager.Instance.Multiplayer)
+        if (MultiplayerManager.Instance.Multiplayer)
         {
             PhotonView controllerView = controller.GetComponent<PhotonView>();
             controllerView.RPC("MoveObject", RpcTarget.All, unitPos, id);

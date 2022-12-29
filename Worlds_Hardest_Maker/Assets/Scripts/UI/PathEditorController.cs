@@ -38,7 +38,7 @@ public class PathEditorController : MonoBehaviour
         AnchorManager.Instance.selectedPathController.waypoints.Add(prevWaypoint.Clone());
         UpdateUI();
 
-        if (GameManager.Instance.Multiplayer)
+        if (MultiplayerManager.Instance.Multiplayer)
         {
             AnchorManager.Instance.selectedPathController.GetComponent<AnchorController>().View
                 .RPC("RPCAddWaypoint", RpcTarget.Others);

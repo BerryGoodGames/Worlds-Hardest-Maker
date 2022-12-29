@@ -34,7 +34,7 @@ public class TextManager : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.OnPlay += StartTimer;
+        EditModeManager.Instance.OnPlay += StartTimer;
         PlayerManager.Instance.OnWin += FinishTimer;
     }
 
@@ -57,7 +57,7 @@ public class TextManager : MonoBehaviour
         }
 
         // set edit mode text ui
-        Instance.editModeText.text = $"Edit: {GameManager.Instance.CurrentEditMode.GetUIString()}";
+        Instance.editModeText.text = $"Edit: {EditModeManager.Instance.CurrentEditMode.GetUIString()}";
         Instance.selectingText.text = $"Selecting: {SelectionManager.Instance.Selecting}";
         Instance.deathText.text = $"Deaths: {playerDeaths}";
         Instance.coinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.TotalCoins}";

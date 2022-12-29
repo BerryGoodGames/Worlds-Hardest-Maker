@@ -12,7 +12,7 @@ public class EntityDragDrop : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        if (GameManager.Instance.Playing || !Input.GetKey(KeybindManager.Instance.entityMoveKey)) return;
+        if (EditModeManager.Instance.Playing || !Input.GetKey(KeybindManager.Instance.entityMoveKey)) return;
 
         Vector2 newPos = halfGrid ? MouseManager.Instance.MouseWorldPosGrid : MouseManager.Instance.MouseWorldPosMatrix;
         if (newPos != (Vector2)transform.position)

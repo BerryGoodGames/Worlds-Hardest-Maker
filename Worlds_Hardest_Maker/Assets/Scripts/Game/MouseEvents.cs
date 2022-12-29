@@ -13,7 +13,7 @@ public class MouseEvents : MonoBehaviour
     private void Update()
     {
         PhotonView photonView = GameManager.Instance.photonView;
-        bool multiplayer = GameManager.Instance.Multiplayer;
+        bool multiplayer = MultiplayerManager.Instance.Multiplayer;
 
         // get mouse position and scale it to units
         Vector2 mousePos = MouseManager.GetMouseWorldPos();
@@ -24,7 +24,7 @@ public class MouseEvents : MonoBehaviour
         float gridX = Mathf.Round(mousePos.x * 2) * 0.5f;
         float gridY = Mathf.Round(mousePos.y * 2) * 0.5f;
 
-        EditMode editMode = GameManager.Instance.CurrentEditMode;
+        EditMode editMode = EditModeManager.Instance.CurrentEditMode;
 
         // selection
         if (Input.GetMouseButtonDown(KeybindManager.Instance.selectionMouseButton))
@@ -37,7 +37,7 @@ public class MouseEvents : MonoBehaviour
         }
 
         // place / delete stuff
-        if (!GameManager.Instance.UIHovered && !GameManager.Instance.Playing && !SelectionManager.Instance.Selecting &&
+        if (!GameManager.Instance.UIHovered && !EditModeManager.Instance.Playing && !SelectionManager.Instance.Selecting &&
             !CopyManager.pasting)
         {
             // if none of the relevant keys is held, check field placement + entity placement

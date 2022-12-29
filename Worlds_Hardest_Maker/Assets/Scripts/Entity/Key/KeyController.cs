@@ -26,7 +26,7 @@ public class KeyController : Controller
         if (collision.TryGetComponent(out PlayerController controller))
         {
             // check if player is of own client
-            if (GameManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
+            if (MultiplayerManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
 
             // check if that player hasnt collected key yet
             if (!controller.keysCollected.Contains(gameObject))

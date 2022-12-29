@@ -33,15 +33,15 @@ public class BallCircleController : BallController
         Vector2 mousePos = MouseManager.Instance.MouseWorldPos;
         bool mouseOver = BallCircleManager.PointOnCircle(mousePos, origin.position, radius, hoverDeviation);
 
-        origin.gameObject.SetActive(!GameManager.Instance.Playing);
-        line.gameObject.SetActive(!GameManager.Instance.Playing);
+        origin.gameObject.SetActive(!EditModeManager.Instance.Playing);
+        line.gameObject.SetActive(!EditModeManager.Instance.Playing);
 
         UpdateHoverHintVisibility(mousePos, mouseOver);
 
         CheckUserInput(mousePos, mouseOver);
 
         // let ball circle around origin
-        if (!GameManager.Instance.Playing) return;
+        if (!EditModeManager.Instance.Playing) return;
 
         currentAngle -= GetAngularSpeed();
         UpdateAnglePos();
@@ -60,7 +60,7 @@ public class BallCircleController : BallController
     private void UpdateHoverHintVisibility(Vector2 mousePos, bool mouseOver)
     {
         // set visibility of hover hint
-        if (!GameManager.Instance.Playing && mouseOver &&
+        if (!EditModeManager.Instance.Playing && mouseOver &&
             (Input.GetKey(KeybindManager.Instance.ballCircleAngleKey) ||
              Input.GetKey(KeybindManager.Instance.ballCircleRadiusKey)))
         {
@@ -77,7 +77,7 @@ public class BallCircleController : BallController
     private void CheckUserInput(Vector2 mousePos, bool mouseOver)
     {
         // check for start angle or radius change from user
-        if (!GameManager.Instance.Playing && isDragging &&
+        if (!EditModeManager.Instance.Playing && isDragging &&
             (Input.GetKey(KeybindManager.Instance.ballCircleAngleKey) ||
              Input.GetKey(KeybindManager.Instance.ballCircleRadiusKey)))
         {

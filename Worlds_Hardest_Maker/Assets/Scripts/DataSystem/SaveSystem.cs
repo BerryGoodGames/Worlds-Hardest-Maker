@@ -119,7 +119,7 @@ public static class SaveSystem
         BinaryFormatter formatter = new();
         FileStream stream = new(path, FileMode.Open);
 
-        if (GameManager.Instance.Multiplayer)
+        if (MultiplayerManager.Instance.Multiplayer)
         {
             // RPC to every other client with path
             SendLevel(path);

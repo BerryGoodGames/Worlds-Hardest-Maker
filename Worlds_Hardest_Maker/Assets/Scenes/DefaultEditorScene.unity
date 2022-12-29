@@ -4958,7 +4958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graphicSettingsUI: {fileID: 613163606}
-  UISettingsUI: {fileID: 878550790}
+  uiSettingsUI: {fileID: 878550790}
   soundSettingsUI: {fileID: 359020452}
   currentMenuTab: 0
   blockMenu: 0
@@ -12776,8 +12776,8 @@ MonoBehaviour:
   filteredState: {fileID: 4007947744481246619, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
   sounds:
   - name: MainMusic
-    AudioClip: {fileID: 8300000, guid: b218ba2646183ed449e81c925a1fc46a, type: 3}
-    Output: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: b218ba2646183ed449e81c925a1fc46a, type: 3}
+    output: {fileID: 0}
     mute: 0
     playOnAwake: 0
     loop: 1
@@ -12785,8 +12785,8 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Bell
-    AudioClip: {fileID: 8300000, guid: 7d781692799d5404fac05add2f47be98, type: 3}
-    Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    audioClip: {fileID: 8300000, guid: 7d781692799d5404fac05add2f47be98, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
     loop: 0
@@ -12794,8 +12794,8 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Smack
-    AudioClip: {fileID: 8300000, guid: 36df95ebf81daaa4d9f870b972b62051, type: 3}
-    Output: {fileID: 0}
+    audioClip: {fileID: 8300000, guid: 36df95ebf81daaa4d9f870b972b62051, type: 3}
+    output: {fileID: 0}
     mute: 0
     playOnAwake: 0
     loop: 0
@@ -12803,8 +12803,8 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Void
-    AudioClip: {fileID: 8300000, guid: ab007b9500517bb4e9bdaaed230b7e5d, type: 3}
-    Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    audioClip: {fileID: 8300000, guid: ab007b9500517bb4e9bdaaed230b7e5d, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
     loop: 0
@@ -12812,8 +12812,8 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Music
-    AudioClip: {fileID: 8300000, guid: b218ba2646183ed449e81c925a1fc46a, type: 3}
-    Output: {fileID: 1135677753749239577, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    audioClip: {fileID: 8300000, guid: b218ba2646183ed449e81c925a1fc46a, type: 3}
+    output: {fileID: 1135677753749239577, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 1
     loop: 1
@@ -12821,8 +12821,8 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Ding
-    AudioClip: {fileID: 8300000, guid: b61931f4c8db5224a90b9fbeaf52336b, type: 3}
-    Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    audioClip: {fileID: 8300000, guid: b61931f4c8db5224a90b9fbeaf52336b, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
     loop: 0
@@ -12830,8 +12830,8 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Click
-    AudioClip: {fileID: 8300000, guid: 92e5856c229fc7f419ad0510651987cc, type: 3}
-    Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    audioClip: {fileID: 8300000, guid: 92e5856c229fc7f419ad0510651987cc, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
     loop: 0
@@ -12839,8 +12839,8 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Sneeze
-    AudioClip: {fileID: 8300000, guid: f4faf048fd8acc84287a61d1e29a83a2, type: 3}
-    Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    audioClip: {fileID: 8300000, guid: f4faf048fd8acc84287a61d1e29a83a2, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
     loop: 0
@@ -12848,8 +12848,8 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: WaterEnter
-    AudioClip: {fileID: 8300000, guid: 7c4aa47e781affe478d422b5cad4b066, type: 3}
-    Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    audioClip: {fileID: 8300000, guid: 7c4aa47e781affe478d422b5cad4b066, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
     loop: 0
@@ -12857,8 +12857,8 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Drown
-    AudioClip: {fileID: 8300000, guid: 6b6e69eb74199c74498480d9a5e57f62, type: 3}
-    Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    audioClip: {fileID: 8300000, guid: 6b6e69eb74199c74498480d9a5e57f62, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
     loop: 0
@@ -12866,8 +12866,8 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Win
-    AudioClip: {fileID: 8300000, guid: 271ad4118e429f0418f3611dc8746d5f, type: 3}
-    Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    audioClip: {fileID: 8300000, guid: 271ad4118e429f0418f3611dc8746d5f, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
     loop: 0
@@ -12875,8 +12875,8 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Key
-    AudioClip: {fileID: 8300000, guid: 7483290f6dba723419c6c9c92c9a6305, type: 3}
-    Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    audioClip: {fileID: 8300000, guid: 7483290f6dba723419c6c9c92c9a6305, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
     loop: 0
@@ -12884,8 +12884,8 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Coin
-    AudioClip: {fileID: 8300000, guid: ea8f8ea8f3b73d04ba5669c9fe089cd6, type: 3}
-    Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    audioClip: {fileID: 8300000, guid: ea8f8ea8f3b73d04ba5669c9fe089cd6, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
     loop: 0
@@ -12893,8 +12893,8 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
   - name: Checkpoint
-    AudioClip: {fileID: 8300000, guid: 497df22fc4fe05e4d9e8f874e2a3589f, type: 3}
-    Output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    audioClip: {fileID: 8300000, guid: 497df22fc4fe05e4d9e8f874e2a3589f, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
     loop: 0
@@ -12919,7 +12919,7 @@ MonoBehaviour:
   wallOutlines: 1
   drawRays: 0
   gameSpeed: 1
-  DebugText: {fileID: 1281434031}
+  debugText: {fileID: 1281434031}
 --- !u!114 &3252578248619094239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13018,8 +13018,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f2714199ba2e442ad4b4508d6b2e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playing: 0
-  currentEditMode: 1
 --- !u!4 &3252578248619094825
 Transform:
   m_ObjectHideFlags: 0
@@ -13069,6 +13067,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3252578248619094825}
   - component: {fileID: 3252578248619094824}
+  - component: {fileID: 3252578248619094847}
   - component: {fileID: 3252578248619094842}
   - component: {fileID: 3252578248619094838}
   - component: {fileID: 3252578248619094843}
@@ -13210,39 +13209,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c21a44711b7534cae1cebc458efe6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WallField: {fileID: 2931933220259144998, guid: ec000e016e1f52248a0bdf0ad1df22c6, type: 3}
-  StartField: {fileID: 4737524123569152281, guid: b59519c6f50891a409e47ded5b343679, type: 3}
-  GoalField: {fileID: 5843572617449173902, guid: 9f2c485bf01f15143af9e0e1407b0632, type: 3}
-  CheckpointField: {fileID: 1931411524142851042, guid: e0507e0e005a11845b87553093bf4f1d, type: 3}
-  OneWayField: {fileID: 32792430628730468, guid: 860e3e82ebcae34489e55721564ba63c, type: 3}
-  Conveyor: {fileID: 4128830541207341781, guid: a6710523b1360804da7c880ba63b2735, type: 3}
-  Water: {fileID: 6937139618367240684, guid: fd249bcf3ba6a6d4382d3361fc4f84f9, type: 3}
-  Ice: {fileID: 3023231347907058821, guid: 9a32a2a0dd3a7e94faed61a05f0a2940, type: 3}
-  Void: {fileID: 3640838890659820898, guid: 2c047949e0400734fb2ceb5fcb3c83cd, type: 3}
-  GrayKeyDoorField: {fileID: 3315082733933200473, guid: 6996851b8e355ab489aa50b0829d3bc4, type: 3}
-  RedKeyDoorField: {fileID: 1486038846131876725, guid: 5f2ce7f7ed58e47459a74912703d4dfa, type: 3}
-  GreenKeyDoorField: {fileID: 1520595850377835539, guid: 1cfe2e8c75161444f8253d43150c6017, type: 3}
-  BlueKeyDoorField: {fileID: 6303020789245932182, guid: 87b327e9081a0fa41b6ba04562a6734b, type: 3}
-  YellowKeyDoorField: {fileID: 1878144512390914466, guid: ef067f96bc0d40d428b1c62b3c45478b, type: 3}
-  Player: {fileID: 7464887056985239505, guid: 8b35e9f8e793281489f59c83ce103156, type: 3}
-  Anchor: {fileID: 877708834729050389, guid: 13650eadcb2c5e04296aedba1cacfc99, type: 3}
-  Ball: {fileID: 4146727745542019794, guid: 590116fe8feedf1458d12057a8816bf5, type: 3}
-  BallDefault: {fileID: 6262997717534261086, guid: 57fe0087f7d89f24fb1e36813196dccf, type: 3}
-  BallCircle: {fileID: 3267163145317874765, guid: 08310b62d2e89954ca2440e2cfec5f2f, type: 3}
-  Coin: {fileID: 8839871402222588891, guid: 5e13d2eae759f3643b04b6e7dc5cefe2, type: 3}
-  GrayKey: {fileID: 8839871402222588891, guid: f216fe92c2f2b2d47a292fc4bb779cdd, type: 3}
-  RedKey: {fileID: 5865937533351922079, guid: f88dbe36182b75f41a25a8147e62bff1, type: 3}
-  GreenKey: {fileID: 6358839366331224957, guid: ebbfc5e2a760abd489911d3a04e6d453, type: 3}
-  BlueKey: {fileID: 2520203573058434629, guid: 65b07ce9bd0b0df4a840508e7fe1012a, type: 3}
-  YellowKey: {fileID: 7934974448700493311, guid: b82300a84e5b00947b3af5aadb9f2227, type: 3}
-  DropdownOptionPrefab: {fileID: 1907364329714027423, guid: 24b9ec516d577f24c945d6c9c774b1da, type: 3}
-  CheckboxOptionPrefab: {fileID: 1652224904760726094, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
-  SliderOptionPrefab: {fileID: 7103981387723352099, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
-  NumberInputOptionPrefab: {fileID: 3637377166554687212, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
-  HeaderOptionPrefab: {fileID: 2368007494792109334, guid: a6b7a0f0fae743a45b285f8893593211, type: 3}
-  SpaceOptionPrefab: {fileID: 1492080202677860167, guid: feda6681672e0d248813daa25467d30e, type: 3}
-  FillPreview: {fileID: 4652236031313732080, guid: 0f8817e424b9b4547b47abeab323c2e9, type: 3}
-  Tooltip: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
+  wallField: {fileID: 2931933220259144998, guid: ec000e016e1f52248a0bdf0ad1df22c6, type: 3}
+  startField: {fileID: 4737524123569152281, guid: b59519c6f50891a409e47ded5b343679, type: 3}
+  goalField: {fileID: 5843572617449173902, guid: 9f2c485bf01f15143af9e0e1407b0632, type: 3}
+  checkpointField: {fileID: 1931411524142851042, guid: e0507e0e005a11845b87553093bf4f1d, type: 3}
+  oneWayField: {fileID: 32792430628730468, guid: 860e3e82ebcae34489e55721564ba63c, type: 3}
+  conveyor: {fileID: 4128830541207341781, guid: a6710523b1360804da7c880ba63b2735, type: 3}
+  water: {fileID: 6937139618367240684, guid: fd249bcf3ba6a6d4382d3361fc4f84f9, type: 3}
+  ice: {fileID: 3023231347907058821, guid: 9a32a2a0dd3a7e94faed61a05f0a2940, type: 3}
+  void: {fileID: 3640838890659820898, guid: 2c047949e0400734fb2ceb5fcb3c83cd, type: 3}
+  grayKeyDoorField: {fileID: 3315082733933200473, guid: 6996851b8e355ab489aa50b0829d3bc4, type: 3}
+  redKeyDoorField: {fileID: 1486038846131876725, guid: 5f2ce7f7ed58e47459a74912703d4dfa, type: 3}
+  greenKeyDoorField: {fileID: 1520595850377835539, guid: 1cfe2e8c75161444f8253d43150c6017, type: 3}
+  blueKeyDoorField: {fileID: 6303020789245932182, guid: 87b327e9081a0fa41b6ba04562a6734b, type: 3}
+  yellowKeyDoorField: {fileID: 1878144512390914466, guid: ef067f96bc0d40d428b1c62b3c45478b, type: 3}
+  player: {fileID: 7464887056985239505, guid: 8b35e9f8e793281489f59c83ce103156, type: 3}
+  anchor: {fileID: 877708834729050389, guid: 13650eadcb2c5e04296aedba1cacfc99, type: 3}
+  ball: {fileID: 4146727745542019794, guid: 590116fe8feedf1458d12057a8816bf5, type: 3}
+  ballDefault: {fileID: 6262997717534261086, guid: 57fe0087f7d89f24fb1e36813196dccf, type: 3}
+  ballCircle: {fileID: 3267163145317874765, guid: 08310b62d2e89954ca2440e2cfec5f2f, type: 3}
+  coin: {fileID: 8839871402222588891, guid: 5e13d2eae759f3643b04b6e7dc5cefe2, type: 3}
+  grayKey: {fileID: 8839871402222588891, guid: f216fe92c2f2b2d47a292fc4bb779cdd, type: 3}
+  redKey: {fileID: 5865937533351922079, guid: f88dbe36182b75f41a25a8147e62bff1, type: 3}
+  greenKey: {fileID: 6358839366331224957, guid: ebbfc5e2a760abd489911d3a04e6d453, type: 3}
+  blueKey: {fileID: 2520203573058434629, guid: 65b07ce9bd0b0df4a840508e7fe1012a, type: 3}
+  yellowKey: {fileID: 7934974448700493311, guid: b82300a84e5b00947b3af5aadb9f2227, type: 3}
+  dropdownOptionPrefab: {fileID: 1907364329714027423, guid: 24b9ec516d577f24c945d6c9c774b1da, type: 3}
+  checkboxOptionPrefab: {fileID: 1652224904760726094, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+  sliderOptionPrefab: {fileID: 7103981387723352099, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
+  numberInputOptionPrefab: {fileID: 3637377166554687212, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+  headerOptionPrefab: {fileID: 2368007494792109334, guid: a6b7a0f0fae743a45b285f8893593211, type: 3}
+  spaceOptionPrefab: {fileID: 1492080202677860167, guid: feda6681672e0d248813daa25467d30e, type: 3}
+  fillPreview: {fileID: 4652236031313732080, guid: 0f8817e424b9b4547b47abeab323c2e9, type: 3}
+  tooltip: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
 --- !u!114 &3252578248619094839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13328,14 +13327,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1f7017eb24045489c2f2e782c9b4e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectionMouseButton: 1
-  PanMouseButton: 2
-  EntityDeleteKey: 127
-  EntityMoveKey: 304
-  BallCircleRadiusKey: 304
-  BallCircleAngleKey: 306
-  EditSpeedKey: 306
-  PasteKey: 118
+  selectionMouseButton: 1
+  panMouseButton: 2
+  entityDeleteKey: 127
+  entityMoveKey: 304
+  ballCircleRadiusKey: 304
+  ballCircleAngleKey: 306
+  editSpeedKey: 306
+  pasteKey: 118
 --- !u!114 &3252578248619094844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13348,8 +13347,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb436eff1b9298c4b8358435376c658f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
-  NoFriction: {fileID: 6200000, guid: 88face5bfde0aba43a3bbd9678a95eab, type: 2}
+  lineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  noFriction: {fileID: 6200000, guid: 88face5bfde0aba43a3bbd9678a95eab, type: 2}
 --- !u!114 &3252578248619094845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13362,11 +13361,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 823aa81e050b7e54394444bcc17cb7b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EditModeText: {fileID: 208353116}
-  SelectingText: {fileID: 1392039350}
-  DeathText: {fileID: 2013123740}
-  Timer: {fileID: 211911997}
-  CoinText: {fileID: 1602660789}
+  editModeText: {fileID: 208353116}
+  selectingText: {fileID: 1392039350}
+  deathText: {fileID: 2013123740}
+  timer: {fileID: 211911997}
+  coinText: {fileID: 1602660789}
   cheatedTimerColor: {r: 0.8, g: 0, b: 0, a: 1}
   finishedTimerColor: {r: 0, g: 0.7, b: 0, a: 1}
 --- !u!114 &3252578248619094846
@@ -13385,6 +13384,20 @@ MonoBehaviour:
   toolbarContainer: {fileID: 3914619141356778195}
   infobarEdit: {fileID: 1060004923}
   infobarPlay: {fileID: 660451849}
+--- !u!114 &3252578248619094847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3252578248619094831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87c16a2a2683b36419602bb6a0fb25ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentEditMode: 0
+  editing: 0
 --- !u!1 &3469053329403155088
 GameObject:
   m_ObjectHideFlags: 0

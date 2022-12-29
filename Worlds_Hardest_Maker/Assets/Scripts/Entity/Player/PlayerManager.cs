@@ -58,7 +58,7 @@ public class PlayerManager : MonoBehaviour
         GameManager.RemoveObjectInContainer(mx, my, ReferenceManager.Instance.keyContainer);
 
         // clear all players (only from this client tho)
-        if (GameManager.Instance.Multiplayer)
+        if (MultiplayerManager.Instance.Multiplayer)
         {
             foreach (Transform player in ReferenceManager.Instance.playerContainer)
             {
@@ -82,7 +82,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         // place player
-        GameObject newPlayer = InstantiatePlayer(mx, my, speed, GameManager.Instance.Multiplayer);
+        GameObject newPlayer = InstantiatePlayer(mx, my, speed, MultiplayerManager.Instance.Multiplayer);
 
         int newID = AvailableID();
         newPlayer.GetComponent<PlayerController>().id = newID;
@@ -137,7 +137,7 @@ public class PlayerManager : MonoBehaviour
         // remove player only if at pos
         foreach (Transform player in ReferenceManager.Instance.playerContainer)
         {
-            if (GameManager.Instance.Multiplayer && player.GetComponent<PhotonView>().IsMine) continue;
+            if (MultiplayerManager.Instance.Multiplayer && player.GetComponent<PhotonView>().IsMine) continue;
             if (player.position.x == mx && player.position.y == my)
             {
                 player.GetComponent<PlayerController>().DestroyPlayer();
@@ -151,7 +151,7 @@ public class PlayerManager : MonoBehaviour
         // remove player only if at pos
         foreach (Transform player in ReferenceManager.Instance.playerContainer)
         {
-            if (GameManager.Instance.Multiplayer && !player.GetComponent<PhotonView>().IsMine) continue;
+            if (MultiplayerManager.Instance.Multiplayer && !player.GetComponent<PhotonView>().IsMine) continue;
             if (player.position.x == mx && player.position.y == my)
             {
                 player.GetComponent<PlayerController>().DestroyPlayer();
@@ -200,7 +200,7 @@ public class PlayerManager : MonoBehaviour
 
     public static GameObject GetClientPlayer()
     {
-        if (!GameManager.Instance.Multiplayer)
+        if (!MultiplayerManager.Instance.Multiplayer)
             throw new Exception("Trying to acces player of client while singleplayer");
 
         List<GameObject> players = GetPlayers();
@@ -230,7 +230,7 @@ public class PlayerManager : MonoBehaviour
         List<GameObject> players = GetPlayers();
         foreach (GameObject player in players)
         {
-            if (GameManager.Instance.Multiplayer && !player.GetComponent<PhotonView>().IsMine) continue;
+            if (MultiplayerManager.Instance.Multiplayer && !player.GetComponent<PhotonView>().IsMine) continue;
             if (player.transform.position.x == mx && player.transform.position.y == my) return player;
         }
 
@@ -239,7 +239,7 @@ public class PlayerManager : MonoBehaviour
 
     public static GameObject GetPlayer()
     {
-        if (GameManager.Instance.Multiplayer) return GetClientPlayer();
+        if (MultiplayerManager.Instance.Multiplayer) return GetClientPlayer();
 
         // getting the one player in single player
         Transform container = ReferenceManager.Instance.playerContainer;

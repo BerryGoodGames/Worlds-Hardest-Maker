@@ -18,6 +18,6 @@ public class HoveringOnOptionbar : MonoBehaviour
 
     private void Update()
     {
-        anim.SetVisible(mo.over && !GameManager.Instance.Playing && !ReferenceManager.Instance.menu.activeSelf);
+        anim.SetVisible(mo.over && !EditModeManager.Instance.Playing && !ReferenceManager.Instance.menu.activeSelf);
     }
 }

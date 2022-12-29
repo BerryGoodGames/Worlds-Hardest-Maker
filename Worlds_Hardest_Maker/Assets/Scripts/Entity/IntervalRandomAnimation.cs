@@ -27,7 +27,7 @@ public class IntervalRandomAnimation : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (triggerOnlyAtPlayMode && !GameManager.Instance.Playing) return;
+        if (triggerOnlyAtPlayMode && !EditModeManager.Instance.Playing) return;
 
         if (lastTrigger >= intervalSeconds / Time.fixedDeltaTime * limitDeviation)
         {

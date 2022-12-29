@@ -31,7 +31,7 @@ public abstract class BallController : Controller
 
             speed = newSpeed;
 
-            if (GameManager.Instance.Multiplayer) photonView.RPC("SetSpeed", RpcTarget.Others, newSpeed);
+            if (MultiplayerManager.Instance.Multiplayer) photonView.RPC("SetSpeed", RpcTarget.Others, newSpeed);
         });
     }
 

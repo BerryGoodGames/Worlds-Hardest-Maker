@@ -24,7 +24,7 @@ public class KeyEvents : MonoBehaviour
         }
 
         // teleport player to mouse pos
-        if (GameManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))
+        if (EditModeManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))
         {
             GameObject player = PlayerManager.GetPlayer();
             // TODO
@@ -36,7 +36,7 @@ public class KeyEvents : MonoBehaviour
         }
 
         // rotate rotatable fields
-        if (FieldManager.IsRotatable(GameManager.Instance.CurrentEditMode) && Input.GetKeyDown(KeyCode.R))
+        if (FieldManager.IsRotatable(EditModeManager.Instance.CurrentEditMode) && Input.GetKeyDown(KeyCode.R))
         {
             GameManager.Instance.EditRotation = (GameManager.Instance.EditRotation - 90) % 360;
 
@@ -50,7 +50,7 @@ public class KeyEvents : MonoBehaviour
 #endif
 
         // keyboard shortcuts with ctrl
-        if (Input.GetKey(ctrl) && !GameManager.Instance.Playing)
+        if (Input.GetKey(ctrl) && !EditModeManager.Instance.Playing)
         {
             if (Input.GetKeyDown(KeyCode.S)) SaveSystem.SaveCurrentLevel();
 #if !UNTIY_WEBGL
@@ -64,7 +64,7 @@ public class KeyEvents : MonoBehaviour
         }
 
         // check edit mode toggling if no ctrl and not playing
-        if (!Input.GetKey(ctrl) && !GameManager.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
+        if (!Input.GetKey(ctrl) && !EditModeManager.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
     }
 
     /// <returns>list of keyboard shortcuts for edit modes</returns>
@@ -113,7 +113,7 @@ public class KeyEvents : MonoBehaviour
 
             if (combinationPressed)
             {
-                GameManager.Instance.CurrentEditMode = shortcut.Value;
+                EditModeManager.Instance.CurrentEditMode = shortcut.Value;
             }
         }
     }

@@ -13,7 +13,7 @@ public class AnchorBallManager : MonoBehaviour
     {
         if (AnchorManager.Instance.SelectedAnchor == null) return;
 
-        if (GameManager.Instance.Multiplayer)
+        if (MultiplayerManager.Instance.Multiplayer)
         {
             PhotonView view = PhotonView.Get(AnchorManager.Instance.SelectedAnchor);
             view.RPC("RPCSetBall", RpcTarget.All, pos);

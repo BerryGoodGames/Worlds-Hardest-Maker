@@ -77,7 +77,7 @@ public class PathController : MonoBehaviour
     {
         while (true)
         {
-            if ((!GameManager.Instance.Playing && onlyMoveWhenPlaying) || stop || waypoints == null)
+            if ((!EditModeManager.Instance.Playing && onlyMoveWhenPlaying) || stop || waypoints == null)
             {
                 yield return null;
                 continue;

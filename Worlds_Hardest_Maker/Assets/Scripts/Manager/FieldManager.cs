@@ -175,7 +175,7 @@ public class FieldManager : MonoBehaviour
     private static GameObject InstantiateField(Vector2 pos, FieldType type, int rotation)
     {
         GameObject prefab = type.GetPrefab();
-        GameObject res = GameManager.Instance.Multiplayer
+        GameObject res = MultiplayerManager.Instance.Multiplayer
             ? PhotonNetwork.Instantiate(prefab.name, pos, Quaternion.Euler(0, 0, rotation))
             : Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), ReferenceManager.Instance.fieldContainer);
 

@@ -17,7 +17,7 @@ public class BallManager : MonoBehaviour
         Vector2 bouncePos = new(mx + bounceMx, my + bounceMy);
 
         // instantiate prefab
-        InstantiateBall(pos, bouncePos, speed, GameManager.Instance.Multiplayer);
+        InstantiateBall(pos, bouncePos, speed, MultiplayerManager.Instance.Multiplayer);
     }
 
     [PunRPC]

@@ -32,7 +32,7 @@ public class CoinManager : MonoBehaviour
             ReferenceManager.Instance.coinContainer);
 
         Animator anim = coin.GetComponent<Animator>();
-        anim.SetBool(playing, GameManager.Instance.Playing);
+        anim.SetBool(playing, EditModeManager.Instance.Playing);
     }
 
     public void SetCoin(Vector2 pos)
@@ -91,7 +91,7 @@ public class CoinManager : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.OnPlay += () =>
+        EditModeManager.Instance.OnPlay += () =>
             Instance.TotalCoins = ReferenceManager.Instance.coinContainer.transform.childCount;
     }
 }

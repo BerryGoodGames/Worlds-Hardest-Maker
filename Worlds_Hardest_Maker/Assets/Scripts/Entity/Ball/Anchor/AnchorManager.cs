@@ -41,7 +41,7 @@ public class AnchorManager : MonoBehaviour
     {
         if (GetAnchor(pos) != null) return null;
 
-        GameObject anchor = GameManager.Instance.Multiplayer
+        GameObject anchor = MultiplayerManager.Instance.Multiplayer
             ? PhotonNetwork.Instantiate("Anchor", pos, Quaternion.identity)
             : Instantiate(PrefabManager.Instance.anchor, pos, Quaternion.identity,
                 ReferenceManager.Instance.anchorContainer);
@@ -105,8 +105,8 @@ public class AnchorManager : MonoBehaviour
         if (anchor == null) return;
 
         Instance.SelectedAnchor = anchor;
-        if (GameManager.Instance.CurrentEditMode != EditMode.BALL)
-            GameManager.Instance.CurrentEditMode = EditMode.ANCHOR;
+        if (EditModeManager.Instance.CurrentEditMode != EditMode.BALL)
+            EditModeManager.Instance.CurrentEditMode = EditMode.ANCHOR;
 
         Animator anim = anchor.GetComponent<Animator>();
         anim.SetBool(selected, true);

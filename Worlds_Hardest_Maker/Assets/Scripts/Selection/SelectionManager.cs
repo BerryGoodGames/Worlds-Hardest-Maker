@@ -50,15 +50,15 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButton(KeybindManager.Instance.selectionMouseButton) && !GameManager.Instance.Playing)
+        if (Input.GetMouseButton(KeybindManager.Instance.selectionMouseButton) && !EditModeManager.Instance.Playing)
             Selecting = true;
 
         // update selection markings
-        if (!GameManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null &&
+        if (!EditModeManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null &&
             MouseManager.Instance.MouseDragCurrent != null && Selecting)
         {
             // get drag positions and world position mode
-            FollowMouse.WorldPosition worldPosition = GameManager.Instance.CurrentEditMode.GetWorldPosition();
+            FollowMouse.WorldPosition worldPosition = EditModeManager.Instance.CurrentEditMode.GetWorldPosition();
 
             (Vector2 start, Vector2 end) = MouseManager.GetDragPositions(worldPosition);
 
@@ -79,17 +79,17 @@ public class SelectionManager : MonoBehaviour
     {
         if (MouseManager.Instance.MouseDragStart == null || MouseManager.Instance.MouseDragCurrent == null) return;
 
-        prevStart = ((Vector2)MouseManager.Instance.MouseDragStart).ConvertPosition(GameManager.Instance.CurrentEditMode
+        prevStart = ((Vector2)MouseManager.Instance.MouseDragStart).ConvertPosition(EditModeManager.Instance.CurrentEditMode
             .GetWorldPosition());
-        prevEnd = ((Vector2)MouseManager.Instance.MouseDragCurrent).ConvertPosition(GameManager.Instance.CurrentEditMode
+        prevEnd = ((Vector2)MouseManager.Instance.MouseDragCurrent).ConvertPosition(EditModeManager.Instance.CurrentEditMode
             .GetWorldPosition());
     }
 
     private void Start()
     {
         selectionOptionsRect = selectionOptions.GetComponent<RectTransform>();
-        GameManager.Instance.OnPlay += CancelSelection;
-        GameManager.Instance.OnEditModeChange += RemakePreview;
+        EditModeManager.Instance.OnPlay += CancelSelection;
+        EditModeManager.Instance.OnEditModeChange += RemakePreview;
 
         fillMouseOver.onHovered += SetPreviewVisible;
         fillMouseOver.onUnhovered += SetPreviewInvisible;
@@ -185,7 +185,7 @@ public class SelectionManager : MonoBehaviour
     private static void InitPreview(List<Vector2> range)
     {
         // set new previews, only if edit mode not in NoFillPreviewModes
-        if (noFillPreviewModes.Contains(GameManager.Instance.CurrentEditMode)) return;
+        if (noFillPreviewModes.Contains(EditModeManager.Instance.CurrentEditMode)) return;
 
         foreach (Vector2 pos in range)
         {
@@ -274,14 +274,14 @@ public class SelectionManager : MonoBehaviour
     {
         if (selectionStart == null || selectionEnd == null) return null;
         return GetFillRange((Vector2)selectionStart, (Vector2)selectionEnd,
-            GameManager.Instance.CurrentEditMode.GetWorldPosition());
+            EditModeManager.Instance.CurrentEditMode.GetWorldPosition());
     }
 
     public void FillSelectedArea()
     {
         if (!Selecting) return;
 
-        FillArea(CurrentSelectionRange, GameManager.Instance.CurrentEditMode);
+        FillArea(CurrentSelectionRange, EditModeManager.Instance.CurrentEditMode);
         ResetPreview();
         Selecting = false;
         selectionOptions.SetActive(false);
@@ -293,7 +293,7 @@ public class SelectionManager : MonoBehaviour
         CurrentSelectionRange = null;
 
         // set rotation
-        int rotation = FieldManager.IsRotatable(GameManager.Instance.CurrentEditMode)
+        int rotation = FieldManager.IsRotatable(EditModeManager.Instance.CurrentEditMode)
             ? GameManager.Instance.EditRotation
             : 0;
 
@@ -645,7 +645,7 @@ public class SelectionManager : MonoBehaviour
         DestroyPreview();
 
         // enable placement preview
-        if (!GameManager.Instance.Playing)
+        if (!EditModeManager.Instance.Playing)
         {
             GameObject preview = ReferenceManager.Instance.placementPreview;
             preview.SetActive(true);

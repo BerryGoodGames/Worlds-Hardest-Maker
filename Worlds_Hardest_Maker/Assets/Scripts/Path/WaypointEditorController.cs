@@ -113,7 +113,7 @@ public class WaypointEditorController : MonoBehaviour
     {
         SetPosition(InputPosition);
 
-        if (!GameManager.Instance.Multiplayer) return;
+        if (!MultiplayerManager.Instance.Multiplayer) return;
 
         if (anchorController != null)
             anchorController.View.RPC("RPCSetWaypointPosition", RpcTarget.Others, InputPosition, waypointIndex);
@@ -130,7 +130,7 @@ public class WaypointEditorController : MonoBehaviour
     {
         SetSpeed(InputSpeed);
 
-        if (!GameManager.Instance.Multiplayer) return;
+        if (!MultiplayerManager.Instance.Multiplayer) return;
 
         if (anchorController != null)
             anchorController.View.RPC("RPCSetWaypointSpeed", RpcTarget.Others, InputSpeed, waypointIndex);
@@ -145,7 +145,7 @@ public class WaypointEditorController : MonoBehaviour
     {
         SetRotationSpeed(InputRotationSpeed);
 
-        if (!GameManager.Instance.Multiplayer) return;
+        if (!MultiplayerManager.Instance.Multiplayer) return;
 
         if (anchorController != null)
             anchorController.View.RPC("RPCSetWaypointRotationSpeed", RpcTarget.Others, InputRotationSpeed,
@@ -165,7 +165,7 @@ public class WaypointEditorController : MonoBehaviour
 
         //SetTurns(InputTurns);
 
-        //if (GameManager.Instance.Multiplayer)
+        //if (MultiplayerManager.Instance.Multiplayer)
         //{
         //    if (anchorController != null)
         //        anchorController.View.RPC("RPCSetWaypointRotationSpeed", RpcTarget.Others, InputRotationSpeed, waypointIndex);
@@ -183,7 +183,7 @@ public class WaypointEditorController : MonoBehaviour
     {
         SetDelay(InputDelay);
 
-        if (!GameManager.Instance.Multiplayer) return;
+        if (!MultiplayerManager.Instance.Multiplayer) return;
 
         if (anchorController != null)
             anchorController.View.RPC("RPCSetWaypointDelay", RpcTarget.Others, InputDelay, waypointIndex);
@@ -198,7 +198,7 @@ public class WaypointEditorController : MonoBehaviour
     {
         SetRotateWhileDelay(InputRotateWhileDelay);
 
-        if (!GameManager.Instance.Multiplayer) return;
+        if (!MultiplayerManager.Instance.Multiplayer) return;
 
         if (anchorController != null)
             anchorController.View.RPC("RPCSetWaypointRotateWhileDelay", RpcTarget.Others, InputRotateWhileDelay,
@@ -212,7 +212,7 @@ public class WaypointEditorController : MonoBehaviour
 
     public void DeleteThisWaypoint()
     {
-        if (GameManager.Instance.Multiplayer)
+        if (MultiplayerManager.Instance.Multiplayer)
         {
             if (anchorController != null)
                 anchorController.View.RPC("RPCDeleteWaypoint", RpcTarget.Others, waypointIndex);

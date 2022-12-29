@@ -30,7 +30,7 @@ public class Tool : MonoBehaviour
     {
         ToolbarManager.DeselectAll();
         Selected(true);
-        if (setEditModeVariable) GameManager.Instance.CurrentEditMode = toolName;
+        if (setEditModeVariable) EditModeManager.Instance.CurrentEditMode = toolName;
     }
 
     public void SwitchGameMode()

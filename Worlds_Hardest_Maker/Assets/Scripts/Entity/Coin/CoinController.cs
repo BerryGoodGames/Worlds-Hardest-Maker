@@ -25,7 +25,7 @@ public class CoinController : Controller
         if (!collision.TryGetComponent(out PlayerController controller)) return;
 
         // check if player is of own client
-        if (GameManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
+        if (MultiplayerManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
 
         // check if that player hasn't picked coin up yet
         if (controller.coinsCollected.Contains(gameObject)) return;

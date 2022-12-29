@@ -25,10 +25,10 @@ public class BallDefaultController : BallController
 
     private void Update()
     {
-        bounce.gameObject.SetActive(!GameManager.Instance.Playing);
-        line.gameObject.SetActive(!GameManager.Instance.Playing);
+        bounce.gameObject.SetActive(!EditModeManager.Instance.Playing);
+        line.gameObject.SetActive(!EditModeManager.Instance.Playing);
 
-        if (GameManager.Instance.Playing)
+        if (EditModeManager.Instance.Playing)
         {
             Move();
         }
