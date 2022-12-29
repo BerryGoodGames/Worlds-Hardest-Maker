@@ -39,7 +39,7 @@ public class KeyController : Controller
     private void SetOrderInLayer()
     {
         int highestOrder = 0;
-        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
+        foreach (Transform key in ReferenceManager.Instance.keyContainer)
         {
             int order = key.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder;
             if (order > highestOrder) highestOrder = order;
@@ -84,7 +84,7 @@ public class KeyController : Controller
         }
     }
 
-    public override IData GetData()
+    public override Data GetData()
     {
         return new KeyData(this);
     }

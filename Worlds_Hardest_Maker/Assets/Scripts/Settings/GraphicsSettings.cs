@@ -69,7 +69,7 @@ public class GraphicsSettings : MonoBehaviour
     public void SetOneColorStartGoal(bool oneColor, bool setPrefs)
     {
         // REF
-        foreach (Transform field in ReferenceManager.Instance.FieldContainer)
+        foreach (Transform field in ReferenceManager.Instance.fieldContainer)
         {
             List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
             if (oneColor)

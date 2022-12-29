@@ -22,7 +22,7 @@ public class AnchorController : Controller
 
         parent.position = Vector2.zero;
 
-        parent.SetParent(ReferenceManager.Instance.AnchorContainer);
+        parent.SetParent(ReferenceManager.Instance.anchorContainer);
 
         pathController = GetComponent<PathController>();
 
@@ -102,7 +102,7 @@ public class AnchorController : Controller
     {
         pathController.waypoints.Add(new(new(0, 0), true, 0, 1, 0));
         if (pathController.waypoints.Count > 0 && pathController.waypoints[0].WaypointEditor != null)
-            ReferenceManager.Instance.BallWindows.GetComponentInChildren<PathEditorController>().UpdateUI();
+            ReferenceManager.Instance.ballWindows.GetComponentInChildren<PathEditorController>().UpdateUI();
     }
 
     public void BallFadeOut(AnimationEvent animationEvent)
@@ -130,7 +130,7 @@ public class AnchorController : Controller
         BallFadeIn(endOpacity, time);
     }
 
-    public override IData GetData()
+    public override Data GetData()
     {
         return new AnchorData(pathController, container.transform);
     }

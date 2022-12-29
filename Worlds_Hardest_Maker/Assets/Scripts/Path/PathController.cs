@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// </summary>
@@ -18,7 +19,7 @@ public class PathController : MonoBehaviour
         new Waypoint(Vector2.zero, true, 0, 1, 0)
     };
 
-    [SerializeField] private Transform LineContainer;
+    [FormerlySerializedAs("LineContainer")] [SerializeField] private Transform lineContainer;
 
     [Space] [Header("Settings")] public bool setElement0ToStartingPos = true;
     public bool drawLines = true;
@@ -184,20 +185,20 @@ public class PathController : MonoBehaviour
             Waypoint currentWaypoint = waypoints[i];
             LineManager.SetFill(Color.black);
             LineManager.SetWeight(0.1f);
-            LineManager.SetLayerID(LineManager.DefaultLayerID);
+            LineManager.SetLayerID(LineManager.defaultLayerID);
             LineManager.SetOrderInLayer(0);
-            LineManager.DrawLine(prevWaypoint.position, currentWaypoint.position, LineContainer);
+            LineManager.DrawLine(prevWaypoint.position, currentWaypoint.position, lineContainer);
         }
 
         if (pathMode == PathMode.LOOP && waypoints.Count > 1)
         {
-            LineManager.DrawLine(waypoints[^1].position, waypoints[0].position, LineContainer);
+            LineManager.DrawLine(waypoints[^1].position, waypoints[0].position, lineContainer);
         }
     }
 
     public void ClearLines()
     {
-        foreach (Transform line in LineContainer)
+        foreach (Transform line in lineContainer)
         {
             Destroy(line.gameObject);
         }

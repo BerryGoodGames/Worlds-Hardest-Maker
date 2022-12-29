@@ -3,7 +3,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class BallCircleController : IBallController
+public class BallCircleController : BallController
 {
     [SerializeField] private float hoverDeviation;
     [SerializeField] private int startAnglePositionCount;
@@ -20,9 +20,9 @@ public class BallCircleController : IBallController
     {
         base.Awake();
 
-        if (transform.parent.parent != ReferenceManager.Instance.BallCircleContainer)
+        if (transform.parent.parent != ReferenceManager.Instance.ballCircleContainer)
         {
-            transform.parent.SetParent(ReferenceManager.Instance.BallCircleContainer);
+            transform.parent.SetParent(ReferenceManager.Instance.ballCircleContainer);
         }
 
         InitCircleObject();
@@ -61,8 +61,8 @@ public class BallCircleController : IBallController
     {
         // set visibility of hover hint
         if (!GameManager.Instance.Playing && mouseOver &&
-            (Input.GetKey(KeybindManager.Instance.BallCircleAngleKey) ||
-             Input.GetKey(KeybindManager.Instance.BallCircleRadiusKey)))
+            (Input.GetKey(KeybindManager.Instance.ballCircleAngleKey) ||
+             Input.GetKey(KeybindManager.Instance.ballCircleRadiusKey)))
         {
             // update pos of hover hint
             hoverHint.gameObject.SetActive(true);
@@ -78,17 +78,17 @@ public class BallCircleController : IBallController
     {
         // check for start angle or radius change from user
         if (!GameManager.Instance.Playing && isDragging &&
-            (Input.GetKey(KeybindManager.Instance.BallCircleAngleKey) ||
-             Input.GetKey(KeybindManager.Instance.BallCircleRadiusKey)))
+            (Input.GetKey(KeybindManager.Instance.ballCircleAngleKey) ||
+             Input.GetKey(KeybindManager.Instance.ballCircleRadiusKey)))
         {
             // check start angle
-            if (Input.GetMouseButton(0) && Input.GetKey(KeybindManager.Instance.BallCircleAngleKey) &&
+            if (Input.GetMouseButton(0) && Input.GetKey(KeybindManager.Instance.ballCircleAngleKey) &&
                 !EventSystem.current.IsPointerOverGameObject())
             {
                 SetStartAngle(GetAngleToOrigin(mousePos));
             }
 
-            if (Input.GetMouseButton(0) && Input.GetKey(KeybindManager.Instance.BallCircleRadiusKey) &&
+            if (Input.GetMouseButton(0) && Input.GetKey(KeybindManager.Instance.ballCircleRadiusKey) &&
                 !EventSystem.current.IsPointerOverGameObject())
             {
                 float mouseDist = GameManager.RoundToNearestStep(Vector2.Distance(origin.position, mousePos), 0.5f);
@@ -199,7 +199,7 @@ public class BallCircleController : IBallController
         LineManager.SetFill(0, 0, 0);
         LineManager.SetWeight(0.11f);
         LineManager.SetOrderInLayer(-2);
-        LineManager.SetLayerID(LineManager.BallLayerID);
+        LineManager.SetLayerID(LineManager.ballLayerID);
         GameObject circleObj = LineManager.DrawCircle(origin.position, radius, transform.parent);
 
         line = circleObj.transform;
@@ -211,7 +211,7 @@ public class BallCircleController : IBallController
         MoveOrigin(unitPos.x, unitPos.y);
     }
 
-    public override IData GetData()
+    public override Data GetData()
     {
         return new BallCircleData(this);
     }

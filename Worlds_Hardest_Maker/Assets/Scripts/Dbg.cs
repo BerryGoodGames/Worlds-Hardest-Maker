@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
@@ -27,7 +28,7 @@ public class Dbg : MonoBehaviour
     [Space] public bool wallOutlines = true;
     public bool drawRays;
     [Space] public float gameSpeed = 1;
-    [Space] [Header("References")] public GameObject DebugText;
+    [FormerlySerializedAs("DebugText")] [Space] [Header("References")] public GameObject debugText;
 
     private Camera cam;
     private Text dbgText;
@@ -39,7 +40,7 @@ public class Dbg : MonoBehaviour
 
         cam = Camera.main;
 
-        dbgText = Instance.DebugText.GetComponent<Text>();
+        dbgText = Instance.debugText.GetComponent<Text>();
     }
 
     private void Update()

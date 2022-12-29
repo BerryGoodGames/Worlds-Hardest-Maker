@@ -20,7 +20,7 @@ public class AnchorBallManager : MonoBehaviour
         }
         else
         {
-            GameObject ball = Instantiate(PrefabManager.Instance.Ball, Vector2.zero, Quaternion.identity,
+            GameObject ball = Instantiate(PrefabManager.Instance.ball, Vector2.zero, Quaternion.identity,
                 AnchorManager.Instance.SelectedAnchor.GetComponent<AnchorController>().container.transform);
             ball.transform.GetChild(0).position = pos;
         }
@@ -28,7 +28,7 @@ public class AnchorBallManager : MonoBehaviour
 
     public static void SetAnchorBall(Vector2 pos, Transform container)
     {
-        GameObject ball = Instantiate(PrefabManager.Instance.Ball, Vector2.zero, Quaternion.identity, container);
+        GameObject ball = Instantiate(PrefabManager.Instance.ball, Vector2.zero, Quaternion.identity, container);
         ball.transform.GetChild(0).position = pos;
     }
 

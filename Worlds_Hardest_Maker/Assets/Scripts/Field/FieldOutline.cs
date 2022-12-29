@@ -7,7 +7,7 @@ using UnityEngine;
 public class FieldOutline : MonoBehaviour
 {
     // array not dynamic
-    public static readonly FieldType[] TypesWithOutlines =
+    public static readonly FieldType[] typesWithOutlines =
     {
         FieldType.WALL_FIELD,
         FieldType.GRAY_KEY_DOOR_FIELD,
@@ -137,7 +137,7 @@ public class FieldOutline : MonoBehaviour
 
         LineManager.SetWeight(weight);
         LineManager.SetFill(color);
-        LineManager.SetLayerID(LineManager.OutlineLayerID);
+        LineManager.SetLayerID(LineManager.outlineLayerID);
         LineManager.SetOrderInLayer(order);
         if (dir.Equals(Vector2.up) || dir.Equals(Vector2.down))
         {

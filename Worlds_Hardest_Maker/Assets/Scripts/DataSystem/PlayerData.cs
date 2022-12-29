@@ -5,7 +5,7 @@ using UnityEngine;
 ///     Player attributes: speed, start pos
 /// </summary>
 [Serializable]
-public class PlayerData : IData
+public class PlayerData : Data
 {
     public int id;
     public float speed;

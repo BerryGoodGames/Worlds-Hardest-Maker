@@ -8,7 +8,7 @@ public class ConveyorController : MonoBehaviour
 
     [SerializeField] private float strength;
 
-    private static readonly int Running = Animator.StringToHash("Running");
+    private static readonly int running = Animator.StringToHash("Running");
 
     public float Strength
     {
@@ -38,14 +38,14 @@ public class ConveyorController : MonoBehaviour
             GetComponent<Animator>();
 
         anim.speed = Strength;
-        anim.SetBool(Running, true);
+        anim.SetBool(running, true);
     }
 
     private void SwitchAnimToStaying()
     {
         if (anim == null)
             GetComponent<Animator>();
-        anim.SetBool(Running, false);
+        anim.SetBool(running, false);
     }
 
     private void OnDestroy()

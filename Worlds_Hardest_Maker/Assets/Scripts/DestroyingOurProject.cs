@@ -6,6 +6,7 @@ using UnityEngine;
 /// </summary>
 public class DestroyingOurProject : MonoBehaviour
 {
+    // ReSharper disable once InconsistentNaming
     public int INTENSITY;
 
     private void Start()

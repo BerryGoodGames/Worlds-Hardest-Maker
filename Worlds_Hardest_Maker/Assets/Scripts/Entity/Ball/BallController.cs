@@ -5,7 +5,7 @@ using UnityEngine.UI;
 /// <summary>
 ///     parent class of every ball controller
 /// </summary>
-public abstract class IBallController : Controller
+public abstract class BallController : Controller
 {
     [HideInInspector] public float speed;
     [HideInInspector] public AppendSlider sliderController;

@@ -27,12 +27,12 @@ public class Tooltip : MonoBehaviour
     {
         mouseOver = GetComponent<MouseOverUI>();
 
-        tooltip = Instantiate(PrefabManager.Instance.Tooltip, Vector2.zero, Quaternion.identity,
-            ReferenceManager.Instance.TooltipCanvas.transform);
+        tooltip = Instantiate(PrefabManager.Instance.tooltip, Vector2.zero, Quaternion.identity,
+            ReferenceManager.Instance.tooltipCanvas.transform);
         fadeTween = tooltip.GetComponent<AlphaUITween>();
 
         tooltipRectTransform = tooltip.GetComponent<RectTransform>();
-        tooltipText = tooltip.GetComponent<TooltipController>().Text;
+        tooltipText = tooltip.GetComponent<TooltipController>().text;
         tooltipText.text = text;
         tooltipText.fontSize = fontSize;
         fadeTween.SetVisible(false);

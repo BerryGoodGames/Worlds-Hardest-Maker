@@ -12,10 +12,10 @@ public class RoomItem : MonoBehaviour
     public TMP_Text roomNameTxt;
     public TMP_Text playerCountTxt;
 
-    public void SetRoomName(string _roomName)
+    public void SetRoomName(string roomName)
     {
         if (roomNameTxt != null)
-            roomNameTxt.text = _roomName;
+            roomNameTxt.text = roomName;
     }
 
     public void SetPlayerCount(int playerCount)

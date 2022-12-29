@@ -5,7 +5,7 @@ using UnityEngine;
 ///     Key attributes: position, color
 /// </summary>
 [Serializable]
-public class KeyData : IData
+public class KeyData : Data
 {
     public float[] position;
     public KeyManager.KeyColor color;

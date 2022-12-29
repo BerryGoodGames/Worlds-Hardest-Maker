@@ -1,31 +1,32 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ReferenceManager : MonoBehaviour
 {
     public static ReferenceManager Instance { get; private set; }
 
-    [Header("Objects")] public GameObject Manager;
-    public GameObject Canvas;
-    public GameObject TooltipCanvas;
-    public GameObject Menu;
-    public GameObject PlayButton;
-    public GameObject PlacementPreview;
-    public GameObject LevelSettingsPanel;
-    public GameObject BallWindows;
-    public PlayerSpawner PlayerSpawner;
-    [Space] [Header("Containers")] public Transform ToolbarContainer;
-    public Transform SliderContainer;
-    public Transform NameTagContainer;
-    public Transform DrawContainer;
-    public Transform SelectionOutlineContainer;
-    public Transform FillPreviewContainer;
-    public Transform PlayerContainer;
-    public Transform AnchorContainer;
-    public Transform BallDefaultContainer;
-    public Transform BallCircleContainer;
-    public Transform CoinContainer;
-    public Transform KeyContainer;
-    public Transform FieldContainer;
+    [FormerlySerializedAs("Manager")] [Header("Objects")] public GameObject manager;
+    [FormerlySerializedAs("Canvas")] public GameObject canvas;
+    [FormerlySerializedAs("TooltipCanvas")] public GameObject tooltipCanvas;
+    [FormerlySerializedAs("Menu")] public GameObject menu;
+    [FormerlySerializedAs("PlayButton")] public GameObject playButton;
+    [FormerlySerializedAs("PlacementPreview")] public GameObject placementPreview;
+    [FormerlySerializedAs("LevelSettingsPanel")] public GameObject levelSettingsPanel;
+    [FormerlySerializedAs("BallWindows")] public GameObject ballWindows;
+    [FormerlySerializedAs("PlayerSpawner")] public PlayerSpawner playerSpawner;
+    [FormerlySerializedAs("ToolbarContainer")] [Space] [Header("Containers")] public Transform toolbarContainer;
+    [FormerlySerializedAs("SliderContainer")] public Transform sliderContainer;
+    [FormerlySerializedAs("NameTagContainer")] public Transform nameTagContainer;
+    [FormerlySerializedAs("DrawContainer")] public Transform drawContainer;
+    [FormerlySerializedAs("SelectionOutlineContainer")] public Transform selectionOutlineContainer;
+    [FormerlySerializedAs("FillPreviewContainer")] public Transform fillPreviewContainer;
+    [FormerlySerializedAs("PlayerContainer")] public Transform playerContainer;
+    [FormerlySerializedAs("AnchorContainer")] public Transform anchorContainer;
+    [FormerlySerializedAs("BallDefaultContainer")] public Transform ballDefaultContainer;
+    [FormerlySerializedAs("BallCircleContainer")] public Transform ballCircleContainer;
+    [FormerlySerializedAs("CoinContainer")] public Transform coinContainer;
+    [FormerlySerializedAs("KeyContainer")] public Transform keyContainer;
+    [FormerlySerializedAs("FieldContainer")] public Transform fieldContainer;
 
     private void Awake()
     {

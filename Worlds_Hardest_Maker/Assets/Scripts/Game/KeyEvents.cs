@@ -57,7 +57,7 @@ public class KeyEvents : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.O)) GameManager.Instance.LoadLevel();
 #endif
             // paste
-            if (Input.GetKey(KeybindManager.Instance.PasteKey))
+            if (Input.GetKey(KeybindManager.Instance.pasteKey))
             {
                 StartCoroutine(CopyManager.StartPaste());
             }
@@ -120,6 +120,6 @@ public class KeyEvents : MonoBehaviour
 
     private void Start()
     {
-        menuUITween = ReferenceManager.Instance.Menu.GetComponent<AlphaUITween>();
+        menuUITween = ReferenceManager.Instance.menu.GetComponent<AlphaUITween>();
     }
 }

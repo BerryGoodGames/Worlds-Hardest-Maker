@@ -33,7 +33,7 @@ public class CopyManager : MonoBehaviour
             // try to get controllers and save the object in clipboard
             if (!hit.TryGetComponent(out Controller controller)) continue;
 
-            IData data = controller.GetData();
+            Data data = controller.GetData();
 
             // special case for ball circles
             Vector2 pos = controller.GetType() == typeof(BallCircleController)
@@ -120,7 +120,7 @@ public class CopyManager : MonoBehaviour
             Quaternion rotation = copyData.data.GetType() == typeof(FieldData)
                 ? Quaternion.Euler(0, 0, ((FieldData)copyData.data).rotation)
                 : Quaternion.identity;
-            GameObject preview = Instantiate(PrefabManager.Instance.FillPreview, Vector2.zero, rotation,
+            GameObject preview = Instantiate(PrefabManager.Instance.fillPreview, Vector2.zero, rotation,
                 Instance.previewContainer);
 
             preview.transform.localPosition = copyData.relativePos;

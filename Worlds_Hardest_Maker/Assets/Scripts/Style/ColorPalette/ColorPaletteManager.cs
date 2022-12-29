@@ -22,9 +22,9 @@ public class ColorPaletteManager : MonoBehaviour
 
     public void UpdateColorPalettes()
     {
-        foreach (ColorPaletteController CPC in Resources.FindObjectsOfTypeAll<ColorPaletteController>())
+        foreach (ColorPaletteController cpc in Resources.FindObjectsOfTypeAll<ColorPaletteController>())
         {
-            CPC.UpdateColor();
+            cpc.UpdateColor();
         }
     }
 

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class LevelSettingsData : IData
+public class LevelSettingsData : Data
 {
     #region Setting variables
 

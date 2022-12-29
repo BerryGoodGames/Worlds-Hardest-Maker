@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TextManager : MonoBehaviour
 {
@@ -9,11 +10,11 @@ public class TextManager : MonoBehaviour
 
     #region Text References
 
-    [Header("Text References")] public TMP_Text EditModeText;
-    public TMP_Text SelectingText;
-    public TMP_Text DeathText;
-    public TMP_Text Timer;
-    public TMP_Text CoinText;
+    [FormerlySerializedAs("EditModeText")] [Header("Text References")] public TMP_Text editModeText;
+    [FormerlySerializedAs("SelectingText")] public TMP_Text selectingText;
+    [FormerlySerializedAs("DeathText")] public TMP_Text deathText;
+    [FormerlySerializedAs("Timer")] public TMP_Text timer;
+    [FormerlySerializedAs("CoinText")] public TMP_Text coinText;
     [Header("Colors")] public Color cheatedTimerColor;
     public Color finishedTimerColor;
 
@@ -56,17 +57,17 @@ public class TextManager : MonoBehaviour
         }
 
         // set edit mode text ui
-        Instance.EditModeText.text = $"Edit: {GameManager.Instance.CurrentEditMode.GetUIString()}";
-        Instance.SelectingText.text = $"Selecting: {SelectionManager.Instance.Selecting}";
-        Instance.DeathText.text = $"Deaths: {playerDeaths}";
-        Instance.CoinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.TotalCoins}";
+        Instance.editModeText.text = $"Edit: {GameManager.Instance.CurrentEditMode.GetUIString()}";
+        Instance.selectingText.text = $"Selecting: {SelectionManager.Instance.Selecting}";
+        Instance.deathText.text = $"Deaths: {playerDeaths}";
+        Instance.coinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.TotalCoins}";
     }
 
     public void StartTimer()
     {
         StopTimer();
 
-        Timer.color = Color.black;
+        timer.color = Color.black;
         timerCoroutine = StartCoroutine(DoTimer());
     }
 
@@ -81,7 +82,7 @@ public class TextManager : MonoBehaviour
         StopTimer();
 
         if (!GameManager.Instance.Cheated)
-            Timer.color = finishedTimerColor;
+            timer.color = finishedTimerColor;
     }
 
     private IEnumerator DoTimer()
@@ -89,7 +90,7 @@ public class TextManager : MonoBehaviour
         timerSeconds = 0;
         timerMinutes = 0;
         timerHours = 0;
-        Timer.text = GetTimerTime();
+        timer.text = GetTimerTime();
         while (true)
         {
             timerSeconds += Time.deltaTime;
@@ -106,7 +107,7 @@ public class TextManager : MonoBehaviour
                 timerMinutes -= 60;
             }
 
-            Timer.text = GetTimerTime();
+            timer.text = GetTimerTime();
             yield return null;
         }
     }

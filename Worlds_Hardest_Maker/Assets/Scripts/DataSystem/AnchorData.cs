@@ -6,7 +6,7 @@ using UnityEngine;
 ///     anchor attributes: position, waypoints, mode, ball positions
 /// </summary>
 [Serializable]
-public class AnchorData : IData
+public class AnchorData : Data
 {
     public float[] position = new float[2];
     public WaypointSerializable[] waypoints;

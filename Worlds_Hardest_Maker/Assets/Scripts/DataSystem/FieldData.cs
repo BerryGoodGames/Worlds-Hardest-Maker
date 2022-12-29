@@ -5,7 +5,7 @@ using UnityEngine;
 ///     Field attributes: position, type
 /// </summary>
 [Serializable]
-public class FieldData : IData
+public class FieldData : Data
 {
     public int[] position;
     public string fieldType;

@@ -57,6 +57,6 @@ public class Tool : MonoBehaviour
 
     private void Update()
     {
-        anim.SetVisible(selected || (mouseOverUI.over && !ReferenceManager.Instance.Menu.activeSelf));
+        anim.SetVisible(selected || (mouseOverUI.over && !ReferenceManager.Instance.menu.activeSelf));
     }
 }

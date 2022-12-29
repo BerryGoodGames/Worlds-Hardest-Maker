@@ -9,7 +9,7 @@ public class FieldManager : MonoBehaviour
 {
     public static FieldManager Instance { get; private set; }
 
-    public static readonly List<FieldType> SolidFields = new(new[]
+    public static readonly List<FieldType> solidFields = new(new[]
     {
         FieldType.WALL_FIELD,
         FieldType.GRAY_KEY_DOOR_FIELD,
@@ -19,7 +19,7 @@ public class FieldManager : MonoBehaviour
         FieldType.YELLOW_KEY_DOOR_FIELD
     });
 
-    public static readonly List<FieldType> RotatableFields = new(new[]
+    public static readonly List<FieldType> rotatableFields = new(new[]
     {
         FieldType.ONE_WAY_FIELD,
         FieldType.CONVEYOR
@@ -29,7 +29,7 @@ public class FieldManager : MonoBehaviour
     {
         FieldType? fieldType = (FieldType?)GameManager.TryConvertEnum<EditMode, FieldType>(editMode);
 
-        return fieldType != null && RotatableFields.Contains((FieldType)fieldType);
+        return fieldType != null && rotatableFields.Contains((FieldType)fieldType);
     }
 
     public static FieldType? GetFieldType(GameObject field)
@@ -102,23 +102,23 @@ public class FieldManager : MonoBehaviour
         ApplyStartGoalCheckpointFieldColor(ref field);
 
         // remove player if at changed pos
-        if (!PlayerManager.StartFields.Contains(type))
+        if (!PlayerManager.startFields.Contains(type))
         {
             PlayerManager.Instance.RemovePlayerAtPosIntersect(mx, my);
         }
 
-        if (CoinManager.CantPlaceFields.Contains(type))
+        if (CoinManager.cannotPlaceFields.Contains(type))
         {
             // TODO: 9x bad performance than before
             // remove coin if wall is placed
-            GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.CoinContainer);
+            GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.coinContainer);
         }
 
-        if (KeyManager.CantPlaceFields.Contains(type))
+        if (KeyManager.cannotPlaceFields.Contains(type))
         {
             // TODO: 9x bad performance than before
             // remove key if wall is placed
-            GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.KeyContainer);
+            GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.keyContainer);
         }
     }
 
@@ -177,7 +177,7 @@ public class FieldManager : MonoBehaviour
         GameObject prefab = type.GetPrefab();
         GameObject res = GameManager.Instance.Multiplayer
             ? PhotonNetwork.Instantiate(prefab.name, pos, Quaternion.Euler(0, 0, rotation))
-            : Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), ReferenceManager.Instance.FieldContainer);
+            : Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), ReferenceManager.Instance.fieldContainer);
 
         return res;
     }
@@ -232,33 +232,32 @@ public class FieldManager : MonoBehaviour
         // generalized Bresenham's Line Algorithm optimized without /, find (unoptimized) algorithm here: https://www.uobabylon.edu.iq/eprints/publication_2_22893_6215.pdf
         // I tried my best to explain the variables, but I have no idea how it works
 
-        Vector2 A = MouseManager.Instance.MouseWorldPos;
-        Vector2 B = MouseManager.Instance.PrevMouseWorldPos;
+        Vector2 a = MouseManager.Instance.MouseWorldPos;
+        Vector2 b = MouseManager.Instance.PrevMouseWorldPos;
 
         // increment and delta x
-        float incX = Mathf.Sign(B.x - A.x);
-        float dX = Mathf.Abs(B.x - A.x);
+        float incX = Mathf.Sign(b.x - a.x);
+        float dX = Mathf.Abs(b.x - a.x);
 
         // increment and delta y
-        float incY = Mathf.Sign(B.y - A.y);
-        float dY = Mathf.Abs(B.y - A.y);
-
-        bool XaY = dX > dY; // if delta x is bigger than y
+        float incY = Mathf.Sign(b.y - a.y);
+        float dY = Mathf.Abs(b.y - a.y);
+        
         float cmpt = Mathf.Max(dX, dY); // max of both numbers
         float incD = -2 * Mathf.Abs(dX - dY); // increment of delta
         float incS = 2 * Mathf.Min(dX, dY); // I have no idea
 
         float error = incD + cmpt; // error of line
-        float X = A.x; // where we are x
-        float Y = A.y; // where we are y
+        float x = a.x; // where we are x
+        float y = a.y; // where we are y
 
         while (cmpt >= 0)
         {
-            Instance.SetField((int)X, (int)Y, type, rotation);
+            Instance.SetField((int)x, (int)y, type, rotation);
             cmpt -= 1;
 
-            if (error >= 0 || XaY) X += incX;
-            if (error >= 0 || !XaY) Y += incY;
+            if (error >= 0 || dX > dY) x += incX;
+            if (error >= 0 || dX <= dY) y += incY;
             if (error >= 0) error += incD;
             else error += incS;
         }

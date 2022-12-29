@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class ToolbarManager : MonoBehaviour
 {
-    public static GameObject[] Tools;
+    public static GameObject[] tools;
 
     private void Start()
     {
-        Tools = GameObject.FindGameObjectsWithTag("Tool");
+        tools = GameObject.FindGameObjectsWithTag("Tool");
 
         // edit mode wall when starting
         Tool firstTool = transform.GetChild(0).GetComponent<Tool>();
@@ -15,7 +15,7 @@ public class ToolbarManager : MonoBehaviour
 
     public static void DeselectAll()
     {
-        foreach (GameObject t in Tools)
+        foreach (GameObject t in tools)
         {
             Tool tool = t.GetComponent<Tool>();
             tool.Selected(false);

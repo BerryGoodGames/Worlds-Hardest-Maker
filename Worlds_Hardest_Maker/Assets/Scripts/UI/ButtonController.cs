@@ -40,6 +40,8 @@ public class ButtonController : MonoBehaviour
         backgroundPanel.offsetMax = new(backgroundPanelOffset, -backgroundPanelOffset);
     }
 
+    // ReSharper disable once InconsistentNaming
+    // ReSharper disable once IdentifierTypo
     public static void UpdateEVERYFUCKINGShit()
     {
         ButtonController[] buttons = Resources.FindObjectsOfTypeAll<ButtonController>();

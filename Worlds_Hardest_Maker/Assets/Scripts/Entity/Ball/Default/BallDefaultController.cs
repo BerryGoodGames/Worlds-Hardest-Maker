@@ -1,7 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class BallController : IBallController
+public class BallDefaultController : BallController
 {
     public Transform bounce;
     [HideInInspector] public Transform line;
@@ -10,9 +10,9 @@ public class BallController : IBallController
 
     private void Start()
     {
-        if (transform.parent.parent != ReferenceManager.Instance.BallDefaultContainer)
+        if (transform.parent.parent != ReferenceManager.Instance.ballDefaultContainer)
         {
-            transform.parent.SetParent(ReferenceManager.Instance.BallDefaultContainer);
+            transform.parent.SetParent(ReferenceManager.Instance.ballDefaultContainer);
         }
 
         InitLine();
@@ -44,7 +44,7 @@ public class BallController : IBallController
         LineManager.SetFill(0, 0, 0);
         LineManager.SetWeight(0.11f);
         LineManager.SetOrderInLayer(2);
-        LineManager.SetLayerID(LineManager.BallLayerID);
+        LineManager.SetLayerID(LineManager.ballLayerID);
         GameObject line = LineManager.DrawLine(transform.position, bounce.position, transform.parent);
 
         this.line = line.transform;
@@ -107,7 +107,7 @@ public class BallController : IBallController
     [PunRPC]
     public override void MoveObject(Vector2 unitPos, int id)
     {
-        GameObject movedObject = BallDragDrop.DragDropList[id];
+        GameObject movedObject = BallDragDrop.dragDropList[id];
 
         // call correct method to set position, either set object or set bounce
         if (movedObject.Equals(gameObject))
@@ -120,7 +120,7 @@ public class BallController : IBallController
         }
     }
 
-    public override IData GetData()
+    public override Data GetData()
     {
         return new BallData(this);
     }

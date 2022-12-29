@@ -40,7 +40,7 @@ public class MapController : MonoBehaviour
     private void Update()
     {
         // right click drag to pan
-        if (Input.GetMouseButton(KeybindManager.Instance.PanMouseButton))
+        if (Input.GetMouseButton(KeybindManager.Instance.panMouseButton))
         {
             if (lastMousePos == null)
             {
@@ -63,7 +63,7 @@ public class MapController : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(KeybindManager.Instance.PanMouseButton)) lastMousePos = null;
+        if (Input.GetMouseButtonUp(KeybindManager.Instance.panMouseButton)) lastMousePos = null;
 
         float zoomInput = EventSystem.current.IsPointerOverGameObject() ? 0 : -Input.GetAxis("Mouse ScrollWheel");
         Zoom(zoomInput);
@@ -71,7 +71,7 @@ public class MapController : MonoBehaviour
 
     private void Zoom(float zoomInput)
     {
-        if (zoomInput == 0f || !MouseManager.Instance.OnScreen) return; // zoom
+        if (zoomInput == 0f || !MouseManager.Instance.IsOnScreen) return; // zoom
 
         if (!(cam.orthographicSize + zoomInput * zoomSpeed >= minZoom) ||
             !(cam.orthographicSize + zoomInput * zoomSpeed <= maxZoom)) return;

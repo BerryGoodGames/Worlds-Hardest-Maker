@@ -50,13 +50,13 @@ public class BallManager : MonoBehaviour
         }
         else
         {
-            newBall = Instantiate(PrefabManager.Instance.BallDefault, Vector2.zero, Quaternion.identity,
-                ReferenceManager.Instance.BallDefaultContainer);
+            newBall = Instantiate(PrefabManager.Instance.ballDefault, Vector2.zero, Quaternion.identity,
+                ReferenceManager.Instance.ballDefaultContainer);
 
-            BallController controller = newBall.transform.GetChild(0).GetComponent<BallController>();
-            controller.SetObjectPos(pos);
-            controller.SetBouncePos(bouncePos);
-            controller.SetSpeed(speed);
+            BallDefaultController defaultController = newBall.transform.GetChild(0).GetComponent<BallDefaultController>();
+            defaultController.SetObjectPos(pos);
+            defaultController.SetBouncePos(bouncePos);
+            defaultController.SetSpeed(speed);
         }
 
         return newBall;
@@ -68,7 +68,7 @@ public class BallManager : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.01f, 128);
         foreach (Collider2D hit in hits)
         {
-            if (!hit.TryGetComponent(out BallController b)) continue;
+            if (!hit.TryGetComponent(out BallDefaultController b)) continue;
 
             if (b.startPosition.x == mx && b.startPosition.y == my) b.DestroyBall();
         }
@@ -81,7 +81,7 @@ public class BallManager : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.01f, 128);
         foreach (Collider2D hit in hits)
         {
-            if (!hit.TryGetComponent(out BallController b)) continue;
+            if (!hit.TryGetComponent(out BallDefaultController b)) continue;
 
             if (b.startPosition.x == mx && b.startPosition.y == my) list.Add(b.gameObject);
         }

@@ -24,7 +24,7 @@ public static class SaveSystem
         // create file
         FileStream stream = new(path, FileMode.Create);
 
-        List<IData> levelData = SerializeCurrentLevel();
+        List<Data> levelData = SerializeCurrentLevel();
 
         formatter.Serialize(stream, levelData);
         stream.Close();
@@ -32,9 +32,9 @@ public static class SaveSystem
         Debug.Log($"Saved level at {path}");
     }
 
-    private static List<IData> SerializeCurrentLevel()
+    private static List<Data> SerializeCurrentLevel()
     {
-        List<IData> levelData = new();
+        List<Data> levelData = new();
 
         // serialize players
         List<GameObject> players = PlayerManager.GetPlayers();
@@ -45,7 +45,7 @@ public static class SaveSystem
         }
 
         // serialize anchors
-        foreach (Transform anchor in ReferenceManager.Instance.AnchorContainer)
+        foreach (Transform anchor in ReferenceManager.Instance.anchorContainer)
         {
             AnchorData anchorData = new(anchor.GetComponentInChildren<PathController>(),
                 anchor.GetComponentInChildren<AnchorController>().container.transform);
@@ -53,35 +53,35 @@ public static class SaveSystem
         }
 
         // serialize balls
-        foreach (Transform ball in ReferenceManager.Instance.BallDefaultContainer)
+        foreach (Transform ball in ReferenceManager.Instance.ballDefaultContainer)
         {
-            BallData ballData = new(ball.GetChild(0).GetComponent<BallController>());
+            BallData ballData = new(ball.GetChild(0).GetComponent<BallDefaultController>());
             levelData.Add(ballData);
         }
 
         // serialize ball circles
-        foreach (Transform ball in ReferenceManager.Instance.BallCircleContainer)
+        foreach (Transform ball in ReferenceManager.Instance.ballCircleContainer)
         {
             BallCircleData ballCircleData = new(ball.GetChild(0).GetComponent<BallCircleController>());
             levelData.Add(ballCircleData);
         }
 
         // serialize coins
-        foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
+        foreach (Transform coin in ReferenceManager.Instance.coinContainer)
         {
             CoinData coinData = new(coin.GetChild(0).GetComponent<CoinController>());
             levelData.Add(coinData);
         }
 
         // serialize keys
-        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
+        foreach (Transform key in ReferenceManager.Instance.keyContainer)
         {
             KeyData keyData = new(key.GetChild(0).GetComponent<KeyController>());
             levelData.Add(keyData);
         }
 
         // serialize fields
-        foreach (Transform field in ReferenceManager.Instance.FieldContainer)
+        foreach (Transform field in ReferenceManager.Instance.fieldContainer)
         {
             FieldData fieldData = new(field.gameObject);
             levelData.Add(fieldData);
@@ -93,7 +93,7 @@ public static class SaveSystem
         return levelData;
     }
 
-    public static List<IData> LoadLevel(bool updateDiscordActivity = true)
+    public static List<Data> LoadLevel(bool updateDiscordActivity = true)
     {
         // requests path from user and returns level in form of List<IData>
         string[] pathArr = StandaloneFileBrowser.OpenFilePanel("Select your level (.lvl)",
@@ -133,7 +133,7 @@ public static class SaveSystem
             DiscordManager.State = $"Last opened Level: {levelName}";
         }
 
-        List<IData> data = formatter.Deserialize(stream) as List<IData>;
+        List<Data> data = formatter.Deserialize(stream) as List<Data>;
         stream.Close();
 
         return data;
@@ -149,7 +149,7 @@ public static class SaveSystem
 }
 
 [Serializable]
-public abstract class IData
+public abstract class Data
 {
     public abstract void ImportToLevel();
     public abstract void ImportToLevel(Vector2 pos);

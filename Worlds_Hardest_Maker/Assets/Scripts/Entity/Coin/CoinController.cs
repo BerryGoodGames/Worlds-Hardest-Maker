@@ -5,7 +5,7 @@ public class CoinController : Controller
     [HideInInspector] public Vector2 coinPosition;
     [HideInInspector] public bool pickedUp;
 
-    private static readonly int PickedUp = Animator.StringToHash("PickedUp");
+    private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
 
     private void Awake()
     {
@@ -54,11 +54,11 @@ public class CoinController : Controller
         AudioManager.Instance.Play("Coin");
 
         Animator anim = transform.parent.GetComponent<Animator>();
-        anim.SetBool(PickedUp, true);
+        anim.SetBool(pickedUpString, true);
         pickedUp = true;
     }
 
-    public override IData GetData()
+    public override Data GetData()
     {
         return new CoinData(this);
     }

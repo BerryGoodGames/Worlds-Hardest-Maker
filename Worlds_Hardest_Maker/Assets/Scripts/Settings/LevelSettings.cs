@@ -107,7 +107,7 @@ public class LevelSettings : MonoBehaviour
 
     public void SyncPlayersToSettings()
     {
-        foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
+        foreach (Transform player in ReferenceManager.Instance.playerContainer)
         {
             PlayerController p = player.GetComponent<PlayerController>();
             p.SyncToLevelSettings();

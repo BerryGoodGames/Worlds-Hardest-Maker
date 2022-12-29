@@ -30,7 +30,7 @@ public class SelectionManager : MonoBehaviour
 
     public static SelectionManager Instance { get; private set; }
 
-    public static readonly List<EditMode> NoFillPreviewModes = new(new[]
+    public static readonly List<EditMode> noFillPreviewModes = new(new[]
     {
         EditMode.BALL_DEFAULT,
         EditMode.BALL_CIRCLE,
@@ -50,7 +50,7 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton) && !GameManager.Instance.Playing)
+        if (Input.GetMouseButton(KeybindManager.Instance.selectionMouseButton) && !GameManager.Instance.Playing)
             Selecting = true;
 
         // update selection markings
@@ -63,10 +63,10 @@ public class SelectionManager : MonoBehaviour
             (Vector2 start, Vector2 end) = MouseManager.GetDragPositions(worldPosition);
 
             // disable normal placement preview
-            ReferenceManager.Instance.PlacementPreview.SetActive(false);
+            ReferenceManager.Instance.placementPreview.SetActive(false);
 
-            if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton)) OnStartSelect(start);
-            else if (Input.GetMouseButtonUp(KeybindManager.Instance.SelectionMouseButton)) OnAreaSelected(start, end);
+            if (Input.GetMouseButtonDown(KeybindManager.Instance.selectionMouseButton)) OnStartSelect(start);
+            else if (Input.GetMouseButtonUp(KeybindManager.Instance.selectionMouseButton)) OnAreaSelected(start, end);
 
             if (!prevStart.Equals(start) || !prevEnd.Equals(end)) OnAreaSelectionChanged(start, end);
         }
@@ -177,7 +177,7 @@ public class SelectionManager : MonoBehaviour
 
     private static void RemakePreview()
     {
-        if (ReferenceManager.Instance.FillPreviewContainer.childCount == 0) return;
+        if (ReferenceManager.Instance.fillPreviewContainer.childCount == 0) return;
         DestroyPreview();
         InitSelectedPreview();
     }
@@ -185,12 +185,12 @@ public class SelectionManager : MonoBehaviour
     private static void InitPreview(List<Vector2> range)
     {
         // set new previews, only if edit mode not in NoFillPreviewModes
-        if (NoFillPreviewModes.Contains(GameManager.Instance.CurrentEditMode)) return;
+        if (noFillPreviewModes.Contains(GameManager.Instance.CurrentEditMode)) return;
 
         foreach (Vector2 pos in range)
         {
-            GameObject preview = Instantiate(PrefabManager.Instance.FillPreview, pos, Quaternion.identity,
-                ReferenceManager.Instance.FillPreviewContainer);
+            GameObject preview = Instantiate(PrefabManager.Instance.fillPreview, pos, Quaternion.identity,
+                ReferenceManager.Instance.fillPreviewContainer);
 
             PreviewController c = preview.GetComponent<PreviewController>();
             c.Awake_();
@@ -203,7 +203,7 @@ public class SelectionManager : MonoBehaviour
     private static void DestroyPreview()
     {
         // destroy selection previews
-        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer)
+        foreach (Transform preview in ReferenceManager.Instance.fillPreviewContainer)
         {
             Destroy(preview.gameObject);
         }
@@ -216,7 +216,7 @@ public class SelectionManager : MonoBehaviour
 
     public static void UpdatePreviewRotation()
     {
-        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer)
+        foreach (Transform preview in ReferenceManager.Instance.fillPreviewContainer)
         {
             preview.GetComponent<PreviewController>().UpdateRotation();
         }
@@ -224,7 +224,7 @@ public class SelectionManager : MonoBehaviour
 
     public static void UpdatePreviewSprite()
     {
-        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer)
+        foreach (Transform preview in ReferenceManager.Instance.fillPreviewContainer)
         {
             preview.GetComponent<PreviewController>().UpdateSprite();
         }
@@ -232,17 +232,17 @@ public class SelectionManager : MonoBehaviour
 
     private static void SetPreviewVisible()
     {
-        if (ReferenceManager.Instance.FillPreviewContainer.childCount == 0)
+        if (ReferenceManager.Instance.fillPreviewContainer.childCount == 0)
         {
             InitSelectedPreview();
         }
 
-        ReferenceManager.Instance.FillPreviewContainer.gameObject.SetActive(true);
+        ReferenceManager.Instance.fillPreviewContainer.gameObject.SetActive(true);
     }
 
     private static void SetPreviewInvisible()
     {
-        ReferenceManager.Instance.FillPreviewContainer.gameObject.SetActive(false);
+        ReferenceManager.Instance.fillPreviewContainer.gameObject.SetActive(false);
     }
 
     #endregion
@@ -317,9 +317,9 @@ public class SelectionManager : MonoBehaviour
         // clear fields in area
         if (type == FieldType.WALL_FIELD) // also destroy keys/coins
         {
-            int fieldCount = ReferenceManager.Instance.FieldContainer.childCount;
-            int coinCount = ReferenceManager.Instance.CoinContainer.childCount;
-            int keyCount = ReferenceManager.Instance.KeyContainer.childCount;
+            int fieldCount = ReferenceManager.Instance.fieldContainer.childCount;
+            int coinCount = ReferenceManager.Instance.coinContainer.childCount;
+            int keyCount = ReferenceManager.Instance.keyContainer.childCount;
             Collider2D[] hits = new Collider2D[fieldCount + coinCount + keyCount];
 
             _ = Physics2D.OverlapAreaNonAlloc(lowestPos, highestPos, hits, 3200);
@@ -361,7 +361,7 @@ public class SelectionManager : MonoBehaviour
         List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
 
         // remove player if at changed pos
-        if (!PlayerManager.StartFields.Contains(type))
+        if (!PlayerManager.startFields.Contains(type))
         {
             // TODO: 9x bad performance than before
             GameObject player = PlayerManager.GetPlayer();
@@ -375,7 +375,7 @@ public class SelectionManager : MonoBehaviour
         {
             // set field at pos
             GameObject field = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation),
-                ReferenceManager.Instance.FieldContainer);
+                ReferenceManager.Instance.fieldContainer);
 
             if (tagIndex != null)
             {
@@ -499,14 +499,14 @@ public class SelectionManager : MonoBehaviour
         LineManager.SetWeight(0.1f);
         LineManager.SetFill(Color.black);
 
-        LineManager.SetLayerID(LineManager.DefaultLayerID);
+        LineManager.SetLayerID(LineManager.defaultLayerID);
         LineManager.SetOrderInLayer(0);
         selectionOutline = LineManager.DrawRect(
             start.x + 0.5f,
             start.y + 0.5f,
             -1,
             -1,
-            false, ReferenceManager.Instance.SelectionOutlineContainer
+            false, ReferenceManager.Instance.selectionOutlineContainer
         );
 
         selectionOutlineAnim = selectionOutline.AddComponent<LineAnimator>();
@@ -620,10 +620,10 @@ public class SelectionManager : MonoBehaviour
             (new(highestX + 1, highestY + 1), Vector2.down, height + 2)
         };
 
-        foreach ((Vector2 Origin, Vector2 Direction, int Length) in rays)
+        foreach ((Vector2 origin, Vector2 direction, int length) in rays)
         {
-            RaycastHit2D[] currentHits = new RaycastHit2D[Length];
-            _ = Physics2D.RaycastNonAlloc(Origin, Direction, currentHits, Length);
+            RaycastHit2D[] currentHits = new RaycastHit2D[length];
+            _ = Physics2D.RaycastNonAlloc(origin, direction, currentHits, length);
 
             foreach (RaycastHit2D r in currentHits)
             {
@@ -647,7 +647,7 @@ public class SelectionManager : MonoBehaviour
         // enable placement preview
         if (!GameManager.Instance.Playing)
         {
-            GameObject preview = ReferenceManager.Instance.PlacementPreview;
+            GameObject preview = ReferenceManager.Instance.placementPreview;
             preview.SetActive(true);
             preview.transform.position =
                 FollowMouse.GetCurrentMouseWorldPos(preview.GetComponent<FollowMouse>().worldPosition);

@@ -12,7 +12,7 @@ public class UIRestrict : MonoBehaviour
 
     private void Awake()
     {
-        canvasSize = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>().rect.size;
+        canvasSize = ReferenceManager.Instance.canvas.GetComponent<RectTransform>().rect.size;
         rt = GetComponent<RectTransform>();
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MenuManager : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class MenuManager : MonoBehaviour
     }
 
     [Header("Constants & References")] public GameObject graphicSettingsUI;
-    public GameObject UISettingsUI;
+    [FormerlySerializedAs("UISettingsUI")] public GameObject uiSettingsUI;
     public GameObject soundSettingsUI;
     [Space] [Header("Variables")] public MenuTab currentMenuTab;
     private MenuTab prevMenuTab;
@@ -74,7 +75,7 @@ public class MenuManager : MonoBehaviour
         {
             { MenuTab.GRAPHIC, graphicSettingsUI },
             { MenuTab.SOUND, soundSettingsUI },
-            { MenuTab.UI, UISettingsUI }
+            { MenuTab.UI, uiSettingsUI }
         };
         return dict;
     }

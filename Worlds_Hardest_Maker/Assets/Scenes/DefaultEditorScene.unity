@@ -11569,7 +11569,7 @@ MonoBehaviour:
   rotateDuration: 0.2
 --- !u!95 &2046466262
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -11586,7 +11586,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!224 &2046466263
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13294,28 +13294,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d49f63c499640d0428d8e1086e153a7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Manager: {fileID: 3252578248619094831}
-  Canvas: {fileID: 1436984675}
-  TooltipCanvas: {fileID: 914302642}
-  Menu: {fileID: 1006894544}
-  PlayButton: {fileID: 1830893215}
-  PlacementPreview: {fileID: 2046466257}
-  LevelSettingsPanel: {fileID: 516759318}
-  BallWindows: {fileID: 4673024329375387179}
-  PlayerSpawner: {fileID: 722155291}
-  ToolbarContainer: {fileID: 3914619140277756239}
-  SliderContainer: {fileID: 2134541449}
-  NameTagContainer: {fileID: 1659196506}
-  DrawContainer: {fileID: 1552703640}
-  SelectionOutlineContainer: {fileID: 1598753940}
-  FillPreviewContainer: {fileID: 282166553}
-  PlayerContainer: {fileID: 2131202556}
-  AnchorContainer: {fileID: 3469053329403155091}
-  BallDefaultContainer: {fileID: 446761089}
-  BallCircleContainer: {fileID: 1784506611}
-  CoinContainer: {fileID: 222980750}
-  KeyContainer: {fileID: 139186754}
-  FieldContainer: {fileID: 480599885}
+  manager: {fileID: 3252578248619094831}
+  canvas: {fileID: 1436984675}
+  tooltipCanvas: {fileID: 914302642}
+  menu: {fileID: 1006894544}
+  playButton: {fileID: 1830893215}
+  placementPreview: {fileID: 2046466257}
+  levelSettingsPanel: {fileID: 516759318}
+  ballWindows: {fileID: 4673024329375387179}
+  playerSpawner: {fileID: 722155291}
+  toolbarContainer: {fileID: 3914619140277756239}
+  sliderContainer: {fileID: 2134541449}
+  nameTagContainer: {fileID: 1659196506}
+  drawContainer: {fileID: 1552703640}
+  selectionOutlineContainer: {fileID: 1598753940}
+  fillPreviewContainer: {fileID: 282166553}
+  playerContainer: {fileID: 2131202556}
+  anchorContainer: {fileID: 3469053329403155091}
+  ballDefaultContainer: {fileID: 446761089}
+  ballCircleContainer: {fileID: 1784506611}
+  coinContainer: {fileID: 222980750}
+  keyContainer: {fileID: 139186754}
+  fieldContainer: {fileID: 480599885}
 --- !u!114 &3252578248619094843
 MonoBehaviour:
   m_ObjectHideFlags: 0

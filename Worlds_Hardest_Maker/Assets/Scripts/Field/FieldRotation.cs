@@ -11,7 +11,7 @@ public class FieldRotation : MonoBehaviour
     private bool rotating;
     [SerializeField] private bool disableCollision;
     private BoxCollider2D boxCollider;
-    private static readonly int RotateString = Animator.StringToHash("Rotate");
+    private static readonly int rotateString = Animator.StringToHash("Rotate");
 
     private void Start()
     {
@@ -47,7 +47,7 @@ public class FieldRotation : MonoBehaviour
             boxCollider.isTrigger = true;
 
         Animator anim = GetComponent<Animator>();
-        anim.SetTrigger(RotateString);
+        anim.SetTrigger(rotateString);
 
         StartCoroutine(Rotate(rotateAngle, duration));
     }

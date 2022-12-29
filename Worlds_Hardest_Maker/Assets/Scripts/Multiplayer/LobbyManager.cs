@@ -4,6 +4,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
@@ -13,8 +14,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 {
     public static LobbyManager Instance { get; private set; }
 
-    public GameObject RoomItem;
-    public GameObject PlayerItem;
+    [FormerlySerializedAs("RoomItem")] public GameObject roomItem;
+    [FormerlySerializedAs("PlayerItem")] public GameObject playerItem;
 
     [Space]
 
@@ -48,7 +49,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     [Space] public GameObject playButton;
 
-    private static readonly int Load = Animator.StringToHash("Load");
+    private static readonly int load = Animator.StringToHash("Load");
 
     private void Start()
     {
@@ -119,7 +120,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             if (!room.Name.StartsWith(privateRoomStart))
             {
                 // new RoomItem in roomContainer
-                GameObject newRoom = Instantiate(RoomItem, roomContainer.transform);
+                GameObject newRoom = Instantiate(roomItem, roomContainer.transform);
                 controller = newRoom.GetComponent<RoomItem>();
             }
             // create controller
@@ -175,7 +176,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
         {
             // init new player item
-            GameObject newPlayerItem = Instantiate(PlayerItem, playerItemContainer.transform);
+            GameObject newPlayerItem = Instantiate(playerItem, playerItemContainer.transform);
 
             // add to list
             PlayerItem controller = newPlayerItem.GetComponent<PlayerItem>();
@@ -224,7 +225,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private void StartLoading()
     {
         Animator anim = loadingPanel.GetComponent<Animator>();
-        anim.SetTrigger(Load);
+        anim.SetTrigger(load);
 
         StartCoroutine(UpdateLoadingSlider());
     }

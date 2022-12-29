@@ -1,8 +1,9 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(AlphaUITween))]
 public class TooltipController : MonoBehaviour
 {
-    public TMP_Text Text;
+    [FormerlySerializedAs("Text")] public TMP_Text text;
 }

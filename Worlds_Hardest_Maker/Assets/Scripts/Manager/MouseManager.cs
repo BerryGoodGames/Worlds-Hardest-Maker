@@ -29,7 +29,7 @@ public class MouseManager : MonoBehaviour
     public Vector2 PrevMouseWorldPos { get; set; }
     public Vector2 MouseWorldPosGrid { get; set; }
     public Vector2 MouseWorldPosMatrix { get; set; }
-    public bool OnScreen { get; set; } = true;
+    public bool IsOnScreen { get; set; } = true;
 
     public static Vector2 PosToGrid(Vector2 pos)
     {
@@ -73,11 +73,11 @@ public class MouseManager : MonoBehaviour
         MouseWorldPosMatrix = new(Mathf.Round(MouseWorldPos.x), Mathf.Round(MouseWorldPos.y));
 
         // update drag variables
-        if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton))
+        if (Input.GetMouseButtonDown(KeybindManager.Instance.selectionMouseButton))
             Instance.MouseDragStart = Instance.MouseWorldPos;
-        if (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton))
+        if (Input.GetMouseButton(KeybindManager.Instance.selectionMouseButton))
             Instance.MouseDragCurrent = Instance.MouseWorldPos;
-        if (Input.GetMouseButtonUp(KeybindManager.Instance.SelectionMouseButton))
+        if (Input.GetMouseButtonUp(KeybindManager.Instance.selectionMouseButton))
             Instance.MouseDragEnd = Instance.MouseWorldPos;
 
         // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
@@ -85,7 +85,7 @@ public class MouseManager : MonoBehaviour
         if (cam != null)
         {
             Vector2 view = cam.ScreenToViewportPoint(Input.mousePosition);
-            OnScreen = view.x is > 0 and < 1 && view.y is > 0 and < 1;
+            IsOnScreen = view.x is > 0 and < 1 && view.y is > 0 and < 1;
         }
 
         MousePosDelta = (Vector2)Input.mousePosition - PrevMousePos;

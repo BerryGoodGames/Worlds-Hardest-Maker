@@ -5,7 +5,7 @@ using UnityEngine;
 ///     BallCircle attributes: speed, radius, origin, angle
 /// </summary>
 [Serializable]
-public class BallCircleData : IData
+public class BallCircleData : Data
 {
     public float speed;
     public float radius;

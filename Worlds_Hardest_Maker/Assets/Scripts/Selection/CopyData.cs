@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class CopyData
 {
-    public IData data;
+    public Data data;
     public Vector2 relativePos;
 
-    public CopyData(IData data, Vector2 relativePos)
+    public CopyData(Data data, Vector2 relativePos)
     {
         this.data = data;
         this.relativePos = relativePos;

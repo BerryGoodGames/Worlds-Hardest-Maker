@@ -5,23 +5,23 @@ using UnityEngine;
 ///     Ball attributes: speed, start, bounce
 /// </summary>
 [Serializable]
-public class BallData : IData
+public class BallData : Data
 {
     public float speed;
     public float[] startPosition;
     public float[] bouncePosition;
 
-    public BallData(BallController controller)
+    public BallData(BallDefaultController defaultController)
     {
-        speed = controller.speed;
+        speed = defaultController.speed;
 
         startPosition = new float[2];
-        startPosition[0] = controller.startPosition.x;
-        startPosition[1] = controller.startPosition.y;
+        startPosition[0] = defaultController.startPosition.x;
+        startPosition[1] = defaultController.startPosition.y;
 
         bouncePosition = new float[2];
-        bouncePosition[0] = controller.bounce.position.x;
-        bouncePosition[1] = controller.bounce.position.y;
+        bouncePosition[0] = defaultController.bounce.position.x;
+        bouncePosition[1] = defaultController.bounce.position.y;
     }
 
     public override void ImportToLevel()

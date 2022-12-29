@@ -8,18 +8,18 @@ using UnityEngine;
 public class EntityDragDrop : MonoBehaviour
 {
     [SerializeField] private bool halfGrid;
-    public event Action onMove;
+    public event Action OnMove;
 
     private void OnMouseDrag()
     {
-        if (GameManager.Instance.Playing || !Input.GetKey(KeybindManager.Instance.EntityMoveKey)) return;
+        if (GameManager.Instance.Playing || !Input.GetKey(KeybindManager.Instance.entityMoveKey)) return;
 
         Vector2 newPos = halfGrid ? MouseManager.Instance.MouseWorldPosGrid : MouseManager.Instance.MouseWorldPosMatrix;
         if (newPos != (Vector2)transform.position)
         {
             transform.position = newPos;
 
-            onMove?.Invoke();
+            OnMove?.Invoke();
         }
 
         if (TryGetComponent(out PathController controller))

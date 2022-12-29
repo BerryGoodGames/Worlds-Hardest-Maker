@@ -6,7 +6,7 @@ public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance { get; private set; }
 
-    public static List<FieldType> CantPlaceFields = new(new[]
+    public static List<FieldType> cannotPlaceFields = new(new[]
     {
         FieldType.WALL_FIELD,
         FieldType.RED_KEY_DOOR_FIELD,
@@ -16,7 +16,7 @@ public class CoinManager : MonoBehaviour
         FieldType.GRAY_KEY_DOOR_FIELD
     });
 
-    private static readonly int Playing = Animator.StringToHash("Playing");
+    private static readonly int playing = Animator.StringToHash("Playing");
 
     public int TotalCoins { get; set; }
 
@@ -28,11 +28,11 @@ public class CoinManager : MonoBehaviour
         Vector2 pos = new(mx, my);
 
         TotalCoins++;
-        GameObject coin = Instantiate(PrefabManager.Instance.Coin, pos, Quaternion.identity,
-            ReferenceManager.Instance.CoinContainer);
+        GameObject coin = Instantiate(PrefabManager.Instance.coin, pos, Quaternion.identity,
+            ReferenceManager.Instance.coinContainer);
 
         Animator anim = coin.GetComponent<Animator>();
-        anim.SetBool(Playing, GameManager.Instance.Playing);
+        anim.SetBool(playing, GameManager.Instance.Playing);
     }
 
     public void SetCoin(Vector2 pos)
@@ -48,7 +48,7 @@ public class CoinManager : MonoBehaviour
         GameObject currentPlayer = PlayerManager.GetPlayer();
         if (currentPlayer != null) currentPlayer.GetComponent<PlayerController>().UncollectCoinAtPos(new(mx, my));
 
-        TotalCoins = ReferenceManager.Instance.CoinContainer.childCount - 1;
+        TotalCoins = ReferenceManager.Instance.coinContainer.childCount - 1;
     }
 
     public static GameObject GetCoin(float mx, float my)
@@ -79,7 +79,7 @@ public class CoinManager : MonoBehaviour
     {
         // conditions: no coin there, doesn't intersect with any walls etc, no player there
         return !IsCoinThere(mx, my) &&
-               !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CantPlaceFields.ToArray()) &&
+               !FieldManager.IntersectingAnyFieldsAtPos(mx, my, cannotPlaceFields.ToArray()) &&
                !PlayerManager.IsPlayerThere(mx, my);
     }
 
@@ -92,6 +92,6 @@ public class CoinManager : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnPlay += () =>
-            Instance.TotalCoins = ReferenceManager.Instance.CoinContainer.transform.childCount;
+            Instance.TotalCoins = ReferenceManager.Instance.coinContainer.transform.childCount;
     }
 }

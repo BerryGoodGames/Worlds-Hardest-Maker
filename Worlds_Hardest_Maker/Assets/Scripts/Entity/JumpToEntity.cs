@@ -32,7 +32,7 @@ public class JumpToEntity : MonoBehaviour
 
     private void Update()
     {
-        if (cancelByRightClick && jumping && Input.GetMouseButton(KeybindManager.Instance.PanMouseButton))
+        if (cancelByRightClick && jumping && Input.GetMouseButton(KeybindManager.Instance.panMouseButton))
             jumping = false;
     }
 

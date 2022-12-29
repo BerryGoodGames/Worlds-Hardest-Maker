@@ -4,7 +4,7 @@ public class KeyDoorField : MonoBehaviour
 {
     public bool unlocked;
     public KeyManager.KeyColor color;
-    private static readonly int Unlocked = Animator.StringToHash("Unlocked");
+    private static readonly int unlockedString = Animator.StringToHash("Unlocked");
 
     public void Lock(bool locked)
     {
@@ -13,6 +13,6 @@ public class KeyDoorField : MonoBehaviour
         GetComponent<BoxCollider2D>().enabled = locked;
 
         Animator anim = GetComponent<Animator>();
-        anim.SetBool(Unlocked, !locked);
+        anim.SetBool(unlockedString, !locked);
     }
 }

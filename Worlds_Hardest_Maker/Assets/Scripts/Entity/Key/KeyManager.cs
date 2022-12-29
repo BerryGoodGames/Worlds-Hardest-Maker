@@ -15,7 +15,7 @@ public class KeyManager : MonoBehaviour
         YELLOW
     }
 
-    public static readonly List<EditMode> KeyModes = new(new[]
+    public static readonly List<EditMode> keyModes = new(new[]
     {
         EditMode.GRAY_KEY,
         EditMode.RED_KEY,
@@ -24,7 +24,7 @@ public class KeyManager : MonoBehaviour
         EditMode.YELLOW_KEY
     });
 
-    public static readonly List<EditMode> KeyDoorModes = new(new[]
+    public static readonly List<EditMode> keyDoorModes = new(new[]
     {
         EditMode.GRAY_KEY_DOOR_FIELD,
         EditMode.RED_KEY_DOOR_FIELD,
@@ -33,7 +33,7 @@ public class KeyManager : MonoBehaviour
         EditMode.YELLOW_KEY_DOOR_FIELD
     });
 
-    public static readonly List<FieldType> KeyDoorTypes = new(new[]
+    public static readonly List<FieldType> keyDoorTypes = new(new[]
     {
         FieldType.GRAY_KEY_DOOR_FIELD,
         FieldType.RED_KEY_DOOR_FIELD,
@@ -42,7 +42,7 @@ public class KeyManager : MonoBehaviour
         FieldType.YELLOW_KEY_DOOR_FIELD
     });
 
-    public static List<FieldType> CantPlaceFields = new(new[]
+    public static List<FieldType> cannotPlaceFields = new(new[]
     {
         FieldType.WALL_FIELD,
         FieldType.GRAY_KEY_DOOR_FIELD,
@@ -52,7 +52,7 @@ public class KeyManager : MonoBehaviour
         FieldType.YELLOW_KEY_DOOR_FIELD
     });
 
-    private static readonly int Playing = Animator.StringToHash("Playing");
+    private static readonly int playingString = Animator.StringToHash("Playing");
 
     [PunRPC]
     public void SetKey(float mx, float my, KeyColor color)
@@ -64,10 +64,10 @@ public class KeyManager : MonoBehaviour
         RemoveKey(mx, my);
 
         GameObject key = Instantiate(color.GetPrefabKey(), pos, Quaternion.identity,
-            ReferenceManager.Instance.KeyContainer);
+            ReferenceManager.Instance.keyContainer);
 
         Animator anim = key.GetComponent<Animator>();
-        anim.SetBool(Playing, GameManager.Instance.Playing);
+        anim.SetBool(playingString, GameManager.Instance.Playing);
 
         key.GetComponent<IntervalRandomAnimation>().enabled = KonamiManager.KonamiActive;
     }
@@ -85,7 +85,7 @@ public class KeyManager : MonoBehaviour
 
     public static void SetKonamiMode(bool konami)
     {
-        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
+        foreach (Transform key in ReferenceManager.Instance.keyContainer)
         {
             key.GetComponent<IntervalRandomAnimation>().enabled = konami;
         }
@@ -96,7 +96,7 @@ public class KeyManager : MonoBehaviour
         // conditions: no key there, covered by canplacefield or default, no player there
         return !PlayerManager.IsPlayerThere(mx, my) &&
                !IsKeyThere(mx, my) &&
-               !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CantPlaceFields.ToArray());
+               !FieldManager.IntersectingAnyFieldsAtPos(mx, my, cannotPlaceFields.ToArray());
     }
 
     public static GameObject GetKey(float mx, float my)
@@ -131,12 +131,12 @@ public class KeyManager : MonoBehaviour
 
     public static bool IsKeyDoorEditMode(EditMode mode)
     {
-        return KeyDoorModes.Contains(mode);
+        return keyDoorModes.Contains(mode);
     }
 
     public static bool IsKeyEditMode(EditMode mode)
     {
-        return KeyModes.Contains(mode);
+        return keyModes.Contains(mode);
     }
 
     private void Awake()

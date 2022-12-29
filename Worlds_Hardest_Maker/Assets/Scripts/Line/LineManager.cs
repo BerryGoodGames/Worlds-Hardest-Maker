@@ -7,22 +7,22 @@ using UnityEngine;
 /// </summary>
 public class LineManager : MonoBehaviour
 {
-    public static int DefaultLayerID;
-    public static int OutlineLayerID;
-    public static int BallLayerID;
+    public static int defaultLayerID;
+    public static int outlineLayerID;
+    public static int ballLayerID;
 
     private void Awake()
     {
-        DefaultLayerID = SortingLayer.NameToID("Line");
-        OutlineLayerID = SortingLayer.NameToID("Outline");
-        BallLayerID = SortingLayer.NameToID("Ball");
+        defaultLayerID = SortingLayer.NameToID("Line");
+        outlineLayerID = SortingLayer.NameToID("Outline");
+        ballLayerID = SortingLayer.NameToID("Ball");
     }
 
     // Settings for drawing
     public static float weight = 0.11f;
     public static Color fill = new(0, 0, 0);
     public static bool roundedCorners = true;
-    public static int layerID = DefaultLayerID;
+    public static int layerID = defaultLayerID;
     public static int orderInLayer;
 
     /// <summary>
@@ -134,7 +134,7 @@ public class LineManager : MonoBehaviour
     {
         if (parent == null)
         {
-            parent = ReferenceManager.Instance.DrawContainer;
+            parent = ReferenceManager.Instance.drawContainer;
         }
 
         // generate object
@@ -155,7 +155,7 @@ public class LineManager : MonoBehaviour
     private static GameObject NewDrawObject(string name, Transform parent)
     {
         // DrawContainer is default container
-        if (parent == null) parent = ReferenceManager.Instance.DrawContainer;
+        if (parent == null) parent = ReferenceManager.Instance.drawContainer;
 
         GameObject stroke = new()
         {
@@ -164,7 +164,7 @@ public class LineManager : MonoBehaviour
         };
 
         LineRenderer line = stroke.AddComponent<LineRenderer>();
-        line.material = MaterialManager.Instance.LineMaterial;
+        line.material = MaterialManager.Instance.lineMaterial;
 
         line.startWidth = weight;
         line.endWidth = weight;

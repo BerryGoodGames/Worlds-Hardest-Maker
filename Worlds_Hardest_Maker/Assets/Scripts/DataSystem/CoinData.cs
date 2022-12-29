@@ -5,7 +5,7 @@ using UnityEngine;
 ///     Coin attributes: position
 /// </summary>
 [Serializable]
-public class CoinData : IData
+public class CoinData : Data
 {
     public float[] position;
 

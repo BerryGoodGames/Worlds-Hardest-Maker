@@ -26,7 +26,7 @@ public class PreviewController : MonoBehaviour
     private FollowMouse followMouseComp;
 
     private bool ranAwake;
-    private static readonly int Visible = Animator.StringToHash("Visible");
+    private static readonly int visible = Animator.StringToHash("Visible");
 
     private void Awake()
     {
@@ -70,7 +70,7 @@ public class PreviewController : MonoBehaviour
         // check visibility of preview
         if (TryGetComponent(out Animator anim))
         {
-            anim.SetBool(Visible, CheckVisibility());
+            anim.SetBool(visible, CheckVisibility());
         }
     }
 
@@ -91,16 +91,16 @@ public class PreviewController : MonoBehaviour
     private bool CheckVisibility(EditMode mode)
     {
         if (GameManager.Instance.UIHovered ||
-            Input.GetKey(KeybindManager.Instance.EntityMoveKey) ||
-            Input.GetKey(KeybindManager.Instance.EditSpeedKey) ||
-            Input.GetKey(KeybindManager.Instance.EntityDeleteKey)) return false;
+            Input.GetKey(KeybindManager.Instance.entityMoveKey) ||
+            Input.GetKey(KeybindManager.Instance.editSpeedKey) ||
+            Input.GetKey(KeybindManager.Instance.entityDeleteKey)) return false;
 
         if (CopyManager.pasting) return false;
 
         // check if preview of prefab not allowed during filling
         if (SelectionManager.Instance.Selecting)
         {
-            if (SelectionManager.NoFillPreviewModes.Contains(mode)) return false;
+            if (SelectionManager.noFillPreviewModes.Contains(mode)) return false;
         }
 
         FollowMouse.WorldPosition positionMode = GetComponent<FollowMouse>().worldPosition;
@@ -114,12 +114,12 @@ public class PreviewController : MonoBehaviour
 
         // check coin placement
         if (mode != EditMode.COIN)
-            return !KeyManager.KeyModes.Contains(mode) || KeyManager.CanPlace(mousePos.x, mousePos.y);
+            return !KeyManager.keyModes.Contains(mode) || KeyManager.CanPlace(mousePos.x, mousePos.y);
 
         if (!CoinManager.CanPlace(mousePos.x, mousePos.y)) return false;
 
         // check key placement + return
-        return !KeyManager.KeyModes.Contains(mode) || KeyManager.CanPlace(mousePos.x, mousePos.y);
+        return !KeyManager.keyModes.Contains(mode) || KeyManager.CanPlace(mousePos.x, mousePos.y);
     }
 
     /// <summary>

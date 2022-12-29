@@ -20,7 +20,7 @@ public class AnchorManager : MonoBehaviour
 
     [HideInInspector] public PathController selectedPathController;
 
-    private static readonly int Selected = Animator.StringToHash("Selected");
+    private static readonly int selected = Animator.StringToHash("Selected");
 
 
     /// <summary>
@@ -43,8 +43,8 @@ public class AnchorManager : MonoBehaviour
 
         GameObject anchor = GameManager.Instance.Multiplayer
             ? PhotonNetwork.Instantiate("Anchor", pos, Quaternion.identity)
-            : Instantiate(PrefabManager.Instance.Anchor, pos, Quaternion.identity,
-                ReferenceManager.Instance.AnchorContainer);
+            : Instantiate(PrefabManager.Instance.anchor, pos, Quaternion.identity,
+                ReferenceManager.Instance.anchorContainer);
 
         return anchor;
     }
@@ -109,7 +109,7 @@ public class AnchorManager : MonoBehaviour
             GameManager.Instance.CurrentEditMode = EditMode.ANCHOR;
 
         Animator anim = anchor.GetComponent<Animator>();
-        anim.SetBool(Selected, true);
+        anim.SetBool(selected, true);
     }
 
     public void SelectAnchor(GameObject anchor)
@@ -118,14 +118,14 @@ public class AnchorManager : MonoBehaviour
         {
             if (selectedAnchor != null)
             {
-                selectedAnchor.GetComponent<Animator>().SetBool(Selected, false);
+                selectedAnchor.GetComponent<Animator>().SetBool(selected, false);
 
                 selectedPathController.ClearLines();
                 selectedPathController.drawLines = false;
             }
 
             selectedAnchor = anchor;
-            selectedAnchor.GetComponent<Animator>().SetBool(Selected, true);
+            selectedAnchor.GetComponent<Animator>().SetBool(selected, true);
             selectedPathController = selectedAnchor.GetComponent<PathController>();
             selectedPathController.drawLines = true;
         }

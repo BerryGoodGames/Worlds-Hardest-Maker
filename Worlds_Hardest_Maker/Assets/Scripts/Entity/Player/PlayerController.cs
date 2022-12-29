@@ -75,8 +75,8 @@ public class PlayerController : Controller
 
     #endregion
 
-    private static readonly int Death = Animator.StringToHash("Death");
-    private static readonly int PickedUp = Animator.StringToHash("PickedUp");
+    private static readonly int death = Animator.StringToHash("Death");
+    private static readonly int pickedUp = Animator.StringToHash("PickedUp");
 
     #endregion
 
@@ -93,12 +93,12 @@ public class PlayerController : Controller
         GameManager.Instance.OnEdit += () =>
         {
             if (won && animator != null)
-                animator.SetTrigger(Death);
+                animator.SetTrigger(death);
         };
 
-        if (transform.parent != ReferenceManager.Instance.PlayerContainer)
+        if (transform.parent != ReferenceManager.Instance.playerContainer)
         {
-            transform.SetParent(ReferenceManager.Instance.PlayerContainer);
+            transform.SetParent(ReferenceManager.Instance.playerContainer);
         }
 
         ApplyCurrentState();
@@ -283,7 +283,7 @@ public class PlayerController : Controller
     [PunRPC]
     public void SetSpeed(float speed)
     {
-        // TODO: code duplication from IBallController
+        // TODO: code duplication from BallController
         this.speed = speed;
 
         // sync slider
@@ -318,7 +318,7 @@ public class PlayerController : Controller
         {
             // check if current field is safe
             FieldType? currentFieldType = FieldManager.GetFieldType(field);
-            if (PlayerManager.SafeFields.Contains((FieldType)currentFieldType))
+            if (PlayerManager.safeFields.Contains((FieldType)currentFieldType))
             {
                 return true;
             }
@@ -506,12 +506,12 @@ public class PlayerController : Controller
     [PunRPC]
     public void DeathAnim()
     {
-        animator.SetTrigger(Death);
+        animator.SetTrigger(death);
     }
 
     public bool CoinsCollected()
     {
-        return coinsCollected.Count >= ReferenceManager.Instance.CoinContainer.childCount;
+        return coinsCollected.Count >= ReferenceManager.Instance.coinContainer.childCount;
     }
 
     public void UncollectCoinAtPos(Vector2 pos)
@@ -528,7 +528,7 @@ public class PlayerController : Controller
 
     public bool KeysCollected(KeyManager.KeyColor color)
     {
-        foreach (Transform k in ReferenceManager.Instance.KeyContainer)
+        foreach (Transform k in ReferenceManager.Instance.keyContainer)
         {
             KeyController controller = k.GetChild(0).GetComponent<KeyController>();
             if (!controller.pickedUp && controller.color == color) return false;
@@ -633,7 +633,7 @@ public class PlayerController : Controller
     private void ResetCoinsToCurrentGameState()
     {
         // TODO: code duplication coin / key
-        foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
+        foreach (Transform coin in ReferenceManager.Instance.coinContainer)
         {
             CoinController coinController = coin.GetChild(0).GetComponent<CoinController>();
 
@@ -658,13 +658,13 @@ public class PlayerController : Controller
             coinController.pickedUp = false;
 
             Animator anim = coin.GetComponent<Animator>();
-            anim.SetBool(PickedUp, false);
+            anim.SetBool(pickedUp, false);
         }
     }
 
     private void ResetKeysToCurrentGameState()
     {
-        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
+        foreach (Transform key in ReferenceManager.Instance.keyContainer)
         {
             KeyController keyController = key.GetChild(0).GetComponent<KeyController>();
 
@@ -688,7 +688,7 @@ public class PlayerController : Controller
             keyController.pickedUp = false;
 
             Animator anim = key.GetComponent<Animator>();
-            anim.SetBool(PickedUp, false);
+            anim.SetBool(pickedUp, false);
         }
     }
 
@@ -788,7 +788,7 @@ public class PlayerController : Controller
         }
     }
 
-    public override IData GetData()
+    public override Data GetData()
     {
         return new PlayerData(this);
     }
