@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Threading;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,9 +12,6 @@ using UnityEngine.EventSystems;
 public class GameManager : MonoBehaviourPun
 {
     public static GameManager Instance { get; private set; }
-
-    private static readonly int pickedUp = Animator.StringToHash("PickedUp");
-    private static readonly int playingString = Animator.StringToHash("Playing");
 
     private void Awake()
     {
@@ -29,9 +24,6 @@ public class GameManager : MonoBehaviourPun
         else Destroy(gameObject);
 
         Utils.ForceDecimalSeparator(".");
-
-        // check if multiplayer or not
-        MultiplayerManager.Instance.Multiplayer = PhotonNetwork.CurrentRoom != null;
 
         SetCameraUnitWidth(23);
     }
@@ -54,57 +46,7 @@ public class GameManager : MonoBehaviourPun
         // check if toolbarContainer background is hovered
         UIManager.Instance.UIHovered = EventSystem.current.IsPointerOverGameObject();
     }
-
-
-    #region Unit pixel conversion methods
-
-    // convert stuff
-    public static float PixelToUnit(float pixel)
-    {
-        Camera cam = Camera.main;
-        if (cam != null) return pixel * 2 * cam.orthographicSize / cam.pixelHeight;
-        throw new Exception($"Couldn't convert {pixel} pixels to units because main camera is null");
-    }
-
-    public static float PixelToUnit(float pixel, float ortho)
-    {
-        Camera cam = Camera.main;
-        if (cam != null) return pixel * 2 * ortho / cam.pixelHeight;
-        throw new Exception($"Couldn't convert {pixel} pixels to units because main camera is null");
-    }
-
-    public static Vector2 PixelToUnit(Vector2 pixel)
-    {
-        return new(PixelToUnit(pixel.x), PixelToUnit(pixel.y));
-    }
-
-    public static Vector2 PixelToUnit(Vector2 pixel, float ortho)
-    {
-        return new(PixelToUnit(pixel.x, ortho), PixelToUnit(pixel.y, ortho));
-    }
-
-    public static float UnitToPixel(float unit)
-    {
-        Camera cam = Camera.main;
-        if (cam != null) return unit * cam.pixelHeight / (cam.orthographicSize * 2);
-        throw new Exception($"Couldn't convert {unit} units to pixels because main camera is null");
-    }
-
-    public static Vector2 UnitToPixel(Vector2 unit)
-    {
-        return new(UnitToPixel(unit.x), UnitToPixel(unit.y));
-    }
-
-    public static Rect RtToScreenSpace(RectTransform transform)
-    {
-        Vector2 size = Vector2.Scale(transform.rect.size, transform.lossyScale);
-        return new((Vector2)transform.position - size * 0.5f, size);
-    }
-
-    #endregion
-
-    #region Play / Edit mode methods
-
+    
     /// <summary>
     ///     Place edit mode at position
     /// </summary>
@@ -167,8 +109,6 @@ public class GameManager : MonoBehaviourPun
                 }
             }
     }
-
-    #endregion
 
     #region Save system
 

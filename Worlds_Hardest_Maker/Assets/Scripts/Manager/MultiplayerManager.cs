@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 
 public class MultiplayerManager : MonoBehaviour
@@ -24,5 +25,8 @@ public class MultiplayerManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
+        
+        // check if multiplayer or not
+        Instance.Multiplayer = PhotonNetwork.CurrentRoom != null;
     }
 }
