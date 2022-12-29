@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SliderUI : MonoBehaviour
@@ -10,24 +8,31 @@ public class SliderUI : MonoBehaviour
     [SerializeField] private RectTransform handleContainer;
     [SerializeField] private RectTransform leftBounce;
     [SerializeField] private RectTransform rightBounce;
-    [Space]
-    [SerializeField] private float width = 400;
-    public float Width { 
+    [Space] [SerializeField] private float width = 400;
+
+    public float Width
+    {
         get => width;
         set => width = value;
     }
+
     [SerializeField] private float height = 80;
-    public float Height {
+
+    public float Height
+    {
         get => height;
         set => height = value;
     }
+
     [SerializeField] private float size = 10;
-    public float Size { 
+
+    public float Size
+    {
         get => size;
         set => size = value;
     }
-    [Space]
-    [SerializeField] private float originalSize;
+
+    [Space] [SerializeField] private float originalSize;
     [SerializeField] private float originalBackgroundSize;
     [SerializeField] private float originalHandleSize;
     [SerializeField] private float originalBounceSize;

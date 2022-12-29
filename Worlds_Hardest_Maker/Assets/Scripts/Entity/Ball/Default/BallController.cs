@@ -1,6 +1,4 @@
 using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BallController : IBallController
@@ -12,17 +10,19 @@ public class BallController : IBallController
 
     private void Start()
     {
-        if(transform.parent.parent != ReferenceManager.Instance.BallDefaultContainer)
+        if (transform.parent.parent != ReferenceManager.Instance.BallDefaultContainer)
         {
             transform.parent.SetParent(ReferenceManager.Instance.BallDefaultContainer);
         }
 
         InitLine();
     }
+
     private void OnDestroy()
     {
         Destroy(transform.parent.gameObject);
     }
+
     private void Update()
     {
         bounce.gameObject.SetActive(!GameManager.Instance.Playing);
@@ -31,7 +31,7 @@ public class BallController : IBallController
         if (GameManager.Instance.Playing)
         {
             Move();
-        } 
+        }
         else
         {
             UpdateLine();
@@ -53,13 +53,13 @@ public class BallController : IBallController
     private void Move()
     {
         // switch target after bounce
-        if((Vector2)transform.position == currentTarget)
+        if ((Vector2)transform.position == currentTarget)
         {
-            if(currentTarget == (Vector2)bounce.position)
+            if (currentTarget == (Vector2)bounce.position)
             {
                 currentTarget = startPosition;
-            } 
-            else if(currentTarget == (Vector2)transform.position)
+            }
+            else if (currentTarget == (Vector2)transform.position)
             {
                 currentTarget = bounce.position;
             }
@@ -78,7 +78,8 @@ public class BallController : IBallController
     }
 
     [PunRPC]
-    public void SetBouncePos(Vector2 pos) {
+    public void SetBouncePos(Vector2 pos)
+    {
         currentTarget = pos;
         bounce.position = pos;
     }
@@ -90,6 +91,7 @@ public class BallController : IBallController
 
         renderer.SetPosition(index, point);
     }
+
     public void UpdateLine()
     {
         SetLinePoint(0, transform.position);
@@ -111,7 +113,8 @@ public class BallController : IBallController
         if (movedObject.Equals(gameObject))
         {
             SetObjectPos(unitPos);
-        } else
+        }
+        else
         {
             SetBouncePos(unitPos);
         }

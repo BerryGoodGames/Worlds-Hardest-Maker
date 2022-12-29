@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
-using UnityEditor.Rendering;
+using UnityEngine;
 
 /// <summary>
-/// controls placement, visibility and display of preview
-/// attach to gameObject PlacementPreview
+///     controls placement, visibility and display of preview
+///     attach to gameObject PlacementPreview
 /// </summary>
 public class PreviewController : MonoBehaviour
 {
@@ -60,13 +57,14 @@ public class PreviewController : MonoBehaviour
     {
         EditMode currentEditMode = GameManager.Instance.CurrentEditMode;
 
-        if (updateEveryFrame && (previousEditMode != currentEditMode || previousPlaying != GameManager.Instance.Playing)) UpdateSprite();
+        if (updateEveryFrame &&
+            (previousEditMode != currentEditMode || previousPlaying != GameManager.Instance.Playing)) UpdateSprite();
 
         if (!SelectionManager.Instance.Selecting && followMouse)
         {
-            followMouseComp.worldPosition = currentEditMode.IsFieldType() || currentEditMode == EditMode.DELETE_FIELD ? 
-                    FollowMouse.WorldPosition.MATRIX : 
-                    FollowMouse.WorldPosition.GRID;
+            followMouseComp.worldPosition = currentEditMode.IsFieldType() || currentEditMode == EditMode.DELETE_FIELD
+                ? FollowMouse.WorldPosition.MATRIX
+                : FollowMouse.WorldPosition.GRID;
         }
 
         // check visibility of preview
@@ -77,15 +75,16 @@ public class PreviewController : MonoBehaviour
     }
 
     /// <summary>
-    /// check if preview should be visible at the moment with current edit mode
+    ///     check if preview should be visible at the moment with current edit mode
     /// </summary>
     /// <returns></returns>
     private bool CheckVisibility()
     {
         return CheckVisibility(GameManager.Instance.CurrentEditMode);
     }
+
     /// <summary>
-    /// check if preview should be visible at the moment
+    ///     check if preview should be visible at the moment
     /// </summary>
     /// <param name="mode">edit mode which needs to be checked</param>
     /// <returns></returns>
@@ -124,7 +123,7 @@ public class PreviewController : MonoBehaviour
     }
 
     /// <summary>
-    /// updates sprite to the sprite of preview to the current edit mode
+    ///     updates sprite to the sprite of preview to the current edit mode
     /// </summary>
     public void UpdateSprite()
     {
@@ -147,12 +146,13 @@ public class PreviewController : MonoBehaviour
         {
             GameObject currentPrefab = editMode.GetPrefab();
             if (currentPrefab.TryGetComponent(out PreviewSprite previewSprite) &&
-                (!SelectionManager.Instance.Selecting && !CopyManager.pasting || previewSprite.showWhenSelecting ||
+                ((!SelectionManager.Instance.Selecting && !CopyManager.pasting) || previewSprite.showWhenSelecting ||
                  showSpriteWhenPasting))
             {
                 // apply PreviewSprite settings if it has one
                 spriteRenderer.sprite = previewSprite.sprite;
-                spriteRenderer.color = new(previewSprite.color.r, previewSprite.color.g, previewSprite.color.b, alpha / 255f);
+                spriteRenderer.color = new(previewSprite.color.r, previewSprite.color.g, previewSprite.color.b,
+                    alpha / 255f);
                 transform.localScale = previewSprite.scale;
 
                 UpdateRotation(!previewSprite.rotate);
@@ -184,7 +184,7 @@ public class PreviewController : MonoBehaviour
                 spriteRenderer.sprite = prefabRenderer.sprite;
                 spriteRenderer.color = new(prefabColor.r, prefabColor.g, prefabColor.b, alpha / 255f);
                 transform.localScale = scale;
-                if(updateRotation)
+                if (updateRotation)
                     UpdateRotation(true);
             }
         }
@@ -199,7 +199,7 @@ public class PreviewController : MonoBehaviour
             transform.localRotation = Quaternion.identity;
             return;
         }
-        
+
         if (!rotateToRotation) return;
 
         Quaternion rotation = Quaternion.Euler(0, 0, GameManager.Instance.EditRotation);

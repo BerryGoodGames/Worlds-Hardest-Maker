@@ -1,48 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using Photon.Pun;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Globalization;
 using System.Threading;
-using static UnityEngine.Rendering.DebugUI;
-using System.Windows.Forms;
-using Debug = System.Diagnostics.Debug;
+using Photon.Pun;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
-/// manages game (duh)
+///     manages game (duh)
 /// </summary>
 public class GameManager : MonoBehaviourPun
 {
     public static GameManager Instance { get; private set; }
 
     #region Variables
-    [Header("Variables")]
 
-    [SerializeField] private bool playing;
-    public bool Playing { 
+    [Header("Variables")] [SerializeField] private bool playing;
+
+    public bool Playing
+    {
         get => playing;
         set => playing = value;
     }
 
     [SerializeField] private EditMode currentEditMode = EditMode.WALL_FIELD;
+
     public EditMode CurrentEditMode
     {
         get => currentEditMode;
         set => Instance.SetEditMode(value);
     }
+
     private EditMode? prevEditMode;
     public bool Multiplayer { get; set; }
     public bool UIHovered { get; set; }
     private int editRotation = 270;
+
     public int EditRotation
     {
         get => editRotation;
         set => Instance.SetEditRotation(value);
     }
+
     private bool cheated;
     private static readonly int PlayingString = Animator.StringToHash("Playing");
     private static readonly int PickedUp = Animator.StringToHash("PickedUp");
@@ -56,13 +57,16 @@ public class GameManager : MonoBehaviourPun
             TextManager.Instance.Timer.color = cheated ? TextManager.Instance.cheatedTimerColor : Color.black;
         }
     }
+
     #endregion
 
     #region Events
+
     public event Action OnGameQuit;
     public event Action OnPlay;
     public event Action OnEdit;
     public event Action OnEditModeChange;
+
     #endregion
 
     private void Awake()
@@ -92,7 +96,9 @@ public class GameManager : MonoBehaviourPun
         if (Instance.Multiplayer)
         {
             OnIsMultiplayer();
-        } else {
+        }
+        else
+        {
             PlayerManager.Instance.SetPlayer(0, 0, 3f);
         }
 
@@ -118,6 +124,7 @@ public class GameManager : MonoBehaviourPun
 
 
     #region Unit pixel conversion methods
+
     // convert stuff
     public static float PixelToUnit(float pixel)
     {
@@ -125,44 +132,53 @@ public class GameManager : MonoBehaviourPun
         if (cam != null) return pixel * 2 * cam.orthographicSize / cam.pixelHeight;
         throw new Exception($"Couldn't convert {pixel} pixels to units because main camera is null");
     }
+
     public static float PixelToUnit(float pixel, float ortho)
     {
         Camera cam = Camera.main;
         if (cam != null) return pixel * 2 * ortho / cam.pixelHeight;
         throw new Exception($"Couldn't convert {pixel} pixels to units because main camera is null");
     }
+
     public static Vector2 PixelToUnit(Vector2 pixel)
     {
         return new(PixelToUnit(pixel.x), PixelToUnit(pixel.y));
     }
+
     public static Vector2 PixelToUnit(Vector2 pixel, float ortho)
     {
         return new(PixelToUnit(pixel.x, ortho), PixelToUnit(pixel.y, ortho));
     }
+
     public static float UnitToPixel(float unit)
     {
         Camera cam = Camera.main;
         if (cam != null) return unit * cam.pixelHeight / (cam.orthographicSize * 2);
         throw new Exception($"Couldn't convert {unit} units to pixels because main camera is null");
     }
+
     public static Vector2 UnitToPixel(Vector2 unit)
     {
         return new(UnitToPixel(unit.x), UnitToPixel(unit.y));
     }
+
     public static Rect RtToScreenSpace(RectTransform transform)
     {
         Vector2 size = Vector2.Scale(transform.rect.size, transform.lossyScale);
         return new((Vector2)transform.position - size * 0.5f, size);
     }
+
     #endregion
 
     #region Play / Edit mode methods
+
     private void SetEditRotation(int value)
     {
         editRotation = value;
 
         ReferenceManager.Instance.PlacementPreview.GetComponent<PreviewController>().UpdateRotation();
     }
+
     private void SetEditMode(EditMode value)
     {
         currentEditMode = value;
@@ -221,6 +237,7 @@ public class GameManager : MonoBehaviourPun
             }
         }
     }
+
     public void TogglePlay(bool playSoundEffect = true)
     {
         if (ReferenceManager.Instance.Menu.activeSelf) return;
@@ -228,11 +245,12 @@ public class GameManager : MonoBehaviourPun
         if (Instance.Playing) SwitchToEdit(playSoundEffect);
         else SwitchToPlay();
 
-        foreach(BarTween tween in BarTween.tweenList)
+        foreach (BarTween tween in BarTween.tweenList)
         {
             tween.SetPlay(Instance.Playing);
         }
     }
+
     public static void SwitchToPlay()
     {
         foreach (Transform player in ReferenceManager.Instance.PlayerContainer.transform)
@@ -261,7 +279,6 @@ public class GameManager : MonoBehaviourPun
 
         if (AnchorManager.Instance.SelectedAnchor != null)
         {
-
             // disable anchor lines
             AnchorManager.Instance.selectedPathController.drawLines = false;
             AnchorManager.Instance.selectedPathController.ClearLines();
@@ -272,7 +289,6 @@ public class GameManager : MonoBehaviourPun
                 anim = anchor.GetComponentInChildren<Animator>();
                 anim.SetBool(PlayingString, true);
             }
-
         }
 
         // activate coin animations
@@ -296,26 +312,30 @@ public class GameManager : MonoBehaviourPun
         Instance.OnPlay?.Invoke();
 
         // close level settings panel if open
-        LevelSettingsPanelTween lspt = ReferenceManager.Instance.LevelSettingsPanel.GetComponent<LevelSettingsPanelTween>();
+        LevelSettingsPanelTween lspt =
+            ReferenceManager.Instance.LevelSettingsPanel.GetComponent<LevelSettingsPanelTween>();
         if (lspt.open) lspt.Toggle();
     }
+
     public static void SwitchToEdit(bool playSoundEffect = true)
     {
         Instance.Playing = false;
 
-        if(playSoundEffect) AudioManager.Instance.Play("Bell");
+        if (playSoundEffect) AudioManager.Instance.Play("Bell");
         AudioManager.Instance.MusicFiltered(true);
 
         ResetGame();
 
         // enable placement preview and place it at mouse
         ReferenceManager.Instance.PlacementPreview.SetActive(true);
-        ReferenceManager.Instance.PlacementPreview.transform.position = FollowMouse.GetCurrentMouseWorldPos(ReferenceManager.Instance.PlacementPreview.GetComponent<FollowMouse>().worldPosition);
+        ReferenceManager.Instance.PlacementPreview.transform.position =
+            FollowMouse.GetCurrentMouseWorldPos(ReferenceManager.Instance.PlacementPreview.GetComponent<FollowMouse>()
+                .worldPosition);
 
         // enable windows
-        if(Instance.CurrentEditMode is EditMode.ANCHOR or EditMode.BALL)
+        if (Instance.CurrentEditMode is EditMode.ANCHOR or EditMode.BALL)
             ReferenceManager.Instance.BallWindows.SetActive(true);
-        
+
         Animator anim;
 
         if (AnchorManager.Instance.SelectedAnchor != null)
@@ -323,7 +343,7 @@ public class GameManager : MonoBehaviourPun
             // enable anchor lines
             AnchorManager.Instance.selectedPathController.drawLines = true;
             AnchorManager.Instance.selectedPathController.DrawLines();
-            
+
             // enable all anchor sprites / outlines
             foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
             {
@@ -365,11 +385,12 @@ public class GameManager : MonoBehaviourPun
 
             controller.currentGameState = null;
         }
+
         Instance.OnEdit?.Invoke();
     }
 
     /// <summary>
-    /// Place edit mode at position
+    ///     Place edit mode at position
     /// </summary>
     /// <param name="editMode">the type of field/entity you want</param>
     /// <param name="pos">the position where it will be set</param>
@@ -386,51 +407,54 @@ public class GameManager : MonoBehaviourPun
 
         if (editMode.IsFieldType())
             FieldManager.Instance.SetField((int)pos.x, (int)pos.y, ConvertEnum<EditMode, FieldType>(editMode));
-        else switch (editMode)
-        {
-            case EditMode.DELETE_FIELD:
+        else
+            switch (editMode)
             {
-                // delete field
-                if (multiplayer) photonView.RPC("RemoveField", RpcTarget.All, matrixX, matrixY, true);
-                else FieldManager.Instance.RemoveField(matrixX, matrixY, updateOutlines: true);
-
-                // remove player if at deleted pos
-                if (multiplayer) photonView.RPC("RemovePlayerAtPosIntersect", RpcTarget.All, (float)matrixX, (float)matrixY);
-                else PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixX, matrixY);
-                break;
-            }
-            case EditMode.PLAYER:
-                // place player
-                PlayerManager.Instance.SetPlayer(gridX, gridY, placeStartField: true) ;
-                break;
-            case EditMode.COIN when multiplayer:
-                // place coin
-                photonView.RPC("SetCoin", RpcTarget.All, gridX, gridY);
-                break;
-            case EditMode.COIN:
-                CoinManager.Instance.SetCoin(gridX, gridY);
-                break;
-            default:
-            {
-                if (KeyManager.IsKeyEditMode(editMode))
+                case EditMode.DELETE_FIELD:
                 {
-                    // get key color
-                    string keyColorStr = editMode.ToString()[..^4];
-                    KeyManager.KeyColor keyColor = (KeyManager.KeyColor)Enum.Parse(typeof(KeyManager.KeyColor), keyColorStr);
+                    // delete field
+                    if (multiplayer) photonView.RPC("RemoveField", RpcTarget.All, matrixX, matrixY, true);
+                    else FieldManager.Instance.RemoveField(matrixX, matrixY, true);
 
-                    // place key
-                    if (multiplayer) photonView.RPC("SetKey", RpcTarget.All, gridX, gridY, keyColor);
-                    else KeyManager.Instance.SetKey(gridX, gridY, keyColor);
+                    // remove player if at deleted pos
+                    if (multiplayer)
+                        photonView.RPC("RemovePlayerAtPosIntersect", RpcTarget.All, (float)matrixX, (float)matrixY);
+                    else PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixX, matrixY);
+                    break;
                 }
+                case EditMode.PLAYER:
+                    // place player
+                    PlayerManager.Instance.SetPlayer(gridX, gridY, true);
+                    break;
+                case EditMode.COIN when multiplayer:
+                    // place coin
+                    photonView.RPC("SetCoin", RpcTarget.All, gridX, gridY);
+                    break;
+                case EditMode.COIN:
+                    CoinManager.Instance.SetCoin(gridX, gridY);
+                    break;
+                default:
+                {
+                    if (KeyManager.IsKeyEditMode(editMode))
+                    {
+                        // get key color
+                        string keyColorStr = editMode.ToString()[..^4];
+                        KeyManager.KeyColor keyColor =
+                            (KeyManager.KeyColor)Enum.Parse(typeof(KeyManager.KeyColor), keyColorStr);
 
-                break;
+                        // place key
+                        if (multiplayer) photonView.RPC("SetKey", RpcTarget.All, gridX, gridY, keyColor);
+                        else KeyManager.Instance.SetKey(gridX, gridY, keyColor);
+                    }
+
+                    break;
+                }
             }
-        }
     }
 
     /// <summary>
-    /// resets every field and entity to its starting state
-    /// used when switched to edit mode
+    ///     resets every field and entity to its starting state
+    ///     used when switched to edit mode
     /// </summary>
     public static void ResetGame()
     {
@@ -441,7 +465,7 @@ public class GameManager : MonoBehaviourPun
             if (Instance.Multiplayer && !controller.photonView.IsMine) continue;
             controller.DieNormal();
         }
-        
+
 
         // reset balls
         foreach (Transform ball in ReferenceManager.Instance.BallDefaultContainer)
@@ -451,6 +475,7 @@ public class GameManager : MonoBehaviourPun
 
             ballObject.transform.position = controller.startPosition;
         }
+
         foreach (Transform ball in ReferenceManager.Instance.BallCircleContainer)
         {
             GameObject ballObject = ball.GetChild(0).gameObject;
@@ -476,7 +501,7 @@ public class GameManager : MonoBehaviourPun
             anim.SetBool(PickedUp, false);
         }
 
-        foreach(GameObject player in PlayerManager.GetPlayers())
+        foreach (GameObject player in PlayerManager.GetPlayers())
         {
             PlayerController controller = player.GetComponent<PlayerController>();
             controller.coinsCollected.Clear();
@@ -497,7 +522,8 @@ public class GameManager : MonoBehaviourPun
         }
 
         // reset key doors
-        string[] tags = { "KeyDoorField", "RedKeyDoorField", "GreenKeyDoorField", "BlueKeyDoorField", "YellowKeyDoorField" };
+        string[] tags =
+            { "KeyDoorField", "RedKeyDoorField", "GreenKeyDoorField", "BlueKeyDoorField", "YellowKeyDoorField" };
         foreach (string tag in tags)
         {
             foreach (GameObject door in GameObject.FindGameObjectsWithTag(tag))
@@ -507,9 +533,11 @@ public class GameManager : MonoBehaviourPun
             }
         }
     }
+
     #endregion
 
     #region Save system
+
     public void LoadLevel()
     {
         List<IData> levelData = SaveSystem.LoadLevel();
@@ -519,6 +547,7 @@ public class GameManager : MonoBehaviourPun
             LoadLevelFromData(levelData.ToArray());
         }
     }
+
     [PunRPC]
     public void LoadLevelFromData(IData[] levelData)
     {
@@ -535,16 +564,19 @@ public class GameManager : MonoBehaviourPun
                 fieldData.Add((FieldData)levelObject);
                 continue;
             }
+
             if (levelObject.GetType() == typeof(PlayerData))
             {
                 playerData = (PlayerData)levelObject;
                 continue;
             }
+
             if (levelObject.GetType() == typeof(LevelSettingsData))
             {
                 levelSettingsData = (LevelSettingsData)levelObject;
                 continue;
             }
+
             levelObject.ImportToLevel();
         }
 
@@ -561,6 +593,7 @@ public class GameManager : MonoBehaviourPun
         // load level settings
         levelSettingsData?.ImportToLevel();
     }
+
     [PunRPC]
     public void ReceiveLevel(string content)
     {
@@ -570,9 +603,10 @@ public class GameManager : MonoBehaviourPun
         List<IData> data = formatter.Deserialize(s) as List<IData>;
 
         s.Close();
-        
+
         LoadLevelFromData(data.ToArray());
     }
+
     private static Stream GenerateStreamFromString(string s)
     {
         MemoryStream stream = new();
@@ -582,6 +616,7 @@ public class GameManager : MonoBehaviourPun
         stream.Position = 0;
         return stream;
     }
+
     #endregion
 
     public static void SetCameraUnitWidth(float width)
@@ -590,6 +625,7 @@ public class GameManager : MonoBehaviourPun
         if (cam != null) cam.orthographicSize = width * 0.5f / cam.aspect;
         else throw new Exception($"Couldn't set camera width (in units) to {width} because main camera is null");
     }
+
     public static void SetCameraUnitHeight(float height)
     {
         Camera cam = Camera.main;
@@ -602,7 +638,13 @@ public class GameManager : MonoBehaviourPun
     public void ClearLevel()
     {
         PlayerManager.Instance.RemoveAllPlayers();
-        Transform[] containers = { ReferenceManager.Instance.FieldContainer, ReferenceManager.Instance.PlayerContainer, ReferenceManager.Instance.BallDefaultContainer, ReferenceManager.Instance.BallCircleContainer, ReferenceManager.Instance.CoinContainer, ReferenceManager.Instance.KeyContainer, ReferenceManager.Instance.AnchorContainer };
+        Transform[] containers =
+        {
+            ReferenceManager.Instance.FieldContainer, ReferenceManager.Instance.PlayerContainer,
+            ReferenceManager.Instance.BallDefaultContainer, ReferenceManager.Instance.BallCircleContainer,
+            ReferenceManager.Instance.CoinContainer, ReferenceManager.Instance.KeyContainer,
+            ReferenceManager.Instance.AnchorContainer
+        };
         foreach (Transform container in containers)
         {
             for (int i = container.childCount - 1; i >= 0; i--)
@@ -616,21 +658,22 @@ public class GameManager : MonoBehaviourPun
     {
         Collider2D[] hits = new Collider2D[container.childCount];
         _ = Physics2D.OverlapCircleNonAlloc(new(mx, my), 0.005f, hits, 128);
-        
+
         foreach (Collider2D hit in hits)
         {
             if (hit == null) continue;
-            
+
             if (hit.transform.parent == container)
             {
                 Destroy(hit.gameObject);
             }
-            else if(hit.transform.parent.parent == container)
+            else if (hit.transform.parent.parent == container)
             {
                 Destroy(hit.transform.parent.gameObject);
             }
         }
     }
+
     public static void RemoveObjectInContainerIntersect(float mx, float my, Transform container)
     {
         float[] dx = { -0.5f, 0, 0.5f, -0.5f, 0, 0.5f, -0.5f, 0, 0.5f };
@@ -640,20 +683,24 @@ public class GameManager : MonoBehaviourPun
             RemoveObjectInContainer(mx + dx[i], my + dy[i], container);
         }
     }
+
     public static EnumTo ConvertEnum<EnumFrom, EnumTo>(EnumFrom e)
     {
         return (EnumTo)Enum.Parse(typeof(EnumTo), e.ToString());
     }
+
     public static object TryConvertEnum<EnumFrom, EnumTo>(EnumFrom e)
     {
         Enum.TryParse(typeof(EnumTo), e.ToString(), out object convEnum);
 
         return convEnum;
     }
+
     public static float RoundToNearestStep(float value, float step)
     {
         return Mathf.Round(value / step) * step;
     }
+
     public static double Map(double value, double start1, double stop1, double start2, double stop2)
     {
         double range1 = stop1 - start1;
@@ -661,11 +708,12 @@ public class GameManager : MonoBehaviourPun
 
         return range2 / range1 * (value - start1) + start2;
     }
+
     public static void QuitGame()
     {
         Instance.OnGameQuit?.Invoke();
 
-        UnityEngine.Application.Quit();
+        Application.Quit();
     }
 
     public static void ForceDecimalSeparator(string separator)

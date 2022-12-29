@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class Tool : MonoBehaviour
 {
@@ -15,7 +13,7 @@ public class Tool : MonoBehaviour
 
     private void Awake()
     {
-        if (!System.Enum.TryParse(toolType, out toolName))
+        if (!Enum.TryParse(toolType, out toolName))
             Debug.LogError($"{toolType} was not a valid type");
 
         inOptionbar = transform.parent.CompareTag("OptionContainer");
@@ -34,6 +32,7 @@ public class Tool : MonoBehaviour
         Selected(true);
         if (setEditModeVariable) GameManager.Instance.CurrentEditMode = toolName;
     }
+
     public void SwitchGameMode()
     {
         SwitchGameMode(true);

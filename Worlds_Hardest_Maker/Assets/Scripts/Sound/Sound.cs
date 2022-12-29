@@ -1,14 +1,13 @@
-using UnityEngine.Audio;
+using System;
 using UnityEngine;
+using UnityEngine.Audio;
 
-[System.Serializable]
+[Serializable]
 public class Sound
 {
     public string name;
-    [Space]
-    public AudioClip AudioClip;
-    [Space]
-    public AudioMixerGroup Output;
+    [Space] public AudioClip AudioClip;
+    [Space] public AudioMixerGroup Output;
     public bool mute;
     public bool playOnAwake;
     public bool loop;

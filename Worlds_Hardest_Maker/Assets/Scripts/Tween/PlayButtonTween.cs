@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 public class PlayButtonTween : MonoBehaviour
 {
     [SerializeField] private float playingY;
     [SerializeField] private float editingY;
-    [Space]
-    [SerializeField] private float duration;
+    [Space] [SerializeField] private float duration;
     [SerializeField] private Ease easeAppear;
     [SerializeField] private AnimationCurve easeDisappear;
 

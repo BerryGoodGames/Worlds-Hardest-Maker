@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class JumpToEntity : MonoBehaviour
@@ -34,7 +32,8 @@ public class JumpToEntity : MonoBehaviour
 
     private void Update()
     {
-        if(cancelByRightClick && jumping && Input.GetMouseButton(KeybindManager.Instance.PanMouseButton)) jumping = false;
+        if (cancelByRightClick && jumping && Input.GetMouseButton(KeybindManager.Instance.PanMouseButton))
+            jumping = false;
     }
 
     private void FixedUpdate()
@@ -43,7 +42,7 @@ public class JumpToEntity : MonoBehaviour
 
         Vector2 newPos = Vector2.Lerp(transform.position, currentTarget, Time.fixedDeltaTime * speed);
         transform.position = new(newPos.x, newPos.y, transform.position.z);
-            
+
         if (Math.Abs(Mathf.Round(transform.position.x * deviation) - Mathf.Round(currentTarget.x * deviation)) == 0 &&
             Math.Abs(Mathf.Round(transform.position.y * deviation) - Mathf.Round(currentTarget.y * deviation)) == 0)
             jumping = false;

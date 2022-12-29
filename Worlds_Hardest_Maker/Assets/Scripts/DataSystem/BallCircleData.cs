@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 /// <summary>
-/// BallCircle attributes: speed, radius, origin, angle
+///     BallCircle attributes: speed, radius, origin, angle
 /// </summary>
-[System.Serializable]
+[Serializable]
 public class BallCircleData : IData
 {
     public float speed;

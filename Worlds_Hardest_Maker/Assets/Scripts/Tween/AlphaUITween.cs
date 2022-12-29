@@ -1,27 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
-using System;
 
 public class AlphaUITween : MonoBehaviour
 {
     [SerializeField] private Image image;
-    [SerializeField] private TMPro.TMP_Text text;
+    [SerializeField] private TMP_Text text;
     [SerializeField] private CanvasGroup canvasGroup;
-    [Space]
-    [SerializeField] private bool startVisible = true;
+    [Space] [SerializeField] private bool startVisible = true;
     [SerializeField] private float duration;
     [SerializeField] private bool disableObjectWhenInvisible;
-    [Range(0, 1)][SerializeField] private float alphaVisible = 1;
-    [Range(0, 1)][SerializeField] private float alphaInvisible;
+    [Range(0, 1)] [SerializeField] private float alphaVisible = 1;
+    [Range(0, 1)] [SerializeField] private float alphaInvisible;
 
     public Action onSetVisible = null;
     public Action onIsInvisible = null;
 
     private bool isVisible;
-    
+
 
     private void TweenVis()
     {
@@ -41,21 +39,26 @@ public class AlphaUITween : MonoBehaviour
 
     private void TweenInvis()
     {
-        if (image != null) image.DOFade(alphaInvisible, duration).OnComplete(() =>
-        {
-            if (disableObjectWhenInvisible) image.gameObject.SetActive(false);
-            onIsInvisible?.Invoke();
-        });
+        if (image != null)
+            image.DOFade(alphaInvisible, duration).OnComplete(() =>
+            {
+                if (disableObjectWhenInvisible) image.gameObject.SetActive(false);
+                onIsInvisible?.Invoke();
+            });
 
-        if (text != null) text.DOFade(alphaInvisible, duration).OnComplete(() => {
-            if (disableObjectWhenInvisible) text.gameObject.SetActive(false);
-            onIsInvisible?.Invoke();
-        });
+        if (text != null)
+            text.DOFade(alphaInvisible, duration).OnComplete(() =>
+            {
+                if (disableObjectWhenInvisible) text.gameObject.SetActive(false);
+                onIsInvisible?.Invoke();
+            });
 
-        if (canvasGroup != null) canvasGroup.DOFade(alphaInvisible, duration).OnComplete(() => {
-            if (disableObjectWhenInvisible) canvasGroup.gameObject.SetActive(false);
-            onIsInvisible?.Invoke();
-        });
+        if (canvasGroup != null)
+            canvasGroup.DOFade(alphaInvisible, duration).OnComplete(() =>
+            {
+                if (disableObjectWhenInvisible) canvasGroup.gameObject.SetActive(false);
+                onIsInvisible?.Invoke();
+            });
     }
 
     public void SetVisible(bool vis)
@@ -87,8 +90,10 @@ public class AlphaUITween : MonoBehaviour
         if (image != null)
         {
             if (disableObjectWhenInvisible) image.gameObject.SetActive(startVisible);
-            image.color = new(image.color.r, image.color.g, image.color.b, startVisible ? alphaVisible : alphaInvisible);
+            image.color = new(image.color.r, image.color.g, image.color.b,
+                startVisible ? alphaVisible : alphaInvisible);
         }
+
         if (text != null)
         {
             if (disableObjectWhenInvisible) text.gameObject.SetActive(startVisible);

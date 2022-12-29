@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 public class WarningConfirmPromptTween : MonoBehaviour
 {
     [SerializeField] private float activateDuration;
     [SerializeField] private float deactivateDuration;
-    [Space]
-    [SerializeField] private AnimationCurve easeScaleXActivate;
+    [Space] [SerializeField] private AnimationCurve easeScaleXActivate;
     [SerializeField] private AnimationCurve easeScaleYActivate;
     [SerializeField] private Ease easeDeactivate;
 

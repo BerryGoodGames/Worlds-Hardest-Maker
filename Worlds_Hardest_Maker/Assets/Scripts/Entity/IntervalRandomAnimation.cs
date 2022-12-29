@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// animation at random intervals
-/// attach to gameObject holding animator
+///     animation at random intervals
+///     attach to gameObject holding animator
 /// </summary>
 public class IntervalRandomAnimation : MonoBehaviour
 {
@@ -31,7 +29,7 @@ public class IntervalRandomAnimation : MonoBehaviour
     {
         if (triggerOnlyAtPlayMode && !GameManager.Instance.Playing) return;
 
-        if(lastTrigger >= intervalSeconds / Time.fixedDeltaTime * limitDeviation)
+        if (lastTrigger >= intervalSeconds / Time.fixedDeltaTime * limitDeviation)
         {
             CheckAnimationTrigger();
         }
@@ -44,7 +42,8 @@ public class IntervalRandomAnimation : MonoBehaviour
         // check animation trigger
         float p = Time.fixedDeltaTime / intervalSeconds;
 
-        if (Random.Range(0, 0.999f) >= p && lastTrigger < intervalSeconds / Time.fixedDeltaTime * (limitDeviation + 1)) return;
+        if (Random.Range(0, 0.999f) >= p &&
+            lastTrigger < intervalSeconds / Time.fixedDeltaTime * (limitDeviation + 1)) return;
 
         anim.SetTrigger(animTriggerString);
 

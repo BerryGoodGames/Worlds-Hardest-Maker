@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteAlways]
@@ -9,8 +7,7 @@ public class PrefabManager : MonoBehaviour
 
     // TODO transfer prefabs from game manager to here
 
-    [Header("Fields")]
-    public GameObject WallField;
+    [Header("Fields")] public GameObject WallField;
     public GameObject StartField;
     public GameObject GoalField;
     public GameObject CheckpointField;
@@ -24,9 +21,7 @@ public class PrefabManager : MonoBehaviour
     public GameObject GreenKeyDoorField;
     public GameObject BlueKeyDoorField;
     public GameObject YellowKeyDoorField;
-    [Space]
-    [Header("Entities")]
-    public GameObject Player;
+    [Space] [Header("Entities")] public GameObject Player;
     public GameObject Anchor;
     public GameObject Ball;
     public GameObject BallDefault;
@@ -37,9 +32,7 @@ public class PrefabManager : MonoBehaviour
     public GameObject GreenKey;
     public GameObject BlueKey;
     public GameObject YellowKey;
-    [Space]
-    [Header("UI")]
-    public GameObject DropdownOptionPrefab;
+    [Space] [Header("UI")] public GameObject DropdownOptionPrefab;
     public GameObject CheckboxOptionPrefab;
     public GameObject SliderOptionPrefab;
     public GameObject NumberInputOptionPrefab;
@@ -50,6 +43,6 @@ public class PrefabManager : MonoBehaviour
 
     private void OnEnable()
     {
-        if(Instance == null) Instance = this;
+        if (Instance == null) Instance = this;
     }
 }

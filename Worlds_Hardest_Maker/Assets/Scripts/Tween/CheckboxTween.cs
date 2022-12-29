@@ -1,15 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class CheckboxTween : MonoBehaviour
 {
     [SerializeField] private RectTransform checkMark;
     [SerializeField] private Toggle toggle;
-    [Space]
-    [SerializeField] private float duration;
+    [Space] [SerializeField] private float duration;
     [SerializeField] private Ease easeType;
 
     private bool isChecked;

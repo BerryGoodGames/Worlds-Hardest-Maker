@@ -1,10 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
+using UnityEngine;
 
 /// <summary>
-/// controls the anchor (duh)
+///     controls the anchor (duh)
 /// </summary>
 public class AnchorController : Controller
 {
@@ -29,6 +28,7 @@ public class AnchorController : Controller
 
         View = PhotonView.Get(this);
     }
+
     private void OnDestroy()
     {
         Destroy(transform.parent.gameObject);
@@ -95,7 +95,6 @@ public class AnchorController : Controller
     {
         Waypoint waypoint = pathController.waypoints[index];
         waypoint.WaypointEditor.DeleteThisWaypoint();
-
     }
 
     [PunRPC]

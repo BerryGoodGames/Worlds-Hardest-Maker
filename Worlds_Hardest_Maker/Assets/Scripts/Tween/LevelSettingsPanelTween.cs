@@ -1,16 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 public class LevelSettingsPanelTween : MonoBehaviour
 {
     [SerializeField] private RectTransform panel;
-    [Space]
-    [SerializeField] private AnimationCurve openEase;
+    [Space] [SerializeField] private AnimationCurve openEase;
     [SerializeField] private AnimationCurve closeEase;
-    [Space]
-    [SerializeField] private float duration;
+    [Space] [SerializeField] private float duration;
     public bool open;
     private float closedX;
     private float openedX;

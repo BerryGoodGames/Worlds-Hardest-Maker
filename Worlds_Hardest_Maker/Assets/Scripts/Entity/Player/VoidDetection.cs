@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class VoidDetection : MonoBehaviour
@@ -10,6 +8,7 @@ public class VoidDetection : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
     }
+
     private void FixedUpdate()
     {
         if (playerController.inDeathAnim || !CheckCollision(transform.position)) return;
@@ -18,9 +17,9 @@ public class VoidDetection : MonoBehaviour
         int collisionId = 0;
         int collisions = 0;
 
-        for(int x = -1; x < 2 && (collisions < 2 || collisionId == 3); x += 2)
+        for (int x = -1; x < 2 && (collisions < 2 || collisionId == 3); x += 2)
         {
-            for(int y = -1; y < 2 && (collisions < 2 || collisionId == 3); y +=2)
+            for (int y = -1; y < 2 && (collisions < 2 || collisionId == 3); y += 2)
             {
                 if (!CheckCollision(new Vector2(transform.lossyScale.x * x * 0.5f, transform.lossyScale.y * y * 0.5f) +
                                     (Vector2)transform.position)) continue;
@@ -30,7 +29,7 @@ public class VoidDetection : MonoBehaviour
             }
         }
 
-        if(collisions >= 2 && collisionId != 3)
+        if (collisions >= 2 && collisionId != 3)
         {
             playerController.DieVoid();
         }

@@ -1,5 +1,6 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TextManager : MonoBehaviour
@@ -7,15 +8,15 @@ public class TextManager : MonoBehaviour
     public static TextManager Instance { get; private set; } // singleton
 
     #region Text References
-    [Header("Text References")]
-    public TMPro.TMP_Text EditModeText;
-    public TMPro.TMP_Text SelectingText;
-    public TMPro.TMP_Text DeathText;
-    public TMPro.TMP_Text Timer;
-    public TMPro.TMP_Text CoinText;
-    [Header("Colors")]
-    public Color cheatedTimerColor;
+
+    [Header("Text References")] public TMP_Text EditModeText;
+    public TMP_Text SelectingText;
+    public TMP_Text DeathText;
+    public TMP_Text Timer;
+    public TMP_Text CoinText;
+    [Header("Colors")] public Color cheatedTimerColor;
     public Color finishedTimerColor;
+
     #endregion
 
     private float timerSeconds;
@@ -29,6 +30,7 @@ public class TextManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(this);
     }
+
     private void Start()
     {
         GameManager.Instance.OnPlay += StartTimer;
@@ -46,7 +48,7 @@ public class TextManager : MonoBehaviour
             playerDeaths = currentPlayer.deaths;
             playerCoinsCollected = currentPlayer.coinsCollected.Count;
         }
-        catch (System.Exception)
+        catch (Exception)
         {
             // no player placed
             playerDeaths = "-";
@@ -70,7 +72,7 @@ public class TextManager : MonoBehaviour
 
     public void StopTimer()
     {
-        if(timerCoroutine != null)
+        if (timerCoroutine != null)
             StopCoroutine(timerCoroutine);
     }
 
@@ -92,7 +94,7 @@ public class TextManager : MonoBehaviour
         {
             timerSeconds += Time.deltaTime;
 
-            while(timerSeconds >= 60)
+            while (timerSeconds >= 60)
             {
                 timerMinutes++;
                 timerSeconds -= 60;
@@ -103,6 +105,7 @@ public class TextManager : MonoBehaviour
                 timerHours++;
                 timerMinutes -= 60;
             }
+
             Timer.text = GetTimerTime();
             yield return null;
         }

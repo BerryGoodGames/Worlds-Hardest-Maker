@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,11 +5,13 @@ public class CheckpointController : MonoBehaviour
 {
     public bool activated;
     private static bool reusableCheckpoints = true;
-    public static bool ReusableCheckpoints {
+
+    public static bool ReusableCheckpoints
+    {
         get => reusableCheckpoints;
         set
         {
-            if(value) ResetCheckpoints();
+            if (value) ResetCheckpoints();
 
             reusableCheckpoints = value;
         }
@@ -31,7 +32,7 @@ public class CheckpointController : MonoBehaviour
         bool alreadyOnField = controller.IsOnField(FieldType.CHECKPOINT_FIELD);
 
         if ((activated && !reusableCheckpoints) || alreadyOnField) return;
-        
+
         if (reusableCheckpoints) ResetCheckpoints();
 
         ChainActivate();
@@ -41,12 +42,13 @@ public class CheckpointController : MonoBehaviour
 
         AudioManager.Instance.Play("Checkpoint");
     }
+
     public void ChainActivate()
     {
         Activate();
 
         List<GameObject> neighbors = FieldManager.GetNeighbors(gameObject);
-        foreach(GameObject n in neighbors)
+        foreach (GameObject n in neighbors)
         {
             CheckpointController checkpoint = n.GetComponent<CheckpointController>();
 

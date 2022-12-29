@@ -1,7 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
+using UnityEngine;
 
 public class BallCircleManager : MonoBehaviour
 {
@@ -12,12 +11,13 @@ public class BallCircleManager : MonoBehaviour
     {
         Vector2 originPos = new(mx, my);
 
-        if(!IsBallCircleThere(mx, my))
+        if (!IsBallCircleThere(mx, my))
         {
             // instantiate prefab
             InstantiateBallCircle(originPos, r, speed, startAngle);
         }
     }
+
     [PunRPC]
     public void SetBallCircle(float mx, float my)
     {
@@ -34,11 +34,12 @@ public class BallCircleManager : MonoBehaviour
         List<GameObject> list = new();
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.01f, 32768);
-        
-        foreach(Collider2D hit in hits)
+
+        foreach (Collider2D hit in hits)
         {
             if (hit.CompareTag("BallCircleOrigin")) list.Add(hit.transform.parent.GetChild(0).gameObject);
         }
+
         return list;
     }
 
@@ -50,7 +51,7 @@ public class BallCircleManager : MonoBehaviour
             newBallCircle = PhotonNetwork.Instantiate("BallCircle", Vector2.zero, Quaternion.identity);
 
             PhotonView view = newBallCircle.transform.GetChild(0).GetComponent<PhotonView>();
-            view.RPC("SetRadius", RpcTarget.All, r); 
+            view.RPC("SetRadius", RpcTarget.All, r);
             view.RPC("MoveOrigin", RpcTarget.All, pos.x, pos.y);
             view.RPC("SetSpeed", RpcTarget.All, speed);
             view.RPC("SetStartAngle", RpcTarget.All, startAngle);
@@ -59,16 +60,18 @@ public class BallCircleManager : MonoBehaviour
         }
         else
         {
-            newBallCircle = Instantiate(PrefabManager.Instance.BallCircle, Vector2.zero, Quaternion.identity, ReferenceManager.Instance.BallCircleContainer);
+            newBallCircle = Instantiate(PrefabManager.Instance.BallCircle, Vector2.zero, Quaternion.identity,
+                ReferenceManager.Instance.BallCircleContainer);
 
             BallCircleController controller = newBallCircle.transform.GetChild(0).GetComponent<BallCircleController>();
-            controller.SetRadius(r); 
+            controller.SetRadius(r);
             controller.MoveOrigin(pos.x, pos.y);
             controller.SetSpeed(speed);
             controller.SetStartAngle(startAngle);
             controller.SetCurrentAngle(startAngle);
             controller.UpdateAnglePos();
         }
+
         return newBallCircle;
     }
 

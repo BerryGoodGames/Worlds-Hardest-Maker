@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpeedSliderAnim : MonoBehaviour
@@ -28,7 +26,8 @@ public class SpeedSliderAnim : MonoBehaviour
     private void Update()
     {
         // set visible status (if no other slider is hovered)
-        bool hoveredHitbox = hoverSliderDetection.MouseHoverSlider() && (!HoverSliderDetection.sliderHovered || anim.IsVisible());
+        bool hoveredHitbox = hoverSliderDetection.MouseHoverSlider() &&
+                             (!HoverSliderDetection.sliderHovered || anim.IsVisible());
 
         bool vis = !GameManager.Instance.Playing && Input.GetKey(KeybindManager.Instance.EditSpeedKey) && hoveredHitbox;
 

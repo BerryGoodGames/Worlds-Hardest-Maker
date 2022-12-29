@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,14 +5,20 @@ public class SettingGenerator : MonoBehaviour
 {
     public enum SettingVersion
     {
-        DROPDOWN, CHECKBOX, SLIDER, NUMBER_INPUT, HEADER, SPACE
+        DROPDOWN,
+        CHECKBOX,
+        SLIDER,
+        NUMBER_INPUT,
+        HEADER,
+        SPACE
     }
 
     #region Fields
+
     #region Options
+
 #if UNITY_EDITOR
-    [Header("Options")]
-    [SerializeField] private string label;
+    [Header("Options")] [SerializeField] private string label;
     public SettingVersion version;
     [SerializeField] private int amount = 1;
     [SerializeField] private float fontSize = 40;
@@ -34,23 +37,24 @@ public class SettingGenerator : MonoBehaviour
     // numberinput: input width
     [SerializeField] private float numberInputWidth = 250;
 #endif
+
     #endregion
 
-    [Space]
-    [SerializeField] private Transform container;
+    [Space] [SerializeField] private Transform container;
+
     #endregion
 
 #if UNITY_EDITOR
     public void GenerateSetting()
     {
-        if(label.Length == 0)
+        if (label.Length == 0)
         {
             Debug.LogWarning("You need to specify label!");
             return;
         }
 
         GameObject prefab = version.GetPrefab();
-        
+
         // iterate for the amount
         for (int i = 0; i < amount; i++)
         {

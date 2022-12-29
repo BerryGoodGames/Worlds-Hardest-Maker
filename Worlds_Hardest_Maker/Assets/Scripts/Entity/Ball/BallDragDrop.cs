@@ -1,11 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
+using UnityEngine;
 
 /// <summary>
-/// script for enabling drag and drop on ball objects, also bounce pos or origin pos
-/// attach to gameObject to be dragged
+///     script for enabling drag and drop on ball objects, also bounce pos or origin pos
+///     attach to gameObject to be dragged
 /// </summary>
 public class BallDragDrop : MonoBehaviourPun
 {
@@ -26,7 +25,7 @@ public class BallDragDrop : MonoBehaviourPun
         if (!Input.GetKey(KeybindManager.Instance.EntityMoveKey)) return;
 
         Vector2 unitPos = MouseManager.Instance.MouseWorldPosGrid;
-        if(GameManager.Instance.Multiplayer)
+        if (GameManager.Instance.Multiplayer)
         {
             PhotonView controllerView = controller.GetComponent<PhotonView>();
             controllerView.RPC("MoveObject", RpcTarget.All, unitPos, id);
@@ -46,6 +45,7 @@ public class BallDragDrop : MonoBehaviourPun
         {
             res++;
         }
+
         return res;
     }
 }

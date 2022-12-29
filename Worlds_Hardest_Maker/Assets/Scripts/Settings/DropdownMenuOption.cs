@@ -1,26 +1,27 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DropdownMenuOption : SettingOption
 {
-    [Space]
-    [SerializeField] private RectTransform arrowRt;
+    [Space] [SerializeField] private RectTransform arrowRt;
     [SerializeField] private BackgroundLineSize bgLineSize;
     [SerializeField] private AspectRatioFitter aspectRatioFitter;
-    [Space]
-    [SerializeField] private float originalHeight = 80;
-    public float OriginalHeight {
+    [Space] [SerializeField] private float originalHeight = 80;
+
+    public float OriginalHeight
+    {
         get => originalHeight;
         set => originalHeight = value;
     }
+
     [SerializeField] private float originalWidth = 250;
-    public float OriginalWidth { 
+
+    public float OriginalWidth
+    {
         get => originalWidth;
         set => originalWidth = value;
     }
+
     [SerializeField] private float originalLineSize = 4;
     [SerializeField] private float originalBaseLineSize = 10;
     [SerializeField] private float originalArrowScl = 0.3f;

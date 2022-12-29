@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ConveyorController : MonoBehaviour
@@ -12,10 +10,12 @@ public class ConveyorController : MonoBehaviour
 
     private static readonly int Running = Animator.StringToHash("Running");
 
-    public float Strength { 
+    public float Strength
+    {
         get => strength;
         set => strength = value;
     }
+
     public float Rotation => transform.rotation.z;
 
     public void Rotate()

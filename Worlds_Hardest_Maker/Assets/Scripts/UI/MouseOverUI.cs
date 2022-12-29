@@ -1,11 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// checks if ui element is hovered by mouse:
-/// GetComponent<MouseOverUI>().over
+///     checks if ui element is hovered by mouse:
+///     GetComponent<MouseOverUI>().over
 /// </summary>
 public class MouseOverUI : MonoBehaviour
 {
@@ -34,7 +32,7 @@ public class MouseOverUI : MonoBehaviour
 
     private void Update()
     {
-        if(updateSize) UpdateSize();
+        if (updateSize) UpdateSize();
         if (Input.mousePosition.x > rt.position.x - width * 0.5f &&
             Input.mousePosition.x < rt.position.x + width * 0.5f &&
             Input.mousePosition.y > rt.position.y - height * 0.5f &&
@@ -47,9 +45,9 @@ public class MouseOverUI : MonoBehaviour
 
             over = true;
         }
-        else 
+        else
         {
-            if(over)
+            if (over)
             {
                 onUnhovered();
             }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FollowMouse : MonoBehaviour
@@ -12,7 +10,9 @@ public class FollowMouse : MonoBehaviour
 
     public enum WorldPosition
     {
-        ANY, GRID, MATRIX
+        ANY,
+        GRID,
+        MATRIX
     }
 
     private void FixedUpdate()

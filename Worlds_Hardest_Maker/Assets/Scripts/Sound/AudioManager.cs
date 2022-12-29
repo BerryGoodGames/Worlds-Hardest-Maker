@@ -1,6 +1,6 @@
 using System;
-using UnityEngine.Audio;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
@@ -8,15 +8,14 @@ public class AudioManager : MonoBehaviour
     public float transitionTime = 1;
     public AudioMixerSnapshot defaultState;
     public AudioMixerSnapshot filteredState;
-    [Space]
-    public Sound[] sounds;
+    [Space] public Sound[] sounds;
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
             Instance = this;
 
-        foreach(Sound s in sounds)
+        foreach (Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.AudioClip;
@@ -25,25 +24,28 @@ public class AudioManager : MonoBehaviour
             s.source.loop = s.loop;
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
-            if(s.playOnAwake)
+            if (s.playOnAwake)
             {
                 s.source.Play();
             }
         }
     }
+
     public void Play(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
-        if(s == null)
+        if (s == null)
         {
             Debug.LogWarning($"The sound name {name} was not found!");
             return;
         }
+
         s.source.Play();
     }
+
     public void MusicFiltered(bool filtered)
     {
-        if(filtered)
+        if (filtered)
         {
             filteredState.TransitionTo(transitionTime);
         }

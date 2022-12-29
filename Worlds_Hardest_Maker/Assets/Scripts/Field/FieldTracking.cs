@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Apply this to every field which the player can stand on
+///     Apply this to every field which the player can stand on
 /// </summary>
 public class FieldTracking : MonoBehaviour
 {
@@ -26,5 +24,4 @@ public class FieldTracking : MonoBehaviour
         PlayerController controller = collider.GetComponent<PlayerController>();
         controller.currentFields.Remove(gameObject);
     }
-
 }

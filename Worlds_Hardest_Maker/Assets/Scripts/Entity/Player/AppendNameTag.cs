@@ -1,12 +1,10 @@
-using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
-/// Script for player
-/// to add a name tag following attached gameObject
-/// and splitting gameObject and name tag
+///     Script for player
+///     to add a name tag following attached gameObject
+///     and splitting gameObject and name tag
 /// </summary>
 public class AppendNameTag : MonoBehaviour
 {
@@ -19,7 +17,8 @@ public class AppendNameTag : MonoBehaviour
     {
         if (!GameManager.Instance.Multiplayer && showOnlyWhenMultiplayer) return;
 
-        nameTag = Instantiate(nameTagPrefab, Vector2.zero, Quaternion.identity, ReferenceManager.Instance.NameTagContainer);
+        nameTag = Instantiate(nameTagPrefab, Vector2.zero, Quaternion.identity,
+            ReferenceManager.Instance.NameTagContainer);
 
         UIFollowEntity followSettings = nameTag.GetComponent<UIFollowEntity>();
         followSettings.entity = gameObject;
@@ -28,6 +27,6 @@ public class AppendNameTag : MonoBehaviour
 
     public void SetNameTag(string name)
     {
-        nameTag.GetComponent<TMPro.TMP_Text>().text = name;
+        nameTag.GetComponent<TMP_Text>().text = name;
     }
 }

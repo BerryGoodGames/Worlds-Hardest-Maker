@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
+using UnityEngine;
 
 /// <summary>
-/// Controller for the clear level button
+///     Controller for the clear level button
 /// </summary>
 public class ClearLevelController : MonoBehaviour
 {

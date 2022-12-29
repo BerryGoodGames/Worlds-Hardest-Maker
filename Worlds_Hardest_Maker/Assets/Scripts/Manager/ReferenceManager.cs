@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ReferenceManager : MonoBehaviour
 {
     public static ReferenceManager Instance { get; private set; }
 
-    [Header("Objects")]
-    public GameObject Manager;
+    [Header("Objects")] public GameObject Manager;
     public GameObject Canvas;
     public GameObject TooltipCanvas;
     public GameObject Menu;
@@ -16,9 +13,7 @@ public class ReferenceManager : MonoBehaviour
     public GameObject LevelSettingsPanel;
     public GameObject BallWindows;
     public PlayerSpawner PlayerSpawner;
-    [Space]
-    [Header("Containers")]
-    public Transform ToolbarContainer;
+    [Space] [Header("Containers")] public Transform ToolbarContainer;
     public Transform SliderContainer;
     public Transform NameTagContainer;
     public Transform DrawContainer;

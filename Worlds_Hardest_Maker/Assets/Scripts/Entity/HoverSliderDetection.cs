@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 /// <summary>
-/// detects if one of hitboxes are colliding with mouse position
-/// requires child named HoveringHitboxes containing hitboxes
-/// attach to entity having speed slider
+///     detects if one of hitboxes are colliding with mouse position
+///     requires child named HoveringHitboxes containing hitboxes
+///     attach to entity having speed slider
 /// </summary>
 public class HoverSliderDetection : MonoBehaviour
 {

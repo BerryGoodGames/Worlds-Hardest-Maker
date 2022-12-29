@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
-/// inits lobby: rooms, players etc
+///     inits lobby: rooms, players etc
 /// </summary>
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -18,12 +19,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [Space]
 
     // references
-    public TMPro.TMP_InputField roomNameInput;
+    public TMP_InputField roomNameInput;
+
     public GameObject lobbyPanel;
     public GameObject roomPanel;
     [SerializeField] private GameObject loadingPanel;
-    public TMPro.TMP_Text roomNameTitle;
-    public TMPro.TMP_Text yourName;
+    public TMP_Text roomNameTitle;
+    public TMP_Text yourName;
     [SerializeField] private string privateRoomStart = "!";
     [SerializeField] private Slider loadingSlider;
 
@@ -31,22 +33,20 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     // list of all room item controllers
     private readonly List<RoomItem> roomItemsList = new();
+
     public GameObject roomContainer;
 
     [Space]
 
     // vars for tracking cooldown
     public float timeBetweenUpdates = 1.5f;
+
     private float nextUpdateTime;
 
-    [Space]
-
-    private readonly List<PlayerItem> playerItemsList = new();
+    [Space] private readonly List<PlayerItem> playerItemsList = new();
     public GameObject playerItemContainer;
 
-    [Space]
-
-    public GameObject playButton;
+    [Space] public GameObject playButton;
 
     private static readonly int Load = Animator.StringToHash("Load");
 
@@ -59,7 +59,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// onclick method for Create Room button
+    ///     onclick method for Create Room button
     /// </summary>
     public void OnClickCreate()
     {
@@ -80,7 +80,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// callback method: player joins / creates room: switch panels
+    ///     callback method: player joins / creates room: switch panels
     /// </summary>
     public override void OnJoinedRoom()
     {
@@ -94,7 +94,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// callback method: global list of rooms updates in any way
+    ///     callback method: global list of rooms updates in any way
     /// </summary>
     /// <param name="roomList"></param>
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -106,16 +106,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         // -> clear list
         foreach (RoomItem item in roomItemsList)
         {
-            if(item != null && item.gameObject != null)
+            if (item != null && item.gameObject != null)
                 Destroy(item.gameObject);
         }
+
         roomItemsList.Clear();
 
         // fill list with new RoomItem game objects
         foreach (RoomInfo room in roomList)
         {
             RoomItem controller;
-            if(!room.Name.StartsWith(privateRoomStart))
+            if (!room.Name.StartsWith(privateRoomStart))
             {
                 // new RoomItem in roomContainer
                 GameObject newRoom = Instantiate(RoomItem, roomContainer.transform);
@@ -135,7 +136,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// onclick method for leave button
+    ///     onclick method for leave button
     /// </summary>
     public void OnClickLeaveRoom()
     {
@@ -143,7 +144,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// callback method: player leaves any room: switch panels
+    ///     callback method: player leaves any room: switch panels
     /// </summary>
     public override void OnLeftRoom()
     {
@@ -160,17 +161,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         // update player list
         // -> clear player item list
-        foreach(PlayerItem item in playerItemsList)
+        foreach (PlayerItem item in playerItemsList)
         {
             Destroy(item.gameObject);
         }
+
         playerItemsList.Clear();
 
         // check if in a room
         if (PhotonNetwork.CurrentRoom == null) return;
 
         // fill in all connected player
-        foreach(KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
+        foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
         {
             // init new player item
             GameObject newPlayerItem = Instantiate(PlayerItem, playerItemContainer.transform);
@@ -186,6 +188,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         UpdatePlayerList();
     }
+
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         UpdatePlayerList();
@@ -197,7 +200,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount >= 1)
         {
             playButton.SetActive(true);
-        } else
+        }
+        else
         {
             playButton.SetActive(false);
         }
@@ -215,6 +219,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.LoadLevel("DefaultEditorScene");
     }
+
     [PunRPC]
     private void StartLoading()
     {
@@ -223,9 +228,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         StartCoroutine(UpdateLoadingSlider());
     }
+
     private IEnumerator UpdateLoadingSlider()
     {
-        while(PhotonNetwork.LevelLoadingProgress <= 0.9)
+        while (PhotonNetwork.LevelLoadingProgress <= 0.9)
         {
             loadingSlider.value = PhotonNetwork.LevelLoadingProgress / 0.9f;
             yield return null;
@@ -233,17 +239,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// checks if room already exists
+    ///     checks if room already exists
     /// </summary>
     /// <param name="roomName">name of room to check</param>
-    /// 
     public bool CheckRooms(string roomName)
     {
-        foreach(RoomItem room in roomItemsList)
+        foreach (RoomItem room in roomItemsList)
         {
-            if(room.info.Name.Equals(roomName))
+            if (room.info.Name.Equals(roomName))
                 return true;
         }
+
         return false;
     }
 

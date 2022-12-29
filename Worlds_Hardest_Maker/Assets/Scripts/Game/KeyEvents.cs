@@ -1,12 +1,9 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
 /// <summary>
-/// controlling key events and managing keyboard shortcuts
-/// attach to game manager
+///     controlling key events and managing keyboard shortcuts
+///     attach to game manager
 /// </summary>
 public class KeyEvents : MonoBehaviour
 {
@@ -15,9 +12,9 @@ public class KeyEvents : MonoBehaviour
     private void Update()
     {
         // toggle playing
-        if (Input.GetKeyDown(KeyCode.Space)) 
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameManager.Instance.TogglePlay(); 
+            GameManager.Instance.TogglePlay();
         }
 
         // toggle menu
@@ -27,11 +24,11 @@ public class KeyEvents : MonoBehaviour
         }
 
         // teleport player to mouse pos
-        if(GameManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))
+        if (GameManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))
         {
             GameObject player = PlayerManager.GetPlayer();
             // TODO
-            if(player != null)
+            if (player != null)
             {
                 player.GetComponent<Rigidbody2D>().position = MouseManager.Instance.MouseWorldPosGrid;
                 GameManager.Instance.Cheated = true;
@@ -68,10 +65,8 @@ public class KeyEvents : MonoBehaviour
 
         // check edit mode toggling if no ctrl and not playing
         if (!Input.GetKey(ctrl) && !GameManager.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
-
-        
     }
-    
+
     /// <returns>list of keyboard shortcuts for edit modes</returns>
     public static Dictionary<KeyCode[], EditMode> GetKeyboardShortcuts()
     {
@@ -105,10 +100,10 @@ public class KeyEvents : MonoBehaviour
         Dictionary<KeyCode[], EditMode> keyboardShortcuts = GetKeyboardShortcuts();
 
         // check every event and set edit mode accordingly
-        foreach(KeyValuePair<KeyCode[], EditMode> shortcut in keyboardShortcuts)
+        foreach (KeyValuePair<KeyCode[], EditMode> shortcut in keyboardShortcuts)
         {
             bool combinationPressed = true;
-            foreach(KeyCode shortcutKey in shortcut.Key)
+            foreach (KeyCode shortcutKey in shortcut.Key)
             {
                 if (Input.GetKey(shortcutKey)) continue;
 

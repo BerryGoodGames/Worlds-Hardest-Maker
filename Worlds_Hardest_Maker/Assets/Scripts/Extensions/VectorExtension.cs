@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public static class VectorExtension
@@ -31,7 +29,7 @@ public static class VectorExtension
         int ceiledY = Mathf.CeilToInt(vector.y);
         int ceiledZ = Mathf.CeilToInt(vector.z);
 
-        return new (ceiledX, ceiledY, ceiledZ);
+        return new(ceiledX, ceiledY, ceiledZ);
     }
 
     public static Vector3 Floor(this Vector3 vector)
@@ -72,7 +70,7 @@ public static class VectorExtension
         int roundedX = Mathf.RoundToInt(vector.x);
         int roundedY = Mathf.RoundToInt(vector.y);
         int roundedZ = Mathf.RoundToInt(vector.z);
-        
+
         return new(roundedX, roundedY, roundedZ);
     }
 
@@ -90,6 +88,5 @@ public static class VectorExtension
         Vector3 screenPoint = worldPoint ? Camera.main.WorldToViewportPoint(point) : point;
         bool onScreen = screenPoint.x is > 0 and < 1 && screenPoint.y is > 0 and < 1;
         return onScreen;
-
     }
 }

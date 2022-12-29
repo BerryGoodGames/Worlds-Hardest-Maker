@@ -1,17 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using UnityEngine;
-using Vector2 = UnityEngine.Vector2;
 
 /// <summary>
-/// apply to every field prefab variant which has outlines (vgl. TypesWithOutlines)
+///     apply to every field prefab variant which has outlines (vgl. TypesWithOutlines)
 /// </summary>
 public class FieldOutline : MonoBehaviour
 {
     // array not dynamic
-    public static readonly FieldType[] TypesWithOutlines = {
+    public static readonly FieldType[] TypesWithOutlines =
+    {
         FieldType.WALL_FIELD,
         FieldType.GRAY_KEY_DOOR_FIELD,
         FieldType.RED_KEY_DOOR_FIELD,
@@ -24,8 +21,7 @@ public class FieldOutline : MonoBehaviour
     public bool imitateAlpha;
     public float weight = 0.1f;
     public int order = 2;
-    [Space]
-    public string[] connectTags;
+    [Space] public string[] connectTags;
     public float rayLength = 1f;
 
     private readonly Vector2[] directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
@@ -98,10 +94,11 @@ public class FieldOutline : MonoBehaviour
 
             // if there is a connector then no line
             if (there) continue;
-            
+
             DrawLine(dir);
         }
     }
+
     public void UpdateOutline(Vector2 dir, bool update = false)
     {
         if (Dbg.Instance.dbgEnabled && !Dbg.Instance.wallOutlines) return;
@@ -118,7 +115,7 @@ public class FieldOutline : MonoBehaviour
         {
             if (update && r.collider.gameObject.GetComponent<FieldOutline>() != null)
             {
-                r.collider.gameObject.GetComponent<FieldOutline>().UpdateOutline(false);
+                r.collider.gameObject.GetComponent<FieldOutline>().UpdateOutline();
             }
 
             if (!connectTags.Contains(r.collider.tag)) continue;
@@ -131,6 +128,7 @@ public class FieldOutline : MonoBehaviour
 
         DrawLine(dir);
     }
+
     private void DrawLine(Vector2 dir)
     {
         Transform t = transform;
@@ -193,6 +191,7 @@ public class FieldOutline : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
+
     private void ClearLineInDir(Vector2 dir)
     {
         // clear line
@@ -204,7 +203,7 @@ public class FieldOutline : MonoBehaviour
             return;
         }
     }
-    
+
     public void UpdateAlpha()
     {
         if (!imitateAlpha || !hasSpriteRenderer || GameManager.DoFloatsEqual(spriteRenderer.color.a, color.a)) return;

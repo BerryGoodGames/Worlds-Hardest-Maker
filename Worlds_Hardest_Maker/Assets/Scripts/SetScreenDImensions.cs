@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SetScreenDimensions : MonoBehaviour
@@ -11,11 +9,12 @@ public class SetScreenDimensions : MonoBehaviour
 
     private void Start()
     {
-        if(hasRectTransform)
+        if (hasRectTransform)
         {
             RectTransform rt = GetComponent<RectTransform>();
             rt.sizeDelta = new((setScreenWidth ? canvas : rt).rect.width, (setScreenHeight ? canvas : rt).rect.height);
-        } else
+        }
+        else
         {
             Camera cam = Camera.main;
             if (cam == null) return;

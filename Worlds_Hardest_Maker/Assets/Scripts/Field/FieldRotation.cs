@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -16,7 +15,7 @@ public class FieldRotation : MonoBehaviour
 
     private void Start()
     {
-        if(!TryGetComponent(out boxCollider))
+        if (!TryGetComponent(out boxCollider))
             disableCollision = false;
     }
 
@@ -35,7 +34,7 @@ public class FieldRotation : MonoBehaviour
         transform.rotation = endRotation;
         rotating = false;
 
-        if(disableCollision)
+        if (disableCollision)
             boxCollider.isTrigger = false;
     }
 
@@ -44,7 +43,7 @@ public class FieldRotation : MonoBehaviour
     {
         if (rotating || EventSystem.current.IsPointerOverGameObject()) return;
 
-        if(disableCollision)
+        if (disableCollision)
             boxCollider.isTrigger = true;
 
         Animator anim = GetComponent<Animator>();
@@ -63,7 +62,7 @@ public class FieldRotation : MonoBehaviour
         {
             PhotonView view = PhotonView.Get(this);
             view.RPC("StartRotation", RpcTarget.All);
-        } 
+        }
         else
         {
             StartRotation();

@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
-using static UnityEngine.Rendering.DebugUI;
+using UnityEngine;
 
 /// <summary>
-/// Manages the anchors (duh)
+///     Manages the anchors (duh)
 /// </summary>
 public class AnchorManager : MonoBehaviour
 {
@@ -27,7 +24,7 @@ public class AnchorManager : MonoBehaviour
 
 
     /// <summary>
-    /// places anchor at position
+    ///     places anchor at position
     /// </summary>
     /// <param name="mx">x position of anchor</param>
     /// <param name="my">y position of anchor</param>
@@ -35,8 +32,9 @@ public class AnchorManager : MonoBehaviour
     {
         return SetAnchor(new(mx, my));
     }
+
     /// <summary>
-    /// places anchor at position
+    ///     places anchor at position
     /// </summary>
     /// <param name="pos">position of anchor</param>
     public GameObject SetAnchor(Vector2 pos)
@@ -52,7 +50,7 @@ public class AnchorManager : MonoBehaviour
     }
 
     /// <summary>
-    /// removes anchor at position
+    ///     removes anchor at position
     /// </summary>
     /// <param name="mx">x position of anchor</param>
     /// <param name="my">y position of anchor</param>
@@ -63,7 +61,7 @@ public class AnchorManager : MonoBehaviour
     }
 
     /// <summary>
-    /// removes anchor at position
+    ///     removes anchor at position
     /// </summary>
     /// <param name="pos">position of anchor</param>
     public static void RemoveAnchor(Vector2 pos)
@@ -92,6 +90,7 @@ public class AnchorManager : MonoBehaviour
                 return hit.gameObject;
             }
         }
+
         return null;
     }
 
@@ -106,7 +105,7 @@ public class AnchorManager : MonoBehaviour
         if (anchor == null) return;
 
         Instance.SelectedAnchor = anchor;
-        if(GameManager.Instance.CurrentEditMode != EditMode.BALL)
+        if (GameManager.Instance.CurrentEditMode != EditMode.BALL)
             GameManager.Instance.CurrentEditMode = EditMode.ANCHOR;
 
         Animator anim = anchor.GetComponent<Animator>();

@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// script to detect player death event
-/// attach to ball objects
+///     script to detect player death event
+///     attach to ball objects
 /// </summary>
 public class BallTriggerEvent : MonoBehaviour
 {

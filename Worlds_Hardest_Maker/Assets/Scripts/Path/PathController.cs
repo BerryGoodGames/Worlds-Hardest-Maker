@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 
 /// </summary>
 public class PathController : MonoBehaviour
 {
     public enum PathMode
     {
-        BOUNCE, LOOP, STOP
+        BOUNCE,
+        LOOP,
+        STOP
     }
 
     public List<Waypoint> waypoints = new()
@@ -19,9 +20,7 @@ public class PathController : MonoBehaviour
 
     [SerializeField] private Transform LineContainer;
 
-    [Space]
-    [Header("Settings")] 
-    public bool setElement0ToStartingPos = true;
+    [Space] [Header("Settings")] public bool setElement0ToStartingPos = true;
     public bool drawLines = true;
     public bool onlyMoveWhenPlaying = true;
     public PathMode pathMode = 0;
@@ -66,7 +65,8 @@ public class PathController : MonoBehaviour
         if (setElement0ToStartingPos && waypoints[0] != null)
         {
             waypoints[0].position = transform.position;
-            if(WaypointEditorController.StartPosition != null) WaypointEditorController.StartPosition.UpdateInputValues();
+            if (WaypointEditorController.StartPosition != null)
+                WaypointEditorController.StartPosition.UpdateInputValues();
         }
 
         AnchorManager.Instance.selectedPathController.DrawLines();
@@ -140,7 +140,8 @@ public class PathController : MonoBehaviour
             }
 
             // move towards target
-            transform.position = Vector2.MoveTowards(transform.position, target.position, attributeTarget.speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, target.position,
+                attributeTarget.speed * Time.deltaTime);
 
             transform.Rotate(new Vector3(0, 0, attributeTarget.rotationSpeed * Time.deltaTime));
             yield return null;
@@ -169,7 +170,7 @@ public class PathController : MonoBehaviour
 
         StopCoroutine(moveCoroutine);
         StartCoroutine(moveCoroutine);
-        if(rotationCoroutine != null) StopCoroutine(rotationCoroutine);
+        if (rotationCoroutine != null) StopCoroutine(rotationCoroutine);
         transform.rotation = Quaternion.identity;
     }
 

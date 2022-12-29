@@ -1,23 +1,22 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Audio;
 
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance { get; private set; }
+
     public enum MenuTab
     {
-        GRAPHIC = 0, UI = 1, SOUND = 2
+        GRAPHIC = 0,
+        UI = 1,
+        SOUND = 2
     }
-    [Header("Constants & References")]
-    public GameObject graphicSettingsUI;
+
+    [Header("Constants & References")] public GameObject graphicSettingsUI;
     public GameObject UISettingsUI;
     public GameObject soundSettingsUI;
-    [Space]
-    [Header("Variables")]
-    public MenuTab currentMenuTab;
+    [Space] [Header("Variables")] public MenuTab currentMenuTab;
     private MenuTab prevMenuTab;
 
     [HideInInspector] public bool blockMenu;
@@ -32,31 +31,37 @@ public class MenuManager : MonoBehaviour
     {
         ChangeMenuTab(currentMenuTab);
     }
+
     public static void ExitGame()
     {
         GameManager.QuitGame();
     }
 
     #region Menu Tab
+
     public void ChangeMenuTab(MenuTab tab)
     {
         // REF
         if (tab != prevMenuTab)
         {
             Dictionary<MenuTab, GameObject> dict = GetTabDict();
-            for (int i = 0; i < System.Enum.GetValues(typeof(MenuTab)).Length; i++)
+            for (int i = 0; i < Enum.GetValues(typeof(MenuTab)).Length; i++)
             {
                 dict[(MenuTab)i].SetActive(false);
             }
+
             dict[tab].SetActive(true);
             currentMenuTab = tab;
         }
+
         prevMenuTab = tab;
     }
+
     public void ChangeMenuTab(int tab)
     {
         ChangeMenuTab((MenuTab)tab);
     }
+
     public void ChangeMenuTab()
     {
         ChangeMenuTab(currentMenuTab);
@@ -68,10 +73,11 @@ public class MenuManager : MonoBehaviour
         Dictionary<MenuTab, GameObject> dict = new()
         {
             { MenuTab.GRAPHIC, graphicSettingsUI },
-            { MenuTab.SOUND, soundSettingsUI } ,
+            { MenuTab.SOUND, soundSettingsUI },
             { MenuTab.UI, UISettingsUI }
         };
         return dict;
     }
+
     #endregion
 }

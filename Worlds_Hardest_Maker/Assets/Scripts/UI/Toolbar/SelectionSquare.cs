@@ -1,20 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SelectionSquare : MonoBehaviour
 {
-    Image image;
+    private Image image;
     public Sprite deselectedSprite;
     public Sprite selectedSprite;
     public Sprite subSelectedSprite;
-    RectTransform rt;
+    private RectTransform rt;
+
     private void Awake()
     {
         rt = GetComponent<RectTransform>();
         image = GetComponent<Image>();
     }
+
     private void Start()
     {
         if (transform.parent.transform.parent != null && transform.parent.parent.CompareTag("OptionContainer"))
@@ -26,10 +26,12 @@ public class SelectionSquare : MonoBehaviour
             rt.sizeDelta = GetComponentInParent<RectTransform>().rect.size;
         }
     }
+
     public void Selected(bool selected)
     {
         image.sprite = selected ? selectedSprite : deselectedSprite;
     }
+
     public void SubSelected(bool subselected)
     {
         image.sprite = subselected ? subSelectedSprite : image.sprite;

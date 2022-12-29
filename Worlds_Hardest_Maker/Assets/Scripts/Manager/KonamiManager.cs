@@ -1,7 +1,7 @@
-using System;
 using UnityEngine;
+
 /// <Summary>
-/// Checks inputted key if it's the konami Code
+///     Checks inputted key if it's the konami Code
 /// </Summary>
 public class KonamiManager : MonoBehaviour
 {
@@ -9,9 +9,10 @@ public class KonamiManager : MonoBehaviour
     public static bool KonamiActive { get; set; }
 
     // Konami Code: ???????BA
-    private readonly KeyCode[] konamiKeys = {
-        KeyCode.UpArrow, KeyCode.UpArrow, 
-        KeyCode.DownArrow, KeyCode.DownArrow, 
+    private readonly KeyCode[] konamiKeys =
+    {
+        KeyCode.UpArrow, KeyCode.UpArrow,
+        KeyCode.DownArrow, KeyCode.DownArrow,
         KeyCode.LeftArrow,
         KeyCode.RightArrow,
         KeyCode.LeftArrow,

@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ToolbarSizing : MonoBehaviour
 {
     public Canvas canvas;
 
-    [Space]
-    public float toolbarHeight;
+    [Space] public float toolbarHeight;
 
     public void UpdateSize()
     {
@@ -29,11 +26,12 @@ public class ToolbarSizing : MonoBehaviour
     public void ScaleOptionsInOptionbars()
     {
         ToolOptionbar[] optionbars = FindObjectsOfType<ToolOptionbar>();
-        foreach(ToolOptionbar optionbar in optionbars)
+        foreach (ToolOptionbar optionbar in optionbars)
         {
             optionbar.ScaleOptions();
         }
     }
+
     public void UpdateOptionbarHeights()
     {
         ToolOptionbar[] optionbars = FindObjectsOfType<ToolOptionbar>();

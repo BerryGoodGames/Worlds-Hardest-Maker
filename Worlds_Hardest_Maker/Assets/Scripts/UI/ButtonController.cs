@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -45,7 +43,7 @@ public class ButtonController : MonoBehaviour
     public static void UpdateEVERYFUCKINGShit()
     {
         ButtonController[] buttons = Resources.FindObjectsOfTypeAll<ButtonController>();
-        foreach(ButtonController controller in buttons)
+        foreach (ButtonController controller in buttons)
         {
             controller.UpdateSomeShit();
         }

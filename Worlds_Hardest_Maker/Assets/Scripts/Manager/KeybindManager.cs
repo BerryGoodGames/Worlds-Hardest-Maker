@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class KeybindManager : MonoBehaviour
 {
     public static KeybindManager Instance { get; private set; } // singleton
 
-    [Header("Key binds")]
-    public int SelectionMouseButton;
+    [Header("Key binds")] public int SelectionMouseButton;
     public int PanMouseButton;
     public KeyCode EntityDeleteKey;
     public KeyCode EntityMoveKey;

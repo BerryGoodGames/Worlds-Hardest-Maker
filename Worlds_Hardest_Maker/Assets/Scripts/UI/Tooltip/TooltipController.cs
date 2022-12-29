@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(AlphaUITween))]
 public class TooltipController : MonoBehaviour
 {
-    public TMPro.TMP_Text Text;
+    public TMP_Text Text;
 }

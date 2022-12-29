@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /// <summary>
-/// extension for EditMode methods and readability
+///     extension for EditMode methods and readability
 /// </summary>
 public static class EditModeExtension
 {
@@ -47,7 +47,8 @@ public static class EditModeExtension
 
     public static string GetUIString(this EditMode mode)
     {
-        return new string[]{
+        return new[]
+        {
             "Delete",
             "Wall Field",
             "Start Field",
@@ -73,7 +74,7 @@ public static class EditModeExtension
             "Key - Red",
             "Key - Green",
             "Key - Blue",
-            "Key - Yellow",
+            "Key - Yellow"
         }[(int)mode];
     }
 
@@ -88,7 +89,7 @@ public static class EditModeExtension
             EditMode.CHECKPOINT_FIELD,
             EditMode.ONE_WAY_FIELD,
             EditMode.CONVEYOR,
-            EditMode.WATER,            
+            EditMode.WATER,
             EditMode.ICE,
             EditMode.VOID,
             EditMode.GRAY_KEY_DOOR_FIELD,

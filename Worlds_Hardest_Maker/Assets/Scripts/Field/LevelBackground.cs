@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// script for consistent seamless background
-/// attach to main camera
+///     script for consistent seamless background
+///     attach to main camera
 /// </summary>
 public class LevelBackground : MonoBehaviour
 {
@@ -27,10 +25,11 @@ public class LevelBackground : MonoBehaviour
     {
         Vector2 camPosition = cam.transform.position;
 
-        if(prevPosition != camPosition)
+        if (prevPosition != camPosition)
         {
             container.position = new(Mathf.Floor(camPosition.x * 0.5f) * 2, Mathf.Floor(camPosition.y * 0.5f) * 2);
         }
+
         prevPosition = camPosition;
     }
 
@@ -54,6 +53,7 @@ public class LevelBackground : MonoBehaviour
             }
         }
     }
+
     public void CalcSize()
     {
         CalcSize(cam.orthographicSize);

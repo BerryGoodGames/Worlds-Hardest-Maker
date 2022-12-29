@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UIAttachToPoint : MonoBehaviour
 {
     public Vector2 point;
     public bool zoomSizeWithCamera;
-    public bool zoomPositionWithCamera;    
+    public bool zoomPositionWithCamera;
 
     private Camera cam;
     private RectTransform rt;

@@ -1,6 +1,6 @@
-using Photon.Pun;
-using System;
 using System.Collections.Generic;
+using Photon.Pun;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,14 +10,15 @@ public class WaypointEditorController : MonoBehaviour
 
     public int waypointIndex;
 
-    [Header("references")]
-    [SerializeField] private TMPro.TMP_Text noTxt;
-    [SerializeField] private TMPro.TMP_InputField positionX;
-    [SerializeField] private TMPro.TMP_InputField positionY;
-    [SerializeField] private TMPro.TMP_InputField speed;
-    [SerializeField] private TMPro.TMP_InputField rotationSpeed;
-    [SerializeField] private TMPro.TMP_InputField turns;
-    [SerializeField] private TMPro.TMP_InputField delay;
+    [Header("references")] [SerializeField]
+    private TMP_Text noTxt;
+
+    [SerializeField] private TMP_InputField positionX;
+    [SerializeField] private TMP_InputField positionY;
+    [SerializeField] private TMP_InputField speed;
+    [SerializeField] private TMP_InputField rotationSpeed;
+    [SerializeField] private TMP_InputField turns;
+    [SerializeField] private TMP_InputField delay;
     [SerializeField] private Toggle rotateWhileDelay;
 
     private AnchorController anchorController;
@@ -44,7 +45,7 @@ public class WaypointEditorController : MonoBehaviour
             // set input fields to position
             positionX.text = value.x.ToString();
             positionY.text = value.y.ToString();
-            if(Waypoints.Count > 1)
+            if (Waypoints.Count > 1)
                 turns.text = GetTurns().ToString();
         }
     }
@@ -114,7 +115,7 @@ public class WaypointEditorController : MonoBehaviour
 
         if (!GameManager.Instance.Multiplayer) return;
 
-        if(anchorController != null)
+        if (anchorController != null)
             anchorController.View.RPC("RPCSetWaypointPosition", RpcTarget.Others, InputPosition, waypointIndex);
     }
 
@@ -147,7 +148,8 @@ public class WaypointEditorController : MonoBehaviour
         if (!GameManager.Instance.Multiplayer) return;
 
         if (anchorController != null)
-            anchorController.View.RPC("RPCSetWaypointRotationSpeed", RpcTarget.Others, InputRotationSpeed, waypointIndex);
+            anchorController.View.RPC("RPCSetWaypointRotationSpeed", RpcTarget.Others, InputRotationSpeed,
+                waypointIndex);
     }
 
     private void SetRotationSpeed(float speed)
@@ -155,7 +157,6 @@ public class WaypointEditorController : MonoBehaviour
         Waypoint.rotationSpeed = speed;
         if (Waypoints.Count > 1)
             turns.text = GetTurns().ToString();
-
     }
 
     public void UpdateTurns()
@@ -200,7 +201,8 @@ public class WaypointEditorController : MonoBehaviour
         if (!GameManager.Instance.Multiplayer) return;
 
         if (anchorController != null)
-            anchorController.View.RPC("RPCSetWaypointRotateWhileDelay", RpcTarget.Others, InputRotateWhileDelay, waypointIndex);
+            anchorController.View.RPC("RPCSetWaypointRotateWhileDelay", RpcTarget.Others, InputRotateWhileDelay,
+                waypointIndex);
     }
 
     private void SetRotateWhileDelay(bool rotateWhileDelay)
@@ -215,6 +217,7 @@ public class WaypointEditorController : MonoBehaviour
             if (anchorController != null)
                 anchorController.View.RPC("RPCDeleteWaypoint", RpcTarget.Others, waypointIndex);
         }
+
         AnchorManager.Instance.selectedPathController.waypoints.Remove(Waypoint);
         transform.parent.parent.parent.parent.GetComponent<PathEditorController>().UpdateUI();
     }
@@ -232,8 +235,8 @@ public class WaypointEditorController : MonoBehaviour
     {
         Waypoint nextWaypoint = Waypoints[(waypointIndex + 1) % Waypoints.Count];
         if (Waypoints.Count > 1 && Vector2.Distance(Waypoint.position, nextWaypoint.position) != 0)
-            return (Vector2.Distance(Waypoint.position, nextWaypoint.position) / Waypoint.speed *
-                    Waypoint.rotationSpeed) / 360f;
+            return Vector2.Distance(Waypoint.position, nextWaypoint.position) / Waypoint.speed *
+                Waypoint.rotationSpeed / 360f;
         return 0f;
     }
 
@@ -241,7 +244,7 @@ public class WaypointEditorController : MonoBehaviour
     {
         Waypoint nextWaypoint = Waypoints[(waypointIndex + 1) % Waypoints.Count];
         if (Waypoints.Count > 1 && Vector2.Distance(Waypoint.position, nextWaypoint.position) != 0)
-            return (InputTurns * 360f) / (Vector2.Distance(Waypoint.position, nextWaypoint.position) / Waypoint.speed);
+            return InputTurns * 360f / (Vector2.Distance(Waypoint.position, nextWaypoint.position) / Waypoint.speed);
         return 0f;
     }
 }

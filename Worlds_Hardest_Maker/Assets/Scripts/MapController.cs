@@ -1,30 +1,33 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using DG.Tweening;
 
 /// <summary>
-/// controls map / camera movement
-/// attach to main camera
+///     controls map / camera movement
+///     attach to main camera
 /// </summary>
 public class MapController : MonoBehaviour
 {
     [SerializeField] private float zoomSpeed = 4f;
-    public float ZoomSpeed {
+
+    public float ZoomSpeed
+    {
         get => zoomSpeed;
         set => zoomSpeed = value;
     }
 
     [SerializeField] private float maxZoom = 15;
-    public float MaxZoom {
+
+    public float MaxZoom
+    {
         get => maxZoom;
         set => maxZoom = value;
     }
 
     [SerializeField] private float minZoom = 3;
-    public float MinZoom {
+
+    public float MinZoom
+    {
         get => minZoom;
         set => minZoom = value;
     }
@@ -69,7 +72,7 @@ public class MapController : MonoBehaviour
     private void Zoom(float zoomInput)
     {
         if (zoomInput == 0f || !MouseManager.Instance.OnScreen) return; // zoom
-        
+
         if (!(cam.orthographicSize + zoomInput * zoomSpeed >= minZoom) ||
             !(cam.orthographicSize + zoomInput * zoomSpeed <= maxZoom)) return;
 

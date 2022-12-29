@@ -1,11 +1,9 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// rendering lines / circles: generating objects in container holding LineRenderers
-/// attach to game manager
+///     rendering lines / circles: generating objects in container holding LineRenderers
+///     attach to game manager
 /// </summary>
 public class LineManager : MonoBehaviour
 {
@@ -28,7 +26,7 @@ public class LineManager : MonoBehaviour
     public static int orderInLayer;
 
     /// <summary>
-    /// generate object containing a LineRenderer forming a rectangle
+    ///     generate object containing a LineRenderer forming a rectangle
     /// </summary>
     /// <param name="x">x-coordinate of top right corner / center of rectangle</param>
     /// <param name="y">y-coordinate of top right corner / center of rectangle</param>
@@ -36,7 +34,8 @@ public class LineManager : MonoBehaviour
     /// <param name="h">height of rectangle</param>
     /// <param name="alignCenter"></param>
     /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
-    public static GameObject DrawRect(float x, float y, float w, float h, bool alignCenter = false, Transform parent = null)
+    public static GameObject DrawRect(float x, float y, float w, float h, bool alignCenter = false,
+        Transform parent = null)
     {
         // generate object
         GameObject stroke = NewDrawObject("DrawRect", parent);
@@ -47,7 +46,8 @@ public class LineManager : MonoBehaviour
         rect.sortingLayerID = layerID;
 
         // get positions
-        Vector2[] positions = {
+        Vector2[] positions =
+        {
             new(x, y),
             new(x + w, y),
             new(x + w, y + h),
@@ -63,6 +63,7 @@ public class LineManager : MonoBehaviour
                 positions[i].x -= w * 0.5f;
                 positions[i].y -= h * 0.5f;
             }
+
             rect.SetPosition(i, positions[i]);
         }
 
@@ -70,7 +71,7 @@ public class LineManager : MonoBehaviour
     }
 
     /// <summary>
-    /// generate object containing a LineRenderer forming a circle
+    ///     generate object containing a LineRenderer forming a circle
     /// </summary>
     /// <param name="pos">point of origin</param>
     /// <param name="radius">radius of circle</param>
@@ -97,8 +98,9 @@ public class LineManager : MonoBehaviour
 
         return stroke;
     }
+
     /// <summary>
-    /// generate object containing a LineRenderer forming a circle
+    ///     generate object containing a LineRenderer forming a circle
     /// </summary>
     /// <param name="x">x-coordinate of center</param>
     /// <param name="y">y-coordinate of center</param>
@@ -110,7 +112,7 @@ public class LineManager : MonoBehaviour
     }
 
     /// <summary>
-    /// generate object containing a LineRenderer
+    ///     generate object containing a LineRenderer
     /// </summary>
     /// <param name="x1">x-coordinate of first point</param>
     /// <param name="y1">y-coordinate of second point</param>
@@ -123,7 +125,7 @@ public class LineManager : MonoBehaviour
     }
 
     /// <summary>
-    /// generate object containing a LineRenderer
+    ///     generate object containing a LineRenderer
     /// </summary>
     /// <param name="start">first point</param>
     /// <param name="end">second point</param>
@@ -190,6 +192,7 @@ public class LineManager : MonoBehaviour
             Vector3 currentPosition = new(xPos, yPos, 0);
             points.Add(currentPosition);
         }
+
         return points;
     }
 
@@ -197,14 +200,17 @@ public class LineManager : MonoBehaviour
     {
         fill = new(r, g, b);
     }
+
     public static void SetFill(Color color)
     {
         fill = color;
     }
+
     public static void SetWeight(float setWeight)
     {
         weight = setWeight;
     }
+
     public static void SetRoundedCorners(bool set)
     {
         roundedCorners = set;

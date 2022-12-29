@@ -1,14 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
-using System.Runtime.Serialization;
-using Photon.Pun;
-using System.Runtime.Serialization.Formatters.Binary;
+using DG.Tweening;
+using UnityEngine;
 
 /// <summary>
-/// contains methods for filling: GetFillRange, FillArea, GetBounds, GetBoundsMatrix
-/// attach to game manager
+///     contains methods for filling: GetFillRange, FillArea, GetBounds, GetBoundsMatrix
+///     attach to game manager
 /// </summary>
 public class SelectionManager : MonoBehaviour
 {
@@ -19,9 +16,10 @@ public class SelectionManager : MonoBehaviour
     private GameObject selectionOutline;
     private LineAnimator selectionOutlineAnim;
     public bool Selecting { get; set; }
+
     public List<Vector2> CurrentSelectionRange
     {
-        get => selectionStart == null || selectionEnd == null ? null : GetCurrentFillRange(); 
+        get => selectionStart == null || selectionEnd == null ? null : GetCurrentFillRange();
         set
         {
             if (value != null) return;
@@ -29,6 +27,7 @@ public class SelectionManager : MonoBehaviour
             selectionEnd = null;
         }
     }
+
     public static SelectionManager Instance { get; private set; }
 
     public static readonly List<EditMode> NoFillPreviewModes = new(new[]
@@ -55,7 +54,8 @@ public class SelectionManager : MonoBehaviour
             Selecting = true;
 
         // update selection markings
-        if (!GameManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null && MouseManager.Instance.MouseDragCurrent != null && Selecting)
+        if (!GameManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null &&
+            MouseManager.Instance.MouseDragCurrent != null && Selecting)
         {
             // get drag positions and world position mode
             FollowMouse.WorldPosition worldPosition = GameManager.Instance.CurrentEditMode.GetWorldPosition();
@@ -79,8 +79,10 @@ public class SelectionManager : MonoBehaviour
     {
         if (MouseManager.Instance.MouseDragStart == null || MouseManager.Instance.MouseDragCurrent == null) return;
 
-        prevStart = ((Vector2)MouseManager.Instance.MouseDragStart).ConvertPosition(GameManager.Instance.CurrentEditMode.GetWorldPosition());
-        prevEnd = ((Vector2)MouseManager.Instance.MouseDragCurrent).ConvertPosition(GameManager.Instance.CurrentEditMode.GetWorldPosition());
+        prevStart = ((Vector2)MouseManager.Instance.MouseDragStart).ConvertPosition(GameManager.Instance.CurrentEditMode
+            .GetWorldPosition());
+        prevEnd = ((Vector2)MouseManager.Instance.MouseDragCurrent).ConvertPosition(GameManager.Instance.CurrentEditMode
+            .GetWorldPosition());
     }
 
     private void Start()
@@ -94,6 +96,7 @@ public class SelectionManager : MonoBehaviour
     }
 
     #region Callbacks
+
     private void OnAreaSelectionChanged(Vector2 start, Vector2 end)
     {
         // called when area selection changed (lol)
@@ -101,6 +104,7 @@ public class SelectionManager : MonoBehaviour
         // set selection outline (if u didn't already see)
         AnimSelectionOutline(start, end);
     }
+
     private void OnAreaSelected(Vector2 start, Vector2 end)
     {
         // called when mouse button was released and area was selected
@@ -117,6 +121,7 @@ public class SelectionManager : MonoBehaviour
 
         RemakePreview();
     }
+
     private void OnStartSelect(Vector2 start)
     {
         // called when mouse button was pressed and user starts selecting
@@ -126,9 +131,11 @@ public class SelectionManager : MonoBehaviour
 
         MenuManager.Instance.blockMenu = true;
     }
+
     #endregion
 
     #region Get bounds
+
     // get bounds of multiple points (in matrix)
     private static (float, float, float, float) GetBounds(List<Vector2> points)
     {
@@ -143,18 +150,31 @@ public class SelectionManager : MonoBehaviour
             if (highestX < pos.x) highestX = pos.x;
             if (highestY < pos.y) highestY = pos.y;
         }
+
         return (lowestX, highestX, lowestY, highestY);
     }
-    private static (float, float, float, float) GetBounds(params Vector2[] points) { return GetBounds(points.ToList()); }
+
+    private static (float, float, float, float) GetBounds(params Vector2[] points)
+    {
+        return GetBounds(points.ToList());
+    }
+
     private static (int, int, int, int) GetBoundsMatrix(List<Vector2> points)
     {
         var (lowestX, highestX, lowestY, highestY) = GetBounds(points);
-        return (Mathf.CeilToInt(lowestX), Mathf.FloorToInt(highestX), Mathf.CeilToInt(lowestY), Mathf.FloorToInt(highestY));
+        return (Mathf.CeilToInt(lowestX), Mathf.FloorToInt(highestX), Mathf.CeilToInt(lowestY),
+            Mathf.FloorToInt(highestY));
     }
-    private static (int, int, int, int) GetBoundsMatrix(params Vector2[] points) { return GetBoundsMatrix(points.ToList()); }
+
+    private static (int, int, int, int) GetBoundsMatrix(params Vector2[] points)
+    {
+        return GetBoundsMatrix(points.ToList());
+    }
+
     #endregion
 
     #region Preview
+
     private static void RemakePreview()
     {
         if (ReferenceManager.Instance.FillPreviewContainer.childCount == 0) return;
@@ -169,8 +189,9 @@ public class SelectionManager : MonoBehaviour
 
         foreach (Vector2 pos in range)
         {
-            GameObject preview = Instantiate(PrefabManager.Instance.FillPreview, pos, Quaternion.identity, ReferenceManager.Instance.FillPreviewContainer);
-                
+            GameObject preview = Instantiate(PrefabManager.Instance.FillPreview, pos, Quaternion.identity,
+                ReferenceManager.Instance.FillPreviewContainer);
+
             PreviewController c = preview.GetComponent<PreviewController>();
             c.Awake_();
             c.UpdateSprite();
@@ -195,7 +216,7 @@ public class SelectionManager : MonoBehaviour
 
     public static void UpdatePreviewRotation()
     {
-        foreach(Transform preview in ReferenceManager.Instance.FillPreviewContainer)
+        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer)
         {
             preview.GetComponent<PreviewController>().UpdateRotation();
         }
@@ -218,6 +239,7 @@ public class SelectionManager : MonoBehaviour
 
         ReferenceManager.Instance.FillPreviewContainer.gameObject.SetActive(true);
     }
+
     private static void SetPreviewInvisible()
     {
         ReferenceManager.Instance.FillPreviewContainer.gameObject.SetActive(false);
@@ -226,6 +248,7 @@ public class SelectionManager : MonoBehaviour
     #endregion
 
     #region Fill
+
     public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2, FollowMouse.WorldPosition worldPosition)
     {
         bool inMatrix = worldPosition == FollowMouse.WorldPosition.MATRIX;
@@ -243,12 +266,15 @@ public class SelectionManager : MonoBehaviour
                 res.Add(new(x, y));
             }
         }
+
         return res;
     }
+
     public static List<Vector2> GetCurrentFillRange()
     {
-        if(selectionStart == null || selectionEnd == null) return null;
-        return GetFillRange((Vector2)selectionStart, (Vector2)selectionEnd, GameManager.Instance.CurrentEditMode.GetWorldPosition());
+        if (selectionStart == null || selectionEnd == null) return null;
+        return GetFillRange((Vector2)selectionStart, (Vector2)selectionEnd,
+            GameManager.Instance.CurrentEditMode.GetWorldPosition());
     }
 
     public void FillSelectedArea()
@@ -260,13 +286,16 @@ public class SelectionManager : MonoBehaviour
         Selecting = false;
         selectionOptions.SetActive(false);
     }
+
     public void FillArea(List<Vector2> poses, FieldType type)
     {
         if (CurrentSelectionRange == null) return;
         CurrentSelectionRange = null;
 
         // set rotation
-        int rotation = FieldManager.IsRotatable(GameManager.Instance.CurrentEditMode) ? GameManager.Instance.EditRotation : 0;
+        int rotation = FieldManager.IsRotatable(GameManager.Instance.CurrentEditMode)
+            ? GameManager.Instance.EditRotation
+            : 0;
 
         // find bounds
         (int lowestX, int highestX, int lowestY, int highestY) = GetBoundsMatrix(poses);
@@ -281,11 +310,12 @@ public class SelectionManager : MonoBehaviour
             {
                 FieldManager.Instance.SetField((int)pos.x, (int)pos.y, type, rotation);
             }
+
             return;
         }
 
         // clear fields in area
-        if(type == FieldType.WALL_FIELD) // also destroy keys/coins
+        if (type == FieldType.WALL_FIELD) // also destroy keys/coins
         {
             int fieldCount = ReferenceManager.Instance.FieldContainer.childCount;
             int coinCount = ReferenceManager.Instance.CoinContainer.childCount;
@@ -297,7 +327,7 @@ public class SelectionManager : MonoBehaviour
             {
                 if (hit == null) continue;
 
-                if(hit.gameObject.IsField() || hit.CompareTag("Key") || hit.CompareTag("Coin"))
+                if (hit.gameObject.IsField() || hit.CompareTag("Key") || hit.CompareTag("Coin"))
                     Destroy(hit.gameObject);
             }
         }
@@ -344,7 +374,8 @@ public class SelectionManager : MonoBehaviour
         foreach (Vector2 pos in poses)
         {
             // set field at pos
-            GameObject field = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), ReferenceManager.Instance.FieldContainer);
+            GameObject field = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation),
+                ReferenceManager.Instance.FieldContainer);
 
             if (tagIndex != null)
             {
@@ -365,14 +396,16 @@ public class SelectionManager : MonoBehaviour
             }
         }
 
-        UpdateOutlinesInArea(type.GetPrefab().GetComponent<FieldOutline>() != null, new(lowestX, lowestY), new(highestX, highestY));
+        UpdateOutlinesInArea(type.GetPrefab().GetComponent<FieldOutline>() != null, new(lowestX, lowestY),
+            new(highestX, highestY));
     }
+
     public void FillArea(List<Vector2> poses, EditMode editMode)
     {
         if (poses.Count == 0) return;
 
         FieldType? fieldType = (FieldType?)GameManager.TryConvertEnum<EditMode, FieldType>(editMode);
-        if(fieldType != null)
+        if (fieldType != null)
         {
             FillArea(poses, (FieldType)fieldType);
             return;
@@ -380,20 +413,23 @@ public class SelectionManager : MonoBehaviour
 
         DeleteArea(poses);
 
-        foreach(Vector2 pos in poses)
+        foreach (Vector2 pos in poses)
         {
             GameManager.PlaceEditModeAtPosition(editMode, pos);
         }
 
         UpdateOutlinesInArea(false, poses[0].Floor(), poses.Last().Ceil());
     }
+
     public void FillArea(Vector2 start, Vector2 end, FieldType type)
     {
         Instance.FillArea(GetFillRange(start, end, FollowMouse.WorldPosition.MATRIX), type);
     }
+
     #endregion
 
     #region Delete
+
     public void DeleteSelectedArea()
     {
         DeleteArea(CurrentSelectionRange);
@@ -412,7 +448,7 @@ public class SelectionManager : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapBoxAll(castPos, castSize, 0, 3712);
 
         // DESTROY IT MUHAHAHAHAHAHHAHAHAHAHAHAHAHAHA
-        foreach(Collider2D collider in hits)
+        foreach (Collider2D collider in hits)
         {
             Destroy(collider.gameObject);
             DestroyImmediate(collider);
@@ -429,6 +465,7 @@ public class SelectionManager : MonoBehaviour
     #endregion
 
     #region Copy
+
     public void CopySelection()
     {
         Vector2 lowestPos = CurrentSelectionRange[0];
@@ -444,14 +481,16 @@ public class SelectionManager : MonoBehaviour
         CopySelection();
         DeleteSelectedArea();
     }
+
     #endregion
 
     #region Selection outline
+
     public void InitSelectionOutline(Vector2 start)
     {
         // reset selection marking
-        if(selectionOutline != null) Destroy(selectionOutline);
-        
+        if (selectionOutline != null) Destroy(selectionOutline);
+
         // set selection start and end
         selectionStart = start;
         selectionEnd = start;
@@ -467,11 +506,12 @@ public class SelectionManager : MonoBehaviour
             start.y + 0.5f,
             -1,
             -1,
-            alignCenter: false, parent: ReferenceManager.Instance.SelectionOutlineContainer
+            false, ReferenceManager.Instance.SelectionOutlineContainer
         );
 
         selectionOutlineAnim = selectionOutline.AddComponent<LineAnimator>();
     }
+
     public void AnimSelectionOutline(Vector2 start, Vector2 end)
     {
         if (selectionOutlineAnim == null) return;
@@ -497,9 +537,10 @@ public class SelectionManager : MonoBehaviour
             new(x, y + h),
             new(x, y)
         });
-            
-        selectionOutlineAnim.AnimateAllPoints(lineVertices, .1f, DG.Tweening.Ease.OutSine);
+
+        selectionOutlineAnim.AnimateAllPoints(lineVertices, .1f, Ease.OutSine);
     }
+
     #endregion
 
     private static void UpdateOutlinesInArea(bool hasOutline, Vector2 lowestPos, Vector2 highestPos)
@@ -534,9 +575,9 @@ public class SelectionManager : MonoBehaviour
 
             // bottom Fields
             _ = Physics2D.RaycastNonAlloc(lowestPos, Vector2.right, hits, width);
-            foreach(RaycastHit2D hit in hits)
+            foreach (RaycastHit2D hit in hits)
             {
-                if(hit.transform.TryGetComponent(out FOComp))
+                if (hit.transform.TryGetComponent(out FOComp))
                     FOComp.UpdateOutline(Vector2.down, true);
             }
 
@@ -558,7 +599,7 @@ public class SelectionManager : MonoBehaviour
                 if (hit.transform.TryGetComponent(out FOComp))
                     FOComp.UpdateOutline(Vector2.left, true);
             }
-            
+
             // right Fields
             _ = Physics2D.RaycastNonAlloc(highestPos, Vector2.down, hits, height);
             foreach (RaycastHit2D hit in hits)
@@ -569,7 +610,7 @@ public class SelectionManager : MonoBehaviour
 
             return;
         }
-        
+
         // update fields around fill area
         (Vector2, Vector2, int)[] rays =
         {
@@ -585,8 +626,8 @@ public class SelectionManager : MonoBehaviour
             _ = Physics2D.RaycastNonAlloc(Origin, Direction, currentHits, Length);
 
             foreach (RaycastHit2D r in currentHits)
-            { 
-                if(r.collider == null) continue;
+            {
+                if (r.collider == null) continue;
 
                 GameObject collider = r.collider.gameObject;
 
@@ -608,7 +649,8 @@ public class SelectionManager : MonoBehaviour
         {
             GameObject preview = ReferenceManager.Instance.PlacementPreview;
             preview.SetActive(true);
-            preview.transform.position = FollowMouse.GetCurrentMouseWorldPos(preview.GetComponent<FollowMouse>().worldPosition);
+            preview.transform.position =
+                FollowMouse.GetCurrentMouseWorldPos(preview.GetComponent<FollowMouse>().worldPosition);
         }
 
         // reset selection marking

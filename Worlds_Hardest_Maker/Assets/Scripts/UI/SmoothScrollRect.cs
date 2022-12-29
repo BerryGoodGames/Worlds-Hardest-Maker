@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
-/// Version of <see cref="ScrollRect"/> that supports smooth scrolling.
+///     Version of <see cref="ScrollRect" /> that supports smooth scrolling.
 /// </summary>
 public class SmoothScrollRect : ScrollRect
 {
@@ -20,7 +20,7 @@ public class SmoothScrollRect : ScrollRect
         if (SmoothScrolling)
         {
             Vector2 positionBefore = normalizedPosition;
-            this.DOKill(complete: true);
+            this.DOKill(true);
             base.OnScroll(data);
             Vector2 positionAfter = normalizedPosition;
 

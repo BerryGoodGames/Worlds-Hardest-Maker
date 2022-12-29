@@ -1,17 +1,17 @@
-using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TextColorManager : MonoBehaviour
 {
     public Color defaultColor;
-    public List<TMPro.TMP_Text> ignore = new();
+    public List<TMP_Text> ignore = new();
 
     public void ApplyDefaultColor()
     {
-        TMPro.TMP_Text[] texts = FindObjectsOfType<TMPro.TMP_Text>();
+        TMP_Text[] texts = FindObjectsOfType<TMP_Text>();
 
-        foreach (TMPro.TMP_Text text in texts)
+        foreach (TMP_Text text in texts)
         {
             if (!ignore.Contains(text))
             {

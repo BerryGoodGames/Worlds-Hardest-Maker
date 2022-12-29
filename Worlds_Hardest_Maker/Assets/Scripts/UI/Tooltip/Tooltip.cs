@@ -1,7 +1,4 @@
-using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(MouseOverUI))]
@@ -16,7 +13,7 @@ public class Tooltip : MonoBehaviour
     private AlphaUITween fadeTween;
     private GameObject tooltip;
     private RectTransform tooltipRectTransform;
-    private TMPro.TMP_Text tooltipText;
+    private TMP_Text tooltipText;
 
     private float hovered;
 
@@ -30,7 +27,8 @@ public class Tooltip : MonoBehaviour
     {
         mouseOver = GetComponent<MouseOverUI>();
 
-        tooltip = Instantiate(PrefabManager.Instance.Tooltip, Vector2.zero, Quaternion.identity, ReferenceManager.Instance.TooltipCanvas.transform);
+        tooltip = Instantiate(PrefabManager.Instance.Tooltip, Vector2.zero, Quaternion.identity,
+            ReferenceManager.Instance.TooltipCanvas.transform);
         fadeTween = tooltip.GetComponent<AlphaUITween>();
 
         tooltipRectTransform = tooltip.GetComponent<RectTransform>();

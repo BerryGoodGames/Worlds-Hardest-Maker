@@ -1,12 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
-using Photon.Pun;
 
 /// <summary>
-/// parent class of every ball controller
+///     parent class of every ball controller
 /// </summary>
 public abstract class IBallController : Controller
 {
@@ -20,7 +17,7 @@ public abstract class IBallController : Controller
     {
         sliderController = GetComponent<AppendSlider>();
         photonView = GetComponent<PhotonView>();
-        
+
         // slider follow settings
         UIFollowEntity follow = sliderController.GetSliderObject().GetComponent<UIFollowEntity>();
         follow.entity = gameObject;
@@ -28,7 +25,7 @@ public abstract class IBallController : Controller
 
         // slider init
         Slider slider = sliderController.GetSlider();
-        slider.onValueChanged.AddListener((value) =>
+        slider.onValueChanged.AddListener(value =>
         {
             float newSpeed = value * sliderController.Step;
 
@@ -44,12 +41,13 @@ public abstract class IBallController : Controller
     }
 
     [PunRPC]
-    public void SetSpeed(float speed) { 
+    public void SetSpeed(float speed)
+    {
         this.speed = speed;
 
         // sync slider
         float currentSliderValue = sliderController.GetValue() / sliderController.Step;
-        if(!GameManager.DoFloatsEqual(currentSliderValue, speed))
+        if (!GameManager.DoFloatsEqual(currentSliderValue, speed))
         {
             sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
         }

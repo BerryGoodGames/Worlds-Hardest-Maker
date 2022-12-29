@@ -1,16 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class LevelSettingsData : IData
 {
     #region Setting variables
+
     public float drownDuration;
     public float waterDamping;
     public float iceFriction;
     public float iceMaxSpeed;
     public bool reusableCheckpoints;
+
     #endregion
 
     public LevelSettingsData(LevelSettings settings)

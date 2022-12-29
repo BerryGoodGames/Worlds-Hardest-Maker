@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ItemController : MonoBehaviour
 {
-    [SerializeField] private TMPro.TMP_Text label;
+    [SerializeField] private TMP_Text label;
     [SerializeField] private Color deselectedColor = Color.black;
     [SerializeField] private Color selectedColor = Color.white;
     private Toggle toggle;
@@ -32,5 +31,4 @@ public class ItemController : MonoBehaviour
     {
         prevIsOn = toggle.isOn;
     }
-
 }

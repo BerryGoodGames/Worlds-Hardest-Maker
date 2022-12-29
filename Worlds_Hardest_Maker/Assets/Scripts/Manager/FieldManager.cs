@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Photon.Pun;
 using System.Linq;
+using Photon.Pun;
+using UnityEngine;
 
 // class for global functions
 // no active activities
@@ -10,7 +9,7 @@ public class FieldManager : MonoBehaviour
 {
     public static FieldManager Instance { get; private set; }
 
-    public static readonly List<FieldType> SolidFields = new(new FieldType[]
+    public static readonly List<FieldType> SolidFields = new(new[]
     {
         FieldType.WALL_FIELD,
         FieldType.GRAY_KEY_DOOR_FIELD,
@@ -20,10 +19,10 @@ public class FieldManager : MonoBehaviour
         FieldType.YELLOW_KEY_DOOR_FIELD
     });
 
-    public static readonly List<FieldType> RotatableFields = new(new FieldType[]
+    public static readonly List<FieldType> RotatableFields = new(new[]
     {
         FieldType.ONE_WAY_FIELD,
-        FieldType.CONVEYOR,
+        FieldType.CONVEYOR
     });
 
     public static bool IsRotatable(EditMode editMode)
@@ -39,6 +38,7 @@ public class FieldManager : MonoBehaviour
         {
             return null;
         }
+
         return field.tag.GetFieldType();
     }
 
@@ -53,8 +53,10 @@ public class FieldManager : MonoBehaviour
                 return c.gameObject;
             }
         }
+
         return null;
     }
+
     public static GameObject GetField(Vector2 pos)
     {
         return GetField((int)pos.x, (int)pos.y);
@@ -65,7 +67,7 @@ public class FieldManager : MonoBehaviour
     {
         GameObject field = GetField(mx, my);
 
-        if(field != null) DestroyImmediate(field);
+        if (field != null) DestroyImmediate(field);
 
         if (!updateOutlines) return;
 
@@ -78,6 +80,7 @@ public class FieldManager : MonoBehaviour
             }
         }
     }
+
     [PunRPC]
     public void RemoveField(int mx, int my)
     {
@@ -118,10 +121,12 @@ public class FieldManager : MonoBehaviour
             GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.KeyContainer);
         }
     }
+
     public void SetField(Vector2 pos, FieldType type, int rotation)
     {
         SetField((int)pos.x, (int)pos.y, type, rotation);
     }
+
     [PunRPC]
     public void SetField(int mx, int my, FieldType type)
     {
@@ -140,7 +145,8 @@ public class FieldManager : MonoBehaviour
 
             if (GraphicsSettings.Instance.oneColorStartGoalCheckpoint)
             {
-                field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
+                field.GetComponent<SpriteRenderer>().color =
+                    ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
 
                 if (field.TryGetComponent(out Animator anim))
                 {
@@ -165,6 +171,7 @@ public class FieldManager : MonoBehaviour
             }
         }
     }
+
     private static GameObject InstantiateField(Vector2 pos, FieldType type, int rotation)
     {
         GameObject prefab = type.GetPrefab();
@@ -180,6 +187,7 @@ public class FieldManager : MonoBehaviour
         Vector2 pos = field.transform.position;
         return GetNeighbors((int)pos.x, (int)pos.y);
     }
+
     public static List<GameObject> GetNeighbors(int mx, int my)
     {
         List<GameObject> neighbors = new();
@@ -193,6 +201,7 @@ public class FieldManager : MonoBehaviour
                 neighbors.Add(neighbor);
             }
         }
+
         return neighbors;
     }
 
@@ -212,7 +221,7 @@ public class FieldManager : MonoBehaviour
         foreach ((int x, int y) in checkPoses)
         {
             GameObject field = GetField(x, y);
-            if(field != null) res.Add(field);
+            if (field != null) res.Add(field);
         }
 
         return res;
@@ -256,15 +265,17 @@ public class FieldManager : MonoBehaviour
     }
 
     #region Field intersection
+
     public static bool IntersectingAnyFieldsAtPos(float mx, float my, params FieldType[] t)
     {
         List<FieldType> types = t.ToList();
 
         List<GameObject> intersectingFields = GetFieldsAtPos(mx, my);
-        foreach(GameObject field in intersectingFields)
+        foreach (GameObject field in intersectingFields)
         {
             if (types.Contains((FieldType)GetFieldType(field))) return true;
         }
+
         return false;
     }
 
@@ -276,6 +287,7 @@ public class FieldManager : MonoBehaviour
         {
             if (!types.Contains((FieldType)GetFieldType(field))) return false;
         }
+
         return true;
     }
 
@@ -286,11 +298,13 @@ public class FieldManager : MonoBehaviour
         if (intersectingFields.Count == 0) return false;
 
         int expectedCount = IntersectionCountAtPos(mx, my);
-        
+
         foreach (GameObject field in intersectingFields)
         {
-            if (expectedCount != intersectingFields.Count || !types.Contains((FieldType)GetFieldType(field))) return false;
+            if (expectedCount != intersectingFields.Count || !types.Contains((FieldType)GetFieldType(field)))
+                return false;
         }
+
         return true;
     }
 
@@ -306,6 +320,7 @@ public class FieldManager : MonoBehaviour
 
         return checkPoses.Distinct().ToArray().Length;
     }
+
     #endregion
 
     private void Awake()

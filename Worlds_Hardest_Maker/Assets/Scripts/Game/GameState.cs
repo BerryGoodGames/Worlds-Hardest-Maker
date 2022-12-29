@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// class, where progress of player can be saved
+///     class, where progress of player can be saved
 /// </summary>
 public class GameState
 {
@@ -21,7 +20,7 @@ public class GameState
     public bool Equals(GameState other)
     {
         return playerStartPos == other.playerStartPos &&
-            collectedCoins.Equals(other.collectedCoins) &&
-            collectedKeys.Equals(other.collectedKeys);
+               collectedCoins.Equals(other.collectedCoins) &&
+               collectedKeys.Equals(other.collectedKeys);
     }
 }

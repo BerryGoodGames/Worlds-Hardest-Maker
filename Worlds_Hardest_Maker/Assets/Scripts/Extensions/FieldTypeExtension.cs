@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +6,8 @@ public static class FieldTypeExtension
     public static GameObject GetPrefab(this FieldType type)
     {
         // return prefab according to type
-        return new[] {
+        return new[]
+        {
             PrefabManager.Instance.WallField,
             PrefabManager.Instance.StartField,
             PrefabManager.Instance.GoalField,
@@ -21,7 +21,7 @@ public static class FieldTypeExtension
             PrefabManager.Instance.RedKeyDoorField,
             PrefabManager.Instance.GreenKeyDoorField,
             PrefabManager.Instance.BlueKeyDoorField,
-            PrefabManager.Instance.YellowKeyDoorField,
+            PrefabManager.Instance.YellowKeyDoorField
         }[(int)type];
     }
 

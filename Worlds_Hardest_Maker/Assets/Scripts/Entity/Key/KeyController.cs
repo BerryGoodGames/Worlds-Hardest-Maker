@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class KeyController : Controller
@@ -25,11 +23,11 @@ public class KeyController : Controller
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // check if edgeCollider is player
-        if(collision.TryGetComponent(out PlayerController controller))
+        if (collision.TryGetComponent(out PlayerController controller))
         {
             // check if player is of own client
             if (GameManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
-            
+
             // check if that player hasnt collected key yet
             if (!controller.keysCollected.Contains(gameObject))
             {
@@ -46,6 +44,7 @@ public class KeyController : Controller
             int order = key.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder;
             if (order > highestOrder) highestOrder = order;
         }
+
         GetComponent<Renderer>().sortingOrder = highestOrder + 1;
     }
 

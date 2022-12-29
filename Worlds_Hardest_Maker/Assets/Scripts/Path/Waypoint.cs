@@ -25,14 +25,15 @@ public class Waypoint
         position = new(waypoint.position[0], waypoint.position[1]);
 
         speed = waypoint.speed;
-        delay = waypoint. delay;
+        delay = waypoint.delay;
         rotationSpeed = waypoint.rotationSpeed;
         rotateWhileDelay = waypoint.rotateWhileDelay;
     }
 
     public override string ToString()
     {
-        return $"position: {position}, speed: {speed}, delay: {delay}, rotationSpeed: {rotationSpeed}, rotateWhileDelay {rotateWhileDelay}";
+        return
+            $"position: {position}, speed: {speed}, delay: {delay}, rotationSpeed: {rotationSpeed}, rotateWhileDelay {rotateWhileDelay}";
     }
 
     public Waypoint Clone()

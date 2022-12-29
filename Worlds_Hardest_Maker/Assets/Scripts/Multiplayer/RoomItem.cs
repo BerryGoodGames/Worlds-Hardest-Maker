@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
-using Photon.Pun;
+using UnityEngine;
+
 /// <summary>
-/// controller of prefab RoomItem
+///     controller of prefab RoomItem
 /// </summary>
 public class RoomItem : MonoBehaviour
 {
@@ -16,18 +14,18 @@ public class RoomItem : MonoBehaviour
 
     public void SetRoomName(string _roomName)
     {
-        if(roomNameTxt != null)
-          roomNameTxt.text = _roomName;
+        if (roomNameTxt != null)
+            roomNameTxt.text = _roomName;
     }
 
     public void SetPlayerCount(int playerCount)
     {
-        if(playerCountTxt != null)
-         playerCountTxt.text = $"{playerCount}/10";
+        if (playerCountTxt != null)
+            playerCountTxt.text = $"{playerCount}/10";
     }
 
     /// <summary>
-    /// onclick method for gameObject: join room with specific title
+    ///     onclick method for gameObject: join room with specific title
     /// </summary>
     public void OnClickItem()
     {

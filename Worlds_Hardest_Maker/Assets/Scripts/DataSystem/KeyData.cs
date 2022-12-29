@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 /// <summary>
-/// Key attributes: position, color
+///     Key attributes: position, color
 /// </summary>
-[System.Serializable]
+[Serializable]
 public class KeyData : IData
 {
     public float[] position;
@@ -38,7 +37,7 @@ public class KeyData : IData
             KeyManager.KeyColor.GREEN => EditMode.GREEN_KEY,
             KeyManager.KeyColor.BLUE => EditMode.BLUE_KEY,
             KeyManager.KeyColor.YELLOW => EditMode.YELLOW_KEY,
-            _ => EditMode.GRAY_KEY,
+            _ => EditMode.GRAY_KEY
         };
     }
 }

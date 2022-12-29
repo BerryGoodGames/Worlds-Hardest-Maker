@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public static class SettingVersionExtension
@@ -32,6 +30,7 @@ public static class SettingVersionExtension
                 prefab = PrefabManager.Instance.DropdownOptionPrefab;
                 break;
         }
+
         return prefab;
     }
 }

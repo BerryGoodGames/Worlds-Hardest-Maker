@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -61,6 +59,7 @@ public class ToolOptionbar : MonoBehaviour
             tool.localScale = new(0.7f, 0.7f);
         }
     }
+
     public void UpdateHeight()
     {
         RectTransform rt = background.GetComponent(typeof(RectTransform)) as RectTransform;
@@ -70,10 +69,12 @@ public class ToolOptionbar : MonoBehaviour
         if (toolCount == 0)
         {
             rt.sizeDelta = new(100, 100);
-        } else
+        }
+        else
         {
             width = gridLayout.cellSize.x * size;
-            height = (gridLayout.cellSize.y + gridLayout.spacing.y) * toolCount - gridLayout.spacing.y + gridLayout.cellSize.y * (size - 1);
+            height = (gridLayout.cellSize.y + gridLayout.spacing.y) * toolCount - gridLayout.spacing.y +
+                     gridLayout.cellSize.y * (size - 1);
 
             rt.sizeDelta = new(width, height);
         }

@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// attach to (start-and-)goal field
+///     attach to (start-and-)goal field
 /// </summary>
 public class CheckWin : MonoBehaviour
 {
@@ -14,7 +12,7 @@ public class CheckWin : MonoBehaviour
 
         // check if every coin is collected
         if (controller.inDeathAnim || controller.won || !controller.CoinsCollected()) return;
-        
+
         controller.Win();
     }
 }

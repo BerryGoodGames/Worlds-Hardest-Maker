@@ -1,13 +1,10 @@
 using System.Collections;
-using System;
-using UnityEngine;
 using Photon.Pun;
-using UnityEditor;
-using UnityEditorInternal;
+using UnityEngine;
 
 /// <summary>
-/// controls mouse events: placing, filling, deleting
-/// attach to game manager
+///     controls mouse events: placing, filling, deleting
+///     attach to game manager
 /// </summary>
 public class MouseEvents : MonoBehaviour
 {
@@ -30,7 +27,8 @@ public class MouseEvents : MonoBehaviour
         EditMode editMode = GameManager.Instance.CurrentEditMode;
 
         // selection
-        if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton)) StartCoroutine(StartCancelSelection());
+        if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton))
+            StartCoroutine(StartCancelSelection());
 
         // select Anchor
         if (Input.GetKey(KeybindManager.Instance.EditSpeedKey) && Input.GetMouseButtonDown(0))
@@ -39,13 +37,14 @@ public class MouseEvents : MonoBehaviour
         }
 
         // place / delete stuff
-        if (!GameManager.Instance.UIHovered && !GameManager.Instance.Playing && !SelectionManager.Instance.Selecting && !CopyManager.pasting)
+        if (!GameManager.Instance.UIHovered && !GameManager.Instance.Playing && !SelectionManager.Instance.Selecting &&
+            !CopyManager.pasting)
         {
             // if none of the relevant keys is held, check field placement + entity placement
             if (!Input.GetKey(KeybindManager.Instance.EntityMoveKey) &&
                 !Input.GetKey(KeybindManager.Instance.EditSpeedKey) &&
                 !Input.GetKey(KeybindManager.Instance.EntityDeleteKey) &&
-                !SelectionManager.Instance.Selecting) 
+                !SelectionManager.Instance.Selecting)
             {
                 CheckFieldPlacement(editMode, matrixX, matrixY, mousePos);
                 CheckEntityPlacement(editMode, gridX, gridY);
@@ -65,12 +64,13 @@ public class MouseEvents : MonoBehaviour
     private static IEnumerator StartCancelSelection()
     {
         float passedTime = 0;
-        while(Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton))
+        while (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton))
         {
-            if(passedTime > selectionCancelMaxTime || MouseManager.Instance.MousePosDelta.magnitude > 10) yield break;
+            if (passedTime > selectionCancelMaxTime || MouseManager.Instance.MousePosDelta.magnitude > 10) yield break;
             passedTime += Time.deltaTime;
             yield return null;
         }
+
         SelectionManager.Instance.CancelSelection();
     }
 
@@ -84,7 +84,7 @@ public class MouseEvents : MonoBehaviour
             GameManager.PlaceEditModeAtPosition(editMode, mousePos);
             return;
         }
-        
+
         // place field
         int rotation = FieldManager.IsRotatable(editMode) ? GameManager.Instance.EditRotation : 0;
 
@@ -100,6 +100,7 @@ public class MouseEvents : MonoBehaviour
         // if user did drag to fast, fill path between two mouse pos for smoother placing on low framerate
         FieldManager.FillPathWithFields(type, rotation);
     }
+
     private static void CheckEntityPlacement(EditMode editMode, float gridX, float gridY)
     {
         // onclick: place entities
@@ -124,6 +125,7 @@ public class MouseEvents : MonoBehaviour
                 break;
         }
     }
+
     private static void CheckEntityDelete(float gridX, float gridY, PhotonView photonView, bool multiplayer)
     {
         if (!Input.GetKey(KeybindManager.Instance.EntityDeleteKey)) return;
@@ -172,6 +174,4 @@ public class MouseEvents : MonoBehaviour
             KeyManager.Instance.RemoveKey(gridX, gridY);
         }
     }
-
-    
 }

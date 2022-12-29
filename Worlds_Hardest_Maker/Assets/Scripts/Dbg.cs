@@ -1,46 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// utility class for fast debug: custom for default log, count, fps, mouse pos
-/// attach to game manager
+///     utility class for fast debug: custom for default log, count, fps, mouse pos
+///     attach to game manager
 /// </summary>
 public class Dbg : MonoBehaviour
 {
     public static Dbg Instance { get; private set; }
+
     public enum DbgTextMode
     {
-        DISABLED, CUSTOM, COUNT, FPS, PLAYER_POSITION, MOUSE_POSITION_UNITS, MOUSE_POSITION_PIXELS
+        DISABLED,
+        CUSTOM,
+        COUNT,
+        FPS,
+        PLAYER_POSITION,
+        MOUSE_POSITION_UNITS,
+        MOUSE_POSITION_PIXELS
     }
 
-    [Header("Settings")]
-    public bool dbgEnabled = true;
-    [Space]
-    public DbgTextMode textMode;
+    [Header("Settings")] public bool dbgEnabled = true;
+    [Space] public DbgTextMode textMode;
     public float count;
-    [Space]
-    public bool wallOutlines = true;
+    [Space] public bool wallOutlines = true;
     public bool drawRays;
-    [Space]
-    public float gameSpeed = 1;
-    [Space]
-    [Header("References")]
-    public GameObject DebugText;
+    [Space] public float gameSpeed = 1;
+    [Space] [Header("References")] public GameObject DebugText;
 
     private Camera cam;
     private Text dbgText;
 
     private void Awake()
     {
-        if(Instance == null) Instance = this;
+        if (Instance == null) Instance = this;
         else Destroy(this);
 
         cam = Camera.main;
 
         dbgText = Instance.DebugText.GetComponent<Text>();
     }
+
     private void Update()
     {
         if (!dbgEnabled) return;
@@ -51,7 +52,7 @@ public class Dbg : MonoBehaviour
             case DbgTextMode.DISABLED:
                 Text(string.Empty);
                 break;
-            case DbgTextMode.CUSTOM: 
+            case DbgTextMode.CUSTOM:
                 break;
             case DbgTextMode.COUNT:
                 Text(count);
@@ -60,8 +61,15 @@ public class Dbg : MonoBehaviour
                 Text(Mathf.Round(1 / Time.deltaTime));
                 break;
             case DbgTextMode.PLAYER_POSITION:
-                try { Text((Vector2)PlayerManager.GetPlayer().transform.position); }
-                catch(System.Exception) { Text("-"); }
+                try
+                {
+                    Text((Vector2)PlayerManager.GetPlayer().transform.position);
+                }
+                catch (Exception)
+                {
+                    Text("-");
+                }
+
                 break;
             case DbgTextMode.MOUSE_POSITION_UNITS:
                 Text((Vector2)cam.ScreenToWorldPoint(Input.mousePosition));
@@ -75,7 +83,7 @@ public class Dbg : MonoBehaviour
     public static void Text(object obj)
     {
         try
-        { 
+        {
             Instance.dbgText.text = obj.ToString();
         }
         catch

@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
-using Unity.Collections;
-using System.Drawing;
+using UnityEngine;
 
 public class KeyManager : MonoBehaviour
 {
@@ -11,10 +8,14 @@ public class KeyManager : MonoBehaviour
 
     public enum KeyColor
     {
-        GRAY, RED, GREEN, BLUE, YELLOW
+        GRAY,
+        RED,
+        GREEN,
+        BLUE,
+        YELLOW
     }
 
-    public static readonly List<EditMode> KeyModes = new(new EditMode[]
+    public static readonly List<EditMode> KeyModes = new(new[]
     {
         EditMode.GRAY_KEY,
         EditMode.RED_KEY,
@@ -22,7 +23,8 @@ public class KeyManager : MonoBehaviour
         EditMode.GREEN_KEY,
         EditMode.YELLOW_KEY
     });
-    public static readonly List<EditMode> KeyDoorModes = new(new EditMode[]
+
+    public static readonly List<EditMode> KeyDoorModes = new(new[]
     {
         EditMode.GRAY_KEY_DOOR_FIELD,
         EditMode.RED_KEY_DOOR_FIELD,
@@ -30,7 +32,8 @@ public class KeyManager : MonoBehaviour
         EditMode.GREEN_KEY_DOOR_FIELD,
         EditMode.YELLOW_KEY_DOOR_FIELD
     });
-    public static readonly List<FieldType> KeyDoorTypes = new(new FieldType[]
+
+    public static readonly List<FieldType> KeyDoorTypes = new(new[]
     {
         FieldType.GRAY_KEY_DOOR_FIELD,
         FieldType.RED_KEY_DOOR_FIELD,
@@ -39,7 +42,8 @@ public class KeyManager : MonoBehaviour
         FieldType.YELLOW_KEY_DOOR_FIELD
     });
 
-    public static List<FieldType> CantPlaceFields = new(new FieldType[]{
+    public static List<FieldType> CantPlaceFields = new(new[]
+    {
         FieldType.WALL_FIELD,
         FieldType.GRAY_KEY_DOOR_FIELD,
         FieldType.RED_KEY_DOOR_FIELD,
@@ -59,8 +63,9 @@ public class KeyManager : MonoBehaviour
 
         RemoveKey(mx, my);
 
-        GameObject key = Instantiate(color.GetPrefabKey(), pos, Quaternion.identity, ReferenceManager.Instance.KeyContainer);
-                    
+        GameObject key = Instantiate(color.GetPrefabKey(), pos, Quaternion.identity,
+            ReferenceManager.Instance.KeyContainer);
+
         Animator anim = key.GetComponent<Animator>();
         anim.SetBool(Playing, GameManager.Instance.Playing);
 
@@ -71,6 +76,7 @@ public class KeyManager : MonoBehaviour
     {
         SetKey(pos.x, pos.y, color);
     }
+
     [PunRPC]
     public void RemoveKey(float mx, float my)
     {
@@ -79,7 +85,7 @@ public class KeyManager : MonoBehaviour
 
     public static void SetKonamiMode(bool konami)
     {
-        foreach(Transform key in ReferenceManager.Instance.KeyContainer)
+        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
         {
             key.GetComponent<IntervalRandomAnimation>().enabled = konami;
         }
@@ -88,7 +94,7 @@ public class KeyManager : MonoBehaviour
     public static bool CanPlace(float mx, float my)
     {
         // conditions: no key there, covered by canplacefield or default, no player there
-        return !PlayerManager.IsPlayerThere(mx, my) && 
+        return !PlayerManager.IsPlayerThere(mx, my) &&
                !IsKeyThere(mx, my) &&
                !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CantPlaceFields.ToArray());
     }
@@ -103,8 +109,10 @@ public class KeyManager : MonoBehaviour
                 return hit.transform.parent.gameObject;
             }
         }
+
         return null;
     }
+
     public static GameObject GetKey(Vector2 pos)
     {
         return GetKey(pos.x, pos.y);
@@ -115,6 +123,7 @@ public class KeyManager : MonoBehaviour
         GameObject key = GetKey(mx, my);
         return key != null && key.transform.GetChild(0).GetComponent<KeyController>().color == color;
     }
+
     public static bool IsKeyThere(float mx, float my)
     {
         return GetKey(mx, my) != null;
@@ -124,6 +133,7 @@ public class KeyManager : MonoBehaviour
     {
         return KeyDoorModes.Contains(mode);
     }
+
     public static bool IsKeyEditMode(EditMode mode)
     {
         return KeyModes.Contains(mode);

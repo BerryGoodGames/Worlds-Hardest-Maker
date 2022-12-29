@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CoinController : Controller
@@ -13,6 +11,7 @@ public class CoinController : Controller
     {
         coinPosition = transform.position;
     }
+
     private void OnDestroy()
     {
         Destroy(transform.parent.gameObject);
@@ -58,6 +57,7 @@ public class CoinController : Controller
         anim.SetBool(PickedUp, true);
         pickedUp = true;
     }
+
     public override IData GetData()
     {
         return new CoinData(this);
