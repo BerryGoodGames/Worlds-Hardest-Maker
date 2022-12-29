@@ -1,11 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 /// <summary>
-/// General tweening script for UI at the top or bottom of the screen
-/// Tweens UI Element offscreen when playing (playingY) and onscreen when editing (editingY) with SetPlay
+///     General tweening script for UI at the top or bottom of the screen
+///     Tweens UI Element offscreen when playing (playingY) and onscreen when editing (editingY) with SetPlay
 /// </summary>
 public class BarTween : MonoBehaviour
 {
@@ -14,16 +13,14 @@ public class BarTween : MonoBehaviour
     [SerializeField] private float visibleY;
     [SerializeField] private float invisibleY;
     [SerializeField] private bool isVisibleOnlyOnEdit = true;
-    [Space]
-    [SerializeField] private float appearDuration;
+    [Space] [SerializeField] private float appearDuration;
     [SerializeField] private float disappearDuration;
-    [Space]
-    [SerializeField] private Ease easeAppear;
+    [Space] [SerializeField] private Ease easeAppear;
     [SerializeField] private Ease easeDisappear;
     [SerializeField] private AnimationCurve easeAppearCurve;
     [SerializeField] private AnimationCurve easeDisappearCurve;
 
-    private bool playing = false;
+    private bool playing;
 
     private RectTransform rt;
 
@@ -68,7 +65,8 @@ public class BarTween : MonoBehaviour
     {
         rt = (RectTransform)transform;
 
-        if (GameManager.Instance.Playing) rt.anchoredPosition = new(rt.anchoredPosition.x, isVisibleOnlyOnEdit ? invisibleY : visibleY);
+        if (EditModeManager.Instance.Playing)
+            rt.anchoredPosition = new(rt.anchoredPosition.x, isVisibleOnlyOnEdit ? invisibleY : visibleY);
         else rt.anchoredPosition = new(rt.anchoredPosition.x, !isVisibleOnlyOnEdit ? invisibleY : visibleY);
     }
 

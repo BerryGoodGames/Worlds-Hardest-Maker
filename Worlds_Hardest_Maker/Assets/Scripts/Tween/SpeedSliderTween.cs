@@ -1,20 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
-using System;
 
 public class SpeedSliderTween : MonoBehaviour
 {
-    [SerializeField] Image background;
-    [SerializeField] Image fill;
-    [SerializeField] Image handle;
-    [SerializeField] Text speedTxt;
-    [Space]
-    [SerializeField] private float duration;
-    [Range(0, 1)][SerializeField] private float alphaVisible = 1;
-    [Range(0, 1)][SerializeField] private float alphaInvisible = 0;
+    [SerializeField] private Image background;
+    [SerializeField] private Image fill;
+    [SerializeField] private Image handle;
+    [SerializeField] private Text speedTxt;
+    [Space] [SerializeField] private float duration;
+    [Range(0, 1)] [SerializeField] private float alphaVisible = 1;
+    [Range(0, 1)] [SerializeField] private float alphaInvisible;
 
     public Action onSetVisible = null;
     public Action onIsInvisible = null;

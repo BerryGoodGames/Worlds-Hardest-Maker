@@ -1,12 +1,12 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// anchor attributes: position, waypoints, mode, ball positions
+///     anchor attributes: position, waypoints, mode, ball positions
 /// </summary>
-
-[System.Serializable]
-public class AnchorData : IData
+[Serializable]
+public class AnchorData : Data
 {
     public float[] position = new float[2];
     public WaypointSerializable[] waypoints;
@@ -31,7 +31,7 @@ public class AnchorData : IData
 
         // convert balls (hihi)
         List<float> ballPositionsList = new();
-        
+
         foreach (Transform ball in ballContainer)
         {
             Transform child = ball.GetChild(0);

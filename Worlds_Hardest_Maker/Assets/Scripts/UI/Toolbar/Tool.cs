@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class Tool : MonoBehaviour
 {
@@ -15,7 +13,7 @@ public class Tool : MonoBehaviour
 
     private void Awake()
     {
-        if (!System.Enum.TryParse(toolType, out toolName))
+        if (!Enum.TryParse(toolType, out toolName))
             Debug.LogError($"{toolType} was not a valid type");
 
         inOptionbar = transform.parent.CompareTag("OptionContainer");
@@ -32,8 +30,9 @@ public class Tool : MonoBehaviour
     {
         ToolbarManager.DeselectAll();
         Selected(true);
-        if (setEditModeVariable) GameManager.Instance.CurrentEditMode = toolName;
+        if (setEditModeVariable) EditModeManager.Instance.CurrentEditMode = toolName;
     }
+
     public void SwitchGameMode()
     {
         SwitchGameMode(true);
@@ -45,11 +44,10 @@ public class Tool : MonoBehaviour
 
         this.selected = selected;
 
-        if (inOptionbar && selected)
-        {
-            Tool parentTool = transform.parent.parent.parent.GetComponent<Tool>();
-            parentTool.SubSelected(true);
-        }
+        if (!inOptionbar || !selected) return;
+
+        Tool parentTool = transform.parent.parent.parent.GetComponent<Tool>();
+        parentTool.SubSelected(true);
     }
 
     public void SubSelected(bool subselected)
@@ -59,6 +57,6 @@ public class Tool : MonoBehaviour
 
     private void Update()
     {
-        anim.SetVisible(selected || (mouseOverUI.over && !ReferenceManager.Instance.Menu.activeSelf));
+        anim.SetVisible(selected || (mouseOverUI.over && !ReferenceManager.Instance.menu.activeSelf));
     }
 }

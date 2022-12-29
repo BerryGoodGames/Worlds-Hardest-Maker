@@ -1,21 +1,27 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TextManager : MonoBehaviour
 {
     public static TextManager Instance { get; private set; } // singleton
 
     #region Text References
-    [Header("Text References")]
-    public TMPro.TMP_Text EditModeText;
-    public TMPro.TMP_Text SelectingText;
-    public TMPro.TMP_Text DeathText;
-    public TMPro.TMP_Text Timer;
-    public TMPro.TMP_Text CoinText;
-    [Header("Colors")]
-    public Color cheatedTimerColor;
+
+    [FormerlySerializedAs("EditModeText")] [Header("Text References")]
+    public TMP_Text editModeText;
+
+    [FormerlySerializedAs("SelectingText")]
+    public TMP_Text selectingText;
+
+    [FormerlySerializedAs("DeathText")] public TMP_Text deathText;
+    [FormerlySerializedAs("Timer")] public TMP_Text timer;
+    [FormerlySerializedAs("CoinText")] public TMP_Text coinText;
+    [Header("Colors")] public Color cheatedTimerColor;
     public Color finishedTimerColor;
+
     #endregion
 
     private float timerSeconds;
@@ -29,9 +35,10 @@ public class TextManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(this);
     }
+
     private void Start()
     {
-        GameManager.Instance.OnPlay += StartTimer;
+        EditModeManager.Instance.OnPlay += StartTimer;
         PlayerManager.Instance.OnWin += FinishTimer;
     }
 
@@ -46,7 +53,7 @@ public class TextManager : MonoBehaviour
             playerDeaths = currentPlayer.deaths;
             playerCoinsCollected = currentPlayer.coinsCollected.Count;
         }
-        catch (System.Exception)
+        catch (Exception)
         {
             // no player placed
             playerDeaths = "-";
@@ -54,23 +61,23 @@ public class TextManager : MonoBehaviour
         }
 
         // set edit mode text ui
-        Instance.EditModeText.text = $"Edit: {GameManager.Instance.CurrentEditMode.GetUIString()}";
-        Instance.SelectingText.text = $"Selecting: {SelectionManager.Instance.Selecting}";
-        Instance.DeathText.text = $"Deaths: {playerDeaths}";
-        Instance.CoinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.TotalCoins}";
+        Instance.editModeText.text = $"Edit: {EditModeManager.Instance.CurrentEditMode.GetUIString()}";
+        Instance.selectingText.text = $"Selecting: {SelectionManager.Instance.Selecting}";
+        Instance.deathText.text = $"Deaths: {playerDeaths}";
+        Instance.coinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.TotalCoins}";
     }
 
     public void StartTimer()
     {
         StopTimer();
 
-        Timer.color = Color.black;
+        timer.color = Color.black;
         timerCoroutine = StartCoroutine(DoTimer());
     }
 
     public void StopTimer()
     {
-        if(timerCoroutine != null)
+        if (timerCoroutine != null)
             StopCoroutine(timerCoroutine);
     }
 
@@ -78,8 +85,8 @@ public class TextManager : MonoBehaviour
     {
         StopTimer();
 
-        if (!GameManager.Instance.Cheated)
-            Timer.color = finishedTimerColor;
+        if (!PlayManager.Instance.Cheated)
+            timer.color = finishedTimerColor;
     }
 
     private IEnumerator DoTimer()
@@ -87,12 +94,12 @@ public class TextManager : MonoBehaviour
         timerSeconds = 0;
         timerMinutes = 0;
         timerHours = 0;
-        Timer.text = GetTimerTime();
+        timer.text = GetTimerTime();
         while (true)
         {
             timerSeconds += Time.deltaTime;
 
-            while(timerSeconds >= 60)
+            while (timerSeconds >= 60)
             {
                 timerMinutes++;
                 timerSeconds -= 60;
@@ -103,24 +110,25 @@ public class TextManager : MonoBehaviour
                 timerHours++;
                 timerMinutes -= 60;
             }
-            Timer.text = GetTimerTime();
+
+            timer.text = GetTimerTime();
             yield return null;
         }
     }
 
     private string GetTimerTime()
     {
-        string[] splitted = timerSeconds.ToString().Split('.');
+        string[] split = timerSeconds.ToString().Split('.');
 
         string seconds;
         string milliseconds;
         string minutes = timerMinutes.ToString();
         string hours = timerHours.ToString();
 
-        if (splitted.Length > 1)
+        if (split.Length > 1)
         {
-            seconds = splitted[0];
-            milliseconds = splitted[1];
+            seconds = split[0];
+            milliseconds = split[1];
         }
         else
         {

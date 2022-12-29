@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// lets camera scroll at random dir or specified angle with specified speed
-/// attach to main camera
+///     lets camera scroll at random dir or specified angle with specified speed
+///     attach to main camera
 /// </summary>
 public class CameraScrolling : MonoBehaviour
 {
@@ -23,7 +21,7 @@ public class CameraScrolling : MonoBehaviour
         }
         else
         {
-            dir = new((float)Mathf.Cos(scrollDirAngle * Mathf.PI / 180), (float)Mathf.Sin(scrollDirAngle * Mathf.PI / 180));
+            dir = new(Mathf.Cos(scrollDirAngle * Mathf.PI / 180), Mathf.Sin(scrollDirAngle * Mathf.PI / 180));
         }
     }
 

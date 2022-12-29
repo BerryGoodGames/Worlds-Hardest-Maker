@@ -1,14 +1,9 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
 using UnityEngine;
 
 /// <summary>
-/// for doing color palettes'n'stuff
+///     for doing color palettes 'n' stuff
 /// </summary>
-
 public class ColorPaletteManager : MonoBehaviour
 {
     public static ColorPaletteManager Instance { get; private set; }
@@ -25,11 +20,11 @@ public class ColorPaletteManager : MonoBehaviour
         if (Instance == null) Instance = this;
     }
 
-    public void UpdateColorPalettes()   
+    public void UpdateColorPalettes()
     {
-        foreach (ColorPaletteController CPC in Resources.FindObjectsOfTypeAll<ColorPaletteController>())
+        foreach (ColorPaletteController cpc in Resources.FindObjectsOfTypeAll<ColorPaletteController>())
         {
-            CPC.UpdateColor();
+            cpc.UpdateColor();
         }
     }
 

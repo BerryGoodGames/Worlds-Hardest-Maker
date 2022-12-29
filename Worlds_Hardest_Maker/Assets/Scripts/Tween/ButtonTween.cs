@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler,
+    IPointerUpHandler
 {
     [SerializeField] private Transform content;
     [SerializeField] private Transform backgroundPanel;
@@ -22,14 +21,15 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private RectTransform contentRT;
 
-    private bool hovered = false;
+    private bool hovered;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         hovered = true;
 
         // elevate
-        contentRT.DOAnchorPos(new(-highlightElevation, highlightElevation + highlightFloating), highlightElevateDuration);
+        contentRT.DOAnchorPos(new(-highlightElevation, highlightElevation + highlightFloating),
+            highlightElevateDuration);
 
         if (isWarningButton)
         {

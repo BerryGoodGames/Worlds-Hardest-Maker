@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
+using UnityEngine;
 
 /// <summary>
-/// Controller for the clear level button
+///     Controller for the clear level button
 /// </summary>
 public class ClearLevelController : MonoBehaviour
 {
@@ -22,7 +20,7 @@ public class ClearLevelController : MonoBehaviour
     {
         ClosePrompt();
 
-        if (GameManager.Instance.Multiplayer) GameManager.Instance.photonView.RPC("ClearLevel", RpcTarget.All);
+        if (MultiplayerManager.Instance.Multiplayer) GameManager.Instance.photonView.RPC("ClearLevel", RpcTarget.All);
         else GameManager.Instance.ClearLevel();
     }
 }

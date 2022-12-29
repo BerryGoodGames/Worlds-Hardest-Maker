@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
 
 public class NumberInput : MonoBehaviour
@@ -9,32 +8,38 @@ public class NumberInput : MonoBehaviour
     [SerializeField] private bool noMinLimit;
     [SerializeField] private float min;
     [SerializeField] private float max;
-    [Space]
-    public TMPro.TMP_InputField numberInput;
+    [Space] public TMP_InputField numberInput;
     private NumberInputTween tweenController;
-    
+
     public void Increase()
     {
         float increased = GetCurrentNumber() + step;
-        if (noMaxLimit || increased <= max)
-        {
-            SetNumberText(increased);
-            tweenController.IncreaseTween();
-        }
+
+        if (!noMaxLimit && increased > max) return;
+
+        SetNumberText(increased);
+        tweenController.IncreaseTween();
     }
 
     public void Decrease()
     {
         float decreased = GetCurrentNumber() - step;
-        if (noMinLimit || decreased >= min)
-        {
-            SetNumberText(decreased);
-            tweenController.DecreaseTween();
-        }
+
+        if (!noMinLimit && decreased < min) return;
+
+        SetNumberText(decreased);
+        tweenController.DecreaseTween();
     }
 
-    public void SetNumberText(float num) => numberInput.text = num.ToString();
-    public float GetCurrentNumber() => float.Parse(numberInput.text.Replace("​" /* Zero Space Character */, "")); 
+    public void SetNumberText(float num)
+    {
+        numberInput.text = num.ToString();
+    }
+
+    public float GetCurrentNumber()
+    {
+        return float.Parse(numberInput.text.Replace("​" /* Zero Space Character */, ""));
+    }
 
     private void Start()
     {

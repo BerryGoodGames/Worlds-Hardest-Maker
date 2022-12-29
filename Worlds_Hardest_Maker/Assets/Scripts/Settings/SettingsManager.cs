@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -29,18 +30,23 @@ public class SettingsManager : MonoBehaviour
 #endif
     }
 
+    private void Start()
+    {
+        Instance.SetMusicVolume(0.0001f);
+        Instance.LoadPrefs();
+    }
+
     public void SavePrefs()
     {
         PlayerPrefs.SetFloat("MusicVolume", GetMusicVolume());
-        PlayerPrefs.SetFloat("SoundEffectVolume", GetSoudEffectVolume());
+        PlayerPrefs.SetFloat("SoundEffectVolume", GetSoundEffectVolume());
         PlayerPrefs.SetFloat("ToolbarSize", GetToolbarSize());
         PlayerPrefs.SetFloat("InfobarSize", GetInfobarSize());
 
         // graphics
         PlayerPrefs.SetInt("Quality", GraphicsSettings.Instance.qualityLevel);
         PlayerPrefs.SetInt("Fullscreen", GraphicsSettings.Instance.fullscreen ? 1 : 0);
-        PlayerPrefs.SetInt("OneColorStartGoal", GraphicsSettings.Instance.oneColorStartGoal ? 1 : 0);
-
+        PlayerPrefs.SetInt("OneColorStartGoal", GraphicsSettings.Instance.oneColorStartGoalCheckpoint ? 1 : 0);
     }
 
     public void LoadPrefs()
@@ -57,82 +63,121 @@ public class SettingsManager : MonoBehaviour
     }
 
     #region Sound settings
+
     public void SetMusicVolume(float vol, bool setPrefs)
     {
         // map vol from 0 - 100 to 0.0001 - 1 and convert it so vol acts linear
-        float newVol = Mathf.Log10((float)GameManager.Map(vol, 0, 100, 0.0001, 3)) * 20;
+        float newVol = Mathf.Log10(vol.Map(0, 100, 0.0001f, 3)) * 20;
 
         mainMixer.SetFloat("MusicVolume", newVol);
 
         if (setPrefs) SavePrefs();
     }
-    public void SetMusicVolume(float vol) => SetMusicVolume(vol, true);
+
+    public void SetMusicVolume(float vol)
+    {
+        SetMusicVolume(vol, true);
+    }
+
     public void SetSoundEffectVolume(float vol, bool setPrefs)
     {
-        float newVol = Mathf.Log10((float)GameManager.Map(vol, 0, 100, 0.0001, 3)) * 20;
+        float newVol = Mathf.Log10(vol.Map(0, 100, 0.0001f, 3)) * 20;
 
         mainMixer.SetFloat("SoundEffectVolume", newVol);
 
         if (setPrefs) SavePrefs();
     }
-    public void SetSoundEffectVolume(float vol) => SetSoundEffectVolume(vol, true);
-    public float GetMusicVolume() 
+
+    public void SetSoundEffectVolume(float vol)
+    {
+        SetSoundEffectVolume(vol, true);
+    }
+
+    public float GetMusicVolume()
     {
         if (mainMixer.GetFloat("MusicVolume", out float value))
         {
             return value;
         }
-        throw new System.Exception("Failed to acces music volume");
+
+        throw new Exception("Failed to access music volume");
     }
-    public float GetSoudEffectVolume()
+
+    public float GetSoundEffectVolume()
     {
         if (mainMixer.GetFloat("SoundEffectVolume", out float value))
         {
             return value;
         }
-        throw new System.Exception("Failed to acces sound effect volume");
+
+        throw new Exception("Failed to access sound effect volume");
     }
+
     #endregion
 
     #region UI Settings
+
     public void SetToolbarSize(float size, bool setPrefs)
     {
-        if (toolbarSpacing != null)
-        {
-            toolbarSpacing.toolbarHeight = size;
-            toolbarSpacing.UpdateSize();
+        if (toolbarSpacing == null) return;
 
-            if (setPrefs) SavePrefs();
-        }
+        toolbarSpacing.toolbarHeight = size;
+        toolbarSpacing.UpdateSize();
+
+        if (setPrefs) SavePrefs();
     }
+
     public void SetToolbarSize(string size, bool setPrefs)
     {
         if (float.TryParse(size, out float conv)) SetToolbarSize(conv, setPrefs);
     }
-    public void SetToolbarSize(float size) => SetToolbarSize(size, true);
-    public void SetToolbarSize(string size) => SetToolbarSize(size, true);
 
-    public float GetToolbarSize() => toolbarSpacing.toolbarHeight;
+    public void SetToolbarSize(float size)
+    {
+        SetToolbarSize(size, true);
+    }
+
+    public void SetToolbarSize(string size)
+    {
+        SetToolbarSize(size, true);
+    }
+
+    public float GetToolbarSize()
+    {
+        return toolbarSpacing.toolbarHeight;
+    }
 
     public void SetInfobarSize(float size, bool setPrefs)
     {
-        if (infobarPlayResize != null && infobarEditResize != null)
-        {
-            infobarPlayResize.infobarHeight = size;
-            infobarEditResize.infobarHeight = size;
-            infobarPlayResize.UpdateSize();
-            infobarEditResize.UpdateSize();
+        if (infobarPlayResize == null || infobarEditResize == null) return;
 
-            if(setPrefs) SavePrefs();
-        }
+        infobarPlayResize.infobarHeight = size;
+        infobarEditResize.infobarHeight = size;
+        infobarPlayResize.UpdateSize();
+        infobarEditResize.UpdateSize();
+
+        if (setPrefs) SavePrefs();
     }
+
     public void SetInfobarSize(string size, bool setPrefs)
     {
         if (float.TryParse(size, out float conv)) SetInfobarSize(conv, setPrefs);
     }
-    public void SetInfobarSize(float size) => SetInfobarSize(size, true);
-    public void SetInfobarSize(string size) => SetInfobarSize(size, true);
 
-    public float GetInfobarSize() => infobarPlayResize.infobarHeight;
+    public void SetInfobarSize(float size)
+    {
+        SetInfobarSize(size, true);
+    }
+
+    public void SetInfobarSize(string size)
+    {
+        SetInfobarSize(size, true);
+    }
+
+    public float GetInfobarSize()
+    {
+        return infobarPlayResize.infobarHeight;
+    }
+
     #endregion
 }

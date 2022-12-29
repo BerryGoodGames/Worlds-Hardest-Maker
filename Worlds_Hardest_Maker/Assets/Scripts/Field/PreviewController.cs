@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 /// <summary>
-/// controls placement, visibility and display of preview
-/// attach to gameObject PlacementPreview
+///     controls placement, visibility and display of preview
+///     attach to gameObject PlacementPreview
 /// </summary>
 public class PreviewController : MonoBehaviour
 {
@@ -20,12 +18,15 @@ public class PreviewController : MonoBehaviour
     public bool changeSpriteToCurrentEditMode = true;
     public bool updateEveryFrame = true;
     public bool followMouse;
-    public bool showSpriteWhenPasting = false;
+    public bool showSpriteWhenPasting;
     public bool rotateToRotation = true;
     [SerializeField] private bool smoothRotation;
     [SerializeField] private float rotateDuration;
 
-    private bool ranAwake = false;
+    private FollowMouse followMouseComp;
+
+    private bool ranAwake;
+    private static readonly int visible = Animator.StringToHash("Visible");
 
     private void Awake()
     {
@@ -35,6 +36,7 @@ public class PreviewController : MonoBehaviour
     public void Awake_()
     {
         if (ranAwake) return;
+
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         spriteRenderer.sprite = defaultSprite;
@@ -46,91 +48,90 @@ public class PreviewController : MonoBehaviour
 
     private void Start()
     {
-        previousEditMode = GameManager.Instance.CurrentEditMode;
+        followMouseComp = GetComponent<FollowMouse>();
+
+        previousEditMode = EditModeManager.Instance.CurrentEditMode;
     }
 
     private void Update()
     {
+        EditMode currentEditMode = EditModeManager.Instance.CurrentEditMode;
 
-        EditMode currentEditMode = GameManager.Instance.CurrentEditMode;
-        if (updateEveryFrame && (previousEditMode != currentEditMode || previousPlaying != GameManager.Instance.Playing)) UpdateSprite();
+        if (updateEveryFrame &&
+            (previousEditMode != currentEditMode || previousPlaying != EditModeManager.Instance.Playing))
+            UpdateSprite();
 
         if (!SelectionManager.Instance.Selecting && followMouse)
         {
-            FollowMouse followMouse = GetComponent<FollowMouse>();
-            followMouse.worldPosition = currentEditMode.IsFieldType() || currentEditMode == EditMode.DELETE_FIELD ?
-                FollowMouse.WorldPosition.MATRIX : FollowMouse.WorldPosition.GRID;
+            followMouseComp.worldPosition = currentEditMode.IsFieldType() || currentEditMode == EditMode.DELETE_FIELD
+                ? FollowMouse.WorldPosition.MATRIX
+                : FollowMouse.WorldPosition.GRID;
         }
 
         // check visibility of preview
         if (TryGetComponent(out Animator anim))
         {
-            anim.SetBool("Visible", CheckVisibility());
+            anim.SetBool(visible, CheckVisibility());
         }
     }
 
     /// <summary>
-    /// check if preview should be visible at the moment with current edit mode
+    ///     check if preview should be visible at the moment with current edit mode
     /// </summary>
     /// <returns></returns>
     private bool CheckVisibility()
     {
-        return CheckVisibility(GameManager.Instance.CurrentEditMode);
+        return CheckVisibility(EditModeManager.Instance.CurrentEditMode);
     }
+
     /// <summary>
-    /// check if preview should be visible at the moment
+    ///     check if preview should be visible at the moment
     /// </summary>
     /// <param name="mode">edit mode which needs to be checked</param>
     /// <returns></returns>
     private bool CheckVisibility(EditMode mode)
     {
-        if (GameManager.Instance.UIHovered ||
-            Input.GetKey(KeybindManager.Instance.EntityMoveKey) ||
-            Input.GetKey(KeybindManager.Instance.EditSpeedKey) ||
-            Input.GetKey(KeybindManager.Instance.EntityDeleteKey)) return false;
+        if (MouseManager.Instance.IsUIHovered ||
+            Input.GetKey(KeybindManager.Instance.entityMoveKey) ||
+            Input.GetKey(KeybindManager.Instance.editSpeedKey) ||
+            Input.GetKey(KeybindManager.Instance.entityDeleteKey)) return false;
 
         if (CopyManager.pasting) return false;
 
         // check if preview of prefab not allowed during filling
         if (SelectionManager.Instance.Selecting)
         {
-            if (SelectionManager.NoFillPreviewModes.Contains(mode)) return false;
+            if (SelectionManager.noFillPreviewModes.Contains(mode)) return false;
         }
 
         FollowMouse.WorldPosition positionMode = GetComponent<FollowMouse>().worldPosition;
 
-        Vector2 mousePos = positionMode == FollowMouse.WorldPosition.ANY ? MouseManager.Instance.MouseWorldPos :
-            positionMode == FollowMouse.WorldPosition.GRID ? MouseManager.Instance.MouseWorldPosGrid : MouseManager.Instance.MouseWorldPosMatrix;
-
-        // check player placement
-        //if (mode == EditMode.PLAYER)
-        //{
-        //    if (!PlayerManager.CanPlace(mousePos.x, mousePos.y)) return false;
-        //}
+        Vector2 mousePos = positionMode switch
+        {
+            FollowMouse.WorldPosition.ANY => MouseManager.Instance.MouseWorldPos,
+            FollowMouse.WorldPosition.GRID => MouseManager.Instance.MouseWorldPosGrid,
+            _ => MouseManager.Instance.MouseWorldPosMatrix
+        };
 
         // check coin placement
-        if (mode == EditMode.COIN)
-        {
-            if (!CoinManager.CanPlace(mousePos.x, mousePos.y)) return false;
-        }
+        if (mode != EditMode.COIN)
+            return !KeyManager.keyModes.Contains(mode) || KeyManager.CanPlace(mousePos.x, mousePos.y);
 
-        // check key placement
-        if (KeyManager.KeyModes.Contains(mode))
-        {
-            if (!KeyManager.CanPlace(mousePos.x, mousePos.y)) return false;
-        }
-        return true;
+        if (!CoinManager.CanPlace(mousePos.x, mousePos.y)) return false;
+
+        // check key placement + return
+        return !KeyManager.keyModes.Contains(mode) || KeyManager.CanPlace(mousePos.x, mousePos.y);
     }
 
     /// <summary>
-    /// updates sprite to the sprite of preview to the current edit mode
+    ///     updates sprite to the sprite of preview to the current edit mode
     /// </summary>
     public void UpdateSprite()
     {
-        SetSprite(GameManager.Instance.CurrentEditMode);
+        SetSprite(EditModeManager.Instance.CurrentEditMode);
 
-        previousPlaying = GameManager.Instance.Playing;
-        previousEditMode = GameManager.Instance.CurrentEditMode;
+        previousPlaying = EditModeManager.Instance.Playing;
+        previousEditMode = EditModeManager.Instance.CurrentEditMode;
     }
 
     public void SetSprite(EditMode editMode, bool updateRotation = false)
@@ -145,11 +146,14 @@ public class PreviewController : MonoBehaviour
         else
         {
             GameObject currentPrefab = editMode.GetPrefab();
-            if (currentPrefab.TryGetComponent(out PreviewSprite previewSprite) && (!SelectionManager.Instance.Selecting && !CopyManager.pasting || previewSprite.showWhenSelecting || showSpriteWhenPasting))
+            if (currentPrefab.TryGetComponent(out PreviewSprite previewSprite) &&
+                ((!SelectionManager.Instance.Selecting && !CopyManager.pasting) || previewSprite.showWhenSelecting ||
+                 showSpriteWhenPasting))
             {
                 // apply PreviewSprite settings if it has one
                 spriteRenderer.sprite = previewSprite.sprite;
-                spriteRenderer.color = new(previewSprite.color.r, previewSprite.color.g, previewSprite.color.b, alpha / 255f);
+                spriteRenderer.color = new(previewSprite.color.r, previewSprite.color.g, previewSprite.color.b,
+                    alpha / 255f);
                 transform.localScale = previewSprite.scale;
 
                 UpdateRotation(!previewSprite.rotate);
@@ -168,43 +172,44 @@ public class PreviewController : MonoBehaviour
                 {
                     foreach (Transform child in currentPrefab.transform)
                     {
-                        if (child.TryGetComponent(out prefabRenderer))
-                        {
-                            scale = child.localScale;
-                            break;
-                        }
+                        if (!child.TryGetComponent(out prefabRenderer)) continue;
+
+                        scale = child.localScale;
+                        break;
                     }
                 }
 
                 // apply
+                Color prefabColor = prefabRenderer.color;
+
                 spriteRenderer.sprite = prefabRenderer.sprite;
-                spriteRenderer.color = new(prefabRenderer.color.r, prefabRenderer.color.g, prefabRenderer.color.b, alpha / 255f);
+                spriteRenderer.color = new(prefabColor.r, prefabColor.g, prefabColor.b, alpha / 255f);
                 transform.localScale = scale;
-                if(updateRotation)
+                if (updateRotation)
                     UpdateRotation(true);
             }
         }
 
         // for filling preview go to FillManager.cs
-
-
     }
 
     public void UpdateRotation(bool resetRotation = false, bool smooth = true)
     {
-        if (!resetRotation)
+        if (resetRotation)
         {
-            if (!rotateToRotation) return;
-
-            Quaternion rotation = Quaternion.Euler(0, 0, GameManager.Instance.EditRotation);
-            if (smoothRotation && smooth)
-            {
-                transform.DOKill();
-                transform.DORotateQuaternion(rotation, rotateDuration)
-                    .SetEase(Ease.OutCubic);
-            }
-            else transform.localRotation = rotation;
+            transform.localRotation = Quaternion.identity;
+            return;
         }
-        else transform.localRotation = Quaternion.identity;
+
+        if (!rotateToRotation) return;
+
+        Quaternion rotation = Quaternion.Euler(0, 0, EditModeManager.Instance.EditRotation);
+        if (smoothRotation && smooth)
+        {
+            transform.DOKill();
+            transform.DORotateQuaternion(rotation, rotateDuration)
+                .SetEase(Ease.OutCubic);
+        }
+        else transform.localRotation = rotation;
     }
 }

@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 /// <summary>
-/// Field attributes: position, type
+///     Field attributes: position, type
 /// </summary>
-[System.Serializable]
-public class FieldData : IData
+[Serializable]
+public class FieldData : Data
 {
     public int[] position;
     public string fieldType;
@@ -30,13 +29,13 @@ public class FieldData : IData
 
     public override void ImportToLevel(Vector2 pos)
     {
-        FieldType type = (FieldType)System.Enum.Parse(typeof(FieldType), fieldType);
+        FieldType type = (FieldType)Enum.Parse(typeof(FieldType), fieldType);
 
         FieldManager.Instance.SetField(pos, type, rotation);
     }
 
     public override EditMode GetEditMode()
     {
-        return (EditMode)System.Enum.Parse(typeof(EditMode), fieldType);    
+        return (EditMode)Enum.Parse(typeof(EditMode), fieldType);
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,21 +6,22 @@ public static class FieldTypeExtension
     public static GameObject GetPrefab(this FieldType type)
     {
         // return prefab according to type
-        return new GameObject[] {
-            PrefabManager.Instance.WallField,
-            PrefabManager.Instance.StartField,
-            PrefabManager.Instance.GoalField,
-            PrefabManager.Instance.CheckpointField,
-            PrefabManager.Instance.OneWayField,
-            PrefabManager.Instance.Conveyor,
-            PrefabManager.Instance.Water,
-            PrefabManager.Instance.Ice,
-            PrefabManager.Instance.Void,
-            PrefabManager.Instance.GrayKeyDoorField,
-            PrefabManager.Instance.RedKeyDoorField,
-            PrefabManager.Instance.GreenKeyDoorField,
-            PrefabManager.Instance.BlueKeyDoorField,
-            PrefabManager.Instance.YellowKeyDoorField,
+        return new[]
+        {
+            PrefabManager.Instance.wallField,
+            PrefabManager.Instance.startField,
+            PrefabManager.Instance.goalField,
+            PrefabManager.Instance.checkpointField,
+            PrefabManager.Instance.oneWayField,
+            PrefabManager.Instance.conveyor,
+            PrefabManager.Instance.water,
+            PrefabManager.Instance.ice,
+            PrefabManager.Instance.@void,
+            PrefabManager.Instance.grayKeyDoorField,
+            PrefabManager.Instance.redKeyDoorField,
+            PrefabManager.Instance.greenKeyDoorField,
+            PrefabManager.Instance.blueKeyDoorField,
+            PrefabManager.Instance.yellowKeyDoorField
         }[(int)type];
     }
 
@@ -54,11 +54,11 @@ public static class FieldTypeExtension
 
     public static bool IsSolidField(this GameObject field)
     {
-        return field.IsField() && FieldManager.SolidFields.Contains(field.tag.GetFieldType());
+        return field.IsField() && FieldManager.solidFields.Contains(field.tag.GetFieldType());
     }
 
     public static bool IsSolidFieldTag(this string tag)
     {
-        return FieldManager.SolidFields.Contains(tag.GetFieldType());
+        return FieldManager.solidFields.Contains(tag.GetFieldType());
     }
 }

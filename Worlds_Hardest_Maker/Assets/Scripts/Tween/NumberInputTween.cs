@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 public class NumberInputTween : MonoBehaviour
 {
     [SerializeField] private RectTransform leftArrow;
     [SerializeField] private RectTransform rightArrow;
-    [Space]
-    [SerializeField] private float wiggleDuration;
+    [Space] [SerializeField] private float wiggleDuration;
     [SerializeField] private float wiggle;
     [SerializeField] private float hoverDuration;
     [SerializeField] private float hover;
@@ -17,8 +14,8 @@ public class NumberInputTween : MonoBehaviour
     private Vector2 unhoveredScl = Vector2.one;
     private Vector2 hoveredScl;
 
-    private readonly Ease wiggleStartEase = Ease.OutCubic;
-    private readonly Ease wiggleReturnEase = Ease.InOutSine;
+    private const Ease wiggleStartEase = Ease.OutCubic;
+    private const Ease wiggleReturnEase = Ease.InOutSine;
 
     private Sequence wiggleSeqLeft;
     private Sequence wiggleSeqRight;
@@ -54,11 +51,10 @@ public class NumberInputTween : MonoBehaviour
     }
 
 
-
     private void Start()
     {
         hoveredScl = Vector2.one * hover + unhoveredScl;
-        
+
         leftArrowX = leftArrow.position.x;
         rightArrowX = rightArrow.position.x;
 

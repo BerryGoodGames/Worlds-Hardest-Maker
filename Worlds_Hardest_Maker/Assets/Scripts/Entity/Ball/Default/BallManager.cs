@@ -1,7 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
+using UnityEngine;
 
 public class BallManager : MonoBehaviour
 {
@@ -12,28 +11,28 @@ public class BallManager : MonoBehaviour
     {
         Vector2 pos = new(mx, my);
 
-        if(!IsBallThere(mx, my))
-        {
-            // bounce pos is initialized locally based on ball object pos
-            Vector2 bouncePos = new(mx + bounceMx, my + bounceMy);
+        if (IsBallThere(mx, my)) return;
 
-            // instantiate prefab
-            InstantiateBall(pos, bouncePos, speed, GameManager.Instance.Multiplayer);
-        }
+        // bounce pos is initialized locally based on ball object pos
+        Vector2 bouncePos = new(mx + bounceMx, my + bounceMy);
+
+        // instantiate prefab
+        InstantiateBall(pos, bouncePos, speed, MultiplayerManager.Instance.Multiplayer);
     }
+
     [PunRPC]
     public void SetBall(float mx, float my)
     {
         Instance.SetBall(mx, my, 0, 0, 5);
     }
 
-    public bool IsBallThere(float mx,  float my)
+    public bool IsBallThere(float mx, float my)
     {
         return GetBalls(mx, my).Count > 0;
     }
 
     /// <summary>
-    /// Instantiates new ball default at (0, 0), also sends new instantiate request to photon network
+    ///     Instantiates new ball default at (0, 0), also sends new instantiate request to photon network
     /// </summary>
     /// <param name="multiplayer"></param>
     /// <returns></returns>
@@ -51,13 +50,16 @@ public class BallManager : MonoBehaviour
         }
         else
         {
-            newBall = Instantiate(PrefabManager.Instance.BallDefault, Vector2.zero, Quaternion.identity, ReferenceManager.Instance.BallDefaultContainer);
+            newBall = Instantiate(PrefabManager.Instance.ballDefault, Vector2.zero, Quaternion.identity,
+                ReferenceManager.Instance.ballDefaultContainer);
 
-            BallController controller = newBall.transform.GetChild(0).GetComponent<BallController>();
-            controller.SetObjectPos(pos);
-            controller.SetBouncePos(bouncePos);
-            controller.SetSpeed(speed);
+            BallDefaultController defaultController =
+                newBall.transform.GetChild(0).GetComponent<BallDefaultController>();
+            defaultController.SetObjectPos(pos);
+            defaultController.SetBouncePos(bouncePos);
+            defaultController.SetSpeed(speed);
         }
+
         return newBall;
     }
 
@@ -65,12 +67,11 @@ public class BallManager : MonoBehaviour
     public void RemoveBall(float mx, float my)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.01f, 128);
-        foreach(Collider2D hit in hits)
+        foreach (Collider2D hit in hits)
         {
-            if (hit.TryGetComponent(out BallController b))
-            {
-                if (b.startPosition.x == mx && b.startPosition.y == my) b.DestroyBall();
-            }
+            if (!hit.TryGetComponent(out BallDefaultController b)) continue;
+
+            if (b.startPosition.x == mx && b.startPosition.y == my) b.DestroyBall();
         }
     }
 
@@ -81,11 +82,11 @@ public class BallManager : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.01f, 128);
         foreach (Collider2D hit in hits)
         {
-            if (hit.TryGetComponent(out BallController b))
-            {
-                if (b.startPosition.x == mx && b.startPosition.y == my) list.Add(b.gameObject);
-            }
+            if (!hit.TryGetComponent(out BallDefaultController b)) continue;
+
+            if (b.startPosition.x == mx && b.startPosition.y == my) list.Add(b.gameObject);
         }
+
         return list;
     }
 

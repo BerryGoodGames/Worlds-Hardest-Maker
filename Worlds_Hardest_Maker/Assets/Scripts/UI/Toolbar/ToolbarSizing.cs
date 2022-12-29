@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ToolbarSizing : MonoBehaviour
 {
     public Canvas canvas;
 
-    [Space]
-    public float toolbarHeight;
+    [Space] public float toolbarHeight;
 
     public void UpdateSize()
     {
@@ -22,18 +19,19 @@ public class ToolbarSizing : MonoBehaviour
         }
 
         Transform background = transform.parent.GetChild(0);
-        RectTransform bgrt = background.GetComponent<RectTransform>();
-        bgrt.sizeDelta = new(0, toolbarHeight + 200);
+        RectTransform backgroundRectTransform = background.GetComponent<RectTransform>();
+        backgroundRectTransform.sizeDelta = new(0, toolbarHeight + 200);
     }
 
     public void ScaleOptionsInOptionbars()
     {
         ToolOptionbar[] optionbars = FindObjectsOfType<ToolOptionbar>();
-        foreach(ToolOptionbar optionbar in optionbars)
+        foreach (ToolOptionbar optionbar in optionbars)
         {
             optionbar.ScaleOptions();
         }
     }
+
     public void UpdateOptionbarHeights()
     {
         ToolOptionbar[] optionbars = FindObjectsOfType<ToolOptionbar>();

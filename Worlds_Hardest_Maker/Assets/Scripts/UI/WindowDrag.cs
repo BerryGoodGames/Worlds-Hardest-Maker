@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -20,7 +16,7 @@ public class WindowDrag : MonoBehaviour, IDragHandler
 
     private void Start()
     {
-        canvas = ReferenceManager.Instance.Canvas.GetComponent<Canvas>();
+        canvas = ReferenceManager.Instance.canvas.GetComponent<Canvas>();
     }
 
     public void OnDrag(PointerEventData eventData)

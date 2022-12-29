@@ -9,7 +9,7 @@ public class BackgroundLineSizeEditor : Editor
         DrawDefaultInspector();
 
         BackgroundLineSize script = (BackgroundLineSize)target;
-        if (GUILayout.Button("Set Line Size"))
+        if (GUILayout.Button("PlaceEditModeAtPosition Line Size"))
         {
             script.SetLineSize();
         }

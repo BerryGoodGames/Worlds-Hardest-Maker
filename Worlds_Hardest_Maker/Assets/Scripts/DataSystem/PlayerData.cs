@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 /// <summary>
-/// Player attributes: speed, start pos
+///     Player attributes: speed, start pos
 /// </summary>
-[System.Serializable]
-public class PlayerData : IData
+[Serializable]
+public class PlayerData : Data
 {
     public int id;
     public float speed;

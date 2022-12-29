@@ -6,10 +6,10 @@ using UnityEngine;
 [CustomEditor(typeof(SetScreenDimensions))]
 public class SetScreenDimensionsEditor : Editor
 {
-    SerializedProperty setScreenWidth;
-    SerializedProperty setScreenHeight;
-    SerializedProperty hasRectTransform;
-    SerializedProperty canvas;
+    private SerializedProperty setScreenWidth;
+    private SerializedProperty setScreenHeight;
+    private SerializedProperty hasRectTransform;
+    private SerializedProperty canvas;
 
     private void OnEnable()
     {

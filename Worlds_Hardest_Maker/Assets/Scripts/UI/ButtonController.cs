@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,7 +6,7 @@ public class ButtonController : MonoBehaviour
     public GameObject background;
     public RectTransform backgroundPanel;
 
-    public bool playSound = false;
+    public bool playSound;
 
     public void PlaySound()
     {
@@ -26,8 +24,9 @@ public class ButtonController : MonoBehaviour
     public void UpdateSomeShit()
     {
         RectTransform rt = GetComponent<RectTransform>();
-        float width = rt.rect.width;
-        float height = rt.rect.height;
+        Rect rect = rt.rect;
+        float width = rect.width;
+        float height = rect.height;
 
         float size = width < height ? width : height;
 
@@ -36,15 +35,17 @@ public class ButtonController : MonoBehaviour
         BackgroundLineSize lineSizeController = background.GetComponent<BackgroundLineSize>();
         lineSizeController.SetLineSize(lineSize);
 
-        float bpoffset = size * 0.065f;
-        backgroundPanel.offsetMin = new(bpoffset, -bpoffset);
-        backgroundPanel.offsetMax = new(bpoffset, -bpoffset);
+        float backgroundPanelOffset = size * 0.065f;
+        backgroundPanel.offsetMin = new(backgroundPanelOffset, -backgroundPanelOffset);
+        backgroundPanel.offsetMax = new(backgroundPanelOffset, -backgroundPanelOffset);
     }
 
+    // ReSharper disable once InconsistentNaming
+    // ReSharper disable once IdentifierTypo
     public static void UpdateEVERYFUCKINGShit()
     {
         ButtonController[] buttons = Resources.FindObjectsOfTypeAll<ButtonController>();
-        foreach(ButtonController controller in buttons)
+        foreach (ButtonController controller in buttons)
         {
             controller.UpdateSomeShit();
         }

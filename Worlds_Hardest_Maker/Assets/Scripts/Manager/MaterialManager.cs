@@ -1,14 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MaterialManager : MonoBehaviour
 {
-    public static MaterialManager Instance { get; private set; } // singleton
+    public static MaterialManager Instance { get; private set; }
 
-    [Header("Materials")]
-    public Material LineMaterial;
-    public PhysicsMaterial2D NoFriction;
+    [FormerlySerializedAs("LineMaterial")] [Header("Materials")]
+    public Material lineMaterial;
+
+    [FormerlySerializedAs("NoFriction")] public PhysicsMaterial2D noFriction;
 
     private void Awake()
     {

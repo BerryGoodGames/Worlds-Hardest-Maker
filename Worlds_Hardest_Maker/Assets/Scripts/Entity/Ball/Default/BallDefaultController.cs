@@ -1,9 +1,7 @@
 using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BallController : IBallController
+public class BallDefaultController : BallController
 {
     public Transform bounce;
     [HideInInspector] public Transform line;
@@ -12,49 +10,56 @@ public class BallController : IBallController
 
     private void Start()
     {
-        if(transform.parent.parent != ReferenceManager.Instance.BallDefaultContainer)
+        if (transform.parent.parent != ReferenceManager.Instance.ballDefaultContainer)
         {
-            transform.parent.SetParent(ReferenceManager.Instance.BallDefaultContainer);
+            transform.parent.SetParent(ReferenceManager.Instance.ballDefaultContainer);
         }
 
-        // set line
-        LineManager.SetFill(0, 0, 0);
-        LineManager.SetWeight(0.11f);
-        LineManager.SetOrderInLayer(2);
-        LineManager.SetLayerID(LineManager.BallLayerID);
-        GameObject line = LineManager.DrawLine(transform.position, bounce.position, transform.parent);
-
-        this.line = line.transform;
+        InitLine();
     }
+
     private void OnDestroy()
     {
         Destroy(transform.parent.gameObject);
     }
+
     private void Update()
     {
-        bounce.gameObject.SetActive(!GameManager.Instance.Playing);
-        line.gameObject.SetActive(!GameManager.Instance.Playing);
+        bounce.gameObject.SetActive(!EditModeManager.Instance.Playing);
+        line.gameObject.SetActive(!EditModeManager.Instance.Playing);
 
-        if (GameManager.Instance.Playing)
+        if (EditModeManager.Instance.Playing)
         {
             Move();
-        } 
+        }
         else
         {
             UpdateLine();
         }
     }
 
+    private void InitLine()
+    {
+        // set line
+        LineManager.SetFill(0, 0, 0);
+        LineManager.SetWeight(0.11f);
+        LineManager.SetOrderInLayer(2);
+        LineManager.SetLayerID(LineManager.ballLayerID);
+        GameObject line = LineManager.DrawLine(transform.position, bounce.position, transform.parent);
+
+        this.line = line.transform;
+    }
+
     private void Move()
     {
         // switch target after bounce
-        if((Vector2)transform.position == currentTarget)
+        if ((Vector2)transform.position == currentTarget)
         {
-            if(currentTarget == (Vector2)bounce.position)
+            if (currentTarget == (Vector2)bounce.position)
             {
                 currentTarget = startPosition;
-            } 
-            else if(currentTarget == (Vector2)transform.position)
+            }
+            else if (currentTarget == (Vector2)transform.position)
             {
                 currentTarget = bounce.position;
             }
@@ -73,7 +78,8 @@ public class BallController : IBallController
     }
 
     [PunRPC]
-    public void SetBouncePos(Vector2 pos) {
+    public void SetBouncePos(Vector2 pos)
+    {
         currentTarget = pos;
         bounce.position = pos;
     }
@@ -85,6 +91,7 @@ public class BallController : IBallController
 
         renderer.SetPosition(index, point);
     }
+
     public void UpdateLine()
     {
         SetLinePoint(0, transform.position);
@@ -100,19 +107,20 @@ public class BallController : IBallController
     [PunRPC]
     public override void MoveObject(Vector2 unitPos, int id)
     {
-        GameObject movedObject = BallDragDrop.DragDropList[id];
+        GameObject movedObject = BallDragDrop.dragDropList[id];
 
         // call correct method to set position, either set object or set bounce
         if (movedObject.Equals(gameObject))
         {
             SetObjectPos(unitPos);
-        } else
+        }
+        else
         {
             SetBouncePos(unitPos);
         }
     }
 
-    public override IData GetData()
+    public override Data GetData()
     {
         return new BallData(this);
     }

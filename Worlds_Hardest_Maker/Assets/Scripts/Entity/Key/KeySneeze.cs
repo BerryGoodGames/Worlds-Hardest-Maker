@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class KeySneeze : MonoBehaviour
 {
     private ParticleSystem ps;
     private AudioSource audioSource;
+
     public void Particles()
     {
         ps = ps != null ? ps : GetComponent<ParticleSystem>();

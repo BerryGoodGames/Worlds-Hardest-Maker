@@ -1,11 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 /// <summary>
-/// sets opacity of children; fades children in / out
-/// attach to parent object
+///     sets opacity of children; fades children in / out
+///     attach to parent object
 /// </summary>
 public class ChildrenOpacity : MonoBehaviour
 {
@@ -38,11 +36,11 @@ public class ChildrenOpacity : MonoBehaviour
         opacity = newOpacity;
         UpdateOpacity();
     }
-    
+
     public IEnumerator FadeOut(float endOpacity, float time)
     {
         UpdateChildren();
-        if(endOpacity >= 1) yield break;
+        if (endOpacity >= 1) yield break;
 
         while (opacity >= endOpacity)
         {
@@ -60,7 +58,7 @@ public class ChildrenOpacity : MonoBehaviour
         UpdateChildren();
         if (endOpacity <= 0) yield break;
 
-        if(time <= 0)
+        if (time <= 0)
         {
             opacity = endOpacity;
             UpdateOpacity();
@@ -69,12 +67,12 @@ public class ChildrenOpacity : MonoBehaviour
 
         while (opacity <= endOpacity)
         {
-
             opacity += endOpacity * Time.deltaTime / time;
             UpdateOpacity();
 
             yield return null;
         }
+
         opacity = endOpacity;
     }
 }

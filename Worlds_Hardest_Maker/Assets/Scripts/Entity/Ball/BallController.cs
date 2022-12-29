@@ -1,24 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
-using Photon.Pun;
 
 /// <summary>
-/// parent class of every ball controller
+///     parent class of every ball controller
 /// </summary>
-public abstract class IBallController : Controller
+public abstract class BallController : Controller
 {
     [HideInInspector] public float speed;
     [HideInInspector] public AppendSlider sliderController;
     [HideInInspector] public PhotonView photonView;
+
+    private Text speedText;
+
     public void Awake()
     {
-        // if(GameManager.Instance.Multiplayer) print("Init ball at: " + GetComponent<PhotonView>().Controller.NickName);
-
         sliderController = GetComponent<AppendSlider>();
         photonView = GetComponent<PhotonView>();
-        
+
         // slider follow settings
         UIFollowEntity follow = sliderController.GetSliderObject().GetComponent<UIFollowEntity>();
         follow.entity = gameObject;
@@ -26,23 +25,29 @@ public abstract class IBallController : Controller
 
         // slider init
         Slider slider = sliderController.GetSlider();
-        slider.onValueChanged.AddListener((value) =>
+        slider.onValueChanged.AddListener(value =>
         {
             float newSpeed = value * sliderController.Step;
 
             speed = newSpeed;
 
-            if (GameManager.Instance.Multiplayer) photonView.RPC("SetSpeed", RpcTarget.Others, newSpeed);
+            if (MultiplayerManager.Instance.Multiplayer) photonView.RPC("SetSpeed", RpcTarget.Others, newSpeed);
         });
     }
 
+    private void Start()
+    {
+        speedText = sliderController.GetSliderObject().transform.GetChild(0).GetComponent<Text>();
+    }
+
     [PunRPC]
-    public void SetSpeed(float speed) { 
+    public void SetSpeed(float speed)
+    {
         this.speed = speed;
 
         // sync slider
         float currentSliderValue = sliderController.GetValue() / sliderController.Step;
-        if(currentSliderValue != speed)
+        if (!currentSliderValue.EqualsFloat(speed))
         {
             sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
         }
@@ -55,7 +60,6 @@ public abstract class IBallController : Controller
 
     public void UpdateSpeedText()
     {
-        Text speedText = sliderController.GetSliderObject().transform.GetChild(0).GetComponent<Text>();
         speedText.text = "Speed: " + speed.ToString("0.0");
     }
 

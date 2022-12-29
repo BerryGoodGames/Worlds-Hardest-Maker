@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 public class CopyManager : MonoBehaviour
@@ -10,7 +9,7 @@ public class CopyManager : MonoBehaviour
 
     private static Vector2 size = Vector2.zero;
 
-    public static bool pasting = false;
+    public static bool pasting;
 
     [SerializeField] private Transform previewContainer;
 
@@ -22,30 +21,34 @@ public class CopyManager : MonoBehaviour
 
         size = castSize; // save size
 
-        Collider2D[] hits = Physics2D.OverlapBoxAll(castPos, castSize, 0, 3200); // get objects
+        Collider2D[] hits = new Collider2D[Mathf.CeilToInt(castSize.x) * Mathf.CeilToInt(castSize.y)];
+        _ = Physics2D.OverlapBoxNonAlloc(castPos, castSize, 0, hits, 3200); // get objects
 
         clipBoard.Clear();
 
-        foreach(Collider2D hit in hits)
+        foreach (Collider2D hit in hits)
         {
+            if (hit == null) continue;
+
             // try to get controllers and save the object in clipboard
-            if(hit.TryGetComponent(out Controller controller))
-            {
-                IData data = controller.GetData();
+            if (!hit.TryGetComponent(out Controller controller)) continue;
 
-                // special case for ball circles
-                Vector2 pos = controller.GetType() == typeof(BallCircleController)? ((BallCircleController)controller).origin.position : (Vector2)hit.transform.position;
+            Data data = controller.GetData();
 
-                CopyData copyData = new(data, pos - lowestPos);
-                clipBoard.Add(copyData);
-            }
+            // special case for ball circles
+            Vector2 pos = controller.GetType() == typeof(BallCircleController)
+                ? ((BallCircleController)controller).origin.position
+                : (Vector2)hit.transform.position;
+
+            CopyData copyData = new(data, pos - lowestPos);
+            clipBoard.Add(copyData);
         }
     }
 
     public static void Paste(Vector2 pos)
     {
         // just load clipboard to pos
-        foreach(CopyData copyData in clipBoard)
+        foreach (CopyData copyData in clipBoard)
         {
             copyData.Paste(pos);
         }
@@ -55,7 +58,8 @@ public class CopyManager : MonoBehaviour
     {
         // check if there smth. in clipboard
         if (clipBoard.Count == 0) yield break;
-        // block menu from beeing openend and some other stuff
+
+        // block menu from being opened and some other stuff
         MenuManager.Instance.blockMenu = true;
         pasting = true;
 
@@ -71,7 +75,7 @@ public class CopyManager : MonoBehaviour
         while (!Input.GetMouseButton(0))
         {
             // cancel if these things happen
-            if(Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || GameManager.Instance.Playing)
+            if (Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || EditModeManager.Instance.Playing)
             {
                 MenuManager.Instance.blockMenu = false;
                 ClearPreview();
@@ -99,22 +103,25 @@ public class CopyManager : MonoBehaviour
 
         ClearPreview();
         Instance.previewContainer.position = Vector2.zero;
+
         // make sure that the player cant place directly after pasting
         while (!Input.GetMouseButtonUp(0))
             yield return null;
 
         pasting = false;
-        yield break;
     }
 
     private static void CreatePreview()
     {
         ClearPreview();
 
-        foreach(CopyData copyData in clipBoard)
+        foreach (CopyData copyData in clipBoard)
         {
-            Quaternion rotation = copyData.data.GetType() == typeof(FieldData) ? Quaternion.Euler(0, 0, ((FieldData)copyData.data).rotation) : Quaternion.identity;
-            GameObject preview = Instantiate(PrefabManager.Instance.FillPreview, Vector2.zero, rotation, Instance.previewContainer);
+            Quaternion rotation = copyData.data.GetType() == typeof(FieldData)
+                ? Quaternion.Euler(0, 0, ((FieldData)copyData.data).rotation)
+                : Quaternion.identity;
+            GameObject preview = Instantiate(PrefabManager.Instance.fillPreview, Vector2.zero, rotation,
+                Instance.previewContainer);
 
             preview.transform.localPosition = copyData.relativePos;
 
@@ -127,13 +134,13 @@ public class CopyManager : MonoBehaviour
             previewController.rotateToRotation = false;
 
             // set spire of preview
-            previewController.SetSprite(copyData.GetEditMode(), false);
+            previewController.SetSprite(copyData.GetEditMode());
         }
     }
 
     private static void ClearPreview()
     {
-        foreach(Transform child in Instance.previewContainer)
+        foreach (Transform child in Instance.previewContainer)
         {
             Destroy(child.gameObject);
         }

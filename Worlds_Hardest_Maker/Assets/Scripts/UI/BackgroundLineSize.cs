@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BackgroundLineSize : MonoBehaviour
@@ -8,13 +6,13 @@ public class BackgroundLineSize : MonoBehaviour
     [Header("Line order: top, right, bottom, left")]
     public RectTransform[] lines;
 
-    [Space]
-    public float newLineSize;
+    [Space] public float newLineSize;
 
     public void SetLineSize()
     {
         SetLineSize(newLineSize);
     }
+
     public void SetLineSize(float size)
     {
         for (int i = 0; i < lines.Length; i++)
@@ -22,6 +20,7 @@ public class BackgroundLineSize : MonoBehaviour
             SetLineSize(i, size);
         }
     }
+
     public void SetLineSize(int i, float size)
     {
         RectTransform line = lines[i];
@@ -29,9 +28,23 @@ public class BackgroundLineSize : MonoBehaviour
         else line.sizeDelta = new(size, 0);
     }
 
-    public void SetLineSizeTop(float size) { SetLineSize(0, size); }
-    public void SetLineSizeRight(float size) { SetLineSize(1, size); }
-    public void SetLineSizeBottom(float size) { SetLineSize(2, size); }
-    public void SetLineSizeLeft(float size) { SetLineSize(3, size); }
+    public void SetLineSizeTop(float size)
+    {
+        SetLineSize(0, size);
+    }
 
+    public void SetLineSizeRight(float size)
+    {
+        SetLineSize(1, size);
+    }
+
+    public void SetLineSizeBottom(float size)
+    {
+        SetLineSize(2, size);
+    }
+
+    public void SetLineSizeLeft(float size)
+    {
+        SetLineSize(3, size);
+    }
 }

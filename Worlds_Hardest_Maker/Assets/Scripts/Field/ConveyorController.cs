@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ConveyorController : MonoBehaviour
@@ -9,8 +7,16 @@ public class ConveyorController : MonoBehaviour
     private float animSpeed;
 
     [SerializeField] private float strength;
-    public float Strength { get { return strength; } set { strength = value; } }
-    public float Rotation { get { return transform.rotation.z; } }
+
+    private static readonly int running = Animator.StringToHash("Running");
+
+    public float Strength
+    {
+        get => strength;
+        set => strength = value;
+    }
+
+    public float Rotation => transform.rotation.z;
 
     public void Rotate()
     {
@@ -22,8 +28,8 @@ public class ConveyorController : MonoBehaviour
         rotationController = GetComponent<FieldRotation>();
         anim = GetComponent<Animator>();
 
-        GameManager.Instance.OnPlay += SwitchAnimToRunning;
-        GameManager.Instance.OnEdit += SwitchAnimToStaying;
+        EditModeManager.Instance.OnPlay += SwitchAnimToRunning;
+        EditModeManager.Instance.OnEdit += SwitchAnimToStaying;
     }
 
     private void SwitchAnimToRunning()
@@ -32,19 +38,19 @@ public class ConveyorController : MonoBehaviour
             GetComponent<Animator>();
 
         anim.speed = Strength;
-        anim.SetBool("Running", true);
+        anim.SetBool(running, true);
     }
 
     private void SwitchAnimToStaying()
     {
         if (anim == null)
             GetComponent<Animator>();
-        anim.SetBool("Running", false);
+        anim.SetBool(running, false);
     }
 
     private void OnDestroy()
     {
-        GameManager.Instance.OnPlay -= SwitchAnimToRunning;
-        GameManager.Instance.OnEdit -= SwitchAnimToStaying;
+        EditModeManager.Instance.OnPlay -= SwitchAnimToRunning;
+        EditModeManager.Instance.OnEdit -= SwitchAnimToStaying;
     }
 }

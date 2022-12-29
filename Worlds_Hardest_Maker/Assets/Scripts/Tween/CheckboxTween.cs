@@ -1,33 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class CheckboxTween : MonoBehaviour
 {
     [SerializeField] private RectTransform checkMark;
     [SerializeField] private Toggle toggle;
-    [Space]
-    [SerializeField] private float duration;
+    [Space] [SerializeField] private float duration;
     [SerializeField] private Ease easeType;
 
     private bool isChecked;
 
     public void SetCheck(bool check)
     {
-        if (isChecked && !check)
+        switch (isChecked)
         {
-            // the frame setting to unchecked
-            checkMark.DOScale(Vector2.zero, duration)
-                .SetEase(easeType);
-        }
+            case true when !check:
+                // the frame setting to unchecked
+                checkMark.DOScale(Vector2.zero, duration)
+                    .SetEase(easeType);
+                break;
 
-        if (!isChecked && check)
-        {
-            // the frame setting to checked
-            checkMark.DOScale(new Vector2(1, 1), duration)
-                .SetEase(easeType);
+            case false when check:
+                // the frame setting to checked
+                checkMark.DOScale(new Vector2(1, 1), duration)
+                    .SetEase(easeType);
+                break;
         }
 
         isChecked = check;

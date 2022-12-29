@@ -1,10 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
+using UnityEngine;
 
 /// <summary>
-/// controlles the anchor (duh)
+///     controls the anchor (duh)
 /// </summary>
 public class AnchorController : Controller
 {
@@ -16,17 +15,20 @@ public class AnchorController : Controller
 
     private void Start()
     {
+        Transform t = transform;
+        Transform parent = t.parent;
 
-        transform.localPosition = transform.parent.position;
+        t.localPosition = parent.position;
 
-        transform.parent.position = Vector2.zero;
+        parent.position = Vector2.zero;
 
-        transform.parent.SetParent(ReferenceManager.Instance.AnchorContainer);
+        parent.SetParent(ReferenceManager.Instance.anchorContainer);
 
         pathController = GetComponent<PathController>();
 
         View = PhotonView.Get(this);
     }
+
     private void OnDestroy()
     {
         Destroy(transform.parent.gameObject);
@@ -93,7 +95,6 @@ public class AnchorController : Controller
     {
         Waypoint waypoint = pathController.waypoints[index];
         waypoint.WaypointEditor.DeleteThisWaypoint();
-
     }
 
     [PunRPC]
@@ -101,7 +102,7 @@ public class AnchorController : Controller
     {
         pathController.waypoints.Add(new(new(0, 0), true, 0, 1, 0));
         if (pathController.waypoints.Count > 0 && pathController.waypoints[0].WaypointEditor != null)
-            ReferenceManager.Instance.BallWindows.GetComponentInChildren<PathEditorController>().UpdateUI();
+            ReferenceManager.Instance.ballWindows.GetComponentInChildren<PathEditorController>().UpdateUI();
     }
 
     public void BallFadeOut(AnimationEvent animationEvent)
@@ -127,10 +128,9 @@ public class AnchorController : Controller
     {
         yield return null;
         BallFadeIn(endOpacity, time);
-        yield break;
     }
 
-    public override IData GetData()
+    public override Data GetData()
     {
         return new AnchorData(pathController, container.transform);
     }

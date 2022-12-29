@@ -1,26 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
-using UnityEngine.UI;
+using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ConnectToServer : MonoBehaviourPunCallbacks
 {
-    public TMPro.TMP_InputField usernameInput;
-    public TMPro.TMP_Text buttonText;
+    public TMP_InputField usernameInput;
+    public TMP_Text buttonText;
 
     public void OnClickConnect()
     {
-        if(usernameInput.text.Length > 0)
-        {
-            PhotonNetwork.NickName = usernameInput.text;
-            buttonText.text = "Connecting...";
+        if (usernameInput.text.Length <= 0) return;
 
-            PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.NickName = usernameInput.text;
+        buttonText.text = "Connecting...";
 
-            PhotonNetwork.ConnectUsingSettings();
-        }
+        PhotonNetwork.AutomaticallySyncScene = true;
+
+        PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()

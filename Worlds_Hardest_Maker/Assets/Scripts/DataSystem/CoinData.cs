@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 /// <summary>
-/// Coin attributes: position
+///     Coin attributes: position
 /// </summary>
-[System.Serializable]
-public class CoinData : IData
+[Serializable]
+public class CoinData : Data
 {
     public float[] position;
 
