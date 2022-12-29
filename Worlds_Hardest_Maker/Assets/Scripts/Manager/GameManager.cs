@@ -16,14 +16,6 @@ public class GameManager : MonoBehaviourPun
     public static GameManager Instance { get; private set; }
 
     #region Variables
-    public bool UIHovered { get; set; }
-
-    private int editRotation = 270;
-    public int EditRotation
-    {
-        get => editRotation;
-        set => Instance.SetEditRotation(value);
-    }
 
     private static readonly int playingString = Animator.StringToHash("Playing");
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
@@ -85,13 +77,13 @@ public class GameManager : MonoBehaviourPun
         LevelSettings.Instance.SetIceMaxSpeed();
         LevelSettings.Instance.SetWaterDamping();
 
-        EditModeManager.Instance.OnEdit += () => Cheated = false;
+        EditModeManager.Instance.OnEdit += () => PlayManager.Instance.Cheated = false;
     }
 
     private void Update()
     {
         // check if toolbarContainer background is hovered
-        Instance.UIHovered = EventSystem.current.IsPointerOverGameObject();
+        UIManager.Instance.UIHovered = EventSystem.current.IsPointerOverGameObject();
     }
 
     private static void OnIsMultiplayer()
@@ -149,14 +141,6 @@ public class GameManager : MonoBehaviourPun
     #endregion
 
     #region Play / Edit mode methods
-
-    private void SetEditRotation(int value)
-    {
-        editRotation = value;
-
-        ReferenceManager.Instance.placementPreview.GetComponent<PreviewController>().UpdateRotation();
-    }
-
     
 
     public void TogglePlay(bool playSoundEffect = true)

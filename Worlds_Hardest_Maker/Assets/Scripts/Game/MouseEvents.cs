@@ -37,7 +37,7 @@ public class MouseEvents : MonoBehaviour
         }
 
         // place / delete stuff
-        if (!GameManager.Instance.UIHovered && !EditModeManager.Instance.Playing && !SelectionManager.Instance.Selecting &&
+        if (!UIManager.Instance.UIHovered && !EditModeManager.Instance.Playing && !SelectionManager.Instance.Selecting &&
             !CopyManager.pasting)
         {
             // if none of the relevant keys is held, check field placement + entity placement
@@ -86,7 +86,7 @@ public class MouseEvents : MonoBehaviour
         }
 
         // place field
-        int rotation = FieldManager.IsRotatable(editMode) ? GameManager.Instance.EditRotation : 0;
+        int rotation = FieldManager.IsRotatable(editMode) ? EditModeManager.Instance.EditRotation : 0;
 
         FieldType type = GameManager.ConvertEnum<EditMode, FieldType>(editMode);
 

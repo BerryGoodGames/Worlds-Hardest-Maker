@@ -294,7 +294,7 @@ public class SelectionManager : MonoBehaviour
 
         // set rotation
         int rotation = FieldManager.IsRotatable(EditModeManager.Instance.CurrentEditMode)
-            ? GameManager.Instance.EditRotation
+            ? EditModeManager.Instance.EditRotation
             : 0;
 
         // find bounds

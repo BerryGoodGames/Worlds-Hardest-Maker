@@ -90,7 +90,7 @@ public class PreviewController : MonoBehaviour
     /// <returns></returns>
     private bool CheckVisibility(EditMode mode)
     {
-        if (GameManager.Instance.UIHovered ||
+        if (UIManager.Instance.UIHovered ||
             Input.GetKey(KeybindManager.Instance.entityMoveKey) ||
             Input.GetKey(KeybindManager.Instance.editSpeedKey) ||
             Input.GetKey(KeybindManager.Instance.entityDeleteKey)) return false;
@@ -202,7 +202,7 @@ public class PreviewController : MonoBehaviour
 
         if (!rotateToRotation) return;
 
-        Quaternion rotation = Quaternion.Euler(0, 0, GameManager.Instance.EditRotation);
+        Quaternion rotation = Quaternion.Euler(0, 0, EditModeManager.Instance.EditRotation);
         if (smoothRotation && smooth)
         {
             transform.DOKill();

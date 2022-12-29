@@ -38,7 +38,7 @@ public class KeyEvents : MonoBehaviour
         // rotate rotatable fields
         if (FieldManager.IsRotatable(EditModeManager.Instance.CurrentEditMode) && Input.GetKeyDown(KeyCode.R))
         {
-            GameManager.Instance.EditRotation = (GameManager.Instance.EditRotation - 90) % 360;
+            EditModeManager.Instance.EditRotation = (EditModeManager.Instance.EditRotation - 90) % 360;
 
             if (SelectionManager.Instance.Selecting) SelectionManager.UpdatePreviewRotation();
         }

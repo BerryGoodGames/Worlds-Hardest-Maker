@@ -26,10 +26,18 @@ public class EditModeManager : MonoBehaviour
         set => editing = !value;
     }
 
+    // edit rotation
+    private int editRotation = 270;
+    public int EditRotation
+    {
+        get => editRotation;
+        set => Instance.SetEditRotation(value);
+    }
+
     #endregion
 
     #region Events
-    
+
     public Action OnPlay;
     public Action OnEdit;
     public event Action OnEditModeChange;
@@ -94,6 +102,12 @@ public class EditModeManager : MonoBehaviour
                 }
             }
         }
+    }
+    private void SetEditRotation(int value)
+    {
+        editRotation = value;
+
+        ReferenceManager.Instance.placementPreview.GetComponent<PreviewController>().UpdateRotation();
     }
 
     private void Awake()
