@@ -1,12 +1,12 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// anchor attributes: position, waypoints, mode, ball positions
+///     anchor attributes: position, waypoints, mode, ball positions
 /// </summary>
-
-[System.Serializable]
-public class AnchorData : IData
+[Serializable]
+public class AnchorData : Data
 {
     public float[] position = new float[2];
     public WaypointSerializable[] waypoints;
@@ -31,7 +31,7 @@ public class AnchorData : IData
 
         // convert balls (hihi)
         List<float> ballPositionsList = new();
-        
+
         foreach (Transform ball in ballContainer)
         {
             Transform child = ball.GetChild(0);
@@ -42,10 +42,11 @@ public class AnchorData : IData
         ballPositions = ballPositionsList.ToArray();
     }
 
-    public override void CreateObject()
+    public override void ImportToLevel(Vector2 pos)
     {
         // create object
-        GameObject anchor = AnchorManager.Instance.SetAnchor(position[0], position[1]);
+        GameObject anchor = AnchorManager.Instance.SetAnchor(pos);
+        if (anchor == null) return;
         PathController pathController = anchor.GetComponentInChildren<PathController>();
 
         // set waypoints
@@ -59,13 +60,30 @@ public class AnchorData : IData
         // set path mode
         pathController.pathMode = pathMode;
 
+        // reset state
+        pathController.ResetState();
+
 
         // set balls (hihi)
-        Transform container = anchor.GetComponentInChildren<AnchorController>().container.transform;
+        AnchorController anchorController = anchor.GetComponentInChildren<AnchorController>();
+        Transform container = anchorController.container.transform;
 
         for (int i = 0; i < ballPositions.Length; i += 2)
         {
             AnchorBallManager.SetAnchorBall(ballPositions[i], ballPositions[i + 1], container);
         }
+
+        // fade balls in
+        anchorController.StartCoroutine(anchorController.FadeInOnNextFrame(1, 0.1f));
+    }
+
+    public override void ImportToLevel()
+    {
+        ImportToLevel(new(position[0], position[1]));
+    }
+
+    public override EditMode GetEditMode()
+    {
+        return EditMode.ANCHOR;
     }
 }

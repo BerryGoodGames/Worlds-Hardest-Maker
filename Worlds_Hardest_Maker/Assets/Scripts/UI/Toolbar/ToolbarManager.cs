@@ -1,33 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class ToolbarManager : MonoBehaviour
 {
-    public GameObject toolbarBackground;
-    public GameObject infobarBackground;
-
     public static GameObject[] tools;
-    void Start()
+
+    private void Start()
     {
         tools = GameObject.FindGameObjectsWithTag("Tool");
 
-        // editmode wall when starting
-        transform.GetChild(0).GetComponent<Tool>().SwitchGameMode();
-    }
-    private void Update()
-    {
-        // check if toolbar background is hovered
-        GameManager.Instance.UIHovered = toolbarBackground.GetComponent<MouseUIHoverDetection>().IsPointerOverUIElement() ||
-                                         infobarBackground.GetComponent<MouseUIHoverDetection>().IsPointerOverUIElement();
+        // edit mode wall when starting
+        Tool firstTool = transform.GetChild(0).GetComponent<Tool>();
+        firstTool.SwitchGameMode();
     }
 
     public static void DeselectAll()
     {
-        for(int i = 0; i < tools.Length; i++)
+        foreach (GameObject t in tools)
         {
-            tools[i].GetComponent<Tool>().Selected(false);
+            Tool tool = t.GetComponent<Tool>();
+            tool.Selected(false);
         }
     }
 }

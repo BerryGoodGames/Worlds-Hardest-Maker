@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 /// <summary>
-/// Key attributes: position, color
+///     Key attributes: position, color
 /// </summary>
-[System.Serializable]
-public class KeyData : IData
+[Serializable]
+public class KeyData : Data
 {
     public float[] position;
     public KeyManager.KeyColor color;
@@ -19,8 +18,26 @@ public class KeyData : IData
         color = controller.color;
     }
 
-    public override void CreateObject()
+    public override void ImportToLevel(Vector2 pos)
     {
-        KeyManager.Instance.SetKey(position[0], position[1], color);
+        KeyManager.Instance.SetKey(pos, color);
+    }
+
+    public override void ImportToLevel()
+    {
+        ImportToLevel(new(position[0], position[1]));
+    }
+
+    public override EditMode GetEditMode()
+    {
+        return color switch
+        {
+            KeyManager.KeyColor.GRAY => EditMode.GRAY_KEY,
+            KeyManager.KeyColor.RED => EditMode.RED_KEY,
+            KeyManager.KeyColor.GREEN => EditMode.GREEN_KEY,
+            KeyManager.KeyColor.BLUE => EditMode.BLUE_KEY,
+            KeyManager.KeyColor.YELLOW => EditMode.YELLOW_KEY,
+            _ => EditMode.GRAY_KEY
+        };
     }
 }

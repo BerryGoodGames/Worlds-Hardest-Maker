@@ -1,55 +1,59 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 public class SettingGenerator : MonoBehaviour
 {
-    private enum settingVersion
+    public enum SettingVersion
     {
-        DROPDOWN, CHECKBOX, SLIDER
+        DROPDOWN,
+        CHECKBOX,
+        SLIDER,
+        NUMBER_INPUT,
+        HEADER,
+        SPACE
     }
 
-    #region OPTIONS
+    #region Fields
+
+    #region Options
+
 #if UNITY_EDITOR
-    [Header("Options")]
-    [SerializeField] private string label;
-    [SerializeField] private settingVersion version;
+    [Header("Options")] [SerializeField] private string label;
+    public SettingVersion version;
     [SerializeField] private int amount = 1;
+    [SerializeField] private float fontSize = 40;
+    [SerializeField] private float height = 80;
+
+    // custom properties
+    // dropdown: dropdown width
+    [SerializeField] private float dropdownWidth;
+
+    // checkbox: none
+
+    // slider: slider width, slider size
+    [SerializeField] private float sliderWidth = 400;
+    [SerializeField] private float sliderSize = 10;
+
+    // numberinput: input width
+    [SerializeField] private float numberInputWidth = 250;
 #endif
-#endregion
 
-    [Space]
+    #endregion
 
-#region REFERENCES
-    [Header("References")]
-    [SerializeField] private GameObject dropdownPrefab;
-    [SerializeField] private GameObject checkboxPrefab;
-    [SerializeField] private GameObject sliderPrefab;
-    [SerializeField] private Transform container;
-#endregion
+    [Space] [SerializeField] private Transform container;
 
+    #endregion
+
+#if UNITY_EDITOR
     public void GenerateSetting()
     {
-#if UNITY_EDITOR
-        GameObject prefab;
-        // get right prefab, defaults to dropdow prefab
-        switch(version)
+        if (label.Length == 0)
         {
-            case settingVersion.DROPDOWN:
-                prefab = dropdownPrefab;
-                break;
-            case settingVersion.CHECKBOX:
-                prefab = checkboxPrefab;
-                break;
-            case settingVersion.SLIDER:
-                prefab = sliderPrefab;
-                break;
-            default:
-                Debug.LogWarning("you probably forgor ?? to put prefab here, defaulted to dropdown");
-                prefab = dropdownPrefab;
-                break;
+            Debug.LogWarning("You need to specify label!");
+            return;
         }
+
+        GameObject prefab = version.GetPrefab();
 
         // iterate for the amount
         for (int i = 0; i < amount; i++)
@@ -57,32 +61,64 @@ public class SettingGenerator : MonoBehaviour
             // generate setting
             GameObject setting = (GameObject)PrefabUtility.InstantiatePrefab(prefab, container);
 
+            SettingOption option = setting.GetComponent<SettingOption>();
+
             // set label and object name
-            setting.GetComponentInChildren<TMPro.TMP_Text>().text = label;
+            option.label.text = label;
+            option.FontSize = fontSize;
+            option.Height = height;
+            option.Response();
+
             setting.name = setting.name.Replace("Option", label);
 
+            // set customized settings
+            CustomizeSettingOption(ref option, version);
         }
-
-#endif
     }
-}
 
-
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(SettingGenerator))]
-public class SettingGeneratorEditor : Editor
-{
-    public override void OnInspectorGUI()
+    private void CustomizeSettingOption(ref SettingOption option, SettingVersion version)
     {
-        DrawDefaultInspector();
-
-        SettingGenerator script = (SettingGenerator)target;
-        // generates setting on click
-        if (GUILayout.Button("Generate"))
+        switch (version)
         {
-            script.GenerateSetting();
+            case SettingVersion.DROPDOWN:
+                DropdownMenuOption dmo = (DropdownMenuOption)option;
+
+                // width
+                dmo.OriginalWidth = dmo.OriginalHeight * dropdownWidth / height;
+                dmo.Response();
+
+                break;
+
+            case SettingVersion.NUMBER_INPUT:
+                NumberInputOption nio = (NumberInputOption)option;
+
+                // width
+                nio.Width = numberInputWidth;
+                nio.Response();
+                break;
+
+            case SettingVersion.CHECKBOX:
+
+                break;
+
+            case SettingVersion.SLIDER:
+                SliderUI s = ((SliderOption)option).sliderUI;
+
+                // width, size
+                s.Width = sliderWidth;
+                s.Size = sliderSize;
+
+                s.Response();
+                break;
+
+            case SettingVersion.HEADER:
+
+                break;
+
+            case SettingVersion.SPACE:
+
+                break;
         }
     }
-}
 #endif
+}

@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 /// <summary>
-/// BallCircle attributes: speed, radius, origin, angle
+///     BallCircle attributes: speed, radius, origin, angle
 /// </summary>
-[System.Serializable]
-public class BallCircleData : IData
+[Serializable]
+public class BallCircleData : Data
 {
     public float speed;
     public float radius;
@@ -26,8 +25,18 @@ public class BallCircleData : IData
         angle = controller.startAngle;
     }
 
-    public override void CreateObject()
+    public override void ImportToLevel()
     {
-        BallCircleManager.Instance.SetBallCircle(originPosition[0], originPosition[1], radius, speed, angle);
+        ImportToLevel(new(originPosition[0], originPosition[1]));
+    }
+
+    public override void ImportToLevel(Vector2 pos)
+    {
+        BallCircleManager.Instance.SetBallCircle(pos.x, pos.y, radius, speed, angle);
+    }
+
+    public override EditMode GetEditMode()
+    {
+        return EditMode.BALL_CIRCLE;
     }
 }

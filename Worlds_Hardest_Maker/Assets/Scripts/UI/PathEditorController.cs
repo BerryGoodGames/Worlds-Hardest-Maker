@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
+using TMPro;
 using UnityEngine;
 
 public class PathEditorController : MonoBehaviour
 {
     [SerializeField] private GameObject content;
     [SerializeField] private Transform waypointEditorContainer;
-    [SerializeField] private TMPro.TMP_Dropdown modeDropdown;
-    [Space] 
-    [SerializeField] private GameObject waypointEditor;
+    [SerializeField] private TMP_Dropdown modeDropdown;
+    [Space] [SerializeField] private GameObject waypointEditor;
 
     private RectTransform rt;
 
@@ -32,12 +31,17 @@ public class PathEditorController : MonoBehaviour
     public void AddWaypoint()
     {
         if (AnchorManager.Instance.SelectedAnchor == null) return;
-        AnchorManager.Instance.selectedPathController.waypoints.Add(new(new(0, 0), true, 0, 1, 0));
+        int waypointCount = AnchorManager.Instance.selectedPathController.waypoints.Count;
+
+        Waypoint prevWaypoint = AnchorManager.Instance.selectedPathController.waypoints[waypointCount - 1];
+
+        AnchorManager.Instance.selectedPathController.waypoints.Add(prevWaypoint.Clone());
         UpdateUI();
 
-        if(GameManager.Instance.Multiplayer)
+        if (MultiplayerManager.Instance.Multiplayer)
         {
-            AnchorManager.Instance.selectedPathController.GetComponent<AnchorController>().View.RPC("RPCAddWaypoint", Photon.Pun.RpcTarget.Others);
+            AnchorManager.Instance.selectedPathController.GetComponent<AnchorController>().View
+                .RPC("RPCAddWaypoint", RpcTarget.Others);
         }
     }
 
@@ -51,7 +55,7 @@ public class PathEditorController : MonoBehaviour
         // clear waypoint editors
         foreach (Transform child in waypointEditorContainer)
         {
-            if(!child.CompareTag("DontDestroy"))
+            if (!child.CompareTag("DontDestroy"))
                 Destroy(child.gameObject);
         }
 
@@ -66,7 +70,7 @@ public class PathEditorController : MonoBehaviour
 
     public void ResetPosition()
     {
-        if(rt != null)
+        if (rt != null)
             rt.anchoredPosition = startPos;
     }
 }

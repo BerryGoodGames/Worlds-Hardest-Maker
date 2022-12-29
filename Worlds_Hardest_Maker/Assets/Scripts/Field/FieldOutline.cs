@@ -1,46 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+///     apply to every field prefab variant which has outlines (vgl. TypesWithOutlines)
+/// </summary>
 public class FieldOutline : MonoBehaviour
 {
     // array not dynamic
-    public static readonly FieldManager.FieldType[] TypesWithOutlines = {
-        FieldManager.FieldType.WALL_FIELD,
-        FieldManager.FieldType.GRAY_KEY_DOOR_FIELD,
-        FieldManager.FieldType.RED_KEY_DOOR_FIELD,
-        FieldManager.FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldManager.FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldManager.FieldType.YELLOW_KEY_DOOR_FIELD
+    public static readonly FieldType[] typesWithOutlines =
+    {
+        FieldType.WALL_FIELD,
+        FieldType.GRAY_KEY_DOOR_FIELD,
+        FieldType.RED_KEY_DOOR_FIELD,
+        FieldType.BLUE_KEY_DOOR_FIELD,
+        FieldType.GREEN_KEY_DOOR_FIELD,
+        FieldType.YELLOW_KEY_DOOR_FIELD
     };
 
     public Color color = Color.black;
-    public bool imitateAlpha = false;
+    public bool imitateAlpha;
     public float weight = 0.1f;
     public int order = 2;
-    [Space]
-    public string[] connectTags;
+    [Space] public string[] connectTags;
     public float rayLength = 1f;
 
     private readonly Vector2[] directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
+
     [HideInInspector] public bool updateOnStart = true;
     private GameObject lineContainer;
     private SpriteRenderer spriteRenderer;
-    private bool hasSpriteRenderer = false;
+    private bool hasSpriteRenderer;
+
+    private LineRenderer[] lineRenderers;
 
     private void Awake()
     {
-        lineContainer = new("LineContainer");
-        lineContainer.transform.parent = transform;
+        // create line container which has this transform as parent
+        lineContainer = new("LineContainer")
+        {
+            transform = { parent = transform }
+        };
 
-        if (connectTags.Length == 0) connectTags = new string[] { transform.tag };
+        if (connectTags.Length == 0) connectTags = new[] { transform.tag };
 
         if (TryGetComponent(out spriteRenderer)) hasSpriteRenderer = true;
     }
 
     private void Start()
     {
+        // get components if not already cached
+        lineRenderers ??= GetComponentsInChildren<LineRenderer>();
+
         UpdateAlpha();
 
         if (updateOnStart) UpdateOutline(true);
@@ -54,167 +64,157 @@ public class FieldOutline : MonoBehaviour
     // TODO: code duplication
     public void UpdateOutline(bool updateAround = false)
     {
+        // TODO: IMPROVE
+        // debug stuff so not important
         if (Dbg.Instance.dbgEnabled && !Dbg.Instance.wallOutlines) return;
 
-        foreach (Transform child in lineContainer.transform)
-        {
-            Destroy(child.gameObject);
-        }
+        ClearLines();
 
-        foreach (Vector2 d in directions)
+        foreach (Vector2 dir in directions)
         {
-            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, d, rayLength);
-            if (Dbg.Instance.drawRays) Debug.DrawRay(transform.position, d, Color.red, 20);
+            // TODO: use IsConnectorThere (?)
+            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, dir, rayLength);
+            if (Dbg.Instance.drawRays) Debug.DrawRay(transform.position, dir, Color.red, 20);
 
             bool there = false;
 
-            // check if there are objects in that d
+            // check if there are objects in that dir
             foreach (RaycastHit2D r in hits)
             {
-                if(updateAround && r.collider.GetComponent<FieldOutline>() != null)
+                if (updateAround && r.collider.GetComponent<FieldOutline>() != null)
                 {
-                    r.collider.gameObject.GetComponent<FieldOutline>().UpdateOutline(false);
+                    r.collider.gameObject.GetComponent<FieldOutline>().UpdateOutline();
                 }
 
-                if (connectTags.Contains(r.collider.tag))
-                {
-                    there = true;
-                    break;
-                }
+                if (!connectTags.Contains(r.collider.tag)) continue;
+
+                there = true;
+                break;
             }
 
-            if(!there)
-            {
-                LineManager.SetWeight(weight);
-                LineManager.SetFill(color);
-                LineManager.SetLayerID(LineManager.OutlineLayerID);
-                LineManager.SetOrderInLayer(order);
-                if (d.Equals(Vector2.up) || d.Equals(Vector2.down))
-                {
-                    // TODO: unefficient with rays n stuff
-                    // REF
-                    // get left & right hits to fill in gaps in inner corners
-                    RaycastHit2D[] leftHits = Physics2D.RaycastAll(transform.position, Vector2.left, rayLength);
-                    bool left = false;
-                    foreach (RaycastHit2D r in leftHits)
-                    {
-                        if (connectTags.Contains(r.collider.tag))
-                        {
-                            left = true;
-                            break;
-                        }
-                    }
+            // if there is a connector then no line
+            if (there) continue;
 
-                    RaycastHit2D[] rightHits = Physics2D.RaycastAll(transform.position, Vector2.right, rayLength);
-                    bool right = false;
-                    foreach (RaycastHit2D r in rightHits)
-                    {
-                        if (connectTags.Contains(r.collider.tag))
-                        {
-                            right = true;
-                            break;
-                        }
-                    }
-
-                    LineManager.DrawLine(transform.localPosition.x - transform.localScale.x / 2 - (left ? weight : 0), transform.localPosition.y + d.y / 2 - d.y * weight / 2,
-                                        transform.localPosition.x + transform.localScale.x / 2 + (right ? weight : 0), transform.localPosition.y + d.y / 2 - d.y * weight / 2,
-                                        lineContainer.transform);
-                }
-                else if (d.Equals(Vector2.left) || d.Equals(Vector2.right))
-                {
-                    LineManager.DrawLine(transform.localPosition.x + d.x / 2 - d.x * weight / 2, transform.localPosition.y + transform.localScale.y / 2,
-                                        transform.localPosition.x + d.x / 2 - d.x * weight / 2, transform.localPosition.y - transform.localScale.y / 2,
-                                        lineContainer.transform);
-                }
-            } 
+            DrawLine(dir);
         }
     }
 
-    public void UpdateOutline(Vector2 d, bool update = false)
+    public void UpdateOutline(Vector2 dir, bool update = false)
     {
         if (Dbg.Instance.dbgEnabled && !Dbg.Instance.wallOutlines) return;
 
-        foreach (Transform child in lineContainer.transform)
-        {
-            if((Vector2)child.gameObject.transform.localPosition == d) Destroy(child.gameObject);
-        }
+        ClearLineInDir(dir);
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, d, rayLength);
-        if (Dbg.Instance.drawRays) Debug.DrawRay(transform.position, d, Color.red, 20);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, dir, rayLength);
+        if (Dbg.Instance.drawRays) Debug.DrawRay(transform.position, dir, Color.red, 20);
 
         bool there = false;
 
-        // check if there are objects in that d
+        // check if there are objects in that dir
         foreach (RaycastHit2D r in hits)
         {
             if (update && r.collider.gameObject.GetComponent<FieldOutline>() != null)
             {
-                r.collider.gameObject.GetComponent<FieldOutline>().UpdateOutline(false);
+                r.collider.gameObject.GetComponent<FieldOutline>().UpdateOutline();
             }
 
-            if (connectTags.Contains(r.collider.tag))
-            {
-                there = true;
-                break;
-            }
+            if (!connectTags.Contains(r.collider.tag)) continue;
+
+            there = true;
+            break;
         }
 
-        if(!there)
+        if (there) return;
+
+        DrawLine(dir);
+    }
+
+    private void DrawLine(Vector2 dir)
+    {
+        Transform t = transform;
+        Vector2 localPosition = t.localPosition;
+        Vector2 localScale = t.localScale;
+
+        LineManager.SetWeight(weight);
+        LineManager.SetFill(color);
+        LineManager.SetLayerID(LineManager.outlineLayerID);
+        LineManager.SetOrderInLayer(order);
+        if (dir.Equals(Vector2.up) || dir.Equals(Vector2.down))
         {
-            LineManager.SetWeight(weight);
-            LineManager.SetFill(color);
-            LineManager.SetLayerID(LineManager.OutlineLayerID);
-            LineManager.SetOrderInLayer(order);
-            if (d.Equals(Vector2.up) || d.Equals(Vector2.down))
-            {
-                // TODO: unefficient with rays n stuff
-                // REF
-                // get left & right hits to fill in gaps in inner corners
-                RaycastHit2D[] leftHits = Physics2D.RaycastAll(transform.position, Vector2.left, rayLength);
-                bool left = false;
-                foreach (RaycastHit2D r in leftHits)
-                {
-                    if (connectTags.Contains(r.collider.tag))
-                    {
-                        left = true;
-                        break;
-                    }
-                }
+            // TODO: inefficient with rays n stuff
+            // REF
+            // get left & right hits to fill in gaps in inner corners
+            bool left = IsConnectorInDirection(Vector2.left);
+            bool right = IsConnectorInDirection(Vector2.right);
 
-                RaycastHit2D[] rightHits = Physics2D.RaycastAll(transform.position, Vector2.right, rayLength);
-                bool right = false;
-                foreach (RaycastHit2D r in rightHits)
-                {
-                    if (connectTags.Contains(r.collider.tag))
-                    {
-                        right = true;
-                        break;
-                    }
-                }
+            LineManager.DrawLine(
+                localPosition.x - localScale.x * 0.5f - (left ? weight : 0),
+                localPosition.y + dir.y * 0.5f - dir.y * weight * 0.5f,
+                localPosition.x + localScale.x * 0.5f + (right ? weight : 0),
+                localPosition.y + dir.y * 0.5f - dir.y * weight * 0.5f,
+                lineContainer.transform
+            );
+        }
+        else if (dir.Equals(Vector2.left) || dir.Equals(Vector2.right))
+        {
+            LineManager.DrawLine(
+                localPosition.x + dir.x * 0.5f - dir.x * weight * 0.5f,
+                localPosition.y + localScale.y * 0.5f,
+                localPosition.x + dir.x * 0.5f - dir.x * weight * 0.5f,
+                localPosition.y - localScale.y * 0.5f,
+                lineContainer.transform
+            );
+        }
 
-                LineManager.DrawLine(transform.localPosition.x - transform.localScale.x / 2 - (left ? weight : 0), transform.localPosition.y + d.y / 2 - d.y * weight / 2,
-                                    transform.localPosition.x + transform.localScale.x / 2 + (right ? weight : 0), transform.localPosition.y + d.y / 2 - d.y * weight / 2,
-                                    lineContainer.transform);
-            }
-            else if (d.Equals(Vector2.left) || d.Equals(Vector2.right))
-            {
-                LineManager.DrawLine(transform.localPosition.x + d.x / 2 - d.x * weight / 2, transform.localPosition.y + transform.localScale.y / 2,
-                                    transform.localPosition.x + d.x / 2 - d.x * weight / 2, transform.localPosition.y - transform.localScale.y / 2,
-                                    lineContainer.transform);
-            }
+        lineRenderers = GetComponentsInChildren<LineRenderer>();
+    }
+
+    private bool IsConnectorInDirection(Vector2 direction)
+    {
+        RaycastHit2D[] leftHits = Physics2D.RaycastAll(transform.position, direction, rayLength);
+
+        foreach (RaycastHit2D r in leftHits)
+        {
+            if (!connectTags.Contains(r.collider.tag)) continue;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private void ClearLines()
+    {
+        // clear lines
+        foreach (Transform child in lineContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    private void ClearLineInDir(Vector2 dir)
+    {
+        // clear line
+        foreach (Transform child in lineContainer.transform)
+        {
+            if ((Vector2)child.gameObject.transform.localPosition != dir) continue;
+
+            Destroy(child.gameObject);
+            return;
         }
     }
 
     public void UpdateAlpha()
     {
-        if (imitateAlpha && hasSpriteRenderer && spriteRenderer.color.a != color.a)
+        if (!imitateAlpha || !hasSpriteRenderer || color.a.EqualsFloat(spriteRenderer.color.a)) return;
+
+        color = new(color.r, color.g, color.b, spriteRenderer.color.a);
+        foreach (LineRenderer line in lineRenderers)
         {
-            color = new(color.r, color.g, color.b, spriteRenderer.color.a);
-            foreach (LineRenderer line in GetComponentsInChildren<LineRenderer>())
-            {
-                line.startColor = color;
-                line.endColor = color;
-            }
+            if (line == null) continue;
+
+            line.startColor = color;
+            line.endColor = color;
         }
     }
 }

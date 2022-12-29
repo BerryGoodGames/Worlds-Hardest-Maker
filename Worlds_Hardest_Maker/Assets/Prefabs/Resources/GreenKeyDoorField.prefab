@@ -49,7 +49,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6053181342507690478, guid: 6996851b8e355ab489aa50b0829d3bc4, type: 3}
       propertyPath: connectTags.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6053181342507690478, guid: 6996851b8e355ab489aa50b0829d3bc4, type: 3}
       propertyPath: connectTags.Array.data[0]
@@ -61,7 +61,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6053181342507690478, guid: 6996851b8e355ab489aa50b0829d3bc4, type: 3}
       propertyPath: connectTags.Array.data[2]
-      value: GreenKeyDoorField
+      value: WallField
       objectReference: {fileID: 0}
     - target: {fileID: 7104312350107099902, guid: 6996851b8e355ab489aa50b0829d3bc4, type: 3}
       propertyPath: color.b

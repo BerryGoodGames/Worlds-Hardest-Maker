@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 public class BackgroundLineSize : MonoBehaviour
 {
@@ -11,37 +6,45 @@ public class BackgroundLineSize : MonoBehaviour
     [Header("Line order: top, right, bottom, left")]
     public RectTransform[] lines;
 
-    [Space]
-    public float newLineSize;
+    [Space] public float newLineSize;
 
     public void SetLineSize()
     {
         SetLineSize(newLineSize);
     }
+
     public void SetLineSize(float size)
     {
         for (int i = 0; i < lines.Length; i++)
         {
-            RectTransform line = lines[i];
-            if (i % 2 == 0) line.sizeDelta = new(0, size);
-            else line.sizeDelta = new(size, 0);
+            SetLineSize(i, size);
         }
     }
-}
 
-#if UNITY_EDITOR
-[CustomEditor(typeof(BackgroundLineSize))]
-public class SomeScriptEditor : Editor
-{
-    public override void OnInspectorGUI()
+    public void SetLineSize(int i, float size)
     {
-        DrawDefaultInspector();
+        RectTransform line = lines[i];
+        if (i % 2 == 0) line.sizeDelta = new(0, size);
+        else line.sizeDelta = new(size, 0);
+    }
 
-        BackgroundLineSize script = (BackgroundLineSize)target;
-        if (GUILayout.Button("Set Line Size"))
-        {
-            script.SetLineSize();
-        }
+    public void SetLineSizeTop(float size)
+    {
+        SetLineSize(0, size);
+    }
+
+    public void SetLineSizeRight(float size)
+    {
+        SetLineSize(1, size);
+    }
+
+    public void SetLineSizeBottom(float size)
+    {
+        SetLineSize(2, size);
+    }
+
+    public void SetLineSizeLeft(float size)
+    {
+        SetLineSize(3, size);
     }
 }
-#endif

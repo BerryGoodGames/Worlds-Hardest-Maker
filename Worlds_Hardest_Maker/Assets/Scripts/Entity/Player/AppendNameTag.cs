@@ -1,24 +1,24 @@
-using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
-/// Script for player
-/// to add a name tag following attached gameobject
-/// and splitting gameobject and name tag
+///     Script for player
+///     to add a name tag following attached gameObject
+///     and splitting gameObject and name tag
 /// </summary>
 public class AppendNameTag : MonoBehaviour
 {
     [SerializeField] private bool showOnlyWhenMultiplayer = true;
     [SerializeField] private GameObject nameTagPrefab;
+
     [HideInInspector] public GameObject nameTag;
 
     private void Awake()
     {
-        if (!GameManager.Instance.Multiplayer && showOnlyWhenMultiplayer) return;
+        if (!MultiplayerManager.Instance.Multiplayer && showOnlyWhenMultiplayer) return;
 
-        nameTag = Instantiate(nameTagPrefab, Vector2.zero, Quaternion.identity, GameManager.Instance.NameTagContainer.transform);
+        nameTag = Instantiate(nameTagPrefab, Vector2.zero, Quaternion.identity,
+            ReferenceManager.Instance.nameTagContainer);
 
         UIFollowEntity followSettings = nameTag.GetComponent<UIFollowEntity>();
         followSettings.entity = gameObject;
@@ -27,8 +27,6 @@ public class AppendNameTag : MonoBehaviour
 
     public void SetNameTag(string name)
     {
-        nameTag.GetComponent<TMPro.TMP_Text>().text = name;
+        nameTag.GetComponent<TMP_Text>().text = name;
     }
-
-    
 }

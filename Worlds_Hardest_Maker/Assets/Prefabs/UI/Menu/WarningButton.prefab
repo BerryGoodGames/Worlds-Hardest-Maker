@@ -112,6 +112,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2482777314814029965, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: m_fontSize
+      value: 38.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 2482777314814029965, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_fontColor.b
       value: 0
       objectReference: {fileID: 0}
@@ -126,6 +130,26 @@ PrefabInstance:
     - target: {fileID: 2482777314814029965, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4278190188
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802935625325081582, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: shake
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802935625325081582, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: shake1
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802935625325081582, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: shake2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802935625325081582, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: isWarningButton
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802935625325081582, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: singleShakeDuration
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4026576423891908197, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: colorPaletteName

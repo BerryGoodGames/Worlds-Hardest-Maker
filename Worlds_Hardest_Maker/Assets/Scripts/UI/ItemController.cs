@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ItemController : MonoBehaviour
 {
-    [SerializeField] private TMPro.TMP_Text label;
+    [SerializeField] private TMP_Text label;
     [SerializeField] private Color deselectedColor = Color.black;
     [SerializeField] private Color selectedColor = Color.white;
     private Toggle toggle;
@@ -18,24 +17,18 @@ public class ItemController : MonoBehaviour
 
     private void Start()
     {
-        if (toggle.isOn) label.color = selectedColor;
-
-        else label.color = deselectedColor;
+        label.color = toggle.isOn ? selectedColor : deselectedColor;
     }
 
     private void Update()
     {
-        if (toggle.isOn != prevIsOn)
-        {
-            if (toggle.isOn) label.color = selectedColor;
+        if (toggle.isOn == prevIsOn) return;
 
-            else label.color = deselectedColor;
-        }
+        label.color = toggle.isOn ? selectedColor : deselectedColor;
     }
 
     private void LateUpdate()
     {
         prevIsOn = toggle.isOn;
     }
-
 }
