@@ -206,7 +206,7 @@ public class FieldOutline : MonoBehaviour
 
     public void UpdateAlpha()
     {
-        if (!imitateAlpha || !hasSpriteRenderer || Utils.DoFloatsEqual(spriteRenderer.color.a, color.a)) return;
+        if (!imitateAlpha || !hasSpriteRenderer || color.a.EqualsFloat(spriteRenderer.color.a)) return;
 
         color = new(color.r, color.g, color.b, spriteRenderer.color.a);
         foreach (LineRenderer line in lineRenderers)

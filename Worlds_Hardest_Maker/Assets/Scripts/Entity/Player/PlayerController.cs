@@ -288,7 +288,7 @@ public class PlayerController : Controller
 
         // sync slider
         float currentSliderValue = sliderController.GetValue() / sliderController.Step;
-        if (!Utils.DoFloatsEqual(currentSliderValue, speed))
+        if (!currentSliderValue.EqualsFloat(speed))
         {
             sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
         }
@@ -701,7 +701,8 @@ public class PlayerController : Controller
             ? startPos
             : currentGameState.playerStartPos;
 
-        GameObject player = PlayerManager.InstantiatePlayer(spawnPos, applySpeed, MultiplayerManager.Instance.Multiplayer);
+        GameObject player =
+            PlayerManager.InstantiatePlayer(spawnPos, applySpeed, MultiplayerManager.Instance.Multiplayer);
         PlayerController newController = player.GetComponent<PlayerController>();
         newController.deaths = deaths;
         newController.startPos = startPos;

@@ -54,7 +54,7 @@ public class MapController : MonoBehaviour
                 Vector2 currentMousePos = Input.mousePosition;
 
                 Vector2 movement = lastPos - currentMousePos;
-                movement = new(Utils.PixelToUnit(movement.x), Utils.PixelToUnit(movement.y));
+                movement = new(UnitPixelUtils.PixelToUnit(movement.x), UnitPixelUtils.PixelToUnit(movement.y));
                 if (EventSystem.current.IsPointerOverGameObject()) movement = Vector2.zero;
 
                 transform.position += (Vector3)movement;
@@ -78,13 +78,13 @@ public class MapController : MonoBehaviour
 
         Vector2 prevMousePos = MouseManager.Instance.MouseWorldPos;
         Vector2 prevMouseOffsetUnits = prevMousePos - (Vector2)transform.position;
-        Vector2 prevMouseOffsetPixels = Utils.UnitToPixel(prevMouseOffsetUnits);
+        Vector2 prevMouseOffsetPixels = UnitPixelUtils.UnitToPixel(prevMouseOffsetUnits);
 
         float newOrthoSize = cam.orthographicSize * (zoomInput * zoomSpeed + 1);
         if (newOrthoSize > maxZoom) newOrthoSize = maxZoom;
         if (newOrthoSize < minZoom) newOrthoSize = minZoom;
 
-        Vector2 newMouseOffset = Utils.PixelToUnit(prevMouseOffsetPixels, newOrthoSize);
+        Vector2 newMouseOffset = UnitPixelUtils.PixelToUnit(prevMouseOffsetPixels, newOrthoSize);
         Vector3 newCamPos = prevMousePos - newMouseOffset;
 
         // apply

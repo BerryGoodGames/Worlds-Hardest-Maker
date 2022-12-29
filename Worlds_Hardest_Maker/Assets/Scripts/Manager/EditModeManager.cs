@@ -18,7 +18,7 @@ public class EditModeManager : MonoBehaviour
     }
 
     // editing
-    public bool editing;
+    public bool editing = true;
 
     public bool Playing
     {
@@ -41,6 +41,7 @@ public class EditModeManager : MonoBehaviour
 
     public Action OnPlay;
     public Action OnEdit;
+    private static readonly int editingString = Animator.StringToHash("Editing");
     public event Action OnEditModeChange;
 
     #endregion
@@ -68,40 +69,40 @@ public class EditModeManager : MonoBehaviour
         }
 
         // enable/disable outlines and window when switching to/away from anchors/balls
-        if (currentEditMode == EditMode.ANCHOR || currentEditMode == EditMode.BALL)
+        if (currentEditMode is EditMode.ANCHOR or EditMode.BALL)
         {
             // enable stuff
-            ReferenceManager.Instance.ballWindows.gameObject.SetActive(true);
-            if (AnchorManager.Instance.SelectedAnchor != null)
-            {
-                // enable lines
-                AnchorManager.Instance.selectedPathController.drawLines = true;
-                AnchorManager.Instance.selectedPathController.DrawLines();
+            ReferenceManager.Instance.ballWindows.SetActive(true);
 
-                // switch animation to editing
-                foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
-                {
-                    Animator anim = anchor.GetComponentInChildren<Animator>();
-                    anim.SetBool("Editing", true);
-                }
+            if (AnchorManager.Instance.SelectedAnchor == null) return;
+
+            // enable lines
+            AnchorManager.Instance.selectedPathController.drawLines = true;
+            AnchorManager.Instance.selectedPathController.DrawLines();
+
+            // switch animation to editing
+            foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
+            {
+                Animator anim = anchor.GetComponentInChildren<Animator>();
+                anim.SetBool(editingString, true);
             }
         }
         else if (currentEditMode != EditMode.ANCHOR && currentEditMode != EditMode.BALL)
         {
             // disable stuff
             ReferenceManager.Instance.ballWindows.SetActive(false);
-            if (AnchorManager.Instance.SelectedAnchor != null)
-            {
-                // disable lines
-                AnchorManager.Instance.selectedPathController.drawLines = false;
-                AnchorManager.Instance.selectedPathController.ClearLines();
 
-                // switch animation to editing
-                foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
-                {
-                    Animator anim = anchor.GetComponentInChildren<Animator>();
-                    anim.SetBool("Editing", false);
-                }
+            if (AnchorManager.Instance.SelectedAnchor == null) return;
+
+            // disable lines
+            AnchorManager.Instance.selectedPathController.drawLines = false;
+            AnchorManager.Instance.selectedPathController.ClearLines();
+
+            // switch animation to editing
+            foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
+            {
+                Animator anim = anchor.GetComponentInChildren<Animator>();
+                anim.SetBool(editingString, false);
             }
         }
     }

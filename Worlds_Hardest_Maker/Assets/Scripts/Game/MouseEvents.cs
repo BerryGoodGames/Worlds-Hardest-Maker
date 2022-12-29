@@ -37,7 +37,8 @@ public class MouseEvents : MonoBehaviour
         }
 
         // place / delete stuff
-        if (!UIManager.Instance.UIHovered && !EditModeManager.Instance.Playing && !SelectionManager.Instance.Selecting &&
+        if (!MouseManager.Instance.IsUIHovered && !EditModeManager.Instance.Playing &&
+            !SelectionManager.Instance.Selecting &&
             !CopyManager.pasting)
         {
             // if none of the relevant keys is held, check field placement + entity placement
@@ -88,7 +89,7 @@ public class MouseEvents : MonoBehaviour
         // place field
         int rotation = FieldManager.IsRotatable(editMode) ? EditModeManager.Instance.EditRotation : 0;
 
-        FieldType type = Utils.ConvertEnum<EditMode, FieldType>(editMode);
+        FieldType type = EnumUtils.ConvertEnum<EditMode, FieldType>(editMode);
 
         // if user didn't drag to fast, just place field normally
         if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) < 1.414f)

@@ -28,7 +28,9 @@ public class Dbg : MonoBehaviour
     [Space] public bool wallOutlines = true;
     public bool drawRays;
     [Space] public float gameSpeed = 1;
-    [FormerlySerializedAs("DebugText")] [Space] [Header("References")] public GameObject debugText;
+
+    [FormerlySerializedAs("DebugText")] [Space] [Header("References")]
+    public GameObject debugText;
 
     private Camera cam;
     private Text dbgText;

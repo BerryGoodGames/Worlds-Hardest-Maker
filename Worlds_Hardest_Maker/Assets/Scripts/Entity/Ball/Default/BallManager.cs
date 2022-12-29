@@ -53,7 +53,8 @@ public class BallManager : MonoBehaviour
             newBall = Instantiate(PrefabManager.Instance.ballDefault, Vector2.zero, Quaternion.identity,
                 ReferenceManager.Instance.ballDefaultContainer);
 
-            BallDefaultController defaultController = newBall.transform.GetChild(0).GetComponent<BallDefaultController>();
+            BallDefaultController defaultController =
+                newBall.transform.GetChild(0).GetComponent<BallDefaultController>();
             defaultController.SetObjectPos(pos);
             defaultController.SetBouncePos(bouncePos);
             defaultController.SetSpeed(speed);

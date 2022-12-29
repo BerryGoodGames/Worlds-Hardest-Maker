@@ -1,5 +1,3 @@
-
-
 //[CustomEditor(typeof(Script))]
 //public class SomeScriptEditor : Editor
 //{
@@ -14,3 +12,4 @@
 //        }
 //    }
 //}
+

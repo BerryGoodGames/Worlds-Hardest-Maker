@@ -19,7 +19,8 @@ public class PathController : MonoBehaviour
         new Waypoint(Vector2.zero, true, 0, 1, 0)
     };
 
-    [FormerlySerializedAs("LineContainer")] [SerializeField] private Transform lineContainer;
+    [FormerlySerializedAs("LineContainer")] [SerializeField]
+    private Transform lineContainer;
 
     [Space] [Header("Settings")] public bool setElement0ToStartingPos = true;
     public bool drawLines = true;

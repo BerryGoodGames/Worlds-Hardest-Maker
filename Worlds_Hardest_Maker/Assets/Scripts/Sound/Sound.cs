@@ -7,8 +7,13 @@ using UnityEngine.Serialization;
 public class Sound
 {
     public string name;
-    [FormerlySerializedAs("AudioClip")] [Space] public AudioClip audioClip;
-    [FormerlySerializedAs("Output")] [Space] public AudioMixerGroup output;
+
+    [FormerlySerializedAs("AudioClip")] [Space]
+    public AudioClip audioClip;
+
+    [FormerlySerializedAs("Output")] [Space]
+    public AudioMixerGroup output;
+
     public bool mute;
     public bool playOnAwake;
     public bool loop;

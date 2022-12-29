@@ -27,7 +27,7 @@ public class FieldManager : MonoBehaviour
 
     public static bool IsRotatable(EditMode editMode)
     {
-        FieldType? fieldType = (FieldType?)Utils.TryConvertEnum<EditMode, FieldType>(editMode);
+        FieldType? fieldType = (FieldType?)EnumUtils.TryConvertEnum<EditMode, FieldType>(editMode);
 
         return fieldType != null && rotatableFields.Contains((FieldType)fieldType);
     }
@@ -242,7 +242,7 @@ public class FieldManager : MonoBehaviour
         // increment and delta y
         float incY = Mathf.Sign(b.y - a.y);
         float dY = Mathf.Abs(b.y - a.y);
-        
+
         float cmpt = Mathf.Max(dX, dY); // max of both numbers
         float incD = -2 * Mathf.Abs(dX - dY); // increment of delta
         float incS = 2 * Mathf.Min(dX, dY); // I have no idea

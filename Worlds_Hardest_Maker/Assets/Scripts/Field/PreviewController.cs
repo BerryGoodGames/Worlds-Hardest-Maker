@@ -58,7 +58,8 @@ public class PreviewController : MonoBehaviour
         EditMode currentEditMode = EditModeManager.Instance.CurrentEditMode;
 
         if (updateEveryFrame &&
-            (previousEditMode != currentEditMode || previousPlaying != EditModeManager.Instance.Playing)) UpdateSprite();
+            (previousEditMode != currentEditMode || previousPlaying != EditModeManager.Instance.Playing))
+            UpdateSprite();
 
         if (!SelectionManager.Instance.Selecting && followMouse)
         {
@@ -90,7 +91,7 @@ public class PreviewController : MonoBehaviour
     /// <returns></returns>
     private bool CheckVisibility(EditMode mode)
     {
-        if (UIManager.Instance.UIHovered ||
+        if (MouseManager.Instance.IsUIHovered ||
             Input.GetKey(KeybindManager.Instance.entityMoveKey) ||
             Input.GetKey(KeybindManager.Instance.editSpeedKey) ||
             Input.GetKey(KeybindManager.Instance.entityDeleteKey)) return false;

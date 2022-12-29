@@ -25,7 +25,7 @@ public class MultiplayerManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
-        
+
         // check if multiplayer or not
         Instance.Multiplayer = PhotonNetwork.CurrentRoom != null;
     }

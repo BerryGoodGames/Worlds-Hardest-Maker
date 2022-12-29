@@ -4,7 +4,6 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Photon.Pun;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 /// <summary>
 ///     manages game (duh)
@@ -41,12 +40,6 @@ public class GameManager : MonoBehaviourPun
         LevelSettings.Instance.SetWaterDamping();
     }
 
-    private void Update()
-    {
-        // check if toolbarContainer background is hovered
-        UIManager.Instance.UIHovered = EventSystem.current.IsPointerOverGameObject();
-    }
-    
     /// <summary>
     ///     Place edit mode at position
     /// </summary>
@@ -64,7 +57,8 @@ public class GameManager : MonoBehaviourPun
         float gridY = Mathf.Round(pos.y * 2) * 0.5f;
 
         if (editMode.IsFieldType())
-            FieldManager.Instance.SetField((int)pos.x, (int)pos.y, Utils.ConvertEnum<EditMode, FieldType>(editMode));
+            FieldManager.Instance.SetField((int)pos.x, (int)pos.y,
+                EnumUtils.ConvertEnum<EditMode, FieldType>(editMode));
         else
             switch (editMode)
             {

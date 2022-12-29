@@ -1,9 +1,12 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MouseManager : MonoBehaviour
 {
     public static MouseManager Instance { get; private set; }
+
+    #region Properties
 
     public Vector2? MouseDragStart { get; set; }
     public Vector2? MouseDragCurrent { get; set; }
@@ -30,6 +33,11 @@ public class MouseManager : MonoBehaviour
     public Vector2 MouseWorldPosGrid { get; set; }
     public Vector2 MouseWorldPosMatrix { get; set; }
     public bool IsOnScreen { get; set; } = true;
+    public bool IsUIHovered { get; set; }
+
+    #endregion
+
+    #region Static methods
 
     public static Vector2 PosToGrid(Vector2 pos)
     {
@@ -54,7 +62,7 @@ public class MouseManager : MonoBehaviour
     ///     exception when trying to access drag positions while they are null (-> no current dragging)
     /// </summary>
     /// <param name="worldPosition">The world position mode, you want the output to be in (-> any, grid, matrix)</param>
-    /// <exception cref="System.Exception"></exception>
+    /// <exception cref="Exception"></exception>
     public static (Vector2, Vector2) GetDragPositions(FollowMouse.WorldPosition worldPosition)
     {
         if (Instance.MouseDragStart == null || Instance.MouseDragCurrent == null)
@@ -66,8 +74,13 @@ public class MouseManager : MonoBehaviour
         return (start.ConvertPosition(worldPosition), end.ConvertPosition(worldPosition));
     }
 
+    #endregion
+
     private void Update()
     {
+        // check if UI is hovered
+        Instance.IsUIHovered = EventSystem.current.IsPointerOverGameObject();
+
         // update position variables
         MouseWorldPosGrid = new(Mathf.Round(MouseWorldPos.x * 2) * 0.5f, Mathf.Round(MouseWorldPos.y * 2) * 0.5f);
         MouseWorldPosMatrix = new(Mathf.Round(MouseWorldPos.x), Mathf.Round(MouseWorldPos.y));

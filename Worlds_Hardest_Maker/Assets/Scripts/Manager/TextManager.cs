@@ -10,8 +10,12 @@ public class TextManager : MonoBehaviour
 
     #region Text References
 
-    [FormerlySerializedAs("EditModeText")] [Header("Text References")] public TMP_Text editModeText;
-    [FormerlySerializedAs("SelectingText")] public TMP_Text selectingText;
+    [FormerlySerializedAs("EditModeText")] [Header("Text References")]
+    public TMP_Text editModeText;
+
+    [FormerlySerializedAs("SelectingText")]
+    public TMP_Text selectingText;
+
     [FormerlySerializedAs("DeathText")] public TMP_Text deathText;
     [FormerlySerializedAs("Timer")] public TMP_Text timer;
     [FormerlySerializedAs("CoinText")] public TMP_Text coinText;

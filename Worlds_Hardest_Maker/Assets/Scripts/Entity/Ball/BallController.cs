@@ -47,7 +47,7 @@ public abstract class BallController : Controller
 
         // sync slider
         float currentSliderValue = sliderController.GetValue() / sliderController.Step;
-        if (!Utils.DoFloatsEqual(currentSliderValue, speed))
+        if (!currentSliderValue.EqualsFloat(speed))
         {
             sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
         }
