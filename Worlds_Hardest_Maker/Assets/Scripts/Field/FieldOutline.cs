@@ -211,6 +211,8 @@ public class FieldOutline : MonoBehaviour
         color = new(color.r, color.g, color.b, spriteRenderer.color.a);
         foreach (LineRenderer line in lineRenderers)
         {
+            if (line == null) continue;
+
             line.startColor = color;
             line.endColor = color;
         }
