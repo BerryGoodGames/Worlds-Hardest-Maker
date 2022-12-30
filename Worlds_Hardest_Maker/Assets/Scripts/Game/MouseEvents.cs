@@ -16,7 +16,7 @@ public class MouseEvents : MonoBehaviour
         bool multiplayer = MultiplayerManager.Instance.Multiplayer;
 
         // get mouse position and scale it to units
-        Vector2 mousePos = MouseManager.GetMouseWorldPos();
+        Vector2 mousePos = MouseManager.Instance.MouseWorldPos;
 
         int matrixX = (int)Mathf.Round(mousePos.x);
         int matrixY = (int)Mathf.Round(mousePos.y);

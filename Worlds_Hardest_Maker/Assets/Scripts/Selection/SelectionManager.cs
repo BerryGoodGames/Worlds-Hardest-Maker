@@ -161,7 +161,7 @@ public class SelectionManager : MonoBehaviour
         return GetBounds(points.ToList());
     }
 
-    private static (int, int, int, int) GetBoundsMatrix(List<Vector2> points)
+    public static (int, int, int, int) GetBoundsMatrix(List<Vector2> points)
     {
         var (lowestX, highestX, lowestY, highestY) = GetBounds(points);
         return (Mathf.CeilToInt(lowestX), Mathf.FloorToInt(highestX), Mathf.CeilToInt(lowestY),
@@ -470,7 +470,7 @@ public class SelectionManager : MonoBehaviour
     public void CopySelection()
     {
         Vector2 lowestPos = CurrentSelectionRange[0];
-        Vector2 highestPos = CurrentSelectionRange.Last();
+        Vector2 highestPos = CurrentSelectionRange[^1];
 
         CopyManager.Copy(lowestPos, highestPos);
 

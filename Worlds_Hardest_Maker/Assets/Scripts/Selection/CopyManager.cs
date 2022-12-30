@@ -15,16 +15,28 @@ public class CopyManager : MonoBehaviour
 
     public static void Copy(Vector2 lowestPos, Vector2 highestPos)
     {
+        clipBoard.Clear();
+
         // get position and size on where to get the objects
-        Vector2 castPos = Vector2.Lerp(lowestPos, highestPos, 0.5f);
-        Vector2 castSize = highestPos - lowestPos;
+        Vector2 selectionCenter = (lowestPos + highestPos) * .5f;
+        Vector2 selectionSize = highestPos - lowestPos;
+
+        Collider2D[] hits = new Collider2D[Mathf.CeilToInt(selectionSize.x) * Mathf.CeilToInt(selectionSize.y)];
+        _ = Physics2D.OverlapBoxNonAlloc(selectionCenter, selectionSize, 0, hits, 3200); // get objects
+
+        List<Vector2> points = HitsToPoints(hits);
+
+        if (points.Count == 0) return;
+
+        (int lowestX, int highestX, int lowestY, int highestY) = SelectionManager.GetBoundsMatrix(points);
+        Vector2 lowestPoint = new(lowestX, lowestY);
+        Vector2 highestPoint = new(highestX, highestY);
+
+        // center and size of actual controllers user selected
+        Vector2 castCenter = .5f * (lowestPoint + highestPoint);
+        Vector2 castSize = highestPoint - lowestPoint + Vector2.one;
 
         size = castSize; // save size
-
-        Collider2D[] hits = new Collider2D[Mathf.CeilToInt(castSize.x) * Mathf.CeilToInt(castSize.y)];
-        _ = Physics2D.OverlapBoxNonAlloc(castPos, castSize, 0, hits, 3200); // get objects
-
-        clipBoard.Clear();
 
         foreach (Collider2D hit in hits)
         {
@@ -34,24 +46,28 @@ public class CopyManager : MonoBehaviour
             if (!hit.TryGetComponent(out Controller controller)) continue;
 
             Data data = controller.GetData();
+            
+            Vector2 pos = controller.GetPosition();
 
-            // special case for ball circles
-            Vector2 pos = controller.GetType() == typeof(BallCircleController)
-                ? ((BallCircleController)controller).origin.position
-                : (Vector2)hit.transform.position;
-
-            CopyData copyData = new(data, pos - lowestPos);
+            CopyData copyData = new(data, pos - castCenter);
             clipBoard.Add(copyData);
         }
     }
 
-    public static void LoadClipboard(Vector2 pos)
+    private static List<Vector2> HitsToPoints(Collider2D[] hits)
     {
-        // just load clipboard to pos
-        foreach (CopyData copyData in clipBoard)
+        List<Vector2> points = new();
+        foreach (Collider2D hit in hits)
         {
-            copyData.Paste(pos);
+            if (hit == null) continue;
+
+            // try to get controllers and save the object in clipboard
+            if (!hit.TryGetComponent(out Controller controller)) continue;
+
+            points.Add(controller.GetPosition());
         }
+
+        return points;
     }
 
     public static IEnumerator PasteCoroutine()
@@ -72,13 +88,10 @@ public class CopyManager : MonoBehaviour
             }
 
             // update position on where to paste
-            Vector2 mousePos = MouseManager.GetMouseWorldPos();
-
-            int matrixX = (int)(Mathf.Round(mousePos.x) - size.x * 0.5f);
-            int matrixY = (int)(Mathf.Round(mousePos.y) - size.x * 0.5f);
+            Vector2 mousePos = MouseManager.Instance.MouseWorldPosMatrix;
 
             // TODO: smooth animation
-            Instance.previewContainer.position = new(matrixX, matrixY);
+            Instance.previewContainer.position = mousePos;
 
             yield return null;
         }
@@ -124,13 +137,13 @@ public class CopyManager : MonoBehaviour
     {
         // // actions to actually paste
         // get position where to paste
-        Vector2 mousePos = MouseManager.GetMouseWorldPos();
+        Vector2 mousePos = MouseManager.Instance.MouseWorldPosMatrix;
 
-        int matrixX = (int)(Mathf.Round(mousePos.x) - size.x * 0.5f);
-        int matrixY = (int)(Mathf.Round(mousePos.y) - size.x * 0.5f);
+        // int matrixX = (int)(Mathf.Round(mousePos.x) - size.x * 0.5f);
+        // int matrixY = (int)(Mathf.Round(mousePos.y) - size.x * 0.5f);
 
         // paste
-        LoadClipboard(new(matrixX, matrixY));
+        LoadClipboard(mousePos);
 
         // remove some blocks etc.
         MenuManager.Instance.blockMenu = false;
@@ -140,6 +153,15 @@ public class CopyManager : MonoBehaviour
 
         // show toolbar
         ReferenceManager.Instance.toolbarTween.SetPlay(false);
+    }
+
+    public static void LoadClipboard(Vector2 pos)
+    {
+        // just load clipboard to pos
+        foreach (CopyData copyData in clipBoard)
+        {
+            copyData.Paste(pos);
+        }
     }
 
     private static void CreatePreview()
