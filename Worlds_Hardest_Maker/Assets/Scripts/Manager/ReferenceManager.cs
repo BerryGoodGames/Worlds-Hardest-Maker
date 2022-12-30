@@ -30,6 +30,8 @@ public class ReferenceManager : MonoBehaviour
     [FormerlySerializedAs("ToolbarContainer")] [Space] [Header("Containers")]
     public Transform toolbarContainer;
 
+    public BarTween toolbarTween;
+
     [FormerlySerializedAs("SliderContainer")]
     public Transform sliderContainer;
 

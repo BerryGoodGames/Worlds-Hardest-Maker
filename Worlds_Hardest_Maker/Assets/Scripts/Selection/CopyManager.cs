@@ -45,7 +45,7 @@ public class CopyManager : MonoBehaviour
         }
     }
 
-    public static void Paste(Vector2 pos)
+    public static void LoadClipboard(Vector2 pos)
     {
         // just load clipboard to pos
         foreach (CopyData copyData in clipBoard)
@@ -54,22 +54,12 @@ public class CopyManager : MonoBehaviour
         }
     }
 
-    public static IEnumerator StartPaste()
+    public static IEnumerator PasteCoroutine()
     {
         // check if there smth. in clipboard
         if (clipBoard.Count == 0) yield break;
 
-        // block menu from being opened and some other stuff
-        MenuManager.Instance.blockMenu = true;
-        pasting = true;
-
-        // get position where to paste
-        Vector2 mousePos = MouseManager.GetMouseWorldPos();
-
-        int matrixX = (int)(Mathf.Round(mousePos.x) - size.x * 0.5f);
-        int matrixY = (int)(Mathf.Round(mousePos.y) - size.x * 0.5f);
-
-        CreatePreview();
+        StartPaste();
 
         // wait until clicked, cancel if esc is clicked
         while (!Input.GetMouseButton(0))
@@ -77,26 +67,70 @@ public class CopyManager : MonoBehaviour
             // cancel if these things happen
             if (Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || EditModeManager.Instance.Playing)
             {
-                MenuManager.Instance.blockMenu = false;
-                ClearPreview();
-                Instance.previewContainer.position = Vector2.zero;
-                pasting = false;
+                CancelPaste();
                 yield break;
             }
 
             // update position on where to paste
-            mousePos = MouseManager.GetMouseWorldPos();
+            Vector2 mousePos = MouseManager.GetMouseWorldPos();
 
-            matrixX = (int)(Mathf.Round(mousePos.x) - size.x * 0.5f);
-            matrixY = (int)(Mathf.Round(mousePos.y) - size.x * 0.5f);
+            int matrixX = (int)(Mathf.Round(mousePos.x) - size.x * 0.5f);
+            int matrixY = (int)(Mathf.Round(mousePos.y) - size.x * 0.5f);
 
+            // TODO: smooth animation
             Instance.previewContainer.position = new(matrixX, matrixY);
 
             yield return null;
         }
 
+        Paste();
+
+        // make sure that the player can't place directly after pasting
+        while (!Input.GetMouseButtonUp(0))
+            yield return null;
+
+        pasting = false;
+    }
+
+    private static void StartPaste()
+    {
+        // // actions the frame the user starts pasting
+        pasting = true;
+
+        // block menu from being opened and some other stuff
+        MenuManager.Instance.blockMenu = true;
+        
+        CreatePreview();
+
+        // hide toolbar
+        ReferenceManager.Instance.toolbarTween.SetPlay(true);
+    }
+
+    private static void CancelPaste()
+    {
+        // // actions the frame the user cancels pasting via esc, playing or selecting sth
+        MenuManager.Instance.blockMenu = false;
+
+        ClearPreview();
+
+        Instance.previewContainer.position = Vector2.zero;
+        pasting = false;
+
+        // show toolbar (if in edit mode)
+        ReferenceManager.Instance.toolbarTween.SetPlay(EditModeManager.Instance.Playing);
+    }
+
+    private static void Paste()
+    {
+        // // actions to actually paste
+        // get position where to paste
+        Vector2 mousePos = MouseManager.GetMouseWorldPos();
+
+        int matrixX = (int)(Mathf.Round(mousePos.x) - size.x * 0.5f);
+        int matrixY = (int)(Mathf.Round(mousePos.y) - size.x * 0.5f);
+
         // paste
-        Paste(new(matrixX, matrixY));
+        LoadClipboard(new(matrixX, matrixY));
 
         // remove some blocks etc.
         MenuManager.Instance.blockMenu = false;
@@ -104,11 +138,8 @@ public class CopyManager : MonoBehaviour
         ClearPreview();
         Instance.previewContainer.position = Vector2.zero;
 
-        // make sure that the player cant place directly after pasting
-        while (!Input.GetMouseButtonUp(0))
-            yield return null;
-
-        pasting = false;
+        // show toolbar
+        ReferenceManager.Instance.toolbarTween.SetPlay(false);
     }
 
     private static void CreatePreview()
