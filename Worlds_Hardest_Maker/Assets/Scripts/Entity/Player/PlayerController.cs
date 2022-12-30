@@ -283,7 +283,6 @@ public class PlayerController : Controller
     [PunRPC]
     public void SetSpeed(float speed)
     {
-        // TODO: code duplication from BallController
         this.speed = speed;
 
         // sync slider
@@ -632,7 +631,6 @@ public class PlayerController : Controller
 
     private void ResetCoinsToCurrentGameState()
     {
-        // TODO: code duplication coin / key
         foreach (Transform coin in ReferenceManager.Instance.coinContainer)
         {
             CoinController coinController = coin.GetChild(0).GetComponent<CoinController>();

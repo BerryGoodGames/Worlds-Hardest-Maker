@@ -109,14 +109,12 @@ public class FieldManager : MonoBehaviour
 
         if (CoinManager.cannotPlaceFields.Contains(type))
         {
-            // TODO: 9x bad performance than before
             // remove coin if wall is placed
             GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.coinContainer);
         }
 
         if (KeyManager.cannotPlaceFields.Contains(type))
         {
-            // TODO: 9x bad performance than before
             // remove key if wall is placed
             GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.keyContainer);
         }

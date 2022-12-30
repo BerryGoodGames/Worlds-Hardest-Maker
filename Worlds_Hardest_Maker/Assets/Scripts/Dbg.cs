@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 /// <summary>
 ///     utility class for fast debug: custom for default log, count, fps, mouse pos
@@ -92,6 +93,18 @@ public class Dbg : MonoBehaviour
         catch
         {
             Instance.dbgText.text = "failed";
+        }
+    }
+
+    public static void PrintScriptAttachments<T>() where T : MonoBehaviour
+    {
+        Object[] list = FindObjectsOfType(typeof(T), true);
+        string scriptName = typeof(T).Name;
+
+        print($"Debug - Count of script {scriptName}: {list.Length}");
+        foreach (Object o in list)
+        {
+            print($"Debug - {o.name}");
         }
     }
 }

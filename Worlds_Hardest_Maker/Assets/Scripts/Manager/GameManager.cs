@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviourPun
         LevelSettings.Instance.SetIceFriction();
         LevelSettings.Instance.SetIceMaxSpeed();
         LevelSettings.Instance.SetWaterDamping();
+
+        Dbg.PrintScriptAttachments<UIAttachToPoint>();
     }
 
     /// <summary>

@@ -365,7 +365,6 @@ public class SelectionManager : MonoBehaviour
         // remove player if at changed pos
         if (!PlayerManager.startFields.Contains(type))
         {
-            // TODO: 9x bad performance than before
             GameObject player = PlayerManager.GetPlayer();
 
             if (player != null && player.transform.position.Between(lowestPos, highestPos))

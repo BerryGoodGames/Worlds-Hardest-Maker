@@ -19,15 +19,9 @@ public class UIAttachToPoint : MonoBehaviour
     {
         rt.position = cam.WorldToScreenPoint(point);
 
-        if (zoomSizeWithCamera)
-        {
-            float scl = 10.0f / cam.orthographicSize;
-            rt.localScale = new(scl, scl);
-        }
+        if (!zoomSizeWithCamera) return;
 
-        if (zoomPositionWithCamera)
-        {
-            // TODO
-        }
+        float scl = 10.0f / cam.orthographicSize;
+        rt.localScale = new(scl, scl);
     }
 }
