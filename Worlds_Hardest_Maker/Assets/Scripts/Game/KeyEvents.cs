@@ -59,7 +59,7 @@ public class KeyEvents : MonoBehaviour
             // paste
             if (!CopyManager.pasting && Input.GetKey(KeybindManager.Instance.pasteKey))
             {
-                StartCoroutine(CopyManager.PasteCoroutine());
+                StartCoroutine(CopyManager.Instance.PasteCoroutine());
             }
         }
 

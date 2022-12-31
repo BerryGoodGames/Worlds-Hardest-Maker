@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class CopyManager : MonoBehaviour
 {
+    public static CopyManager Instance { get; set; }
+
+
     private static List<CopyData> clipBoard = new();
-    private static CopyManager Instance { get; set; }
 
     private static Vector2 size = Vector2.zero;
 
     public static bool pasting;
 
     [SerializeField] private Transform previewContainer;
+    [SerializeField] private BarTween toolbarTween;
 
     public static void Copy(Vector2 lowestPos, Vector2 highestPos)
     {
@@ -19,13 +22,13 @@ public class CopyManager : MonoBehaviour
 
         // get position and size on where to get the objects
         Vector2 selectionCenter = (lowestPos + highestPos) * .5f;
-        Vector2 selectionSize = highestPos - lowestPos + Vector2.one * 0.999f;
+        Vector2 selectionSize = highestPos - lowestPos + Vector2.one * .5f;
 
-        print($"Size: {selectionSize}   Pos: {selectionCenter}");
+        // print($"Size: {selectionSize}   Pos: {selectionCenter}");
 
         Collider2D[] hits = Physics2D.OverlapBoxAll(selectionCenter, selectionSize, 0, 3200); // get objects
 
-        print(hits.Length);
+        // print(hits.Length);
 
         List<Vector2> points = HitsToPoints(hits);
 
@@ -73,7 +76,7 @@ public class CopyManager : MonoBehaviour
         return points;
     }
 
-    public static IEnumerator PasteCoroutine()
+    public IEnumerator PasteCoroutine()
     {
         // check if there smth. in clipboard
         if (clipBoard.Count == 0) yield break;
@@ -102,7 +105,7 @@ public class CopyManager : MonoBehaviour
         pasting = false;
     }
 
-    private static void StartPaste()
+    private void StartPaste()
     {
         // // actions the frame the user starts pasting
         pasting = true;
@@ -113,10 +116,10 @@ public class CopyManager : MonoBehaviour
         CreatePreview();
 
         // hide toolbar
-        ReferenceManager.Instance.toolbarTween.SetPlay(true);
+        toolbarTween.SetPlay(true);
     }
 
-    private static void CancelPaste()
+    private void CancelPaste()
     {
         // // actions the frame the user cancels pasting via esc, playing or selecting sth
         MenuManager.Instance.blockMenu = false;
@@ -127,10 +130,10 @@ public class CopyManager : MonoBehaviour
         pasting = false;
 
         // show toolbar (if in edit mode)
-        ReferenceManager.Instance.toolbarTween.SetPlay(EditModeManager.Instance.Playing);
+        toolbarTween.SetPlay(EditModeManager.Instance.Playing);
     }
 
-    private static void Paste()
+    private void Paste()
     {
         // // actions to actually paste
         // get position where to paste
@@ -149,7 +152,7 @@ public class CopyManager : MonoBehaviour
         Instance.previewContainer.position = Vector2.zero;
 
         // show toolbar
-        ReferenceManager.Instance.toolbarTween.SetPlay(false);
+        toolbarTween.SetPlay(false);
     }
 
     public static void LoadClipboard(Vector2 pos)

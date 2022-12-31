@@ -131,7 +131,7 @@ public class FieldManager : MonoBehaviour
         SetField(mx, my, type, 0);
     }
 
-    private static void ApplyStartGoalCheckpointFieldColor(ref GameObject field)
+    public static void ApplyStartGoalCheckpointFieldColor(ref GameObject field)
     {
         // REF
         string[] tags = { "StartField", "GoalField", "CheckpointField" };

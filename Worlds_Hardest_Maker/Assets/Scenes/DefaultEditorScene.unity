@@ -13287,6 +13287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   previewContainer: {fileID: 441104387}
+  toolbarTween: {fileID: 3914619140277756240}
 --- !u!114 &3252578248619094841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13321,7 +13322,6 @@ MonoBehaviour:
   ballWindows: {fileID: 4673024329375387179}
   playerSpawner: {fileID: 722155291}
   toolbarContainer: {fileID: 3914619140277756239}
-  toolbarTween: {fileID: 3914619140277756240}
   sliderContainer: {fileID: 2134541449}
   nameTagContainer: {fileID: 1659196506}
   drawContainer: {fileID: 1552703640}
