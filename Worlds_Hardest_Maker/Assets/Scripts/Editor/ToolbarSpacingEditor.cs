@@ -10,7 +10,7 @@ public class ToolbarSpacingEditor : Editor
 
         ToolbarSizing script = (ToolbarSizing)target;
 
-        if (GUILayout.Button("PlaceEditModeAtPosition Toolbar height"))
+        if (GUILayout.Button("Set Toolbar height"))
         {
             script.UpdateSize();
         }

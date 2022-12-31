@@ -11,7 +11,7 @@ public class InfobarResizeEditor : Editor
         DrawDefaultInspector();
 
         InfobarResize script = (InfobarResize)target;
-        if (GUILayout.Button("PlaceEditModeAtPosition Infobar height"))
+        if (GUILayout.Button("Set Infobar height"))
         {
             script.UpdateSize();
         }

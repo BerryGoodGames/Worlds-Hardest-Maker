@@ -161,7 +161,7 @@ public class SelectionManager : MonoBehaviour
         return GetBounds(points.ToList());
     }
 
-    private static (int, int, int, int) GetBoundsMatrix(List<Vector2> points)
+    public static (int, int, int, int) GetBoundsMatrix(List<Vector2> points)
     {
         var (lowestX, highestX, lowestY, highestY) = GetBounds(points);
         return (Mathf.CeilToInt(lowestX), Mathf.FloorToInt(highestX), Mathf.CeilToInt(lowestY),
@@ -359,43 +359,27 @@ public class SelectionManager : MonoBehaviour
             break;
         }
 
-        // get colorful colors to start, goal, checkpoints and start goal fields
-        List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
-
-        // remove player if at changed pos
-        if (!PlayerManager.startFields.Contains(type))
-        {
-            // TODO: 9x bad performance than before
-            GameObject player = PlayerManager.GetPlayer();
-
-            if (player != null && player.transform.position.Between(lowestPos, highestPos))
-                Destroy(player);
-        }
-
-
         foreach (Vector2 pos in poses)
         {
             // set field at pos
             GameObject field = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation),
                 ReferenceManager.Instance.fieldContainer);
 
-            if (tagIndex != null)
-            {
-                if (GraphicsSettings.Instance.oneColorStartGoalCheckpoint)
-                {
-                    field.GetComponent<SpriteRenderer>().color = colors[4];
-
-                    if (field.TryGetComponent(out Animator anim))
-                    {
-                        anim.enabled = false;
-                    }
-                }
-            }
+            FieldManager.ApplyStartGoalCheckpointFieldColor(field, null);
 
             if (field.TryGetComponent(out FieldOutline FOComp))
             {
                 FOComp.updateOnStart = false;
             }
+        }
+
+        // remove player if at changed pos
+        if (!PlayerManager.startFields.Contains(type))
+        {
+            GameObject player = PlayerManager.GetPlayer();
+
+            if (player != null && player.transform.position.Between(lowestPos, highestPos))
+                Destroy(player);
         }
 
         UpdateOutlinesInArea(type.GetPrefab().GetComponent<FieldOutline>() != null, new(lowestX, lowestY),
@@ -458,7 +442,7 @@ public class SelectionManager : MonoBehaviour
 
         GameObject player = PlayerManager.GetPlayer();
 
-        if (!PlayerManager.CanPlace(player.transform.position, false))
+        if (player != null && !PlayerManager.CanPlace(player.transform.position, false))
             PlayerManager.Instance.RemovePlayerAtPos(player.transform.position);
 
         UpdateOutlinesInArea(false, lowestPos, highestPos);
@@ -471,7 +455,7 @@ public class SelectionManager : MonoBehaviour
     public void CopySelection()
     {
         Vector2 lowestPos = CurrentSelectionRange[0];
-        Vector2 highestPos = CurrentSelectionRange.Last();
+        Vector2 highestPos = CurrentSelectionRange[^1];
 
         CopyManager.Copy(lowestPos, highestPos);
 

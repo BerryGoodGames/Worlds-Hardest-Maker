@@ -57,9 +57,9 @@ public class KeyEvents : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.O)) GameManager.Instance.LoadLevel();
 #endif
             // paste
-            if (Input.GetKey(KeybindManager.Instance.pasteKey))
+            if (!CopyManager.pasting && Input.GetKey(KeybindManager.Instance.pasteKey))
             {
-                StartCoroutine(CopyManager.StartPaste());
+                StartCoroutine(CopyManager.Instance.PasteCoroutine());
             }
         }
 

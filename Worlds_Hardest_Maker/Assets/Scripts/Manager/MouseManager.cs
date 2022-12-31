@@ -49,7 +49,7 @@ public class MouseManager : MonoBehaviour
         return new(Mathf.Round(pos.x), Mathf.Round(pos.y));
     }
 
-    public static Vector2 GetMouseWorldPos()
+    private static Vector2 GetMouseWorldPos()
     {
         Vector2 mousePos = Input.mousePosition;
 

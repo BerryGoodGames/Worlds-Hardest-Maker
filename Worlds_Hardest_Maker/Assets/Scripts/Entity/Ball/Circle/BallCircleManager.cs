@@ -83,7 +83,7 @@ public class BallCircleManager : MonoBehaviour
         {
             Vector2 originPos = bc.GetChild(0).GetComponent<BallCircleController>().origin.position;
 
-            if (originPos.x != mx || originPos.y != my) continue;
+            if (!originPos.x.EqualsFloat(mx) || !originPos.y.EqualsFloat(my)) continue;
 
             Destroy(bc.GetChild(0).GetComponent<AppendSlider>().GetSliderObject());
             Destroy(bc.gameObject);

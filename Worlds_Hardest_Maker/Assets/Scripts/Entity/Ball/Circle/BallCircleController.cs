@@ -211,6 +211,11 @@ public class BallCircleController : BallController
         MoveOrigin(unitPos.x, unitPos.y);
     }
 
+    public override Vector2 GetPosition()
+    {
+        return origin.position;
+    }
+
     public override Data GetData()
     {
         return new BallCircleData(this);

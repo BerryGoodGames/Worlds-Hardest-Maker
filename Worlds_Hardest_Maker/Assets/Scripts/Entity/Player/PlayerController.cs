@@ -240,8 +240,8 @@ public class PlayerController : Controller
 
         // do wall corner pushy thingy
         if (!collider.transform.tag.IsSolidFieldTag() ||
-            (collider.transform.position.x != roundedPos.x + movementInput.x &&
-             collider.transform.position.y != roundedPos.y + movementInput.y)) return;
+            (!collider.transform.position.x.EqualsFloat(roundedPos.x + movementInput.x) &&
+             !collider.transform.position.y.EqualsFloat(roundedPos.y + movementInput.y))) return;
 
         CornerPushHorizontal(collider, roundedPos, err);
         CornerPushVertical(collider, roundedPos, err);
@@ -250,7 +250,7 @@ public class PlayerController : Controller
     private void CornerPushVertical(Collision2D collider, Vector2 roundedPos, float err)
     {
         // do vertical
-        if (movementInput.y == 0 || roundedPos.x == Mathf.Round(collider.transform.position.x) ||
+        if (movementInput.y == 0 || roundedPos.x.EqualsFloat(Mathf.Round(collider.transform.position.x)) ||
             !(Mathf.Abs(rb.position.x) % 1 > (1 - transform.lossyScale.x) * 0.5f + err) ||
             !(Mathf.Abs(rb.position.x) % 1 < 1 - ((1 - transform.lossyScale.x) * 0.5f + err))) return;
 
@@ -264,7 +264,7 @@ public class PlayerController : Controller
     private void CornerPushHorizontal(Collision2D collider, Vector2 roundedPos, float err)
     {
         // do horizontal
-        if (movementInput.x == 0 || roundedPos.y == Mathf.Round(collider.transform.position.y) ||
+        if (movementInput.x == 0 || roundedPos.y.EqualsFloat(Mathf.Round(collider.transform.position.y)) ||
             !(Mathf.Abs(rb.position.y) % 1 > (1 - transform.lossyScale.y) * 0.5f + err) ||
             !(Mathf.Abs(rb.position.y) % 1 < 1 - ((1 - transform.lossyScale.y) * 0.5f + err))) return;
 
@@ -283,7 +283,6 @@ public class PlayerController : Controller
     [PunRPC]
     public void SetSpeed(float speed)
     {
-        // TODO: code duplication from BallController
         this.speed = speed;
 
         // sync slider
@@ -297,7 +296,7 @@ public class PlayerController : Controller
     [PunRPC]
     public void SetNameTagActive(bool active)
     {
-        if (!photonView.IsMine) print($"PlaceEditModeAtPosition name tag {active}");
+        if (!photonView.IsMine) print($"Set name tag {active}");
 
         if (!MultiplayerManager.Instance.Multiplayer)
             throw new Exception("Trying to enable/disable name tag while in singleplayer");
@@ -632,7 +631,6 @@ public class PlayerController : Controller
 
     private void ResetCoinsToCurrentGameState()
     {
-        // TODO: code duplication coin / key
         foreach (Transform coin in ReferenceManager.Instance.coinContainer)
         {
             CoinController coinController = coin.GetChild(0).GetComponent<CoinController>();
@@ -642,8 +640,8 @@ public class PlayerController : Controller
             {
                 foreach (Vector2 collected in currentGameState.collectedCoins)
                 {
-                    if (collected.x != coinController.coinPosition.x ||
-                        collected.y != coinController.coinPosition.y) continue;
+                    if (!collected.x.EqualsFloat(coinController.coinPosition.x) ||
+                        !collected.y.EqualsFloat(coinController.coinPosition.y)) continue;
 
                     // if coin is collected or no state exists it doesn't respawn
                     respawns = false;
@@ -673,8 +671,8 @@ public class PlayerController : Controller
             {
                 foreach (Vector2 collected in currentGameState.collectedKeys)
                 {
-                    if (collected.x != keyController.keyPosition.x ||
-                        collected.y != keyController.keyPosition.y) continue;
+                    if (!collected.x.EqualsFloat(keyController.keyPosition.x) ||
+                        !collected.y.EqualsFloat(keyController.keyPosition.y)) continue;
 
                     // if key is collected or no state exists it doesn't respawn
                     respawns = false;

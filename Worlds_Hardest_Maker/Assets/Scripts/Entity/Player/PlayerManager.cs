@@ -28,7 +28,7 @@ public class PlayerManager : MonoBehaviour
         OnWin?.Invoke();
     }
 
-    #region PlaceEditModeAtPosition player
+    #region Set player
 
     public void SetPlayer(float mx, float my, float speed, bool placeStartField = false)
     {
@@ -119,7 +119,7 @@ public class PlayerManager : MonoBehaviour
         // remove player only if at pos
         foreach (Transform player in ReferenceManager.Instance.playerContainer)
         {
-            if (player.position.x == mx && player.position.y == my)
+            if (player.position.x.EqualsFloat(mx) && player.position.y.EqualsFloat(my))
             {
                 player.GetComponent<PlayerController>().DestroyPlayer();
             }
@@ -138,7 +138,7 @@ public class PlayerManager : MonoBehaviour
         foreach (Transform player in ReferenceManager.Instance.playerContainer)
         {
             if (MultiplayerManager.Instance.Multiplayer && player.GetComponent<PhotonView>().IsMine) continue;
-            if (player.position.x == mx && player.position.y == my)
+            if (player.position.x.EqualsFloat(mx) && player.position.y.EqualsFloat(my))
             {
                 player.GetComponent<PlayerController>().DestroyPlayer();
             }
@@ -152,7 +152,7 @@ public class PlayerManager : MonoBehaviour
         foreach (Transform player in ReferenceManager.Instance.playerContainer)
         {
             if (MultiplayerManager.Instance.Multiplayer && !player.GetComponent<PhotonView>().IsMine) continue;
-            if (player.position.x == mx && player.position.y == my)
+            if (player.position.x.EqualsFloat(mx) && player.position.y.EqualsFloat(my))
             {
                 player.GetComponent<PlayerController>().DestroyPlayer();
             }
@@ -231,7 +231,8 @@ public class PlayerManager : MonoBehaviour
         foreach (GameObject player in players)
         {
             if (MultiplayerManager.Instance.Multiplayer && !player.GetComponent<PhotonView>().IsMine) continue;
-            if (player.transform.position.x == mx && player.transform.position.y == my) return player;
+            if (player.transform.position.x.EqualsFloat(mx) && player.transform.position.y.EqualsFloat(my))
+                return player;
         }
 
         return null;

@@ -40,6 +40,8 @@ public class Tool : MonoBehaviour
 
     public void Selected(bool selected)
     {
+        if (selectionSquare == null) return;
+
         selectionSquare.Selected(selected);
 
         this.selected = selected;

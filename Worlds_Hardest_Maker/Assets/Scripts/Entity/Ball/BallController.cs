@@ -37,7 +37,6 @@ public abstract class BallController : Controller
 
     private void Start()
     {
-        speedText = sliderController.GetSliderObject().transform.GetChild(0).GetComponent<Text>();
     }
 
     [PunRPC]
@@ -60,6 +59,9 @@ public abstract class BallController : Controller
 
     public void UpdateSpeedText()
     {
+        speedText = speedText != null
+            ? speedText
+            : sliderController.GetSliderObject().transform.GetChild(0).GetComponent<Text>();
         speedText.text = "Speed: " + speed.ToString("0.0");
     }
 
