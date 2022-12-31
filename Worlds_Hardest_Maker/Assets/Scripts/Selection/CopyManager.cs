@@ -15,6 +15,9 @@ public class CopyManager : MonoBehaviour
 
     [SerializeField] private Transform previewContainer;
     [SerializeField] private BarTween toolbarTween;
+    [SerializeField] private BarTween infobarEditTween;
+    [SerializeField] private BarTween playButtonTween;
+
 
     public static void Copy(Vector2 lowestPos, Vector2 highestPos)
     {
@@ -117,6 +120,8 @@ public class CopyManager : MonoBehaviour
 
         // hide toolbar
         toolbarTween.SetPlay(true);
+        infobarEditTween.SetPlay(true);
+        playButtonTween.TweenToY(-125, false);
     }
 
     private void CancelPaste()
@@ -131,6 +136,8 @@ public class CopyManager : MonoBehaviour
 
         // show toolbar (if in edit mode)
         toolbarTween.SetPlay(EditModeManager.Instance.Playing);
+        infobarEditTween.SetPlay(EditModeManager.Instance.Playing);
+        playButtonTween.SetPlay(EditModeManager.Instance.Playing);
     }
 
     private void Paste()
@@ -151,8 +158,10 @@ public class CopyManager : MonoBehaviour
         ClearPreview();
         Instance.previewContainer.position = Vector2.zero;
 
-        // show toolbar
+        // show bars
         toolbarTween.SetPlay(false);
+        infobarEditTween.SetPlay(false);
+        playButtonTween.SetPlay(false);
     }
 
     public static void LoadClipboard(Vector2 pos)

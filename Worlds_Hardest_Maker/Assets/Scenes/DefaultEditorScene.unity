@@ -13288,6 +13288,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previewContainer: {fileID: 441104387}
   toolbarTween: {fileID: 3914619140277756240}
+  infobarEditTween: {fileID: 1060004926}
+  playButtonTween: {fileID: 1830893220}
 --- !u!114 &3252578248619094841
 MonoBehaviour:
   m_ObjectHideFlags: 0
