@@ -25,6 +25,12 @@ public class SpeedSliderAnim : MonoBehaviour
 
     private void Update()
     {
+        if (follow.entity == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         // set visible status (if no other slider is hovered)
         bool hoveredHitbox = hoverSliderDetection.MouseHoverSlider() &&
                              (!HoverSliderDetection.sliderHovered || anim.IsVisible());

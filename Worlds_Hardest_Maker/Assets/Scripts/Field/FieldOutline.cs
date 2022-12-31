@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 /// <summary>
 ///     apply to every field prefab variant which has outlines (vgl. TypesWithOutlines)
@@ -60,11 +61,9 @@ public class FieldOutline : MonoBehaviour
     {
         UpdateAlpha();
     }
-
-    // TODO: code duplication
-    public void UpdateOutline(bool updateAround = false)
+    
+    public void UpdateOutline(bool updateNeighbor = false)
     {
-        // TODO: IMPROVE
         // debug stuff so not important
         if (Dbg.Instance.dbgEnabled && !Dbg.Instance.wallOutlines) return;
 
@@ -72,60 +71,21 @@ public class FieldOutline : MonoBehaviour
 
         foreach (Vector2 dir in directions)
         {
-            // TODO: use IsConnectorThere (?)
-            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, dir, rayLength);
-            if (Dbg.Instance.drawRays) Debug.DrawRay(transform.position, dir, Color.red, 20);
-
-            bool there = false;
-
-            // check if there are objects in that dir
-            foreach (RaycastHit2D r in hits)
-            {
-                if (updateAround && r.collider.GetComponent<FieldOutline>() != null)
-                {
-                    r.collider.gameObject.GetComponent<FieldOutline>().UpdateOutline();
-                }
-
-                if (!connectTags.Contains(r.collider.tag)) continue;
-
-                there = true;
-                break;
-            }
-
-            // if there is a connector then no line
-            if (there) continue;
-
+            if (IsConnectorInDirection(dir, updateNeighbor)) continue;
+            
             DrawLine(dir);
         }
     }
 
-    public void UpdateOutline(Vector2 dir, bool update = false)
+    public void UpdateOutline(Vector2 dir, bool updateNeighbor = false)
     {
+        // debug stuff so not important
         if (Dbg.Instance.dbgEnabled && !Dbg.Instance.wallOutlines) return;
 
         ClearLineInDir(dir);
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, dir, rayLength);
-        if (Dbg.Instance.drawRays) Debug.DrawRay(transform.position, dir, Color.red, 20);
-
-        bool there = false;
-
-        // check if there are objects in that dir
-        foreach (RaycastHit2D r in hits)
-        {
-            if (update && r.collider.gameObject.GetComponent<FieldOutline>() != null)
-            {
-                r.collider.gameObject.GetComponent<FieldOutline>().UpdateOutline();
-            }
-
-            if (!connectTags.Contains(r.collider.tag)) continue;
-
-            there = true;
-            break;
-        }
-
-        if (there) return;
-
+        if (IsConnectorInDirection(dir, updateNeighbor, true)) return;
+        
         DrawLine(dir);
     }
 
@@ -141,8 +101,6 @@ public class FieldOutline : MonoBehaviour
         LineManager.SetOrderInLayer(order);
         if (dir.Equals(Vector2.up) || dir.Equals(Vector2.down))
         {
-            // TODO: inefficient with rays n stuff
-            // REF
             // get left & right hits to fill in gaps in inner corners
             bool left = IsConnectorInDirection(Vector2.left);
             bool right = IsConnectorInDirection(Vector2.right);
@@ -169,13 +127,22 @@ public class FieldOutline : MonoBehaviour
         lineRenderers = GetComponentsInChildren<LineRenderer>();
     }
 
-    private bool IsConnectorInDirection(Vector2 direction)
+    private bool IsConnectorInDirection(Vector2 direction, bool updateNeighbor = false, bool drawRay = false)
     {
-        RaycastHit2D[] leftHits = Physics2D.RaycastAll(transform.position, direction, rayLength);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, rayLength);
 
-        foreach (RaycastHit2D r in leftHits)
+        if (drawRay && Dbg.Instance.drawRays) Debug.DrawRay(transform.position, direction, Color.red, 20);
+
+        foreach (RaycastHit2D r in hits)
         {
-            if (!connectTags.Contains(r.collider.tag)) continue;
+            FieldOutline outlineNeighbor = r.collider.gameObject.GetComponent<FieldOutline>();
+            if (updateNeighbor && outlineNeighbor != null)
+            {
+                outlineNeighbor.UpdateOutline();
+            }
+
+            // if (!connectTags.Contains(r.collider.tag)) continue;
+            if (!r.collider.CompareTag(gameObject.tag)) continue;
 
             return true;
         }
