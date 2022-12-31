@@ -359,8 +359,19 @@ public class SelectionManager : MonoBehaviour
             break;
         }
 
-        // get colorful colors to start, goal, checkpoints and start goal fields
-        List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
+        foreach (Vector2 pos in poses)
+        {
+            // set field at pos
+            GameObject field = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation),
+                ReferenceManager.Instance.fieldContainer);
+
+            FieldManager.ApplyStartGoalCheckpointFieldColor(field, null);
+
+            if (field.TryGetComponent(out FieldOutline FOComp))
+            {
+                FOComp.updateOnStart = false;
+            }
+        }
 
         // remove player if at changed pos
         if (!PlayerManager.startFields.Contains(type))
@@ -369,32 +380,6 @@ public class SelectionManager : MonoBehaviour
 
             if (player != null && player.transform.position.Between(lowestPos, highestPos))
                 Destroy(player);
-        }
-
-
-        foreach (Vector2 pos in poses)
-        {
-            // set field at pos
-            GameObject field = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation),
-                ReferenceManager.Instance.fieldContainer);
-
-            if (tagIndex != null)
-            {
-                if (GraphicsSettings.Instance.oneColorStartGoalCheckpoint)
-                {
-                    field.GetComponent<SpriteRenderer>().color = colors[4];
-
-                    if (field.TryGetComponent(out Animator anim))
-                    {
-                        anim.enabled = false;
-                    }
-                }
-            }
-
-            if (field.TryGetComponent(out FieldOutline FOComp))
-            {
-                FOComp.updateOnStart = false;
-            }
         }
 
         UpdateOutlinesInArea(type.GetPrefab().GetComponent<FieldOutline>() != null, new(lowestX, lowestY),

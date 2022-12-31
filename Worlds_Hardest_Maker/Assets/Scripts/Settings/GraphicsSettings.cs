@@ -68,55 +68,9 @@ public class GraphicsSettings : MonoBehaviour
 
     public void SetOneColorStartGoal(bool oneColor, bool setPrefs)
     {
-        // REF
         foreach (Transform field in ReferenceManager.Instance.fieldContainer)
         {
-            List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
-            if (oneColor)
-            {
-                // set start, goal, checkpoints fields unique color
-                string[] tags = { "StartField", "GoalField", "CheckpointField" };
-                foreach (string t in tags)
-                {
-                    if (!field.CompareTag(t)) continue;
-
-                    field.GetComponent<SpriteRenderer>().color = colors[4];
-
-                    if (field.TryGetComponent(out Animator anim))
-                    {
-                        anim.enabled = false;
-                    }
-                }
-            }
-            else
-            {
-                // set colorful colors to start, goal, checkpoints fields
-                string[] tags = { "StartField", "GoalField" };
-
-                for (int i = 0; i < tags.Length; i++)
-                {
-                    SpriteRenderer renderer = field.GetComponent<SpriteRenderer>();
-                    if (field.CompareTag(tags[i]))
-                    {
-                        renderer.color = colors[i];
-                    }
-                    else if (field.CompareTag("CheckpointField"))
-                    {
-                        CheckpointController checkpoint = field.GetComponent<CheckpointController>();
-                        Color checkpointUnactivated =
-                            ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[2];
-                        Color checkpointActivated =
-                            ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[3];
-
-                        renderer.color = checkpoint.activated ? checkpointActivated : checkpointUnactivated;
-
-                        if (field.TryGetComponent(out Animator anim))
-                        {
-                            anim.enabled = true;
-                        }
-                    }
-                }
-            }
+            FieldManager.ApplyStartGoalCheckpointFieldColor(field.gameObject, oneColor);
         }
 
         Instance.oneColorStartGoalCheckpoint = oneColor;
