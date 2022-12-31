@@ -32,8 +32,10 @@ public class SettingsManager : MonoBehaviour
 
     private void Start()
     {
+#if UNITY_EDITOR
         Instance.SetMusicVolume(0.0001f);
         Instance.LoadPrefs();
+#endif
     }
 
     public void SavePrefs()

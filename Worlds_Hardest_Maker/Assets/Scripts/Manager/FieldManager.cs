@@ -151,12 +151,13 @@ public class FieldManager : MonoBehaviour
             {
                 anim.enabled = (bool)oneColor;
             }
+
             return;
         }
 
         // // every other case
         string[] tags = { "StartField", "GoalField" };
-        
+
         for (int i = 0; i < tags.Length; i++)
         {
             if (!field.CompareTag(tags[i])) continue;

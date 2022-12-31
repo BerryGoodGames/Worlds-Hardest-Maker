@@ -296,7 +296,7 @@ public class PlayerController : Controller
     [PunRPC]
     public void SetNameTagActive(bool active)
     {
-        if (!photonView.IsMine) print($"PlaceEditModeAtPosition name tag {active}");
+        if (!photonView.IsMine) print($"Set name tag {active}");
 
         if (!MultiplayerManager.Instance.Multiplayer)
             throw new Exception("Trying to enable/disable name tag while in singleplayer");

@@ -28,7 +28,7 @@ public class PlayerManager : MonoBehaviour
         OnWin?.Invoke();
     }
 
-    #region PlaceEditModeAtPosition player
+    #region Set player
 
     public void SetPlayer(float mx, float my, float speed, bool placeStartField = false)
     {

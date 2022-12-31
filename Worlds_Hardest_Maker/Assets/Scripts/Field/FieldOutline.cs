@@ -1,6 +1,4 @@
-using System.Linq;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 /// <summary>
 ///     apply to every field prefab variant which has outlines (vgl. TypesWithOutlines)
@@ -61,7 +59,7 @@ public class FieldOutline : MonoBehaviour
     {
         UpdateAlpha();
     }
-    
+
     public void UpdateOutline(bool updateNeighbor = false)
     {
         // debug stuff so not important
@@ -72,7 +70,7 @@ public class FieldOutline : MonoBehaviour
         foreach (Vector2 dir in directions)
         {
             if (IsConnectorInDirection(dir, updateNeighbor)) continue;
-            
+
             DrawLine(dir);
         }
     }
@@ -85,7 +83,7 @@ public class FieldOutline : MonoBehaviour
         ClearLineInDir(dir);
 
         if (IsConnectorInDirection(dir, updateNeighbor, true)) return;
-        
+
         DrawLine(dir);
     }
 

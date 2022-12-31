@@ -40,7 +40,7 @@ public class Tool : MonoBehaviour
 
     public void Selected(bool selected)
     {
-        if(selectionSquare == null) return;
+        if (selectionSquare == null) return;
 
         selectionSquare.Selected(selected);
 

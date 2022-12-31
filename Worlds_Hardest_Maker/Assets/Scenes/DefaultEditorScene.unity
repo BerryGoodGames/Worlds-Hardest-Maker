@@ -1221,7 +1221,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 00:00.000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b919d1c2676edaf4cb00a7a91440b033, type: 2}
   m_sharedMaterial: {fileID: 5159760981295103350, guid: b919d1c2676edaf4cb00a7a91440b033, type: 2}
@@ -1230,7 +1230,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
+    rgba: 4281542954
   m_fontColor: {r: 0.1655042, g: 0.16166785, b: 0.1981132, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -3312,7 +3312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoomSpeed: 1.2
-  maxZoom: 20
+  maxZoom: 30
   minZoom: 3
   zoomAnimDuration: 0.07
 --- !u!114 &519420034
@@ -3698,6 +3698,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visibleY: 0
   invisibleY: -200
+  isVisibleOnEdit: 0
   isVisibleOnlyOnEdit: 0
   appearDuration: 0.7
   disappearDuration: 0.4
@@ -5421,6 +5422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visibleY: 0
   invisibleY: -200
+  isVisibleOnEdit: 1
   isVisibleOnlyOnEdit: 1
   appearDuration: 0.7
   disappearDuration: 0.4
@@ -9824,8 +9826,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3252578248619094824}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 3252578248619094848}
+        m_TargetAssemblyTypeName: PlayManager, Assembly-CSharp
         m_MethodName: TogglePlay
         m_Mode: 6
         m_Arguments:
@@ -9850,6 +9852,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visibleY: 15
   invisibleY: -55
+  isVisibleOnEdit: 1
   isVisibleOnlyOnEdit: 1
   appearDuration: 0.4
   disappearDuration: 0.4
@@ -13121,6 +13124,7 @@ GameObject:
   - component: {fileID: 3252578248619094841}
   - component: {fileID: 3252578248619094834}
   - component: {fileID: 3252578248619094846}
+  - component: {fileID: 3252578248619094850}
   m_Layer: 0
   m_Name: _Manager
   m_TagString: Untagged
@@ -13451,6 +13455,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8052a00ba8377cf49854abda80fa5904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3252578248619094850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3252578248619094831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55d43c627a2b34941b217ce0f3913c07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullscreen: 1
 --- !u!1 &3469053329403155088
 GameObject:
   m_ObjectHideFlags: 0
@@ -13802,7 +13819,6 @@ GameObject:
   - component: {fileID: 3914619140078990981}
   - component: {fileID: 3914619140078991003}
   - component: {fileID: 3914619140078990980}
-  - component: {fileID: 3914619140078991002}
   m_Layer: 5
   m_Name: ToolbarBackground
   m_TagString: Untagged
@@ -13810,18 +13826,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &3914619140078991002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3914619140078990982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa5d336f47ea1924099d934b8d712e7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &3914619140078991003
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14145,6 +14149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visibleY: 0
   invisibleY: 200
+  isVisibleOnEdit: 1
   isVisibleOnlyOnEdit: 1
   appearDuration: 0.4
   disappearDuration: 0.4

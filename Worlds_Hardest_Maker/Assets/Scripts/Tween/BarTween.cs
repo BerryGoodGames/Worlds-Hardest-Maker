@@ -27,14 +27,14 @@ public class BarTween : MonoBehaviour
 
     public void SetPlay(bool play)
     {
-        if (playing == null || ((bool)playing && !play))
+        if ((playing == null && !play) || (playing != null && (bool)playing && !play))
         {
             // the frame unplayed -> editmode
             if (isVisibleOnlyOnEdit) TweenVis();
             else TweenInvis();
         }
 
-        if (playing == null || (!(bool)playing && play))
+        if ((playing == null && play) || (playing != null && !(bool)playing && play))
         {
             // the frame played -> playmode
             if (!isVisibleOnlyOnEdit) TweenVis();
@@ -60,25 +60,13 @@ public class BarTween : MonoBehaviour
         else playing = !isResultVisibleState;
     }
 
-    private void TweenInvis()
+    public void TweenInvis()
     {
-        // rt.DOKill();
-        //
-        // Tween t = rt.DOAnchorPosY(invisibleY, disappearDuration);
-        // if (easeDisappearCurve.length > 1) t.SetEase(easeDisappearCurve);
-        // else t.SetEase(easeDisappear);
-
         TweenToY(invisibleY, false, false);
     }
 
-    private void TweenVis()
+    public void TweenVis()
     {
-        // rt.DOKill();
-        //
-        // Tween t = rt.DOAnchorPosY(visibleY, appearDuration);
-        // if (easeAppearCurve.length > 1) t.SetEase(easeAppearCurve);
-        // else t.SetEase(easeAppear);
-
         TweenToY(visibleY, true, false);
     }
 

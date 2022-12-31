@@ -119,7 +119,7 @@ public class EditModeManager : MonoBehaviour
     private void Start()
     {
         Instance.OnEdit += () => PlayManager.Instance.Cheated = false;
-        
+
         Instance.SetEditMode(currentEditMode);
     }
 

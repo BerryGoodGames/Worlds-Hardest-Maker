@@ -7,10 +7,6 @@ public class ToolbarManager : MonoBehaviour
     private void Start()
     {
         tools = GameObject.FindGameObjectsWithTag("Tool");
-
-        // edit mode wall when starting
-        // Tool firstTool = transform.GetChild(0).GetComponent<Tool>();
-        // firstTool.SwitchGameMode();
     }
 
     public static void DeselectAll()
