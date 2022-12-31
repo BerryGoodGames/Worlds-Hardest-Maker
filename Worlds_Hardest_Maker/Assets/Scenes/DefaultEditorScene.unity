@@ -4915,6 +4915,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e31fa94458f53034cb5752708f6d60e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  setScreenWidth: 1
+  setScreenHeight: 0
+  hasRectTransform: 0
+  canvas: {fileID: 0}
 --- !u!1 &1006894544
 GameObject:
   m_ObjectHideFlags: 0
@@ -7476,6 +7480,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e31fa94458f53034cb5752708f6d60e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  setScreenWidth: 0
+  setScreenHeight: 1
+  hasRectTransform: 0
+  canvas: {fileID: 0}
 --- !u!1 &1420917100
 GameObject:
   m_ObjectHideFlags: 0
