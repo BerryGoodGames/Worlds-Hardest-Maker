@@ -71,7 +71,7 @@ public class BallManager : MonoBehaviour
         {
             if (!hit.TryGetComponent(out BallDefaultController b)) continue;
 
-            if (b.startPosition.x == mx && b.startPosition.y == my) b.DestroyBall();
+            if (b.startPosition.x.EqualsFloat(mx) && b.startPosition.y.EqualsFloat(my)) b.DestroyBall();
         }
     }
 
@@ -84,7 +84,7 @@ public class BallManager : MonoBehaviour
         {
             if (!hit.TryGetComponent(out BallDefaultController b)) continue;
 
-            if (b.startPosition.x == mx && b.startPosition.y == my) list.Add(b.gameObject);
+            if (b.startPosition.x.EqualsFloat(mx) && b.startPosition.y.EqualsFloat(my)) list.Add(b.gameObject);
         }
 
         return list;

@@ -19,10 +19,13 @@ public class CopyManager : MonoBehaviour
 
         // get position and size on where to get the objects
         Vector2 selectionCenter = (lowestPos + highestPos) * .5f;
-        Vector2 selectionSize = highestPos - lowestPos;
+        Vector2 selectionSize = highestPos - lowestPos + Vector2.one * 0.999f;
 
-        Collider2D[] hits = new Collider2D[Mathf.CeilToInt(selectionSize.x) * Mathf.CeilToInt(selectionSize.y)];
-        _ = Physics2D.OverlapBoxNonAlloc(selectionCenter, selectionSize, 0, hits, 3200); // get objects
+        print($"Size: {selectionSize}   Pos: {selectionCenter}");
+
+        Collider2D[] hits = Physics2D.OverlapBoxAll(selectionCenter, selectionSize, 0, 3200); // get objects
+
+        print(hits.Length);
 
         List<Vector2> points = HitsToPoints(hits);
 
@@ -33,7 +36,7 @@ public class CopyManager : MonoBehaviour
         Vector2 highestPoint = new(highestX, highestY);
 
         // center and size of actual controllers user selected
-        Vector2 castCenter = .5f * (lowestPoint + highestPoint);
+        Vector2 castCenter = (.5f * (lowestPoint + highestPoint)).Floor();
         Vector2 castSize = highestPoint - lowestPoint + Vector2.one;
 
         size = castSize; // save size
@@ -87,12 +90,6 @@ public class CopyManager : MonoBehaviour
                 yield break;
             }
 
-            // update position on where to paste
-            Vector2 mousePos = MouseManager.Instance.MouseWorldPosMatrix;
-
-            // TODO: smooth animation
-            Instance.previewContainer.position = mousePos;
-
             yield return null;
         }
 
@@ -109,7 +106,7 @@ public class CopyManager : MonoBehaviour
     {
         // // actions the frame the user starts pasting
         pasting = true;
-
+        
         // block menu from being opened and some other stuff
         MenuManager.Instance.blockMenu = true;
         
