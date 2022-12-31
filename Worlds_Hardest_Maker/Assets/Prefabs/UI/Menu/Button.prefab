@@ -339,8 +339,8 @@ MonoBehaviour:
   content: {fileID: 965931806672561080}
   backgroundPanel: {fileID: 6108669949131332086}
   clickDuration: 0.08
-  highlightElevation: 4.5
-  highlightFloating: 5
+  highlightElevation: 2
+  highlightFloating: 2
   highlightElevateDuration: 0.3
   highlightFloatingDuration: 1
   isWarningButton: 0

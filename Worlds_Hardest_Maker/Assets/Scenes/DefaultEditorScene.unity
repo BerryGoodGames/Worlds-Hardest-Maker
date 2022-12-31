@@ -228,7 +228,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1000.0001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_SizeDelta.y
@@ -3327,9 +3327,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94b96e848fbe3a943bb9aba50e591ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tile: {fileID: 8580253215451768161, guid: 3332a183985bdc442812ceb1b74f3931, type: 3}
+  backgroundTile: {fileID: 8580253215451768161, guid: 3332a183985bdc442812ceb1b74f3931, type: 3}
   container: {fileID: 2123048978}
   defaultMaxZoom: 0
+  tileSize: {x: 1, y: 1}
 --- !u!114 &519420035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3698,7 +3699,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visibleY: 0
   invisibleY: -200
-  isVisibleOnEdit: 0
   isVisibleOnlyOnEdit: 0
   appearDuration: 0.7
   disappearDuration: 0.4
@@ -4173,7 +4173,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1000.0001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_SizeDelta.y
@@ -4918,6 +4918,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   setScreenWidth: 1
   setScreenHeight: 0
+  applyMaxZoomFromMapController: 1
+  maxZoom: 0
   hasRectTransform: 0
   canvas: {fileID: 0}
 --- !u!1 &1006894544
@@ -5422,7 +5424,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visibleY: 0
   invisibleY: -200
-  isVisibleOnEdit: 1
   isVisibleOnlyOnEdit: 1
   appearDuration: 0.7
   disappearDuration: 0.4
@@ -7484,6 +7485,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   setScreenWidth: 0
   setScreenHeight: 1
+  applyMaxZoomFromMapController: 1
+  maxZoom: 0
   hasRectTransform: 0
   canvas: {fileID: 0}
 --- !u!1 &1420917100
@@ -9852,7 +9855,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visibleY: 15
   invisibleY: -55
-  isVisibleOnEdit: 1
   isVisibleOnlyOnEdit: 1
   appearDuration: 0.4
   disappearDuration: 0.4
@@ -14149,7 +14151,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visibleY: 0
   invisibleY: 200
-  isVisibleOnEdit: 1
   isVisibleOnlyOnEdit: 1
   appearDuration: 0.4
   disappearDuration: 0.4

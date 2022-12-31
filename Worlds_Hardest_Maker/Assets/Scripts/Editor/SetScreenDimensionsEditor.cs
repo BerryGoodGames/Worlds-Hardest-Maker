@@ -8,6 +8,8 @@ public class SetScreenDimensionsEditor : Editor
 {
     private SerializedProperty setScreenWidth;
     private SerializedProperty setScreenHeight;
+    private SerializedProperty applyMaxZoomFromMapController;
+    private SerializedProperty maxZoom;
     private SerializedProperty hasRectTransform;
     private SerializedProperty canvas;
 
@@ -15,6 +17,8 @@ public class SetScreenDimensionsEditor : Editor
     {
         setScreenWidth = serializedObject.FindProperty("setScreenWidth");
         setScreenHeight = serializedObject.FindProperty("setScreenHeight");
+        applyMaxZoomFromMapController = serializedObject.FindProperty("applyMaxZoomFromMapController");
+        maxZoom = serializedObject.FindProperty("maxZoom");
         hasRectTransform = serializedObject.FindProperty("hasRectTransform");
         canvas = serializedObject.FindProperty("canvas");
     }
@@ -28,7 +32,9 @@ public class SetScreenDimensionsEditor : Editor
         EditorGUILayout.PropertyField(setScreenWidth);
         EditorGUILayout.PropertyField(setScreenHeight);
         EditorGUILayout.PropertyField(hasRectTransform);
-        if(script.hasRectTransform) EditorGUILayout.PropertyField(canvas);
+        EditorGUILayout.PropertyField(applyMaxZoomFromMapController);
+        if (!script.applyMaxZoomFromMapController) EditorGUILayout.PropertyField(maxZoom);
+        if (script.hasRectTransform) EditorGUILayout.PropertyField(canvas);
 
         serializedObject.ApplyModifiedProperties();
     }

@@ -619,7 +619,6 @@ GameObject:
   - component: {fileID: 1625613192}
   - component: {fileID: 1625613195}
   - component: {fileID: 1625613196}
-  - component: {fileID: 1625613197}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -705,9 +704,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94b96e848fbe3a943bb9aba50e591ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tile: {fileID: 8580253215451768161, guid: 3332a183985bdc442812ceb1b74f3931, type: 3}
+  backgroundTile: {fileID: 8580253215451768161, guid: 3332a183985bdc442812ceb1b74f3931, type: 3}
   container: {fileID: 796020071}
   defaultMaxZoom: 6
+  tileSize: {x: 1, y: 1}
 --- !u!114 &1625613196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -723,19 +723,6 @@ MonoBehaviour:
   speed: 0.01
   randomDir: 1
   scrollDirAngle: 0
---- !u!114 &1625613197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1625613191}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55d43c627a2b34941b217ce0f3913c07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fullscreen: 0
 --- !u!1001 &1780736546
 PrefabInstance:
   m_ObjectHideFlags: 0

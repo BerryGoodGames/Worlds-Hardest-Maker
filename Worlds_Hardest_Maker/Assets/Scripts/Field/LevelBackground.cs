@@ -6,9 +6,10 @@ using UnityEngine;
 /// </summary>
 public class LevelBackground : MonoBehaviour
 {
-    [SerializeField] private GameObject tile;
+    [SerializeField] private GameObject backgroundTile;
     [SerializeField] private Transform container;
     [SerializeField] private float defaultMaxZoom;
+    [SerializeField] private Vector2 tileSize = Vector2.one;
     private Camera cam;
     private Vector2 prevPosition;
     private float height;
@@ -44,12 +45,13 @@ public class LevelBackground : MonoBehaviour
 
         height = zoom;
         width = height * cam.aspect;
-        for (float i = Mathf.Floor(-width + 1); i < Mathf.Ceil(width + 2); i++)
+        for (float i = Mathf.Floor(-width + 1); i < Mathf.Ceil(width + 2); i += tileSize.x)
         {
-            for (float j = Mathf.Floor(-height + 1); j < Mathf.Ceil(height + 2); j++)
+            for (float j = Mathf.Floor(-height + 1); j < Mathf.Ceil(height + 2); j += tileSize.y)
             {
-                if ((i + j) % 2 == 0) continue;
-                Instantiate(tile, new(i + containerPos.x, j + containerPos.y), Quaternion.identity, container);
+                if ((Mathf.FloorToInt(i / tileSize.x) + Mathf.FloorToInt(j / tileSize.y)) % 2 == 0) continue;
+                GameObject tile = Instantiate(backgroundTile, new(i + containerPos.x, j + containerPos.y), Quaternion.identity, container);
+                tile.transform.localScale = tileSize;
             }
         }
     }
