@@ -55,7 +55,7 @@ public class CopyManager : MonoBehaviour
             if (!hit.TryGetComponent(out Controller controller)) continue;
 
             Data data = controller.GetData();
-            
+
             Vector2 pos = controller.GetPosition();
 
             CopyData copyData = new(data, pos - castCenter);
@@ -112,10 +112,10 @@ public class CopyManager : MonoBehaviour
     {
         // // actions the frame the user starts pasting
         pasting = true;
-        
+
         // block menu from being opened and some other stuff
         MenuManager.Instance.blockMenu = true;
-        
+
         CreatePreview();
 
         // hide toolbar

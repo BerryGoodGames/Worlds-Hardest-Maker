@@ -231,7 +231,8 @@ public class PlayerManager : MonoBehaviour
         foreach (GameObject player in players)
         {
             if (MultiplayerManager.Instance.Multiplayer && !player.GetComponent<PhotonView>().IsMine) continue;
-            if (player.transform.position.x.EqualsFloat(mx) && player.transform.position.y.EqualsFloat(my)) return player;
+            if (player.transform.position.x.EqualsFloat(mx) && player.transform.position.y.EqualsFloat(my))
+                return player;
         }
 
         return null;

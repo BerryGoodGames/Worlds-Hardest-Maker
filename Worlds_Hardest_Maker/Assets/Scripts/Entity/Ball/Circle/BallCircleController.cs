@@ -46,7 +46,7 @@ public class BallCircleController : BallController
         currentAngle -= GetAngularSpeed();
         UpdateAnglePos();
     }
-    
+
     private void OnDestroy()
     {
         Destroy(transform.parent.gameObject);
@@ -211,7 +211,10 @@ public class BallCircleController : BallController
         MoveOrigin(unitPos.x, unitPos.y);
     }
 
-    public override Vector2 GetPosition() => origin.position;
+    public override Vector2 GetPosition()
+    {
+        return origin.position;
+    }
 
     public override Data GetData()
     {
