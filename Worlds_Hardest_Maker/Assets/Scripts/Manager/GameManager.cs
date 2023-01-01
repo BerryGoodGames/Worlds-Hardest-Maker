@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 ///     manages game (duh)
@@ -12,13 +13,15 @@ public class GameManager : MonoBehaviourPun
 {
     public static GameManager Instance { get; private set; }
 
+    [SerializeField] private LoadingScreen loadingScreen;
+
     private void Awake()
     {
         // init singleton
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
 
@@ -253,5 +256,10 @@ public class GameManager : MonoBehaviourPun
         {
             RemoveObjectInContainer(mx + dx[i], my + dy[i], container);
         }
+    }
+
+    public void MainMenu()
+    {
+        loadingScreen.LoadScene(0);
     }
 }

@@ -300,7 +300,7 @@ MonoBehaviour:
   nameTag: {fileID: 0}
 --- !u!95 &1347314094112749841
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -317,7 +317,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!68 &1103030783182041800
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -426,7 +426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bfa1f800246e80438c975735f3ad75f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  speedText: {fileID: 0}
   speed: 3
   waterLevel: {fileID: 2970012482437784707}
   waterDamping: 0.4
@@ -434,16 +434,18 @@ MonoBehaviour:
   iceFriction: 4
   maxIceSpeed: 5
   voidSuckDuration: 0.8
+  rb: {fileID: 0}
+  animator: {fileID: 0}
+  edgeCollider: {fileID: 0}
+  photonView: {fileID: 0}
+  id: 0
   deaths: 0
   coinsCollected: []
   keysCollected: []
   currentFields: []
   startPos: {x: 0, y: 0}
-  rb: {fileID: 0}
-  animator: {fileID: 0}
-  edgeCollider: {fileID: 0}
-  photonView: {fileID: 0}
   inDeathAnim: 0
+  won: 0
 --- !u!114 &8885774084951150650
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -29,8 +29,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8277756281126178422}
-  - {fileID: 5557022261055032920}
   - {fileID: 4343716857648060577}
+  - {fileID: 5557022261055032920}
   m_Father: {fileID: 1965554921294799084}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -70,12 +70,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 965931806672561080}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.25, y: 0.05}
   m_AnchorMax: {x: 0.75, y: 0.95}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.1943016, y: 0}
+  m_SizeDelta: {x: 119.1696, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4683059971948065598
 CanvasRenderer:
@@ -151,8 +151,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 3.899994, y: -3.9000015}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 3.9000015, y: -3.8999977}
+  m_SizeDelta: {x: -0.0000009536743, y: -0.0000014305115}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4763375701676488847
 CanvasRenderer:
@@ -246,7 +246,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 320, y: 60}
+  m_SizeDelta: {x: 250, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6188124951453095755
 CanvasRenderer:
@@ -339,8 +339,8 @@ MonoBehaviour:
   content: {fileID: 965931806672561080}
   backgroundPanel: {fileID: 6108669949131332086}
   clickDuration: 0.08
-  highlightElevation: 4.5
-  highlightFloating: 5
+  highlightElevation: 2
+  highlightFloating: 2
   highlightElevateDuration: 0.3
   highlightFloatingDuration: 1
   isWarningButton: 0
@@ -393,12 +393,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 965931806672561080}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.077142864, y: 0}
-  m_AnchorMax: {x: 0.92285717, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0}
-  m_SizeDelta: {x: -0.000030518, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -0.00010681152, y: 0}
+  m_SizeDelta: {x: 0.5719986, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6400310526472516962
 CanvasRenderer:
@@ -491,7 +491,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 15.590881, y: 0, z: 18.709106, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
