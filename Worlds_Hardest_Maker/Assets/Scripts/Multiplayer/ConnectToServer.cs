@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ConnectToServer : MonoBehaviourPunCallbacks
 {
+    [SerializeField] private LoadingScreen loadingScreen;
     public TMP_InputField usernameInput;
     public TMP_Text buttonText;
 
@@ -27,7 +28,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
     public void MainMenu()
     {
-        SceneManager.LoadScene(0);
+        loadingScreen.LoadScene(0);
     }
 
     private void Update()

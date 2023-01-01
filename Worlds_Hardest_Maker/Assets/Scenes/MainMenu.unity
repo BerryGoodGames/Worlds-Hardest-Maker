@@ -5929,7 +5929,7 @@ MonoBehaviour:
   backgroundTile: {fileID: 8580253215451768161, guid: 3332a183985bdc442812ceb1b74f3931, type: 3}
   container: {fileID: 1836894513}
   defaultMaxZoom: 10
-  tileSize: {x: 0.7, y: 0.7}
+  tileSize: {x: 1, y: 1}
 --- !u!114 &1612039538
 MonoBehaviour:
   m_ObjectHideFlags: 0

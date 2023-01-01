@@ -49,7 +49,10 @@ public class LevelBackground : MonoBehaviour
         {
             for (float j = Mathf.Floor(-height + 1); j < Mathf.Ceil(height + 2); j += tileSize.y)
             {
-                if ((Mathf.FloorToInt(i / tileSize.x) + Mathf.FloorToInt(j / tileSize.y)) % 2 == 0) continue;
+                // TODO: inconsistent if tileSize isn't (0, 0)
+                int mx = Mathf.RoundToInt((i - Mathf.Floor(-width + 1)) / tileSize.x);
+                int my = Mathf.RoundToInt((j - Mathf.Floor(-height + 1)) / tileSize.y);
+                if ((mx + my) % 2 == 0) continue;
                 GameObject tile = Instantiate(backgroundTile, new(i + containerPos.x, j + containerPos.y), Quaternion.identity, container);
                 tile.transform.localScale = tileSize;
             }

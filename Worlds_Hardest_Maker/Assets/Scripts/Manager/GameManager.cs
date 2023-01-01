@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviourPun
 {
     public static GameManager Instance { get; private set; }
 
+    [SerializeField] private LoadingScreen loadingScreen;
+
     private void Awake()
     {
         // init singleton
@@ -258,6 +260,6 @@ public class GameManager : MonoBehaviourPun
 
     public void MainMenu()
     {
-        SceneManager.LoadScene(0);
+        loadingScreen.LoadScene(0);
     }
 }
