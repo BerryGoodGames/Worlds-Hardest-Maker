@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 ///     manages game (duh)
@@ -18,7 +19,7 @@ public class GameManager : MonoBehaviourPun
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
 
@@ -253,5 +254,10 @@ public class GameManager : MonoBehaviourPun
         {
             RemoveObjectInContainer(mx + dx[i], my + dy[i], container);
         }
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }
