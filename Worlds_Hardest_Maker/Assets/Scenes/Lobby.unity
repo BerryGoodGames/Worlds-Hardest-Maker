@@ -237,9 +237,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94b96e848fbe3a943bb9aba50e591ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tile: {fileID: 8580253215451768161, guid: 3332a183985bdc442812ceb1b74f3931, type: 3}
+  backgroundTile: {fileID: 8580253215451768161, guid: 3332a183985bdc442812ceb1b74f3931, type: 3}
   container: {fileID: 1837422480}
   defaultMaxZoom: 6
+  tileSize: {x: 1, y: 1}
 --- !u!114 &95601129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,7 +340,7 @@ CanvasRenderer:
   m_CullTransparentMesh: 1
 --- !u!95 &240221086
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -356,7 +357,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!225 &240221087
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1758,7 +1759,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000013289576}
+  m_AnchoredPosition: {x: 0, y: 0.00042104092}
   m_SizeDelta: {x: 0, y: 400}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1705401646
@@ -2171,7 +2172,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1221111432}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999957
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2374,8 +2375,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 574ac5e33b3bbcd4eb6667e7ef830841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoomItem: {fileID: 4267500095797282489, guid: 7a397779f654ad44d8fc356b2526f21c, type: 3}
-  PlayerItem: {fileID: 7441516549900342045, guid: 153069db01fd1d8408e28e865b999bdf, type: 3}
+  roomItem: {fileID: 4267500095797282489, guid: 7a397779f654ad44d8fc356b2526f21c, type: 3}
+  playerItem: {fileID: 7441516549900342045, guid: 153069db01fd1d8408e28e865b999bdf, type: 3}
   roomNameInput: {fileID: 1530730341}
   lobbyPanel: {fileID: 1478856338}
   roomPanel: {fileID: 2124611449}

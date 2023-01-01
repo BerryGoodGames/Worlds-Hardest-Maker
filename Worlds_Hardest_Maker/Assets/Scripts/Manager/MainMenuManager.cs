@@ -1,28 +1,25 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
+    [SerializeField] private LoadingScreen loadingScreen;
+
     public void StartEditor()
     {
-        SceneManager.LoadScene(1);
+        loadingScreen.LoadScene(1);
     }
 
     public void StartMultiplayer()
     {
-        // TODO make it nicer ig
-        SceneManager.LoadScene(2);
+        loadingScreen.LoadScene(2);
     }
 
     public void OpenOptions()
     {
-        // TODO idk
+        // TODO add game options
         throw new NotImplementedException();
     }
-
 
     public void QuitGame()
     {
