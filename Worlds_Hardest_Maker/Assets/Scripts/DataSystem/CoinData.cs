@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 /// <summary>
-/// Coin attributes: position
+///     Coin attributes: position
 /// </summary>
-[System.Serializable]
-public class CoinData : IData
+[Serializable]
+public class CoinData : Data
 {
     public float[] position;
 
@@ -17,8 +16,18 @@ public class CoinData : IData
         position[1] = controller.transform.position.y;
     }
 
-    public override void CreateObject()
+    public override void ImportToLevel()
     {
-        CoinManager.Instance.SetCoin(position[0], position[1]);
+        ImportToLevel(new(position[0], position[1]));
+    }
+
+    public override void ImportToLevel(Vector2 pos)
+    {
+        CoinManager.Instance.SetCoin(pos);
+    }
+
+    public override EditMode GetEditMode()
+    {
+        return EditMode.COIN;
     }
 }

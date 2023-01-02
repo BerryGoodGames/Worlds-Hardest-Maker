@@ -1,12 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
+using UnityEngine;
 
 /// <summary>
-/// controlles the anchor (duh)
+///     controls the anchor (duh)
 /// </summary>
-public class AnchorController : MonoBehaviour
+public class AnchorController : Controller
 {
     public GameObject outline;
     public GameObject container;
@@ -16,16 +15,23 @@ public class AnchorController : MonoBehaviour
 
     private void Start()
     {
+        Transform t = transform;
+        Transform parent = t.parent;
 
-        transform.localPosition = transform.parent.position;
+        t.localPosition = parent.position;
 
-        transform.parent.position = Vector2.zero;
+        parent.position = Vector2.zero;
 
-        transform.parent.SetParent(GameManager.Instance.AnchorContainer.transform);
+        parent.SetParent(ReferenceManager.Instance.anchorContainer);
 
         pathController = GetComponent<PathController>();
 
         View = PhotonView.Get(this);
+    }
+
+    private void OnDestroy()
+    {
+        Destroy(transform.parent.gameObject);
     }
 
     [PunRPC]
@@ -89,7 +95,6 @@ public class AnchorController : MonoBehaviour
     {
         Waypoint waypoint = pathController.waypoints[index];
         waypoint.WaypointEditor.DeleteThisWaypoint();
-
     }
 
     [PunRPC]
@@ -97,7 +102,7 @@ public class AnchorController : MonoBehaviour
     {
         pathController.waypoints.Add(new(new(0, 0), true, 0, 1, 0));
         if (pathController.waypoints.Count > 0 && pathController.waypoints[0].WaypointEditor != null)
-            GameManager.Instance.BallWindows.GetComponentInChildren<PathEditorController>().UpdateUI();
+            ReferenceManager.Instance.ballWindows.GetComponentInChildren<PathEditorController>().UpdateUI();
     }
 
     public void BallFadeOut(AnimationEvent animationEvent)
@@ -111,7 +116,22 @@ public class AnchorController : MonoBehaviour
     {
         float endOpacity = animationEvent.floatParameter;
         if (float.TryParse(animationEvent.stringParameter, out float time))
-            StartCoroutine(container.GetComponent<ChildrenOpacity>().FadeIn(endOpacity, time));
+            BallFadeIn(endOpacity, time);
     }
 
+    public void BallFadeIn(float endOpacity, float time)
+    {
+        StartCoroutine(container.GetComponent<ChildrenOpacity>().FadeIn(endOpacity, time));
+    }
+
+    public IEnumerator FadeInOnNextFrame(float endOpacity, float time)
+    {
+        yield return null;
+        BallFadeIn(endOpacity, time);
+    }
+
+    public override Data GetData()
+    {
+        return new AnchorData(pathController, container.transform);
+    }
 }

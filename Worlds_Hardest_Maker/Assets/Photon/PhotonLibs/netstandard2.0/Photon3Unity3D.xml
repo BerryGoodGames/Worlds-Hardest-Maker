@@ -2106,7 +2106,7 @@
         </member>
         <member name="T:ExitGames.Client.Photon.Protocol">
             <summary>
-            Provides tools for the Exit Games Protocol
+            Provides Tools for the Exit Games Protocol
             </summary>
         </member>
         <member name="M:ExitGames.Client.Photon.Protocol.Serialize(System.Object)">

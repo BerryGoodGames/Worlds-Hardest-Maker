@@ -72,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 195234503
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -100,4 +100,8 @@ MonoBehaviour:
   defaultSprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   defaultColor: {r: 0, g: 0, b: 0, a: 0.12156863}
   alpha: 125
+  changeSpriteToCurrentEditMode: 1
   updateEveryFrame: 0
+  followMouse: 0
+  smoothRotation: 1
+  rotateDuration: 0.2

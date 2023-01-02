@@ -1,29 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
-/// <summary>
-/// Controller for the clear level button
-/// </summary>
 
+/// <summary>
+///     Controller for the clear level button
+/// </summary>
 public class ClearLevelController : MonoBehaviour
 {
-    [SerializeField] private GameObject prompt;
-
     public void OpenPrompt()
     {
-        prompt.GetComponent<Animator>().SetBool("Active", true);
+        GetComponent<WarningConfirmPromptTween>().SetVisible(true);
     }
 
     public void ClosePrompt()
     {
-        prompt.GetComponent<Animator>().SetBool("Active", false);
+        GetComponent<WarningConfirmPromptTween>().SetVisible(false);
     }
 
     public void ClearLevel()
     {
         ClosePrompt();
 
-        if (GameManager.Instance.Multiplayer) GameManager.Instance.photonView.RPC("ClearLeve", Photon.Pun.RpcTarget.All);
+        if (MultiplayerManager.Instance.Multiplayer) GameManager.Instance.photonView.RPC("ClearLevel", RpcTarget.All);
         else GameManager.Instance.ClearLevel();
     }
 }

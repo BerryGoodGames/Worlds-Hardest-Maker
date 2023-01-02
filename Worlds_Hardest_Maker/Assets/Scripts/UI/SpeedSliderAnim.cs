@@ -1,44 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpeedSliderAnim : MonoBehaviour
 {
     private RectTransform rt;
     private UIFollowEntity follow;
-    private Animator anim;
+    private SpeedSliderTween anim;
+
+    private HoverSliderDetection hoverSliderDetection;
 
     private void Start()
     {
         rt = GetComponent<RectTransform>();
         follow = GetComponent<UIFollowEntity>();
-        anim = GetComponent<Animator>();
-        
+        anim = GetComponent<SpeedSliderTween>();
+
+        hoverSliderDetection = follow.entity.GetComponent<HoverSliderDetection>();
+
         Gone();
+
+        if (follow != null && follow.entity != null) return;
+
+        Destroy(gameObject);
     }
 
     private void Update()
     {
+        if (follow.entity == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         // set visible status (if no other slider is hovered)
-        Animator anim = GetComponent<Animator>();
-        bool hoveredHitbox = follow.entity.GetComponent<HoverSliderDetection>().MouseHoverSlider() && (!HoverSliderDetection.sliderHovered || anim.GetBool("Visible"));
+        bool hoveredHitbox = hoverSliderDetection.MouseHoverSlider() &&
+                             (!HoverSliderDetection.sliderHovered || anim.IsVisible());
 
-        bool vis = !GameManager.Instance.Playing && Input.GetKey(GameManager.Instance.EditSpeedKey) && hoveredHitbox;
+        bool vis = !EditModeManager.Instance.Playing && Input.GetKey(KeybindManager.Instance.editSpeedKey) &&
+                   hoveredHitbox;
 
-        if (anim.GetBool("Visible") && !vis) HoverSliderDetection.sliderHovered = false;
+        if (!vis && anim.IsVisible()) HoverSliderDetection.sliderHovered = false;
 
-        anim.SetBool("Visible", vis);
+        anim.SetVisible(vis);
 
-        if (hoveredHitbox && vis) HoverSliderDetection.sliderHovered = true;
+        if (vis) HoverSliderDetection.sliderHovered = true;
     }
 
     public void Gone()
     {
-        if (!anim.GetBool("Visible"))
-        {
-            follow.enabled = false;
-            rt.position = new(2000, 2000);
-        }
+        if (anim.IsVisible()) return;
+
+        follow.enabled = false;
+        rt.position = new(2000, 2000);
     }
 
     public void Ungone()

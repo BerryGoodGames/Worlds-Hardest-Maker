@@ -1,53 +1,64 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class Tool : MonoBehaviour
 {
-    public GameManager.EditMode toolName;
+    [HideInInspector] public EditMode toolName;
+    [SerializeField] private string toolType;
     [HideInInspector] public bool selected;
     [HideInInspector] public bool inOptionbar;
+    private SelectionSquare selectionSquare;
+    private AlphaUITween anim;
+    private MouseOverUI mouseOverUI;
+
     private void Awake()
     {
+        if (!Enum.TryParse(toolType, out toolName))
+            Debug.LogError($"{toolType} was not a valid type");
+
         inOptionbar = transform.parent.CompareTag("OptionContainer");
+    }
+
+    private void Start()
+    {
+        anim = GetComponent<AlphaUITween>();
+        mouseOverUI = GetComponent<MouseOverUI>();
+        selectionSquare = transform.GetChild(1).GetComponent<SelectionSquare>();
     }
 
     public void SwitchGameMode(bool setEditModeVariable)
     {
         ToolbarManager.DeselectAll();
         Selected(true);
-        if(setEditModeVariable) GameManager.Instance.CurrentEditMode = toolName;
+        if (setEditModeVariable) EditModeManager.Instance.CurrentEditMode = toolName;
     }
+
     public void SwitchGameMode()
     {
         SwitchGameMode(true);
     }
+
     public void Selected(bool selected)
     {
-        transform.GetChild(1).GetComponent<SelectionSquare>().Selected(selected);
+        if (selectionSquare == null) return;
+
+        selectionSquare.Selected(selected);
 
         this.selected = selected;
 
-        if (inOptionbar && selected)
-        {
-            Tool parentTool = transform.parent.parent.parent.GetComponent<Tool>();
-            parentTool.SubSelected(true);
-        }
+        if (!inOptionbar || !selected) return;
+
+        Tool parentTool = transform.parent.parent.parent.GetComponent<Tool>();
+        parentTool.SubSelected(true);
     }
+
     public void SubSelected(bool subselected)
     {
-        transform.GetChild(1).GetComponent<SelectionSquare>().SubSelected(subselected);
+        selectionSquare.SubSelected(subselected);
     }
 
     private void Update()
     {
-        Animator anim = GetComponent<Animator>();
-        anim.SetBool("Visible", selected || Hovered());
-    }
-
-    public bool Hovered()
-    {
-        return GetComponent<MouseOverUI>().over && !GameManager.Instance.Menu.activeSelf;
+        anim.SetVisible(selected || (mouseOverUI.over && !ReferenceManager.Instance.menu.activeSelf));
     }
 }

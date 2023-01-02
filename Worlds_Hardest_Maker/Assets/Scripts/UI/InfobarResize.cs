@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InfobarResize : MonoBehaviour
 {
@@ -14,13 +12,13 @@ public class InfobarResize : MonoBehaviour
 
         transform.GetComponent<RectTransform>().sizeDelta = new(0, height);
 
-        RectTransform bgrt = transform.GetChild(0).GetComponent<RectTransform>();
-        bgrt.sizeDelta = new(bgrt.rect.width, height + 200);
+        RectTransform backgroundRectTransform = transform.GetChild(0).GetComponent<RectTransform>();
+        backgroundRectTransform.sizeDelta = new(backgroundRectTransform.rect.width, height + 200);
 
         foreach (GameObject t in infoTexts)
         {
             // text.transform.localScale = new(height / 100, height / 100);
-            TMPro.TMP_Text text = t.GetComponent<TMPro.TMP_Text>();
+            TMP_Text text = t.GetComponent<TMP_Text>();
 
             text.fontSize = infobarHeight * 0.514f;
         }

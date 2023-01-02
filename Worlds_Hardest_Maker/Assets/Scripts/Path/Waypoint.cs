@@ -4,29 +4,41 @@ using UnityEngine;
 [Serializable]
 public class Waypoint
 {
-    public Vector2 position = Vector2.zero;
-    public float speed = 1;
+    public Vector2 position;
+    public float speed;
     public float delay;
     public float rotationSpeed;
-    public bool rotateWhileDelay = true;
+    public bool rotateWhileDelay;
     public WaypointEditorController WaypointEditor { get; set; }
 
-    public Waypoint(Vector2 position, bool rotateWhenDelay, float delay, float speed, float rotationSpeed)
+    public Waypoint(Vector2 position, bool rotateWhileDelay, float delay, float speed, float rotationSpeed)
     {
         this.position = position;
         this.delay = delay;
-        this.rotateWhileDelay = rotateWhenDelay;
+        this.rotateWhileDelay = rotateWhileDelay;
         this.speed = speed;
         this.rotationSpeed = rotationSpeed;
     }
 
     public Waypoint(WaypointSerializable waypoint)
     {
-        this.position = new(waypoint.position[0], waypoint.position[1]);
-        this.speed = waypoint.speed;
-        this.delay = waypoint. delay;
-        this.rotationSpeed = waypoint.rotationSpeed;
-        this.rotateWhileDelay = waypoint.rotateWhileDelay;
+        position = new(waypoint.position[0], waypoint.position[1]);
+
+        speed = waypoint.speed;
+        delay = waypoint.delay;
+        rotationSpeed = waypoint.rotationSpeed;
+        rotateWhileDelay = waypoint.rotateWhileDelay;
+    }
+
+    public override string ToString()
+    {
+        return
+            $"position: {position}, speed: {speed}, delay: {delay}, rotationSpeed: {rotationSpeed}, rotateWhileDelay {rotateWhileDelay}";
+    }
+
+    public Waypoint Clone()
+    {
+        return new(position, rotateWhileDelay, delay, speed, rotationSpeed);
     }
 }
 
@@ -38,15 +50,15 @@ public class WaypointSerializable
     public float speed;
     public float delay;
     public float rotationSpeed;
-    public bool rotateWhileDelay = true;
+    public bool rotateWhileDelay;
 
     public WaypointSerializable(Waypoint waypoint)
     {
-        this.position[0] = waypoint.position.x;
-        this.position[1] = waypoint.position.y;
-        this.speed = waypoint.speed;
-        this.delay = waypoint.delay;
-        this.rotationSpeed = waypoint.rotationSpeed;
-        this.rotateWhileDelay = waypoint.rotateWhileDelay;
+        position[0] = waypoint.position.x;
+        position[1] = waypoint.position.y;
+        speed = waypoint.speed;
+        delay = waypoint.delay;
+        rotationSpeed = waypoint.rotationSpeed;
+        rotateWhileDelay = waypoint.rotateWhileDelay;
     }
 }

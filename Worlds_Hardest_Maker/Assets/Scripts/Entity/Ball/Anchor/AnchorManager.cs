@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
+using UnityEngine;
 
 /// <summary>
-/// Manages the anchors (duh)
+///     Manages the anchors (duh)
 /// </summary>
 public class AnchorManager : MonoBehaviour
 {
@@ -16,31 +14,17 @@ public class AnchorManager : MonoBehaviour
 
     public GameObject SelectedAnchor
     {
-        get { return selectedAnchor; }
-        set
-        {
-            if (value.TryGetComponent(out AnchorController AC))
-            {
-                if (selectedAnchor != null)
-                {
-                    selectedAnchor.GetComponent<Animator>().SetBool("Selected", false);
-
-                    selectedPathController.ClearLines();
-                    selectedPathController.drawLines = false;
-                }
-                selectedAnchor = value;
-                selectedAnchor.GetComponent<Animator>().SetBool("Selected", true);
-                selectedPathController = selectedAnchor.GetComponent<PathController>();
-                selectedPathController.drawLines = true;
-            }
-            pathEditorController.UpdateUI();
-        }
+        get => selectedAnchor;
+        set => SelectAnchor(value);
     }
 
     [HideInInspector] public PathController selectedPathController;
 
+    private static readonly int selected = Animator.StringToHash("Selected");
+
+
     /// <summary>
-    /// places anchor at position
+    ///     places anchor at position
     /// </summary>
     /// <param name="mx">x position of anchor</param>
     /// <param name="my">y position of anchor</param>
@@ -48,42 +32,36 @@ public class AnchorManager : MonoBehaviour
     {
         return SetAnchor(new(mx, my));
     }
+
     /// <summary>
-    /// places anchor at position
+    ///     places anchor at position
     /// </summary>
     /// <param name="pos">position of anchor</param>
     public GameObject SetAnchor(Vector2 pos)
     {
-        if (GetAnchor(pos) == null)
-        {
-            if(GameManager.Instance.Multiplayer)
-            {
-                GameObject anchor = PhotonNetwork.Instantiate("Anchor", pos, Quaternion.identity);
-                return anchor;
-            }
-            else
-            {
-                GameObject anchor = Instantiate(GameManager.Instance.Anchor, pos, Quaternion.identity, GameManager.Instance.AnchorContainer.transform);
-                return anchor;
-            }
-        }
+        if (GetAnchor(pos) != null) return null;
 
-        return null;
+        GameObject anchor = MultiplayerManager.Instance.Multiplayer
+            ? PhotonNetwork.Instantiate("Anchor", pos, Quaternion.identity)
+            : Instantiate(PrefabManager.Instance.anchor, pos, Quaternion.identity,
+                ReferenceManager.Instance.anchorContainer);
+
+        return anchor;
     }
 
-    [PunRPC]
     /// <summary>
-    /// removes anchor at position
+    ///     removes anchor at position
     /// </summary>
     /// <param name="mx">x position of anchor</param>
     /// <param name="my">y position of anchor</param>
+    [PunRPC]
     public void RemoveAnchor(float mx, float my)
     {
         RemoveAnchor(new(mx, my));
     }
 
     /// <summary>
-    /// removes anchor at position
+    ///     removes anchor at position
     /// </summary>
     /// <param name="pos">position of anchor</param>
     public static void RemoveAnchor(Vector2 pos)
@@ -92,11 +70,10 @@ public class AnchorManager : MonoBehaviour
 
         foreach (Collider2D hit in hits)
         {
-            if (hit.transform.parent.CompareTag("Anchor"))
-            {
-                Destroy(hit.transform.parent.gameObject);
-                break;
-            }
+            if (!hit.transform.parent.CompareTag("Anchor")) continue;
+
+            Destroy(hit.transform.parent.gameObject);
+            break;
         }
     }
 
@@ -113,6 +90,7 @@ public class AnchorManager : MonoBehaviour
                 return hit.gameObject;
             }
         }
+
         return null;
     }
 
@@ -124,15 +102,35 @@ public class AnchorManager : MonoBehaviour
     public static void SelectAnchor(Vector2 pos)
     {
         GameObject anchor = GetAnchor(pos);
-        if (anchor != null)
-        {
-            Instance.SelectedAnchor = anchor;
-            if(GameManager.Instance.CurrentEditMode != GameManager.EditMode.BALL)
-                GameManager.Instance.CurrentEditMode = GameManager.EditMode.ANCHOR;
+        if (anchor == null) return;
 
-            Animator anim = anchor.GetComponent<Animator>();
-            anim.SetBool("Selected", true);
+        Instance.SelectedAnchor = anchor;
+        if (EditModeManager.Instance.CurrentEditMode != EditMode.BALL)
+            EditModeManager.Instance.CurrentEditMode = EditMode.ANCHOR;
+
+        Animator anim = anchor.GetComponent<Animator>();
+        anim.SetBool(selected, true);
+    }
+
+    public void SelectAnchor(GameObject anchor)
+    {
+        if (anchor.TryGetComponent(out AnchorController _))
+        {
+            if (selectedAnchor != null)
+            {
+                selectedAnchor.GetComponent<Animator>().SetBool(selected, false);
+
+                selectedPathController.ClearLines();
+                selectedPathController.drawLines = false;
+            }
+
+            selectedAnchor = anchor;
+            selectedAnchor.GetComponent<Animator>().SetBool(selected, true);
+            selectedPathController = selectedAnchor.GetComponent<PathController>();
+            selectedPathController.drawLines = true;
         }
+
+        pathEditorController.UpdateUI();
     }
 
     public static void ResetPathEditorPosition()

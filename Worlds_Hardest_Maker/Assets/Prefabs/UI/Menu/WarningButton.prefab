@@ -57,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1965554921294799084, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 320
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 1965554921294799084, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_SizeDelta.y
@@ -112,6 +112,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2482777314814029965, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: m_fontSize
+      value: 38.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 2482777314814029965, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_fontColor.b
       value: 0
       objectReference: {fileID: 0}
@@ -127,6 +131,26 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4278190188
       objectReference: {fileID: 0}
+    - target: {fileID: 3802935625325081582, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: shake
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802935625325081582, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: shake1
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802935625325081582, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: shake2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802935625325081582, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: isWarningButton
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802935625325081582, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: singleShakeDuration
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 4026576423891908197, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: colorPaletteName
       value: Warning
@@ -140,12 +164,20 @@ PrefabInstance:
       value: WarningButton
       objectReference: {fileID: 0}
     - target: {fileID: 6108669949131332086, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108669949131332086, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6108669949131332086, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 3.899994
+      value: 3.9
       objectReference: {fileID: 0}
     - target: {fileID: 6108669949131332086, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -3.9000015
+      value: -3.8999999
       objectReference: {fileID: 0}
     - target: {fileID: 6605717847928195797, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: colorPaletteName

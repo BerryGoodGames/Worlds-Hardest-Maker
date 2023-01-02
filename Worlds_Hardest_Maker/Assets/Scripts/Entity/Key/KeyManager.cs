@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
-using Unity.Collections;
-using System.Drawing;
+using UnityEngine;
 
 public class KeyManager : MonoBehaviour
 {
@@ -11,78 +8,84 @@ public class KeyManager : MonoBehaviour
 
     public enum KeyColor
     {
-        GRAY, RED, GREEN, BLUE, YELLOW
+        GRAY,
+        RED,
+        GREEN,
+        BLUE,
+        YELLOW
     }
 
-    public static readonly List<GameManager.EditMode> KeyModes = new(new GameManager.EditMode[]
+    public static readonly List<EditMode> keyModes = new(new[]
     {
-        GameManager.EditMode.GRAY_KEY,
-        GameManager.EditMode.RED_KEY,
-        GameManager.EditMode.BLUE_KEY,
-        GameManager.EditMode.GREEN_KEY,
-        GameManager.EditMode.YELLOW_KEY
-    });
-    public static readonly List<GameManager.EditMode> KeyDoorModes = new(new GameManager.EditMode[]
-    {
-        GameManager.EditMode.GRAY_KEY_DOOR_FIELD,
-        GameManager.EditMode.RED_KEY_DOOR_FIELD,
-        GameManager.EditMode.BLUE_KEY_DOOR_FIELD,
-        GameManager.EditMode.GREEN_KEY_DOOR_FIELD,
-        GameManager.EditMode.YELLOW_KEY_DOOR_FIELD
-    });
-    public static readonly List<FieldManager.FieldType> KeyDoorTypes = new(new FieldManager.FieldType[]
-    {
-        FieldManager.FieldType.GRAY_KEY_DOOR_FIELD,
-        FieldManager.FieldType.RED_KEY_DOOR_FIELD,
-        FieldManager.FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldManager.FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldManager.FieldType.YELLOW_KEY_DOOR_FIELD
+        EditMode.GRAY_KEY,
+        EditMode.RED_KEY,
+        EditMode.BLUE_KEY,
+        EditMode.GREEN_KEY,
+        EditMode.YELLOW_KEY
     });
 
-    public static List<FieldManager.FieldType> CantPlaceFields = new(new FieldManager.FieldType[]{
-        FieldManager.FieldType.WALL_FIELD,
-        FieldManager.FieldType.GRAY_KEY_DOOR_FIELD,
-        FieldManager.FieldType.RED_KEY_DOOR_FIELD,
-        FieldManager.FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldManager.FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldManager.FieldType.YELLOW_KEY_DOOR_FIELD
+    public static readonly List<EditMode> keyDoorModes = new(new[]
+    {
+        EditMode.GRAY_KEY_DOOR_FIELD,
+        EditMode.RED_KEY_DOOR_FIELD,
+        EditMode.BLUE_KEY_DOOR_FIELD,
+        EditMode.GREEN_KEY_DOOR_FIELD,
+        EditMode.YELLOW_KEY_DOOR_FIELD
     });
+
+    public static readonly List<FieldType> keyDoorTypes = new(new[]
+    {
+        FieldType.GRAY_KEY_DOOR_FIELD,
+        FieldType.RED_KEY_DOOR_FIELD,
+        FieldType.BLUE_KEY_DOOR_FIELD,
+        FieldType.GREEN_KEY_DOOR_FIELD,
+        FieldType.YELLOW_KEY_DOOR_FIELD
+    });
+
+    public static List<FieldType> cannotPlaceFields = new(new[]
+    {
+        FieldType.WALL_FIELD,
+        FieldType.GRAY_KEY_DOOR_FIELD,
+        FieldType.RED_KEY_DOOR_FIELD,
+        FieldType.BLUE_KEY_DOOR_FIELD,
+        FieldType.GREEN_KEY_DOOR_FIELD,
+        FieldType.YELLOW_KEY_DOOR_FIELD
+    });
+
+    private static readonly int playingString = Animator.StringToHash("Playing");
 
     [PunRPC]
     public void SetKey(float mx, float my, KeyColor color)
     {
-        if(CanPlace(mx, my))
-        {
-            Vector2 pos = new(mx, my);
+        if (!CanPlace(mx, my)) return;
 
-            RemoveKey(mx, my);
+        Vector2 pos = new(mx, my);
 
-            GameObject key = Instantiate(color.GetPrefabKey(), pos, Quaternion.identity, GameManager.Instance.KeyContainer.transform);
-                    
-            Animator anim = key.GetComponent<Animator>();
-            anim.SetBool("Playing", GameManager.Instance.Playing);
+        RemoveKey(mx, my);
 
-            key.GetComponent<IntervalRandomAnimation>().enabled = GameManager.Instance.KonamiActive;
-        }
+        GameObject key = Instantiate(color.GetPrefabKey(), pos, Quaternion.identity,
+            ReferenceManager.Instance.keyContainer);
+
+        Animator anim = key.GetComponent<Animator>();
+        anim.SetBool(playingString, EditModeManager.Instance.Playing);
+
+        key.GetComponent<IntervalRandomAnimation>().enabled = KonamiManager.KonamiActive;
     }
+
+    public void SetKey(Vector2 pos, KeyColor color)
+    {
+        SetKey(pos.x, pos.y, color);
+    }
+
     [PunRPC]
     public void RemoveKey(float mx, float my)
     {
-        foreach(Transform key in GameManager.Instance.KeyContainer.transform)
-        {
-            KeyController controller = key.GetChild(0).GetComponent<KeyController>();
-            if (controller.keyPosition == new Vector2(mx, my))
-            {
-                DestroyImmediate(key.gameObject);
-
-                if(GameManager.Instance.Playing) controller.CheckAndUnlock(PlayerManager.GetClientPlayer());
-            }
-        }
+        DestroyImmediate(GetKey(mx, my));
     }
 
     public static void SetKonamiMode(bool konami)
     {
-        foreach(Transform key in GameManager.Instance.KeyContainer.transform)
+        foreach (Transform key in ReferenceManager.Instance.keyContainer)
         {
             key.GetComponent<IntervalRandomAnimation>().enabled = konami;
         }
@@ -91,38 +94,49 @@ public class KeyManager : MonoBehaviour
     public static bool CanPlace(float mx, float my)
     {
         // conditions: no key there, covered by canplacefield or default, no player there
-        return !PlayerManager.IsPlayerThere(mx, my) && !IsKeyThere(mx, my) && !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CantPlaceFields.ToArray());
+        return !PlayerManager.IsPlayerThere(mx, my) &&
+               !IsKeyThere(mx, my) &&
+               !FieldManager.IntersectingAnyFieldsAtPos(mx, my, cannotPlaceFields.ToArray());
     }
 
     public static GameObject GetKey(float mx, float my)
     {
-        GameObject container = GameManager.Instance.KeyContainer;
-        foreach (Transform key in container.transform)
+        Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.01f, 128);
+        foreach (Collider2D hit in hits)
         {
-            if (key.GetChild(0).GetComponent<KeyController>().keyPosition == new Vector2(mx, my))
+            if (hit.GetComponent<KeyController>() != null)
             {
-                return key.gameObject;
+                return hit.transform.parent.gameObject;
             }
         }
+
         return null;
     }
+
+    public static GameObject GetKey(Vector2 pos)
+    {
+        return GetKey(pos.x, pos.y);
+    }
+
     public static bool IsKeyThere(float mx, float my, KeyColor color)
     {
         GameObject key = GetKey(mx, my);
         return key != null && key.transform.GetChild(0).GetComponent<KeyController>().color == color;
     }
+
     public static bool IsKeyThere(float mx, float my)
     {
         return GetKey(mx, my) != null;
     }
 
-    public static bool IsKeyDoorEditMode(GameManager.EditMode mode)
+    public static bool IsKeyDoorEditMode(EditMode mode)
     {
-        return KeyDoorModes.Contains(mode);
+        return keyDoorModes.Contains(mode);
     }
-    public static bool IsKeyEditMode(GameManager.EditMode mode)
+
+    public static bool IsKeyEditMode(EditMode mode)
     {
-        return KeyModes.Contains(mode);
+        return keyModes.Contains(mode);
     }
 
     private void Awake()
