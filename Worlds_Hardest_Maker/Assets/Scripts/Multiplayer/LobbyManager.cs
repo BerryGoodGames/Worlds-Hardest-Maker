@@ -16,6 +16,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     [FormerlySerializedAs("RoomItem")] public GameObject roomItem;
     [FormerlySerializedAs("PlayerItem")] public GameObject playerItem;
+    [SerializeField] private LoadingScreen loadingScreen;
 
     [Space]
 
@@ -224,8 +225,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void StartLoading()
     {
-        Animator anim = loadingPanel.GetComponent<Animator>();
-        anim.SetTrigger(load);
+        loadingScreen.gameObject.SetActive(true);
+        loadingScreen.SetProgress(0);
+
+        // Animator anim = loadingPanel.GetComponent<Animator>();
+        // anim.SetTrigger(load);
 
         StartCoroutine(UpdateLoadingSlider());
     }
@@ -234,7 +238,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         while (PhotonNetwork.LevelLoadingProgress <= 0.9)
         {
-            loadingSlider.value = PhotonNetwork.LevelLoadingProgress / 0.9f;
+            loadingScreen.SetProgress(PhotonNetwork.LevelLoadingProgress / 0.9f);
             yield return null;
         }
     }
@@ -252,6 +256,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
 
         return false;
+    }
+
+    public void Back()
+    {
+        loadingScreen.LoadScene(2);
     }
 
     private void Awake()

@@ -1039,6 +1039,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3257700753399420569, guid: f15b190d3362cd240bb49c139d94a1fa, type: 3}
+      propertyPath: m_Spacing
+      value: 12.24
+      objectReference: {fileID: 0}
     - target: {fileID: 3836396804108167268, guid: f15b190d3362cd240bb49c139d94a1fa, type: 3}
       propertyPath: m_fontSize
       value: 20.45
