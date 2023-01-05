@@ -36,6 +36,7 @@ public class MainMenuTween : MonoBehaviour
         
         cursor.rectTransform.anchoredPosition = cursorStartPos;
         cursor.rectTransform.DOAnchorPos(cursorEndPos, cursorDuration)
-            .SetDelay(cursorDelayTotal);
+            .SetDelay(cursorDelayTotal)
+            .SetEase(Ease.OutQuint);
     }
 }

@@ -5739,10 +5739,10 @@ MonoBehaviour:
   cursorEndAngle: 12
   cursorStartPos: {x: -50, y: 320}
   cursorEndPos: {x: 275, y: -62}
-  delay: 0
-  cursorDelay: 0
-  playerDuration: 1
-  cursorDuration: 1
+  delay: 0.5
+  cursorDelay: 1
+  playerDuration: 1.25
+  cursorDuration: 2.5
 --- !u!1 &1314549966
 GameObject:
   m_ObjectHideFlags: 0
