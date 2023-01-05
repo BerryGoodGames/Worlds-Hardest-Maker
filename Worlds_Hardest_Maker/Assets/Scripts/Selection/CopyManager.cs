@@ -6,6 +6,7 @@ public class CopyManager : MonoBehaviour
 {
     public static CopyManager Instance { get; set; }
 
+
     private static List<CopyData> clipBoard = new();
 
     private static Vector2 size = Vector2.zero;
