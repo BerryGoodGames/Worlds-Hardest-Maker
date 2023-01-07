@@ -316,31 +316,7 @@ public class SelectionManager : MonoBehaviour
             return;
         }
 
-        // clear fields in area
-        if (type == FieldType.WALL_FIELD) // also destroy keys/coins
-        {
-            int fieldCount = ReferenceManager.Instance.fieldContainer.childCount;
-            int coinCount = ReferenceManager.Instance.coinContainer.childCount;
-            int keyCount = ReferenceManager.Instance.keyContainer.childCount;
-            Collider2D[] hits = new Collider2D[fieldCount + coinCount + keyCount];
-
-            _ = Physics2D.OverlapAreaNonAlloc(lowestPos, highestPos, hits, 3200);
-            foreach (Collider2D hit in hits)
-            {
-                if (hit == null) continue;
-
-                if (hit.gameObject.IsField() || hit.CompareTag("Key") || hit.CompareTag("Coin"))
-                    Destroy(hit.gameObject);
-            }
-        }
-        else
-        {
-            Collider2D[] hits = Physics2D.OverlapAreaAll(lowestPos, highestPos, 3072);
-            foreach (Collider2D hit in hits)
-            {
-                Destroy(hit.gameObject);
-            }
-        }
+        AdaptAreaToType(lowestPos, highestPos, type);
 
         // REF
         // get prefab
@@ -410,6 +386,42 @@ public class SelectionManager : MonoBehaviour
     public void FillArea(Vector2 start, Vector2 end, FieldType type)
     {
         Instance.FillArea(GetFillRange(start, end, FollowMouse.WorldPosition.MATRIX), type);
+    }
+
+    private void AdaptAreaToType(Vector2 lowestPos, Vector2 highestPos, FieldType type)
+    {
+        // clear fields in area
+        int fieldLayer = (int)Mathf.Pow(2, LayerMask.NameToLayer("Field"));
+        int fieldCount = ReferenceManager.Instance.fieldContainer.childCount;
+        Collider2D[] fieldHits = new Collider2D[fieldCount];
+        _ = Physics2D.OverlapAreaNonAlloc(lowestPos, highestPos, fieldHits, fieldLayer);
+
+        foreach (Collider2D fieldHit in fieldHits)
+        {
+            if(fieldHit == null) continue;
+
+            Destroy(fieldHit.gameObject);
+        }
+
+        int entityLayer = (int)Mathf.Pow(2, LayerMask.NameToLayer("Entity"));
+
+        bool clearCoins = CoinManager.cannotPlaceFields.Contains(type);
+        bool clearKeys = KeyManager.cannotPlaceFields.Contains(type);
+
+        if (!clearCoins && !clearKeys) return;
+        
+        // clear coins + keys
+        Collider2D[] entityHits = Physics2D.OverlapAreaAll(lowestPos, highestPos, entityLayer);
+        
+        foreach (Collider2D hit in entityHits)
+        {
+            if(hit == null ||
+               (!clearCoins && !hit.CompareTag("Key")) ||
+               (!clearKeys && !hit.CompareTag("Coin")) ||
+               (!hit.CompareTag("Coin") && !hit.CompareTag("Key"))) continue;
+
+            Destroy(hit.gameObject);
+        }
     }
 
     #endregion

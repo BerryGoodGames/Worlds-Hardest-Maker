@@ -784,7 +784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30f88d4f14de6a44e91ee6d5aa7d9958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.01
+  speed: 0.005
   randomDir: 1
   scrollDirAngle: 0
 --- !u!1001 &1740274260
@@ -1038,6 +1038,10 @@ PrefabInstance:
     - target: {fileID: 3102695604482064456, guid: f15b190d3362cd240bb49c139d94a1fa, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3257700753399420569, guid: f15b190d3362cd240bb49c139d94a1fa, type: 3}
+      propertyPath: m_Spacing
+      value: 12.24
       objectReference: {fileID: 0}
     - target: {fileID: 3836396804108167268, guid: f15b190d3362cd240bb49c139d94a1fa, type: 3}
       propertyPath: m_fontSize
