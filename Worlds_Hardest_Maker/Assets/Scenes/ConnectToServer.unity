@@ -784,7 +784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30f88d4f14de6a44e91ee6d5aa7d9958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.01
+  speed: 0.005
   randomDir: 1
   scrollDirAngle: 0
 --- !u!1001 &1740274260
