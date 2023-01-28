@@ -33,7 +33,7 @@ public class MouseEvents : MonoBehaviour
         // select Anchor
         if (Input.GetKey(KeybindManager.Instance.editSpeedKey) && Input.GetMouseButtonDown(0))
         {
-            AnchorManager.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
+            AnchorManager.Instance.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
         }
 
         // place / delete stuff
@@ -114,7 +114,7 @@ public class MouseEvents : MonoBehaviour
                 AnchorManager.Instance.SetAnchor(gridX, gridY);
                 break;
             case EditMode.BALL:
-                AnchorBallManager.SetAnchorBall(gridX, gridY);
+                AnchorBallManagerOld.SetAnchorBall(gridX, gridY);
                 break;
             case EditMode.BALL_DEFAULT:
                 // place new ball
@@ -165,7 +165,7 @@ public class MouseEvents : MonoBehaviour
             // remove balls
             BallManager.Instance.RemoveBall(gridX, gridY);
             BallCircleManager.Instance.RemoveBallCircle(gridX, gridY);
-            AnchorBallManager.Instance.RemoveAnchorBall(gridX, gridY);
+            AnchorBallManagerOld.Instance.RemoveAnchorBall(gridX, gridY);
             // AnchorBallManager.Instance.RemoveBall(new(matrixX, matrixY));
 
             // remove anchors

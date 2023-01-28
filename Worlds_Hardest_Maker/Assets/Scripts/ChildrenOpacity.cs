@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class ChildrenOpacity : MonoBehaviour
 {
-    [SerializeField] private float opacity = 1;
+    [SerializeField][Range(0, 1)] private float opacity = 1;
 
     private SpriteRenderer[] children;
 

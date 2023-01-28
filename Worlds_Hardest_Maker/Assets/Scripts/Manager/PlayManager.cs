@@ -63,11 +63,11 @@ public class PlayManager : MonoBehaviour
 
         Animator anim;
 
-        if (AnchorManager.Instance.SelectedAnchor != null)
+        if (AnchorManagerOld.Instance.SelectedAnchor != null)
         {
             // disable anchor lines
-            AnchorManager.Instance.selectedPathController.drawLines = false;
-            AnchorManager.Instance.selectedPathController.ClearLines();
+            AnchorManagerOld.Instance.selectedPathControllerOld.drawLines = false;
+            AnchorManagerOld.Instance.selectedPathControllerOld.ClearLines();
 
             // disable all anchor sprites / outlines
             foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
@@ -119,16 +119,16 @@ public class PlayManager : MonoBehaviour
                 .worldPosition);
 
         // enable windows
-        if (EditModeManager.Instance.CurrentEditMode is EditMode.ANCHOR or EditMode.BALL)
-            ReferenceManager.Instance.ballWindows.SetActive(true);
+        // if (EditModeManager.Instance.CurrentEditMode is EditMode.ANCHOR or EditMode.BALL)
+        //     ReferenceManager.Instance.ballWindows.SetActive(true);
 
         Animator anim;
 
-        if (AnchorManager.Instance.SelectedAnchor != null)
+        if (AnchorManagerOld.Instance.SelectedAnchor != null)
         {
             // enable anchor lines
-            AnchorManager.Instance.selectedPathController.drawLines = true;
-            AnchorManager.Instance.selectedPathController.DrawLines();
+            AnchorManagerOld.Instance.selectedPathControllerOld.drawLines = true;
+            AnchorManagerOld.Instance.selectedPathControllerOld.DrawLines();
 
             // enable all anchor sprites / outlines
             foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
@@ -141,7 +141,7 @@ public class PlayManager : MonoBehaviour
         // reset Anchors
         foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
         {
-            anchor.transform.GetChild(0).GetComponent<PathController>().ResetState();
+            anchor.transform.GetChild(0).GetComponent<PathControllerOld>().ResetState();
         }
 
         // deactivate coin animations

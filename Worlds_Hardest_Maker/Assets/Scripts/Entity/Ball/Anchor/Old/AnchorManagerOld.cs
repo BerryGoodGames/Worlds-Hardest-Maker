@@ -1,15 +1,28 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class AnchorManager : MonoBehaviour
+/// <summary>
+///     Manages the anchors (duh)
+/// </summary>
+public class AnchorManagerOld : MonoBehaviour
 {
-    public static AnchorManager Instance { get; private set; }
+    public static AnchorManagerOld Instance { get; private set; }
+
+    private GameObject selectedAnchor;
+
+    public PathEditorControllerOld pathEditorControllerOld;
+
+    public GameObject SelectedAnchor
+    {
+        get => selectedAnchor;
+        set => SelectAnchor(value);
+    }
+
+    [HideInInspector] public PathControllerOld selectedPathControllerOld;
 
     private static readonly int selected = Animator.StringToHash("Selected");
 
-    public AnchorController selectedAnchor;
 
-    #region get, set, remove
     /// <summary>
     ///     places anchor at position
     /// </summary>
@@ -66,7 +79,7 @@ public class AnchorManager : MonoBehaviour
 
     /// <param name="pos">position of anchor</param>
     /// <returns>anchor at position</returns>
-    public static AnchorController GetAnchor(Vector2 pos)
+    public static GameObject GetAnchor(Vector2 pos)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.5f);
 
@@ -74,50 +87,55 @@ public class AnchorManager : MonoBehaviour
         {
             if (hit.transform.parent.CompareTag("Anchor"))
             {
-                return hit.gameObject.GetComponent<AnchorController>();
+                return hit.gameObject;
             }
         }
 
         return null;
     }
 
-    public static AnchorController GetAnchor(float mx, float my)
+    public static GameObject GetAnchor(float mx, float my)
     {
         return GetAnchor(new(mx, my));
     }
-    #endregion
 
-    public void SelectAnchor(Vector2 pos)
+    public static void SelectAnchor(Vector2 pos)
     {
-        AnchorController anchor = GetAnchor(pos);
+        GameObject anchor = GetAnchor(pos);
         if (anchor == null) return;
 
         Instance.SelectAnchor(anchor);
+        if (EditModeManager.Instance.CurrentEditMode != EditMode.BALL)
+            EditModeManager.Instance.CurrentEditMode = EditMode.ANCHOR;
+
+        Animator anim = anchor.GetComponent<Animator>();
+        anim.SetBool(selected, true);
     }
 
-    public void SelectAnchor(AnchorController anchor)
+    public void SelectAnchor(GameObject anchor)
     {
-        if (selectedAnchor != null)
+        if (anchor.TryGetComponent(out AnchorControllerOld _))
         {
-            selectedAnchor.animator.SetBool(selected, false);
+            if (selectedAnchor != null)
+            {
+                selectedAnchor.GetComponent<Animator>().SetBool(selected, false);
+
+                selectedPathControllerOld.ClearLines();
+                selectedPathControllerOld.drawLines = false;
+            }
+
+            selectedAnchor = anchor;
+            selectedAnchor.GetComponent<Animator>().SetBool(selected, true);
+            selectedPathControllerOld = selectedAnchor.GetComponent<PathControllerOld>();
+            selectedPathControllerOld.drawLines = true;
         }
 
-        if (selectedAnchor == anchor)
-        {
-            DeselectAnchor();
-            return;
-        }
-
-        selectedAnchor = anchor;
-        selectedAnchor.animator.SetBool(selected, true);
+        pathEditorControllerOld.UpdateUI();
     }
 
-    public void DeselectAnchor()
+    public static void ResetPathEditorPosition()
     {
-        if (selectedAnchor == null) return;
-
-        selectedAnchor.animator.SetBool(selected, false);
-        selectedAnchor = null;
+        Instance.pathEditorControllerOld.ResetPosition();
     }
 
     private void Awake()

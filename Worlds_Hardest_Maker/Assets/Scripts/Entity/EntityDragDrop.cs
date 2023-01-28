@@ -7,14 +7,14 @@ using UnityEngine;
 /// </summary>
 public class EntityDragDrop : MonoBehaviour
 {
-    [SerializeField] private bool halfGrid;
+    [SerializeField] private FollowMouse.WorldPosition worldType;
     public event Action OnMove;
 
     private void OnMouseDrag()
     {
         if (EditModeManager.Instance.Playing || !Input.GetKey(KeybindManager.Instance.entityMoveKey)) return;
-
-        Vector2 newPos = halfGrid ? MouseManager.Instance.MouseWorldPosGrid : MouseManager.Instance.MouseWorldPosMatrix;
+        
+        Vector2 newPos = FollowMouse.GetCurrentMouseWorldPos(worldType);
         if (newPos != (Vector2)transform.position)
         {
             transform.position = newPos;
@@ -22,7 +22,7 @@ public class EntityDragDrop : MonoBehaviour
             OnMove?.Invoke();
         }
 
-        if (TryGetComponent(out PathController controller))
+        if (TryGetComponent(out PathControllerOld controller))
         {
             controller.UpdateStartingPosition();
         }

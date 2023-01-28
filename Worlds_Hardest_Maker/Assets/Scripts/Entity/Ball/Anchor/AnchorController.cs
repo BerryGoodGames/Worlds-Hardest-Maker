@@ -1,115 +1,120 @@
-using System.Collections;
-using Photon.Pun;
+using System;
+using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
-/// <summary>
-///     controls the anchor (duh)
-/// </summary>
-public class AnchorController : Controller
+public class AnchorController : MonoBehaviour
 {
-    public GameObject outline;
-    public GameObject container;
+    [SerializeField] private ChildrenOpacity ballContainerChildrenOpacity;
+    public Animator animator;
 
-    private PathController pathController;
-    public PhotonView View { get; set; }
+    [HideInInspector] public List<GameObject> balls = new();
+    public LinkedList<AnchorBlock> blocks = new();
+
+    [HideInInspector] public bool applySpeed = true;
+    private bool startApplySpeed;
+    [HideInInspector] public bool applyAngularSpeed = true;
+    private bool startApplyAngularSpeed;
+
+    [HideInInspector] public float speed;
+    private float startSpeed;
+    [HideInInspector] public float angularSpeed;
+    private float startAngularSpeed;
+
+    [HideInInspector] public Ease ease;
+    private Ease startEase;
+
+    private Vector2 startPosition;
+    private Quaternion startRotation;
+
+    public AnchorBlock currentExecutingBlock;
+
+    [HideInInspector] public Rigidbody2D rb;
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+
+        speed = 7;
+        angularSpeed = 360;
+        ease = Ease.Linear;
+
+        UpdateStartValues();
+    }
+
+    private void AddBlocks(AnchorBlock block)
+    {
+        blocks.AddLast(block);
+    }
+
+    public void StartExecuting()
+    {
+        UpdateStartValues();
+
+        Testing();
+
+        currentExecutingBlock = blocks.First.Value;
+        currentExecutingBlock.Execute();
+    }
+
+    public void FinishCurrentExecution()
+    {
+        if (currentExecutingBlock == null)
+        {
+            Debug.LogWarning("There was a FinishCurrentExecution() call, although there is no execution to finish");
+            return;
+        }
+
+        LinkedListNode<AnchorBlock> thisBlockNode = blocks.Find(currentExecutingBlock);
+        if (thisBlockNode == null)
+            throw new Exception(
+                "Couldn't find block currently executing in block list of anchor (this error should be impossible)");
+
+        currentExecutingBlock = thisBlockNode.Next?.Value;
+        currentExecutingBlock?.Execute();
+    }
+
+    public void Testing()
+    {
+        AddBlocks(new SetSpeedBlock(this, 1.5f, SetSpeedBlock.Unit.TIME));
+        AddBlocks(new MoveToBlock(this, 0, 0));
+        AddBlocks(new MoveToBlock(this, 1, 3));
+        AddBlocks(new MoveToBlock(this, 2, -1));
+        AddBlocks(new GoToBlock(this, 0));
+    }
+
+    public void ResetExecution()
+    {
         Transform t = transform;
-        Transform parent = t.parent;
 
-        t.localPosition = parent.position;
+        rb.DOKill();
+        t.DOKill();
+        currentExecutingBlock = null;
 
-        parent.position = Vector2.zero;
-
-        parent.SetParent(ReferenceManager.Instance.anchorContainer);
-
-        pathController = GetComponent<PathController>();
-
-        View = PhotonView.Get(this);
+        rb.position = startPosition;
+        t.rotation = startRotation;
+        speed = startSpeed;
+        applySpeed = startApplySpeed;
+        angularSpeed = startAngularSpeed;
+        applyAngularSpeed = startApplyAngularSpeed;
+        ease = startEase;
     }
 
-    private void OnDestroy()
+    private void UpdateStartValues()
     {
-        Destroy(transform.parent.gameObject);
+        startPosition = rb.position;
+        startRotation = transform.rotation;
+        startSpeed = speed;
+        startApplySpeed = applySpeed;
+        startAngularSpeed = angularSpeed;
+        startApplyAngularSpeed = applyAngularSpeed;
+        startEase = ease;
     }
-
-    [PunRPC]
-    private void RPCSetBall(Vector2 pos)
-    {
-        AnchorBallManager.SetAnchorBall(pos, container.transform);
-    }
-
-    [PunRPC]
-    private void RPCSetWaypointPosition(Vector2 pos, int index)
-    {
-        Waypoint waypoint = pathController.waypoints[index];
-        waypoint.position = pos;
-        AnchorManager.Instance.selectedPathController.DrawLines();
-        if (waypoint.WaypointEditor != null)
-            waypoint.WaypointEditor.InputPosition = pos;
-    }
-
-    [PunRPC]
-    private void RPCSetWaypointSpeed(float speed, int index)
-    {
-        Waypoint waypoint = pathController.waypoints[index];
-        waypoint.speed = speed;
-
-        if (waypoint.WaypointEditor != null)
-            waypoint.WaypointEditor.InputSpeed = speed;
-    }
-
-    [PunRPC]
-    private void RPCSetWaypointRotationSpeed(float speed, int index)
-    {
-        Waypoint waypoint = pathController.waypoints[index];
-        waypoint.rotationSpeed = speed;
-
-        if (waypoint.WaypointEditor != null)
-            waypoint.WaypointEditor.InputRotationSpeed = speed;
-    }
-
-    [PunRPC]
-    private void RPCSetWaypointDelay(float delay, int index)
-    {
-        Waypoint waypoint = pathController.waypoints[index];
-        waypoint.delay = delay;
-
-        if (waypoint.WaypointEditor != null)
-            waypoint.WaypointEditor.InputDelay = delay;
-    }
-
-    [PunRPC]
-    private void RPCSetWaypointRotateWhileDelay(bool rotateWhileDelay, int index)
-    {
-        Waypoint waypoint = pathController.waypoints[index];
-        waypoint.rotateWhileDelay = rotateWhileDelay;
-
-        if (waypoint.WaypointEditor != null)
-            waypoint.WaypointEditor.InputRotateWhileDelay = rotateWhileDelay;
-    }
-
-    [PunRPC]
-    private void RPCDeleteWaypoint(int index)
-    {
-        Waypoint waypoint = pathController.waypoints[index];
-        waypoint.WaypointEditor.DeleteThisWaypoint();
-    }
-
-    [PunRPC]
-    private void RPCAddWaypoint()
-    {
-        pathController.waypoints.Add(new(new(0, 0), true, 0, 1, 0));
-        if (pathController.waypoints.Count > 0 && pathController.waypoints[0].WaypointEditor != null)
-            ReferenceManager.Instance.ballWindows.GetComponentInChildren<PathEditorController>().UpdateUI();
-    }
-
     public void BallFadeOut(AnimationEvent animationEvent)
     {
         float endOpacity = animationEvent.floatParameter;
         if (float.TryParse(animationEvent.stringParameter, out float time))
-            StartCoroutine(container.GetComponent<ChildrenOpacity>().FadeOut(endOpacity, time));
+            StartCoroutine(ballContainerChildrenOpacity.FadeOut(endOpacity, time));
     }
 
     public void BallFadeIn(AnimationEvent animationEvent)
@@ -121,17 +126,6 @@ public class AnchorController : Controller
 
     public void BallFadeIn(float endOpacity, float time)
     {
-        StartCoroutine(container.GetComponent<ChildrenOpacity>().FadeIn(endOpacity, time));
-    }
-
-    public IEnumerator FadeInOnNextFrame(float endOpacity, float time)
-    {
-        yield return null;
-        BallFadeIn(endOpacity, time);
-    }
-
-    public override Data GetData()
-    {
-        return new AnchorData(pathController, container.transform);
+        StartCoroutine(ballContainerChildrenOpacity.FadeIn(endOpacity, time));
     }
 }

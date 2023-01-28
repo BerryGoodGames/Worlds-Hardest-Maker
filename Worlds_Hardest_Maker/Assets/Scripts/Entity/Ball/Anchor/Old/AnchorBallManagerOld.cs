@@ -1,9 +1,9 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class AnchorBallManager : MonoBehaviour
+public class AnchorBallManagerOld : MonoBehaviour
 {
-    public static AnchorBallManager Instance { get; private set; }
+    public static AnchorBallManagerOld Instance { get; private set; }
 
     /// <summary>
     ///     place ball at position
@@ -11,17 +11,17 @@ public class AnchorBallManager : MonoBehaviour
     /// <param name="pos">position of ball</param>
     public static void SetAnchorBall(Vector2 pos)
     {
-        if (AnchorManager.Instance.SelectedAnchor == null) return;
+        if (AnchorManagerOld.Instance.SelectedAnchor == null) return;
 
         if (MultiplayerManager.Instance.Multiplayer)
         {
-            PhotonView view = PhotonView.Get(AnchorManager.Instance.SelectedAnchor);
+            PhotonView view = PhotonView.Get(AnchorManagerOld.Instance.SelectedAnchor);
             view.RPC("RPCSetBall", RpcTarget.All, pos);
         }
         else
         {
             GameObject ball = Instantiate(PrefabManager.Instance.ball, Vector2.zero, Quaternion.identity,
-                AnchorManager.Instance.SelectedAnchor.GetComponent<AnchorController>().container.transform);
+                AnchorManagerOld.Instance.SelectedAnchor.GetComponent<AnchorControllerOld>().container.transform);
             ball.transform.GetChild(0).position = pos;
         }
     }

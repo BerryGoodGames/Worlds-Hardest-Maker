@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CloseOnDClick : MonoBehaviour, IPointerClickHandler
+public class CloseOnDClickOld : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private Animator windowAnimator;
 

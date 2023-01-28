@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 /// <summary>
 /// </summary>
-public class PathController : MonoBehaviour
+public class PathControllerOld : MonoBehaviour
 {
     public enum PathMode
     {
@@ -14,9 +14,9 @@ public class PathController : MonoBehaviour
         STOP
     }
 
-    public List<Waypoint> waypoints = new()
+    public List<WaypointOld> waypoints = new()
     {
-        new Waypoint(Vector2.zero, true, 0, 1, 0)
+        new WaypointOld(Vector2.zero, true, 0, 1, 0)
     };
 
     [FormerlySerializedAs("LineContainer")] [SerializeField]
@@ -27,8 +27,8 @@ public class PathController : MonoBehaviour
     public bool onlyMoveWhenPlaying = true;
     public PathMode pathMode = 0;
 
-    private Waypoint attributeTarget;
-    private Waypoint target;
+    private WaypointOld attributeTarget;
+    private WaypointOld target;
     private int targetIndex;
 
     private bool stop;
@@ -36,7 +36,7 @@ public class PathController : MonoBehaviour
     private IEnumerator rotationCoroutine;
     private IEnumerator moveCoroutine;
 
-    private Waypoint Target
+    private WaypointOld Target
     {
         set
         {
@@ -67,11 +67,11 @@ public class PathController : MonoBehaviour
         if (setElement0ToStartingPos && waypoints[0] != null)
         {
             waypoints[0].position = transform.position;
-            if (WaypointEditorController.StartPosition != null)
-                WaypointEditorController.StartPosition.UpdateInputValues();
+            if (WaypointEditorControllerOld.StartPosition != null)
+                WaypointEditorControllerOld.StartPosition.UpdateInputValues();
         }
 
-        AnchorManager.Instance.selectedPathController.DrawLines();
+        AnchorManagerOld.Instance.selectedPathControllerOld.DrawLines();
     }
 
     private IEnumerator Move()
@@ -182,13 +182,13 @@ public class PathController : MonoBehaviour
 
         for (int i = 1; i < waypoints.Count; i++)
         {
-            Waypoint prevWaypoint = waypoints[i - 1];
-            Waypoint currentWaypoint = waypoints[i];
+            WaypointOld prevWaypointOld = waypoints[i - 1];
+            WaypointOld currentWaypointOld = waypoints[i];
             LineManager.SetFill(Color.black);
             LineManager.SetWeight(0.1f);
             LineManager.SetLayerID(LineManager.defaultLayerID);
             LineManager.SetOrderInLayer(0);
-            LineManager.DrawLine(prevWaypoint.position, currentWaypoint.position, lineContainer);
+            LineManager.DrawLine(prevWaypointOld.position, currentWaypointOld.position, lineContainer);
         }
 
         if (pathMode == PathMode.LOOP && waypoints.Count > 1)

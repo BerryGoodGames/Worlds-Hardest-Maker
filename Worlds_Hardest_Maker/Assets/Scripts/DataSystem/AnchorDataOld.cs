@@ -6,23 +6,23 @@ using UnityEngine;
 ///     anchor attributes: position, waypoints, mode, ball positions
 /// </summary>
 [Serializable]
-public class AnchorData : Data
+public class AnchorDataOld : Data
 {
     public float[] position = new float[2];
     public WaypointSerializable[] waypoints;
-    public PathController.PathMode pathMode;
+    public PathControllerOld.PathMode pathMode;
     public float[] ballPositions;
 
-    public AnchorData(PathController pathController, Transform ballContainer)
+    public AnchorDataOld(PathControllerOld pathControllerOld, Transform ballContainer)
     {
-        position[0] = pathController.transform.position.x;
-        position[1] = pathController.transform.position.y;
-        pathMode = pathController.pathMode;
+        position[0] = pathControllerOld.transform.position.x;
+        position[1] = pathControllerOld.transform.position.y;
+        pathMode = pathControllerOld.pathMode;
 
         // convert Waypoints
         List<WaypointSerializable> waypointsList = new();
 
-        foreach (Waypoint waypoint in pathController.waypoints)
+        foreach (WaypointOld waypoint in pathControllerOld.waypoints)
         {
             waypointsList.Add(new(waypoint));
         }
@@ -45,36 +45,36 @@ public class AnchorData : Data
     public override void ImportToLevel(Vector2 pos)
     {
         // create object
-        GameObject anchor = AnchorManager.Instance.SetAnchor(pos);
+        GameObject anchor = AnchorManagerOld.Instance.SetAnchor(pos);
         if (anchor == null) return;
-        PathController pathController = anchor.GetComponentInChildren<PathController>();
+        PathControllerOld pathControllerOld = anchor.GetComponentInChildren<PathControllerOld>();
 
         // set waypoints
-        pathController.waypoints.Clear();
+        pathControllerOld.waypoints.Clear();
 
         foreach (WaypointSerializable waypoint in waypoints)
         {
-            pathController.waypoints.Add(new(waypoint));
+            pathControllerOld.waypoints.Add(new(waypoint));
         }
 
         // set path mode
-        pathController.pathMode = pathMode;
+        pathControllerOld.pathMode = pathMode;
 
         // reset state
-        pathController.ResetState();
+        pathControllerOld.ResetState();
 
 
         // set balls (hihi)
-        AnchorController anchorController = anchor.GetComponentInChildren<AnchorController>();
-        Transform container = anchorController.container.transform;
+        AnchorControllerOld anchorControllerOld = anchor.GetComponentInChildren<AnchorControllerOld>();
+        Transform container = anchorControllerOld.container.transform;
 
         for (int i = 0; i < ballPositions.Length; i += 2)
         {
-            AnchorBallManager.SetAnchorBall(ballPositions[i], ballPositions[i + 1], container);
+            AnchorBallManagerOld.SetAnchorBall(ballPositions[i], ballPositions[i + 1], container);
         }
 
         // fade balls in
-        anchorController.StartCoroutine(anchorController.FadeInOnNextFrame(1, 0.1f));
+        anchorControllerOld.StartCoroutine(anchorControllerOld.FadeInOnNextFrame(1, 0.1f));
     }
 
     public override void ImportToLevel()
