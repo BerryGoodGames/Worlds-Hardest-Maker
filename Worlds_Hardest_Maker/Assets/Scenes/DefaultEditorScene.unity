@@ -2771,17 +2771,6 @@ MonoBehaviour:
   smooth: 1
   speed: 20
   worldPosition: 2
---- !u!114 &444785543 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6800344379520973717, guid: 34df788c1c8e47f4db37b0e7c2a2d8ba, type: 3}
-  m_PrefabInstance: {fileID: 6263499431925836136}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &446761088
 GameObject:
   m_ObjectHideFlags: 0
@@ -7704,7 +7693,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultColor: {r: 0.1655042, g: 0.16166785, b: 0.1981132, a: 1}
   ignore:
-  - {fileID: 444785543}
+  - {fileID: 0}
   - {fileID: 520767605}
 --- !u!114 &1420917105
 MonoBehaviour:

@@ -119,8 +119,8 @@ public class PlayManager : MonoBehaviour
                 .worldPosition);
 
         // enable windows
-        if (EditModeManager.Instance.CurrentEditMode is EditMode.ANCHOR or EditMode.BALL)
-            ReferenceManager.Instance.ballWindows.SetActive(true);
+        // if (EditModeManager.Instance.CurrentEditMode is EditMode.ANCHOR or EditMode.BALL)
+        //     ReferenceManager.Instance.ballWindows.SetActive(true);
 
         Animator anim;
 

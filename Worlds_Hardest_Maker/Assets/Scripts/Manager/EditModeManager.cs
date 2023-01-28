@@ -72,7 +72,7 @@ public class EditModeManager : MonoBehaviour
         if (currentEditMode is EditMode.ANCHOR or EditMode.BALL)
         {
             // enable stuff
-            ReferenceManager.Instance.ballWindows.SetActive(true);
+            // ReferenceManager.Instance.ballWindows.SetActive(true);
 
             if (AnchorManagerOld.Instance.SelectedAnchor == null) return;
 
