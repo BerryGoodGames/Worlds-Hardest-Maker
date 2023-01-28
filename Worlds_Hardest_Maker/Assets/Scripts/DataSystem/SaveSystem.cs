@@ -47,9 +47,9 @@ public static class SaveSystem
         // serialize anchors
         foreach (Transform anchor in ReferenceManager.Instance.anchorContainer)
         {
-            AnchorData anchorData = new(anchor.GetComponentInChildren<PathController>(),
-                anchor.GetComponentInChildren<AnchorController>().container.transform);
-            levelData.Add(anchorData);
+            AnchorDataOld anchorDataOld = new(anchor.GetComponentInChildren<PathControllerOld>(),
+                anchor.GetComponentInChildren<AnchorControllerOld>().container.transform);
+            levelData.Add(anchorDataOld);
         }
 
         // serialize balls

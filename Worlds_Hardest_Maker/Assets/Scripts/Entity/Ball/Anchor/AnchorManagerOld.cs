@@ -4,13 +4,13 @@ using UnityEngine;
 /// <summary>
 ///     Manages the anchors (duh)
 /// </summary>
-public class AnchorManager : MonoBehaviour
+public class AnchorManagerOld : MonoBehaviour
 {
-    public static AnchorManager Instance { get; private set; }
+    public static AnchorManagerOld Instance { get; private set; }
 
     private GameObject selectedAnchor;
 
-    public PathEditorController pathEditorController;
+    public PathEditorControllerOld pathEditorControllerOld;
 
     public GameObject SelectedAnchor
     {
@@ -18,7 +18,7 @@ public class AnchorManager : MonoBehaviour
         set => SelectAnchor(value);
     }
 
-    [HideInInspector] public PathController selectedPathController;
+    [HideInInspector] public PathControllerOld selectedPathControllerOld;
 
     private static readonly int selected = Animator.StringToHash("Selected");
 
@@ -114,28 +114,28 @@ public class AnchorManager : MonoBehaviour
 
     public void SelectAnchor(GameObject anchor)
     {
-        if (anchor.TryGetComponent(out AnchorController _))
+        if (anchor.TryGetComponent(out AnchorControllerOld _))
         {
             if (selectedAnchor != null)
             {
                 selectedAnchor.GetComponent<Animator>().SetBool(selected, false);
 
-                selectedPathController.ClearLines();
-                selectedPathController.drawLines = false;
+                selectedPathControllerOld.ClearLines();
+                selectedPathControllerOld.drawLines = false;
             }
 
             selectedAnchor = anchor;
             selectedAnchor.GetComponent<Animator>().SetBool(selected, true);
-            selectedPathController = selectedAnchor.GetComponent<PathController>();
-            selectedPathController.drawLines = true;
+            selectedPathControllerOld = selectedAnchor.GetComponent<PathControllerOld>();
+            selectedPathControllerOld.drawLines = true;
         }
 
-        pathEditorController.UpdateUI();
+        pathEditorControllerOld.UpdateUI();
     }
 
     public static void ResetPathEditorPosition()
     {
-        Instance.pathEditorController.ResetPosition();
+        Instance.pathEditorControllerOld.ResetPosition();
     }
 
     private void Awake()

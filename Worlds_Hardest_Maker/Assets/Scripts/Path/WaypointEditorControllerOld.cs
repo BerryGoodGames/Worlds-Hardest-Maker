@@ -4,9 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WaypointEditorController : MonoBehaviour
+public class WaypointEditorControllerOld : MonoBehaviour
 {
-    public static WaypointEditorController StartPosition { get; private set; }
+    public static WaypointEditorControllerOld StartPosition { get; private set; }
 
     public int waypointIndex;
 
@@ -21,7 +21,7 @@ public class WaypointEditorController : MonoBehaviour
     [SerializeField] private TMP_InputField delay;
     [SerializeField] private Toggle rotateWhileDelay;
 
-    private AnchorController anchorController;
+    private AnchorControllerOld anchorControllerOld;
 
     public Vector2 InputPosition
     {
@@ -94,9 +94,9 @@ public class WaypointEditorController : MonoBehaviour
         set => rotateWhileDelay.isOn = value;
     }
 
-    private Waypoint Waypoint => AnchorManager.Instance.selectedPathController.waypoints[waypointIndex];
+    private WaypointOld WaypointOld => AnchorManagerOld.Instance.selectedPathControllerOld.waypoints[waypointIndex];
 
-    private static List<Waypoint> Waypoints => AnchorManager.Instance.selectedPathController.waypoints;
+    private static List<WaypointOld> Waypoints => AnchorManagerOld.Instance.selectedPathControllerOld.waypoints;
 
     private void Start()
     {
@@ -104,9 +104,9 @@ public class WaypointEditorController : MonoBehaviour
 
         if (waypointIndex == 0) StartPosition = this;
 
-        Waypoint.WaypointEditor = this;
+        WaypointOld.WaypointEditor = this;
 
-        anchorController = AnchorManager.Instance.SelectedAnchor.GetComponent<AnchorController>();
+        anchorControllerOld = AnchorManagerOld.Instance.SelectedAnchor.GetComponent<AnchorControllerOld>();
     }
 
     public void UpdatePosition()
@@ -115,15 +115,15 @@ public class WaypointEditorController : MonoBehaviour
 
         if (!MultiplayerManager.Instance.Multiplayer) return;
 
-        if (anchorController != null)
-            anchorController.View.RPC("RPCSetWaypointPosition", RpcTarget.Others, InputPosition, waypointIndex);
+        if (anchorControllerOld != null)
+            anchorControllerOld.View.RPC("RPCSetWaypointPosition", RpcTarget.Others, InputPosition, waypointIndex);
     }
 
     private void SetPosition(Vector2 pos)
     {
-        Waypoint.position = pos;
+        WaypointOld.position = pos;
 
-        AnchorManager.Instance.selectedPathController.DrawLines();
+        AnchorManagerOld.Instance.selectedPathControllerOld.DrawLines();
     }
 
     public void UpdateSpeed()
@@ -132,13 +132,13 @@ public class WaypointEditorController : MonoBehaviour
 
         if (!MultiplayerManager.Instance.Multiplayer) return;
 
-        if (anchorController != null)
-            anchorController.View.RPC("RPCSetWaypointSpeed", RpcTarget.Others, InputSpeed, waypointIndex);
+        if (anchorControllerOld != null)
+            anchorControllerOld.View.RPC("RPCSetWaypointSpeed", RpcTarget.Others, InputSpeed, waypointIndex);
     }
 
     private void SetSpeed(float speed)
     {
-        Waypoint.speed = speed;
+        WaypointOld.speed = speed;
     }
 
     public void UpdateRotationSpeed()
@@ -147,14 +147,14 @@ public class WaypointEditorController : MonoBehaviour
 
         if (!MultiplayerManager.Instance.Multiplayer) return;
 
-        if (anchorController != null)
-            anchorController.View.RPC("RPCSetWaypointRotationSpeed", RpcTarget.Others, InputRotationSpeed,
+        if (anchorControllerOld != null)
+            anchorControllerOld.View.RPC("RPCSetWaypointRotationSpeed", RpcTarget.Others, InputRotationSpeed,
                 waypointIndex);
     }
 
     private void SetRotationSpeed(float speed)
     {
-        Waypoint.rotationSpeed = speed;
+        WaypointOld.rotationSpeed = speed;
         if (Waypoints.Count > 1)
             turns.text = GetTurns().ToString();
     }
@@ -174,7 +174,7 @@ public class WaypointEditorController : MonoBehaviour
 
     public void SetTurns(float turns)
     {
-        Waypoint.rotationSpeed = turns;
+        WaypointOld.rotationSpeed = turns;
         if (Waypoints.Count > 1)
             rotationSpeed.text = GetRotationSpeed().ToString();
     }
@@ -185,13 +185,13 @@ public class WaypointEditorController : MonoBehaviour
 
         if (!MultiplayerManager.Instance.Multiplayer) return;
 
-        if (anchorController != null)
-            anchorController.View.RPC("RPCSetWaypointDelay", RpcTarget.Others, InputDelay, waypointIndex);
+        if (anchorControllerOld != null)
+            anchorControllerOld.View.RPC("RPCSetWaypointDelay", RpcTarget.Others, InputDelay, waypointIndex);
     }
 
     private void SetDelay(float delay)
     {
-        Waypoint.delay = delay;
+        WaypointOld.delay = delay;
     }
 
     public void UpdateRotateWhileDelay()
@@ -200,51 +200,51 @@ public class WaypointEditorController : MonoBehaviour
 
         if (!MultiplayerManager.Instance.Multiplayer) return;
 
-        if (anchorController != null)
-            anchorController.View.RPC("RPCSetWaypointRotateWhileDelay", RpcTarget.Others, InputRotateWhileDelay,
+        if (anchorControllerOld != null)
+            anchorControllerOld.View.RPC("RPCSetWaypointRotateWhileDelay", RpcTarget.Others, InputRotateWhileDelay,
                 waypointIndex);
     }
 
     private void SetRotateWhileDelay(bool rotateWhileDelay)
     {
-        Waypoint.rotateWhileDelay = rotateWhileDelay;
+        WaypointOld.rotateWhileDelay = rotateWhileDelay;
     }
 
     public void DeleteThisWaypoint()
     {
         if (MultiplayerManager.Instance.Multiplayer)
         {
-            if (anchorController != null)
-                anchorController.View.RPC("RPCDeleteWaypoint", RpcTarget.Others, waypointIndex);
+            if (anchorControllerOld != null)
+                anchorControllerOld.View.RPC("RPCDeleteWaypoint", RpcTarget.Others, waypointIndex);
         }
 
-        AnchorManager.Instance.selectedPathController.waypoints.Remove(Waypoint);
-        transform.parent.parent.parent.parent.GetComponent<PathEditorController>().UpdateUI();
+        AnchorManagerOld.Instance.selectedPathControllerOld.waypoints.Remove(WaypointOld);
+        transform.parent.parent.parent.parent.GetComponent<PathEditorControllerOld>().UpdateUI();
     }
 
     public void UpdateInputValues()
     {
-        InputRotationSpeed = Waypoint.rotationSpeed;
-        InputPosition = Waypoint.position;
-        InputSpeed = Waypoint.speed;
-        InputDelay = Waypoint.delay;
-        InputRotateWhileDelay = Waypoint.rotateWhileDelay;
+        InputRotationSpeed = WaypointOld.rotationSpeed;
+        InputPosition = WaypointOld.position;
+        InputSpeed = WaypointOld.speed;
+        InputDelay = WaypointOld.delay;
+        InputRotateWhileDelay = WaypointOld.rotateWhileDelay;
     }
 
     public float GetTurns()
     {
-        Waypoint nextWaypoint = Waypoints[(waypointIndex + 1) % Waypoints.Count];
-        if (Waypoints.Count > 1 && Vector2.Distance(Waypoint.position, nextWaypoint.position) != 0)
-            return Vector2.Distance(Waypoint.position, nextWaypoint.position) / Waypoint.speed *
-                Waypoint.rotationSpeed / 360f;
+        WaypointOld nextWaypointOld = Waypoints[(waypointIndex + 1) % Waypoints.Count];
+        if (Waypoints.Count > 1 && Vector2.Distance(WaypointOld.position, nextWaypointOld.position) != 0)
+            return Vector2.Distance(WaypointOld.position, nextWaypointOld.position) / WaypointOld.speed *
+                WaypointOld.rotationSpeed / 360f;
         return 0f;
     }
 
     public float GetRotationSpeed()
     {
-        Waypoint nextWaypoint = Waypoints[(waypointIndex + 1) % Waypoints.Count];
-        if (Waypoints.Count > 1 && Vector2.Distance(Waypoint.position, nextWaypoint.position) != 0)
-            return InputTurns * 360f / (Vector2.Distance(Waypoint.position, nextWaypoint.position) / Waypoint.speed);
+        WaypointOld nextWaypointOld = Waypoints[(waypointIndex + 1) % Waypoints.Count];
+        if (Waypoints.Count > 1 && Vector2.Distance(WaypointOld.position, nextWaypointOld.position) != 0)
+            return InputTurns * 360f / (Vector2.Distance(WaypointOld.position, nextWaypointOld.position) / WaypointOld.speed);
         return 0f;
     }
 }

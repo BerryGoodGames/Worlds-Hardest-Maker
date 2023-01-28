@@ -2,16 +2,16 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class Waypoint
+public class WaypointOld
 {
     public Vector2 position;
     public float speed;
     public float delay;
     public float rotationSpeed;
     public bool rotateWhileDelay;
-    public WaypointEditorController WaypointEditor { get; set; }
+    public WaypointEditorControllerOld WaypointEditor { get; set; }
 
-    public Waypoint(Vector2 position, bool rotateWhileDelay, float delay, float speed, float rotationSpeed)
+    public WaypointOld(Vector2 position, bool rotateWhileDelay, float delay, float speed, float rotationSpeed)
     {
         this.position = position;
         this.delay = delay;
@@ -20,7 +20,7 @@ public class Waypoint
         this.rotationSpeed = rotationSpeed;
     }
 
-    public Waypoint(WaypointSerializable waypoint)
+    public WaypointOld(WaypointSerializable waypoint)
     {
         position = new(waypoint.position[0], waypoint.position[1]);
 
@@ -36,7 +36,7 @@ public class Waypoint
             $"position: {position}, speed: {speed}, delay: {delay}, rotationSpeed: {rotationSpeed}, rotateWhileDelay {rotateWhileDelay}";
     }
 
-    public Waypoint Clone()
+    public WaypointOld Clone()
     {
         return new(position, rotateWhileDelay, delay, speed, rotationSpeed);
     }
@@ -52,13 +52,13 @@ public class WaypointSerializable
     public float rotationSpeed;
     public bool rotateWhileDelay;
 
-    public WaypointSerializable(Waypoint waypoint)
+    public WaypointSerializable(WaypointOld waypointOld)
     {
-        position[0] = waypoint.position.x;
-        position[1] = waypoint.position.y;
-        speed = waypoint.speed;
-        delay = waypoint.delay;
-        rotationSpeed = waypoint.rotationSpeed;
-        rotateWhileDelay = waypoint.rotateWhileDelay;
+        position[0] = waypointOld.position.x;
+        position[1] = waypointOld.position.y;
+        speed = waypointOld.speed;
+        delay = waypointOld.delay;
+        rotationSpeed = waypointOld.rotationSpeed;
+        rotateWhileDelay = waypointOld.rotateWhileDelay;
     }
 }

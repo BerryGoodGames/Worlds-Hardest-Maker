@@ -5,12 +5,12 @@ using UnityEngine;
 /// <summary>
 ///     controls the anchor (duh)
 /// </summary>
-public class AnchorController : Controller
+public class AnchorControllerOld : Controller
 {
     public GameObject outline;
     public GameObject container;
 
-    private PathController pathController;
+    private PathControllerOld pathControllerOld;
     public PhotonView View { get; set; }
 
     private void Start()
@@ -24,7 +24,7 @@ public class AnchorController : Controller
 
         parent.SetParent(ReferenceManager.Instance.anchorContainer);
 
-        pathController = GetComponent<PathController>();
+        pathControllerOld = GetComponent<PathControllerOld>();
 
         View = PhotonView.Get(this);
     }
@@ -37,72 +37,72 @@ public class AnchorController : Controller
     [PunRPC]
     private void RPCSetBall(Vector2 pos)
     {
-        AnchorBallManager.SetAnchorBall(pos, container.transform);
+        AnchorBallManagerOld.SetAnchorBall(pos, container.transform);
     }
 
     [PunRPC]
     private void RPCSetWaypointPosition(Vector2 pos, int index)
     {
-        Waypoint waypoint = pathController.waypoints[index];
-        waypoint.position = pos;
-        AnchorManager.Instance.selectedPathController.DrawLines();
-        if (waypoint.WaypointEditor != null)
-            waypoint.WaypointEditor.InputPosition = pos;
+        WaypointOld waypointOld = pathControllerOld.waypoints[index];
+        waypointOld.position = pos;
+        AnchorManagerOld.Instance.selectedPathControllerOld.DrawLines();
+        if (waypointOld.WaypointEditor != null)
+            waypointOld.WaypointEditor.InputPosition = pos;
     }
 
     [PunRPC]
     private void RPCSetWaypointSpeed(float speed, int index)
     {
-        Waypoint waypoint = pathController.waypoints[index];
-        waypoint.speed = speed;
+        WaypointOld waypointOld = pathControllerOld.waypoints[index];
+        waypointOld.speed = speed;
 
-        if (waypoint.WaypointEditor != null)
-            waypoint.WaypointEditor.InputSpeed = speed;
+        if (waypointOld.WaypointEditor != null)
+            waypointOld.WaypointEditor.InputSpeed = speed;
     }
 
     [PunRPC]
     private void RPCSetWaypointRotationSpeed(float speed, int index)
     {
-        Waypoint waypoint = pathController.waypoints[index];
-        waypoint.rotationSpeed = speed;
+        WaypointOld waypointOld = pathControllerOld.waypoints[index];
+        waypointOld.rotationSpeed = speed;
 
-        if (waypoint.WaypointEditor != null)
-            waypoint.WaypointEditor.InputRotationSpeed = speed;
+        if (waypointOld.WaypointEditor != null)
+            waypointOld.WaypointEditor.InputRotationSpeed = speed;
     }
 
     [PunRPC]
     private void RPCSetWaypointDelay(float delay, int index)
     {
-        Waypoint waypoint = pathController.waypoints[index];
-        waypoint.delay = delay;
+        WaypointOld waypointOld = pathControllerOld.waypoints[index];
+        waypointOld.delay = delay;
 
-        if (waypoint.WaypointEditor != null)
-            waypoint.WaypointEditor.InputDelay = delay;
+        if (waypointOld.WaypointEditor != null)
+            waypointOld.WaypointEditor.InputDelay = delay;
     }
 
     [PunRPC]
     private void RPCSetWaypointRotateWhileDelay(bool rotateWhileDelay, int index)
     {
-        Waypoint waypoint = pathController.waypoints[index];
-        waypoint.rotateWhileDelay = rotateWhileDelay;
+        WaypointOld waypointOld = pathControllerOld.waypoints[index];
+        waypointOld.rotateWhileDelay = rotateWhileDelay;
 
-        if (waypoint.WaypointEditor != null)
-            waypoint.WaypointEditor.InputRotateWhileDelay = rotateWhileDelay;
+        if (waypointOld.WaypointEditor != null)
+            waypointOld.WaypointEditor.InputRotateWhileDelay = rotateWhileDelay;
     }
 
     [PunRPC]
     private void RPCDeleteWaypoint(int index)
     {
-        Waypoint waypoint = pathController.waypoints[index];
-        waypoint.WaypointEditor.DeleteThisWaypoint();
+        WaypointOld waypointOld = pathControllerOld.waypoints[index];
+        waypointOld.WaypointEditor.DeleteThisWaypoint();
     }
 
     [PunRPC]
     private void RPCAddWaypoint()
     {
-        pathController.waypoints.Add(new(new(0, 0), true, 0, 1, 0));
-        if (pathController.waypoints.Count > 0 && pathController.waypoints[0].WaypointEditor != null)
-            ReferenceManager.Instance.ballWindows.GetComponentInChildren<PathEditorController>().UpdateUI();
+        pathControllerOld.waypoints.Add(new(new(0, 0), true, 0, 1, 0));
+        if (pathControllerOld.waypoints.Count > 0 && pathControllerOld.waypoints[0].WaypointEditor != null)
+            ReferenceManager.Instance.ballWindows.GetComponentInChildren<PathEditorControllerOld>().UpdateUI();
     }
 
     public void BallFadeOut(AnimationEvent animationEvent)
@@ -132,6 +132,6 @@ public class AnchorController : Controller
 
     public override Data GetData()
     {
-        return new AnchorData(pathController, container.transform);
+        return new AnchorDataOld(pathControllerOld, container.transform);
     }
 }

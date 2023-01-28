@@ -74,11 +74,11 @@ public class EditModeManager : MonoBehaviour
             // enable stuff
             ReferenceManager.Instance.ballWindows.SetActive(true);
 
-            if (AnchorManager.Instance.SelectedAnchor == null) return;
+            if (AnchorManagerOld.Instance.SelectedAnchor == null) return;
 
             // enable lines
-            AnchorManager.Instance.selectedPathController.drawLines = true;
-            AnchorManager.Instance.selectedPathController.DrawLines();
+            AnchorManagerOld.Instance.selectedPathControllerOld.drawLines = true;
+            AnchorManagerOld.Instance.selectedPathControllerOld.DrawLines();
 
             // switch animation to editing
             foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
@@ -92,11 +92,11 @@ public class EditModeManager : MonoBehaviour
             // disable stuff
             ReferenceManager.Instance.ballWindows.SetActive(false);
 
-            if (AnchorManager.Instance.SelectedAnchor == null) return;
+            if (AnchorManagerOld.Instance.SelectedAnchor == null) return;
 
             // disable lines
-            AnchorManager.Instance.selectedPathController.drawLines = false;
-            AnchorManager.Instance.selectedPathController.ClearLines();
+            AnchorManagerOld.Instance.selectedPathControllerOld.drawLines = false;
+            AnchorManagerOld.Instance.selectedPathControllerOld.ClearLines();
 
             // switch animation to editing
             foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
