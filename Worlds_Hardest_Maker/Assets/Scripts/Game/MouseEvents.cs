@@ -33,7 +33,7 @@ public class MouseEvents : MonoBehaviour
         // select Anchor
         if (Input.GetKey(KeybindManager.Instance.editSpeedKey) && Input.GetMouseButtonDown(0))
         {
-            AnchorManagerOld.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
+            AnchorManager.Instance.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
         }
 
         // place / delete stuff
@@ -111,7 +111,7 @@ public class MouseEvents : MonoBehaviour
         {
             case EditMode.ANCHOR:
                 // place new anchor
-                AnchorManagerOld.Instance.SetAnchor(gridX, gridY);
+                AnchorManager.Instance.SetAnchor(gridX, gridY);
                 break;
             case EditMode.BALL:
                 AnchorBallManagerOld.SetAnchorBall(gridX, gridY);
@@ -169,7 +169,7 @@ public class MouseEvents : MonoBehaviour
             // AnchorBallManager.Instance.RemoveBall(new(matrixX, matrixY));
 
             // remove anchors
-            AnchorManagerOld.Instance.RemoveAnchor(gridX, gridY);
+            AnchorManager.Instance.RemoveAnchor(gridX, gridY);
 
             // remove keys
             KeyManager.Instance.RemoveKey(gridX, gridY);

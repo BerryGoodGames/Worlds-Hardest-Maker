@@ -242,6 +242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballContainerChildrenOpacity: {fileID: 3467334307650034706}
+  animator: {fileID: 2695958956081501589}
   balls: []
   applySpeed: 1
   applyAngularSpeed: 1
