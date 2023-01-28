@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   halfGrid: 0
+  worldType: 1
 --- !u!114 &5932802461731541815
 MonoBehaviour:
   m_ObjectHideFlags: 0

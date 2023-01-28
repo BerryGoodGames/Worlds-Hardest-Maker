@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 74421912579104664}
   - component: {fileID: 1192253509279900477}
   m_Layer: 7
-  m_Name: Anchor
+  m_Name: AnchorOld
   m_TagString: Anchor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 3516165864050137394}
   - component: {fileID: 3467334307650034706}
   m_Layer: 7
-  m_Name: AnchorBallContainer
+  m_Name: AnchorContentContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,11 +101,12 @@ GameObject:
   m_Component:
   - component: {fileID: 6560658363013939984}
   - component: {fileID: 2553659924410268967}
-  - component: {fileID: 6095127443099648458}
-  - component: {fileID: 7167980638486943301}
-  - component: {fileID: 1286802941605572768}
+  - component: {fileID: 5033378670639155993}
   - component: {fileID: 4975959128536958706}
+  - component: {fileID: 7167980638486943301}
+  - component: {fileID: 2467774217100908883}
   - component: {fileID: 2695958956081501589}
+  - component: {fileID: 4324747534500458500}
   m_Layer: 7
   m_Name: AnchorObject
   m_TagString: Untagged
@@ -182,27 +183,34 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &6095127443099648458
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!114 &5033378670639155993
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5607907451453093492}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d22fa0788db96b4890af73e660bed3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outline: {fileID: 7597905941619845804}
+  container: {fileID: 1405856060974149455}
+--- !u!114 &4975959128536958706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5607907451453093492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b634d6afae6b944bebd2b4e9fb0ecd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  halfGrid: 1
+  worldType: 1
 --- !u!61 &7167980638486943301
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -229,7 +237,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1286802941605572768
+--- !u!114 &2467774217100908883
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -238,30 +246,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 5607907451453093492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4d9f08cc6d09d24aa52973475e52907, type: 3}
+  m_Script: {fileID: 11500000, guid: a021e76b5a2447b45b72eb6c6414ce74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballContainerChildrenOpacity: {fileID: 3467334307650034706}
-  balls: []
-  applySpeed: 1
-  applyAngularSpeed: 1
-  speed: 0
-  angularSpeed: 0
-  ease: 0
-  rb: {fileID: 0}
---- !u!114 &4975959128536958706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5607907451453093492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2b634d6afae6b944bebd2b4e9fb0ecd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  worldType: 1
+  waypoints:
+  - position: {x: 0, y: 0}
+    speed: 5
+    delay: 0
+    rotationSpeed: 0
+    rotateWhileDelay: 1
+  lineContainer: {fileID: 6016487082984928425}
+  setElement0ToStartingPos: 1
+  drawLines: 0
+  onlyMoveWhenPlaying: 1
+  pathMode: 0
 --- !u!95 &2695958956081501589
 Animator:
   serializedVersion: 5
@@ -282,6 +280,28 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &4324747534500458500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5607907451453093492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &7508792436802293274
 GameObject:
   m_ObjectHideFlags: 0

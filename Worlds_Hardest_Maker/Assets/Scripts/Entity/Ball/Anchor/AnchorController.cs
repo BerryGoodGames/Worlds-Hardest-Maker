@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class AnchorController : MonoBehaviour
 {
+    [SerializeField] private ChildrenOpacity ballContainerChildrenOpacity;
+
+
+    [HideInInspector] public List<GameObject> balls = new();
     public LinkedList<AnchorBlock> blocks = new();
 
     [HideInInspector] public bool applySpeed = true;
@@ -105,5 +109,23 @@ public class AnchorController : MonoBehaviour
         startAngularSpeed = angularSpeed;
         startApplyAngularSpeed = applyAngularSpeed;
         startEase = ease;
+    }
+    public void BallFadeOut(AnimationEvent animationEvent)
+    {
+        float endOpacity = animationEvent.floatParameter;
+        if (float.TryParse(animationEvent.stringParameter, out float time))
+            StartCoroutine(ballContainerChildrenOpacity.FadeOut(endOpacity, time));
+    }
+
+    public void BallFadeIn(AnimationEvent animationEvent)
+    {
+        float endOpacity = animationEvent.floatParameter;
+        if (float.TryParse(animationEvent.stringParameter, out float time))
+            BallFadeIn(endOpacity, time);
+    }
+
+    public void BallFadeIn(float endOpacity, float time)
+    {
+        StartCoroutine(ballContainerChildrenOpacity.FadeIn(endOpacity, time));
     }
 }
