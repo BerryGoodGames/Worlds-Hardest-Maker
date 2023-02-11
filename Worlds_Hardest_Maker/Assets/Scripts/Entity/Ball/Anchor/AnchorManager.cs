@@ -6,6 +6,7 @@ public class AnchorManager : MonoBehaviour
     public static AnchorManager Instance { get; private set; }
 
     private static readonly int selected = Animator.StringToHash("Selected");
+    private static readonly int playing = Animator.StringToHash("Playing");
 
     public AnchorController selectedAnchor;
 
@@ -89,6 +90,7 @@ public class AnchorManager : MonoBehaviour
     }
     #endregion
 
+    #region select, deselect
     public void SelectAnchor(Vector2 pos)
     {
         AnchorController anchor = GetAnchor(pos);
@@ -119,8 +121,10 @@ public class AnchorManager : MonoBehaviour
         if (selectedAnchor == null) return;
 
         selectedAnchor.animator.SetBool(selected, false);
+        selectedAnchor.animator.SetBool(playing, EditModeManager.Instance.Playing);
         selectedAnchor = null;
     }
+    #endregion
 
     private void Awake()
     {

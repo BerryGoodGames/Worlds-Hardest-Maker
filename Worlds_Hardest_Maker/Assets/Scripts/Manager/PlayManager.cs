@@ -5,7 +5,7 @@ public class PlayManager : MonoBehaviour
 {
     public static PlayManager Instance { get; set; }
 
-    private static readonly int pickedUp = Animator.StringToHash("PickedUp");
+    private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
     private static readonly int playingString = Animator.StringToHash("Playing");
 
     private bool cheated;
@@ -67,6 +67,11 @@ public class PlayManager : MonoBehaviour
             AnchorController anchor = parent.child;
 
             anchor.StartExecuting();
+
+            if (AnchorManager.Instance.selectedAnchor != anchor)
+            {
+                anchor.animator.SetBool(playingString, true);
+            }
         }
 
         Animator anim;
@@ -90,7 +95,7 @@ public class PlayManager : MonoBehaviour
         {
             anim = coin.GetComponent<Animator>();
             anim.SetBool(playingString, true);
-            anim.SetBool(pickedUp, coin.GetChild(0).GetComponent<CoinController>().pickedUp);
+            anim.SetBool(pickedUpString, coin.GetChild(0).GetComponent<CoinController>().pickedUp);
         }
 
         // activate key animations
@@ -98,7 +103,7 @@ public class PlayManager : MonoBehaviour
         {
             anim = key.GetComponent<Animator>();
             anim.SetBool(playingString, true);
-            anim.SetBool(pickedUp, key.GetChild(0).GetComponent<KeyController>().pickedUp);
+            anim.SetBool(pickedUpString, key.GetChild(0).GetComponent<KeyController>().pickedUp);
         }
 
         // camera jumps to last player if its not on screen
@@ -151,13 +156,13 @@ public class PlayManager : MonoBehaviour
         // {
         //     anchor.transform.GetChild(0).GetComponent<PathControllerOld>().ResetState();
         // }
-
         foreach (Transform t in ReferenceManager.Instance.anchorContainer)
         {
             AnchorControllerParent parent = t.GetComponent<AnchorControllerParent>();
             AnchorController anchor = parent.child;
 
             anchor.ResetExecution();
+            anchor.animator.SetBool(playingString, false);
         }
 
         // deactivate coin animations
@@ -167,7 +172,7 @@ public class PlayManager : MonoBehaviour
 
             anim = coin.GetComponent<Animator>();
             anim.SetBool(playingString, false);
-            anim.SetBool(pickedUp, false);
+            anim.SetBool(pickedUpString, false);
         }
 
         // deactivate key animations
@@ -177,7 +182,7 @@ public class PlayManager : MonoBehaviour
 
             anim = key.GetComponent<Animator>();
             anim.SetBool(playingString, false);
-            anim.SetBool(pickedUp, false);
+            anim.SetBool(pickedUpString, false);
         }
 
         // remove game states from players
@@ -229,7 +234,7 @@ public class PlayManager : MonoBehaviour
         {
             Animator anim = coin.GetComponent<Animator>();
             anim.SetBool(playingString, false);
-            anim.SetBool(pickedUp, false);
+            anim.SetBool(pickedUpString, false);
         }
 
         // reset keys
@@ -237,7 +242,7 @@ public class PlayManager : MonoBehaviour
         {
             Animator anim = key.GetComponent<Animator>();
             anim.SetBool(playingString, false);
-            anim.SetBool(pickedUp, false);
+            anim.SetBool(pickedUpString, false);
         }
 
         foreach (GameObject player in PlayerManager.GetPlayers())
