@@ -166,8 +166,9 @@ public class MouseEvents : MonoBehaviour
             // remove balls
             BallManager.Instance.RemoveBall(gridX, gridY);
             BallCircleManager.Instance.RemoveBallCircle(gridX, gridY);
-            AnchorBallManagerOld.Instance.RemoveAnchorBall(gridX, gridY);
+            // AnchorBallManagerOld.Instance.RemoveAnchorBall(gridX, gridY);
             // AnchorBallManager.Instance.RemoveBall(new(matrixX, matrixY));
+            AnchorBallManager.Instance.RemoveAnchorBall(gridX, gridY);
 
             // remove anchors
             AnchorManager.Instance.RemoveAnchor(gridX, gridY);
