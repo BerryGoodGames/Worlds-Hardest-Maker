@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 74421912579104664}
   - component: {fileID: 1192253509279900477}
+  - component: {fileID: 5924628306729880733}
   m_Layer: 7
   m_Name: Anchor
   m_TagString: Anchor
@@ -46,6 +47,19 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &5924628306729880733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877708834729050389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 923739fa8693efb45a76707a1bea0f91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  child: {fileID: 1286802941605572768}
 --- !u!1 &1405856060974149455
 GameObject:
   m_ObjectHideFlags: 0
