@@ -17,7 +17,7 @@ public class CheckpointController : MonoBehaviour
         }
     }
 
-    private static List<CheckpointController> activatedCheckpoints = new();
+    private static readonly List<CheckpointController> activatedCheckpoints = new();
 
     private CheckpointTween anim;
 
