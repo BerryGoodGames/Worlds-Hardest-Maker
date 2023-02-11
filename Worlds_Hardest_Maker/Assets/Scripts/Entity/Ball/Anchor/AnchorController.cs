@@ -6,6 +6,7 @@ using UnityEngine;
 public class AnchorController : MonoBehaviour
 {
     [SerializeField] private ChildrenOpacity ballContainerChildrenOpacity;
+    public Transform ballContainer;
     public Animator animator;
 
     [HideInInspector] public List<GameObject> balls = new();

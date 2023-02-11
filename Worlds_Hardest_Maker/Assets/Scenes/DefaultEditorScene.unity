@@ -13227,7 +13227,7 @@ GameObject:
   - component: {fileID: 3252578248619094238}
   - component: {fileID: 3252578248619094239}
   - component: {fileID: 3252578248619094851}
-  - component: {fileID: 3252578248619094833}
+  - component: {fileID: 3252578248619094852}
   - component: {fileID: 3252578248619094816}
   - component: {fileID: 3252578248619094821}
   - component: {fileID: 3252578248619094819}
@@ -13274,18 +13274,6 @@ MonoBehaviour:
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &3252578248619094833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3252578248619094831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3b017d3ed7e9e84ab89064405fcfbbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3252578248619094834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13375,7 +13363,7 @@ MonoBehaviour:
   yellowKeyDoorField: {fileID: 1878144512390914466, guid: ef067f96bc0d40d428b1c62b3c45478b, type: 3}
   player: {fileID: 7464887056985239505, guid: 8b35e9f8e793281489f59c83ce103156, type: 3}
   anchor: {fileID: 877708834729050389, guid: d8a4218bce541fe4c928de7a522407dd, type: 3}
-  ball: {fileID: 4146727745542019794, guid: 590116fe8feedf1458d12057a8816bf5, type: 3}
+  ball: {fileID: 1855086576256416188, guid: c1b4d60b181a16f4cb4b64acdca9df93, type: 3}
   ballDefault: {fileID: 6262997717534261086, guid: 57fe0087f7d89f24fb1e36813196dccf, type: 3}
   ballCircle: {fileID: 3267163145317874765, guid: 08310b62d2e89954ca2440e2cfec5f2f, type: 3}
   coin: {fileID: 8839871402222588891, guid: 5e13d2eae759f3643b04b6e7dc5cefe2, type: 3}
@@ -13601,6 +13589,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedAnchor: {fileID: 0}
+--- !u!114 &3252578248619094852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3252578248619094831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56ec6e4e17b7a264a882d0f51ea6539a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3469053329403155088
 GameObject:
   m_ObjectHideFlags: 0

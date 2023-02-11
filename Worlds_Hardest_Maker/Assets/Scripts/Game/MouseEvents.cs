@@ -114,7 +114,8 @@ public class MouseEvents : MonoBehaviour
                 AnchorManager.Instance.SetAnchor(gridX, gridY);
                 break;
             case EditMode.BALL:
-                AnchorBallManagerOld.SetAnchorBall(gridX, gridY);
+                // AnchorBallManagerOld.SetAnchorBall(gridX, gridY);
+                AnchorBallManager.SetAnchorBall(gridX, gridY);
                 break;
             case EditMode.BALL_DEFAULT:
                 // place new ball
