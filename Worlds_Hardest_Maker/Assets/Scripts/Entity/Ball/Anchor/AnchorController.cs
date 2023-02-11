@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class AnchorController : MonoBehaviour
+public class AnchorController : Controller
 {
     [SerializeField] private ChildrenOpacity ballContainerChildrenOpacity;
+    public Transform ballContainer;
     public Animator animator;
 
     [HideInInspector] public List<GameObject> balls = new();
@@ -127,5 +128,10 @@ public class AnchorController : MonoBehaviour
     public void BallFadeIn(float endOpacity, float time)
     {
         StartCoroutine(ballContainerChildrenOpacity.FadeIn(endOpacity, time));
+    }
+
+    public override Data GetData()
+    {
+        throw new NotImplementedException();
     }
 }
