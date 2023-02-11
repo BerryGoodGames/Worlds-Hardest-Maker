@@ -33,6 +33,8 @@ public class AnchorManager : MonoBehaviour
             : Instantiate(PrefabManager.Instance.anchor, pos, Quaternion.identity,
                 ReferenceManager.Instance.anchorContainer);
 
+        SelectAnchor(anchor.GetComponent<AnchorControllerParent>().child);
+
         return anchor;
     }
 
