@@ -49,8 +49,8 @@ public class SyncInputToSlider : MonoBehaviour
             input => { UpdateSlider(); }); // add Update Slider to persistent event listener
 
         // set stuff in slider //
-        UnityEventTools.AddPersistentListener(slider.onValueChanged, input => { UpdateInput(); });
-        ; // add Update Input to persistent event listener
+        UnityEventTools.AddPersistentListener(slider.onValueChanged, _ => { UpdateInput(); });
+        // add Update Input to persistent event listener
 #endif
     }
 
