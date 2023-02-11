@@ -61,21 +61,29 @@ public class PlayManager : MonoBehaviour
         // disable windows
         ReferenceManager.Instance.ballWindows.SetActive(false);
 
-        Animator anim;
-
-        if (AnchorManagerOld.Instance.SelectedAnchor != null)
+        foreach (Transform t in ReferenceManager.Instance.anchorContainer)
         {
-            // disable anchor lines
-            AnchorManagerOld.Instance.selectedPathControllerOld.drawLines = false;
-            AnchorManagerOld.Instance.selectedPathControllerOld.ClearLines();
+            AnchorControllerParent parent = t.GetComponent<AnchorControllerParent>();
+            AnchorController anchor = parent.child;
 
-            // disable all anchor sprites / outlines
-            foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
-            {
-                anim = anchor.GetComponentInChildren<Animator>();
-                anim.SetBool(playingString, true);
-            }
+            anchor.StartExecuting();
         }
+
+        Animator anim;
+        
+        // if (AnchorManagerOld.Instance.SelectedAnchor != null)
+        // {
+        //     // disable anchor lines
+        //     AnchorManagerOld.Instance.selectedPathControllerOld.drawLines = false;
+        //     AnchorManagerOld.Instance.selectedPathControllerOld.ClearLines();
+        //
+        //     // disable all anchor sprites / outlines
+        //     foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
+        //     {
+        //         anim = anchor.GetComponentInChildren<Animator>();
+        //         anim.SetBool(playingString, true);
+        //     }
+        // }
 
         // activate coin animations
         foreach (Transform coin in ReferenceManager.Instance.coinContainer)
@@ -139,9 +147,17 @@ public class PlayManager : MonoBehaviour
         }
 
         // reset Anchors
-        foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
+        // foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
+        // {
+        //     anchor.transform.GetChild(0).GetComponent<PathControllerOld>().ResetState();
+        // }
+
+        foreach (Transform t in ReferenceManager.Instance.anchorContainer)
         {
-            anchor.transform.GetChild(0).GetComponent<PathControllerOld>().ResetState();
+            AnchorControllerParent parent = t.GetComponent<AnchorControllerParent>();
+            AnchorController anchor = parent.child;
+
+            anchor.ResetExecution();
         }
 
         // deactivate coin animations
