@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(SetScreenDimensions))]
+[CustomEditor(typeof(ScreenDimensions))]
 public class SetScreenDimensionsEditor : Editor
 {
     private SerializedProperty setScreenWidth;
@@ -25,7 +25,7 @@ public class SetScreenDimensionsEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        SetScreenDimensions script = (SetScreenDimensions)target;
+        ScreenDimensions script = (ScreenDimensions)target;
 
         serializedObject.Update();
 
