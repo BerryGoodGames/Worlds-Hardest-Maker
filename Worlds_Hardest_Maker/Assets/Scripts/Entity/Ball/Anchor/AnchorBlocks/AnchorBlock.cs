@@ -11,7 +11,7 @@ public abstract class AnchorBlock
         SET_ANGULAR_SPEED
     }
 
-    private protected AnchorController anchor;
+    protected AnchorController anchor;
 
     protected AnchorBlock(AnchorController anchor)
     {
