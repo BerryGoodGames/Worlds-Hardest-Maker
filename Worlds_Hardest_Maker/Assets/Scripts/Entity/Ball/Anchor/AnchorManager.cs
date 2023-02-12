@@ -114,6 +114,11 @@ public class AnchorManager : MonoBehaviour
 
         selectedAnchor = anchor;
         selectedAnchor.animator.SetBool(selected, true);
+
+        ReferenceManager.Instance.AnchorEditorButtonPanelTween.Set(true);
+
+        ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(false);
+        ReferenceManager.Instance.LevelSettingsPanelTween.Set(false);
     }
 
     public void DeselectAnchor()
@@ -123,6 +128,11 @@ public class AnchorManager : MonoBehaviour
         selectedAnchor.animator.SetBool(selected, false);
         selectedAnchor.animator.SetBool(playing, EditModeManager.Instance.Playing);
         selectedAnchor = null;
+        
+        ReferenceManager.Instance.AnchorEditorButtonPanelTween.Set(false);
+        ReferenceManager.Instance.AnchorEditorPanelTween.Set(false);
+        
+        ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(true);
     }
     #endregion
 

@@ -8,7 +8,7 @@ public class ReferenceManager : MonoBehaviour
     [FormerlySerializedAs("Manager")] [Header("Objects")]
     public GameObject manager;
 
-    [FormerlySerializedAs("Canvas")] public GameObject canvas;
+    [FormerlySerializedAs("Canvas")] public Canvas canvas;
 
     [FormerlySerializedAs("TooltipCanvas")]
     public GameObject tooltipCanvas;
@@ -21,6 +21,12 @@ public class ReferenceManager : MonoBehaviour
 
     [FormerlySerializedAs("LevelSettingsPanel")]
     public GameObject levelSettingsPanel;
+
+    public PanelTween LevelSettingsButtonPanelTween;
+    public PanelTween LevelSettingsPanelTween;
+
+    public PanelTween AnchorEditorButtonPanelTween;
+    public PanelTween AnchorEditorPanelTween;
 
     [FormerlySerializedAs("BallWindows")] public GameObject ballWindows;
 

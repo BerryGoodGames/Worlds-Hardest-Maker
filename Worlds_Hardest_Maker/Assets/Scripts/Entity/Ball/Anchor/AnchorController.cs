@@ -78,7 +78,9 @@ public class AnchorController : Controller
     public void Testing()
     {
         AddBlocks(new SetSpeedBlock(this, 1.5f, SetSpeedBlock.Unit.TIME));
+        AddBlocks(new SetAngularSpeedBlock(this, 3f, SetAngularSpeedBlock.Unit.TIME));
         AddBlocks(new MoveToBlock(this, 0, 0));
+        AddBlocks(new RotateBlock(this, 1));
         AddBlocks(new MoveToBlock(this, 1, 3));
         AddBlocks(new MoveToBlock(this, 2, -1));
         AddBlocks(new GoToBlock(this, 0));

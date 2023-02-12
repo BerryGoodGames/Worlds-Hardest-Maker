@@ -4,18 +4,11 @@ using UnityEngine.EventSystems;
 
 public class BlockDragDrop : MonoBehaviour
 {
-    [SerializeField] private Canvas canvas;
-    private RectTransform rt;
-
     private Vector2 offset;
-
-    private void Start()
-    {
-        rt = GetComponent<RectTransform>();
-    }
 
     public void Drag(BaseEventData data)
     {
+        Canvas canvas = ReferenceManager.Instance.canvas;
         PointerEventData pointerData = (PointerEventData)data;
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
