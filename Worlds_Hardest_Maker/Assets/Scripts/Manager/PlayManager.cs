@@ -111,8 +111,8 @@ public class PlayManager : MonoBehaviour
         EditModeManager.Instance.OnPlay?.Invoke();
 
         // close level settings panel if open
-        LevelSettingsPanelTween lspt =
-            ReferenceManager.Instance.levelSettingsPanel.GetComponent<LevelSettingsPanelTween>();
+        PanelTween lspt =
+            ReferenceManager.Instance.levelSettingsPanel.GetComponent<PanelTween>();
         if (lspt.open) lspt.Toggle();
     }
 

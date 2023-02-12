@@ -1,13 +1,14 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class LevelSettingsPanelTween : MonoBehaviour
+public class PanelTween : MonoBehaviour
 {
     [SerializeField] private RectTransform panel;
     [Space] [SerializeField] private AnimationCurve openEase;
     [SerializeField] private AnimationCurve closeEase;
     [Space] [SerializeField] private float duration;
     public bool open;
+    [SerializeField] private bool closesToRight;
     private float closedX;
     private float openedX;
 
@@ -24,8 +25,9 @@ public class LevelSettingsPanelTween : MonoBehaviour
 
     private void Start()
     {
-        closedX = -panel.rect.width;
         openedX = 0;
+        closedX = (closesToRight ? 1 : -1) * panel.rect.width;
+        
         panel.anchoredPosition = new(open ? openedX : closedX, panel.anchoredPosition.y);
     }
 }
