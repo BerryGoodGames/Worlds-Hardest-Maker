@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class SetScreenDimensions : MonoBehaviour
+public class ScreenDimensions : MonoBehaviour
 {
     [SerializeField] private bool setScreenWidth;
     [SerializeField] private bool setScreenHeight;

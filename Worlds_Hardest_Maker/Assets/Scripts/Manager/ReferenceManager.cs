@@ -8,7 +8,7 @@ public class ReferenceManager : MonoBehaviour
     [FormerlySerializedAs("Manager")] [Header("Objects")]
     public GameObject manager;
 
-    [FormerlySerializedAs("Canvas")] public GameObject canvas;
+    [FormerlySerializedAs("Canvas")] public Canvas canvas;
 
     [FormerlySerializedAs("TooltipCanvas")]
     public GameObject tooltipCanvas;
