@@ -23,6 +23,11 @@ public class PanelTween : MonoBehaviour
         open = !open;
     }
 
+    public void Set(bool open)
+    {
+        if (this.open != open) Toggle();
+    }
+
     private void Start()
     {
         openedX = 0;
