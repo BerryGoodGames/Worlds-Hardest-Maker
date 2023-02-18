@@ -17,7 +17,6 @@ public class PreviewController : MonoBehaviour
     [Range(0, 255)] public int alpha;
     public bool changeSpriteToCurrentEditMode = true;
     public bool updateEveryFrame = true;
-    public bool followMouse;
     public bool showSpriteWhenPasting;
     public bool rotateToRotation = true;
     [SerializeField] private bool smoothRotation;
@@ -61,7 +60,7 @@ public class PreviewController : MonoBehaviour
             (previousEditMode != currentEditMode || previousPlaying != EditModeManager.Instance.Playing))
             UpdateSprite();
 
-        if (!SelectionManager.Instance.Selecting && followMouse)
+        if (!SelectionManager.Instance.Selecting)
         {
             followMouseComp.worldPosition = currentEditMode.IsFieldType() || currentEditMode == EditMode.DELETE_FIELD
                 ? FollowMouse.WorldPosition.MATRIX
