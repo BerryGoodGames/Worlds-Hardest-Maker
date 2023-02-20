@@ -56,6 +56,8 @@ public class ReferenceManager : MonoBehaviour
 
     [FormerlySerializedAs("fieldContainer")] public Transform FieldContainer;
 
+    public Transform AnchorBlockContainer;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
