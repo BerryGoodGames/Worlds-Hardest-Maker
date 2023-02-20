@@ -1,26 +1,27 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ToolbarSizing : MonoBehaviour
 {
-    public Canvas canvas;
+    [FormerlySerializedAs("canvas")] public Canvas Canvas;
 
-    [Space] public float toolbarHeight;
+    [FormerlySerializedAs("toolbarHeight")] [Space] public float ToolbarHeight;
 
     public void UpdateSize()
     {
         // set height of toolbarContainer and scale values
         RectTransform rt = transform.parent.GetComponent<RectTransform>();
-        rt.sizeDelta = new(0, toolbarHeight);
+        rt.sizeDelta = new(0, ToolbarHeight);
 
         // scale Tools
         foreach (Transform tool in transform)
         {
-            tool.localScale = new(toolbarHeight / 100, toolbarHeight / 100);
+            tool.localScale = new(ToolbarHeight / 100, ToolbarHeight / 100);
         }
 
         Transform background = transform.parent.GetChild(0);
         RectTransform backgroundRectTransform = background.GetComponent<RectTransform>();
-        backgroundRectTransform.sizeDelta = new(0, toolbarHeight + 200);
+        backgroundRectTransform.sizeDelta = new(0, ToolbarHeight + 200);
     }
 
     public void ScaleOptionsInOptionbars()

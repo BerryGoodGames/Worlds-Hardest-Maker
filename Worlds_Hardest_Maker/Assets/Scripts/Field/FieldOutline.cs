@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     apply to every field prefab variant which has outlines (vgl. TypesWithOutlines)
@@ -6,7 +7,7 @@ using UnityEngine;
 public class FieldOutline : MonoBehaviour
 {
     // array not dynamic
-    public static readonly FieldType[] typesWithOutlines =
+    public static readonly FieldType[] TypesWithOutlines =
     {
         FieldType.WALL_FIELD,
         FieldType.GRAY_KEY_DOOR_FIELD,
@@ -16,16 +17,16 @@ public class FieldOutline : MonoBehaviour
         FieldType.YELLOW_KEY_DOOR_FIELD
     };
 
-    public Color color = Color.black;
-    public bool imitateAlpha;
-    public float weight = 0.1f;
-    public int order = 2;
-    [Space] public string[] connectTags;
-    public float rayLength = 1f;
+    [FormerlySerializedAs("color")] public Color Color = Color.black;
+    [FormerlySerializedAs("imitateAlpha")] public bool ImitateAlpha;
+    [FormerlySerializedAs("weight")] public float Weight = 0.1f;
+    [FormerlySerializedAs("order")] public int Order = 2;
+    [FormerlySerializedAs("connectTags")] [Space] public string[] ConnectTags;
+    [FormerlySerializedAs("rayLength")] public float RayLength = 1f;
 
     private readonly Vector2[] directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
 
-    [HideInInspector] public bool updateOnStart = true;
+    [FormerlySerializedAs("updateOnStart")] [HideInInspector] public bool UpdateOnStart = true;
     private GameObject lineContainer;
     private SpriteRenderer spriteRenderer;
     private bool hasSpriteRenderer;
@@ -40,7 +41,7 @@ public class FieldOutline : MonoBehaviour
             transform = { parent = transform }
         };
 
-        if (connectTags.Length == 0) connectTags = new[] { transform.tag };
+        if (ConnectTags.Length == 0) ConnectTags = new[] { transform.tag };
 
         if (TryGetComponent(out spriteRenderer)) hasSpriteRenderer = true;
     }
@@ -52,7 +53,7 @@ public class FieldOutline : MonoBehaviour
 
         UpdateAlpha();
 
-        if (updateOnStart) UpdateOutline(true);
+        if (UpdateOnStart) UpdateOutline(true);
     }
 
     private void Update()
@@ -63,7 +64,7 @@ public class FieldOutline : MonoBehaviour
     public void UpdateOutline(bool updateNeighbor = false)
     {
         // debug stuff so not important
-        if (Dbg.Instance.dbgEnabled && !Dbg.Instance.wallOutlines) return;
+        if (Dbg.Instance.DbgEnabled && !Dbg.Instance.WallOutlines) return;
 
         ClearLines();
 
@@ -78,7 +79,7 @@ public class FieldOutline : MonoBehaviour
     public void UpdateOutline(Vector2 dir, bool updateNeighbor = false)
     {
         // debug stuff so not important
-        if (Dbg.Instance.dbgEnabled && !Dbg.Instance.wallOutlines) return;
+        if (Dbg.Instance.DbgEnabled && !Dbg.Instance.WallOutlines) return;
 
         ClearLineInDir(dir);
 
@@ -93,10 +94,10 @@ public class FieldOutline : MonoBehaviour
         Vector2 localPosition = t.localPosition;
         Vector2 localScale = t.localScale;
 
-        LineManager.SetWeight(weight);
-        LineManager.SetFill(color);
-        LineManager.SetLayerID(LineManager.outlineLayerID);
-        LineManager.SetOrderInLayer(order);
+        LineManager.SetWeight(Weight);
+        LineManager.SetFill(Color);
+        LineManager.SetLayerID(LineManager.OutlineLayerID);
+        LineManager.SetOrderInLayer(Order);
         if (dir.Equals(Vector2.up) || dir.Equals(Vector2.down))
         {
             // get left & right hits to fill in gaps in inner corners
@@ -104,19 +105,19 @@ public class FieldOutline : MonoBehaviour
             bool right = IsConnectorInDirection(Vector2.right);
 
             LineManager.DrawLine(
-                localPosition.x - localScale.x * 0.5f - (left ? weight : 0),
-                localPosition.y + dir.y * 0.5f - dir.y * weight * 0.5f,
-                localPosition.x + localScale.x * 0.5f + (right ? weight : 0),
-                localPosition.y + dir.y * 0.5f - dir.y * weight * 0.5f,
+                localPosition.x - localScale.x * 0.5f - (left ? Weight : 0),
+                localPosition.y + dir.y * 0.5f - dir.y * Weight * 0.5f,
+                localPosition.x + localScale.x * 0.5f + (right ? Weight : 0),
+                localPosition.y + dir.y * 0.5f - dir.y * Weight * 0.5f,
                 lineContainer.transform
             );
         }
         else if (dir.Equals(Vector2.left) || dir.Equals(Vector2.right))
         {
             LineManager.DrawLine(
-                localPosition.x + dir.x * 0.5f - dir.x * weight * 0.5f,
+                localPosition.x + dir.x * 0.5f - dir.x * Weight * 0.5f,
                 localPosition.y + localScale.y * 0.5f,
-                localPosition.x + dir.x * 0.5f - dir.x * weight * 0.5f,
+                localPosition.x + dir.x * 0.5f - dir.x * Weight * 0.5f,
                 localPosition.y - localScale.y * 0.5f,
                 lineContainer.transform
             );
@@ -127,9 +128,9 @@ public class FieldOutline : MonoBehaviour
 
     private bool IsConnectorInDirection(Vector2 direction, bool updateNeighbor = false, bool drawRay = false)
     {
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, rayLength);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, RayLength);
 
-        if (drawRay && Dbg.Instance.drawRays) Debug.DrawRay(transform.position, direction, Color.red, 20);
+        if (drawRay && Dbg.Instance.DrawRays) Debug.DrawRay(transform.position, direction, Color.red, 20);
 
         foreach (RaycastHit2D r in hits)
         {
@@ -171,15 +172,15 @@ public class FieldOutline : MonoBehaviour
 
     public void UpdateAlpha()
     {
-        if (!imitateAlpha || !hasSpriteRenderer || color.a.EqualsFloat(spriteRenderer.color.a)) return;
+        if (!ImitateAlpha || !hasSpriteRenderer || Color.a.EqualsFloat(spriteRenderer.color.a)) return;
 
-        color = new(color.r, color.g, color.b, spriteRenderer.color.a);
+        Color = new(Color.r, Color.g, Color.b, spriteRenderer.color.a);
         foreach (LineRenderer line in lineRenderers)
         {
             if (line == null) continue;
 
-            line.startColor = color;
-            line.endColor = color;
+            line.startColor = Color;
+            line.endColor = Color;
         }
     }
 }

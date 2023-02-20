@@ -16,7 +16,7 @@ public class WindowDrag : MonoBehaviour, IDragHandler
 
     private void Start()
     {
-        canvas = ReferenceManager.Instance.canvas;
+        canvas = ReferenceManager.Instance.Canvas;
     }
 
     public void OnDrag(PointerEventData eventData)

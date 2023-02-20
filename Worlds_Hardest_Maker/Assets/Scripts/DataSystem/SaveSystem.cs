@@ -45,43 +45,43 @@ public static class SaveSystem
         }
 
         // serialize anchors
-        foreach (Transform anchor in ReferenceManager.Instance.anchorContainer)
+        foreach (Transform anchor in ReferenceManager.Instance.AnchorContainer)
         {
             AnchorDataOld anchorDataOld = new(anchor.GetComponentInChildren<PathControllerOld>(),
-                anchor.GetComponentInChildren<AnchorControllerOld>().container.transform);
+                anchor.GetComponentInChildren<AnchorControllerOld>().Container.transform);
             levelData.Add(anchorDataOld);
         }
 
         // serialize balls
-        foreach (Transform ball in ReferenceManager.Instance.ballDefaultContainer)
+        foreach (Transform ball in ReferenceManager.Instance.BallDefaultContainer)
         {
             BallData ballData = new(ball.GetChild(0).GetComponent<BallDefaultController>());
             levelData.Add(ballData);
         }
 
         // serialize ball circles
-        foreach (Transform ball in ReferenceManager.Instance.ballCircleContainer)
+        foreach (Transform ball in ReferenceManager.Instance.BallCircleContainer)
         {
             BallCircleData ballCircleData = new(ball.GetChild(0).GetComponent<BallCircleController>());
             levelData.Add(ballCircleData);
         }
 
         // serialize coins
-        foreach (Transform coin in ReferenceManager.Instance.coinContainer)
+        foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
         {
             CoinData coinData = new(coin.GetChild(0).GetComponent<CoinController>());
             levelData.Add(coinData);
         }
 
         // serialize keys
-        foreach (Transform key in ReferenceManager.Instance.keyContainer)
+        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
         {
             KeyData keyData = new(key.GetChild(0).GetComponent<KeyController>());
             levelData.Add(keyData);
         }
 
         // serialize fields
-        foreach (Transform field in ReferenceManager.Instance.fieldContainer)
+        foreach (Transform field in ReferenceManager.Instance.FieldContainer)
         {
             FieldData fieldData = new(field.gameObject);
             levelData.Add(fieldData);

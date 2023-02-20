@@ -6,21 +6,21 @@ using UnityEngine;
 /// </summary>
 public class GameState
 {
-    public Vector2 playerStartPos;
-    public List<Vector2> collectedCoins;
-    public List<Vector2> collectedKeys;
+    public Vector2 PlayerStartPos;
+    public List<Vector2> CollectedCoins;
+    public List<Vector2> CollectedKeys;
 
     public GameState(Vector2 playerStartPos, List<Vector2> collectedCoins, List<Vector2> collectedKeys)
     {
-        this.playerStartPos = playerStartPos;
-        this.collectedCoins = collectedCoins;
-        this.collectedKeys = collectedKeys;
+        this.PlayerStartPos = playerStartPos;
+        this.CollectedCoins = collectedCoins;
+        this.CollectedKeys = collectedKeys;
     }
 
     public bool Equals(GameState other)
     {
-        return playerStartPos == other.playerStartPos &&
-               collectedCoins.Equals(other.collectedCoins) &&
-               collectedKeys.Equals(other.collectedKeys);
+        return PlayerStartPos == other.PlayerStartPos &&
+               CollectedCoins.Equals(other.CollectedCoins) &&
+               CollectedKeys.Equals(other.CollectedKeys);
     }
 }

@@ -15,8 +15,8 @@ public class AlphaUITween : MonoBehaviour
     [Range(0, 1)] [SerializeField] private float alphaVisible = 1;
     [Range(0, 1)] [SerializeField] private float alphaInvisible;
 
-    public Action onSetVisible = null;
-    public Action onIsInvisible = null;
+    public Action OnSetVisible = null;
+    public Action OnIsInvisible = null;
 
     private bool isVisible;
 
@@ -30,7 +30,7 @@ public class AlphaUITween : MonoBehaviour
             if (canvasGroup != null) canvasGroup.gameObject.SetActive(true);
         }
 
-        onSetVisible?.Invoke();
+        OnSetVisible?.Invoke();
 
         if (image != null) image.DOFade(alphaVisible, duration);
         if (text != null) text.DOFade(alphaVisible, duration);
@@ -43,21 +43,21 @@ public class AlphaUITween : MonoBehaviour
             image.DOFade(alphaInvisible, duration).OnComplete(() =>
             {
                 if (disableObjectWhenInvisible) image.gameObject.SetActive(false);
-                onIsInvisible?.Invoke();
+                OnIsInvisible?.Invoke();
             });
 
         if (text != null)
             text.DOFade(alphaInvisible, duration).OnComplete(() =>
             {
                 if (disableObjectWhenInvisible) text.gameObject.SetActive(false);
-                onIsInvisible?.Invoke();
+                OnIsInvisible?.Invoke();
             });
 
         if (canvasGroup != null)
             canvasGroup.DOFade(alphaInvisible, duration).OnComplete(() =>
             {
                 if (disableObjectWhenInvisible) canvasGroup.gameObject.SetActive(false);
-                onIsInvisible?.Invoke();
+                OnIsInvisible?.Invoke();
             });
     }
 

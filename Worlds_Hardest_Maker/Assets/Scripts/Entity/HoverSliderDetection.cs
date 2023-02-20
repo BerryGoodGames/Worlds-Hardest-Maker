@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     detects if one of hitboxes are colliding with mouse position
@@ -8,9 +9,9 @@ using UnityEngine;
 /// </summary>
 public class HoverSliderDetection : MonoBehaviour
 {
-    public static bool sliderHovered = false;
+    public static bool SliderHovered = false;
 
-    public GameObject[] roots;
+    [FormerlySerializedAs("roots")] public GameObject[] Roots;
     private bool hovered;
 
     public bool MouseHoverSlider()
@@ -19,13 +20,13 @@ public class HoverSliderDetection : MonoBehaviour
         {
             if (!collider.GetComponent<MouseOver>().Over) continue;
 
-            if (roots.Contains(collider.gameObject))
+            if (Roots.Contains(collider.gameObject))
             {
                 hovered = true;
                 return true;
             }
 
-            if (hovered || roots.Length == 0)
+            if (hovered || Roots.Length == 0)
             {
                 return true;
             }

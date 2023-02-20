@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class AnchorControllerParent : MonoBehaviour
 {
-    public AnchorController child;
+    [FormerlySerializedAs("child")] public AnchorController Child;
 }

@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class UIAttachToPoint : MonoBehaviour
 {
-    public Vector2 point;
-    public bool zoomSizeWithCamera;
-    public bool zoomPositionWithCamera;
+    [FormerlySerializedAs("point")] public Vector2 Point;
+    [FormerlySerializedAs("zoomSizeWithCamera")] public bool ZoomSizeWithCamera;
+    [FormerlySerializedAs("zoomPositionWithCamera")] public bool ZoomPositionWithCamera;
 
     private Camera cam;
     private RectTransform rt;
@@ -17,9 +18,9 @@ public class UIAttachToPoint : MonoBehaviour
 
     private void LateUpdate()
     {
-        rt.position = cam.WorldToScreenPoint(point);
+        rt.position = cam.WorldToScreenPoint(Point);
 
-        if (!zoomSizeWithCamera) return;
+        if (!ZoomSizeWithCamera) return;
 
         float scl = 10.0f / cam.orthographicSize;
         rt.localScale = new(scl, scl);

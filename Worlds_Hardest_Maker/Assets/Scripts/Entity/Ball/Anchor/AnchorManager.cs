@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class AnchorManager : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class AnchorManager : MonoBehaviour
     private static readonly int selected = Animator.StringToHash("Selected");
     private static readonly int playing = Animator.StringToHash("Playing");
 
-    public AnchorController selectedAnchor;
+    [FormerlySerializedAs("selectedAnchor")] public AnchorController SelectedAnchor;
 
     #region get, set, remove
     /// <summary>
@@ -31,10 +32,10 @@ public class AnchorManager : MonoBehaviour
 
         GameObject anchor = MultiplayerManager.Instance.Multiplayer
             ? PhotonNetwork.Instantiate("Anchor", pos, Quaternion.identity)
-            : Instantiate(PrefabManager.Instance.anchor, pos, Quaternion.identity,
-                ReferenceManager.Instance.anchorContainer);
+            : Instantiate(PrefabManager.Instance.Anchor, pos, Quaternion.identity,
+                ReferenceManager.Instance.AnchorContainer);
 
-        SelectAnchor(anchor.GetComponent<AnchorControllerParent>().child);
+        SelectAnchor(anchor.GetComponent<AnchorControllerParent>().Child);
 
         return anchor;
     }
@@ -101,19 +102,19 @@ public class AnchorManager : MonoBehaviour
 
     public void SelectAnchor(AnchorController anchor)
     {
-        if (selectedAnchor != null)
+        if (SelectedAnchor != null)
         {
-            selectedAnchor.animator.SetBool(selected, false);
+            SelectedAnchor.Animator.SetBool(selected, false);
         }
 
-        if (selectedAnchor == anchor)
+        if (SelectedAnchor == anchor)
         {
             DeselectAnchor();
             return;
         }
 
-        selectedAnchor = anchor;
-        selectedAnchor.animator.SetBool(selected, true);
+        SelectedAnchor = anchor;
+        SelectedAnchor.Animator.SetBool(selected, true);
 
         ReferenceManager.Instance.AnchorEditorButtonPanelTween.Set(true);
 
@@ -123,11 +124,11 @@ public class AnchorManager : MonoBehaviour
 
     public void DeselectAnchor()
     {
-        if (selectedAnchor == null) return;
+        if (SelectedAnchor == null) return;
 
-        selectedAnchor.animator.SetBool(selected, false);
-        selectedAnchor.animator.SetBool(playing, EditModeManager.Instance.Playing);
-        selectedAnchor = null;
+        SelectedAnchor.Animator.SetBool(selected, false);
+        SelectedAnchor.Animator.SetBool(playing, EditModeManager.Instance.Playing);
+        SelectedAnchor = null;
         
         ReferenceManager.Instance.AnchorEditorButtonPanelTween.Set(false);
         ReferenceManager.Instance.AnchorEditorPanelTween.Set(false);

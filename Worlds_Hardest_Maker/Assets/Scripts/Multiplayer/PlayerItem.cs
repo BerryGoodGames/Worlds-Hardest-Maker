@@ -1,13 +1,14 @@
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerItem : MonoBehaviour
 {
-    public TMP_Text playerName;
+    [FormerlySerializedAs("playerName")] public TMP_Text PlayerName;
 
     public void SetPlayerInfo(Player player)
     {
-        playerName.text = player.NickName;
+        PlayerName.text = player.NickName;
     }
 }

@@ -23,15 +23,15 @@ public class Dbg : MonoBehaviour
         MOUSE_POSITION_PIXELS
     }
 
-    [Header("Settings")] public bool dbgEnabled = true;
-    [Space] public DbgTextMode textMode;
-    public float count;
-    [Space] public bool wallOutlines = true;
-    public bool drawRays;
-    [Space] public float gameSpeed = 1;
+    [FormerlySerializedAs("dbgEnabled")] [Header("Settings")] public bool DbgEnabled = true;
+    [FormerlySerializedAs("textMode")] [Space] public DbgTextMode TextMode;
+    [FormerlySerializedAs("count")] public float Count;
+    [FormerlySerializedAs("wallOutlines")] [Space] public bool WallOutlines = true;
+    [FormerlySerializedAs("drawRays")] public bool DrawRays;
+    [FormerlySerializedAs("gameSpeed")] [Space] public float GameSpeed = 1;
 
-    [FormerlySerializedAs("DebugText")] [Space] [Header("References")]
-    public GameObject debugText;
+    [FormerlySerializedAs("debugText")] [Space] [Header("References")]
+    public GameObject DebugText;
 
     private Camera cam;
     private Text dbgText;
@@ -43,15 +43,15 @@ public class Dbg : MonoBehaviour
 
         cam = Camera.main;
 
-        dbgText = Instance.debugText.GetComponent<Text>();
+        dbgText = Instance.DebugText.GetComponent<Text>();
     }
 
     private void Update()
     {
-        if (!dbgEnabled) return;
+        if (!DbgEnabled) return;
 
-        Time.timeScale = gameSpeed;
-        switch (textMode)
+        Time.timeScale = GameSpeed;
+        switch (TextMode)
         {
             case DbgTextMode.DISABLED:
                 Text(string.Empty);
@@ -59,7 +59,7 @@ public class Dbg : MonoBehaviour
             case DbgTextMode.CUSTOM:
                 break;
             case DbgTextMode.COUNT:
-                Text(count);
+                Text(Count);
                 break;
             case DbgTextMode.FPS:
                 Text(Mathf.Round(1 / Time.deltaTime));

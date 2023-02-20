@@ -24,23 +24,23 @@ public class PathEditorControllerOld : MonoBehaviour
     {
         if (AnchorManagerOld.Instance.SelectedAnchor == null) return;
         PathControllerOld pathControllerOld = AnchorManagerOld.Instance.SelectedAnchor.GetComponent<PathControllerOld>();
-        pathControllerOld.pathMode = (PathControllerOld.PathMode)mode;
+        pathControllerOld.PathMode = (PathControllerOld.PathModeType)mode;
         UpdateUI();
     }
 
     public void AddWaypoint()
     {
         if (AnchorManagerOld.Instance.SelectedAnchor == null) return;
-        int waypointCount = AnchorManagerOld.Instance.selectedPathControllerOld.waypoints.Count;
+        int waypointCount = AnchorManagerOld.Instance.SelectedPathControllerOld.Waypoints.Count;
 
-        WaypointOld prevWaypointOld = AnchorManagerOld.Instance.selectedPathControllerOld.waypoints[waypointCount - 1];
+        WaypointOld prevWaypointOld = AnchorManagerOld.Instance.SelectedPathControllerOld.Waypoints[waypointCount - 1];
 
-        AnchorManagerOld.Instance.selectedPathControllerOld.waypoints.Add(prevWaypointOld.Clone());
+        AnchorManagerOld.Instance.SelectedPathControllerOld.Waypoints.Add(prevWaypointOld.Clone());
         UpdateUI();
 
         if (MultiplayerManager.Instance.Multiplayer)
         {
-            AnchorManagerOld.Instance.selectedPathControllerOld.GetComponent<AnchorControllerOld>().View
+            AnchorManagerOld.Instance.SelectedPathControllerOld.GetComponent<AnchorControllerOld>().View
                 .RPC("RPCAddWaypoint", RpcTarget.Others);
         }
     }
@@ -49,9 +49,9 @@ public class PathEditorControllerOld : MonoBehaviour
     {
         PathControllerOld pathControllerOld = AnchorManagerOld.Instance.SelectedAnchor.GetComponent<PathControllerOld>();
 
-        AnchorManagerOld.Instance.selectedPathControllerOld.DrawLines();
+        AnchorManagerOld.Instance.SelectedPathControllerOld.DrawLines();
         // update mode
-        modeDropdown.value = (int)pathControllerOld.pathMode;
+        modeDropdown.value = (int)pathControllerOld.PathMode;
         // clear waypoint editors
         foreach (Transform child in waypointEditorContainer)
         {
@@ -59,11 +59,11 @@ public class PathEditorControllerOld : MonoBehaviour
                 Destroy(child.gameObject);
         }
 
-        for (int i = 0; i < AnchorManagerOld.Instance.selectedPathControllerOld.waypoints.Count; i++)
+        for (int i = 0; i < AnchorManagerOld.Instance.SelectedPathControllerOld.Waypoints.Count; i++)
         {
             GameObject editor = Instantiate(waypointEditor, Vector2.zero, Quaternion.identity, waypointEditorContainer);
             WaypointEditorControllerOld component = editor.GetComponent<WaypointEditorControllerOld>();
-            component.waypointIndex = i;
+            component.WaypointIndex = i;
             component.UpdateInputValues();
         }
     }

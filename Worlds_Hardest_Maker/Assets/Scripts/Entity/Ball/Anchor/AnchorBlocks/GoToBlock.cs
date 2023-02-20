@@ -2,8 +2,8 @@ using System.Linq;
 
 public class GoToBlock : AnchorBlock
 {
-    public const Type blockType = Type.GO_TO;
-    public override Type ImplementedBlockType => blockType;
+    public const Type BlockType = Type.GO_TO;
+    public override Type ImplementedBlockType => BlockType;
 
     private readonly int index;
 
@@ -14,8 +14,8 @@ public class GoToBlock : AnchorBlock
 
     public override void Execute(bool executeNext = true)
     {
-        anchor.currentExecutingBlock = anchor.blocks.ElementAt(index);
+        Anchor.CurrentExecutingBlock = Anchor.Blocks.ElementAt(index);
         if(executeNext)
-            anchor.currentExecutingBlock.Execute();
+            Anchor.CurrentExecutingBlock.Execute();
     }
 }

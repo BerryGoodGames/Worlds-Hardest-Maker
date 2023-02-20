@@ -10,17 +10,16 @@ public class TextManager : MonoBehaviour
 
     #region Text References
 
-    [FormerlySerializedAs("EditModeText")] [Header("Text References")]
-    public TMP_Text editModeText;
+    [FormerlySerializedAs("editModeText")] [Header("Text References")]
+    public TMP_Text EditModeText;
 
-    [FormerlySerializedAs("SelectingText")]
-    public TMP_Text selectingText;
+    [FormerlySerializedAs("selectingText")] public TMP_Text SelectingText;
 
-    [FormerlySerializedAs("DeathText")] public TMP_Text deathText;
-    [FormerlySerializedAs("Timer")] public TMP_Text timer;
-    [FormerlySerializedAs("CoinText")] public TMP_Text coinText;
-    [Header("Colors")] public Color cheatedTimerColor;
-    public Color finishedTimerColor;
+    [FormerlySerializedAs("deathText")] public TMP_Text DeathText;
+    [FormerlySerializedAs("timer")] public TMP_Text Timer;
+    [FormerlySerializedAs("coinText")] public TMP_Text CoinText;
+    [FormerlySerializedAs("cheatedTimerColor")] [Header("Colors")] public Color CheatedTimerColor;
+    [FormerlySerializedAs("finishedTimerColor")] public Color FinishedTimerColor;
 
     #endregion
 
@@ -38,7 +37,7 @@ public class TextManager : MonoBehaviour
 
     private void Start()
     {
-        EditModeManager.Instance.OnPlay += StartTimer;
+        EditModeManager.Instance.Play += StartTimer;
         PlayerManager.Instance.OnWin += FinishTimer;
     }
 
@@ -50,8 +49,8 @@ public class TextManager : MonoBehaviour
         try
         {
             PlayerController currentPlayer = PlayerManager.GetPlayer().GetComponent<PlayerController>();
-            playerDeaths = currentPlayer.deaths;
-            playerCoinsCollected = currentPlayer.coinsCollected.Count;
+            playerDeaths = currentPlayer.Deaths;
+            playerCoinsCollected = currentPlayer.CoinsCollected.Count;
         }
         catch (Exception)
         {
@@ -61,17 +60,17 @@ public class TextManager : MonoBehaviour
         }
 
         // set edit mode text ui
-        Instance.editModeText.text = $"Edit: {EditModeManager.Instance.CurrentEditMode.GetUIString()}";
-        Instance.selectingText.text = $"Selecting: {SelectionManager.Instance.Selecting}";
-        Instance.deathText.text = $"Deaths: {playerDeaths}";
-        Instance.coinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.TotalCoins}";
+        Instance.EditModeText.text = $"Edit: {EditModeManager.Instance.CurrentEditMode.GetUIString()}";
+        Instance.SelectingText.text = $"Selecting: {SelectionManager.Instance.Selecting}";
+        Instance.DeathText.text = $"Deaths: {playerDeaths}";
+        Instance.CoinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.TotalCoins}";
     }
 
     public void StartTimer()
     {
         StopTimer();
 
-        timer.color = Color.black;
+        Timer.color = Color.black;
         timerCoroutine = StartCoroutine(DoTimer());
     }
 
@@ -86,7 +85,7 @@ public class TextManager : MonoBehaviour
         StopTimer();
 
         if (!PlayManager.Instance.Cheated)
-            timer.color = finishedTimerColor;
+            Timer.color = FinishedTimerColor;
     }
 
     private IEnumerator DoTimer()
@@ -94,7 +93,7 @@ public class TextManager : MonoBehaviour
         timerSeconds = 0;
         timerMinutes = 0;
         timerHours = 0;
-        timer.text = GetTimerTime();
+        Timer.text = GetTimerTime();
         while (true)
         {
             timerSeconds += Time.deltaTime;
@@ -111,7 +110,7 @@ public class TextManager : MonoBehaviour
                 timerMinutes -= 60;
             }
 
-            timer.text = GetTimerTime();
+            Timer.text = GetTimerTime();
             yield return null;
         }
     }

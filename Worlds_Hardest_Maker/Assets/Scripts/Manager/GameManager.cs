@@ -214,10 +214,10 @@ public class GameManager : MonoBehaviourPun
         PlayerManager.Instance.RemoveAllPlayers();
         Transform[] containers =
         {
-            ReferenceManager.Instance.fieldContainer, ReferenceManager.Instance.playerContainer,
-            ReferenceManager.Instance.ballDefaultContainer, ReferenceManager.Instance.ballCircleContainer,
-            ReferenceManager.Instance.coinContainer, ReferenceManager.Instance.keyContainer,
-            ReferenceManager.Instance.anchorContainer
+            ReferenceManager.Instance.FieldContainer, ReferenceManager.Instance.PlayerContainer,
+            ReferenceManager.Instance.BallDefaultContainer, ReferenceManager.Instance.BallCircleContainer,
+            ReferenceManager.Instance.CoinContainer, ReferenceManager.Instance.KeyContainer,
+            ReferenceManager.Instance.AnchorContainer
         };
         foreach (Transform container in containers)
         {

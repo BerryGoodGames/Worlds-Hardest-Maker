@@ -12,7 +12,7 @@ public class FieldTracking : MonoBehaviour
         if (!collider.CompareTag("Player")) return;
 
         PlayerController controller = collider.GetComponent<PlayerController>();
-        controller.currentFields.Add(gameObject);
+        controller.CurrentFields.Add(gameObject);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -22,6 +22,6 @@ public class FieldTracking : MonoBehaviour
         if (!collider.CompareTag("Player")) return;
 
         PlayerController controller = collider.GetComponent<PlayerController>();
-        controller.currentFields.Remove(gameObject);
+        controller.CurrentFields.Remove(gameObject);
     }
 }

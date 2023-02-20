@@ -10,7 +10,7 @@ public class CopyManager : MonoBehaviour
 
     private static Vector2 size = Vector2.zero;
 
-    public static bool pasting;
+    public static bool Pasting;
 
     [SerializeField] private Transform previewContainer;
     [SerializeField] private BarTween toolbarTween;
@@ -104,16 +104,16 @@ public class CopyManager : MonoBehaviour
         while (!Input.GetMouseButtonUp(0))
             yield return null;
 
-        pasting = false;
+        Pasting = false;
     }
 
     private void StartPaste()
     {
         // // actions the frame the user starts pasting
-        pasting = true;
+        Pasting = true;
 
         // block menu from being opened and some other stuff
-        MenuManager.Instance.blockMenu = true;
+        MenuManager.Instance.BlockMenu = true;
 
         CreatePreview();
 
@@ -126,12 +126,12 @@ public class CopyManager : MonoBehaviour
     private void CancelPaste()
     {
         // // actions the frame the user cancels pasting via esc, playing or selecting sth
-        MenuManager.Instance.blockMenu = false;
+        MenuManager.Instance.BlockMenu = false;
 
         ClearPreview();
 
         Instance.previewContainer.position = Vector2.zero;
-        pasting = false;
+        Pasting = false;
 
         // show toolbar (if in edit mode)
         toolbarTween.SetPlay(EditModeManager.Instance.Playing);
@@ -152,7 +152,7 @@ public class CopyManager : MonoBehaviour
         LoadClipboard(mousePos);
 
         // remove some blocks etc.
-        MenuManager.Instance.blockMenu = false;
+        MenuManager.Instance.BlockMenu = false;
 
         ClearPreview();
         Instance.previewContainer.position = Vector2.zero;
@@ -178,21 +178,21 @@ public class CopyManager : MonoBehaviour
 
         foreach (CopyData copyData in clipBoard)
         {
-            Quaternion rotation = copyData.data.GetType() == typeof(FieldData)
-                ? Quaternion.Euler(0, 0, ((FieldData)copyData.data).rotation)
+            Quaternion rotation = copyData.Data.GetType() == typeof(FieldData)
+                ? Quaternion.Euler(0, 0, ((FieldData)copyData.Data).Rotation)
                 : Quaternion.identity;
-            GameObject preview = Instantiate(PrefabManager.Instance.fillPreview, Vector2.zero, rotation,
+            GameObject preview = Instantiate(PrefabManager.Instance.FillPreview, Vector2.zero, rotation,
                 Instance.previewContainer);
 
-            preview.transform.localPosition = copyData.relativePos;
+            preview.transform.localPosition = copyData.RelativePos;
 
             PreviewController previewController = preview.GetComponent<PreviewController>();
 
             // set some settings in preview
-            previewController.changeSpriteToCurrentEditMode = false;
-            previewController.updateEveryFrame = false;
-            previewController.showSpriteWhenPasting = true;
-            previewController.rotateToRotation = false;
+            previewController.ChangeSpriteToCurrentEditMode = false;
+            previewController.UpdateEveryFrame = false;
+            previewController.ShowSpriteWhenPasting = true;
+            previewController.RotateToRotation = false;
 
             // set spire of preview
             previewController.SetSprite(copyData.GetEditMode());

@@ -7,7 +7,7 @@ using UnityEngine;
 public class DiscordManager : MonoBehaviour
 {
     // connect to application (i think)
-    public Discord.Discord discord = new(1027577124812496937, (ulong)CreateFlags.Default);
+    public Discord.Discord Discord = new(1027577124812496937, (ulong)CreateFlags.Default);
     private ActivityManager activityManager;
 
     public static DiscordManager Instance { get; private set; }
@@ -20,7 +20,7 @@ public class DiscordManager : MonoBehaviour
     public static string Details
     {
         get => details;
-        set => SetActivity(value, currentActivity.State);
+        set => SetActivity(value, CurrentActivity.State);
     }
 
     private static string state = "";
@@ -31,10 +31,10 @@ public class DiscordManager : MonoBehaviour
     public static string State
     {
         get => state;
-        set => SetActivity(currentActivity.Details, value);
+        set => SetActivity(CurrentActivity.Details, value);
     }
 
-    public static Activity currentActivity;
+    public static Activity CurrentActivity;
 
     private void Awake()
     {
@@ -42,7 +42,7 @@ public class DiscordManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else DestroyImmediate(this);
 
-        activityManager = discord.GetActivityManager();
+        activityManager = Discord.GetActivityManager();
 
         ClearActivity();
 
@@ -59,8 +59,8 @@ public class DiscordManager : MonoBehaviour
     /// <param name="state">the player's current status</param>
     public static void SetActivity(string details = "", string state = "")
     {
-        currentActivity = new Activity { Details = details, State = state };
-        Instance.activityManager.UpdateActivity(currentActivity, res =>
+        CurrentActivity = new Activity { Details = details, State = state };
+        Instance.activityManager.UpdateActivity(CurrentActivity, res =>
         {
             if (res != Result.Ok)
             {
@@ -82,13 +82,13 @@ public class DiscordManager : MonoBehaviour
             }
             else
             {
-                currentActivity = new Activity();
+                CurrentActivity = new Activity();
             }
         });
     }
 
     private void Update()
     {
-        discord.RunCallbacks();
+        Discord.RunCallbacks();
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     checks if optionbar should be visible
@@ -6,18 +7,18 @@ using UnityEngine;
 /// </summary>
 public class HoveringOnOptionbar : MonoBehaviour
 {
-    public GameObject optionBar;
+    [FormerlySerializedAs("optionBar")] public GameObject OptionBar;
     private AlphaUITween anim;
     private MouseOverUI mo;
 
     private void Start()
     {
         mo = GetComponent<MouseOverUI>();
-        anim = optionBar.GetComponent<AlphaUITween>();
+        anim = OptionBar.GetComponent<AlphaUITween>();
     }
 
     private void Update()
     {
-        anim.SetVisible(mo.over && !EditModeManager.Instance.Playing && !ReferenceManager.Instance.menu.activeSelf);
+        anim.SetVisible(mo.Over && !EditModeManager.Instance.Playing && !ReferenceManager.Instance.Menu.activeSelf);
     }
 }

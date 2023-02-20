@@ -9,13 +9,13 @@ public class ColorPaletteController : MonoBehaviour
     public void UpdateColor()
     {
         ColorPalette colorPalette = ColorPaletteManager.GetColorPalette(colorPaletteName);
-        if (colorPalette == null || colorPalette.colors.Count <= colorPaletteIndex)
+        if (colorPalette == null || colorPalette.Colors.Count <= colorPaletteIndex)
         {
             Debug.LogWarning("ColorPaletteController: color doesn't exist");
             return;
         }
 
-        Color newColor = colorPalette.colors[colorPaletteIndex];
+        Color newColor = colorPalette.Colors[colorPaletteIndex];
 
         if (TryGetComponent(out SpriteRenderer spriteRenderer))
         {

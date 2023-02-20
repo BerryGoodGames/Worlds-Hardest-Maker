@@ -7,8 +7,8 @@ public class SetAngularSpeedBlock : AnchorBlock
         TIME
     }
 
-    public const Type blockType = Type.SET_ANGULAR_SPEED;
-    public override Type ImplementedBlockType => blockType;
+    public const Type BlockType = Type.SET_ANGULAR_SPEED;
+    public override Type ImplementedBlockType => BlockType;
 
     private readonly float input;
     private readonly Unit type;
@@ -25,9 +25,9 @@ public class SetAngularSpeedBlock : AnchorBlock
 
     public override void Execute(bool executeNext = true)
     {
-        anchor.applyAngularSpeed = type != Unit.TIME;
-        anchor.angularSpeed = input;
+        Anchor.ApplyAngularSpeed = type != Unit.TIME;
+        Anchor.AngularSpeed = input;
         if (executeNext)
-            anchor.FinishCurrentExecution();
+            Anchor.FinishCurrentExecution();
     }
 }

@@ -2,12 +2,13 @@ using System.Collections;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 public class FieldRotation : MonoBehaviour
 {
     // hippety hoppety
-    public float duration;
-    public Vector3 rotateAngle;
+    [FormerlySerializedAs("duration")] public float Duration;
+    [FormerlySerializedAs("rotateAngle")] public Vector3 RotateAngle;
     private bool rotating;
     [SerializeField] private bool disableCollision;
     private BoxCollider2D boxCollider;
@@ -49,12 +50,12 @@ public class FieldRotation : MonoBehaviour
         Animator anim = GetComponent<Animator>();
         anim.SetTrigger(rotateString);
 
-        StartCoroutine(Rotate(rotateAngle, duration));
+        StartCoroutine(Rotate(RotateAngle, Duration));
     }
 
     private void OnMouseUpAsButton()
     {
-        if (SelectionManager.Instance.Selecting || CopyManager.pasting || EditModeManager.Instance.Playing ||
+        if (SelectionManager.Instance.Selecting || CopyManager.Pasting || EditModeManager.Instance.Playing ||
             EditModeManager.Instance.CurrentEditMode !=
             EnumUtils.ConvertEnum<FieldType, EditMode>((FieldType)FieldManager.GetFieldType(gameObject))) return;
 

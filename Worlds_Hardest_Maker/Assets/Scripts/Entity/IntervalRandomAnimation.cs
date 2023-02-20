@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     animation at random intervals
@@ -6,15 +7,15 @@ using UnityEngine;
 /// </summary>
 public class IntervalRandomAnimation : MonoBehaviour
 {
-    public float intervalSeconds;
-    public string animTriggerString;
+    [FormerlySerializedAs("intervalSeconds")] public float IntervalSeconds;
+    [FormerlySerializedAs("animTriggerString")] public string AnimTriggerString;
 
     // value between 0 - 1, next trigger has to be in range of deviation
-    [Range(0, 1)] public float limitDeviation;
+    [FormerlySerializedAs("limitDeviation")] [Range(0, 1)] public float LimitDeviation;
 
-    public bool triggerOnlyAtPlayMode;
+    [FormerlySerializedAs("triggerOnlyAtPlayMode")] public bool TriggerOnlyAtPlayMode;
 
-    public string soundEffect;
+    [FormerlySerializedAs("soundEffect")] public string SoundEffect;
 
     private int lastTrigger;
 
@@ -27,9 +28,9 @@ public class IntervalRandomAnimation : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (triggerOnlyAtPlayMode && !EditModeManager.Instance.Playing) return;
+        if (TriggerOnlyAtPlayMode && !EditModeManager.Instance.Playing) return;
 
-        if (lastTrigger >= intervalSeconds / Time.fixedDeltaTime * limitDeviation)
+        if (lastTrigger >= IntervalSeconds / Time.fixedDeltaTime * LimitDeviation)
         {
             CheckAnimationTrigger();
         }
@@ -40,14 +41,14 @@ public class IntervalRandomAnimation : MonoBehaviour
     private void CheckAnimationTrigger()
     {
         // check animation trigger
-        float p = Time.fixedDeltaTime / intervalSeconds;
+        float p = Time.fixedDeltaTime / IntervalSeconds;
 
         if (Random.Range(0, 0.999f) >= p &&
-            lastTrigger < intervalSeconds / Time.fixedDeltaTime * (limitDeviation + 1)) return;
+            lastTrigger < IntervalSeconds / Time.fixedDeltaTime * (LimitDeviation + 1)) return;
 
-        anim.SetTrigger(animTriggerString);
+        anim.SetTrigger(AnimTriggerString);
 
-        if (!soundEffect.Equals("")) AudioManager.Instance.Play(soundEffect);
+        if (!SoundEffect.Equals("")) AudioManager.Instance.Play(SoundEffect);
 
         lastTrigger = 0;
     }

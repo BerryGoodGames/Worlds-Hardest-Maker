@@ -5,10 +5,10 @@ public class MaterialManager : MonoBehaviour
 {
     public static MaterialManager Instance { get; private set; }
 
-    [FormerlySerializedAs("LineMaterial")] [Header("Materials")]
-    public Material lineMaterial;
+    [FormerlySerializedAs("lineMaterial")] [Header("Materials")]
+    public Material LineMaterial;
 
-    [FormerlySerializedAs("NoFriction")] public PhysicsMaterial2D noFriction;
+    [FormerlySerializedAs("noFriction")] public PhysicsMaterial2D NoFriction;
 
     private void Awake()
     {

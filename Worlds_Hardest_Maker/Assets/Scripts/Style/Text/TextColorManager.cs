@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TextColorManager : MonoBehaviour
 {
-    public Color defaultColor;
-    public List<TMP_Text> ignore = new();
+    [FormerlySerializedAs("defaultColor")] public Color DefaultColor;
+    [FormerlySerializedAs("ignore")] public List<TMP_Text> Ignore = new();
 
     public void ApplyDefaultColor()
     {
@@ -13,9 +14,9 @@ public class TextColorManager : MonoBehaviour
 
         foreach (TMP_Text text in texts)
         {
-            if (!ignore.Contains(text))
+            if (!Ignore.Contains(text))
             {
-                text.color = defaultColor;
+                text.color = DefaultColor;
             }
         }
     }

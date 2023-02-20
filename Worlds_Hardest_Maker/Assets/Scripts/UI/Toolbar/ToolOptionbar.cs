@@ -1,13 +1,14 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [ExecuteAlways]
 public class ToolOptionbar : MonoBehaviour
 {
-    public GameObject background;
-    public GameObject hoveringHitbox;
-    public GameObject options;
-    public float size;
+    [FormerlySerializedAs("background")] public GameObject Background;
+    [FormerlySerializedAs("hoveringHitbox")] public GameObject HoveringHitbox;
+    [FormerlySerializedAs("options")] public GameObject Options;
+    [FormerlySerializedAs("size")] public float Size;
     private RectTransform hh;
     private RectTransform rtThis;
     private GridLayoutGroup gridLayout;
@@ -22,12 +23,12 @@ public class ToolOptionbar : MonoBehaviour
         rtThis = GetComponent<RectTransform>();
         anim = GetComponent<AlphaUITween>();
 
-        anim.onSetVisible += EnableOptionbar;
-        anim.onIsInvisible += DisableOptionbar;
+        anim.OnSetVisible += EnableOptionbar;
+        anim.OnIsInvisible += DisableOptionbar;
 
-        hh = hoveringHitbox.GetComponent(typeof(RectTransform)) as RectTransform;
-        gridLayout = options.GetComponent<GridLayoutGroup>();
-        toolCount = options.transform.childCount;
+        hh = HoveringHitbox.GetComponent(typeof(RectTransform)) as RectTransform;
+        gridLayout = Options.GetComponent<GridLayoutGroup>();
+        toolCount = Options.transform.childCount;
 
         UpdateHeight();
         ScaleOptions();
@@ -54,7 +55,7 @@ public class ToolOptionbar : MonoBehaviour
 
     public void ScaleOptions()
     {
-        foreach (Transform tool in options.transform)
+        foreach (Transform tool in Options.transform)
         {
             tool.localScale = new(0.7f, 0.7f);
         }
@@ -62,7 +63,7 @@ public class ToolOptionbar : MonoBehaviour
 
     public void UpdateHeight()
     {
-        RectTransform rt = background.GetComponent(typeof(RectTransform)) as RectTransform;
+        RectTransform rt = Background.GetComponent(typeof(RectTransform)) as RectTransform;
 
         if (rt == null) return;
 
@@ -72,9 +73,9 @@ public class ToolOptionbar : MonoBehaviour
         }
         else
         {
-            width = gridLayout.cellSize.x * size;
+            width = gridLayout.cellSize.x * Size;
             height = (gridLayout.cellSize.y + gridLayout.spacing.y) * toolCount - gridLayout.spacing.y +
-                     gridLayout.cellSize.y * (size - 1);
+                     gridLayout.cellSize.y * (Size - 1);
 
             rt.sizeDelta = new(width, height);
         }

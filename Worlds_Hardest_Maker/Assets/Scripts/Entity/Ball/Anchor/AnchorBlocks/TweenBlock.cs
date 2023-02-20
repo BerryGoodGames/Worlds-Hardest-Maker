@@ -2,8 +2,8 @@ using DG.Tweening;
 
 public class TweenBlock : AnchorBlock
 {
-    public const Type blockType = Type.TWEEN;
-    public override Type ImplementedBlockType => blockType;
+    public const Type BlockType = Type.TWEEN;
+    public override Type ImplementedBlockType => BlockType;
 
     private readonly Ease ease;
 
@@ -14,8 +14,8 @@ public class TweenBlock : AnchorBlock
 
     public override void Execute(bool executeNext = true)
     {
-        anchor.ease = ease;
+        Anchor.Ease = ease;
         if(executeNext)
-            anchor.FinishCurrentExecution();
+            Anchor.FinishCurrentExecution();
     }
 }

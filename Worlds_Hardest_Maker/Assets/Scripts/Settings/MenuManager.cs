@@ -14,13 +14,13 @@ public class MenuManager : MonoBehaviour
         SOUND = 2
     }
 
-    [Header("Constants & References")] public GameObject graphicSettingsUI;
-    [FormerlySerializedAs("UISettingsUI")] public GameObject uiSettingsUI;
-    public GameObject soundSettingsUI;
-    [Space] [Header("Variables")] public MenuTab currentMenuTab;
+    [FormerlySerializedAs("graphicSettingsUI")] [Header("Constants & References")] public GameObject GraphicSettingsUI;
+    [FormerlySerializedAs("uiSettingsUI")] public GameObject UISettingsUI;
+    [FormerlySerializedAs("soundSettingsUI")] public GameObject SoundSettingsUI;
+    [FormerlySerializedAs("currentMenuTab")] [Space] [Header("Variables")] public MenuTab CurrentMenuTab;
     private MenuTab prevMenuTab;
 
-    [HideInInspector] public bool blockMenu;
+    [FormerlySerializedAs("blockMenu")] [HideInInspector] public bool BlockMenu;
 
     private void Awake()
     {
@@ -30,7 +30,7 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
-        ChangeMenuTab(currentMenuTab);
+        ChangeMenuTab(CurrentMenuTab);
     }
 
     public static void ExitGame()
@@ -52,7 +52,7 @@ public class MenuManager : MonoBehaviour
             }
 
             dict[tab].SetActive(true);
-            currentMenuTab = tab;
+            CurrentMenuTab = tab;
         }
 
         prevMenuTab = tab;
@@ -65,7 +65,7 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeMenuTab()
     {
-        ChangeMenuTab(currentMenuTab);
+        ChangeMenuTab(CurrentMenuTab);
     }
 
     public Dictionary<MenuTab, GameObject> GetTabDict()
@@ -73,9 +73,9 @@ public class MenuManager : MonoBehaviour
         // REF
         Dictionary<MenuTab, GameObject> dict = new()
         {
-            { MenuTab.GRAPHIC, graphicSettingsUI },
-            { MenuTab.SOUND, soundSettingsUI },
-            { MenuTab.UI, uiSettingsUI }
+            { MenuTab.GRAPHIC, GraphicSettingsUI },
+            { MenuTab.SOUND, SoundSettingsUI },
+            { MenuTab.UI, UISettingsUI }
         };
         return dict;
     }

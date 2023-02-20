@@ -6,18 +6,18 @@ using UnityEngine.Serialization;
 [Serializable]
 public class Sound
 {
-    public string name;
+    [FormerlySerializedAs("name")] public string Name;
 
-    [FormerlySerializedAs("AudioClip")] [Space]
-    public AudioClip audioClip;
+    [FormerlySerializedAs("audioClip")] [Space]
+    public AudioClip AudioClip;
 
-    [FormerlySerializedAs("Output")] [Space]
-    public AudioMixerGroup output;
+    [FormerlySerializedAs("output")] [Space]
+    public AudioMixerGroup Output;
 
-    public bool mute;
-    public bool playOnAwake;
-    public bool loop;
-    [Range(0f, 1f)] public float volume = 1;
-    [Range(-3f, 3f)] public float pitch = 1;
-    [HideInInspector] public AudioSource source;
+    [FormerlySerializedAs("mute")] public bool Mute;
+    [FormerlySerializedAs("playOnAwake")] public bool PlayOnAwake;
+    [FormerlySerializedAs("loop")] public bool Loop;
+    [FormerlySerializedAs("volume")] [Range(0f, 1f)] public float Volume = 1;
+    [FormerlySerializedAs("pitch")] [Range(-3f, 3f)] public float Pitch = 1;
+    [FormerlySerializedAs("source")] [HideInInspector] public AudioSource Source;
 }

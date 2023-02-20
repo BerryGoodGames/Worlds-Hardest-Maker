@@ -26,6 +26,7 @@ public class AnchorBlocksInputDecimal : MonoBehaviour
         inputComp.selectionColor = AnchorBlockColor.KeepA(color, inputComp.selectionColor);
     }
 
+    private static Color KeepA(Color _new, Color assign) => new Color(_new.r, _new.g, _new.b, assign.a);
 
     public void SetColor(Color c) => color = c;
     public void SetDarkening(float d) => darkening = d;

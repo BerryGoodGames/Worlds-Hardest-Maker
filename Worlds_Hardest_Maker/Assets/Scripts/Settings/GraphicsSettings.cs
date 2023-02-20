@@ -7,17 +7,16 @@ public class GraphicsSettings : MonoBehaviour
 {
     public static GraphicsSettings Instance { get; private set; }
 
-    public TMP_Dropdown resolutionDropdown;
+    [FormerlySerializedAs("resolutionDropdown")] public TMP_Dropdown ResolutionDropdown;
     private Resolution[] resolutions;
 
     #region Setting variables
 
-    [HideInInspector] public int qualityLevel;
-    [HideInInspector] public bool fullscreen;
-    public Resolution resolution;
+    [FormerlySerializedAs("qualityLevel")] [HideInInspector] public int QualityLevel;
+    public Resolution Resolution;
 
-    [FormerlySerializedAs("oneColorStartGoal")] [HideInInspector]
-    public bool oneColorStartGoalCheckpoint;
+    [FormerlySerializedAs("oneColorStartGoalCheckpoint")] [FormerlySerializedAs("oneColorStartGoal")] [HideInInspector]
+    public bool OneColorStartGoalCheckpoint;
 
     #endregion
 
@@ -27,7 +26,7 @@ public class GraphicsSettings : MonoBehaviour
     {
         QualitySettings.SetQualityLevel(index);
 
-        Instance.qualityLevel = index;
+        Instance.QualityLevel = index;
 
         if (setPrefs) SettingsManager.Instance.SavePrefs();
     }
@@ -40,8 +39,6 @@ public class GraphicsSettings : MonoBehaviour
     public void Fullscreen(bool fullscreen, bool setPrefs)
     {
         Screen.fullScreen = fullscreen;
-
-        Instance.fullscreen = fullscreen;
 
         if (setPrefs) SettingsManager.Instance.SavePrefs();
     }
@@ -56,7 +53,7 @@ public class GraphicsSettings : MonoBehaviour
         Resolution res = Instance.resolutions[index];
         Screen.SetResolution(res.width, res.height, Screen.fullScreen);
 
-        Instance.resolution = res;
+        Instance.Resolution = res;
 
         if (setPrefs) SettingsManager.Instance.SavePrefs();
     }
@@ -68,12 +65,12 @@ public class GraphicsSettings : MonoBehaviour
 
     public void SetOneColorStartGoal(bool oneColor, bool setPrefs)
     {
-        foreach (Transform field in ReferenceManager.Instance.fieldContainer)
+        foreach (Transform field in ReferenceManager.Instance.FieldContainer)
         {
             FieldManager.ApplyStartGoalCheckpointFieldColor(field.gameObject, oneColor);
         }
 
-        Instance.oneColorStartGoalCheckpoint = oneColor;
+        Instance.OneColorStartGoalCheckpoint = oneColor;
 
         if (setPrefs) SettingsManager.Instance.SavePrefs();
     }
@@ -90,7 +87,7 @@ public class GraphicsSettings : MonoBehaviour
         // dropdown for resolution: clear and fill in unity's resolutions options
         resolutions = Screen.resolutions;
 
-        resolutionDropdown.ClearOptions();
+        ResolutionDropdown.ClearOptions();
         List<string> options = new();
 
         int currentResIndex = 0;
@@ -105,19 +102,18 @@ public class GraphicsSettings : MonoBehaviour
             }
         }
 
-        resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentResIndex;
-        resolutionDropdown.RefreshShownValue();
+        ResolutionDropdown.AddOptions(options);
+        ResolutionDropdown.value = currentResIndex;
+        ResolutionDropdown.RefreshShownValue();
     }
 
     private void Start()
     {
         UpdateResolutionOptions();
 
-        Instance.qualityLevel = QualitySettings.GetQualityLevel();
-        Instance.resolution = resolutions[0];
-        Instance.fullscreen = false;
-        Instance.oneColorStartGoalCheckpoint = false;
+        Instance.QualityLevel = QualitySettings.GetQualityLevel();
+        Instance.Resolution = resolutions[0];
+        Instance.OneColorStartGoalCheckpoint = false;
     }
 
     private void Awake()
