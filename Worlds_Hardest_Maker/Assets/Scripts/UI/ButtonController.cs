@@ -1,16 +1,17 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 public class ButtonController : MonoBehaviour
 {
-    public GameObject background;
-    public RectTransform backgroundPanel;
+    [FormerlySerializedAs("background")] public GameObject Background;
+    [FormerlySerializedAs("backgroundPanel")] public RectTransform BackgroundPanel;
 
-    public bool playSound;
+    [FormerlySerializedAs("PlaySound")] [FormerlySerializedAs("playSound")] public bool DoPlaySound;
 
     public void PlaySound()
     {
-        if (AudioManager.Instance != null && playSound) AudioManager.Instance.Play("Click");
+        if (AudioManager.Instance != null && DoPlaySound) AudioManager.Instance.Play("Click");
     }
 
     public void Deselect()
@@ -32,12 +33,12 @@ public class ButtonController : MonoBehaviour
 
         float lineSize = size * 0.036f;
 
-        BackgroundLineSize lineSizeController = background.GetComponent<BackgroundLineSize>();
+        BackgroundLineSize lineSizeController = Background.GetComponent<BackgroundLineSize>();
         lineSizeController.SetLineSize(lineSize);
 
         float backgroundPanelOffset = size * 0.065f;
-        backgroundPanel.offsetMin = new(backgroundPanelOffset, -backgroundPanelOffset);
-        backgroundPanel.offsetMax = new(backgroundPanelOffset, -backgroundPanelOffset);
+        BackgroundPanel.offsetMin = new(backgroundPanelOffset, -backgroundPanelOffset);
+        BackgroundPanel.offsetMax = new(backgroundPanelOffset, -backgroundPanelOffset);
     }
 
     // ReSharper disable once InconsistentNaming

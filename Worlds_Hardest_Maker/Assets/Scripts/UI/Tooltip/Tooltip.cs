@@ -1,13 +1,14 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(MouseOverUI))]
 public class Tooltip : MonoBehaviour
 {
-    public string text;
-    public int fontSize = 20;
-    public bool customTweenDelay;
-    public float tweenDelay = 1.5f;
+    [FormerlySerializedAs("text")] public string Text;
+    [FormerlySerializedAs("fontSize")] public int FontSize = 20;
+    [FormerlySerializedAs("customTweenDelay")] public bool CustomTweenDelay;
+    [FormerlySerializedAs("tweenDelay")] public float TweenDelay = 1.5f;
     private const float defaultTweenDelay = 1;
     private MouseOverUI mouseOver;
     private AlphaUITween fadeTween;
@@ -19,30 +20,30 @@ public class Tooltip : MonoBehaviour
 
     private void Awake()
     {
-        if (!customTweenDelay)
-            tweenDelay = defaultTweenDelay;
+        if (!CustomTweenDelay)
+            TweenDelay = defaultTweenDelay;
     }
 
     private void Start()
     {
         mouseOver = GetComponent<MouseOverUI>();
 
-        tooltip = Instantiate(PrefabManager.Instance.tooltip, Vector2.zero, Quaternion.identity,
-            ReferenceManager.Instance.tooltipCanvas.transform);
+        tooltip = Instantiate(PrefabManager.Instance.Tooltip, Vector2.zero, Quaternion.identity,
+            ReferenceManager.Instance.TooltipCanvas.transform);
         fadeTween = tooltip.GetComponent<AlphaUITween>();
 
         tooltipRectTransform = tooltip.GetComponent<RectTransform>();
-        tooltipText = tooltip.GetComponent<TooltipController>().text;
-        tooltipText.text = text;
-        tooltipText.fontSize = fontSize;
+        tooltipText = tooltip.GetComponent<TooltipController>().Text;
+        tooltipText.text = Text;
+        tooltipText.fontSize = FontSize;
         fadeTween.SetVisible(false);
     }
 
     private void Update()
     {
-        if (mouseOver.over)
+        if (mouseOver.Over)
         {
-            if (hovered > tweenDelay)
+            if (hovered > TweenDelay)
             {
                 fadeTween.SetVisible(true);
 

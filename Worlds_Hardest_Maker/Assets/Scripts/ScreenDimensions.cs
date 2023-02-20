@@ -1,18 +1,19 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ScreenDimensions : MonoBehaviour
 {
     [SerializeField] private bool setScreenWidth;
     [SerializeField] private bool setScreenHeight;
-    public bool applyMaxZoomFromMapController;
+    [FormerlySerializedAs("applyMaxZoomFromMapController")] public bool ApplyMaxZoomFromMapController;
     [SerializeField] private float maxZoom;
-    public bool hasRectTransform;
+    [FormerlySerializedAs("hasRectTransform")] public bool HasRectTransform;
     [SerializeField] private RectTransform canvas;
 
     private void Start()
     {
-        if (hasRectTransform)
+        if (HasRectTransform)
         {
             RectTransform rt = GetComponent<RectTransform>();
             rt.sizeDelta = new((setScreenWidth ? canvas : rt).rect.width, (setScreenHeight ? canvas : rt).rect.height);
@@ -23,7 +24,7 @@ public class ScreenDimensions : MonoBehaviour
             if (cam == null) throw new Exception("Couldn't set gameObject to screen dimensions because main camera is null");
 
             float zoom;
-            if (applyMaxZoomFromMapController)
+            if (ApplyMaxZoomFromMapController)
             {
                 MapController map = cam.GetComponent<MapController>();
                 zoom = map.MaxZoom;

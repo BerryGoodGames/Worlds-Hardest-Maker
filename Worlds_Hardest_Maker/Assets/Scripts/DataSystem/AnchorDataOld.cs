@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     anchor attributes: position, waypoints, mode, ball positions
@@ -8,26 +9,26 @@ using UnityEngine;
 [Serializable]
 public class AnchorDataOld : Data
 {
-    public float[] position = new float[2];
-    public WaypointSerializable[] waypoints;
-    public PathControllerOld.PathMode pathMode;
-    public float[] ballPositions;
+    [FormerlySerializedAs("position")] public float[] Position = new float[2];
+    [FormerlySerializedAs("waypoints")] public WaypointSerializable[] Waypoints;
+    [FormerlySerializedAs("pathMode")] public PathControllerOld.PathModeType PathMode;
+    [FormerlySerializedAs("ballPositions")] public float[] BallPositions;
 
     public AnchorDataOld(PathControllerOld pathControllerOld, Transform ballContainer)
     {
-        position[0] = pathControllerOld.transform.position.x;
-        position[1] = pathControllerOld.transform.position.y;
-        pathMode = pathControllerOld.pathMode;
+        Position[0] = pathControllerOld.transform.position.x;
+        Position[1] = pathControllerOld.transform.position.y;
+        PathMode = pathControllerOld.PathMode;
 
         // convert Waypoints
         List<WaypointSerializable> waypointsList = new();
 
-        foreach (WaypointOld waypoint in pathControllerOld.waypoints)
+        foreach (WaypointOld waypoint in pathControllerOld.Waypoints)
         {
             waypointsList.Add(new(waypoint));
         }
 
-        waypoints = waypointsList.ToArray();
+        Waypoints = waypointsList.ToArray();
 
         // convert balls (hihi)
         List<float> ballPositionsList = new();
@@ -39,7 +40,7 @@ public class AnchorDataOld : Data
             ballPositionsList.Add(child.position.y);
         }
 
-        ballPositions = ballPositionsList.ToArray();
+        BallPositions = ballPositionsList.ToArray();
     }
 
     public override void ImportToLevel(Vector2 pos)
@@ -50,15 +51,15 @@ public class AnchorDataOld : Data
         PathControllerOld pathControllerOld = anchor.GetComponentInChildren<PathControllerOld>();
 
         // set waypoints
-        pathControllerOld.waypoints.Clear();
+        pathControllerOld.Waypoints.Clear();
 
-        foreach (WaypointSerializable waypoint in waypoints)
+        foreach (WaypointSerializable waypoint in Waypoints)
         {
-            pathControllerOld.waypoints.Add(new(waypoint));
+            pathControllerOld.Waypoints.Add(new(waypoint));
         }
 
         // set path mode
-        pathControllerOld.pathMode = pathMode;
+        pathControllerOld.PathMode = PathMode;
 
         // reset state
         pathControllerOld.ResetState();
@@ -66,11 +67,11 @@ public class AnchorDataOld : Data
 
         // set balls (hihi)
         AnchorControllerOld anchorControllerOld = anchor.GetComponentInChildren<AnchorControllerOld>();
-        Transform container = anchorControllerOld.container.transform;
+        Transform container = anchorControllerOld.Container.transform;
 
-        for (int i = 0; i < ballPositions.Length; i += 2)
+        for (int i = 0; i < BallPositions.Length; i += 2)
         {
-            AnchorBallManagerOld.SetAnchorBall(ballPositions[i], ballPositions[i + 1], container);
+            AnchorBallManagerOld.SetAnchorBall(BallPositions[i], BallPositions[i + 1], container);
         }
 
         // fade balls in
@@ -79,7 +80,7 @@ public class AnchorDataOld : Data
 
     public override void ImportToLevel()
     {
-        ImportToLevel(new(position[0], position[1]));
+        ImportToLevel(new(Position[0], Position[1]));
     }
 
     public override EditMode GetEditMode()

@@ -14,18 +14,18 @@ public class SpeedSliderAnim : MonoBehaviour
         follow = GetComponent<UIFollowEntity>();
         anim = GetComponent<SpeedSliderTween>();
 
-        hoverSliderDetection = follow.entity.GetComponent<HoverSliderDetection>();
+        hoverSliderDetection = follow.Entity.GetComponent<HoverSliderDetection>();
 
         Gone();
 
-        if (follow != null && follow.entity != null) return;
+        if (follow != null && follow.Entity != null) return;
 
         Destroy(gameObject);
     }
 
     private void Update()
     {
-        if (follow.entity == null)
+        if (follow.Entity == null)
         {
             Destroy(gameObject);
             return;
@@ -33,16 +33,16 @@ public class SpeedSliderAnim : MonoBehaviour
 
         // set visible status (if no other slider is hovered)
         bool hoveredHitbox = hoverSliderDetection.MouseHoverSlider() &&
-                             (!HoverSliderDetection.sliderHovered || anim.IsVisible());
+                             (!HoverSliderDetection.SliderHovered || anim.IsVisible());
 
-        bool vis = !EditModeManager.Instance.Playing && Input.GetKey(KeybindManager.Instance.editSpeedKey) &&
+        bool vis = !EditModeManager.Instance.Playing && Input.GetKey(KeybindManager.Instance.EditSpeedKey) &&
                    hoveredHitbox;
 
-        if (!vis && anim.IsVisible()) HoverSliderDetection.sliderHovered = false;
+        if (!vis && anim.IsVisible()) HoverSliderDetection.SliderHovered = false;
 
         anim.SetVisible(vis);
 
-        if (vis) HoverSliderDetection.sliderHovered = true;
+        if (vis) HoverSliderDetection.SliderHovered = true;
     }
 
     public void Gone()

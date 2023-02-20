@@ -1,6 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler,
     IPointerUpHandler
@@ -14,7 +15,7 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private float highlightElevateDuration;
     [SerializeField] private float highlightFloatingDuration;
 
-    public bool isWarningButton;
+    [FormerlySerializedAs("isWarningButton")] public bool IsWarningButton;
     [SerializeField] private float singleShakeDuration;
     [SerializeField] private float shake1;
     [SerializeField] private float shake2;
@@ -31,7 +32,7 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         contentRT.DOAnchorPos(new(-highlightElevation, highlightElevation + highlightFloating),
             highlightElevateDuration);
 
-        if (isWarningButton)
+        if (IsWarningButton)
         {
             // add shake
             Sequence shakeSeq = DOTween.Sequence();

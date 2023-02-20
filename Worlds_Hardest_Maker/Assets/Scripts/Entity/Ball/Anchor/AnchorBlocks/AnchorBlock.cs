@@ -11,11 +11,11 @@ public abstract class AnchorBlock
         SET_ANGULAR_SPEED
     }
 
-    protected AnchorController anchor;
+    protected AnchorController Anchor;
 
     protected AnchorBlock(AnchorController anchor)
     {
-        this.anchor = anchor;
+        this.Anchor = anchor;
     }
 
     // ReSharper disable once UnusedMember.Global

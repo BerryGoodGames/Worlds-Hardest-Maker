@@ -1,44 +1,45 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class WaypointOld
 {
-    public Vector2 position;
-    public float speed;
-    public float delay;
-    public float rotationSpeed;
-    public bool rotateWhileDelay;
+    [FormerlySerializedAs("position")] public Vector2 Position;
+    [FormerlySerializedAs("speed")] public float Speed;
+    [FormerlySerializedAs("delay")] public float Delay;
+    [FormerlySerializedAs("rotationSpeed")] public float RotationSpeed;
+    [FormerlySerializedAs("rotateWhileDelay")] public bool RotateWhileDelay;
     public WaypointEditorControllerOld WaypointEditor { get; set; }
 
     public WaypointOld(Vector2 position, bool rotateWhileDelay, float delay, float speed, float rotationSpeed)
     {
-        this.position = position;
-        this.delay = delay;
-        this.rotateWhileDelay = rotateWhileDelay;
-        this.speed = speed;
-        this.rotationSpeed = rotationSpeed;
+        this.Position = position;
+        this.Delay = delay;
+        this.RotateWhileDelay = rotateWhileDelay;
+        this.Speed = speed;
+        this.RotationSpeed = rotationSpeed;
     }
 
     public WaypointOld(WaypointSerializable waypoint)
     {
-        position = new(waypoint.position[0], waypoint.position[1]);
+        Position = new(waypoint.Position[0], waypoint.Position[1]);
 
-        speed = waypoint.speed;
-        delay = waypoint.delay;
-        rotationSpeed = waypoint.rotationSpeed;
-        rotateWhileDelay = waypoint.rotateWhileDelay;
+        Speed = waypoint.Speed;
+        Delay = waypoint.Delay;
+        RotationSpeed = waypoint.RotationSpeed;
+        RotateWhileDelay = waypoint.RotateWhileDelay;
     }
 
     public override string ToString()
     {
         return
-            $"position: {position}, speed: {speed}, delay: {delay}, rotationSpeed: {rotationSpeed}, rotateWhileDelay {rotateWhileDelay}";
+            $"position: {Position}, speed: {Speed}, delay: {Delay}, rotationSpeed: {RotationSpeed}, rotateWhileDelay {RotateWhileDelay}";
     }
 
     public WaypointOld Clone()
     {
-        return new(position, rotateWhileDelay, delay, speed, rotationSpeed);
+        return new(Position, RotateWhileDelay, Delay, Speed, RotationSpeed);
     }
 }
 
@@ -46,19 +47,19 @@ public class WaypointOld
 [Serializable]
 public class WaypointSerializable
 {
-    public float[] position = new float[2];
-    public float speed;
-    public float delay;
-    public float rotationSpeed;
-    public bool rotateWhileDelay;
+    [FormerlySerializedAs("position")] public float[] Position = new float[2];
+    [FormerlySerializedAs("speed")] public float Speed;
+    [FormerlySerializedAs("delay")] public float Delay;
+    [FormerlySerializedAs("rotationSpeed")] public float RotationSpeed;
+    [FormerlySerializedAs("rotateWhileDelay")] public bool RotateWhileDelay;
 
     public WaypointSerializable(WaypointOld waypointOld)
     {
-        position[0] = waypointOld.position.x;
-        position[1] = waypointOld.position.y;
-        speed = waypointOld.speed;
-        delay = waypointOld.delay;
-        rotationSpeed = waypointOld.rotationSpeed;
-        rotateWhileDelay = waypointOld.rotateWhileDelay;
+        Position[0] = waypointOld.Position.x;
+        Position[1] = waypointOld.Position.y;
+        Speed = waypointOld.Speed;
+        Delay = waypointOld.Delay;
+        RotationSpeed = waypointOld.RotationSpeed;
+        RotateWhileDelay = waypointOld.RotateWhileDelay;
     }
 }

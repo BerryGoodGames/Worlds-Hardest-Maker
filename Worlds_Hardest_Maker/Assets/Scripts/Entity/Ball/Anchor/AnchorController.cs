@@ -2,50 +2,51 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class AnchorController : Controller
 {
     [SerializeField] private ChildrenOpacity ballContainerChildrenOpacity;
-    public Transform ballContainer;
-    public Animator animator;
+    [FormerlySerializedAs("ballContainer")] public Transform BallContainer;
+    [FormerlySerializedAs("animator")] public Animator Animator;
 
-    [HideInInspector] public List<GameObject> balls = new();
-    public LinkedList<AnchorBlock> blocks = new();
+    [FormerlySerializedAs("balls")] [HideInInspector] public List<GameObject> Balls = new();
+    public LinkedList<AnchorBlock> Blocks = new();
 
-    [HideInInspector] public bool applySpeed = true;
+    [FormerlySerializedAs("applySpeed")] [HideInInspector] public bool ApplySpeed = true;
     private bool startApplySpeed;
-    [HideInInspector] public bool applyAngularSpeed = true;
+    [FormerlySerializedAs("applyAngularSpeed")] [HideInInspector] public bool ApplyAngularSpeed = true;
     private bool startApplyAngularSpeed;
 
-    [HideInInspector] public float speed;
+    [FormerlySerializedAs("speed")] [HideInInspector] public float Speed;
     private float startSpeed;
-    [HideInInspector] public float angularSpeed;
+    [FormerlySerializedAs("angularSpeed")] [HideInInspector] public float AngularSpeed;
     private float startAngularSpeed;
 
-    [HideInInspector] public Ease ease;
+    [FormerlySerializedAs("ease")] [HideInInspector] public Ease Ease;
     private Ease startEase;
 
     private Vector2 startPosition;
     private Quaternion startRotation;
 
-    public AnchorBlock currentExecutingBlock;
+    public AnchorBlock CurrentExecutingBlock;
 
-    [HideInInspector] public Rigidbody2D rb;
+    [FormerlySerializedAs("rb")] [HideInInspector] public Rigidbody2D Rb;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        Rb = GetComponent<Rigidbody2D>();
 
-        speed = 7;
-        angularSpeed = 360;
-        ease = Ease.Linear;
+        Speed = 7;
+        AngularSpeed = 360;
+        Ease = Ease.Linear;
 
         UpdateStartValues();
     }
 
     private void AddBlocks(AnchorBlock block)
     {
-        blocks.AddLast(block);
+        Blocks.AddLast(block);
     }
 
     public void StartExecuting()
@@ -54,25 +55,25 @@ public class AnchorController : Controller
 
         Testing();
 
-        currentExecutingBlock = blocks.First.Value;
-        currentExecutingBlock.Execute();
+        CurrentExecutingBlock = Blocks.First.Value;
+        CurrentExecutingBlock.Execute();
     }
 
     public void FinishCurrentExecution()
     {
-        if (currentExecutingBlock == null)
+        if (CurrentExecutingBlock == null)
         {
             Debug.LogWarning("There was a FinishCurrentExecution() call, although there is no execution to finish");
             return;
         }
 
-        LinkedListNode<AnchorBlock> thisBlockNode = blocks.Find(currentExecutingBlock);
+        LinkedListNode<AnchorBlock> thisBlockNode = Blocks.Find(CurrentExecutingBlock);
         if (thisBlockNode == null)
             throw new Exception(
                 "Couldn't find block currently executing in block list of anchor (this error should be impossible)");
 
-        currentExecutingBlock = thisBlockNode.Next?.Value;
-        currentExecutingBlock?.Execute();
+        CurrentExecutingBlock = thisBlockNode.Next?.Value;
+        CurrentExecutingBlock?.Execute();
     }
 
     public void Testing()
@@ -90,28 +91,28 @@ public class AnchorController : Controller
     {
         Transform t = transform;
 
-        rb.DOKill();
+        Rb.DOKill();
         t.DOKill();
-        currentExecutingBlock = null;
+        CurrentExecutingBlock = null;
 
-        rb.position = startPosition;
+        Rb.position = startPosition;
         t.rotation = startRotation;
-        speed = startSpeed;
-        applySpeed = startApplySpeed;
-        angularSpeed = startAngularSpeed;
-        applyAngularSpeed = startApplyAngularSpeed;
-        ease = startEase;
+        Speed = startSpeed;
+        ApplySpeed = startApplySpeed;
+        AngularSpeed = startAngularSpeed;
+        ApplyAngularSpeed = startApplyAngularSpeed;
+        Ease = startEase;
     }
 
     private void UpdateStartValues()
     {
-        startPosition = rb.position;
+        startPosition = Rb.position;
         startRotation = transform.rotation;
-        startSpeed = speed;
-        startApplySpeed = applySpeed;
-        startAngularSpeed = angularSpeed;
-        startApplyAngularSpeed = applyAngularSpeed;
-        startEase = ease;
+        startSpeed = Speed;
+        startApplySpeed = ApplySpeed;
+        startAngularSpeed = AngularSpeed;
+        startApplyAngularSpeed = ApplyAngularSpeed;
+        startEase = Ease;
     }
     public void BallFadeOut(AnimationEvent animationEvent)
     {

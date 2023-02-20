@@ -18,7 +18,7 @@ public class KeyEvents : MonoBehaviour
         }
 
         // toggle menu
-        if (!MenuManager.Instance.blockMenu && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)))
+        if (!MenuManager.Instance.BlockMenu && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)))
         {
             menuUITween.SetVisible(!menuUITween.IsVisible());
         }
@@ -57,7 +57,7 @@ public class KeyEvents : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.O)) GameManager.Instance.LoadLevel();
 #endif
             // paste
-            if (!CopyManager.pasting && Input.GetKey(KeybindManager.Instance.pasteKey))
+            if (!CopyManager.Pasting && Input.GetKey(KeybindManager.Instance.PasteKey))
             {
                 StartCoroutine(CopyManager.Instance.PasteCoroutine());
             }
@@ -120,6 +120,6 @@ public class KeyEvents : MonoBehaviour
 
     private void Start()
     {
-        menuUITween = ReferenceManager.Instance.menu.GetComponent<AlphaUITween>();
+        menuUITween = ReferenceManager.Instance.Menu.GetComponent<AlphaUITween>();
     }
 }

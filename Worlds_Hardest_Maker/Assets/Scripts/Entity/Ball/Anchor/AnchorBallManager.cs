@@ -25,17 +25,17 @@ public class AnchorBallManager : MonoBehaviour
         //     ball.transform.GetChild(0).position = pos;
         // }
 
-        if (AnchorManager.Instance.selectedAnchor == null) return;
+        if (AnchorManager.Instance.SelectedAnchor == null) return;
 
         Debug.LogWarning("Anchor ball place multiplayer TODO");
 
-        GameObject ball = Instantiate(PrefabManager.Instance.ball, Vector2.zero, Quaternion.identity, AnchorManager.Instance.selectedAnchor.ballContainer);
+        GameObject ball = Instantiate(PrefabManager.Instance.Ball, Vector2.zero, Quaternion.identity, AnchorManager.Instance.SelectedAnchor.BallContainer);
         ball.transform.GetChild(0).position = pos;
     }
 
     public static void SetAnchorBall(Vector2 pos, Transform container)
     {
-        GameObject ball = Instantiate(PrefabManager.Instance.ball, Vector2.zero, Quaternion.identity, container);
+        GameObject ball = Instantiate(PrefabManager.Instance.Ball, Vector2.zero, Quaternion.identity, container);
         ball.transform.GetChild(0).position = pos;
     }
 

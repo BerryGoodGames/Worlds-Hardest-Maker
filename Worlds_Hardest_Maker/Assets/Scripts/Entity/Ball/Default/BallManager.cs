@@ -50,8 +50,8 @@ public class BallManager : MonoBehaviour
         }
         else
         {
-            newBall = Instantiate(PrefabManager.Instance.ballDefault, Vector2.zero, Quaternion.identity,
-                ReferenceManager.Instance.ballDefaultContainer);
+            newBall = Instantiate(PrefabManager.Instance.BallDefault, Vector2.zero, Quaternion.identity,
+                ReferenceManager.Instance.BallDefaultContainer);
 
             BallDefaultController defaultController =
                 newBall.transform.GetChild(0).GetComponent<BallDefaultController>();
@@ -71,7 +71,7 @@ public class BallManager : MonoBehaviour
         {
             if (!hit.TryGetComponent(out BallDefaultController b)) continue;
 
-            if (b.startPosition.x.EqualsFloat(mx) && b.startPosition.y.EqualsFloat(my)) b.DestroyBall();
+            if (b.StartPosition.x.EqualsFloat(mx) && b.StartPosition.y.EqualsFloat(my)) b.DestroyBall();
         }
     }
 
@@ -84,7 +84,7 @@ public class BallManager : MonoBehaviour
         {
             if (!hit.TryGetComponent(out BallDefaultController b)) continue;
 
-            if (b.startPosition.x.EqualsFloat(mx) && b.startPosition.y.EqualsFloat(my)) list.Add(b.gameObject);
+            if (b.StartPosition.x.EqualsFloat(mx) && b.StartPosition.y.EqualsFloat(my)) list.Add(b.gameObject);
         }
 
         return list;

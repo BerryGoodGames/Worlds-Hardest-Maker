@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     Script for player
@@ -11,22 +12,22 @@ public class AppendNameTag : MonoBehaviour
     [SerializeField] private bool showOnlyWhenMultiplayer = true;
     [SerializeField] private GameObject nameTagPrefab;
 
-    [HideInInspector] public GameObject nameTag;
+    [FormerlySerializedAs("nameTag")] [HideInInspector] public GameObject NameTag;
 
     private void Awake()
     {
         if (!MultiplayerManager.Instance.Multiplayer && showOnlyWhenMultiplayer) return;
 
-        nameTag = Instantiate(nameTagPrefab, Vector2.zero, Quaternion.identity,
-            ReferenceManager.Instance.nameTagContainer);
+        NameTag = Instantiate(nameTagPrefab, Vector2.zero, Quaternion.identity,
+            ReferenceManager.Instance.NameTagContainer);
 
-        UIFollowEntity followSettings = nameTag.GetComponent<UIFollowEntity>();
-        followSettings.entity = gameObject;
-        followSettings.offset = new(0, 0.6f);
+        UIFollowEntity followSettings = NameTag.GetComponent<UIFollowEntity>();
+        followSettings.Entity = gameObject;
+        followSettings.Offset = new(0, 0.6f);
     }
 
     public void SetNameTag(string name)
     {
-        nameTag.GetComponent<TMP_Text>().text = name;
+        NameTag.GetComponent<TMP_Text>().text = name;
     }
 }

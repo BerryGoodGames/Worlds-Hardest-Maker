@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     Ball attributes: speed, start, bounce
@@ -7,36 +8,36 @@ using UnityEngine;
 [Serializable]
 public class BallData : Data
 {
-    public float speed;
-    public float[] startPosition;
-    public float[] bouncePosition;
+    [FormerlySerializedAs("speed")] public float Speed;
+    [FormerlySerializedAs("startPosition")] public float[] StartPosition;
+    [FormerlySerializedAs("bouncePosition")] public float[] BouncePosition;
 
     public BallData(BallDefaultController defaultController)
     {
-        speed = defaultController.speed;
+        Speed = defaultController.Speed;
 
-        startPosition = new float[2];
-        startPosition[0] = defaultController.startPosition.x;
-        startPosition[1] = defaultController.startPosition.y;
+        StartPosition = new float[2];
+        StartPosition[0] = defaultController.StartPosition.x;
+        StartPosition[1] = defaultController.StartPosition.y;
 
-        bouncePosition = new float[2];
-        bouncePosition[0] = defaultController.bounce.position.x;
-        bouncePosition[1] = defaultController.bounce.position.y;
+        BouncePosition = new float[2];
+        BouncePosition[0] = defaultController.Bounce.position.x;
+        BouncePosition[1] = defaultController.Bounce.position.y;
     }
 
     public override void ImportToLevel()
     {
-        ImportToLevel(new(startPosition[0], startPosition[1]));
+        ImportToLevel(new(StartPosition[0], StartPosition[1]));
     }
 
     public override void ImportToLevel(Vector2 pos)
     {
-        float[] ballPos = startPosition;
-        float[] bouncePos = { bouncePosition[0] - ballPos[0], bouncePosition[1] - ballPos[1] };
+        float[] ballPos = StartPosition;
+        float[] bouncePos = { BouncePosition[0] - ballPos[0], BouncePosition[1] - ballPos[1] };
 
         BallManager.Instance.SetBall(pos.x, pos.y,
             bouncePos[0], bouncePos[1],
-            speed
+            Speed
         );
     }
 

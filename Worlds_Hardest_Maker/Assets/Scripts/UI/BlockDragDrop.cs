@@ -12,7 +12,7 @@ public class BlockDragDrop : MonoBehaviour
     {
         if (!active) return;
 
-        Canvas canvas = ReferenceManager.Instance.canvas;
+        Canvas canvas = ReferenceManager.Instance.Canvas;
         PointerEventData pointerData = (PointerEventData)data;
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(

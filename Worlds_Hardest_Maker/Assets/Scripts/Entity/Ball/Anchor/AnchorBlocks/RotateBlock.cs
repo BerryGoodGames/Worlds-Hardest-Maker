@@ -2,12 +2,12 @@ using DG.Tweening;
 
 public class RotateBlock : AnchorBlock
 {
-    public const Type blockType = Type.ROTATE;
-    public override Type ImplementedBlockType => blockType;
+    public const Type BlockType = Type.ROTATE;
+    public override Type ImplementedBlockType => BlockType;
 
     private readonly float iterations;
-    public float? customTime = null;
-    public float? customIterations = null;
+    public float? CustomTime = null;
+    public float? CustomIterations = null;
 
     public RotateBlock(AnchorController anchor, float iterations) : base(anchor)
     {
@@ -18,22 +18,22 @@ public class RotateBlock : AnchorBlock
     {
         float duration;
 
-        if (anchor.applyAngularSpeed)
+        if (Anchor.ApplyAngularSpeed)
         {
-            float currentZ = anchor.transform.localRotation.eulerAngles.z;
-            float targetZ = currentZ + (customIterations ?? iterations) * 360;
+            float currentZ = Anchor.transform.localRotation.eulerAngles.z;
+            float targetZ = currentZ + (CustomIterations ?? iterations) * 360;
             float distance = targetZ - currentZ;
 
-            duration = distance / anchor.angularSpeed;
+            duration = distance / Anchor.AngularSpeed;
         }
         else
         {
-            duration = customTime ?? anchor.angularSpeed;
+            duration = CustomTime ?? Anchor.AngularSpeed;
         }
 
-        anchor.rb.DORotate((customIterations ?? iterations) * 360, duration)
+        Anchor.Rb.DORotate((CustomIterations ?? iterations) * 360, duration)
             .SetRelative()
-            .SetEase(anchor.ease)
-            .OnComplete(() => { if(executeNext) anchor.FinishCurrentExecution(); });
+            .SetEase(Anchor.Ease)
+            .OnComplete(() => { if(executeNext) Anchor.FinishCurrentExecution(); });
     }
 }

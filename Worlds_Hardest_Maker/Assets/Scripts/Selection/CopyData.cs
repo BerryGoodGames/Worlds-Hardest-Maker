@@ -2,22 +2,22 @@ using UnityEngine;
 
 public class CopyData
 {
-    public Data data;
-    public Vector2 relativePos;
+    public Data Data;
+    public Vector2 RelativePos;
 
     public CopyData(Data data, Vector2 relativePos)
     {
-        this.data = data;
-        this.relativePos = relativePos;
+        this.Data = data;
+        this.RelativePos = relativePos;
     }
 
     public void Paste(Vector2 pos)
     {
-        data.ImportToLevel(pos + relativePos);
+        Data.ImportToLevel(pos + RelativePos);
     }
 
     public EditMode GetEditMode()
     {
-        return data.GetEditMode();
+        return Data.GetEditMode();
     }
 }

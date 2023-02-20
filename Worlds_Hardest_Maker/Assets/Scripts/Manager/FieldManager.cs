@@ -9,7 +9,7 @@ public class FieldManager : MonoBehaviour
 {
     public static FieldManager Instance { get; private set; }
 
-    public static readonly List<FieldType> solidFields = new(new[]
+    public static readonly List<FieldType> SolidFields = new(new[]
     {
         FieldType.WALL_FIELD,
         FieldType.GRAY_KEY_DOOR_FIELD,
@@ -19,7 +19,7 @@ public class FieldManager : MonoBehaviour
         FieldType.YELLOW_KEY_DOOR_FIELD
     });
 
-    public static readonly List<FieldType> rotatableFields = new(new[]
+    public static readonly List<FieldType> RotatableFields = new(new[]
     {
         FieldType.ONE_WAY_FIELD,
         FieldType.CONVEYOR
@@ -29,7 +29,7 @@ public class FieldManager : MonoBehaviour
     {
         FieldType? fieldType = (FieldType?)EnumUtils.TryConvertEnum<EditMode, FieldType>(editMode);
 
-        return fieldType != null && rotatableFields.Contains((FieldType)fieldType);
+        return fieldType != null && RotatableFields.Contains((FieldType)fieldType);
     }
 
     public static FieldType? GetFieldType(GameObject field)
@@ -102,21 +102,21 @@ public class FieldManager : MonoBehaviour
         ApplyStartGoalCheckpointFieldColor(field, null);
 
         // remove player if at changed pos
-        if (!PlayerManager.startFields.Contains(type))
+        if (!PlayerManager.StartFields.Contains(type))
         {
             PlayerManager.Instance.RemovePlayerAtPosIntersect(mx, my);
         }
 
-        if (CoinManager.cannotPlaceFields.Contains(type))
+        if (CoinManager.CannotPlaceFields.Contains(type))
         {
             // remove coin if wall is placed
-            GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.coinContainer);
+            GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.CoinContainer);
         }
 
-        if (KeyManager.cannotPlaceFields.Contains(type))
+        if (KeyManager.CannotPlaceFields.Contains(type))
         {
             // remove key if wall is placed
-            GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.keyContainer);
+            GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.KeyContainer);
         }
     }
 
@@ -133,8 +133,8 @@ public class FieldManager : MonoBehaviour
 
     public static void ApplyStartGoalCheckpointFieldColor(GameObject field, bool? oneColor)
     {
-        List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
-        oneColor ??= GraphicsSettings.Instance.oneColorStartGoalCheckpoint;
+        List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").Colors;
+        oneColor ??= GraphicsSettings.Instance.OneColorStartGoalCheckpoint;
 
         // special case for checkpoint
         SpriteRenderer renderer = field.GetComponent<SpriteRenderer>();
@@ -145,7 +145,7 @@ public class FieldManager : MonoBehaviour
             Color checkpointUnactivated = colors[(bool)oneColor ? 4 : 2];
             Color checkpointActivated = colors[(bool)oneColor ? 5 : 3];
 
-            renderer.color = checkpoint.activated ? checkpointActivated : checkpointUnactivated;
+            renderer.color = checkpoint.Activated ? checkpointActivated : checkpointUnactivated;
 
             if (field.TryGetComponent(out Animator anim))
             {
@@ -173,7 +173,7 @@ public class FieldManager : MonoBehaviour
         GameObject prefab = type.GetPrefab();
         GameObject res = MultiplayerManager.Instance.Multiplayer
             ? PhotonNetwork.Instantiate(prefab.name, pos, Quaternion.Euler(0, 0, rotation))
-            : Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), ReferenceManager.Instance.fieldContainer);
+            : Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), ReferenceManager.Instance.FieldContainer);
 
         return res;
     }

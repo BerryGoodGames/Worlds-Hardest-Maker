@@ -59,7 +59,7 @@ public class SettingGeneratorEditor : Editor
         EditorGUILayout.Space();
 
         // customized settings
-        switch (script.version)
+        switch (script.Version)
         {
             case SettingGenerator.SettingVersion.DROPDOWN:
                 // dropdown settings
@@ -82,7 +82,7 @@ public class SettingGeneratorEditor : Editor
                 break;
 
             default:
-                Debug.LogWarning($"Customized settings for settings generator isn't set for {script.version} yet!");
+                Debug.LogWarning($"Customized settings for settings generator isn't set for {script.Version} yet!");
                 break;
         }
 

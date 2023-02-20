@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class BallDragDrop : MonoBehaviourPun
 {
-    public static Dictionary<int, GameObject> dragDropList = new();
+    public static Dictionary<int, GameObject> DragDropList = new();
 
     [SerializeField] private BallController controller;
     [SerializeField] private int id;
@@ -17,12 +17,12 @@ public class BallDragDrop : MonoBehaviourPun
     {
         // assign id
         id = NextID();
-        dragDropList.Add(id, gameObject);
+        DragDropList.Add(id, gameObject);
     }
 
     private void OnMouseDrag()
     {
-        if (!Input.GetKey(KeybindManager.Instance.entityMoveKey)) return;
+        if (!Input.GetKey(KeybindManager.Instance.EntityMoveKey)) return;
 
         Vector2 unitPos = MouseManager.Instance.MouseWorldPosGrid;
 
@@ -42,13 +42,13 @@ public class BallDragDrop : MonoBehaviourPun
 
     private void OnDestroy()
     {
-        dragDropList.Remove(id);
+        DragDropList.Remove(id);
     }
 
     private static int NextID()
     {
-        int res = dragDropList.Count;
-        while (dragDropList.ContainsKey(res))
+        int res = DragDropList.Count;
+        while (DragDropList.ContainsKey(res))
         {
             res++;
         }

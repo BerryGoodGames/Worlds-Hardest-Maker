@@ -16,7 +16,7 @@ public class TooltipEditor : Editor
         EditorGUILayout.PropertyField(text);
         EditorGUILayout.PropertyField(fontSize);
         EditorGUILayout.PropertyField(customTweenDelay);
-        if(script.customTweenDelay) 
+        if(script.CustomTweenDelay) 
             EditorGUILayout.PropertyField(tweenDelay);
 
         serializedObject.ApplyModifiedProperties();

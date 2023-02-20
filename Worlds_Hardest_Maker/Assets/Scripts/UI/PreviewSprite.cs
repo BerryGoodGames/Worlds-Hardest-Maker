@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     class for preview settings for a prefab -> more control over preview
@@ -6,9 +7,9 @@ using UnityEngine;
 /// </summary>
 public class PreviewSprite : MonoBehaviour
 {
-    public Sprite sprite;
-    public Color color = Color.white;
-    public Vector2 scale = Vector2.one;
-    public bool showWhenSelecting;
-    public bool rotate;
+    [FormerlySerializedAs("sprite")] public Sprite Sprite;
+    [FormerlySerializedAs("color")] public Color Color = Color.white;
+    [FormerlySerializedAs("scale")] public Vector2 Scale = Vector2.one;
+    [FormerlySerializedAs("showWhenSelecting")] public bool ShowWhenSelecting;
+    [FormerlySerializedAs("rotate")] public bool Rotate;
 }

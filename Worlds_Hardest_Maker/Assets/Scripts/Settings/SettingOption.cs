@@ -1,12 +1,13 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SettingOption : MonoBehaviour
 {
-    [SerializeField] protected RectTransform rectTransform;
-    public TMP_Text label;
+    [FormerlySerializedAs("rectTransform")] [SerializeField] protected RectTransform RectTransform;
+    [FormerlySerializedAs("label")] public TMP_Text Label;
     [Space] [SerializeField] private float fontSize = 40;
-    [SerializeField] protected float height = 80;
+    [FormerlySerializedAs("height")] [SerializeField] public float Height = 80;
 
     public float FontSize
     {
@@ -14,27 +15,21 @@ public class SettingOption : MonoBehaviour
         set => fontSize = value;
     }
 
-    public float Height
-    {
-        get => height;
-        set => height = value;
-    }
-
     public void SetHeight(float h)
     {
-        height = h;
-        rectTransform.sizeDelta = new(0, h);
+        Height = h;
+        RectTransform.sizeDelta = new(0, h);
     }
 
     public void UpdateHeight()
     {
-        SetHeight(height);
+        SetHeight(Height);
     }
 
     public void SetFontSize(float size)
     {
         fontSize = size;
-        label.fontSize = size;
+        Label.fontSize = size;
     }
 
     public void UpdateFontSize()

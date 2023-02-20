@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     BallCircle attributes: speed, radius, origin, angle
@@ -7,32 +8,32 @@ using UnityEngine;
 [Serializable]
 public class BallCircleData : Data
 {
-    public float speed;
-    public float radius;
-    public float[] originPosition;
-    public float angle;
+    [FormerlySerializedAs("speed")] public float Speed;
+    [FormerlySerializedAs("radius")] public float Radius;
+    [FormerlySerializedAs("originPosition")] public float[] OriginPosition;
+    [FormerlySerializedAs("angle")] public float Angle;
 
     public BallCircleData(BallCircleController controller)
     {
-        speed = controller.speed;
+        Speed = controller.Speed;
 
-        radius = controller.radius;
+        Radius = controller.Radius;
 
-        originPosition = new float[2];
-        originPosition[0] = controller.origin.position.x;
-        originPosition[1] = controller.origin.position.y;
+        OriginPosition = new float[2];
+        OriginPosition[0] = controller.Origin.position.x;
+        OriginPosition[1] = controller.Origin.position.y;
 
-        angle = controller.startAngle;
+        Angle = controller.StartAngle;
     }
 
     public override void ImportToLevel()
     {
-        ImportToLevel(new(originPosition[0], originPosition[1]));
+        ImportToLevel(new(OriginPosition[0], OriginPosition[1]));
     }
 
     public override void ImportToLevel(Vector2 pos)
     {
-        BallCircleManager.Instance.SetBallCircle(pos.x, pos.y, radius, speed, angle);
+        BallCircleManager.Instance.SetBallCircle(pos.x, pos.y, Radius, Speed, Angle);
     }
 
     public override EditMode GetEditMode()

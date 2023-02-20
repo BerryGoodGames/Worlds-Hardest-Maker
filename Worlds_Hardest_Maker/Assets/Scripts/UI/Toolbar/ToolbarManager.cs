@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class ToolbarManager : MonoBehaviour
 {
-    public static GameObject[] tools;
+    public static GameObject[] Tools;
 
     private void Start()
     {
-        tools = GameObject.FindGameObjectsWithTag("Tool");
+        Tools = GameObject.FindGameObjectsWithTag("Tool");
     }
 
     public static void DeselectAll()
     {
-        foreach (GameObject t in tools)
+        foreach (GameObject t in Tools)
         {
             Tool tool = t.GetComponent<Tool>();
-            tool.Selected(false);
+            tool.IsSelected(false);
         }
     }
 }

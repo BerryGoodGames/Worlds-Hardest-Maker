@@ -7,14 +7,14 @@ using UnityEngine.Serialization;
 /// </summary>
 public class PathControllerOld : MonoBehaviour
 {
-    public enum PathMode
+    public enum PathModeType
     {
         BOUNCE,
         LOOP,
         STOP
     }
 
-    public List<WaypointOld> waypoints = new()
+    [FormerlySerializedAs("waypoints")] public List<WaypointOld> Waypoints = new()
     {
         new WaypointOld(Vector2.zero, true, 0, 1, 0)
     };
@@ -22,10 +22,10 @@ public class PathControllerOld : MonoBehaviour
     [FormerlySerializedAs("LineContainer")] [SerializeField]
     private Transform lineContainer;
 
-    [Space] [Header("Settings")] public bool setElement0ToStartingPos = true;
-    public bool drawLines = true;
-    public bool onlyMoveWhenPlaying = true;
-    public PathMode pathMode = 0;
+    [FormerlySerializedAs("setElement0ToStartingPos")] [Space] [Header("Settings")] public bool SetElement0ToStartingPos = true;
+    [FormerlySerializedAs("DrawLines")] [FormerlySerializedAs("drawLines")] public bool DoDrawLines = true;
+    [FormerlySerializedAs("onlyMoveWhenPlaying")] public bool OnlyMoveWhenPlaying = true;
+    [FormerlySerializedAs("pathMode")] public PathModeType PathMode = 0;
 
     private WaypointOld attributeTarget;
     private WaypointOld target;
@@ -47,9 +47,9 @@ public class PathControllerOld : MonoBehaviour
 
     private void Awake()
     {
-        if (waypoints is { Count: > 0 })
+        if (Waypoints is { Count: > 0 })
         {
-            Target = waypoints[0];
+            Target = Waypoints[0];
             targetIndex = 0;
         }
 
@@ -58,94 +58,94 @@ public class PathControllerOld : MonoBehaviour
 
     private void Start()
     {
-        if (setElement0ToStartingPos && waypoints[0] != null) waypoints[0].position = transform.position;
+        if (SetElement0ToStartingPos && Waypoints[0] != null) Waypoints[0].Position = transform.position;
         StartCoroutine(moveCoroutine);
     }
 
     public void UpdateStartingPosition()
     {
-        if (setElement0ToStartingPos && waypoints[0] != null)
+        if (SetElement0ToStartingPos && Waypoints[0] != null)
         {
-            waypoints[0].position = transform.position;
+            Waypoints[0].Position = transform.position;
             if (WaypointEditorControllerOld.StartPosition != null)
                 WaypointEditorControllerOld.StartPosition.UpdateInputValues();
         }
 
-        AnchorManagerOld.Instance.selectedPathControllerOld.DrawLines();
+        AnchorManagerOld.Instance.SelectedPathControllerOld.DrawLines();
     }
 
     private IEnumerator Move()
     {
         while (true)
         {
-            if ((!EditModeManager.Instance.Playing && onlyMoveWhenPlaying) || stop || waypoints == null)
+            if ((!EditModeManager.Instance.Playing && OnlyMoveWhenPlaying) || stop || Waypoints == null)
             {
                 yield return null;
                 continue;
             }
 
-            if ((Vector2)transform.position == target.position)
+            if ((Vector2)transform.position == target.Position)
             {
                 // delay next move
-                if (target.delay > 0)
+                if (target.Delay > 0)
                 {
-                    if (target.rotateWhileDelay)
+                    if (target.RotateWhileDelay)
                     {
-                        rotationCoroutine = Rotate(target.rotationSpeed);
+                        rotationCoroutine = Rotate(target.RotationSpeed);
                         StartCoroutine(rotationCoroutine);
-                        yield return new WaitForSeconds(target.delay);
+                        yield return new WaitForSeconds(target.Delay);
                         StopCoroutine(rotationCoroutine);
                     }
                     else
-                        yield return new WaitForSeconds(target.delay);
+                        yield return new WaitForSeconds(target.Delay);
                 }
 
-                switch (pathMode)
+                switch (PathMode)
                 {
                     // bounce path mode
-                    case PathMode.BOUNCE when waypoints.Count <= 1:
+                    case PathModeType.BOUNCE when Waypoints.Count <= 1:
                         break;
-                    case PathMode.BOUNCE when targetIndex == waypoints.Count - 1:
+                    case PathModeType.BOUNCE when targetIndex == Waypoints.Count - 1:
                         onReturn = true;
                         targetIndex--;
-                        target = waypoints[targetIndex];
+                        target = Waypoints[targetIndex];
                         break;
-                    case PathMode.BOUNCE when targetIndex == 0:
+                    case PathModeType.BOUNCE when targetIndex == 0:
                         onReturn = false;
                         targetIndex++;
-                        Target = waypoints[targetIndex];
+                        Target = Waypoints[targetIndex];
                         break;
-                    case PathMode.BOUNCE:
+                    case PathModeType.BOUNCE:
                         targetIndex += onReturn ? -1 : 1;
-                        target = waypoints[targetIndex];
-                        attributeTarget = onReturn ? waypoints[targetIndex + 1] : target;
+                        target = Waypoints[targetIndex];
+                        attributeTarget = onReturn ? Waypoints[targetIndex + 1] : target;
                         break;
                     // loop path mode
-                    case PathMode.LOOP:
-                        targetIndex = (targetIndex + 1) % waypoints.Count;
-                        Target = waypoints[targetIndex];
+                    case PathModeType.LOOP:
+                        targetIndex = (targetIndex + 1) % Waypoints.Count;
+                        Target = Waypoints[targetIndex];
                         break;
                     // stop path mode
-                    case PathMode.STOP:
+                    case PathModeType.STOP:
                     {
                         targetIndex++;
-                        if (targetIndex >= waypoints.Count)
+                        if (targetIndex >= Waypoints.Count)
                         {
                             stop = true;
                             yield break;
                         }
 
-                        Target = waypoints[targetIndex];
+                        Target = Waypoints[targetIndex];
                         break;
                     }
                 }
             }
 
             // move towards target
-            transform.position = Vector2.MoveTowards(transform.position, target.position,
-                attributeTarget.speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, target.Position,
+                attributeTarget.Speed * Time.deltaTime);
 
-            transform.Rotate(new Vector3(0, 0, attributeTarget.rotationSpeed * Time.deltaTime));
+            transform.Rotate(new Vector3(0, 0, attributeTarget.RotationSpeed * Time.deltaTime));
             yield return null;
         }
     }
@@ -161,10 +161,10 @@ public class PathControllerOld : MonoBehaviour
 
     public void ResetState()
     {
-        if (waypoints.Count > 0 && waypoints[0] != null)
+        if (Waypoints.Count > 0 && Waypoints[0] != null)
         {
-            transform.position = waypoints[0].position;
-            Target = waypoints[0];
+            transform.position = Waypoints[0].Position;
+            Target = Waypoints[0];
             targetIndex = 0;
             onReturn = false;
             stop = false;
@@ -180,20 +180,20 @@ public class PathControllerOld : MonoBehaviour
     {
         ClearLines();
 
-        for (int i = 1; i < waypoints.Count; i++)
+        for (int i = 1; i < Waypoints.Count; i++)
         {
-            WaypointOld prevWaypointOld = waypoints[i - 1];
-            WaypointOld currentWaypointOld = waypoints[i];
+            WaypointOld prevWaypointOld = Waypoints[i - 1];
+            WaypointOld currentWaypointOld = Waypoints[i];
             LineManager.SetFill(Color.black);
             LineManager.SetWeight(0.1f);
-            LineManager.SetLayerID(LineManager.defaultLayerID);
+            LineManager.SetLayerID(LineManager.DefaultLayerID);
             LineManager.SetOrderInLayer(0);
-            LineManager.DrawLine(prevWaypointOld.position, currentWaypointOld.position, lineContainer);
+            LineManager.DrawLine(prevWaypointOld.Position, currentWaypointOld.Position, lineContainer);
         }
 
-        if (pathMode == PathMode.LOOP && waypoints.Count > 1)
+        if (PathMode == PathModeType.LOOP && Waypoints.Count > 1)
         {
-            LineManager.DrawLine(waypoints[^1].position, waypoints[0].position, lineContainer);
+            LineManager.DrawLine(Waypoints[^1].Position, Waypoints[0].Position, lineContainer);
         }
     }
 

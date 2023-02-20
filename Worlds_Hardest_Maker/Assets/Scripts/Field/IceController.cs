@@ -14,8 +14,8 @@ public class IceController : MonoBehaviour
             // frame player entered ice
             // transition between normal ground and ice
             // transfer velocity to player
-            controller.rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) *
-                                     controller.speed;
+            controller.Rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) *
+                                     controller.Speed;
         }
     }
 }

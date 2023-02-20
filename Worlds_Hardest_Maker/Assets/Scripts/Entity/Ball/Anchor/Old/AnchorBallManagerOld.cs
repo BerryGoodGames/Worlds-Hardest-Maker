@@ -20,15 +20,15 @@ public class AnchorBallManagerOld : MonoBehaviour
         }
         else
         {
-            GameObject ball = Instantiate(PrefabManager.Instance.ball, Vector2.zero, Quaternion.identity,
-                AnchorManagerOld.Instance.SelectedAnchor.GetComponent<AnchorControllerOld>().container.transform);
+            GameObject ball = Instantiate(PrefabManager.Instance.Ball, Vector2.zero, Quaternion.identity,
+                AnchorManagerOld.Instance.SelectedAnchor.GetComponent<AnchorControllerOld>().Container.transform);
             ball.transform.GetChild(0).position = pos;
         }
     }
 
     public static void SetAnchorBall(Vector2 pos, Transform container)
     {
-        GameObject ball = Instantiate(PrefabManager.Instance.ball, Vector2.zero, Quaternion.identity, container);
+        GameObject ball = Instantiate(PrefabManager.Instance.Ball, Vector2.zero, Quaternion.identity, container);
         ball.transform.GetChild(0).position = pos;
     }
 

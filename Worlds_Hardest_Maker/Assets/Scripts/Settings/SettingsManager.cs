@@ -1,15 +1,16 @@
 using System;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Serialization;
 
 public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance { get; private set; }
 
-    public AudioMixer mainMixer;
-    public GameObject toolbarContainer;
-    public GameObject infobarEdit;
-    public GameObject infobarPlay;
+    [FormerlySerializedAs("mainMixer")] public AudioMixer MainMixer;
+    [FormerlySerializedAs("toolbarContainer")] public GameObject ToolbarContainer;
+    [FormerlySerializedAs("infobarEdit")] public GameObject InfobarEdit;
+    [FormerlySerializedAs("infobarPlay")] public GameObject InfobarPlay;
 
     private ToolbarSizing toolbarSpacing;
     private InfobarResize infobarPlayResize;
@@ -20,12 +21,12 @@ public class SettingsManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(this);
 
-        toolbarSpacing = toolbarContainer.GetComponent<ToolbarSizing>();
-        infobarPlayResize = infobarPlay.GetComponent<InfobarResize>();
-        infobarEditResize = infobarEdit.GetComponent<InfobarResize>();
+        toolbarSpacing = ToolbarContainer.GetComponent<ToolbarSizing>();
+        infobarPlayResize = InfobarPlay.GetComponent<InfobarResize>();
+        infobarEditResize = InfobarEdit.GetComponent<InfobarResize>();
 
 #if UNITY_EDITOR
-        mainMixer.SetFloat("MusicVolume", -80);
+        MainMixer.SetFloat("MusicVolume", -80);
         if (Instance != null) Instance = this;
 #endif
     }
@@ -46,9 +47,9 @@ public class SettingsManager : MonoBehaviour
         PlayerPrefs.SetFloat("InfobarSize", GetInfobarSize());
 
         // graphics
-        PlayerPrefs.SetInt("Quality", GraphicsSettings.Instance.qualityLevel);
-        PlayerPrefs.SetInt("Fullscreen", GraphicsSettings.Instance.fullscreen ? 1 : 0);
-        PlayerPrefs.SetInt("OneColorStartGoal", GraphicsSettings.Instance.oneColorStartGoalCheckpoint ? 1 : 0);
+        PlayerPrefs.SetInt("Quality", GraphicsSettings.Instance.QualityLevel);
+        PlayerPrefs.SetInt("Fullscreen", Screen.fullScreen ? 1 : 0);
+        PlayerPrefs.SetInt("OneColorStartGoal", GraphicsSettings.Instance.OneColorStartGoalCheckpoint ? 1 : 0);
     }
 
     public void LoadPrefs()
@@ -71,7 +72,7 @@ public class SettingsManager : MonoBehaviour
         // map vol from 0 - 100 to 0.0001 - 1 and convert it so vol acts linear
         float newVol = Mathf.Log10(vol.Map(0, 100, 0.0001f, 3)) * 20;
 
-        mainMixer.SetFloat("MusicVolume", newVol);
+        MainMixer.SetFloat("MusicVolume", newVol);
 
         if (setPrefs) SavePrefs();
     }
@@ -85,7 +86,7 @@ public class SettingsManager : MonoBehaviour
     {
         float newVol = Mathf.Log10(vol.Map(0, 100, 0.0001f, 3)) * 20;
 
-        mainMixer.SetFloat("SoundEffectVolume", newVol);
+        MainMixer.SetFloat("SoundEffectVolume", newVol);
 
         if (setPrefs) SavePrefs();
     }
@@ -97,7 +98,7 @@ public class SettingsManager : MonoBehaviour
 
     public float GetMusicVolume()
     {
-        if (mainMixer.GetFloat("MusicVolume", out float value))
+        if (MainMixer.GetFloat("MusicVolume", out float value))
         {
             return value;
         }
@@ -107,7 +108,7 @@ public class SettingsManager : MonoBehaviour
 
     public float GetSoundEffectVolume()
     {
-        if (mainMixer.GetFloat("SoundEffectVolume", out float value))
+        if (MainMixer.GetFloat("SoundEffectVolume", out float value))
         {
             return value;
         }
@@ -123,7 +124,7 @@ public class SettingsManager : MonoBehaviour
     {
         if (toolbarSpacing == null) return;
 
-        toolbarSpacing.toolbarHeight = size;
+        toolbarSpacing.ToolbarHeight = size;
         toolbarSpacing.UpdateSize();
 
         if (setPrefs) SavePrefs();
@@ -146,15 +147,15 @@ public class SettingsManager : MonoBehaviour
 
     public float GetToolbarSize()
     {
-        return toolbarSpacing.toolbarHeight;
+        return toolbarSpacing.ToolbarHeight;
     }
 
     public void SetInfobarSize(float size, bool setPrefs)
     {
         if (infobarPlayResize == null || infobarEditResize == null) return;
 
-        infobarPlayResize.infobarHeight = size;
-        infobarEditResize.infobarHeight = size;
+        infobarPlayResize.InfobarHeight = size;
+        infobarEditResize.InfobarHeight = size;
         infobarPlayResize.UpdateSize();
         infobarEditResize.UpdateSize();
 
@@ -178,7 +179,7 @@ public class SettingsManager : MonoBehaviour
 
     public float GetInfobarSize()
     {
-        return infobarPlayResize.infobarHeight;
+        return infobarPlayResize.InfobarHeight;
     }
 
     #endregion

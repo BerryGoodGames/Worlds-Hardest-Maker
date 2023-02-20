@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     Manages the anchors (duh)
@@ -10,7 +11,7 @@ public class AnchorManagerOld : MonoBehaviour
 
     private GameObject selectedAnchor;
 
-    public PathEditorControllerOld pathEditorControllerOld;
+    [FormerlySerializedAs("pathEditorControllerOld")] public PathEditorControllerOld PathEditorControllerOld;
 
     public GameObject SelectedAnchor
     {
@@ -18,7 +19,7 @@ public class AnchorManagerOld : MonoBehaviour
         set => SelectAnchor(value);
     }
 
-    [HideInInspector] public PathControllerOld selectedPathControllerOld;
+    [FormerlySerializedAs("selectedPathControllerOld")] [HideInInspector] public PathControllerOld SelectedPathControllerOld;
 
     private static readonly int selected = Animator.StringToHash("Selected");
 
@@ -43,8 +44,8 @@ public class AnchorManagerOld : MonoBehaviour
 
         GameObject anchor = MultiplayerManager.Instance.Multiplayer
             ? PhotonNetwork.Instantiate("Anchor", pos, Quaternion.identity)
-            : Instantiate(PrefabManager.Instance.anchor, pos, Quaternion.identity,
-                ReferenceManager.Instance.anchorContainer);
+            : Instantiate(PrefabManager.Instance.Anchor, pos, Quaternion.identity,
+                ReferenceManager.Instance.AnchorContainer);
 
         return anchor;
     }
@@ -120,22 +121,22 @@ public class AnchorManagerOld : MonoBehaviour
             {
                 selectedAnchor.GetComponent<Animator>().SetBool(selected, false);
 
-                selectedPathControllerOld.ClearLines();
-                selectedPathControllerOld.drawLines = false;
+                SelectedPathControllerOld.ClearLines();
+                SelectedPathControllerOld.DoDrawLines = false;
             }
 
             selectedAnchor = anchor;
             selectedAnchor.GetComponent<Animator>().SetBool(selected, true);
-            selectedPathControllerOld = selectedAnchor.GetComponent<PathControllerOld>();
-            selectedPathControllerOld.drawLines = true;
+            SelectedPathControllerOld = selectedAnchor.GetComponent<PathControllerOld>();
+            SelectedPathControllerOld.DoDrawLines = true;
         }
 
-        pathEditorControllerOld.UpdateUI();
+        PathEditorControllerOld.UpdateUI();
     }
 
     public static void ResetPathEditorPosition()
     {
-        Instance.pathEditorControllerOld.ResetPosition();
+        Instance.PathEditorControllerOld.ResetPosition();
     }
 
     private void Awake()

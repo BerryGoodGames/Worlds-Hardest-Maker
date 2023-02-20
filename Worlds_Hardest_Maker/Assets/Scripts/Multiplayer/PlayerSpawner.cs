@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerSpawner : MonoBehaviour
 {
-    public Transform spawnPoint;
+    [FormerlySerializedAs("spawnPoint")] public Transform SpawnPoint;
 
     private void Start()
     {
-        PlayerManager.InstantiatePlayer(spawnPoint.position, 3, true);
+        PlayerManager.InstantiatePlayer(SpawnPoint.position, 3, true);
     }
 }

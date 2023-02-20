@@ -11,7 +11,7 @@ public class VoidDetection : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (playerController.inDeathAnim || !CheckCollision(transform.position)) return;
+        if (playerController.InDeathAnim || !CheckCollision(transform.position)) return;
 
         // check corners
         int collisionId = 0;

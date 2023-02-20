@@ -1,14 +1,15 @@
 using System.Collections;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     controls the anchor (duh)
 /// </summary>
 public class AnchorControllerOld : Controller
 {
-    public GameObject outline;
-    public GameObject container;
+    [FormerlySerializedAs("outline")] public GameObject Outline;
+    [FormerlySerializedAs("container")] public GameObject Container;
 
     private PathControllerOld pathControllerOld;
     public PhotonView View { get; set; }
@@ -22,7 +23,7 @@ public class AnchorControllerOld : Controller
 
         parent.position = Vector2.zero;
 
-        parent.SetParent(ReferenceManager.Instance.anchorContainer);
+        parent.SetParent(ReferenceManager.Instance.AnchorContainer);
 
         pathControllerOld = GetComponent<PathControllerOld>();
 
@@ -37,15 +38,15 @@ public class AnchorControllerOld : Controller
     [PunRPC]
     private void RPCSetBall(Vector2 pos)
     {
-        AnchorBallManagerOld.SetAnchorBall(pos, container.transform);
+        AnchorBallManagerOld.SetAnchorBall(pos, Container.transform);
     }
 
     [PunRPC]
     private void RPCSetWaypointPosition(Vector2 pos, int index)
     {
-        WaypointOld waypointOld = pathControllerOld.waypoints[index];
-        waypointOld.position = pos;
-        AnchorManagerOld.Instance.selectedPathControllerOld.DrawLines();
+        WaypointOld waypointOld = pathControllerOld.Waypoints[index];
+        waypointOld.Position = pos;
+        AnchorManagerOld.Instance.SelectedPathControllerOld.DrawLines();
         if (waypointOld.WaypointEditor != null)
             waypointOld.WaypointEditor.InputPosition = pos;
     }
@@ -53,8 +54,8 @@ public class AnchorControllerOld : Controller
     [PunRPC]
     private void RPCSetWaypointSpeed(float speed, int index)
     {
-        WaypointOld waypointOld = pathControllerOld.waypoints[index];
-        waypointOld.speed = speed;
+        WaypointOld waypointOld = pathControllerOld.Waypoints[index];
+        waypointOld.Speed = speed;
 
         if (waypointOld.WaypointEditor != null)
             waypointOld.WaypointEditor.InputSpeed = speed;
@@ -63,8 +64,8 @@ public class AnchorControllerOld : Controller
     [PunRPC]
     private void RPCSetWaypointRotationSpeed(float speed, int index)
     {
-        WaypointOld waypointOld = pathControllerOld.waypoints[index];
-        waypointOld.rotationSpeed = speed;
+        WaypointOld waypointOld = pathControllerOld.Waypoints[index];
+        waypointOld.RotationSpeed = speed;
 
         if (waypointOld.WaypointEditor != null)
             waypointOld.WaypointEditor.InputRotationSpeed = speed;
@@ -73,8 +74,8 @@ public class AnchorControllerOld : Controller
     [PunRPC]
     private void RPCSetWaypointDelay(float delay, int index)
     {
-        WaypointOld waypointOld = pathControllerOld.waypoints[index];
-        waypointOld.delay = delay;
+        WaypointOld waypointOld = pathControllerOld.Waypoints[index];
+        waypointOld.Delay = delay;
 
         if (waypointOld.WaypointEditor != null)
             waypointOld.WaypointEditor.InputDelay = delay;
@@ -83,8 +84,8 @@ public class AnchorControllerOld : Controller
     [PunRPC]
     private void RPCSetWaypointRotateWhileDelay(bool rotateWhileDelay, int index)
     {
-        WaypointOld waypointOld = pathControllerOld.waypoints[index];
-        waypointOld.rotateWhileDelay = rotateWhileDelay;
+        WaypointOld waypointOld = pathControllerOld.Waypoints[index];
+        waypointOld.RotateWhileDelay = rotateWhileDelay;
 
         if (waypointOld.WaypointEditor != null)
             waypointOld.WaypointEditor.InputRotateWhileDelay = rotateWhileDelay;
@@ -93,23 +94,23 @@ public class AnchorControllerOld : Controller
     [PunRPC]
     private void RPCDeleteWaypoint(int index)
     {
-        WaypointOld waypointOld = pathControllerOld.waypoints[index];
+        WaypointOld waypointOld = pathControllerOld.Waypoints[index];
         waypointOld.WaypointEditor.DeleteThisWaypoint();
     }
 
     [PunRPC]
     private void RPCAddWaypoint()
     {
-        pathControllerOld.waypoints.Add(new(new(0, 0), true, 0, 1, 0));
-        if (pathControllerOld.waypoints.Count > 0 && pathControllerOld.waypoints[0].WaypointEditor != null)
-            ReferenceManager.Instance.ballWindows.GetComponentInChildren<PathEditorControllerOld>().UpdateUI();
+        pathControllerOld.Waypoints.Add(new(new(0, 0), true, 0, 1, 0));
+        if (pathControllerOld.Waypoints.Count > 0 && pathControllerOld.Waypoints[0].WaypointEditor != null)
+            ReferenceManager.Instance.BallWindows.GetComponentInChildren<PathEditorControllerOld>().UpdateUI();
     }
 
     public void BallFadeOut(AnimationEvent animationEvent)
     {
         float endOpacity = animationEvent.floatParameter;
         if (float.TryParse(animationEvent.stringParameter, out float time))
-            StartCoroutine(container.GetComponent<ChildrenOpacity>().FadeOut(endOpacity, time));
+            StartCoroutine(Container.GetComponent<ChildrenOpacity>().FadeOut(endOpacity, time));
     }
 
     public void BallFadeIn(AnimationEvent animationEvent)
@@ -121,7 +122,7 @@ public class AnchorControllerOld : Controller
 
     public void BallFadeIn(float endOpacity, float time)
     {
-        StartCoroutine(container.GetComponent<ChildrenOpacity>().FadeIn(endOpacity, time));
+        StartCoroutine(Container.GetComponent<ChildrenOpacity>().FadeIn(endOpacity, time));
     }
 
     public IEnumerator FadeInOnNextFrame(float endOpacity, float time)
@@ -132,6 +133,6 @@ public class AnchorControllerOld : Controller
 
     public override Data GetData()
     {
-        return new AnchorDataOld(pathControllerOld, container.transform);
+        return new AnchorDataOld(pathControllerOld, Container.transform);
     }
 }

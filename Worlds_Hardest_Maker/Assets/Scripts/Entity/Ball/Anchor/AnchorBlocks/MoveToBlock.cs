@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class MoveToBlock : AnchorBlock
 {
-    public const Type blockType = Type.MOVE_TO;
-    public override Type ImplementedBlockType => blockType;
+    public const Type BlockType = Type.MOVE_TO;
+    public override Type ImplementedBlockType => BlockType;
 
     private readonly Vector2 target;
 
@@ -24,30 +24,30 @@ public class MoveToBlock : AnchorBlock
     public override void Execute(bool executeNext = true)
     {
         float duration;
-        float dist = Vector2.Distance(target, anchor.rb.position);
+        float dist = Vector2.Distance(target, Anchor.Rb.position);
 
-        if (anchor.applySpeed)
+        if (Anchor.ApplySpeed)
         {
-            float speed = anchor.speed;
+            float speed = Anchor.Speed;
             
             duration = dist / speed;
         }
         else
         {
-            duration = anchor.speed;
+            duration = Anchor.Speed;
         }
 
         // TODO: rethink about other system
         if (rotateBlock != null)
         {
-            rotateBlock.customTime = duration;
-            rotateBlock.customIterations = anchor.angularSpeed / 360 * duration;
+            rotateBlock.CustomTime = duration;
+            rotateBlock.CustomIterations = Anchor.AngularSpeed / 360 * duration;
             rotateBlock.Execute(false);
         }
 
-        anchor.DOKill();
-        anchor.rb.DOMove(target, duration)
-            .SetEase(anchor.ease)
-            .OnComplete(anchor.FinishCurrentExecution);
+        Anchor.DOKill();
+        Anchor.Rb.DOMove(target, duration)
+            .SetEase(Anchor.Ease)
+            .OnComplete(Anchor.FinishCurrentExecution);
     }
 }

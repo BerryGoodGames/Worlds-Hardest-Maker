@@ -1,21 +1,22 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BackgroundLineSize : MonoBehaviour
 {
     // order: top, right, bottom, left
-    [Header("Line order: top, right, bottom, left")]
-    public RectTransform[] lines;
+    [FormerlySerializedAs("lines")] [Header("Line order: top, right, bottom, left")]
+    public RectTransform[] Lines;
 
-    [Space] public float newLineSize;
+    [FormerlySerializedAs("newLineSize")] [Space] public float NewLineSize;
 
     public void SetLineSize()
     {
-        SetLineSize(newLineSize);
+        SetLineSize(NewLineSize);
     }
 
     public void SetLineSize(float size)
     {
-        for (int i = 0; i < lines.Length; i++)
+        for (int i = 0; i < Lines.Length; i++)
         {
             SetLineSize(i, size);
         }
@@ -23,7 +24,7 @@ public class BackgroundLineSize : MonoBehaviour
 
     public void SetLineSize(int i, float size)
     {
-        RectTransform line = lines[i];
+        RectTransform line = Lines[i];
         if (i % 2 == 0) line.sizeDelta = new(0, size);
         else line.sizeDelta = new(size, 0);
     }

@@ -11,7 +11,7 @@ public class MultiplayerManager : MonoBehaviour
     public static void OnIsMultiplayer()
     {
         // enable photon player spawning
-        ReferenceManager.Instance.playerSpawner.enabled = true;
+        ReferenceManager.Instance.PlayerSpawner.enabled = true;
     }
 
     private void Start()

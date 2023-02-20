@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     Player attributes: speed, start pos
@@ -7,28 +8,28 @@ using UnityEngine;
 [Serializable]
 public class PlayerData : Data
 {
-    public int id;
-    public float speed;
-    public float[] startPosition;
+    [FormerlySerializedAs("id")] public int ID;
+    [FormerlySerializedAs("speed")] public float Speed;
+    [FormerlySerializedAs("startPosition")] public float[] StartPosition;
 
     public PlayerData(PlayerController controller)
     {
-        id = controller.id;
-        speed = controller.speed;
+        ID = controller.ID;
+        Speed = controller.Speed;
 
-        startPosition = new float[2];
-        startPosition[0] = controller.startPos.x;
-        startPosition[1] = controller.startPos.y;
+        StartPosition = new float[2];
+        StartPosition[0] = controller.StartPos.x;
+        StartPosition[1] = controller.StartPos.y;
     }
 
     public override void ImportToLevel()
     {
-        ImportToLevel(new(startPosition[0], startPosition[1]));
+        ImportToLevel(new(StartPosition[0], StartPosition[1]));
     }
 
     public override void ImportToLevel(Vector2 pos)
     {
-        PlayerManager.Instance.SetPlayer(pos, speed);
+        PlayerManager.Instance.SetPlayer(pos, Speed);
     }
 
     public override EditMode GetEditMode()

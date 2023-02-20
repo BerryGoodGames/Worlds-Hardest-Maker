@@ -1,12 +1,13 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class SelectionSquare : MonoBehaviour
 {
     private Image image;
-    public Sprite deselectedSprite;
-    public Sprite selectedSprite;
-    public Sprite subSelectedSprite;
+    [FormerlySerializedAs("deselectedSprite")] public Sprite DeselectedSprite;
+    [FormerlySerializedAs("selectedSprite")] public Sprite SelectedSprite;
+    [FormerlySerializedAs("subSelectedSprite")] public Sprite SubSelectedSprite;
     private RectTransform rt;
 
     private void Awake()
@@ -29,11 +30,11 @@ public class SelectionSquare : MonoBehaviour
 
     public void Selected(bool selected)
     {
-        image.sprite = selected ? selectedSprite : deselectedSprite;
+        image.sprite = selected ? SelectedSprite : DeselectedSprite;
     }
 
     public void SubSelected(bool subselected)
     {
-        image.sprite = subselected ? subSelectedSprite : image.sprite;
+        image.sprite = subselected ? SubSelectedSprite : image.sprite;
     }
 }

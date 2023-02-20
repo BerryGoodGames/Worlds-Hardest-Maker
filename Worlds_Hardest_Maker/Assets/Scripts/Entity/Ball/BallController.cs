@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
@@ -7,31 +8,31 @@ using UnityEngine.UI;
 /// </summary>
 public abstract class BallController : Controller
 {
-    [HideInInspector] public float speed;
-    [HideInInspector] public AppendSlider sliderController;
-    [HideInInspector] public PhotonView photonView;
+    [FormerlySerializedAs("speed")] [HideInInspector] public float Speed;
+    [FormerlySerializedAs("sliderController")] [HideInInspector] public AppendSlider SliderController;
+    [FormerlySerializedAs("photonView")] [HideInInspector] public PhotonView PhotonView;
 
     private Text speedText;
 
     public void Awake()
     {
-        sliderController = GetComponent<AppendSlider>();
-        photonView = GetComponent<PhotonView>();
+        SliderController = GetComponent<AppendSlider>();
+        PhotonView = GetComponent<PhotonView>();
 
         // slider follow settings
-        UIFollowEntity follow = sliderController.GetSliderObject().GetComponent<UIFollowEntity>();
-        follow.entity = gameObject;
-        follow.offset = new(0, 0.5f);
+        UIFollowEntity follow = SliderController.GetSliderObject().GetComponent<UIFollowEntity>();
+        follow.Entity = gameObject;
+        follow.Offset = new(0, 0.5f);
 
         // slider init
-        Slider slider = sliderController.GetSlider();
+        Slider slider = SliderController.GetSlider();
         slider.onValueChanged.AddListener(value =>
         {
-            float newSpeed = value * sliderController.Step;
+            float newSpeed = value * SliderController.Step;
 
-            speed = newSpeed;
+            Speed = newSpeed;
 
-            if (MultiplayerManager.Instance.Multiplayer) photonView.RPC("SetSpeed", RpcTarget.Others, newSpeed);
+            if (MultiplayerManager.Instance.Multiplayer) PhotonView.RPC("SetSpeed", RpcTarget.Others, newSpeed);
         });
     }
 
@@ -42,13 +43,13 @@ public abstract class BallController : Controller
     [PunRPC]
     public void SetSpeed(float speed)
     {
-        this.speed = speed;
+        this.Speed = speed;
 
         // sync slider
-        float currentSliderValue = sliderController.GetValue() / sliderController.Step;
+        float currentSliderValue = SliderController.GetValue() / SliderController.Step;
         if (!currentSliderValue.EqualsFloat(speed))
         {
-            sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
+            SliderController.GetSlider().SetValueWithoutNotify(speed / SliderController.Step);
         }
     }
 
@@ -61,8 +62,8 @@ public abstract class BallController : Controller
     {
         speedText = speedText != null
             ? speedText
-            : sliderController.GetSliderObject().transform.GetChild(0).GetComponent<Text>();
-        speedText.text = "Speed: " + speed.ToString("0.0");
+            : SliderController.GetSliderObject().transform.GetChild(0).GetComponent<Text>();
+        speedText.text = "Speed: " + Speed.ToString("0.0");
     }
 
     [PunRPC]

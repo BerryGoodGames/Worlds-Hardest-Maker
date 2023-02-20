@@ -1,22 +1,23 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Tool : MonoBehaviour
 {
-    [HideInInspector] public EditMode toolName;
+    [FormerlySerializedAs("toolName")] [HideInInspector] public EditMode ToolName;
     [SerializeField] private string toolType;
-    [HideInInspector] public bool selected;
-    [HideInInspector] public bool inOptionbar;
+    [FormerlySerializedAs("selected")] [HideInInspector] public bool Selected;
+    [FormerlySerializedAs("inOptionbar")] [HideInInspector] public bool InOptionbar;
     private SelectionSquare selectionSquare;
     private AlphaUITween anim;
     private MouseOverUI mouseOverUI;
 
     private void Awake()
     {
-        if (!Enum.TryParse(toolType, out toolName))
+        if (!Enum.TryParse(toolType, out ToolName))
             Debug.LogError($"{toolType} was not a valid type");
 
-        inOptionbar = transform.parent.CompareTag("OptionContainer");
+        InOptionbar = transform.parent.CompareTag("OptionContainer");
     }
 
     private void Start()
@@ -29,8 +30,8 @@ public class Tool : MonoBehaviour
     public void SwitchGameMode(bool setEditModeVariable)
     {
         ToolbarManager.DeselectAll();
-        Selected(true);
-        if (setEditModeVariable) EditModeManager.Instance.CurrentEditMode = toolName;
+        IsSelected(true);
+        if (setEditModeVariable) EditModeManager.Instance.CurrentEditMode = ToolName;
     }
 
     public void SwitchGameMode()
@@ -38,15 +39,15 @@ public class Tool : MonoBehaviour
         SwitchGameMode(true);
     }
 
-    public void Selected(bool selected)
+    public void IsSelected(bool selected)
     {
         if (selectionSquare == null) return;
 
         selectionSquare.Selected(selected);
 
-        this.selected = selected;
+        Selected = selected;
 
-        if (!inOptionbar || !selected) return;
+        if (!InOptionbar || !selected) return;
 
         Tool parentTool = transform.parent.parent.parent.GetComponent<Tool>();
         parentTool.SubSelected(true);
@@ -59,6 +60,6 @@ public class Tool : MonoBehaviour
 
     private void Update()
     {
-        anim.SetVisible(selected || (mouseOverUI.over && !ReferenceManager.Instance.menu.activeSelf));
+        anim.SetVisible(Selected || (mouseOverUI.Over && !ReferenceManager.Instance.Menu.activeSelf));
     }
 }

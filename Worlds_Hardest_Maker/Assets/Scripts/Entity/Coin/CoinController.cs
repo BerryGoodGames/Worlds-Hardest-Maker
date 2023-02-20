@@ -1,15 +1,16 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CoinController : Controller
 {
-    [HideInInspector] public Vector2 coinPosition;
-    [HideInInspector] public bool pickedUp;
+    [FormerlySerializedAs("coinPosition")] [HideInInspector] public Vector2 CoinPosition;
+    [FormerlySerializedAs("pickedUp")] [HideInInspector] public bool PickedUp;
 
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
 
     private void Awake()
     {
-        coinPosition = transform.position;
+        CoinPosition = transform.position;
     }
 
     private void OnDestroy()
@@ -19,23 +20,23 @@ public class CoinController : Controller
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (pickedUp) return;
+        if (PickedUp) return;
 
         // check if edgeCollider is player
         if (!collision.TryGetComponent(out PlayerController controller)) return;
 
         // check if player is of own client
-        if (MultiplayerManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
+        if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) return;
 
         // check if that player hasn't picked coin up yet
-        if (controller.coinsCollected.Contains(gameObject)) return;
+        if (controller.CoinsCollected.Contains(gameObject)) return;
 
         PickUp(collision.gameObject);
 
         // check if player is in goal while collecting coin
-        if (!controller.CoinsCollected()) return;
+        if (!controller.AllCoinsCollected()) return;
 
-        foreach (GameObject field in controller.currentFields)
+        foreach (GameObject field in controller.CurrentFields)
         {
             FieldType fieldType = (FieldType)FieldManager.GetFieldType(field);
             if (fieldType != FieldType.GOAL_FIELD) continue;
@@ -48,14 +49,14 @@ public class CoinController : Controller
     private void PickUp(GameObject player)
     {
         PlayerController controller = player.GetComponent<PlayerController>();
-        controller.coinsCollected.Add(gameObject);
+        controller.CoinsCollected.Add(gameObject);
 
         // coin counter, sfx, animation
         AudioManager.Instance.Play("Coin");
 
         Animator anim = transform.parent.GetComponent<Animator>();
         anim.SetBool(pickedUpString, true);
-        pickedUp = true;
+        PickedUp = true;
     }
 
     public override Data GetData()
