@@ -226,7 +226,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 617960697850934350}
           m_TargetAssemblyTypeName: BlockDragDrop, Assembly-CSharp
-          m_MethodName: Drag
+          m_MethodName: OnDragEvent
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -242,7 +242,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 617960697850934350}
           m_TargetAssemblyTypeName: BlockDragDrop, Assembly-CSharp
-          m_MethodName: BeginDrag
+          m_MethodName: OnBeginEvent
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
