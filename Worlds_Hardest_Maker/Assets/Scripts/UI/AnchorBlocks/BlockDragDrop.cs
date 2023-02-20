@@ -10,7 +10,7 @@ public class BlockDragDrop : MonoBehaviour
 
     private Vector2 offset;
 
-    public void OnDrag(Vector2 mousePos)
+    private void OnDrag(Vector2 mousePos)
     {
         if (!active) return;
 
@@ -27,17 +27,29 @@ public class BlockDragDrop : MonoBehaviour
         transform.position = canvas.transform.TransformPoint(position) - (Vector3)offset;
     }
 
+    private void OnBeginDrag(Vector2 mousePos)
+    {
+        if (!active || !gameObject.activeInHierarchy) return;
+        
+        AnchorBlockManager.DraggedBlock = GetComponent<AnchorBlockController>();
+        AnchorBlockManager.DraggingBlock = true;
+
+        offset = mousePos - (Vector2)transform.position;
+    }
+
+    private void OnEndDrag(Vector2 mousePos)
+    {
+        if (!active) return;
+
+        AnchorBlockManager.DraggedBlock = null;
+        AnchorBlockManager.DraggingBlock = false;
+    }
+
+    #region Events
     public void OnDragEvent(BaseEventData data)
     {
         PointerEventData pointerData = (PointerEventData)data;
         OnDrag(pointerData.position);
-    }
-
-    public void OnBeginDrag(Vector2 mousePos)
-    {
-        if (!active) return;
-
-        offset = mousePos - (Vector2)transform.position;
     }
 
     public void OnBeginEvent(BaseEventData data)
@@ -45,19 +57,27 @@ public class BlockDragDrop : MonoBehaviour
         PointerEventData pointerData = (PointerEventData)data;
         OnBeginDrag(pointerData.position);
     }
+    #endregion
 
     public void BeginDrag()
     {
         StartCoroutine(Drag());
     }
 
-    public IEnumerator Drag()
+    private IEnumerator Drag()
     {
+        if(!active) yield break;
+
+        OnBeginDrag(Input.mousePosition);
         while (true)
         {
-            print("1");
-            if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1)) yield break;
-            print("2");
+            if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
+            {
+                // waiting for one frame in case it has to be moved to a block string
+                yield return null;
+                OnEndDrag(Input.mousePosition);
+                yield break;
+            }
             OnDrag(Input.mousePosition);
             yield return null;
         }

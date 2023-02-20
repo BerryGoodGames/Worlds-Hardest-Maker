@@ -34,7 +34,7 @@ public class MouseManager : MonoBehaviour
     public Vector2 MouseWorldPosMatrix { get; set; }
     public bool IsOnScreen { get; set; } = true;
     public bool IsUIHovered { get; set; }
-
+    public bool PrevMouseUp { get; set; }
     #endregion
 
     #region Static methods
@@ -110,6 +110,7 @@ public class MouseManager : MonoBehaviour
         Instance.PrevMousePos = Input.mousePosition;
         Instance.PrevMouseWorldPos = Instance.MouseWorldPos;
         Instance.MouseWorldPos = Vector2.positiveInfinity;
+        Instance.PrevMouseUp = Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1);
     }
 
     private void Awake()
