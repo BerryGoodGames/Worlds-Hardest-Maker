@@ -253,6 +253,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: StartBlock
       objectReference: {fileID: 0}
+    - target: {fileID: 2207349393350425263, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: m_Color.b
+      value: 0.33018866
+      objectReference: {fileID: 0}
+    - target: {fileID: 2207349393350425263, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: m_Color.g
+      value: 0.33018866
+      objectReference: {fileID: 0}
+    - target: {fileID: 2207349393350425263, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: m_Color.r
+      value: 0.33018866
+      objectReference: {fileID: 0}
     - target: {fileID: 2207349393350425267, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_ChildControlHeight
       value: 1
@@ -352,7 +364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22294703660940507, guid: 36088607dd633eb4db48265a6a801265, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 36.79
+      value: 36.82
       objectReference: {fileID: 0}
     - target: {fileID: 22294703660940507, guid: 36088607dd633eb4db48265a6a801265, type: 3}
       propertyPath: m_AnchoredPosition.y
