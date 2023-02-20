@@ -5,9 +5,7 @@ using UnityEngine.Serialization;
 public class PrefabManager : MonoBehaviour
 {
     public static PrefabManager Instance { get; private set; }
-
-    // TODO transfer prefabs from game manager to here
-
+    
     [FormerlySerializedAs("WallField")] [Header("Fields")]
     public GameObject wallField;
 
@@ -72,6 +70,7 @@ public class PrefabManager : MonoBehaviour
 
     [FormerlySerializedAs("FillPreview")] public GameObject fillPreview;
     [FormerlySerializedAs("Tooltip")] public GameObject tooltip;
+    
 
     private void OnEnable()
     {
