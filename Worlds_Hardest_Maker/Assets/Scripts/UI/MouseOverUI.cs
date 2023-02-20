@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     checks if ui element is hovered by mouse:
@@ -7,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class MouseOverUI : MonoBehaviour
 {
-    [HideInInspector] public bool over;
+    [FormerlySerializedAs("over")] [HideInInspector] public bool Over;
     private RectTransform rt;
     private const bool updateSize = true;
 
@@ -15,8 +16,8 @@ public class MouseOverUI : MonoBehaviour
     private float width;
     private float height;
 
-    public Action onHovered = () => { };
-    public Action onUnhovered = () => { };
+    public Action OnHovered = () => { };
+    public Action OnUnhovered = () => { };
 
     private void Start()
     {
@@ -38,21 +39,21 @@ public class MouseOverUI : MonoBehaviour
             Input.mousePosition.y > rt.position.y - height * 0.5f &&
             Input.mousePosition.y < rt.position.y + height * 0.5f)
         {
-            if (!over)
+            if (!Over)
             {
-                onHovered();
+                OnHovered();
             }
 
-            over = true;
+            Over = true;
         }
         else
         {
-            if (over)
+            if (Over)
             {
-                onUnhovered();
+                OnUnhovered();
             }
 
-            over = false;
+            Over = false;
         }
     }
 }

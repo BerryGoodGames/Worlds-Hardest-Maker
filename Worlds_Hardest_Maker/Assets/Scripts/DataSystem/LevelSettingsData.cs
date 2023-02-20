@@ -1,36 +1,37 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class LevelSettingsData : Data
 {
     #region Setting variables
 
-    public float drownDuration;
-    public float waterDamping;
-    public float iceFriction;
-    public float iceMaxSpeed;
-    public bool reusableCheckpoints;
+    [FormerlySerializedAs("drownDuration")] public float DrownDuration;
+    [FormerlySerializedAs("waterDamping")] public float WaterDamping;
+    [FormerlySerializedAs("iceFriction")] public float IceFriction;
+    [FormerlySerializedAs("iceMaxSpeed")] public float IceMaxSpeed;
+    [FormerlySerializedAs("reusableCheckpoints")] public bool ReusableCheckpoints;
 
     #endregion
 
     public LevelSettingsData(LevelSettings settings)
     {
         // fetch variables
-        drownDuration = settings.drownDuration;
-        waterDamping = settings.waterDamping;
-        iceFriction = settings.iceFriction;
-        iceMaxSpeed = settings.iceMaxSpeed;
-        reusableCheckpoints = settings.ReusableCheckpoints;
+        DrownDuration = settings.DrownDuration;
+        WaterDamping = settings.WaterDamping;
+        IceFriction = settings.IceFriction;
+        IceMaxSpeed = settings.IceMaxSpeed;
+        ReusableCheckpoints = settings.ReusableCheckpoints;
     }
 
     public override void ImportToLevel()
     {
-        LevelSettings.Instance.SetDrownDuration(drownDuration, false);
-        LevelSettings.Instance.SetIceFriction(iceFriction, false);
-        LevelSettings.Instance.SetIceMaxSpeed(iceMaxSpeed, false);
-        LevelSettings.Instance.SetWaterDamping(waterDamping, false);
-        LevelSettings.Instance.SetReusableCheckpoints(reusableCheckpoints, false);
+        LevelSettings.Instance.SetDrownDuration(DrownDuration, false);
+        LevelSettings.Instance.SetIceFriction(IceFriction, false);
+        LevelSettings.Instance.SetIceMaxSpeed(IceMaxSpeed, false);
+        LevelSettings.Instance.SetWaterDamping(WaterDamping, false);
+        LevelSettings.Instance.SetReusableCheckpoints(ReusableCheckpoints, false);
         LevelSettings.Instance.SyncPlayersToSettings();
     }
 

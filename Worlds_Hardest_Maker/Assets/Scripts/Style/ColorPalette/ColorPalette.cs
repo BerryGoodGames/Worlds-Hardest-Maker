@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class ColorPalette
 {
-    public string name;
-    public List<Color> colors = new();
+    [FormerlySerializedAs("name")] public string Name;
+    [FormerlySerializedAs("colors")] public List<Color> Colors = new();
 }

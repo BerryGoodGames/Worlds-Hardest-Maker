@@ -2,8 +2,8 @@ using DG.Tweening;
 
 public class WaitBlock : AnchorBlock
 {
-    public const Type blockType = Type.WAIT;
-    public override Type ImplementedBlockType => blockType;
+    public const Type BlockType = Type.WAIT;
+    public override Type ImplementedBlockType => BlockType;
 
     private readonly float waitTime;
     private float duration;
@@ -15,11 +15,11 @@ public class WaitBlock : AnchorBlock
 
     public override void Execute(bool executeNext = true)
     {
-        anchor.rb.DOMove(anchor.rb.position, waitTime)
+        Anchor.Rb.DOMove(Anchor.Rb.position, waitTime)
             .OnComplete(() =>
             {
                 if(executeNext)
-                    anchor.FinishCurrentExecution();
+                    Anchor.FinishCurrentExecution();
             });
     }
 }

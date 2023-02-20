@@ -13,8 +13,8 @@ public class SpeedSliderTween : MonoBehaviour
     [Range(0, 1)] [SerializeField] private float alphaVisible = 1;
     [Range(0, 1)] [SerializeField] private float alphaInvisible;
 
-    public Action onSetVisible = null;
-    public Action onIsInvisible = null;
+    public Action OnSetVisible = null;
+    public Action OnIsInvisible = null;
 
     private bool isVisible = true;
 

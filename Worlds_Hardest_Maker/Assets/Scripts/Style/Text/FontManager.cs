@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class FontManager : MonoBehaviour
 {
-    public TMP_FontAsset defaultFont;
-    public List<TMP_Text> ignore = new();
+    [FormerlySerializedAs("defaultFont")] public TMP_FontAsset DefaultFont;
+    [FormerlySerializedAs("ignore")] public List<TMP_Text> Ignore = new();
 
     public void ApplyDefaultFont()
     {
@@ -13,9 +14,9 @@ public class FontManager : MonoBehaviour
 
         foreach (TMP_Text text in texts)
         {
-            if (!ignore.Contains(text))
+            if (!Ignore.Contains(text))
             {
-                text.font = defaultFont;
+                text.font = DefaultFont;
             }
         }
     }

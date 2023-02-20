@@ -5,26 +5,21 @@ public class KeybindManager : MonoBehaviour
 {
     public static KeybindManager Instance { get; private set; } // singleton
 
-    [FormerlySerializedAs("SelectionMouseButton")] [Header("Key binds")]
-    public int selectionMouseButton;
+    [FormerlySerializedAs("selectionMouseButton")] [Header("Key binds")]
+    public int SelectionMouseButton;
 
-    [FormerlySerializedAs("PanMouseButton")]
-    public int panMouseButton;
+    [FormerlySerializedAs("panMouseButton")] public int PanMouseButton;
 
-    [FormerlySerializedAs("EntityDeleteKey")]
-    public KeyCode entityDeleteKey;
+    [FormerlySerializedAs("entityDeleteKey")] public KeyCode EntityDeleteKey;
 
-    [FormerlySerializedAs("EntityMoveKey")]
-    public KeyCode entityMoveKey;
+    [FormerlySerializedAs("entityMoveKey")] public KeyCode EntityMoveKey;
 
-    [FormerlySerializedAs("BallCircleRadiusKey")]
-    public KeyCode ballCircleRadiusKey;
+    [FormerlySerializedAs("ballCircleRadiusKey")] public KeyCode BallCircleRadiusKey;
 
-    [FormerlySerializedAs("BallCircleAngleKey")]
-    public KeyCode ballCircleAngleKey;
+    [FormerlySerializedAs("ballCircleAngleKey")] public KeyCode BallCircleAngleKey;
 
-    [FormerlySerializedAs("EditSpeedKey")] public KeyCode editSpeedKey;
-    [FormerlySerializedAs("PasteKey")] public KeyCode pasteKey;
+    [FormerlySerializedAs("editSpeedKey")] public KeyCode EditSpeedKey;
+    [FormerlySerializedAs("pasteKey")] public KeyCode PasteKey;
 
     private void Awake()
     {

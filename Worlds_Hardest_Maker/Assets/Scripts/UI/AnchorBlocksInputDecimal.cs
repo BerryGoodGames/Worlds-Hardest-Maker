@@ -27,5 +27,5 @@ public class AnchorBlocksInputDecimal : MonoBehaviour
         inputComp.selectionColor = KeepA(color, inputComp.selectionColor);
     }
 
-    private static Color KeepA(Color _new, Color assign) => new Color(_new.r, _new.g, _new.b, assign.a);
+    private static Color KeepA(Color @new, Color assign) => new Color(@new.r, @new.g, @new.b, assign.a);
 }

@@ -2,19 +2,20 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class ConnectToServer : MonoBehaviourPunCallbacks
 {
     [SerializeField] private LoadingScreen loadingScreen;
-    public TMP_InputField usernameInput;
-    public TMP_Text buttonText;
+    [FormerlySerializedAs("usernameInput")] public TMP_InputField UsernameInput;
+    [FormerlySerializedAs("buttonText")] public TMP_Text ButtonText;
 
     public void OnClickConnect()
     {
-        if (usernameInput.text.Length <= 0) return;
+        if (UsernameInput.text.Length <= 0) return;
 
-        PhotonNetwork.NickName = usernameInput.text;
-        buttonText.text = "Connecting...";
+        PhotonNetwork.NickName = UsernameInput.text;
+        ButtonText.text = "Connecting...";
 
         PhotonNetwork.AutomaticallySyncScene = true;
 

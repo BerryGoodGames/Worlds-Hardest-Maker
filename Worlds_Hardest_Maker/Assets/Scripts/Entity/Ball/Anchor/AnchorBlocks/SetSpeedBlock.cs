@@ -8,8 +8,8 @@ public class SetSpeedBlock : AnchorBlock
         TIME
     }
 
-    public const Type blockType = Type.SET_SPEED;
-    public override Type ImplementedBlockType => blockType;
+    public const Type BlockType = Type.SET_SPEED;
+    public override Type ImplementedBlockType => BlockType;
 
     private readonly float input;
     private readonly Unit type;
@@ -21,9 +21,9 @@ public class SetSpeedBlock : AnchorBlock
 
     public override void Execute(bool executeNext = true)
     {
-        anchor.applySpeed = type != Unit.TIME;
-        anchor.speed = input;
+        Anchor.ApplySpeed = type != Unit.TIME;
+        Anchor.Speed = input;
         if(executeNext)
-            anchor.FinishCurrentExecution();
+            Anchor.FinishCurrentExecution();
     }
 }

@@ -7,23 +7,23 @@ using UnityEngine;
 /// </summary>
 public class LineManager : MonoBehaviour
 {
-    public static int defaultLayerID;
-    public static int outlineLayerID;
-    public static int ballLayerID;
+    public static int DefaultLayerID;
+    public static int OutlineLayerID;
+    public static int BallLayerID;
 
     private void Awake()
     {
-        defaultLayerID = SortingLayer.NameToID("Line");
-        outlineLayerID = SortingLayer.NameToID("Outline");
-        ballLayerID = SortingLayer.NameToID("Ball");
+        DefaultLayerID = SortingLayer.NameToID("Line");
+        OutlineLayerID = SortingLayer.NameToID("Outline");
+        BallLayerID = SortingLayer.NameToID("Ball");
     }
 
     // Settings for drawing
-    public static float weight = 0.11f;
-    public static Color fill = new(0, 0, 0);
-    public static bool roundedCorners = true;
-    public static int layerID = defaultLayerID;
-    public static int orderInLayer;
+    public static float Weight = 0.11f;
+    public static Color Fill = new(0, 0, 0);
+    public static bool RoundedCorners = true;
+    public static int LayerID = DefaultLayerID;
+    public static int OrderInLayer;
 
     /// <summary>
     ///     generate object containing a LineRenderer forming a rectangle
@@ -42,8 +42,8 @@ public class LineManager : MonoBehaviour
 
         LineRenderer rect = stroke.GetComponent<LineRenderer>();
         rect.positionCount = 5;
-        rect.sortingOrder = orderInLayer;
-        rect.sortingLayerID = layerID;
+        rect.sortingOrder = OrderInLayer;
+        rect.sortingLayerID = LayerID;
 
         // get positions
         Vector2[] positions =
@@ -82,8 +82,8 @@ public class LineManager : MonoBehaviour
         GameObject stroke = NewDrawObject("DrawCircle", parent);
 
         LineRenderer circle = stroke.GetComponent<LineRenderer>();
-        circle.sortingOrder = orderInLayer;
-        circle.sortingLayerID = layerID;
+        circle.sortingOrder = OrderInLayer;
+        circle.sortingLayerID = LayerID;
 
         // get points of circle
         const int steps = 100;
@@ -134,15 +134,15 @@ public class LineManager : MonoBehaviour
     {
         if (parent == null)
         {
-            parent = ReferenceManager.Instance.drawContainer;
+            parent = ReferenceManager.Instance.DrawContainer;
         }
 
         // generate object
         GameObject stroke = NewDrawObject("DrawLine", parent);
 
         LineRenderer line = stroke.GetComponent<LineRenderer>();
-        line.sortingOrder = orderInLayer;
-        line.sortingLayerID = layerID;
+        line.sortingOrder = OrderInLayer;
+        line.sortingLayerID = LayerID;
         line.positionCount = 2;
         line.numCapVertices = 0;
 
@@ -155,7 +155,7 @@ public class LineManager : MonoBehaviour
     private static GameObject NewDrawObject(string name, Transform parent)
     {
         // DrawContainer is default container
-        if (parent == null) parent = ReferenceManager.Instance.drawContainer;
+        if (parent == null) parent = ReferenceManager.Instance.DrawContainer;
 
         GameObject stroke = new()
         {
@@ -164,15 +164,15 @@ public class LineManager : MonoBehaviour
         };
 
         LineRenderer line = stroke.AddComponent<LineRenderer>();
-        line.material = MaterialManager.Instance.lineMaterial;
+        line.material = MaterialManager.Instance.LineMaterial;
 
-        line.startWidth = weight;
-        line.endWidth = weight;
+        line.startWidth = Weight;
+        line.endWidth = Weight;
 
-        line.startColor = fill;
-        line.endColor = fill;
+        line.startColor = Fill;
+        line.endColor = Fill;
 
-        line.numCapVertices = roundedCorners ? 5 : 0;
+        line.numCapVertices = RoundedCorners ? 5 : 0;
         return stroke;
     }
 
@@ -198,31 +198,31 @@ public class LineManager : MonoBehaviour
 
     public static void SetFill(float r, float g, float b)
     {
-        fill = new(r, g, b);
+        Fill = new(r, g, b);
     }
 
     public static void SetFill(Color color)
     {
-        fill = color;
+        Fill = color;
     }
 
     public static void SetWeight(float setWeight)
     {
-        weight = setWeight;
+        Weight = setWeight;
     }
 
     public static void SetRoundedCorners(bool set)
     {
-        roundedCorners = set;
+        RoundedCorners = set;
     }
 
     public static void SetLayerID(int id)
     {
-        layerID = id;
+        LayerID = id;
     }
 
     public static void SetOrderInLayer(int order)
     {
-        orderInLayer = order;
+        OrderInLayer = order;
     }
 }

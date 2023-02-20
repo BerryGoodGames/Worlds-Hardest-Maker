@@ -2,9 +2,9 @@ public class FieldController : Controller
 {
     private void Start()
     {
-        if (transform.parent != ReferenceManager.Instance.fieldContainer)
+        if (transform.parent != ReferenceManager.Instance.FieldContainer)
         {
-            transform.SetParent(ReferenceManager.Instance.fieldContainer);
+            transform.SetParent(ReferenceManager.Instance.FieldContainer);
         }
     }
 

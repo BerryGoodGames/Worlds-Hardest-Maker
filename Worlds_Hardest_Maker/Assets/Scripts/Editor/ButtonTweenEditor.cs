@@ -54,11 +54,11 @@ public class ButtonTweenEditor : Editor
         EditorGUILayout.Space();
         EditorGUILayout.PropertyField(isWarningButton);
 
-        if (!script.isWarningButton) GUI.enabled = false;
+        if (!script.IsWarningButton) GUI.enabled = false;
         EditorGUILayout.PropertyField(singleShakeDuration);
         EditorGUILayout.PropertyField(shake1);
         EditorGUILayout.PropertyField(shake2);
-        if (!script.isWarningButton) GUI.enabled = true;
+        if (!script.IsWarningButton) GUI.enabled = true;
 
         serializedObject.ApplyModifiedProperties();
     }

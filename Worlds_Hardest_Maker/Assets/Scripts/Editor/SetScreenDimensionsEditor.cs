@@ -33,8 +33,8 @@ public class SetScreenDimensionsEditor : Editor
         EditorGUILayout.PropertyField(setScreenHeight);
         EditorGUILayout.PropertyField(hasRectTransform);
         EditorGUILayout.PropertyField(applyMaxZoomFromMapController);
-        if (!script.applyMaxZoomFromMapController) EditorGUILayout.PropertyField(maxZoom);
-        if (script.hasRectTransform) EditorGUILayout.PropertyField(canvas);
+        if (!script.ApplyMaxZoomFromMapController) EditorGUILayout.PropertyField(maxZoom);
+        if (script.HasRectTransform) EditorGUILayout.PropertyField(canvas);
 
         serializedObject.ApplyModifiedProperties();
     }

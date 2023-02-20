@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class LevelSettings : MonoBehaviour
@@ -17,10 +18,10 @@ public class LevelSettings : MonoBehaviour
 
     #region Setting variables
 
-    [HideInInspector] public float drownDuration;
-    [HideInInspector] public float waterDamping;
-    [HideInInspector] public float iceFriction;
-    [HideInInspector] public float iceMaxSpeed;
+    [FormerlySerializedAs("drownDuration")] [HideInInspector] public float DrownDuration;
+    [FormerlySerializedAs("waterDamping")] [HideInInspector] public float WaterDamping;
+    [FormerlySerializedAs("iceFriction")] [HideInInspector] public float IceFriction;
+    [FormerlySerializedAs("iceMaxSpeed")] [HideInInspector] public float IceMaxSpeed;
 
     public bool ReusableCheckpoints
     {
@@ -35,13 +36,13 @@ public class LevelSettings : MonoBehaviour
 
     public void SetDrownDuration(bool syncPlayers = true)
     {
-        Instance.drownDuration = drownDurationInput.GetCurrentNumber();
+        Instance.DrownDuration = drownDurationInput.GetCurrentNumber();
         if (syncPlayers) SyncPlayersToSettings();
     }
 
     public void SetDrownDuration(float drownDuration, bool syncPlayers = true)
     {
-        Instance.drownDuration = drownDuration;
+        Instance.DrownDuration = drownDuration;
         drownDurationInput.SetNumberText(drownDuration);
         if (syncPlayers) SyncPlayersToSettings();
     }
@@ -50,7 +51,7 @@ public class LevelSettings : MonoBehaviour
     {
         if (Instance == null) return;
 
-        Instance.waterDamping = 1 - waterDampingSlider.value;
+        Instance.WaterDamping = 1 - waterDampingSlider.value;
         if (syncPlayers) SyncPlayersToSettings();
     }
 
@@ -58,33 +59,33 @@ public class LevelSettings : MonoBehaviour
     {
         if (Instance == null) return;
 
-        Instance.waterDamping = waterDamping;
+        Instance.WaterDamping = waterDamping;
         waterDampingSlider.value = 1 - waterDamping;
         if (syncPlayers) SyncPlayersToSettings();
     }
 
     public void SetIceFriction(bool syncPlayers = true)
     {
-        Instance.iceFriction = iceFrictionInput.GetCurrentNumber();
+        Instance.IceFriction = iceFrictionInput.GetCurrentNumber();
         if (syncPlayers) SyncPlayersToSettings();
     }
 
     public void SetIceFriction(float friction, bool syncPlayers = true)
     {
-        Instance.iceFriction = friction;
+        Instance.IceFriction = friction;
         iceFrictionInput.SetNumberText(friction);
         if (syncPlayers) SyncPlayersToSettings();
     }
 
     public void SetIceMaxSpeed(bool syncPlayers = true)
     {
-        Instance.iceMaxSpeed = iceMaxSpeedInput.GetCurrentNumber();
+        Instance.IceMaxSpeed = iceMaxSpeedInput.GetCurrentNumber();
         if (syncPlayers) SyncPlayersToSettings();
     }
 
     public void SetIceMaxSpeed(float speed, bool syncPlayers = true)
     {
-        Instance.iceMaxSpeed = speed;
+        Instance.IceMaxSpeed = speed;
         iceMaxSpeedInput.SetNumberText(speed);
         if (syncPlayers) SyncPlayersToSettings();
     }
@@ -107,7 +108,7 @@ public class LevelSettings : MonoBehaviour
 
     public void SyncPlayersToSettings()
     {
-        foreach (Transform player in ReferenceManager.Instance.playerContainer)
+        foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
         {
             PlayerController p = player.GetComponent<PlayerController>();
             p.SyncToLevelSettings();

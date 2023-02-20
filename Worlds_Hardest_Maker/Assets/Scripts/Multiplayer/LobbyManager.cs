@@ -14,20 +14,20 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 {
     public static LobbyManager Instance { get; private set; }
 
-    [FormerlySerializedAs("RoomItem")] public GameObject roomItem;
-    [FormerlySerializedAs("PlayerItem")] public GameObject playerItem;
+    [FormerlySerializedAs("roomItem")] public GameObject RoomItem;
+    [FormerlySerializedAs("playerItem")] public GameObject PlayerItem;
     [SerializeField] private LoadingScreen loadingScreen;
 
-    [Space]
+    [FormerlySerializedAs("roomNameInput")] [Space]
 
     // references
-    public TMP_InputField roomNameInput;
+    public TMP_InputField RoomNameInput;
 
-    public GameObject lobbyPanel;
-    public GameObject roomPanel;
+    [FormerlySerializedAs("lobbyPanel")] public GameObject LobbyPanel;
+    [FormerlySerializedAs("roomPanel")] public GameObject RoomPanel;
     [SerializeField] private GameObject loadingPanel;
-    public TMP_Text roomNameTitle;
-    public TMP_Text yourName;
+    [FormerlySerializedAs("roomNameTitle")] public TMP_Text RoomNameTitle;
+    [FormerlySerializedAs("yourName")] public TMP_Text YourName;
     [SerializeField] private string privateRoomStart = "!";
     [SerializeField] private Slider loadingSlider;
 
@@ -36,19 +36,19 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     // list of all room item controllers
     private readonly List<RoomItem> roomItemsList = new();
 
-    public GameObject roomContainer;
+    [FormerlySerializedAs("roomContainer")] public GameObject RoomContainer;
 
-    [Space]
+    [FormerlySerializedAs("timeBetweenUpdates")] [Space]
 
     // vars for tracking cooldown
-    public float timeBetweenUpdates = 1.5f;
+    public float TimeBetweenUpdates = 1.5f;
 
     private float nextUpdateTime;
 
     [Space] private readonly List<PlayerItem> playerItemsList = new();
-    public GameObject playerItemContainer;
+    [FormerlySerializedAs("playerItemContainer")] public GameObject PlayerItemContainer;
 
-    [Space] public GameObject playButton;
+    [FormerlySerializedAs("playButton")] [Space] public GameObject PlayButton;
 
     private static readonly int load = Animator.StringToHash("Load");
 
@@ -57,7 +57,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         // start of lobby scene: join photon lobby
         PhotonNetwork.JoinLobby();
 
-        yourName.text = $"Your Name: {PhotonNetwork.LocalPlayer.NickName}";
+        YourName.text = $"Your Name: {PhotonNetwork.LocalPlayer.NickName}";
     }
 
     /// <summary>
@@ -66,18 +66,18 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void OnClickCreate()
     {
         // if content in input
-        if (roomNameInput.text.Length <= 0) return;
+        if (RoomNameInput.text.Length <= 0) return;
 
         // check if room already exists
-        if (CheckRooms(roomNameInput.text))
+        if (CheckRooms(RoomNameInput.text))
         {
             // join room with name
-            PhotonNetwork.JoinRoom(roomNameInput.text);
+            PhotonNetwork.JoinRoom(RoomNameInput.text);
         }
         else
         {
             // create new room with name
-            PhotonNetwork.CreateRoom(roomNameInput.text);
+            PhotonNetwork.CreateRoom(RoomNameInput.text);
         }
     }
 
@@ -87,10 +87,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         // hide lobby panel, show room panel with title
-        lobbyPanel.SetActive(false);
-        roomPanel.SetActive(true);
+        LobbyPanel.SetActive(false);
+        RoomPanel.SetActive(true);
 
-        roomNameTitle.text = $"Room: {PhotonNetwork.CurrentRoom.Name}";
+        RoomNameTitle.text = $"Room: {PhotonNetwork.CurrentRoom.Name}";
 
         UpdatePlayerList();
     }
@@ -121,7 +121,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             if (!room.Name.StartsWith(privateRoomStart))
             {
                 // new RoomItem in roomContainer
-                GameObject newRoom = Instantiate(roomItem, roomContainer.transform);
+                GameObject newRoom = Instantiate(RoomItem, RoomContainer.transform);
                 controller = newRoom.GetComponent<RoomItem>();
             }
             // create controller
@@ -130,11 +130,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             // set name and add to list
             controller.SetRoomName(room.Name);
             controller.SetPlayerCount(room.PlayerCount);
-            controller.info = room;
+            controller.Info = room;
             roomItemsList.Add(controller);
         }
 
-        nextUpdateTime = Time.time + timeBetweenUpdates;
+        nextUpdateTime = Time.time + TimeBetweenUpdates;
     }
 
     /// <summary>
@@ -150,8 +150,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     /// </summary>
     public override void OnLeftRoom()
     {
-        roomPanel.SetActive(false);
-        lobbyPanel.SetActive(true);
+        RoomPanel.SetActive(false);
+        LobbyPanel.SetActive(true);
     }
 
     public override void OnConnectedToMaster()
@@ -177,7 +177,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
         {
             // init new player item
-            GameObject newPlayerItem = Instantiate(playerItem, playerItemContainer.transform);
+            GameObject newPlayerItem = Instantiate(PlayerItem, PlayerItemContainer.transform);
 
             // add to list
             PlayerItem controller = newPlayerItem.GetComponent<PlayerItem>();
@@ -201,11 +201,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         // only show play button to host
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount >= 1)
         {
-            playButton.SetActive(true);
+            PlayButton.SetActive(true);
         }
         else
         {
-            playButton.SetActive(false);
+            PlayButton.SetActive(false);
         }
 
         // check enter key
@@ -251,7 +251,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         foreach (RoomItem room in roomItemsList)
         {
-            if (room.info.Name.Equals(roomName))
+            if (room.Info.Name.Equals(roomName))
                 return true;
         }
 

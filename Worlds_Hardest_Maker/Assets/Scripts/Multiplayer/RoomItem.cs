@@ -2,26 +2,27 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     controller of prefab RoomItem
 /// </summary>
 public class RoomItem : MonoBehaviour
 {
-    public RoomInfo info;
-    public TMP_Text roomNameTxt;
-    public TMP_Text playerCountTxt;
+    public RoomInfo Info;
+    [FormerlySerializedAs("roomNameTxt")] public TMP_Text RoomNameTxt;
+    [FormerlySerializedAs("playerCountTxt")] public TMP_Text PlayerCountTxt;
 
     public void SetRoomName(string roomName)
     {
-        if (roomNameTxt != null)
-            roomNameTxt.text = roomName;
+        if (RoomNameTxt != null)
+            RoomNameTxt.text = roomName;
     }
 
     public void SetPlayerCount(int playerCount)
     {
-        if (playerCountTxt != null)
-            playerCountTxt.text = $"{playerCount}/10";
+        if (PlayerCountTxt != null)
+            PlayerCountTxt.text = $"{playerCount}/10";
     }
 
     /// <summary>
@@ -29,6 +30,6 @@ public class RoomItem : MonoBehaviour
     /// </summary>
     public void OnClickItem()
     {
-        PhotonNetwork.JoinRoom(roomNameTxt.text);
+        PhotonNetwork.JoinRoom(RoomNameTxt.text);
     }
 }

@@ -1,14 +1,15 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class KeyDoorField : MonoBehaviour
 {
-    public bool unlocked;
-    public KeyManager.KeyColor color;
+    [FormerlySerializedAs("unlocked")] public bool Unlocked;
+    [FormerlySerializedAs("color")] public KeyManager.KeyColor Color;
     private static readonly int unlockedString = Animator.StringToHash("Unlocked");
 
     public void Lock(bool locked)
     {
-        unlocked = !locked;
+        Unlocked = !locked;
 
         GetComponent<BoxCollider2D>().enabled = locked;
 

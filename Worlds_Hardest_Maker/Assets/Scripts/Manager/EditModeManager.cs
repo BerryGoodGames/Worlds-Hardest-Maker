@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EditModeManager : MonoBehaviour
 {
@@ -18,12 +19,12 @@ public class EditModeManager : MonoBehaviour
     }
 
     // editing
-    public bool editing = true;
+    [FormerlySerializedAs("editing")] public bool Editing = true;
 
     public bool Playing
     {
-        get => !editing;
-        set => editing = !value;
+        get => !Editing;
+        set => Editing = !value;
     }
 
     // edit rotation
@@ -39,8 +40,8 @@ public class EditModeManager : MonoBehaviour
 
     #region Events
 
-    public Action OnPlay;
-    public Action OnEdit;
+    public Action Play;
+    public Action Edit;
     private static readonly int editingString = Animator.StringToHash("Editing");
     public event Action OnEditModeChange;
 
@@ -57,11 +58,11 @@ public class EditModeManager : MonoBehaviour
         prevEditMode = currentEditMode;
 
         // update toolbarContainer
-        GameObject[] tools = ToolbarManager.tools;
+        GameObject[] tools = ToolbarManager.Tools;
         foreach (GameObject tool in tools)
         {
             Tool t = tool.GetComponent<Tool>();
-            if (t.toolName == value)
+            if (t.ToolName == value)
             {
                 // avoid recursion
                 t.SwitchGameMode(false);
@@ -77,8 +78,8 @@ public class EditModeManager : MonoBehaviour
             if (AnchorManagerOld.Instance.SelectedAnchor == null) return;
 
             // enable lines
-            AnchorManagerOld.Instance.selectedPathControllerOld.drawLines = true;
-            AnchorManagerOld.Instance.selectedPathControllerOld.DrawLines();
+            AnchorManagerOld.Instance.SelectedPathControllerOld.DoDrawLines = true;
+            AnchorManagerOld.Instance.SelectedPathControllerOld.DrawLines();
 
             // switch animation to editing
             foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
@@ -90,13 +91,13 @@ public class EditModeManager : MonoBehaviour
         else if (currentEditMode != EditMode.ANCHOR && currentEditMode != EditMode.BALL)
         {
             // disable stuff
-            ReferenceManager.Instance.ballWindows.SetActive(false);
+            ReferenceManager.Instance.BallWindows.SetActive(false);
 
             if (AnchorManagerOld.Instance.SelectedAnchor == null) return;
 
             // disable lines
-            AnchorManagerOld.Instance.selectedPathControllerOld.drawLines = false;
-            AnchorManagerOld.Instance.selectedPathControllerOld.ClearLines();
+            AnchorManagerOld.Instance.SelectedPathControllerOld.DoDrawLines = false;
+            AnchorManagerOld.Instance.SelectedPathControllerOld.ClearLines();
 
             // switch animation to editing
             foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
@@ -111,14 +112,14 @@ public class EditModeManager : MonoBehaviour
     {
         editRotation = value;
 
-        ReferenceManager.Instance.placementPreview.GetComponent<PreviewController>().UpdateRotation();
+        ReferenceManager.Instance.PlacementPreview.GetComponent<PreviewController>().UpdateRotation();
     }
 
     #endregion
 
     private void Start()
     {
-        Instance.OnEdit += () => PlayManager.Instance.Cheated = false;
+        Instance.Edit += () => PlayManager.Instance.Cheated = false;
 
         Instance.SetEditMode(currentEditMode);
     }

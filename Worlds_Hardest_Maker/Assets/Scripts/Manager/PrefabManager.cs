@@ -8,70 +8,59 @@ public class PrefabManager : MonoBehaviour
 
     // TODO transfer prefabs from game manager to here
 
-    [FormerlySerializedAs("WallField")] [Header("Fields")]
-    public GameObject wallField;
+    [FormerlySerializedAs("wallField")] [Header("Fields")]
+    public GameObject WallField;
 
-    [FormerlySerializedAs("StartField")] public GameObject startField;
-    [FormerlySerializedAs("GoalField")] public GameObject goalField;
+    [FormerlySerializedAs("startField")] public GameObject StartField;
+    [FormerlySerializedAs("goalField")] public GameObject GoalField;
 
-    [FormerlySerializedAs("CheckpointField")]
-    public GameObject checkpointField;
+    [FormerlySerializedAs("checkpointField")] public GameObject CheckpointField;
 
-    [FormerlySerializedAs("OneWayField")] public GameObject oneWayField;
-    [FormerlySerializedAs("Conveyor")] public GameObject conveyor;
-    [FormerlySerializedAs("Water")] public GameObject water;
-    [FormerlySerializedAs("Ice")] public GameObject ice;
-    [FormerlySerializedAs("Void")] public GameObject @void;
+    [FormerlySerializedAs("oneWayField")] public GameObject OneWayField;
+    [FormerlySerializedAs("conveyor")] public GameObject Conveyor;
+    [FormerlySerializedAs("water")] public GameObject Water;
+    [FormerlySerializedAs("ice")] public GameObject Ice;
+    [FormerlySerializedAs("void")] public GameObject Void;
 
-    [FormerlySerializedAs("GrayKeyDoorField")]
-    public GameObject grayKeyDoorField;
+    [FormerlySerializedAs("grayKeyDoorField")] public GameObject GrayKeyDoorField;
 
-    [FormerlySerializedAs("RedKeyDoorField")]
-    public GameObject redKeyDoorField;
+    [FormerlySerializedAs("redKeyDoorField")] public GameObject RedKeyDoorField;
 
-    [FormerlySerializedAs("GreenKeyDoorField")]
-    public GameObject greenKeyDoorField;
+    [FormerlySerializedAs("greenKeyDoorField")] public GameObject GreenKeyDoorField;
 
-    [FormerlySerializedAs("BlueKeyDoorField")]
-    public GameObject blueKeyDoorField;
+    [FormerlySerializedAs("blueKeyDoorField")] public GameObject BlueKeyDoorField;
 
-    [FormerlySerializedAs("YellowKeyDoorField")]
-    public GameObject yellowKeyDoorField;
+    [FormerlySerializedAs("yellowKeyDoorField")] public GameObject YellowKeyDoorField;
 
-    [FormerlySerializedAs("Player")] [Space] [Header("Entities")]
-    public GameObject player;
+    [FormerlySerializedAs("player")] [Space] [Header("Entities")]
+    public GameObject Player;
 
-    [FormerlySerializedAs("Anchor")] public GameObject anchor;
-    [FormerlySerializedAs("Ball")] public GameObject ball;
-    [FormerlySerializedAs("BallDefault")] public GameObject ballDefault;
-    [FormerlySerializedAs("BallCircle")] public GameObject ballCircle;
-    [FormerlySerializedAs("Coin")] public GameObject coin;
-    [FormerlySerializedAs("GrayKey")] public GameObject grayKey;
-    [FormerlySerializedAs("RedKey")] public GameObject redKey;
-    [FormerlySerializedAs("GreenKey")] public GameObject greenKey;
-    [FormerlySerializedAs("BlueKey")] public GameObject blueKey;
-    [FormerlySerializedAs("YellowKey")] public GameObject yellowKey;
+    [FormerlySerializedAs("anchor")] public GameObject Anchor;
+    [FormerlySerializedAs("ball")] public GameObject Ball;
+    [FormerlySerializedAs("ballDefault")] public GameObject BallDefault;
+    [FormerlySerializedAs("ballCircle")] public GameObject BallCircle;
+    [FormerlySerializedAs("coin")] public GameObject Coin;
+    [FormerlySerializedAs("grayKey")] public GameObject GrayKey;
+    [FormerlySerializedAs("redKey")] public GameObject RedKey;
+    [FormerlySerializedAs("greenKey")] public GameObject GreenKey;
+    [FormerlySerializedAs("blueKey")] public GameObject BlueKey;
+    [FormerlySerializedAs("yellowKey")] public GameObject YellowKey;
 
-    [FormerlySerializedAs("DropdownOptionPrefab")] [Space] [Header("UI")]
-    public GameObject dropdownOptionPrefab;
+    [FormerlySerializedAs("dropdownOptionPrefab")] [Space] [Header("UI")]
+    public GameObject DropdownOptionPrefab;
 
-    [FormerlySerializedAs("CheckboxOptionPrefab")]
-    public GameObject checkboxOptionPrefab;
+    [FormerlySerializedAs("checkboxOptionPrefab")] public GameObject CheckboxOptionPrefab;
 
-    [FormerlySerializedAs("SliderOptionPrefab")]
-    public GameObject sliderOptionPrefab;
+    [FormerlySerializedAs("sliderOptionPrefab")] public GameObject SliderOptionPrefab;
 
-    [FormerlySerializedAs("NumberInputOptionPrefab")]
-    public GameObject numberInputOptionPrefab;
+    [FormerlySerializedAs("numberInputOptionPrefab")] public GameObject NumberInputOptionPrefab;
 
-    [FormerlySerializedAs("HeaderOptionPrefab")]
-    public GameObject headerOptionPrefab;
+    [FormerlySerializedAs("headerOptionPrefab")] public GameObject HeaderOptionPrefab;
 
-    [FormerlySerializedAs("SpaceOptionPrefab")]
-    public GameObject spaceOptionPrefab;
+    [FormerlySerializedAs("spaceOptionPrefab")] public GameObject SpaceOptionPrefab;
 
-    [FormerlySerializedAs("FillPreview")] public GameObject fillPreview;
-    [FormerlySerializedAs("Tooltip")] public GameObject tooltip;
+    [FormerlySerializedAs("fillPreview")] public GameObject FillPreview;
+    [FormerlySerializedAs("tooltip")] public GameObject Tooltip;
 
     private void OnEnable()
     {

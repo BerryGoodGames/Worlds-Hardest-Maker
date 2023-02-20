@@ -1,18 +1,19 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BallDefaultController : BallController
 {
-    public Transform bounce;
-    [HideInInspector] public Transform line;
-    [HideInInspector] public Vector2 startPosition;
-    [HideInInspector] public Vector2 currentTarget;
+    [FormerlySerializedAs("bounce")] public Transform Bounce;
+    [FormerlySerializedAs("line")] [HideInInspector] public Transform Line;
+    [FormerlySerializedAs("startPosition")] [HideInInspector] public Vector2 StartPosition;
+    [FormerlySerializedAs("currentTarget")] [HideInInspector] public Vector2 CurrentTarget;
 
     private void Start()
     {
-        if (transform.parent.parent != ReferenceManager.Instance.ballDefaultContainer)
+        if (transform.parent.parent != ReferenceManager.Instance.BallDefaultContainer)
         {
-            transform.parent.SetParent(ReferenceManager.Instance.ballDefaultContainer);
+            transform.parent.SetParent(ReferenceManager.Instance.BallDefaultContainer);
         }
 
         InitLine();
@@ -25,8 +26,8 @@ public class BallDefaultController : BallController
 
     private void Update()
     {
-        bounce.gameObject.SetActive(!EditModeManager.Instance.Playing);
-        line.gameObject.SetActive(!EditModeManager.Instance.Playing);
+        Bounce.gameObject.SetActive(!EditModeManager.Instance.Playing);
+        Line.gameObject.SetActive(!EditModeManager.Instance.Playing);
 
         if (EditModeManager.Instance.Playing)
         {
@@ -44,49 +45,49 @@ public class BallDefaultController : BallController
         LineManager.SetFill(0, 0, 0);
         LineManager.SetWeight(0.11f);
         LineManager.SetOrderInLayer(2);
-        LineManager.SetLayerID(LineManager.ballLayerID);
-        GameObject line = LineManager.DrawLine(transform.position, bounce.position, transform.parent);
+        LineManager.SetLayerID(LineManager.BallLayerID);
+        GameObject line = LineManager.DrawLine(transform.position, Bounce.position, transform.parent);
 
-        this.line = line.transform;
+        this.Line = line.transform;
     }
 
     private void Move()
     {
         // switch target after bounce
-        if ((Vector2)transform.position == currentTarget)
+        if ((Vector2)transform.position == CurrentTarget)
         {
-            if (currentTarget == (Vector2)bounce.position)
+            if (CurrentTarget == (Vector2)Bounce.position)
             {
-                currentTarget = startPosition;
+                CurrentTarget = StartPosition;
             }
-            else if (currentTarget == (Vector2)transform.position)
+            else if (CurrentTarget == (Vector2)transform.position)
             {
-                currentTarget = bounce.position;
+                CurrentTarget = Bounce.position;
             }
         }
 
         // move towards the target
-        transform.position = Vector2.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, CurrentTarget, Speed * Time.deltaTime);
     }
 
     [PunRPC]
     public void SetObjectPos(Vector2 pos)
     {
-        currentTarget = bounce.position;
-        startPosition = pos;
+        CurrentTarget = Bounce.position;
+        StartPosition = pos;
         transform.position = pos;
     }
 
     [PunRPC]
     public void SetBouncePos(Vector2 pos)
     {
-        currentTarget = pos;
-        bounce.position = pos;
+        CurrentTarget = pos;
+        Bounce.position = pos;
     }
 
     public void SetLinePoint(int index, Vector2 point)
     {
-        GameObject stroke = line.gameObject;
+        GameObject stroke = Line.gameObject;
         LineRenderer renderer = stroke.GetComponent<LineRenderer>();
 
         renderer.SetPosition(index, point);
@@ -95,7 +96,7 @@ public class BallDefaultController : BallController
     public void UpdateLine()
     {
         SetLinePoint(0, transform.position);
-        SetLinePoint(1, bounce.position);
+        SetLinePoint(1, Bounce.position);
     }
 
     public void DestroyBall()
@@ -107,7 +108,7 @@ public class BallDefaultController : BallController
     [PunRPC]
     public override void MoveObject(Vector2 unitPos, int id)
     {
-        GameObject movedObject = BallDragDrop.dragDropList[id];
+        GameObject movedObject = BallDragDrop.DragDropList[id];
 
         // call correct method to set position, either set object or set bounce
         if (movedObject.Equals(gameObject))

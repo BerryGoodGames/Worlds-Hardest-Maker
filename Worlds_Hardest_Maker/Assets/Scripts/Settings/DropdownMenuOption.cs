@@ -37,10 +37,10 @@ public class DropdownMenuOption : SettingOption
         float mArrowScl = originalArrowScl / originalHeight;
         float mArrowDist = originalArrowDist / originalHeight;
 
-        float newLineSize = mLineSize * height;
-        float newBaseLineSize = mBaseLineSize * height;
-        float newArrowScl = mArrowScl * height;
-        float newArrowDist = mArrowDist * height;
+        float newLineSize = mLineSize * Height;
+        float newBaseLineSize = mBaseLineSize * Height;
+        float newArrowScl = mArrowScl * Height;
+        float newArrowDist = mArrowDist * Height;
 
         float newRatio = originalWidth / originalHeight;
         aspectRatioFitter.aspectRatio = newRatio;

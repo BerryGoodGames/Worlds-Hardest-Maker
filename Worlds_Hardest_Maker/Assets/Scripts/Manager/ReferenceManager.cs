@@ -5,22 +5,19 @@ public class ReferenceManager : MonoBehaviour
 {
     public static ReferenceManager Instance { get; private set; }
 
-    [FormerlySerializedAs("Manager")] [Header("Objects")]
-    public GameObject manager;
+    [FormerlySerializedAs("manager")] [Header("Objects")]
+    public GameObject Manager;
 
-    [FormerlySerializedAs("Canvas")] public Canvas canvas;
+    [FormerlySerializedAs("canvas")] public Canvas Canvas;
 
-    [FormerlySerializedAs("TooltipCanvas")]
-    public GameObject tooltipCanvas;
+    [FormerlySerializedAs("tooltipCanvas")] public GameObject TooltipCanvas;
 
-    [FormerlySerializedAs("Menu")] public GameObject menu;
-    [FormerlySerializedAs("PlayButton")] public GameObject playButton;
+    [FormerlySerializedAs("menu")] public GameObject Menu;
+    [FormerlySerializedAs("playButton")] public GameObject PlayButton;
 
-    [FormerlySerializedAs("PlacementPreview")]
-    public GameObject placementPreview;
+    [FormerlySerializedAs("placementPreview")] public GameObject PlacementPreview;
 
-    [FormerlySerializedAs("LevelSettingsPanel")]
-    public GameObject levelSettingsPanel;
+    [FormerlySerializedAs("levelSettingsPanel")] public GameObject LevelSettingsPanel;
 
     public PanelTween LevelSettingsButtonPanelTween;
     public PanelTween LevelSettingsPanelTween;
@@ -28,48 +25,36 @@ public class ReferenceManager : MonoBehaviour
     public PanelTween AnchorEditorButtonPanelTween;
     public PanelTween AnchorEditorPanelTween;
 
-    [FormerlySerializedAs("BallWindows")] public GameObject ballWindows;
+    [FormerlySerializedAs("ballWindows")] public GameObject BallWindows;
 
-    [FormerlySerializedAs("PlayerSpawner")]
-    public PlayerSpawner playerSpawner;
+    [FormerlySerializedAs("playerSpawner")] public PlayerSpawner PlayerSpawner;
 
-    [FormerlySerializedAs("ToolbarContainer")] [Space] [Header("Containers")]
-    public Transform toolbarContainer;
+    [FormerlySerializedAs("toolbarContainer")] [Space] [Header("Containers")]
+    public Transform ToolbarContainer;
 
-    [FormerlySerializedAs("SliderContainer")]
-    public Transform sliderContainer;
+    [FormerlySerializedAs("sliderContainer")] public Transform SliderContainer;
 
-    [FormerlySerializedAs("NameTagContainer")]
-    public Transform nameTagContainer;
+    [FormerlySerializedAs("nameTagContainer")] public Transform NameTagContainer;
 
-    [FormerlySerializedAs("DrawContainer")]
-    public Transform drawContainer;
+    [FormerlySerializedAs("drawContainer")] public Transform DrawContainer;
 
-    [FormerlySerializedAs("SelectionOutlineContainer")]
-    public Transform selectionOutlineContainer;
+    [FormerlySerializedAs("selectionOutlineContainer")] public Transform SelectionOutlineContainer;
 
-    [FormerlySerializedAs("FillPreviewContainer")]
-    public Transform fillPreviewContainer;
+    [FormerlySerializedAs("fillPreviewContainer")] public Transform FillPreviewContainer;
 
-    [FormerlySerializedAs("PlayerContainer")]
-    public Transform playerContainer;
+    [FormerlySerializedAs("playerContainer")] public Transform PlayerContainer;
 
-    [FormerlySerializedAs("AnchorContainer")]
-    public Transform anchorContainer;
+    [FormerlySerializedAs("anchorContainer")] public Transform AnchorContainer;
 
-    [FormerlySerializedAs("BallDefaultContainer")]
-    public Transform ballDefaultContainer;
+    [FormerlySerializedAs("ballDefaultContainer")] public Transform BallDefaultContainer;
 
-    [FormerlySerializedAs("BallCircleContainer")]
-    public Transform ballCircleContainer;
+    [FormerlySerializedAs("ballCircleContainer")] public Transform BallCircleContainer;
 
-    [FormerlySerializedAs("CoinContainer")]
-    public Transform coinContainer;
+    [FormerlySerializedAs("coinContainer")] public Transform CoinContainer;
 
-    [FormerlySerializedAs("KeyContainer")] public Transform keyContainer;
+    [FormerlySerializedAs("keyContainer")] public Transform KeyContainer;
 
-    [FormerlySerializedAs("FieldContainer")]
-    public Transform fieldContainer;
+    [FormerlySerializedAs("fieldContainer")] public Transform FieldContainer;
 
     private void Awake()
     {

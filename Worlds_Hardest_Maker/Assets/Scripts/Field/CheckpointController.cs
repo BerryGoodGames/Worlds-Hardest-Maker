@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CheckpointController : MonoBehaviour
 {
-    public bool activated;
+    [FormerlySerializedAs("activated")] public bool Activated;
     private static bool reusableCheckpoints = true;
 
     public static bool ReusableCheckpoints
@@ -31,7 +32,7 @@ public class CheckpointController : MonoBehaviour
 
         bool alreadyOnField = controller.IsOnField(FieldType.CHECKPOINT_FIELD);
 
-        if ((activated && !reusableCheckpoints) || alreadyOnField) return;
+        if ((Activated && !reusableCheckpoints) || alreadyOnField) return;
 
         if (reusableCheckpoints) ResetCheckpoints();
 
@@ -52,7 +53,7 @@ public class CheckpointController : MonoBehaviour
         {
             CheckpointController checkpoint = n.GetComponent<CheckpointController>();
 
-            if (checkpoint == null || checkpoint.activated) continue;
+            if (checkpoint == null || checkpoint.Activated) continue;
 
             checkpoint.ChainActivate();
         }
@@ -60,7 +61,7 @@ public class CheckpointController : MonoBehaviour
 
     public void Activate()
     {
-        activated = true;
+        Activated = true;
 
         activatedCheckpoints.Add(this);
 
@@ -69,7 +70,7 @@ public class CheckpointController : MonoBehaviour
 
     public void Deactivate(bool remove = true)
     {
-        activated = false;
+        Activated = false;
 
         if (remove) activatedCheckpoints.Remove(this);
 

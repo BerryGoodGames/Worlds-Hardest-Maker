@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SettingGenerator : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class SettingGenerator : MonoBehaviour
 
 #if UNITY_EDITOR
     [Header("Options")] [SerializeField] private string label;
-    public SettingVersion version;
+    [FormerlySerializedAs("version")] public SettingVersion Version;
     [SerializeField] private int amount = 1;
     [SerializeField] private float fontSize = 40;
     [SerializeField] private float height = 80;
@@ -53,7 +54,7 @@ public class SettingGenerator : MonoBehaviour
             return;
         }
 
-        GameObject prefab = version.GetPrefab();
+        GameObject prefab = Version.GetPrefab();
 
         // iterate for the amount
         for (int i = 0; i < amount; i++)
@@ -64,7 +65,7 @@ public class SettingGenerator : MonoBehaviour
             SettingOption option = setting.GetComponent<SettingOption>();
 
             // set label and object name
-            option.label.text = label;
+            option.Label.text = label;
             option.FontSize = fontSize;
             option.Height = height;
             option.Response();
@@ -72,7 +73,7 @@ public class SettingGenerator : MonoBehaviour
             setting.name = setting.name.Replace("Option", label);
 
             // set customized settings
-            CustomizeSettingOption(ref option, version);
+            CustomizeSettingOption(ref option, Version);
         }
     }
 
@@ -102,7 +103,7 @@ public class SettingGenerator : MonoBehaviour
                 break;
 
             case SettingVersion.SLIDER:
-                SliderUI s = ((SliderOption)option).sliderUI;
+                SliderUI s = ((SliderOption)option).SliderUI;
 
                 // width, size
                 s.Width = sliderWidth;

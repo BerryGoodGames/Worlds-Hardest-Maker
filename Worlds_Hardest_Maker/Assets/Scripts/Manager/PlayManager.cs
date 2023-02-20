@@ -16,22 +16,22 @@ public class PlayManager : MonoBehaviour
         set
         {
             cheated = value;
-            TextManager.Instance.timer.color = cheated ? TextManager.Instance.cheatedTimerColor : Color.black;
+            TextManager.Instance.Timer.color = cheated ? TextManager.Instance.CheatedTimerColor : Color.black;
         }
     }
 
-    public Action OnGameQuit;
+    public Action GameQuit;
 
     #region Methods
 
     public void TogglePlay(bool playSoundEffect = true)
     {
-        if (ReferenceManager.Instance.menu.activeSelf) return;
+        if (ReferenceManager.Instance.Menu.activeSelf) return;
 
         if (EditModeManager.Instance.Playing) SwitchToEdit(playSoundEffect);
         else SwitchToPlay();
 
-        foreach (BarTween tween in BarTween.tweenList)
+        foreach (BarTween tween in BarTween.TweenList)
         {
             tween.SetPlay(EditModeManager.Instance.Playing);
         }
@@ -39,15 +39,15 @@ public class PlayManager : MonoBehaviour
 
     public static void SwitchToPlay()
     {
-        foreach (Transform player in ReferenceManager.Instance.playerContainer.transform)
+        foreach (Transform player in ReferenceManager.Instance.PlayerContainer.transform)
         {
             PlayerController controller = player.GetComponent<PlayerController>();
 
-            if (MultiplayerManager.Instance.Multiplayer && !controller.photonView.IsMine) continue;
+            if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) continue;
 
-            controller.currentFields.Clear();
-            controller.currentGameState = null;
-            controller.deaths = 0;
+            controller.CurrentFields.Clear();
+            controller.CurrentGameState = null;
+            controller.Deaths = 0;
         }
 
         EditModeManager.Instance.Playing = true;
@@ -56,21 +56,21 @@ public class PlayManager : MonoBehaviour
         AudioManager.Instance.MusicFiltered(false);
 
         // disable placement preview
-        ReferenceManager.Instance.placementPreview.SetActive(false);
+        ReferenceManager.Instance.PlacementPreview.SetActive(false);
 
         // disable windows
-        ReferenceManager.Instance.ballWindows.SetActive(false);
+        ReferenceManager.Instance.BallWindows.SetActive(false);
 
-        foreach (Transform t in ReferenceManager.Instance.anchorContainer)
+        foreach (Transform t in ReferenceManager.Instance.AnchorContainer)
         {
             AnchorControllerParent parent = t.GetComponent<AnchorControllerParent>();
-            AnchorController anchor = parent.child;
+            AnchorController anchor = parent.Child;
 
             anchor.StartExecuting();
 
-            if (AnchorManager.Instance.selectedAnchor != anchor)
+            if (AnchorManager.Instance.SelectedAnchor != anchor)
             {
-                anchor.animator.SetBool(playingString, true);
+                anchor.Animator.SetBool(playingString, true);
             }
         }
 
@@ -91,29 +91,29 @@ public class PlayManager : MonoBehaviour
         // }
 
         // activate coin animations
-        foreach (Transform coin in ReferenceManager.Instance.coinContainer)
+        foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
         {
             anim = coin.GetComponent<Animator>();
             anim.SetBool(playingString, true);
-            anim.SetBool(pickedUpString, coin.GetChild(0).GetComponent<CoinController>().pickedUp);
+            anim.SetBool(pickedUpString, coin.GetChild(0).GetComponent<CoinController>().PickedUp);
         }
 
         // activate key animations
-        foreach (Transform key in ReferenceManager.Instance.keyContainer)
+        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
         {
             anim = key.GetComponent<Animator>();
             anim.SetBool(playingString, true);
-            anim.SetBool(pickedUpString, key.GetChild(0).GetComponent<KeyController>().pickedUp);
+            anim.SetBool(pickedUpString, key.GetChild(0).GetComponent<KeyController>().PickedUp);
         }
 
         // camera jumps to last player if its not on screen
         if (Camera.main != null) Camera.main.GetComponent<JumpToEntity>().Jump(true);
-        EditModeManager.Instance.OnPlay?.Invoke();
+        EditModeManager.Instance.Play?.Invoke();
 
         // close level settings panel if open
         PanelTween lspt =
-            ReferenceManager.Instance.levelSettingsPanel.GetComponent<PanelTween>();
-        if (lspt.open) lspt.Toggle();
+            ReferenceManager.Instance.LevelSettingsPanel.GetComponent<PanelTween>();
+        if (lspt.Open) lspt.Toggle();
     }
 
     public static void SwitchToEdit(bool playSoundEffect = true)
@@ -126,10 +126,10 @@ public class PlayManager : MonoBehaviour
         ResetGame();
 
         // enable placement preview and place it at mouse
-        ReferenceManager.Instance.placementPreview.SetActive(true);
-        ReferenceManager.Instance.placementPreview.transform.position =
-            FollowMouse.GetCurrentMouseWorldPos(ReferenceManager.Instance.placementPreview.GetComponent<FollowMouse>()
-                .worldPosition);
+        ReferenceManager.Instance.PlacementPreview.SetActive(true);
+        ReferenceManager.Instance.PlacementPreview.transform.position =
+            FollowMouse.GetCurrentMouseWorldPos(ReferenceManager.Instance.PlacementPreview.GetComponent<FollowMouse>()
+                .WorldPosition);
 
         // enable windows
         // if (EditModeManager.Instance.CurrentEditMode is EditMode.ANCHOR or EditMode.BALL)
@@ -140,8 +140,8 @@ public class PlayManager : MonoBehaviour
         if (AnchorManagerOld.Instance.SelectedAnchor != null)
         {
             // enable anchor lines
-            AnchorManagerOld.Instance.selectedPathControllerOld.drawLines = true;
-            AnchorManagerOld.Instance.selectedPathControllerOld.DrawLines();
+            AnchorManagerOld.Instance.SelectedPathControllerOld.DoDrawLines = true;
+            AnchorManagerOld.Instance.SelectedPathControllerOld.DrawLines();
 
             // enable all anchor sprites / outlines
             foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
@@ -156,19 +156,19 @@ public class PlayManager : MonoBehaviour
         // {
         //     anchor.transform.GetChild(0).GetComponent<PathControllerOld>().ResetState();
         // }
-        foreach (Transform t in ReferenceManager.Instance.anchorContainer)
+        foreach (Transform t in ReferenceManager.Instance.AnchorContainer)
         {
             AnchorControllerParent parent = t.GetComponent<AnchorControllerParent>();
-            AnchorController anchor = parent.child;
+            AnchorController anchor = parent.Child;
 
             anchor.ResetExecution();
-            anchor.animator.SetBool(playingString, false);
+            anchor.Animator.SetBool(playingString, false);
         }
 
         // deactivate coin animations
-        foreach (Transform coin in ReferenceManager.Instance.coinContainer.transform)
+        foreach (Transform coin in ReferenceManager.Instance.CoinContainer.transform)
         {
-            coin.GetChild(0).GetComponent<CoinController>().pickedUp = false;
+            coin.GetChild(0).GetComponent<CoinController>().PickedUp = false;
 
             anim = coin.GetComponent<Animator>();
             anim.SetBool(playingString, false);
@@ -176,9 +176,9 @@ public class PlayManager : MonoBehaviour
         }
 
         // deactivate key animations
-        foreach (Transform key in ReferenceManager.Instance.keyContainer.transform)
+        foreach (Transform key in ReferenceManager.Instance.KeyContainer.transform)
         {
-            key.GetChild(0).GetComponent<KeyController>().pickedUp = false;
+            key.GetChild(0).GetComponent<KeyController>().PickedUp = false;
 
             anim = key.GetComponent<Animator>();
             anim.SetBool(playingString, false);
@@ -186,14 +186,14 @@ public class PlayManager : MonoBehaviour
         }
 
         // remove game states from players
-        foreach (Transform player in ReferenceManager.Instance.playerContainer.transform)
+        foreach (Transform player in ReferenceManager.Instance.PlayerContainer.transform)
         {
             PlayerController controller = player.GetComponent<PlayerController>();
 
-            controller.currentGameState = null;
+            controller.CurrentGameState = null;
         }
 
-        EditModeManager.Instance.OnEdit?.Invoke();
+        EditModeManager.Instance.Edit?.Invoke();
     }
 
     /// <summary>
@@ -206,31 +206,31 @@ public class PlayManager : MonoBehaviour
         foreach (GameObject player in PlayerManager.GetPlayers())
         {
             PlayerController controller = player.GetComponent<PlayerController>();
-            if (MultiplayerManager.Instance.Multiplayer && !controller.photonView.IsMine) continue;
+            if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) continue;
             controller.DieNormal();
         }
 
 
         // reset balls
-        foreach (Transform ball in ReferenceManager.Instance.ballDefaultContainer)
+        foreach (Transform ball in ReferenceManager.Instance.BallDefaultContainer)
         {
             GameObject ballObject = ball.GetChild(0).gameObject;
             BallDefaultController defaultController = ballObject.GetComponent<BallDefaultController>();
 
-            ballObject.transform.position = defaultController.startPosition;
+            ballObject.transform.position = defaultController.StartPosition;
         }
 
-        foreach (Transform ball in ReferenceManager.Instance.ballCircleContainer)
+        foreach (Transform ball in ReferenceManager.Instance.BallCircleContainer)
         {
             GameObject ballObject = ball.GetChild(0).gameObject;
             BallCircleController controller = ballObject.GetComponent<BallCircleController>();
 
-            controller.currentAngle = controller.startAngle;
+            controller.CurrentAngle = controller.StartAngle;
             controller.UpdateAnglePos();
         }
 
         // reset coins
-        foreach (Transform coin in ReferenceManager.Instance.coinContainer)
+        foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
         {
             Animator anim = coin.GetComponent<Animator>();
             anim.SetBool(playingString, false);
@@ -238,7 +238,7 @@ public class PlayManager : MonoBehaviour
         }
 
         // reset keys
-        foreach (Transform key in ReferenceManager.Instance.keyContainer)
+        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
         {
             Animator anim = key.GetComponent<Animator>();
             anim.SetBool(playingString, false);
@@ -248,12 +248,12 @@ public class PlayManager : MonoBehaviour
         foreach (GameObject player in PlayerManager.GetPlayers())
         {
             PlayerController controller = player.GetComponent<PlayerController>();
-            controller.coinsCollected.Clear();
-            controller.keysCollected.Clear();
+            controller.CoinsCollected.Clear();
+            controller.KeysCollected.Clear();
         }
 
         // reset checkpoints
-        foreach (Transform field in ReferenceManager.Instance.fieldContainer)
+        foreach (Transform field in ReferenceManager.Instance.FieldContainer)
         {
             if (field.CompareTag("CheckpointField"))
             {
@@ -261,7 +261,7 @@ public class PlayManager : MonoBehaviour
                 anim.Deactivate();
 
                 CheckpointController controller = field.GetComponent<CheckpointController>();
-                controller.activated = false;
+                controller.Activated = false;
             }
         }
 
@@ -280,7 +280,7 @@ public class PlayManager : MonoBehaviour
 
     public static void QuitGame()
     {
-        Instance.OnGameQuit?.Invoke();
+        Instance.GameQuit?.Invoke();
 
         Application.Quit();
     }

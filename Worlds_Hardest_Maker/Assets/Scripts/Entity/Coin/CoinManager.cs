@@ -6,7 +6,7 @@ public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance { get; private set; }
 
-    public static List<FieldType> cannotPlaceFields = new(new[]
+    public static List<FieldType> CannotPlaceFields = new(new[]
     {
         FieldType.WALL_FIELD,
         FieldType.RED_KEY_DOOR_FIELD,
@@ -28,8 +28,8 @@ public class CoinManager : MonoBehaviour
         Vector2 pos = new(mx, my);
 
         TotalCoins++;
-        GameObject coin = Instantiate(PrefabManager.Instance.coin, pos, Quaternion.identity,
-            ReferenceManager.Instance.coinContainer);
+        GameObject coin = Instantiate(PrefabManager.Instance.Coin, pos, Quaternion.identity,
+            ReferenceManager.Instance.CoinContainer);
 
         Animator anim = coin.GetComponent<Animator>();
         anim.SetBool(playing, EditModeManager.Instance.Playing);
@@ -48,7 +48,7 @@ public class CoinManager : MonoBehaviour
         GameObject currentPlayer = PlayerManager.GetPlayer();
         if (currentPlayer != null) currentPlayer.GetComponent<PlayerController>().UncollectCoinAtPos(new(mx, my));
 
-        TotalCoins = ReferenceManager.Instance.coinContainer.childCount - 1;
+        TotalCoins = ReferenceManager.Instance.CoinContainer.childCount - 1;
     }
 
     public static GameObject GetCoin(float mx, float my)
@@ -79,7 +79,7 @@ public class CoinManager : MonoBehaviour
     {
         // conditions: no coin there, doesn't intersect with any walls etc, no player there
         return !IsCoinThere(mx, my) &&
-               !FieldManager.IntersectingAnyFieldsAtPos(mx, my, cannotPlaceFields.ToArray()) &&
+               !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CannotPlaceFields.ToArray()) &&
                !PlayerManager.IsPlayerThere(mx, my);
     }
 
@@ -91,7 +91,7 @@ public class CoinManager : MonoBehaviour
 
     private void Start()
     {
-        EditModeManager.Instance.OnPlay += () =>
-            Instance.TotalCoins = ReferenceManager.Instance.coinContainer.transform.childCount;
+        EditModeManager.Instance.Play += () =>
+            Instance.TotalCoins = ReferenceManager.Instance.CoinContainer.transform.childCount;
     }
 }
