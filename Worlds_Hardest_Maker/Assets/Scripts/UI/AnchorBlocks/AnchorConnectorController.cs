@@ -22,7 +22,8 @@ public class AnchorConnectorController : MonoBehaviour
             Transform parent = transform.parent;
             draggedBlock.SetParent(parent.parent);
             draggedBlock.SetSiblingIndex(transform.GetSiblingIndex() + 1);
-            Instantiate(PrefabManager.Instance.AnchorConnector, parent);
+            if(parent.parent.childCount - 1 == parent.childCount)
+                Instantiate(PrefabManager.Instance.AnchorConnector, parent);
         }
     }
 }
