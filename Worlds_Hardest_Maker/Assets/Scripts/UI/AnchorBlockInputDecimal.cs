@@ -2,23 +2,18 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AnchorBlockInputDecimal : MonoBehaviour
+public class AnchorBlockInputDecimal : AnchorBlockColorController
 {
+    [Space]
     [SerializeField] private Image imageComp;
     [SerializeField] private TMP_InputField inputComp;
-    [Space]
-    [SerializeField] private Color color;
-    [Range(0, 1)][SerializeField] private float darkening;
 
-    public void UpdateColor()
+    public override void UpdateColor()
     {
-        Color darker = AnchorBlockColor.GetDarkColor(color, darkening);
+        Color darker = GetDarkColor(color, darkening);
 
-        imageComp.color = AnchorBlockColor.KeepA(darker, imageComp.color);
+        imageComp.color = KeepA(darker, imageComp.color);
 
-        inputComp.selectionColor = AnchorBlockColor.KeepA(color, inputComp.selectionColor);
+        inputComp.selectionColor = KeepA(color, inputComp.selectionColor);
     }
-
-    public void SetColor(Color c) => color = c;
-    public void SetDarkening(float d) => darkening = d;
 }
