@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +25,14 @@ public class AnchorBlockColor : MonoBehaviour
             input.SetColor(color);
             input.SetDarkening(darkening);
             input.UpdateColor();
+        }
+
+        // update color of dropdowns
+        TMP_Dropdown[] dropdowns = GetComponentsInChildren<TMP_Dropdown>();
+        foreach (TMP_Dropdown dropdown in dropdowns)
+        {
+            Image img = dropdown.GetComponent<Image>();
+            img.color = KeepA(darkened, img.color);
         }
     }
 
