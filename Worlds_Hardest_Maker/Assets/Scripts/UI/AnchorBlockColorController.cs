@@ -16,5 +16,5 @@ public abstract class AnchorBlockColorController : MonoBehaviour
         Color darker = new(color.r * percent, color.g * percent, color.b * percent);
         return darker;
     }
-    public static Color KeepA(Color _new, Color assign) => new(_new.r, _new.g, _new.b, assign.a);
+    public static Color KeepA(Color new_, Color assign) => new(new_.r, new_.g, new_.b, assign.a);
 }
