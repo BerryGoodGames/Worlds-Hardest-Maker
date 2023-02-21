@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(MouseOverUI))]
 public class AnchorConnectorController : MonoBehaviour
@@ -29,6 +30,7 @@ public class AnchorConnectorController : MonoBehaviour
         Transform parent = transform.parent;
         draggedBlock.SetParent(parent.parent);
         draggedBlock.SetSiblingIndex(transform.GetSiblingIndex() + 1);
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)parent.parent);
         StartCoroutine(ExecuteOnSnap(AnchorBlockManager.DraggedBlock.BlockDragDropComp));
 
         // generate new connector if needed
