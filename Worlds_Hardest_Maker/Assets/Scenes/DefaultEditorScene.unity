@@ -2644,6 +2644,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnchorConnector
       objectReference: {fileID: 0}
+    - target: {fileID: 6647066676833249867, guid: ce5a8d62650143e49967f0d0f6db564a, type: 3}
+      propertyPath: dummy
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce5a8d62650143e49967f0d0f6db564a, type: 3}
 --- !u!4 &343403045 stripped
@@ -9355,6 +9359,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnchorConnector
       objectReference: {fileID: 0}
+    - target: {fileID: 6647066676833249867, guid: ce5a8d62650143e49967f0d0f6db564a, type: 3}
+      propertyPath: dummy
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce5a8d62650143e49967f0d0f6db564a, type: 3}
 --- !u!1 &1418422619
@@ -10868,31 +10876,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aca75156de832af4ba3916b4c52d9678, type: 3}
---- !u!1 &1635690934 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 513590573494820365, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
-  m_PrefabInstance: {fileID: 83436545}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1635690940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1635690934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreLayout: 0
-  m_MinWidth: -1
-  m_MinHeight: -1
-  m_PreferredWidth: -1
-  m_PreferredHeight: -1
-  m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
-  m_LayoutPriority: 1
 --- !u!224 &1641938108 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7465456736653454112, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
@@ -12406,6 +12389,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainString
       objectReference: {fileID: 0}
+    - target: {fileID: 4851277284945242476, guid: c19aafea35a974c4b90531ba074cbfb5, type: 3}
+      propertyPath: dummy
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5425142761320645529, guid: c19aafea35a974c4b90531ba074cbfb5, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -12589,6 +12576,10 @@ PrefabInstance:
     - target: {fileID: 8290153139641502668, guid: c19aafea35a974c4b90531ba074cbfb5, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388834659248215511, guid: c19aafea35a974c4b90531ba074cbfb5, type: 3}
+      propertyPath: dummy
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c19aafea35a974c4b90531ba074cbfb5, type: 3}
