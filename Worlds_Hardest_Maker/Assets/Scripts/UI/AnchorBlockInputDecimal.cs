@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AnchorBlocksInputDecimal : MonoBehaviour
+public class AnchorBlockInputDecimal : MonoBehaviour
 {
     [SerializeField] private Image imageComp;
     [SerializeField] private TMP_InputField inputComp;

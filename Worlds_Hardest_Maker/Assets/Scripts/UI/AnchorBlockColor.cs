@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Windows;
 
 public class AnchorBlockColor : MonoBehaviour
 {
@@ -19,8 +20,8 @@ public class AnchorBlockColor : MonoBehaviour
         foregroundImage.color = KeepA(color, foregroundImage.color);
 
         // update color of each input
-        AnchorBlocksInputDecimal[] inputs = GetComponentsInChildren<AnchorBlocksInputDecimal>();
-        foreach (AnchorBlocksInputDecimal input in inputs)
+        AnchorBlockInputDecimal[] inputs = GetComponentsInChildren<AnchorBlockInputDecimal>();
+        foreach (AnchorBlockInputDecimal input in inputs)
         {
             input.SetColor(color);
             input.SetDarkening(darkening);
@@ -28,11 +29,12 @@ public class AnchorBlockColor : MonoBehaviour
         }
 
         // update color of dropdowns
-        TMP_Dropdown[] dropdowns = GetComponentsInChildren<TMP_Dropdown>();
-        foreach (TMP_Dropdown dropdown in dropdowns)
+        AnchorBlockDropdown[] dropdowns = GetComponentsInChildren<AnchorBlockDropdown>();
+        foreach (AnchorBlockDropdown dropdown in dropdowns)
         {
-            Image img = dropdown.GetComponent<Image>();
-            img.color = KeepA(darkened, img.color);
+            dropdown.SetColor(color);
+            dropdown.SetDarkening(darkening);
+            dropdown.UpdateColor();
         }
     }
 
