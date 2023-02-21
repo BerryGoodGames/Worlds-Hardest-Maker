@@ -144,6 +144,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3802935625325081582, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: IsWarningButton
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3802935625325081582, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: isWarningButton
       value: 1
       objectReference: {fileID: 0}

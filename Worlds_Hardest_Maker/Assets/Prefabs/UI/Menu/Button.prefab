@@ -343,7 +343,7 @@ MonoBehaviour:
   highlightFloating: 2
   highlightElevateDuration: 0.3
   highlightFloatingDuration: 1
-  isWarningButton: 0
+  IsWarningButton: 0
   singleShakeDuration: 0
   shake1: 0
   shake2: 0
@@ -359,9 +359,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b3ad07b390d5046835a38f98676543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  background: {fileID: 8277756281126178423}
-  backgroundPanel: {fileID: 6108669949131332086}
-  playSound: 1
+  Background: {fileID: 8277756281126178423}
+  BackgroundPanel: {fileID: 6108669949131332086}
+  DoPlaySound: 1
 --- !u!1 &6482757864764283588
 GameObject:
   m_ObjectHideFlags: 0
