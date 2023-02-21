@@ -73,7 +73,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22294703660940507, guid: 36088607dd633eb4db48265a6a801265, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 38.765
       objectReference: {fileID: 0}
     - target: {fileID: 22294703660940507, guid: 36088607dd633eb4db48265a6a801265, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -184,7 +184,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7251666483022855808, guid: 8140c5adea7c60a4395de5ee0669a7f6, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 97.53
       objectReference: {fileID: 0}
     - target: {fileID: 7251666483022855808, guid: 8140c5adea7c60a4395de5ee0669a7f6, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -243,6 +243,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8156462037967817642, guid: 8140c5adea7c60a4395de5ee0669a7f6, type: 3}
+      propertyPath: m_ContentType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8156462037967817642, guid: 8140c5adea7c60a4395de5ee0669a7f6, type: 3}
+      propertyPath: m_KeyboardType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8156462037967817642, guid: 8140c5adea7c60a4395de5ee0669a7f6, type: 3}
       propertyPath: m_SelectionColor.b
       value: 0.20910545
       objectReference: {fileID: 0}
@@ -253,6 +261,10 @@ PrefabInstance:
     - target: {fileID: 8156462037967817642, guid: 8140c5adea7c60a4395de5ee0669a7f6, type: 3}
       propertyPath: m_SelectionColor.r
       value: 0.08904416
+      objectReference: {fileID: 0}
+    - target: {fileID: 8156462037967817642, guid: 8140c5adea7c60a4395de5ee0669a7f6, type: 3}
+      propertyPath: m_CharacterValidation
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8156462037967817642, guid: 8140c5adea7c60a4395de5ee0669a7f6, type: 3}
       propertyPath: m_Colors.m_PressedColor.b
@@ -369,11 +381,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2207349393350425260, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 787.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2207349393350425260, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 441
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2207349393350425260, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
