@@ -51,8 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8261b6204a77d644c9d287f34b3a046d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockContainer: {fileID: 0}
-  connectorContainer: {fileID: 0}
+  ConnectorContainer: {fileID: 7394947489010676344}
 --- !u!114 &1934379636110196123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,7 +78,7 @@ GameObject:
   - component: {fileID: 1091147726641649071}
   - component: {fileID: 1994250879780125354}
   m_Layer: 0
-  m_Name: Connectors
+  m_Name: ConnectorContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

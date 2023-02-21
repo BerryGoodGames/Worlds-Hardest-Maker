@@ -12389,6 +12389,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainString
       objectReference: {fileID: 0}
+    - target: {fileID: 4066486300946319170, guid: c19aafea35a974c4b90531ba074cbfb5, type: 3}
+      propertyPath: m_Name
+      value: ConnectorContainer
+      objectReference: {fileID: 0}
     - target: {fileID: 4851277284945242476, guid: c19aafea35a974c4b90531ba074cbfb5, type: 3}
       propertyPath: dummy
       value: 1

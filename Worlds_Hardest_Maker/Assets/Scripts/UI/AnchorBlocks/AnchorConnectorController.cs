@@ -9,6 +9,8 @@ public class AnchorConnectorController : MonoBehaviour
     private MouseOverUI mouseOverUI;
     [SerializeField] private bool dummy;
 
+    
+
     private void Awake()
     {
         mouseOverUI = GetComponent<MouseOverUI>();
@@ -17,6 +19,7 @@ public class AnchorConnectorController : MonoBehaviour
     private void Update()
     {
         if(dummy) return;
+        
         // check if a block got released over this connector
         if (!AnchorBlockManager.DraggingBlock || !mouseOverUI.Over ||
             (!Input.GetMouseButtonUp(0) && !Input.GetMouseButtonUp(1))) return;
@@ -26,6 +29,7 @@ public class AnchorConnectorController : MonoBehaviour
         Transform parent = transform.parent;
         draggedBlock.SetParent(parent.parent);
         draggedBlock.SetSiblingIndex(transform.GetSiblingIndex() + 1);
+        StartCoroutine(ExecuteOnSnap(AnchorBlockManager.DraggedBlock.BlockDragDropComp));
 
         // generate new connector if needed
         if (parent.parent.childCount - 1 != parent.childCount) return;
@@ -35,5 +39,11 @@ public class AnchorConnectorController : MonoBehaviour
         {
             dummy = true;
         }
+    }
+
+    private static IEnumerator ExecuteOnSnap(BlockDragDrop blockDragDrop)
+    {
+        yield return new WaitForEndOfFrame();
+        blockDragDrop.OnSnap();
     }
 }

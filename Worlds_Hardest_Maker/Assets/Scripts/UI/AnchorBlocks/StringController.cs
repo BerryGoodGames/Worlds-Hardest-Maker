@@ -4,8 +4,5 @@ using UnityEngine;
 
 public class StringController : MonoBehaviour
 {
-    [SerializeField] private Transform blockContainer;
-    [SerializeField] private Transform connectorContainer;
-
-
+    public Transform ConnectorContainer;
 }
