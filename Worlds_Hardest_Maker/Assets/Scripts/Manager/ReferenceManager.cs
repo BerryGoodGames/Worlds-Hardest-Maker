@@ -58,6 +58,8 @@ public class ReferenceManager : MonoBehaviour
 
     public Transform AnchorBlockContainer;
 
+    public Transform AnchorBlockStringContainer;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;

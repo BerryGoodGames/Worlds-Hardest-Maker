@@ -59,6 +59,7 @@ public class PrefabManager : MonoBehaviour
 
     [FormerlySerializedAs("fillPreview")] public GameObject FillPreview;
     [FormerlySerializedAs("tooltip")] public GameObject Tooltip;
+    [Space] [Header("Anchor Blocks")] public GameObject AnchorConnector;
     
 
     private void OnEnable()

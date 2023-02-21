@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 ///     checks if ui element is hovered by mouse:
 ///     GetComponent<MouseOverUI>().over
 /// </summary>
+[RequireComponent(typeof(RectTransform))]
 public class MouseOverUI : MonoBehaviour
 {
     [FormerlySerializedAs("over")] [HideInInspector] public bool Over;

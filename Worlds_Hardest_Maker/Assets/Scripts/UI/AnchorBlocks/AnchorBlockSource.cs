@@ -8,7 +8,7 @@ public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
 
     public void CreateNew()
     {
-        GameObject anchorBlock = Instantiate(anchorBlockPrefab, transform.position, Quaternion.identity, ReferenceManager.Instance.AnchorBlockContainer);
+        GameObject anchorBlock = Instantiate(anchorBlockPrefab, transform.position, Quaternion.identity, ReferenceManager.Instance.AnchorBlockStringContainer);
         anchorBlock.GetComponent<BlockDragDrop>().BeginDrag();
     }
     

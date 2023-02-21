@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.32941177, g: 0.4431373, b: 0.86274517, a: 1}
+  m_Color: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 2207349393350425260}
   - component: {fileID: 2207349393350425262}
   - component: {fileID: 2207349393350425263}
+  - component: {fileID: 6378822329200535422}
   - component: {fileID: 4810868768579070343}
   - component: {fileID: 617960697850934350}
   - component: {fileID: 2207349393350425264}
@@ -162,7 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.23058824, g: 0.3101961, b: 0.6039216, a: 1}
+  m_Color: {r: 0.25943395, g: 0.25943395, b: 0.25943395, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -179,6 +180,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 4.5
+--- !u!114 &6378822329200535422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2207349393350425261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9488c4af8e908974ebd8b1891f7cd034, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsInsertable: 1
+  BlockDragDropComp: {fileID: 0}
 --- !u!114 &4810868768579070343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,9 +206,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96faa875e02d8cd42a4a9261780cd29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  foregroundImage: {fileID: 6382237367033516156}
   color: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 1}
   darkening: 0.3
-  foregroundImage: {fileID: 6382237367033516156}
 --- !u!114 &617960697850934350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,6 +258,22 @@ MonoBehaviour:
         - m_Target: {fileID: 617960697850934350}
           m_TargetAssemblyTypeName: BlockDragDrop, Assembly-CSharp
           m_MethodName: OnBeginEvent
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 14
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 617960697850934350}
+          m_TargetAssemblyTypeName: BlockDragDrop, Assembly-CSharp
+          m_MethodName: OnEndEvent
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
