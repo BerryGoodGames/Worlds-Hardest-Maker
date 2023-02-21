@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class AnchorBlockController : MonoBehaviour
 {
-
+    public bool IsInsertable = true;
 }

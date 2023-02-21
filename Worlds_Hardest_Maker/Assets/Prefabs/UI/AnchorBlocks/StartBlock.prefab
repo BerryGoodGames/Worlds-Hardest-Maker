@@ -281,6 +281,10 @@ PrefabInstance:
       propertyPath: anchorBlockPrefab
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6378822329200535422, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: IsInsertable
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2207349393350425264, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
     - {fileID: 617960697850934350, guid: c93df7803d003ab49b317d10afa7f970, type: 3}

@@ -18,8 +18,11 @@ public class AnchorConnectorController : MonoBehaviour
             (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1)))
         {
             // move dragged block to this string
-            AnchorBlockManager.DraggedBlock.gameObject.transform.SetParent(transform.parent, true);
-            transform.SetAsLastSibling();
+            Transform draggedBlock = AnchorBlockManager.DraggedBlock.gameObject.transform;
+            Transform parent = transform.parent;
+            draggedBlock.SetParent(parent.parent);
+            draggedBlock.SetSiblingIndex(transform.GetSiblingIndex() + 1);
+            Instantiate(PrefabManager.Instance.AnchorConnector, parent);
         }
     }
 }
