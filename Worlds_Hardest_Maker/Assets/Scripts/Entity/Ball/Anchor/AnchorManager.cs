@@ -1,3 +1,4 @@
+using System;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -9,8 +10,18 @@ public class AnchorManager : MonoBehaviour
     private static readonly int selected = Animator.StringToHash("Selected");
     private static readonly int playing = Animator.StringToHash("Playing");
 
-    [FormerlySerializedAs("selectedAnchor")]
-    public AnchorController SelectedAnchor;
+    [SerializeField]
+    private AnchorController selectedAnchor;
+
+    public AnchorController SelectedAnchor
+    {
+        get => selectedAnchor;
+        set
+        {
+            UpdateSelectedAnchor();
+            selectedAnchor = value;
+        }
+    }
 
     #region get, set, remove
 
@@ -145,5 +156,16 @@ public class AnchorManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
+    }
+
+    private void Start()
+    {
+        EditModeManager.Instance.OnPlay += UpdateSelectedAnchor;
+    }
+
+    private void UpdateSelectedAnchor()
+    {
+        if (selectedAnchor != null)
+            selectedAnchor.Blocks = new(ReferenceManager.Instance.MainStringController.GetAnchorBlocks(selectedAnchor));
     }
 }

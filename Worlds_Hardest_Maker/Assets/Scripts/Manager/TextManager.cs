@@ -42,7 +42,7 @@ public class TextManager : MonoBehaviour
 
     private void Start()
     {
-        EditModeManager.Instance.Play += StartTimer;
+        EditModeManager.Instance.OnPlay += StartTimer;
         PlayerManager.Instance.OnWin += FinishTimer;
     }
 

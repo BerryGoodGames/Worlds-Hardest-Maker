@@ -91,7 +91,7 @@ public class CoinManager : MonoBehaviour
 
     private void Start()
     {
-        EditModeManager.Instance.Play += () =>
+        EditModeManager.Instance.OnPlay += () =>
             Instance.TotalCoins = ReferenceManager.Instance.CoinContainer.transform.childCount;
     }
 }

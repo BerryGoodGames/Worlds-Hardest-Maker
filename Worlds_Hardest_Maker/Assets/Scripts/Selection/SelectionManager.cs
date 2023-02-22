@@ -92,7 +92,7 @@ public class SelectionManager : MonoBehaviour
     private void Start()
     {
         selectionOptionsRect = selectionOptions.GetComponent<RectTransform>();
-        EditModeManager.Instance.Play += CancelSelection;
+        EditModeManager.Instance.OnPlay += CancelSelection;
         EditModeManager.Instance.OnEditModeChange += RemakePreview;
 
         fillMouseOver.OnHovered += SetPreviewVisible;

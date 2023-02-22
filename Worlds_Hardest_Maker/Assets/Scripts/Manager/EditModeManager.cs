@@ -40,8 +40,8 @@ public class EditModeManager : MonoBehaviour
 
     #region Events
 
-    public Action Play;
-    public Action Edit;
+    public event Action OnPlay;
+    public event Action OnEdit;
     private static readonly int editingString = Animator.StringToHash("Editing");
     public event Action OnEditModeChange;
 
@@ -117,9 +117,19 @@ public class EditModeManager : MonoBehaviour
 
     #endregion
 
+    public void InvokeOnPlay()
+    {
+        OnPlay?.Invoke();
+    }
+
+    public void InvokeOnEdit()
+    {
+        OnEdit?.Invoke();
+    }
+
     private void Start()
     {
-        Instance.Edit += () => PlayManager.Instance.Cheated = false;
+        Instance.OnEdit += () => PlayManager.Instance.Cheated = false;
 
         Instance.SetEditMode(currentEditMode);
     }

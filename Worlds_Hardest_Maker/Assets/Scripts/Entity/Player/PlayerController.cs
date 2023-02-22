@@ -110,7 +110,7 @@ public class PlayerController : Controller
 
     private void Start()
     {
-        EditModeManager.Instance.Edit += () =>
+        EditModeManager.Instance.OnEdit += () =>
         {
             if (Won && Animator != null)
                 Animator.SetTrigger(death);

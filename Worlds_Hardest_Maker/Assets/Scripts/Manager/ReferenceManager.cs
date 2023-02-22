@@ -77,6 +77,8 @@ public class ReferenceManager : MonoBehaviour
 
     public AnchorBlockQuickMenuController AnchorBlockQuickMenu;
 
+    public StringController MainStringController;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;

@@ -108,7 +108,7 @@ public class PlayManager : MonoBehaviour
 
         // camera jumps to last player if its not on screen
         if (Camera.main != null) Camera.main.GetComponent<JumpToEntity>().Jump(true);
-        EditModeManager.Instance.Play?.Invoke();
+        EditModeManager.Instance.InvokeOnPlay();
 
         // close level settings panel if open
         PanelTween lspt =
@@ -193,7 +193,7 @@ public class PlayManager : MonoBehaviour
             controller.CurrentGameState = null;
         }
 
-        EditModeManager.Instance.Edit?.Invoke();
+        EditModeManager.Instance.InvokeOnEdit();
     }
 
     /// <summary>
