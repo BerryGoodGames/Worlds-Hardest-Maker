@@ -8046,6 +8046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4da6e0cafe4b35a4c83698278dd76cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anchorBlockController: {fileID: 0}
   active: 1
 --- !u!114 &1249373063 stripped
 MonoBehaviour:
@@ -9841,17 +9842,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7465456736653454112, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
   m_PrefabInstance: {fileID: 3914619141086689806}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1482298178 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5918806618074354191, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
-  m_PrefabInstance: {fileID: 2089172586}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ac2e35a7172e3644b4e54c46f96ce0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1482598652 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7041774787421069386, guid: 0c96c71fe87983542a8dc6af1738fb87, type: 3}
@@ -15553,6 +15543,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1436984679}
     m_Modifications:
+    - target: {fileID: 716944561816628428, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_Name
+      value: Duplicate
+      objectReference: {fileID: 0}
+    - target: {fileID: 797617804025814761, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 797617804025814761, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 797617804025814761, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2089172587}
+    - target: {fileID: 797617804025814761, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 797617804025814761, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OnClickDelete
+      objectReference: {fileID: 0}
+    - target: {fileID: 797617804025814761, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: AnchorBlockQuickMenuController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 797617804025814761, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 854056584667628360, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -15571,11 +15593,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 854056584667628360, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 63.505
+      value: 52.51
       objectReference: {fileID: 0}
     - target: {fileID: 854056584667628360, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1003787007062271001, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_text
+      value: Delete
+      objectReference: {fileID: 0}
+    - target: {fileID: 1170317528492205259, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_Name
+      value: Delete
       objectReference: {fileID: 0}
     - target: {fileID: 1302915922716527439, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
       propertyPath: m_AnchorMax.y
@@ -15595,11 +15625,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1302915922716527439, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 63.505
+      value: 37.835
       objectReference: {fileID: 0}
     - target: {fileID: 1302915922716527439, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359913339026069230, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359913339026069230, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359913339026069230, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2089172587}
+    - target: {fileID: 1359913339026069230, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359913339026069230, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OnClickDuplicate
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359913339026069230, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: AnchorBlockQuickMenuController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359913339026069230, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450438520393165854, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+      propertyPath: m_text
+      value: Duplicate
       objectReference: {fileID: 0}
     - target: {fileID: 1916977803196201155, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
       propertyPath: m_Name
@@ -15747,6 +15809,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+--- !u!114 &2089172587 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8263693315208563556, guid: 644606d3b1da29043b2445ab7132161f, type: 3}
+  m_PrefabInstance: {fileID: 2089172586}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16ce751ed13a38445b05b448b3d47559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2114596312 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 855017613331376723, guid: b59519c6f50891a409e47ded5b343679, type: 3}
@@ -17459,8 +17532,7 @@ MonoBehaviour:
   FieldContainer: {fileID: 480599885}
   AnchorBlockContainer: {fileID: 1240006449}
   AnchorBlockStringContainer: {fileID: 1371606958}
-  AnchorBlockQuickMenu: {fileID: 304439835}
-  AnchorBlockQuickMenuTween: {fileID: 1482298178}
+  AnchorBlockQuickMenu: {fileID: 2089172587}
 --- !u!114 &3252578248619094843
 MonoBehaviour:
   m_ObjectHideFlags: 0

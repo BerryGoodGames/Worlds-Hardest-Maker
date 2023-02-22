@@ -75,8 +75,7 @@ public class ReferenceManager : MonoBehaviour
 
     public Transform AnchorBlockStringContainer;
 
-    public RectTransform AnchorBlockQuickMenu;
-    public AlphaUITween AnchorBlockQuickMenuTween;
+    public AnchorBlockQuickMenuController AnchorBlockQuickMenu;
 
     private void Awake()
     {

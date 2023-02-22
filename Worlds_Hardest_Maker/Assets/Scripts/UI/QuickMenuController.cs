@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class QuickMenuController : MonoBehaviour
@@ -12,7 +11,7 @@ public class QuickMenuController : MonoBehaviour
 
     private void Update()
     {
-        if (!Input.GetMouseButtonDown(1)) return;
+        if (!(Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(0))) return;
 
         tween.SetVisible(false);
     }

@@ -73,7 +73,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22294703660940507, guid: 36088607dd633eb4db48265a6a801265, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 53.49
       objectReference: {fileID: 0}
     - target: {fileID: 22294703660940507, guid: 36088607dd633eb4db48265a6a801265, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -232,6 +232,10 @@ PrefabInstance:
       propertyPath: color.r
       value: 0.09019608
       objectReference: {fileID: 0}
+    - target: {fileID: 5313470536566280892, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: anchorBlockController
+      value: 
+      objectReference: {fileID: 918421864834896619}
     - target: {fileID: 6064901676226244029, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: anchorBlockPrefab
       value: 
@@ -268,6 +272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsInsertable: 1
+  duplicateOffset: {x: -10, y: 10}
   BlockDragDropComp: {fileID: 0}
   input: {fileID: 7560409037695637082}
 --- !u!224 &8329645871710002659 stripped
@@ -380,7 +385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 817594828347440836, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 67.82
       objectReference: {fileID: 0}
     - target: {fileID: 817594828347440836, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -468,7 +473,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1257115705517140453, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 179.8
       objectReference: {fileID: 0}
     - target: {fileID: 1257115705517140453, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
       propertyPath: m_AnchoredPosition.y

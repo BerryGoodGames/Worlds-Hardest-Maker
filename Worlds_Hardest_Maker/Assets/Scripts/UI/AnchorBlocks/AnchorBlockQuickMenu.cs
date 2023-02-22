@@ -3,7 +3,9 @@ using UnityEngine.EventSystems;
 
 public class AnchorBlockQuickMenu : MonoBehaviour, IPointerClickHandler
 {
+    [SerializeField] private AnchorBlockController anchorBlockController;
     [SerializeField] private bool active = true;
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button != PointerEventData.InputButton.Right || !active) return;
@@ -12,9 +14,12 @@ public class AnchorBlockQuickMenu : MonoBehaviour, IPointerClickHandler
         Vector2 mousePos = MouseManager.Instance.MouseCanvasPos;
         mousePos.y = MouseManager.Instance.MouseCanvasPos.y - GameManager.GetCanvasDimensions().y;
 
-        print(mousePos);
+        // TODO: fix position
 
-        ReferenceManager.Instance.AnchorBlockQuickMenu.anchoredPosition = mousePos;
-        ReferenceManager.Instance.AnchorBlockQuickMenuTween.SetVisible(true);
+        AnchorBlockQuickMenuController quickMenu = ReferenceManager.Instance.AnchorBlockQuickMenu;
+
+        quickMenu.SelectedAnchorBlock = anchorBlockController;
+        quickMenu.RectTransform.anchoredPosition = mousePos;
+        quickMenu.Tween.SetVisible(true);
     }
 }

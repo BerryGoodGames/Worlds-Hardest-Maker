@@ -20,7 +20,7 @@ public class KeyEvents : MonoBehaviour
         // toggle menu
         if (!MenuManager.Instance.BlockMenu && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)))
         {
-            menuUITween.SetVisible(!menuUITween.IsVisible());
+            menuUITween.SetVisible(!menuUITween.IsVisible);
         }
 
         // teleport player to mouse pos
