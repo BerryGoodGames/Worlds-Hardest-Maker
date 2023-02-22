@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
 ///     contains methods for filling: GetFillRange, FillArea, GetBounds, GetBoundsMatrix
@@ -50,7 +51,7 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton) && !EditModeManager.Instance.Playing)
+        if (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton) && !EditModeManager.Instance.Playing && !EventSystem.current.IsPointerOverGameObject())
             Selecting = true;
 
         // update selection markings

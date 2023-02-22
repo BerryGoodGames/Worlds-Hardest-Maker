@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8076027583649157682}
   - component: {fileID: 5918806618074354191}
   - component: {fileID: 6657427134052727562}
+  - component: {fileID: 6500442211719271572}
   m_Layer: 5
   m_Name: QuickAccessMenu
   m_TagString: Untagged
@@ -137,7 +138,7 @@ MonoBehaviour:
   image: {fileID: 0}
   text: {fileID: 0}
   canvasGroup: {fileID: 6657427134052727562}
-  startVisible: 1
+  startVisible: 0
   duration: 0.15
   disableObjectWhenInvisible: 1
   alphaVisible: 1
@@ -154,6 +155,18 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &6500442211719271572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916977803196201155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4fb7cdf3b1604b41be41abcd12de8ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &862945938847701650
 PrefabInstance:
   m_ObjectHideFlags: 0

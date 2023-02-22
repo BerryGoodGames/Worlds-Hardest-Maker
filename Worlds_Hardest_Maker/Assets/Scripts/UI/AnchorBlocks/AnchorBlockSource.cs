@@ -15,6 +15,6 @@ public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (active) CreateNew();
+        if (active && eventData.button == PointerEventData.InputButton.Left) CreateNew();
     }
 }
