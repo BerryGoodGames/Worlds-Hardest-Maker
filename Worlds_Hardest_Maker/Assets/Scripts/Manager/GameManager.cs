@@ -261,4 +261,10 @@ public class GameManager : MonoBehaviourPun
     {
         loadingScreen.LoadScene(0);
     }
+
+    public static Vector2 GetCanvasDimensions()
+    {
+        Rect canvas = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>().rect;
+        return new(canvas.width, canvas.height);
+    }
 }
