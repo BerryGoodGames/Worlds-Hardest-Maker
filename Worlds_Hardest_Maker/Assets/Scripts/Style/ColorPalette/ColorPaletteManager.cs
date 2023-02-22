@@ -9,7 +9,8 @@ public class ColorPaletteManager : MonoBehaviour
 {
     public static ColorPaletteManager Instance { get; private set; }
 
-    [FormerlySerializedAs("colorPalettes")] public List<ColorPalette> ColorPalettes;
+    [FormerlySerializedAs("colorPalettes")]
+    public List<ColorPalette> ColorPalettes;
 
     private void Awake()
     {

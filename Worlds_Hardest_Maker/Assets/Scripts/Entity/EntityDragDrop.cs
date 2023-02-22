@@ -13,7 +13,7 @@ public class EntityDragDrop : MonoBehaviour
     private void OnMouseDrag()
     {
         if (EditModeManager.Instance.Playing || !Input.GetKey(KeybindManager.Instance.EntityMoveKey)) return;
-        
+
         Vector2 newPos = FollowMouse.GetCurrentMouseWorldPos(worldType);
         if (newPos != (Vector2)transform.position)
         {

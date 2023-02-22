@@ -6,9 +6,15 @@ public class ScreenDimensions : MonoBehaviour
 {
     [SerializeField] private bool setScreenWidth;
     [SerializeField] private bool setScreenHeight;
-    [FormerlySerializedAs("applyMaxZoomFromMapController")] public bool ApplyMaxZoomFromMapController;
+
+    [FormerlySerializedAs("applyMaxZoomFromMapController")]
+    public bool ApplyMaxZoomFromMapController;
+
     [SerializeField] private float maxZoom;
-    [FormerlySerializedAs("hasRectTransform")] public bool HasRectTransform;
+
+    [FormerlySerializedAs("hasRectTransform")]
+    public bool HasRectTransform;
+
     [SerializeField] private RectTransform canvas;
 
     private void Start()
@@ -21,7 +27,8 @@ public class ScreenDimensions : MonoBehaviour
         else
         {
             Camera cam = Camera.main;
-            if (cam == null) throw new Exception("Couldn't set gameObject to screen dimensions because main camera is null");
+            if (cam == null)
+                throw new Exception("Couldn't set gameObject to screen dimensions because main camera is null");
 
             float zoom;
             if (ApplyMaxZoomFromMapController)
@@ -33,6 +40,7 @@ public class ScreenDimensions : MonoBehaviour
             {
                 zoom = maxZoom;
             }
+
             float height = 2 * zoom;
             float width = cam.aspect * height;
             transform.localScale = new(
@@ -41,6 +49,4 @@ public class ScreenDimensions : MonoBehaviour
             );
         }
     }
-
-
 }

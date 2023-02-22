@@ -10,7 +10,9 @@ public class PlayerData : Data
 {
     [FormerlySerializedAs("id")] public int ID;
     [FormerlySerializedAs("speed")] public float Speed;
-    [FormerlySerializedAs("startPosition")] public float[] StartPosition;
+
+    [FormerlySerializedAs("startPosition")]
+    public float[] StartPosition;
 
     public PlayerData(PlayerController controller)
     {

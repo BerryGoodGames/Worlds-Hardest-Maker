@@ -3,8 +3,11 @@ using UnityEngine.Serialization;
 
 public class CoinController : Controller
 {
-    [FormerlySerializedAs("coinPosition")] [HideInInspector] public Vector2 CoinPosition;
-    [FormerlySerializedAs("pickedUp")] [HideInInspector] public bool PickedUp;
+    [FormerlySerializedAs("coinPosition")] [HideInInspector]
+    public Vector2 CoinPosition;
+
+    [FormerlySerializedAs("pickedUp")] [HideInInspector]
+    public bool PickedUp;
 
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
 

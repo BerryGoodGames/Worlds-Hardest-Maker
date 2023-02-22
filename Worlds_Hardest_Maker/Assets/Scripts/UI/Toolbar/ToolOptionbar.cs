@@ -6,7 +6,10 @@ using UnityEngine.UI;
 public class ToolOptionbar : MonoBehaviour
 {
     [FormerlySerializedAs("background")] public GameObject Background;
-    [FormerlySerializedAs("hoveringHitbox")] public GameObject HoveringHitbox;
+
+    [FormerlySerializedAs("hoveringHitbox")]
+    public GameObject HoveringHitbox;
+
     [FormerlySerializedAs("options")] public GameObject Options;
     [FormerlySerializedAs("size")] public float Size;
     private RectTransform hh;

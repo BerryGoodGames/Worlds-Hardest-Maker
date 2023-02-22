@@ -5,9 +5,12 @@ using UnityEngine.Serialization;
 public class ButtonController : MonoBehaviour
 {
     [FormerlySerializedAs("background")] public GameObject Background;
-    [FormerlySerializedAs("backgroundPanel")] public RectTransform BackgroundPanel;
 
-    [FormerlySerializedAs("PlaySound")] [FormerlySerializedAs("playSound")] public bool DoPlaySound;
+    [FormerlySerializedAs("backgroundPanel")]
+    public RectTransform BackgroundPanel;
+
+    [FormerlySerializedAs("PlaySound")] [FormerlySerializedAs("playSound")]
+    public bool DoPlaySound;
 
     public void PlaySound()
     {

@@ -34,6 +34,9 @@ public class RotateBlock : AnchorBlock
         Anchor.Rb.DORotate((CustomIterations ?? iterations) * 360, duration)
             .SetRelative()
             .SetEase(Anchor.Ease)
-            .OnComplete(() => { if(executeNext) Anchor.FinishCurrentExecution(); });
+            .OnComplete(() =>
+            {
+                if (executeNext) Anchor.FinishCurrentExecution();
+            });
     }
 }

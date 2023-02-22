@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 public class SetSpeedBlock : AnchorBlock
 {
     public enum Unit
@@ -13,6 +11,7 @@ public class SetSpeedBlock : AnchorBlock
 
     private readonly float input;
     private readonly Unit type;
+
     public SetSpeedBlock(AnchorController anchor, float input, Unit type) : base(anchor)
     {
         this.input = input;
@@ -23,7 +22,7 @@ public class SetSpeedBlock : AnchorBlock
     {
         Anchor.ApplySpeed = type != Unit.TIME;
         Anchor.Speed = input;
-        if(executeNext)
+        if (executeNext)
             Anchor.FinishCurrentExecution();
     }
 }

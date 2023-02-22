@@ -5,9 +5,9 @@ using UnityEngine.Serialization;
 public class PanelButtonTween : MonoBehaviour
 {
     [SerializeField] private RectTransform button;
-    [Space][SerializeField] private AnimationCurve openEase;
+    [Space] [SerializeField] private AnimationCurve openEase;
     [SerializeField] private AnimationCurve closeEase;
-    [Space][SerializeField] private float duration;
+    [Space] [SerializeField] private float duration;
     [FormerlySerializedAs("open")] public bool Open;
     [SerializeField] private bool closesToRight;
     private float closedX;
@@ -26,7 +26,7 @@ public class PanelButtonTween : MonoBehaviour
 
     public void Set(bool open)
     {
-        if(this.Open != open) Toggle();
+        if (Open != open) Toggle();
     }
 
     private void Start()

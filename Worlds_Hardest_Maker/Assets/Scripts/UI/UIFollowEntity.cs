@@ -3,8 +3,11 @@ using UnityEngine.Serialization;
 
 public class UIFollowEntity : MonoBehaviour
 {
-    [FormerlySerializedAs("entity")] [HideInInspector] public GameObject Entity;
-    [FormerlySerializedAs("offset")] [HideInInspector] public Vector2 Offset;
+    [FormerlySerializedAs("entity")] [HideInInspector]
+    public GameObject Entity;
+
+    [FormerlySerializedAs("offset")] [HideInInspector]
+    public Vector2 Offset;
 
     private Transform target;
     private RectTransform rt;

@@ -23,7 +23,8 @@ public class PathEditorControllerOld : MonoBehaviour
     public void ChangeMode(int mode)
     {
         if (AnchorManagerOld.Instance.SelectedAnchor == null) return;
-        PathControllerOld pathControllerOld = AnchorManagerOld.Instance.SelectedAnchor.GetComponent<PathControllerOld>();
+        PathControllerOld pathControllerOld =
+            AnchorManagerOld.Instance.SelectedAnchor.GetComponent<PathControllerOld>();
         pathControllerOld.PathMode = (PathControllerOld.PathModeType)mode;
         UpdateUI();
     }
@@ -47,7 +48,8 @@ public class PathEditorControllerOld : MonoBehaviour
 
     public void UpdateUI()
     {
-        PathControllerOld pathControllerOld = AnchorManagerOld.Instance.SelectedAnchor.GetComponent<PathControllerOld>();
+        PathControllerOld pathControllerOld =
+            AnchorManagerOld.Instance.SelectedAnchor.GetComponent<PathControllerOld>();
 
         AnchorManagerOld.Instance.SelectedPathControllerOld.DrawLines();
         // update mode

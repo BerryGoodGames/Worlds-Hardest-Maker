@@ -26,7 +26,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [FormerlySerializedAs("lobbyPanel")] public GameObject LobbyPanel;
     [FormerlySerializedAs("roomPanel")] public GameObject RoomPanel;
     [SerializeField] private GameObject loadingPanel;
-    [FormerlySerializedAs("roomNameTitle")] public TMP_Text RoomNameTitle;
+
+    [FormerlySerializedAs("roomNameTitle")]
+    public TMP_Text RoomNameTitle;
+
     [FormerlySerializedAs("yourName")] public TMP_Text YourName;
     [SerializeField] private string privateRoomStart = "!";
     [SerializeField] private Slider loadingSlider;
@@ -36,7 +39,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     // list of all room item controllers
     private readonly List<RoomItem> roomItemsList = new();
 
-    [FormerlySerializedAs("roomContainer")] public GameObject RoomContainer;
+    [FormerlySerializedAs("roomContainer")]
+    public GameObject RoomContainer;
 
     [FormerlySerializedAs("timeBetweenUpdates")] [Space]
 
@@ -46,9 +50,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private float nextUpdateTime;
 
     [Space] private readonly List<PlayerItem> playerItemsList = new();
-    [FormerlySerializedAs("playerItemContainer")] public GameObject PlayerItemContainer;
 
-    [FormerlySerializedAs("playButton")] [Space] public GameObject PlayButton;
+    [FormerlySerializedAs("playerItemContainer")]
+    public GameObject PlayerItemContainer;
+
+    [FormerlySerializedAs("playButton")] [Space]
+    public GameObject PlayButton;
 
     private static readonly int load = Animator.StringToHash("Load");
 

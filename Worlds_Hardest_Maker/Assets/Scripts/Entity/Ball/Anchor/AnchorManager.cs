@@ -9,9 +9,11 @@ public class AnchorManager : MonoBehaviour
     private static readonly int selected = Animator.StringToHash("Selected");
     private static readonly int playing = Animator.StringToHash("Playing");
 
-    [FormerlySerializedAs("selectedAnchor")] public AnchorController SelectedAnchor;
+    [FormerlySerializedAs("selectedAnchor")]
+    public AnchorController SelectedAnchor;
 
     #region get, set, remove
+
     /// <summary>
     ///     places anchor at position
     /// </summary>
@@ -89,9 +91,11 @@ public class AnchorManager : MonoBehaviour
     {
         return GetAnchor(new(mx, my));
     }
+
     #endregion
 
     #region select, deselect
+
     public void SelectAnchor(Vector2 pos)
     {
         AnchorController anchor = GetAnchor(pos);
@@ -129,12 +133,13 @@ public class AnchorManager : MonoBehaviour
         SelectedAnchor.Animator.SetBool(selected, false);
         SelectedAnchor.Animator.SetBool(playing, EditModeManager.Instance.Playing);
         SelectedAnchor = null;
-        
+
         ReferenceManager.Instance.AnchorEditorButtonPanelTween.Set(false);
         ReferenceManager.Instance.AnchorEditorPanelTween.Set(false);
-        
+
         ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(true);
     }
+
     #endregion
 
     private void Awake()

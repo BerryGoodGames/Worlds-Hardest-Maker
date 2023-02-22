@@ -23,12 +23,21 @@ public class Dbg : MonoBehaviour
         MOUSE_POSITION_PIXELS
     }
 
-    [FormerlySerializedAs("dbgEnabled")] [Header("Settings")] public bool DbgEnabled = true;
-    [FormerlySerializedAs("textMode")] [Space] public DbgTextMode TextMode;
+    [FormerlySerializedAs("dbgEnabled")] [Header("Settings")]
+    public bool DbgEnabled = true;
+
+    [FormerlySerializedAs("textMode")] [Space]
+    public DbgTextMode TextMode;
+
     [FormerlySerializedAs("count")] public float Count;
-    [FormerlySerializedAs("wallOutlines")] [Space] public bool WallOutlines = true;
+
+    [FormerlySerializedAs("wallOutlines")] [Space]
+    public bool WallOutlines = true;
+
     [FormerlySerializedAs("drawRays")] public bool DrawRays;
-    [FormerlySerializedAs("gameSpeed")] [Space] public float GameSpeed = 1;
+
+    [FormerlySerializedAs("gameSpeed")] [Space]
+    public float GameSpeed = 1;
 
     [FormerlySerializedAs("debugText")] [Space] [Header("References")]
     public GameObject DebugText;

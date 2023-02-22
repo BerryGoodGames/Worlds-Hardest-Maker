@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class QuickAccessOption : MonoBehaviour
@@ -11,7 +8,7 @@ public class QuickAccessOption : MonoBehaviour
 
     private Transform menu;
     private AlphaUITween menuTween;
-    
+
     private void Awake()
     {
         mouseOverUI.OnHovered += () => tween.SetVisible(true);

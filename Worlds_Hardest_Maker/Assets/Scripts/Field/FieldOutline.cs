@@ -21,12 +21,17 @@ public class FieldOutline : MonoBehaviour
     [FormerlySerializedAs("imitateAlpha")] public bool ImitateAlpha;
     [FormerlySerializedAs("weight")] public float Weight = 0.1f;
     [FormerlySerializedAs("order")] public int Order = 2;
-    [FormerlySerializedAs("connectTags")] [Space] public string[] ConnectTags;
+
+    [FormerlySerializedAs("connectTags")] [Space]
+    public string[] ConnectTags;
+
     [FormerlySerializedAs("rayLength")] public float RayLength = 1f;
 
     private readonly Vector2[] directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
 
-    [FormerlySerializedAs("updateOnStart")] [HideInInspector] public bool UpdateOnStart = true;
+    [FormerlySerializedAs("updateOnStart")] [HideInInspector]
+    public bool UpdateOnStart = true;
+
     private GameObject lineContainer;
     private SpriteRenderer spriteRenderer;
     private bool hasSpriteRenderer;

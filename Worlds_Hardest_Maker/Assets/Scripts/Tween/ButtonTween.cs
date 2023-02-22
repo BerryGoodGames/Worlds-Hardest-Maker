@@ -15,7 +15,9 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private float highlightElevateDuration;
     [SerializeField] private float highlightFloatingDuration;
 
-    [FormerlySerializedAs("isWarningButton")] public bool IsWarningButton;
+    [FormerlySerializedAs("isWarningButton")]
+    public bool IsWarningButton;
+
     [SerializeField] private float singleShakeDuration;
     [SerializeField] private float shake1;
     [SerializeField] private float shake2;

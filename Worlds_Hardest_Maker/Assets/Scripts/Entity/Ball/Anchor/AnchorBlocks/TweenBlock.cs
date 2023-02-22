@@ -15,7 +15,7 @@ public class TweenBlock : AnchorBlock
     public override void Execute(bool executeNext = true)
     {
         Anchor.Ease = ease;
-        if(executeNext)
+        if (executeNext)
             Anchor.FinishCurrentExecution();
     }
 }

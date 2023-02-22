@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 public class AnchorBlockInputDecimal : AnchorBlockColorController
 {
-    [Space]
-    [SerializeField] private Image imageComp;
+    [Space] [SerializeField] private Image imageComp;
     [SerializeField] private TMP_InputField inputComp;
 
     public override void UpdateColor()

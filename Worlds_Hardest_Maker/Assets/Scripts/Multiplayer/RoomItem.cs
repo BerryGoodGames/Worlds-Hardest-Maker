@@ -11,7 +11,9 @@ public class RoomItem : MonoBehaviour
 {
     public RoomInfo Info;
     [FormerlySerializedAs("roomNameTxt")] public TMP_Text RoomNameTxt;
-    [FormerlySerializedAs("playerCountTxt")] public TMP_Text PlayerCountTxt;
+
+    [FormerlySerializedAs("playerCountTxt")]
+    public TMP_Text PlayerCountTxt;
 
     public void SetRoomName(string roomName)
     {

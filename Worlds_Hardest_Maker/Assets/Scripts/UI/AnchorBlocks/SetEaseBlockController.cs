@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -8,6 +5,7 @@ using UnityEngine;
 public class SetEaseBlockController : AnchorBlockController
 {
     [SerializeField] private TMP_InputField input;
+
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
     {
         Ease ease = input.text switch

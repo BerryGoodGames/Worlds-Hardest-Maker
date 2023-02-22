@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class GoToBlockController : AnchorBlockController
 {
-    [SerializeField]
-    private TMP_InputField input;
+    [SerializeField] private TMP_InputField input;
 
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
     {

@@ -8,12 +8,23 @@ public class BallCircleController : BallController
 {
     [SerializeField] private float hoverDeviation;
     [SerializeField] private int startAnglePositionCount;
-    [FormerlySerializedAs("origin")] [Space] public Transform Origin;
+
+    [FormerlySerializedAs("origin")] [Space]
+    public Transform Origin;
+
     [FormerlySerializedAs("hoverHint")] public Transform HoverHint;
-    [FormerlySerializedAs("line")] [HideInInspector] public Transform Line;
-    [FormerlySerializedAs("radius")] [Space] [HideInInspector] public float Radius;
-    [FormerlySerializedAs("startAngle")] [HideInInspector] public float StartAngle;
-    [FormerlySerializedAs("currentAngle")] [HideInInspector] public float CurrentAngle;
+
+    [FormerlySerializedAs("line")] [HideInInspector]
+    public Transform Line;
+
+    [FormerlySerializedAs("radius")] [Space] [HideInInspector]
+    public float Radius;
+
+    [FormerlySerializedAs("startAngle")] [HideInInspector]
+    public float StartAngle;
+
+    [FormerlySerializedAs("currentAngle")] [HideInInspector]
+    public float CurrentAngle;
 
     private bool isDragging;
 
@@ -140,7 +151,7 @@ public class BallCircleController : BallController
     [PunRPC]
     public void SetRadius(float radius)
     {
-        this.Radius = radius;
+        Radius = radius;
 
         InitCircleObject();
         UpdateAnglePos();
@@ -152,7 +163,7 @@ public class BallCircleController : BallController
         // round input to nearest position
         float angle = startAngle.RoundToNearestStep(Mathf.PI * 2 / startAnglePositionCount);
 
-        this.StartAngle = angle;
+        StartAngle = angle;
         CurrentAngle = angle;
         transform.position = GetPointOnCircleFromAngle(angle);
     }

@@ -6,10 +6,17 @@ using UnityEngine.Serialization;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
-    [FormerlySerializedAs("transitionTime")] public float TransitionTime = 1;
+
+    [FormerlySerializedAs("transitionTime")]
+    public float TransitionTime = 1;
+
     [FormerlySerializedAs("defaultState")] public AudioMixerSnapshot DefaultState;
-    [FormerlySerializedAs("filteredState")] public AudioMixerSnapshot FilteredState;
-    [FormerlySerializedAs("sounds")] [Space] public Sound[] Sounds;
+
+    [FormerlySerializedAs("filteredState")]
+    public AudioMixerSnapshot FilteredState;
+
+    [FormerlySerializedAs("sounds")] [Space]
+    public Sound[] Sounds;
 
     private void Awake()
     {

@@ -8,9 +8,14 @@ using UnityEngine.UI;
 /// </summary>
 public abstract class BallController : Controller
 {
-    [FormerlySerializedAs("speed")] [HideInInspector] public float Speed;
-    [FormerlySerializedAs("sliderController")] [HideInInspector] public AppendSlider SliderController;
-    [FormerlySerializedAs("photonView")] [HideInInspector] public PhotonView PhotonView;
+    [FormerlySerializedAs("speed")] [HideInInspector]
+    public float Speed;
+
+    [FormerlySerializedAs("sliderController")] [HideInInspector]
+    public AppendSlider SliderController;
+
+    [FormerlySerializedAs("photonView")] [HideInInspector]
+    public PhotonView PhotonView;
 
     private Text speedText;
 
@@ -43,7 +48,7 @@ public abstract class BallController : Controller
     [PunRPC]
     public void SetSpeed(float speed)
     {
-        this.Speed = speed;
+        Speed = speed;
 
         // sync slider
         float currentSliderValue = SliderController.GetValue() / SliderController.Step;

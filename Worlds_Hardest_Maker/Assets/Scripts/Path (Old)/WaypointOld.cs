@@ -8,17 +8,22 @@ public class WaypointOld
     [FormerlySerializedAs("position")] public Vector2 Position;
     [FormerlySerializedAs("speed")] public float Speed;
     [FormerlySerializedAs("delay")] public float Delay;
-    [FormerlySerializedAs("rotationSpeed")] public float RotationSpeed;
-    [FormerlySerializedAs("rotateWhileDelay")] public bool RotateWhileDelay;
+
+    [FormerlySerializedAs("rotationSpeed")]
+    public float RotationSpeed;
+
+    [FormerlySerializedAs("rotateWhileDelay")]
+    public bool RotateWhileDelay;
+
     public WaypointEditorControllerOld WaypointEditor { get; set; }
 
     public WaypointOld(Vector2 position, bool rotateWhileDelay, float delay, float speed, float rotationSpeed)
     {
-        this.Position = position;
-        this.Delay = delay;
-        this.RotateWhileDelay = rotateWhileDelay;
-        this.Speed = speed;
-        this.RotationSpeed = rotationSpeed;
+        Position = position;
+        Delay = delay;
+        RotateWhileDelay = rotateWhileDelay;
+        Speed = speed;
+        RotationSpeed = rotationSpeed;
     }
 
     public WaypointOld(WaypointSerializable waypoint)
@@ -50,8 +55,12 @@ public class WaypointSerializable
     [FormerlySerializedAs("position")] public float[] Position = new float[2];
     [FormerlySerializedAs("speed")] public float Speed;
     [FormerlySerializedAs("delay")] public float Delay;
-    [FormerlySerializedAs("rotationSpeed")] public float RotationSpeed;
-    [FormerlySerializedAs("rotateWhileDelay")] public bool RotateWhileDelay;
+
+    [FormerlySerializedAs("rotationSpeed")]
+    public float RotationSpeed;
+
+    [FormerlySerializedAs("rotateWhileDelay")]
+    public bool RotateWhileDelay;
 
     public WaypointSerializable(WaypointOld waypointOld)
     {

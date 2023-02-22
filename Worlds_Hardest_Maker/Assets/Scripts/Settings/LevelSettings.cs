@@ -18,10 +18,17 @@ public class LevelSettings : MonoBehaviour
 
     #region Setting variables
 
-    [FormerlySerializedAs("drownDuration")] [HideInInspector] public float DrownDuration;
-    [FormerlySerializedAs("waterDamping")] [HideInInspector] public float WaterDamping;
-    [FormerlySerializedAs("iceFriction")] [HideInInspector] public float IceFriction;
-    [FormerlySerializedAs("iceMaxSpeed")] [HideInInspector] public float IceMaxSpeed;
+    [FormerlySerializedAs("drownDuration")] [HideInInspector]
+    public float DrownDuration;
+
+    [FormerlySerializedAs("waterDamping")] [HideInInspector]
+    public float WaterDamping;
+
+    [FormerlySerializedAs("iceFriction")] [HideInInspector]
+    public float IceFriction;
+
+    [FormerlySerializedAs("iceMaxSpeed")] [HideInInspector]
+    public float IceMaxSpeed;
 
     public bool ReusableCheckpoints
     {

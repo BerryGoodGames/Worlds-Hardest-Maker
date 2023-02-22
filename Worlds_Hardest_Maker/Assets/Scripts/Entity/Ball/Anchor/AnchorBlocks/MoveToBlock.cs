@@ -11,16 +11,20 @@ public class MoveToBlock : AnchorBlock
     private readonly RotateBlock rotateBlock;
 
     #region Constructors
+
     public MoveToBlock(AnchorController anchor, Vector2 target, RotateBlock rotateBlock = null) : base(anchor)
     {
         this.target = target;
         this.rotateBlock = rotateBlock;
     }
-    public MoveToBlock(AnchorController anchor, float x, float y, RotateBlock rotateBlock = null) : this(anchor, new(x, y), rotateBlock)
+
+    public MoveToBlock(AnchorController anchor, float x, float y, RotateBlock rotateBlock = null) : this(anchor,
+        new(x, y), rotateBlock)
     {
     }
+
     #endregion
-    
+
     public override void Execute(bool executeNext = true)
     {
         float duration;
@@ -29,7 +33,7 @@ public class MoveToBlock : AnchorBlock
         if (Anchor.ApplySpeed)
         {
             float speed = Anchor.Speed;
-            
+
             duration = dist / speed;
         }
         else

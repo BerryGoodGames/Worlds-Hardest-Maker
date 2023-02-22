@@ -12,7 +12,8 @@ public class AppendNameTag : MonoBehaviour
     [SerializeField] private bool showOnlyWhenMultiplayer = true;
     [SerializeField] private GameObject nameTagPrefab;
 
-    [FormerlySerializedAs("nameTag")] [HideInInspector] public GameObject NameTag;
+    [FormerlySerializedAs("nameTag")] [HideInInspector]
+    public GameObject NameTag;
 
     private void Awake()
     {

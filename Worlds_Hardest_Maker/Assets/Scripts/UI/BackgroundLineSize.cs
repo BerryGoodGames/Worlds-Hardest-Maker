@@ -7,7 +7,8 @@ public class BackgroundLineSize : MonoBehaviour
     [FormerlySerializedAs("lines")] [Header("Line order: top, right, bottom, left")]
     public RectTransform[] Lines;
 
-    [FormerlySerializedAs("newLineSize")] [Space] public float NewLineSize;
+    [FormerlySerializedAs("newLineSize")] [Space]
+    public float NewLineSize;
 
     public void SetLineSize()
     {

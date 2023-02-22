@@ -13,7 +13,9 @@ public class PlayerController : Controller
     #region Editor variables
 
     [SerializeField] private Text speedText;
-    [FormerlySerializedAs("speed")] [Space] public float Speed;
+
+    [FormerlySerializedAs("speed")] [Space]
+    public float Speed;
 
     [Space]
     // water settings
@@ -40,35 +42,52 @@ public class PlayerController : Controller
 
     #region Components
 
-    [FormerlySerializedAs("rb")] [HideInInspector] public Rigidbody2D Rb;
-    [FormerlySerializedAs("animator")] [HideInInspector] public Animator Animator;
-    [FormerlySerializedAs("edgeCollider")] [HideInInspector] public EdgeCollider2D EdgeCollider;
+    [FormerlySerializedAs("rb")] [HideInInspector]
+    public Rigidbody2D Rb;
+
+    [FormerlySerializedAs("animator")] [HideInInspector]
+    public Animator Animator;
+
+    [FormerlySerializedAs("edgeCollider")] [HideInInspector]
+    public EdgeCollider2D EdgeCollider;
+
     private AppendSlider sliderController;
     private AppendNameTag nameTagController;
-    [FormerlySerializedAs("photonView")] [HideInInspector] public PhotonView PhotonView;
+
+    [FormerlySerializedAs("photonView")] [HideInInspector]
+    public PhotonView PhotonView;
+
     private SpriteRenderer spriteRenderer;
 
     #endregion
 
     #region Fields
 
-    [FormerlySerializedAs("id")] [HideInInspector] public int ID;
+    [FormerlySerializedAs("id")] [HideInInspector]
+    public int ID;
 
-    [FormerlySerializedAs("deaths")] [HideInInspector] public int Deaths;
+    [FormerlySerializedAs("deaths")] [HideInInspector]
+    public int Deaths;
 
-    [FormerlySerializedAs("coinsCollected")] [HideInInspector] public List<GameObject> CoinsCollected;
-    [FormerlySerializedAs("keysCollected")] [HideInInspector] public List<GameObject> KeysCollected;
+    [FormerlySerializedAs("coinsCollected")] [HideInInspector]
+    public List<GameObject> CoinsCollected;
 
-    [FormerlySerializedAs("currentFields")] [HideInInspector] public List<GameObject> CurrentFields;
+    [FormerlySerializedAs("keysCollected")] [HideInInspector]
+    public List<GameObject> KeysCollected;
+
+    [FormerlySerializedAs("currentFields")] [HideInInspector]
+    public List<GameObject> CurrentFields;
 
     public GameState CurrentGameState;
 
-    [FormerlySerializedAs("startPos")] [HideInInspector] public Vector2 StartPos;
+    [FormerlySerializedAs("startPos")] [HideInInspector]
+    public Vector2 StartPos;
 
     private Vector2 movementInput;
     private Vector2 extraMovementInput;
 
-    [FormerlySerializedAs("inDeathAnim")] [HideInInspector] public bool InDeathAnim;
+    [FormerlySerializedAs("inDeathAnim")] [HideInInspector]
+    public bool InDeathAnim;
 
     private bool onWater;
 
@@ -284,7 +303,7 @@ public class PlayerController : Controller
     [PunRPC]
     public void SetSpeed(float speed)
     {
-        this.Speed = speed;
+        Speed = speed;
 
         // sync slider
         float currentSliderValue = sliderController.GetValue() / sliderController.Step;
@@ -694,7 +713,7 @@ public class PlayerController : Controller
     private void CreateRespawnPlayer()
     {
         float applySpeed = Speed;
-        int deaths = this.Deaths;
+        int deaths = Deaths;
 
         Vector2 spawnPos = !EditModeManager.Instance.Playing || CurrentGameState == null
             ? StartPos

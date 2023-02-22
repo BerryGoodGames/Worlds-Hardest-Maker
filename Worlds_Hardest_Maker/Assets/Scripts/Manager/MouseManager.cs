@@ -35,6 +35,7 @@ public class MouseManager : MonoBehaviour
     public bool IsOnScreen { get; set; } = true;
     public bool IsUIHovered { get; set; }
     public bool PrevMouseUp { get; set; }
+
     #endregion
 
     #region Static methods

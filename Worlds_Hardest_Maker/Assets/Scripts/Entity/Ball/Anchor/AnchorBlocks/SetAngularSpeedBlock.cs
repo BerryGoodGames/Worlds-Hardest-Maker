@@ -12,6 +12,7 @@ public class SetAngularSpeedBlock : AnchorBlock
 
     private readonly float input;
     private readonly Unit type;
+
     public SetAngularSpeedBlock(AnchorController anchor, float speed, Unit type) : base(anchor)
     {
         input = type switch

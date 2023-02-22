@@ -6,7 +6,8 @@ public class FollowMouse : MonoBehaviour
     [SerializeField] private bool smooth;
     [SerializeField] private float speed = 20;
 
-    [FormerlySerializedAs("WorldPosition")] public WorldPositionType WorldPosition;
+    [FormerlySerializedAs("WorldPosition")]
+    public WorldPositionType WorldPosition;
     // ANY explains itself, GRID only round or half positions, MATRIX only round positions
 
     public enum WorldPositionType

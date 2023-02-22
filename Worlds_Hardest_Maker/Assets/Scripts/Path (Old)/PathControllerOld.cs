@@ -22,9 +22,15 @@ public class PathControllerOld : MonoBehaviour
     [FormerlySerializedAs("LineContainer")] [SerializeField]
     private Transform lineContainer;
 
-    [FormerlySerializedAs("setElement0ToStartingPos")] [Space] [Header("Settings")] public bool SetElement0ToStartingPos = true;
-    [FormerlySerializedAs("DrawLines")] [FormerlySerializedAs("drawLines")] public bool DoDrawLines = true;
-    [FormerlySerializedAs("onlyMoveWhenPlaying")] public bool OnlyMoveWhenPlaying = true;
+    [FormerlySerializedAs("setElement0ToStartingPos")] [Space] [Header("Settings")]
+    public bool SetElement0ToStartingPos = true;
+
+    [FormerlySerializedAs("DrawLines")] [FormerlySerializedAs("drawLines")]
+    public bool DoDrawLines = true;
+
+    [FormerlySerializedAs("onlyMoveWhenPlaying")]
+    public bool OnlyMoveWhenPlaying = true;
+
     [FormerlySerializedAs("pathMode")] public PathModeType PathMode = 0;
 
     private WaypointOld attributeTarget;

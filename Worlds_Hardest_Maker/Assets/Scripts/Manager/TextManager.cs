@@ -13,13 +13,18 @@ public class TextManager : MonoBehaviour
     [FormerlySerializedAs("editModeText")] [Header("Text References")]
     public TMP_Text EditModeText;
 
-    [FormerlySerializedAs("selectingText")] public TMP_Text SelectingText;
+    [FormerlySerializedAs("selectingText")]
+    public TMP_Text SelectingText;
 
     [FormerlySerializedAs("deathText")] public TMP_Text DeathText;
     [FormerlySerializedAs("timer")] public TMP_Text Timer;
     [FormerlySerializedAs("coinText")] public TMP_Text CoinText;
-    [FormerlySerializedAs("cheatedTimerColor")] [Header("Colors")] public Color CheatedTimerColor;
-    [FormerlySerializedAs("finishedTimerColor")] public Color FinishedTimerColor;
+
+    [FormerlySerializedAs("cheatedTimerColor")] [Header("Colors")]
+    public Color CheatedTimerColor;
+
+    [FormerlySerializedAs("finishedTimerColor")]
+    public Color FinishedTimerColor;
 
     #endregion
 

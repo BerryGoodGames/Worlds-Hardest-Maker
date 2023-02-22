@@ -9,7 +9,8 @@ public class WaypointEditorControllerOld : MonoBehaviour
 {
     public static WaypointEditorControllerOld StartPosition { get; private set; }
 
-    [FormerlySerializedAs("waypointIndex")] public int WaypointIndex;
+    [FormerlySerializedAs("waypointIndex")]
+    public int WaypointIndex;
 
     [Header("references")] [SerializeField]
     private TMP_Text noTxt;
@@ -245,7 +246,8 @@ public class WaypointEditorControllerOld : MonoBehaviour
     {
         WaypointOld nextWaypointOld = Waypoints[(WaypointIndex + 1) % Waypoints.Count];
         if (Waypoints.Count > 1 && Vector2.Distance(WaypointOld.Position, nextWaypointOld.Position) != 0)
-            return InputTurns * 360f / (Vector2.Distance(WaypointOld.Position, nextWaypointOld.Position) / WaypointOld.Speed);
+            return InputTurns * 360f /
+                   (Vector2.Distance(WaypointOld.Position, nextWaypointOld.Position) / WaypointOld.Speed);
         return 0f;
     }
 }

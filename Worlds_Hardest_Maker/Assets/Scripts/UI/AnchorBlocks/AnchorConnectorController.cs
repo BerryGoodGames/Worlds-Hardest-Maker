@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +8,6 @@ public class AnchorConnectorController : MonoBehaviour
     private MouseOverUI mouseOverUI;
     [SerializeField] private bool dummy;
 
-    
 
     private void Awake()
     {
@@ -19,8 +16,8 @@ public class AnchorConnectorController : MonoBehaviour
 
     private void Update()
     {
-        if(dummy) return;
-        
+        if (dummy) return;
+
         // check if a block got released over this connector
         if (!AnchorBlockManager.DraggingBlock || !mouseOverUI.Over ||
             (!Input.GetMouseButtonUp(0) && !Input.GetMouseButtonUp(1))) return;

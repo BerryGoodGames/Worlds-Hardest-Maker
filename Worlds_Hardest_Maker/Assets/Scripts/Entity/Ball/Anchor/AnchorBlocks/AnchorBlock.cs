@@ -15,7 +15,7 @@ public abstract class AnchorBlock
 
     protected AnchorBlock(AnchorController anchor)
     {
-        this.Anchor = anchor;
+        Anchor = anchor;
     }
 
     // ReSharper disable once UnusedMember.Global

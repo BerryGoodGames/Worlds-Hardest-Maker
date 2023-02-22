@@ -11,7 +11,8 @@ public class AnchorManagerOld : MonoBehaviour
 
     private GameObject selectedAnchor;
 
-    [FormerlySerializedAs("pathEditorControllerOld")] public PathEditorControllerOld PathEditorControllerOld;
+    [FormerlySerializedAs("pathEditorControllerOld")]
+    public PathEditorControllerOld PathEditorControllerOld;
 
     public GameObject SelectedAnchor
     {
@@ -19,7 +20,8 @@ public class AnchorManagerOld : MonoBehaviour
         set => SelectAnchor(value);
     }
 
-    [FormerlySerializedAs("selectedPathControllerOld")] [HideInInspector] public PathControllerOld SelectedPathControllerOld;
+    [FormerlySerializedAs("selectedPathControllerOld")] [HideInInspector]
+    public PathControllerOld SelectedPathControllerOld;
 
     private static readonly int selected = Animator.StringToHash("Selected");
 

@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using UnityEditor.Experimental;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -16,7 +14,7 @@ public class BlockDragDrop : MonoBehaviour
         if (!active) return;
 
         Canvas canvas = ReferenceManager.Instance.Canvas;
-        
+
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             (RectTransform)canvas.transform,
@@ -31,7 +29,7 @@ public class BlockDragDrop : MonoBehaviour
     private void OnBeginDrag(Vector2 mousePos)
     {
         if (!active || !gameObject.activeInHierarchy) return;
-        
+
         AnchorBlockManager.DraggedBlock = GetComponent<AnchorBlockController>();
         AnchorBlockManager.DraggingBlock = true;
 
@@ -49,6 +47,7 @@ public class BlockDragDrop : MonoBehaviour
     }
 
     #region Events
+
     public void OnDragEvent(BaseEventData data)
     {
         PointerEventData pointerData = (PointerEventData)data;
@@ -66,6 +65,7 @@ public class BlockDragDrop : MonoBehaviour
         PointerEventData pointerData = (PointerEventData)data;
         OnEndDrag(pointerData.position);
     }
+
     #endregion
 
     public void BeginDrag()
@@ -80,7 +80,7 @@ public class BlockDragDrop : MonoBehaviour
 
     private IEnumerator Drag()
     {
-        if(!active) yield break;
+        if (!active) yield break;
 
         OnBeginDrag(Input.mousePosition);
         while (true)
@@ -90,6 +90,7 @@ public class BlockDragDrop : MonoBehaviour
                 OnEndDrag(Input.mousePosition);
                 yield break;
             }
+
             OnDrag(Input.mousePosition);
             yield return null;
         }
@@ -103,6 +104,7 @@ public class BlockDragDrop : MonoBehaviour
             Transform connectorContainer = stringController.ConnectorContainer;
             Destroy(connectorContainer.GetChild(transform.GetSiblingIndex() - 1).gameObject);
         }
+
         transform.SetParent(ReferenceManager.Instance.AnchorBlockStringContainer);
     }
 }
