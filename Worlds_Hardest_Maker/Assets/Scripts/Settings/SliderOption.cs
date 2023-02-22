@@ -3,5 +3,6 @@ using UnityEngine.Serialization;
 
 public class SliderOption : SettingOption
 {
-    [FormerlySerializedAs("sliderUI")] [Space] public SliderUI SliderUI;
+    [FormerlySerializedAs("sliderUI")] [Space]
+    public SliderUI SliderUI;
 }

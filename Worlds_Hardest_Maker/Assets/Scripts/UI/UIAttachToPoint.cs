@@ -4,8 +4,12 @@ using UnityEngine.Serialization;
 public class UIAttachToPoint : MonoBehaviour
 {
     [FormerlySerializedAs("point")] public Vector2 Point;
-    [FormerlySerializedAs("zoomSizeWithCamera")] public bool ZoomSizeWithCamera;
-    [FormerlySerializedAs("zoomPositionWithCamera")] public bool ZoomPositionWithCamera;
+
+    [FormerlySerializedAs("zoomSizeWithCamera")]
+    public bool ZoomSizeWithCamera;
+
+    [FormerlySerializedAs("zoomPositionWithCamera")]
+    public bool ZoomPositionWithCamera;
 
     private Camera cam;
     private RectTransform rt;

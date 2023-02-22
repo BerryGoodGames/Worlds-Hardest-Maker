@@ -12,9 +12,9 @@ public class GameState
 
     public GameState(Vector2 playerStartPos, List<Vector2> collectedCoins, List<Vector2> collectedKeys)
     {
-        this.PlayerStartPos = playerStartPos;
-        this.CollectedCoins = collectedCoins;
-        this.CollectedKeys = collectedKeys;
+        PlayerStartPos = playerStartPos;
+        CollectedCoins = collectedCoins;
+        CollectedKeys = collectedKeys;
     }
 
     public bool Equals(GameState other)

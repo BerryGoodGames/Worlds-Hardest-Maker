@@ -7,23 +7,40 @@ using UnityEngine.Serialization;
 public class AnchorController : Controller
 {
     [SerializeField] private ChildrenOpacity ballContainerChildrenOpacity;
-    [FormerlySerializedAs("ballContainer")] public Transform BallContainer;
+
+    [FormerlySerializedAs("ballContainer")]
+    public Transform BallContainer;
+
     [FormerlySerializedAs("animator")] public Animator Animator;
 
-    [FormerlySerializedAs("balls")] [HideInInspector] public List<GameObject> Balls = new();
+    [FormerlySerializedAs("balls")] [HideInInspector]
+    public List<GameObject> Balls = new();
+
     public LinkedList<AnchorBlock> Blocks = new();
 
-    [FormerlySerializedAs("applySpeed")] [HideInInspector] public bool ApplySpeed = true;
+    [FormerlySerializedAs("applySpeed")] [HideInInspector]
+    public bool ApplySpeed = true;
+
     private bool startApplySpeed;
-    [FormerlySerializedAs("applyAngularSpeed")] [HideInInspector] public bool ApplyAngularSpeed = true;
+
+    [FormerlySerializedAs("applyAngularSpeed")] [HideInInspector]
+    public bool ApplyAngularSpeed = true;
+
     private bool startApplyAngularSpeed;
 
-    [FormerlySerializedAs("speed")] [HideInInspector] public float Speed;
+    [FormerlySerializedAs("speed")] [HideInInspector]
+    public float Speed;
+
     private float startSpeed;
-    [FormerlySerializedAs("angularSpeed")] [HideInInspector] public float AngularSpeed;
+
+    [FormerlySerializedAs("angularSpeed")] [HideInInspector]
+    public float AngularSpeed;
+
     private float startAngularSpeed;
 
-    [FormerlySerializedAs("ease")] [HideInInspector] public Ease Ease;
+    [FormerlySerializedAs("ease")] [HideInInspector]
+    public Ease Ease;
+
     private Ease startEase;
 
     private Vector2 startPosition;
@@ -31,7 +48,8 @@ public class AnchorController : Controller
 
     public AnchorBlock CurrentExecutingBlock;
 
-    [FormerlySerializedAs("rb")] [HideInInspector] public Rigidbody2D Rb;
+    [FormerlySerializedAs("rb")] [HideInInspector]
+    public Rigidbody2D Rb;
 
     private void Start()
     {
@@ -114,6 +132,7 @@ public class AnchorController : Controller
         startApplyAngularSpeed = ApplyAngularSpeed;
         startEase = Ease;
     }
+
     public void BallFadeOut(AnimationEvent animationEvent)
     {
         float endOpacity = animationEvent.floatParameter;

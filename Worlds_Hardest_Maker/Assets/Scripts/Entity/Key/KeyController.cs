@@ -3,9 +3,15 @@ using UnityEngine.Serialization;
 
 public class KeyController : Controller
 {
-    [FormerlySerializedAs("color")] [HideInInspector] public KeyManager.KeyColor Color;
-    [FormerlySerializedAs("keyPosition")] [HideInInspector] public Vector2 KeyPosition;
-    [FormerlySerializedAs("pickedUp")] [HideInInspector] public bool PickedUp;
+    [FormerlySerializedAs("color")] [HideInInspector]
+    public KeyManager.KeyColor Color;
+
+    [FormerlySerializedAs("keyPosition")] [HideInInspector]
+    public Vector2 KeyPosition;
+
+    [FormerlySerializedAs("pickedUp")] [HideInInspector]
+    public bool PickedUp;
+
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
 
     private void Awake()

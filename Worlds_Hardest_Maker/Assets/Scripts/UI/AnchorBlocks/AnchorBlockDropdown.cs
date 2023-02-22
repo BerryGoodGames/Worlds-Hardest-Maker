@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 public class AnchorBlockDropdown : AnchorBlockColorController
 {
-    [Space]
-    [SerializeField] private Image template;
+    [Space] [SerializeField] private Image template;
     [SerializeField] private Toggle templateItem;
 
     public override void UpdateColor()

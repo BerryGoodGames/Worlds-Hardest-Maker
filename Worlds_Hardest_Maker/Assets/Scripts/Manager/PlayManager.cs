@@ -75,7 +75,7 @@ public class PlayManager : MonoBehaviour
         }
 
         Animator anim;
-        
+
         // if (AnchorManagerOld.Instance.SelectedAnchor != null)
         // {
         //     // disable anchor lines

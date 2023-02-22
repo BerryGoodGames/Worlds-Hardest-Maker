@@ -15,7 +15,7 @@ public class GoToBlock : AnchorBlock
     public override void Execute(bool executeNext = true)
     {
         Anchor.CurrentExecutingBlock = Anchor.Blocks.ElementAt(index);
-        if(executeNext)
+        if (executeNext)
             Anchor.CurrentExecutingBlock.Execute();
     }
 }

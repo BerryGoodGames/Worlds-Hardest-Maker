@@ -8,15 +8,20 @@ public class KeybindManager : MonoBehaviour
     [FormerlySerializedAs("selectionMouseButton")] [Header("Key binds")]
     public int SelectionMouseButton;
 
-    [FormerlySerializedAs("panMouseButton")] public int PanMouseButton;
+    [FormerlySerializedAs("panMouseButton")]
+    public int PanMouseButton;
 
-    [FormerlySerializedAs("entityDeleteKey")] public KeyCode EntityDeleteKey;
+    [FormerlySerializedAs("entityDeleteKey")]
+    public KeyCode EntityDeleteKey;
 
-    [FormerlySerializedAs("entityMoveKey")] public KeyCode EntityMoveKey;
+    [FormerlySerializedAs("entityMoveKey")]
+    public KeyCode EntityMoveKey;
 
-    [FormerlySerializedAs("ballCircleRadiusKey")] public KeyCode BallCircleRadiusKey;
+    [FormerlySerializedAs("ballCircleRadiusKey")]
+    public KeyCode BallCircleRadiusKey;
 
-    [FormerlySerializedAs("ballCircleAngleKey")] public KeyCode BallCircleAngleKey;
+    [FormerlySerializedAs("ballCircleAngleKey")]
+    public KeyCode BallCircleAngleKey;
 
     [FormerlySerializedAs("editSpeedKey")] public KeyCode EditSpeedKey;
     [FormerlySerializedAs("pasteKey")] public KeyCode PasteKey;

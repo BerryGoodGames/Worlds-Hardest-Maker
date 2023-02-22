@@ -9,7 +9,10 @@ public class NumberInput : MonoBehaviour
     [SerializeField] private bool noMinLimit;
     [SerializeField] private float min;
     [SerializeField] private float max;
-    [FormerlySerializedAs("NumberInput")] [FormerlySerializedAs("numberInput")] [Space] public TMP_InputField Input;
+
+    [FormerlySerializedAs("NumberInput")] [FormerlySerializedAs("numberInput")] [Space]
+    public TMP_InputField Input;
+
     private NumberInputTween tweenController;
 
     public void Increase()

@@ -18,7 +18,7 @@ public class WaitBlock : AnchorBlock
         Anchor.Rb.DOMove(Anchor.Rb.position, waitTime)
             .OnComplete(() =>
             {
-                if(executeNext)
+                if (executeNext)
                     Anchor.FinishCurrentExecution();
             });
     }

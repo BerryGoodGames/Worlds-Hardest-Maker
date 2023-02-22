@@ -5,9 +5,16 @@ using UnityEngine.UI;
 public class SelectionSquare : MonoBehaviour
 {
     private Image image;
-    [FormerlySerializedAs("deselectedSprite")] public Sprite DeselectedSprite;
-    [FormerlySerializedAs("selectedSprite")] public Sprite SelectedSprite;
-    [FormerlySerializedAs("subSelectedSprite")] public Sprite SubSelectedSprite;
+
+    [FormerlySerializedAs("deselectedSprite")]
+    public Sprite DeselectedSprite;
+
+    [FormerlySerializedAs("selectedSprite")]
+    public Sprite SelectedSprite;
+
+    [FormerlySerializedAs("subSelectedSprite")]
+    public Sprite SubSelectedSprite;
+
     private RectTransform rt;
 
     private void Awake()

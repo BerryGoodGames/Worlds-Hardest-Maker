@@ -5,9 +5,15 @@ using UnityEngine.Serialization;
 public class BallDefaultController : BallController
 {
     [FormerlySerializedAs("bounce")] public Transform Bounce;
-    [FormerlySerializedAs("line")] [HideInInspector] public Transform Line;
-    [FormerlySerializedAs("startPosition")] [HideInInspector] public Vector2 StartPosition;
-    [FormerlySerializedAs("currentTarget")] [HideInInspector] public Vector2 CurrentTarget;
+
+    [FormerlySerializedAs("line")] [HideInInspector]
+    public Transform Line;
+
+    [FormerlySerializedAs("startPosition")] [HideInInspector]
+    public Vector2 StartPosition;
+
+    [FormerlySerializedAs("currentTarget")] [HideInInspector]
+    public Vector2 CurrentTarget;
 
     private void Start()
     {
@@ -48,7 +54,7 @@ public class BallDefaultController : BallController
         LineManager.SetLayerID(LineManager.BallLayerID);
         GameObject line = LineManager.DrawLine(transform.position, Bounce.position, transform.parent);
 
-        this.Line = line.transform;
+        Line = line.transform;
     }
 
     private void Move()

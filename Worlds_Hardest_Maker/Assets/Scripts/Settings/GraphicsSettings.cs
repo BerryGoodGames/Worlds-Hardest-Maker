@@ -7,12 +7,16 @@ public class GraphicsSettings : MonoBehaviour
 {
     public static GraphicsSettings Instance { get; private set; }
 
-    [FormerlySerializedAs("resolutionDropdown")] public TMP_Dropdown ResolutionDropdown;
+    [FormerlySerializedAs("resolutionDropdown")]
+    public TMP_Dropdown ResolutionDropdown;
+
     private Resolution[] resolutions;
 
     #region Setting variables
 
-    [FormerlySerializedAs("qualityLevel")] [HideInInspector] public int QualityLevel;
+    [FormerlySerializedAs("qualityLevel")] [HideInInspector]
+    public int QualityLevel;
+
     public Resolution Resolution;
 
     [FormerlySerializedAs("oneColorStartGoalCheckpoint")] [FormerlySerializedAs("oneColorStartGoal")] [HideInInspector]

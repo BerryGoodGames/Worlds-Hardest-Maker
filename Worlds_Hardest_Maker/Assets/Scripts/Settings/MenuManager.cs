@@ -14,13 +14,21 @@ public class MenuManager : MonoBehaviour
         SOUND = 2
     }
 
-    [FormerlySerializedAs("graphicSettingsUI")] [Header("Constants & References")] public GameObject GraphicSettingsUI;
+    [FormerlySerializedAs("graphicSettingsUI")] [Header("Constants & References")]
+    public GameObject GraphicSettingsUI;
+
     [FormerlySerializedAs("uiSettingsUI")] public GameObject UISettingsUI;
-    [FormerlySerializedAs("soundSettingsUI")] public GameObject SoundSettingsUI;
-    [FormerlySerializedAs("currentMenuTab")] [Space] [Header("Variables")] public MenuTab CurrentMenuTab;
+
+    [FormerlySerializedAs("soundSettingsUI")]
+    public GameObject SoundSettingsUI;
+
+    [FormerlySerializedAs("currentMenuTab")] [Space] [Header("Variables")]
+    public MenuTab CurrentMenuTab;
+
     private MenuTab prevMenuTab;
 
-    [FormerlySerializedAs("blockMenu")] [HideInInspector] public bool BlockMenu;
+    [FormerlySerializedAs("blockMenu")] [HideInInspector]
+    public bool BlockMenu;
 
     private void Awake()
     {

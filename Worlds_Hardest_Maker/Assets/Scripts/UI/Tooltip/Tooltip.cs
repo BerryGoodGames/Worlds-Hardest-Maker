@@ -7,7 +7,10 @@ public class Tooltip : MonoBehaviour
 {
     [FormerlySerializedAs("text")] public string Text;
     [FormerlySerializedAs("fontSize")] public int FontSize = 20;
-    [FormerlySerializedAs("customTweenDelay")] public bool CustomTweenDelay;
+
+    [FormerlySerializedAs("customTweenDelay")]
+    public bool CustomTweenDelay;
+
     [FormerlySerializedAs("tweenDelay")] public float TweenDelay = 1.5f;
     private const float defaultTweenDelay = 1;
     private MouseOverUI mouseOver;

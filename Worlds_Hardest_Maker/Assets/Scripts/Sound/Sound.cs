@@ -17,7 +17,13 @@ public class Sound
     [FormerlySerializedAs("mute")] public bool Mute;
     [FormerlySerializedAs("playOnAwake")] public bool PlayOnAwake;
     [FormerlySerializedAs("loop")] public bool Loop;
-    [FormerlySerializedAs("volume")] [Range(0f, 1f)] public float Volume = 1;
-    [FormerlySerializedAs("pitch")] [Range(-3f, 3f)] public float Pitch = 1;
-    [FormerlySerializedAs("source")] [HideInInspector] public AudioSource Source;
+
+    [FormerlySerializedAs("volume")] [Range(0f, 1f)]
+    public float Volume = 1;
+
+    [FormerlySerializedAs("pitch")] [Range(-3f, 3f)]
+    public float Pitch = 1;
+
+    [FormerlySerializedAs("source")] [HideInInspector]
+    public AudioSource Source;
 }

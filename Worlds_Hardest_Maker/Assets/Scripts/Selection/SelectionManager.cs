@@ -58,7 +58,8 @@ public class SelectionManager : MonoBehaviour
             MouseManager.Instance.MouseDragCurrent != null && Selecting)
         {
             // get drag positions and world position mode
-            FollowMouse.WorldPositionType worldPositionType = EditModeManager.Instance.CurrentEditMode.GetWorldPosition();
+            FollowMouse.WorldPositionType worldPositionType =
+                EditModeManager.Instance.CurrentEditMode.GetWorldPosition();
 
             (Vector2 start, Vector2 end) = MouseManager.GetDragPositions(worldPositionType);
 
@@ -398,7 +399,7 @@ public class SelectionManager : MonoBehaviour
 
         foreach (Collider2D fieldHit in fieldHits)
         {
-            if(fieldHit == null) continue;
+            if (fieldHit == null) continue;
 
             Destroy(fieldHit.gameObject);
         }
@@ -409,16 +410,16 @@ public class SelectionManager : MonoBehaviour
         bool clearKeys = KeyManager.CannotPlaceFields.Contains(type);
 
         if (!clearCoins && !clearKeys) return;
-        
+
         // clear coins + keys
         Collider2D[] entityHits = Physics2D.OverlapAreaAll(lowestPos, highestPos, entityLayer);
-        
+
         foreach (Collider2D hit in entityHits)
         {
-            if(hit == null ||
-               (!clearCoins && !hit.CompareTag("Key")) ||
-               (!clearKeys && !hit.CompareTag("Coin")) ||
-               (!hit.CompareTag("Coin") && !hit.CompareTag("Key"))) continue;
+            if (hit == null ||
+                (!clearCoins && !hit.CompareTag("Key")) ||
+                (!clearKeys && !hit.CompareTag("Coin")) ||
+                (!hit.CompareTag("Coin") && !hit.CompareTag("Key"))) continue;
 
             Destroy(hit.gameObject);
         }

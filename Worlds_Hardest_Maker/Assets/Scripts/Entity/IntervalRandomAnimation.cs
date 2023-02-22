@@ -7,13 +7,18 @@ using UnityEngine.Serialization;
 /// </summary>
 public class IntervalRandomAnimation : MonoBehaviour
 {
-    [FormerlySerializedAs("intervalSeconds")] public float IntervalSeconds;
-    [FormerlySerializedAs("animTriggerString")] public string AnimTriggerString;
+    [FormerlySerializedAs("intervalSeconds")]
+    public float IntervalSeconds;
+
+    [FormerlySerializedAs("animTriggerString")]
+    public string AnimTriggerString;
 
     // value between 0 - 1, next trigger has to be in range of deviation
-    [FormerlySerializedAs("limitDeviation")] [Range(0, 1)] public float LimitDeviation;
+    [FormerlySerializedAs("limitDeviation")] [Range(0, 1)]
+    public float LimitDeviation;
 
-    [FormerlySerializedAs("triggerOnlyAtPlayMode")] public bool TriggerOnlyAtPlayMode;
+    [FormerlySerializedAs("triggerOnlyAtPlayMode")]
+    public bool TriggerOnlyAtPlayMode;
 
     [FormerlySerializedAs("soundEffect")] public string SoundEffect;
 

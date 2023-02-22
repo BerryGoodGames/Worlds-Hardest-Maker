@@ -10,6 +10,9 @@ public class PreviewSprite : MonoBehaviour
     [FormerlySerializedAs("sprite")] public Sprite Sprite;
     [FormerlySerializedAs("color")] public Color Color = Color.white;
     [FormerlySerializedAs("scale")] public Vector2 Scale = Vector2.one;
-    [FormerlySerializedAs("showWhenSelecting")] public bool ShowWhenSelecting;
+
+    [FormerlySerializedAs("showWhenSelecting")]
+    public bool ShowWhenSelecting;
+
     [FormerlySerializedAs("rotate")] public bool Rotate;
 }

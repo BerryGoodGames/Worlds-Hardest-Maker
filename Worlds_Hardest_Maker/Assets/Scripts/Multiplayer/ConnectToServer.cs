@@ -7,7 +7,10 @@ using UnityEngine.Serialization;
 public class ConnectToServer : MonoBehaviourPunCallbacks
 {
     [SerializeField] private LoadingScreen loadingScreen;
-    [FormerlySerializedAs("usernameInput")] public TMP_InputField UsernameInput;
+
+    [FormerlySerializedAs("usernameInput")]
+    public TMP_InputField UsernameInput;
+
     [FormerlySerializedAs("buttonText")] public TMP_Text ButtonText;
 
     public void OnClickConnect()

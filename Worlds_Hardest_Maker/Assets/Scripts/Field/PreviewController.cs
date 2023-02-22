@@ -12,14 +12,27 @@ public class PreviewController : MonoBehaviour
 
     private bool previousPlaying;
 
-    [FormerlySerializedAs("spriteRenderer")] [HideInInspector] public SpriteRenderer SpriteRenderer;
+    [FormerlySerializedAs("spriteRenderer")] [HideInInspector]
+    public SpriteRenderer SpriteRenderer;
+
     [SerializeField] private Sprite defaultSprite;
     [SerializeField] private Color defaultColor;
-    [FormerlySerializedAs("alpha")] [Range(0, 255)] public int Alpha;
-    [FormerlySerializedAs("changeSpriteToCurrentEditMode")] public bool ChangeSpriteToCurrentEditMode = true;
-    [FormerlySerializedAs("updateEveryFrame")] public bool UpdateEveryFrame = true;
-    [FormerlySerializedAs("showSpriteWhenPasting")] public bool ShowSpriteWhenPasting;
-    [FormerlySerializedAs("rotateToRotation")] public bool RotateToRotation = true;
+
+    [FormerlySerializedAs("alpha")] [Range(0, 255)]
+    public int Alpha;
+
+    [FormerlySerializedAs("changeSpriteToCurrentEditMode")]
+    public bool ChangeSpriteToCurrentEditMode = true;
+
+    [FormerlySerializedAs("updateEveryFrame")]
+    public bool UpdateEveryFrame = true;
+
+    [FormerlySerializedAs("showSpriteWhenPasting")]
+    public bool ShowSpriteWhenPasting;
+
+    [FormerlySerializedAs("rotateToRotation")]
+    public bool RotateToRotation = true;
+
     [SerializeField] private bool smoothRotation;
     [SerializeField] private float rotateDuration;
 

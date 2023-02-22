@@ -5,7 +5,8 @@ public class ToolbarSizing : MonoBehaviour
 {
     [FormerlySerializedAs("canvas")] public Canvas Canvas;
 
-    [FormerlySerializedAs("toolbarHeight")] [Space] public float ToolbarHeight;
+    [FormerlySerializedAs("toolbarHeight")] [Space]
+    public float ToolbarHeight;
 
     public void UpdateSize()
     {

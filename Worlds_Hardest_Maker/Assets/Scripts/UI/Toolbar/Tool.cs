@@ -4,10 +4,17 @@ using UnityEngine.Serialization;
 
 public class Tool : MonoBehaviour
 {
-    [FormerlySerializedAs("toolName")] [HideInInspector] public EditMode ToolName;
+    [FormerlySerializedAs("toolName")] [HideInInspector]
+    public EditMode ToolName;
+
     [SerializeField] private string toolType;
-    [FormerlySerializedAs("selected")] [HideInInspector] public bool Selected;
-    [FormerlySerializedAs("inOptionbar")] [HideInInspector] public bool InOptionbar;
+
+    [FormerlySerializedAs("selected")] [HideInInspector]
+    public bool Selected;
+
+    [FormerlySerializedAs("inOptionbar")] [HideInInspector]
+    public bool InOptionbar;
+
     private SelectionSquare selectionSquare;
     private AlphaUITween anim;
     private MouseOverUI mouseOverUI;

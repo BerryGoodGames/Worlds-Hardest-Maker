@@ -4,10 +4,14 @@ using UnityEngine.Serialization;
 
 public class SettingOption : MonoBehaviour
 {
-    [FormerlySerializedAs("rectTransform")] [SerializeField] protected RectTransform RectTransform;
+    [FormerlySerializedAs("rectTransform")] [SerializeField]
+    protected RectTransform RectTransform;
+
     [FormerlySerializedAs("label")] public TMP_Text Label;
     [Space] [SerializeField] private float fontSize = 40;
-    [FormerlySerializedAs("height")] [SerializeField] public float Height = 80;
+
+    [FormerlySerializedAs("height")] [SerializeField]
+    public float Height = 80;
 
     public float FontSize
     {

@@ -8,7 +8,10 @@ public class SettingsManager : MonoBehaviour
     public static SettingsManager Instance { get; private set; }
 
     [FormerlySerializedAs("mainMixer")] public AudioMixer MainMixer;
-    [FormerlySerializedAs("toolbarContainer")] public GameObject ToolbarContainer;
+
+    [FormerlySerializedAs("toolbarContainer")]
+    public GameObject ToolbarContainer;
+
     [FormerlySerializedAs("infobarEdit")] public GameObject InfobarEdit;
     [FormerlySerializedAs("infobarPlay")] public GameObject InfobarPlay;
 

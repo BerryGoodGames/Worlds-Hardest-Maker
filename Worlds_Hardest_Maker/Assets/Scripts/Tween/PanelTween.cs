@@ -26,14 +26,14 @@ public class PanelTween : MonoBehaviour
 
     public void Set(bool open)
     {
-        if (this.Open != open) Toggle();
+        if (Open != open) Toggle();
     }
 
     private void Start()
     {
         openedX = 0;
         closedX = (closesToRight ? 1 : -1) * panel.rect.width;
-        
+
         panel.anchoredPosition = new(Open ? openedX : closedX, panel.anchoredPosition.y);
     }
 }

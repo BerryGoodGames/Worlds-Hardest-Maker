@@ -4,7 +4,9 @@ using UnityEngine.Serialization;
 
 public class InfobarResize : MonoBehaviour
 {
-    [FormerlySerializedAs("infobarHeight")] public float InfobarHeight;
+    [FormerlySerializedAs("infobarHeight")]
+    public float InfobarHeight;
+
     [FormerlySerializedAs("infoTexts")] public GameObject[] InfoTexts;
 
     public void UpdateSize()

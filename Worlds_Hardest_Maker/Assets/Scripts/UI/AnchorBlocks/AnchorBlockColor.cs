@@ -1,12 +1,10 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Windows;
 
 public class AnchorBlockColor : AnchorBlockColorController
 {
-    [Space]
-    [SerializeField] private Image foregroundImage;
+    [Space] [SerializeField] private Image foregroundImage;
+
     public override void UpdateColor()
     {
         // update bigger background color of anchorblock
