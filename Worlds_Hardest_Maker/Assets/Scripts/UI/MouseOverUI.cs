@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(RectTransform))]
 public class MouseOverUI : MonoBehaviour
 {
-    [FormerlySerializedAs("over")] [HideInInspector] public bool Over;
+    [HideInInspector] public bool Over;
     private RectTransform rt;
     private const bool updateSize = true;
 
