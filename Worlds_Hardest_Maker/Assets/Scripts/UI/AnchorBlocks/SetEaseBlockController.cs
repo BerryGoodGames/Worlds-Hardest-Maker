@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class SetEaseBlockController : AnchorBlockController
 {
-    [SerializeField] private TMP_InputField input;
+    [SerializeField] private TMP_Dropdown input;
 
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
     {
-        Ease ease = input.text switch
+        string selectedValue = input.options[input.value].text;
+        Ease ease = selectedValue switch
         {
             "linear" => Ease.Linear,
             "ease-out" => Ease.OutCubic,
