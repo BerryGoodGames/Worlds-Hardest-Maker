@@ -48,12 +48,11 @@ public class ToolOptionbar : MonoBehaviour
 
     public void DisableOptionbar()
     {
-        if (!anim.IsVisible())
-        {
-            hh.sizeDelta = new(gridLayout.cellSize.x, gridLayout.cellSize.y);
-            hh.localPosition = new(0, -1250);
-            rtThis.localPosition = new(0, 1000);
-        }
+        if (anim.IsVisible) return;
+
+        hh.sizeDelta = new(gridLayout.cellSize.x, gridLayout.cellSize.y);
+        hh.localPosition = new(0, -1250);
+        rtThis.localPosition = new(0, 1000);
     }
 
     public void ScaleOptions()

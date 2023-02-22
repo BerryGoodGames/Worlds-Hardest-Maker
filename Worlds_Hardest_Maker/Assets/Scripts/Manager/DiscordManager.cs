@@ -48,7 +48,8 @@ public class DiscordManager : MonoBehaviour
 
         State = "Making level";
 #if UNITY_EDITOR
-        Details = "Developing game!";
+        State = "";
+        Details = "Developing!";
 #endif
     }
 
