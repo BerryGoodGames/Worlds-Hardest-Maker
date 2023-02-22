@@ -73,11 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2207349393350425260, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 809
+      value: 957
       objectReference: {fileID: 0}
     - target: {fileID: 2207349393350425260, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 297
+      value: 427
       objectReference: {fileID: 0}
     - target: {fileID: 2207349393350425260, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -123,6 +123,10 @@ PrefabInstance:
       propertyPath: color.r
       value: 0.6509804
       objectReference: {fileID: 0}
+    - target: {fileID: 5313470536566280892, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: anchorBlockController
+      value: 
+      objectReference: {fileID: 3981238934563534399}
     - target: {fileID: 6064901676226244029, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: anchorBlockPrefab
       value: 
@@ -164,6 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsInsertable: 1
+  duplicateOffset: {x: -10, y: 10}
   BlockDragDropComp: {fileID: 0}
   input: {fileID: 6262847865256452984}
 --- !u!1001 &990738395807107280

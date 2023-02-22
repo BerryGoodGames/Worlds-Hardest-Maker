@@ -123,6 +123,10 @@ PrefabInstance:
       propertyPath: color.r
       value: 0.09019608
       objectReference: {fileID: 0}
+    - target: {fileID: 5313470536566280892, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: anchorBlockController
+      value: 
+      objectReference: {fileID: 1729703677389204758}
     - target: {fileID: 6064901676226244029, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: anchorBlockPrefab
       value: 
@@ -164,6 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsInsertable: 1
+  duplicateOffset: {x: -10, y: 10}
   BlockDragDropComp: {fileID: 0}
   input: {fileID: 4912644674184131412}
 --- !u!1001 &3827122142193023230

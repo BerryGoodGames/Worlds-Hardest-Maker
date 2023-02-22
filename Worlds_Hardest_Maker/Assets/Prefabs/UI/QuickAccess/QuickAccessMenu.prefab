@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8076027583649157682}
   - component: {fileID: 5918806618074354191}
   - component: {fileID: 6657427134052727562}
-  - component: {fileID: 6500442211719271572}
+  - component: {fileID: 8263693315208563556}
   m_Layer: 5
   m_Name: QuickAccessMenu
   m_TagString: Untagged
@@ -155,7 +155,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &6500442211719271572
+--- !u!114 &8263693315208563556
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,9 +164,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1916977803196201155}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4fb7cdf3b1604b41be41abcd12de8ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 16ce751ed13a38445b05b448b3d47559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RectTransform: {fileID: 2525209195818855928}
+  Tween: {fileID: 5918806618074354191}
 --- !u!1001 &862945938847701650
 PrefabInstance:
   m_ObjectHideFlags: 0
