@@ -165,7 +165,9 @@ public class AnchorManager : MonoBehaviour
 
     private void UpdateSelectedAnchor()
     {
-        if (selectedAnchor != null)
-            selectedAnchor.Blocks = new(ReferenceManager.Instance.MainStringController.GetAnchorBlocks(selectedAnchor));
+        if (selectedAnchor == null) return;
+
+        print("update");
+        selectedAnchor.Blocks = new(ReferenceManager.Instance.MainStringController.GetAnchorBlocks(selectedAnchor));
     }
 }

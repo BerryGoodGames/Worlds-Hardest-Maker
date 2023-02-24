@@ -62,16 +62,14 @@ public class AnchorController : Controller
         UpdateStartValues();
     }
 
-    private void AddBlocks(AnchorBlock block)
+    private void AppendBlock(AnchorBlock block)
     {
         Blocks.AddLast(block);
-    }
+    } 
 
     public void StartExecuting()
     {
         UpdateStartValues();
-
-        Testing();
 
         CurrentExecutingBlock = Blocks.First.Value;
         CurrentExecutingBlock.Execute();
@@ -96,13 +94,13 @@ public class AnchorController : Controller
 
     public void Testing()
     {
-        AddBlocks(new SetSpeedBlock(this, 1.5f, SetSpeedBlock.Unit.TIME));
-        AddBlocks(new SetAngularSpeedBlock(this, 3f, SetAngularSpeedBlock.Unit.TIME));
-        AddBlocks(new MoveToBlock(this, 0, 0));
-        AddBlocks(new RotateBlock(this, 1));
-        AddBlocks(new MoveToBlock(this, 1, 3));
-        AddBlocks(new MoveToBlock(this, 2, -1));
-        AddBlocks(new GoToBlock(this, 0));
+        AppendBlock(new SetSpeedBlock(this, 1.5f, SetSpeedBlock.Unit.TIME));
+        AppendBlock(new SetAngularSpeedBlock(this, 3f, SetAngularSpeedBlock.Unit.TIME));
+        AppendBlock(new MoveToBlock(this, 0, 0));
+        AppendBlock(new RotateBlock(this, 1));
+        AppendBlock(new MoveToBlock(this, 1, 3));
+        AppendBlock(new MoveToBlock(this, 2, -1));
+        AppendBlock(new GoToBlock(this, 0));
     }
 
     public void ResetExecution()
