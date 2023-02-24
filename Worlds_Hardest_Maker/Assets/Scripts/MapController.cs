@@ -3,8 +3,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>
-///     controls map / camera movement
-///     attach to main camera
+///     Controls map / camera movement
+///     <para>Attach to main camera</para>
 /// </summary>
 public class MapController : MonoBehaviour
 {

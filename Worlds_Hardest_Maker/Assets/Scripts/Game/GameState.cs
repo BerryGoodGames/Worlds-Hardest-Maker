@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-///     class, where progress of player can be saved
+///     Saves progress of player in current playing session
 /// </summary>
 public class GameState
 {

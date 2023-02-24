@@ -298,7 +298,7 @@ public class PlayerController : Controller
     #endregion
 
     /// <summary>
-    ///     always use SetSpeed instead of setting
+    ///     Always use SetSpeed instead of setting
     /// </summary>
     [PunRPC]
     public void SetSpeed(float speed)

@@ -2,9 +2,10 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 /// <summary>
-///     animation at random intervals
-///     attach to gameObject holding animator
+///     Triggers animation at random intervals
+///     <para>Attach to gameObject holding animator</para>
 /// </summary>
+[RequireComponent(typeof(Animator))]
 public class IntervalRandomAnimation : MonoBehaviour
 {
     [FormerlySerializedAs("intervalSeconds")]

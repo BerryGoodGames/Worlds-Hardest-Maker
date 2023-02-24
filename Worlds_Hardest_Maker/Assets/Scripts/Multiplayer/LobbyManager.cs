@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
-///     inits lobby: rooms, players etc
+///     Initializes lobby: rooms, players etc
 /// </summary>
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -68,7 +68,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    ///     onclick method for Create Room button
+    ///     OnClick callback (for Create Room button)
     /// </summary>
     public void OnClickCreate()
     {
@@ -89,7 +89,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    ///     callback method: player joins / creates room: switch panels
+    ///     OnJoin / OnCreate callback
     /// </summary>
     public override void OnJoinedRoom()
     {
@@ -103,13 +103,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    ///     callback method: global list of rooms updates in any way
+    ///     Callback method: global list of rooms updates in any way
     /// </summary>
     /// <param name="roomList"></param>
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         // check for cooldown
-        if (!(Time.time >= nextUpdateTime)) return;
+        if (Time.time < nextUpdateTime) return;
 
         // update room list
         // -> clear list
@@ -145,7 +145,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    ///     onclick method for leave button
+    ///     OnClick method for leave button
     /// </summary>
     public void OnClickLeaveRoom()
     {
@@ -153,7 +153,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    ///     callback method: player leaves any room: switch panels
+    ///     Callback method: player leaves any room: switch panels
     /// </summary>
     public override void OnLeftRoom()
     {
@@ -251,9 +251,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    ///     checks if room already exists
+    ///     Checks if room already exists
     /// </summary>
-    /// <param name="roomName">name of room to check</param>
     public bool CheckRooms(string roomName)
     {
         foreach (RoomItem room in roomItemsList)

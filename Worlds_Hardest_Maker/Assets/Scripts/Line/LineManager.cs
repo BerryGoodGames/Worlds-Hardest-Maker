@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-///     rendering lines / circles: generating objects in container holding LineRenderers
-///     attach to game manager
+///     Renders lines / circles: generates objects in container holding LineRenderers
+///     <para>Attach to game manager</para>
 /// </summary>
 public class LineManager : MonoBehaviour
 {
@@ -26,15 +26,9 @@ public class LineManager : MonoBehaviour
     public static int OrderInLayer;
 
     /// <summary>
-    ///     generate object containing a LineRenderer forming a rectangle
+    ///     Generates object containing a LineRenderer forming a rectangle
     /// </summary>
-    /// <param name="x">x-coordinate of top right corner / center of rectangle</param>
-    /// <param name="y">y-coordinate of top right corner / center of rectangle</param>
-    /// <param name="w">width of rectangle</param>
-    /// <param name="h">height of rectangle</param>
-    /// <param name="alignCenter"></param>
-    /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
-    public static GameObject DrawRect(float x, float y, float w, float h, bool alignCenter = false,
+    public static GameObject DrawRect(float x, float y, float width, float height, bool alignCenter = false,
         Transform parent = null)
     {
         // generate object
@@ -49,9 +43,9 @@ public class LineManager : MonoBehaviour
         Vector2[] positions =
         {
             new(x, y),
-            new(x + w, y),
-            new(x + w, y + h),
-            new(x, y + h),
+            new(x + width, y),
+            new(x + width, y + height),
+            new(x, y + height),
             new(x, y)
         };
 
@@ -60,8 +54,8 @@ public class LineManager : MonoBehaviour
         {
             if (alignCenter)
             {
-                positions[i].x -= w * 0.5f;
-                positions[i].y -= h * 0.5f;
+                positions[i].x -= width * 0.5f;
+                positions[i].y -= height * 0.5f;
             }
 
             rect.SetPosition(i, positions[i]);
@@ -71,12 +65,9 @@ public class LineManager : MonoBehaviour
     }
 
     /// <summary>
-    ///     generate object containing a LineRenderer forming a circle
+    ///     Generates object containing a LineRenderer forming a circle
     /// </summary>
-    /// <param name="pos">point of origin</param>
-    /// <param name="radius">radius of circle</param>
-    /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
-    public static GameObject DrawCircle(Vector2 pos, float radius, Transform parent = null)
+    public static GameObject DrawCircle(Vector2 origin, float radius, Transform parent = null)
     {
         // generate object
         GameObject stroke = NewDrawObject("DrawCircle", parent);
@@ -87,7 +78,7 @@ public class LineManager : MonoBehaviour
 
         // get points of circle
         const int steps = 100;
-        List<Vector2> points = GetCirclePoints(pos, radius, steps);
+        List<Vector2> points = GetCirclePoints(origin, radius, steps);
 
         // set points
         circle.positionCount = steps + 1;
@@ -100,37 +91,25 @@ public class LineManager : MonoBehaviour
     }
 
     /// <summary>
-    ///     generate object containing a LineRenderer forming a circle
+    ///     Generates object containing a LineRenderer forming a circle
     /// </summary>
-    /// <param name="x">x-coordinate of center</param>
-    /// <param name="y">y-coordinate of center</param>
-    /// <param name="radius">radius of circle</param>
-    /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
     public static GameObject DrawCircle(float x, float y, float radius, Transform parent = null)
     {
         return DrawCircle(new(x, y), radius, parent);
     }
 
     /// <summary>
-    ///     generate object containing a LineRenderer
+    ///     Generates object containing a LineRenderer
     /// </summary>
-    /// <param name="x1">x-coordinate of first point</param>
-    /// <param name="y1">y-coordinate of second point</param>
-    /// <param name="x2">x-coordinate of first point</param>
-    /// <param name="y2">y-coordinate of second point</param>
-    /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
     public static GameObject DrawLine(float x1, float y1, float x2, float y2, Transform parent = null)
     {
         return DrawLine(new(x1, y1), new(x2, y2), parent);
     }
 
     /// <summary>
-    ///     generate object containing a LineRenderer
+    ///     Generates object containing a LineRenderer
     /// </summary>
-    /// <param name="start">first point</param>
-    /// <param name="end">second point</param>
-    /// <param name="parent">parent the generated gameObject will be placed in, if nothing passed then DrawContainer</param>
-    public static GameObject DrawLine(Vector2 start, Vector2 end, Transform parent = null)
+    public static GameObject DrawLine(Vector2 point1, Vector2 point2, Transform parent = null)
     {
         if (parent == null)
         {
@@ -146,8 +125,8 @@ public class LineManager : MonoBehaviour
         line.positionCount = 2;
         line.numCapVertices = 0;
 
-        line.SetPosition(0, start);
-        line.SetPosition(1, end);
+        line.SetPosition(0, point1);
+        line.SetPosition(1, point2);
 
         return stroke;
     }

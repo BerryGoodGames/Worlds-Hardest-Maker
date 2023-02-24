@@ -32,7 +32,7 @@ public class ConveyorController : MonoBehaviour
         EditModeManager.Instance.OnEdit += SwitchAnimToStaying;
     }
 
-    private void SwitchAnimToRunning()
+    public void SwitchAnimToRunning()
     {
         if (anim == null)
             GetComponent<Animator>();

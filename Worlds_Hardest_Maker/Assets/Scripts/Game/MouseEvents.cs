@@ -3,8 +3,8 @@ using Photon.Pun;
 using UnityEngine;
 
 /// <summary>
-///     controls mouse events: placing, filling, deleting
-///     attach to game manager
+///     Controls mouse events: placing, filling, deleting
+///     <para>Attach to game manager</para>
 /// </summary>
 public class MouseEvents : MonoBehaviour
 {

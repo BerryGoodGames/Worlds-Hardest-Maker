@@ -3,8 +3,8 @@ using Photon.Pun;
 using UnityEngine;
 
 /// <summary>
-///     script for enabling drag and drop on ball objects, also bounce pos or origin pos
-///     attach to gameObject to be dragged
+///     Enables drag and drop on ball objects, also bounce pos or origin pos
+///     <para>Attach to gameObject to be dragged</para>
 /// </summary>
 public class BallDragDrop : MonoBehaviourPun
 {

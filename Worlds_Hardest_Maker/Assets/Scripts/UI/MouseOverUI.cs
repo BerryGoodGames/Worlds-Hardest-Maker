@@ -2,8 +2,8 @@ using System;
 using UnityEngine;
 
 /// <summary>
-///     checks if ui element is hovered by mouse:
-///     GetComponent<MouseOverUI>().over
+///     Checks if ui element is hovered by mouse:
+///     use moueOverUI.over
 /// </summary>
 [RequireComponent(typeof(RectTransform))]
 public class MouseOverUI : MonoBehaviour

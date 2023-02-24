@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 /// <summary>
-///     controller of prefab RoomItem
+///     Attach to prefab RoomItem
 /// </summary>
 public class RoomItem : MonoBehaviour
 {
@@ -28,7 +28,7 @@ public class RoomItem : MonoBehaviour
     }
 
     /// <summary>
-    ///     onclick method for gameObject: join room with specific title
+    ///     OnClick method for gameObject: join room with specific title
     /// </summary>
     public void OnClickItem()
     {

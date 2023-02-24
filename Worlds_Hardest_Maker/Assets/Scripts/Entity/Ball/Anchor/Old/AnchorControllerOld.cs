@@ -102,8 +102,8 @@ public class AnchorControllerOld : Controller
     private void RPCAddWaypoint()
     {
         pathControllerOld.Waypoints.Add(new(new(0, 0), true, 0, 1, 0));
-        if (pathControllerOld.Waypoints.Count > 0 && pathControllerOld.Waypoints[0].WaypointEditor != null)
-            ReferenceManager.Instance.BallWindows.GetComponentInChildren<PathEditorControllerOld>().UpdateUI();
+        // if (pathControllerOld.Waypoints.Count > 0 && pathControllerOld.Waypoints[0].WaypointEditor != null)
+            // ReferenceManager.Instance.BallWindows.GetComponentInChildren<PathEditorControllerOld>().UpdateUI();
     }
 
     public void BallFadeOut(AnimationEvent animationEvent)

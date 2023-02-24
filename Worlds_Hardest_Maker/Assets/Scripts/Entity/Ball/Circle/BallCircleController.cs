@@ -174,8 +174,7 @@ public class BallCircleController : BallController
         CurrentAngle = angle;
     }
 
-    /// <summary>"Creates" ray from origin to pos and returns the point intersecting with path circle</summary>
-    /// <param name="pos"></param>
+    /// <summary>Creates ray from origin to pos and returns the point intersecting with path circle</summary>
     public Vector2 GetPointOnCircleFromRayPos(Vector2 pos)
     {
         Vector2 diff = pos - (Vector2)Origin.position;

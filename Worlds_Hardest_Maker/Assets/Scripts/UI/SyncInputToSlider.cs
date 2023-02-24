@@ -16,19 +16,13 @@ public class SyncInputToSlider : MonoBehaviour
     {
         UpdateInput();
     }
-
-    /// <summary>
-    ///     Updates the slider
-    /// </summary>
+    
     public void UpdateSlider()
     {
         // try to read input text and set slider value
         if (float.TryParse(input.text, out float value)) slider.value = Rounded(value);
     }
-
-    /// <summary>
-    ///     Updates the input
-    /// </summary>
+    
     public void UpdateInput()
     {
         if (input == null) input = GetComponent<TMP_InputField>();
@@ -37,7 +31,7 @@ public class SyncInputToSlider : MonoBehaviour
     }
 
     /// <summary>
-    ///     setup for synchronisation (add event listeners etc.)
+    ///     Setup for synchronisation (add event listeners etc.)
     /// </summary>
     public void Synchronise()
     {

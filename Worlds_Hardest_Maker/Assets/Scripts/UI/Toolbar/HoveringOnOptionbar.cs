@@ -2,8 +2,8 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 /// <summary>
-///     checks if optionbar should be visible
-///     attach to hovering hitbox of optionbar
+///     Checks if optionbar should be visible
+///     <para>Attach to hovering hitbox of optionbar</para>
 /// </summary>
 public class HoveringOnOptionbar : MonoBehaviour
 {

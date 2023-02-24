@@ -2,8 +2,7 @@ using System;
 using UnityEngine;
 
 /// <summary>
-///     makes entity drag and drop when shift is pressed
-///     this is shit
+///     Makes entity drag and drop when shift is pressed
 /// </summary>
 public class EntityDragDrop : MonoBehaviour
 {

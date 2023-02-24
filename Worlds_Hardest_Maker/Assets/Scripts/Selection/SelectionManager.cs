@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>
-///     contains methods for filling: GetFillRange, FillArea, GetBounds, GetBoundsMatrix
-///     attach to game manager
+///     Methods for filling: GetFillRange, FillArea, GetBounds, GetBoundsMatrix
+///     <para>Attach to game manager</para>
 /// </summary>
 public class SelectionManager : MonoBehaviour
 {

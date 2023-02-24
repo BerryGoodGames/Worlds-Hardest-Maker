@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /// <summary>
-///     extension for EditMode methods and readability
+///     Extension for EditMode methods and readability
 /// </summary>
 public static class EditModeExtension
 {

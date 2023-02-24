@@ -3,9 +3,8 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 /// <summary>
-///     Script for player
-///     to add a name tag following attached gameObject
-///     and splitting gameObject and name tag
+///     Adds name tag following attached gameObject
+///     and splits gameObject and name tag
 /// </summary>
 public class AppendNameTag : MonoBehaviour
 {

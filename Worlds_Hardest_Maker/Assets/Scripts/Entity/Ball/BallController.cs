@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
-///     parent class of every ball controller
+///     Base class of every ball controller
 /// </summary>
 public abstract class BallController : Controller
 {

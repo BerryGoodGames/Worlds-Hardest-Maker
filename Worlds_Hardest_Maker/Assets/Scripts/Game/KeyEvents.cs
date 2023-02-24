@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-///     controlling key events and managing keyboard shortcuts
-///     attach to game manager
+///     Controls key events and manages keyboard shortcuts
+///     <para>Attach to game manager</para>
 /// </summary>
 public class KeyEvents : MonoBehaviour
 {

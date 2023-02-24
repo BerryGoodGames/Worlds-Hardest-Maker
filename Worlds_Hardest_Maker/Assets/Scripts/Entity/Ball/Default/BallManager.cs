@@ -32,10 +32,9 @@ public class BallManager : MonoBehaviour
     }
 
     /// <summary>
-    ///     Instantiates new ball default at (0, 0), also sends new instantiate request to photon network
+    ///     Instantiates new ball default at (0, 0)
+    ///     <para>Also sends new instantiate request to photon network</para>
     /// </summary>
-    /// <param name="multiplayer"></param>
-    /// <returns></returns>
     public GameObject InstantiateBall(Vector2 pos, Vector2 bouncePos, float speed, bool multiplayer)
     {
         GameObject newBall;

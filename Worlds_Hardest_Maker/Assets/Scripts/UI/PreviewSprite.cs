@@ -2,8 +2,8 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 /// <summary>
-///     class for preview settings for a prefab -> more control over preview
-///     attach to prefab the preview is for
+///     Preview settings for a prefab -> more control over preview
+///     <para>Attach to prefab the preview is for</para>
 /// </summary>
 public class PreviewSprite : MonoBehaviour
 {

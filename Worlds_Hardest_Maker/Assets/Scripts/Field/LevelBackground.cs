@@ -1,8 +1,8 @@
 using UnityEngine;
 
 /// <summary>
-///     script for consistent seamless background
-///     attach to main camera
+///     Consistent seamless background
+///     <para>Attach to main camera</para>
 /// </summary>
 public class LevelBackground : MonoBehaviour
 {

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-///     Apply this to every field which the player can stand on
+///     Apply to every field which the player can stand on
 /// </summary>
 public class FieldTracking : MonoBehaviour
 {

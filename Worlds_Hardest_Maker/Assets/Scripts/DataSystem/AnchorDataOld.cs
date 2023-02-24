@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 /// <summary>
-///     anchor attributes: position, waypoints, mode, ball positions
+///     Anchor attributes: position, waypoints, mode, ball positions
 /// </summary>
 [Serializable]
 public class AnchorDataOld : Data
@@ -18,8 +18,9 @@ public class AnchorDataOld : Data
 
     public AnchorDataOld(PathControllerOld pathControllerOld, Transform ballContainer)
     {
-        Position[0] = pathControllerOld.transform.position.x;
-        Position[1] = pathControllerOld.transform.position.y;
+        Vector2 position = pathControllerOld.transform.position;
+        Position[0] = position.x;
+        Position[1] = position.y;
         PathMode = pathControllerOld.PathMode;
 
         // convert Waypoints
@@ -38,8 +39,9 @@ public class AnchorDataOld : Data
         foreach (Transform ball in ballContainer)
         {
             Transform child = ball.GetChild(0);
-            ballPositionsList.Add(child.position.x);
-            ballPositionsList.Add(child.position.y);
+            Vector2 childPosition = child.position;
+            ballPositionsList.Add(childPosition.x);
+            ballPositionsList.Add(childPosition.y);
         }
 
         BallPositions = ballPositionsList.ToArray();
