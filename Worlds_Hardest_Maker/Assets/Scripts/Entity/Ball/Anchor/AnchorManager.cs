@@ -143,7 +143,7 @@ public class AnchorManager : MonoBehaviour
         EditModeManager.Instance.OnPlay += UpdateSelectedAnchor;
     }
 
-    private void UpdateSelectedAnchor()
+    public void UpdateSelectedAnchor()
     {
         if (selectedAnchor == null) return;
 
