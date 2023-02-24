@@ -5,9 +5,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 using Photon.Pun;
 using UnityEngine;
 
-/// <summary>
-///     manages game (duh)
-/// </summary>
 public class GameManager : MonoBehaviourPun
 {
     public static GameManager Instance { get; private set; }
@@ -43,10 +40,9 @@ public class GameManager : MonoBehaviourPun
     }
 
     /// <summary>
-    ///     Place edit mode at position
+    ///     Places edit mode at position
     /// </summary>
     /// <param name="editMode">the type of field/entity you want</param>
-    /// <param name="pos">the position where it will be set</param>
     public static void PlaceEditModeAtPosition(EditMode editMode, Vector2 pos)
     {
         int matrixX = (int)Mathf.Round(pos.x);

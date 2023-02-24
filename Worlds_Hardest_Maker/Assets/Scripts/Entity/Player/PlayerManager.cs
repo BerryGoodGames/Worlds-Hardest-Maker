@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-/// <summary>
-///     manages player duh
-/// </summary>
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance { get; private set; }

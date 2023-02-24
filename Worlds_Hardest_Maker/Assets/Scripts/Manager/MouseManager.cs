@@ -62,7 +62,7 @@ public class MouseManager : MonoBehaviour
 
     /// <summary>
     ///     Returns a tuple: (start of drag, end of drag);
-    ///     exception when trying to access drag positions while they are null (-> no current dragging)
+    ///     <para>Exception when trying to access drag positions while they are null (-> no current dragging)</para>
     /// </summary>
     /// <param name="worldPositionType">The world position mode, you want the output to be in (-> any, grid, matrix)</param>
     /// <exception cref="Exception"></exception>

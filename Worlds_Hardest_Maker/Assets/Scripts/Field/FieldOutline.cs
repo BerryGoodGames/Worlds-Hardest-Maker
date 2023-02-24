@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 /// <summary>
-///     apply to every field prefab variant which has outlines (vgl. TypesWithOutlines)
+///     Attach to every field prefab variant which has outlines (see TypesWithOutlines)
 /// </summary>
 public class FieldOutline : MonoBehaviour
 {

@@ -2,8 +2,8 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-///     sets opacity of children; fades children in / out
-///     attach to parent object
+///     Sets opacity of children with SpriteRenderer, fades children in / out
+///     Attach to parent object
 /// </summary>
 public class ChildrenOpacity : MonoBehaviour
 {

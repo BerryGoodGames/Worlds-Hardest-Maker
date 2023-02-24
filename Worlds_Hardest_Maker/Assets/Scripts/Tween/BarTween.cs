@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 ///     General tweening script for UI at the top or bottom of the screen
-///     Tweens UI Element offscreen when playing (playingY) and onscreen when editing (editingY) with SetPlay
+///     <para>Tweens UI Element offscreen when playing (playingY) and onscreen when editing (editingY) with SetPlay</para>
 /// </summary>
 public class BarTween : MonoBehaviour
 {

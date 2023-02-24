@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class PlayManager : MonoBehaviour
 {
@@ -24,11 +25,11 @@ public class PlayManager : MonoBehaviour
 
     #region Methods
 
-    public void TogglePlay(bool playSoundEffect = true)
+    public void TogglePlay()
     {
         if (ReferenceManager.Instance.Menu.activeSelf) return;
 
-        if (EditModeManager.Instance.Playing) SwitchToEdit(playSoundEffect);
+        if (EditModeManager.Instance.Playing) SwitchToEdit();
         else SwitchToPlay();
 
         foreach (BarTween tween in BarTween.TweenList)
@@ -37,7 +38,33 @@ public class PlayManager : MonoBehaviour
         }
     }
 
+    #region On play
     public static void SwitchToPlay()
+    {
+        SetupPlayers();
+
+        EditModeManager.Instance.Playing = true;
+
+        AudioManager.Instance.Play("Bell");
+        AudioManager.Instance.MusicFiltered(false);
+
+        // disable placement preview
+        ReferenceManager.Instance.PlacementPreview.SetActive(false);
+
+        StartAnchors();
+
+        ActivateCoinKeyAnimations();
+
+        JumpToPlayer();
+
+        EditModeManager.Instance.InvokeOnPlay();
+
+        // close level settings / anchor editor panel if open
+        ClosePanel(ReferenceManager.Instance.LevelSettingsPanelTween);
+        ClosePanel(ReferenceManager.Instance.AnchorEditorPanelTween);
+    }
+
+    private static void SetupPlayers()
     {
         foreach (Transform player in ReferenceManager.Instance.PlayerContainer.transform)
         {
@@ -49,18 +76,10 @@ public class PlayManager : MonoBehaviour
             controller.CurrentGameState = null;
             controller.Deaths = 0;
         }
-
-        EditModeManager.Instance.Playing = true;
-
-        AudioManager.Instance.Play("Bell");
-        AudioManager.Instance.MusicFiltered(false);
-
-        // disable placement preview
-        ReferenceManager.Instance.PlacementPreview.SetActive(false);
-
-        // disable windows
-        ReferenceManager.Instance.BallWindows.SetActive(false);
-
+    }
+    private static void StartAnchors()
+    {
+        // let anchors start executing
         foreach (Transform t in ReferenceManager.Instance.AnchorContainer)
         {
             AnchorControllerParent parent = t.GetComponent<AnchorControllerParent>();
@@ -68,27 +87,21 @@ public class PlayManager : MonoBehaviour
 
             anchor.StartExecuting();
 
-            if (AnchorManager.Instance.SelectedAnchor != anchor)
-            {
-                anchor.Animator.SetBool(playingString, true);
-            }
+            if (AnchorManager.Instance.SelectedAnchor == anchor) continue;
+            anchor.Animator.SetBool(playingString, true);
         }
-
+    }
+    private static void JumpToPlayer()
+    {
+        if (Camera.main != null) Camera.main.GetComponent<JumpToEntity>().Jump(true);
+    }
+    private static void ClosePanel(PanelTween panel)
+    {
+        if (panel.Open) panel.Toggle();
+    }
+    private static void ActivateCoinKeyAnimations()
+    {
         Animator anim;
-
-        // if (AnchorManagerOld.Instance.SelectedAnchor != null)
-        // {
-        //     // disable anchor lines
-        //     AnchorManagerOld.Instance.selectedPathControllerOld.drawLines = false;
-        //     AnchorManagerOld.Instance.selectedPathControllerOld.ClearLines();
-        //
-        //     // disable all anchor sprites / outlines
-        //     foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
-        //     {
-        //         anim = anchor.GetComponentInChildren<Animator>();
-        //         anim.SetBool(playingString, true);
-        //     }
-        // }
 
         // activate coin animations
         foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
@@ -105,22 +118,15 @@ public class PlayManager : MonoBehaviour
             anim.SetBool(playingString, true);
             anim.SetBool(pickedUpString, key.GetChild(0).GetComponent<KeyController>().PickedUp);
         }
-
-        // camera jumps to last player if its not on screen
-        if (Camera.main != null) Camera.main.GetComponent<JumpToEntity>().Jump(true);
-        EditModeManager.Instance.InvokeOnPlay();
-
-        // close level settings panel if open
-        PanelTween lspt =
-            ReferenceManager.Instance.LevelSettingsPanel.GetComponent<PanelTween>();
-        if (lspt.Open) lspt.Toggle();
     }
+    #endregion
 
-    public static void SwitchToEdit(bool playSoundEffect = true)
+    #region On edit
+    public static void SwitchToEdit()
     {
         EditModeManager.Instance.Playing = false;
 
-        if (playSoundEffect) AudioManager.Instance.Play("Bell");
+        AudioManager.Instance.Play("Bell");
         AudioManager.Instance.MusicFiltered(true);
 
         ResetGame();
@@ -130,10 +136,6 @@ public class PlayManager : MonoBehaviour
         ReferenceManager.Instance.PlacementPreview.transform.position =
             FollowMouse.GetCurrentMouseWorldPos(ReferenceManager.Instance.PlacementPreview.GetComponent<FollowMouse>()
                 .WorldPosition);
-
-        // enable windows
-        // if (EditModeManager.Instance.CurrentEditMode is EditMode.ANCHOR or EditMode.BALL)
-        //     ReferenceManager.Instance.ballWindows.SetActive(true);
 
         Animator anim;
 
@@ -195,10 +197,11 @@ public class PlayManager : MonoBehaviour
 
         EditModeManager.Instance.InvokeOnEdit();
     }
+    #endregion
 
     /// <summary>
-    ///     resets every field and entity to its starting state
-    ///     used when switched to edit mode
+    ///     Resets every field and entity to its starting state
+    ///     <para>Used when switched to edit mode</para>
     /// </summary>
     public static void ResetGame()
     {

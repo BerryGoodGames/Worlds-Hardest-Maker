@@ -22,9 +22,10 @@ public class BallCircleData : Data
 
         Radius = controller.Radius;
 
+        Vector2 originPos = controller.Origin.position;
         OriginPosition = new float[2];
-        OriginPosition[0] = controller.Origin.position.x;
-        OriginPosition[1] = controller.Origin.position.y;
+        OriginPosition[0] = originPos.x;
+        OriginPosition[1] = originPos.y;
 
         Angle = controller.StartAngle;
     }

@@ -5,8 +5,8 @@ using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 /// <summary>
-///     utility class for fast debug: custom for default log, count, fps, mouse pos
-///     attach to game manager
+///     Utility class for fast debug: custom for default log, count, fps, mouse pos
+///     <para>Attach to game manager</para>
 /// </summary>
 public class Dbg : MonoBehaviour
 {

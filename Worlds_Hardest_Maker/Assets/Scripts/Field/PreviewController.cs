@@ -3,8 +3,8 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 /// <summary>
-///     controls placement, visibility and display of preview
-///     attach to gameObject PlacementPreview
+///     Controls placement, visibility and display of preview
+///     <para>Attach to gameObject PlacementPreview</para>
 /// </summary>
 public class PreviewController : MonoBehaviour
 {
@@ -89,7 +89,7 @@ public class PreviewController : MonoBehaviour
     }
 
     /// <summary>
-    ///     check if preview should be visible at the moment with current edit mode
+    ///     Checks if preview should currently be visible with current edit mode
     /// </summary>
     /// <returns></returns>
     private bool CheckVisibility()
@@ -98,10 +98,9 @@ public class PreviewController : MonoBehaviour
     }
 
     /// <summary>
-    ///     check if preview should be visible at the moment
+    ///     Checks if preview should currently be visible at the moment
     /// </summary>
     /// <param name="mode">edit mode which needs to be checked</param>
-    /// <returns></returns>
     private bool CheckVisibility(EditMode mode)
     {
         if (MouseManager.Instance.IsUIHovered ||
@@ -137,7 +136,7 @@ public class PreviewController : MonoBehaviour
     }
 
     /// <summary>
-    ///     updates sprite to the sprite of preview to the current edit mode
+    ///     Updates sprite to sprite of preview to the current edit mode
     /// </summary>
     public void UpdateSprite()
     {
@@ -155,53 +154,51 @@ public class PreviewController : MonoBehaviour
             SpriteRenderer.sprite = defaultSprite;
             SpriteRenderer.color = defaultColor;
             transform.localScale = new(1, 1);
+            return;
+        }
+
+        GameObject currentPrefab = editMode.GetPrefab();
+        if (currentPrefab.TryGetComponent(out PreviewSprite previewSprite) &&
+            ((!SelectionManager.Instance.Selecting && !CopyManager.Pasting) || previewSprite.ShowWhenSelecting ||
+             ShowSpriteWhenPasting))
+        {
+            // apply PreviewSprite settings if it has one
+            SpriteRenderer.sprite = previewSprite.Sprite;
+            SpriteRenderer.color = new(previewSprite.Color.r, previewSprite.Color.g, previewSprite.Color.b,
+                Alpha / 255f);
+            transform.localScale = previewSprite.Scale;
+
+            UpdateRotation(!previewSprite.Rotate);
+            return;
+        }
+
+        // display sprite and apply scale of prefab if no PreviewSprite setting
+        Vector2 scale = new();
+
+        // get sprite and scale
+        if (currentPrefab.TryGetComponent(out SpriteRenderer prefabRenderer))
+        {
+            scale = currentPrefab.transform.localScale;
         }
         else
         {
-            GameObject currentPrefab = editMode.GetPrefab();
-            if (currentPrefab.TryGetComponent(out PreviewSprite previewSprite) &&
-                ((!SelectionManager.Instance.Selecting && !CopyManager.Pasting) || previewSprite.ShowWhenSelecting ||
-                 ShowSpriteWhenPasting))
+            foreach (Transform child in currentPrefab.transform)
             {
-                // apply PreviewSprite settings if it has one
-                SpriteRenderer.sprite = previewSprite.Sprite;
-                SpriteRenderer.color = new(previewSprite.Color.r, previewSprite.Color.g, previewSprite.Color.b,
-                    Alpha / 255f);
-                transform.localScale = previewSprite.Scale;
+                if (!child.TryGetComponent(out prefabRenderer)) continue;
 
-                UpdateRotation(!previewSprite.Rotate);
-            }
-            else
-            {
-                // display sprite and apply scale of prefab if no PreviewSprite setting
-                Vector2 scale = new();
-
-                // get sprite and scale
-                if (currentPrefab.TryGetComponent(out SpriteRenderer prefabRenderer))
-                {
-                    scale = currentPrefab.transform.localScale;
-                }
-                else
-                {
-                    foreach (Transform child in currentPrefab.transform)
-                    {
-                        if (!child.TryGetComponent(out prefabRenderer)) continue;
-
-                        scale = child.localScale;
-                        break;
-                    }
-                }
-
-                // apply
-                Color prefabColor = prefabRenderer.color;
-
-                SpriteRenderer.sprite = prefabRenderer.sprite;
-                SpriteRenderer.color = new(prefabColor.r, prefabColor.g, prefabColor.b, Alpha / 255f);
-                transform.localScale = scale;
-                if (updateRotation)
-                    UpdateRotation(true);
+                scale = child.localScale;
+                break;
             }
         }
+
+        // apply
+        Color prefabColor = prefabRenderer.color;
+
+        SpriteRenderer.sprite = prefabRenderer.sprite;
+        SpriteRenderer.color = new(prefabColor.r, prefabColor.g, prefabColor.b, Alpha / 255f);
+        transform.localScale = scale;
+        if (updateRotation)
+            UpdateRotation(true);
 
         // for filling preview go to FillManager.cs
     }

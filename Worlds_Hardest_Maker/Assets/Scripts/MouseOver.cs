@@ -1,8 +1,8 @@
 using UnityEngine;
 
 /// <summary>
-///     checks if game objects colliders is hovered by mouse:
-///     GetComponent<MouseOver>().Over
+///     Checks if game objects colliders is hovered by mouse:
+///     use mouseOver.Over
 /// </summary>
 public class MouseOver : MonoBehaviour
 {

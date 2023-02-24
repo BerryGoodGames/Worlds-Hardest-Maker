@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 /// <summary>
-///     detects if one of hitboxes are colliding with mouse position
-///     requires child named HoveringHitboxes containing hitboxes
-///     attach to entity having speed slider
+///     Detects if one of hitboxes are colliding with mouse position
+///     <para>Requires child named HoveringHitboxes containing hitboxes</para>
+///     <para>Attach to entity having speed slider</para>
 /// </summary>
 public class HoverSliderDetection : MonoBehaviour
 {

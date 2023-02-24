@@ -1,8 +1,8 @@
 using UnityEngine;
 
 /// <summary>
-///     lets camera scroll at random dir or specified angle with specified speed
-///     attach to main camera
+///     Lets camera scroll to random direction (or with specified angle) with specified speed
+///     Attach to main camera
 /// </summary>
 public class CameraScrolling : MonoBehaviour
 {

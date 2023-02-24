@@ -6,25 +6,10 @@ public class AnchorBallManager : MonoBehaviour
     public static AnchorBallManager Instance { get; set; }
 
     /// <summary>
-    ///     place ball at position
+    ///     Places ball at position
     /// </summary>
-    /// <param name="pos">position of ball</param>
     public static void SetAnchorBall(Vector2 pos)
     {
-        // if (AnchorManagerOld.Instance.SelectedAnchor == null) return;
-        //
-        // if (MultiplayerManager.Instance.Multiplayer)
-        // {
-        //     PhotonView view = PhotonView.Get(AnchorManagerOld.Instance.SelectedAnchor);
-        //     view.RPC("RPCSetBall", RpcTarget.All, pos);
-        // }
-        // else
-        // {
-        //     GameObject ball = Instantiate(PrefabManager.Instance.ball, Vector2.zero, Quaternion.identity,
-        //         AnchorManagerOld.Instance.SelectedAnchor.GetComponent<AnchorControllerOld>().container.transform);
-        //     ball.transform.GetChild(0).position = pos;
-        // }
-
         if (AnchorManager.Instance.SelectedAnchor == null) return;
 
         Debug.LogWarning("Anchor ball place multiplayer TODO");

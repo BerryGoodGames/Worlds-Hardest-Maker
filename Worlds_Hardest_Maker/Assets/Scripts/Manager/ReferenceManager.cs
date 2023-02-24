@@ -28,8 +28,6 @@ public class ReferenceManager : MonoBehaviour
     public PanelTween AnchorEditorButtonPanelTween;
     public PanelTween AnchorEditorPanelTween;
 
-    [FormerlySerializedAs("ballWindows")] public GameObject BallWindows;
-
     [FormerlySerializedAs("playerSpawner")]
     public PlayerSpawner PlayerSpawner;
 

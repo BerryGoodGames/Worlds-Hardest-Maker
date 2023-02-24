@@ -24,21 +24,12 @@ public class AnchorManager : MonoBehaviour
     }
 
     #region get, set, remove
-
-    /// <summary>
-    ///     places anchor at position
-    /// </summary>
-    /// <param name="mx">x position of anchor</param>
-    /// <param name="my">y position of anchor</param>
+    
     public GameObject SetAnchor(float mx, float my)
     {
         return SetAnchor(new(mx, my));
     }
-
-    /// <summary>
-    ///     places anchor at position
-    /// </summary>
-    /// <param name="pos">position of anchor</param>
+    
     public GameObject SetAnchor(Vector2 pos)
     {
         if (GetAnchor(pos) != null) return null;
@@ -52,22 +43,13 @@ public class AnchorManager : MonoBehaviour
 
         return anchor;
     }
-
-    /// <summary>
-    ///     removes anchor at position
-    /// </summary>
-    /// <param name="mx">x position of anchor</param>
-    /// <param name="my">y position of anchor</param>
+    
     [PunRPC]
     public void RemoveAnchor(float mx, float my)
     {
         RemoveAnchor(new(mx, my));
     }
-
-    /// <summary>
-    ///     removes anchor at position
-    /// </summary>
-    /// <param name="pos">position of anchor</param>
+    
     public static void RemoveAnchor(Vector2 pos)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.5f, 128);
@@ -80,9 +62,7 @@ public class AnchorManager : MonoBehaviour
             break;
         }
     }
-
-    /// <param name="pos">position of anchor</param>
-    /// <returns>anchor at position</returns>
+    
     public static AnchorController GetAnchor(Vector2 pos)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.5f);

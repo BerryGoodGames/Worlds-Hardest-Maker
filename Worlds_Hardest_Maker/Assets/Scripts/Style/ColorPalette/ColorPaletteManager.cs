@@ -2,9 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-/// <summary>
-///     for doing color palettes 'n' stuff
-/// </summary>
 public class ColorPaletteManager : MonoBehaviour
 {
     public static ColorPaletteManager Instance { get; private set; }

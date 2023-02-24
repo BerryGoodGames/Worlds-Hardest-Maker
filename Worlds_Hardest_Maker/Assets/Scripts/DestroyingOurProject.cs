@@ -1,8 +1,8 @@
 using UnityEngine;
 
 /// <summary>
-///     fills wall fields centered around (0, 0), amount based on INTENSITY
-///     attach to new gameObject
+///     Fills wall fields centered around (0, 0), amount based on INTENSITY
+///     <para>Attach to new gameObject</para>
 /// </summary>
 public class DestroyingOurProject : MonoBehaviour
 {

@@ -1,9 +1,6 @@
 using Discord;
 using UnityEngine;
 
-/// <summary>
-///     Manages Discord stuff
-/// </summary>
 public class DiscordManager : MonoBehaviour
 {
     // connect to application (i think)

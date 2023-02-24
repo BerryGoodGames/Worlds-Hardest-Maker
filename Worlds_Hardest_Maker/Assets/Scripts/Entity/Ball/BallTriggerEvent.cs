@@ -1,8 +1,8 @@
 using UnityEngine;
 
 /// <summary>
-///     script to detect player death event
-///     attach to ball objects
+///     Detects player death event
+///     <para>Attach to ball objects</para>
 /// </summary>
 public class BallTriggerEvent : MonoBehaviour
 {
