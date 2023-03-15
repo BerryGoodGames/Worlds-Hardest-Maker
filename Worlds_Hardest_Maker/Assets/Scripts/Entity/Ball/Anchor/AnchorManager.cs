@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -20,6 +21,7 @@ public class AnchorManager : MonoBehaviour
         {
             UpdateSelectedAnchor();
             selectedAnchor = value;
+            AnchorBlockManager.LoadAnchorBlocks(value);
         }
     }
 
@@ -146,8 +148,7 @@ public class AnchorManager : MonoBehaviour
     public void UpdateSelectedAnchor()
     {
         if (selectedAnchor == null) return;
-
-        print("update");
+        
         selectedAnchor.Blocks = new(ReferenceManager.Instance.MainStringController.GetAnchorBlocks(selectedAnchor));
     }
 }

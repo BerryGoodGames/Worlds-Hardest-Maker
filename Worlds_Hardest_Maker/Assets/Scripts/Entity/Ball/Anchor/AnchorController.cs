@@ -71,6 +71,7 @@ public class AnchorController : Controller
     {
         UpdateStartValues();
 
+        print(Blocks.First == null);
         CurrentExecutingBlock = Blocks.First.Value;
         CurrentExecutingBlock.Execute();
     }

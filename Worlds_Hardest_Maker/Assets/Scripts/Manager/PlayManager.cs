@@ -50,6 +50,8 @@ public class PlayManager : MonoBehaviour
 
         DisablePreview();
 
+        AnchorManager.Instance.UpdateSelectedAnchor();
+
         StartAnchors();
 
         ActivateCoinKeyAnimations();
