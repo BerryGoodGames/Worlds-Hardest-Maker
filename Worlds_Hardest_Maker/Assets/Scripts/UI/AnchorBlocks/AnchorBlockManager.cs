@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AnchorBlockManager : MonoBehaviour
@@ -33,33 +34,23 @@ public class AnchorBlockManager : MonoBehaviour
         }
 
         // destroy anchor connectors
+        List<GameObject> anchorConnectors = new();
         foreach (Transform anchorConnector in ReferenceManager.Instance.MainStringController.transform.GetChild(0))
         {
-            Destroy(anchorConnector.gameObject);
+            anchorConnectors.Add(anchorConnector.gameObject);
         }
-    }
 
-    private void CreateAnchorBlockObject(AnchorBlock anchorBlock, Transform parent, bool insertable = true)
-    {
-        switch (anchorBlock.ImplementedBlockType)
+        for (int i = 2; i < anchorConnectors.Count; i++)
         {
-            case AnchorBlock.Type.GO_TO:
-                break;
-            case AnchorBlock.Type.MOVE_TO:
-                break;
-            case AnchorBlock.Type.ROTATE:
-                break;
-            case AnchorBlock.Type.SET_ANGULAR_SPEED:
-                break;
-            case AnchorBlock.Type.SET_SPEED:
-                break;
-            case AnchorBlock.Type.TWEEN:
-                break;
-            case AnchorBlock.Type.WAIT:
-                break;
-            default:
-                throw new(
-                    $"Cannot create a {anchorBlock.ImplementedBlockType} type anchor block, because there wasn't one found");
+            Destroy(anchorConnectors[i]);
+        }
+
+        // create objects
+        AnchorBlock[] blocks = AnchorManager.Instance.SelectedAnchor.Blocks.ToArray();
+
+        for (int i = 0; i < blocks.Length; i++)
+        {
+            blocks[i].CreateAnchorBlockObject(i > 2);
         }
     }
 }

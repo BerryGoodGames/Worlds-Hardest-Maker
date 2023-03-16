@@ -1,4 +1,4 @@
-using UnityEngine;
+using System;using UnityEngine;
 
 public abstract class AnchorBlock
 {
@@ -24,4 +24,11 @@ public abstract class AnchorBlock
     public abstract Type ImplementedBlockType { get; }
 
     public abstract void Execute(bool executeNext = true);
+
+    public void CreateAnchorBlockObject(bool insertable = true)
+    {
+        CreateAnchorBlockObject(ReferenceManager.Instance.MainStringController.transform, insertable);
+    }
+
+    public abstract void CreateAnchorBlockObject(Transform parent, bool insertable = true);
 }
