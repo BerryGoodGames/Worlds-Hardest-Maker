@@ -62,7 +62,7 @@ public class AnchorController : Controller
         UpdateStartValues();
     }
 
-    private void AppendBlock(AnchorBlock block)
+    public void AppendBlock(AnchorBlock block)
     {
         Blocks.AddLast(block);
     } 

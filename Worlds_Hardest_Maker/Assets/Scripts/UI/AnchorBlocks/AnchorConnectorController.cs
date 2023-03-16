@@ -1,12 +1,13 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(MouseOverUI))]
 public class AnchorConnectorController : MonoBehaviour
 {
     private MouseOverUI mouseOverUI;
-    [SerializeField] private bool dummy;
+    [FormerlySerializedAs("dummy")] public bool Dummy;
 
 
     private void Awake()
@@ -16,7 +17,7 @@ public class AnchorConnectorController : MonoBehaviour
 
     private void Update()
     {
-        if (dummy) return;
+        if (Dummy) return;
 
         // check if a block got released over this connector
         if (!AnchorBlockManager.DraggingBlock || !mouseOverUI.Over ||
@@ -36,7 +37,7 @@ public class AnchorConnectorController : MonoBehaviour
         Instantiate(PrefabManager.Instance.AnchorConnector, parent);
         if (!AnchorBlockManager.DraggedBlock.IsInsertable)
         {
-            dummy = true;
+            Dummy = true;
         }
     }
 

@@ -71,6 +71,13 @@ public class PrefabManager : MonoBehaviour
     [FormerlySerializedAs("fillPreview")] public GameObject FillPreview;
     [FormerlySerializedAs("tooltip")] public GameObject Tooltip;
     [Space] [Header("Anchor Blocks")] public GameObject AnchorConnector;
+    public GameObject GoToBlockPrefab;
+    public GameObject MoveToBlockPrefab;
+    public GameObject RotateBlockPrefab;
+    public GameObject SetAngularSpeedBlockPrefab;
+    public GameObject SetSpeedBlockPrefab;
+    public GameObject SetEaseBlockPrefab;
+    public GameObject WaitBlockPrefab;
 
 
     private void OnEnable()

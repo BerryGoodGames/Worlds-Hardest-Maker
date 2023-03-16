@@ -1,4 +1,5 @@
 using DG.Tweening;
+using UnityEngine;
 
 public class RotateBlock : AnchorBlock
 {
@@ -38,5 +39,21 @@ public class RotateBlock : AnchorBlock
             {
                 if (executeNext) Anchor.FinishCurrentExecution();
             });
+    }
+
+    public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
+    {
+        Transform connectorContainer = parent.GetChild(0);
+
+        // create object
+        GameObject block = GameManager.Instantiate(PrefabManager.Instance.RotateBlockPrefab, parent);
+
+        // set values in object
+        RotateBlockController controller = block.GetComponent<RotateBlockController>();
+        controller.Input.text = iterations.ToString();
+        controller.IsInsertable = insertable;
+
+        // create connector
+        CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 }

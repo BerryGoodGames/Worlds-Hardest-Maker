@@ -8,7 +8,7 @@ public abstract class AnchorBlock
         MOVE_TO,
         ROTATE,
         WAIT,
-        TWEEN,
+        EASE,
         SET_SPEED,
         SET_ANGULAR_SPEED
     }
@@ -31,4 +31,11 @@ public abstract class AnchorBlock
     }
 
     public abstract void CreateAnchorBlockObject(Transform parent, bool insertable = true);
+
+    public void CreateAnchorConnector(Transform parent, int siblingIndex, bool insertable = true)
+    {
+        GameManager.Instantiate(PrefabManager.Instance.AnchorConnector, parent);
+        if (insertable == false)
+            parent.GetChild(siblingIndex - 1).GetComponent<AnchorConnectorController>().Dummy = true;
+    }
 }

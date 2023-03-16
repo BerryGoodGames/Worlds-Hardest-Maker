@@ -1,4 +1,6 @@
 using DG.Tweening;
+using System;
+using System.Globalization;
 using UnityEngine;
 
 public class MoveToBlock : AnchorBlock
@@ -53,5 +55,22 @@ public class MoveToBlock : AnchorBlock
         Anchor.Rb.DOMove(target, duration)
             .SetEase(Anchor.Ease)
             .OnComplete(Anchor.FinishCurrentExecution);
+    }
+
+    public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
+    {
+        Transform connectorContainer = parent.GetChild(0);
+
+        // create object
+        GameObject block = GameManager.Instantiate(PrefabManager.Instance.MoveToBlockPrefab, parent);
+
+        // set values in object
+        MoveToBlockController controller = block.GetComponent<MoveToBlockController>();
+        controller.InputX.text = target.x.ToString();
+        controller.InputY.text = target.y.ToString();
+        controller.IsInsertable = insertable;
+
+        // create connector
+        CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 }

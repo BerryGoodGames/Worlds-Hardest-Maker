@@ -2,14 +2,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class GoToBlockController : AnchorBlockController
+public class RotateBlockController : AnchorBlockController
 {
     [FormerlySerializedAs("input")] public TMP_InputField Input;
 
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
     {
-        if (!int.TryParse(Input.text, out int index)) throw new("Input in a GoTo Block was not an int");
+        if (!float.TryParse(Input.text, out float iterations)) throw new("Input in a Rotate Block was not a float");
 
-        return new GoToBlock(anchorController, index);
+        return new RotateBlock(anchorController, iterations);
     }
 }

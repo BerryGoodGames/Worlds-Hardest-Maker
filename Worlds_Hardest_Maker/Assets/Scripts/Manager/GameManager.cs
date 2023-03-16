@@ -39,6 +39,11 @@ public class GameManager : MonoBehaviourPun
         LevelSettings.Instance.SetWaterDamping();
     }
 
+    public static GameObject Instantiate(GameObject gameObject, Transform parent = null)
+    {
+        return UnityEngine.Object.Instantiate(gameObject, parent);
+    }
+
     /// <summary>
     ///     Places edit mode at position
     /// </summary>
@@ -262,5 +267,16 @@ public class GameManager : MonoBehaviourPun
     {
         Rect canvas = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>().rect;
         return new(canvas.width, canvas.height);
+    }
+
+    public static int GetDropdownValue(string option, TMPro.TMP_Dropdown dropdown)
+    {
+        for (int i = 0; i < dropdown.options.Count; i++)
+        {
+            if (dropdown.options[i].text == option)
+                return i;
+        }
+        Debug.LogWarning("There was no option found");
+        return -1;
     }
 }

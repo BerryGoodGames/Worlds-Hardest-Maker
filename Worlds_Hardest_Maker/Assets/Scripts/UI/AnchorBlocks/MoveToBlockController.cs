@@ -1,14 +1,15 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MoveToBlockController : AnchorBlockController
 {
-    [SerializeField] private TMP_InputField inputX;
-    [SerializeField] private TMP_InputField inputY;
+    [FormerlySerializedAs("inputX")] public TMP_InputField InputX;
+    [FormerlySerializedAs("inputY")] public TMP_InputField InputY;
 
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
     {
-        if (!float.TryParse(inputX.text, out float x) || !float.TryParse(inputY.text, out float y))
+        if (!float.TryParse(InputX.text, out float x) || !float.TryParse(InputY.text, out float y))
             throw new("Input in a MoveTo Block was not a float");
         return new MoveToBlock(anchorController, x, y);
     }

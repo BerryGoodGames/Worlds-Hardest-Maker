@@ -19,4 +19,20 @@ public class GoToBlock : AnchorBlock
         if (executeNext)
             Anchor.CurrentExecutingBlock.Execute();
     }
+
+    public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
+    {
+        Transform connectorContainer = parent.GetChild(0);
+
+        // create object
+        GameObject block = GameManager.Instantiate(PrefabManager.Instance.GoToBlockPrefab, parent);
+
+        // set values in object
+        GoToBlockController controller = block.GetComponent<GoToBlockController>();
+        controller.Input.text = index.ToString();
+        controller.IsInsertable = insertable;
+
+        // create connector
+        CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
+    }
 }

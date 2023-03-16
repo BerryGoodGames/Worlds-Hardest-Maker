@@ -1,14 +1,15 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SetEaseBlockController : AnchorBlockController
 {
-    [SerializeField] private TMP_Dropdown input;
+    [FormerlySerializedAs("input")] [SerializeField] public TMP_Dropdown Input;
 
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
     {
-        string selectedValue = input.options[input.value].text;
+        string selectedValue = Input.options[Input.value].text;
         Ease ease = selectedValue switch
         {
             "linear" => Ease.Linear,
@@ -17,6 +18,18 @@ public class SetEaseBlockController : AnchorBlockController
             "ease-in-out" => Ease.InOutCubic,
             _ => throw new("Input in a SetEase Block was not an option")
         };
-        return new TweenBlock(anchorController, ease);
+        return new SetEaseBlock(anchorController, ease);
+    }
+
+    public static string GetOption(Ease ease)
+    {
+        return ease switch
+        {
+            Ease.Linear => "linear",
+            Ease.OutCubic => "ease-out",
+            Ease.InCubic => "ease-in",
+            Ease.InOutCubic => "ease-in-out",
+            _ => throw new("Ease was not an option")
+        };
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AnchorBlockManager : MonoBehaviour
 {
@@ -52,5 +53,8 @@ public class AnchorBlockManager : MonoBehaviour
         {
             blocks[i].CreateAnchorBlockObject(i > 2);
         }
+        
+        LayoutRebuilder.ForceRebuildLayoutImmediate(ReferenceManager.Instance.MainStringController
+            .GetComponent<RectTransform>());
     }
 }

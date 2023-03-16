@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -21,7 +22,10 @@ public class AnchorManager : MonoBehaviour
         {
             UpdateSelectedAnchor();
             selectedAnchor = value;
-            AnchorBlockManager.LoadAnchorBlocks(value);
+            if (value != null)
+            {
+                AnchorBlockManager.LoadAnchorBlocks(value);
+            }
         }
     }
 
@@ -41,7 +45,13 @@ public class AnchorManager : MonoBehaviour
             : Instantiate(PrefabManager.Instance.Anchor, pos, Quaternion.identity,
                 ReferenceManager.Instance.AnchorContainer);
 
-        SelectAnchor(anchor.GetComponent<AnchorControllerParent>().Child);
+        AnchorController child = anchor.GetComponent<AnchorControllerParent>().Child;
+        // default blocks
+        child.AppendBlock(new SetSpeedBlock(child, 0, SetSpeedBlock.Unit.SPEED));
+        child.AppendBlock(new SetAngularSpeedBlock(child, 0, SetAngularSpeedBlock.Unit.ITERATIONS));
+        child.AppendBlock(new SetEaseBlock(child, Ease.Linear));
+        
+        SelectAnchor(child);
 
         return anchor;
     }

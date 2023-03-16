@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class SetSpeedBlock : AnchorBlock
 {
     public enum Unit
@@ -24,5 +26,21 @@ public class SetSpeedBlock : AnchorBlock
         Anchor.Speed = input;
         if (executeNext)
             Anchor.FinishCurrentExecution();
+    }
+
+    public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
+    {
+        Transform connectorContainer = parent.GetChild(0);
+
+        // create object
+        GameObject block = GameManager.Instantiate(PrefabManager.Instance.SetSpeedBlockPrefab, parent);
+
+        // set values in object
+        SetSpeedBlockController controller = block.GetComponent<SetSpeedBlockController>();
+        controller.Input.text = input.ToString();
+        controller.IsInsertable = insertable;
+
+        // create connector
+        CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 }

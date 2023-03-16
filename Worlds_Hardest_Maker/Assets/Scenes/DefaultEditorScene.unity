@@ -2621,6 +2621,10 @@ PrefabInstance:
       value: AnchorConnector
       objectReference: {fileID: 0}
     - target: {fileID: 6647066676833249867, guid: ce5a8d62650143e49967f0d0f6db564a, type: 3}
+      propertyPath: Dummy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6647066676833249867, guid: ce5a8d62650143e49967f0d0f6db564a, type: 3}
       propertyPath: dummy
       value: 1
       objectReference: {fileID: 0}
@@ -8960,6 +8964,10 @@ PrefabInstance:
       value: AnchorConnector
       objectReference: {fileID: 0}
     - target: {fileID: 6647066676833249867, guid: ce5a8d62650143e49967f0d0f6db564a, type: 3}
+      propertyPath: Dummy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6647066676833249867, guid: ce5a8d62650143e49967f0d0f6db564a, type: 3}
       propertyPath: dummy
       value: 1
       objectReference: {fileID: 0}
@@ -11989,6 +11997,10 @@ PrefabInstance:
       value: ConnectorContainer
       objectReference: {fileID: 0}
     - target: {fileID: 4851277284945242476, guid: c19aafea35a974c4b90531ba074cbfb5, type: 3}
+      propertyPath: Dummy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4851277284945242476, guid: c19aafea35a974c4b90531ba074cbfb5, type: 3}
       propertyPath: dummy
       value: 1
       objectReference: {fileID: 0}
@@ -12175,6 +12187,10 @@ PrefabInstance:
     - target: {fileID: 8290153139641502668, guid: c19aafea35a974c4b90531ba074cbfb5, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8388834659248215511, guid: c19aafea35a974c4b90531ba074cbfb5, type: 3}
+      propertyPath: Dummy
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8388834659248215511, guid: c19aafea35a974c4b90531ba074cbfb5, type: 3}
       propertyPath: dummy
@@ -14651,6 +14667,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!224 &2046466263
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16984,6 +17001,13 @@ MonoBehaviour:
   FillPreview: {fileID: 4652236031313732080, guid: 0f8817e424b9b4547b47abeab323c2e9, type: 3}
   Tooltip: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
   AnchorConnector: {fileID: 852198969889836897, guid: ce5a8d62650143e49967f0d0f6db564a, type: 3}
+  GoToBlockPrefab: {fileID: 7403852272629114467, guid: e4eea3214032b514ab4c089e417fd85a, type: 3}
+  MoveToBlockPrefab: {fileID: 7145782815987990204, guid: 5346f04c8b83e9548809042eeb5d8ce8, type: 3}
+  RotateBlockPrefab: {fileID: 1825512037137797739, guid: 8da422c085be186488ff0f11e83a2fd9, type: 3}
+  SetAngularSpeedBlockPrefab: {fileID: 611930546777769608, guid: 42159a5ef8862134f91330cbb90985f3, type: 3}
+  SetSpeedBlockPrefab: {fileID: 3450903711411163847, guid: 7edbb5bebcee48949bbe3261c9fc344b, type: 3}
+  SetEaseBlockPrefab: {fileID: 8329645871710002658, guid: e185995d2e010c8488437a6cf9f52955, type: 3}
+  WaitBlockPrefab: {fileID: 3782719288217473487, guid: 70e8213d3f95e0647b91d34d1f75ab8f, type: 3}
 --- !u!114 &3252578248619094839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17099,7 +17123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb436eff1b9298c4b8358435376c658f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  LineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 3}
   NoFriction: {fileID: 6200000, guid: 88face5bfde0aba43a3bbd9678a95eab, type: 2}
 --- !u!114 &3252578248619094845
 MonoBehaviour:
