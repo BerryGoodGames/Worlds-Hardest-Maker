@@ -27,7 +27,7 @@ public class SetEaseBlock : AnchorBlock
         Transform connectorContainer = parent.GetChild(0);
 
         // create object
-        GameObject block = GameManager.Instantiate(PrefabManager.Instance.SetEaseBlockPrefab, parent);
+        GameObject block = Object.Instantiate(PrefabManager.Instance.SetEaseBlockPrefab, parent);
 
         // set values in object
         SetEaseBlockController controller = block.GetComponent<SetEaseBlockController>();

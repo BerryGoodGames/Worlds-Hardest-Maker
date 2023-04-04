@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Globalization;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class MoveToBlock : AnchorBlock
 {
@@ -29,6 +30,7 @@ public class MoveToBlock : AnchorBlock
 
     public override void Execute(bool executeNext = true)
     {
+        Debug.Log("asd");
         float duration;
         float dist = Vector2.Distance(target, Anchor.Rb.position);
 
@@ -62,7 +64,7 @@ public class MoveToBlock : AnchorBlock
         Transform connectorContainer = parent.GetChild(0);
 
         // create object
-        GameObject block = GameManager.Instantiate(PrefabManager.Instance.MoveToBlockPrefab, parent);
+        GameObject block = Object.Instantiate(PrefabManager.Instance.MoveToBlockPrefab, parent);
 
         // set values in object
         MoveToBlockController controller = block.GetComponent<MoveToBlockController>();

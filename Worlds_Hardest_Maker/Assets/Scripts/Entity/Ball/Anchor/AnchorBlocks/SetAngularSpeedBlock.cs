@@ -12,12 +12,12 @@ public class SetAngularSpeedBlock : AnchorBlock
     public const Type BlockType = Type.SET_ANGULAR_SPEED;
     public override Type ImplementedBlockType => BlockType;
 
-    private readonly float input;
+    private readonly float speed;
     private readonly Unit type;
 
     public SetAngularSpeedBlock(AnchorController anchor, float speed, Unit type) : base(anchor)
     {
-        input = type switch
+        this.speed = type switch
         {
             Unit.ITERATIONS => speed * 360,
             _ => speed
@@ -29,9 +29,18 @@ public class SetAngularSpeedBlock : AnchorBlock
     public override void Execute(bool executeNext = true)
     {
         Anchor.ApplyAngularSpeed = type != Unit.TIME;
-        Anchor.AngularSpeed = input;
+        Anchor.AngularSpeed = speed;
         if (executeNext)
             Anchor.FinishCurrentExecution();
+    }
+
+    public float GetSpeed(Unit unit)
+    {
+        return unit switch
+        {
+            Unit.ITERATIONS => speed * 360,
+            _ => speed
+        };
     }
 
     public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
@@ -39,11 +48,11 @@ public class SetAngularSpeedBlock : AnchorBlock
         Transform connectorContainer = parent.GetChild(0);
 
         // create object
-        GameObject block = GameManager.Instantiate(PrefabManager.Instance.SetAngularSpeedBlockPrefab, parent);
+        GameObject block = Object.Instantiate(PrefabManager.Instance.SetAngularSpeedBlockPrefab, parent);
 
         // set values in object
         SetAngularSpeedBlockController controller = block.GetComponent<SetAngularSpeedBlockController>();
-        controller.Input.text = input.ToString();
+        controller.Input.text = GetSpeed(Unit.DEGREES).ToString();
         controller.IsInsertable = insertable;
 
         // create connector

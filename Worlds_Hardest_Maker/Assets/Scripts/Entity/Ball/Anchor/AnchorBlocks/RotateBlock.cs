@@ -1,5 +1,7 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class RotateBlock : AnchorBlock
 {
@@ -37,7 +39,8 @@ public class RotateBlock : AnchorBlock
             .SetEase(Anchor.Ease)
             .OnComplete(() =>
             {
-                if (executeNext) Anchor.FinishCurrentExecution();
+                if (executeNext)
+                    Anchor.FinishCurrentExecution();
             });
     }
 
@@ -46,7 +49,7 @@ public class RotateBlock : AnchorBlock
         Transform connectorContainer = parent.GetChild(0);
 
         // create object
-        GameObject block = GameManager.Instantiate(PrefabManager.Instance.RotateBlockPrefab, parent);
+        GameObject block = Object.Instantiate(PrefabManager.Instance.RotateBlockPrefab, parent);
 
         // set values in object
         RotateBlockController controller = block.GetComponent<RotateBlockController>();

@@ -47,8 +47,8 @@ public class AnchorManager : MonoBehaviour
 
         AnchorController child = anchor.GetComponent<AnchorControllerParent>().Child;
         // default blocks
-        child.AppendBlock(new SetSpeedBlock(child, 0, SetSpeedBlock.Unit.SPEED));
-        child.AppendBlock(new SetAngularSpeedBlock(child, 0, SetAngularSpeedBlock.Unit.ITERATIONS));
+        child.AppendBlock(new SetSpeedBlock(child, 5, SetSpeedBlock.Unit.SPEED));
+        child.AppendBlock(new SetAngularSpeedBlock(child, 1, SetAngularSpeedBlock.Unit.ITERATIONS));
         child.AppendBlock(new SetEaseBlock(child, Ease.Linear));
         
         SelectAnchor(child);

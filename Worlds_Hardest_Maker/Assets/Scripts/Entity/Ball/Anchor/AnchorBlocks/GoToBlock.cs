@@ -25,7 +25,7 @@ public class GoToBlock : AnchorBlock
         Transform connectorContainer = parent.GetChild(0);
 
         // create object
-        GameObject block = GameManager.Instantiate(PrefabManager.Instance.GoToBlockPrefab, parent);
+        GameObject block = Object.Instantiate(PrefabManager.Instance.GoToBlockPrefab, parent);
 
         // set values in object
         GoToBlockController controller = block.GetComponent<GoToBlockController>();

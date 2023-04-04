@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,6 +15,12 @@ public abstract class AnchorBlockController : MonoBehaviour
     private void Awake()
     {
         BlockDragDropComp = GetComponent<BlockDragDrop>();
+    }
+
+    private void Start()
+    {
+        if (!IsInsertable && TryGetComponent(out BlockDragDrop blockDragDrop))
+            Destroy(blockDragDrop);
     }
 
     public void Delete()

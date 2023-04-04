@@ -220,6 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4da6e0cafe4b35a4c83698278dd76cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anchorBlockController: {fileID: 0}
   active: 1
 --- !u!114 &2207349393350425264
 MonoBehaviour:
@@ -267,22 +268,6 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - eventID: 14
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 617960697850934350}
-          m_TargetAssemblyTypeName: BlockDragDrop, Assembly-CSharp
-          m_MethodName: OnEndEvent
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
     callback:
       m_PersistentCalls:
         m_Calls:

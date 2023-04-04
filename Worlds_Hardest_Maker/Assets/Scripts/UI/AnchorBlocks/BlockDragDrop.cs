@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,6 +9,12 @@ public class BlockDragDrop : MonoBehaviour
 
     private Vector2 offset;
     private Coroutine waitForSnap;
+    private AnchorBlockController anchorBlockController;
+
+    private void Awake()
+    {
+        anchorBlockController = GetComponent<AnchorBlockController>();
+    }
 
     private void OnDrag(Vector2 mousePos)
     {
@@ -30,7 +37,7 @@ public class BlockDragDrop : MonoBehaviour
     {
         if (!active || !gameObject.activeInHierarchy) return;
 
-        AnchorBlockManager.DraggedBlock = GetComponent<AnchorBlockController>();
+        AnchorBlockManager.DraggedBlock = anchorBlockController;
         AnchorBlockManager.DraggingBlock = true;
 
         offset = mousePos - (Vector2)transform.position;

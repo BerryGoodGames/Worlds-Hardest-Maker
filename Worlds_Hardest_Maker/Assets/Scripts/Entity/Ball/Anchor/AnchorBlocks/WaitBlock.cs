@@ -29,7 +29,7 @@ public class WaitBlock : AnchorBlock
         Transform connectorContainer = parent.GetChild(0);
 
         // create object
-        GameObject block = GameManager.Instantiate(PrefabManager.Instance.WaitBlockPrefab, parent);
+        GameObject block = Object.Instantiate(PrefabManager.Instance.WaitBlockPrefab, parent);
 
         // set values in object
         WaitBlockController controller = block.GetComponent<WaitBlockController>();

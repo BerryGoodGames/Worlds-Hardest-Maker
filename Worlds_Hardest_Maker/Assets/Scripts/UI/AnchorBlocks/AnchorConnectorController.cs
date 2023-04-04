@@ -18,10 +18,12 @@ public class AnchorConnectorController : MonoBehaviour
     private void Update()
     {
         if (Dummy) return;
-
+        
         // check if a block got released over this connector
         if (!AnchorBlockManager.DraggingBlock || !mouseOverUI.Over ||
             (!Input.GetMouseButtonUp(0) && !Input.GetMouseButtonUp(1))) return;
+
+        
 
         // move dragged block to this string
         Transform draggedBlock = AnchorBlockManager.DraggedBlock.gameObject.transform;

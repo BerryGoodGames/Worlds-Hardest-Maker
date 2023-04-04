@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using DG.Tweening;
 using Photon.Pun;
 using UnityEngine;
 
@@ -28,6 +29,8 @@ public class GameManager : MonoBehaviourPun
 
     private void Start()
     {
+        DOTween.Init(useSafeMode: false);
+
         if (!MultiplayerManager.Instance.Multiplayer)
         {
             PlayerManager.Instance.SetPlayer(0, 0, 3f);
@@ -37,11 +40,6 @@ public class GameManager : MonoBehaviourPun
         LevelSettings.Instance.SetIceFriction();
         LevelSettings.Instance.SetIceMaxSpeed();
         LevelSettings.Instance.SetWaterDamping();
-    }
-
-    public static GameObject Instantiate(GameObject gameObject, Transform parent = null)
-    {
-        return UnityEngine.Object.Instantiate(gameObject, parent);
     }
 
     /// <summary>

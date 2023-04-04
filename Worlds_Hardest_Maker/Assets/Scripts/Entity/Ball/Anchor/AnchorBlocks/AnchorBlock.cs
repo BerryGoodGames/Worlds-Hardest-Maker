@@ -1,4 +1,6 @@
-using System;using UnityEngine;
+using System;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 public abstract class AnchorBlock
 {
@@ -34,7 +36,7 @@ public abstract class AnchorBlock
 
     public void CreateAnchorConnector(Transform parent, int siblingIndex, bool insertable = true)
     {
-        GameManager.Instantiate(PrefabManager.Instance.AnchorConnector, parent);
+        Object.Instantiate(PrefabManager.Instance.AnchorConnector, parent);
         if (insertable == false)
             parent.GetChild(siblingIndex - 1).GetComponent<AnchorConnectorController>().Dummy = true;
     }

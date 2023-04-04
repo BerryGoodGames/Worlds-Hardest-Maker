@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -70,8 +71,7 @@ public class AnchorController : Controller
     public void StartExecuting()
     {
         UpdateStartValues();
-
-        print(Blocks.First == null);
+        
         CurrentExecutingBlock = Blocks.First.Value;
         CurrentExecutingBlock.Execute();
     }
@@ -86,9 +86,9 @@ public class AnchorController : Controller
 
         LinkedListNode<AnchorBlock> thisBlockNode = Blocks.Find(CurrentExecutingBlock);
         if (thisBlockNode == null)
-            throw new Exception(
+            throw new(
                 "Couldn't find block currently executing in block list of anchor (this error should be impossible)");
-
+        
         CurrentExecutingBlock = thisBlockNode.Next?.Value;
         CurrentExecutingBlock?.Execute();
     }

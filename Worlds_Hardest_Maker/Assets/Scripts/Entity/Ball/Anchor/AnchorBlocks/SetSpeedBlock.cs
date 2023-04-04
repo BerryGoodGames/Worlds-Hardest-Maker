@@ -33,7 +33,7 @@ public class SetSpeedBlock : AnchorBlock
         Transform connectorContainer = parent.GetChild(0);
 
         // create object
-        GameObject block = GameManager.Instantiate(PrefabManager.Instance.SetSpeedBlockPrefab, parent);
+        GameObject block = Object.Instantiate(PrefabManager.Instance.SetSpeedBlockPrefab, parent);
 
         // set values in object
         SetSpeedBlockController controller = block.GetComponent<SetSpeedBlockController>();
