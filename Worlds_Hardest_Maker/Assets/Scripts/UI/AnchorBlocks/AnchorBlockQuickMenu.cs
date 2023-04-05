@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 public class AnchorBlockQuickMenu : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private AnchorBlockController anchorBlockController;
-    [SerializeField] private bool active = true;
+    [FormerlySerializedAs("active")] public bool Active = true;
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button != PointerEventData.InputButton.Right || !active) return;
+        if (eventData.button != PointerEventData.InputButton.Right || !Active) return;
 
         // open and position quick menu
         Vector2 mousePos = MouseManager.Instance.MouseCanvasPos;

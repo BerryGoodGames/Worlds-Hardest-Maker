@@ -22,6 +22,10 @@ public abstract class AnchorBlockController : MonoBehaviour
     {
         if (!Movable && TryGetComponent(out BlockDragDrop blockDragDrop))
             Destroy(blockDragDrop);
+        if (!Movable && TryGetComponent(out AnchorBlockQuickMenu quickMenu))
+        {
+            quickMenu.Active = false;
+        }
     }
 
     public void Delete()
