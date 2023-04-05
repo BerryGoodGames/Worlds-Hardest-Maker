@@ -5,12 +5,14 @@ using System.Runtime.Serialization.Formatters.Binary;
 using DG.Tweening;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class GameManager : MonoBehaviourPun
 {
     public static GameManager Instance { get; private set; }
 
     [SerializeField] private LoadingScreen loadingScreen;
+    private RectTransform canvasRT;
 
     private void Awake()
     {
@@ -25,6 +27,8 @@ public class GameManager : MonoBehaviourPun
         Utils.ForceDecimalSeparator(".");
 
         SetCameraUnitWidth(23);
+
+        canvasRT = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>();
     }
 
     private void Start()
@@ -203,6 +207,11 @@ public class GameManager : MonoBehaviourPun
         Camera cam = Camera.main;
         if (cam != null) cam.orthographicSize = height * 0.5f;
         else throw new Exception($"Couldn't set camera height (in units) to {height} because main camera is null");
+    }
+
+    public static Vector2 ScreenToMainCanvas(Vector2 position)
+    {
+        return position * (Instance.canvasRT.sizeDelta / new Vector2(Screen.width, Screen.height));
     }
 
 

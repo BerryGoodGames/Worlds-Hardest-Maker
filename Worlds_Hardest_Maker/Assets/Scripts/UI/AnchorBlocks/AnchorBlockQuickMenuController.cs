@@ -16,7 +16,8 @@ public class AnchorBlockQuickMenuController : QuickMenuController
             Debug.LogWarning("Tried to delete anchor block, but none was selected by quick menu");
             return;
         }
-        SelectedAnchorBlock.Delete();
+        if(SelectedAnchorBlock.Movable)
+            SelectedAnchorBlock.Delete();
     }
 
     public void OnClickDuplicate()

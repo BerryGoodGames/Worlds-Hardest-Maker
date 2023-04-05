@@ -30,7 +30,7 @@ public class GoToBlock : AnchorBlock
         // set values in object
         GoToBlockController controller = block.GetComponent<GoToBlockController>();
         controller.Input.text = index.ToString();
-        controller.IsInsertable = insertable;
+        controller.Movable = insertable;
 
         // create connector
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);

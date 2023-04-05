@@ -32,7 +32,7 @@ public class SetEaseBlock : AnchorBlock
         // set values in object
         SetEaseBlockController controller = block.GetComponent<SetEaseBlockController>();
         controller.Input.value = GameManager.GetDropdownValue(SetEaseBlockController.GetOption(ease), controller.Input);
-        controller.IsInsertable = insertable;
+        controller.Movable = insertable;
 
         // create connector
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);

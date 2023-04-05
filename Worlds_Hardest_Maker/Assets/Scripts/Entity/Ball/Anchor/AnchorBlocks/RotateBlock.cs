@@ -54,7 +54,7 @@ public class RotateBlock : AnchorBlock
         // set values in object
         RotateBlockController controller = block.GetComponent<RotateBlockController>();
         controller.Input.text = iterations.ToString();
-        controller.IsInsertable = insertable;
+        controller.Movable = insertable;
 
         // create connector
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);

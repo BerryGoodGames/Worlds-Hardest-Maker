@@ -37,7 +37,7 @@ public class AnchorConnectorController : MonoBehaviour
         if (parent.parent.childCount - 1 != parent.childCount) return;
 
         Instantiate(PrefabManager.Instance.AnchorConnector, parent);
-        if (!AnchorBlockManager.DraggedBlock.IsInsertable)
+        if (!AnchorBlockManager.DraggedBlock.Movable)
         {
             Dummy = true;
         }

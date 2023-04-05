@@ -48,6 +48,7 @@ public class AnchorController : Controller
     private Quaternion startRotation;
 
     public AnchorBlock CurrentExecutingBlock;
+    private LinkedListNode<AnchorBlock> currentExecutingNode;
 
     [FormerlySerializedAs("rb")] [HideInInspector]
     public Rigidbody2D Rb;
@@ -71,8 +72,9 @@ public class AnchorController : Controller
     public void StartExecuting()
     {
         UpdateStartValues();
-        
-        CurrentExecutingBlock = Blocks.First.Value;
+
+        currentExecutingNode = Blocks.First;
+        CurrentExecutingBlock = currentExecutingNode.Value;
         CurrentExecutingBlock.Execute();
     }
 
@@ -83,13 +85,9 @@ public class AnchorController : Controller
             Debug.LogWarning("There was a FinishCurrentExecution() call, although there is no execution to finish");
             return;
         }
-
-        LinkedListNode<AnchorBlock> thisBlockNode = Blocks.Find(CurrentExecutingBlock);
-        if (thisBlockNode == null)
-            throw new(
-                "Couldn't find block currently executing in block list of anchor (this error should be impossible)");
         
-        CurrentExecutingBlock = thisBlockNode.Next?.Value;
+        currentExecutingNode = currentExecutingNode.Next;
+        CurrentExecutingBlock = currentExecutingNode?.Value;
         CurrentExecutingBlock?.Execute();
     }
 

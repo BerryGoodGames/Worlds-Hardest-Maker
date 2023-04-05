@@ -34,7 +34,7 @@ public class WaitBlock : AnchorBlock
         // set values in object
         WaitBlockController controller = block.GetComponent<WaitBlockController>();
         controller.Input.text = waitTime.ToString();
-        controller.IsInsertable = insertable;
+        controller.Movable = insertable;
 
         // create connector
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);

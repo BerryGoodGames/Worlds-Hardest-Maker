@@ -1,10 +1,11 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class AnchorBlockController : MonoBehaviour
 {
-    public bool IsInsertable = true;
+    [FormerlySerializedAs("IsInsertable")] public bool Movable = true;
 
     [SerializeField] private Vector2 duplicateOffset = new(-10, 10);
 
@@ -19,7 +20,7 @@ public abstract class AnchorBlockController : MonoBehaviour
 
     private void Start()
     {
-        if (!IsInsertable && TryGetComponent(out BlockDragDrop blockDragDrop))
+        if (!Movable && TryGetComponent(out BlockDragDrop blockDragDrop))
             Destroy(blockDragDrop);
     }
 

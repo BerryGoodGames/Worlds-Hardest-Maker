@@ -73,11 +73,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2207349393350425260, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1511.4033
+      value: 1096.6201
       objectReference: {fileID: 0}
     - target: {fileID: 2207349393350425260, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 749.1277
+      value: 458.2719
       objectReference: {fileID: 0}
     - target: {fileID: 2207349393350425260, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5628cdcc89259eb4481fb98f4a15763b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsInsertable: 1
+  Movable: 1
   duplicateOffset: {x: -10, y: 10}
   BlockDragDropComp: {fileID: 0}
   Input: {fileID: 6262847865256452984}

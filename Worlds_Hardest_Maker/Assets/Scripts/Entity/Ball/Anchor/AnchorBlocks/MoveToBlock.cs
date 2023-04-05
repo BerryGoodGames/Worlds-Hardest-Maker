@@ -30,7 +30,6 @@ public class MoveToBlock : AnchorBlock
 
     public override void Execute(bool executeNext = true)
     {
-        Debug.Log("asd");
         float duration;
         float dist = Vector2.Distance(target, Anchor.Rb.position);
 
@@ -70,7 +69,7 @@ public class MoveToBlock : AnchorBlock
         MoveToBlockController controller = block.GetComponent<MoveToBlockController>();
         controller.InputX.text = target.x.ToString();
         controller.InputY.text = target.y.ToString();
-        controller.IsInsertable = insertable;
+        controller.Movable = insertable;
 
         // create connector
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
