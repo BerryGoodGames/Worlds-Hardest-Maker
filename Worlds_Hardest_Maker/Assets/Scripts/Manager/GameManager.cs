@@ -27,12 +27,11 @@ public class GameManager : MonoBehaviourPun
         Utils.ForceDecimalSeparator(".");
 
         SetCameraUnitWidth(23);
-
-        canvasRT = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>();
     }
 
     private void Start()
     {
+        canvasRT = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>();
         DOTween.Init(useSafeMode: false);
 
         if (!MultiplayerManager.Instance.Multiplayer)
