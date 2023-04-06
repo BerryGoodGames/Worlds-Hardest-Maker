@@ -9,6 +9,7 @@ public abstract class AnchorBlock
         GO_TO,
         MOVE_TO,
         ROTATE,
+        MOVE_AND_ROTATE,
         WAIT,
         EASE,
         SET_SPEED,
