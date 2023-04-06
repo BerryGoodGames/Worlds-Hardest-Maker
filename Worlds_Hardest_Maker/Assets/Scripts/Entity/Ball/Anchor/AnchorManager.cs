@@ -64,7 +64,7 @@ public class AnchorManager : MonoBehaviour
     
     public static void RemoveAnchor(Vector2 pos)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.5f, 128);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.01f, 128);
 
         foreach (Collider2D hit in hits)
         {
@@ -77,7 +77,7 @@ public class AnchorManager : MonoBehaviour
     
     public static AnchorController GetAnchor(Vector2 pos)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.5f);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.01f);
 
         foreach (Collider2D hit in hits)
         {
