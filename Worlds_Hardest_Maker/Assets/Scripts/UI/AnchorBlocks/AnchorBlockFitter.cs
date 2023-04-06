@@ -10,6 +10,7 @@ using UnityEngine;
 public class AnchorBlockFitter : MonoBehaviour
 {
     [SerializeField] private float bottomPadding;
+    [SerializeField] private float minimumHeight;
 
     private int lastChildCount;
     private RectTransform[] children;
@@ -30,12 +31,14 @@ public class AnchorBlockFitter : MonoBehaviour
 
     private bool ChildrenChanged()
     {
+        // check for new child / one child less
         if (transform.childCount != lastChildCount)
         {
             lastChildCount = transform.childCount;
             return true;
         }
 
+        // check if their scale/positions have changed
         foreach (RectTransform child in children)
         {
             if (!child.hasChanged) continue;
@@ -52,17 +55,15 @@ public class AnchorBlockFitter : MonoBehaviour
 
         children = this.GetComponentsInDirectChildren<RectTransform>();
         
-        float minY = 0;
+        float minY = -minimumHeight + bottomPadding;
         
-
+        // get minimum y of all children
         foreach (RectTransform child in children)
         {
             Vector2 scale = child.sizeDelta;
 
             Vector2 position = child.anchoredPosition;
             float thisMinY = position.y - scale.y;
-
-
 
             if (thisMinY < minY)
                 minY = thisMinY;
