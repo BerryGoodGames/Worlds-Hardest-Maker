@@ -1,17 +1,32 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class WaitBlock : AnchorBlock
 {
+    public enum Unit
+    {
+        SECONDS, MINUTES, HOURS, DAYS
+    }
+
     public const Type BlockType = Type.WAIT;
     public override Type ImplementedBlockType => BlockType;
 
     private readonly float waitTime;
-    private float duration;
 
-    public WaitBlock(AnchorController anchor, float waitTime) : base(anchor)
+    public WaitBlock(AnchorController anchor, float waitTime, Unit unit) : base(anchor)
     {
-        this.waitTime = waitTime;
+        float factor = unit switch
+        {
+            Unit.SECONDS => 1,
+            Unit.MINUTES => 60,
+            Unit.HOURS => 3600,
+            Unit.DAYS => 86400,
+            _ => throw new Exception("WaitBlock: Couldn't parse unit")
+        };
+
+        this.waitTime = waitTime * factor;
     }
 
     public override void Execute()
@@ -29,7 +44,7 @@ public class WaitBlock : AnchorBlock
 
         // set values in object
         WaitBlockController controller = block.GetComponent<WaitBlockController>();
-        controller.Input.text = waitTime.ToString();
+        controller.DurationInput.text = waitTime.ToString();
         controller.Movable = insertable;
 
         // create connector

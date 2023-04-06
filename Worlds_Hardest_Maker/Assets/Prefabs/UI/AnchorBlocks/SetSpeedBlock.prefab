@@ -253,6 +253,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
+--- !u!114 &2297167765002795367 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
+  m_PrefabInstance: {fileID: 1905924003148177929}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3550532160889694314
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -424,7 +435,8 @@ MonoBehaviour:
   Movable: 1
   duplicateOffset: {x: -10, y: 10}
   BlockDragDropComp: {fileID: 0}
-  Input: {fileID: 4996182808074809848}
+  SpeedInput: {fileID: 4996182808074809848}
+  UnitInput: {fileID: 2297167765002795367}
 --- !u!1001 &3776148205519092306
 PrefabInstance:
   m_ObjectHideFlags: 0

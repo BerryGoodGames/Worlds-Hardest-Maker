@@ -36,7 +36,7 @@ public class SetSpeedBlock : AnchorBlock
 
         // set values in object
         SetSpeedBlockController controller = block.GetComponent<SetSpeedBlockController>();
-        controller.Input.text = input.ToString();
+        controller.SpeedInput.text = input.ToString();
         controller.Movable = insertable;
 
         // create connector

@@ -170,7 +170,8 @@ MonoBehaviour:
   Movable: 1
   duplicateOffset: {x: -10, y: 10}
   BlockDragDropComp: {fileID: 0}
-  Input: {fileID: 4912644674184131412}
+  DurationInput: {fileID: 4912644674184131412}
+  UnitInput: {fileID: 8903058471181402467}
 --- !u!1001 &3827122142193023230
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -725,3 +726,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
+--- !u!114 &8903058471181402467 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
+  m_PrefabInstance: {fileID: 9087167437450598925}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
