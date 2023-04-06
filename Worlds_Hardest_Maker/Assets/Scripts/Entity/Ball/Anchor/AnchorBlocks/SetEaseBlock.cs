@@ -15,11 +15,10 @@ public class SetEaseBlock : AnchorBlock
         this.ease = ease;
     }
 
-    public override void Execute(bool executeNext = true)
+    public override void Execute()
     {
         Anchor.Ease = ease;
-        if (executeNext)
-            Anchor.FinishCurrentExecution();
+        Anchor.FinishCurrentExecution();
     }
 
     public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)

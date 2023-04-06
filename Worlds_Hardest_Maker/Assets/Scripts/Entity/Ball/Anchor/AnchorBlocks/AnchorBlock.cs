@@ -26,7 +26,7 @@ public abstract class AnchorBlock
     // ReSharper disable once UnusedMember.Global
     public abstract Type ImplementedBlockType { get; }
 
-    public abstract void Execute(bool executeNext = true);
+    public abstract void Execute();
 
     public void CreateAnchorBlockObject(bool insertable = true)
     {

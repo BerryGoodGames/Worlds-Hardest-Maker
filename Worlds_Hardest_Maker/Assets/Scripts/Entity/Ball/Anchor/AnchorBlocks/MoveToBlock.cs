@@ -11,24 +11,21 @@ public class MoveToBlock : AnchorBlock
 
     private readonly Vector2 target;
 
-    private readonly RotateBlock rotateBlock;
-
     #region Constructors
 
-    public MoveToBlock(AnchorController anchor, Vector2 target, RotateBlock rotateBlock = null) : base(anchor)
+    public MoveToBlock(AnchorController anchor, Vector2 target) : base(anchor)
     {
         this.target = target;
-        this.rotateBlock = rotateBlock;
     }
 
-    public MoveToBlock(AnchorController anchor, float x, float y, RotateBlock rotateBlock = null) : this(anchor,
-        new(x, y), rotateBlock)
+    public MoveToBlock(AnchorController anchor, float x, float y) : this(anchor,
+        new(x, y))
     {
     }
 
     #endregion
 
-    public override void Execute(bool executeNext = true)
+    public override void Execute()
     {
         float duration;
         float dist = Vector2.Distance(target, Anchor.Rb.position);
@@ -42,14 +39,6 @@ public class MoveToBlock : AnchorBlock
         else
         {
             duration = Anchor.Speed;
-        }
-
-        // TODO: rethink about other system
-        if (rotateBlock != null)
-        {
-            rotateBlock.CustomTime = duration;
-            rotateBlock.CustomIterations = Anchor.AngularSpeed / 360 * duration;
-            rotateBlock.Execute(false);
         }
 
         Anchor.DOKill();

@@ -13,11 +13,10 @@ public class GoToBlock : AnchorBlock
         this.index = index;
     }
 
-    public override void Execute(bool executeNext = true)
+    public override void Execute()
     {
         Anchor.CurrentExecutingBlock = Anchor.Blocks.ElementAt(index);
-        if (executeNext)
-            Anchor.CurrentExecutingBlock.Execute();
+        Anchor.CurrentExecutingBlock.Execute();
     }
 
     public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)

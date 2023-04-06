@@ -29,7 +29,7 @@ public class MoveAndRotateBlock : AnchorBlock
 
     #endregion
 
-    public override void Execute(bool executeNext = true)
+    public override void Execute()
     {
         // get move duration
         float moveDuration;

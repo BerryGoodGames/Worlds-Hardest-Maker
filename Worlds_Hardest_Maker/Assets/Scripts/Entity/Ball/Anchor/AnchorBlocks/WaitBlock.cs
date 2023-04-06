@@ -14,14 +14,10 @@ public class WaitBlock : AnchorBlock
         this.waitTime = waitTime;
     }
 
-    public override void Execute(bool executeNext = true)
+    public override void Execute()
     {
         Anchor.Rb.DOMove(Anchor.Rb.position, waitTime)
-            .OnComplete(() =>
-            {
-                if (executeNext)
-                    Anchor.FinishCurrentExecution();
-            });
+            .OnComplete(Anchor.FinishCurrentExecution);
     }
 
     public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)

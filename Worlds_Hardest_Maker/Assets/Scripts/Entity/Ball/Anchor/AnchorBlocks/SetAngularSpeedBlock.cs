@@ -26,12 +26,11 @@ public class SetAngularSpeedBlock : AnchorBlock
         this.type = type;
     }
 
-    public override void Execute(bool executeNext = true)
+    public override void Execute()
     {
         Anchor.ApplyAngularSpeed = type != Unit.TIME;
         Anchor.AngularSpeed = speed;
-        if (executeNext)
-            Anchor.FinishCurrentExecution();
+        Anchor.FinishCurrentExecution();
     }
 
     public float GetSpeed(Unit unit)

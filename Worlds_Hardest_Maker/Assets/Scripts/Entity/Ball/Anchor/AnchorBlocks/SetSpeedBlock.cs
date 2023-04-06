@@ -20,12 +20,11 @@ public class SetSpeedBlock : AnchorBlock
         this.type = type;
     }
 
-    public override void Execute(bool executeNext = true)
+    public override void Execute()
     {
         Anchor.ApplySpeed = type != Unit.TIME;
         Anchor.Speed = input;
-        if (executeNext)
-            Anchor.FinishCurrentExecution();
+        Anchor.FinishCurrentExecution();
     }
 
     public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
