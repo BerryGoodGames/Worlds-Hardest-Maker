@@ -4,12 +4,15 @@ using UnityEngine.UI;
 
 public class AnchorBlockDropdown : AnchorBlockColorController
 {
-    [Space] [SerializeField] private Image template;
+    [Space] [SerializeField] private Image imageComp;
+    [SerializeField] private Image template;
     [SerializeField] private Toggle templateItem;
 
     public override void UpdateColor()
     {
         Color darker = GetDarkColor(color, darkening);
+
+        imageComp.color = KeepA(darker, imageComp.color);
 
         ColorBlock colorsTemplate = templateItem.colors;
         colorsTemplate.normalColor = KeepA(color, colorsTemplate.normalColor);
