@@ -3,6 +3,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class MoveAndRotateBlock : AnchorBlock
 {
@@ -17,13 +18,13 @@ public class MoveAndRotateBlock : AnchorBlock
 
     #region Constructors
 
-    public MoveAndRotateBlock(AnchorController anchor, Vector2 target, float iterations) : base(anchor)
+    public MoveAndRotateBlock(AnchorController anchor, Vector2 target, float iterations, bool adaptRotation) : base(anchor)
     {
         this.target = target;
         this.iterations = iterations;
     }
 
-    public MoveAndRotateBlock(AnchorController anchor, float x, float y, float iterations)  : this(anchor, new(x, y), iterations)
+    public MoveAndRotateBlock(AnchorController anchor, float x, float y, float iterations, bool adaptRotation)  : this(anchor, new(x, y), iterations, adaptRotation)
     {
     }
 
@@ -87,6 +88,20 @@ public class MoveAndRotateBlock : AnchorBlock
 
     public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
     {
-        throw new System.NotImplementedException();
+        Transform connectorContainer = parent.GetChild(0);
+
+        // create object
+        GameObject block = Object.Instantiate(PrefabManager.Instance.MoveToBlockPrefab, parent);
+
+        // set values in object
+        MoveAndRotateBlockController controller = block.GetComponent<MoveAndRotateBlockController>();
+        controller.InputX.text = target.x.ToString();
+        controller.InputY.text = target.y.ToString();
+        controller.InputIterations.text = iterations.ToString();
+        controller.AdaptRotation.isOn = adaptRotation;
+        controller.Movable = insertable;
+
+        // create connector
+        CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 }
