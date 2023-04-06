@@ -37,6 +37,7 @@ public class PreviewController : MonoBehaviour
     [SerializeField] private float rotateDuration;
 
     private FollowMouse followMouseComp;
+    private bool hasFollowMouseComp;
 
     private bool ranAwake;
     private static readonly int visible = Animator.StringToHash("Visible");
@@ -62,6 +63,7 @@ public class PreviewController : MonoBehaviour
     private void Start()
     {
         followMouseComp = GetComponent<FollowMouse>();
+        hasFollowMouseComp = followMouseComp != null;
 
         previousEditMode = EditModeManager.Instance.CurrentEditMode;
     }
@@ -74,7 +76,7 @@ public class PreviewController : MonoBehaviour
             (previousEditMode != currentEditMode || previousPlaying != EditModeManager.Instance.Playing))
             UpdateSprite();
 
-        if (!SelectionManager.Instance.Selecting)
+        if (!SelectionManager.Instance.Selecting && hasFollowMouseComp)
         {
             followMouseComp.WorldPosition = currentEditMode.IsFieldType() || currentEditMode == EditMode.DELETE_FIELD
                 ? FollowMouse.WorldPositionType.MATRIX
