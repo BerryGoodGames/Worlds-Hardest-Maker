@@ -67,8 +67,6 @@ public class MoveAndRotateBlock : AnchorBlock
             rotateDuration = Anchor.AngularSpeed;
         }
         
-
-        Anchor.DOKill();
         Anchor.Rb.DOMove(target, moveDuration)
             .SetEase(Anchor.Ease)
             .OnComplete(() =>

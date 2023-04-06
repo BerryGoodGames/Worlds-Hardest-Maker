@@ -231,6 +231,7 @@ GameObject:
   - component: {fileID: 4334735015416980037}
   - component: {fileID: 7886014678492739981}
   - component: {fileID: 4707438671166459008}
+  - component: {fileID: 200878513741939954}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -280,7 +281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5019608, g: 0.9176471, b: 1, a: 1}
+  m_Color: {r: 0.5019608, g: 1, b: 0.61960787, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -317,6 +318,20 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &200878513741939954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652676982406790897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02473a36276d214182be935c4eb824e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorPaletteName: Start Goal Checkpoint
+  colorPaletteIndex: 0
 --- !u!1 &3595794287679749710
 GameObject:
   m_ObjectHideFlags: 0

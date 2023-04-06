@@ -13,7 +13,6 @@ public class AnchorBlockQuickMenu : MonoBehaviour, IPointerClickHandler
 
         // open and position quick menu
         Vector2 mousePos = MouseManager.Instance.MouseCanvasPos;
-        print(MouseManager.Instance.MouseCanvasPos);
         mousePos.y = MouseManager.Instance.MouseCanvasPos.y - GameManager.GetCanvasDimensions().y;
 
         // TODO: fix position
