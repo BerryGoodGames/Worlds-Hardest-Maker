@@ -77,6 +77,8 @@ public class ReferenceManager : MonoBehaviour
 
     public StringController MainStringController;
 
+    public AnchorBlockFitter AnchorBlockFitter;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;

@@ -49,6 +49,8 @@ public class BlockDragDrop : MonoBehaviour
 
         waitForSnap = StartCoroutine(WaitForSnap());
 
+        ReferenceManager.Instance.AnchorBlockFitter.CheckForChanges();
+
         AnchorBlockManager.DraggedBlock = null;
         AnchorBlockManager.DraggingBlock = false;
     }
