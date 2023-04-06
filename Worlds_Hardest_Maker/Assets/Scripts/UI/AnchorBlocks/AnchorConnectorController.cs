@@ -23,8 +23,6 @@ public class AnchorConnectorController : MonoBehaviour
         if (!AnchorBlockManager.DraggingBlock || !mouseOverUI.Over ||
             (!Input.GetMouseButtonUp(0) && !Input.GetMouseButtonUp(1))) return;
 
-        
-
         // move dragged block to this string
         Transform draggedBlock = AnchorBlockManager.DraggedBlock.gameObject.transform;
         Transform parent = transform.parent;
