@@ -74,6 +74,9 @@ public class PrefabManager : MonoBehaviour
     public GameObject GoToBlockPrefab;
     public GameObject MoveToBlockPrefab;
     public GameObject RotateBlockPrefab;
+    public GameObject StartRotatingBlockPrefab;
+    public GameObject StopRotatingBlockPrefab;
+    public GameObject MoveAndRotateBlockPrefab;
     public GameObject SetAngularSpeedBlockPrefab;
     public GameObject SetSpeedBlockPrefab;
     public GameObject SetEaseBlockPrefab;

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -38,6 +40,8 @@ public class AnchorController : Controller
     public float AngularSpeed;
 
     private float startAngularSpeed;
+
+    public TweenerCore<float, float, FloatOptions> InfiniteRotationTween;
 
     [FormerlySerializedAs("ease")] [HideInInspector]
     public Ease Ease;

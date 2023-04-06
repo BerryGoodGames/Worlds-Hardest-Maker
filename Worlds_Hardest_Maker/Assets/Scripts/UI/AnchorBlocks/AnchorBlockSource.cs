@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private GameObject anchorBlockPrefab;
-    [SerializeField] private bool active;
+    [SerializeField] private bool active = true;
 
     public void CreateNew()
     {
