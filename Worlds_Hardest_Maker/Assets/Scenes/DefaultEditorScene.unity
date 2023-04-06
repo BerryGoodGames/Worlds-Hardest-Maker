@@ -3097,7 +3097,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smooth: 1
   speed: 20
-  WorldPosition: 0
+  WorldPosition: 2
 --- !u!1 &446761088
 GameObject:
   m_ObjectHideFlags: 0
