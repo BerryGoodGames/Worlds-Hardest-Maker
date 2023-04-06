@@ -22,6 +22,7 @@ public class MoveAndRotateBlock : AnchorBlock
     {
         this.target = target;
         this.iterations = iterations;
+        this.adaptRotation = adaptRotation;
     }
 
     public MoveAndRotateBlock(AnchorController anchor, float x, float y, float iterations, bool adaptRotation)  : this(anchor, new(x, y), iterations, adaptRotation)
