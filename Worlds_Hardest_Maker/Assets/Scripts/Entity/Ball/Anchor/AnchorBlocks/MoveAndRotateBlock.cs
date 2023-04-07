@@ -90,7 +90,7 @@ public class MoveAndRotateBlock : AnchorBlock
         Transform connectorContainer = parent.GetChild(0);
 
         // create object
-        GameObject block = Object.Instantiate(PrefabManager.Instance.MoveToBlockPrefab, parent);
+        GameObject block = Object.Instantiate(PrefabManager.Instance.MoveAndRotateBlockPrefab, parent);
 
         // set values in object
         MoveAndRotateBlockController controller = block.GetComponent<MoveAndRotateBlockController>();

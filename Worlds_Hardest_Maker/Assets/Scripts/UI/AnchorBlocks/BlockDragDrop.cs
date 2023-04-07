@@ -10,10 +10,12 @@ public class BlockDragDrop : MonoBehaviour
     private Vector2 offset;
     private Coroutine waitForSnap;
     private AnchorBlockController anchorBlockController;
+    private UIRestrictInRectTransform restrict;
 
     private void Awake()
     {
         anchorBlockController = GetComponent<AnchorBlockController>();
+        restrict = GetComponent<UIRestrictInRectTransform>();
     }
 
     private void OnDrag(Vector2 mousePos)
@@ -21,7 +23,6 @@ public class BlockDragDrop : MonoBehaviour
         if (!active) return;
 
         Canvas canvas = ReferenceManager.Instance.Canvas;
-
 
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             (RectTransform)canvas.transform,
@@ -85,6 +86,7 @@ public class BlockDragDrop : MonoBehaviour
     public void OnSnap()
     {
         StopCoroutine(waitForSnap);
+        restrict.enabled = false;
     }
 
     private IEnumerator Drag()
@@ -97,6 +99,9 @@ public class BlockDragDrop : MonoBehaviour
             if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
             {
                 OnEndDrag(Input.mousePosition);
+                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
+                restrict.RectTransform = ReferenceManager.Instance.AnchorBlockStringContainer.GetComponent<RectTransform>();
+                restrict.enabled = true;
                 yield break;
             }
 
@@ -115,5 +120,6 @@ public class BlockDragDrop : MonoBehaviour
         }
 
         transform.SetParent(ReferenceManager.Instance.AnchorBlockStringContainer);
+        restrict.enabled = true;
     }
 }
