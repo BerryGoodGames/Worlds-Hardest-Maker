@@ -64,7 +64,7 @@ public class AnchorData : Data
     private List<Vector2> LoadBalls()
     {
         // returns every coordinate of the balls
-        List<Vector2> posArr = new List<Vector2>();
+        List<Vector2> posArr = new();
 
         for (int i = 0; i < balls.GetLength(0); i++)
         {
@@ -99,7 +99,14 @@ public class AnchorData : Data
     {
         AnchorController anchor = AnchorManager.Instance.SetAnchor(pos);
 
+        List<Vector2> ballPositions = LoadBalls();
 
+        foreach (Vector2 ballPosition in ballPositions)
+        {
+            AnchorBallManager.SetAnchorBall(ballPosition, anchor);
+        }
+
+        anchor.Blocks = LoadBlocks();
     }
 
     public override EditMode GetEditMode()

@@ -5,26 +5,20 @@ public class AnchorBallManager : MonoBehaviour
 {
     public static AnchorBallManager Instance { get; set; }
 
-    /// <summary>
-    ///     Places ball at position
-    /// </summary>
+    #region Set
+    public static void SetAnchorBall(Vector2 pos, AnchorController anchor)
+    {
+        GameObject ball = Instantiate(PrefabManager.Instance.Ball, Vector2.zero, Quaternion.identity, anchor.transform);
+        anchor.Balls.Add(ball.GetComponent<AnchorBallController>());
+        ball.transform.GetChild(0).position = pos;
+    }
     public static void SetAnchorBall(Vector2 pos)
     {
         if (AnchorManager.Instance.SelectedAnchor == null) return;
 
-        Debug.LogWarning("Anchor ball place multiplayer TODO");
-
         AnchorController selectedAnchor = AnchorManager.Instance.SelectedAnchor;
 
-        GameObject ball = Instantiate(PrefabManager.Instance.Ball, Vector2.zero, Quaternion.identity, selectedAnchor.BallContainer);
-        selectedAnchor.Balls.Add(ball.GetComponent<AnchorBallController>());
-        ball.transform.GetChild(0).position = pos;
-    }
-
-    public static void SetAnchorBall(Vector2 pos, Transform container)
-    {
-        GameObject ball = Instantiate(PrefabManager.Instance.Ball, Vector2.zero, Quaternion.identity, container);
-        ball.transform.GetChild(0).position = pos;
+        SetAnchorBall(pos, selectedAnchor);
     }
 
     public static void SetAnchorBall(float mx, float my)
@@ -32,11 +26,13 @@ public class AnchorBallManager : MonoBehaviour
         SetAnchorBall(new(mx, my));
     }
 
-    public static void SetAnchorBall(float mx, float my, Transform container)
+    public static void SetAnchorBall(float mx, float my, AnchorController anchor)
     {
-        SetAnchorBall(new(mx, my), container);
+        SetAnchorBall(new(mx, my), anchor);
     }
+    #endregion
 
+    #region Remove
     [PunRPC]
     public void RemoveAnchorBall(Vector2 pos)
     {
@@ -56,6 +52,7 @@ public class AnchorBallManager : MonoBehaviour
     {
         RemoveAnchorBall(new(mx, my));
     }
+    #endregion
 
     private void Awake()
     {
