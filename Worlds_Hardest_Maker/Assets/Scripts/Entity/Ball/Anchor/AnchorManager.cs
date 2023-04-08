@@ -29,14 +29,14 @@ public class AnchorManager : MonoBehaviour
         }
     }
 
-    #region get, set, remove
+    #region set, get, remove
     
-    public GameObject SetAnchor(float mx, float my)
+    public AnchorController SetAnchor(float mx, float my)
     {
         return SetAnchor(new(mx, my));
     }
     
-    public GameObject SetAnchor(Vector2 pos)
+    public AnchorController SetAnchor(Vector2 pos)
     {
         if (GetAnchor(pos) != null) return null;
 
@@ -46,14 +46,13 @@ public class AnchorManager : MonoBehaviour
                 ReferenceManager.Instance.AnchorContainer);
 
         AnchorController child = anchor.GetComponent<AnchorControllerParent>().Child;
+
         // default blocks
         child.AppendBlock(new SetSpeedBlock(child, 5, SetSpeedBlock.Unit.SPEED));
         child.AppendBlock(new SetAngularSpeedBlock(child, 1, SetAngularSpeedBlock.Unit.ITERATIONS));
         child.AppendBlock(new SetEaseBlock(child, Ease.Linear));
-        
-        SelectAnchor(child);
 
-        return anchor;
+        return child;
     }
     
     [PunRPC]

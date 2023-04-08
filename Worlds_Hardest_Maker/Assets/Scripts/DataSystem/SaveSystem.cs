@@ -89,7 +89,7 @@ public static class SaveSystem
 
         // serialize current level settings
         levelData.Add(new LevelSettingsData(LevelSettings.Instance));
-
+        
         return levelData;
     }
 
@@ -152,7 +152,8 @@ public static class SaveSystem
 public abstract class Data
 {
     public abstract void ImportToLevel();
-    public abstract void ImportToLevel(Vector2 pos);
+
+    public virtual void ImportToLevel(Vector2 pos) => Debug.LogWarning("ImportToLevel(Vector2 pos) has been called, but there is no override defined");
 
     public abstract EditMode GetEditMode();
 }

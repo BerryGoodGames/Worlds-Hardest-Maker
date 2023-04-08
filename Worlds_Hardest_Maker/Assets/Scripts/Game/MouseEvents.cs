@@ -110,8 +110,9 @@ public class MouseEvents : MonoBehaviour
         switch (editMode)
         {
             case EditMode.ANCHOR:
-                // place new anchor
-                AnchorManager.Instance.SetAnchor(gridX, gridY);
+                // place new anchor + select
+                AnchorController anchor = AnchorManager.Instance.SetAnchor(gridX, gridY);
+                AnchorManager.Instance.SelectAnchor(anchor);
                 break;
             case EditMode.BALL:
                 // AnchorBallManagerOld.SetAnchorBall(gridX, gridY);

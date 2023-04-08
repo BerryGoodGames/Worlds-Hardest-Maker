@@ -37,11 +37,6 @@ public class LevelSettingsData : Data
         LevelSettings.Instance.SyncPlayersToSettings();
     }
 
-    public override void ImportToLevel(Vector2 pos)
-    {
-        ImportToLevel();
-    }
-
     public override EditMode GetEditMode()
     {
         return EditMode.WALL_FIELD;

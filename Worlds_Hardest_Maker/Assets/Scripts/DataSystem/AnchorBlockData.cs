@@ -3,7 +3,9 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class AnchorBlockData
+public abstract class AnchorBlockData
 {
     // TODO
+
+    public abstract AnchorBlock GetBlock();
 }
