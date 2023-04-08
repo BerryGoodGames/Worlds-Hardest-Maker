@@ -75,13 +75,13 @@ public class AnchorData : Data
         return posArr;
     }
 
-    private LinkedList<AnchorBlock> LoadBlocks()
+    private LinkedList<AnchorBlock> LoadBlocks(AnchorController anchor)
     {
         LinkedList<AnchorBlock> blockArr = new();
 
         foreach (AnchorBlockData block in blocks)
         {
-            AnchorBlock anchorBlock = block.GetBlock();
+            AnchorBlock anchorBlock = block.GetBlock(anchor);
             blockArr.AddLast(anchorBlock);
         }
 
@@ -106,7 +106,7 @@ public class AnchorData : Data
             AnchorBallManager.SetAnchorBall(ballPosition, anchor);
         }
 
-        anchor.Blocks = LoadBlocks();
+        anchor.Blocks = LoadBlocks(anchor);
     }
 
     public override EditMode GetEditMode()

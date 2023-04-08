@@ -37,6 +37,6 @@ public class GoToBlock : AnchorBlock
 
     public override AnchorBlockData GetData()
     {
-        throw new System.NotImplementedException();
+        return new GoToBlockData(index);
     }
 }

@@ -66,6 +66,6 @@ public class MoveBlock : AnchorBlock
 
     public override AnchorBlockData GetData()
     {
-        throw new NotImplementedException();
+        return new MoveBlockData(target);
     }
 }

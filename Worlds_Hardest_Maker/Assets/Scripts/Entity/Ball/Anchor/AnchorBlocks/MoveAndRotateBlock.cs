@@ -106,6 +106,6 @@ public class MoveAndRotateBlock : AnchorBlock
 
     public override AnchorBlockData GetData()
     {
-        throw new NotImplementedException();
+        return new MoveAndRotateBlockData(target, iterations, adaptRotation);
     }
 }

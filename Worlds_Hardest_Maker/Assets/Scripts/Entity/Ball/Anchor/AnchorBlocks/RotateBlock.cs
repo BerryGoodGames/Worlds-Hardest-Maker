@@ -56,6 +56,6 @@ public class RotateBlock : AnchorBlock
 
     public override AnchorBlockData GetData()
     {
-        throw new NotImplementedException();
+        return new RotateBlockData(iterations);
     }
 }

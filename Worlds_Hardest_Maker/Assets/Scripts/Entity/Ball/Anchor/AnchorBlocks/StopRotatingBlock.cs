@@ -33,6 +33,6 @@ public class StopRotatingBlock : AnchorBlock
 
     public override AnchorBlockData GetData()
     {
-        throw new System.NotImplementedException();
+        return new StopRotatingBlockData();
     }
 }

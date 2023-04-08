@@ -8,8 +8,10 @@ public class StartRotatingBlock : AnchorBlock
     public StartRotatingBlock(AnchorController anchor) : base(anchor)
     {
     }
+
     public const Type BlockType = Type.START_ROTATING;
     public override Type ImplementedBlockType => BlockType;
+
     public override void Execute()
     {
         float duration;
@@ -53,6 +55,6 @@ public class StartRotatingBlock : AnchorBlock
 
     public override AnchorBlockData GetData()
     {
-        throw new System.NotImplementedException();
+        return new StartRotatingBlockData();
     }
 }
