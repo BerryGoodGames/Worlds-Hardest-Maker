@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Anchor attributes: 
+/// Anchor attributes: balls (positions), blocks, position
 /// </summary>
 [Serializable]
 public class AnchorData : Data
@@ -13,7 +13,7 @@ public class AnchorData : Data
 
     private AnchorBlockData[] blocks;
 
-    private float[] position;
+    private readonly float[] position;
 
     public AnchorData(AnchorController controller)
     {
