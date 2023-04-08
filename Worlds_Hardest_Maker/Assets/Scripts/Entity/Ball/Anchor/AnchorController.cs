@@ -99,10 +99,10 @@ public class AnchorController : Controller
     {
         AppendBlock(new SetSpeedBlock(this, 1.5f, SetSpeedBlock.Unit.TIME));
         AppendBlock(new SetAngularSpeedBlock(this, 3f, SetAngularSpeedBlock.Unit.TIME));
-        AppendBlock(new MoveToBlock(this, 0, 0));
+        AppendBlock(new MoveBlock(this, 0, 0));
         AppendBlock(new RotateBlock(this, 1));
-        AppendBlock(new MoveToBlock(this, 1, 3));
-        AppendBlock(new MoveToBlock(this, 2, -1));
+        AppendBlock(new MoveBlock(this, 1, 3));
+        AppendBlock(new MoveBlock(this, 2, -1));
         AppendBlock(new GoToBlock(this, 0));
     }
 

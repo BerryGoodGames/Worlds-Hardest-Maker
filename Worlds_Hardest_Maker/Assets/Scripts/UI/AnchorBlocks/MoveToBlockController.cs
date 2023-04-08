@@ -11,6 +11,6 @@ public class MoveToBlockController : AnchorBlockController
     {
         if (!float.TryParse(InputX.text, out float x) || !float.TryParse(InputY.text, out float y))
             throw new("Input in a MoveTo Block was not a float");
-        return new MoveToBlock(anchorController, x, y);
+        return new MoveBlock(anchorController, x, y);
     }
 }

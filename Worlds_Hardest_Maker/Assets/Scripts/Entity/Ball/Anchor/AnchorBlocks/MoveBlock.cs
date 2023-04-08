@@ -4,7 +4,7 @@ using System.Globalization;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public class MoveToBlock : AnchorBlock
+public class MoveBlock : AnchorBlock
 {
     public const Type BlockType = Type.MOVE_TO;
     public override Type ImplementedBlockType => BlockType;
@@ -13,12 +13,12 @@ public class MoveToBlock : AnchorBlock
 
     #region Constructors
 
-    public MoveToBlock(AnchorController anchor, Vector2 target) : base(anchor)
+    public MoveBlock(AnchorController anchor, Vector2 target) : base(anchor)
     {
         this.target = target;
     }
 
-    public MoveToBlock(AnchorController anchor, float x, float y) : this(anchor,
+    public MoveBlock(AnchorController anchor, float x, float y) : this(anchor,
         new(x, y))
     {
     }
