@@ -17,7 +17,7 @@ public class AnchorController : Controller
     [FormerlySerializedAs("animator")] public Animator Animator;
 
     [FormerlySerializedAs("balls")] [HideInInspector]
-    public List<GameObject> Balls = new();
+    public List<AnchorBallController> Balls = new();
 
     public LinkedList<AnchorBlock> Blocks = new();
 
@@ -155,6 +155,6 @@ public class AnchorController : Controller
 
     public override Data GetData()
     {
-        throw new NotImplementedException();
+        return new AnchorData(this);
     }
 }

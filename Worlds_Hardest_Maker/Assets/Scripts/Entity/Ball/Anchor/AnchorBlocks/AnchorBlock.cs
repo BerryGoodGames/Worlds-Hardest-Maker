@@ -43,4 +43,6 @@ public abstract class AnchorBlock
         if (insertable == false)
             parent.GetChild(siblingIndex - 1).GetComponent<AnchorConnectorController>().Dummy = true;
     }
+
+    public abstract AnchorBlockData GetData();
 }

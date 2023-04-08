@@ -8,8 +8,8 @@ using UnityEngine.Serialization;
 [Serializable]
 public class KeyData : Data
 {
-    [FormerlySerializedAs("position")] public float[] Position;
-    [FormerlySerializedAs("color")] public KeyManager.KeyColor Color;
+    public float[] Position;
+    public KeyManager.KeyColor Color;
 
     public KeyData(KeyController controller)
     {

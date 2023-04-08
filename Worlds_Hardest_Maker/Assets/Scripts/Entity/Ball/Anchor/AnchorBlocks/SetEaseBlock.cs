@@ -36,4 +36,9 @@ public class SetEaseBlock : AnchorBlock
         // create connector
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
+
+    public override AnchorBlockData GetData()
+    {
+        throw new System.NotImplementedException();
+    }
 }

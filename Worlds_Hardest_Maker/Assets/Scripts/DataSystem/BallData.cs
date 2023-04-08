@@ -8,12 +8,10 @@ using UnityEngine.Serialization;
 [Serializable]
 public class BallData : Data
 {
-    [FormerlySerializedAs("speed")] public float Speed;
+    public float Speed;
 
-    [FormerlySerializedAs("startPosition")]
     public float[] StartPosition;
 
-    [FormerlySerializedAs("bouncePosition")]
     public float[] BouncePosition;
 
     public BallData(BallDefaultController defaultController)

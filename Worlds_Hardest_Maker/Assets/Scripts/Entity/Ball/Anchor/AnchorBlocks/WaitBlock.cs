@@ -50,4 +50,9 @@ public class WaitBlock : AnchorBlock
         // create connector
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
+
+    public override AnchorBlockData GetData()
+    {
+        throw new NotImplementedException();
+    }
 }

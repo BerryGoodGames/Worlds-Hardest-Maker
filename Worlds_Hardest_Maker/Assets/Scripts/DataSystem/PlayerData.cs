@@ -8,10 +8,9 @@ using UnityEngine.Serialization;
 [Serializable]
 public class PlayerData : Data
 {
-    [FormerlySerializedAs("id")] public int ID;
-    [FormerlySerializedAs("speed")] public float Speed;
+    public int ID;
+    public float Speed;
 
-    [FormerlySerializedAs("startPosition")]
     public float[] StartPosition;
 
     public PlayerData(PlayerController controller)
@@ -26,7 +25,7 @@ public class PlayerData : Data
 
     public override void ImportToLevel()
     {
-        ImportToLevel(new(StartPosition[0], StartPosition[1]));
+        ImportToLevel(new Vector2(StartPosition[0], StartPosition[1]));
     }
 
     public override void ImportToLevel(Vector2 pos)

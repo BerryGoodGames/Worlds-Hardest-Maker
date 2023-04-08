@@ -14,8 +14,10 @@ public class AnchorBallManager : MonoBehaviour
 
         Debug.LogWarning("Anchor ball place multiplayer TODO");
 
-        GameObject ball = Instantiate(PrefabManager.Instance.Ball, Vector2.zero, Quaternion.identity,
-            AnchorManager.Instance.SelectedAnchor.BallContainer);
+        AnchorController selectedAnchor = AnchorManager.Instance.SelectedAnchor;
+
+        GameObject ball = Instantiate(PrefabManager.Instance.Ball, Vector2.zero, Quaternion.identity, selectedAnchor.BallContainer);
+        selectedAnchor.Balls.Add(ball.GetComponent<AnchorBallController>());
         ball.transform.GetChild(0).position = pos;
     }
 

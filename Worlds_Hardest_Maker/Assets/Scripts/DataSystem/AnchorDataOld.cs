@@ -9,11 +9,10 @@ using UnityEngine.Serialization;
 [Serializable]
 public class AnchorDataOld : Data
 {
-    [FormerlySerializedAs("position")] public float[] Position = new float[2];
-    [FormerlySerializedAs("waypoints")] public WaypointSerializable[] Waypoints;
-    [FormerlySerializedAs("pathMode")] public PathControllerOld.PathModeType PathMode;
+    public float[] Position = new float[2];
+    public WaypointSerializable[] Waypoints;
+    public PathControllerOld.PathModeType PathMode;
 
-    [FormerlySerializedAs("ballPositions")]
     public float[] BallPositions;
 
     public AnchorDataOld(PathControllerOld pathControllerOld, Transform ballContainer)

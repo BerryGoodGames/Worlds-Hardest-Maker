@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 [Serializable]
 public class CoinData : Data
 {
-    [FormerlySerializedAs("position")] public float[] Position;
+    public float[] Position;
 
     public CoinData(CoinController controller)
     {

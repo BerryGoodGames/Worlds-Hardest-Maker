@@ -8,9 +8,9 @@ using UnityEngine.Serialization;
 [Serializable]
 public class FieldData : Data
 {
-    [FormerlySerializedAs("position")] public int[] Position;
-    [FormerlySerializedAs("fieldType")] public string FieldType;
-    [FormerlySerializedAs("rotation")] public int Rotation;
+    public int[] Position;
+    public string FieldType;
+    public int Rotation;
 
     public FieldData(GameObject field)
     {

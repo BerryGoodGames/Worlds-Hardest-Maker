@@ -8,13 +8,12 @@ using UnityEngine.Serialization;
 [Serializable]
 public class BallCircleData : Data
 {
-    [FormerlySerializedAs("speed")] public float Speed;
-    [FormerlySerializedAs("radius")] public float Radius;
+    public float Speed;
+    public float Radius;
 
-    [FormerlySerializedAs("originPosition")]
     public float[] OriginPosition;
 
-    [FormerlySerializedAs("angle")] public float Angle;
+    public float Angle;
 
     public BallCircleData(BallCircleController controller)
     {

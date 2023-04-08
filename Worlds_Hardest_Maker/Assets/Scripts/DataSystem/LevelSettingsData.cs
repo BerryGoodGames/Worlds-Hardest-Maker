@@ -7,14 +7,12 @@ public class LevelSettingsData : Data
 {
     #region Setting variables
 
-    [FormerlySerializedAs("drownDuration")]
     public float DrownDuration;
 
-    [FormerlySerializedAs("waterDamping")] public float WaterDamping;
-    [FormerlySerializedAs("iceFriction")] public float IceFriction;
-    [FormerlySerializedAs("iceMaxSpeed")] public float IceMaxSpeed;
+    public float WaterDamping;
+    public float IceFriction;
+    public float IceMaxSpeed;
 
-    [FormerlySerializedAs("reusableCheckpoints")]
     public bool ReusableCheckpoints;
 
     #endregion
