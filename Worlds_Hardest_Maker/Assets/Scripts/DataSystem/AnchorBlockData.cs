@@ -9,6 +9,7 @@ public abstract class AnchorBlockData
     public abstract AnchorBlock GetBlock(AnchorController anchor);
 }
 
+[Serializable]
 public class MoveBlockData : AnchorBlockData
 {
     private readonly float[] target;
@@ -24,6 +25,7 @@ public class MoveBlockData : AnchorBlockData
     }
 }
 
+[Serializable]
 public class GoToBlockData : AnchorBlockData
 {
     private readonly int index;
@@ -37,6 +39,7 @@ public class GoToBlockData : AnchorBlockData
     }
 }
 
+[Serializable]
 public class StartRotatingBlockData : AnchorBlockData
 {
     public override AnchorBlock GetBlock(AnchorController anchor)
@@ -45,6 +48,7 @@ public class StartRotatingBlockData : AnchorBlockData
     }
 }
 
+[Serializable]
 public class StopRotatingBlockData : AnchorBlockData
 {
     public override AnchorBlock GetBlock(AnchorController anchor)
@@ -53,6 +57,7 @@ public class StopRotatingBlockData : AnchorBlockData
     }
 }
 
+[Serializable]
 public class RotateBlockData : AnchorBlockData
 {
     private readonly float iterations;
@@ -66,6 +71,7 @@ public class RotateBlockData : AnchorBlockData
     }
 }
 
+[Serializable]
 public class MoveAndRotateBlockData : AnchorBlockData
 {
     private readonly float[] target;
@@ -83,6 +89,7 @@ public class MoveAndRotateBlockData : AnchorBlockData
     }
 }
 
+[Serializable]
 public class SetAngularSpeedBlockData : AnchorBlockData
 {
     private readonly float speed;
@@ -91,6 +98,8 @@ public class SetAngularSpeedBlockData : AnchorBlockData
     {
         this.speed = speed;
         this.type = (int)type;
+
+        Debug.Log((speed, this.type));
     }
     public override AnchorBlock GetBlock(AnchorController anchor)
     {
@@ -98,6 +107,7 @@ public class SetAngularSpeedBlockData : AnchorBlockData
     }
 }
 
+[Serializable]
 public class SetEaseBlockData : AnchorBlockData
 {
     private readonly int ease;
@@ -111,6 +121,7 @@ public class SetEaseBlockData : AnchorBlockData
     }
 }
 
+[Serializable]
 public class SetSpeedBlockData : AnchorBlockData
 {
     private readonly float input;

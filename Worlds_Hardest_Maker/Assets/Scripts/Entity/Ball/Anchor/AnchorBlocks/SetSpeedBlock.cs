@@ -43,6 +43,11 @@ public class SetSpeedBlock : AnchorBlock
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
+    public void Print()
+    {
+        Debug.Log((input, type));
+    }
+
     public override AnchorBlockData GetData()
     {
         return new SetSpeedBlockData(input, type);

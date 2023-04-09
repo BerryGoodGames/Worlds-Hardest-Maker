@@ -124,6 +124,7 @@ public class GameManager : MonoBehaviourPun
     public void LoadLevelFromData(Data[] levelData)
     {
         ClearLevel();
+
         List<FieldData> fieldData = new();
         PlayerData playerData = null;
         LevelSettingsData levelSettingsData = null;

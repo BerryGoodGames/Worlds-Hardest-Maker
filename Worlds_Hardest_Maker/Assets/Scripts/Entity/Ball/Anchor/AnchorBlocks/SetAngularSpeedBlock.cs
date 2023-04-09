@@ -13,22 +13,22 @@ public class SetAngularSpeedBlock : AnchorBlock
     public override Type ImplementedBlockType => BlockType;
 
     private readonly float speed;
-    private readonly Unit type;
+    private readonly Unit unit;
 
-    public SetAngularSpeedBlock(AnchorController anchor, float speed, Unit type) : base(anchor)
+    public SetAngularSpeedBlock(AnchorController anchor, float speed, Unit unit) : base(anchor)
     {
-        this.speed = type switch
+        this.speed = unit switch
         {
             Unit.ITERATIONS => speed * 360,
             _ => speed
         };
 
-        this.type = type;
+        this.unit = unit;
     }
 
     public override void Execute()
     {
-        Anchor.ApplyAngularSpeed = type != Unit.TIME;
+        Anchor.ApplyAngularSpeed = unit != Unit.TIME;
         Anchor.AngularSpeed = speed;
         Anchor.FinishCurrentExecution();
     }
@@ -60,6 +60,6 @@ public class SetAngularSpeedBlock : AnchorBlock
 
     public override AnchorBlockData GetData()
     {
-        return new SetAngularSpeedBlockData(speed, type);
+        return new SetAngularSpeedBlockData(speed, unit);
     }
 }

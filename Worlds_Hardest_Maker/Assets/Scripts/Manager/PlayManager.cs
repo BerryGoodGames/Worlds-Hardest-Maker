@@ -91,6 +91,7 @@ public class PlayManager : MonoBehaviour
             AnchorControllerParent parent = t.GetComponent<AnchorControllerParent>();
             AnchorController anchor = parent.Child;
 
+            ((SetSpeedBlock)anchor.Blocks.First.Value).Print();
             anchor.StartExecuting();
 
             if (AnchorManager.Instance.SelectedAnchor == anchor) continue;

@@ -45,11 +45,16 @@ public static class SaveSystem
         }
 
         // serialize anchors
+        // foreach (Transform anchor in ReferenceManager.Instance.AnchorContainer)
+        // {
+        //     AnchorDataOld anchorDataOld = new(anchor.GetComponentInChildren<PathControllerOld>(),
+        //         anchor.GetComponentInChildren<AnchorControllerOld>().Container.transform);
+        //     levelData.Add(anchorDataOld);
+        // }
         foreach (Transform anchor in ReferenceManager.Instance.AnchorContainer)
         {
-            AnchorDataOld anchorDataOld = new(anchor.GetComponentInChildren<PathControllerOld>(),
-                anchor.GetComponentInChildren<AnchorControllerOld>().Container.transform);
-            levelData.Add(anchorDataOld);
+            AnchorData anchorData = new(anchor.GetComponent<AnchorControllerParent>().Child);
+            levelData.Add(anchorData);
         }
 
         // serialize balls
