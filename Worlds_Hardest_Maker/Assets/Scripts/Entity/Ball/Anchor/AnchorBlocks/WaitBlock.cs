@@ -53,6 +53,6 @@ public class WaitBlock : AnchorBlock
 
     public override AnchorBlockData GetData()
     {
-        throw new NotImplementedException();
+        return new WaitBlockData(waitTime);
     }
 }

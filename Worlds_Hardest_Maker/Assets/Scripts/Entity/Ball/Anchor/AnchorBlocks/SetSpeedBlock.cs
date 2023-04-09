@@ -45,6 +45,6 @@ public class SetSpeedBlock : AnchorBlock
 
     public override AnchorBlockData GetData()
     {
-        throw new System.NotImplementedException();
+        return new SetSpeedBlockData(input, type);
     }
 }

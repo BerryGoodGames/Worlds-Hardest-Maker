@@ -1,5 +1,6 @@
 
 using System;
+using DG.Tweening;
 using UnityEngine;
 
 [Serializable]
@@ -94,5 +95,46 @@ public class SetAngularSpeedBlockData : AnchorBlockData
     public override AnchorBlock GetBlock(AnchorController anchor)
     {
         return new SetAngularSpeedBlock(anchor, speed, (SetAngularSpeedBlock.Unit)type);
+    }
+}
+
+public class SetEaseBlockData : AnchorBlockData
+{
+    private readonly int ease;
+    public SetEaseBlockData(Ease ease)
+    {
+        this.ease = (int)ease;
+    }
+    public override AnchorBlock GetBlock(AnchorController anchor)
+    {
+        return new SetEaseBlock(anchor, (Ease)ease);
+    }
+}
+
+public class SetSpeedBlockData : AnchorBlockData
+{
+    private readonly float input;
+    private readonly int type;
+    public SetSpeedBlockData(float input, SetSpeedBlock.Unit type)
+    {
+        this.input = input;
+        this.type = (int)type;
+    }
+    public override AnchorBlock GetBlock(AnchorController anchor)
+    {
+        return new SetSpeedBlock(anchor, input, (SetSpeedBlock.Unit)type);
+    }
+}
+
+public class WaitBlockData : AnchorBlockData
+{
+    private readonly float waitTime;
+    public WaitBlockData(float waitTime)
+    {
+        this.waitTime = waitTime;
+    }
+    public override AnchorBlock GetBlock(AnchorController anchor)
+    {
+        return new WaitBlock(anchor, waitTime, WaitBlock.Unit.SECONDS);
     }
 }
