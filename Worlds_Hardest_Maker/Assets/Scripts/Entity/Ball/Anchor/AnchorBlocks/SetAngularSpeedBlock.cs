@@ -52,6 +52,7 @@ public class SetAngularSpeedBlock : AnchorBlock
         // set values in object
         SetAngularSpeedBlockController controller = block.GetComponent<SetAngularSpeedBlockController>();
         controller.SpeedInput.text = GetSpeed(Unit.DEGREES).ToString();
+        controller.UnitInput.value = GameManager.GetDropdownValue(SetAngularSpeedBlockController.GetOption(unit), controller.UnitInput);
         controller.Movable = insertable;
 
         // create connector

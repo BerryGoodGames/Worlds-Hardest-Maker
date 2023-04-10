@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -10,28 +11,30 @@ public class WaitBlock : AnchorBlock
         SECONDS, MINUTES, HOURS, DAYS
     }
 
+    private static Dictionary<Unit, float> factors = new()
+    {
+        { Unit.SECONDS, 1 },
+        { Unit.MINUTES, 60 },
+        { Unit.HOURS, 3600 },
+        { Unit.DAYS, 86400 }
+    };
+
     public const Type BlockType = Type.WAIT;
     public override Type ImplementedBlockType => BlockType;
 
-    private readonly float waitTime;
+    private readonly float input;
 
-    public WaitBlock(AnchorController anchor, float waitTime, Unit unit) : base(anchor)
+    private readonly Unit unit;
+
+    public WaitBlock(AnchorController anchor, float input, Unit unit) : base(anchor)
     {
-        float factor = unit switch
-        {
-            Unit.SECONDS => 1,
-            Unit.MINUTES => 60,
-            Unit.HOURS => 3600,
-            Unit.DAYS => 86400,
-            _ => throw new Exception("WaitBlock: Couldn't parse unit")
-        };
-
-        this.waitTime = waitTime * factor;
+        this.input = input;
+        this.unit = unit;
     }
 
     public override void Execute()
     {
-        Anchor.Rb.DOMove(Anchor.Rb.position, waitTime)
+        Anchor.Rb.DOMove(Anchor.Rb.position, input * factors[unit])
             .OnComplete(Anchor.FinishCurrentExecution);
     }
 
@@ -44,7 +47,9 @@ public class WaitBlock : AnchorBlock
 
         // set values in object
         WaitBlockController controller = block.GetComponent<WaitBlockController>();
-        controller.DurationInput.text = waitTime.ToString();
+        controller.DurationInput.text = input.ToString();
+        controller.UnitInput.value =
+            GameManager.GetDropdownValue(WaitBlockController.GetOption(unit), controller.UnitInput);
         controller.Movable = insertable;
 
         // create connector
@@ -53,6 +58,6 @@ public class WaitBlock : AnchorBlock
 
     public override AnchorBlockData GetData()
     {
-        return new WaitBlockData(waitTime);
+        return new WaitBlockData(input, unit);
     }
 }

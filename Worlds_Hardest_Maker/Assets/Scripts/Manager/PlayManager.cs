@@ -50,8 +50,6 @@ public class PlayManager : MonoBehaviour
 
         DisablePreview();
 
-        AnchorManager.Instance.UpdateSelectedAnchor();
-
         StartAnchors();
 
         ActivateCoinKeyAnimations();
@@ -85,6 +83,8 @@ public class PlayManager : MonoBehaviour
     }
     private static void StartAnchors()
     {
+        AnchorManager.Instance.UpdateSelectedAnchor();
+
         // let anchors start executing
         foreach (Transform t in ReferenceManager.Instance.AnchorContainer)
         {

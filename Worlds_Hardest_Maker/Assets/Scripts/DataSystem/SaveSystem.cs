@@ -10,6 +10,8 @@ public static class SaveSystem
 {
     public static void SaveCurrentLevel()
     {
+        AnchorManager.Instance.UpdateSelectedAnchor();
+
         BinaryFormatter formatter = new();
         string path = StandaloneFileBrowser.SaveFilePanel("Save your level (.lvl)", Application.persistentDataPath,
             "MyLevel.lvl", "lvl");

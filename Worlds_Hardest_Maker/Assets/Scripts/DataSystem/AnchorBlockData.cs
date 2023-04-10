@@ -98,8 +98,6 @@ public class SetAngularSpeedBlockData : AnchorBlockData
     {
         this.speed = speed;
         this.type = (int)type;
-
-        Debug.Log((speed, this.type));
     }
     public override AnchorBlock GetBlock(AnchorController anchor)
     {
@@ -137,15 +135,18 @@ public class SetSpeedBlockData : AnchorBlockData
     }
 }
 
+[Serializable]
 public class WaitBlockData : AnchorBlockData
 {
-    private readonly float waitTime;
-    public WaitBlockData(float waitTime)
+    private readonly float input;
+    private readonly int unit;
+    public WaitBlockData(float input, WaitBlock.Unit unit)
     {
-        this.waitTime = waitTime;
+        this.input = input;
+        this.unit = (int)unit;
     }
     public override AnchorBlock GetBlock(AnchorController anchor)
     {
-        return new WaitBlock(anchor, waitTime, WaitBlock.Unit.SECONDS);
+        return new WaitBlock(anchor, input, (WaitBlock.Unit)unit);
     }
 }

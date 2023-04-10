@@ -12,17 +12,17 @@ public class SetSpeedBlock : AnchorBlock
     public override Type ImplementedBlockType => BlockType;
 
     private readonly float input;
-    private readonly Unit type;
+    private readonly Unit unit;
 
-    public SetSpeedBlock(AnchorController anchor, float input, Unit type) : base(anchor)
+    public SetSpeedBlock(AnchorController anchor, float input, Unit unit) : base(anchor)
     {
         this.input = input;
-        this.type = type;
+        this.unit = unit;
     }
 
     public override void Execute()
     {
-        Anchor.ApplySpeed = type != Unit.TIME;
+        Anchor.ApplySpeed = unit != Unit.TIME;
         Anchor.Speed = input;
         Anchor.FinishCurrentExecution();
     }
@@ -37,6 +37,8 @@ public class SetSpeedBlock : AnchorBlock
         // set values in object
         SetSpeedBlockController controller = block.GetComponent<SetSpeedBlockController>();
         controller.SpeedInput.text = input.ToString();
+        controller.UnitInput.value =
+            GameManager.GetDropdownValue(SetSpeedBlockController.GetOption(unit), controller.UnitInput);
         controller.Movable = insertable;
 
         // create connector
@@ -45,11 +47,11 @@ public class SetSpeedBlock : AnchorBlock
 
     public void Print()
     {
-        Debug.Log((input, type));
+        Debug.Log((input, unit));
     }
 
     public override AnchorBlockData GetData()
     {
-        return new SetSpeedBlockData(input, type);
+        return new SetSpeedBlockData(input, unit);
     }
 }

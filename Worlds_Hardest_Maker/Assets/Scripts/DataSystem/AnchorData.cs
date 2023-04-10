@@ -79,9 +79,9 @@ public class AnchorData : Data
     {
         LinkedList<AnchorBlock> blockArr = new();
 
-        foreach (AnchorBlockData block in blocks)
+        foreach (AnchorBlockData blockData in blocks)
         {
-            AnchorBlock anchorBlock = block.GetBlock(anchor);
+            AnchorBlock anchorBlock = blockData.GetBlock(anchor);
             blockArr.AddLast(anchorBlock);
         }
 
