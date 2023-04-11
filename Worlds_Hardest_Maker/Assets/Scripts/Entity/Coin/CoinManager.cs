@@ -56,32 +56,21 @@ public class CoinManager : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.1f, 128);
         foreach (Collider2D hit in hits)
         {
-            if (hit.GetComponent<CoinController>() != null)
-            {
-                return hit.transform.parent.gameObject;
-            }
+            if (hit.GetComponent<CoinController>() != null) return hit.transform.parent.gameObject;
         }
 
         return null;
     }
 
-    public static GameObject GetCoin(Vector2 pos)
-    {
-        return GetCoin(pos.x, pos.y);
-    }
+    public static GameObject GetCoin(Vector2 pos) => GetCoin(pos.x, pos.y);
 
-    public static bool IsCoinThere(float mx, float my)
-    {
-        return GetCoin(mx, my) != null;
-    }
+    public static bool IsCoinThere(float mx, float my) => GetCoin(mx, my) != null;
 
-    public static bool CanPlace(float mx, float my)
-    {
+    public static bool CanPlace(float mx, float my) =>
         // conditions: no coin there, doesn't intersect with any walls etc, no player there
-        return !IsCoinThere(mx, my) &&
-               !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CannotPlaceFields.ToArray()) &&
-               !PlayerManager.IsPlayerThere(mx, my);
-    }
+        !IsCoinThere(mx, my) &&
+        !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CannotPlaceFields.ToArray()) &&
+        !PlayerManager.IsPlayerThere(mx, my);
 
     private void Awake()
     {

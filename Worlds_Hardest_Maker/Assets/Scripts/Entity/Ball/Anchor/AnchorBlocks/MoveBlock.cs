@@ -1,8 +1,5 @@
 using DG.Tweening;
-using System;
-using System.Globalization;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public class MoveBlock : AnchorBlock
 {
@@ -13,10 +10,7 @@ public class MoveBlock : AnchorBlock
 
     #region Constructors
 
-    public MoveBlock(AnchorController anchor, Vector2 target) : base(anchor)
-    {
-        this.target = target;
-    }
+    public MoveBlock(AnchorController anchor, Vector2 target) : base(anchor) => this.target = target;
 
     public MoveBlock(AnchorController anchor, float x, float y) : this(anchor,
         new(x, y))
@@ -64,8 +58,5 @@ public class MoveBlock : AnchorBlock
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
-    public override AnchorBlockData GetData()
-    {
-        return new MoveBlockData(target);
-    }
+    public override AnchorBlockData GetData() => new MoveBlockData(target);
 }

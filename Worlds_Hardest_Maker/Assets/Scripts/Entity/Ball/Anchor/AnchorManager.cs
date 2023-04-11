@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using DG.Tweening;
 using Photon.Pun;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class AnchorManager : MonoBehaviour
 {
@@ -12,8 +9,7 @@ public class AnchorManager : MonoBehaviour
     private static readonly int selected = Animator.StringToHash("Selected");
     private static readonly int playing = Animator.StringToHash("Playing");
 
-    [SerializeField]
-    private AnchorController selectedAnchor;
+    [SerializeField] private AnchorController selectedAnchor;
 
     public AnchorController SelectedAnchor
     {
@@ -22,20 +18,14 @@ public class AnchorManager : MonoBehaviour
         {
             UpdateSelectedAnchor();
             selectedAnchor = value;
-            if (value != null)
-            {
-                AnchorBlockManager.LoadAnchorBlocks(value);
-            }
+            if (value != null) AnchorBlockManager.LoadAnchorBlocks(value);
         }
     }
 
     #region set, get, remove
-    
-    public AnchorController SetAnchor(float mx, float my)
-    {
-        return SetAnchor(new(mx, my));
-    }
-    
+
+    public AnchorController SetAnchor(float mx, float my) => SetAnchor(new(mx, my));
+
     public AnchorController SetAnchor(Vector2 pos)
     {
         if (GetAnchor(pos) != null) return null;
@@ -54,13 +44,13 @@ public class AnchorManager : MonoBehaviour
 
         return child;
     }
-    
+
     [PunRPC]
     public void RemoveAnchor(float mx, float my)
     {
         RemoveAnchor(new(mx, my));
     }
-    
+
     public static void RemoveAnchor(Vector2 pos)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.01f, 128);
@@ -73,26 +63,20 @@ public class AnchorManager : MonoBehaviour
             break;
         }
     }
-    
+
     public static AnchorController GetAnchor(Vector2 pos)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.01f);
 
         foreach (Collider2D hit in hits)
         {
-            if (hit.transform.parent.CompareTag("Anchor"))
-            {
-                return hit.gameObject.GetComponent<AnchorController>();
-            }
+            if (hit.transform.parent.CompareTag("Anchor")) return hit.gameObject.GetComponent<AnchorController>();
         }
 
         return null;
     }
 
-    public static AnchorController GetAnchor(float mx, float my)
-    {
-        return GetAnchor(new(mx, my));
-    }
+    public static AnchorController GetAnchor(float mx, float my) => GetAnchor(new(mx, my));
 
     #endregion
 
@@ -108,10 +92,7 @@ public class AnchorManager : MonoBehaviour
 
     public void SelectAnchor(AnchorController anchor)
     {
-        if (SelectedAnchor != null)
-        {
-            SelectedAnchor.Animator.SetBool(selected, false);
-        }
+        if (SelectedAnchor != null) SelectedAnchor.Animator.SetBool(selected, false);
 
         if (SelectedAnchor == anchor)
         {
@@ -157,7 +138,7 @@ public class AnchorManager : MonoBehaviour
     public void UpdateSelectedAnchor()
     {
         if (selectedAnchor == null) return;
-        
+
         selectedAnchor.Blocks = new(ReferenceManager.Instance.MainStringController.GetAnchorBlocks(selectedAnchor));
     }
 }

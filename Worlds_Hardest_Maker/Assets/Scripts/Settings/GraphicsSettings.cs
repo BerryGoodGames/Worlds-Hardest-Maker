@@ -70,9 +70,7 @@ public class GraphicsSettings : MonoBehaviour
     public void SetOneColorStartGoal(bool oneColor, bool setPrefs)
     {
         foreach (Transform field in ReferenceManager.Instance.FieldContainer)
-        {
             FieldManager.ApplyStartGoalCheckpointFieldColor(field.gameObject, oneColor);
-        }
 
         Instance.OneColorStartGoalCheckpoint = oneColor;
 
@@ -101,9 +99,7 @@ public class GraphicsSettings : MonoBehaviour
 
             if (resolutions[i].width == Screen.currentResolution.width &&
                 resolutions[i].height == Screen.currentResolution.height)
-            {
                 currentResIndex = i;
-            }
         }
 
         ResolutionDropdown.AddOptions(options);

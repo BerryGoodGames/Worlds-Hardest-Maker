@@ -32,10 +32,7 @@ public class AudioManager : MonoBehaviour
             s.Source.loop = s.Loop;
             s.Source.volume = s.Volume;
             s.Source.pitch = s.Pitch;
-            if (s.PlayOnAwake)
-            {
-                s.Source.Play();
-            }
+            if (s.PlayOnAwake) s.Source.Play();
         }
     }
 
@@ -54,12 +51,8 @@ public class AudioManager : MonoBehaviour
     public void MusicFiltered(bool filtered)
     {
         if (filtered)
-        {
             FilteredState.TransitionTo(TransitionTime);
-        }
         else
-        {
             DefaultState.TransitionTo(TransitionTime);
-        }
     }
 }

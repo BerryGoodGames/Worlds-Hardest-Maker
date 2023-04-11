@@ -35,10 +35,7 @@ public class KeyController : Controller
         if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) return;
 
         // check if that player hasn't collected key yet
-        if (!controller.KeysCollected.Contains(gameObject))
-        {
-            PickUp(collision.gameObject);
-        }
+        if (!controller.KeysCollected.Contains(gameObject)) PickUp(collision.gameObject);
     }
 
     private void SetOrderInLayer()
@@ -92,8 +89,5 @@ public class KeyController : Controller
         }
     }
 
-    public override Data GetData()
-    {
-        return new KeyData(this);
-    }
+    public override Data GetData() => new KeyData(this);
 }

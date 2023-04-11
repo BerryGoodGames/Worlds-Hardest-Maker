@@ -31,7 +31,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public TMP_Text RoomNameTitle;
 
     [FormerlySerializedAs("yourName")] public TMP_Text YourName;
-    [SerializeField] private string privateRoomStart = "!";
+    [SerializeField] private readonly string privateRoomStart = "!";
     [SerializeField] private Slider loadingSlider;
 
     [Space]
@@ -77,15 +77,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         // check if room already exists
         if (CheckRooms(RoomNameInput.text))
-        {
             // join room with name
             PhotonNetwork.JoinRoom(RoomNameInput.text);
-        }
         else
-        {
             // create new room with name
             PhotonNetwork.CreateRoom(RoomNameInput.text);
-        }
     }
 
     /// <summary>
@@ -132,7 +128,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 controller = newRoom.GetComponent<RoomItem>();
             }
             // create controller
-            else controller = new();
+            else
+            {
+                controller = new();
+            }
 
             // set name and add to list
             controller.SetRoomName(room.Name);
@@ -170,10 +169,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         // update player list
         // -> clear player item list
-        foreach (PlayerItem item in playerItemsList)
-        {
-            Destroy(item.gameObject);
-        }
+        foreach (PlayerItem item in playerItemsList) Destroy(item.gameObject);
 
         playerItemsList.Clear();
 
@@ -207,19 +203,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         // only show play button to host
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount >= 1)
-        {
             PlayButton.SetActive(true);
-        }
         else
-        {
             PlayButton.SetActive(false);
-        }
 
         // check enter key
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            OnClickCreate();
-        }
+        if (Input.GetKeyDown(KeyCode.Return)) OnClickCreate();
     }
 
     public void OnClickPlayButton()

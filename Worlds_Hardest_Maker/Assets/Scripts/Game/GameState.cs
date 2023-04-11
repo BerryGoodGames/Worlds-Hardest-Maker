@@ -17,10 +17,8 @@ public class GameState
         CollectedKeys = collectedKeys;
     }
 
-    public bool Equals(GameState other)
-    {
-        return PlayerStartPos == other.PlayerStartPos &&
-               CollectedCoins.Equals(other.CollectedCoins) &&
-               CollectedKeys.Equals(other.CollectedKeys);
-    }
+    public bool Equals(GameState other) =>
+        PlayerStartPos == other.PlayerStartPos &&
+        CollectedCoins.Equals(other.CollectedCoins) &&
+        CollectedKeys.Equals(other.CollectedKeys);
 }

@@ -10,9 +10,7 @@ public class StringController : MonoBehaviour
         List<AnchorBlock> anchorBlocks = new();
 
         foreach (AnchorBlockController controller in GetComponentsInChildren<AnchorBlockController>())
-        {
             anchorBlocks.Add(controller.GetAnchorBlock(anchorController));
-        }
 
         return anchorBlocks;
     }

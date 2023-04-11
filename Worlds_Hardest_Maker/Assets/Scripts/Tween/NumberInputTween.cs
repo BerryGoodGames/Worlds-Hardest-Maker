@@ -11,7 +11,7 @@ public class NumberInputTween : MonoBehaviour
     [SerializeField] private float hover;
     private float leftArrowX;
     private float rightArrowX;
-    private Vector2 unhoveredScl = Vector2.one;
+    private readonly Vector2 unhoveredScl = Vector2.one;
     private Vector2 hoveredScl;
 
     private const Ease wiggleStartEase = Ease.OutCubic;

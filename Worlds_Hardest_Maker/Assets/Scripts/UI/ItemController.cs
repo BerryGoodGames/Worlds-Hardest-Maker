@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class ItemController : MonoBehaviour
 {
     [SerializeField] private TMP_Text label;
-    [SerializeField] private Color deselectedColor = Color.black;
-    [SerializeField] private Color selectedColor = Color.white;
+    [SerializeField] private readonly Color deselectedColor = Color.black;
+    [SerializeField] private readonly Color selectedColor = Color.white;
     private Toggle toggle;
     private bool prevIsOn;
 

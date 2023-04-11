@@ -18,9 +18,7 @@ public class BallDefaultController : BallController
     private void Start()
     {
         if (transform.parent.parent != ReferenceManager.Instance.BallDefaultContainer)
-        {
             transform.parent.SetParent(ReferenceManager.Instance.BallDefaultContainer);
-        }
 
         InitLine();
     }
@@ -36,13 +34,9 @@ public class BallDefaultController : BallController
         Line.gameObject.SetActive(!EditModeManager.Instance.Playing);
 
         if (EditModeManager.Instance.Playing)
-        {
             Move();
-        }
         else
-        {
             UpdateLine();
-        }
     }
 
     private void InitLine()
@@ -63,13 +57,8 @@ public class BallDefaultController : BallController
         if ((Vector2)transform.position == CurrentTarget)
         {
             if (CurrentTarget == (Vector2)Bounce.position)
-            {
                 CurrentTarget = StartPosition;
-            }
-            else if (CurrentTarget == (Vector2)transform.position)
-            {
-                CurrentTarget = Bounce.position;
-            }
+            else if (CurrentTarget == (Vector2)transform.position) CurrentTarget = Bounce.position;
         }
 
         // move towards the target
@@ -118,17 +107,10 @@ public class BallDefaultController : BallController
 
         // call correct method to set position, either set object or set bounce
         if (movedObject.Equals(gameObject))
-        {
             SetObjectPos(unitPos);
-        }
         else
-        {
             SetBouncePos(unitPos);
-        }
     }
 
-    public override Data GetData()
-    {
-        return new BallData(this);
-    }
+    public override Data GetData() => new BallData(this);
 }

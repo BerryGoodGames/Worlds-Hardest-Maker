@@ -31,10 +31,7 @@ public class AnchorManagerOld : MonoBehaviour
     /// </summary>
     /// <param name="mx">x position of anchor</param>
     /// <param name="my">y position of anchor</param>
-    public GameObject SetAnchor(float mx, float my)
-    {
-        return SetAnchor(new(mx, my));
-    }
+    public GameObject SetAnchor(float mx, float my) => SetAnchor(new(mx, my));
 
     /// <summary>
     ///     places anchor at position
@@ -88,19 +85,13 @@ public class AnchorManagerOld : MonoBehaviour
 
         foreach (Collider2D hit in hits)
         {
-            if (hit.transform.parent.CompareTag("Anchor"))
-            {
-                return hit.gameObject;
-            }
+            if (hit.transform.parent.CompareTag("Anchor")) return hit.gameObject;
         }
 
         return null;
     }
 
-    public static GameObject GetAnchor(float mx, float my)
-    {
-        return GetAnchor(new(mx, my));
-    }
+    public static GameObject GetAnchor(float mx, float my) => GetAnchor(new(mx, my));
 
     public static void SelectAnchor(Vector2 pos)
     {

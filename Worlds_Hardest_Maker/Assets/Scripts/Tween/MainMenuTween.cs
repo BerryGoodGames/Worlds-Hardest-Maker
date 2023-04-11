@@ -6,16 +6,16 @@ public class MainMenuTween : MonoBehaviour
 {
     [SerializeField] private Image cursor;
     [SerializeField] private Image player;
-    [Space] [SerializeField] private float playerStartX = 530;
-    [SerializeField] private float playerEndX = 238;
+    [Space] [SerializeField] private readonly float playerStartX = 530;
+    [SerializeField] private readonly float playerEndX = 238;
     [SerializeField] private float cursorStartAngle;
-    [SerializeField] private float cursorEndAngle = 12;
-    [SerializeField] private Vector2 cursorStartPos = new(-172, 320);
-    [SerializeField] private Vector2 cursorEndPos = new(275, -62);
+    [SerializeField] private readonly float cursorEndAngle = 12;
+    [SerializeField] private readonly Vector2 cursorStartPos = new(-172, 320);
+    [SerializeField] private readonly Vector2 cursorEndPos = new(275, -62);
     [Space] [SerializeField] private float delay;
     [SerializeField] private float cursorDelay;
-    [SerializeField] private float playerDuration = 1;
-    [SerializeField] private float cursorDuration = 1;
+    [SerializeField] private readonly float playerDuration = 1;
+    [SerializeField] private readonly float cursorDuration = 1;
 
     private void Start()
     {

@@ -1,17 +1,18 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public class WaitBlock : AnchorBlock
 {
     public enum Unit
     {
-        SECONDS, MINUTES, HOURS, DAYS
+        SECONDS,
+        MINUTES,
+        HOURS,
+        DAYS
     }
 
-    private static Dictionary<Unit, float> factors = new()
+    private static readonly Dictionary<Unit, float> factors = new()
     {
         { Unit.SECONDS, 1 },
         { Unit.MINUTES, 60 },
@@ -56,8 +57,5 @@ public class WaitBlock : AnchorBlock
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
-    public override AnchorBlockData GetData()
-    {
-        return new WaitBlockData(input, unit);
-    }
+    public override AnchorBlockData GetData() => new WaitBlockData(input, unit);
 }

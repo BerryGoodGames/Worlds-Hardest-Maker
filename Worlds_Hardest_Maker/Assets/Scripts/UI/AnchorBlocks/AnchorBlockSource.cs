@@ -1,15 +1,16 @@
-using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private GameObject anchorBlockPrefab;
-    [SerializeField] private bool active = true;
+    [SerializeField] private readonly bool active = true;
 
     public void CreateNew()
     {
-        GameObject anchorBlock = Instantiate(anchorBlockPrefab, transform.position + new Vector3(0, anchorBlockPrefab.GetComponent<RectTransform>().sizeDelta.y / 2), Quaternion.identity,
+        GameObject anchorBlock = Instantiate(anchorBlockPrefab,
+            transform.position + new Vector3(0, anchorBlockPrefab.GetComponent<RectTransform>().sizeDelta.y / 2),
+            Quaternion.identity,
             ReferenceManager.Instance.AnchorBlockStringContainer);
         anchorBlock.GetComponent<BlockDragDrop>().BeginDrag();
     }

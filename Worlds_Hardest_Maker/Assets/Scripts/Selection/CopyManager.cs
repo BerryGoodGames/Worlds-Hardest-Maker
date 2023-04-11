@@ -6,7 +6,7 @@ public class CopyManager : MonoBehaviour
 {
     public static CopyManager Instance { get; set; }
 
-    private static List<CopyData> clipBoard = new();
+    private static readonly List<CopyData> clipBoard = new();
 
     private static Vector2 size = Vector2.zero;
 
@@ -166,10 +166,7 @@ public class CopyManager : MonoBehaviour
     public static void LoadClipboard(Vector2 pos)
     {
         // just load clipboard to pos
-        foreach (CopyData copyData in clipBoard)
-        {
-            copyData.Paste(pos);
-        }
+        foreach (CopyData copyData in clipBoard) copyData.Paste(pos);
     }
 
     private static void CreatePreview()
@@ -201,10 +198,7 @@ public class CopyManager : MonoBehaviour
 
     private static void ClearPreview()
     {
-        foreach (Transform child in Instance.previewContainer)
-        {
-            Destroy(child.gameObject);
-        }
+        foreach (Transform child in Instance.previewContainer) Destroy(child.gameObject);
     }
 
     private void Awake()

@@ -9,9 +9,6 @@ public class CloseOnDClickOld : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.clickCount % 2 == 0)
-        {
-            windowAnimator.SetBool(closed, !windowAnimator.GetBool(closed));
-        }
+        if (eventData.clickCount % 2 == 0) windowAnimator.SetBool(closed, !windowAnimator.GetBool(closed));
     }
 }

@@ -9,20 +9,20 @@ using UnityEditor.Events;
 public class SyncInputToSlider : MonoBehaviour
 {
     [SerializeField] private Slider slider;
-    [SerializeField] private float decimals = 2;
+    [SerializeField] private readonly float decimals = 2;
     private TMP_InputField input;
 
     private void Start()
     {
         UpdateInput();
     }
-    
+
     public void UpdateSlider()
     {
         // try to read input text and set slider value
         if (float.TryParse(input.text, out float value)) slider.value = Rounded(value);
     }
-    
+
     public void UpdateInput()
     {
         if (input == null) input = GetComponent<TMP_InputField>();
@@ -48,8 +48,5 @@ public class SyncInputToSlider : MonoBehaviour
 #endif
     }
 
-    private float Rounded(float value)
-    {
-        return Mathf.Round(value * Mathf.Pow(10, decimals)) * Mathf.Pow(10, -decimals);
-    }
+    private float Rounded(float value) => Mathf.Round(value * Mathf.Pow(10, decimals)) * Mathf.Pow(10, -decimals);
 }

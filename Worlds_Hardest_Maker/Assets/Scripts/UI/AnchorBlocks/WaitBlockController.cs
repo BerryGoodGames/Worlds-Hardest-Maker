@@ -1,15 +1,11 @@
-using DG.Tweening;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using TMPro;
-using UnityEngine;
 using UnityEngine.Serialization;
 
 public class WaitBlockController : AnchorBlockController
 {
-    private static Dictionary<string, WaitBlock.Unit> unitOptions = new()
+    private static readonly Dictionary<string, WaitBlock.Unit> unitOptions = new()
     {
         { "s", WaitBlock.Unit.SECONDS },
         { "min", WaitBlock.Unit.MINUTES },

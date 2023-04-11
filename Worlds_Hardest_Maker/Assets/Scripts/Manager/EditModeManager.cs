@@ -63,10 +63,8 @@ public class EditModeManager : MonoBehaviour
         {
             Tool t = tool.GetComponent<Tool>();
             if (t.ToolName == value)
-            {
                 // avoid recursion
                 t.SwitchGameMode(false);
-            }
         }
 
         // enable/disable outlines and window when switching to/away from anchors/balls

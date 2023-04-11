@@ -22,10 +22,10 @@ public class DropdownMenuOption : SettingOption
         set => originalWidth = value;
     }
 
-    [SerializeField] private float originalLineSize = 4;
-    [SerializeField] private float originalBaseLineSize = 10;
-    [SerializeField] private float originalArrowScl = 0.3f;
-    [SerializeField] private float originalArrowDist = -15;
+    [SerializeField] private readonly float originalLineSize = 4;
+    [SerializeField] private readonly float originalBaseLineSize = 10;
+    [SerializeField] private readonly float originalArrowScl = 0.3f;
+    [SerializeField] private readonly float originalArrowDist = -15;
 
     public override void Response()
     {

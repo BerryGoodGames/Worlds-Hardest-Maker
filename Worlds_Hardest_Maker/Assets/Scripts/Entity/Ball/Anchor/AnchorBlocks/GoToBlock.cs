@@ -8,10 +8,7 @@ public class GoToBlock : AnchorBlock
 
     private readonly int index;
 
-    public GoToBlock(AnchorController anchor, int index) : base(anchor)
-    {
-        this.index = index;
-    }
+    public GoToBlock(AnchorController anchor, int index) : base(anchor) => this.index = index;
 
     public override void Execute()
     {
@@ -35,8 +32,5 @@ public class GoToBlock : AnchorBlock
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
-    public override AnchorBlockData GetData()
-    {
-        return new GoToBlockData(index);
-    }
+    public override AnchorBlockData GetData() => new GoToBlockData(index);
 }
