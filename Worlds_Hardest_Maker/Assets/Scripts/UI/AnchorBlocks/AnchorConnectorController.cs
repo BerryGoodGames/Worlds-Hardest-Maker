@@ -34,8 +34,9 @@ public class AnchorConnectorController : MonoBehaviour
         // generate new connector if needed
         if (parent.parent.childCount - 1 != parent.childCount) return;
 
-        Instantiate(PrefabManager.Instance.AnchorConnector, parent);
+        //Instantiate(PrefabManager.Instance.AnchorConnector, parent);
         if (!AnchorBlockManager.DraggedBlock.Movable) Dummy = true;
+        AnchorBlock.CreateAnchorConnector(parent, ((RectTransform)draggedBlock).sizeDelta);
     }
 
     private static IEnumerator ExecuteOnSnap(BlockDragDrop blockDragDrop)

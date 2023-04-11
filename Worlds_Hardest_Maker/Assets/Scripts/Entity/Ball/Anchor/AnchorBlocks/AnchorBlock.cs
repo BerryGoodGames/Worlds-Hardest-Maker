@@ -1,4 +1,7 @@
+using System.Windows.Forms;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public abstract class AnchorBlock
 {
@@ -22,6 +25,7 @@ public abstract class AnchorBlock
 
     // ReSharper disable once UnusedMember.Global
     public abstract Type ImplementedBlockType { get; }
+    protected abstract GameObject Prefab { get; }
 
     public abstract void Execute();
 
@@ -30,13 +34,43 @@ public abstract class AnchorBlock
         CreateAnchorBlockObject(ReferenceManager.Instance.MainStringController.transform, insertable);
     }
 
-    public abstract void CreateAnchorBlockObject(Transform parent, bool insertable = true);
-
-    public void CreateAnchorConnector(Transform parent, int siblingIndex, bool insertable = true)
+    public void CreateAnchorBlockObject(Transform parent, bool insertable = true)
     {
-        Object.Instantiate(PrefabManager.Instance.AnchorConnector, parent);
+        Transform connectorContainer = parent.GetChild(0);
+
+        // create object
+        GameObject block = Object.Instantiate(Prefab, parent);
+
+        // set values in object
+        AnchorBlockController controller = block.GetComponent<AnchorBlockController>();
+        SetControllerValues(controller);
+        controller.Movable = insertable;
+
+        // create connector
+        RectTransform rt = ((RectTransform)block.transform);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(rt);
+
+        CreateAnchorConnector(connectorContainer, rt.sizeDelta, insertable, block.transform.GetSiblingIndex());
+    }
+
+    protected abstract void SetControllerValues(AnchorBlockController c);
+
+    public static void CreateAnchorConnector(Transform parent, Vector2 size, bool insertable = true,
+        int? siblingIndex = null)
+    {
+        GameObject connector = Object.Instantiate(PrefabManager.Instance.AnchorConnector, parent);
+        RectTransform rt = (RectTransform)connector.transform;
+        rt.sizeDelta = new(size.x, rt.sizeDelta.y);
+        if (siblingIndex == null) siblingIndex = parent.childCount - 1;
+        Transform last = parent.GetChild((int)siblingIndex - 1);
+        RectTransform lastRt = (RectTransform)connector.transform;
+        lastRt.sizeDelta = new(lastRt.sizeDelta.x, size.y);
+
         if (insertable == false)
-            parent.GetChild(siblingIndex - 1).GetComponent<AnchorConnectorController>().Dummy = true;
+        {
+            last.GetComponent<AnchorConnectorController>().Dummy = true;
+        }
+            
     }
 
     public abstract AnchorBlockData GetData();

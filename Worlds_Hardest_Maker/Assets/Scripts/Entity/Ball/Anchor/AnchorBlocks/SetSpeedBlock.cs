@@ -10,6 +10,7 @@ public class SetSpeedBlock : AnchorBlock
 
     public const Type BlockType = Type.SET_SPEED;
     public override Type ImplementedBlockType => BlockType;
+    protected override GameObject Prefab => PrefabManager.Instance.SetSpeedBlockPrefab;
 
     private readonly float input;
     private readonly Unit unit;
@@ -27,22 +28,13 @@ public class SetSpeedBlock : AnchorBlock
         Anchor.FinishCurrentExecution();
     }
 
-    public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
+    protected override void SetControllerValues(AnchorBlockController c)
     {
-        Transform connectorContainer = parent.GetChild(0);
+        SetSpeedBlockController controller = (SetSpeedBlockController)c;
 
-        // create object
-        GameObject block = Object.Instantiate(PrefabManager.Instance.SetSpeedBlockPrefab, parent);
-
-        // set values in object
-        SetSpeedBlockController controller = block.GetComponent<SetSpeedBlockController>();
         controller.SpeedInput.text = input.ToString();
         controller.UnitInput.value =
-            GameManager.GetDropdownValue(SetSpeedBlockController.GetOption(unit), controller.UnitInput);
-        controller.Movable = insertable;
-
-        // create connector
-        CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
+        GameManager.GetDropdownValue(SetSpeedBlockController.GetOption(unit), controller.UnitInput);
     }
 
     public void Print()

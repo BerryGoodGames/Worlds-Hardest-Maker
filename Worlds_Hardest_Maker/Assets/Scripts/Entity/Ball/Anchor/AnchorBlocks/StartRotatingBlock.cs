@@ -1,3 +1,4 @@
+using System.Windows.Forms;
 using DG.Tweening;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class StartRotatingBlock : AnchorBlock
 
     public const Type BlockType = Type.START_ROTATING;
     public override Type ImplementedBlockType => BlockType;
-
+    protected override GameObject Prefab => PrefabManager.Instance.StartRotatingBlockPrefab;
     public override void Execute()
     {
         float duration;
@@ -36,20 +37,7 @@ public class StartRotatingBlock : AnchorBlock
         Anchor.FinishCurrentExecution();
     }
 
-    public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
-    {
-        Transform connectorContainer = parent.GetChild(0);
-
-        // create object
-        GameObject block = Object.Instantiate(PrefabManager.Instance.StartRotatingBlockPrefab, parent);
-
-        // set values in object
-        StartRotatingBlockController controller = block.GetComponent<StartRotatingBlockController>();
-        controller.Movable = insertable;
-
-        // create connector
-        CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
-    }
+    protected override void SetControllerValues(AnchorBlockController c) {}
 
     public override AnchorBlockData GetData() => new StartRotatingBlockData();
 }

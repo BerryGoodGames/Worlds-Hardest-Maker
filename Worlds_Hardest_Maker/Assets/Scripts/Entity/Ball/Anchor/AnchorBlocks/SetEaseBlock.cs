@@ -5,6 +5,7 @@ public class SetEaseBlock : AnchorBlock
 {
     public const Type BlockType = Type.EASE;
     public override Type ImplementedBlockType => BlockType;
+    protected override GameObject Prefab => PrefabManager.Instance.SetEaseBlockPrefab;
 
     private readonly Ease ease;
 
@@ -16,20 +17,10 @@ public class SetEaseBlock : AnchorBlock
         Anchor.FinishCurrentExecution();
     }
 
-    public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
+    protected override void SetControllerValues(AnchorBlockController c)
     {
-        Transform connectorContainer = parent.GetChild(0);
-
-        // create object
-        GameObject block = Object.Instantiate(PrefabManager.Instance.SetEaseBlockPrefab, parent);
-
-        // set values in object
-        SetEaseBlockController controller = block.GetComponent<SetEaseBlockController>();
+        SetEaseBlockController controller = (SetEaseBlockController)c;
         controller.Input.value = GameManager.GetDropdownValue(SetEaseBlockController.GetOption(ease), controller.Input);
-        controller.Movable = insertable;
-
-        // create connector
-        CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
     public override AnchorBlockData GetData() => new SetEaseBlockData(ease);

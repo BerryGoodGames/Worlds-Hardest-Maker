@@ -22,6 +22,7 @@ public class WaitBlock : AnchorBlock
 
     public const Type BlockType = Type.WAIT;
     public override Type ImplementedBlockType => BlockType;
+    protected override GameObject Prefab => PrefabManager.Instance.WaitBlockPrefab;
 
     private readonly float input;
 
@@ -39,22 +40,12 @@ public class WaitBlock : AnchorBlock
             .OnComplete(Anchor.FinishCurrentExecution);
     }
 
-    public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
+    protected override void SetControllerValues(AnchorBlockController c)
     {
-        Transform connectorContainer = parent.GetChild(0);
-
-        // create object
-        GameObject block = Object.Instantiate(PrefabManager.Instance.WaitBlockPrefab, parent);
-
-        // set values in object
-        WaitBlockController controller = block.GetComponent<WaitBlockController>();
+        WaitBlockController controller = (WaitBlockController)c;
         controller.DurationInput.text = input.ToString();
         controller.UnitInput.value =
             GameManager.GetDropdownValue(WaitBlockController.GetOption(unit), controller.UnitInput);
-        controller.Movable = insertable;
-
-        // create connector
-        CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
     public override AnchorBlockData GetData() => new WaitBlockData(input, unit);

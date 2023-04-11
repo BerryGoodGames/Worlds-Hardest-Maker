@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SetAngularSpeedBlock : AnchorBlock
 {
@@ -11,6 +12,7 @@ public class SetAngularSpeedBlock : AnchorBlock
 
     public const Type BlockType = Type.SET_ANGULAR_SPEED;
     public override Type ImplementedBlockType => BlockType;
+    protected override GameObject Prefab => PrefabManager.Instance.SetAngularSpeedBlockPrefab;
 
     private readonly float speed;
     private readonly Unit unit;
@@ -42,22 +44,12 @@ public class SetAngularSpeedBlock : AnchorBlock
         };
     }
 
-    public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
+    protected override void SetControllerValues(AnchorBlockController c)
     {
-        Transform connectorContainer = parent.GetChild(0);
-
-        // create object
-        GameObject block = Object.Instantiate(PrefabManager.Instance.SetAngularSpeedBlockPrefab, parent);
-
-        // set values in object
-        SetAngularSpeedBlockController controller = block.GetComponent<SetAngularSpeedBlockController>();
+        SetAngularSpeedBlockController controller = (SetAngularSpeedBlockController)c;
         controller.SpeedInput.text = GetSpeed(Unit.DEGREES).ToString();
         controller.UnitInput.value =
             GameManager.GetDropdownValue(SetAngularSpeedBlockController.GetOption(unit), controller.UnitInput);
-        controller.Movable = insertable;
-
-        // create connector
-        CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
     public override AnchorBlockData GetData() => new SetAngularSpeedBlockData(speed, unit);

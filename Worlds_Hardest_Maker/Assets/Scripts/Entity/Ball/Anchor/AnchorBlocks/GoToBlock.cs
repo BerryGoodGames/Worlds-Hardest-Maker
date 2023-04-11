@@ -5,6 +5,7 @@ public class GoToBlock : AnchorBlock
 {
     public const Type BlockType = Type.GO_TO;
     public override Type ImplementedBlockType => BlockType;
+    protected override GameObject Prefab => PrefabManager.Instance.GoToBlockPrefab;
 
     private readonly int index;
 
@@ -16,20 +17,10 @@ public class GoToBlock : AnchorBlock
         Anchor.CurrentExecutingBlock.Execute();
     }
 
-    public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
+    protected override void SetControllerValues(AnchorBlockController c)
     {
-        Transform connectorContainer = parent.GetChild(0);
-
-        // create object
-        GameObject block = Object.Instantiate(PrefabManager.Instance.GoToBlockPrefab, parent);
-
-        // set values in object
-        GoToBlockController controller = block.GetComponent<GoToBlockController>();
+        GoToBlockController controller = (GoToBlockController)c;
         controller.Input.text = index.ToString();
-        controller.Movable = insertable;
-
-        // create connector
-        CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
     public override AnchorBlockData GetData() => new GoToBlockData(index);

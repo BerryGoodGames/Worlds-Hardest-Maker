@@ -9,6 +9,7 @@ public class StopRotatingBlock : AnchorBlock
 
     public const Type BlockType = Type.STOP_ROTATING;
     public override Type ImplementedBlockType => BlockType;
+    protected override GameObject Prefab => PrefabManager.Instance.StopRotatingBlockPrefab;
 
     public override void Execute()
     {
@@ -16,20 +17,7 @@ public class StopRotatingBlock : AnchorBlock
         Anchor.FinishCurrentExecution();
     }
 
-    public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
-    {
-        Transform connectorContainer = parent.GetChild(0);
-
-        // create object
-        GameObject block = Object.Instantiate(PrefabManager.Instance.StopRotatingBlockPrefab, parent);
-
-        // set values in object
-        StopRotatingBlockController controller = block.GetComponent<StopRotatingBlockController>();
-        controller.Movable = insertable;
-
-        // create connector
-        CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
-    }
+    protected override void SetControllerValues(AnchorBlockController c) {}
 
     public override AnchorBlockData GetData() => new StopRotatingBlockData();
 }

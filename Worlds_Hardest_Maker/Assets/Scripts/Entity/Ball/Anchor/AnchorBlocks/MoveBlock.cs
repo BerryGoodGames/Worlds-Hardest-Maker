@@ -5,6 +5,7 @@ public class MoveBlock : AnchorBlock
 {
     public const Type BlockType = Type.MOVE_TO;
     public override Type ImplementedBlockType => BlockType;
+    protected override GameObject Prefab => PrefabManager.Instance.MoveToBlockPrefab;
 
     private readonly Vector2 target;
 
@@ -41,21 +42,11 @@ public class MoveBlock : AnchorBlock
             .OnComplete(Anchor.FinishCurrentExecution);
     }
 
-    public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
+    protected override void SetControllerValues(AnchorBlockController c)
     {
-        Transform connectorContainer = parent.GetChild(0);
-
-        // create object
-        GameObject block = Object.Instantiate(PrefabManager.Instance.MoveToBlockPrefab, parent);
-
-        // set values in object
-        MoveToBlockController controller = block.GetComponent<MoveToBlockController>();
+        MoveToBlockController controller = (MoveToBlockController)c;
         controller.InputX.text = target.x.ToString();
         controller.InputY.text = target.y.ToString();
-        controller.Movable = insertable;
-
-        // create connector
-        CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
     public override AnchorBlockData GetData() => new MoveBlockData(target);

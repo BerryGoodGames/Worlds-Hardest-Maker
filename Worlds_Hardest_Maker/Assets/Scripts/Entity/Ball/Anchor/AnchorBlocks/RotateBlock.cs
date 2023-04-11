@@ -5,6 +5,7 @@ public class RotateBlock : AnchorBlock
 {
     public const Type BlockType = Type.ROTATE;
     public override Type ImplementedBlockType => BlockType;
+    protected override GameObject Prefab => PrefabManager.Instance.RotateBlockPrefab;
 
     private readonly float iterations;
 
@@ -33,20 +34,10 @@ public class RotateBlock : AnchorBlock
             .OnComplete(Anchor.FinishCurrentExecution);
     }
 
-    public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
+    protected override void SetControllerValues(AnchorBlockController c)
     {
-        Transform connectorContainer = parent.GetChild(0);
-
-        // create object
-        GameObject block = Object.Instantiate(PrefabManager.Instance.RotateBlockPrefab, parent);
-
-        // set values in object
-        RotateBlockController controller = block.GetComponent<RotateBlockController>();
+        RotateBlockController controller = (RotateBlockController)c;
         controller.Input.text = iterations.ToString();
-        controller.Movable = insertable;
-
-        // create connector
-        CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
     public override AnchorBlockData GetData() => new RotateBlockData(iterations);

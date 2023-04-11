@@ -1,12 +1,12 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public class MoveAndRotateBlock : AnchorBlock
 {
     public const Type BlockType = Type.MOVE_AND_ROTATE;
     public override Type ImplementedBlockType => Type.MOVE_AND_ROTATE;
+    protected override GameObject Prefab => PrefabManager.Instance.MoveAndRotateBlockPrefab;
 
     private readonly Vector2 target;
 
@@ -85,23 +85,13 @@ public class MoveAndRotateBlock : AnchorBlock
             });
     }
 
-    public override void CreateAnchorBlockObject(Transform parent, bool insertable = true)
+    protected override void SetControllerValues(AnchorBlockController c)
     {
-        Transform connectorContainer = parent.GetChild(0);
-
-        // create object
-        GameObject block = Object.Instantiate(PrefabManager.Instance.MoveAndRotateBlockPrefab, parent);
-
-        // set values in object
-        MoveAndRotateBlockController controller = block.GetComponent<MoveAndRotateBlockController>();
+        MoveAndRotateBlockController controller = (MoveAndRotateBlockController)c;
         controller.InputX.text = target.x.ToString();
         controller.InputY.text = target.y.ToString();
         controller.InputIterations.text = iterations.ToString();
         controller.AdaptRotation.isOn = adaptRotation;
-        controller.Movable = insertable;
-
-        // create connector
-        CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
     public override AnchorBlockData GetData() => new MoveAndRotateBlockData(target, iterations, adaptRotation);
