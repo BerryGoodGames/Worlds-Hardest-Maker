@@ -101,20 +101,14 @@ public class SettingsManager : MonoBehaviour
 
     public float GetMusicVolume()
     {
-        if (MainMixer.GetFloat("MusicVolume", out float value))
-        {
-            return value;
-        }
+        if (MainMixer.GetFloat("MusicVolume", out float value)) return value;
 
         throw new Exception("Failed to access music volume");
     }
 
     public float GetSoundEffectVolume()
     {
-        if (MainMixer.GetFloat("SoundEffectVolume", out float value))
-        {
-            return value;
-        }
+        if (MainMixer.GetFloat("SoundEffectVolume", out float value)) return value;
 
         throw new Exception("Failed to access sound effect volume");
     }
@@ -148,10 +142,7 @@ public class SettingsManager : MonoBehaviour
         SetToolbarSize(size, true);
     }
 
-    public float GetToolbarSize()
-    {
-        return toolbarSpacing.ToolbarHeight;
-    }
+    public float GetToolbarSize() => toolbarSpacing.ToolbarHeight;
 
     public void SetInfobarSize(float size, bool setPrefs)
     {
@@ -180,10 +171,7 @@ public class SettingsManager : MonoBehaviour
         SetInfobarSize(size, true);
     }
 
-    public float GetInfobarSize()
-    {
-        return infobarPlayResize.InfobarHeight;
-    }
+    public float GetInfobarSize() => infobarPlayResize.InfobarHeight;
 
     #endregion
 }

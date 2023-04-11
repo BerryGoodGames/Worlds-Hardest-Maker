@@ -51,7 +51,8 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton) && !EditModeManager.Instance.Playing && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton) && !EditModeManager.Instance.Playing &&
+            !EventSystem.current.IsPointerOverGameObject())
             Selecting = true;
 
         // update selection markings
@@ -158,10 +159,7 @@ public class SelectionManager : MonoBehaviour
         return (lowestX, highestX, lowestY, highestY);
     }
 
-    private static (float, float, float, float) GetBounds(params Vector2[] points)
-    {
-        return GetBounds(points.ToList());
-    }
+    private static (float, float, float, float) GetBounds(params Vector2[] points) => GetBounds(points.ToList());
 
     public static (int, int, int, int) GetBoundsMatrix(List<Vector2> points)
     {
@@ -170,10 +168,7 @@ public class SelectionManager : MonoBehaviour
             Mathf.FloorToInt(highestY));
     }
 
-    private static (int, int, int, int) GetBoundsMatrix(params Vector2[] points)
-    {
-        return GetBoundsMatrix(points.ToList());
-    }
+    private static (int, int, int, int) GetBoundsMatrix(params Vector2[] points) => GetBoundsMatrix(points.ToList());
 
     #endregion
 
@@ -207,10 +202,7 @@ public class SelectionManager : MonoBehaviour
     private static void DestroyPreview()
     {
         // destroy selection previews
-        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer)
-        {
-            Destroy(preview.gameObject);
-        }
+        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) Destroy(preview.gameObject);
     }
 
     private static void InitSelectedPreview()
@@ -221,25 +213,18 @@ public class SelectionManager : MonoBehaviour
     public static void UpdatePreviewRotation()
     {
         foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer)
-        {
             preview.GetComponent<PreviewController>().UpdateRotation();
-        }
     }
 
     public static void UpdatePreviewSprite()
     {
         foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer)
-        {
             preview.GetComponent<PreviewController>().UpdateSprite();
-        }
     }
 
     private static void SetPreviewVisible()
     {
-        if (ReferenceManager.Instance.FillPreviewContainer.childCount == 0)
-        {
-            InitSelectedPreview();
-        }
+        if (ReferenceManager.Instance.FillPreviewContainer.childCount == 0) InitSelectedPreview();
 
         ReferenceManager.Instance.FillPreviewContainer.gameObject.SetActive(true);
     }
@@ -265,10 +250,7 @@ public class SelectionManager : MonoBehaviour
         List<Vector2> res = new();
         for (float x = lowestX; x <= highestX; x += increment)
         {
-            for (float y = lowestY; y <= highestY; y += increment)
-            {
-                res.Add(new(x, y));
-            }
+            for (float y = lowestY; y <= highestY; y += increment) res.Add(new(x, y));
         }
 
         return res;
@@ -310,10 +292,7 @@ public class SelectionManager : MonoBehaviour
         // check if its 1 wide
         if (lowestX == highestX || lowestY == highestY)
         {
-            foreach (Vector2 pos in poses)
-            {
-                FieldManager.Instance.SetField((int)pos.x, (int)pos.y, type, rotation);
-            }
+            foreach (Vector2 pos in poses) FieldManager.Instance.SetField((int)pos.x, (int)pos.y, type, rotation);
 
             return;
         }
@@ -345,10 +324,7 @@ public class SelectionManager : MonoBehaviour
 
             FieldManager.ApplyStartGoalCheckpointFieldColor(field, null);
 
-            if (field.TryGetComponent(out FieldOutline foComp))
-            {
-                foComp.UpdateOnStart = false;
-            }
+            if (field.TryGetComponent(out FieldOutline foComp)) foComp.UpdateOnStart = false;
         }
 
         // remove player if at changed pos
@@ -377,10 +353,7 @@ public class SelectionManager : MonoBehaviour
 
         DeleteArea(poses);
 
-        foreach (Vector2 pos in poses)
-        {
-            GameManager.PlaceEditModeAtPosition(editMode, pos);
-        }
+        foreach (Vector2 pos in poses) GameManager.PlaceEditModeAtPosition(editMode, pos);
 
         UpdateOutlinesInArea(false, poses[0].Floor(), poses.Last().Ceil());
     }
@@ -631,10 +604,7 @@ public class SelectionManager : MonoBehaviour
 
                 GameObject collider = r.collider.gameObject;
 
-                if (collider.TryGetComponent(out FieldOutline outline))
-                {
-                    outline.UpdateOutline();
-                }
+                if (collider.TryGetComponent(out FieldOutline outline)) outline.UpdateOutline();
             }
         }
     }

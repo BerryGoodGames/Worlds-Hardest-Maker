@@ -20,9 +20,7 @@ public class ButtonController : MonoBehaviour
     public void Deselect()
     {
         if (EventSystem.current.currentSelectedGameObject.Equals(gameObject))
-        {
             EventSystem.current.SetSelectedGameObject(null);
-        }
     }
 
     public void UpdateSomeShit()
@@ -49,9 +47,6 @@ public class ButtonController : MonoBehaviour
     public static void UpdateEVERYFUCKINGShit()
     {
         ButtonController[] buttons = Resources.FindObjectsOfTypeAll<ButtonController>();
-        foreach (ButtonController controller in buttons)
-        {
-            controller.UpdateSomeShit();
-        }
+        foreach (ButtonController controller in buttons) controller.UpdateSomeShit();
     }
 }

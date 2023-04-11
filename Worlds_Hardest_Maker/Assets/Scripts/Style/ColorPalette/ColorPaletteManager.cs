@@ -22,19 +22,14 @@ public class ColorPaletteManager : MonoBehaviour
     public void UpdateColorPalettes()
     {
         foreach (ColorPaletteController cpc in Resources.FindObjectsOfTypeAll<ColorPaletteController>())
-        {
             cpc.UpdateColor();
-        }
     }
 
     public static ColorPalette GetColorPalette(string name)
     {
         foreach (ColorPalette colorPalette in Instance.ColorPalettes)
         {
-            if (colorPalette.Name.Equals(name))
-            {
-                return colorPalette;
-            }
+            if (colorPalette.Name.Equals(name)) return colorPalette;
         }
 
         throw new("ColorPalette doesn't exist");

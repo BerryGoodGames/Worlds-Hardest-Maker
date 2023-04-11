@@ -27,19 +27,14 @@ public class LevelBackground : MonoBehaviour
         Vector2 camPosition = cam.transform.position;
 
         if (prevPosition != camPosition)
-        {
             container.position = new(Mathf.Floor(camPosition.x * 0.5f) * 2, Mathf.Floor(camPosition.y * 0.5f) * 2);
-        }
 
         prevPosition = camPosition;
     }
 
     public void CalcSize(float zoom)
     {
-        foreach (Transform child in container)
-        {
-            Destroy(child.gameObject);
-        }
+        foreach (Transform child in container) Destroy(child.gameObject);
 
         Vector2 containerPos = container.position;
 

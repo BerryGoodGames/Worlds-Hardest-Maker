@@ -42,12 +42,12 @@ public class PlayerManager : MonoBehaviour
                     (Mathf.CeilToInt(mx), Mathf.CeilToInt(my))
                 };
 
-                foreach ((int x, int y) in poses)
-                {
-                    FieldManager.Instance.SetField(x, y, FieldType.START_FIELD);
-                }
+                foreach ((int x, int y) in poses) FieldManager.Instance.SetField(x, y, FieldType.START_FIELD);
             }
-            else return;
+            else
+            {
+                return;
+            }
         }
 
         // clear area from coins and keys
@@ -56,7 +56,6 @@ public class PlayerManager : MonoBehaviour
 
         // clear all players (only from this client tho)
         if (MultiplayerManager.Instance.Multiplayer)
-        {
             foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
             {
                 PlayerController p = player.GetComponent<PlayerController>();
@@ -72,11 +71,8 @@ public class PlayerManager : MonoBehaviour
                     playerPos.y);
                 RemovePlayerAtPosIgnoreOtherClients(playerPos.x, playerPos.y);
             }
-        }
         else
-        {
             RemoveAllPlayers();
-        }
 
         // place player
         GameObject newPlayer = InstantiatePlayer(mx, my, speed, MultiplayerManager.Instance.Multiplayer);
@@ -105,9 +101,7 @@ public class PlayerManager : MonoBehaviour
     public void RemoveAllPlayers()
     {
         foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
-        {
             player.GetComponent<PlayerController>().DestroyPlayer();
-        }
     }
 
     [PunRPC]
@@ -117,9 +111,7 @@ public class PlayerManager : MonoBehaviour
         foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
         {
             if (player.position.x.EqualsFloat(mx) && player.position.y.EqualsFloat(my))
-            {
                 player.GetComponent<PlayerController>().DestroyPlayer();
-            }
         }
     }
 
@@ -136,9 +128,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (MultiplayerManager.Instance.Multiplayer && player.GetComponent<PhotonView>().IsMine) continue;
             if (player.position.x.EqualsFloat(mx) && player.position.y.EqualsFloat(my))
-            {
                 player.GetComponent<PlayerController>().DestroyPlayer();
-            }
         }
     }
 
@@ -150,9 +140,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (MultiplayerManager.Instance.Multiplayer && !player.GetComponent<PhotonView>().IsMine) continue;
             if (player.position.x.EqualsFloat(mx) && player.position.y.EqualsFloat(my))
-            {
                 player.GetComponent<PlayerController>().DestroyPlayer();
-            }
         }
     }
 
@@ -161,23 +149,15 @@ public class PlayerManager : MonoBehaviour
     {
         float[] dx = { -0.5f, 0, 0.5f, -0.5f, 0, 0.5f, -0.5f, 0, 0.5f };
         float[] dy = { -0.5f, -0.5f, -0.5f, 0, 0, 0, 0.5f, 0.5f, 0.5f };
-        for (int i = 0; i < dx.Length; i++)
-        {
-            RemovePlayerAtPos(mx + dx[i], my + dy[i]);
-        }
+        for (int i = 0; i < dx.Length; i++) RemovePlayerAtPos(mx + dx[i], my + dy[i]);
     }
 
-    public static bool CanPlace(float mx, float my, bool checkForPlayer = true)
-    {
+    public static bool CanPlace(float mx, float my, bool checkForPlayer = true) =>
         // conditions: no player there, position is covered with possible start fields
-        return !(checkForPlayer && IsPlayerThere(mx, my)) &&
-               FieldManager.IsPosCoveredWithFieldType(mx, my, StartFields.ToArray());
-    }
+        !(checkForPlayer && IsPlayerThere(mx, my)) &&
+        FieldManager.IsPosCoveredWithFieldType(mx, my, StartFields.ToArray());
 
-    public static bool CanPlace(Vector2 pos, bool checkForPlayer = true)
-    {
-        return CanPlace(pos.x, pos.y, checkForPlayer);
-    }
+    public static bool CanPlace(Vector2 pos, bool checkForPlayer = true) => CanPlace(pos.x, pos.y, checkForPlayer);
 
     public static int AvailableID()
     {
@@ -214,10 +194,7 @@ public class PlayerManager : MonoBehaviour
     {
         Transform container = ReferenceManager.Instance.PlayerContainer;
         List<GameObject> players = new();
-        for (int i = 0; i < container.childCount; i++)
-        {
-            players.Add(container.GetChild(i).gameObject);
-        }
+        for (int i = 0; i < container.childCount; i++) players.Add(container.GetChild(i).gameObject);
 
         return players;
     }
@@ -255,24 +232,17 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public static GameObject GetPlayer(int id)
-    {
-        return PlayerIDList()[id];
-    }
+    public static GameObject GetPlayer(int id) => PlayerIDList()[id];
 
-    public static bool IsPlayerThere(float mx, float my)
-    {
-        return GetPlayer(mx, my) != null;
-    }
+    public static bool IsPlayerThere(float mx, float my) => GetPlayer(mx, my) != null;
 
     public static bool IsPlayerThereIntersect(float mx, float my)
     {
         float[] dx = { -0.5f, 0, 0.5f, -0.5f, 0, 0.5f, -0.5f, 0, 0.5f };
         float[] dy = { -0.5f, -0.5f, -0.5f, 0, 0, 0, 0.5f, 0.5f, 0.5f };
         for (int i = 0; i < dx.Length; i++)
-        {
-            if (IsPlayerThere(mx + dx[i], my + dy[i])) return true;
-        }
+            if (IsPlayerThere(mx + dx[i], my + dy[i]))
+                return true;
 
         return false;
     }
@@ -313,10 +283,8 @@ public class PlayerManager : MonoBehaviour
         return newPlayer;
     }
 
-    public static GameObject InstantiatePlayer(float mx, float my, float speed, bool multiplayer)
-    {
-        return InstantiatePlayer(new(mx, my), speed, multiplayer);
-    }
+    public static GameObject InstantiatePlayer(float mx, float my, float speed, bool multiplayer) =>
+        InstantiatePlayer(new(mx, my), speed, multiplayer);
 
     private void Awake()
     {

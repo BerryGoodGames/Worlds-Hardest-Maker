@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -9,7 +7,7 @@ using UnityEngine.Serialization;
 
 public class SetEaseBlockController : AnchorBlockController
 {
-    private static Dictionary<string, Ease> easeOptions = new()
+    private static readonly Dictionary<string, Ease> easeOptions = new()
     {
         { "linear", Ease.Linear },
         { "ease-out", Ease.OutCubic },
@@ -17,7 +15,8 @@ public class SetEaseBlockController : AnchorBlockController
         { "ease-in-out", Ease.InOutCubic }
     };
 
-    [FormerlySerializedAs("input")] [SerializeField] public TMP_Dropdown Input;
+    [FormerlySerializedAs("input")] [SerializeField]
+    public TMP_Dropdown Input;
 
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
     {

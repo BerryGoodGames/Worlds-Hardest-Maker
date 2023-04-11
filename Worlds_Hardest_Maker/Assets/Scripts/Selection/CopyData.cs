@@ -16,8 +16,5 @@ public class CopyData
         Data.ImportToLevel(pos + RelativePos);
     }
 
-    public EditMode GetEditMode()
-    {
-        return Data.GetEditMode();
-    }
+    public EditMode GetEditMode() => Data.GetEditMode();
 }

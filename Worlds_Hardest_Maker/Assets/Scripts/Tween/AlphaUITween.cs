@@ -66,16 +66,12 @@ public class AlphaUITween : MonoBehaviour
     public void SetVisible(bool vis)
     {
         if (IsVisible && !vis)
-        {
             // the frame setting to invisible
             TweenInvis();
-        }
 
         if (!IsVisible && vis)
-        {
             // the frame setting to visible
             TweenVis();
-        }
 
         IsVisible = vis;
     }

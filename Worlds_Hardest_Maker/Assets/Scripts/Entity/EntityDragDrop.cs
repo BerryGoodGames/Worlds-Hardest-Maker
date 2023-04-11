@@ -21,9 +21,6 @@ public class EntityDragDrop : MonoBehaviour
             OnMove?.Invoke();
         }
 
-        if (TryGetComponent(out PathControllerOld controller))
-        {
-            controller.UpdateStartingPosition();
-        }
+        if (TryGetComponent(out PathControllerOld controller)) controller.UpdateStartingPosition();
     }
 }

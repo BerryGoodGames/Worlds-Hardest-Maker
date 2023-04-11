@@ -16,13 +16,13 @@ public class SyncInputToSlider : MonoBehaviour
     {
         UpdateInput();
     }
-    
+
     public void UpdateSlider()
     {
         // try to read input text and set slider value
         if (float.TryParse(input.text, out float value)) slider.value = Rounded(value);
     }
-    
+
     public void UpdateInput()
     {
         if (input == null) input = GetComponent<TMP_InputField>();
@@ -48,8 +48,5 @@ public class SyncInputToSlider : MonoBehaviour
 #endif
     }
 
-    private float Rounded(float value)
-    {
-        return Mathf.Round(value * Mathf.Pow(10, decimals)) * Mathf.Pow(10, -decimals);
-    }
+    private float Rounded(float value) => Mathf.Round(value * Mathf.Pow(10, decimals)) * Mathf.Pow(10, -decimals);
 }

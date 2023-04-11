@@ -41,24 +41,17 @@ public class SpeedSliderTween : MonoBehaviour
     public void SetVisible(bool vis)
     {
         if (isVisible && !vis)
-        {
             // the frame setting to invisible
             TweenInvis();
-        }
 
         if (!isVisible && vis)
-        {
             // the frame setting to visible
             TweenVis();
-        }
 
         isVisible = vis;
     }
 
-    public bool IsVisible()
-    {
-        return isVisible;
-    }
+    public bool IsVisible() => isVisible;
 
     private void Start()
     {

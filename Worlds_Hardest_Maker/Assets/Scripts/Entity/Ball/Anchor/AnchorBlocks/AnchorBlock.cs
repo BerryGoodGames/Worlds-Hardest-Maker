@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public abstract class AnchorBlock
 {
@@ -20,10 +18,7 @@ public abstract class AnchorBlock
 
     protected AnchorController Anchor;
 
-    protected AnchorBlock(AnchorController anchor)
-    {
-        Anchor = anchor;
-    }
+    protected AnchorBlock(AnchorController anchor) => Anchor = anchor;
 
     // ReSharper disable once UnusedMember.Global
     public abstract Type ImplementedBlockType { get; }

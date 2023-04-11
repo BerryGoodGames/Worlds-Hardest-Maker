@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
 ///     Anchor attributes: position, waypoints, mode, ball positions
@@ -25,10 +24,7 @@ public class AnchorDataOld : Data
         // convert Waypoints
         List<WaypointSerializable> waypointsList = new();
 
-        foreach (WaypointOld waypoint in pathControllerOld.Waypoints)
-        {
-            waypointsList.Add(new(waypoint));
-        }
+        foreach (WaypointOld waypoint in pathControllerOld.Waypoints) waypointsList.Add(new(waypoint));
 
         Waypoints = waypointsList.ToArray();
 
@@ -56,10 +52,7 @@ public class AnchorDataOld : Data
         // set waypoints
         pathControllerOld.Waypoints.Clear();
 
-        foreach (WaypointSerializable waypoint in Waypoints)
-        {
-            pathControllerOld.Waypoints.Add(new(waypoint));
-        }
+        foreach (WaypointSerializable waypoint in Waypoints) pathControllerOld.Waypoints.Add(new(waypoint));
 
         // set path mode
         pathControllerOld.PathMode = PathMode;
@@ -73,9 +66,7 @@ public class AnchorDataOld : Data
         Transform container = anchorControllerOld.Container.transform;
 
         for (int i = 0; i < BallPositions.Length; i += 2)
-        {
             AnchorBallManagerOld.SetAnchorBall(BallPositions[i], BallPositions[i + 1], container);
-        }
 
         // fade balls in
         anchorControllerOld.StartCoroutine(anchorControllerOld.FadeInOnNextFrame(1, 0.1f));
@@ -86,8 +77,5 @@ public class AnchorDataOld : Data
         ImportToLevel(new(Position[0], Position[1]));
     }
 
-    public override EditMode GetEditMode()
-    {
-        return EditMode.ANCHOR;
-    }
+    public override EditMode GetEditMode() => EditMode.ANCHOR;
 }

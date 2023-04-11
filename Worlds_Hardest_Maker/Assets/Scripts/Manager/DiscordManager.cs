@@ -9,7 +9,7 @@ public class DiscordManager : MonoBehaviour
 
     public static DiscordManager Instance { get; private set; }
 
-    private static string details = "";
+    private static readonly string details = "";
 
     /// <summary>
     ///     what the player is currently doing
@@ -20,7 +20,7 @@ public class DiscordManager : MonoBehaviour
         set => SetActivity(value, CurrentActivity.State);
     }
 
-    private static string state = "";
+    private static readonly string state = "";
 
     /// <summary>
     ///     the player's current status
@@ -60,10 +60,7 @@ public class DiscordManager : MonoBehaviour
         CurrentActivity = new Activity { Details = details, State = state };
         Instance.activityManager.UpdateActivity(CurrentActivity, res =>
         {
-            if (res != Result.Ok)
-            {
-                Debug.LogError("Discord status failed!");
-            }
+            if (res != Result.Ok) Debug.LogError("Discord status failed!");
         });
     }
 
@@ -75,13 +72,9 @@ public class DiscordManager : MonoBehaviour
         Instance.activityManager.ClearActivity(res =>
         {
             if (res != Result.Ok)
-            {
                 Debug.LogError("Failed to clear activity!");
-            }
             else
-            {
                 CurrentActivity = new Activity();
-            }
         });
     }
 

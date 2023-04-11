@@ -17,10 +17,7 @@ public class BackgroundLineSize : MonoBehaviour
 
     public void SetLineSize(float size)
     {
-        for (int i = 0; i < Lines.Length; i++)
-        {
-            SetLineSize(i, size);
-        }
+        for (int i = 0; i < Lines.Length; i++) SetLineSize(i, size);
     }
 
     public void SetLineSize(int i, float size)

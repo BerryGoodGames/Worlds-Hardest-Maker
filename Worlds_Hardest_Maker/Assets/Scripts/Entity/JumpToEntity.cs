@@ -23,7 +23,10 @@ public class JumpToEntity : MonoBehaviour
 
         currentTarget = Target.transform.position;
 
-        if (Smooth) jumping = true;
+        if (Smooth)
+        {
+            jumping = true;
+        }
         else
         {
             Transform t = transform;

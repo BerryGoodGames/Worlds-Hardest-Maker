@@ -13,15 +13,11 @@ public static class VectorExtension
         };
     }
 
-    public static bool Between(this Vector2 pos, Vector2 point1, Vector2 point2)
-    {
-        return pos.x > point1.x && pos.x < point2.x && pos.y > point1.y && pos.y < point2.y;
-    }
+    public static bool Between(this Vector2 pos, Vector2 point1, Vector2 point2) =>
+        pos.x > point1.x && pos.x < point2.x && pos.y > point1.y && pos.y < point2.y;
 
-    public static bool Between(this Vector3 pos, Vector3 point1, Vector3 point2)
-    {
-        return pos.x > point1.x && pos.x < point2.x && pos.y > point1.y && pos.y < point2.y;
-    }
+    public static bool Between(this Vector3 pos, Vector3 point1, Vector3 point2) =>
+        pos.x > point1.x && pos.x < point2.x && pos.y > point1.y && pos.y < point2.y;
 
     public static Vector3 Ceil(this Vector3 vector)
     {
@@ -75,10 +71,8 @@ public static class VectorExtension
     }
 
 
-    public static Vector2 Clamp(this Vector2 v, float min, float max)
-    {
-        return new(Mathf.Clamp(v.x, min, max), Mathf.Clamp(v.y, min, max));
-    }
+    public static Vector2 Clamp(this Vector2 v, float min, float max) =>
+        new(Mathf.Clamp(v.x, min, max), Mathf.Clamp(v.y, min, max));
 
     public static bool PointOnScreen(this Vector2 point, bool worldPoint)
     {

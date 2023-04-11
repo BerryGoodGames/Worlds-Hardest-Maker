@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
-using ExitGames.Client.Photon.StructWrapping;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -71,7 +69,7 @@ public class AnchorController : Controller
     public void AppendBlock(AnchorBlock block)
     {
         Blocks.AddLast(block);
-    } 
+    }
 
     public void StartExecuting()
     {
@@ -89,7 +87,7 @@ public class AnchorController : Controller
             Debug.LogWarning("There was a FinishCurrentExecution() call, although there is no execution to finish");
             return;
         }
-        
+
         currentExecutingNode = currentExecutingNode.Next;
         CurrentExecutingBlock = currentExecutingNode?.Value;
         CurrentExecutingBlock?.Execute();
@@ -153,8 +151,5 @@ public class AnchorController : Controller
         StartCoroutine(ballContainerChildrenOpacity.FadeIn(endOpacity, time));
     }
 
-    public override Data GetData()
-    {
-        return new AnchorData(this);
-    }
+    public override Data GetData() => new AnchorData(this);
 }

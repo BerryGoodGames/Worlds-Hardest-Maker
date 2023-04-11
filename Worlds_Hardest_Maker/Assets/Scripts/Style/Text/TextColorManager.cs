@@ -14,10 +14,7 @@ public class TextColorManager : MonoBehaviour
 
         foreach (TMP_Text text in texts)
         {
-            if (!Ignore.Contains(text))
-            {
-                text.color = DefaultColor;
-            }
+            if (!Ignore.Contains(text)) text.color = DefaultColor;
         }
     }
 }

@@ -111,9 +111,6 @@ public class Dbg : MonoBehaviour
         string scriptName = typeof(T).Name;
 
         print($"Debug - Count of script {scriptName}: {list.Length}");
-        foreach (Object o in list)
-        {
-            print($"Debug - {o.name}");
-        }
+        foreach (Object o in list) print($"Debug - {o.name}");
     }
 }

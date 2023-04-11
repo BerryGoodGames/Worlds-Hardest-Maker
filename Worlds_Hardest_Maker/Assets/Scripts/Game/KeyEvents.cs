@@ -12,16 +12,11 @@ public class KeyEvents : MonoBehaviour
     private void Update()
     {
         // toggle playing
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PlayManager.Instance.TogglePlay();
-        }
+        if (Input.GetKeyDown(KeyCode.Space)) PlayManager.Instance.TogglePlay();
 
         // toggle menu
         if (!MenuManager.Instance.BlockMenu && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)))
-        {
             menuUITween.SetVisible(!menuUITween.IsVisible);
-        }
 
         // teleport player to mouse pos
         if (EditModeManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))
@@ -58,9 +53,7 @@ public class KeyEvents : MonoBehaviour
 #endif
             // paste
             if (!CopyManager.Pasting && Input.GetKey(KeybindManager.Instance.PasteKey))
-            {
                 StartCoroutine(CopyManager.Instance.PasteCoroutine());
-            }
         }
 
         // check edit mode toggling if no ctrl and not playing
@@ -111,10 +104,7 @@ public class KeyEvents : MonoBehaviour
                 break;
             }
 
-            if (combinationPressed)
-            {
-                EditModeManager.Instance.CurrentEditMode = shortcut.Value;
-            }
+            if (combinationPressed) EditModeManager.Instance.CurrentEditMode = shortcut.Value;
         }
     }
 

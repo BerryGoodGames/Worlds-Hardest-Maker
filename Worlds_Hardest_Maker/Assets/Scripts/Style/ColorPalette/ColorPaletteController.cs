@@ -18,12 +18,7 @@ public class ColorPaletteController : MonoBehaviour
         Color newColor = colorPalette.Colors[colorPaletteIndex];
 
         if (TryGetComponent(out SpriteRenderer spriteRenderer))
-        {
             spriteRenderer.color = newColor;
-        }
-        else if (TryGetComponent(out Image image))
-        {
-            image.color = newColor;
-        }
+        else if (TryGetComponent(out Image image)) image.color = newColor;
     }
 }

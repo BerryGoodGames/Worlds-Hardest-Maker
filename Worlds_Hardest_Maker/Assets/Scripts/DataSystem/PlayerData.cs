@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
 ///     Player attributes: speed, start pos
@@ -33,8 +32,5 @@ public class PlayerData : Data
         PlayerManager.Instance.SetPlayer(pos, Speed);
     }
 
-    public override EditMode GetEditMode()
-    {
-        return EditMode.PLAYER;
-    }
+    public override EditMode GetEditMode() => EditMode.PLAYER;
 }
