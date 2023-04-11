@@ -16,7 +16,10 @@ public class MultiplayerManager : MonoBehaviour
 
     private void Start()
     {
-        if (Multiplayer) OnIsMultiplayer();
+        if (Multiplayer)
+        {
+            OnIsMultiplayer();
+        }
     }
 
     private void Awake()

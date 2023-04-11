@@ -81,8 +81,9 @@ public class CheckpointController : MonoBehaviour
     {
         // deactivate every checkpoint
         foreach (CheckpointController controller in activatedCheckpoints)
-            if (controller != null)
-                controller.Deactivate(false);
+        {
+            if (controller != null) controller.Deactivate(false);
+        }
 
         activatedCheckpoints.Clear();
     }

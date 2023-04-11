@@ -37,10 +37,7 @@ public class BallDragDrop : MonoBehaviourPun
             PhotonView controllerView = controller.GetComponent<PhotonView>();
             controllerView.RPC("MoveObject", RpcTarget.All, unitPos, id);
         }
-        else
-        {
-            controller.MoveObject(unitPos, id);
-        }
+        else controller.MoveObject(unitPos, id);
     }
 
     private void OnDestroy()
@@ -51,7 +48,10 @@ public class BallDragDrop : MonoBehaviourPun
     private static int NextID()
     {
         int res = DragDropList.Count;
-        while (DragDropList.ContainsKey(res)) res++;
+        while (DragDropList.ContainsKey(res))
+        {
+            res++;
+        }
 
         return res;
     }

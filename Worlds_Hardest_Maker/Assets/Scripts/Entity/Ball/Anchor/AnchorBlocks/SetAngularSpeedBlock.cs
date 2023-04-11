@@ -52,13 +52,15 @@ public class SetAngularSpeedBlock : AnchorBlock
         // set values in object
         SetAngularSpeedBlockController controller = block.GetComponent<SetAngularSpeedBlockController>();
         controller.SpeedInput.text = GetSpeed(Unit.DEGREES).ToString();
-        controller.UnitInput.value =
-            GameManager.GetDropdownValue(SetAngularSpeedBlockController.GetOption(unit), controller.UnitInput);
+        controller.UnitInput.value = GameManager.GetDropdownValue(SetAngularSpeedBlockController.GetOption(unit), controller.UnitInput);
         controller.Movable = insertable;
 
         // create connector
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
-    public override AnchorBlockData GetData() => new SetAngularSpeedBlockData(speed, unit);
+    public override AnchorBlockData GetData()
+    {
+        return new SetAngularSpeedBlockData(speed, unit);
+    }
 }

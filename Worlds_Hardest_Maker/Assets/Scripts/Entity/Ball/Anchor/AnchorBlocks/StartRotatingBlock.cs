@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
@@ -32,7 +34,7 @@ public class StartRotatingBlock : AnchorBlock
             Anchor.InfiniteRotationTween = Anchor.Rb.DORotate(360, duration).SetRelative().SetLoops(-1)
                 .SetEase(Anchor.Ease);
         }
-
+            
         Anchor.FinishCurrentExecution();
     }
 
@@ -51,5 +53,8 @@ public class StartRotatingBlock : AnchorBlock
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
-    public override AnchorBlockData GetData() => new StartRotatingBlockData();
+    public override AnchorBlockData GetData()
+    {
+        return new StartRotatingBlockData();
+    }
 }

@@ -40,7 +40,10 @@ public class NumberInput : MonoBehaviour
         Input.text = num.ToString();
     }
 
-    public float GetCurrentNumber() => float.Parse(Input.text.Replace("​" /* Zero Space Character */, ""));
+    public float GetCurrentNumber()
+    {
+        return float.Parse(Input.text.Replace("​" /* Zero Space Character */, ""));
+    }
 
     private void Start()
     {

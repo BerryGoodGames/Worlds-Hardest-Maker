@@ -14,7 +14,10 @@ public class FontManager : MonoBehaviour
 
         foreach (TMP_Text text in texts)
         {
-            if (!Ignore.Contains(text)) text.font = DefaultFont;
+            if (!Ignore.Contains(text))
+            {
+                text.font = DefaultFont;
+            }
         }
     }
 }

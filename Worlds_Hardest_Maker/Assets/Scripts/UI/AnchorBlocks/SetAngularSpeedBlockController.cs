@@ -1,11 +1,15 @@
+using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using TMPro;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 public class SetAngularSpeedBlockController : AnchorBlockController
 {
-    private static readonly Dictionary<string, SetAngularSpeedBlock.Unit> unitOptions = new()
+    private static Dictionary<string, SetAngularSpeedBlock.Unit> unitOptions = new()
     {
         { "deg / s", SetAngularSpeedBlock.Unit.DEGREES },
         { "it / s", SetAngularSpeedBlock.Unit.ITERATIONS },
@@ -23,8 +27,7 @@ public class SetAngularSpeedBlockController : AnchorBlockController
 
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
     {
-        if (!float.TryParse(SpeedInput.text, out float speed))
-            throw new("Input in a SetAngularSpeed Block was not a float");
+        if (!float.TryParse(SpeedInput.text, out float speed)) throw new("Input in a SetAngularSpeed Block was not a float");
 
         return new SetAngularSpeedBlock(anchorController, speed, GetUnit());
     }

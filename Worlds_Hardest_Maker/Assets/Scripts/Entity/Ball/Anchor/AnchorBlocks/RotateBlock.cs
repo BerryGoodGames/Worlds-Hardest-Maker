@@ -1,5 +1,7 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class RotateBlock : AnchorBlock
 {
@@ -8,7 +10,10 @@ public class RotateBlock : AnchorBlock
 
     private readonly float iterations;
 
-    public RotateBlock(AnchorController anchor, float iterations) : base(anchor) => this.iterations = iterations;
+    public RotateBlock(AnchorController anchor, float iterations) : base(anchor)
+    {
+        this.iterations = iterations;
+    }
 
     public override void Execute()
     {
@@ -49,5 +54,8 @@ public class RotateBlock : AnchorBlock
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
-    public override AnchorBlockData GetData() => new RotateBlockData(iterations);
+    public override AnchorBlockData GetData()
+    {
+        return new RotateBlockData(iterations);
+    }
 }

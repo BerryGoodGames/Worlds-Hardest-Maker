@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 /// </summary>
 public class AppendNameTag : MonoBehaviour
 {
-    [SerializeField] private readonly bool showOnlyWhenMultiplayer = true;
+    [SerializeField] private bool showOnlyWhenMultiplayer = true;
     [SerializeField] private GameObject nameTagPrefab;
 
     [FormerlySerializedAs("nameTag")] [HideInInspector]

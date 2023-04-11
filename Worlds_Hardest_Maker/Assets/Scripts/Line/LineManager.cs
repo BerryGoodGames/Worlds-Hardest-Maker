@@ -82,7 +82,10 @@ public class LineManager : MonoBehaviour
 
         // set points
         circle.positionCount = steps + 1;
-        for (int i = 0; i < points.Count; i++) circle.SetPosition(i, points[i]);
+        for (int i = 0; i < points.Count; i++)
+        {
+            circle.SetPosition(i, points[i]);
+        }
 
         return stroke;
     }
@@ -90,21 +93,28 @@ public class LineManager : MonoBehaviour
     /// <summary>
     ///     Generates object containing a LineRenderer forming a circle
     /// </summary>
-    public static GameObject DrawCircle(float x, float y, float radius, Transform parent = null) =>
-        DrawCircle(new(x, y), radius, parent);
+    public static GameObject DrawCircle(float x, float y, float radius, Transform parent = null)
+    {
+        return DrawCircle(new(x, y), radius, parent);
+    }
 
     /// <summary>
     ///     Generates object containing a LineRenderer
     /// </summary>
-    public static GameObject DrawLine(float x1, float y1, float x2, float y2, Transform parent = null) =>
-        DrawLine(new(x1, y1), new(x2, y2), parent);
+    public static GameObject DrawLine(float x1, float y1, float x2, float y2, Transform parent = null)
+    {
+        return DrawLine(new(x1, y1), new(x2, y2), parent);
+    }
 
     /// <summary>
     ///     Generates object containing a LineRenderer
     /// </summary>
     public static GameObject DrawLine(Vector2 point1, Vector2 point2, Transform parent = null)
     {
-        if (parent == null) parent = ReferenceManager.Instance.DrawContainer;
+        if (parent == null)
+        {
+            parent = ReferenceManager.Instance.DrawContainer;
+        }
 
         // generate object
         GameObject stroke = NewDrawObject("DrawLine", parent);

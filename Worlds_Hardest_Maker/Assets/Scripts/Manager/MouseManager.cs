@@ -19,7 +19,10 @@ public class MouseManager : MonoBehaviour
     {
         get
         {
-            if (mouseWorldPos.Equals(Vector2.positiveInfinity)) mouseWorldPos = GetMouseWorldPos();
+            if (mouseWorldPos.Equals(Vector2.positiveInfinity))
+            {
+                mouseWorldPos = GetMouseWorldPos();
+            }
 
             return mouseWorldPos;
         }
@@ -39,9 +42,15 @@ public class MouseManager : MonoBehaviour
 
     #region Static methods
 
-    public static Vector2 PosToGrid(Vector2 pos) => new(Mathf.Round(pos.x * 2) * 0.5f, Mathf.Round(pos.y * 2) * 0.5f);
+    public static Vector2 PosToGrid(Vector2 pos)
+    {
+        return new(Mathf.Round(pos.x * 2) * 0.5f, Mathf.Round(pos.y * 2) * 0.5f);
+    }
 
-    public static Vector2 PosToMatrix(Vector2 pos) => new(Mathf.Round(pos.x), Mathf.Round(pos.y));
+    public static Vector2 PosToMatrix(Vector2 pos)
+    {
+        return new(Mathf.Round(pos.x), Mathf.Round(pos.y));
+    }
 
     private static Vector2 GetMouseWorldPos()
     {

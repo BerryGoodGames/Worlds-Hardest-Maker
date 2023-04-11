@@ -1,5 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Windows;
+using Input = UnityEngine.Input;
 
 public class SetEaseBlock : AnchorBlock
 {
@@ -8,7 +10,10 @@ public class SetEaseBlock : AnchorBlock
 
     private readonly Ease ease;
 
-    public SetEaseBlock(AnchorController anchor, Ease ease) : base(anchor) => this.ease = ease;
+    public SetEaseBlock(AnchorController anchor, Ease ease) : base(anchor)
+    {
+        this.ease = ease;
+    }
 
     public override void Execute()
     {
@@ -32,5 +37,8 @@ public class SetEaseBlock : AnchorBlock
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
-    public override AnchorBlockData GetData() => new SetEaseBlockData(ease);
+    public override AnchorBlockData GetData()
+    {
+        return new SetEaseBlockData(ease);
+    }
 }

@@ -96,7 +96,7 @@ public static class SaveSystem
 
         // serialize current level settings
         levelData.Add(new LevelSettingsData(LevelSettings.Instance));
-
+        
         return levelData;
     }
 
@@ -127,8 +127,10 @@ public static class SaveSystem
         FileStream stream = new(path, FileMode.Open);
 
         if (MultiplayerManager.Instance.Multiplayer)
+        {
             // RPC to every other client with path
             SendLevel(path);
+        }
 
         // set discord activity
         if (updateDiscordActivity)
@@ -158,8 +160,7 @@ public abstract class Data
 {
     public abstract void ImportToLevel();
 
-    public virtual void ImportToLevel(Vector2 pos) =>
-        Debug.LogWarning("ImportToLevel(Vector2 pos) has been called, but there is no override defined");
+    public virtual void ImportToLevel(Vector2 pos) => Debug.LogWarning("ImportToLevel(Vector2 pos) has been called, but there is no override defined");
 
     public abstract EditMode GetEditMode();
 }

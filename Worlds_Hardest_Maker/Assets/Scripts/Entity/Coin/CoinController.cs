@@ -62,5 +62,8 @@ public class CoinController : Controller
         PickedUp = true;
     }
 
-    public override Data GetData() => new CoinData(this);
+    public override Data GetData()
+    {
+        return new CoinData(this);
+    }
 }

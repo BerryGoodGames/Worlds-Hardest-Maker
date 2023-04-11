@@ -39,13 +39,19 @@ public class MouseOverUI : MonoBehaviour
             Input.mousePosition.y > rt.position.y - height * 0.5f &&
             Input.mousePosition.y < rt.position.y + height * 0.5f)
         {
-            if (!Over) OnHovered();
+            if (!Over)
+            {
+                OnHovered();
+            }
 
             Over = true;
         }
         else
         {
-            if (Over) OnUnhovered();
+            if (Over)
+            {
+                OnUnhovered();
+            }
 
             Over = false;
         }

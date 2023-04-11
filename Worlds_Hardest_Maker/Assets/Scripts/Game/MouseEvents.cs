@@ -32,7 +32,9 @@ public class MouseEvents : MonoBehaviour
 
         // select Anchor
         if (Input.GetKey(KeybindManager.Instance.EditSpeedKey) && Input.GetMouseButtonDown(0))
+        {
             AnchorManager.Instance.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
+        }
 
         // place / delete stuff
         if (!MouseManager.Instance.IsUIHovered && !EditModeManager.Instance.Playing &&

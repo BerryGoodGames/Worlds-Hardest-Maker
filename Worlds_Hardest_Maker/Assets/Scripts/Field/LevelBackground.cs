@@ -9,7 +9,7 @@ public class LevelBackground : MonoBehaviour
     [SerializeField] private GameObject backgroundTile;
     [SerializeField] private Transform container;
     [SerializeField] private float defaultMaxZoom;
-    [SerializeField] private readonly Vector2 tileSize = Vector2.one;
+    [SerializeField] private Vector2 tileSize = Vector2.one;
     private Camera cam;
     private Vector2 prevPosition;
     private float height;
@@ -27,14 +27,19 @@ public class LevelBackground : MonoBehaviour
         Vector2 camPosition = cam.transform.position;
 
         if (prevPosition != camPosition)
+        {
             container.position = new(Mathf.Floor(camPosition.x * 0.5f) * 2, Mathf.Floor(camPosition.y * 0.5f) * 2);
+        }
 
         prevPosition = camPosition;
     }
 
     public void CalcSize(float zoom)
     {
-        foreach (Transform child in container) Destroy(child.gameObject);
+        foreach (Transform child in container)
+        {
+            Destroy(child.gameObject);
+        }
 
         Vector2 containerPos = container.position;
 

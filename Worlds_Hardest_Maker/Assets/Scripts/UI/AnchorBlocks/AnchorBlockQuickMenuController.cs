@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class AnchorBlockQuickMenuController : QuickMenuController
@@ -6,7 +7,7 @@ public class AnchorBlockQuickMenuController : QuickMenuController
     public AlphaUITween Tween;
 
     public AnchorBlockController SelectedAnchorBlock { get; set; } = null;
-
+    
 
     public void OnClickDelete()
     {
@@ -15,8 +16,7 @@ public class AnchorBlockQuickMenuController : QuickMenuController
             Debug.LogWarning("Tried to delete anchor block, but none was selected by quick menu");
             return;
         }
-
-        if (SelectedAnchorBlock.Movable)
+        if(SelectedAnchorBlock.Movable)
             SelectedAnchorBlock.Delete();
     }
 
@@ -27,7 +27,6 @@ public class AnchorBlockQuickMenuController : QuickMenuController
             Debug.LogWarning("Tried to duplicate anchor block, but none was selected by quick menu");
             return;
         }
-
         SelectedAnchorBlock.Duplicate();
     }
 }

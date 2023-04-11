@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     Ball attributes: speed, start, bounce
@@ -42,5 +43,8 @@ public class BallData : Data
         );
     }
 
-    public override EditMode GetEditMode() => EditMode.BALL_DEFAULT;
+    public override EditMode GetEditMode()
+    {
+        return EditMode.BALL_DEFAULT;
+    }
 }

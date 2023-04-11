@@ -47,10 +47,18 @@ public static class FieldTypeExtension
         return (FieldType)tags.IndexOf(tag);
     }
 
-    public static bool IsField(this GameObject field) => field.tag.GetFieldType() != (FieldType)(-1);
+    public static bool IsField(this GameObject field)
+    {
+        return field.tag.GetFieldType() != (FieldType)(-1);
+    }
 
-    public static bool IsSolidField(this GameObject field) =>
-        field.IsField() && FieldManager.SolidFields.Contains(field.tag.GetFieldType());
+    public static bool IsSolidField(this GameObject field)
+    {
+        return field.IsField() && FieldManager.SolidFields.Contains(field.tag.GetFieldType());
+    }
 
-    public static bool IsSolidFieldTag(this string tag) => FieldManager.SolidFields.Contains(tag.GetFieldType());
+    public static bool IsSolidFieldTag(this string tag)
+    {
+        return FieldManager.SolidFields.Contains(tag.GetFieldType());
+    }
 }

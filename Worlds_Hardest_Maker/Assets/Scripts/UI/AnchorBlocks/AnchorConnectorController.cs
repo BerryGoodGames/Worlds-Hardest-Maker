@@ -18,7 +18,7 @@ public class AnchorConnectorController : MonoBehaviour
     private void Update()
     {
         if (Dummy) return;
-
+        
         // check if a block got released over this connector
         if (!AnchorBlockManager.DraggingBlock || !mouseOverUI.Over ||
             (!Input.GetMouseButtonUp(0) && !Input.GetMouseButtonUp(1))) return;
@@ -35,7 +35,10 @@ public class AnchorConnectorController : MonoBehaviour
         if (parent.parent.childCount - 1 != parent.childCount) return;
 
         Instantiate(PrefabManager.Instance.AnchorConnector, parent);
-        if (!AnchorBlockManager.DraggedBlock.Movable) Dummy = true;
+        if (!AnchorBlockManager.DraggedBlock.Movable)
+        {
+            Dummy = true;
+        }
     }
 
     private static IEnumerator ExecuteOnSnap(BlockDragDrop blockDragDrop)

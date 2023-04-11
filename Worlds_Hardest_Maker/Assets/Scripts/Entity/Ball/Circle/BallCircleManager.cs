@@ -12,8 +12,10 @@ public class BallCircleManager : MonoBehaviour
         Vector2 originPos = new(mx, my);
 
         if (!IsBallCircleThere(mx, my))
+        {
             // instantiate prefab
             InstantiateBallCircle(originPos, r, speed, startAngle);
+        }
     }
 
     [PunRPC]
@@ -22,7 +24,10 @@ public class BallCircleManager : MonoBehaviour
         SetBallCircle(mx, my, 1, 0, Mathf.PI * 0.5f);
     }
 
-    public bool IsBallCircleThere(float mx, float my) => GetBallCircles(mx, my).Count > 0;
+    public bool IsBallCircleThere(float mx, float my)
+    {
+        return GetBallCircles(mx, my).Count > 0;
+    }
 
     public List<GameObject> GetBallCircles(float mx, float my)
     {
@@ -31,8 +36,9 @@ public class BallCircleManager : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.01f, 32768);
 
         foreach (Collider2D hit in hits)
-            if (hit.CompareTag("BallCircleOrigin"))
-                list.Add(hit.transform.parent.GetChild(0).gameObject);
+        {
+            if (hit.CompareTag("BallCircleOrigin")) list.Add(hit.transform.parent.GetChild(0).gameObject);
+        }
 
         return list;
     }

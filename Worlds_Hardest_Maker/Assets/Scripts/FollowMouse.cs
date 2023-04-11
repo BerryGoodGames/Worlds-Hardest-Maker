@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 public class FollowMouse : MonoBehaviour
 {
     [SerializeField] private bool smooth;
-    [SerializeField] private readonly float speed = 20;
+    [SerializeField] private float speed = 20;
 
     [FormerlySerializedAs("WorldPosition")]
     public WorldPositionType WorldPosition;

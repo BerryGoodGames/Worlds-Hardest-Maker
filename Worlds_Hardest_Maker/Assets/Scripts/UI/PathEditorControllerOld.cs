@@ -40,8 +40,10 @@ public class PathEditorControllerOld : MonoBehaviour
         UpdateUI();
 
         if (MultiplayerManager.Instance.Multiplayer)
+        {
             AnchorManagerOld.Instance.SelectedPathControllerOld.GetComponent<AnchorControllerOld>().View
                 .RPC("RPCAddWaypoint", RpcTarget.Others);
+        }
     }
 
     public void UpdateUI()

@@ -38,6 +38,9 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     private void Update()
     {
         // check for enter key
-        if (Input.GetKeyDown(KeyCode.Return)) OnClickConnect();
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            OnClickConnect();
+        }
     }
 }

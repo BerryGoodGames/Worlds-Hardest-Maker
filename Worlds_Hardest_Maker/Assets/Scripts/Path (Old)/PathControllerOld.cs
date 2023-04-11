@@ -103,9 +103,7 @@ public class PathControllerOld : MonoBehaviour
                         StopCoroutine(rotationCoroutine);
                     }
                     else
-                    {
                         yield return new WaitForSeconds(target.Delay);
-                    }
                 }
 
                 switch (PathMode)
@@ -200,11 +198,16 @@ public class PathControllerOld : MonoBehaviour
         }
 
         if (PathMode == PathModeType.LOOP && Waypoints.Count > 1)
+        {
             LineManager.DrawLine(Waypoints[^1].Position, Waypoints[0].Position, lineContainer);
+        }
     }
 
     public void ClearLines()
     {
-        foreach (Transform line in lineContainer) Destroy(line.gameObject);
+        foreach (Transform line in lineContainer)
+        {
+            Destroy(line.gameObject);
+        }
     }
 }

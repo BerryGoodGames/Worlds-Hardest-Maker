@@ -77,19 +77,27 @@ public class PreviewController : MonoBehaviour
             UpdateSprite();
 
         if (!SelectionManager.Instance.Selecting && hasFollowMouseComp)
+        {
             followMouseComp.WorldPosition = currentEditMode.IsFieldType() || currentEditMode == EditMode.DELETE_FIELD
                 ? FollowMouse.WorldPositionType.MATRIX
                 : FollowMouse.WorldPositionType.GRID;
+        }
 
         // check visibility of preview
-        if (TryGetComponent(out Animator anim)) anim.SetBool(visible, CheckVisibility());
+        if (TryGetComponent(out Animator anim))
+        {
+            anim.SetBool(visible, CheckVisibility());
+        }
     }
 
     /// <summary>
     ///     Checks if preview should currently be visible with current edit mode
     /// </summary>
     /// <returns></returns>
-    private bool CheckVisibility() => CheckVisibility(EditModeManager.Instance.CurrentEditMode);
+    private bool CheckVisibility()
+    {
+        return CheckVisibility(EditModeManager.Instance.CurrentEditMode);
+    }
 
     /// <summary>
     ///     Checks if preview should currently be visible at the moment
@@ -106,8 +114,9 @@ public class PreviewController : MonoBehaviour
 
         // check if preview of prefab not allowed during filling
         if (SelectionManager.Instance.Selecting)
-            if (SelectionManager.NoFillPreviewModes.Contains(mode))
-                return false;
+        {
+            if (SelectionManager.NoFillPreviewModes.Contains(mode)) return false;
+        }
 
         FollowMouse.WorldPositionType positionMode = GetComponent<FollowMouse>().WorldPosition;
 
@@ -170,8 +179,11 @@ public class PreviewController : MonoBehaviour
 
         // get sprite and scale
         if (currentPrefab.TryGetComponent(out SpriteRenderer prefabRenderer))
+        {
             scale = currentPrefab.transform.localScale;
+        }
         else
+        {
             foreach (Transform child in currentPrefab.transform)
             {
                 if (!child.TryGetComponent(out prefabRenderer)) continue;
@@ -179,6 +191,7 @@ public class PreviewController : MonoBehaviour
                 scale = child.localScale;
                 break;
             }
+        }
 
         // apply
         Color prefabColor = prefabRenderer.color;
@@ -209,9 +222,6 @@ public class PreviewController : MonoBehaviour
             transform.DORotateQuaternion(rotation, rotateDuration)
                 .SetEase(Ease.OutCubic);
         }
-        else
-        {
-            transform.localRotation = rotation;
-        }
+        else transform.localRotation = rotation;
     }
 }

@@ -86,27 +86,37 @@ public class KeyManager : MonoBehaviour
     public static void SetKonamiMode(bool konami)
     {
         foreach (Transform key in ReferenceManager.Instance.KeyContainer)
+        {
             key.GetComponent<IntervalRandomAnimation>().enabled = konami;
+        }
     }
 
-    public static bool CanPlace(float mx, float my) =>
+    public static bool CanPlace(float mx, float my)
+    {
         // conditions: no key there, covered by canplacefield or default, no player there
-        !PlayerManager.IsPlayerThere(mx, my) &&
-        !IsKeyThere(mx, my) &&
-        !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CannotPlaceFields.ToArray());
+        return !PlayerManager.IsPlayerThere(mx, my) &&
+               !IsKeyThere(mx, my) &&
+               !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CannotPlaceFields.ToArray());
+    }
 
     public static GameObject GetKey(float mx, float my)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.01f, 128);
         foreach (Collider2D hit in hits)
         {
-            if (hit.GetComponent<KeyController>() != null) return hit.transform.parent.gameObject;
+            if (hit.GetComponent<KeyController>() != null)
+            {
+                return hit.transform.parent.gameObject;
+            }
         }
 
         return null;
     }
 
-    public static GameObject GetKey(Vector2 pos) => GetKey(pos.x, pos.y);
+    public static GameObject GetKey(Vector2 pos)
+    {
+        return GetKey(pos.x, pos.y);
+    }
 
     public static bool IsKeyThere(float mx, float my, KeyColor color)
     {
@@ -114,11 +124,20 @@ public class KeyManager : MonoBehaviour
         return key != null && key.transform.GetChild(0).GetComponent<KeyController>().Color == color;
     }
 
-    public static bool IsKeyThere(float mx, float my) => GetKey(mx, my) != null;
+    public static bool IsKeyThere(float mx, float my)
+    {
+        return GetKey(mx, my) != null;
+    }
 
-    public static bool IsKeyDoorEditMode(EditMode mode) => KeyDoorModes.Contains(mode);
+    public static bool IsKeyDoorEditMode(EditMode mode)
+    {
+        return KeyDoorModes.Contains(mode);
+    }
 
-    public static bool IsKeyEditMode(EditMode mode) => KeyModes.Contains(mode);
+    public static bool IsKeyEditMode(EditMode mode)
+    {
+        return KeyModes.Contains(mode);
+    }
 
     private void Awake()
     {

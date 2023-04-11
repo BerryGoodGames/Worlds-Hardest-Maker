@@ -26,7 +26,10 @@ public class BallManager : MonoBehaviour
         Instance.SetBall(mx, my, 0, 0, 5);
     }
 
-    public bool IsBallThere(float mx, float my) => GetBalls(mx, my).Count > 0;
+    public bool IsBallThere(float mx, float my)
+    {
+        return GetBalls(mx, my).Count > 0;
+    }
 
     /// <summary>
     ///     Instantiates new ball default at (0, 0)

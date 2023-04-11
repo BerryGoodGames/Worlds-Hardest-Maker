@@ -5,6 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using DG.Tweening;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class GameManager : MonoBehaviourPun
 {
@@ -17,8 +18,10 @@ public class GameManager : MonoBehaviourPun
     {
         // init singleton
         if (Instance == null)
+        {
             Instance = this;
-        // DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
+        }
         else Destroy(gameObject);
 
         Utils.ForceDecimalSeparator(".");
@@ -31,7 +34,10 @@ public class GameManager : MonoBehaviourPun
         canvasRT = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>();
         DOTween.Init(useSafeMode: false);
 
-        if (!MultiplayerManager.Instance.Multiplayer) PlayerManager.Instance.SetPlayer(0, 0, 3f);
+        if (!MultiplayerManager.Instance.Multiplayer)
+        {
+            PlayerManager.Instance.SetPlayer(0, 0, 3f);
+        }
 
         LevelSettings.Instance.SetDrownDuration();
         LevelSettings.Instance.SetIceFriction();
@@ -108,7 +114,10 @@ public class GameManager : MonoBehaviourPun
     {
         List<Data> levelData = SaveSystem.LoadLevel();
 
-        if (levelData != null) LoadLevelFromData(levelData.ToArray());
+        if (levelData != null)
+        {
+            LoadLevelFromData(levelData.ToArray());
+        }
     }
 
     [PunRPC]
@@ -146,7 +155,10 @@ public class GameManager : MonoBehaviourPun
 
 
         // load fields
-        foreach (FieldData field in fieldData) field.ImportToLevel();
+        foreach (FieldData field in fieldData)
+        {
+            field.ImportToLevel();
+        }
 
         // load player last
         playerData?.ImportToLevel();
@@ -197,8 +209,10 @@ public class GameManager : MonoBehaviourPun
         else throw new Exception($"Couldn't set camera height (in units) to {height} because main camera is null");
     }
 
-    public static Vector2 ScreenToMainCanvas(Vector2 position) =>
-        position * (Instance.canvasRT.sizeDelta / new Vector2(Screen.width, Screen.height));
+    public static Vector2 ScreenToMainCanvas(Vector2 position)
+    {
+        return position * (Instance.canvasRT.sizeDelta / new Vector2(Screen.width, Screen.height));
+    }
 
 
     [PunRPC]
@@ -214,7 +228,10 @@ public class GameManager : MonoBehaviourPun
         };
         foreach (Transform container in containers)
         {
-            for (int i = container.childCount - 1; i >= 0; i--) DestroyImmediate(container.GetChild(i).gameObject);
+            for (int i = container.childCount - 1; i >= 0; i--)
+            {
+                DestroyImmediate(container.GetChild(i).gameObject);
+            }
         }
     }
 
@@ -228,8 +245,13 @@ public class GameManager : MonoBehaviourPun
             if (hit == null) continue;
 
             if (hit.transform.parent == container)
+            {
                 Destroy(hit.gameObject);
-            else if (hit.transform.parent.parent == container) Destroy(hit.transform.parent.gameObject);
+            }
+            else if (hit.transform.parent.parent == container)
+            {
+                Destroy(hit.transform.parent.gameObject);
+            }
         }
     }
 
@@ -237,7 +259,10 @@ public class GameManager : MonoBehaviourPun
     {
         float[] dx = { -0.5f, 0, 0.5f, -0.5f, 0, 0.5f, -0.5f, 0, 0.5f };
         float[] dy = { -0.5f, -0.5f, -0.5f, 0, 0, 0, 0.5f, 0.5f, 0.5f };
-        for (int i = 0; i < dx.Length; i++) RemoveObjectInContainer(mx + dx[i], my + dy[i], container);
+        for (int i = 0; i < dx.Length; i++)
+        {
+            RemoveObjectInContainer(mx + dx[i], my + dy[i], container);
+        }
     }
 
     public void MainMenu()
@@ -258,7 +283,6 @@ public class GameManager : MonoBehaviourPun
             if (dropdown.options[i].text == option)
                 return i;
         }
-
         Debug.LogWarning("There was no option found");
         return -1;
     }

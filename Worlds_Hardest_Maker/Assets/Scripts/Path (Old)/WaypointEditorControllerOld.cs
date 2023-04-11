@@ -215,8 +215,10 @@ public class WaypointEditorControllerOld : MonoBehaviour
     public void DeleteThisWaypoint()
     {
         if (MultiplayerManager.Instance.Multiplayer)
+        {
             if (anchorControllerOld != null)
                 anchorControllerOld.View.RPC("RPCDeleteWaypoint", RpcTarget.Others, WaypointIndex);
+        }
 
         AnchorManagerOld.Instance.SelectedPathControllerOld.Waypoints.Remove(WaypointOld);
         transform.parent.parent.parent.parent.GetComponent<PathEditorControllerOld>().UpdateUI();

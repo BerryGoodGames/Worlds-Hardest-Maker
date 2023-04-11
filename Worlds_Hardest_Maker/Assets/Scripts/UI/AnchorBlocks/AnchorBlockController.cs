@@ -1,3 +1,5 @@
+using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -5,7 +7,7 @@ public abstract class AnchorBlockController : MonoBehaviour
 {
     [FormerlySerializedAs("IsInsertable")] public bool Movable = true;
 
-    [SerializeField] private readonly Vector2 duplicateOffset = new(-10, 10);
+    [SerializeField] private Vector2 duplicateOffset = new(-10, 10);
 
     [HideInInspector] public BlockDragDrop BlockDragDropComp;
 
@@ -20,7 +22,10 @@ public abstract class AnchorBlockController : MonoBehaviour
     {
         if (!Movable && TryGetComponent(out BlockDragDrop blockDragDrop))
             Destroy(blockDragDrop);
-        if (!Movable && TryGetComponent(out AnchorBlockQuickMenu quickMenu)) quickMenu.Active = false;
+        if (!Movable && TryGetComponent(out AnchorBlockQuickMenu quickMenu))
+        {
+            quickMenu.Active = false;
+        }
     }
 
     public void Delete()
@@ -30,7 +35,6 @@ public abstract class AnchorBlockController : MonoBehaviour
 
     public void Duplicate()
     {
-        Instantiate(gameObject, transform.position + (Vector3)duplicateOffset, Quaternion.identity,
-            ReferenceManager.Instance.AnchorBlockStringContainer);
+        Instantiate(gameObject, transform.position + (Vector3)duplicateOffset, Quaternion.identity, ReferenceManager.Instance.AnchorBlockStringContainer);
     }
 }

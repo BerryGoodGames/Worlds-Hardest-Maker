@@ -1,7 +1,10 @@
-using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using UnityEngine;
 
 [ExecuteInEditMode]
 public class AnchorBlockFitter : MonoBehaviour
@@ -21,7 +24,7 @@ public class AnchorBlockFitter : MonoBehaviour
 #if UNITY_EDITOR
     private void Update()
     {
-        if (!EditorApplication.isPlaying)
+        if(!EditorApplication.isPlaying)
             CheckForChanges();
     }
 #endif
@@ -51,9 +54,9 @@ public class AnchorBlockFitter : MonoBehaviour
         if (!ChildrenChanged()) return;
 
         children = this.GetComponentsInDirectChildren<RectTransform>();
-
+        
         float minY = -minimumHeight + bottomPadding;
-
+        
         // get minimum y of all children
         foreach (RectTransform child in children)
         {

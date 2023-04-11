@@ -1,5 +1,7 @@
 using System;
 using DG.Tweening;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -16,16 +18,14 @@ public class MoveAndRotateBlock : AnchorBlock
 
     #region Constructors
 
-    public MoveAndRotateBlock(AnchorController anchor, Vector2 target, float iterations, bool adaptRotation) :
-        base(anchor)
+    public MoveAndRotateBlock(AnchorController anchor, Vector2 target, float iterations, bool adaptRotation) : base(anchor)
     {
         this.target = target;
         this.iterations = iterations;
         this.adaptRotation = adaptRotation;
     }
 
-    public MoveAndRotateBlock(AnchorController anchor, float x, float y, float iterations, bool adaptRotation) : this(
-        anchor, new(x, y), iterations, adaptRotation)
+    public MoveAndRotateBlock(AnchorController anchor, float x, float y, float iterations, bool adaptRotation)  : this(anchor, new(x, y), iterations, adaptRotation)
     {
     }
 
@@ -66,7 +66,7 @@ public class MoveAndRotateBlock : AnchorBlock
         {
             rotateDuration = Anchor.AngularSpeed;
         }
-
+        
         Anchor.Rb.DOMove(target, moveDuration)
             .SetEase(Anchor.Ease)
             .OnComplete(() =>
@@ -74,7 +74,7 @@ public class MoveAndRotateBlock : AnchorBlock
                 if (rotateDuration < moveDuration || Math.Abs(rotateDuration - moveDuration) < 0.001)
                     Anchor.FinishCurrentExecution();
             });
-
+        
         Anchor.Rb.DORotate(iterations * 360, rotateDuration)
             .SetRelative()
             .SetEase(Anchor.Ease)
@@ -104,5 +104,8 @@ public class MoveAndRotateBlock : AnchorBlock
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
-    public override AnchorBlockData GetData() => new MoveAndRotateBlockData(target, iterations, adaptRotation);
+    public override AnchorBlockData GetData()
+    {
+        return new MoveAndRotateBlockData(target, iterations, adaptRotation);
+    }
 }

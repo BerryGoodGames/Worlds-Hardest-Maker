@@ -17,10 +17,15 @@ public static class UnitPixelUtils
         throw new Exception($"Couldn't convert {pixel} pixels to units because main camera is null");
     }
 
-    public static Vector2 PixelToUnit(Vector2 pixel) => new(PixelToUnit(pixel.x), PixelToUnit(pixel.y));
+    public static Vector2 PixelToUnit(Vector2 pixel)
+    {
+        return new(PixelToUnit(pixel.x), PixelToUnit(pixel.y));
+    }
 
-    public static Vector2 PixelToUnit(Vector2 pixel, float ortho) =>
-        new(PixelToUnit(pixel.x, ortho), PixelToUnit(pixel.y, ortho));
+    public static Vector2 PixelToUnit(Vector2 pixel, float ortho)
+    {
+        return new(PixelToUnit(pixel.x, ortho), PixelToUnit(pixel.y, ortho));
+    }
 
     public static float UnitToPixel(float unit)
     {
@@ -29,7 +34,10 @@ public static class UnitPixelUtils
         throw new Exception($"Couldn't convert {unit} units to pixels because main camera is null");
     }
 
-    public static Vector2 UnitToPixel(Vector2 unit) => new(UnitToPixel(unit.x), UnitToPixel(unit.y));
+    public static Vector2 UnitToPixel(Vector2 unit)
+    {
+        return new(UnitToPixel(unit.x), UnitToPixel(unit.y));
+    }
 
     public static Rect RtToScreenSpace(RectTransform transform)
     {

@@ -21,9 +21,9 @@ public class SettingGenerator : MonoBehaviour
 #if UNITY_EDITOR
     [Header("Options")] [SerializeField] private string label;
     [FormerlySerializedAs("version")] public SettingVersion Version;
-    [SerializeField] private readonly int amount = 1;
-    [SerializeField] private readonly float fontSize = 40;
-    [SerializeField] private readonly float height = 80;
+    [SerializeField] private int amount = 1;
+    [SerializeField] private float fontSize = 40;
+    [SerializeField] private float height = 80;
 
     // custom properties
     // dropdown: dropdown width
@@ -32,11 +32,11 @@ public class SettingGenerator : MonoBehaviour
     // checkbox: none
 
     // slider: slider width, slider size
-    [SerializeField] private readonly float sliderWidth = 400;
-    [SerializeField] private readonly float sliderSize = 10;
+    [SerializeField] private float sliderWidth = 400;
+    [SerializeField] private float sliderSize = 10;
 
     // numberinput: input width
-    [SerializeField] private readonly float numberInputWidth = 250;
+    [SerializeField] private float numberInputWidth = 250;
 #endif
 
     #endregion

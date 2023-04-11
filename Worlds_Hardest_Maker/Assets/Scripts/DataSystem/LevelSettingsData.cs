@@ -1,4 +1,6 @@
 using System;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class LevelSettingsData : Data
@@ -35,5 +37,8 @@ public class LevelSettingsData : Data
         LevelSettings.Instance.SyncPlayersToSettings();
     }
 
-    public override EditMode GetEditMode() => EditMode.WALL_FIELD;
+    public override EditMode GetEditMode()
+    {
+        return EditMode.WALL_FIELD;
+    }
 }

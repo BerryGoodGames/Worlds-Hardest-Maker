@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     Coin attributes: position
@@ -26,5 +27,8 @@ public class CoinData : Data
         CoinManager.Instance.SetCoin(pos);
     }
 
-    public override EditMode GetEditMode() => EditMode.COIN;
+    public override EditMode GetEditMode()
+    {
+        return EditMode.COIN;
+    }
 }

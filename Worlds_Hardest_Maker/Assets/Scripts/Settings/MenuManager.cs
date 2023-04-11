@@ -54,7 +54,10 @@ public class MenuManager : MonoBehaviour
         if (tab != prevMenuTab)
         {
             Dictionary<MenuTab, GameObject> dict = GetTabDict();
-            for (int i = 0; i < Enum.GetValues(typeof(MenuTab)).Length; i++) dict[(MenuTab)i].SetActive(false);
+            for (int i = 0; i < Enum.GetValues(typeof(MenuTab)).Length; i++)
+            {
+                dict[(MenuTab)i].SetActive(false);
+            }
 
             dict[tab].SetActive(true);
             CurrentMenuTab = tab;

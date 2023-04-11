@@ -8,7 +8,7 @@ public class JumpToEntity : MonoBehaviour
     [FormerlySerializedAs("target")] public GameObject Target;
     [FormerlySerializedAs("smooth")] public bool Smooth;
     [FormerlySerializedAs("speed")] public float Speed;
-    [SerializeField] private readonly bool cancelByRightClick = true;
+    [SerializeField] private bool cancelByRightClick = true;
 
     private bool jumping;
     private Vector2 currentTarget;
@@ -23,10 +23,7 @@ public class JumpToEntity : MonoBehaviour
 
         currentTarget = Target.transform.position;
 
-        if (Smooth)
-        {
-            jumping = true;
-        }
+        if (Smooth) jumping = true;
         else
         {
             Transform t = transform;

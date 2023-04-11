@@ -15,7 +15,10 @@ public class ToolbarSizing : MonoBehaviour
         rt.sizeDelta = new(0, ToolbarHeight);
 
         // scale Tools
-        foreach (Transform tool in transform) tool.localScale = new(ToolbarHeight / 100, ToolbarHeight / 100);
+        foreach (Transform tool in transform)
+        {
+            tool.localScale = new(ToolbarHeight / 100, ToolbarHeight / 100);
+        }
 
         Transform background = transform.parent.GetChild(0);
         RectTransform backgroundRectTransform = background.GetComponent<RectTransform>();
@@ -25,12 +28,18 @@ public class ToolbarSizing : MonoBehaviour
     public void ScaleOptionsInOptionbars()
     {
         ToolOptionbar[] optionbars = FindObjectsOfType<ToolOptionbar>();
-        foreach (ToolOptionbar optionbar in optionbars) optionbar.ScaleOptions();
+        foreach (ToolOptionbar optionbar in optionbars)
+        {
+            optionbar.ScaleOptions();
+        }
     }
 
     public void UpdateOptionbarHeights()
     {
         ToolOptionbar[] optionbars = FindObjectsOfType<ToolOptionbar>();
-        foreach (ToolOptionbar optionbar in optionbars) optionbar.UpdateHeight();
+        foreach (ToolOptionbar optionbar in optionbars)
+        {
+            optionbar.UpdateHeight();
+        }
     }
 }

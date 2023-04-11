@@ -1,11 +1,15 @@
+using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using TMPro;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 public class SetSpeedBlockController : AnchorBlockController
 {
-    private static readonly Dictionary<string, SetSpeedBlock.Unit> unitOptions = new()
+    private static Dictionary<string, SetSpeedBlock.Unit> unitOptions = new()
     {
         { "m / s", SetSpeedBlock.Unit.SPEED },
         { "s", SetSpeedBlock.Unit.TIME }

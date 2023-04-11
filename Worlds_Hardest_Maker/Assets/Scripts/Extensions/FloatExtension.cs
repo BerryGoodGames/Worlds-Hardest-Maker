@@ -3,9 +3,15 @@ using UnityEngine;
 
 public static class FloatExtension
 {
-    public static float RoundToNearestStep(this float value, float step) => Mathf.Round(value / step) * step;
+    public static float RoundToNearestStep(this float value, float step)
+    {
+        return Mathf.Round(value / step) * step;
+    }
 
-    public static double RoundToNearestStep(this double value, double step) => Math.Round(value / step) * step;
+    public static double RoundToNearestStep(this double value, double step)
+    {
+        return Math.Round(value / step) * step;
+    }
 
 
     public static double Map(this double value, double start1, double stop1, double start2, double stop2)

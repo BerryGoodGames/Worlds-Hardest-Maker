@@ -140,7 +140,10 @@ public class FieldOutline : MonoBehaviour
         foreach (RaycastHit2D r in hits)
         {
             FieldOutline outlineNeighbor = r.collider.gameObject.GetComponent<FieldOutline>();
-            if (updateNeighbor && outlineNeighbor != null) outlineNeighbor.UpdateOutline();
+            if (updateNeighbor && outlineNeighbor != null)
+            {
+                outlineNeighbor.UpdateOutline();
+            }
 
             // if (!connectTags.Contains(r.collider.tag)) continue;
             if (!r.collider.CompareTag(gameObject.tag)) continue;
@@ -154,7 +157,10 @@ public class FieldOutline : MonoBehaviour
     private void ClearLines()
     {
         // clear lines
-        foreach (Transform child in lineContainer.transform) Destroy(child.gameObject);
+        foreach (Transform child in lineContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 
     private void ClearLineInDir(Vector2 dir)

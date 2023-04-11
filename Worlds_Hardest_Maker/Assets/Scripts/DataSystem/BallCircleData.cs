@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     BallCircle attributes: speed, radius, origin, angle
@@ -38,5 +39,8 @@ public class BallCircleData : Data
         BallCircleManager.Instance.SetBallCircle(pos.x, pos.y, Radius, Speed, Angle);
     }
 
-    public override EditMode GetEditMode() => EditMode.BALL_CIRCLE;
+    public override EditMode GetEditMode()
+    {
+        return EditMode.BALL_CIRCLE;
+    }
 }

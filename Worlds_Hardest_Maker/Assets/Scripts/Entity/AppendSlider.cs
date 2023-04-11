@@ -49,11 +49,20 @@ public class AppendSlider : MonoBehaviour
     }
 
     /// <returns>final value of slider</returns>
-    public float GetValue() => Slider.GetComponent<Slider>().value * step;
+    public float GetValue()
+    {
+        return Slider.GetComponent<Slider>().value * step;
+    }
 
     /// <returns>Slider component from slider</returns>
-    public Slider GetSlider() => Slider.GetComponent<Slider>();
+    public Slider GetSlider()
+    {
+        return Slider.GetComponent<Slider>();
+    }
 
     /// <returns>slider object</returns>
-    public GameObject GetSliderObject() => Slider;
+    public GameObject GetSliderObject()
+    {
+        return Slider;
+    }
 }

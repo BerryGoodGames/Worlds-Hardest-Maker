@@ -9,10 +9,10 @@ public class AlphaUITween : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private TMP_Text text;
     [SerializeField] private CanvasGroup canvasGroup;
-    [Space] [SerializeField] private readonly bool startVisible = true;
+    [Space] [SerializeField] private bool startVisible = true;
     [SerializeField] private float duration;
     [SerializeField] private bool disableObjectWhenInvisible;
-    [Range(0, 1)] [SerializeField] private readonly float alphaVisible = 1;
+    [Range(0, 1)] [SerializeField] private float alphaVisible = 1;
     [Range(0, 1)] [SerializeField] private float alphaInvisible;
 
     public Action OnSetVisible = null;
@@ -66,12 +66,16 @@ public class AlphaUITween : MonoBehaviour
     public void SetVisible(bool vis)
     {
         if (IsVisible && !vis)
+        {
             // the frame setting to invisible
             TweenInvis();
+        }
 
         if (!IsVisible && vis)
+        {
             // the frame setting to visible
             TweenVis();
+        }
 
         IsVisible = vis;
     }

@@ -36,10 +36,16 @@ public class WaypointOld
         RotateWhileDelay = waypoint.RotateWhileDelay;
     }
 
-    public override string ToString() =>
-        $"position: {Position}, speed: {Speed}, delay: {Delay}, rotationSpeed: {RotationSpeed}, rotateWhileDelay {RotateWhileDelay}";
+    public override string ToString()
+    {
+        return
+            $"position: {Position}, speed: {Speed}, delay: {Delay}, rotationSpeed: {RotationSpeed}, rotateWhileDelay {RotateWhileDelay}";
+    }
 
-    public WaypointOld Clone() => new(Position, RotateWhileDelay, Delay, Speed, RotationSpeed);
+    public WaypointOld Clone()
+    {
+        return new(Position, RotateWhileDelay, Delay, Speed, RotationSpeed);
+    }
 }
 
 

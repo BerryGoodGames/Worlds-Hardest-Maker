@@ -50,5 +50,8 @@ public class SetSpeedBlock : AnchorBlock
         Debug.Log((input, unit));
     }
 
-    public override AnchorBlockData GetData() => new SetSpeedBlockData(input, unit);
+    public override AnchorBlockData GetData()
+    {
+        return new SetSpeedBlockData(input, unit);
+    }
 }

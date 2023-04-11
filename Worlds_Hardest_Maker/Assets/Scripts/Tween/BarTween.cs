@@ -12,7 +12,7 @@ public class BarTween : MonoBehaviour
 
     [SerializeField] private float visibleY;
     [SerializeField] private float invisibleY;
-    [SerializeField] private readonly bool isVisibleOnlyOnEdit = true;
+    [SerializeField] private bool isVisibleOnlyOnEdit = true;
     [Space] [SerializeField] private float appearDuration;
     [SerializeField] private float disappearDuration;
     [Space] [SerializeField] private Ease easeAppear;

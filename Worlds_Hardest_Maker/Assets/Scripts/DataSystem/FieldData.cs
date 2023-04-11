@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     Field attributes: position, type
@@ -34,5 +35,8 @@ public class FieldData : Data
         FieldManager.Instance.SetField(pos, type, Rotation);
     }
 
-    public override EditMode GetEditMode() => (EditMode)Enum.Parse(typeof(EditMode), FieldType);
+    public override EditMode GetEditMode()
+    {
+        return (EditMode)Enum.Parse(typeof(EditMode), FieldType);
+    }
 }

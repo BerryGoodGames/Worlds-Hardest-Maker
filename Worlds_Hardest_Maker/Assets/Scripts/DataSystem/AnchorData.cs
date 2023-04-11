@@ -20,7 +20,7 @@ public class AnchorData : Data
         // init balls and blocks
         SaveBalls(controller);
         SaveBlocks(controller);
-
+        
         // init start position
         position = new[]
         {
@@ -30,7 +30,6 @@ public class AnchorData : Data
     }
 
     #region Saving / loading properties
-
     private void SaveBalls(AnchorController controller)
     {
         // init balls
@@ -51,9 +50,7 @@ public class AnchorData : Data
         // loop through LinkedList
         blocks = new AnchorBlockData[controller.Blocks.Count];
         int j = 0;
-        for (LinkedListNode<AnchorBlock> currentBlockNode = controller.Blocks.First;
-             currentBlockNode != null;
-             currentBlockNode = currentBlockNode.Next)
+        for (LinkedListNode<AnchorBlock> currentBlockNode = controller.Blocks.First; currentBlockNode != null; currentBlockNode = currentBlockNode.Next)
         {
             AnchorBlock currentBlock = currentBlockNode.Value;
 
@@ -90,7 +87,6 @@ public class AnchorData : Data
 
         return blockArr;
     }
-
     #endregion
 
 
@@ -105,10 +101,16 @@ public class AnchorData : Data
 
         List<Vector2> ballPositions = LoadBalls();
 
-        foreach (Vector2 ballPosition in ballPositions) AnchorBallManager.SetAnchorBall(ballPosition, anchor);
+        foreach (Vector2 ballPosition in ballPositions)
+        {
+            AnchorBallManager.SetAnchorBall(ballPosition, anchor);
+        }
 
         anchor.Blocks = LoadBlocks(anchor);
     }
 
-    public override EditMode GetEditMode() => EditMode.ANCHOR;
+    public override EditMode GetEditMode()
+    {
+        return EditMode.ANCHOR;
+    }
 }

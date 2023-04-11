@@ -50,7 +50,10 @@ public class AnchorBallManagerOld : MonoBehaviour
 
         foreach (Collider2D hit in hits)
         {
-            if (hit.CompareTag("BallObject")) Destroy(hit.transform.parent.gameObject);
+            if (hit.CompareTag("BallObject"))
+            {
+                Destroy(hit.transform.parent.gameObject);
+            }
         }
     }
 

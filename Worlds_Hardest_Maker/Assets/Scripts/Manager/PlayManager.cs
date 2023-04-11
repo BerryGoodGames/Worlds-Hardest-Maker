@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class PlayManager : MonoBehaviour
 {
@@ -31,11 +32,13 @@ public class PlayManager : MonoBehaviour
         if (EditModeManager.Instance.Playing) SwitchToEdit();
         else SwitchToPlay();
 
-        foreach (BarTween tween in BarTween.TweenList) tween.SetPlay(EditModeManager.Instance.Playing);
+        foreach (BarTween tween in BarTween.TweenList)
+        {
+            tween.SetPlay(EditModeManager.Instance.Playing);
+        }
     }
 
     #region On play
-
     public static void SwitchToPlay()
     {
         SetupPlayers();
@@ -65,7 +68,6 @@ public class PlayManager : MonoBehaviour
         // disable placement preview
         ReferenceManager.Instance.PlacementPreview.SetActive(false);
     }
-
     private static void SetupPlayers()
     {
         foreach (Transform player in ReferenceManager.Instance.PlayerContainer.transform)
@@ -79,7 +81,6 @@ public class PlayManager : MonoBehaviour
             controller.Deaths = 0;
         }
     }
-
     private static void StartAnchors()
     {
         AnchorManager.Instance.UpdateSelectedAnchor();
@@ -97,17 +98,14 @@ public class PlayManager : MonoBehaviour
             anchor.Animator.SetBool(playingString, true);
         }
     }
-
     private static void JumpToPlayer()
     {
         if (Camera.main != null) Camera.main.GetComponent<JumpToEntity>().Jump(true);
     }
-
     private static void ClosePanel(PanelTween panel)
     {
         if (panel.Open) panel.Toggle();
     }
-
     private static void ActivateCoinKeyAnimations()
     {
         Animator anim;
@@ -128,11 +126,9 @@ public class PlayManager : MonoBehaviour
             anim.SetBool(pickedUpString, key.GetChild(0).GetComponent<KeyController>().PickedUp);
         }
     }
-
     #endregion
 
     #region On edit
-
     public static void SwitchToEdit()
     {
         EditModeManager.Instance.Playing = false;
@@ -163,7 +159,6 @@ public class PlayManager : MonoBehaviour
             controller.CurrentGameState = null;
         }
     }
-
     private static void EnablePreview()
     {
         // enable placement preview and place it at mouse
@@ -172,7 +167,6 @@ public class PlayManager : MonoBehaviour
             FollowMouse.GetCurrentMouseWorldPos(ReferenceManager.Instance.PlacementPreview.GetComponent<FollowMouse>()
                 .WorldPosition);
     }
-
     private static void ResetAnchors()
     {
         // reset anchors
@@ -185,7 +179,6 @@ public class PlayManager : MonoBehaviour
             anchor.Animator.SetBool(playingString, false);
         }
     }
-
     private static void ResetCoinKeyAnimations()
     {
         Animator anim;
@@ -291,7 +284,6 @@ public class PlayManager : MonoBehaviour
             }
         }
     }
-
     #endregion
 
     public static void QuitGame()

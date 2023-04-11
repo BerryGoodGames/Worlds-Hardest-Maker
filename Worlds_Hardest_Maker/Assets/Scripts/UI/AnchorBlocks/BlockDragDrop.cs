@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class BlockDragDrop : MonoBehaviour
 {
-    [SerializeField] private readonly bool active = true;
+    [SerializeField] private bool active = true;
 
     private Vector2 offset;
     private Coroutine waitForSnap;
@@ -99,8 +100,7 @@ public class BlockDragDrop : MonoBehaviour
             {
                 OnEndDrag(Input.mousePosition);
                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-                restrict.RectTransform =
-                    ReferenceManager.Instance.AnchorBlockStringContainer.GetComponent<RectTransform>();
+                restrict.RectTransform = ReferenceManager.Instance.AnchorBlockStringContainer.GetComponent<RectTransform>();
                 restrict.enabled = true;
                 yield break;
             }

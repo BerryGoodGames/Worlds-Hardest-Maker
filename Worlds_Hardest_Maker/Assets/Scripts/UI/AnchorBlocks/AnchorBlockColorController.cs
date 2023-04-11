@@ -24,5 +24,8 @@ public abstract class AnchorBlockColorController : MonoBehaviour
         return darker;
     }
 
-    public static Color KeepA(Color new_, Color assign) => new(new_.r, new_.g, new_.b, assign.a);
+    public static Color KeepA(Color new_, Color assign)
+    {
+        return new(new_.r, new_.g, new_.b, assign.a);
+    }
 }

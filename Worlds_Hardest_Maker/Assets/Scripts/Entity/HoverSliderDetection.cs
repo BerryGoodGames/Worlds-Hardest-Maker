@@ -26,7 +26,10 @@ public class HoverSliderDetection : MonoBehaviour
                 return true;
             }
 
-            if (hovered || Roots.Length == 0) return true;
+            if (hovered || Roots.Length == 0)
+            {
+                return true;
+            }
         }
 
         hovered = false;

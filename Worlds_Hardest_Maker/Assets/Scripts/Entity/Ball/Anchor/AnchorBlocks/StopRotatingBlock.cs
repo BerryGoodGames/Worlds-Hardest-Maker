@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
@@ -6,10 +8,8 @@ public class StopRotatingBlock : AnchorBlock
     public StopRotatingBlock(AnchorController anchor) : base(anchor)
     {
     }
-
     public const Type BlockType = Type.STOP_ROTATING;
     public override Type ImplementedBlockType => BlockType;
-
     public override void Execute()
     {
         Anchor.InfiniteRotationTween.Kill();
@@ -31,5 +31,8 @@ public class StopRotatingBlock : AnchorBlock
         CreateAnchorConnector(connectorContainer, block.transform.GetSiblingIndex(), insertable);
     }
 
-    public override AnchorBlockData GetData() => new StopRotatingBlockData();
+    public override AnchorBlockData GetData()
+    {
+        return new StopRotatingBlockData();
+    }
 }
