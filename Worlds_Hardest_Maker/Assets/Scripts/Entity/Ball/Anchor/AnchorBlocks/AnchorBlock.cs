@@ -70,7 +70,6 @@ public abstract class AnchorBlock
         {
             last.GetComponent<AnchorConnectorController>().Dummy = true;
         }
-            
     }
 
     public abstract AnchorBlockData GetData();
