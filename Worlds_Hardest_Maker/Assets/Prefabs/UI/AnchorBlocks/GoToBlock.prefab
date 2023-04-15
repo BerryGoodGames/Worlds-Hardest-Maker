@@ -493,6 +493,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 7337178856049047238, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+--- !u!1 &4626706179512977860 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4046638471290049802, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+  m_PrefabInstance: {fileID: 8655303848792267982}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7403852272629114466 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2207349393350425260, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
@@ -517,5 +522,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Movable: 1
   duplicateOffset: {x: -10, y: 10}
+  lockIconContainer: {fileID: 4626706179512977860}
   BlockDragDropComp: {fileID: 0}
   Input: {fileID: 5406890964228011025}

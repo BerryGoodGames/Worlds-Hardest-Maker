@@ -180,10 +180,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Movable: 1
   duplicateOffset: {x: -10, y: 10}
+  lockIconContainer: {fileID: 3021426020777799523}
   BlockDragDropComp: {fileID: 0}
 --- !u!224 &1109251508889321669 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2207349393350425260, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+  m_PrefabInstance: {fileID: 1280938514438519401}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3021426020777799523 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4046638471290049802, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
   m_PrefabInstance: {fileID: 1280938514438519401}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4128870767913509700

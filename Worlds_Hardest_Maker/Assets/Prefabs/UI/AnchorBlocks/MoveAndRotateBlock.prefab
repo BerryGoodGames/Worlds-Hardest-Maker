@@ -873,11 +873,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2207349393350425260, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1038.0687
+      value: 991.63446
       objectReference: {fileID: 0}
     - target: {fileID: 2207349393350425260, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 573.54517
+      value: 528.2952
       objectReference: {fileID: 0}
     - target: {fileID: 2207349393350425260, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -965,6 +965,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+--- !u!1 &889548813686051939 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4046638471290049802, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+  m_PrefabInstance: {fileID: 3778735390812062057}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3085765387000724420 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2207349393350425261, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
@@ -984,6 +989,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Movable: 1
   duplicateOffset: {x: -10, y: 10}
+  lockIconContainer: {fileID: 889548813686051939}
   BlockDragDropComp: {fileID: 0}
   InputX: {fileID: 605373212716470926}
   InputY: {fileID: 475701485661072173}

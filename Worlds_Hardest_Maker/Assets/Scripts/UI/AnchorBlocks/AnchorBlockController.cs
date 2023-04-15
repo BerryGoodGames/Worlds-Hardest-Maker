@@ -7,6 +7,8 @@ public abstract class AnchorBlockController : MonoBehaviour
 
     [SerializeField] private Vector2 duplicateOffset = new(-10, 10);
 
+    [SerializeField] private GameObject lockIconContainer;
+
     [HideInInspector] public BlockDragDrop BlockDragDropComp;
 
     public abstract AnchorBlock GetAnchorBlock(AnchorController anchorController);
@@ -21,6 +23,9 @@ public abstract class AnchorBlockController : MonoBehaviour
         if (!Movable && TryGetComponent(out BlockDragDrop blockDragDrop))
             Destroy(blockDragDrop);
         if (!Movable && TryGetComponent(out AnchorBlockQuickMenu quickMenu)) quickMenu.Active = false;
+
+        // enable lock icon if unmovable and not a source
+        lockIconContainer.SetActive(!Movable && !IsSource());
     }
 
     public void Delete()
@@ -33,4 +38,6 @@ public abstract class AnchorBlockController : MonoBehaviour
         Instantiate(gameObject, transform.position + (Vector3)duplicateOffset, Quaternion.identity,
             ReferenceManager.Instance.AnchorBlockStringContainer);
     }
+
+    public bool IsSource() => TryGetComponent(out AnchorBlockSource _);
 }

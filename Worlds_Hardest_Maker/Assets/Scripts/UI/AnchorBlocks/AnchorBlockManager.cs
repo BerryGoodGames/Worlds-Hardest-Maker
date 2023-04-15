@@ -10,13 +10,13 @@ public class AnchorBlockManager : MonoBehaviour
 
     public static void LoadAnchorBlocks(AnchorController anchor)
     {
-        // destroy loose strings
+        // destroy loose strings (ignore main string)
         List<GameObject> strings = new();
         foreach (Transform s in ReferenceManager.Instance.AnchorBlockStringContainer) strings.Add(s.gameObject);
 
         for (int i = 1; i < strings.Count; i++) Destroy(strings[i]);
 
-        // destroy anchor blocks in main string
+        // destroy anchor blocks in main string (ignore connector controller and start block)
         List<GameObject> anchorBlocks = new();
         foreach (Transform anchorBlock in ReferenceManager.Instance.MainStringController.transform)
             anchorBlocks.Add(anchorBlock.gameObject);

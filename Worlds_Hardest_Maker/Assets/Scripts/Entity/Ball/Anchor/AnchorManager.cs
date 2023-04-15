@@ -16,7 +16,7 @@ public class AnchorManager : MonoBehaviour
         get => selectedAnchor;
         set
         {
-            UpdateSelectedAnchor();
+            UpdateSelectedAnchorBlocks();
             selectedAnchor = value;
             if (value != null) AnchorBlockManager.LoadAnchorBlocks(value);
         }
@@ -132,10 +132,10 @@ public class AnchorManager : MonoBehaviour
 
     private void Start()
     {
-        EditModeManager.Instance.OnPlay += UpdateSelectedAnchor;
+        EditModeManager.Instance.OnPlay += UpdateSelectedAnchorBlocks;
     }
 
-    public void UpdateSelectedAnchor()
+    public void UpdateSelectedAnchorBlocks()
     {
         if (selectedAnchor == null) return;
 
