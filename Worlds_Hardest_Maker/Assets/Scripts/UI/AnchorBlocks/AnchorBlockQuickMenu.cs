@@ -15,8 +15,6 @@ public class AnchorBlockQuickMenu : MonoBehaviour, IPointerClickHandler
         Vector2 mousePos = MouseManager.Instance.MouseCanvasPos;
         mousePos.y = MouseManager.Instance.MouseCanvasPos.y - GameManager.GetCanvasDimensions().y;
 
-        // TODO: fix position
-
         AnchorBlockQuickMenuController quickMenu = ReferenceManager.Instance.AnchorBlockQuickMenu;
 
         quickMenu.SelectedAnchorBlock = anchorBlockController;

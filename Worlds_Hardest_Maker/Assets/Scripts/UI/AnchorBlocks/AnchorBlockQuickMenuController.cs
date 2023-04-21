@@ -5,7 +5,7 @@ public class AnchorBlockQuickMenuController : QuickMenuController
     public RectTransform RectTransform;
     public AlphaUITween Tween;
 
-    public AnchorBlockController SelectedAnchorBlock { get; set; } = null;
+    public AnchorBlockController SelectedAnchorBlock;
 
 
     public void OnClickDelete()
@@ -16,8 +16,10 @@ public class AnchorBlockQuickMenuController : QuickMenuController
             return;
         }
 
-        if (SelectedAnchorBlock.Movable)
-            SelectedAnchorBlock.Delete();
+        if (!SelectedAnchorBlock.Movable) return;
+
+        SelectedAnchorBlock.Delete();
+        ReferenceManager.Instance.AnchorBlockFitter.UpdateChildrenArray();
     }
 
     public void OnClickDuplicate()
@@ -29,5 +31,6 @@ public class AnchorBlockQuickMenuController : QuickMenuController
         }
 
         SelectedAnchorBlock.Duplicate();
+        ReferenceManager.Instance.AnchorBlockFitter.UpdateChildrenArray();
     }
 }

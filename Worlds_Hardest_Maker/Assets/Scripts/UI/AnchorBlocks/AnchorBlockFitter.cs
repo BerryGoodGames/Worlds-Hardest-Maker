@@ -50,7 +50,7 @@ public class AnchorBlockFitter : MonoBehaviour
     {
         if (!ChildrenChanged()) return;
 
-        children = this.GetComponentsInDirectChildren<RectTransform>();
+        UpdateChildrenArray();
 
         float minY = -minimumHeight + bottomPadding;
 
@@ -69,5 +69,10 @@ public class AnchorBlockFitter : MonoBehaviour
         minY -= bottomPadding;
 
         rt.sizeDelta = new(rt.sizeDelta.x, -minY);
+    }
+
+    public void UpdateChildrenArray()
+    {
+        children = this.GetComponentsInDirectChildren<RectTransform>();
     }
 }
