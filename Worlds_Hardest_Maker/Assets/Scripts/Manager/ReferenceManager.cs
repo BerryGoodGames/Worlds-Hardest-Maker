@@ -71,7 +71,7 @@ public class ReferenceManager : MonoBehaviour
 
     public Transform AnchorBlockContainer;
 
-    public Transform AnchorBlockStringContainer;
+    public RectTransform AnchorBlockStringContainer;
 
     public AnchorBlockQuickMenuController AnchorBlockQuickMenu;
 

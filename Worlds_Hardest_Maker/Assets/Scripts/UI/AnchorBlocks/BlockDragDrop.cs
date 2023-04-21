@@ -43,7 +43,7 @@ public class BlockDragDrop : MonoBehaviour
         offset = mousePos - (Vector2)transform.position;
     }
 
-    private void OnEndDrag(Vector2 mousePos)
+    private void OnEndDrag()
     {
         if (!active || !gameObject.activeInHierarchy) return;
 
@@ -69,10 +69,9 @@ public class BlockDragDrop : MonoBehaviour
         OnBeginDrag(pointerData.position);
     }
 
-    public void OnEndEvent(BaseEventData data)
+    public void OnEndEvent(BaseEventData _)
     {
-        PointerEventData pointerData = (PointerEventData)data;
-        OnEndDrag(pointerData.position);
+        OnEndDrag();
     }
 
     #endregion
@@ -97,10 +96,8 @@ public class BlockDragDrop : MonoBehaviour
         {
             if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
             {
-                OnEndDrag(Input.mousePosition);
-                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-                restrict.RectTransform =
-                    ReferenceManager.Instance.AnchorBlockStringContainer.GetComponent<RectTransform>();
+                OnEndDrag();
+                restrict.RectTransform = ReferenceManager.Instance.AnchorBlockStringContainer;
                 restrict.enabled = true;
                 yield break;
             }

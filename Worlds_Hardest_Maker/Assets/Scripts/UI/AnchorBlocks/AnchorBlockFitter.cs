@@ -18,13 +18,13 @@ public class AnchorBlockFitter : MonoBehaviour
         rt = GetComponent<RectTransform>();
     }
 
-#if UNITY_EDITOR
-    private void Update()
-    {
-        if (!EditorApplication.isPlaying)
-            CheckForChanges();
-    }
-#endif
+// #if UNITY_EDITOR
+//     private void Update()
+//     {
+//         if (!EditorApplication.isPlaying)
+//             CheckForChanges();
+//     }
+// #endif
 
     private bool ChildrenChanged()
     {
@@ -48,9 +48,9 @@ public class AnchorBlockFitter : MonoBehaviour
 
     public void CheckForChanges()
     {
-        if (!ChildrenChanged()) return;
-
         UpdateChildrenArray();
+
+        if (!ChildrenChanged()) return;
 
         float minY = -minimumHeight + bottomPadding;
 
