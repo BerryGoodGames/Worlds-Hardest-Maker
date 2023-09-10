@@ -76,7 +76,7 @@ public class MoveAndRotateBlockData : AnchorBlockData
     }
 
     public override AnchorBlock GetBlock(AnchorController anchor) =>
-        new MoveAndRotateBlock(anchor, IsLocked, target[0], target[1], iterations, adaptRotation);
+        new MoveAndRotateBlock(anchor, IsLocked, new(target[0], target[1]), iterations, adaptRotation);
 }
 
 [Serializable]

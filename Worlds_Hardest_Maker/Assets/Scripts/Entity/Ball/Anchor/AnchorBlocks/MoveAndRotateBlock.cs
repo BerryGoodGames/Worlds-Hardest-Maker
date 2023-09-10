@@ -22,12 +22,6 @@ public class MoveAndRotateBlock : PositionAnchorBlock
         this.adaptRotation = adaptRotation;
     }
 
-    public MoveAndRotateBlock(AnchorController anchor, bool isLocked, float x, float y, float iterations,
-        bool adaptRotation) : this(
-        anchor, isLocked, new(x, y), iterations, adaptRotation)
-    {
-    }
-
     #endregion
 
     public override void Execute()

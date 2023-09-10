@@ -209,6 +209,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 1
+  lockHighlightTween: {fileID: 4210469631369490394}
+  IsLocked: 0
 --- !u!114 &5313470536566280892
 MonoBehaviour:
   m_ObjectHideFlags: 0

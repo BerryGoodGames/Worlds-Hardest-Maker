@@ -61,6 +61,10 @@ public class PlayManager : MonoBehaviour
         // close level settings / anchor editor panel if open
         ClosePanel(ReferenceManager.Instance.LevelSettingsPanelTween);
         // ClosePanel(ReferenceManager.Instance.AnchorEditorPanelTween);
+
+        // hide panels
+        ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(false);
+        ReferenceManager.Instance.LevelSettingsPanelTween.Set(false);
     }
 
     private static void DisablePreview() =>
@@ -156,6 +160,9 @@ public class PlayManager : MonoBehaviour
         ResetPlayerGameStates();
 
         EditModeManager.Instance.InvokeOnEdit();
+
+        // show level setting panel
+        if(EditModeManager.Instance.CurrentEditMode != EditMode.Anchor) ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(true);
     }
 
     private static void ResetPlayerGameStates()

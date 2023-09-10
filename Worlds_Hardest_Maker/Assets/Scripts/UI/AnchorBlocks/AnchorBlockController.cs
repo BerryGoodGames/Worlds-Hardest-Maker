@@ -21,9 +21,13 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         AnchorBlockDragDropComp = GetComponent<AnchorBlockDragDrop>();
         restrict = GetComponent<UIRestrictInRectTransform>();
 
-        if (IsLocked && TryGetComponent(out AnchorBlockDragDrop blockDragDrop)) Destroy(blockDragDrop);
-        if (IsLocked && TryGetComponent(out AnchorBlockQuickMenu quickMenu)) quickMenu.Active = false;
+        if (IsLocked)
+        {
+            if(TryGetComponent(out AnchorBlockQuickMenu quickMenu)) quickMenu.Active = false;
 
+            if (TryGetComponent(out AnchorBlockDragDrop dragDrop)) dragDrop.IsLocked = true;
+        }
+        
         IsSource = TryGetComponent(out AnchorBlockSource _);
 
         // enable lock icon if unmovable and not a source
