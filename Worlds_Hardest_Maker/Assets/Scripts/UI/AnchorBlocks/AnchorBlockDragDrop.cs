@@ -21,7 +21,7 @@ public class AnchorBlockDragDrop : MonoBehaviour
         if (!active) return;
 
         Canvas canvas = ReferenceManager.Instance.Canvas;
-
+        
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             (RectTransform)canvas.transform,
             mousePos,
@@ -30,6 +30,7 @@ public class AnchorBlockDragDrop : MonoBehaviour
         );
 
         transform.position = canvas.transform.TransformPoint(position) - (Vector3)offset;
+        
     }
 
     private void OnBeginDrag(Vector2 mousePos)
@@ -42,6 +43,12 @@ public class AnchorBlockDragDrop : MonoBehaviour
         anchorBlockController.TrimFromCurrentChain();
 
         offset = mousePos - (Vector2)transform.position;
+
+        // update anchor connector y size
+        RectTransform anchorConnectorRt =
+            (RectTransform)ReferenceManager.Instance.AnchorBlockConnectorController.transform;
+        anchorConnectorRt.sizeDelta = new(anchorConnectorRt.sizeDelta.x,
+            ((RectTransform)AnchorBlockManager.Instance.DraggedBlock.transform).rect.height);
     }
 
     private void OnEndDrag()
