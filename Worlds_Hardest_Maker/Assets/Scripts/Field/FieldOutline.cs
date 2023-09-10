@@ -21,7 +21,6 @@ public class FieldOutline : MonoBehaviour
     [SerializeField] private Color color = Color.black;
     [SerializeField] private bool imitateAlpha;
     [SerializeField] private float weight = 0.1f;
-    [SerializeField] private int orderInLayer = 2;
 
     [Separator] [SerializeField] private List<string> connectorTags;
     [SerializeField] private bool connectToOwnTag = true;
@@ -96,7 +95,6 @@ public class FieldOutline : MonoBehaviour
         DrawManager.SetWeight(weight);
         DrawManager.SetFill(color);
         DrawManager.SetLayerID(DrawManager.OutlineLayerID);
-        DrawManager.SetOrderInLayer(orderInLayer);
         DrawManager.SetRoundedCorners(false);
 
         Transform t = transform;

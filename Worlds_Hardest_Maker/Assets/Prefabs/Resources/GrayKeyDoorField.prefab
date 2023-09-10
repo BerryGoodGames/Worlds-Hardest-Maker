@@ -168,9 +168,7 @@ MonoBehaviour:
   imitateAlpha: 1
   weight: 0.1
   orderInLayer: 4
-  connectorTags:
-  - KeyDoorField
-  - WallField
+  connectorTags: []
   connectToOwnTag: 1
   rayLength: 1
   UpdateOnStart: 1
