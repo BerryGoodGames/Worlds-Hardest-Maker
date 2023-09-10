@@ -83,7 +83,7 @@ public partial class AnchorController : Controller
             // add offset
             Vector2 currentValue = positionBlock.PositionInput.GetPositionValues();
 
-            positionBlock.PositionInput.SetPositionValues(currentValue.x + delta.x, currentValue.y + delta.y);
+            positionBlock.PositionInput.SetPositionValues(currentValue + delta);
         }
     }
 

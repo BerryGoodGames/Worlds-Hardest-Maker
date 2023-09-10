@@ -20,7 +20,7 @@ public class MoveBlockData : AnchorBlockData
     public MoveBlockData(bool isLocked, Vector2 target) : base(isLocked) => this.target = new[] { target.x, target.y };
 
     public override AnchorBlock GetBlock(AnchorController anchor) =>
-        new MoveBlock(anchor, IsLocked, target[0], target[1]);
+        new MoveBlock(anchor, IsLocked, new(target[0], target[1]));
 }
 
 [Serializable]
