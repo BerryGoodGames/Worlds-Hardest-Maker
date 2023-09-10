@@ -12,15 +12,20 @@ public class LockHighlightTween : MonoBehaviour
     [SerializeField] private int shakes = 5;
     [SerializeField] private int shakeRotation = 45;
 
+    private Sequence scaleSequence;
+
     [ButtonMethod]
     public void Highlight()
     {
+        // only play animation when not currently playing
+        if (scaleSequence != null) return;
+
         // scale
-        Sequence scaleSequence = DOTween.Sequence();
+        scaleSequence = DOTween.Sequence();
 
         scaleSequence
             // scale up
-            .Append(transform.DOScale(Vector3.one * scale, duration / 2).SetEase(Ease.InOutSine))
+            .Append(transform.DOScale(Vector3.one * scale, duration / 2).SetEase(Ease.OutCubic))
             // scale back down
             .Append(transform.DOScale(Vector3.one, duration / 2).SetEase(Ease.InOutSine));
         
@@ -49,6 +54,7 @@ public class LockHighlightTween : MonoBehaviour
 
         shakeSequence
             // return to normal position
-            .Append(transform.DORotate(Vector3.zero, singleShakeDuration).SetEase(Ease.InOutSine));
+            .Append(transform.DORotate(Vector3.zero, singleShakeDuration).SetEase(Ease.InOutSine))
+            .OnComplete(() => scaleSequence = null);
     }
 }
