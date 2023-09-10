@@ -16,6 +16,6 @@ public class MoveAndRotateBlockController : PositionAnchorBlockController
             !float.TryParse(PositionInput.InputY.text, out float y) |
             !float.TryParse(InputIterations.text, out float iterations))
             Debug.LogWarning("Input in a MoveAndRotate Block was not a float");
-        return new MoveAndRotateBlock(anchorController, IsLocked, x, y, iterations, AdaptRotation.isOn);
+        return new MoveAndRotateBlock(anchorController, IsLocked, new Vector2(x, y) + anchorController.GetPosition(), iterations, AdaptRotation.isOn);
     }
 }
