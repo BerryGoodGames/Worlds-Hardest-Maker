@@ -454,14 +454,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bfa1f800246e80438c975735f3ad75f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedText: {fileID: 0}
   Speed: 3
   waterLevel: {fileID: 2970012482437784707}
   waterDamping: 0.4
   drownDuration: 10
   iceFriction: 4
   maxIceSpeed: 5
-  voidSuckDuration: 0.8
+  voidFallDuration: 0.8
   Rb: {fileID: 0}
   Animator: {fileID: 0}
   EdgeCollider: {fileID: 0}

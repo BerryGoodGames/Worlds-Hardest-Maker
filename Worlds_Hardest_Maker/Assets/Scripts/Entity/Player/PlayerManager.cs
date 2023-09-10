@@ -97,7 +97,7 @@ public class PlayerManager : MonoBehaviour
     {
         foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
         {
-            player.GetComponent<PlayerController>().DestroyPlayer();
+            player.GetComponent<PlayerController>().DestroySelf();
         }
     }
 
@@ -108,7 +108,7 @@ public class PlayerManager : MonoBehaviour
         foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
         {
             if (player.position.x.EqualsFloat(mx) && player.position.y.EqualsFloat(my))
-                player.GetComponent<PlayerController>().DestroyPlayer();
+                player.GetComponent<PlayerController>().DestroySelf();
         }
     }
 
@@ -122,7 +122,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (MultiplayerManager.Instance.Multiplayer && player.GetComponent<PhotonView>().IsMine) continue;
             if (player.position.x.EqualsFloat(mx) && player.position.y.EqualsFloat(my))
-                player.GetComponent<PlayerController>().DestroyPlayer();
+                player.GetComponent<PlayerController>().DestroySelf();
         }
     }
 
@@ -134,7 +134,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (MultiplayerManager.Instance.Multiplayer && !player.GetComponent<PhotonView>().IsMine) continue;
             if (player.position.x.EqualsFloat(mx) && player.position.y.EqualsFloat(my))
-                player.GetComponent<PlayerController>().DestroyPlayer();
+                player.GetComponent<PlayerController>().DestroySelf();
         }
     }
 
