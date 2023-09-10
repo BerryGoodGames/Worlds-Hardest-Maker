@@ -84,8 +84,8 @@ public class KeyController : Controller
 
         foreach (GameObject door in GameObject.FindGameObjectsWithTag(tagColor + "KeyDoorField"))
         {
-            KeyDoorField controller = door.GetComponent<KeyDoorField>();
-            controller.Lock(false);
+            KeyDoorFieldController controller = door.GetComponent<KeyDoorFieldController>();
+            controller.SetLocked(false);
         }
     }
 

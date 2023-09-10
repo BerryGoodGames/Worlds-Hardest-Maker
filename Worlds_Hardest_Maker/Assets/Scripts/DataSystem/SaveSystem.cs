@@ -81,9 +81,9 @@ public static class SaveSystem
         }
 
         // serialize keys
-        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
+        foreach (KeyController key in KeyManager.Instance.Keys)
         {
-            KeyData keyData = new(key.GetChild(0).GetComponent<KeyController>());
+            KeyData keyData = new(key);
             levelData.Add(keyData);
         }
 
