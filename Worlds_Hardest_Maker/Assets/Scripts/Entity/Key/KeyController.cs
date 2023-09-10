@@ -1,12 +1,15 @@
+using MyBox;
 using UnityEngine;
 
 public class KeyController : Controller
 {
     [HideInInspector] public KeyManager.KeyColor Color;
-
     [HideInInspector] public Vector2 KeyPosition;
-
     [HideInInspector] public bool PickedUp;
+
+    [InitializationField] [MustBeAssigned] public SpriteRenderer SpriteRenderer;
+    [InitializationField] [MustBeAssigned] public Animator Animator;
+    [InitializationField] [MustBeAssigned] public IntervalRandomAnimation KonamiAnimation;
 
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
 
@@ -21,6 +24,7 @@ public class KeyController : Controller
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // check key collection
         // check if edgeCollider is player
         if (!collision.TryGetComponent(out PlayerController controller)) return;
 
@@ -28,25 +32,28 @@ public class KeyController : Controller
         if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) return;
 
         // check if that player hasn't collected key yet
-        if (!controller.KeysCollected.Contains(gameObject)) PickUp(collision.gameObject);
+        PlayerController player = collision.GetComponent<PlayerController>();
+        if (!controller.KeysCollected.Contains(this)) PickUp(player);
     }
 
+    /// <summary>
+    /// Set order in layer to be on top of every other
+    /// </summary>
     private void SetOrderInLayer()
     {
         int highestOrder = 0;
-        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
+        foreach (KeyController key in KeyManager.Instance.Keys)
         {
-            int order = key.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder;
+            int order = key.SpriteRenderer.sortingOrder;
             if (order > highestOrder) highestOrder = order;
         }
 
-        GetComponent<Renderer>().sortingOrder = highestOrder + 1;
+        SpriteRenderer.sortingOrder = highestOrder + 1;
     }
 
-    private void PickUp(GameObject player)
+    private void PickUp(PlayerController player)
     {
-        PlayerController playerController = player.GetComponent<PlayerController>();
-        playerController.KeysCollected.Add(gameObject);
+        player.KeysCollected.Add(this);
 
         // random rotation of pickup animation
         int randRotation = Random.Range(0, 2) * 90;
@@ -59,12 +66,12 @@ public class KeyController : Controller
 
         PickedUp = true;
 
-        CheckAndUnlock(player);
+        UnlockKeyDoors(player);
     }
 
-    public void CheckAndUnlock(GameObject player)
+    public void UnlockKeyDoors(PlayerController player)
     {
-        if (!player.GetComponent<PlayerController>().AllKeysCollected(Color)) return;
+        if (!player.AllKeysCollected(Color)) return;
 
         string tagColor = Color switch
         {

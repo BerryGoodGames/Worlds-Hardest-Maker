@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MyBox;
 using Photon.Pun;
 using UnityEngine;
 
@@ -15,34 +16,34 @@ public class KeyManager : MonoBehaviour
         Yellow
     }
 
-    public static readonly List<EditMode> KeyModes = new(new[]
+    public static readonly List<EditMode> KeyModes = new()
     {
         EditMode.GrayKey,
         EditMode.RedKey,
         EditMode.BlueKey,
         EditMode.GreenKey,
         EditMode.YellowKey
-    });
+    };
 
-    public static readonly List<EditMode> KeyDoorModes = new(new[]
+    public static readonly List<EditMode> KeyDoorModes = new()
     {
         EditMode.GrayKeyDoorField,
         EditMode.RedKeyDoorField,
         EditMode.BlueKeyDoorField,
         EditMode.GreenKeyDoorField,
         EditMode.YellowKeyDoorField
-    });
+    };
 
-    public static readonly List<FieldType> KeyDoorTypes = new(new[]
+    public static readonly List<FieldType> KeyDoorTypes = new()
     {
         FieldType.GrayKeyDoorField,
         FieldType.RedKeyDoorField,
         FieldType.BlueKeyDoorField,
         FieldType.GreenKeyDoorField,
         FieldType.YellowKeyDoorField
-    });
+    };
 
-    public static List<FieldType> CannotPlaceFields = new(new[]
+    public static readonly List<FieldType> CannotPlaceFields = new()
     {
         FieldType.WallField,
         FieldType.GrayKeyDoorField,
@@ -50,9 +51,11 @@ public class KeyManager : MonoBehaviour
         FieldType.BlueKeyDoorField,
         FieldType.GreenKeyDoorField,
         FieldType.YellowKeyDoorField
-    });
+    };
 
     private static readonly int playingString = Animator.StringToHash("Playing");
+
+    [ReadOnly] public List<KeyController> Keys;
 
     [PunRPC]
     public void SetKey(float mx, float my, KeyColor color)
@@ -61,27 +64,44 @@ public class KeyManager : MonoBehaviour
 
         Vector2 pos = new(mx, my);
 
+        // remove other key (which has mby other color)
         RemoveKey(mx, my);
 
-        GameObject key = Instantiate(color.GetPrefabKey(), pos, Quaternion.identity,
+        GameObject keyObject = Instantiate(color.GetPrefabKey(), pos, Quaternion.identity,
             ReferenceManager.Instance.KeyContainer);
 
-        Animator anim = key.GetComponent<Animator>();
-        anim.SetBool(playingString, EditModeManager.Instance.Playing);
+        // cache key controller
+        KeyController key = keyObject.transform.GetChild(0).GetComponent<KeyController>();
+        Keys.Add(key);
 
-        key.GetComponent<IntervalRandomAnimation>().enabled = KonamiManager.KonamiActive;
+        // setup idle animation
+        key.Animator.SetBool(playingString, EditModeManager.Instance.Playing);
+
+        // setup konami code animation
+        key.KonamiAnimation.enabled = KonamiManager.KonamiActive;
     }
 
     public void SetKey(Vector2 pos, KeyColor color) => SetKey(pos.x, pos.y, color);
 
     [PunRPC]
-    public void RemoveKey(float mx, float my) => DestroyImmediate(GetKey(mx, my));
+    public void RemoveKey(float mx, float my)
+    {
+        KeyController key = GetKey(mx, my);
+
+        if (key == null) return;
+
+        // un-cache
+        Keys.Remove(key);
+
+        // destroy
+        DestroyImmediate(key.transform.gameObject);
+    }
 
     public static void SetKonamiMode(bool konami)
     {
-        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
+        foreach (KeyController key in Instance.Keys)
         {
-            key.GetComponent<IntervalRandomAnimation>().enabled = konami;
+            key.KonamiAnimation.enabled = konami;
         }
     }
 
@@ -91,23 +111,23 @@ public class KeyManager : MonoBehaviour
         !IsKeyThere(mx, my) &&
         !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CannotPlaceFields.ToArray());
 
-    public static GameObject GetKey(float mx, float my)
+    public static KeyController GetKey(float mx, float my)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.01f, 128);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.01f, LayerManager.Instance.Layers.Entity);
         foreach (Collider2D hit in hits)
         {
-            if (hit.GetComponent<KeyController>() != null) return hit.transform.parent.gameObject;
+            if (hit.TryGetComponent(out KeyController controller)) return controller;
         }
 
         return null;
     }
 
-    public static GameObject GetKey(Vector2 pos) => GetKey(pos.x, pos.y);
+    public static KeyController GetKey(Vector2 pos) => GetKey(pos.x, pos.y);
 
     public static bool IsKeyThere(float mx, float my, KeyColor color)
     {
-        GameObject key = GetKey(mx, my);
-        return key != null && key.transform.GetChild(0).GetComponent<KeyController>().Color == color;
+        KeyController key = GetKey(mx, my);
+        return key != null && key.Color == color;
     }
 
     public static bool IsKeyThere(float mx, float my) => GetKey(mx, my) != null;

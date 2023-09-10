@@ -62,7 +62,7 @@ public class PlayerController : Controller
     [ReadOnly] public int Deaths;
 
     [HideInInspector] public List<GameObject> CoinsCollected;
-    [HideInInspector] public List<GameObject> KeysCollected;
+    [HideInInspector] public List<KeyController> KeysCollected;
 
     [HideInInspector] public List<GameObject> CurrentFields;
 
@@ -584,10 +584,9 @@ public class PlayerController : Controller
         }
 
         List<Vector2> keyPositions = new();
-        foreach (GameObject k in KeysCollected)
+        foreach (KeyController key in KeysCollected)
         {
-            KeyController keyController = k.GetComponent<KeyController>();
-            keyPositions.Add(keyController.KeyPosition);
+            keyPositions.Add(key.KeyPosition);
         }
 
         GameState res = new(statePlayerStartingPos, coinPositions, keyPositions);
@@ -629,31 +628,28 @@ public class PlayerController : Controller
 
     private void ResetKeysToCurrentGameState()
     {
-        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
+        foreach (KeyController key in KeyManager.Instance.Keys)
         {
-            KeyController keyController = key.GetChild(0).GetComponent<KeyController>();
-
-            bool respawns = true;
+            bool isRespawning = true;
             if (CurrentGameState != null)
             {
                 foreach (Vector2 collected in CurrentGameState.CollectedKeys)
                 {
-                    if (!collected.x.EqualsFloat(keyController.KeyPosition.x) ||
-                        !collected.y.EqualsFloat(keyController.KeyPosition.y)) continue;
+                    if (!collected.x.EqualsFloat(key.KeyPosition.x) ||
+                        !collected.y.EqualsFloat(key.KeyPosition.y)) continue;
 
                     // if key is collected or no state exists it doesn't respawn
-                    respawns = false;
+                    isRespawning = false;
                     break;
                 }
             }
 
-            if (!respawns) continue;
-            KeysCollected.Remove(key.gameObject);
+            if (!isRespawning) continue;
 
-            keyController.PickedUp = false;
+            KeysCollected.Remove(key);
 
-            Animator anim = key.GetComponent<Animator>();
-            anim.SetBool(pickedUp, false);
+            key.PickedUp = false;
+            key.Animator.SetBool(pickedUp, false);
         }
     }
 
@@ -747,7 +743,7 @@ public class PlayerController : Controller
 
         foreach (Vector2 keyCollectedPos in CurrentGameState.CollectedKeys)
         {
-            GameObject key = KeyManager.GetKey(keyCollectedPos);
+            KeyController key = KeyManager.GetKey(keyCollectedPos);
             if (key == null) throw new Exception("Passed game state has null value for key");
 
             KeysCollected.Add(key);
