@@ -19,19 +19,6 @@ public class FieldManager : MonoBehaviour
         FieldType.YellowKeyDoorField
     });
 
-    public static readonly List<FieldType> RotatableFields = new(new[]
-    {
-        FieldType.OneWayField,
-        FieldType.Conveyor
-    });
-
-    public static bool IsRotatable(EditMode editMode)
-    {
-        FieldType? fieldType = (FieldType?)EnumUtils.TryConvertEnum<EditMode, FieldType>(editMode);
-
-        return fieldType != null && RotatableFields.Contains((FieldType)fieldType);
-    }
-
     public static FieldType? GetFieldType(GameObject field)
     {
         if (field == null) return null;

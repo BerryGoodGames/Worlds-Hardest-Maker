@@ -69,6 +69,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6053181342507690478, guid: 6996851b8e355ab489aa50b0829d3bc4, type: 3}
+      propertyPath: connectorTags.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6053181342507690478, guid: 6996851b8e355ab489aa50b0829d3bc4, type: 3}
       propertyPath: ConnectTags.Array.data[0]
       value: YellowKeyDoorField
       objectReference: {fileID: 0}

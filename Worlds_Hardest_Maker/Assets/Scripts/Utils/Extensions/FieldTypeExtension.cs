@@ -3,6 +3,17 @@ using UnityEngine;
 
 public static class FieldTypeExtension
 {
+    public static bool IsRotatable(this FieldType fieldType)
+    {
+        List<FieldType> rotatableFields = new(new[]
+        {
+            FieldType.OneWayField,
+            FieldType.Conveyor
+        });
+
+        return rotatableFields.Contains(fieldType);
+    }
+
     public static GameObject GetPrefab(this FieldType type) =>
         // return prefab according to type
         new[]

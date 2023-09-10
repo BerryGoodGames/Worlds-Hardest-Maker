@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 /// <summary>
@@ -30,8 +31,10 @@ public class KeyEvents : MonoBehaviour
             }
         }
 
-        // rotate rotatable fields
-        if (FieldManager.IsRotatable(EditModeManager.Instance.CurrentEditMode) && Input.GetKeyDown(KeyCode.R))
+        // rotate if current edit mode is field and rotatable
+        FieldType? fieldType = (FieldType?)EnumUtils.TryConvertEnum<EditMode, FieldType>(EditModeManager.Instance.CurrentEditMode);
+
+        if (fieldType != null && ((FieldType)fieldType).IsRotatable() && Input.GetKeyDown(KeyCode.R))
         {
             EditModeManager.Instance.EditRotation = (EditModeManager.Instance.EditRotation - 90) % 360;
 

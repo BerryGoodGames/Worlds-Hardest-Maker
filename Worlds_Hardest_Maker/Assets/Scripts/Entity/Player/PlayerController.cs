@@ -504,8 +504,8 @@ public class PlayerController : Controller
         {
             foreach (GameObject door in GameObject.FindGameObjectsWithTag(tag))
             {
-                KeyDoorField comp = door.GetComponent<KeyDoorField>();
-                if (!AllKeysCollected(comp.Color)) comp.Lock(true);
+                KeyDoorFieldController comp = door.GetComponent<KeyDoorFieldController>();
+                if (!AllKeysCollected(comp.Color)) comp.SetLocked(true);
             }
         }
     }
@@ -526,10 +526,9 @@ public class PlayerController : Controller
 
     public bool AllKeysCollected(KeyManager.KeyColor color)
     {
-        foreach (Transform k in ReferenceManager.Instance.KeyContainer)
+        foreach (KeyController key in KeyManager.Instance.Keys)
         {
-            KeyController controller = k.GetChild(0).GetComponent<KeyController>();
-            if (!controller.PickedUp && controller.Color == color) return false;
+            if (!key.PickedUp && key.Color == color) return false;
         }
 
         return true;

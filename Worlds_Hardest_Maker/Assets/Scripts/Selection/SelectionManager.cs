@@ -280,7 +280,7 @@ public class SelectionManager : MonoBehaviour
         CurrentSelectionRange = null;
 
         // set rotation
-        int rotation = FieldManager.IsRotatable(EditModeManager.Instance.CurrentEditMode)
+        int rotation = type.IsRotatable()
             ? EditModeManager.Instance.EditRotation
             : 0;
 

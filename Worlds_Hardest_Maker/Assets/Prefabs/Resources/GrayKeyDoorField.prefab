@@ -105,6 +105,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8040030197767907272}
   m_SourcePrefab: {fileID: 100100000, guid: fc74f76601483e34d8343c228304c362, type: 3}
+--- !u!61 &1500799656295931634 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
+  m_PrefabInstance: {fileID: 5114238751353141159}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3315082733933200473 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
@@ -143,6 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5db23a97711cc864fa0e41c18e7c2987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 3032094411550446596}
+  boxCollider: {fileID: 1500799656295931634}
   Unlocked: 0
   Color: 0
 --- !u!114 &6053181342507690478
@@ -161,9 +168,7 @@ MonoBehaviour:
   imitateAlpha: 1
   weight: 0.1
   orderInLayer: 4
-  connectorTags:
-  - KeyDoorField
-  - WallField
+  connectorTags: []
   connectToOwnTag: 1
   rayLength: 1
   UpdateOnStart: 1

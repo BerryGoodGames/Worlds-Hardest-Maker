@@ -86,9 +86,9 @@ public class MouseEvents : MonoBehaviour
         }
 
         // place field
-        int rotation = FieldManager.IsRotatable(editMode) ? EditModeManager.Instance.EditRotation : 0;
-
         FieldType type = EnumUtils.ConvertEnum<EditMode, FieldType>(editMode);
+
+        int rotation = type.IsRotatable() ? EditModeManager.Instance.EditRotation : 0;
 
         // if user didn't drag to fast, just place field normally
         if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) < 1.414f)

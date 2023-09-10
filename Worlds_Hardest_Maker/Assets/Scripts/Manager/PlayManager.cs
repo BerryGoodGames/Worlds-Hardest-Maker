@@ -130,11 +130,10 @@ public class PlayManager : MonoBehaviour
         }
 
         // activate key animations
-        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
+        foreach (KeyController key in KeyManager.Instance.Keys)
         {
-            anim = key.GetComponent<Animator>();
-            anim.SetBool(playingString, true);
-            anim.SetBool(pickedUpString, key.GetChild(0).GetComponent<KeyController>().PickedUp);
+            key.Animator.SetBool(playingString, true);
+            key.Animator.SetBool(pickedUpString, key.PickedUp);
         }
     }
 
@@ -216,13 +215,12 @@ public class PlayManager : MonoBehaviour
         }
 
         // deactivate key animations
-        foreach (Transform key in ReferenceManager.Instance.KeyContainer.transform)
+        foreach (KeyController key in KeyManager.Instance.Keys)
         {
-            key.GetChild(0).GetComponent<KeyController>().PickedUp = false;
+            key.PickedUp = false;
 
-            anim = key.GetComponent<Animator>();
-            anim.SetBool(playingString, false);
-            anim.SetBool(pickedUpString, false);
+            key.Animator.SetBool(playingString, false);
+            key.Animator.SetBool(pickedUpString, false);
         }
     }
 
@@ -268,11 +266,10 @@ public class PlayManager : MonoBehaviour
         }
 
         // reset keys
-        foreach (Transform key in ReferenceManager.Instance.KeyContainer)
+        foreach (KeyController key in KeyManager.Instance.Keys)
         {
-            Animator anim = key.GetComponent<Animator>();
-            anim.SetBool(playingString, false);
-            anim.SetBool(pickedUpString, false);
+            key.Animator.SetBool(playingString, false);
+            key.Animator.SetBool(pickedUpString, false);
         }
 
         foreach (GameObject player in PlayerManager.GetPlayers())
@@ -301,8 +298,8 @@ public class PlayManager : MonoBehaviour
         {
             foreach (GameObject door in GameObject.FindGameObjectsWithTag(tag))
             {
-                KeyDoorField comp = door.GetComponent<KeyDoorField>();
-                comp.Lock(true);
+                KeyDoorFieldController comp = door.GetComponent<KeyDoorFieldController>();
+                comp.SetLocked(true);
             }
         }
     }
