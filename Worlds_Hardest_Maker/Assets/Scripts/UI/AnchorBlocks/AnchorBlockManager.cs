@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MyBox;
@@ -165,6 +166,14 @@ public partial class AnchorBlockManager : MonoBehaviour
         }
 
         EmptyAnchorChains();
+
+        Instance.StartCoroutine(CreateAnchorBlocks(anchor));
+    }
+
+    private static IEnumerator CreateAnchorBlocks(AnchorController anchor)
+    {
+        // wait for emptying anchor chains (using Destroy())
+        yield return new WaitForEndOfFrame();
 
         // create objects
         AnchorBlock[] blocks = anchor.Blocks.ToArray();

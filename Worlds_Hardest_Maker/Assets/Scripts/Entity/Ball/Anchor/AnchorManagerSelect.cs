@@ -23,10 +23,10 @@ public partial class AnchorManager
             switchedEditMode = true;
         }
 
-        UpdateBlockListInSelectedAnchor();
-
         if (SelectedAnchor != null)
         {
+            UpdateBlockListInSelectedAnchor();
+
             SelectedAnchor.Animator.SetBool(selected, false);
             SelectedAnchor.SetLinesActive(false);
         }
