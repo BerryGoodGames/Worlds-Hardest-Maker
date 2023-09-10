@@ -2,27 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using DG.Tweening;
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
-/// <summary>
-///     manages game (duh)
-/// </summary>
 public class GameManager : MonoBehaviourPun
 {
     public static GameManager Instance { get; private set; }
 
     [SerializeField] private LoadingScreen loadingScreen;
+    private RectTransform canvasRT;
 
     private void Awake()
     {
         // init singleton
         if (Instance == null)
-        {
             Instance = this;
-            // DontDestroyOnLoad(gameObject);
-        }
+        // DontDestroyOnLoad(gameObject);
         else Destroy(gameObject);
 
         Utils.ForceDecimalSeparator(".");
@@ -32,10 +30,10 @@ public class GameManager : MonoBehaviourPun
 
     private void Start()
     {
-        if (!MultiplayerManager.Instance.Multiplayer)
-        {
-            PlayerManager.Instance.SetPlayer(0, 0, 3f);
-        }
+        canvasRT = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>();
+        DOTween.Init(useSafeMode: false);
+
+        if (!MultiplayerManager.Instance.Multiplayer) PlayerManager.Instance.SetPlayer(0, 0, 3f);
 
         LevelSettings.Instance.SetDrownDuration();
         LevelSettings.Instance.SetIceFriction();
@@ -44,10 +42,9 @@ public class GameManager : MonoBehaviourPun
     }
 
     /// <summary>
-    ///     Place edit mode at position
+    ///     Places edit mode at position
     /// </summary>
     /// <param name="editMode">the type of field/entity you want</param>
-    /// <param name="pos">the position where it will be set</param>
     public static void PlaceEditModeAtPosition(EditMode editMode, Vector2 pos)
     {
         int matrixX = (int)Mathf.Round(pos.x);
@@ -60,12 +57,15 @@ public class GameManager : MonoBehaviourPun
         float gridY = Mathf.Round(pos.y * 2) * 0.5f;
 
         if (editMode.IsFieldType())
+        {
             FieldManager.Instance.SetField((int)pos.x, (int)pos.y,
                 EnumUtils.ConvertEnum<EditMode, FieldType>(editMode));
+        }
         else
+        {
             switch (editMode)
             {
-                case EditMode.DELETE_FIELD:
+                case EditMode.DeleteField:
                 {
                     // delete field
                     if (multiplayer) photonView.RPC("RemoveField", RpcTarget.All, matrixX, matrixY, true);
@@ -77,15 +77,15 @@ public class GameManager : MonoBehaviourPun
                     else PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixX, matrixY);
                     break;
                 }
-                case EditMode.PLAYER:
+                case EditMode.Player:
                     // place player
                     PlayerManager.Instance.SetPlayer(gridX, gridY, true);
                     break;
-                case EditMode.COIN when multiplayer:
+                case EditMode.Coin when multiplayer:
                     // place coin
                     photonView.RPC("SetCoin", RpcTarget.All, gridX, gridY);
                     break;
-                case EditMode.COIN:
+                case EditMode.Coin:
                     CoinManager.Instance.SetCoin(gridX, gridY);
                     break;
                 default:
@@ -93,7 +93,8 @@ public class GameManager : MonoBehaviourPun
                     if (KeyManager.IsKeyEditMode(editMode))
                     {
                         // get key color
-                        string keyColorStr = editMode.ToString()[..^4];
+                        string editModeStr = editMode.ToString();
+                        string keyColorStr = editModeStr.Remove(editModeStr.Length - 3);
                         KeyManager.KeyColor keyColor =
                             (KeyManager.KeyColor)Enum.Parse(typeof(KeyManager.KeyColor), keyColorStr);
 
@@ -105,6 +106,7 @@ public class GameManager : MonoBehaviourPun
                     break;
                 }
             }
+        }
     }
 
     #region Save system
@@ -113,16 +115,14 @@ public class GameManager : MonoBehaviourPun
     {
         List<Data> levelData = SaveSystem.LoadLevel();
 
-        if (levelData != null)
-        {
-            LoadLevelFromData(levelData.ToArray());
-        }
+        if (levelData != null) LoadLevelFromData(levelData.ToArray());
     }
 
     [PunRPC]
     public void LoadLevelFromData(Data[] levelData)
     {
         ClearLevel();
+
         List<FieldData> fieldData = new();
         PlayerData playerData = null;
         LevelSettingsData levelSettingsData = null;
@@ -207,6 +207,9 @@ public class GameManager : MonoBehaviourPun
         else throw new Exception($"Couldn't set camera height (in units) to {height} because main camera is null");
     }
 
+    public static Vector2 ScreenToMainCanvas(Vector2 position) =>
+        position * (Instance.canvasRT.sizeDelta / new Vector2(Screen.width, Screen.height));
+
 
     [PunRPC]
     public void ClearLevel()
@@ -215,7 +218,8 @@ public class GameManager : MonoBehaviourPun
         Transform[] containers =
         {
             ReferenceManager.Instance.FieldContainer, ReferenceManager.Instance.PlayerContainer,
-            ReferenceManager.Instance.BallDefaultContainer, ReferenceManager.Instance.BallCircleContainer,
+            ReferenceManager.Instance.BallDefaultContainer,
+            ReferenceManager.Instance.BallCircleContainer,
             ReferenceManager.Instance.CoinContainer, ReferenceManager.Instance.KeyContainer,
             ReferenceManager.Instance.AnchorContainer
         };
@@ -238,13 +242,8 @@ public class GameManager : MonoBehaviourPun
             if (hit == null) continue;
 
             if (hit.transform.parent == container)
-            {
                 Destroy(hit.gameObject);
-            }
-            else if (hit.transform.parent.parent == container)
-            {
-                Destroy(hit.transform.parent.gameObject);
-            }
+            else if (hit.transform.parent.parent == container) Destroy(hit.transform.parent.gameObject);
         }
     }
 
@@ -258,8 +257,29 @@ public class GameManager : MonoBehaviourPun
         }
     }
 
-    public void MainMenu()
+    public void MainMenu() => loadingScreen.LoadScene(0);
+
+    public static void DeselectInputs()
     {
-        loadingScreen.LoadScene(0);
+        EventSystem eventSystem = EventSystem.current;
+        if (!eventSystem.alreadySelecting) eventSystem.SetSelectedGameObject(null);
+    }
+
+    public static Vector2 GetCanvasDimensions()
+    {
+        Rect canvas = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>().rect;
+        return new(canvas.width, canvas.height);
+    }
+
+    public static int GetDropdownValue(string option, TMP_Dropdown dropdown)
+    {
+        for (int i = 0; i < dropdown.options.Count; i++)
+        {
+            if (dropdown.options[i].text == option)
+                return i;
+        }
+
+        Debug.LogWarning("There was no option found");
+        return -1;
     }
 }

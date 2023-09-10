@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-/// <summary>
-///     manages player duh
-/// </summary>
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance { get; private set; }
@@ -17,16 +14,13 @@ public class PlayerManager : MonoBehaviour
 
     public static readonly List<FieldType> StartFields = new(new[]
     {
-        FieldType.START_FIELD,
-        FieldType.GOAL_FIELD
+        FieldType.StartField,
+        FieldType.GoalField
     });
 
     public event Action OnWin;
 
-    public void InvokeOnWin()
-    {
-        OnWin?.Invoke();
-    }
+    public void InvokeOnWin() => OnWin?.Invoke();
 
     #region Set player
 
@@ -47,10 +41,11 @@ public class PlayerManager : MonoBehaviour
 
                 foreach ((int x, int y) in poses)
                 {
-                    FieldManager.Instance.SetField(x, y, FieldType.START_FIELD);
+                    FieldManager.Instance.SetField(x, y, FieldType.StartField);
                 }
             }
-            else return;
+            else
+                return;
         }
 
         // clear area from coins and keys
@@ -77,9 +72,7 @@ public class PlayerManager : MonoBehaviour
             }
         }
         else
-        {
             RemoveAllPlayers();
-        }
 
         // place player
         GameObject newPlayer = InstantiatePlayer(mx, my, speed, MultiplayerManager.Instance.Multiplayer);
@@ -88,19 +81,14 @@ public class PlayerManager : MonoBehaviour
         newPlayer.GetComponent<PlayerController>().ID = newID;
 
         // set target of camera
-        if (Camera.main != null) Camera.main.GetComponent<JumpToEntity>().Target = newPlayer;
+        ReferenceManager.Instance.MainCameraJumper.AddTarget("Player", newPlayer);
     }
 
-    public void SetPlayer(Vector2 pos, float speed, bool placeStartField = false)
-    {
+    public void SetPlayer(Vector2 pos, float speed, bool placeStartField = false) =>
         SetPlayer(pos.x, pos.y, speed, placeStartField);
-    }
 
     [PunRPC]
-    public void SetPlayer(float mx, float my, bool placeStartField = false)
-    {
-        SetPlayer(mx, my, 3f, placeStartField);
-    }
+    public void SetPlayer(float mx, float my, bool placeStartField = false) => SetPlayer(mx, my, 3f, placeStartField);
 
     #endregion
 
@@ -120,16 +108,11 @@ public class PlayerManager : MonoBehaviour
         foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
         {
             if (player.position.x.EqualsFloat(mx) && player.position.y.EqualsFloat(my))
-            {
                 player.GetComponent<PlayerController>().DestroyPlayer();
-            }
         }
     }
 
-    public void RemovePlayerAtPos(Vector2 pos)
-    {
-        RemovePlayerAtPos(pos.x, pos.y);
-    }
+    public void RemovePlayerAtPos(Vector2 pos) => RemovePlayerAtPos(pos.x, pos.y);
 
     [PunRPC]
     public void RemovePlayerAtPosOnlyOtherClients(float mx, float my)
@@ -139,9 +122,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (MultiplayerManager.Instance.Multiplayer && player.GetComponent<PhotonView>().IsMine) continue;
             if (player.position.x.EqualsFloat(mx) && player.position.y.EqualsFloat(my))
-            {
                 player.GetComponent<PlayerController>().DestroyPlayer();
-            }
         }
     }
 
@@ -153,9 +134,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (MultiplayerManager.Instance.Multiplayer && !player.GetComponent<PhotonView>().IsMine) continue;
             if (player.position.x.EqualsFloat(mx) && player.position.y.EqualsFloat(my))
-            {
                 player.GetComponent<PlayerController>().DestroyPlayer();
-            }
         }
     }
 
@@ -170,17 +149,12 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public static bool CanPlace(float mx, float my, bool checkForPlayer = true)
-    {
+    public static bool CanPlace(float mx, float my, bool checkForPlayer = true) =>
         // conditions: no player there, position is covered with possible start fields
-        return !(checkForPlayer && IsPlayerThere(mx, my)) &&
-               FieldManager.IsPosCoveredWithFieldType(mx, my, StartFields.ToArray());
-    }
+        !(checkForPlayer && IsPlayerThere(mx, my)) &&
+        FieldManager.IsPosCoveredWithFieldType(mx, my, StartFields.ToArray());
 
-    public static bool CanPlace(Vector2 pos, bool checkForPlayer = true)
-    {
-        return CanPlace(pos.x, pos.y, checkForPlayer);
-    }
+    public static bool CanPlace(Vector2 pos, bool checkForPlayer = true) => CanPlace(pos.x, pos.y, checkForPlayer);
 
     public static int AvailableID()
     {
@@ -245,8 +219,10 @@ public class PlayerManager : MonoBehaviour
         // getting the one player in single player
         Transform container = ReferenceManager.Instance.PlayerContainer;
         if (container.transform.childCount > 1)
+        {
             throw new Exception(
                 "There are multiple player objects within GameManager.PlayerContainer while trying to access the specific player in singleplayer");
+        }
 
         try
         {
@@ -258,15 +234,9 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public static GameObject GetPlayer(int id)
-    {
-        return PlayerIDList()[id];
-    }
+    public static GameObject GetPlayer(int id) => PlayerIDList()[id];
 
-    public static bool IsPlayerThere(float mx, float my)
-    {
-        return GetPlayer(mx, my) != null;
-    }
+    public static bool IsPlayerThere(float mx, float my) => GetPlayer(mx, my) != null;
 
     public static bool IsPlayerThereIntersect(float mx, float my)
     {
@@ -274,7 +244,8 @@ public class PlayerManager : MonoBehaviour
         float[] dy = { -0.5f, -0.5f, -0.5f, 0, 0, 0, 0.5f, 0.5f, 0.5f };
         for (int i = 0; i < dx.Length; i++)
         {
-            if (IsPlayerThere(mx + dx[i], my + dy[i])) return true;
+            if (IsPlayerThere(mx + dx[i], my + dy[i]))
+                return true;
         }
 
         return false;
@@ -299,7 +270,8 @@ public class PlayerManager : MonoBehaviour
         GameObject newPlayer;
         if (multiplayer)
         {
-            newPlayer = PhotonNetwork.Instantiate(PrefabManager.Instance.Player.name, pos, Quaternion.identity);
+            newPlayer = PhotonNetwork.Instantiate(PrefabManager.Instance.Player.name, pos,
+                Quaternion.identity);
 
             PhotonView view = newPlayer.GetComponent<PhotonView>();
             view.RPC("SetSpeed", RpcTarget.All, speed);
@@ -316,10 +288,8 @@ public class PlayerManager : MonoBehaviour
         return newPlayer;
     }
 
-    public static GameObject InstantiatePlayer(float mx, float my, float speed, bool multiplayer)
-    {
-        return InstantiatePlayer(new(mx, my), speed, multiplayer);
-    }
+    public static GameObject InstantiatePlayer(float mx, float my, float speed, bool multiplayer) =>
+        InstantiatePlayer(new(mx, my), speed, multiplayer);
 
     private void Awake()
     {

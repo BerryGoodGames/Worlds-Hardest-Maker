@@ -1,22 +1,16 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CoinController : Controller
 {
-    [FormerlySerializedAs("coinPosition")] [HideInInspector] public Vector2 CoinPosition;
-    [FormerlySerializedAs("pickedUp")] [HideInInspector] public bool PickedUp;
+    [HideInInspector] public Vector2 CoinPosition;
+
+    [HideInInspector] public bool PickedUp;
 
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
 
-    private void Awake()
-    {
-        CoinPosition = transform.position;
-    }
+    private void Awake() => CoinPosition = transform.position;
 
-    private void OnDestroy()
-    {
-        Destroy(transform.parent.gameObject);
-    }
+    private void OnDestroy() => Destroy(transform.parent.gameObject);
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -39,7 +33,7 @@ public class CoinController : Controller
         foreach (GameObject field in controller.CurrentFields)
         {
             FieldType fieldType = (FieldType)FieldManager.GetFieldType(field);
-            if (fieldType != FieldType.GOAL_FIELD) continue;
+            if (fieldType != FieldType.GoalField) continue;
 
             controller.Win();
             break;
@@ -59,8 +53,5 @@ public class CoinController : Controller
         PickedUp = true;
     }
 
-    public override Data GetData()
-    {
-        return new CoinData(this);
-    }
+    public override Data GetData() => new CoinData(this);
 }

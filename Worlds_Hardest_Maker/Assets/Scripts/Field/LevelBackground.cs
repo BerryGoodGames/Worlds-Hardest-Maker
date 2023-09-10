@@ -1,8 +1,8 @@
 using UnityEngine;
 
 /// <summary>
-///     script for consistent seamless background
-///     attach to main camera
+///     Consistent seamless background
+///     <para>Attach to main camera</para>
 /// </summary>
 public class LevelBackground : MonoBehaviour
 {
@@ -19,7 +19,7 @@ public class LevelBackground : MonoBehaviour
     {
         cam = GetComponent<Camera>();
 
-        CalcSize(TryGetComponent(out MapController mapController) ? mapController.MaxZoom : defaultMaxZoom);
+        CalcSize(TryGetComponent(out MapController mapController) ? mapController.ZoomLimits.Max : defaultMaxZoom);
     }
 
     private void Update()
@@ -27,9 +27,7 @@ public class LevelBackground : MonoBehaviour
         Vector2 camPosition = cam.transform.position;
 
         if (prevPosition != camPosition)
-        {
             container.position = new(Mathf.Floor(camPosition.x * 0.5f) * 2, Mathf.Floor(camPosition.y * 0.5f) * 2);
-        }
 
         prevPosition = camPosition;
     }
@@ -53,14 +51,12 @@ public class LevelBackground : MonoBehaviour
                 int mx = Mathf.RoundToInt((i - Mathf.Floor(-width + 1)) / tileSize.x);
                 int my = Mathf.RoundToInt((j - Mathf.Floor(-height + 1)) / tileSize.y);
                 if ((mx + my) % 2 == 0) continue;
-                GameObject tile = Instantiate(backgroundTile, new(i + containerPos.x, j + containerPos.y), Quaternion.identity, container);
+                GameObject tile = Instantiate(backgroundTile, new(i + containerPos.x, j + containerPos.y),
+                    Quaternion.identity, container);
                 tile.transform.localScale = tileSize;
             }
         }
     }
 
-    public void CalcSize()
-    {
-        CalcSize(cam.orthographicSize);
-    }
+    public void CalcSize() => CalcSize(cam.orthographicSize);
 }

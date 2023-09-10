@@ -8,48 +8,48 @@ public class KeyManager : MonoBehaviour
 
     public enum KeyColor
     {
-        GRAY,
-        RED,
-        GREEN,
-        BLUE,
-        YELLOW
+        Gray,
+        Red,
+        Green,
+        Blue,
+        Yellow
     }
 
     public static readonly List<EditMode> KeyModes = new(new[]
     {
-        EditMode.GRAY_KEY,
-        EditMode.RED_KEY,
-        EditMode.BLUE_KEY,
-        EditMode.GREEN_KEY,
-        EditMode.YELLOW_KEY
+        EditMode.GrayKey,
+        EditMode.RedKey,
+        EditMode.BlueKey,
+        EditMode.GreenKey,
+        EditMode.YellowKey
     });
 
     public static readonly List<EditMode> KeyDoorModes = new(new[]
     {
-        EditMode.GRAY_KEY_DOOR_FIELD,
-        EditMode.RED_KEY_DOOR_FIELD,
-        EditMode.BLUE_KEY_DOOR_FIELD,
-        EditMode.GREEN_KEY_DOOR_FIELD,
-        EditMode.YELLOW_KEY_DOOR_FIELD
+        EditMode.GrayKeyDoorField,
+        EditMode.RedKeyDoorField,
+        EditMode.BlueKeyDoorField,
+        EditMode.GreenKeyDoorField,
+        EditMode.YellowKeyDoorField
     });
 
     public static readonly List<FieldType> KeyDoorTypes = new(new[]
     {
-        FieldType.GRAY_KEY_DOOR_FIELD,
-        FieldType.RED_KEY_DOOR_FIELD,
-        FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldType.YELLOW_KEY_DOOR_FIELD
+        FieldType.GrayKeyDoorField,
+        FieldType.RedKeyDoorField,
+        FieldType.BlueKeyDoorField,
+        FieldType.GreenKeyDoorField,
+        FieldType.YellowKeyDoorField
     });
 
     public static List<FieldType> CannotPlaceFields = new(new[]
     {
-        FieldType.WALL_FIELD,
-        FieldType.GRAY_KEY_DOOR_FIELD,
-        FieldType.RED_KEY_DOOR_FIELD,
-        FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldType.YELLOW_KEY_DOOR_FIELD
+        FieldType.WallField,
+        FieldType.GrayKeyDoorField,
+        FieldType.RedKeyDoorField,
+        FieldType.BlueKeyDoorField,
+        FieldType.GreenKeyDoorField,
+        FieldType.YellowKeyDoorField
     });
 
     private static readonly int playingString = Animator.StringToHash("Playing");
@@ -72,16 +72,10 @@ public class KeyManager : MonoBehaviour
         key.GetComponent<IntervalRandomAnimation>().enabled = KonamiManager.KonamiActive;
     }
 
-    public void SetKey(Vector2 pos, KeyColor color)
-    {
-        SetKey(pos.x, pos.y, color);
-    }
+    public void SetKey(Vector2 pos, KeyColor color) => SetKey(pos.x, pos.y, color);
 
     [PunRPC]
-    public void RemoveKey(float mx, float my)
-    {
-        DestroyImmediate(GetKey(mx, my));
-    }
+    public void RemoveKey(float mx, float my) => DestroyImmediate(GetKey(mx, my));
 
     public static void SetKonamiMode(bool konami)
     {
@@ -91,32 +85,24 @@ public class KeyManager : MonoBehaviour
         }
     }
 
-    public static bool CanPlace(float mx, float my)
-    {
+    public static bool CanPlace(float mx, float my) =>
         // conditions: no key there, covered by canplacefield or default, no player there
-        return !PlayerManager.IsPlayerThere(mx, my) &&
-               !IsKeyThere(mx, my) &&
-               !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CannotPlaceFields.ToArray());
-    }
+        !PlayerManager.IsPlayerThere(mx, my) &&
+        !IsKeyThere(mx, my) &&
+        !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CannotPlaceFields.ToArray());
 
     public static GameObject GetKey(float mx, float my)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.01f, 128);
         foreach (Collider2D hit in hits)
         {
-            if (hit.GetComponent<KeyController>() != null)
-            {
-                return hit.transform.parent.gameObject;
-            }
+            if (hit.GetComponent<KeyController>() != null) return hit.transform.parent.gameObject;
         }
 
         return null;
     }
 
-    public static GameObject GetKey(Vector2 pos)
-    {
-        return GetKey(pos.x, pos.y);
-    }
+    public static GameObject GetKey(Vector2 pos) => GetKey(pos.x, pos.y);
 
     public static bool IsKeyThere(float mx, float my, KeyColor color)
     {
@@ -124,20 +110,11 @@ public class KeyManager : MonoBehaviour
         return key != null && key.transform.GetChild(0).GetComponent<KeyController>().Color == color;
     }
 
-    public static bool IsKeyThere(float mx, float my)
-    {
-        return GetKey(mx, my) != null;
-    }
+    public static bool IsKeyThere(float mx, float my) => GetKey(mx, my) != null;
 
-    public static bool IsKeyDoorEditMode(EditMode mode)
-    {
-        return KeyDoorModes.Contains(mode);
-    }
+    public static bool IsKeyDoorEditMode(EditMode mode) => KeyDoorModes.Contains(mode);
 
-    public static bool IsKeyEditMode(EditMode mode)
-    {
-        return KeyModes.Contains(mode);
-    }
+    public static bool IsKeyEditMode(EditMode mode) => KeyModes.Contains(mode);
 
     private void Awake()
     {

@@ -1,11 +1,13 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class KeyController : Controller
 {
-    [FormerlySerializedAs("color")] [HideInInspector] public KeyManager.KeyColor Color;
-    [FormerlySerializedAs("keyPosition")] [HideInInspector] public Vector2 KeyPosition;
-    [FormerlySerializedAs("pickedUp")] [HideInInspector] public bool PickedUp;
+    [HideInInspector] public KeyManager.KeyColor Color;
+
+    [HideInInspector] public Vector2 KeyPosition;
+
+    [HideInInspector] public bool PickedUp;
+
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
 
     private void Awake()
@@ -15,10 +17,7 @@ public class KeyController : Controller
         SetOrderInLayer();
     }
 
-    private void OnDestroy()
-    {
-        Destroy(transform.parent.gameObject);
-    }
+    private void OnDestroy() => Destroy(transform.parent.gameObject);
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -29,10 +28,7 @@ public class KeyController : Controller
         if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) return;
 
         // check if that player hasn't collected key yet
-        if (!controller.KeysCollected.Contains(gameObject))
-        {
-            PickUp(collision.gameObject);
-        }
+        if (!controller.KeysCollected.Contains(gameObject)) PickUp(collision.gameObject);
     }
 
     private void SetOrderInLayer()
@@ -72,10 +68,10 @@ public class KeyController : Controller
 
         string tagColor = Color switch
         {
-            KeyManager.KeyColor.RED => "Red",
-            KeyManager.KeyColor.GREEN => "Green",
-            KeyManager.KeyColor.BLUE => "Blue",
-            KeyManager.KeyColor.YELLOW => "Yellow",
+            KeyManager.KeyColor.Red => "Red",
+            KeyManager.KeyColor.Green => "Green",
+            KeyManager.KeyColor.Blue => "Blue",
+            KeyManager.KeyColor.Yellow => "Yellow",
             _ => ""
         };
 
@@ -86,8 +82,5 @@ public class KeyController : Controller
         }
     }
 
-    public override Data GetData()
-    {
-        return new KeyData(this);
-    }
+    public override Data GetData() => new KeyData(this);
 }

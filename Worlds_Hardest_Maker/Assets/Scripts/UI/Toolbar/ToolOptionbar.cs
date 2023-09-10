@@ -1,14 +1,16 @@
+using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [ExecuteAlways]
 public class ToolOptionbar : MonoBehaviour
 {
-    [FormerlySerializedAs("background")] public GameObject Background;
-    [FormerlySerializedAs("hoveringHitbox")] public GameObject HoveringHitbox;
-    [FormerlySerializedAs("options")] public GameObject Options;
-    [FormerlySerializedAs("size")] public float Size;
+    public GameObject Background;
+
+    public GameObject HoveringHitbox;
+
+    public GameObject Options;
+    public float Size;
     private RectTransform hh;
     private RectTransform rtThis;
     private GridLayoutGroup gridLayout;
@@ -45,14 +47,14 @@ public class ToolOptionbar : MonoBehaviour
 
     public void DisableOptionbar()
     {
-        if (!anim.IsVisible())
-        {
-            hh.sizeDelta = new(gridLayout.cellSize.x, gridLayout.cellSize.y);
-            hh.localPosition = new(0, -1250);
-            rtThis.localPosition = new(0, 1000);
-        }
+        if (anim.IsVisible) return;
+
+        hh.sizeDelta = new(gridLayout.cellSize.x, gridLayout.cellSize.y);
+        hh.localPosition = new(0, -1250);
+        rtThis.localPosition = new(0, 1000);
     }
 
+    [ButtonMethod]
     public void ScaleOptions()
     {
         foreach (Transform tool in Options.transform)
@@ -61,6 +63,7 @@ public class ToolOptionbar : MonoBehaviour
         }
     }
 
+    [ButtonMethod]
     public void UpdateHeight()
     {
         RectTransform rt = Background.GetComponent(typeof(RectTransform)) as RectTransform;
@@ -68,9 +71,7 @@ public class ToolOptionbar : MonoBehaviour
         if (rt == null) return;
 
         if (toolCount == 0)
-        {
             rt.sizeDelta = new(100, 100);
-        }
         else
         {
             width = gridLayout.cellSize.x * Size;

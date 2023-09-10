@@ -1,32 +1,37 @@
+using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
-///     apply to every field prefab variant which has outlines (vgl. TypesWithOutlines)
+///     Attach to every field prefab variant which has outlines (see TypesWithOutlines)
 /// </summary>
 public class FieldOutline : MonoBehaviour
 {
     // array not dynamic
     public static readonly FieldType[] TypesWithOutlines =
     {
-        FieldType.WALL_FIELD,
-        FieldType.GRAY_KEY_DOOR_FIELD,
-        FieldType.RED_KEY_DOOR_FIELD,
-        FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldType.YELLOW_KEY_DOOR_FIELD
+        FieldType.WallField,
+        FieldType.GrayKeyDoorField,
+        FieldType.RedKeyDoorField,
+        FieldType.BlueKeyDoorField,
+        FieldType.GreenKeyDoorField,
+        FieldType.YellowKeyDoorField
     };
 
-    [FormerlySerializedAs("color")] public Color Color = Color.black;
-    [FormerlySerializedAs("imitateAlpha")] public bool ImitateAlpha;
-    [FormerlySerializedAs("weight")] public float Weight = 0.1f;
-    [FormerlySerializedAs("order")] public int Order = 2;
-    [FormerlySerializedAs("connectTags")] [Space] public string[] ConnectTags;
-    [FormerlySerializedAs("rayLength")] public float RayLength = 1f;
+    [SerializeField] private Color color = Color.black;
+    [SerializeField] private bool imitateAlpha;
+    [SerializeField] private float weight = 0.1f;
+    [SerializeField] private int orderInLayer = 2;
+
+    [Separator] [SerializeField] private List<string> connectorTags;
+    [SerializeField] private bool connectToOwnTag = true;
+
+    [Separator] [SerializeField] private float rayLength = 1f;
 
     private readonly Vector2[] directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
 
-    [FormerlySerializedAs("updateOnStart")] [HideInInspector] public bool UpdateOnStart = true;
+    [HideInInspector] public bool UpdateOnStart = true;
+
     private GameObject lineContainer;
     private SpriteRenderer spriteRenderer;
     private bool hasSpriteRenderer;
@@ -41,7 +46,7 @@ public class FieldOutline : MonoBehaviour
             transform = { parent = transform }
         };
 
-        if (ConnectTags.Length == 0) ConnectTags = new[] { transform.tag };
+        if (connectToOwnTag) connectorTags.Add(transform.tag);
 
         if (TryGetComponent(out spriteRenderer)) hasSpriteRenderer = true;
     }
@@ -56,10 +61,7 @@ public class FieldOutline : MonoBehaviour
         if (UpdateOnStart) UpdateOutline(true);
     }
 
-    private void Update()
-    {
-        UpdateAlpha();
-    }
+    private void Update() => UpdateAlpha();
 
     public void UpdateOutline(bool updateNeighbor = false)
     {
@@ -81,7 +83,7 @@ public class FieldOutline : MonoBehaviour
         // debug stuff so not important
         if (Dbg.Instance.DbgEnabled && !Dbg.Instance.WallOutlines) return;
 
-        ClearLineInDir(dir);
+        ClearLineInDirection(dir);
 
         if (IsConnectorInDirection(dir, updateNeighbor, true)) return;
 
@@ -90,35 +92,41 @@ public class FieldOutline : MonoBehaviour
 
     private void DrawLine(Vector2 dir)
     {
+        // draw settings
+        DrawManager.SetWeight(weight);
+        DrawManager.SetFill(color);
+        DrawManager.SetLayerID(DrawManager.OutlineLayerID);
+        DrawManager.SetOrderInLayer(orderInLayer);
+        DrawManager.SetRoundedCorners(false);
+
         Transform t = transform;
         Vector2 localPosition = t.localPosition;
         Vector2 localScale = t.localScale;
+        float halfWidth = localScale.x / 2;
+        float halfHeight = localScale.y / 2;
+        float halfWeight = weight / 2;
 
-        LineManager.SetWeight(Weight);
-        LineManager.SetFill(Color);
-        LineManager.SetLayerID(LineManager.OutlineLayerID);
-        LineManager.SetOrderInLayer(Order);
         if (dir.Equals(Vector2.up) || dir.Equals(Vector2.down))
         {
             // get left & right hits to fill in gaps in inner corners
             bool left = IsConnectorInDirection(Vector2.left);
             bool right = IsConnectorInDirection(Vector2.right);
 
-            LineManager.DrawLine(
-                localPosition.x - localScale.x * 0.5f - (left ? Weight : 0),
-                localPosition.y + dir.y * 0.5f - dir.y * Weight * 0.5f,
-                localPosition.x + localScale.x * 0.5f + (right ? Weight : 0),
-                localPosition.y + dir.y * 0.5f - dir.y * Weight * 0.5f,
+            DrawManager.DrawLine(
+                localPosition.x - halfWidth - (left ? weight : 0),
+                localPosition.y + dir.y * 0.5f - dir.y * halfWeight,
+                localPosition.x + halfWidth + (right ? weight : 0),
+                localPosition.y + dir.y * 0.5f - dir.y * halfWeight,
                 lineContainer.transform
             );
         }
         else if (dir.Equals(Vector2.left) || dir.Equals(Vector2.right))
         {
-            LineManager.DrawLine(
-                localPosition.x + dir.x * 0.5f - dir.x * Weight * 0.5f,
-                localPosition.y + localScale.y * 0.5f,
-                localPosition.x + dir.x * 0.5f - dir.x * Weight * 0.5f,
-                localPosition.y - localScale.y * 0.5f,
+            DrawManager.DrawLine(
+                localPosition.x + dir.x * 0.5f - dir.x * halfWeight,
+                localPosition.y + halfHeight,
+                localPosition.x + dir.x * 0.5f - dir.x * halfWeight,
+                localPosition.y - halfHeight,
                 lineContainer.transform
             );
         }
@@ -128,20 +136,17 @@ public class FieldOutline : MonoBehaviour
 
     private bool IsConnectorInDirection(Vector2 direction, bool updateNeighbor = false, bool drawRay = false)
     {
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, RayLength);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, rayLength);
 
         if (drawRay && Dbg.Instance.DrawRays) Debug.DrawRay(transform.position, direction, Color.red, 20);
 
         foreach (RaycastHit2D r in hits)
         {
             FieldOutline outlineNeighbor = r.collider.gameObject.GetComponent<FieldOutline>();
-            if (updateNeighbor && outlineNeighbor != null)
-            {
-                outlineNeighbor.UpdateOutline();
-            }
+            if (updateNeighbor && outlineNeighbor != null) outlineNeighbor.UpdateOutline();
 
-            // if (!connectTags.Contains(r.collider.tag)) continue;
-            if (!r.collider.CompareTag(gameObject.tag)) continue;
+            if (!connectorTags.Contains(r.collider.tag)) continue;
+            // if (!r.collider.CompareTag(gameObject.tag)) continue;
 
             return true;
         }
@@ -158,7 +163,7 @@ public class FieldOutline : MonoBehaviour
         }
     }
 
-    private void ClearLineInDir(Vector2 dir)
+    private void ClearLineInDirection(Vector2 dir)
     {
         // clear line
         foreach (Transform child in lineContainer.transform)
@@ -172,15 +177,15 @@ public class FieldOutline : MonoBehaviour
 
     public void UpdateAlpha()
     {
-        if (!ImitateAlpha || !hasSpriteRenderer || Color.a.EqualsFloat(spriteRenderer.color.a)) return;
+        if (!imitateAlpha || !hasSpriteRenderer || color.a.EqualsFloat(spriteRenderer.color.a)) return;
 
-        Color = new(Color.r, Color.g, Color.b, spriteRenderer.color.a);
+        color = new(color.r, color.g, color.b, spriteRenderer.color.a);
         foreach (LineRenderer line in lineRenderers)
         {
             if (line == null) continue;
 
-            line.startColor = Color;
-            line.endColor = Color;
+            line.startColor = color;
+            line.endColor = color;
         }
     }
 }

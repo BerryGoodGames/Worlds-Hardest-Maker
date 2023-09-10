@@ -6,15 +6,9 @@ using UnityEngine;
 /// </summary>
 public class ClearLevelController : MonoBehaviour
 {
-    public void OpenPrompt()
-    {
-        GetComponent<WarningConfirmPromptTween>().SetVisible(true);
-    }
+    public void OpenPrompt() => GetComponent<WarningConfirmPromptTween>().SetVisible(true);
 
-    public void ClosePrompt()
-    {
-        GetComponent<WarningConfirmPromptTween>().SetVisible(false);
-    }
+    public void ClosePrompt() => GetComponent<WarningConfirmPromptTween>().SetVisible(false);
 
     public void ClearLevel()
     {

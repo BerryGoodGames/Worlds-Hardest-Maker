@@ -18,8 +18,7 @@ public class AlphaUITween : MonoBehaviour
     public Action OnSetVisible = null;
     public Action OnIsInvisible = null;
 
-    private bool isVisible;
-
+    public bool IsVisible { get; private set; }
 
     private void TweenVis()
     {
@@ -40,52 +39,52 @@ public class AlphaUITween : MonoBehaviour
     private void TweenInvis()
     {
         if (image != null)
+        {
             image.DOFade(alphaInvisible, duration).OnComplete(() =>
             {
+                if (IsVisible) return;
                 if (disableObjectWhenInvisible) image.gameObject.SetActive(false);
                 OnIsInvisible?.Invoke();
             });
+        }
 
         if (text != null)
+        {
             text.DOFade(alphaInvisible, duration).OnComplete(() =>
             {
+                if (IsVisible) return;
                 if (disableObjectWhenInvisible) text.gameObject.SetActive(false);
                 OnIsInvisible?.Invoke();
             });
+        }
 
         if (canvasGroup != null)
+        {
             canvasGroup.DOFade(alphaInvisible, duration).OnComplete(() =>
             {
+                if (IsVisible) return;
                 if (disableObjectWhenInvisible) canvasGroup.gameObject.SetActive(false);
                 OnIsInvisible?.Invoke();
             });
+        }
     }
 
     public void SetVisible(bool vis)
     {
-        if (isVisible && !vis)
-        {
+        if (IsVisible && !vis)
             // the frame setting to invisible
             TweenInvis();
-        }
 
-        if (!isVisible && vis)
-        {
+        if (!IsVisible && vis)
             // the frame setting to visible
             TweenVis();
-        }
 
-        isVisible = vis;
-    }
-
-    public bool IsVisible()
-    {
-        return isVisible;
+        IsVisible = vis;
     }
 
     private void Start()
     {
-        isVisible = startVisible;
+        IsVisible = startVisible;
 
         if (image != null)
         {

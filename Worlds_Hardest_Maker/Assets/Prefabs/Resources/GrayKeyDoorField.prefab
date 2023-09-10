@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2493401863573026996, guid: fc74f76601483e34d8343c228304c362, type: 3}
@@ -77,6 +78,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5340342361220097842, guid: fc74f76601483e34d8343c228304c362, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3032094411550446596}
+    - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3624270248930327967}
+    - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6053181342507690478}
+    - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7104312350107099902}
+    - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8040030197767907272}
   m_SourcePrefab: {fileID: 100100000, guid: fc74f76601483e34d8343c228304c362, type: 3}
 --- !u!1 &3315082733933200473 stripped
 GameObject:
@@ -85,7 +104,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &3032094411550446596
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -102,7 +121,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &-3624270248930327967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,8 +135,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5db23a97711cc864fa0e41c18e7c2987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unlocked: 0
-  color: 0
+  Unlocked: 0
+  Color: 0
 --- !u!114 &6053181342507690478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,12 +152,13 @@ MonoBehaviour:
   color: {r: 0.4, g: 0.4, b: 0.4, a: 1}
   imitateAlpha: 1
   weight: 0.1
-  order: 4
-  connectTags:
+  orderInLayer: 4
+  connectorTags:
   - KeyDoorField
   - WallField
+  connectToOwnTag: 1
   rayLength: 1
-  updateOnStart: 1
+  UpdateOnStart: 1
 --- !u!114 &7104312350107099902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,10 +171,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e527362bc3264a14f835b8d0e129f50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 4736c0712910db04cbe44bf03d6115de, type: 3}
-  color: {r: 0.40000004, g: 0.40000004, b: 0.40000004, a: 1}
-  scale: {x: 1, y: 1}
-  showWhenFilling: 0
+  Sprite: {fileID: 21300000, guid: 4736c0712910db04cbe44bf03d6115de, type: 3}
+  Color: {r: 0.40000004, g: 0.40000004, b: 0.40000004, a: 1}
+  Scale: {x: 1, y: 1}
+  Rotate: 0
 --- !u!114 &8040030197767907272
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,16 +1,17 @@
 using System;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Serialization;
 
 public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance { get; private set; }
 
-    [FormerlySerializedAs("mainMixer")] public AudioMixer MainMixer;
-    [FormerlySerializedAs("toolbarContainer")] public GameObject ToolbarContainer;
-    [FormerlySerializedAs("infobarEdit")] public GameObject InfobarEdit;
-    [FormerlySerializedAs("infobarPlay")] public GameObject InfobarPlay;
+    public AudioMixer MainMixer;
+
+    public GameObject ToolbarContainer;
+
+    public GameObject InfobarEdit;
+    public GameObject InfobarPlay;
 
     private ToolbarSizing toolbarSpacing;
     private InfobarResize infobarPlayResize;
@@ -77,10 +78,7 @@ public class SettingsManager : MonoBehaviour
         if (setPrefs) SavePrefs();
     }
 
-    public void SetMusicVolume(float vol)
-    {
-        SetMusicVolume(vol, true);
-    }
+    public void SetMusicVolume(float vol) => SetMusicVolume(vol, true);
 
     public void SetSoundEffectVolume(float vol, bool setPrefs)
     {
@@ -91,27 +89,18 @@ public class SettingsManager : MonoBehaviour
         if (setPrefs) SavePrefs();
     }
 
-    public void SetSoundEffectVolume(float vol)
-    {
-        SetSoundEffectVolume(vol, true);
-    }
+    public void SetSoundEffectVolume(float vol) => SetSoundEffectVolume(vol, true);
 
     public float GetMusicVolume()
     {
-        if (MainMixer.GetFloat("MusicVolume", out float value))
-        {
-            return value;
-        }
+        if (MainMixer.GetFloat("MusicVolume", out float value)) return value;
 
         throw new Exception("Failed to access music volume");
     }
 
     public float GetSoundEffectVolume()
     {
-        if (MainMixer.GetFloat("SoundEffectVolume", out float value))
-        {
-            return value;
-        }
+        if (MainMixer.GetFloat("SoundEffectVolume", out float value)) return value;
 
         throw new Exception("Failed to access sound effect volume");
     }
@@ -135,20 +124,11 @@ public class SettingsManager : MonoBehaviour
         if (float.TryParse(size, out float conv)) SetToolbarSize(conv, setPrefs);
     }
 
-    public void SetToolbarSize(float size)
-    {
-        SetToolbarSize(size, true);
-    }
+    public void SetToolbarSize(float size) => SetToolbarSize(size, true);
 
-    public void SetToolbarSize(string size)
-    {
-        SetToolbarSize(size, true);
-    }
+    public void SetToolbarSize(string size) => SetToolbarSize(size, true);
 
-    public float GetToolbarSize()
-    {
-        return toolbarSpacing.ToolbarHeight;
-    }
+    public float GetToolbarSize() => toolbarSpacing.ToolbarHeight;
 
     public void SetInfobarSize(float size, bool setPrefs)
     {
@@ -167,20 +147,11 @@ public class SettingsManager : MonoBehaviour
         if (float.TryParse(size, out float conv)) SetInfobarSize(conv, setPrefs);
     }
 
-    public void SetInfobarSize(float size)
-    {
-        SetInfobarSize(size, true);
-    }
+    public void SetInfobarSize(float size) => SetInfobarSize(size, true);
 
-    public void SetInfobarSize(string size)
-    {
-        SetInfobarSize(size, true);
-    }
+    public void SetInfobarSize(string size) => SetInfobarSize(size, true);
 
-    public float GetInfobarSize()
-    {
-        return infobarPlayResize.InfobarHeight;
-    }
+    public float GetInfobarSize() => infobarPlayResize.InfobarHeight;
 
     #endregion
 }

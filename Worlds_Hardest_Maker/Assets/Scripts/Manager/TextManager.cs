@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class TextManager : MonoBehaviour
 {
@@ -10,16 +9,17 @@ public class TextManager : MonoBehaviour
 
     #region Text References
 
-    [FormerlySerializedAs("editModeText")] [Header("Text References")]
-    public TMP_Text EditModeText;
+    [Header("Text References")] public TMP_Text EditModeText;
 
-    [FormerlySerializedAs("selectingText")] public TMP_Text SelectingText;
+    public TMP_Text SelectingText;
 
-    [FormerlySerializedAs("deathText")] public TMP_Text DeathText;
-    [FormerlySerializedAs("timer")] public TMP_Text Timer;
-    [FormerlySerializedAs("coinText")] public TMP_Text CoinText;
-    [FormerlySerializedAs("cheatedTimerColor")] [Header("Colors")] public Color CheatedTimerColor;
-    [FormerlySerializedAs("finishedTimerColor")] public Color FinishedTimerColor;
+    public TMP_Text DeathText;
+    public TMP_Text Timer;
+    public TMP_Text CoinText;
+
+    [Header("Colors")] public Color CheatedTimerColor;
+
+    public Color FinishedTimerColor;
 
     #endregion
 
@@ -37,7 +37,7 @@ public class TextManager : MonoBehaviour
 
     private void Start()
     {
-        EditModeManager.Instance.Play += StartTimer;
+        EditModeManager.Instance.OnPlay += StartTimer;
         PlayerManager.Instance.OnWin += FinishTimer;
     }
 
@@ -113,6 +113,7 @@ public class TextManager : MonoBehaviour
             Timer.text = GetTimerTime();
             yield return null;
         }
+        // ReSharper disable once IteratorNeverReturns
     }
 
     private string GetTimerTime()

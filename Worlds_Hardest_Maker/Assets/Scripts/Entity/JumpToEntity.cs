@@ -1,31 +1,55 @@
 using System;
+using System.Collections.Generic;
+using DG.Tweening;
+using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
+/// <summary>
+/// Jumps to specified transform Target
+/// </summary>
 public class JumpToEntity : MonoBehaviour
 {
-    public const float Deviation = 1000;
-    [FormerlySerializedAs("target")] public GameObject Target;
-    [FormerlySerializedAs("smooth")] public bool Smooth;
-    [FormerlySerializedAs("speed")] public float Speed;
-    [SerializeField] private bool cancelByRightClick = true;
+    private readonly Dictionary<string, (GameObject target, Renderer targetRenderer)> targetList = new();
 
-    private bool jumping;
-    private Vector2 currentTarget;
+    [Space] public bool Smooth;
 
-    public void Jump(bool onlyIfTargetOffScreen = false)
+    [ConditionalField(nameof(Smooth))] [MinValue(0.001f)]
+    public float Time;
+
+    [Space] [SerializeField] private bool cancelByRightClick = true;
+
+    private Vector3 currentTarget;
+    private Tween jumpTween;
+
+    /// <summary>
+    /// Jumps to target with specified key
+    /// </summary>
+    /// <param name="key">Key leading to the target jumping to</param>
+    /// <param name="offset">Offset of the target towards the jumper at the end</param>
+    /// <param name="onlyIfTargetOffScreen">Only jump if the target is offscreen</param>
+    public void Jump(string key, Vector2? offset = null, bool onlyIfTargetOffScreen = false)
     {
-        if (Target == null) return;
+        if (!targetList.ContainsKey(key)) throw new Exception($"Couldn't find target with key {key}");
 
-        Renderer targetRenderer = Target.GetComponent<Renderer>();
+        // find target
+        (GameObject target, Renderer targetRenderer) = targetList[key];
 
-        if ((onlyIfTargetOffScreen && targetRenderer.isVisible) || Target == null) return;
+        if (onlyIfTargetOffScreen && targetRenderer.isVisible) return;
 
-        currentTarget = Target.transform.position;
+        // get target position (preserve z value of camera)
+        Vector2 targetPosition = target.transform.position;
+        Vector2 targetOffset = offset ?? Vector2.zero;
 
-        if (Smooth) jumping = true;
+        currentTarget = new(targetPosition.x - targetOffset.x, targetPosition.y - targetOffset.y, transform.position.z);
+
+        if (Smooth)
+        {
+            jumpTween?.Kill();
+            jumpTween = transform.DOMove(currentTarget, Time).SetEase(Ease.OutCubic);
+        }
         else
         {
+            // instantly set position if non-smooth
             Transform t = transform;
             t.position = new(currentTarget.x, currentTarget.y, t.position.z);
         }
@@ -33,19 +57,45 @@ public class JumpToEntity : MonoBehaviour
 
     private void Update()
     {
-        if (cancelByRightClick && jumping && Input.GetMouseButton(KeybindManager.Instance.PanMouseButton))
-            jumping = false;
+        if (cancelByRightClick && Input.GetMouseButtonDown(1) && jumpTween != null)
+        {
+            jumpTween.Kill();
+            jumpTween = null;
+        }
     }
 
-    private void FixedUpdate()
+    #region Target list manipulation
+
+    public void AddTarget(string key, GameObject target)
     {
-        if (!jumping) return;
+        if (target == null) throw new Exception("Game object tried to add to target list is null");
 
-        Vector2 newPos = Vector2.Lerp(transform.position, currentTarget, Time.fixedDeltaTime * Speed);
-        transform.position = new(newPos.x, newPos.y, transform.position.z);
+        if (target.TryGetComponent(out Renderer objRenderer))
+        {
+            AddTarget(key, target, objRenderer);
+            return;
+        }
 
-        if (Math.Abs(Mathf.Round(transform.position.x * Deviation) - Mathf.Round(currentTarget.x * Deviation)) == 0 &&
-            Math.Abs(Mathf.Round(transform.position.y * Deviation) - Mathf.Round(currentTarget.y * Deviation)) == 0)
-            jumping = false;
+        Debug.LogWarning(
+            $"Couldn't find Renderer component on game object {target}, which was added to the target list");
     }
+
+    public void AddTarget(string key, GameObject target, Renderer targetRenderer)
+    {
+        if (targetList.ContainsKey(key))
+        {
+            targetList[key] = (target, targetRenderer);
+            return;
+        }
+
+        targetList.Add(key, (target, targetRenderer));
+    }
+
+    public bool RemoveTarget(string key) => targetList.Remove(key);
+
+    public GameObject GetTarget(string key) => HasKey(key) ? targetList[key].target : null;
+
+    public bool HasKey(string key) => targetList.ContainsKey(key);
+
+    #endregion
 }

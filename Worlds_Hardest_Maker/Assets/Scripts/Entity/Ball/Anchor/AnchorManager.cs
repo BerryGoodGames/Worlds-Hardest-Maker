@@ -1,144 +1,71 @@
-using Photon.Pun;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class AnchorManager : MonoBehaviour
+public partial class AnchorManager : MonoBehaviour
 {
     public static AnchorManager Instance { get; private set; }
 
     private static readonly int selected = Animator.StringToHash("Selected");
     private static readonly int playing = Animator.StringToHash("Playing");
 
-    [FormerlySerializedAs("selectedAnchor")] public AnchorController SelectedAnchor;
-
-    #region get, set, remove
     /// <summary>
-    ///     places anchor at position
+    /// Enables LevelSettingsPanel and disables AnchorEditorPanel (or the other way around)
     /// </summary>
-    /// <param name="mx">x position of anchor</param>
-    /// <param name="my">y position of anchor</param>
-    public GameObject SetAnchor(float mx, float my)
+    /// <param name="enableLevelSettingsPanel"></param>
+    public static void AlternatePanels(bool enableLevelSettingsPanel)
     {
-        return SetAnchor(new(mx, my));
-    }
-
-    /// <summary>
-    ///     places anchor at position
-    /// </summary>
-    /// <param name="pos">position of anchor</param>
-    public GameObject SetAnchor(Vector2 pos)
-    {
-        if (GetAnchor(pos) != null) return null;
-
-        GameObject anchor = MultiplayerManager.Instance.Multiplayer
-            ? PhotonNetwork.Instantiate("Anchor", pos, Quaternion.identity)
-            : Instantiate(PrefabManager.Instance.Anchor, pos, Quaternion.identity,
-                ReferenceManager.Instance.AnchorContainer);
-
-        SelectAnchor(anchor.GetComponent<AnchorControllerParent>().Child);
-
-        return anchor;
-    }
-
-    /// <summary>
-    ///     removes anchor at position
-    /// </summary>
-    /// <param name="mx">x position of anchor</param>
-    /// <param name="my">y position of anchor</param>
-    [PunRPC]
-    public void RemoveAnchor(float mx, float my)
-    {
-        RemoveAnchor(new(mx, my));
-    }
-
-    /// <summary>
-    ///     removes anchor at position
-    /// </summary>
-    /// <param name="pos">position of anchor</param>
-    public static void RemoveAnchor(Vector2 pos)
-    {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.5f, 128);
-
-        foreach (Collider2D hit in hits)
+        if (enableLevelSettingsPanel)
         {
-            if (!hit.transform.parent.CompareTag("Anchor")) continue;
+            ReferenceManager.Instance.AnchorEditorButtonPanelTween.Set(false);
+            ReferenceManager.Instance.AnchorEditorPanelTween.Set(false);
 
-            Destroy(hit.transform.parent.gameObject);
-            break;
+            ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(true);
+        }
+        else
+        {
+            ReferenceManager.Instance.AnchorEditorButtonPanelTween.Set(true);
+
+            ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(false);
+            ReferenceManager.Instance.LevelSettingsPanelTween.Set(false);
         }
     }
-
-    /// <param name="pos">position of anchor</param>
-    /// <returns>anchor at position</returns>
-    public static AnchorController GetAnchor(Vector2 pos)
-    {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.5f);
-
-        foreach (Collider2D hit in hits)
-        {
-            if (hit.transform.parent.CompareTag("Anchor"))
-            {
-                return hit.gameObject.GetComponent<AnchorController>();
-            }
-        }
-
-        return null;
-    }
-
-    public static AnchorController GetAnchor(float mx, float my)
-    {
-        return GetAnchor(new(mx, my));
-    }
-    #endregion
-
-    #region select, deselect
-    public void SelectAnchor(Vector2 pos)
-    {
-        AnchorController anchor = GetAnchor(pos);
-        if (anchor == null) return;
-
-        Instance.SelectAnchor(anchor);
-    }
-
-    public void SelectAnchor(AnchorController anchor)
-    {
-        if (SelectedAnchor != null)
-        {
-            SelectedAnchor.Animator.SetBool(selected, false);
-        }
-
-        if (SelectedAnchor == anchor)
-        {
-            DeselectAnchor();
-            return;
-        }
-
-        SelectedAnchor = anchor;
-        SelectedAnchor.Animator.SetBool(selected, true);
-
-        ReferenceManager.Instance.AnchorEditorButtonPanelTween.Set(true);
-
-        ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(false);
-        ReferenceManager.Instance.LevelSettingsPanelTween.Set(false);
-    }
-
-    public void DeselectAnchor()
-    {
-        if (SelectedAnchor == null) return;
-
-        SelectedAnchor.Animator.SetBool(selected, false);
-        SelectedAnchor.Animator.SetBool(playing, EditModeManager.Instance.Playing);
-        SelectedAnchor = null;
-        
-        ReferenceManager.Instance.AnchorEditorButtonPanelTween.Set(false);
-        ReferenceManager.Instance.AnchorEditorPanelTween.Set(false);
-        
-        ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(true);
-    }
-    #endregion
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
+    }
+
+    private void Start()
+    {
+        EditModeManager.Instance.OnPlay += GameManager.DeselectInputs;
+        EditModeManager.Instance.OnPlay += UpdateBlockListInSelectedAnchor;
+
+        EditModeManager.Instance.OnEdit += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(false);
+        EditModeManager.Instance.OnPlay += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(true);
+    }
+
+    /// <summary>
+    /// If anchor selected, convert anchor blocks in UI to <see cref="List{T}">List</see>&lt;<see cref="AnchorBlock"/>&gt; and apply it to selected anchor
+    /// </summary>
+    public void UpdateBlockListInSelectedAnchor()
+    {
+        if (SelectedAnchor == null) return;
+
+        ReferenceManager.Instance.MainChainController.UpdateChildrenArray();
+        List<AnchorBlock> blocksInChain = ReferenceManager.Instance.MainChainController.GetAnchorBlocks(SelectedAnchor);
+
+        SelectedAnchor.Blocks = new(blocksInChain);
+    }
+
+
+    public void UpdateSelectedAnchorLines()
+    {
+        AnchorController selectedAnchor = Instance.SelectedAnchor;
+        if (selectedAnchor == null) return;
+
+        // update list of blocks in anchor
+        Instance.UpdateBlockListInSelectedAnchor();
+
+        selectedAnchor.RenderLines();
     }
 }

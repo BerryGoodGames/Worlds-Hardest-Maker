@@ -8,10 +8,7 @@ public class LoadingScreen : MonoBehaviour
     [SerializeField] private Slider slider;
     [SerializeField] private GameObject loadingScreen;
 
-    public void SetProgress(float progress)
-    {
-        slider.value = progress;
-    }
+    public void SetProgress(float progress) => slider.value = progress;
 
     public void LoadScene(int sceneId)
     {

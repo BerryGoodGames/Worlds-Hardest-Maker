@@ -2,24 +2,18 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-///     sets opacity of children; fades children in / out
-///     attach to parent object
+///     Sets opacity of children with SpriteRenderer, fades children in / out
+///     Attach to parent object
 /// </summary>
 public class ChildrenOpacity : MonoBehaviour
 {
-    [SerializeField][Range(0, 1)] private float opacity = 1;
+    [SerializeField] [Range(0, 1)] private float opacity = 1;
 
     private SpriteRenderer[] children;
 
-    private void Start()
-    {
-        UpdateChildren();
-    }
+    private void Start() => UpdateChildren();
 
-    public void UpdateChildren()
-    {
-        children = transform.GetComponentsInChildren<SpriteRenderer>();
-    }
+    public void UpdateChildren() => children = transform.GetComponentsInChildren<SpriteRenderer>();
 
     public void UpdateOpacity()
     {

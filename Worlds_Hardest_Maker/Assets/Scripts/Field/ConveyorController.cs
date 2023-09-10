@@ -5,34 +5,24 @@ public class ConveyorController : MonoBehaviour
     private FieldRotation rotationController;
     private Animator anim;
     private float animSpeed;
-
-    [SerializeField] private float strength;
-
     private static readonly int running = Animator.StringToHash("Running");
 
-    public float Strength
-    {
-        get => strength;
-        set => strength = value;
-    }
+    [field: SerializeField] public float Strength { get; set; }
 
     public float Rotation => transform.rotation.z;
 
-    public void Rotate()
-    {
-        rotationController.StartRotation();
-    }
+    public void Rotate() => rotationController.StartRotation();
 
     private void Start()
     {
         rotationController = GetComponent<FieldRotation>();
         anim = GetComponent<Animator>();
 
-        EditModeManager.Instance.Play += SwitchAnimToRunning;
-        EditModeManager.Instance.Edit += SwitchAnimToStaying;
+        EditModeManager.Instance.OnPlay += SwitchAnimToRunning;
+        EditModeManager.Instance.OnEdit += SwitchAnimToStaying;
     }
 
-    private void SwitchAnimToRunning()
+    public void SwitchAnimToRunning()
     {
         if (anim == null)
             GetComponent<Animator>();
@@ -50,7 +40,7 @@ public class ConveyorController : MonoBehaviour
 
     private void OnDestroy()
     {
-        EditModeManager.Instance.Play -= SwitchAnimToRunning;
-        EditModeManager.Instance.Edit -= SwitchAnimToStaying;
+        EditModeManager.Instance.OnPlay -= SwitchAnimToRunning;
+        EditModeManager.Instance.OnEdit -= SwitchAnimToStaying;
     }
 }

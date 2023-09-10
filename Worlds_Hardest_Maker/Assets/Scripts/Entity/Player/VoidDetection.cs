@@ -4,10 +4,7 @@ public class VoidDetection : MonoBehaviour
 {
     private PlayerController playerController;
 
-    private void Start()
-    {
-        playerController = GetComponent<PlayerController>();
-    }
+    private void Start() => playerController = GetComponent<PlayerController>();
 
     private void FixedUpdate()
     {
@@ -29,16 +26,10 @@ public class VoidDetection : MonoBehaviour
             }
         }
 
-        if (collisions >= 2 && collisionId != 3)
-        {
-            playerController.DieVoid();
-        }
+        if (collisions >= 2 && collisionId != 3) playerController.DieVoid();
     }
 
     /// <param name="position">position where to check</param>
     /// <returns>if there is a void at the position</returns>
-    private static bool CheckCollision(Vector2 position)
-    {
-        return Physics2D.OverlapPoint(position, 1024) != null;
-    }
+    private static bool CheckCollision(Vector2 position) => Physics2D.OverlapPoint(position, 1024) != null;
 }

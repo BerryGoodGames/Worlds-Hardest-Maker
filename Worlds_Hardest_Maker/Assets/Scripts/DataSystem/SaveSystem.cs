@@ -10,6 +10,8 @@ public static class SaveSystem
 {
     public static void SaveCurrentLevel()
     {
+        AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+
         BinaryFormatter formatter = new();
         string path = StandaloneFileBrowser.SaveFilePanel("Save your level (.lvl)", Application.persistentDataPath,
             "MyLevel.lvl", "lvl");
@@ -45,11 +47,16 @@ public static class SaveSystem
         }
 
         // serialize anchors
+        // foreach (Transform anchor in ReferenceManager.Instance.AnchorContainer)
+        // {
+        //     AnchorDataOld anchorDataOld = new(anchor.GetComponentInChildren<PathControllerOld>(),
+        //         anchor.GetComponentInChildren<AnchorControllerOld>().Container.transform);
+        //     levelData.Add(anchorDataOld);
+        // }
         foreach (Transform anchor in ReferenceManager.Instance.AnchorContainer)
         {
-            AnchorDataOld anchorDataOld = new(anchor.GetComponentInChildren<PathControllerOld>(),
-                anchor.GetComponentInChildren<AnchorControllerOld>().Container.transform);
-            levelData.Add(anchorDataOld);
+            AnchorData anchorData = new(anchor.GetComponent<AnchorParentController>().Child);
+            levelData.Add(anchorData);
         }
 
         // serialize balls
@@ -120,17 +127,15 @@ public static class SaveSystem
         FileStream stream = new(path, FileMode.Open);
 
         if (MultiplayerManager.Instance.Multiplayer)
-        {
             // RPC to every other client with path
             SendLevel(path);
-        }
 
         // set discord activity
         if (updateDiscordActivity)
         {
             string[] splitPath = stream.Name.Split("\\");
             string levelName = splitPath[^1].Replace(".lvl", "");
-            DiscordManager.State = $"Last opened Level: {levelName}";
+            // DiscordManager.State = $"Last opened Level: {levelName}";
         }
 
         List<Data> data = formatter.Deserialize(stream) as List<Data>;
@@ -152,7 +157,9 @@ public static class SaveSystem
 public abstract class Data
 {
     public abstract void ImportToLevel();
-    public abstract void ImportToLevel(Vector2 pos);
+
+    public virtual void ImportToLevel(Vector2 pos) =>
+        Debug.LogWarning("ImportToLevel(Vector2 pos) has been called, but there is no override defined");
 
     public abstract EditMode GetEditMode();
 }

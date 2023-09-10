@@ -1,16 +1,19 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Tool : MonoBehaviour
 {
-    [FormerlySerializedAs("toolName")] [HideInInspector] public EditMode ToolName;
+    [HideInInspector] public EditMode ToolName;
+
     [SerializeField] private string toolType;
-    [FormerlySerializedAs("selected")] [HideInInspector] public bool Selected;
-    [FormerlySerializedAs("inOptionbar")] [HideInInspector] public bool InOptionbar;
+
+    [HideInInspector] public bool Selected;
+
+    [HideInInspector] public bool InOptionbar;
+
     private SelectionSquare selectionSquare;
     private AlphaUITween anim;
-    private MouseOverUI mouseOverUI;
+    private MouseOverUIRect mouseOverUIRect;
 
     private void Awake()
     {
@@ -23,7 +26,7 @@ public class Tool : MonoBehaviour
     private void Start()
     {
         anim = GetComponent<AlphaUITween>();
-        mouseOverUI = GetComponent<MouseOverUI>();
+        mouseOverUIRect = GetComponent<MouseOverUIRect>();
         selectionSquare = transform.GetChild(1).GetComponent<SelectionSquare>();
     }
 
@@ -34,10 +37,7 @@ public class Tool : MonoBehaviour
         if (setEditModeVariable) EditModeManager.Instance.CurrentEditMode = ToolName;
     }
 
-    public void SwitchGameMode()
-    {
-        SwitchGameMode(true);
-    }
+    public void SwitchGameMode() => SwitchGameMode(true);
 
     public void IsSelected(bool selected)
     {
@@ -53,13 +53,8 @@ public class Tool : MonoBehaviour
         parentTool.SubSelected(true);
     }
 
-    public void SubSelected(bool subselected)
-    {
-        selectionSquare.SubSelected(subselected);
-    }
+    public void SubSelected(bool subselected) => selectionSquare.SubSelected(subselected);
 
-    private void Update()
-    {
-        anim.SetVisible(Selected || (mouseOverUI.Over && !ReferenceManager.Instance.Menu.activeSelf));
-    }
+    private void Update() =>
+        anim.SetVisible(Selected || (mouseOverUIRect.Over && !ReferenceManager.Instance.Menu.activeSelf));
 }

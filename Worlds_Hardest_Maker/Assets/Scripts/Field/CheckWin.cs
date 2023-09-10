@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-///     attach to (start-and-)goal field
+///     Attach to goal field
 /// </summary>
 public class CheckWin : MonoBehaviour
 {

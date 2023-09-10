@@ -32,7 +32,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8612083318934363477}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -121,7 +120,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8612083318934363477}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
@@ -258,7 +256,6 @@ RectTransform:
   - {fileID: 5524550305663717316}
   - {fileID: 5556878449878348080}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -285,7 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e3a39c265352047a6a8e49e93c1f7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rectTransform: {fileID: 8612083318934363477}
-  label: {fileID: 7047618289150630470}
+  RectTransform: {fileID: 8612083318934363477}
+  Label: {fileID: 7047618289150630470}
   fontSize: 40
-  height: 80
+  Height: 80

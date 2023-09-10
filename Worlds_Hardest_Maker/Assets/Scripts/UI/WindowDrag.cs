@@ -9,18 +9,9 @@ public class WindowDrag : MonoBehaviour, IDragHandler
 
     private Canvas canvas;
 
-    private void Awake()
-    {
-        rt = transform.parent.GetComponent<RectTransform>();
-    }
+    private void Awake() => rt = transform.parent.GetComponent<RectTransform>();
 
-    private void Start()
-    {
-        canvas = ReferenceManager.Instance.Canvas;
-    }
+    private void Start() => canvas = ReferenceManager.Instance.Canvas;
 
-    public void OnDrag(PointerEventData eventData)
-    {
-        rt.anchoredPosition += eventData.delta / canvas.scaleFactor;
-    }
+    public void OnDrag(PointerEventData eventData) => rt.anchoredPosition += eventData.delta / canvas.scaleFactor;
 }

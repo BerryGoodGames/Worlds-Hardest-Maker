@@ -1,20 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-/// <summary>
-///     for doing color palettes 'n' stuff
-/// </summary>
 public class ColorPaletteManager : MonoBehaviour
 {
     public static ColorPaletteManager Instance { get; private set; }
 
-    [FormerlySerializedAs("colorPalettes")] public List<ColorPalette> ColorPalettes;
+    public List<ColorPalette> ColorPalettes;
 
-    private void Awake()
-    {
-        UpdateInstance();
-    }
+    private void Awake() => UpdateInstance();
 
     public void UpdateInstance()
     {
@@ -33,10 +26,7 @@ public class ColorPaletteManager : MonoBehaviour
     {
         foreach (ColorPalette colorPalette in Instance.ColorPalettes)
         {
-            if (colorPalette.Name.Equals(name))
-            {
-                return colorPalette;
-            }
+            if (colorPalette.Name.Equals(name)) return colorPalette;
         }
 
         throw new("ColorPalette doesn't exist");

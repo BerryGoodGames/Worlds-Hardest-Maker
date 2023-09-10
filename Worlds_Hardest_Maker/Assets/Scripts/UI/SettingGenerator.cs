@@ -1,17 +1,16 @@
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class SettingGenerator : MonoBehaviour
 {
     public enum SettingVersion
     {
-        DROPDOWN,
-        CHECKBOX,
-        SLIDER,
-        NUMBER_INPUT,
-        HEADER,
-        SPACE
+        Dropdown,
+        Checkbox,
+        Slider,
+        NumberInput,
+        Header,
+        Space
     }
 
     #region Fields
@@ -20,7 +19,7 @@ public class SettingGenerator : MonoBehaviour
 
 #if UNITY_EDITOR
     [Header("Options")] [SerializeField] private string label;
-    [FormerlySerializedAs("version")] public SettingVersion Version;
+    public SettingVersion Version;
     [SerializeField] private int amount = 1;
     [SerializeField] private float fontSize = 40;
     [SerializeField] private float height = 80;
@@ -81,7 +80,7 @@ public class SettingGenerator : MonoBehaviour
     {
         switch (version)
         {
-            case SettingVersion.DROPDOWN:
+            case SettingVersion.Dropdown:
                 DropdownMenuOption dmo = (DropdownMenuOption)option;
 
                 // width
@@ -90,7 +89,7 @@ public class SettingGenerator : MonoBehaviour
 
                 break;
 
-            case SettingVersion.NUMBER_INPUT:
+            case SettingVersion.NumberInput:
                 NumberInputOption nio = (NumberInputOption)option;
 
                 // width
@@ -98,11 +97,11 @@ public class SettingGenerator : MonoBehaviour
                 nio.Response();
                 break;
 
-            case SettingVersion.CHECKBOX:
+            case SettingVersion.Checkbox:
 
                 break;
 
-            case SettingVersion.SLIDER:
+            case SettingVersion.Slider:
                 SliderUI s = ((SliderOption)option).SliderUI;
 
                 // width, size
@@ -112,11 +111,11 @@ public class SettingGenerator : MonoBehaviour
                 s.Response();
                 break;
 
-            case SettingVersion.HEADER:
+            case SettingVersion.Header:
 
                 break;
 
-            case SettingVersion.SPACE:
+            case SettingVersion.Space:
 
                 break;
         }

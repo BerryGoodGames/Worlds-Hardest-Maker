@@ -11,18 +11,18 @@ public class FieldManager : MonoBehaviour
 
     public static readonly List<FieldType> SolidFields = new(new[]
     {
-        FieldType.WALL_FIELD,
-        FieldType.GRAY_KEY_DOOR_FIELD,
-        FieldType.RED_KEY_DOOR_FIELD,
-        FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldType.YELLOW_KEY_DOOR_FIELD
+        FieldType.WallField,
+        FieldType.GrayKeyDoorField,
+        FieldType.RedKeyDoorField,
+        FieldType.GreenKeyDoorField,
+        FieldType.BlueKeyDoorField,
+        FieldType.YellowKeyDoorField
     });
 
     public static readonly List<FieldType> RotatableFields = new(new[]
     {
-        FieldType.ONE_WAY_FIELD,
-        FieldType.CONVEYOR
+        FieldType.OneWayField,
+        FieldType.Conveyor
     });
 
     public static bool IsRotatable(EditMode editMode)
@@ -34,10 +34,7 @@ public class FieldManager : MonoBehaviour
 
     public static FieldType? GetFieldType(GameObject field)
     {
-        if (field == null)
-        {
-            return null;
-        }
+        if (field == null) return null;
 
         return field.tag.GetFieldType();
     }
@@ -48,19 +45,13 @@ public class FieldManager : MonoBehaviour
 
         foreach (Collider2D c in collidedGameObjects)
         {
-            if (c.gameObject.IsField())
-            {
-                return c.gameObject;
-            }
+            if (c.gameObject.IsField()) return c.gameObject;
         }
 
         return null;
     }
 
-    public static GameObject GetField(Vector2 pos)
-    {
-        return GetField((int)pos.x, (int)pos.y);
-    }
+    public static GameObject GetField(Vector2 pos) => GetField((int)pos.x, (int)pos.y);
 
     [PunRPC]
     public void RemoveField(int mx, int my, bool updateOutlines)
@@ -74,18 +65,12 @@ public class FieldManager : MonoBehaviour
         // update outlines beside removed field
         foreach (GameObject neighbor in GetNeighbors(mx, my))
         {
-            if (neighbor.TryGetComponent(out FieldOutline comp))
-            {
-                comp.UpdateOutline();
-            }
+            if (neighbor.TryGetComponent(out FieldOutline comp)) comp.UpdateOutline();
         }
     }
 
     [PunRPC]
-    public void RemoveField(int mx, int my)
-    {
-        RemoveField(mx, my, false);
-    }
+    public void RemoveField(int mx, int my) => RemoveField(mx, my, false);
 
     [PunRPC]
     public void SetField(int mx, int my, FieldType type, int rotation)
@@ -102,34 +87,21 @@ public class FieldManager : MonoBehaviour
         ApplyStartGoalCheckpointFieldColor(field, null);
 
         // remove player if at changed pos
-        if (!PlayerManager.StartFields.Contains(type))
-        {
-            PlayerManager.Instance.RemovePlayerAtPosIntersect(mx, my);
-        }
+        if (!PlayerManager.StartFields.Contains(type)) PlayerManager.Instance.RemovePlayerAtPosIntersect(mx, my);
 
         if (CoinManager.CannotPlaceFields.Contains(type))
-        {
             // remove coin if wall is placed
             GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.CoinContainer);
-        }
 
         if (KeyManager.CannotPlaceFields.Contains(type))
-        {
             // remove key if wall is placed
             GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.KeyContainer);
-        }
     }
 
-    public void SetField(Vector2 pos, FieldType type, int rotation)
-    {
-        SetField((int)pos.x, (int)pos.y, type, rotation);
-    }
+    public void SetField(Vector2 pos, FieldType type, int rotation) => SetField((int)pos.x, (int)pos.y, type, rotation);
 
     [PunRPC]
-    public void SetField(int mx, int my, FieldType type)
-    {
-        SetField(mx, my, type, 0);
-    }
+    public void SetField(int mx, int my, FieldType type) => SetField(mx, my, type, 0);
 
     public static void ApplyStartGoalCheckpointFieldColor(GameObject field, bool? oneColor)
     {
@@ -147,10 +119,7 @@ public class FieldManager : MonoBehaviour
 
             renderer.color = checkpoint.Activated ? checkpointActivated : checkpointUnactivated;
 
-            if (field.TryGetComponent(out Animator anim))
-            {
-                anim.enabled = (bool)oneColor;
-            }
+            if (field.TryGetComponent(out Animator anim)) anim.enabled = (bool)oneColor;
 
             return;
         }
@@ -173,7 +142,8 @@ public class FieldManager : MonoBehaviour
         GameObject prefab = type.GetPrefab();
         GameObject res = MultiplayerManager.Instance.Multiplayer
             ? PhotonNetwork.Instantiate(prefab.name, pos, Quaternion.Euler(0, 0, rotation))
-            : Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), ReferenceManager.Instance.FieldContainer);
+            : Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation),
+                ReferenceManager.Instance.FieldContainer);
 
         return res;
     }
@@ -192,10 +162,7 @@ public class FieldManager : MonoBehaviour
         for (int d = 0; d < dx.Length; d++)
         {
             GameObject neighbor = GetField(dx[d] + mx, dy[d] + my);
-            if (neighbor != null)
-            {
-                neighbors.Add(neighbor);
-            }
+            if (neighbor != null) neighbors.Add(neighbor);
         }
 
         return neighbors;
@@ -268,7 +235,8 @@ public class FieldManager : MonoBehaviour
         List<GameObject> intersectingFields = GetFieldsAtPos(mx, my);
         foreach (GameObject field in intersectingFields)
         {
-            if (types.Contains((FieldType)GetFieldType(field))) return true;
+            if (types.Contains((FieldType)GetFieldType(field)))
+                return true;
         }
 
         return false;
@@ -280,7 +248,8 @@ public class FieldManager : MonoBehaviour
         List<GameObject> intersectingFields = GetFieldsAtPos(mx, my);
         foreach (GameObject field in intersectingFields)
         {
-            if (!types.Contains((FieldType)GetFieldType(field))) return false;
+            if (!types.Contains((FieldType)GetFieldType(field)))
+                return false;
         }
 
         return true;

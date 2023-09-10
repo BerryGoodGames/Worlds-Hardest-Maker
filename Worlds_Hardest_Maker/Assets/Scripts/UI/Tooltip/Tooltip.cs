@@ -1,16 +1,20 @@
+using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-[RequireComponent(typeof(MouseOverUI))]
+[RequireComponent(typeof(MouseOverUIRect))]
 public class Tooltip : MonoBehaviour
 {
-    [FormerlySerializedAs("text")] public string Text;
-    [FormerlySerializedAs("fontSize")] public int FontSize = 20;
-    [FormerlySerializedAs("customTweenDelay")] public bool CustomTweenDelay;
-    [FormerlySerializedAs("tweenDelay")] public float TweenDelay = 1.5f;
-    private const float defaultTweenDelay = 1;
-    private MouseOverUI mouseOver;
+    public string Text;
+    public int FontSize = 20;
+
+    public bool CustomTweenDelay;
+
+    [ConditionalField(nameof(CustomTweenDelay))]
+    public float TweenDelay = 1.5f;
+
+    private const float DefaultTweenDelay = 1;
+    private MouseOverUIRect mouseOver;
     private AlphaUITween fadeTween;
     private GameObject tooltip;
     private RectTransform tooltipRectTransform;
@@ -21,12 +25,12 @@ public class Tooltip : MonoBehaviour
     private void Awake()
     {
         if (!CustomTweenDelay)
-            TweenDelay = defaultTweenDelay;
+            TweenDelay = DefaultTweenDelay;
     }
 
     private void Start()
     {
-        mouseOver = GetComponent<MouseOverUI>();
+        mouseOver = GetComponent<MouseOverUIRect>();
 
         tooltip = Instantiate(PrefabManager.Instance.Tooltip, Vector2.zero, Quaternion.identity,
             ReferenceManager.Instance.TooltipCanvas.transform);
@@ -62,13 +66,7 @@ public class Tooltip : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        fadeTween.SetVisible(false);
-    }
+    private void OnDisable() => fadeTween.SetVisible(false);
 
-    private void OnDestroy()
-    {
-        Destroy(tooltip);
-    }
+    private void OnDestroy() => Destroy(tooltip);
 }

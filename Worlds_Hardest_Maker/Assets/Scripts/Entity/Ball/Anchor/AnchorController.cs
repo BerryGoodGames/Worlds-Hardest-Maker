@@ -1,61 +1,100 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
+using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class AnchorController : Controller
+[RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
+public partial class AnchorController : Controller
 {
-    [SerializeField] private ChildrenOpacity ballContainerChildrenOpacity;
-    [FormerlySerializedAs("ballContainer")] public Transform BallContainer;
-    [FormerlySerializedAs("animator")] public Animator Animator;
+    [SerializeField] [InitializationField] private ChildrenOpacity ballContainerChildrenOpacity;
+    [InitializationField] public Transform BallContainer;
+    [InitializationField] public Animator Animator;
 
-    [FormerlySerializedAs("balls")] [HideInInspector] public List<GameObject> Balls = new();
+    [HideInInspector] public List<Transform> Balls = new();
     public LinkedList<AnchorBlock> Blocks = new();
 
-    [FormerlySerializedAs("applySpeed")] [HideInInspector] public bool ApplySpeed = true;
-    private bool startApplySpeed;
-    [FormerlySerializedAs("applyAngularSpeed")] [HideInInspector] public bool ApplyAngularSpeed = true;
-    private bool startApplyAngularSpeed;
-
-    [FormerlySerializedAs("speed")] [HideInInspector] public float Speed;
-    private float startSpeed;
-    [FormerlySerializedAs("angularSpeed")] [HideInInspector] public float AngularSpeed;
-    private float startAngularSpeed;
-
-    [FormerlySerializedAs("ease")] [HideInInspector] public Ease Ease;
-    private Ease startEase;
+    [HideInInspector] public SetSpeedBlock.Unit SpeedUnit;
+    [HideInInspector] public SetRotationBlock.Unit RotationSpeedUnit;
+    [HideInInspector] public float TimeInput;
+    [HideInInspector] public float RotationTimeInput;
+    [HideInInspector] public bool IsClockwise;
+    public TweenerCore<float, float, FloatOptions> RotationTween;
+    [HideInInspector] public Ease Ease;
 
     private Vector2 startPosition;
     private Quaternion startRotation;
 
     public AnchorBlock CurrentExecutingBlock;
+    public LinkedListNode<AnchorBlock> CurrentExecutingNode;
 
-    [FormerlySerializedAs("rb")] [HideInInspector] public Rigidbody2D Rb;
+
+    [HideInInspector] public Rigidbody2D Rb;
+    private SpriteRenderer spriteRenderer;
+    private EntityDragDrop entityDragDrop;
+
+    private void Awake()
+    {
+        Rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        entityDragDrop = GetComponent<EntityDragDrop>();
+    }
 
     private void Start()
     {
-        Rb = GetComponent<Rigidbody2D>();
+        // update when moved by user
+        entityDragDrop.OnMove += (oldPosition, newPosition) => MoveAnchor(newPosition - oldPosition);
 
-        Speed = 7;
-        AngularSpeed = 360;
+        TimeInput = 7;
+        RotationTimeInput = 360;
         Ease = Ease.Linear;
 
         UpdateStartValues();
+
+        RenderLines();
     }
 
-    private void AddBlocks(AnchorBlock block)
+    public void AppendBlock(AnchorBlock block) => Blocks.AddLast(block);
+
+    private void MoveAnchor(Vector2 delta)
     {
-        Blocks.AddLast(block);
+        // assuming that EntityDragDrop already moved transform
+
+        LinkedList<AnchorBlock> blocks = Blocks;
+
+        // loop through data blocks and add offset
+        foreach (AnchorBlock currentBlock in blocks)
+        {
+            if (currentBlock is PositionAnchorBlock positionBlock)
+            {
+                // add offset
+                positionBlock.Target += delta;
+            }
+        }
+
+        // loop through UI blocks and add offset
+        ChainController mainChain = ReferenceManager.Instance.MainChainController;
+
+        foreach (AnchorBlockController anchorBlockController in mainChain.Children)
+        {
+            if (anchorBlockController is not PositionAnchorBlockController positionBlock) continue;
+
+            // add offset
+            Vector2 currentValue = positionBlock.PositionInput.GetPositionValues();
+
+            positionBlock.PositionInput.SetPositionValues(currentValue.x + delta.x, currentValue.y + delta.y);
+        }
     }
+
+    #region Execution
 
     public void StartExecuting()
     {
         UpdateStartValues();
 
-        Testing();
-
-        CurrentExecutingBlock = Blocks.First.Value;
+        CurrentExecutingNode = Blocks.First;
+        CurrentExecutingBlock = CurrentExecutingNode.Value;
         CurrentExecutingBlock.Execute();
     }
 
@@ -67,24 +106,9 @@ public class AnchorController : Controller
             return;
         }
 
-        LinkedListNode<AnchorBlock> thisBlockNode = Blocks.Find(CurrentExecutingBlock);
-        if (thisBlockNode == null)
-            throw new Exception(
-                "Couldn't find block currently executing in block list of anchor (this error should be impossible)");
-
-        CurrentExecutingBlock = thisBlockNode.Next?.Value;
+        CurrentExecutingNode = CurrentExecutingNode.Next;
+        CurrentExecutingBlock = CurrentExecutingNode?.Value;
         CurrentExecutingBlock?.Execute();
-    }
-
-    public void Testing()
-    {
-        AddBlocks(new SetSpeedBlock(this, 1.5f, SetSpeedBlock.Unit.TIME));
-        AddBlocks(new SetAngularSpeedBlock(this, 3f, SetAngularSpeedBlock.Unit.TIME));
-        AddBlocks(new MoveToBlock(this, 0, 0));
-        AddBlocks(new RotateBlock(this, 1));
-        AddBlocks(new MoveToBlock(this, 1, 3));
-        AddBlocks(new MoveToBlock(this, 2, -1));
-        AddBlocks(new GoToBlock(this, 0));
     }
 
     public void ResetExecution()
@@ -97,23 +121,12 @@ public class AnchorController : Controller
 
         Rb.position = startPosition;
         t.rotation = startRotation;
-        Speed = startSpeed;
-        ApplySpeed = startApplySpeed;
-        AngularSpeed = startAngularSpeed;
-        ApplyAngularSpeed = startApplyAngularSpeed;
-        Ease = startEase;
     }
 
-    private void UpdateStartValues()
-    {
-        startPosition = Rb.position;
-        startRotation = transform.rotation;
-        startSpeed = Speed;
-        startApplySpeed = ApplySpeed;
-        startAngularSpeed = AngularSpeed;
-        startApplyAngularSpeed = ApplyAngularSpeed;
-        startEase = Ease;
-    }
+    #endregion
+
+    #region Ball fade
+
     public void BallFadeOut(AnimationEvent animationEvent)
     {
         float endOpacity = animationEvent.floatParameter;
@@ -128,13 +141,16 @@ public class AnchorController : Controller
             BallFadeIn(endOpacity, time);
     }
 
-    public void BallFadeIn(float endOpacity, float time)
-    {
+    public void BallFadeIn(float endOpacity, float time) =>
         StartCoroutine(ballContainerChildrenOpacity.FadeIn(endOpacity, time));
+
+    #endregion
+
+    private void UpdateStartValues()
+    {
+        startPosition = Rb.position;
+        startRotation = transform.rotation;
     }
 
-    public override Data GetData()
-    {
-        throw new NotImplementedException();
-    }
+    public override Data GetData() => new AnchorData(this);
 }

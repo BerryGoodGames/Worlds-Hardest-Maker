@@ -8,12 +8,12 @@ public class CoinManager : MonoBehaviour
 
     public static List<FieldType> CannotPlaceFields = new(new[]
     {
-        FieldType.WALL_FIELD,
-        FieldType.RED_KEY_DOOR_FIELD,
-        FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldType.YELLOW_KEY_DOOR_FIELD,
-        FieldType.GRAY_KEY_DOOR_FIELD
+        FieldType.WallField,
+        FieldType.RedKeyDoorField,
+        FieldType.BlueKeyDoorField,
+        FieldType.GreenKeyDoorField,
+        FieldType.YellowKeyDoorField,
+        FieldType.GrayKeyDoorField
     });
 
     private static readonly int playing = Animator.StringToHash("Playing");
@@ -35,10 +35,7 @@ public class CoinManager : MonoBehaviour
         anim.SetBool(playing, EditModeManager.Instance.Playing);
     }
 
-    public void SetCoin(Vector2 pos)
-    {
-        SetCoin(pos.x, pos.y);
-    }
+    public void SetCoin(Vector2 pos) => SetCoin(pos.x, pos.y);
 
     [PunRPC]
     public void RemoveCoin(float mx, float my)
@@ -56,32 +53,21 @@ public class CoinManager : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.1f, 128);
         foreach (Collider2D hit in hits)
         {
-            if (hit.GetComponent<CoinController>() != null)
-            {
-                return hit.transform.parent.gameObject;
-            }
+            if (hit.GetComponent<CoinController>() != null) return hit.transform.parent.gameObject;
         }
 
         return null;
     }
 
-    public static GameObject GetCoin(Vector2 pos)
-    {
-        return GetCoin(pos.x, pos.y);
-    }
+    public static GameObject GetCoin(Vector2 pos) => GetCoin(pos.x, pos.y);
 
-    public static bool IsCoinThere(float mx, float my)
-    {
-        return GetCoin(mx, my) != null;
-    }
+    public static bool IsCoinThere(float mx, float my) => GetCoin(mx, my) != null;
 
-    public static bool CanPlace(float mx, float my)
-    {
+    public static bool CanPlace(float mx, float my) =>
         // conditions: no coin there, doesn't intersect with any walls etc, no player there
-        return !IsCoinThere(mx, my) &&
-               !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CannotPlaceFields.ToArray()) &&
-               !PlayerManager.IsPlayerThere(mx, my);
-    }
+        !IsCoinThere(mx, my) &&
+        !FieldManager.IntersectingAnyFieldsAtPos(mx, my, CannotPlaceFields.ToArray()) &&
+        !PlayerManager.IsPlayerThere(mx, my);
 
     private void Awake()
     {
@@ -89,9 +75,7 @@ public class CoinManager : MonoBehaviour
         if (Instance == null) Instance = this;
     }
 
-    private void Start()
-    {
-        EditModeManager.Instance.Play += () =>
+    private void Start() =>
+        EditModeManager.Instance.OnPlay += () =>
             Instance.TotalCoins = ReferenceManager.Instance.CoinContainer.transform.childCount;
-    }
 }

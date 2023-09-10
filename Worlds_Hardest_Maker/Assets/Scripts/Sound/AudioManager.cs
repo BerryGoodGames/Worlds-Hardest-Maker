@@ -1,15 +1,18 @@
 using System;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Serialization;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
-    [FormerlySerializedAs("transitionTime")] public float TransitionTime = 1;
-    [FormerlySerializedAs("defaultState")] public AudioMixerSnapshot DefaultState;
-    [FormerlySerializedAs("filteredState")] public AudioMixerSnapshot FilteredState;
-    [FormerlySerializedAs("sounds")] [Space] public Sound[] Sounds;
+
+    public float TransitionTime = 1;
+
+    public AudioMixerSnapshot DefaultState;
+
+    public AudioMixerSnapshot FilteredState;
+
+    [Space] public Sound[] Sounds;
 
     private void Awake()
     {
@@ -25,10 +28,7 @@ public class AudioManager : MonoBehaviour
             s.Source.loop = s.Loop;
             s.Source.volume = s.Volume;
             s.Source.pitch = s.Pitch;
-            if (s.PlayOnAwake)
-            {
-                s.Source.Play();
-            }
+            if (s.PlayOnAwake) s.Source.Play();
         }
     }
 
@@ -47,12 +47,8 @@ public class AudioManager : MonoBehaviour
     public void MusicFiltered(bool filtered)
     {
         if (filtered)
-        {
             FilteredState.TransitionTo(TransitionTime);
-        }
         else
-        {
             DefaultState.TransitionTo(TransitionTime);
-        }
     }
 }

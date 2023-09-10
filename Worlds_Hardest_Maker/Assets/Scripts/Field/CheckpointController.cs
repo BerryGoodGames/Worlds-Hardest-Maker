@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CheckpointController : MonoBehaviour
 {
-    [FormerlySerializedAs("activated")] public bool Activated;
+    public bool Activated;
     private static bool reusableCheckpoints = true;
 
     public static bool ReusableCheckpoints
@@ -30,7 +29,7 @@ public class CheckpointController : MonoBehaviour
         // check if player wasn't on checkpoint before
         PlayerController controller = player.GetComponent<PlayerController>();
 
-        bool alreadyOnField = controller.IsOnField(FieldType.CHECKPOINT_FIELD);
+        bool alreadyOnField = controller.IsOnField(FieldType.CheckpointField);
 
         if ((Activated && !reusableCheckpoints) || alreadyOnField) return;
 
@@ -82,14 +81,12 @@ public class CheckpointController : MonoBehaviour
         // deactivate every checkpoint
         foreach (CheckpointController controller in activatedCheckpoints)
         {
-            if (controller != null) controller.Deactivate(false);
+            if (controller != null)
+                controller.Deactivate(false);
         }
 
         activatedCheckpoints.Clear();
     }
 
-    private void Start()
-    {
-        anim = GetComponent<CheckpointTween>();
-    }
+    private void Start() => anim = GetComponent<CheckpointTween>();
 }

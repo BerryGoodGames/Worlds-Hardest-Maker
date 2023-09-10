@@ -2,18 +2,23 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 public class BallCircleController : BallController
 {
     [SerializeField] private float hoverDeviation;
     [SerializeField] private int startAnglePositionCount;
-    [FormerlySerializedAs("origin")] [Space] public Transform Origin;
-    [FormerlySerializedAs("hoverHint")] public Transform HoverHint;
-    [FormerlySerializedAs("line")] [HideInInspector] public Transform Line;
-    [FormerlySerializedAs("radius")] [Space] [HideInInspector] public float Radius;
-    [FormerlySerializedAs("startAngle")] [HideInInspector] public float StartAngle;
-    [FormerlySerializedAs("currentAngle")] [HideInInspector] public float CurrentAngle;
+
+    [Space] public Transform Origin;
+
+    public Transform HoverHint;
+
+    [HideInInspector] public Transform Line;
+
+    [Space] [HideInInspector] public float Radius;
+
+    [HideInInspector] public float StartAngle;
+
+    [HideInInspector] public float CurrentAngle;
 
     private bool isDragging;
 
@@ -22,9 +27,7 @@ public class BallCircleController : BallController
         base.Awake();
 
         if (transform.parent.parent != ReferenceManager.Instance.BallCircleContainer)
-        {
             transform.parent.SetParent(ReferenceManager.Instance.BallCircleContainer);
-        }
 
         InitCircleObject();
     }
@@ -37,7 +40,7 @@ public class BallCircleController : BallController
         Origin.gameObject.SetActive(!EditModeManager.Instance.Playing);
         Line.gameObject.SetActive(!EditModeManager.Instance.Playing);
 
-        UpdateHoverHintVisibility(mousePos, mouseOver);
+        UpdateHoverHintVisibility(mouseOver);
 
         CheckUserInput(mousePos, mouseOver);
 
@@ -48,17 +51,11 @@ public class BallCircleController : BallController
         UpdateAnglePos();
     }
 
-    private void OnDestroy()
-    {
-        Destroy(transform.parent.gameObject);
-    }
+    private void OnDestroy() => Destroy(transform.parent.gameObject);
 
-    private float GetAngularSpeed()
-    {
-        return Speed * Time.deltaTime / Radius;
-    }
+    private float GetAngularSpeed() => Speed * Time.deltaTime / Radius;
 
-    private void UpdateHoverHintVisibility(Vector2 mousePos, bool mouseOver)
+    private void UpdateHoverHintVisibility(bool mouseOver)
     {
         // set visibility of hover hint
         if (!EditModeManager.Instance.Playing && mouseOver &&
@@ -70,9 +67,7 @@ public class BallCircleController : BallController
             HoverHint.position = GetPointOnCircleFromRayPos(MouseManager.Instance.MouseWorldPos);
         }
         else
-        {
             HoverHint.gameObject.SetActive(false);
-        }
     }
 
     private void CheckUserInput(Vector2 mousePos, bool mouseOver)
@@ -85,18 +80,13 @@ public class BallCircleController : BallController
             // check start angle
             if (Input.GetMouseButton(0) && Input.GetKey(KeybindManager.Instance.BallCircleAngleKey) &&
                 !EventSystem.current.IsPointerOverGameObject())
-            {
                 SetStartAngle(GetAngleToOrigin(mousePos));
-            }
 
             if (Input.GetMouseButton(0) && Input.GetKey(KeybindManager.Instance.BallCircleRadiusKey) &&
                 !EventSystem.current.IsPointerOverGameObject())
             {
                 float mouseDist = Vector2.Distance(Origin.position, mousePos).RoundToNearestStep(0.5f);
-                if (mouseDist > 0)
-                {
-                    SetRadius(mouseDist);
-                }
+                if (mouseDist > 0) SetRadius(mouseDist);
             }
         }
 
@@ -117,7 +107,7 @@ public class BallCircleController : BallController
         LineRenderer circle = stroke.GetComponent<LineRenderer>();
 
         const int steps = 100;
-        List<Vector2> points = LineManager.GetCirclePoints(new(mx, my), Radius, steps);
+        List<Vector2> points = DrawManager.GetCirclePoints(new(mx, my), Radius, steps);
 
         circle.positionCount = steps + 1;
         for (int i = 0; i < points.Count; i++)
@@ -140,7 +130,7 @@ public class BallCircleController : BallController
     [PunRPC]
     public void SetRadius(float radius)
     {
-        this.Radius = radius;
+        Radius = radius;
 
         InitCircleObject();
         UpdateAnglePos();
@@ -152,19 +142,15 @@ public class BallCircleController : BallController
         // round input to nearest position
         float angle = startAngle.RoundToNearestStep(Mathf.PI * 2 / startAnglePositionCount);
 
-        this.StartAngle = angle;
+        StartAngle = angle;
         CurrentAngle = angle;
         transform.position = GetPointOnCircleFromAngle(angle);
     }
 
     [PunRPC]
-    public void SetCurrentAngle(float angle)
-    {
-        CurrentAngle = angle;
-    }
+    public void SetCurrentAngle(float angle) => CurrentAngle = angle;
 
-    /// <summary>"Creates" ray from origin to pos and returns the point intersecting with path circle</summary>
-    /// <param name="pos"></param>
+    /// <summary>Creates ray from origin to pos and returns the point intersecting with path circle</summary>
     public Vector2 GetPointOnCircleFromRayPos(Vector2 pos)
     {
         Vector2 diff = pos - (Vector2)Origin.position;
@@ -184,41 +170,25 @@ public class BallCircleController : BallController
     }
 
     /// <returns>Angle from pos to origin in radians</returns>
-    public float GetAngleToOrigin(Vector2 pos)
-    {
-        return -Vector2.SignedAngle(pos - (Vector2)Origin.position, Vector2.right) * Mathf.PI / 180;
-    }
+    public float GetAngleToOrigin(Vector2 pos) =>
+        -Vector2.SignedAngle(pos - (Vector2)Origin.position, Vector2.right) * Mathf.PI / 180;
 
     public void InitCircleObject()
     {
-        if (Line != null)
-        {
-            Destroy(Line.gameObject);
-        }
+        if (Line != null) Destroy(Line.gameObject);
 
         // set circle
-        LineManager.SetFill(0, 0, 0);
-        LineManager.SetWeight(0.11f);
-        LineManager.SetOrderInLayer(-2);
-        LineManager.SetLayerID(LineManager.BallLayerID);
-        GameObject circleObj = LineManager.DrawCircle(Origin.position, Radius, transform.parent);
-
-        Line = circleObj.transform;
+        DrawManager.SetFill(0, 0, 0);
+        DrawManager.SetWeight(0.11f);
+        DrawManager.SetOrderInLayer(-2);
+        DrawManager.SetLayerID(DrawManager.BallLayerID);
+        Line = DrawManager.DrawCircle(Origin.position, Radius, transform.parent).transform;
     }
 
     [PunRPC]
-    public override void MoveObject(Vector2 unitPos, int id)
-    {
-        MoveOrigin(unitPos.x, unitPos.y);
-    }
+    public override void MoveObject(Vector2 unitPos, int id) => MoveOrigin(unitPos.x, unitPos.y);
 
-    public override Vector2 GetPosition()
-    {
-        return Origin.position;
-    }
+    public override Vector2 GetPosition() => Origin.position;
 
-    public override Data GetData()
-    {
-        return new BallCircleData(this);
-    }
+    public override Data GetData() => new BallCircleData(this);
 }

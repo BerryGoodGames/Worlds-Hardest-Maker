@@ -4,30 +4,31 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
-///     inits lobby: rooms, players etc
+///     Initializes lobby: rooms, players etc
 /// </summary>
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     public static LobbyManager Instance { get; private set; }
 
-    [FormerlySerializedAs("roomItem")] public GameObject RoomItem;
-    [FormerlySerializedAs("playerItem")] public GameObject PlayerItem;
+    public GameObject RoomItem;
+    public GameObject PlayerItem;
     [SerializeField] private LoadingScreen loadingScreen;
 
-    [FormerlySerializedAs("roomNameInput")] [Space]
+    [Space]
 
     // references
     public TMP_InputField RoomNameInput;
 
-    [FormerlySerializedAs("lobbyPanel")] public GameObject LobbyPanel;
-    [FormerlySerializedAs("roomPanel")] public GameObject RoomPanel;
+    public GameObject LobbyPanel;
+    public GameObject RoomPanel;
     [SerializeField] private GameObject loadingPanel;
-    [FormerlySerializedAs("roomNameTitle")] public TMP_Text RoomNameTitle;
-    [FormerlySerializedAs("yourName")] public TMP_Text YourName;
+
+    public TMP_Text RoomNameTitle;
+
+    public TMP_Text YourName;
     [SerializeField] private string privateRoomStart = "!";
     [SerializeField] private Slider loadingSlider;
 
@@ -36,9 +37,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     // list of all room item controllers
     private readonly List<RoomItem> roomItemsList = new();
 
-    [FormerlySerializedAs("roomContainer")] public GameObject RoomContainer;
+    public GameObject RoomContainer;
 
-    [FormerlySerializedAs("timeBetweenUpdates")] [Space]
+    [Space]
 
     // vars for tracking cooldown
     public float TimeBetweenUpdates = 1.5f;
@@ -46,9 +47,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private float nextUpdateTime;
 
     [Space] private readonly List<PlayerItem> playerItemsList = new();
-    [FormerlySerializedAs("playerItemContainer")] public GameObject PlayerItemContainer;
 
-    [FormerlySerializedAs("playButton")] [Space] public GameObject PlayButton;
+    public GameObject PlayerItemContainer;
+
+    [Space] public GameObject PlayButton;
 
     private static readonly int load = Animator.StringToHash("Load");
 
@@ -61,7 +63,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    ///     onclick method for Create Room button
+    ///     OnClick callback (for Create Room button)
     /// </summary>
     public void OnClickCreate()
     {
@@ -70,19 +72,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         // check if room already exists
         if (CheckRooms(RoomNameInput.text))
-        {
             // join room with name
             PhotonNetwork.JoinRoom(RoomNameInput.text);
-        }
         else
-        {
             // create new room with name
             PhotonNetwork.CreateRoom(RoomNameInput.text);
-        }
     }
 
     /// <summary>
-    ///     callback method: player joins / creates room: switch panels
+    ///     OnJoin / OnCreate callback
     /// </summary>
     public override void OnJoinedRoom()
     {
@@ -96,13 +94,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    ///     callback method: global list of rooms updates in any way
+    ///     Callback method: global list of rooms updates in any way
     /// </summary>
     /// <param name="roomList"></param>
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         // check for cooldown
-        if (!(Time.time >= nextUpdateTime)) return;
+        if (Time.time < nextUpdateTime) return;
 
         // update room list
         // -> clear list
@@ -125,7 +123,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 controller = newRoom.GetComponent<RoomItem>();
             }
             // create controller
-            else controller = new();
+            else
+                controller = new();
 
             // set name and add to list
             controller.SetRoomName(room.Name);
@@ -138,15 +137,12 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    ///     onclick method for leave button
+    ///     OnClick method for leave button
     /// </summary>
-    public void OnClickLeaveRoom()
-    {
-        PhotonNetwork.LeaveRoom();
-    }
+    public void OnClickLeaveRoom() => PhotonNetwork.LeaveRoom();
 
     /// <summary>
-    ///     callback method: player leaves any room: switch panels
+    ///     Callback method: player leaves any room: switch panels
     /// </summary>
     public override void OnLeftRoom()
     {
@@ -154,10 +150,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         LobbyPanel.SetActive(true);
     }
 
-    public override void OnConnectedToMaster()
-    {
-        PhotonNetwork.JoinLobby();
-    }
+    public override void OnConnectedToMaster() => PhotonNetwork.JoinLobby();
 
     private void UpdatePlayerList()
     {
@@ -186,33 +179,20 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        UpdatePlayerList();
-    }
+    public override void OnPlayerEnteredRoom(Player newPlayer) => UpdatePlayerList();
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        UpdatePlayerList();
-    }
+    public override void OnPlayerLeftRoom(Player otherPlayer) => UpdatePlayerList();
 
     private void Update()
     {
         // only show play button to host
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount >= 1)
-        {
             PlayButton.SetActive(true);
-        }
         else
-        {
             PlayButton.SetActive(false);
-        }
 
         // check enter key
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            OnClickCreate();
-        }
+        if (Input.GetKeyDown(KeyCode.Return)) OnClickCreate();
     }
 
     public void OnClickPlayButton()
@@ -244,9 +224,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    ///     checks if room already exists
+    ///     Checks if room already exists
     /// </summary>
-    /// <param name="roomName">name of room to check</param>
     public bool CheckRooms(string roomName)
     {
         foreach (RoomItem room in roomItemsList)
@@ -258,10 +237,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         return false;
     }
 
-    public void Back()
-    {
-        loadingScreen.LoadScene(2);
-    }
+    public void Back() => loadingScreen.LoadScene(2);
 
     private void Awake()
     {

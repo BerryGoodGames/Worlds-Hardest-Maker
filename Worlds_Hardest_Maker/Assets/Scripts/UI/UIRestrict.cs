@@ -1,12 +1,8 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class UIRestrict : MonoBehaviour
 {
-    [FormerlySerializedAs("left")] public float Left;
-    [FormerlySerializedAs("right")] public float Right;
-    [FormerlySerializedAs("top")] public float Top;
-    [FormerlySerializedAs("bottom")] public float Bottom;
+    public float Left, Right, Top, Bottom;
 
     private Vector2 canvasSize;
     private RectTransform rt;

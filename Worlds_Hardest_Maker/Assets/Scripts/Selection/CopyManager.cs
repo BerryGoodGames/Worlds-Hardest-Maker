@@ -6,19 +6,13 @@ public class CopyManager : MonoBehaviour
 {
     public static CopyManager Instance { get; set; }
 
-    private static List<CopyData> clipBoard = new();
+    private readonly List<CopyData> clipBoard = new();
 
-    private static Vector2 size = Vector2.zero;
-
-    public static bool Pasting;
+    public bool Pasting;
 
     [SerializeField] private Transform previewContainer;
-    [SerializeField] private BarTween toolbarTween;
-    [SerializeField] private BarTween infobarEditTween;
-    [SerializeField] private BarTween playButtonTween;
 
-
-    public static void Copy(Vector2 lowestPos, Vector2 highestPos)
+    public void Copy(Vector2 lowestPos, Vector2 highestPos)
     {
         clipBoard.Clear();
 
@@ -42,9 +36,6 @@ public class CopyManager : MonoBehaviour
 
         // center and size of actual controllers user selected
         Vector2 castCenter = (.5f * (lowestPoint + highestPoint)).Floor();
-        Vector2 castSize = highestPoint - lowestPoint + Vector2.one;
-
-        size = castSize; // save size
 
         foreach (Collider2D hit in hits)
         {
@@ -85,7 +76,7 @@ public class CopyManager : MonoBehaviour
 
         StartPaste();
 
-        // wait until clicked, cancel if esc is clicked
+        // wait until clicked, cancel if esc is pressed
         while (!Input.GetMouseButton(0))
         {
             // cancel if these things happen
@@ -102,7 +93,9 @@ public class CopyManager : MonoBehaviour
 
         // make sure that the player can't place directly after pasting
         while (!Input.GetMouseButtonUp(0))
+        {
             yield return null;
+        }
 
         Pasting = false;
     }
@@ -117,10 +110,10 @@ public class CopyManager : MonoBehaviour
 
         CreatePreview();
 
-        // hide toolbar
-        toolbarTween.SetPlay(true);
-        infobarEditTween.SetPlay(true);
-        playButtonTween.TweenToY(-125, false);
+        // hide panels
+        ReferenceManager.Instance.ToolbarTween.SetPlay(true);
+        ReferenceManager.Instance.InfobarEditTween.SetPlay(true);
+        ReferenceManager.Instance.PlayButtonTween.TweenToY(-125, false);
     }
 
     private void CancelPaste()
@@ -133,10 +126,10 @@ public class CopyManager : MonoBehaviour
         Instance.previewContainer.position = Vector2.zero;
         Pasting = false;
 
-        // show toolbar (if in edit mode)
-        toolbarTween.SetPlay(EditModeManager.Instance.Playing);
-        infobarEditTween.SetPlay(EditModeManager.Instance.Playing);
-        playButtonTween.SetPlay(EditModeManager.Instance.Playing);
+        // show panels (if in edit mode)
+        ReferenceManager.Instance.ToolbarTween.SetPlay(EditModeManager.Instance.Playing);
+        ReferenceManager.Instance.InfobarEditTween.SetPlay(EditModeManager.Instance.Playing);
+        ReferenceManager.Instance.PlayButtonTween.SetPlay(EditModeManager.Instance.Playing);
     }
 
     private void Paste()
@@ -144,9 +137,6 @@ public class CopyManager : MonoBehaviour
         // // actions to actually paste
         // get position where to paste
         Vector2 mousePos = MouseManager.Instance.MouseWorldPosMatrix;
-
-        // int matrixX = (int)(Mathf.Round(mousePos.x) - size.x * 0.5f);
-        // int matrixY = (int)(Mathf.Round(mousePos.y) - size.x * 0.5f);
 
         // paste
         LoadClipboard(mousePos);
@@ -158,12 +148,12 @@ public class CopyManager : MonoBehaviour
         Instance.previewContainer.position = Vector2.zero;
 
         // show bars
-        toolbarTween.SetPlay(false);
-        infobarEditTween.SetPlay(false);
-        playButtonTween.SetPlay(false);
+        ReferenceManager.Instance.ToolbarTween.SetPlay(false);
+        ReferenceManager.Instance.InfobarEditTween.SetPlay(false);
+        ReferenceManager.Instance.PlayButtonTween.SetPlay(false);
     }
 
-    public static void LoadClipboard(Vector2 pos)
+    public void LoadClipboard(Vector2 pos)
     {
         // just load clipboard to pos
         foreach (CopyData copyData in clipBoard)
@@ -172,7 +162,7 @@ public class CopyManager : MonoBehaviour
         }
     }
 
-    private static void CreatePreview()
+    private void CreatePreview()
     {
         ClearPreview();
 
@@ -189,10 +179,9 @@ public class CopyManager : MonoBehaviour
             PreviewController previewController = preview.GetComponent<PreviewController>();
 
             // set some settings in preview
-            previewController.ChangeSpriteToCurrentEditMode = false;
-            previewController.UpdateEveryFrame = false;
+            previewController.CheckUpdateEveryFrame = false;
             previewController.ShowSpriteWhenPasting = true;
-            previewController.RotateToRotation = false;
+            previewController.RotateToEditRotation = false;
 
             // set spire of preview
             previewController.SetSprite(copyData.GetEditMode());

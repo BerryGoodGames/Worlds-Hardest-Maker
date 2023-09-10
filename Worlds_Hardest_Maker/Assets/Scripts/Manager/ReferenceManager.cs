@@ -1,62 +1,99 @@
+using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class ReferenceManager : MonoBehaviour
 {
     public static ReferenceManager Instance { get; private set; }
 
-    [FormerlySerializedAs("manager")] [Header("Objects")]
-    public GameObject Manager;
+    #region Objects
 
-    [FormerlySerializedAs("canvas")] public Canvas Canvas;
+    [Foldout("Objects")] public GameObject Manager;
 
-    [FormerlySerializedAs("tooltipCanvas")] public GameObject TooltipCanvas;
+    [Foldout("Objects")] public JumpToEntity MainCameraJumper;
 
-    [FormerlySerializedAs("menu")] public GameObject Menu;
-    [FormerlySerializedAs("playButton")] public GameObject PlayButton;
+    [Foldout("Objects")] public Canvas Canvas;
 
-    [FormerlySerializedAs("placementPreview")] public GameObject PlacementPreview;
+    [Foldout("Objects")] public GameObject TooltipCanvas;
 
-    [FormerlySerializedAs("levelSettingsPanel")] public GameObject LevelSettingsPanel;
+    [Foldout("Objects")] public GameObject Menu;
+    [Foldout("Objects")] public GameObject PlayButton;
 
-    public PanelTween LevelSettingsButtonPanelTween;
-    public PanelTween LevelSettingsPanelTween;
+    [Foldout("Objects")] public PreviewController PlacementPreview;
 
-    public PanelTween AnchorEditorButtonPanelTween;
-    public PanelTween AnchorEditorPanelTween;
+    [Foldout("Objects")] public BarTween ToolbarTween;
+    [Foldout("Objects")] public BarTween InfobarEditTween;
+    [Foldout("Objects")] public BarTween PlayButtonTween;
 
-    [FormerlySerializedAs("ballWindows")] public GameObject BallWindows;
+    [Foldout("Objects")] public GameObject LevelSettingsPanel;
 
-    [FormerlySerializedAs("playerSpawner")] public PlayerSpawner PlayerSpawner;
+    [Foldout("Objects")] public PanelTween LevelSettingsButtonPanelTween;
+    [Foldout("Objects")] public PanelTween LevelSettingsPanelTween;
 
-    [FormerlySerializedAs("toolbarContainer")] [Space] [Header("Containers")]
-    public Transform ToolbarContainer;
+    [Foldout("Objects")] public PlayerSpawner PlayerSpawner;
 
-    [FormerlySerializedAs("sliderContainer")] public Transform SliderContainer;
+    #endregion
 
-    [FormerlySerializedAs("nameTagContainer")] public Transform NameTagContainer;
+    #region Containers
 
-    [FormerlySerializedAs("drawContainer")] public Transform DrawContainer;
+    [Foldout("Containers")] public Transform ToolbarContainer;
 
-    [FormerlySerializedAs("selectionOutlineContainer")] public Transform SelectionOutlineContainer;
+    [Foldout("Containers")] public Transform SliderContainer;
 
-    [FormerlySerializedAs("fillPreviewContainer")] public Transform FillPreviewContainer;
+    [Foldout("Containers")] public Transform NameTagContainer;
 
-    [FormerlySerializedAs("playerContainer")] public Transform PlayerContainer;
+    [Foldout("Containers")] public Transform DrawContainer;
 
-    [FormerlySerializedAs("anchorContainer")] public Transform AnchorContainer;
+    [Foldout("Containers")] public Transform SelectionOutlineContainer;
 
-    [FormerlySerializedAs("ballDefaultContainer")] public Transform BallDefaultContainer;
+    [Foldout("Containers")] public Transform FillPreviewContainer;
 
-    [FormerlySerializedAs("ballCircleContainer")] public Transform BallCircleContainer;
+    [Foldout("Containers")] public Transform PlayerContainer;
 
-    [FormerlySerializedAs("coinContainer")] public Transform CoinContainer;
+    [Foldout("Containers")] public Transform BallDefaultContainer;
 
-    [FormerlySerializedAs("keyContainer")] public Transform KeyContainer;
+    [Foldout("Containers")] public Transform BallCircleContainer;
 
-    [FormerlySerializedAs("fieldContainer")] public Transform FieldContainer;
+    [Foldout("Containers")] public Transform CoinContainer;
 
-    public Transform AnchorBlockContainer;
+    [Foldout("Containers")] public Transform KeyContainer;
+
+    [Foldout("Containers")] public Transform FieldContainer;
+
+    #endregion
+
+    #region Anchor
+
+    [Foldout("Anchor")] public PanelTween AnchorEditorButtonPanelTween;
+
+    [Foldout("Anchor")] public PanelTween AnchorEditorPanelTween;
+
+    [Foldout("Anchor")] public Transform AnchorContainer;
+
+    [Foldout("Anchor")] public RectTransform AnchorBlockContainer;
+
+    [Foldout("Anchor")] public RectTransform AnchorBlockChainContainer;
+
+    [Foldout("Anchor")] public RectTransform AnchorBlockSourceContainer;
+
+    [Foldout("Anchor")] public AnchorBlockQuickMenuController AnchorBlockQuickMenu;
+
+    [Foldout("Anchor")] public ChainController MainChainController;
+
+    [Foldout("Anchor")] public AnchorBlockFitter AnchorBlockFitter;
+
+    [Foldout("Anchor")] public AnchorBlockConnectorController AnchorBlockConnectorController;
+
+    [Foldout("Anchor")] public AnchorBlockPreviewController AnchorBlockPreview;
+
+    [Foldout("Anchor")] public AnchorBlockPeriblockerController AnchorBlockPeriblocker;
+
+    [Foldout("Anchor")] public AnchorCameraJumping AnchorCameraJumping;
+
+    [Foldout("Anchor")] public AlphaUITween AnchorNoAnchorSelectedScreen;
+
+    [Foldout("Anchor")] public AlphaUITween AnchorInPlayModeScreen;
+
+    #endregion
 
     private void Awake()
     {

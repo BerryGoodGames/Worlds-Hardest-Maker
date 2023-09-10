@@ -1,29 +1,43 @@
-using System.Collections.Generic;
+using UnityEngine;
 
 public class SetSpeedBlock : AnchorBlock
 {
     public enum Unit
     {
-        SPEED,
-        TIME
+        Speed,
+        Time
     }
 
-    public const Type BlockType = Type.SET_SPEED;
+    public const Type BlockType = Type.SetSpeed;
     public override Type ImplementedBlockType => BlockType;
+    protected override GameObject Prefab => PrefabManager.Instance.SetSpeedBlockPrefab;
 
     private readonly float input;
-    private readonly Unit type;
-    public SetSpeedBlock(AnchorController anchor, float input, Unit type) : base(anchor)
+    private readonly Unit unit;
+
+    public SetSpeedBlock(AnchorController anchor, bool isLocked, float input, Unit unit) : base(anchor, isLocked)
     {
         this.input = input;
-        this.type = type;
+        this.unit = unit;
     }
 
-    public override void Execute(bool executeNext = true)
+    public override void Execute()
     {
-        Anchor.ApplySpeed = type != Unit.TIME;
-        Anchor.Speed = input;
-        if(executeNext)
-            Anchor.FinishCurrentExecution();
+        Anchor.SpeedUnit = unit;
+        Anchor.TimeInput = input;
+        Anchor.FinishCurrentExecution();
     }
+
+    protected override void SetControllerValues(AnchorBlockController c)
+    {
+        SetSpeedBlockController controller = (SetSpeedBlockController)c;
+
+        controller.SpeedInput.text = input.ToString();
+        controller.UnitInput.value =
+            GameManager.GetDropdownValue(SetSpeedBlockController.GetOption(unit), controller.UnitInput);
+    }
+
+    public void Print() => Debug.Log((input, unit));
+
+    public override AnchorBlockData GetData() => new SetSpeedBlockData(IsLocked, input, unit);
 }

@@ -11,11 +11,11 @@ public class NumberInputTween : MonoBehaviour
     [SerializeField] private float hover;
     private float leftArrowX;
     private float rightArrowX;
-    private Vector2 unhoveredScl = Vector2.one;
+    private readonly Vector2 unhoveredScl = Vector2.one;
     private Vector2 hoveredScl;
 
-    private const Ease wiggleStartEase = Ease.OutCubic;
-    private const Ease wiggleReturnEase = Ease.InOutSine;
+    private const Ease WiggleStartEase = Ease.OutCubic;
+    private const Ease WiggleReturnEase = Ease.InOutSine;
 
     private Sequence wiggleSeqLeft;
     private Sequence wiggleSeqRight;
@@ -25,8 +25,8 @@ public class NumberInputTween : MonoBehaviour
         rightArrow.DOKill();
 
         wiggleSeqRight = DOTween.Sequence();
-        wiggleSeqRight.Append(rightArrow.DOMoveX(rightArrowX + wiggle, wiggleDuration * 0.5f).SetEase(wiggleStartEase))
-            .Append(rightArrow.DOMoveX(rightArrowX, wiggleDuration * 0.5f).SetEase(wiggleReturnEase));
+        wiggleSeqRight.Append(rightArrow.DOMoveX(rightArrowX + wiggle, wiggleDuration * 0.5f).SetEase(WiggleStartEase))
+            .Append(rightArrow.DOMoveX(rightArrowX, wiggleDuration * 0.5f).SetEase(WiggleReturnEase));
     }
 
     public void DecreaseTween()
@@ -34,21 +34,17 @@ public class NumberInputTween : MonoBehaviour
         leftArrow.DOKill();
 
         wiggleSeqLeft = DOTween.Sequence();
-        wiggleSeqLeft.Append(leftArrow.DOMoveX(leftArrowX - wiggle, wiggleDuration * 0.5f).SetEase(wiggleStartEase))
-            .Append(leftArrow.DOMoveX(leftArrowX, wiggleDuration * 0.5f).SetEase(wiggleReturnEase));
+        wiggleSeqLeft.Append(leftArrow.DOMoveX(leftArrowX - wiggle, wiggleDuration * 0.5f).SetEase(WiggleStartEase))
+            .Append(leftArrow.DOMoveX(leftArrowX, wiggleDuration * 0.5f).SetEase(WiggleReturnEase));
     }
 
-    public void HoverEventArrowLeft(bool enter)
-    {
+    public void HoverEventArrowLeft(bool enter) =>
         // boolean enter: did the mouse enter or leave the arrow
         leftArrow.DOScale(enter ? hoveredScl : unhoveredScl, hoverDuration);
-    }
 
-    public void HoverEventArrowRight(bool enter)
-    {
+    public void HoverEventArrowRight(bool enter) =>
         // boolean enter: did the mouse enter or leave the arrow
         rightArrow.DOScale(enter ? hoveredScl : unhoveredScl, hoverDuration);
-    }
 
 
     private void Start()

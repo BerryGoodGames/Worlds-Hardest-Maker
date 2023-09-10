@@ -1,11 +1,10 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class UIAttachToPoint : MonoBehaviour
 {
-    [FormerlySerializedAs("point")] public Vector2 Point;
-    [FormerlySerializedAs("zoomSizeWithCamera")] public bool ZoomSizeWithCamera;
-    [FormerlySerializedAs("zoomPositionWithCamera")] public bool ZoomPositionWithCamera;
+    public Vector2 Point;
+    public bool ZoomSizeWithCamera;
+    public bool ZoomPositionWithCamera;
 
     private Camera cam;
     private RectTransform rt;

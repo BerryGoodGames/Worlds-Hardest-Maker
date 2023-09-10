@@ -19,35 +19,29 @@ public class MouseManager : MonoBehaviour
     {
         get
         {
-            if (mouseWorldPos.Equals(Vector2.positiveInfinity))
-            {
-                mouseWorldPos = GetMouseWorldPos();
-            }
+            if (mouseWorldPos.Equals(Vector2.positiveInfinity)) mouseWorldPos = GetMouseWorldPos();
 
             return mouseWorldPos;
         }
         private set => mouseWorldPos = value;
     }
 
+    public Vector2 MouseCanvasPos => GameManager.ScreenToMainCanvas(Input.mousePosition);
+
     public Vector2 PrevMouseWorldPos { get; set; }
     public Vector2 MouseWorldPosGrid { get; set; }
     public Vector2 MouseWorldPosMatrix { get; set; }
     public bool IsOnScreen { get; set; } = true;
     public bool IsUIHovered { get; set; }
+    public bool PrevMouseUp { get; set; }
 
     #endregion
 
     #region Static methods
 
-    public static Vector2 PosToGrid(Vector2 pos)
-    {
-        return new(Mathf.Round(pos.x * 2) * 0.5f, Mathf.Round(pos.y * 2) * 0.5f);
-    }
+    public static Vector2 PosToGrid(Vector2 pos) => new(Mathf.Round(pos.x * 2) * 0.5f, Mathf.Round(pos.y * 2) * 0.5f);
 
-    public static Vector2 PosToMatrix(Vector2 pos)
-    {
-        return new(Mathf.Round(pos.x), Mathf.Round(pos.y));
-    }
+    public static Vector2 PosToMatrix(Vector2 pos) => new(Mathf.Round(pos.x), Mathf.Round(pos.y));
 
     private static Vector2 GetMouseWorldPos()
     {
@@ -59,7 +53,7 @@ public class MouseManager : MonoBehaviour
 
     /// <summary>
     ///     Returns a tuple: (start of drag, end of drag);
-    ///     exception when trying to access drag positions while they are null (-> no current dragging)
+    ///     <para>Exception when trying to access drag positions while they are null (-> no current dragging)</para>
     /// </summary>
     /// <param name="worldPositionType">The world position mode, you want the output to be in (-> any, grid, matrix)</param>
     /// <exception cref="Exception"></exception>
@@ -110,6 +104,7 @@ public class MouseManager : MonoBehaviour
         Instance.PrevMousePos = Input.mousePosition;
         Instance.PrevMouseWorldPos = Instance.MouseWorldPos;
         Instance.MouseWorldPos = Vector2.positiveInfinity;
+        Instance.PrevMouseUp = Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1);
     }
 
     private void Awake()

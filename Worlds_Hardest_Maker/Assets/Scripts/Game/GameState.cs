@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-///     class, where progress of player can be saved
+///     Saves progress of player in current playing session
 /// </summary>
 public class GameState
 {
@@ -12,15 +12,13 @@ public class GameState
 
     public GameState(Vector2 playerStartPos, List<Vector2> collectedCoins, List<Vector2> collectedKeys)
     {
-        this.PlayerStartPos = playerStartPos;
-        this.CollectedCoins = collectedCoins;
-        this.CollectedKeys = collectedKeys;
+        PlayerStartPos = playerStartPos;
+        CollectedCoins = collectedCoins;
+        CollectedKeys = collectedKeys;
     }
 
-    public bool Equals(GameState other)
-    {
-        return PlayerStartPos == other.PlayerStartPos &&
-               CollectedCoins.Equals(other.CollectedCoins) &&
-               CollectedKeys.Equals(other.CollectedKeys);
-    }
+    public bool Equals(GameState other) =>
+        PlayerStartPos == other.PlayerStartPos &&
+        CollectedCoins.Equals(other.CollectedCoins) &&
+        CollectedKeys.Equals(other.CollectedKeys);
 }

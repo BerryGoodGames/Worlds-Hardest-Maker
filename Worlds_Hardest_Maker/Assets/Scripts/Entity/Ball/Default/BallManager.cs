@@ -21,21 +21,14 @@ public class BallManager : MonoBehaviour
     }
 
     [PunRPC]
-    public void SetBall(float mx, float my)
-    {
-        Instance.SetBall(mx, my, 0, 0, 5);
-    }
+    public void SetBall(float mx, float my) => Instance.SetBall(mx, my, 0, 0, 5);
 
-    public bool IsBallThere(float mx, float my)
-    {
-        return GetBalls(mx, my).Count > 0;
-    }
+    public bool IsBallThere(float mx, float my) => GetBalls(mx, my).Count > 0;
 
     /// <summary>
-    ///     Instantiates new ball default at (0, 0), also sends new instantiate request to photon network
+    ///     Instantiates new ball default at (0, 0)
+    ///     <para>Also sends new instantiate request to photon network</para>
     /// </summary>
-    /// <param name="multiplayer"></param>
-    /// <returns></returns>
     public GameObject InstantiateBall(Vector2 pos, Vector2 bouncePos, float speed, bool multiplayer)
     {
         GameObject newBall;

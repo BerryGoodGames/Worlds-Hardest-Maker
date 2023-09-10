@@ -1,12 +1,13 @@
+using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class ToolbarSizing : MonoBehaviour
 {
-    [FormerlySerializedAs("canvas")] public Canvas Canvas;
+    public Canvas Canvas;
 
-    [FormerlySerializedAs("toolbarHeight")] [Space] public float ToolbarHeight;
+    [Space] public float ToolbarHeight;
 
+    [ButtonMethod]
     public void UpdateSize()
     {
         // set height of toolbarContainer and scale values
@@ -24,7 +25,8 @@ public class ToolbarSizing : MonoBehaviour
         backgroundRectTransform.sizeDelta = new(0, ToolbarHeight + 200);
     }
 
-    public void ScaleOptionsInOptionbars()
+    [ButtonMethod]
+    public void ScaleOptionsInEveryOptionbar()
     {
         ToolOptionbar[] optionbars = FindObjectsOfType<ToolOptionbar>();
         foreach (ToolOptionbar optionbar in optionbars)
@@ -33,7 +35,8 @@ public class ToolbarSizing : MonoBehaviour
         }
     }
 
-    public void UpdateOptionbarHeights()
+    [ButtonMethod]
+    public void UpdateEveryOptionbarHeight()
     {
         ToolOptionbar[] optionbars = FindObjectsOfType<ToolOptionbar>();
         foreach (ToolOptionbar optionbar in optionbars)

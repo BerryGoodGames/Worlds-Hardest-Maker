@@ -2,29 +2,26 @@ using System;
 using UnityEngine;
 
 /// <summary>
-///     makes entity drag and drop when shift is pressed
-///     this is shit
+///     Makes entity drag and drop when shift is pressed
 /// </summary>
 public class EntityDragDrop : MonoBehaviour
 {
     [SerializeField] private FollowMouse.WorldPositionType worldType;
-    public event Action OnMove;
+    public event Action<Vector2, Vector2> OnMove;
 
     private void OnMouseDrag()
     {
         if (EditModeManager.Instance.Playing || !Input.GetKey(KeybindManager.Instance.EntityMoveKey)) return;
-        
+
         Vector2 newPos = FollowMouse.GetCurrentMouseWorldPos(worldType);
-        if (newPos != (Vector2)transform.position)
-        {
-            transform.position = newPos;
 
-            OnMove?.Invoke();
-        }
+        if (newPos == (Vector2)transform.position) return;
 
-        if (TryGetComponent(out PathControllerOld controller))
-        {
-            controller.UpdateStartingPosition();
-        }
+        Transform t = transform;
+        Vector2 oldPos = t.position;
+
+        t.position = newPos;
+
+        OnMove?.Invoke(oldPos, newPos);
     }
 }

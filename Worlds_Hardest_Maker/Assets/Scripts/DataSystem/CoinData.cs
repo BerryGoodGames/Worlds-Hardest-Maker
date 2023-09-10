@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
 ///     Coin attributes: position
@@ -8,27 +7,20 @@ using UnityEngine.Serialization;
 [Serializable]
 public class CoinData : Data
 {
-    [FormerlySerializedAs("position")] public float[] Position;
+    public float[] Position;
 
     public CoinData(CoinController controller)
     {
+        Vector2 controllerPosition = controller.transform.position;
+
         Position = new float[2];
-        Position[0] = controller.transform.position.x;
-        Position[1] = controller.transform.position.y;
+        Position[0] = controllerPosition.x;
+        Position[1] = controllerPosition.y;
     }
 
-    public override void ImportToLevel()
-    {
-        ImportToLevel(new(Position[0], Position[1]));
-    }
+    public override void ImportToLevel() => ImportToLevel(new(Position[0], Position[1]));
 
-    public override void ImportToLevel(Vector2 pos)
-    {
-        CoinManager.Instance.SetCoin(pos);
-    }
+    public override void ImportToLevel(Vector2 pos) => CoinManager.Instance.SetCoin(pos);
 
-    public override EditMode GetEditMode()
-    {
-        return EditMode.COIN;
-    }
+    public override EditMode GetEditMode() => EditMode.Coin;
 }

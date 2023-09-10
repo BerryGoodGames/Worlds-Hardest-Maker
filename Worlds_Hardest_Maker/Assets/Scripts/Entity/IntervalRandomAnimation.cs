@@ -1,39 +1,34 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
-///     animation at random intervals
-///     attach to gameObject holding animator
+///     Triggers animation at random intervals
+///     <para>Attach to gameObject holding animator</para>
 /// </summary>
+[RequireComponent(typeof(Animator))]
 public class IntervalRandomAnimation : MonoBehaviour
 {
-    [FormerlySerializedAs("intervalSeconds")] public float IntervalSeconds;
-    [FormerlySerializedAs("animTriggerString")] public string AnimTriggerString;
+    public float IntervalSeconds;
+
+    public string AnimTriggerString;
 
     // value between 0 - 1, next trigger has to be in range of deviation
-    [FormerlySerializedAs("limitDeviation")] [Range(0, 1)] public float LimitDeviation;
+    [Range(0, 1)] public float LimitDeviation;
 
-    [FormerlySerializedAs("triggerOnlyAtPlayMode")] public bool TriggerOnlyAtPlayMode;
+    public bool TriggerOnlyAtPlayMode;
 
-    [FormerlySerializedAs("soundEffect")] public string SoundEffect;
+    public string SoundEffect;
 
     private int lastTrigger;
 
     private Animator anim;
 
-    private void Awake()
-    {
-        anim = GetComponent<Animator>();
-    }
+    private void Awake() => anim = GetComponent<Animator>();
 
     private void FixedUpdate()
     {
         if (TriggerOnlyAtPlayMode && !EditModeManager.Instance.Playing) return;
 
-        if (lastTrigger >= IntervalSeconds / Time.fixedDeltaTime * LimitDeviation)
-        {
-            CheckAnimationTrigger();
-        }
+        if (lastTrigger >= IntervalSeconds / Time.fixedDeltaTime * LimitDeviation) CheckAnimationTrigger();
 
         lastTrigger++;
     }

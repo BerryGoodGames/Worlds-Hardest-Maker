@@ -1,18 +1,16 @@
+using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BackgroundLineSize : MonoBehaviour
 {
     // order: top, right, bottom, left
-    [FormerlySerializedAs("lines")] [Header("Line order: top, right, bottom, left")]
+    [Header("Line order: top, right, bottom, left")]
     public RectTransform[] Lines;
 
-    [FormerlySerializedAs("newLineSize")] [Space] public float NewLineSize;
+    [Space] public float NewLineSize;
 
-    public void SetLineSize()
-    {
-        SetLineSize(NewLineSize);
-    }
+    [ButtonMethod]
+    public void SetLineSize() => SetLineSize(NewLineSize);
 
     public void SetLineSize(float size)
     {
@@ -29,23 +27,11 @@ public class BackgroundLineSize : MonoBehaviour
         else line.sizeDelta = new(size, 0);
     }
 
-    public void SetLineSizeTop(float size)
-    {
-        SetLineSize(0, size);
-    }
+    public void SetLineSizeTop(float size) => SetLineSize(0, size);
 
-    public void SetLineSizeRight(float size)
-    {
-        SetLineSize(1, size);
-    }
+    public void SetLineSizeRight(float size) => SetLineSize(1, size);
 
-    public void SetLineSizeBottom(float size)
-    {
-        SetLineSize(2, size);
-    }
+    public void SetLineSizeBottom(float size) => SetLineSize(2, size);
 
-    public void SetLineSizeLeft(float size)
-    {
-        SetLineSize(3, size);
-    }
+    public void SetLineSizeLeft(float size) => SetLineSize(3, size);
 }

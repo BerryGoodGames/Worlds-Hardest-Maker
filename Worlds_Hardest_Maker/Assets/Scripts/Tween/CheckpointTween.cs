@@ -34,15 +34,9 @@ public class CheckpointTween : MonoBehaviour
         else ActivateTween();
     }
 
-    public void Deactivate()
-    {
-        DeactivateTween();
-    }
+    public void Deactivate() => DeactivateTween();
 
-    private void Start()
-    {
-        sprite = GetComponent<SpriteRenderer>();
-    }
+    private void Start() => sprite = GetComponent<SpriteRenderer>();
 
     private static Color GetActiveColor()
     {

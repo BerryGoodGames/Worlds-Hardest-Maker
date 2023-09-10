@@ -12,23 +12,14 @@ public class SyncInputToSlider : MonoBehaviour
     [SerializeField] private float decimals = 2;
     private TMP_InputField input;
 
-    private void Start()
-    {
-        UpdateInput();
-    }
+    private void Start() => UpdateInput();
 
-    /// <summary>
-    ///     Updates the slider
-    /// </summary>
     public void UpdateSlider()
     {
         // try to read input text and set slider value
         if (float.TryParse(input.text, out float value)) slider.value = Rounded(value);
     }
 
-    /// <summary>
-    ///     Updates the input
-    /// </summary>
     public void UpdateInput()
     {
         if (input == null) input = GetComponent<TMP_InputField>();
@@ -37,7 +28,7 @@ public class SyncInputToSlider : MonoBehaviour
     }
 
     /// <summary>
-    ///     setup for synchronisation (add event listeners etc.)
+    ///     Setup for synchronisation (add event listeners etc.)
     /// </summary>
     public void Synchronise()
     {
@@ -46,7 +37,7 @@ public class SyncInputToSlider : MonoBehaviour
 
         // set stuff in input //
         UnityEventTools.AddPersistentListener(input.onValueChanged,
-            input => { UpdateSlider(); }); // add Update Slider to persistent event listener
+            _ => { UpdateSlider(); }); // add Update Slider to persistent event listener
 
         // set stuff in slider //
         UnityEventTools.AddPersistentListener(slider.onValueChanged, _ => { UpdateInput(); });
@@ -54,8 +45,5 @@ public class SyncInputToSlider : MonoBehaviour
 #endif
     }
 
-    private float Rounded(float value)
-    {
-        return Mathf.Round(value * Mathf.Pow(10, decimals)) * Mathf.Pow(10, -decimals);
-    }
+    private float Rounded(float value) => Mathf.Round(value * Mathf.Pow(10, decimals)) * Mathf.Pow(10, -decimals);
 }

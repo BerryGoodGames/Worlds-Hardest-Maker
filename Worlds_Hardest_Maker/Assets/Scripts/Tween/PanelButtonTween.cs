@@ -1,14 +1,23 @@
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PanelButtonTween : MonoBehaviour
 {
     [SerializeField] private RectTransform button;
-    [Space][SerializeField] private AnimationCurve openEase;
+
+    [Space] [SerializeField] private AnimationCurve openEase;
     [SerializeField] private AnimationCurve closeEase;
-    [Space][SerializeField] private float duration;
-    [FormerlySerializedAs("open")] public bool Open;
+
+    [Space] [SerializeField] private float duration;
+
+    [SerializeField] private bool open;
+
+    public bool Open
+    {
+        get => open;
+        private set => open = value;
+    }
+
     [SerializeField] private bool closesToRight;
     private float closedX;
     private float openedX;
@@ -26,7 +35,7 @@ public class PanelButtonTween : MonoBehaviour
 
     public void Set(bool open)
     {
-        if(this.Open != open) Toggle();
+        if (Open != open) Toggle();
     }
 
     private void Start()

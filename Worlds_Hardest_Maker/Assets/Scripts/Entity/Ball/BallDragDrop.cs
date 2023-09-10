@@ -1,17 +1,18 @@
 using System.Collections.Generic;
+using MyBox;
 using Photon.Pun;
 using UnityEngine;
 
 /// <summary>
-///     script for enabling drag and drop on ball objects, also bounce pos or origin pos
-///     attach to gameObject to be dragged
+///     Enables drag and drop on ball objects, also bounce pos or origin pos
+///     <para>Attach to gameObject to be dragged</para>
 /// </summary>
 public class BallDragDrop : MonoBehaviourPun
 {
     public static Dictionary<int, GameObject> DragDropList = new();
 
     [SerializeField] private BallController controller;
-    [SerializeField] private int id;
+    [SerializeField] [ReadOnly] private int id;
 
     private void Awake()
     {
@@ -37,13 +38,11 @@ public class BallDragDrop : MonoBehaviourPun
             PhotonView controllerView = controller.GetComponent<PhotonView>();
             controllerView.RPC("MoveObject", RpcTarget.All, unitPos, id);
         }
-        else controller.MoveObject(unitPos, id);
+        else
+            controller.MoveObject(unitPos, id);
     }
 
-    private void OnDestroy()
-    {
-        DragDropList.Remove(id);
-    }
+    private void OnDestroy() => DragDropList.Remove(id);
 
     private static int NextID()
     {
