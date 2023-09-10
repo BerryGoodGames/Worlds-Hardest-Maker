@@ -28,7 +28,7 @@ public class EditModeManager : MonoBehaviour
     }
 
     // edit rotation
-    private int editRotation = 270;
+    [SerializeField][ReadOnly] private int editRotation = 270;
 
     public int EditRotation
     {

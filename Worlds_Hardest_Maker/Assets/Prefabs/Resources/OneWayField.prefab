@@ -356,6 +356,7 @@ MonoBehaviour:
   Duration: 0.2
   RotateAngle: {x: 0, y: 0, z: 90}
   disableCollision: 1
+  boxCollider: {fileID: 4226315928710737103}
 --- !u!114 &-3016554834474145244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,6 +385,11 @@ MonoBehaviour:
   Color: {r: 1, g: 1, b: 1, a: 1}
   Scale: {x: 1, y: 1}
   Rotate: 1
+--- !u!61 &4226315928710737103 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
+  m_PrefabInstance: {fileID: 7533510249162737050}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5338507599342812462 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2493401863573026996, guid: fc74f76601483e34d8343c228304c362, type: 3}

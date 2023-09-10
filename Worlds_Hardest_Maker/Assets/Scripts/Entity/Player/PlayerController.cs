@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using MyBox;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -12,12 +13,9 @@ public class PlayerController : Controller
 
     #region Editor variables
 
-    [SerializeField] private TMP_Text speedText;
-
     [Space] public float Speed;
 
-    [Space]
-    // water settings
+    [Separator("Water settings")]
     [SerializeField]
     private Transform waterLevel;
 
@@ -25,17 +23,15 @@ public class PlayerController : Controller
     [SerializeField] private float drownDuration;
     private float currentDrownDuration;
 
-    [Space]
-    // ice settings
+    [Separator("Ice settings")]
     [SerializeField]
     private float iceFriction;
 
     [SerializeField] private float maxIceSpeed;
 
-    [Space]
-    // void setting(s)
+    [Separator("Void settings")]
     [SerializeField]
-    private float voidSuckDuration;
+    private float voidFallDuration;
 
     #endregion
 
@@ -48,6 +44,8 @@ public class PlayerController : Controller
     [HideInInspector] public EdgeCollider2D EdgeCollider;
 
     private AppendSlider sliderController;
+    private TMP_Text speedText;
+
     private AppendNameTag nameTagController;
 
     [HideInInspector] public PhotonView PhotonView;
@@ -58,9 +56,10 @@ public class PlayerController : Controller
 
     #region Fields
 
-    [HideInInspector] public int ID;
+    [Separator]
+    [ReadOnly] public int ID;
 
-    [HideInInspector] public int Deaths;
+    [ReadOnly] public int Deaths;
 
     [HideInInspector] public List<GameObject> CoinsCollected;
     [HideInInspector] public List<GameObject> KeysCollected;
@@ -78,7 +77,7 @@ public class PlayerController : Controller
 
     private bool onWater;
 
-    public bool Won;
+    [HideInInspector] public bool Won;
 
     #endregion
 
@@ -97,16 +96,15 @@ public class PlayerController : Controller
 
     private void Start()
     {
-        EditModeManager.Instance.OnEdit += () =>
-        {
-            if (Won && Animator != null)
-                Animator.SetTrigger(death);
-        };
+        EditModeManager.Instance.OnEdit += OnEdit;
+        EditModeManager.Instance.OnPlay += OnPlay;
+
+        EdgeCollider.enabled = EditModeManager.Instance.Playing;
 
         if (transform.parent != ReferenceManager.Instance.PlayerContainer)
             transform.SetParent(ReferenceManager.Instance.PlayerContainer);
 
-        ApplyCurrentState();
+        ApplyCurrentGameState();
 
         UpdateSpeedText();
 
@@ -131,6 +129,25 @@ public class PlayerController : Controller
         UpdateWaterState();
 
         Move();
+    }
+
+    private void OnDestroy()
+    {
+        EditModeManager.Instance.OnEdit -= OnEdit;
+        EditModeManager.Instance.OnPlay -= OnPlay;
+    }
+
+    private void OnEdit()
+    {
+        EdgeCollider.enabled = false;
+
+        if (Won && Animator != null)
+            Animator.SetTrigger(death);
+    }
+
+    private void OnPlay()
+    {
+        EdgeCollider.enabled = true;
     }
 
     #region Physics, Movement
@@ -214,9 +231,10 @@ public class PlayerController : Controller
         ConveyorController conveyor = GetCurrentConveyor();
         if (conveyor == null) return;
 
-        Vector2 conveyorVector = conveyor.Strength * Time.fixedDeltaTime * (conveyor.transform.rotation * Vector2.up);
+        Quaternion forceRotation = Quaternion.Euler(0, 0, conveyor.Rotation);
 
-        conveyorVector = Quaternion.Euler(0, 0, conveyor.Rotation) * conveyorVector;
+        Vector2 conveyorVector = conveyor.Strength * Time.fixedDeltaTime * (forceRotation * Vector2.up);
+
         totalMovement += conveyorVector;
     }
 
@@ -359,9 +377,9 @@ public class PlayerController : Controller
         return null;
     }
 
-    public GameObject CurrentVoid()
+    public GameObject GetCurrentVoid()
     {
-        // returns the void the player gets sucked to (null if none)
+        // returns the void the player falls into (null if none)
         List<GameObject> fullyOnFields = GetFullyOnFields();
         foreach (GameObject field in fullyOnFields)
         {
@@ -420,13 +438,17 @@ public class PlayerController : Controller
         if (Won) return;
 
         // dying through void
-        Vector2 suckPosition = (Vector2)transform.position + movementInput * 0.5f;
+        GameObject currentVoid = GetCurrentVoid();
 
-        spriteRenderer.material.DOFade(0, voidSuckDuration)
-            .SetEase(Ease.Linear);
-        transform.DOMove(suckPosition, voidSuckDuration)
+        // Vector2 fallPosition = (Vector2)transform.position + movementInput * 0.5f;
+        Vector2 fallPosition = currentVoid.transform.position;
+        print(fallPosition);
+
+        spriteRenderer.material.DOFade(0, voidFallDuration)
+            .SetEase(Ease.Linear);  
+        transform.DOMove(fallPosition, voidFallDuration)
             .SetEase(Ease.OutQuint);
-        transform.DOScale(Vector2.zero, voidSuckDuration)
+        transform.DOScale(Vector2.zero, voidFallDuration)
             .SetEase(Ease.OutQuad)
             .OnComplete(DeathAnimFinish);
 
@@ -463,7 +485,7 @@ public class PlayerController : Controller
 
     public void DeathAnimFinish()
     {
-        DestroyPlayer(false);
+        DestroySelf(false);
 
         if (MultiplayerManager.Instance.Multiplayer && !PhotonView.IsMine) return;
 
@@ -517,7 +539,7 @@ public class PlayerController : Controller
 
     public void ResetGame() => Rb.MovePosition(StartPos);
 
-    public void DestroyPlayer(bool removeTargetFromCamera = true)
+    public void DestroySelf(bool removeTargetFromCamera = true)
     {
         if (removeTargetFromCamera && ReferenceManager.Instance.MainCameraJumper.GetTarget("Player") == gameObject)
         {
@@ -710,7 +732,7 @@ public class PlayerController : Controller
         follow.Offset = new(0, 0.5f);
     }
 
-    private void ApplyCurrentState()
+    private void ApplyCurrentGameState()
     {
         // set progress from current state
         if (CurrentGameState == null) return;

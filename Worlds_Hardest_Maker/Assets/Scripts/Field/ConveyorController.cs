@@ -4,12 +4,11 @@ public class ConveyorController : MonoBehaviour
 {
     private FieldRotation rotationController;
     private Animator anim;
-    private float animSpeed;
     private static readonly int running = Animator.StringToHash("Running");
 
     [field: SerializeField] public float Strength { get; set; }
 
-    public float Rotation => transform.rotation.z;
+    public float Rotation => transform.rotation.eulerAngles.z;
 
     public void Rotate() => rotationController.StartRotation();
 
@@ -35,6 +34,7 @@ public class ConveyorController : MonoBehaviour
     {
         if (anim == null)
             GetComponent<Animator>();
+
         anim.SetBool(running, false);
     }
 
