@@ -99,9 +99,15 @@ public class PlayerController : Controller
     {
         EditModeManager.Instance.OnEdit += () =>
         {
+            EdgeCollider.enabled = false;
+
             if (Won && Animator != null)
                 Animator.SetTrigger(death);
         };
+
+        EditModeManager.Instance.OnPlay += () => EdgeCollider.enabled = true;
+
+        EdgeCollider.enabled = EditModeManager.Instance.Playing;
 
         if (transform.parent != ReferenceManager.Instance.PlayerContainer)
             transform.SetParent(ReferenceManager.Instance.PlayerContainer);
