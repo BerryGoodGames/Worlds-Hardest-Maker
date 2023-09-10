@@ -62,7 +62,7 @@ public partial class AnchorController : Controller
         // assuming that EntityDragDrop already moved transform
 
         LinkedList<AnchorBlock> blocks = Blocks;
-
+        
         // loop through data blocks and add offset
         foreach (AnchorBlock currentBlock in blocks)
         {
@@ -73,18 +73,7 @@ public partial class AnchorController : Controller
             }
         }
 
-        // loop through UI blocks and add offset
-        ChainController mainChain = ReferenceManager.Instance.MainChainController;
-
-        foreach (AnchorBlockController anchorBlockController in mainChain.Children)
-        {
-            if (anchorBlockController is not PositionAnchorBlockController positionBlock) continue;
-
-            // add offset
-            Vector2 currentValue = positionBlock.PositionInput.GetPositionValues();
-
-            positionBlock.PositionInput.SetPositionValues(currentValue + delta);
-        }
+        RenderLines();
     }
 
     #region Execution
