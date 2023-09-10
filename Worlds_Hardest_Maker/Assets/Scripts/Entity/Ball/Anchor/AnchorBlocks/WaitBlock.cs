@@ -6,21 +6,21 @@ public class WaitBlock : AnchorBlock
 {
     public enum Unit
     {
-        SECONDS,
-        MINUTES,
-        HOURS,
-        DAYS
+        Seconds,
+        Minutes,
+        Hours,
+        Days
     }
 
     private static readonly Dictionary<Unit, float> factors = new()
     {
-        { Unit.SECONDS, 1 },
-        { Unit.MINUTES, 60 },
-        { Unit.HOURS, 3600 },
-        { Unit.DAYS, 86400 }
+        { Unit.Seconds, 1 },
+        { Unit.Minutes, 60 },
+        { Unit.Hours, 3600 },
+        { Unit.Days, 86400 }
     };
 
-    public const Type BlockType = Type.WAIT;
+    public const Type BlockType = Type.Wait;
     public override Type ImplementedBlockType => BlockType;
     protected override GameObject Prefab => PrefabManager.Instance.WaitBlockPrefab;
 
@@ -28,17 +28,15 @@ public class WaitBlock : AnchorBlock
 
     private readonly Unit unit;
 
-    public WaitBlock(AnchorController anchor, float input, Unit unit) : base(anchor)
+    public WaitBlock(AnchorController anchor, bool isLocked, float input, Unit unit) : base(anchor, isLocked)
     {
         this.input = input;
         this.unit = unit;
     }
 
-    public override void Execute()
-    {
+    public override void Execute() =>
         Anchor.Rb.DOMove(Anchor.Rb.position, input * factors[unit])
             .OnComplete(Anchor.FinishCurrentExecution);
-    }
 
     protected override void SetControllerValues(AnchorBlockController c)
     {
@@ -48,5 +46,5 @@ public class WaitBlock : AnchorBlock
             GameManager.GetDropdownValue(WaitBlockController.GetOption(unit), controller.UnitInput);
     }
 
-    public override AnchorBlockData GetData() => new WaitBlockData(input, unit);
+    public override AnchorBlockData GetData() => new WaitBlockData(IsLocked, input, unit);
 }

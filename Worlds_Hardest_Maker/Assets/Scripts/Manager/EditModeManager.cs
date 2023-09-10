@@ -1,6 +1,6 @@
 using System;
+using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class EditModeManager : MonoBehaviour
 {
@@ -9,7 +9,7 @@ public class EditModeManager : MonoBehaviour
     #region Variables & properties
 
     // current edit mode
-    [SerializeField] private EditMode currentEditMode;
+    [SerializeField] [SearchableEnum] private EditMode currentEditMode;
     private EditMode? prevEditMode;
 
     public EditMode CurrentEditMode
@@ -19,7 +19,7 @@ public class EditModeManager : MonoBehaviour
     }
 
     // editing
-    [FormerlySerializedAs("editing")] public bool Editing = true;
+    [field: SerializeField] public bool Editing { get; set; }
 
     public bool Playing
     {
@@ -53,8 +53,8 @@ public class EditModeManager : MonoBehaviour
     {
         currentEditMode = value;
 
+        // invoke OnEditModeChanged
         if (prevEditMode != null && prevEditMode != currentEditMode) OnEditModeChange?.Invoke();
-
         prevEditMode = currentEditMode;
 
         // update toolbarContainer
@@ -67,63 +67,33 @@ public class EditModeManager : MonoBehaviour
                 t.SwitchGameMode(false);
         }
 
-        // enable/disable outlines and window when switching to/away from anchors/balls
-        if (currentEditMode is EditMode.ANCHOR or EditMode.BALL)
+        // enable/disable outlines and panel when switching to/away from anchors or anchor ball
+        bool isAnchorRelated = currentEditMode.IsAnchorRelated();
+        foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
         {
-            // enable stuff
-            // ReferenceManager.Instance.ballWindows.SetActive(true);
-
-            if (AnchorManagerOld.Instance.SelectedAnchor == null) return;
-
-            // enable lines
-            AnchorManagerOld.Instance.SelectedPathControllerOld.DoDrawLines = true;
-            AnchorManagerOld.Instance.SelectedPathControllerOld.DrawLines();
-
-            // switch animation to editing
-            foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
-            {
-                Animator anim = anchor.GetComponentInChildren<Animator>();
-                anim.SetBool(editingString, true);
-            }
+            Animator anim = anchor.GetComponentInChildren<Animator>();
+            anim.SetBool(editingString, isAnchorRelated);
         }
-        else if (currentEditMode != EditMode.ANCHOR && currentEditMode != EditMode.BALL)
-        {
-            // disable stuff
-            // ReferenceManager.Instance.BallWindows.SetActive(false);
 
-            if (AnchorManagerOld.Instance.SelectedAnchor == null) return;
+        AnchorManager.AlternatePanels(!isAnchorRelated);
 
-            // disable lines
-            AnchorManagerOld.Instance.SelectedPathControllerOld.DoDrawLines = false;
-            AnchorManagerOld.Instance.SelectedPathControllerOld.ClearLines();
-
-            // switch animation to editing
-            foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
-            {
-                Animator anim = anchor.GetComponentInChildren<Animator>();
-                anim.SetBool(editingString, false);
-            }
-        }
+        // enable/disable anchor path
+        if (AnchorManager.Instance.SelectedAnchor)
+            AnchorManager.Instance.SelectedAnchor.SetLinesActive(isAnchorRelated);
     }
 
     private void SetEditRotation(int value)
     {
         editRotation = value;
 
-        ReferenceManager.Instance.PlacementPreview.GetComponent<PreviewController>().UpdateRotation();
+        ReferenceManager.Instance.PlacementPreview.UpdateRotation();
     }
 
     #endregion
 
-    public void InvokeOnPlay()
-    {
-        OnPlay?.Invoke();
-    }
+    public void InvokeOnPlay() => OnPlay?.Invoke();
 
-    public void InvokeOnEdit()
-    {
-        OnEdit?.Invoke();
-    }
+    public void InvokeOnEdit() => OnEdit?.Invoke();
 
     private void Start()
     {

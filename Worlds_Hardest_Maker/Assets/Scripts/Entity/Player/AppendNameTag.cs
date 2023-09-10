@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
 ///     Adds name tag following attached gameObject
@@ -11,8 +10,7 @@ public class AppendNameTag : MonoBehaviour
     [SerializeField] private bool showOnlyWhenMultiplayer = true;
     [SerializeField] private GameObject nameTagPrefab;
 
-    [FormerlySerializedAs("nameTag")] [HideInInspector]
-    public GameObject NameTag;
+    [HideInInspector] public GameObject NameTag;
 
     private void Awake()
     {
@@ -26,8 +24,5 @@ public class AppendNameTag : MonoBehaviour
         followSettings.Offset = new(0, 0.6f);
     }
 
-    public void SetNameTag(string name)
-    {
-        NameTag.GetComponent<TMP_Text>().text = name;
-    }
+    public void SetNameTag(string name) => NameTag.GetComponent<TMP_Text>().text = name;
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Anchor attributes: balls (positions), blocks, position
+///     Anchor attributes: balls (positions), blocks, position
 /// </summary>
 [Serializable]
 public class AnchorData : Data
@@ -21,11 +21,13 @@ public class AnchorData : Data
         SaveBalls(controller);
         SaveBlocks(controller);
 
+        Vector2 controllerPosition = controller.transform.position;
+
         // init start position
         position = new[]
         {
-            controller.transform.position.x,
-            controller.transform.position.y
+            controllerPosition.x,
+            controllerPosition.y
         };
     }
 
@@ -37,8 +39,7 @@ public class AnchorData : Data
         balls = new float[controller.Balls.Count, 2];
         for (int i = 0; i < controller.Balls.Count; i++)
         {
-            AnchorBallController ball = controller.Balls[i];
-            Vector2 ballPosition = ball.BallObject.transform.position;
+            Vector2 ballPosition = controller.Balls[i].position;
 
             balls[i, 0] = ballPosition.x;
             balls[i, 1] = ballPosition.y;
@@ -94,10 +95,7 @@ public class AnchorData : Data
     #endregion
 
 
-    public override void ImportToLevel()
-    {
-        ImportToLevel(new Vector2(position[0], position[1]));
-    }
+    public override void ImportToLevel() => ImportToLevel(new Vector2(position[0], position[1]));
 
     public override void ImportToLevel(Vector2 pos)
     {
@@ -105,10 +103,13 @@ public class AnchorData : Data
 
         List<Vector2> ballPositions = LoadBalls();
 
-        foreach (Vector2 ballPosition in ballPositions) AnchorBallManager.SetAnchorBall(ballPosition, anchor);
+        foreach (Vector2 ballPosition in ballPositions)
+        {
+            AnchorBallManager.SetAnchorBall(ballPosition, anchor);
+        }
 
         anchor.Blocks = LoadBlocks(anchor);
     }
 
-    public override EditMode GetEditMode() => EditMode.ANCHOR;
+    public override EditMode GetEditMode() => EditMode.Anchor;
 }

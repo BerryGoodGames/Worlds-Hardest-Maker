@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerController : Controller
@@ -12,10 +12,9 @@ public class PlayerController : Controller
 
     #region Editor variables
 
-    [SerializeField] private Text speedText;
+    [SerializeField] private TMP_Text speedText;
 
-    [FormerlySerializedAs("speed")] [Space]
-    public float Speed;
+    [Space] public float Speed;
 
     [Space]
     // water settings
@@ -42,20 +41,16 @@ public class PlayerController : Controller
 
     #region Components
 
-    [FormerlySerializedAs("rb")] [HideInInspector]
-    public Rigidbody2D Rb;
+    [HideInInspector] public Rigidbody2D Rb;
 
-    [FormerlySerializedAs("animator")] [HideInInspector]
-    public Animator Animator;
+    [HideInInspector] public Animator Animator;
 
-    [FormerlySerializedAs("edgeCollider")] [HideInInspector]
-    public EdgeCollider2D EdgeCollider;
+    [HideInInspector] public EdgeCollider2D EdgeCollider;
 
     private AppendSlider sliderController;
     private AppendNameTag nameTagController;
 
-    [FormerlySerializedAs("photonView")] [HideInInspector]
-    public PhotonView PhotonView;
+    [HideInInspector] public PhotonView PhotonView;
 
     private SpriteRenderer spriteRenderer;
 
@@ -63,35 +58,27 @@ public class PlayerController : Controller
 
     #region Fields
 
-    [FormerlySerializedAs("id")] [HideInInspector]
-    public int ID;
+    [HideInInspector] public int ID;
 
-    [FormerlySerializedAs("deaths")] [HideInInspector]
-    public int Deaths;
+    [HideInInspector] public int Deaths;
 
-    [FormerlySerializedAs("coinsCollected")] [HideInInspector]
-    public List<GameObject> CoinsCollected;
+    [HideInInspector] public List<GameObject> CoinsCollected;
+    [HideInInspector] public List<GameObject> KeysCollected;
 
-    [FormerlySerializedAs("keysCollected")] [HideInInspector]
-    public List<GameObject> KeysCollected;
-
-    [FormerlySerializedAs("currentFields")] [HideInInspector]
-    public List<GameObject> CurrentFields;
+    [HideInInspector] public List<GameObject> CurrentFields;
 
     public GameState CurrentGameState;
 
-    [FormerlySerializedAs("startPos")] [HideInInspector]
-    public Vector2 StartPos;
+    [HideInInspector] public Vector2 StartPos;
 
     private Vector2 movementInput;
     private Vector2 extraMovementInput;
 
-    [FormerlySerializedAs("inDeathAnim")] [HideInInspector]
-    public bool InDeathAnim;
+    [HideInInspector] public bool InDeathAnim;
 
     private bool onWater;
 
-    [FormerlySerializedAs("won")] public bool Won;
+    public bool Won;
 
     #endregion
 
@@ -137,10 +124,7 @@ public class PlayerController : Controller
             PhotonView.RPC("SetNameTagActive", RpcTarget.All, EditModeManager.Instance.Playing);
     }
 
-    private void OnCollisionStay2D(Collision2D collider)
-    {
-        CornerPush(collider);
-    }
+    private void OnCollisionStay2D(Collision2D collider) => CornerPush(collider);
 
     private void FixedUpdate()
     {
@@ -189,10 +173,7 @@ public class PlayerController : Controller
 
             if (currentDrownDuration >= drownDuration) DieNormal("Drown");
         }
-        else if (!InDeathAnim && !onWater)
-        {
-            currentDrownDuration = 0;
-        }
+        else if (!InDeathAnim && !onWater) currentDrownDuration = 0;
 
         if (drownDuration == 0) return;
 
@@ -219,9 +200,12 @@ public class PlayerController : Controller
 
         // snappy movement (when not on ice)
         if (!movementInput.Equals(Vector2.zero))
+        {
             totalMovement += GetCurrentSpeed() * Time.fixedDeltaTime * new Vector2(
                 Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1),
                 Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1));
+        }
+
         extraMovementInput = Vector2.zero;
     }
 
@@ -261,7 +245,7 @@ public class PlayerController : Controller
             !(Mathf.Abs(Rb.position.x) % 1 < 1 - ((1 - transform.lossyScale.x) * 0.5f + err))) return;
 
         Vector2 posCheck = new(roundedPos.x, Mathf.Round(Rb.position.y + movementInput.y));
-        if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldType.WALL_FIELD)
+        if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldType.WallField)
             extraMovementInput = new Vector2(Rb.position.x % 1 > 0.5f ? 1 : -1, movementInput.y);
     }
 
@@ -273,7 +257,7 @@ public class PlayerController : Controller
             !(Mathf.Abs(Rb.position.y) % 1 < 1 - ((1 - transform.lossyScale.y) * 0.5f + err))) return;
 
         Vector2 posCheck = new(Mathf.Round(Rb.position.x + movementInput.x), roundedPos.y);
-        if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldType.WALL_FIELD)
+        if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldType.WallField)
             extraMovementInput = new Vector2(movementInput.x, Rb.position.y % 1 > 0.5f ? 1 : -1);
     }
 
@@ -337,7 +321,10 @@ public class PlayerController : Controller
         // finds every field the player is at least half way on
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.011f);
         List<GameObject> res = new();
-        foreach (Collider2D hit in hits) res.Add(hit.gameObject);
+        foreach (Collider2D hit in hits)
+        {
+            res.Add(hit.gameObject);
+        }
 
         return res;
     }
@@ -354,19 +341,19 @@ public class PlayerController : Controller
         return false;
     }
 
-    public bool IsOnWater() => IsFullyOnField(FieldType.WATER);
+    public bool IsOnWater() => IsFullyOnField(FieldType.Water);
 
-    public bool IsOnIce() => IsFullyOnField(FieldType.ICE);
+    public bool IsOnIce() => IsFullyOnField(FieldType.Ice);
 
     public ConveyorController GetCurrentConveyor()
     {
-        if (!IsFullyOnField(FieldType.CONVEYOR)) return null;
+        if (!IsFullyOnField(FieldType.Conveyor)) return null;
 
         List<GameObject> fullyOnFields = GetFullyOnFields();
         foreach (GameObject field in fullyOnFields)
         {
             FieldType? currentFieldType = FieldManager.GetFieldType(field);
-            if (currentFieldType == FieldType.CONVEYOR) return field.GetComponent<ConveyorController>();
+            if (currentFieldType == FieldType.Conveyor) return field.GetComponent<ConveyorController>();
         }
 
         return null;
@@ -379,7 +366,7 @@ public class PlayerController : Controller
         foreach (GameObject field in fullyOnFields)
         {
             FieldType? currentFieldType = FieldManager.GetFieldType(field);
-            if (currentFieldType == FieldType.VOID) return field;
+            if (currentFieldType == FieldType.Void) return field;
         }
 
         return null;
@@ -387,7 +374,7 @@ public class PlayerController : Controller
 
     public bool IsOnVoid() =>
         // we don't need that, its just there lol
-        IsFullyOnField(FieldType.VOID);
+        IsFullyOnField(FieldType.Void);
 
     public GameObject GetCurrentField() => FieldManager.GetField(transform.position.Round());
 
@@ -402,6 +389,8 @@ public class PlayerController : Controller
 
         PlayerManager.Instance.InvokeOnWin();
     }
+
+    #region Dying
 
     public void DieNormal(string soundEffect = "Smack")
     {
@@ -469,94 +458,8 @@ public class PlayerController : Controller
     }
 
     [PunRPC]
-    public void DeathAnim()
-    {
-        Animator.SetTrigger(death);
-    }
+    public void DeathAnim() => Animator.SetTrigger(death);
 
-    public bool AllCoinsCollected() => CoinsCollected.Count >= ReferenceManager.Instance.CoinContainer.childCount;
-
-    public void UncollectCoinAtPos(Vector2 pos)
-    {
-        for (int i = CoinsCollected.Count - 1; i >= 0; i--)
-        {
-            GameObject c = CoinsCollected[i];
-            if (c.GetComponent<CoinController>().CoinPosition == pos) CoinsCollected.Remove(c);
-        }
-    }
-
-    public bool AllKeysCollected(KeyManager.KeyColor color)
-    {
-        foreach (Transform k in ReferenceManager.Instance.KeyContainer)
-        {
-            KeyController controller = k.GetChild(0).GetComponent<KeyController>();
-            if (!controller.PickedUp && controller.Color == color) return false;
-        }
-
-        return true;
-    }
-
-    public void UpdateSpeedText()
-    {
-        speedText.text = $"Speed: {Speed:0.0}";
-    }
-
-    public void ResetGame()
-    {
-        Rb.MovePosition(StartPos);
-    }
-
-    public void DestroyPlayer(bool removeTargetFromCamera = true)
-    {
-        if (Camera.main != null)
-        {
-            JumpToEntity camera = Camera.main.GetComponent<JumpToEntity>();
-            if (removeTargetFromCamera && camera.Target == gameObject) camera.Target = null;
-        }
-
-        Destroy(sliderController.GetSliderObject());
-        if (nameTagController != null) Destroy(nameTagController.NameTag);
-        Destroy(gameObject);
-    }
-
-    public void ActivateCheckpoint(float mx, float my)
-    {
-        // mx my coords of checkpoint field
-        Vector2 statePlayerStartingPos = new(mx, my);
-
-        GameState newState = GetGameStateNow();
-        newState.PlayerStartPos = statePlayerStartingPos;
-
-        CurrentGameState = newState;
-
-        print("Saved game state");
-    }
-
-    public GameState GetGameStateNow()
-    {
-        CoinsCollected.RemoveAll(e => e == null);
-        KeysCollected.RemoveAll(e => e == null);
-
-        // mx my coords of checkpoint field
-        Vector2 statePlayerStartingPos = CurrentGameState?.PlayerStartPos ?? StartPos;
-
-        // serialize game state
-        // convert collectedCoins and collectedKeys to List<Vector2>
-        List<Vector2> coinPositions = new();
-
-        foreach (GameObject c in CoinsCollected) coinPositions.Add(c.GetComponent<CoinController>().CoinPosition);
-
-        List<Vector2> keyPositions = new();
-        foreach (GameObject k in KeysCollected)
-        {
-            KeyController keyController = k.GetComponent<KeyController>();
-            keyPositions.Add(keyController.KeyPosition);
-        }
-
-        GameState res = new(statePlayerStartingPos, coinPositions, keyPositions);
-
-        return res;
-    }
 
     public void DeathAnimFinish()
     {
@@ -585,6 +488,91 @@ public class PlayerController : Controller
         }
     }
 
+    #endregion
+
+    public bool AllCoinsCollected() =>
+        CoinsCollected.Count >= ReferenceManager.Instance.CoinContainer.childCount;
+
+    public void UncollectCoinAtPos(Vector2 pos)
+    {
+        for (int i = CoinsCollected.Count - 1; i >= 0; i--)
+        {
+            GameObject c = CoinsCollected[i];
+            if (c.GetComponent<CoinController>().CoinPosition == pos) CoinsCollected.Remove(c);
+        }
+    }
+
+    public bool AllKeysCollected(KeyManager.KeyColor color)
+    {
+        foreach (Transform k in ReferenceManager.Instance.KeyContainer)
+        {
+            KeyController controller = k.GetChild(0).GetComponent<KeyController>();
+            if (!controller.PickedUp && controller.Color == color) return false;
+        }
+
+        return true;
+    }
+
+    public void UpdateSpeedText() => speedText.text = Speed.ToString("0.0");
+
+    public void ResetGame() => Rb.MovePosition(StartPos);
+
+    public void DestroyPlayer(bool removeTargetFromCamera = true)
+    {
+        if (removeTargetFromCamera && ReferenceManager.Instance.MainCameraJumper.GetTarget("Player") == gameObject)
+        {
+            ReferenceManager.Instance.MainCameraJumper.RemoveTarget("Player");
+        }
+
+        Destroy(sliderController.GetSliderObject());
+
+        if (nameTagController != null) Destroy(nameTagController.NameTag);
+
+        Destroy(gameObject);
+    }
+
+    public void ActivateCheckpoint(float mx, float my)
+    {
+        // mx my coords of checkpoint field
+        Vector2 statePlayerStartingPos = new(mx, my);
+
+        GameState newState = GetGameStateNow();
+        newState.PlayerStartPos = statePlayerStartingPos;
+
+        CurrentGameState = newState;
+
+        print("Saved game state");
+    }
+
+    public GameState GetGameStateNow()
+    {
+        CoinsCollected.RemoveAll(e => e == null);
+        KeysCollected.RemoveAll(e => e == null);
+
+        // mx my coords of checkpoint field
+        Vector2 statePlayerStartingPos = CurrentGameState?.PlayerStartPos ?? StartPos;
+
+        // serialize game state
+        // convert collectedCoins and collectedKeys to List<Vector2>
+        List<Vector2> coinPositions = new();
+
+        foreach (GameObject c in CoinsCollected)
+        {
+            coinPositions.Add(c.GetComponent<CoinController>().CoinPosition);
+        }
+
+        List<Vector2> keyPositions = new();
+        foreach (GameObject k in KeysCollected)
+        {
+            KeyController keyController = k.GetComponent<KeyController>();
+            keyPositions.Add(keyController.KeyPosition);
+        }
+
+        GameState res = new(statePlayerStartingPos, coinPositions, keyPositions);
+
+        return res;
+    }
+
 
     private void ResetCoinsToCurrentGameState()
     {
@@ -594,6 +582,7 @@ public class PlayerController : Controller
 
             bool respawns = true;
             if (CurrentGameState != null)
+            {
                 foreach (Vector2 collected in CurrentGameState.CollectedCoins)
                 {
                     if (!collected.x.EqualsFloat(coinController.CoinPosition.x) ||
@@ -603,6 +592,7 @@ public class PlayerController : Controller
                     respawns = false;
                     break;
                 }
+            }
 
             if (!respawns) continue;
 
@@ -623,6 +613,7 @@ public class PlayerController : Controller
 
             bool respawns = true;
             if (CurrentGameState != null)
+            {
                 foreach (Vector2 collected in CurrentGameState.CollectedKeys)
                 {
                     if (!collected.x.EqualsFloat(keyController.KeyPosition.x) ||
@@ -632,6 +623,7 @@ public class PlayerController : Controller
                     respawns = false;
                     break;
                 }
+            }
 
             if (!respawns) continue;
             KeysCollected.Remove(key.gameObject);
@@ -661,7 +653,7 @@ public class PlayerController : Controller
 
         if (Camera.main == null) return;
         JumpToEntity jumpToPlayer = Camera.main.GetComponent<JumpToEntity>();
-        if (jumpToPlayer.Target == gameObject) jumpToPlayer.Target = player;
+        if (jumpToPlayer.GetTarget("Player") == gameObject) jumpToPlayer.AddTarget("Player", player);
     }
 
     public void SyncToLevelSettings()
@@ -686,7 +678,7 @@ public class PlayerController : Controller
 
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        speedText = sliderController.GetSliderObject().transform.GetChild(0).GetComponent<Text>();
+        speedText = sliderController.GetSliderObject().transform.GetChild(1).GetComponent<TMP_Text>();
 
         if (!MultiplayerManager.Instance.Multiplayer) return;
 

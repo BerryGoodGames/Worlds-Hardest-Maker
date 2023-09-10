@@ -35,26 +35,25 @@ public class SpeedSliderAnim : MonoBehaviour
         bool hoveredHitbox = hoverSliderDetection.MouseHoverSlider() &&
                              (!HoverSliderDetection.SliderHovered || anim.IsVisible());
 
-        bool vis = !EditModeManager.Instance.Playing && Input.GetKey(KeybindManager.Instance.EditSpeedKey) &&
-                   hoveredHitbox;
+        bool visible = !EditModeManager.Instance.Playing && Input.GetKey(KeybindManager.Instance.EditSpeedKey) &&
+                       hoveredHitbox;
 
-        if (!vis && anim.IsVisible()) HoverSliderDetection.SliderHovered = false;
+        if (!visible && anim.IsVisible()) HoverSliderDetection.SliderHovered = false;
 
-        anim.SetVisible(vis);
+        anim.SetVisible(visible);
 
-        if (vis) HoverSliderDetection.SliderHovered = true;
+        if (visible) HoverSliderDetection.SliderHovered = true;
     }
 
     public void Gone()
     {
+        if (!follow) return;
+
         if (anim.IsVisible()) return;
 
         follow.enabled = false;
         rt.position = new(2000, 2000);
     }
 
-    public void Ungone()
-    {
-        follow.enabled = true;
-    }
+    public void Ungone() => follow.enabled = true;
 }

@@ -2,7 +2,6 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
 ///     Attach to prefab RoomItem
@@ -10,9 +9,8 @@ using UnityEngine.Serialization;
 public class RoomItem : MonoBehaviour
 {
     public RoomInfo Info;
-    [FormerlySerializedAs("roomNameTxt")] public TMP_Text RoomNameTxt;
+    public TMP_Text RoomNameTxt;
 
-    [FormerlySerializedAs("playerCountTxt")]
     public TMP_Text PlayerCountTxt;
 
     public void SetRoomName(string roomName)
@@ -30,8 +28,5 @@ public class RoomItem : MonoBehaviour
     /// <summary>
     ///     OnClick method for gameObject: join room with specific title
     /// </summary>
-    public void OnClickItem()
-    {
-        PhotonNetwork.JoinRoom(RoomNameTxt.text);
-    }
+    public void OnClickItem() => PhotonNetwork.JoinRoom(RoomNameTxt.text);
 }

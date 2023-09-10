@@ -1,10 +1,9 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class KeyDoorField : MonoBehaviour
 {
-    [FormerlySerializedAs("unlocked")] public bool Unlocked;
-    [FormerlySerializedAs("color")] public KeyManager.KeyColor Color;
+    public bool Unlocked;
+    public KeyManager.KeyColor Color;
     private static readonly int unlockedString = Animator.StringToHash("Unlocked");
 
     public void Lock(bool locked)

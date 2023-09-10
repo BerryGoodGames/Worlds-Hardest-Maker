@@ -1,18 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class ColorPaletteManager : MonoBehaviour
 {
     public static ColorPaletteManager Instance { get; private set; }
 
-    [FormerlySerializedAs("colorPalettes")]
     public List<ColorPalette> ColorPalettes;
 
-    private void Awake()
-    {
-        UpdateInstance();
-    }
+    private void Awake() => UpdateInstance();
 
     public void UpdateInstance()
     {
@@ -22,7 +17,9 @@ public class ColorPaletteManager : MonoBehaviour
     public void UpdateColorPalettes()
     {
         foreach (ColorPaletteController cpc in Resources.FindObjectsOfTypeAll<ColorPaletteController>())
+        {
             cpc.UpdateColor();
+        }
     }
 
     public static ColorPalette GetColorPalette(string name)

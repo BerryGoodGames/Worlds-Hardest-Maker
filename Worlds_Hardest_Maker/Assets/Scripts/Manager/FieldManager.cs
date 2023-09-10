@@ -11,18 +11,18 @@ public class FieldManager : MonoBehaviour
 
     public static readonly List<FieldType> SolidFields = new(new[]
     {
-        FieldType.WALL_FIELD,
-        FieldType.GRAY_KEY_DOOR_FIELD,
-        FieldType.RED_KEY_DOOR_FIELD,
-        FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldType.YELLOW_KEY_DOOR_FIELD
+        FieldType.WallField,
+        FieldType.GrayKeyDoorField,
+        FieldType.RedKeyDoorField,
+        FieldType.GreenKeyDoorField,
+        FieldType.BlueKeyDoorField,
+        FieldType.YellowKeyDoorField
     });
 
     public static readonly List<FieldType> RotatableFields = new(new[]
     {
-        FieldType.ONE_WAY_FIELD,
-        FieldType.CONVEYOR
+        FieldType.OneWayField,
+        FieldType.Conveyor
     });
 
     public static bool IsRotatable(EditMode editMode)
@@ -70,10 +70,7 @@ public class FieldManager : MonoBehaviour
     }
 
     [PunRPC]
-    public void RemoveField(int mx, int my)
-    {
-        RemoveField(mx, my, false);
-    }
+    public void RemoveField(int mx, int my) => RemoveField(mx, my, false);
 
     [PunRPC]
     public void SetField(int mx, int my, FieldType type, int rotation)
@@ -101,16 +98,10 @@ public class FieldManager : MonoBehaviour
             GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.KeyContainer);
     }
 
-    public void SetField(Vector2 pos, FieldType type, int rotation)
-    {
-        SetField((int)pos.x, (int)pos.y, type, rotation);
-    }
+    public void SetField(Vector2 pos, FieldType type, int rotation) => SetField((int)pos.x, (int)pos.y, type, rotation);
 
     [PunRPC]
-    public void SetField(int mx, int my, FieldType type)
-    {
-        SetField(mx, my, type, 0);
-    }
+    public void SetField(int mx, int my, FieldType type) => SetField(mx, my, type, 0);
 
     public static void ApplyStartGoalCheckpointFieldColor(GameObject field, bool? oneColor)
     {
@@ -151,7 +142,8 @@ public class FieldManager : MonoBehaviour
         GameObject prefab = type.GetPrefab();
         GameObject res = MultiplayerManager.Instance.Multiplayer
             ? PhotonNetwork.Instantiate(prefab.name, pos, Quaternion.Euler(0, 0, rotation))
-            : Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation), ReferenceManager.Instance.FieldContainer);
+            : Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation),
+                ReferenceManager.Instance.FieldContainer);
 
         return res;
     }
@@ -242,8 +234,10 @@ public class FieldManager : MonoBehaviour
 
         List<GameObject> intersectingFields = GetFieldsAtPos(mx, my);
         foreach (GameObject field in intersectingFields)
+        {
             if (types.Contains((FieldType)GetFieldType(field)))
                 return true;
+        }
 
         return false;
     }
@@ -253,8 +247,10 @@ public class FieldManager : MonoBehaviour
         List<FieldType> types = t.ToList();
         List<GameObject> intersectingFields = GetFieldsAtPos(mx, my);
         foreach (GameObject field in intersectingFields)
+        {
             if (!types.Contains((FieldType)GetFieldType(field)))
                 return false;
+        }
 
         return true;
     }

@@ -17,22 +17,21 @@ public class BallCircleManager : MonoBehaviour
     }
 
     [PunRPC]
-    public void SetBallCircle(float mx, float my)
-    {
-        SetBallCircle(mx, my, 1, 0, Mathf.PI * 0.5f);
-    }
+    public void SetBallCircle(float mx, float my) => SetBallCircle(mx, my, 1, 0, Mathf.PI * 0.5f);
 
-    public bool IsBallCircleThere(float mx, float my) => GetBallCircles(mx, my).Count > 0;
+    private bool IsBallCircleThere(float mx, float my) => GetBallCircles(mx, my).Count > 0;
 
-    public List<GameObject> GetBallCircles(float mx, float my)
+    private List<GameObject> GetBallCircles(float mx, float my)
     {
         List<GameObject> list = new();
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.01f, 32768);
 
         foreach (Collider2D hit in hits)
+        {
             if (hit.CompareTag("BallCircleOrigin"))
                 list.Add(hit.transform.parent.GetChild(0).gameObject);
+        }
 
         return list;
     }

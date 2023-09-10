@@ -1,17 +1,16 @@
+using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [ExecuteAlways]
 public class ToolOptionbar : MonoBehaviour
 {
-    [FormerlySerializedAs("background")] public GameObject Background;
+    public GameObject Background;
 
-    [FormerlySerializedAs("hoveringHitbox")]
     public GameObject HoveringHitbox;
 
-    [FormerlySerializedAs("options")] public GameObject Options;
-    [FormerlySerializedAs("size")] public float Size;
+    public GameObject Options;
+    public float Size;
     private RectTransform hh;
     private RectTransform rtThis;
     private GridLayoutGroup gridLayout;
@@ -55,11 +54,16 @@ public class ToolOptionbar : MonoBehaviour
         rtThis.localPosition = new(0, 1000);
     }
 
+    [ButtonMethod]
     public void ScaleOptions()
     {
-        foreach (Transform tool in Options.transform) tool.localScale = new(0.7f, 0.7f);
+        foreach (Transform tool in Options.transform)
+        {
+            tool.localScale = new(0.7f, 0.7f);
+        }
     }
 
+    [ButtonMethod]
     public void UpdateHeight()
     {
         RectTransform rt = Background.GetComponent(typeof(RectTransform)) as RectTransform;
@@ -67,9 +71,7 @@ public class ToolOptionbar : MonoBehaviour
         if (rt == null) return;
 
         if (toolCount == 0)
-        {
             rt.sizeDelta = new(100, 100);
-        }
         else
         {
             width = gridLayout.cellSize.x * Size;

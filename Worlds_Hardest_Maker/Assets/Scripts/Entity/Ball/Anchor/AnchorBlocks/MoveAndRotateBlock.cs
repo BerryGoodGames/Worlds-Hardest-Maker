@@ -2,13 +2,11 @@ using System;
 using DG.Tweening;
 using UnityEngine;
 
-public class MoveAndRotateBlock : AnchorBlock
+public class MoveAndRotateBlock : PositionAnchorBlock
 {
-    public const Type BlockType = Type.MOVE_AND_ROTATE;
-    public override Type ImplementedBlockType => Type.MOVE_AND_ROTATE;
+    public const Type BlockType = Type.MoveAndRotate;
+    public override Type ImplementedBlockType => Type.MoveAndRotate;
     protected override GameObject Prefab => PrefabManager.Instance.MoveAndRotateBlockPrefab;
-
-    private readonly Vector2 target;
 
     private readonly float iterations;
 
@@ -16,16 +14,17 @@ public class MoveAndRotateBlock : AnchorBlock
 
     #region Constructors
 
-    public MoveAndRotateBlock(AnchorController anchor, Vector2 target, float iterations, bool adaptRotation) :
-        base(anchor)
+    public MoveAndRotateBlock(AnchorController anchor, bool isLocked, Vector2 target, float iterations,
+        bool adaptRotation) :
+        base(anchor, isLocked, target)
     {
-        this.target = target;
         this.iterations = iterations;
         this.adaptRotation = adaptRotation;
     }
 
-    public MoveAndRotateBlock(AnchorController anchor, float x, float y, float iterations, bool adaptRotation) : this(
-        anchor, new(x, y), iterations, adaptRotation)
+    public MoveAndRotateBlock(AnchorController anchor, bool isLocked, float x, float y, float iterations,
+        bool adaptRotation) : this(
+        anchor, isLocked, new(x, y), iterations, adaptRotation)
     {
     }
 
@@ -35,39 +34,33 @@ public class MoveAndRotateBlock : AnchorBlock
     {
         // get move duration
         float moveDuration;
-        float dist = Vector2.Distance(target, Anchor.Rb.position);
+        float dist = Vector2.Distance(Target, Anchor.Rb.position);
 
-        if (Anchor.ApplySpeed)
+        if (Anchor.SpeedUnit is SetSpeedBlock.Unit.Speed)
         {
-            float speed = Anchor.Speed;
+            float speed = Anchor.TimeInput;
 
             moveDuration = dist / speed;
         }
         else
-        {
-            moveDuration = Anchor.Speed;
-        }
+            moveDuration = Anchor.TimeInput;
 
         // get rotate duration
         float rotateDuration;
         if (adaptRotation)
-        {
             rotateDuration = moveDuration;
-        }
-        else if (Anchor.ApplyAngularSpeed)
+        else if (Anchor.RotationSpeedUnit is SetRotationBlock.Unit.Degrees or SetRotationBlock.Unit.Iterations)
         {
             float currentZ = Anchor.transform.localRotation.eulerAngles.z;
             float targetZ = currentZ + iterations * 360;
             float distance = targetZ - currentZ;
 
-            rotateDuration = distance / Anchor.AngularSpeed;
+            rotateDuration = distance / Anchor.RotationTimeInput;
         }
         else
-        {
-            rotateDuration = Anchor.AngularSpeed;
-        }
+            rotateDuration = Anchor.RotationTimeInput;
 
-        Anchor.Rb.DOMove(target, moveDuration)
+        Anchor.Rb.DOMove(Target, moveDuration)
             .SetEase(Anchor.Ease)
             .OnComplete(() =>
             {
@@ -88,11 +81,11 @@ public class MoveAndRotateBlock : AnchorBlock
     protected override void SetControllerValues(AnchorBlockController c)
     {
         MoveAndRotateBlockController controller = (MoveAndRotateBlockController)c;
-        controller.InputX.text = target.x.ToString();
-        controller.InputY.text = target.y.ToString();
+        controller.PositionInput.SetPositionValues(Target);
         controller.InputIterations.text = iterations.ToString();
         controller.AdaptRotation.isOn = adaptRotation;
     }
 
-    public override AnchorBlockData GetData() => new MoveAndRotateBlockData(target, iterations, adaptRotation);
+    public override AnchorBlockData GetData() =>
+        new MoveAndRotateBlockData(IsLocked, Target, iterations, adaptRotation);
 }

@@ -22,15 +22,9 @@ public class PlayerData : Data
         StartPosition[1] = controller.StartPos.y;
     }
 
-    public override void ImportToLevel()
-    {
-        ImportToLevel(new Vector2(StartPosition[0], StartPosition[1]));
-    }
+    public override void ImportToLevel() => ImportToLevel(new Vector2(StartPosition[0], StartPosition[1]));
 
-    public override void ImportToLevel(Vector2 pos)
-    {
-        PlayerManager.Instance.SetPlayer(pos, Speed);
-    }
+    public override void ImportToLevel(Vector2 pos) => PlayerManager.Instance.SetPlayer(pos, Speed);
 
-    public override EditMode GetEditMode() => EditMode.PLAYER;
+    public override EditMode GetEditMode() => EditMode.Player;
 }

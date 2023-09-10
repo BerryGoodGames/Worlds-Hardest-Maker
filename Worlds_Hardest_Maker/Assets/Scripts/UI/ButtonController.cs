@@ -1,15 +1,11 @@
+using MyBox;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 public class ButtonController : MonoBehaviour
 {
-    [FormerlySerializedAs("background")] public GameObject Background;
-
-    [FormerlySerializedAs("backgroundPanel")]
+    public GameObject Background;
     public RectTransform BackgroundPanel;
-
-    [FormerlySerializedAs("PlaySound")] [FormerlySerializedAs("playSound")]
     public bool DoPlaySound;
 
     public void PlaySound()
@@ -23,7 +19,8 @@ public class ButtonController : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(null);
     }
 
-    public void UpdateSomeShit()
+    [ButtonMethod]
+    public void UpdateOutlineAndBackgroundPanelSize()
     {
         RectTransform rt = GetComponent<RectTransform>();
         Rect rect = rt.rect;
@@ -44,9 +41,13 @@ public class ButtonController : MonoBehaviour
 
     // ReSharper disable once InconsistentNaming
     // ReSharper disable once IdentifierTypo
-    public static void UpdateEVERYFUCKINGShit()
+    [ButtonMethod]
+    public static void UpdateEVERYButton()
     {
         ButtonController[] buttons = Resources.FindObjectsOfTypeAll<ButtonController>();
-        foreach (ButtonController controller in buttons) controller.UpdateSomeShit();
+        foreach (ButtonController controller in buttons)
+        {
+            controller.UpdateOutlineAndBackgroundPanelSize();
+        }
     }
 }

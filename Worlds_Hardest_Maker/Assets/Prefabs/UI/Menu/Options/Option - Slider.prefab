@@ -5,6 +5,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 7856550958380123048}
     m_Modifications:
     - target: {fileID: 1943892759084453131, guid: 0e10f1d737b56ef43affa7d3bbce9492, type: 3}
@@ -140,6 +141,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e10f1d737b56ef43affa7d3bbce9492, type: 3}
 --- !u!114 &1554223988917197811 stripped
 MonoBehaviour:
@@ -152,11 +156,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 167e1168c21d7df4e8e09ae4902c2cb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &7744861996430367279 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8328324366897029531, guid: 0e10f1d737b56ef43affa7d3bbce9492, type: 3}
+  m_PrefabInstance: {fileID: 1796760403624541108}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1913000006506700541
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5556878449878348080, guid: c0c0feb35e0382041b783ac8b86d2225, type: 3}
@@ -253,6 +263,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 173008180124997499, guid: c0c0feb35e0382041b783ac8b86d2225, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8612083318934363477, guid: c0c0feb35e0382041b783ac8b86d2225, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7744861996430367279}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8654298017628321502, guid: c0c0feb35e0382041b783ac8b86d2225, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4307866144152567746}
   m_SourcePrefab: {fileID: 100100000, guid: c0c0feb35e0382041b783ac8b86d2225, type: 3}
 --- !u!1 &7103981387723352099 stripped
 GameObject:
@@ -271,11 +290,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caacf3582778dc44aab5a042a8a2ddd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rectTransform: {fileID: 7856550958380123048}
-  label: {fileID: 8881797894935954619}
+  RectTransform: {fileID: 7856550958380123048}
+  Label: {fileID: 8881797894935954619}
   fontSize: 40
-  height: 80
-  sliderUI: {fileID: 1554223988917197811}
+  Height: 80
+  SliderUI: {fileID: 1554223988917197811}
 --- !u!224 &7856550958380123048 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8612083318934363477, guid: c0c0feb35e0382041b783ac8b86d2225, type: 3}

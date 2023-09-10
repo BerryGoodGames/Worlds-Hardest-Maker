@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 public class AnchorBlockQuickMenu : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private AnchorBlockController anchorBlockController;
-    [FormerlySerializedAs("active")] public bool Active = true;
+    public bool Active = true;
+    private AnchorBlockController anchorBlockController;
+
+    private void Start() => anchorBlockController = GetComponent<AnchorBlockController>();
 
     public void OnPointerClick(PointerEventData eventData)
     {

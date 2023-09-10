@@ -8,11 +8,9 @@ public class MultiplayerManager : MonoBehaviour
     public bool Multiplayer { get; set; }
 
 
-    public static void OnIsMultiplayer()
-    {
+    public static void OnIsMultiplayer() =>
         // enable photon player spawning
         ReferenceManager.Instance.PlayerSpawner.enabled = true;
-    }
 
     private void Start()
     {

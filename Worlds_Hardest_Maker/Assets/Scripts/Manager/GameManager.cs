@@ -4,7 +4,9 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using DG.Tweening;
 using Photon.Pun;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviourPun
 {
@@ -55,12 +57,15 @@ public class GameManager : MonoBehaviourPun
         float gridY = Mathf.Round(pos.y * 2) * 0.5f;
 
         if (editMode.IsFieldType())
+        {
             FieldManager.Instance.SetField((int)pos.x, (int)pos.y,
                 EnumUtils.ConvertEnum<EditMode, FieldType>(editMode));
+        }
         else
+        {
             switch (editMode)
             {
-                case EditMode.DELETE_FIELD:
+                case EditMode.DeleteField:
                 {
                     // delete field
                     if (multiplayer) photonView.RPC("RemoveField", RpcTarget.All, matrixX, matrixY, true);
@@ -72,15 +77,15 @@ public class GameManager : MonoBehaviourPun
                     else PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixX, matrixY);
                     break;
                 }
-                case EditMode.PLAYER:
+                case EditMode.Player:
                     // place player
                     PlayerManager.Instance.SetPlayer(gridX, gridY, true);
                     break;
-                case EditMode.COIN when multiplayer:
+                case EditMode.Coin when multiplayer:
                     // place coin
                     photonView.RPC("SetCoin", RpcTarget.All, gridX, gridY);
                     break;
-                case EditMode.COIN:
+                case EditMode.Coin:
                     CoinManager.Instance.SetCoin(gridX, gridY);
                     break;
                 default:
@@ -88,7 +93,8 @@ public class GameManager : MonoBehaviourPun
                     if (KeyManager.IsKeyEditMode(editMode))
                     {
                         // get key color
-                        string keyColorStr = editMode.ToString()[..^4];
+                        string editModeStr = editMode.ToString();
+                        string keyColorStr = editModeStr.Remove(editModeStr.Length - 3);
                         KeyManager.KeyColor keyColor =
                             (KeyManager.KeyColor)Enum.Parse(typeof(KeyManager.KeyColor), keyColorStr);
 
@@ -100,6 +106,7 @@ public class GameManager : MonoBehaviourPun
                     break;
                 }
             }
+        }
     }
 
     #region Save system
@@ -146,7 +153,10 @@ public class GameManager : MonoBehaviourPun
 
 
         // load fields
-        foreach (FieldData field in fieldData) field.ImportToLevel();
+        foreach (FieldData field in fieldData)
+        {
+            field.ImportToLevel();
+        }
 
         // load player last
         playerData?.ImportToLevel();
@@ -208,13 +218,17 @@ public class GameManager : MonoBehaviourPun
         Transform[] containers =
         {
             ReferenceManager.Instance.FieldContainer, ReferenceManager.Instance.PlayerContainer,
-            ReferenceManager.Instance.BallDefaultContainer, ReferenceManager.Instance.BallCircleContainer,
+            ReferenceManager.Instance.BallDefaultContainer,
+            ReferenceManager.Instance.BallCircleContainer,
             ReferenceManager.Instance.CoinContainer, ReferenceManager.Instance.KeyContainer,
             ReferenceManager.Instance.AnchorContainer
         };
         foreach (Transform container in containers)
         {
-            for (int i = container.childCount - 1; i >= 0; i--) DestroyImmediate(container.GetChild(i).gameObject);
+            for (int i = container.childCount - 1; i >= 0; i--)
+            {
+                DestroyImmediate(container.GetChild(i).gameObject);
+            }
         }
     }
 
@@ -237,12 +251,18 @@ public class GameManager : MonoBehaviourPun
     {
         float[] dx = { -0.5f, 0, 0.5f, -0.5f, 0, 0.5f, -0.5f, 0, 0.5f };
         float[] dy = { -0.5f, -0.5f, -0.5f, 0, 0, 0, 0.5f, 0.5f, 0.5f };
-        for (int i = 0; i < dx.Length; i++) RemoveObjectInContainer(mx + dx[i], my + dy[i], container);
+        for (int i = 0; i < dx.Length; i++)
+        {
+            RemoveObjectInContainer(mx + dx[i], my + dy[i], container);
+        }
     }
 
-    public void MainMenu()
+    public void MainMenu() => loadingScreen.LoadScene(0);
+
+    public static void DeselectInputs()
     {
-        loadingScreen.LoadScene(0);
+        EventSystem eventSystem = EventSystem.current;
+        if (!eventSystem.alreadySelecting) eventSystem.SetSelectedGameObject(null);
     }
 
     public static Vector2 GetCanvasDimensions()
@@ -251,7 +271,7 @@ public class GameManager : MonoBehaviourPun
         return new(canvas.width, canvas.height);
     }
 
-    public static int GetDropdownValue(string option, TMPro.TMP_Dropdown dropdown)
+    public static int GetDropdownValue(string option, TMP_Dropdown dropdown)
     {
         for (int i = 0; i < dropdown.options.Count; i++)
         {

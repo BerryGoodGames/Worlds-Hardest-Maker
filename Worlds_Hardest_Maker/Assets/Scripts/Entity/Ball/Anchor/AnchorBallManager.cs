@@ -9,8 +9,9 @@ public class AnchorBallManager : MonoBehaviour
 
     public static void SetAnchorBall(Vector2 pos, AnchorController anchor)
     {
-        GameObject ball = Instantiate(PrefabManager.Instance.Ball, Vector2.zero, Quaternion.identity, anchor.transform);
-        anchor.Balls.Add(ball.GetComponent<AnchorBallController>());
+        GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, Vector3.zero, Quaternion.identity,
+            anchor.BallContainer);
+        anchor.Balls.Add(ball.transform);
         ball.transform.GetChild(0).position = pos;
     }
 
@@ -23,15 +24,9 @@ public class AnchorBallManager : MonoBehaviour
         SetAnchorBall(pos, selectedAnchor);
     }
 
-    public static void SetAnchorBall(float mx, float my)
-    {
-        SetAnchorBall(new(mx, my));
-    }
+    public static void SetAnchorBall(float mx, float my) => SetAnchorBall(new(mx, my));
 
-    public static void SetAnchorBall(float mx, float my, AnchorController anchor)
-    {
-        SetAnchorBall(new(mx, my), anchor);
-    }
+    public static void SetAnchorBall(float mx, float my, AnchorController anchor) => SetAnchorBall(new(mx, my), anchor);
 
     #endregion
 
@@ -52,10 +47,7 @@ public class AnchorBallManager : MonoBehaviour
     }
 
     [PunRPC]
-    public void RemoveAnchorBall(float mx, float my)
-    {
-        RemoveAnchorBall(new(mx, my));
-    }
+    public void RemoveAnchorBall(float mx, float my) => RemoveAnchorBall(new(mx, my));
 
     #endregion
 

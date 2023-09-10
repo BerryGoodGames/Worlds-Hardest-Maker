@@ -1,16 +1,12 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class KeyController : Controller
 {
-    [FormerlySerializedAs("color")] [HideInInspector]
-    public KeyManager.KeyColor Color;
+    [HideInInspector] public KeyManager.KeyColor Color;
 
-    [FormerlySerializedAs("keyPosition")] [HideInInspector]
-    public Vector2 KeyPosition;
+    [HideInInspector] public Vector2 KeyPosition;
 
-    [FormerlySerializedAs("pickedUp")] [HideInInspector]
-    public bool PickedUp;
+    [HideInInspector] public bool PickedUp;
 
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
 
@@ -21,10 +17,7 @@ public class KeyController : Controller
         SetOrderInLayer();
     }
 
-    private void OnDestroy()
-    {
-        Destroy(transform.parent.gameObject);
-    }
+    private void OnDestroy() => Destroy(transform.parent.gameObject);
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -75,10 +68,10 @@ public class KeyController : Controller
 
         string tagColor = Color switch
         {
-            KeyManager.KeyColor.RED => "Red",
-            KeyManager.KeyColor.GREEN => "Green",
-            KeyManager.KeyColor.BLUE => "Blue",
-            KeyManager.KeyColor.YELLOW => "Yellow",
+            KeyManager.KeyColor.Red => "Red",
+            KeyManager.KeyColor.Green => "Green",
+            KeyManager.KeyColor.Blue => "Blue",
+            KeyManager.KeyColor.Yellow => "Yellow",
             _ => ""
         };
 

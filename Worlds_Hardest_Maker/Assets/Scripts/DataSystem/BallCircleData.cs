@@ -28,15 +28,10 @@ public class BallCircleData : Data
         Angle = controller.StartAngle;
     }
 
-    public override void ImportToLevel()
-    {
-        ImportToLevel(new(OriginPosition[0], OriginPosition[1]));
-    }
+    public override void ImportToLevel() => ImportToLevel(new(OriginPosition[0], OriginPosition[1]));
 
-    public override void ImportToLevel(Vector2 pos)
-    {
+    public override void ImportToLevel(Vector2 pos) =>
         BallCircleManager.Instance.SetBallCircle(pos.x, pos.y, Radius, Speed, Angle);
-    }
 
-    public override EditMode GetEditMode() => EditMode.BALL_CIRCLE;
+    public override EditMode GetEditMode() => EditMode.BallCircle;
 }

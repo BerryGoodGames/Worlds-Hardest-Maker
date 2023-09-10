@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class SetEaseBlock : AnchorBlock
 {
-    public const Type BlockType = Type.EASE;
+    public const Type BlockType = Type.Ease;
     public override Type ImplementedBlockType => BlockType;
     protected override GameObject Prefab => PrefabManager.Instance.SetEaseBlockPrefab;
 
     private readonly Ease ease;
 
-    public SetEaseBlock(AnchorController anchor, Ease ease) : base(anchor) => this.ease = ease;
+    public SetEaseBlock(AnchorController anchor, bool isLocked, Ease ease) : base(anchor, isLocked) => this.ease = ease;
 
     public override void Execute()
     {
@@ -23,5 +23,5 @@ public class SetEaseBlock : AnchorBlock
         controller.Input.value = GameManager.GetDropdownValue(SetEaseBlockController.GetOption(ease), controller.Input);
     }
 
-    public override AnchorBlockData GetData() => new SetEaseBlockData(ease);
+    public override AnchorBlockData GetData() => new SetEaseBlockData(IsLocked, ease);
 }

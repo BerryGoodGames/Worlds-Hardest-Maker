@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class QuickAccessOption : MonoBehaviour
 {
-    [SerializeField] private MouseOverUI mouseOverUI;
+    [SerializeField] private MouseOverUIRect mouseOverUIRect;
     [SerializeField] private AlphaUITween tween;
     [Space] [SerializeField] private bool closesMenuOnClick;
 
@@ -11,8 +11,8 @@ public class QuickAccessOption : MonoBehaviour
 
     private void Awake()
     {
-        mouseOverUI.OnHovered += () => tween.SetVisible(true);
-        mouseOverUI.OnUnhovered += () => tween.SetVisible(false);
+        mouseOverUIRect.OnHovered += () => tween.SetVisible(true);
+        mouseOverUIRect.OnUnhovered += () => tween.SetVisible(false);
     }
 
     private void Start()

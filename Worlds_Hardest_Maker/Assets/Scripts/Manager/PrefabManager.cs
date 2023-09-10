@@ -1,87 +1,82 @@
+using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [ExecuteAlways]
 public class PrefabManager : MonoBehaviour
 {
     public static PrefabManager Instance { get; private set; }
 
-    [FormerlySerializedAs("wallField")] [Header("Fields")]
-    public GameObject WallField;
+    #region Fields
 
-    [FormerlySerializedAs("startField")] public GameObject StartField;
-    [FormerlySerializedAs("goalField")] public GameObject GoalField;
+    [Foldout("Fields")] public GameObject WallField;
 
-    [FormerlySerializedAs("checkpointField")]
-    public GameObject CheckpointField;
+    [Foldout("Fields")] public GameObject StartField;
+    [Foldout("Fields")] public GameObject GoalField;
+    [Foldout("Fields")] public GameObject CheckpointField;
 
-    [FormerlySerializedAs("oneWayField")] public GameObject OneWayField;
-    [FormerlySerializedAs("conveyor")] public GameObject Conveyor;
-    [FormerlySerializedAs("water")] public GameObject Water;
-    [FormerlySerializedAs("ice")] public GameObject Ice;
-    [FormerlySerializedAs("void")] public GameObject Void;
+    [Foldout("Fields")] public GameObject OneWayField;
+    [Foldout("Fields")] public GameObject Conveyor;
+    [Foldout("Fields")] public GameObject Water;
+    [Foldout("Fields")] public GameObject Ice;
+    [Foldout("Fields")] public GameObject Void;
 
-    [FormerlySerializedAs("grayKeyDoorField")]
-    public GameObject GrayKeyDoorField;
+    [Foldout("Fields")] public GameObject GrayKeyDoorField;
+    [Foldout("Fields")] public GameObject RedKeyDoorField;
+    [Foldout("Fields")] public GameObject GreenKeyDoorField;
+    [Foldout("Fields")] public GameObject BlueKeyDoorField;
+    [Foldout("Fields")] public GameObject YellowKeyDoorField;
 
-    [FormerlySerializedAs("redKeyDoorField")]
-    public GameObject RedKeyDoorField;
+    #endregion
 
-    [FormerlySerializedAs("greenKeyDoorField")]
-    public GameObject GreenKeyDoorField;
+    #region Entities
 
-    [FormerlySerializedAs("blueKeyDoorField")]
-    public GameObject BlueKeyDoorField;
+    [Foldout("Entities")] public GameObject Player;
 
-    [FormerlySerializedAs("yellowKeyDoorField")]
-    public GameObject YellowKeyDoorField;
+    [Foldout("Entities")] public GameObject Anchor;
+    [Foldout("Entities")] public GameObject AnchorBall;
+    [Foldout("Entities")] public GameObject BallDefault;
+    [Foldout("Entities")] public GameObject BallCircle;
 
-    [FormerlySerializedAs("player")] [Space] [Header("Entities")]
-    public GameObject Player;
+    [Foldout("Entities")] public GameObject Coin;
 
-    [FormerlySerializedAs("anchor")] public GameObject Anchor;
-    [FormerlySerializedAs("ball")] public GameObject Ball;
-    [FormerlySerializedAs("ballDefault")] public GameObject BallDefault;
-    [FormerlySerializedAs("ballCircle")] public GameObject BallCircle;
-    [FormerlySerializedAs("coin")] public GameObject Coin;
-    [FormerlySerializedAs("grayKey")] public GameObject GrayKey;
-    [FormerlySerializedAs("redKey")] public GameObject RedKey;
-    [FormerlySerializedAs("greenKey")] public GameObject GreenKey;
-    [FormerlySerializedAs("blueKey")] public GameObject BlueKey;
-    [FormerlySerializedAs("yellowKey")] public GameObject YellowKey;
+    [Foldout("Entities")] public GameObject GrayKey;
+    [Foldout("Entities")] public GameObject RedKey;
+    [Foldout("Entities")] public GameObject GreenKey;
+    [Foldout("Entities")] public GameObject BlueKey;
+    [Foldout("Entities")] public GameObject YellowKey;
 
-    [FormerlySerializedAs("dropdownOptionPrefab")] [Space] [Header("UI")]
-    public GameObject DropdownOptionPrefab;
+    #endregion
 
-    [FormerlySerializedAs("checkboxOptionPrefab")]
-    public GameObject CheckboxOptionPrefab;
+    #region UI
 
-    [FormerlySerializedAs("sliderOptionPrefab")]
-    public GameObject SliderOptionPrefab;
+    [Foldout("UI")] public GameObject DropdownOptionPrefab;
+    [Foldout("UI")] public GameObject CheckboxOptionPrefab;
+    [Foldout("UI")] public GameObject SliderOptionPrefab;
+    [Foldout("UI")] public GameObject NumberInputOptionPrefab;
+    [Foldout("UI")] public GameObject HeaderOptionPrefab;
+    [Foldout("UI")] public GameObject SpaceOptionPrefab;
 
-    [FormerlySerializedAs("numberInputOptionPrefab")]
-    public GameObject NumberInputOptionPrefab;
+    [Foldout("UI")] public GameObject FillPreview;
+    [Foldout("UI")] public GameObject Tooltip;
 
-    [FormerlySerializedAs("headerOptionPrefab")]
-    public GameObject HeaderOptionPrefab;
+    #endregion
 
-    [FormerlySerializedAs("spaceOptionPrefab")]
-    public GameObject SpaceOptionPrefab;
+    #region Anchor blocks
 
-    [FormerlySerializedAs("fillPreview")] public GameObject FillPreview;
-    [FormerlySerializedAs("tooltip")] public GameObject Tooltip;
-    [Space] [Header("Anchor Blocks")] public GameObject AnchorConnector;
-    public GameObject GoToBlockPrefab;
-    public GameObject MoveToBlockPrefab;
-    public GameObject RotateBlockPrefab;
-    public GameObject StartRotatingBlockPrefab;
-    public GameObject StopRotatingBlockPrefab;
-    public GameObject MoveAndRotateBlockPrefab;
-    public GameObject SetAngularSpeedBlockPrefab;
-    public GameObject SetSpeedBlockPrefab;
-    public GameObject SetEaseBlockPrefab;
-    public GameObject WaitBlockPrefab;
+    [Foldout("Anchor blocks")] public GameObject AnchorConnector;
+    [Foldout("Anchor blocks")] public GameObject GoToBlockPrefab;
+    [Foldout("Anchor blocks")] public GameObject MoveBlockPrefab;
+    [Foldout("Anchor blocks")] public GameObject RotateBlockPrefab;
+    [Foldout("Anchor blocks")] public GameObject StartRotatingBlockPrefab;
+    [Foldout("Anchor blocks")] public GameObject StopRotatingBlockPrefab;
+    [Foldout("Anchor blocks")] public GameObject MoveAndRotateBlockPrefab;
+    [Foldout("Anchor blocks")] public GameObject SetRotationSpeedBlockPrefab;
+    [Foldout("Anchor blocks")] public GameObject SetDirectionBlockPrefab;
+    [Foldout("Anchor blocks")] public GameObject SetSpeedBlockPrefab;
+    [Foldout("Anchor blocks")] public GameObject SetEaseBlockPrefab;
+    [Foldout("Anchor blocks")] public GameObject WaitBlockPrefab;
 
+    #endregion
 
     private void OnEnable()
     {

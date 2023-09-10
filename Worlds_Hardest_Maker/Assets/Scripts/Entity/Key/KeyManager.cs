@@ -8,48 +8,48 @@ public class KeyManager : MonoBehaviour
 
     public enum KeyColor
     {
-        GRAY,
-        RED,
-        GREEN,
-        BLUE,
-        YELLOW
+        Gray,
+        Red,
+        Green,
+        Blue,
+        Yellow
     }
 
     public static readonly List<EditMode> KeyModes = new(new[]
     {
-        EditMode.GRAY_KEY,
-        EditMode.RED_KEY,
-        EditMode.BLUE_KEY,
-        EditMode.GREEN_KEY,
-        EditMode.YELLOW_KEY
+        EditMode.GrayKey,
+        EditMode.RedKey,
+        EditMode.BlueKey,
+        EditMode.GreenKey,
+        EditMode.YellowKey
     });
 
     public static readonly List<EditMode> KeyDoorModes = new(new[]
     {
-        EditMode.GRAY_KEY_DOOR_FIELD,
-        EditMode.RED_KEY_DOOR_FIELD,
-        EditMode.BLUE_KEY_DOOR_FIELD,
-        EditMode.GREEN_KEY_DOOR_FIELD,
-        EditMode.YELLOW_KEY_DOOR_FIELD
+        EditMode.GrayKeyDoorField,
+        EditMode.RedKeyDoorField,
+        EditMode.BlueKeyDoorField,
+        EditMode.GreenKeyDoorField,
+        EditMode.YellowKeyDoorField
     });
 
     public static readonly List<FieldType> KeyDoorTypes = new(new[]
     {
-        FieldType.GRAY_KEY_DOOR_FIELD,
-        FieldType.RED_KEY_DOOR_FIELD,
-        FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldType.YELLOW_KEY_DOOR_FIELD
+        FieldType.GrayKeyDoorField,
+        FieldType.RedKeyDoorField,
+        FieldType.BlueKeyDoorField,
+        FieldType.GreenKeyDoorField,
+        FieldType.YellowKeyDoorField
     });
 
     public static List<FieldType> CannotPlaceFields = new(new[]
     {
-        FieldType.WALL_FIELD,
-        FieldType.GRAY_KEY_DOOR_FIELD,
-        FieldType.RED_KEY_DOOR_FIELD,
-        FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldType.YELLOW_KEY_DOOR_FIELD
+        FieldType.WallField,
+        FieldType.GrayKeyDoorField,
+        FieldType.RedKeyDoorField,
+        FieldType.BlueKeyDoorField,
+        FieldType.GreenKeyDoorField,
+        FieldType.YellowKeyDoorField
     });
 
     private static readonly int playingString = Animator.StringToHash("Playing");
@@ -72,21 +72,17 @@ public class KeyManager : MonoBehaviour
         key.GetComponent<IntervalRandomAnimation>().enabled = KonamiManager.KonamiActive;
     }
 
-    public void SetKey(Vector2 pos, KeyColor color)
-    {
-        SetKey(pos.x, pos.y, color);
-    }
+    public void SetKey(Vector2 pos, KeyColor color) => SetKey(pos.x, pos.y, color);
 
     [PunRPC]
-    public void RemoveKey(float mx, float my)
-    {
-        DestroyImmediate(GetKey(mx, my));
-    }
+    public void RemoveKey(float mx, float my) => DestroyImmediate(GetKey(mx, my));
 
     public static void SetKonamiMode(bool konami)
     {
         foreach (Transform key in ReferenceManager.Instance.KeyContainer)
+        {
             key.GetComponent<IntervalRandomAnimation>().enabled = konami;
+        }
     }
 
     public static bool CanPlace(float mx, float my) =>

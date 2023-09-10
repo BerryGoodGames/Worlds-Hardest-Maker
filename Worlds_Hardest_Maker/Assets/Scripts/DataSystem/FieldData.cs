@@ -13,19 +13,18 @@ public class FieldData : Data
 
     public FieldData(GameObject field)
     {
+        Vector2 fieldPosition = field.transform.position;
+
         Position = new int[2];
-        Position[0] = (int)field.transform.position.x;
-        Position[1] = (int)field.transform.position.y;
+        Position[0] = (int)fieldPosition.x;
+        Position[1] = (int)fieldPosition.y;
         Rotation = (int)field.transform.rotation.eulerAngles.z;
 
         FieldType typeEnum = (FieldType)FieldManager.GetFieldType(field);
         FieldType = typeEnum.ToString();
     }
 
-    public override void ImportToLevel()
-    {
-        ImportToLevel(new(Position[0], Position[1]));
-    }
+    public override void ImportToLevel() => ImportToLevel(new(Position[0], Position[1]));
 
     public override void ImportToLevel(Vector2 pos)
     {

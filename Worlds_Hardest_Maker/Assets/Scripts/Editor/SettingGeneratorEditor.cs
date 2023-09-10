@@ -61,22 +61,22 @@ public class SettingGeneratorEditor : Editor
         // customized settings
         switch (script.Version)
         {
-            case SettingGenerator.SettingVersion.DROPDOWN:
+            case SettingGenerator.SettingVersion.Dropdown:
                 // dropdown settings
                 EditorGUILayout.PropertyField(dropdownWidth);
                 break;
 
-            case SettingGenerator.SettingVersion.CHECKBOX:
+            case SettingGenerator.SettingVersion.Checkbox:
                 // nothing for checkbox
                 break;
 
-            case SettingGenerator.SettingVersion.SLIDER:
+            case SettingGenerator.SettingVersion.Slider:
                 // slider settings
                 EditorGUILayout.PropertyField(sliderWidth);
                 EditorGUILayout.PropertyField(sliderSize);
                 break;
 
-            case SettingGenerator.SettingVersion.NUMBER_INPUT:
+            case SettingGenerator.SettingVersion.NumberInput:
                 // numberinput settings
                 EditorGUILayout.PropertyField(numberInputWidth);
                 break;

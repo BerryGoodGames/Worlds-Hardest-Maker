@@ -4,7 +4,6 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
@@ -14,23 +13,22 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 {
     public static LobbyManager Instance { get; private set; }
 
-    [FormerlySerializedAs("roomItem")] public GameObject RoomItem;
-    [FormerlySerializedAs("playerItem")] public GameObject PlayerItem;
+    public GameObject RoomItem;
+    public GameObject PlayerItem;
     [SerializeField] private LoadingScreen loadingScreen;
 
-    [FormerlySerializedAs("roomNameInput")] [Space]
+    [Space]
 
     // references
     public TMP_InputField RoomNameInput;
 
-    [FormerlySerializedAs("lobbyPanel")] public GameObject LobbyPanel;
-    [FormerlySerializedAs("roomPanel")] public GameObject RoomPanel;
+    public GameObject LobbyPanel;
+    public GameObject RoomPanel;
     [SerializeField] private GameObject loadingPanel;
 
-    [FormerlySerializedAs("roomNameTitle")]
     public TMP_Text RoomNameTitle;
 
-    [FormerlySerializedAs("yourName")] public TMP_Text YourName;
+    public TMP_Text YourName;
     [SerializeField] private string privateRoomStart = "!";
     [SerializeField] private Slider loadingSlider;
 
@@ -39,10 +37,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     // list of all room item controllers
     private readonly List<RoomItem> roomItemsList = new();
 
-    [FormerlySerializedAs("roomContainer")]
     public GameObject RoomContainer;
 
-    [FormerlySerializedAs("timeBetweenUpdates")] [Space]
+    [Space]
 
     // vars for tracking cooldown
     public float TimeBetweenUpdates = 1.5f;
@@ -51,11 +48,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     [Space] private readonly List<PlayerItem> playerItemsList = new();
 
-    [FormerlySerializedAs("playerItemContainer")]
     public GameObject PlayerItemContainer;
 
-    [FormerlySerializedAs("playButton")] [Space]
-    public GameObject PlayButton;
+    [Space] public GameObject PlayButton;
 
     private static readonly int load = Animator.StringToHash("Load");
 
@@ -129,9 +124,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
             // create controller
             else
-            {
                 controller = new();
-            }
 
             // set name and add to list
             controller.SetRoomName(room.Name);
@@ -146,10 +139,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     /// <summary>
     ///     OnClick method for leave button
     /// </summary>
-    public void OnClickLeaveRoom()
-    {
-        PhotonNetwork.LeaveRoom();
-    }
+    public void OnClickLeaveRoom() => PhotonNetwork.LeaveRoom();
 
     /// <summary>
     ///     Callback method: player leaves any room: switch panels
@@ -160,16 +150,16 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         LobbyPanel.SetActive(true);
     }
 
-    public override void OnConnectedToMaster()
-    {
-        PhotonNetwork.JoinLobby();
-    }
+    public override void OnConnectedToMaster() => PhotonNetwork.JoinLobby();
 
     private void UpdatePlayerList()
     {
         // update player list
         // -> clear player item list
-        foreach (PlayerItem item in playerItemsList) Destroy(item.gameObject);
+        foreach (PlayerItem item in playerItemsList)
+        {
+            Destroy(item.gameObject);
+        }
 
         playerItemsList.Clear();
 
@@ -189,15 +179,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        UpdatePlayerList();
-    }
+    public override void OnPlayerEnteredRoom(Player newPlayer) => UpdatePlayerList();
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        UpdatePlayerList();
-    }
+    public override void OnPlayerLeftRoom(Player otherPlayer) => UpdatePlayerList();
 
     private void Update()
     {
@@ -253,10 +237,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         return false;
     }
 
-    public void Back()
-    {
-        loadingScreen.LoadScene(2);
-    }
+    public void Back() => loadingScreen.LoadScene(2);
 
     private void Awake()
     {

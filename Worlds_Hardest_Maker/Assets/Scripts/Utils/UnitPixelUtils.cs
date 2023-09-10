@@ -31,7 +31,18 @@ public static class UnitPixelUtils
 
     public static Vector2 UnitToPixel(Vector2 unit) => new(UnitToPixel(unit.x), UnitToPixel(unit.y));
 
-    public static Rect RtToScreenSpace(RectTransform transform)
+    public static float CanvasSpaceToUnit(Canvas canvas, float space)
+    {
+        Camera cam = Camera.main
+            ? Camera.main
+            : throw new Exception($"Couldn't convert {space} canvas units to units because main camera is null");
+
+        Vector2 nullPoint = new(cam.pixelWidth / 2f, cam.pixelHeight / 2f);
+        return cam.ScreenToWorldPoint(nullPoint + canvas.scaleFactor * space * Vector2.right).x -
+               cam.transform.position.x;
+    }
+
+    public static Rect RectTransformToScreenSpace(RectTransform transform)
     {
         Vector2 size = Vector2.Scale(transform.rect.size, transform.lossyScale);
         return new((Vector2)transform.position - size * 0.5f, size);

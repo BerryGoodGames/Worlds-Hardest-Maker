@@ -5,19 +5,28 @@ public class UIRestrictInRectTransform : MonoBehaviour
     private RectTransform thisRt;
     public RectTransform RectTransform;
     [SerializeField] private bool suppressWarning;
+    public bool Continuous = true;
 
-    private void Awake()
+    private void Start()
     {
         thisRt = GetComponent<RectTransform>();
 
-        // disable if it doesnt have a rect transform
+        // disable if it does not have a rect transform
         if (RectTransform != null) return;
+
         if (!suppressWarning)
-            Debug.LogWarning("There isn't a rect transform passed");
+            Debug.LogWarning($"{name}: There isn't a rect transform passed");
+
         enabled = false;
     }
 
     private void LateUpdate()
+    {
+        if (Continuous)
+            Restrict();
+    }
+
+    public void Restrict()
     {
         Vector2 pos = thisRt.localPosition;
         Vector2 pivot = thisRt.pivot;

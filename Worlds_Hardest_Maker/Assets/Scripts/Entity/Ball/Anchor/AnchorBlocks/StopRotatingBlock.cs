@@ -3,21 +3,23 @@ using UnityEngine;
 
 public class StopRotatingBlock : AnchorBlock
 {
-    public StopRotatingBlock(AnchorController anchor) : base(anchor)
+    public StopRotatingBlock(AnchorController anchor, bool isLocked) : base(anchor, isLocked)
     {
     }
 
-    public const Type BlockType = Type.STOP_ROTATING;
+    public const Type BlockType = Type.StopRotating;
     public override Type ImplementedBlockType => BlockType;
     protected override GameObject Prefab => PrefabManager.Instance.StopRotatingBlockPrefab;
 
     public override void Execute()
     {
-        Anchor.InfiniteRotationTween.Kill();
+        Anchor.RotationTween.Kill();
         Anchor.FinishCurrentExecution();
     }
 
-    protected override void SetControllerValues(AnchorBlockController c) {}
+    protected override void SetControllerValues(AnchorBlockController c)
+    {
+    }
 
-    public override AnchorBlockData GetData() => new StopRotatingBlockData();
+    public override AnchorBlockData GetData() => new StopRotatingBlockData(IsLocked);
 }

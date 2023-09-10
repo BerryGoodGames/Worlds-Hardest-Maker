@@ -1,30 +1,22 @@
+using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class KeybindManager : MonoBehaviour
 {
     public static KeybindManager Instance { get; private set; } // singleton
 
-    [FormerlySerializedAs("selectionMouseButton")] [Header("Key binds")]
+    [Header("Key binds")] [DefinedValues(0, 1, 2)]
     public int SelectionMouseButton;
 
-    [FormerlySerializedAs("panMouseButton")]
-    public int PanMouseButton;
+    [DefinedValues(0, 1, 2)] public int PanMouseButton;
+    [SearchableEnum] public KeyCode EntityDeleteKey;
+    [SearchableEnum] public KeyCode EntityMoveKey;
+    [SearchableEnum] public KeyCode BallCircleRadiusKey;
+    [SearchableEnum] public KeyCode BallCircleAngleKey;
 
-    [FormerlySerializedAs("entityDeleteKey")]
-    public KeyCode EntityDeleteKey;
+    public KeyCode EditSpeedKey;
 
-    [FormerlySerializedAs("entityMoveKey")]
-    public KeyCode EntityMoveKey;
-
-    [FormerlySerializedAs("ballCircleRadiusKey")]
-    public KeyCode BallCircleRadiusKey;
-
-    [FormerlySerializedAs("ballCircleAngleKey")]
-    public KeyCode BallCircleAngleKey;
-
-    [FormerlySerializedAs("editSpeedKey")] public KeyCode EditSpeedKey;
-    [FormerlySerializedAs("pasteKey")] public KeyCode PasteKey;
+    [SearchableEnum] public KeyCode PasteKey;
 
     private void Awake()
     {

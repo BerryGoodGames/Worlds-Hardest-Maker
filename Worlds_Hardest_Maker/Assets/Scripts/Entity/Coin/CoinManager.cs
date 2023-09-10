@@ -8,12 +8,12 @@ public class CoinManager : MonoBehaviour
 
     public static List<FieldType> CannotPlaceFields = new(new[]
     {
-        FieldType.WALL_FIELD,
-        FieldType.RED_KEY_DOOR_FIELD,
-        FieldType.BLUE_KEY_DOOR_FIELD,
-        FieldType.GREEN_KEY_DOOR_FIELD,
-        FieldType.YELLOW_KEY_DOOR_FIELD,
-        FieldType.GRAY_KEY_DOOR_FIELD
+        FieldType.WallField,
+        FieldType.RedKeyDoorField,
+        FieldType.BlueKeyDoorField,
+        FieldType.GreenKeyDoorField,
+        FieldType.YellowKeyDoorField,
+        FieldType.GrayKeyDoorField
     });
 
     private static readonly int playing = Animator.StringToHash("Playing");
@@ -35,10 +35,7 @@ public class CoinManager : MonoBehaviour
         anim.SetBool(playing, EditModeManager.Instance.Playing);
     }
 
-    public void SetCoin(Vector2 pos)
-    {
-        SetCoin(pos.x, pos.y);
-    }
+    public void SetCoin(Vector2 pos) => SetCoin(pos.x, pos.y);
 
     [PunRPC]
     public void RemoveCoin(float mx, float my)
@@ -78,9 +75,7 @@ public class CoinManager : MonoBehaviour
         if (Instance == null) Instance = this;
     }
 
-    private void Start()
-    {
+    private void Start() =>
         EditModeManager.Instance.OnPlay += () =>
             Instance.TotalCoins = ReferenceManager.Instance.CoinContainer.transform.childCount;
-    }
 }

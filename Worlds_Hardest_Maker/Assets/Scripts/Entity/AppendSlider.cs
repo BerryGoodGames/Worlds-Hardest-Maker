@@ -1,3 +1,4 @@
+using MyBox;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,20 +10,9 @@ using UnityEngine.UI;
 public class AppendSlider : MonoBehaviour
 {
     // specific slider to append
-    [SerializeField] private float min, max, step, startValue;
+    [SerializeField] private MinMaxFloat limits;
+    [SerializeField] private float step, startValue;
     [SerializeField] private GameObject sliderPrefab;
-
-    public float Min
-    {
-        get => min;
-        set => min = value;
-    }
-
-    public float Max
-    {
-        get => max;
-        set => max = value;
-    }
 
     public float Step
     {
@@ -43,8 +33,8 @@ public class AppendSlider : MonoBehaviour
         Slider = Instantiate(sliderPrefab, Vector2.zero, Quaternion.identity,
             ReferenceManager.Instance.SliderContainer);
         Slider settings = Slider.GetComponent<Slider>();
-        settings.minValue = min / step;
-        settings.maxValue = max / step;
+        settings.minValue = limits.Min / step;
+        settings.maxValue = limits.Max / step;
         settings.value = startValue / step;
     }
 

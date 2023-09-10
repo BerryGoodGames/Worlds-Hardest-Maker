@@ -19,7 +19,7 @@ public class LevelBackground : MonoBehaviour
     {
         cam = GetComponent<Camera>();
 
-        CalcSize(TryGetComponent(out MapController mapController) ? mapController.MaxZoom : defaultMaxZoom);
+        CalcSize(TryGetComponent(out MapController mapController) ? mapController.ZoomLimits.Max : defaultMaxZoom);
     }
 
     private void Update()
@@ -34,7 +34,10 @@ public class LevelBackground : MonoBehaviour
 
     public void CalcSize(float zoom)
     {
-        foreach (Transform child in container) Destroy(child.gameObject);
+        foreach (Transform child in container)
+        {
+            Destroy(child.gameObject);
+        }
 
         Vector2 containerPos = container.position;
 
@@ -55,8 +58,5 @@ public class LevelBackground : MonoBehaviour
         }
     }
 
-    public void CalcSize()
-    {
-        CalcSize(cam.orthographicSize);
-    }
+    public void CalcSize() => CalcSize(cam.orthographicSize);
 }

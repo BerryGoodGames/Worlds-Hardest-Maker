@@ -17,13 +17,17 @@ public class PlayButtonTween : MonoBehaviour
 
         if (playing && !play)
             // the frame unplayed
+        {
             rt.DOAnchorPosY(editingY, duration)
                 .SetEase(easeAppear);
+        }
 
         if (!playing && play)
             // the frame played
+        {
             rt.DOAnchorPosY(playingY, duration)
                 .SetEase(easeDisappear);
+        }
 
         playing = play;
     }

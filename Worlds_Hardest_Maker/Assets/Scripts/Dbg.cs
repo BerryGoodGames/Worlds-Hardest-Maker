@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
@@ -14,33 +13,28 @@ public class Dbg : MonoBehaviour
 
     public enum DbgTextMode
     {
-        DISABLED,
-        CUSTOM,
-        COUNT,
+        Disabled,
+        Custom,
+        Count,
         FPS,
-        PLAYER_POSITION,
-        MOUSE_POSITION_UNITS,
-        MOUSE_POSITION_PIXELS
+        PlayerPosition,
+        MousePositionUnits,
+        MousePositionPixels
     }
 
-    [FormerlySerializedAs("dbgEnabled")] [Header("Settings")]
-    public bool DbgEnabled = true;
+    [Header("Settings")] public bool DbgEnabled = true;
 
-    [FormerlySerializedAs("textMode")] [Space]
-    public DbgTextMode TextMode;
+    [Space] public DbgTextMode TextMode;
 
-    [FormerlySerializedAs("count")] public float Count;
+    public float Count;
 
-    [FormerlySerializedAs("wallOutlines")] [Space]
-    public bool WallOutlines = true;
+    [Space] public bool WallOutlines = true;
 
-    [FormerlySerializedAs("drawRays")] public bool DrawRays;
+    public bool DrawRays;
 
-    [FormerlySerializedAs("gameSpeed")] [Space]
-    public float GameSpeed = 1;
+    [Space] public float GameSpeed = 1;
 
-    [FormerlySerializedAs("debugText")] [Space] [Header("References")]
-    public GameObject DebugText;
+    [Space] [Header("References")] public GameObject DebugText;
 
     private Camera cam;
     private Text dbgText;
@@ -62,18 +56,18 @@ public class Dbg : MonoBehaviour
         Time.timeScale = GameSpeed;
         switch (TextMode)
         {
-            case DbgTextMode.DISABLED:
+            case DbgTextMode.Disabled:
                 Text(string.Empty);
                 break;
-            case DbgTextMode.CUSTOM:
+            case DbgTextMode.Custom:
                 break;
-            case DbgTextMode.COUNT:
+            case DbgTextMode.Count:
                 Text(Count);
                 break;
             case DbgTextMode.FPS:
                 Text(Mathf.Round(1 / Time.deltaTime));
                 break;
-            case DbgTextMode.PLAYER_POSITION:
+            case DbgTextMode.PlayerPosition:
                 try
                 {
                     Text((Vector2)PlayerManager.GetPlayer().transform.position);
@@ -84,10 +78,10 @@ public class Dbg : MonoBehaviour
                 }
 
                 break;
-            case DbgTextMode.MOUSE_POSITION_UNITS:
+            case DbgTextMode.MousePositionUnits:
                 Text((Vector2)cam.ScreenToWorldPoint(Input.mousePosition));
                 break;
-            case DbgTextMode.MOUSE_POSITION_PIXELS:
+            case DbgTextMode.MousePositionPixels:
                 Text((Vector2)Input.mousePosition);
                 break;
         }
@@ -111,6 +105,9 @@ public class Dbg : MonoBehaviour
         string scriptName = typeof(T).Name;
 
         print($"Debug - Count of script {scriptName}: {list.Length}");
-        foreach (Object o in list) print($"Debug - {o.name}");
+        foreach (Object o in list)
+        {
+            print($"Debug - {o.name}");
+        }
     }
 }

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
 ///     Triggers animation at random intervals
@@ -8,29 +7,22 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Animator))]
 public class IntervalRandomAnimation : MonoBehaviour
 {
-    [FormerlySerializedAs("intervalSeconds")]
     public float IntervalSeconds;
 
-    [FormerlySerializedAs("animTriggerString")]
     public string AnimTriggerString;
 
     // value between 0 - 1, next trigger has to be in range of deviation
-    [FormerlySerializedAs("limitDeviation")] [Range(0, 1)]
-    public float LimitDeviation;
+    [Range(0, 1)] public float LimitDeviation;
 
-    [FormerlySerializedAs("triggerOnlyAtPlayMode")]
     public bool TriggerOnlyAtPlayMode;
 
-    [FormerlySerializedAs("soundEffect")] public string SoundEffect;
+    public string SoundEffect;
 
     private int lastTrigger;
 
     private Animator anim;
 
-    private void Awake()
-    {
-        anim = GetComponent<Animator>();
-    }
+    private void Awake() => anim = GetComponent<Animator>();
 
     private void FixedUpdate()
     {

@@ -42,8 +42,6 @@ public class KonamiManager : MonoBehaviour
             keyIndex = 0;
         }
         else
-        {
             keyIndex = 0;
-        }
     }
 }

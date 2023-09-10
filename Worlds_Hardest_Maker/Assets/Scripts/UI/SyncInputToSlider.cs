@@ -12,10 +12,7 @@ public class SyncInputToSlider : MonoBehaviour
     [SerializeField] private float decimals = 2;
     private TMP_InputField input;
 
-    private void Start()
-    {
-        UpdateInput();
-    }
+    private void Start() => UpdateInput();
 
     public void UpdateSlider()
     {
@@ -40,7 +37,7 @@ public class SyncInputToSlider : MonoBehaviour
 
         // set stuff in input //
         UnityEventTools.AddPersistentListener(input.onValueChanged,
-            input => { UpdateSlider(); }); // add Update Slider to persistent event listener
+            _ => { UpdateSlider(); }); // add Update Slider to persistent event listener
 
         // set stuff in slider //
         UnityEventTools.AddPersistentListener(slider.onValueChanged, _ => { UpdateInput(); });

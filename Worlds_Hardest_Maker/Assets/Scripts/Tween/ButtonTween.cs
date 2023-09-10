@@ -1,7 +1,7 @@
 using DG.Tweening;
+using MyBox;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler,
     IPointerUpHandler
@@ -15,12 +15,16 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private float highlightElevateDuration;
     [SerializeField] private float highlightFloatingDuration;
 
-    [FormerlySerializedAs("isWarningButton")]
-    public bool IsWarningButton;
+    [Space] public bool IsWarningButton;
 
-    [SerializeField] private float singleShakeDuration;
-    [SerializeField] private float shake1;
-    [SerializeField] private float shake2;
+    [ConditionalField(nameof(IsWarningButton))] [SerializeField]
+    private float singleShakeDuration;
+
+    [ConditionalField(nameof(IsWarningButton))] [SerializeField]
+    private float shake1;
+
+    [ConditionalField(nameof(IsWarningButton))] [SerializeField]
+    private float shake2;
 
     private RectTransform contentRT;
 
@@ -75,8 +79,5 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         else OnPointerExit(null);
     }
 
-    private void Start()
-    {
-        contentRT = (RectTransform)content;
-    }
+    private void Start() => contentRT = (RectTransform)content;
 }

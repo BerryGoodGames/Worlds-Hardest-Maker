@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,28 +10,24 @@ public class AnchorBlockColor : AnchorBlockColorController
     {
         // update bigger background color of anchorblock
         Image imageComp = GetComponent<Image>();
-        Color darkened = GetDarkColor(color, darkening);
+        Color darkened = GetDarkenedColor(Color, Darkening);
         imageComp.color = KeepA(darkened, imageComp.color);
 
         // update smaller background color of anchorblock
-        foregroundImage.color = KeepA(color, foregroundImage.color);
+        foregroundImage.color = KeepA(Color, foregroundImage.color);
 
-        // update color of each input
-        AnchorBlockInputDecimal[] inputs = GetComponentsInChildren<AnchorBlockInputDecimal>();
-        foreach (AnchorBlockInputDecimal input in inputs)
+        // update color of each part of anchor block
+        List<AnchorBlockColorController> colorControllers = new();
+        for (int i = 0; i < transform.childCount; i++)
         {
-            input.SetColor(color);
-            input.SetDarkening(darkening);
-            input.UpdateColor();
+            if (transform.GetChild(i).TryGetComponent(out AnchorBlockColorController colorController))
+                colorControllers.Add(colorController);
         }
 
-        // update color of dropdowns
-        AnchorBlockDropdown[] dropdowns = GetComponentsInChildren<AnchorBlockDropdown>();
-        foreach (AnchorBlockDropdown dropdown in dropdowns)
+        foreach (AnchorBlockColorController colorController in colorControllers)
         {
-            dropdown.SetColor(color);
-            dropdown.SetDarkening(darkening);
-            dropdown.UpdateColor();
+            colorController.SetColor(Color);
+            colorController.UpdateColor();
         }
     }
 }

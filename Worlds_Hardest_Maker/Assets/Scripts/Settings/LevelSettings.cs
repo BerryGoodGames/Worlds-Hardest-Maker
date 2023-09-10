@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class LevelSettings : MonoBehaviour
@@ -18,17 +17,13 @@ public class LevelSettings : MonoBehaviour
 
     #region Setting variables
 
-    [FormerlySerializedAs("drownDuration")] [HideInInspector]
-    public float DrownDuration;
+    [HideInInspector] public float DrownDuration;
 
-    [FormerlySerializedAs("waterDamping")] [HideInInspector]
-    public float WaterDamping;
+    [HideInInspector] public float WaterDamping;
 
-    [FormerlySerializedAs("iceFriction")] [HideInInspector]
-    public float IceFriction;
+    [HideInInspector] public float IceFriction;
 
-    [FormerlySerializedAs("iceMaxSpeed")] [HideInInspector]
-    public float IceMaxSpeed;
+    [HideInInspector] public float IceMaxSpeed;
 
     public bool ReusableCheckpoints
     {

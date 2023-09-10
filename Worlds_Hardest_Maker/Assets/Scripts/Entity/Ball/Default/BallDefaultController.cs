@@ -1,19 +1,13 @@
 using Photon.Pun;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BallDefaultController : BallController
 {
-    [FormerlySerializedAs("bounce")] public Transform Bounce;
+    public Transform Bounce;
 
-    [FormerlySerializedAs("line")] [HideInInspector]
-    public Transform Line;
-
-    [FormerlySerializedAs("startPosition")] [HideInInspector]
-    public Vector2 StartPosition;
-
-    [FormerlySerializedAs("currentTarget")] [HideInInspector]
-    public Vector2 CurrentTarget;
+    [HideInInspector] public Transform Line;
+    [HideInInspector] public Vector2 StartPosition;
+    [HideInInspector] public Vector2 CurrentTarget;
 
     private void Start()
     {
@@ -23,10 +17,7 @@ public class BallDefaultController : BallController
         InitLine();
     }
 
-    private void OnDestroy()
-    {
-        Destroy(transform.parent.gameObject);
-    }
+    private void OnDestroy() => Destroy(transform.parent.gameObject);
 
     private void Update()
     {
@@ -41,14 +32,14 @@ public class BallDefaultController : BallController
 
     private void InitLine()
     {
-        // set line
-        LineManager.SetFill(0, 0, 0);
-        LineManager.SetWeight(0.11f);
-        LineManager.SetOrderInLayer(2);
-        LineManager.SetLayerID(LineManager.BallLayerID);
-        GameObject line = LineManager.DrawLine(transform.position, Bounce.position, transform.parent);
+        Transform t = transform;
 
-        Line = line.transform;
+        // set line
+        DrawManager.SetFill(0, 0, 0);
+        DrawManager.SetWeight(0.11f);
+        DrawManager.SetOrderInLayer(2);
+        DrawManager.SetLayerID(DrawManager.BallLayerID);
+        Line = DrawManager.DrawLine(t.position, Bounce.position, t.parent).transform;
     }
 
     private void Move()

@@ -1,85 +1,154 @@
+using System;
 using Discord;
+using MyBox;
 using UnityEngine;
 
+[ExecuteAlways]
 public class DiscordManager : MonoBehaviour
 {
-    // connect to application (i think)
-    public Discord.Discord Discord = new(1027577124812496937, (ulong)CreateFlags.Default);
-    private ActivityManager activityManager;
-
     public static DiscordManager Instance { get; private set; }
 
-    private static readonly string details = "";
+    [SerializeField] private long applicationID;
+    [Space] [SerializeField] [ReadOnly] private string details;
 
-    /// <summary>
-    ///     what the player is currently doing
-    /// </summary>
-    public static string Details
+    public string Details
     {
         get => details;
         set => SetActivity(value, CurrentActivity.State);
     }
 
-    private static readonly string state = "";
+    [SerializeField] [ReadOnly] private string state;
 
-    /// <summary>
-    ///     the player's current status
-    /// </summary>
-    public static string State
+    public string State
     {
         get => state;
         set => SetActivity(CurrentActivity.Details, value);
     }
 
-    public static Activity CurrentActivity;
+    [Space] [SerializeField] private string largeImage = "dc_logo";
+    [SerializeField] private string largeText = "World's Hardest Maker";
+    [Space] [SerializeField] private bool printWarnings;
+
+    private long time;
+
+    private static bool instanceExists;
+    private Discord.Discord discord;
+
+    private ActivityManager activityManager;
+    public Activity CurrentActivity { get; private set; }
 
     private void Awake()
     {
         // init singleton
         if (Instance == null) Instance = this;
-        else DestroyImmediate(this);
+        else if (Application.isPlaying) DestroyImmediate(this);
 
-        activityManager = Discord.GetActivityManager();
+        if (!Application.isPlaying) return;
 
-        ClearActivity();
-
-        State = "Making level";
-#if UNITY_EDITOR
-        State = "";
-        Details = "Developing!";
-#endif
-    }
-
-    /// <summary>
-    ///     Sets the activity in discord
-    /// </summary>
-    /// <param name="details">what the player is currently doing</param>
-    /// <param name="state">the player's current status</param>
-    public static void SetActivity(string details = "", string state = "")
-    {
-        CurrentActivity = new Activity { Details = details, State = state };
-        Instance.activityManager.UpdateActivity(CurrentActivity, res =>
+        // Transition the GameObject between scenes, destroy any duplicates
+        if (!instanceExists & Application.isPlaying)
         {
-            if (res != Result.Ok) Debug.LogError("Discord status failed!");
-        });
+            instanceExists = true;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (FindObjectsOfType(GetType()).Length > 1) Destroy(gameObject);
     }
 
-    /// <summary>
-    ///     Clears activity
-    /// </summary>
-    public static void ClearActivity()
+    private void Start() => Setup();
+
+    private void Update()
     {
-        Instance.activityManager.ClearActivity(res =>
+        // Destroy the GameObject if Discord isn't running
+        try
+        {
+            discord.RunCallbacks();
+        }
+        catch
+        {
+            if (Application.isPlaying) Destroy(gameObject);
+        }
+
+        if (!Application.isPlaying) UpdateStatus();
+    }
+
+    private void LateUpdate()
+    {
+        if (Application.isPlaying) UpdateStatus();
+    }
+
+    private void UpdateStatus()
+    {
+        // Update Status every frame
+        try
+        {
+#if UNITY_EDITOR
+            details = "Developing editor!";
+            // state = "Currently " + (Application.isPlaying ? "testing" : "coding") + "!";
+            state = "";
+#else
+            details = "Building level!";
+            state = "";
+#endif
+
+            Activity activity = new()
+            {
+                Details = details,
+                State = state,
+                Assets =
+                {
+                    LargeImage = largeImage,
+                    LargeText = largeText
+                },
+                Timestamps =
+                {
+                    Start = time
+                }
+            };
+
+            activityManager.UpdateActivity(activity, res =>
+            {
+                if (res != Result.Ok) Debug.LogWarning("Failed connecting to Discord!");
+            });
+        }
+        catch
+        {
+            // If updating the status fails, Destroy the GameObject (or warning)
+            if (Application.isPlaying)
+                Destroy(gameObject);
+            else if (printWarnings) Debug.LogWarning("Updating status failed!");
+        }
+    }
+
+    public void ClearActivity() =>
+        activityManager.ClearActivity(res =>
         {
             if (res != Result.Ok)
                 Debug.LogError("Failed to clear activity!");
             else
                 CurrentActivity = new Activity();
         });
+
+    public void SetActivity(string details = "", string state = "")
+    {
+        CurrentActivity = new Activity { Details = details, State = state };
+        activityManager.UpdateActivity(CurrentActivity, res =>
+        {
+            if (res != Result.Ok) Debug.LogError("Discord status failed!");
+        });
     }
 
-    private void Update()
+    [ButtonMethod]
+    public void Setup()
     {
-        Discord.RunCallbacks();
+        // Log in with the Application ID
+        discord = new Discord.Discord(applicationID, (ulong)CreateFlags.NoRequireDiscord);
+
+        time = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
+        activityManager = discord.GetActivityManager();
+
+        ClearActivity();
+
+        UpdateStatus();
     }
 }

@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2359316722168525775}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3735360212491621560}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7990321288544630008
 SpriteRenderer:
@@ -108,6 +108,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6681033739451614151}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -115,7 +116,6 @@ Transform:
   m_Children:
   - {fileID: 3104292629995698517}
   m_Father: {fileID: 5338507599342812462}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8035424781713936783
 SpriteRenderer:
@@ -174,6 +174,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2493401863573026996, guid: fc74f76601483e34d8343c228304c362, type: 3}
@@ -273,6 +274,27 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2493401863573026996, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3735360212491621560}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8178229090586124949}
+    - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8001846666386192132}
+    - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3886967381602947206}
+    - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3016554834474145244}
+    - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1581273595704763882}
   m_SourcePrefab: {fileID: 100100000, guid: fc74f76601483e34d8343c228304c362, type: 3}
 --- !u!1 &32792430628730468 stripped
 GameObject:
@@ -318,6 +340,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &-3886967381602947206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,8 +353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efd9520a54fa14645a6f1d37683a62f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0.2
-  rotateAngle: {x: 0, y: 0, z: 90}
+  Duration: 0.2
+  RotateAngle: {x: 0, y: 0, z: 90}
   disableCollision: 1
 --- !u!114 &-3016554834474145244
 MonoBehaviour:
@@ -357,11 +380,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e527362bc3264a14f835b8d0e129f50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 11ac185f4c148974aa2cff93b3ecc97e, type: 3}
-  color: {r: 1, g: 1, b: 1, a: 1}
-  scale: {x: 1, y: 1}
-  showWhenSelecting: 0
-  rotate: 1
+  Sprite: {fileID: 21300000, guid: 11ac185f4c148974aa2cff93b3ecc97e, type: 3}
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  Scale: {x: 1, y: 1}
+  Rotate: 1
 --- !u!4 &5338507599342812462 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2493401863573026996, guid: fc74f76601483e34d8343c228304c362, type: 3}

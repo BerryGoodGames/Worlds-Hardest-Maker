@@ -1,6 +1,5 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class NumberInput : MonoBehaviour
 {
@@ -10,8 +9,7 @@ public class NumberInput : MonoBehaviour
     [SerializeField] private float min;
     [SerializeField] private float max;
 
-    [FormerlySerializedAs("NumberInput")] [FormerlySerializedAs("numberInput")] [Space]
-    public TMP_InputField Input;
+    [Space] public TMP_InputField Input;
 
     private NumberInputTween tweenController;
 
@@ -35,15 +33,9 @@ public class NumberInput : MonoBehaviour
         tweenController.DecreaseTween();
     }
 
-    public void SetNumberText(float num)
-    {
-        Input.text = num.ToString();
-    }
+    public void SetNumberText(float num) => Input.text = num.ToString();
 
     public float GetCurrentNumber() => float.Parse(Input.text.Replace("​" /* Zero Space Character */, ""));
 
-    private void Start()
-    {
-        tweenController = GetComponent<NumberInputTween>();
-    }
+    private void Start() => tweenController = GetComponent<NumberInputTween>();
 }

@@ -31,8 +31,5 @@ public class WarningConfirmPromptTween : MonoBehaviour
         isVisible = vis;
     }
 
-    private void Start()
-    {
-        transform.localScale = new(0, 0);
-    }
+    private void Start() => transform.localScale = new(0, 0);
 }

@@ -4,10 +4,7 @@ public class VoidDetection : MonoBehaviour
 {
     private PlayerController playerController;
 
-    private void Start()
-    {
-        playerController = GetComponent<PlayerController>();
-    }
+    private void Start() => playerController = GetComponent<PlayerController>();
 
     private void FixedUpdate()
     {

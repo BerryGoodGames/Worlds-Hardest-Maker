@@ -52,7 +52,7 @@ public class KeyEvents : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.O)) GameManager.Instance.LoadLevel();
 #endif
             // paste
-            if (!CopyManager.Pasting && Input.GetKey(KeybindManager.Instance.PasteKey))
+            if (!CopyManager.Instance.Pasting && Input.GetKey(KeybindManager.Instance.PasteKey))
                 StartCoroutine(CopyManager.Instance.PasteCoroutine());
         }
 
@@ -65,24 +65,24 @@ public class KeyEvents : MonoBehaviour
     {
         Dictionary<KeyCode[], EditMode> keys = new()
         {
-            { new[] { KeyCode.D }, EditMode.DELETE_FIELD },
-            { new[] { KeyCode.W }, EditMode.WALL_FIELD },
-            { new[] { KeyCode.S }, EditMode.START_FIELD },
-            { new[] { KeyCode.G }, EditMode.GOAL_FIELD },
-            { new[] { KeyCode.O }, EditMode.ONE_WAY_FIELD },
-            { new[] { KeyCode.W, KeyCode.A }, EditMode.WATER },
-            { new[] { KeyCode.I }, EditMode.ICE },
-            { new[] { KeyCode.V }, EditMode.VOID },
-            { new[] { KeyCode.P }, EditMode.PLAYER },
-            { new[] { KeyCode.B }, EditMode.BALL_DEFAULT },
-            { new[] { KeyCode.C }, EditMode.COIN },
-            { new[] { KeyCode.K }, EditMode.GRAY_KEY },
-            { new[] { KeyCode.R, KeyCode.K }, EditMode.RED_KEY },
-            { new[] { KeyCode.G, KeyCode.K }, EditMode.GREEN_KEY },
-            { new[] { KeyCode.B, KeyCode.K }, EditMode.BLUE_KEY },
-            { new[] { KeyCode.Y, KeyCode.K }, EditMode.YELLOW_KEY },
-            { new[] { KeyCode.B, KeyCode.C }, EditMode.BALL_CIRCLE },
-            { new[] { KeyCode.H, KeyCode.C }, EditMode.CHECKPOINT_FIELD }
+            { new[] { KeyCode.D }, EditMode.DeleteField },
+            { new[] { KeyCode.W }, EditMode.WallField },
+            { new[] { KeyCode.S }, EditMode.StartField },
+            { new[] { KeyCode.G }, EditMode.GoalField },
+            { new[] { KeyCode.O }, EditMode.OneWayField },
+            { new[] { KeyCode.W, KeyCode.A }, EditMode.Water },
+            { new[] { KeyCode.I }, EditMode.Ice },
+            { new[] { KeyCode.V }, EditMode.Void },
+            { new[] { KeyCode.P }, EditMode.Player },
+            { new[] { KeyCode.B }, EditMode.BallDefault },
+            { new[] { KeyCode.C }, EditMode.Coin },
+            { new[] { KeyCode.K }, EditMode.GrayKey },
+            { new[] { KeyCode.R, KeyCode.K }, EditMode.RedKey },
+            { new[] { KeyCode.G, KeyCode.K }, EditMode.GreenKey },
+            { new[] { KeyCode.B, KeyCode.K }, EditMode.BlueKey },
+            { new[] { KeyCode.Y, KeyCode.K }, EditMode.YellowKey },
+            { new[] { KeyCode.B, KeyCode.C }, EditMode.BallCircle },
+            { new[] { KeyCode.H, KeyCode.C }, EditMode.CheckpointField }
         };
         return keys;
     }
@@ -108,8 +108,5 @@ public class KeyEvents : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        menuUITween = ReferenceManager.Instance.Menu.GetComponent<AlphaUITween>();
-    }
+    private void Start() => menuUITween = ReferenceManager.Instance.Menu.GetComponent<AlphaUITween>();
 }

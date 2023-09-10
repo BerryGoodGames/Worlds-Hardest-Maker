@@ -35,5 +35,5 @@ public class LevelSettingsData : Data
         LevelSettings.Instance.SyncPlayersToSettings();
     }
 
-    public override EditMode GetEditMode() => EditMode.WALL_FIELD;
+    public override EditMode GetEditMode() => EditMode.WallField;
 }

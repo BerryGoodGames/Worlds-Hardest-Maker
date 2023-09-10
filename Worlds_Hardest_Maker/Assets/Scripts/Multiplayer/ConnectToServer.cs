@@ -2,16 +2,14 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class ConnectToServer : MonoBehaviourPunCallbacks
 {
     [SerializeField] private LoadingScreen loadingScreen;
 
-    [FormerlySerializedAs("usernameInput")]
     public TMP_InputField UsernameInput;
 
-    [FormerlySerializedAs("buttonText")] public TMP_Text ButtonText;
+    public TMP_Text ButtonText;
 
     public void OnClickConnect()
     {
@@ -25,15 +23,9 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    public override void OnConnectedToMaster()
-    {
-        SceneManager.LoadScene("Lobby");
-    }
+    public override void OnConnectedToMaster() => SceneManager.LoadScene("Lobby");
 
-    public void MainMenu()
-    {
-        loadingScreen.LoadScene(0);
-    }
+    public void MainMenu() => loadingScreen.LoadScene(0);
 
     private void Update()
     {

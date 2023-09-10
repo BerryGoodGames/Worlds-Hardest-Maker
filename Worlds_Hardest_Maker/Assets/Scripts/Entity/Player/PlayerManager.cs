@@ -14,16 +14,13 @@ public class PlayerManager : MonoBehaviour
 
     public static readonly List<FieldType> StartFields = new(new[]
     {
-        FieldType.START_FIELD,
-        FieldType.GOAL_FIELD
+        FieldType.StartField,
+        FieldType.GoalField
     });
 
     public event Action OnWin;
 
-    public void InvokeOnWin()
-    {
-        OnWin?.Invoke();
-    }
+    public void InvokeOnWin() => OnWin?.Invoke();
 
     #region Set player
 
@@ -42,12 +39,13 @@ public class PlayerManager : MonoBehaviour
                     (Mathf.CeilToInt(mx), Mathf.CeilToInt(my))
                 };
 
-                foreach ((int x, int y) in poses) FieldManager.Instance.SetField(x, y, FieldType.START_FIELD);
+                foreach ((int x, int y) in poses)
+                {
+                    FieldManager.Instance.SetField(x, y, FieldType.StartField);
+                }
             }
             else
-            {
                 return;
-            }
         }
 
         // clear area from coins and keys
@@ -56,6 +54,7 @@ public class PlayerManager : MonoBehaviour
 
         // clear all players (only from this client tho)
         if (MultiplayerManager.Instance.Multiplayer)
+        {
             foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
             {
                 PlayerController p = player.GetComponent<PlayerController>();
@@ -71,6 +70,7 @@ public class PlayerManager : MonoBehaviour
                     playerPos.y);
                 RemovePlayerAtPosIgnoreOtherClients(playerPos.x, playerPos.y);
             }
+        }
         else
             RemoveAllPlayers();
 
@@ -81,19 +81,14 @@ public class PlayerManager : MonoBehaviour
         newPlayer.GetComponent<PlayerController>().ID = newID;
 
         // set target of camera
-        if (Camera.main != null) Camera.main.GetComponent<JumpToEntity>().Target = newPlayer;
+        ReferenceManager.Instance.MainCameraJumper.AddTarget("Player", newPlayer);
     }
 
-    public void SetPlayer(Vector2 pos, float speed, bool placeStartField = false)
-    {
+    public void SetPlayer(Vector2 pos, float speed, bool placeStartField = false) =>
         SetPlayer(pos.x, pos.y, speed, placeStartField);
-    }
 
     [PunRPC]
-    public void SetPlayer(float mx, float my, bool placeStartField = false)
-    {
-        SetPlayer(mx, my, 3f, placeStartField);
-    }
+    public void SetPlayer(float mx, float my, bool placeStartField = false) => SetPlayer(mx, my, 3f, placeStartField);
 
     #endregion
 
@@ -101,7 +96,9 @@ public class PlayerManager : MonoBehaviour
     public void RemoveAllPlayers()
     {
         foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
+        {
             player.GetComponent<PlayerController>().DestroyPlayer();
+        }
     }
 
     [PunRPC]
@@ -115,10 +112,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void RemovePlayerAtPos(Vector2 pos)
-    {
-        RemovePlayerAtPos(pos.x, pos.y);
-    }
+    public void RemovePlayerAtPos(Vector2 pos) => RemovePlayerAtPos(pos.x, pos.y);
 
     [PunRPC]
     public void RemovePlayerAtPosOnlyOtherClients(float mx, float my)
@@ -149,7 +143,10 @@ public class PlayerManager : MonoBehaviour
     {
         float[] dx = { -0.5f, 0, 0.5f, -0.5f, 0, 0.5f, -0.5f, 0, 0.5f };
         float[] dy = { -0.5f, -0.5f, -0.5f, 0, 0, 0, 0.5f, 0.5f, 0.5f };
-        for (int i = 0; i < dx.Length; i++) RemovePlayerAtPos(mx + dx[i], my + dy[i]);
+        for (int i = 0; i < dx.Length; i++)
+        {
+            RemovePlayerAtPos(mx + dx[i], my + dy[i]);
+        }
     }
 
     public static bool CanPlace(float mx, float my, bool checkForPlayer = true) =>
@@ -194,7 +191,10 @@ public class PlayerManager : MonoBehaviour
     {
         Transform container = ReferenceManager.Instance.PlayerContainer;
         List<GameObject> players = new();
-        for (int i = 0; i < container.childCount; i++) players.Add(container.GetChild(i).gameObject);
+        for (int i = 0; i < container.childCount; i++)
+        {
+            players.Add(container.GetChild(i).gameObject);
+        }
 
         return players;
     }
@@ -219,8 +219,10 @@ public class PlayerManager : MonoBehaviour
         // getting the one player in single player
         Transform container = ReferenceManager.Instance.PlayerContainer;
         if (container.transform.childCount > 1)
+        {
             throw new Exception(
                 "There are multiple player objects within GameManager.PlayerContainer while trying to access the specific player in singleplayer");
+        }
 
         try
         {
@@ -241,8 +243,10 @@ public class PlayerManager : MonoBehaviour
         float[] dx = { -0.5f, 0, 0.5f, -0.5f, 0, 0.5f, -0.5f, 0, 0.5f };
         float[] dy = { -0.5f, -0.5f, -0.5f, 0, 0, 0, 0.5f, 0.5f, 0.5f };
         for (int i = 0; i < dx.Length; i++)
+        {
             if (IsPlayerThere(mx + dx[i], my + dy[i]))
                 return true;
+        }
 
         return false;
     }
@@ -266,7 +270,8 @@ public class PlayerManager : MonoBehaviour
         GameObject newPlayer;
         if (multiplayer)
         {
-            newPlayer = PhotonNetwork.Instantiate(PrefabManager.Instance.Player.name, pos, Quaternion.identity);
+            newPlayer = PhotonNetwork.Instantiate(PrefabManager.Instance.Player.name, pos,
+                Quaternion.identity);
 
             PhotonView view = newPlayer.GetComponent<PhotonView>();
             view.RPC("SetSpeed", RpcTarget.All, speed);

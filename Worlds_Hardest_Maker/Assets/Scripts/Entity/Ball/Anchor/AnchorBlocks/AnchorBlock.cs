@@ -1,76 +1,61 @@
-using System.Windows.Forms;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public abstract class AnchorBlock
 {
     public enum Type
     {
-        GO_TO,
-        MOVE_TO,
-        ROTATE,
-        START_ROTATING,
-        STOP_ROTATING,
-        MOVE_AND_ROTATE,
-        WAIT,
-        EASE,
-        SET_SPEED,
-        SET_ANGULAR_SPEED
+        GoTo,
+        Move,
+        Rotate,
+        StartRotating,
+        StopRotating,
+        MoveAndRotate,
+        Wait,
+        Ease,
+        SetSpeed,
+        SetRotationSpeed,
+        SetDirection
     }
 
     protected AnchorController Anchor;
+    protected bool IsLocked;
 
-    protected AnchorBlock(AnchorController anchor) => Anchor = anchor;
+    protected AnchorBlock(AnchorController anchor, bool isLocked)
+    {
+        Anchor = anchor;
+        IsLocked = isLocked;
+    }
 
-    // ReSharper disable once UnusedMember.Global
     public abstract Type ImplementedBlockType { get; }
     protected abstract GameObject Prefab { get; }
 
-    public abstract void Execute();
+    public void CreateAnchorBlockObject() =>
+        CreateAnchorBlockObject(ReferenceManager.Instance.MainChainController.transform);
 
-    public void CreateAnchorBlockObject(bool insertable = true)
+    private void CreateAnchorBlockObject(Transform parent)
     {
-        CreateAnchorBlockObject(ReferenceManager.Instance.MainStringController.transform, insertable);
-    }
-
-    public void CreateAnchorBlockObject(Transform parent, bool insertable = true)
-    {
-        Transform connectorContainer = parent.GetChild(0);
-
         // create object
-        GameObject block = Object.Instantiate(Prefab, parent);
+        GameObject anchorBlock = Object.Instantiate(Prefab, parent);
 
         // set values in object
-        AnchorBlockController controller = block.GetComponent<AnchorBlockController>();
+        AnchorBlockController controller = anchorBlock.GetComponent<AnchorBlockController>();
         SetControllerValues(controller);
-        controller.Movable = insertable;
+        controller.IsLocked = IsLocked;
 
-        // create connector
-        RectTransform rt = ((RectTransform)block.transform);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(rt);
+        // restrict
+        UIRestrictInRectTransform restrict = anchorBlock.GetComponent<UIRestrictInRectTransform>();
+        restrict.RectTransform = ReferenceManager.Instance.AnchorBlockChainContainer;
 
-        CreateAnchorConnector(connectorContainer, rt.sizeDelta, insertable, block.transform.GetSiblingIndex());
+        // rebuild
+        RectTransform anchorBlockRectTransform = (RectTransform)anchorBlock.transform;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(anchorBlockRectTransform);
+
+        // move anchor connector
+        ReferenceManager.Instance.AnchorBlockConnectorController.UpdateYAtEndOfFrame();
     }
 
+    public abstract void Execute();
     protected abstract void SetControllerValues(AnchorBlockController c);
-
-    public static void CreateAnchorConnector(Transform parent, Vector2 size, bool insertable = true,
-        int? siblingIndex = null)
-    {
-        GameObject connector = Object.Instantiate(PrefabManager.Instance.AnchorConnector, parent);
-        RectTransform rt = (RectTransform)connector.transform;
-        rt.sizeDelta = new(size.x, rt.sizeDelta.y);
-        if (siblingIndex == null) siblingIndex = parent.childCount - 1;
-        Transform last = parent.GetChild((int)siblingIndex - 1);
-        RectTransform lastRt = (RectTransform)connector.transform;
-        lastRt.sizeDelta = new(lastRt.sizeDelta.x, size.y);
-
-        if (insertable == false)
-        {
-            last.GetComponent<AnchorConnectorController>().Dummy = true;
-        }
-    }
-
     public abstract AnchorBlockData GetData();
 }

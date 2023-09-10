@@ -11,10 +11,7 @@ public class CopyData
         RelativePos = relativePos;
     }
 
-    public void Paste(Vector2 pos)
-    {
-        Data.ImportToLevel(pos + RelativePos);
-    }
+    public void Paste(Vector2 pos) => Data.ImportToLevel(pos + RelativePos);
 
     public EditMode GetEditMode() => Data.GetEditMode();
 }

@@ -5,6 +5,10 @@ using UnityEngine;
 [Serializable]
 public abstract class AnchorBlockData
 {
+    public bool IsLocked;
+
+    protected AnchorBlockData(bool isLocked) => IsLocked = isLocked;
+
     public abstract AnchorBlock GetBlock(AnchorController anchor);
 }
 
@@ -13,42 +17,48 @@ public class MoveBlockData : AnchorBlockData
 {
     private readonly float[] target;
 
-    public MoveBlockData(Vector2 target)
-    {
-        this.target = new[] { target.x, target.y };
-    }
+    public MoveBlockData(bool isLocked, Vector2 target) : base(isLocked) => this.target = new[] { target.x, target.y };
 
-    public override AnchorBlock GetBlock(AnchorController anchor) => new MoveBlock(anchor, target[0], target[1]);
+    public override AnchorBlock GetBlock(AnchorController anchor) =>
+        new MoveBlock(anchor, IsLocked, target[0], target[1]);
 }
 
 [Serializable]
 public class GoToBlockData : AnchorBlockData
 {
     private readonly int index;
-    public GoToBlockData(int index) => this.index = index;
+    public GoToBlockData(bool isLocked, int index) : base(isLocked) => this.index = index;
 
-    public override AnchorBlock GetBlock(AnchorController anchor) => new GoToBlock(anchor, index);
+    public override AnchorBlock GetBlock(AnchorController anchor) => new GoToBlock(anchor, IsLocked, index);
 }
 
 [Serializable]
 public class StartRotatingBlockData : AnchorBlockData
 {
-    public override AnchorBlock GetBlock(AnchorController anchor) => new StartRotatingBlock(anchor);
+    public StartRotatingBlockData(bool isLocked) : base(isLocked)
+    {
+    }
+
+    public override AnchorBlock GetBlock(AnchorController anchor) => new StartRotatingBlock(anchor, IsLocked);
 }
 
 [Serializable]
 public class StopRotatingBlockData : AnchorBlockData
 {
-    public override AnchorBlock GetBlock(AnchorController anchor) => new StopRotatingBlock(anchor);
+    public StopRotatingBlockData(bool isLocked) : base(isLocked)
+    {
+    }
+
+    public override AnchorBlock GetBlock(AnchorController anchor) => new StopRotatingBlock(anchor, IsLocked);
 }
 
 [Serializable]
 public class RotateBlockData : AnchorBlockData
 {
     private readonly float iterations;
-    public RotateBlockData(float iterations) => this.iterations = iterations;
+    public RotateBlockData(bool isLocked, float iterations) : base(isLocked) => this.iterations = iterations;
 
-    public override AnchorBlock GetBlock(AnchorController anchor) => new RotateBlock(anchor, iterations);
+    public override AnchorBlock GetBlock(AnchorController anchor) => new RotateBlock(anchor, IsLocked, iterations);
 }
 
 [Serializable]
@@ -58,7 +68,7 @@ public class MoveAndRotateBlockData : AnchorBlockData
     private readonly float iterations;
     private readonly bool adaptRotation;
 
-    public MoveAndRotateBlockData(Vector2 target, float iterations, bool adaptRotation)
+    public MoveAndRotateBlockData(bool isLocked, Vector2 target, float iterations, bool adaptRotation) : base(isLocked)
     {
         this.target = new[] { target.x, target.y };
         this.iterations = iterations;
@@ -66,32 +76,43 @@ public class MoveAndRotateBlockData : AnchorBlockData
     }
 
     public override AnchorBlock GetBlock(AnchorController anchor) =>
-        new MoveAndRotateBlock(anchor, target[0], target[1], iterations, adaptRotation);
+        new MoveAndRotateBlock(anchor, IsLocked, target[0], target[1], iterations, adaptRotation);
 }
 
 [Serializable]
-public class SetAngularSpeedBlockData : AnchorBlockData
+public class SetRotationSpeedBlockData : AnchorBlockData
 {
     private readonly float speed;
     private readonly int type;
 
-    public SetAngularSpeedBlockData(float speed, SetAngularSpeedBlock.Unit type)
+    public SetRotationSpeedBlockData(bool isLocked, float speed, SetRotationBlock.Unit type) : base(isLocked)
     {
         this.speed = speed;
         this.type = (int)type;
     }
 
     public override AnchorBlock GetBlock(AnchorController anchor) =>
-        new SetAngularSpeedBlock(anchor, speed, (SetAngularSpeedBlock.Unit)type);
+        new SetRotationBlock(anchor, IsLocked, speed, (SetRotationBlock.Unit)type);
+}
+
+[Serializable]
+public class SetDirectionBlockData : AnchorBlockData
+{
+    private readonly bool isClockwise;
+
+    public SetDirectionBlockData(bool isLocked, bool isClockwise) : base(isLocked) => this.isClockwise = isClockwise;
+
+    public override AnchorBlock GetBlock(AnchorController anchor) =>
+        new SetDirectionBlock(anchor, IsLocked, isClockwise);
 }
 
 [Serializable]
 public class SetEaseBlockData : AnchorBlockData
 {
     private readonly int ease;
-    public SetEaseBlockData(Ease ease) => this.ease = (int)ease;
+    public SetEaseBlockData(bool isLocked, Ease ease) : base(isLocked) => this.ease = (int)ease;
 
-    public override AnchorBlock GetBlock(AnchorController anchor) => new SetEaseBlock(anchor, (Ease)ease);
+    public override AnchorBlock GetBlock(AnchorController anchor) => new SetEaseBlock(anchor, IsLocked, (Ease)ease);
 }
 
 [Serializable]
@@ -100,14 +121,14 @@ public class SetSpeedBlockData : AnchorBlockData
     private readonly float input;
     private readonly int type;
 
-    public SetSpeedBlockData(float input, SetSpeedBlock.Unit type)
+    public SetSpeedBlockData(bool isLocked, float input, SetSpeedBlock.Unit type) : base(isLocked)
     {
         this.input = input;
         this.type = (int)type;
     }
 
     public override AnchorBlock GetBlock(AnchorController anchor) =>
-        new SetSpeedBlock(anchor, input, (SetSpeedBlock.Unit)type);
+        new SetSpeedBlock(anchor, IsLocked, input, (SetSpeedBlock.Unit)type);
 }
 
 [Serializable]
@@ -116,11 +137,12 @@ public class WaitBlockData : AnchorBlockData
     private readonly float input;
     private readonly int unit;
 
-    public WaitBlockData(float input, WaitBlock.Unit unit)
+    public WaitBlockData(bool isLocked, float input, WaitBlock.Unit unit) : base(isLocked)
     {
         this.input = input;
         this.unit = (int)unit;
     }
 
-    public override AnchorBlock GetBlock(AnchorController anchor) => new WaitBlock(anchor, input, (WaitBlock.Unit)unit);
+    public override AnchorBlock GetBlock(AnchorController anchor) =>
+        new WaitBlock(anchor, IsLocked, input, (WaitBlock.Unit)unit);
 }

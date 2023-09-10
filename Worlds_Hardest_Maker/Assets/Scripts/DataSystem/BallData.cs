@@ -17,19 +17,18 @@ public class BallData : Data
     {
         Speed = defaultController.Speed;
 
+        Vector2 controllerStartPosition = defaultController.StartPosition;
         StartPosition = new float[2];
-        StartPosition[0] = defaultController.StartPosition.x;
-        StartPosition[1] = defaultController.StartPosition.y;
+        StartPosition[0] = controllerStartPosition.x;
+        StartPosition[1] = controllerStartPosition.y;
 
+        Vector2 controllerBouncePosition = defaultController.Bounce.position;
         BouncePosition = new float[2];
-        BouncePosition[0] = defaultController.Bounce.position.x;
-        BouncePosition[1] = defaultController.Bounce.position.y;
+        BouncePosition[0] = controllerBouncePosition.x;
+        BouncePosition[1] = controllerBouncePosition.y;
     }
 
-    public override void ImportToLevel()
-    {
-        ImportToLevel(new(StartPosition[0], StartPosition[1]));
-    }
+    public override void ImportToLevel() => ImportToLevel(new(StartPosition[0], StartPosition[1]));
 
     public override void ImportToLevel(Vector2 pos)
     {
@@ -42,5 +41,5 @@ public class BallData : Data
         );
     }
 
-    public override EditMode GetEditMode() => EditMode.BALL_DEFAULT;
+    public override EditMode GetEditMode() => EditMode.BallDefault;
 }

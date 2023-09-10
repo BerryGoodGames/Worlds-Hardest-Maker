@@ -20,7 +20,7 @@ public class PlayManager : MonoBehaviour
         }
     }
 
-    public Action GameQuit;
+    public Action OnGameQuit;
 
     #region Methods
 
@@ -31,7 +31,10 @@ public class PlayManager : MonoBehaviour
         if (EditModeManager.Instance.Playing) SwitchToEdit();
         else SwitchToPlay();
 
-        foreach (BarTween tween in BarTween.TweenList) tween.SetPlay(EditModeManager.Instance.Playing);
+        foreach (BarTween tween in BarTween.TweenList)
+        {
+            tween.SetPlay(EditModeManager.Instance.Playing);
+        }
     }
 
     #region On play
@@ -57,14 +60,12 @@ public class PlayManager : MonoBehaviour
 
         // close level settings / anchor editor panel if open
         ClosePanel(ReferenceManager.Instance.LevelSettingsPanelTween);
-        ClosePanel(ReferenceManager.Instance.AnchorEditorPanelTween);
+        // ClosePanel(ReferenceManager.Instance.AnchorEditorPanelTween);
     }
 
-    private static void DisablePreview()
-    {
+    private static void DisablePreview() =>
         // disable placement preview
-        ReferenceManager.Instance.PlacementPreview.SetActive(false);
-    }
+        ReferenceManager.Instance.PlacementPreview.gameObject.SetActive(false);
 
     private static void SetupPlayers()
     {
@@ -82,25 +83,29 @@ public class PlayManager : MonoBehaviour
 
     private static void StartAnchors()
     {
-        AnchorManager.Instance.UpdateSelectedAnchorBlocks();
+        AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
 
         // let anchors start executing
         foreach (Transform t in ReferenceManager.Instance.AnchorContainer)
         {
-            AnchorControllerParent parent = t.GetComponent<AnchorControllerParent>();
+            AnchorParentController parent = t.GetComponent<AnchorParentController>();
             AnchorController anchor = parent.Child;
 
-            ((SetSpeedBlock)anchor.Blocks.First.Value).Print();
             anchor.StartExecuting();
 
+            anchor.SetLinesActive(false);
+
             if (AnchorManager.Instance.SelectedAnchor == anchor) continue;
+
             anchor.Animator.SetBool(playingString, true);
         }
     }
 
     private static void JumpToPlayer()
     {
-        if (Camera.main != null) Camera.main.GetComponent<JumpToEntity>().Jump(true);
+        if (!ReferenceManager.Instance.MainCameraJumper.HasKey("Player")) return;
+
+        ReferenceManager.Instance.MainCameraJumper.Jump("Player", onlyIfTargetOffScreen: true);
     }
 
     private static void ClosePanel(PanelTween panel)
@@ -167,9 +172,10 @@ public class PlayManager : MonoBehaviour
     private static void EnablePreview()
     {
         // enable placement preview and place it at mouse
-        ReferenceManager.Instance.PlacementPreview.SetActive(true);
+        ReferenceManager.Instance.PlacementPreview.gameObject.SetActive(true);
         ReferenceManager.Instance.PlacementPreview.transform.position =
-            FollowMouse.GetCurrentMouseWorldPos(ReferenceManager.Instance.PlacementPreview.GetComponent<FollowMouse>()
+            FollowMouse.GetCurrentMouseWorldPos(ReferenceManager.Instance.PlacementPreview
+                .GetComponent<FollowMouse>()
                 .WorldPosition);
     }
 
@@ -178,11 +184,13 @@ public class PlayManager : MonoBehaviour
         // reset anchors
         foreach (Transform t in ReferenceManager.Instance.AnchorContainer)
         {
-            AnchorControllerParent parent = t.GetComponent<AnchorControllerParent>();
+            AnchorParentController parent = t.GetComponent<AnchorParentController>();
             AnchorController anchor = parent.Child;
 
             anchor.ResetExecution();
             anchor.Animator.SetBool(playingString, false);
+
+            if (AnchorManager.Instance.SelectedAnchor == anchor) anchor.SetLinesActive(true);
         }
     }
 
@@ -296,7 +304,7 @@ public class PlayManager : MonoBehaviour
 
     public static void QuitGame()
     {
-        Instance.GameQuit?.Invoke();
+        Instance.OnGameQuit?.Invoke();
 
         Application.Quit();
     }

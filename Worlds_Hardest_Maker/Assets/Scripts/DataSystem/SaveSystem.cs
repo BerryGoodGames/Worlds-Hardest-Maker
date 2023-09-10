@@ -10,7 +10,7 @@ public static class SaveSystem
 {
     public static void SaveCurrentLevel()
     {
-        AnchorManager.Instance.UpdateSelectedAnchorBlocks();
+        AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
 
         BinaryFormatter formatter = new();
         string path = StandaloneFileBrowser.SaveFilePanel("Save your level (.lvl)", Application.persistentDataPath,
@@ -55,7 +55,7 @@ public static class SaveSystem
         // }
         foreach (Transform anchor in ReferenceManager.Instance.AnchorContainer)
         {
-            AnchorData anchorData = new(anchor.GetComponent<AnchorControllerParent>().Child);
+            AnchorData anchorData = new(anchor.GetComponent<AnchorParentController>().Child);
             levelData.Add(anchorData);
         }
 
@@ -135,7 +135,7 @@ public static class SaveSystem
         {
             string[] splitPath = stream.Name.Split("\\");
             string levelName = splitPath[^1].Replace(".lvl", "");
-            DiscordManager.State = $"Last opened Level: {levelName}";
+            // DiscordManager.State = $"Last opened Level: {levelName}";
         }
 
         List<Data> data = formatter.Deserialize(stream) as List<Data>;

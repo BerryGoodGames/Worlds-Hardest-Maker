@@ -37,7 +37,8 @@ public class MouseEvents : MonoBehaviour
         // place / delete stuff
         if (!MouseManager.Instance.IsUIHovered && !EditModeManager.Instance.Playing &&
             !SelectionManager.Instance.Selecting &&
-            !CopyManager.Pasting)
+            !CopyManager.Instance.Pasting &&
+            !AnchorPositionInputEditManager.Instance.IsEditing)
         {
             // if none of the relevant keys is held, check field placement + entity placement
             if (!Input.GetKey(KeybindManager.Instance.EntityMoveKey) &&
@@ -107,20 +108,20 @@ public class MouseEvents : MonoBehaviour
 
         switch (editMode)
         {
-            case EditMode.ANCHOR:
+            case EditMode.Anchor:
                 // place new anchor + select
                 AnchorController anchor = AnchorManager.Instance.SetAnchor(gridX, gridY);
-                AnchorManager.Instance.SelectAnchor(anchor);
+                if (anchor != null) AnchorManager.Instance.SelectAnchor(anchor);
                 break;
-            case EditMode.BALL:
+            case EditMode.AnchorBall:
                 // AnchorBallManagerOld.SetAnchorBall(gridX, gridY);
                 AnchorBallManager.SetAnchorBall(gridX, gridY);
                 break;
-            case EditMode.BALL_DEFAULT:
+            case EditMode.BallDefault:
                 // place new ball
                 BallManager.Instance.SetBall(gridX, gridY);
                 break;
-            case EditMode.BALL_CIRCLE:
+            case EditMode.BallCircle:
                 // place new ball circle
                 BallCircleManager.Instance.SetBallCircle(gridX, gridY);
                 break;

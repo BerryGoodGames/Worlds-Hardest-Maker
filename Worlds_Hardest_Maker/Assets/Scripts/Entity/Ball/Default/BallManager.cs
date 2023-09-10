@@ -21,10 +21,7 @@ public class BallManager : MonoBehaviour
     }
 
     [PunRPC]
-    public void SetBall(float mx, float my)
-    {
-        Instance.SetBall(mx, my, 0, 0, 5);
-    }
+    public void SetBall(float mx, float my) => Instance.SetBall(mx, my, 0, 0, 5);
 
     public bool IsBallThere(float mx, float my) => GetBalls(mx, my).Count > 0;
 

@@ -1,14 +1,13 @@
+using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class InfobarResize : MonoBehaviour
 {
-    [FormerlySerializedAs("infobarHeight")]
     public float InfobarHeight;
+    public GameObject[] InfoTexts;
 
-    [FormerlySerializedAs("infoTexts")] public GameObject[] InfoTexts;
-
+    [ButtonMethod]
     public void UpdateSize()
     {
         float height = InfobarHeight;

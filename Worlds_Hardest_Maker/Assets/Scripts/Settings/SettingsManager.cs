@@ -1,19 +1,17 @@
 using System;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Serialization;
 
 public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance { get; private set; }
 
-    [FormerlySerializedAs("mainMixer")] public AudioMixer MainMixer;
+    public AudioMixer MainMixer;
 
-    [FormerlySerializedAs("toolbarContainer")]
     public GameObject ToolbarContainer;
 
-    [FormerlySerializedAs("infobarEdit")] public GameObject InfobarEdit;
-    [FormerlySerializedAs("infobarPlay")] public GameObject InfobarPlay;
+    public GameObject InfobarEdit;
+    public GameObject InfobarPlay;
 
     private ToolbarSizing toolbarSpacing;
     private InfobarResize infobarPlayResize;
@@ -80,10 +78,7 @@ public class SettingsManager : MonoBehaviour
         if (setPrefs) SavePrefs();
     }
 
-    public void SetMusicVolume(float vol)
-    {
-        SetMusicVolume(vol, true);
-    }
+    public void SetMusicVolume(float vol) => SetMusicVolume(vol, true);
 
     public void SetSoundEffectVolume(float vol, bool setPrefs)
     {
@@ -94,10 +89,7 @@ public class SettingsManager : MonoBehaviour
         if (setPrefs) SavePrefs();
     }
 
-    public void SetSoundEffectVolume(float vol)
-    {
-        SetSoundEffectVolume(vol, true);
-    }
+    public void SetSoundEffectVolume(float vol) => SetSoundEffectVolume(vol, true);
 
     public float GetMusicVolume()
     {
@@ -132,15 +124,9 @@ public class SettingsManager : MonoBehaviour
         if (float.TryParse(size, out float conv)) SetToolbarSize(conv, setPrefs);
     }
 
-    public void SetToolbarSize(float size)
-    {
-        SetToolbarSize(size, true);
-    }
+    public void SetToolbarSize(float size) => SetToolbarSize(size, true);
 
-    public void SetToolbarSize(string size)
-    {
-        SetToolbarSize(size, true);
-    }
+    public void SetToolbarSize(string size) => SetToolbarSize(size, true);
 
     public float GetToolbarSize() => toolbarSpacing.ToolbarHeight;
 
@@ -161,15 +147,9 @@ public class SettingsManager : MonoBehaviour
         if (float.TryParse(size, out float conv)) SetInfobarSize(conv, setPrefs);
     }
 
-    public void SetInfobarSize(float size)
-    {
-        SetInfobarSize(size, true);
-    }
+    public void SetInfobarSize(float size) => SetInfobarSize(size, true);
 
-    public void SetInfobarSize(string size)
-    {
-        SetInfobarSize(size, true);
-    }
+    public void SetInfobarSize(string size) => SetInfobarSize(size, true);
 
     public float GetInfobarSize() => infobarPlayResize.InfobarHeight;
 

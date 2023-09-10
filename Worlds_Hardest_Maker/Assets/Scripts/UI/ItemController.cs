@@ -10,15 +10,9 @@ public class ItemController : MonoBehaviour
     private Toggle toggle;
     private bool prevIsOn;
 
-    private void Awake()
-    {
-        toggle = GetComponent<Toggle>();
-    }
+    private void Awake() => toggle = GetComponent<Toggle>();
 
-    private void Start()
-    {
-        label.color = toggle.isOn ? selectedColor : deselectedColor;
-    }
+    private void Start() => label.color = toggle.isOn ? selectedColor : deselectedColor;
 
     private void Update()
     {
@@ -27,8 +21,5 @@ public class ItemController : MonoBehaviour
         label.color = toggle.isOn ? selectedColor : deselectedColor;
     }
 
-    private void LateUpdate()
-    {
-        prevIsOn = toggle.isOn;
-    }
+    private void LateUpdate() => prevIsOn = toggle.isOn;
 }

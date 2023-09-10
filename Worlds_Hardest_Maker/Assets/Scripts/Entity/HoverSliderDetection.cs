@@ -1,6 +1,7 @@
+using System;
 using System.Linq;
+using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
 ///     Detects if one of hitboxes are colliding with mouse position
@@ -11,25 +12,44 @@ public class HoverSliderDetection : MonoBehaviour
 {
     public static bool SliderHovered = false;
 
-    [FormerlySerializedAs("roots")] public GameObject[] Roots;
+    [SerializeField] [InitializationField] [MustBeAssigned]
+    private Transform hoveringHitboxContainer;
+
+    [SerializeField] private GameObject[] roots;
     private bool hovered;
+
+    private MouseOver[] hitboxes;
 
     public bool MouseHoverSlider()
     {
-        foreach (Transform collider in transform.GetChild(0))
+        try
         {
-            if (!collider.GetComponent<MouseOver>().Over) continue;
-
-            if (Roots.Contains(collider.gameObject))
+            hitboxes ??= hoveringHitboxContainer.GetComponentsInChildren<MouseOver>();
+            foreach (MouseOver hitbox in hitboxes)
             {
-                hovered = true;
-                return true;
+                if (!hitbox.Over) continue;
+
+                if (roots.Contains(hitbox.gameObject))
+                {
+                    hovered = true;
+                    return true;
+                }
+
+                if (hovered || roots.Length == 0) return true;
             }
 
-            if (hovered || Roots.Length == 0) return true;
+            hovered = false;
+        }
+        catch (Exception e)
+        {
+            print(e.Message);
+            print(name);
         }
 
-        hovered = false;
         return false;
+    }
+
+    private void Start()
+    {
     }
 }

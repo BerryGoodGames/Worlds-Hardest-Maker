@@ -60,15 +60,9 @@ public class BarTween : MonoBehaviour
         else playing = !isResultVisibleState;
     }
 
-    public void TweenInvis()
-    {
-        TweenToY(invisibleY, false, false);
-    }
+    public void TweenInvis() => TweenToY(invisibleY, false, false);
 
-    public void TweenVis()
-    {
-        TweenToY(visibleY, true, false);
-    }
+    public void TweenVis() => TweenToY(visibleY, true, false);
 
     private void Start()
     {
@@ -79,8 +73,5 @@ public class BarTween : MonoBehaviour
         else rt.anchoredPosition = new(rt.anchoredPosition.x, !isVisibleOnlyOnEdit ? invisibleY : visibleY);
     }
 
-    private void Awake()
-    {
-        TweenList.Add(this);
-    }
+    private void Awake() => TweenList.Add(this);
 }

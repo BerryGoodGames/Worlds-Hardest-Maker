@@ -4,18 +4,18 @@ public class SetSpeedBlock : AnchorBlock
 {
     public enum Unit
     {
-        SPEED,
-        TIME
+        Speed,
+        Time
     }
 
-    public const Type BlockType = Type.SET_SPEED;
+    public const Type BlockType = Type.SetSpeed;
     public override Type ImplementedBlockType => BlockType;
     protected override GameObject Prefab => PrefabManager.Instance.SetSpeedBlockPrefab;
 
     private readonly float input;
     private readonly Unit unit;
 
-    public SetSpeedBlock(AnchorController anchor, float input, Unit unit) : base(anchor)
+    public SetSpeedBlock(AnchorController anchor, bool isLocked, float input, Unit unit) : base(anchor, isLocked)
     {
         this.input = input;
         this.unit = unit;
@@ -23,8 +23,8 @@ public class SetSpeedBlock : AnchorBlock
 
     public override void Execute()
     {
-        Anchor.ApplySpeed = unit != Unit.TIME;
-        Anchor.Speed = input;
+        Anchor.SpeedUnit = unit;
+        Anchor.TimeInput = input;
         Anchor.FinishCurrentExecution();
     }
 
@@ -34,13 +34,10 @@ public class SetSpeedBlock : AnchorBlock
 
         controller.SpeedInput.text = input.ToString();
         controller.UnitInput.value =
-        GameManager.GetDropdownValue(SetSpeedBlockController.GetOption(unit), controller.UnitInput);
+            GameManager.GetDropdownValue(SetSpeedBlockController.GetOption(unit), controller.UnitInput);
     }
 
-    public void Print()
-    {
-        Debug.Log((input, unit));
-    }
+    public void Print() => Debug.Log((input, unit));
 
-    public override AnchorBlockData GetData() => new SetSpeedBlockData(input, unit);
+    public override AnchorBlockData GetData() => new SetSpeedBlockData(IsLocked, input, unit);
 }

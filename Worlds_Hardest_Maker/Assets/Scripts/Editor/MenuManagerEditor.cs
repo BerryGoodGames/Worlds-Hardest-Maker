@@ -1,5 +1,4 @@
 using UnityEditor;
-using UnityEngine;
 
 [CustomEditor(typeof(MenuManager))]
 public class MenuManagerEditor : Editor

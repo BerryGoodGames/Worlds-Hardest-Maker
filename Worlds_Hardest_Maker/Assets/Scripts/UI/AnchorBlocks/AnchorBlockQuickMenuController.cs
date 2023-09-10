@@ -1,3 +1,4 @@
+using MyBox;
 using UnityEngine;
 
 public class AnchorBlockQuickMenuController : QuickMenuController
@@ -5,8 +6,7 @@ public class AnchorBlockQuickMenuController : QuickMenuController
     public RectTransform RectTransform;
     public AlphaUITween Tween;
 
-    public AnchorBlockController SelectedAnchorBlock;
-
+    [Space] [ReadOnly] public AnchorBlockController SelectedAnchorBlock;
 
     public void OnClickDelete()
     {
@@ -16,7 +16,7 @@ public class AnchorBlockQuickMenuController : QuickMenuController
             return;
         }
 
-        if (!SelectedAnchorBlock.Movable) return;
+        if (SelectedAnchorBlock.IsLocked) return;
 
         SelectedAnchorBlock.Delete();
         ReferenceManager.Instance.AnchorBlockFitter.UpdateChildrenArray();

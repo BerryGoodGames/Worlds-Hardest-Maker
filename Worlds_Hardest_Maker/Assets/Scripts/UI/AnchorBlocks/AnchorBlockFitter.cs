@@ -1,8 +1,9 @@
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
+/// <summary>
+/// Resizes anchor block string container to match the necessary size
+/// Attach to container of anchor block strings
+/// </summary>
 [ExecuteInEditMode]
 public class AnchorBlockFitter : MonoBehaviour
 {
@@ -13,12 +14,9 @@ public class AnchorBlockFitter : MonoBehaviour
     private RectTransform[] children;
     private RectTransform rt;
 
-    private void Start()
-    {
-        rt = GetComponent<RectTransform>();
-    }
+    private void Start() => rt = GetComponent<RectTransform>();
 
-// #if UNITY_EDITOR
+    // #if UNITY_EDITOR
 //     private void Update()
 //     {
 //         if (!EditorApplication.isPlaying)
@@ -46,6 +44,9 @@ public class AnchorBlockFitter : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Checks for any changes within the anchor blocks and updates size to fit the anchor blocks on the y-axis
+    /// </summary>
     public void CheckForChanges()
     {
         UpdateChildrenArray();
@@ -62,8 +63,7 @@ public class AnchorBlockFitter : MonoBehaviour
             Vector2 position = child.anchoredPosition;
             float thisMinY = position.y - scale.y;
 
-            if (thisMinY < minY)
-                minY = thisMinY;
+            if (thisMinY < minY) minY = thisMinY;
         }
 
         minY -= bottomPadding;
@@ -71,8 +71,5 @@ public class AnchorBlockFitter : MonoBehaviour
         rt.sizeDelta = new(rt.sizeDelta.x, -minY);
     }
 
-    public void UpdateChildrenArray()
-    {
-        children = this.GetComponentsInDirectChildren<RectTransform>();
-    }
+    public void UpdateChildrenArray() => children = this.GetComponentsInDirectChildren<RectTransform>();
 }
