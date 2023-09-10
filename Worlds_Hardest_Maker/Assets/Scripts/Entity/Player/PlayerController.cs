@@ -106,7 +106,7 @@ public class PlayerController : Controller
         if (transform.parent != ReferenceManager.Instance.PlayerContainer)
             transform.SetParent(ReferenceManager.Instance.PlayerContainer);
 
-        ApplyCurrentState();
+        ApplyCurrentGameState();
 
         UpdateSpeedText();
 
@@ -214,9 +214,10 @@ public class PlayerController : Controller
         ConveyorController conveyor = GetCurrentConveyor();
         if (conveyor == null) return;
 
-        Vector2 conveyorVector = conveyor.Strength * Time.fixedDeltaTime * (conveyor.transform.rotation * Vector2.up);
+        Quaternion forceRotation = Quaternion.Euler(0, 0, conveyor.Rotation);
 
-        conveyorVector = Quaternion.Euler(0, 0, conveyor.Rotation) * conveyorVector;
+        Vector2 conveyorVector = conveyor.Strength * Time.fixedDeltaTime * (forceRotation * Vector2.up);
+
         totalMovement += conveyorVector;
     }
 
@@ -710,7 +711,7 @@ public class PlayerController : Controller
         follow.Offset = new(0, 0.5f);
     }
 
-    private void ApplyCurrentState()
+    private void ApplyCurrentGameState()
     {
         // set progress from current state
         if (CurrentGameState == null) return;

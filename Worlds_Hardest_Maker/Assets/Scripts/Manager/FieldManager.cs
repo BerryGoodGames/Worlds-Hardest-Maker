@@ -79,7 +79,7 @@ public class FieldManager : MonoBehaviour
 
         // remove any field at pos
         RemoveField(mx, my, true);
-
+        
         // place field according to edit mode
         Vector2 pos = new(mx, my);
         GameObject field = InstantiateField(pos, type, rotation);
