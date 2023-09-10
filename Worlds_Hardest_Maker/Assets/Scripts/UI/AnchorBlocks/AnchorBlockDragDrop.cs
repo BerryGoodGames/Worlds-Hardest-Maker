@@ -1,4 +1,5 @@
 using System.Collections;
+using MyBox;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -6,9 +7,14 @@ public class AnchorBlockDragDrop : MonoBehaviour
 {
     [SerializeField] private bool active = true;
 
+    [Separator("References")]
+    [SerializeField] [MustBeAssigned] private LockHighlightTween lockHighlightTween;
+
     private Vector2 offset;
     private AnchorBlockController anchorBlockController;
     private UIRestrictInRectTransform restrict;
+
+    public bool IsLocked;
 
     private void Awake()
     {
@@ -18,7 +24,7 @@ public class AnchorBlockDragDrop : MonoBehaviour
 
     private void OnDrag(Vector2 mousePos)
     {
-        if (!active) return;
+        if (!active || IsLocked) return;
 
         Canvas canvas = ReferenceManager.Instance.Canvas;
         
@@ -35,6 +41,12 @@ public class AnchorBlockDragDrop : MonoBehaviour
 
     private void OnBeginDrag(Vector2 mousePos)
     {
+        if (IsLocked)
+        {
+            lockHighlightTween.Highlight();
+            return;
+        }
+
         if (!active || !gameObject.activeInHierarchy) return;
 
         AnchorBlockManager.Instance.DraggedBlock = anchorBlockController;
@@ -53,7 +65,7 @@ public class AnchorBlockDragDrop : MonoBehaviour
 
     private void OnEndDrag()
     {
-        if (!active || !gameObject.activeInHierarchy) return;
+        if (!active || !gameObject.activeInHierarchy || IsLocked) return;
 
         AnchorBlockManager.CheckConnectorInsert();
         AnchorBlockManager.CheckBlockInsert();
@@ -106,7 +118,16 @@ public class AnchorBlockDragDrop : MonoBehaviour
 
     #endregion
 
-    public void BeginDrag() => StartCoroutine(Drag());
+    public void BeginDrag()
+    {
+        if (IsLocked)
+        {
+            lockHighlightTween.Highlight();
+            return;
+        }
+
+        StartCoroutine(Drag());
+    }
 
     private IEnumerator Drag()
     {
