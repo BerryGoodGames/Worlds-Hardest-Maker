@@ -14,7 +14,7 @@ public partial class AnchorController
         List<Vector2> points = new();
 
         bool[] visitedIndices = new bool[Blocks.Count];
-        print(Blocks.Count);
+        
         int index = 0;
         LinkedListNode<AnchorBlock> currentNode = Blocks.First;
 

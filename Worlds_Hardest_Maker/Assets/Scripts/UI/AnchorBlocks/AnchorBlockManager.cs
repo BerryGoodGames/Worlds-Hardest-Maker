@@ -128,7 +128,7 @@ public partial class AnchorBlockManager : MonoBehaviour
 
         for (int i = 2; i < strings.Count; i++)
         {
-            Destroy(strings[i]);
+            DestroyImmediate(strings[i]);
         }
 
         // destroy anchor blocks in main string (ignore start block and preview)
@@ -143,7 +143,7 @@ public partial class AnchorBlockManager : MonoBehaviour
             // ignore preview object
             if (anchorBlocks[i].CompareTag("AnchorBlockPreview")) continue;
 
-            Destroy(anchorBlocks[i]);
+            DestroyImmediate(anchorBlocks[i]);
         }
     }
 
@@ -166,14 +166,6 @@ public partial class AnchorBlockManager : MonoBehaviour
         }
 
         EmptyAnchorChains();
-
-        Instance.StartCoroutine(CreateAnchorBlocks(anchor));
-    }
-
-    private static IEnumerator CreateAnchorBlocks(AnchorController anchor)
-    {
-        // wait for emptying anchor chains (using Destroy())
-        yield return new WaitForEndOfFrame();
 
         // create objects
         AnchorBlock[] blocks = anchor.Blocks.ToArray();
