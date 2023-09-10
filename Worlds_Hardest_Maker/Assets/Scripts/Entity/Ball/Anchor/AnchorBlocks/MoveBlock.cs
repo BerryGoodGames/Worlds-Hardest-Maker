@@ -13,11 +13,6 @@ public class MoveBlock : PositionAnchorBlock
     {
     }
 
-    public MoveBlock(AnchorController anchor, bool isLocked, float x, float y) : this(anchor, isLocked,
-        new(x, y))
-    {
-    }
-
     #endregion
 
     public override void Execute()

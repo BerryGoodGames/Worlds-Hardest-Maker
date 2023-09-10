@@ -12,13 +12,14 @@ public class AnchorBlockPositionInputController : MonoBehaviour
 
     public void OnButtonClicked() => AnchorPositionInputEditManager.Instance.StartPositionInputEdit(this);
 
-    public void SetPositionValues(float x, float y)
+    public void SetPositionValues(Vector2 position)
     {
-        InputX.text = x.ToString();
-        InputY.text = y.ToString();
-    }
+        // subtract anchor origin point
+        position -= (Vector2)AnchorManager.Instance.SelectedAnchor.transform.position;
 
-    public void SetPositionValues(Vector2 position) => SetPositionValues(position.x, position.y);
+        InputX.text = position.x.ToString();
+        InputY.text = position.y.ToString();
+    }
 
     public Vector2 GetPositionValues() =>
         new(

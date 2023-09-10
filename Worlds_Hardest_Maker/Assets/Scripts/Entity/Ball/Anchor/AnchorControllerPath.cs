@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using LuLib.Vector;
 using UnityEngine;
 
 public partial class AnchorController
@@ -85,8 +86,21 @@ public partial class AnchorController
         {
             Vector2 currentVertex = points[i];
             Vector2 previousVertex = points[i - 1];
-
+            
             DrawManager.DrawLine(previousVertex, currentVertex, lineContainer);
+
+            // draw arrow head
+            const float headLineLength = 0.15f;
+            Vector2 delta = currentVertex - previousVertex;
+            Vector2 halfPoint = previousVertex + delta / 2;
+            Vector2 offset = delta.normalized * (headLineLength / 2);
+            Vector2 start = halfPoint + offset;
+            Vector2 endSideOffset = delta.normalized * Mathf.Sin(headLineLength);
+            endSideOffset.Rotate(90);
+            Vector2 end = halfPoint - offset;
+
+            DrawManager.DrawLine(start, end + endSideOffset, lineContainer);
+            DrawManager.DrawLine(start, end - endSideOffset, lineContainer);
         }
     }
 
