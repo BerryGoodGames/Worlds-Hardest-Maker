@@ -1,4 +1,3 @@
-using DG.Tweening;
 using UnityEngine;
 
 public class TeleportBlock : PositionAnchorBlock, IActiveAnchorBlock
@@ -11,11 +10,15 @@ public class TeleportBlock : PositionAnchorBlock, IActiveAnchorBlock
     protected override GameObject Prefab => PrefabManager.Instance.TeleportBlockPrefab;
     public override void Execute()
     {
-        Anchor.Rb.MovePosition(Target);
+        Anchor.Rb.position = Target;
         Anchor.FinishCurrentExecution();
     }
 
-    protected override void SetControllerValues(AnchorBlockController c) => throw new System.NotImplementedException();
+    protected override void SetControllerValues(AnchorBlockController c)
+    {
+        TeleportBlockController controller = (TeleportBlockController)c;
+        controller.PositionInput.SetPositionValues(Target);
+    }
 
     public override AnchorBlockData GetData() => new TeleportBlockData(IsLocked, Target);
-}
+} 

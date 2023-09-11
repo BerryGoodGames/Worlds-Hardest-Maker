@@ -52,7 +52,6 @@ public class AnchorBlockDragDrop : MonoBehaviour
         AnchorBlockManager.Instance.DraggedBlock = anchorBlockController;
         AnchorBlockManager.Instance.DraggingBlock = true;
 
-        print("a");
         anchorBlockController.TrimFromCurrentChain();
 
         offset = mousePos - (Vector2)transform.position;
