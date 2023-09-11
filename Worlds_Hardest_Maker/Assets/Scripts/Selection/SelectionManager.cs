@@ -156,7 +156,7 @@ public class SelectionManager : MonoBehaviour
         return (lowestX, highestX, lowestY, highestY);
     }
 
-    private static (float, float, float, float) GetBounds(params Vector2[] points) => GetBounds(points.ToList());
+    public static (float, float, float, float) GetBounds(params Vector2[] points) => GetBounds(points.ToList());
 
     public static (int, int, int, int) GetBoundsMatrix(List<Vector2> points)
     {

@@ -7,6 +7,7 @@ public abstract class AnchorBlock
     {
         Loop,
         Move,
+        Teleport,
         Rotate,
         StartRotating,
         StopRotating,
