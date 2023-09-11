@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock
 {
-    public const Type BlockType = Type.Move;
-    public override Type ImplementedBlockType => BlockType;
+    public override Type ImplementedBlockType => Type.Move;
     protected override GameObject Prefab => PrefabManager.Instance.MoveBlockPrefab;
 
     #region Constructors
