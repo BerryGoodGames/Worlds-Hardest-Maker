@@ -19,6 +19,9 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
     {
         IsEditing = true;
 
+        // block menu from opening
+        MenuManager.Instance.BlockMenu = true;
+
         // disable panels
         ReferenceManager.Instance.ToolbarTween.SetPlay(true);
         ReferenceManager.Instance.InfobarEditTween.SetPlay(true);
@@ -31,6 +34,9 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
 
         IsEditing = false;
         CurrentEditedIndexInput = null;
+
+        // release menu
+        MenuManager.Instance.BlockMenu = false;
 
         // show panels
         ReferenceManager.Instance.ToolbarTween.SetPlay(EditModeManager.Instance.Playing);
