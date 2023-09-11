@@ -67,7 +67,9 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         transform.SetParent(ReferenceManager.Instance.AnchorBlockChainContainer);
         restrict.enabled = true;
 
-        // AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+        // re-render path lines
+        AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+        AnchorManager.Instance.SelectedAnchor.RenderLines();
 
         ReferenceManager.Instance.AnchorBlockConnectorController.UpdateY();
     }
