@@ -24,6 +24,17 @@ public class MoveBlockData : AnchorBlockData
 }
 
 [Serializable]
+public class TeleportBlockData : AnchorBlockData
+{
+    private readonly float[] target;
+
+    public TeleportBlockData(bool isLocked, Vector2 target) : base(isLocked) => this.target = new[] { target.x, target.y };
+
+    public override AnchorBlock GetBlock(AnchorController anchor) =>
+        new MoveBlock(anchor, IsLocked, new(target[0], target[1]));
+}
+
+[Serializable]
 public class LoopBlockData : AnchorBlockData
 {
     public LoopBlockData(bool isLocked) : base(isLocked)
