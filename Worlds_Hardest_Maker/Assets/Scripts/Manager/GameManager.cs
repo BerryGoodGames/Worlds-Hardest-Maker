@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using DG.Tweening;
@@ -7,6 +8,7 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Debug = UnityEngine.Debug;
 
 public class GameManager : MonoBehaviourPun
 {
@@ -39,6 +41,7 @@ public class GameManager : MonoBehaviourPun
         LevelSettings.Instance.SetIceFriction();
         LevelSettings.Instance.SetIceMaxSpeed();
         LevelSettings.Instance.SetWaterDamping();
+
     }
 
     /// <summary>
