@@ -36,14 +36,6 @@ public abstract class AnchorBlock
 
     private void CreateAnchorBlockObject(Transform parent)
     {
-        Debug.Log("type: " + ImplementedBlockType);
-        foreach (AnchorBlock t in AnchorManager.Instance.SelectedAnchor.Blocks)
-        {
-            Debug.Log(t);
-        }
-
-        Debug.Log("-----------");
-
         // create object
         GameObject anchorBlock = Object.Instantiate(Prefab, parent);
 

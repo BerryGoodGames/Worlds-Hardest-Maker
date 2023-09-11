@@ -74,7 +74,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22294703660940507, guid: 36088607dd633eb4db48265a6a801265, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 60.49
+      value: 53.49
       objectReference: {fileID: 0}
     - target: {fileID: 22294703660940507, guid: 36088607dd633eb4db48265a6a801265, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -281,10 +281,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4046638471290049802, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4810868768579070343, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: Color.b
       value: 0.20784315
@@ -343,14 +339,14 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 918421864834896619}
   m_SourcePrefab: {fileID: 100100000, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
---- !u!1 &3899373323479596558 stripped
+--- !u!1 &5213088541272735890 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 6568384871895603521, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2693803718922020829, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
   m_PrefabInstance: {fileID: 7870828001770973007}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4562052664839897324 stripped
+--- !u!1 &6130032833972793925 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 5941768429662480291, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4046638471290049802, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
   m_PrefabInstance: {fileID: 7870828001770973007}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &7706317031473999570 stripped
@@ -383,8 +379,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsLocked: 0
   IsSource: 0
-  lockIcon: {fileID: 4562052664839897324}
-  warningIcon: {fileID: 3899373323479596558}
+  lockIconContainer: {fileID: 6130032833972793925}
+  warningIconContainer: {fileID: 5213088541272735890}
   AnchorBlockDragDropComp: {fileID: 0}
   MouseOverUI: {fileID: 0}
   Input: {fileID: 7560409037695637082}
@@ -527,7 +523,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1257115705517140453, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 186.8
+      value: 179.8
       objectReference: {fileID: 0}
     - target: {fileID: 1257115705517140453, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
       propertyPath: m_AnchoredPosition.y

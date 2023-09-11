@@ -89,7 +89,6 @@ public partial class AnchorManager : MonoBehaviour
                 // update if it can't rotate
                 case AnchorBlock.Type.StartRotating:
                     ReferenceManager.Instance.MainChainController.Children[i].SetWarning(!canStartRotateWork);
-                    if(!canStartRotateWork) print("niko has a big ass");
                     break;
             }
 

@@ -334,7 +334,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8854761635968504173, guid: 5ae1d0e55ce6e564ba0c8561701b0a40, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 186.7539
+      value: 179.7539
       objectReference: {fileID: 0}
     - target: {fileID: 8854761635968504173, guid: 5ae1d0e55ce6e564ba0c8561701b0a40, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -525,7 +525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22294703660940507, guid: 36088607dd633eb4db48265a6a801265, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 59.05
+      value: 52.05
       objectReference: {fileID: 0}
     - target: {fileID: 22294703660940507, guid: 36088607dd633eb4db48265a6a801265, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -752,10 +752,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4046638471290049802, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4810868768579070343, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: Color.b
       value: 0.86274517
@@ -818,14 +814,14 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7678536548880827730}
   m_SourcePrefab: {fileID: 100100000, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
---- !u!1 &2787561271438712144 stripped
+--- !u!1 &5017136667492012315 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 6568384871895603521, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4046638471290049802, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
   m_PrefabInstance: {fileID: 9045760263292093457}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &3458089343274918834 stripped
+--- !u!1 &6407126099371205580 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 5941768429662480291, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+  m_CorrespondingSourceObject: {fileID: 2693803718922020829, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
   m_PrefabInstance: {fileID: 9045760263292093457}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7145782815987990204 stripped
@@ -847,8 +843,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsLocked: 0
   IsSource: 0
-  lockIcon: {fileID: 3458089343274918834}
-  warningIcon: {fileID: 2787561271438712144}
+  lockIconContainer: {fileID: 5017136667492012315}
+  warningIconContainer: {fileID: 6407126099371205580}
   AnchorBlockDragDropComp: {fileID: 0}
   MouseOverUI: {fileID: 0}
   PositionInput: {fileID: 720889376612679926}
