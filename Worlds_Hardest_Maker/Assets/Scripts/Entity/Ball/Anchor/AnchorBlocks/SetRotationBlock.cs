@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SetRotationBlock : AnchorBlock
+public class SetRotationBlock : AnchorBlock, IPassiveAnchorBlock
 {
     public enum Unit
     {

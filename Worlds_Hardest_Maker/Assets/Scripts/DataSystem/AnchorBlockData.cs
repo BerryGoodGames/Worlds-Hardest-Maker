@@ -24,12 +24,13 @@ public class MoveBlockData : AnchorBlockData
 }
 
 [Serializable]
-public class GoToBlockData : AnchorBlockData
+public class LoopBlockData : AnchorBlockData
 {
-    private readonly int index;
-    public GoToBlockData(bool isLocked, int index) : base(isLocked) => this.index = index;
+    public LoopBlockData(bool isLocked) : base(isLocked)
+    {
+    }
 
-    public override AnchorBlock GetBlock(AnchorController anchor) => new GoToBlock(anchor, IsLocked, index);
+    public override AnchorBlock GetBlock(AnchorController anchor) => new LoopBlock(anchor, IsLocked);
 }
 
 [Serializable]

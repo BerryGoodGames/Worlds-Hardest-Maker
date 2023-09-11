@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class SetEaseBlock : AnchorBlock
+public class SetEaseBlock : AnchorBlock, IPassiveAnchorBlock
 {
     public const Type BlockType = Type.Ease;
     public override Type ImplementedBlockType => BlockType;

@@ -19,7 +19,8 @@ public partial class AnchorController : Controller
     [HideInInspector] public SetRotationBlock.Unit RotationSpeedUnit;
     [HideInInspector] public float TimeInput;
     [HideInInspector] public float RotationTimeInput;
-    [HideInInspector] public bool IsClockwise;
+    [HideInInspector] public bool IsClockwise; 
+    public LinkedListNode<AnchorBlock> LoopBlockNode;
     public TweenerCore<float, float, FloatOptions> RotationTween;
     [HideInInspector] public Ease Ease;
 
@@ -82,6 +83,7 @@ public partial class AnchorController : Controller
     {
         UpdateStartValues();
 
+
         CurrentExecutingNode = Blocks.First;
         CurrentExecutingBlock = CurrentExecutingNode.Value;
         CurrentExecutingBlock.Execute();
@@ -96,8 +98,55 @@ public partial class AnchorController : Controller
         }
 
         CurrentExecutingNode = CurrentExecutingNode.Next;
-        CurrentExecutingBlock = CurrentExecutingNode?.Value;
-        CurrentExecutingBlock?.Execute();
+
+        if (CurrentExecutingNode == null)
+        {
+            // arrived at end of chain
+            JumpToLoopIndex();
+        }
+        else
+        {
+            // execute next block
+            CurrentExecutingBlock = CurrentExecutingNode.Value;
+            CurrentExecutingBlock.Execute();
+        }
+    }
+
+    private void JumpToLoopIndex()
+    {
+        // jump to block AFTER loop index, if existent
+        if (LoopBlockNode == null) return;
+
+        CurrentExecutingNode = LoopBlockNode.Next;
+
+        // only execute if there is a non-passive block after loop block
+        LinkedListNode<AnchorBlock> currentNode = CurrentExecutingNode;
+        bool hasActiveBlockAfter = false;
+        while (currentNode != null)
+        {
+            if (currentNode.Value is IActiveAnchorBlock)
+            {
+                hasActiveBlockAfter = true;
+                break;
+            }
+
+            currentNode = currentNode.Next;
+        }
+
+        if (hasActiveBlockAfter)
+        {
+            CurrentExecutingBlock = CurrentExecutingNode!.Value;
+
+            CurrentExecutingBlock.Execute();
+        }
+    }
+
+
+    public void StoreCurrentLoopIndex()
+    {
+        // for some reason, LoopBlock can't access its node in the list Blocks
+        // so the anchor has to store the index himself
+        LoopBlockNode = CurrentExecutingNode;
     }
 
     public void ResetExecution()
@@ -139,6 +188,7 @@ public partial class AnchorController : Controller
     {
         startPosition = Rb.position;
         startRotation = transform.rotation;
+        LoopBlockNode = null;
     }
 
     public override Data GetData() => new AnchorData(this);

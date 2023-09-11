@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class StopRotatingBlock : AnchorBlock
+public class StopRotatingBlock : AnchorBlock, IActiveAnchorBlock
 {
     public StopRotatingBlock(AnchorController anchor, bool isLocked) : base(anchor, isLocked)
     {

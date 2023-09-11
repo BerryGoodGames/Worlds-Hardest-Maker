@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class WaitBlock : AnchorBlock
+public class WaitBlock : AnchorBlock, IActiveAnchorBlock
 {
     public enum Unit
     {
