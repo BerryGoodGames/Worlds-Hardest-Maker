@@ -127,6 +127,12 @@ public class DrawManager : MonoBehaviour
         Vector2 totalArc = end - start;
         float totalArcLength = totalArc.magnitude;
 
+        if (totalArcLength == 0)
+        {
+            DrawLine(start, start, parent);
+            return;
+        }
+
         // get line count
         float dashArc = width + spacing;
         int count = Mathf.CeilToInt(totalArcLength / dashArc);
