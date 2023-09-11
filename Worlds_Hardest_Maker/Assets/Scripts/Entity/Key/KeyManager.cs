@@ -70,9 +70,8 @@ public class KeyManager : MonoBehaviour
         GameObject keyObject = Instantiate(color.GetPrefabKey(), pos, Quaternion.identity,
             ReferenceManager.Instance.KeyContainer);
 
-        // cache key controller
         KeyController key = keyObject.transform.GetChild(0).GetComponent<KeyController>();
-        Keys.Add(key);
+        key.Color = color;
 
         // setup idle animation
         key.Animator.SetBool(playingString, EditModeManager.Instance.Playing);
