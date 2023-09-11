@@ -13,8 +13,6 @@ public partial class AnchorController
     {
         List<Vector2> points = new();
 
-        bool[] visitedIndices = new bool[Blocks.Count];
-
         int index = 0;
         LinkedListNode<AnchorBlock> currentNode = Blocks.First;
 
@@ -37,28 +35,20 @@ public partial class AnchorController
                 continue;
             }
 
-            if (visitedIndices[index]) break;
-
-            ParseBlockForPath(ref currentNode, ref index, ref points, ref visitedIndices, ref loopIndex);
+            ParseBlockForPath(ref currentNode, ref index, ref points, ref loopIndex);
         }
 
         return points;
     }
 
-    public void ParseBlockForPath(ref LinkedListNode<AnchorBlock> currentNode, ref int index, ref List<Vector2> points,
-        ref bool[] visitedIndices, ref int loopIndex)
+    public void ParseBlockForPath(ref LinkedListNode<AnchorBlock> currentNode, ref int index, ref List<Vector2> points, ref int loopIndex)
     {
         AnchorBlock currentBlock = currentNode.Value;
-
+        
         // add new target to array if MoveBlock or MoveAndRotateBlock
-        if (currentBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate)
+        if (currentBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate or AnchorBlock.Type.Teleport)
         {
-            Vector2 target = currentBlock.ImplementedBlockType switch
-            {
-                AnchorBlock.Type.Move => ((MoveBlock)currentBlock).Target,
-                AnchorBlock.Type.MoveAndRotate => ((MoveAndRotateBlock)currentBlock).Target,
-                _ => throw new Exception("Couldn't fetch the target of the anchor block")
-            };
+            Vector2 target = ((PositionAnchorBlock)currentBlock).Target;
 
             points.Add(target);
         }
@@ -67,12 +57,6 @@ public partial class AnchorController
         // track loop index if LoopBlock
         if (currentBlock.ImplementedBlockType is AnchorBlock.Type.Loop)
         {
-            // visitedIndices[index] = true;
-
-            // LoopBlock loopBlock = (LoopBlock)currentBlock;
-            // index = loopBlock.Index;
-            // currentNode = Blocks.NodeAt(index);
-
             // track loop index
             loopIndex = index;
         }

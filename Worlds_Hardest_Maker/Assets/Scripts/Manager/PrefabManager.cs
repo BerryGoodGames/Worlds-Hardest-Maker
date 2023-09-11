@@ -66,6 +66,7 @@ public class PrefabManager : MonoBehaviour
     [Foldout("Anchor blocks")] public GameObject AnchorConnector;
     [Foldout("Anchor blocks")] public GameObject GoToBlockPrefab;
     [Foldout("Anchor blocks")] public GameObject MoveBlockPrefab;
+    [Foldout("Anchor blocks")] public GameObject TeleportBlockPrefab;
     [Foldout("Anchor blocks")] public GameObject RotateBlockPrefab;
     [Foldout("Anchor blocks")] public GameObject StartRotatingBlockPrefab;
     [Foldout("Anchor blocks")] public GameObject StopRotatingBlockPrefab;
