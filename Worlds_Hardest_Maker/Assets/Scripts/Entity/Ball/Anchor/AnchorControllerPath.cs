@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using LuLib.Vector;
 using UnityEngine;
 
@@ -12,12 +11,10 @@ public partial class AnchorController
 
     private List<Vector2> GetPath()
     {
-        Stopwatch sw = Stopwatch.StartNew();
-        sw.Start();
         List<Vector2> points = new();
 
         bool[] visitedIndices = new bool[Blocks.Count];
-        
+
         int index = 0;
         LinkedListNode<AnchorBlock> currentNode = Blocks.First;
 
@@ -44,8 +41,6 @@ public partial class AnchorController
 
             ParseBlockForPath(ref currentNode, ref index, ref points, ref visitedIndices, ref loopIndex);
         }
-        sw.Stop();
-        print(sw.ElapsedMilliseconds);
 
         return points;
     }
