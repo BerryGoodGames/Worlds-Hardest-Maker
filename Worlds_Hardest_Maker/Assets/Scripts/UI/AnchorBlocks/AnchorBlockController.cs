@@ -1,5 +1,7 @@
+using LuLib.Vector;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public abstract partial class AnchorBlockController : MonoBehaviour
@@ -9,7 +11,8 @@ public abstract partial class AnchorBlockController : MonoBehaviour
     [Separator("General")] public bool IsLocked;
     public bool IsSource;
 
-    [Space] [SerializeField] private GameObject lockIconContainer;
+    [Space] [MustBeAssigned] [SerializeField] private GameObject lockIcon;
+    [Space] [MustBeAssigned][SerializeField] private GameObject warningIcon;
 
     [HideInInspector] public AnchorBlockDragDrop AnchorBlockDragDropComp;
     private UIRestrictInRectTransform restrict;
@@ -31,7 +34,7 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         IsSource = TryGetComponent(out AnchorBlockSource _);
 
         // enable lock icon if unmovable and not a source
-        lockIconContainer.SetActive(IsLocked && !IsSource);
+        lockIcon.SetActive(IsLocked && !IsSource);
     }
 
     public void Delete()
@@ -72,6 +75,8 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         AnchorManager.Instance.SelectedAnchor.RenderLines();
 
         ReferenceManager.Instance.AnchorBlockConnectorController.UpdateY();
+
+        SetWarning(false);
     }
 
     /// <summary>
@@ -101,6 +106,10 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         return parent != null && parent.TryGetComponent(out ChainController _);
     }
 
+    public void SetWarning(bool enable)
+    {
+        warningIcon.SetActive(enable);
+    }
 
     private void Start()
     {

@@ -378,7 +378,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3827249484333360628}
   m_Layer: 5
-  m_Name: LockIconContainer
+  m_Name: IconContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -437,10 +437,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3827249484333360628}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 16.81}
-  m_SizeDelta: {x: 7.03125, y: 9.453125}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 16}
+  m_SizeDelta: {x: 7, y: 9.411111}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7662178847259337030
 CanvasRenderer:

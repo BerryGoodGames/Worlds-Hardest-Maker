@@ -116,6 +116,22 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.45568627
       objectReference: {fileID: 0}
+    - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4810868768579070343, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: Color.b
       value: 0.63529414
@@ -158,11 +174,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4513640941602115107}
   m_SourcePrefab: {fileID: 100100000, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
---- !u!1 &2177010219629607714 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4046638471290049802, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
-  m_PrefabInstance: {fileID: 2746852163681955368}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2438239200052242357 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 560868436684392861, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
@@ -198,10 +209,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsLocked: 0
   IsSource: 0
-  lockIconContainer: {fileID: 2177010219629607714}
+  lockIcon: {fileID: 8388976416413125003}
+  warningIcon: {fileID: 9023331565155235689}
   AnchorBlockDragDropComp: {fileID: 0}
   MouseOverUI: {fileID: 0}
   DirectionInput: {fileID: 4211056928833076074}
+--- !u!1 &8388976416413125003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5941768429662480291, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+  m_PrefabInstance: {fileID: 2746852163681955368}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9023331565155235689 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6568384871895603521, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+  m_PrefabInstance: {fileID: 2746852163681955368}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3201143818689296929
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -272,7 +294,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22294703660940507, guid: 36088607dd633eb4db48265a6a801265, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 12
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 22294703660940507, guid: 36088607dd633eb4db48265a6a801265, type: 3}
       propertyPath: m_AnchoredPosition.y
