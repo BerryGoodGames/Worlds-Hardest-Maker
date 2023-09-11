@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using MyBox;
+using Unity.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -98,6 +101,7 @@ public class DrawManager : MonoBehaviour
     public static LineRenderer DrawLine(float x1, float y1, float x2, float y2, Transform parent = null) =>
         DrawLine(new(x1, y1), new(x2, y2), parent);
 
+
     /// <summary>
     ///     Generates object containing a LineRenderer
     /// </summary>
@@ -116,6 +120,37 @@ public class DrawManager : MonoBehaviour
         line.SetPosition(1, point2);
 
         return line;
+    }
+
+    public static void DrawDashedLine(Vector2 start, Vector2 end, float width, float spacing, Transform parent = null)
+    {
+        Vector2 totalArc = end - start;
+        float totalArcLength = totalArc.magnitude;
+
+        // get line count
+        float dashArc = width + spacing;
+        int count = Mathf.CeilToInt(totalArcLength / dashArc);
+
+        if (dashArc * (count - 1) + width <= totalArcLength) count++;
+
+        // Vector2 d = totalArc.normalized;
+
+        (float lowestX, float highestX, float lowestY, float highestY) = SelectionManager.GetBounds(start, end);
+
+        // go along arc and draw each small line
+        for (int i = 0; i < count; i++)
+        {
+            float t = i / (float)(count - 1);
+            Vector2 p1 = Vector2.Lerp(start, end, t);
+            Vector2 p2 = Vector2.Lerp(start, end, t + width / totalArcLength);
+
+            p1.ClampX(lowestX, highestX);
+            p2.ClampX(lowestX, highestX);
+            p1.ClampY(lowestY, highestY);
+            p2.ClampY(lowestY, highestY);
+
+            DrawLine(p1, p2, parent);
+        }
     }
 
     private static LineRenderer NewDrawObject(string name, Transform parent)
