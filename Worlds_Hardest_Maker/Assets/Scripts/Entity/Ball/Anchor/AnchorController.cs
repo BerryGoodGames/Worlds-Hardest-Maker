@@ -119,10 +119,23 @@ public partial class AnchorController : Controller
 
         CurrentExecutingNode = LoopBlockNode.Next;
 
-        // check if there is a block after loop block
-        if (CurrentExecutingNode != null)
+        // only execute if there is a non-passive block after loop block
+        LinkedListNode<AnchorBlock> currentNode = CurrentExecutingNode;
+        bool hasActiveBlockAfter = false;
+        while (currentNode != null)
         {
-            CurrentExecutingBlock = CurrentExecutingNode.Value;
+            if (currentNode.Value is IActiveAnchorBlock)
+            {
+                hasActiveBlockAfter = true;
+                break;
+            }
+
+            currentNode = currentNode.Next;
+        }
+
+        if (hasActiveBlockAfter)
+        {
+            CurrentExecutingBlock = CurrentExecutingNode!.Value;
 
             CurrentExecutingBlock.Execute();
         }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SetDirectionBlock : AnchorBlock
+public class SetDirectionBlock : AnchorBlock, IPassiveAnchorBlock
 {
     private bool isClockwise;
 

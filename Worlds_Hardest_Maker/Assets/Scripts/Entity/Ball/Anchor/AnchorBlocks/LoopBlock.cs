@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LoopBlock : AnchorBlock
+public class LoopBlock : AnchorBlock, IPassiveAnchorBlock
 {
     public const Type BlockType = Type.Loop;
     public override Type ImplementedBlockType => BlockType;
