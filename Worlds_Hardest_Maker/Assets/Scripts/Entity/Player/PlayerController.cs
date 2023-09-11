@@ -526,6 +526,7 @@ public class PlayerController : Controller
 
     public bool AllKeysCollected(KeyManager.KeyColor color)
     {
+        // check if every key of specific color is picked up
         foreach (KeyController key in KeyManager.Instance.Keys)
         {
             if (!key.PickedUp && key.Color == color) return false;

@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class KeyController : Controller
 {
-    [HideInInspector] public KeyManager.KeyColor Color;
-    [HideInInspector] public Vector2 KeyPosition;
-    [HideInInspector] public bool PickedUp;
-
+    [ReadOnly] public KeyManager.KeyColor Color;
+    [ReadOnly] public Vector2 KeyPosition;
+    [ReadOnly] public bool PickedUp;
+    [Separator]
     [InitializationField] [MustBeAssigned] public SpriteRenderer SpriteRenderer;
     [InitializationField] [MustBeAssigned] public Animator Animator;
     [InitializationField] [MustBeAssigned] public IntervalRandomAnimation KonamiAnimation;
@@ -17,10 +17,18 @@ public class KeyController : Controller
     {
         KeyPosition = transform.position;
 
+        // cache key controller
+        KeyManager.Instance.Keys.Add(this);
+
         SetOrderInLayer();
     }
 
-    private void OnDestroy() => Destroy(transform.parent.gameObject);
+    private void OnDestroy()
+    {
+        KeyManager.Instance.Keys.Remove(this);
+
+        Destroy(transform.parent.gameObject);
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -71,6 +79,7 @@ public class KeyController : Controller
 
     public void UnlockKeyDoors(PlayerController player)
     {
+        print(player.AllKeysCollected(Color));
         if (!player.AllKeysCollected(Color)) return;
 
         string tagColor = Color switch

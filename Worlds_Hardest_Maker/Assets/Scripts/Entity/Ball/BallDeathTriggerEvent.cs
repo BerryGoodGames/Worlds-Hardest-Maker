@@ -6,6 +6,11 @@ using UnityEngine;
 /// </summary>
 public class BallDeathTriggerEvent : MonoBehaviour
 {
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        OnTriggerStay2D(other);
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         GameObject collider = collision.gameObject;

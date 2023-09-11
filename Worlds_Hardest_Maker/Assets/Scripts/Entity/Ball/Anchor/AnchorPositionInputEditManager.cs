@@ -19,6 +19,9 @@ public class AnchorPositionInputEditManager : MonoBehaviour
     {
         IsEditing = true;
 
+        // block menu from opening
+        MenuManager.Instance.BlockMenu = true;
+
         // disable panels
         ReferenceManager.Instance.ToolbarTween.SetPlay(true);
         ReferenceManager.Instance.InfobarEditTween.SetPlay(true);
@@ -33,6 +36,9 @@ public class AnchorPositionInputEditManager : MonoBehaviour
 
         IsEditing = false;
         CurrentEditedPositionInput = null;
+
+        // release menu
+        MenuManager.Instance.BlockMenu = false;
 
         // show panels
         ReferenceManager.Instance.ToolbarTween.SetPlay(EditModeManager.Instance.Playing);
@@ -57,6 +63,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
                 OnEndPositionEdit();
                 yield break;
             }
+
 
             yield return null;
         }

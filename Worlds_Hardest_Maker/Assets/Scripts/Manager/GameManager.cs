@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviourPun
                         string keyColorStr = editModeStr.Remove(editModeStr.Length - 3);
                         KeyManager.KeyColor keyColor =
                             (KeyManager.KeyColor)Enum.Parse(typeof(KeyManager.KeyColor), keyColorStr);
-
+                        
                         // place key
                         if (multiplayer) photonView.RPC("SetKey", RpcTarget.All, gridX, gridY, keyColor);
                         else KeyManager.Instance.SetKey(gridX, gridY, keyColor);

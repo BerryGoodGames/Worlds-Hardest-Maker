@@ -72,7 +72,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 53.125, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7815748455442673681
@@ -1010,6 +1010,7 @@ GameObject:
   - component: {fileID: 7744967585326615728}
   - component: {fileID: 3885407721415929453}
   - component: {fileID: 1955173326023681415}
+  - component: {fileID: 8052449665728715274}
   - component: {fileID: 401416444525517678}
   - component: {fileID: 1583201553707824145}
   - component: {fileID: 3652110027671275083}
@@ -1108,6 +1109,19 @@ MonoBehaviour:
   imageComp: {fileID: 7744967585326615728}
   template: {fileID: 1522396759774164918}
   templateItem: {fileID: 2373837886391168628}
+--- !u!114 &8052449665728715274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8658581682107253599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20e7528dee52cb8498b07f54762bbd45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropdown: {fileID: 401416444525517678}
 --- !u!114 &401416444525517678
 MonoBehaviour:
   m_ObjectHideFlags: 0
