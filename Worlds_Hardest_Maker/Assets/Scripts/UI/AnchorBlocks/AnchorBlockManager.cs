@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MyBox;
@@ -127,7 +128,7 @@ public partial class AnchorBlockManager : MonoBehaviour
 
         for (int i = 2; i < strings.Count; i++)
         {
-            Destroy(strings[i]);
+            DestroyImmediate(strings[i]);
         }
 
         // destroy anchor blocks in main string (ignore start block and preview)
@@ -142,7 +143,7 @@ public partial class AnchorBlockManager : MonoBehaviour
             // ignore preview object
             if (anchorBlocks[i].CompareTag("AnchorBlockPreview")) continue;
 
-            Destroy(anchorBlocks[i]);
+            DestroyImmediate(anchorBlocks[i]);
         }
     }
 
