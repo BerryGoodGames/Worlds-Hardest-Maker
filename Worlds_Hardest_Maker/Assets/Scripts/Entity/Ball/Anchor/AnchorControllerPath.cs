@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using LuLib.Vector;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ public partial class AnchorController
 
     private List<Vector2> GetPath()
     {
+        Stopwatch sw = Stopwatch.StartNew();
+        sw.Start();
         List<Vector2> points = new();
 
         bool[] visitedIndices = new bool[Blocks.Count];
@@ -18,19 +21,37 @@ public partial class AnchorController
         int index = 0;
         LinkedListNode<AnchorBlock> currentNode = Blocks.First;
 
+        int loopIndex = -1;
+        bool hasLooped = false;
+
         // loop through blocks
-        while (currentNode != null)
+        while (true)
         {
+            if (currentNode == null)
+            {
+                // arrived at end of chain
+                // if loop index existent -> jump to loop index
+                // only jump once to avoid recursion (if we already have looped, cancel jump)
+                if (loopIndex == -1 || hasLooped) break;
+
+                index = loopIndex;
+                currentNode = Blocks.NodeAt(index);
+                hasLooped = true;
+                continue;
+            }
+
             if (visitedIndices[index]) break;
 
-            ParseBlockForPath(ref currentNode, ref index, ref points, ref visitedIndices);
+            ParseBlockForPath(ref currentNode, ref index, ref points, ref visitedIndices, ref loopIndex);
         }
+        sw.Stop();
+        print(sw.ElapsedMilliseconds);
 
         return points;
     }
 
     public void ParseBlockForPath(ref LinkedListNode<AnchorBlock> currentNode, ref int index, ref List<Vector2> points,
-        ref bool[] visitedIndices)
+        ref bool[] visitedIndices, ref int loopIndex)
     {
         AnchorBlock currentBlock = currentNode.Value;
 
@@ -48,20 +69,21 @@ public partial class AnchorController
         }
 
 
-        // jump if GoToBlock
-        if (currentBlock.ImplementedBlockType == AnchorBlock.Type.GoTo)
+        // track loop index if LoopBlock
+        if (currentBlock.ImplementedBlockType is AnchorBlock.Type.Loop)
         {
-            visitedIndices[index] = true;
+            // visitedIndices[index] = true;
 
-            GoToBlock goToBlock = (GoToBlock)currentBlock;
-            index = goToBlock.Index;
-            currentNode = Blocks.NodeAt(index);
+            // LoopBlock loopBlock = (LoopBlock)currentBlock;
+            // index = loopBlock.Index;
+            // currentNode = Blocks.NodeAt(index);
+
+            // track loop index
+            loopIndex = index;
         }
-        else
-        {
-            index++;
-            currentNode = currentNode.Next;
-        }
+
+        index++;
+        currentNode = currentNode.Next;
     }
 
     public void RenderLines(List<Vector2> points)
