@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class MoveBlock : PositionAnchorBlock
+public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock
 {
     public const Type BlockType = Type.Move;
     public override Type ImplementedBlockType => BlockType;

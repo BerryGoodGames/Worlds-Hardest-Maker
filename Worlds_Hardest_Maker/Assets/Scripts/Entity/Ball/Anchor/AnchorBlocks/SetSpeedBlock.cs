@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SetSpeedBlock : AnchorBlock
+public class SetSpeedBlock : AnchorBlock, IPassiveAnchorBlock
 {
     public enum Unit
     {

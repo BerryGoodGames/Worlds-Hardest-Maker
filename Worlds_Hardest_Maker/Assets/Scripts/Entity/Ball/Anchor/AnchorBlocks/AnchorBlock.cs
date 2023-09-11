@@ -5,7 +5,7 @@ public abstract class AnchorBlock
 {
     public enum Type
     {
-        GoTo,
+        Loop,
         Move,
         Rotate,
         StartRotating,
