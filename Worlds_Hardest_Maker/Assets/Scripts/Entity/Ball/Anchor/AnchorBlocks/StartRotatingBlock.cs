@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class StartRotatingBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
+public class StartRotatingBlock : AnchorBlock, IActiveAnchorBlock
 {
     public StartRotatingBlock(AnchorController anchor, bool isLocked) : base(anchor, isLocked)
     {
@@ -13,6 +13,12 @@ public class StartRotatingBlock : AnchorBlock, IActiveAnchorBlock, IDurationBloc
 
     public override void Execute()
     {
+        if (Anchor.RotationTween is { hasLoops: true })
+        {
+            Anchor.FinishCurrentExecution();
+            return;
+        }
+
         float duration;
         if (Anchor.RotationSpeedUnit is SetRotationBlock.Unit.Degrees or SetRotationBlock.Unit.Iterations)
             duration = 360 / Anchor.RotationTimeInput;
