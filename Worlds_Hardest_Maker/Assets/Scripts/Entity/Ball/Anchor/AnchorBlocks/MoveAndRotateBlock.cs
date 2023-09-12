@@ -2,7 +2,7 @@ using System;
 using DG.Tweening;
 using UnityEngine;
 
-public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
+public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock, IDurationBlock
 {
     public const Type BlockType = Type.MoveAndRotate;
     public override Type ImplementedBlockType => Type.MoveAndRotate;

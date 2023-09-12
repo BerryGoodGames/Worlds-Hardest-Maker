@@ -2,7 +2,7 @@ using System.Windows.Forms;
 using DG.Tweening;
 using UnityEngine;
 
-public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock
+public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock, IDurationBlock
 {
     public override Type ImplementedBlockType => Type.Move;
     protected override GameObject Prefab => PrefabManager.Instance.MoveBlockPrefab;

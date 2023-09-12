@@ -126,7 +126,7 @@ public class DrawManager : MonoBehaviour
         return line;
     }
 
-    public static void DrawDashedLine(Vector2 start, Vector2 end, float width, float spacing, Transform parent = null)
+    public static void DrawDashedLine(Vector2 start, Vector2 end, float width, float spacing, bool pointAtEnd = false, Transform parent = null)
     {
         if (parent == null) parent = ReferenceManager.Instance.DrawContainer;
 
@@ -138,39 +138,14 @@ public class DrawManager : MonoBehaviour
         dashedLineController.Width = width;
         dashedLineController.Spacing = spacing;
 
-        //Vector2 totalArc = end - start;
-        //float totalArcLength = totalArc.magnitude;
-
-        //if (totalArcLength == 0)
-        //{
-        //    DrawLine(start, start, parent);
-        //    return;
-        //}
-
-        //// get line count
-        //float dashArc = width + spacing;
-        //int count = Mathf.CeilToInt(totalArcLength / dashArc);
-
-        //if (dashArc * (count - 1) + width <= totalArcLength) count++;
-
-        //// Vector2 d = totalArc.normalized;
-
-        //(float lowestX, float highestX, float lowestY, float highestY) = SelectionManager.GetBounds(start, end);
-
-        //// go along arc and draw each small line
-        //for (int i = 0; i < count; i++)
-        //{
-        //    float t = i / (float)(count - 1);
-        //    Vector2 p1 = Vector2.Lerp(start, end, t);
-        //    Vector2 p2 = Vector2.Lerp(start, end, t + width / totalArcLength);
-
-        //    p1.ClampX(lowestX, highestX);
-        //    p2.ClampX(lowestX, highestX);
-        //    p1.ClampY(lowestY, highestY);
-        //    p2.ClampY(lowestY, highestY);
-
-        //    DrawLine(p1, p2, parent);
-        //}
+        if (pointAtEnd)
+        {
+            // add line a the end if not reaching
+            // Vector2 d = (start - end).normalized * width / 3;
+            // SetWeight(Weight * 2);
+            // DrawLine(end, end, parent);
+            // SetWeight(Weight / 2);
+        }
     }
 
     private static LineRenderer NewDrawObject(string name, Transform parent)

@@ -68,7 +68,8 @@ public class PlayManager : MonoBehaviour
         // ReferenceManager.Instance.LevelSettingsPanelController.SetOpen(false);
 
         // hide all panels
-        PanelManager.Instance.HideAllPanels();
+        PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
+        PanelManager.Instance.SetPanelHidden(levelSettingsPanel, true);
     }
 
     private static void DisablePreview() =>

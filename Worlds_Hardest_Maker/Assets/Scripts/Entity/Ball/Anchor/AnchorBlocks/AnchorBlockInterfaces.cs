@@ -7,3 +7,8 @@ public interface IPassiveAnchorBlock
 {
 
 }
+
+public interface IDurationBlock
+{
+
+}

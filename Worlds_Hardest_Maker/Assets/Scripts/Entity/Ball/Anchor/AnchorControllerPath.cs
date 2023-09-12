@@ -69,7 +69,7 @@ public partial class AnchorController
                 }
                 else
                 {
-                    DrawManager.DrawDashedLine(previousVertex, currentVertex, 0.2f, 0.2f, lineContainer);
+                    DrawManager.DrawDashedLine(previousVertex, currentVertex, 0.2f, 0.2f, true, lineContainer);
                 }
 
                 DrawArrowHead(currentVertex, previousVertex);

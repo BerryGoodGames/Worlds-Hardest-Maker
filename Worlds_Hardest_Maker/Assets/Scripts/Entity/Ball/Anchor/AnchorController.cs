@@ -124,7 +124,7 @@ public partial class AnchorController : Controller
         bool hasActiveBlockAfter = false;
         while (currentNode != null)
         {
-            if (currentNode.Value is IActiveAnchorBlock)
+            if (currentNode.Value is IDurationBlock)
             {
                 hasActiveBlockAfter = true;
                 break;

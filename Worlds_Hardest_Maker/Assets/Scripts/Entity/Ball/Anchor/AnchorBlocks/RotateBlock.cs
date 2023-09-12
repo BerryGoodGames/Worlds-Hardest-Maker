@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class RotateBlock : AnchorBlock, IActiveAnchorBlock
+public class RotateBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
 {
     public const Type BlockType = Type.Rotate;
     public override Type ImplementedBlockType => BlockType;
