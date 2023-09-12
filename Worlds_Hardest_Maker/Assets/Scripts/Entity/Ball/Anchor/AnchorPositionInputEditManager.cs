@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using MyBox;
 using UnityEngine;
@@ -15,7 +16,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         StartCoroutine(EditCoroutine());
     }
 
-    public void OnStartPositionInputEdit()
+    public void OnStartPositionEdit()
     {
         IsEditing = true;
 
@@ -25,9 +26,10 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         // disable panels
         ReferenceManager.Instance.ToolbarTween.SetPlay(true);
         ReferenceManager.Instance.InfobarEditTween.SetPlay(true);
-        ReferenceManager.Instance.AnchorEditorPanelTween.Set(false);
-        ReferenceManager.Instance.AnchorEditorButtonPanelTween.Set(false);
         ReferenceManager.Instance.PlayButtonTween.TweenToY(-125, false);
+
+        PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
+        PanelManager.Instance.SetPanelHidden(anchorPanel, true);
     }
 
     public void OnEndPositionEdit()
@@ -43,16 +45,17 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         // show panels
         ReferenceManager.Instance.ToolbarTween.SetPlay(EditModeManager.Instance.Playing);
         ReferenceManager.Instance.InfobarEditTween.SetPlay(EditModeManager.Instance.Playing);
-        ReferenceManager.Instance.AnchorEditorPanelTween.Set(EditModeManager.Instance.Editing);
-        ReferenceManager.Instance.AnchorEditorButtonPanelTween.Set(true);
         ReferenceManager.Instance.PlayButtonTween.SetPlay(EditModeManager.Instance.Playing);
+
+        PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
+        PanelManager.Instance.SetPanelOpen(anchorPanel, EditModeManager.Instance.Editing);
     }
 
     public IEnumerator EditCoroutine()
     {
         if (CurrentEditedPositionInput == null) yield break;
 
-        OnStartPositionInputEdit();
+        OnStartPositionEdit();
 
         // wait until clicked, cancel if esc is pressed
         while (!Input.GetMouseButton(0))

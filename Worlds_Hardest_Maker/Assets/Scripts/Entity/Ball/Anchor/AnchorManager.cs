@@ -9,28 +9,6 @@ public partial class AnchorManager : MonoBehaviour
     private static readonly int selected = Animator.StringToHash("Selected");
     private static readonly int playing = Animator.StringToHash("Playing");
 
-    /// <summary>
-    /// Enables LevelSettingsPanel and disables AnchorEditorPanel (or the other way around)
-    /// </summary>
-    /// <param name="enableLevelSettingsPanel"></param>
-    public static void AlternatePanels(bool enableLevelSettingsPanel)
-    {
-        if (enableLevelSettingsPanel)
-        {
-            ReferenceManager.Instance.AnchorEditorButtonPanelTween.Set(false);
-            ReferenceManager.Instance.AnchorEditorPanelTween.Set(false);
-
-            ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(true);
-        }
-        else
-        {
-            ReferenceManager.Instance.AnchorEditorButtonPanelTween.Set(true);
-
-            ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(false);
-            ReferenceManager.Instance.LevelSettingsPanelTween.Set(false);
-        }
-    }
-
     private void Awake()
     {
         if (Instance == null) Instance = this;

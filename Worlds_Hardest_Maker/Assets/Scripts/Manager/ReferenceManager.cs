@@ -1,5 +1,6 @@
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ReferenceManager : MonoBehaviour
 {
@@ -24,10 +25,8 @@ public class ReferenceManager : MonoBehaviour
     [Foldout("Objects")] public BarTween InfobarEditTween;
     [Foldout("Objects")] public BarTween PlayButtonTween;
 
-    [Foldout("Objects")] public GameObject LevelSettingsPanel;
-
-    [Foldout("Objects")] public PanelTween LevelSettingsButtonPanelTween;
-    [Foldout("Objects")] public PanelTween LevelSettingsPanelTween;
+    [Foldout("Objects")] public PanelController LevelSettingsPanelController;
+    [Foldout("Objects")] public PanelController AnchorPanelController;
 
     [Foldout("Objects")] public PlayerSpawner PlayerSpawner;
 

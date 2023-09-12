@@ -52,8 +52,6 @@ public partial class AnchorManager
 
         ReferenceManager.Instance.MainCameraJumper.AddTarget("Anchor", anchor.gameObject);
         ReferenceManager.Instance.AnchorCameraJumping.CameraJumpToAnchor();
-
-        AlternatePanels(false);
     }
 
     public void DeselectAnchor()
@@ -74,7 +72,8 @@ public partial class AnchorManager
 
         if (EditModeManager.Instance.CurrentEditMode is not (EditMode.Anchor or EditMode.AnchorBall))
         {
-            AlternatePanels(true);
+            PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
+            PanelManager.Instance.SetPanelOpen(levelSettingsPanel, true);
         }
     }
 }

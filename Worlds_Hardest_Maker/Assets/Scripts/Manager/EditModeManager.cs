@@ -74,8 +74,12 @@ public class EditModeManager : MonoBehaviour
             Animator anim = anchor.GetComponentInChildren<Animator>();
             anim.SetBool(editingString, isAnchorRelated);
         }
+        
+        // open corresponding panel
+        PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
+        PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
+        PanelManager.Instance.SetPanelHidden(isAnchorRelated ? anchorPanel : levelSettingsPanel, false);
 
-        AnchorManager.AlternatePanels(!isAnchorRelated);
 
         // enable/disable anchor path
         if (AnchorManager.Instance.SelectedAnchor)

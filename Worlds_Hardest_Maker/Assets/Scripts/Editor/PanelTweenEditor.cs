@@ -12,7 +12,7 @@ public class PanelTweenEditor : Editor
 
         if (Application.isPlaying && GUILayout.Button("Toggle"))
         {
-            script.Toggle();
+            script.ToggleOpen();
         }
     }
 }

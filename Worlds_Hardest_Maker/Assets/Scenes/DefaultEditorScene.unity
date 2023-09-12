@@ -3504,7 +3504,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   duration: 0.3
-  open: 0
+  <Open>k__BackingField: 0
   closesToRight: 0
 --- !u!114 &516759321
 MonoBehaviour:
@@ -3515,11 +3515,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 516759318}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be2740b644202cc4b9f6ff801e2f1db6, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e714ac66438a88439f8af1b75dbe4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelSettingsPanelTween: {fileID: 516759320}
-  levelSettingsButtonPanelTween: {fileID: 1060779469}
+  panelTween: {fileID: 516759320}
+  buttonPanelTween: {fileID: 1060779469}
+  <Open>k__BackingField: 0
+  <Hidden>k__BackingField: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -8049,7 +8051,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
+    m_Mode: 3
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -8081,8 +8083,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 516759321}
-        m_TargetAssemblyTypeName: LevelSettingsPanelController, Assembly-CSharp
-        m_MethodName: ToggleTween
+        m_TargetAssemblyTypeName: PanelController, Assembly-CSharp
+        m_MethodName: OnButtonToggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8163,7 +8165,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   duration: 0.3
-  open: 0
+  <Open>k__BackingField: 0
   closesToRight: 0
 --- !u!224 &1086186048 stripped
 RectTransform:
@@ -8330,9 +8332,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1661549652}
-        m_TargetAssemblyTypeName: LevelSettingsPanelTween, Assembly-CSharp
-        m_MethodName: Toggle
+      - m_Target: {fileID: 1661549653}
+        m_TargetAssemblyTypeName: PanelController, Assembly-CSharp
+        m_MethodName: OnButtonToggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8433,7 +8435,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   duration: 0.3
-  open: 0
+  <Open>k__BackingField: 0
   closesToRight: 1
 --- !u!114 &1162396418
 MonoBehaviour:
@@ -14250,6 +14252,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1661549651}
   - component: {fileID: 1661549652}
+  - component: {fileID: 1661549653}
   m_Layer: 5
   m_Name: AnchorEditorPanel
   m_TagString: Untagged
@@ -14350,8 +14353,24 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   duration: 0.3
-  open: 0
+  <Open>k__BackingField: 0
   closesToRight: 1
+--- !u!114 &1661549653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661549650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e714ac66438a88439f8af1b75dbe4a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelTween: {fileID: 1661549652}
+  buttonPanelTween: {fileID: 1162396417}
+  <Open>k__BackingField: 0
+  <Hidden>k__BackingField: 1
 --- !u!224 &1664055018 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9129395691176777981, guid: 840b4e83d3fed374a8081e570c5f2efc, type: 3}
@@ -20890,6 +20909,7 @@ GameObject:
   - component: {fileID: 3252578248619094826}
   - component: {fileID: 3252578248619094817}
   - component: {fileID: 3252578248619094837}
+  - component: {fileID: 3252578248619094857}
   - component: {fileID: 3252578248619094835}
   - component: {fileID: 3252578248619094832}
   - component: {fileID: 3252578248619094834}
@@ -21092,9 +21112,8 @@ MonoBehaviour:
   ToolbarTween: {fileID: 3914619140277756240}
   InfobarEditTween: {fileID: 1060004926}
   PlayButtonTween: {fileID: 1830893220}
-  LevelSettingsPanel: {fileID: 516759318}
-  LevelSettingsButtonPanelTween: {fileID: 1060779469}
-  LevelSettingsPanelTween: {fileID: 516759320}
+  LevelSettingsPanelController: {fileID: 516759321}
+  AnchorPanelController: {fileID: 1661549653}
   PlayerSpawner: {fileID: 722155291}
   ToolbarContainer: {fileID: 3914619140277756239}
   SliderContainer: {fileID: 2134541449}
@@ -21371,6 +21390,19 @@ MonoBehaviour:
     FillPreview: FillPreview
     PlacementPreview: PlacementPreview
     Line: Line
+--- !u!114 &3252578248619094857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3252578248619094831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 048da9e1f595a00468ccd9b3b8f24370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Panels: []
 --- !u!1 &3469053329403155088
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,7 @@
 using System;
+using System.Windows.Forms;
 using UnityEngine;
+using Application = UnityEngine.Application;
 
 public class PlayManager : MonoBehaviour
 {
@@ -58,13 +60,15 @@ public class PlayManager : MonoBehaviour
 
         EditModeManager.Instance.InvokeOnPlay();
 
-        // close level settings / anchor editor panel if open
-        ClosePanel(ReferenceManager.Instance.LevelSettingsPanelTween);
-        // ClosePanel(ReferenceManager.Instance.AnchorEditorPanelTween);
+        // close all panels
+        // PanelManager.Instance.CloseAllPanels();
+        //
+        // // hide panels
+        // ReferenceManager.Instance.LevelSettingsButtonPanelTween.SetOpen(false);
+        // ReferenceManager.Instance.LevelSettingsPanelController.SetOpen(false);
 
-        // hide panels
-        ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(false);
-        ReferenceManager.Instance.LevelSettingsPanelTween.Set(false);
+        // hide all panels
+        PanelManager.Instance.HideAllPanels();
     }
 
     private static void DisablePreview() =>
@@ -112,10 +116,10 @@ public class PlayManager : MonoBehaviour
         ReferenceManager.Instance.MainCameraJumper.Jump("Player", onlyIfTargetOffScreen: true);
     }
 
-    private static void ClosePanel(PanelTween panel)
-    {
-        if (panel.Open) panel.Toggle();
-    }
+    // private static void ClosePanel(PanelTween panel)
+    // {
+    //     if (panel.Open) panel.ToggleOpen();
+    // }
 
     private static void ActivateCoinKeyAnimations()
     {
@@ -161,7 +165,11 @@ public class PlayManager : MonoBehaviour
         EditModeManager.Instance.InvokeOnEdit();
 
         // show level setting panel
-        if(EditModeManager.Instance.CurrentEditMode != EditMode.Anchor) ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(true);
+        bool isEditModeAnchorRelated = EditModeManager.Instance.CurrentEditMode.IsAnchorRelated();
+        PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
+        PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
+        PanelManager.Instance.SetPanelHidden(isEditModeAnchorRelated ? anchorPanel : levelSettingsPanel, false);
+        // if(EditModeManager.Instance.CurrentEditMode != EditMode.Anchor) ReferenceManager.Instance.LevelSettingsButtonPanelTween.SetOpen(true);
     }
 
     private static void ResetPlayerGameStates()
