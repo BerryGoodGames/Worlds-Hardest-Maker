@@ -16,7 +16,10 @@ public class ChainController : MonoBehaviour
 
         foreach (AnchorBlockController controller in Children!)
         {
-            anchorBlocks.Add(controller.GetAnchorBlock(anchorController));
+            AnchorBlock anchorBlock = controller.GetAnchorBlock(anchorController);
+            anchorBlock.Controller = controller;
+            anchorBlock.Controller.Block = anchorBlock;
+            anchorBlocks.Add(anchorBlock);
         }
 
         return anchorBlocks;

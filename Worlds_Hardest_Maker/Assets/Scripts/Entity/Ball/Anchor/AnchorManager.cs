@@ -35,45 +35,8 @@ public partial class AnchorManager : MonoBehaviour
         
         SelectedAnchor.Blocks = new(blocksInChain);
         
-        UpdateWarnings();
+        // UpdateWarnings();
     }
-
-    public void UpdateWarnings()
-    {   
-        // check for unexecutable start rotating blocks
-        bool canStartRotateWork = false;
-
-        LinkedListNode<AnchorBlock> currentNode = SelectedAnchor.Blocks.First;
-
-        for (int i = 0; i < SelectedAnchor.Blocks.Count; i++)
-        {
-            if (currentNode == null)
-            {
-                Debug.LogWarning("the node should not be null here");
-                break;
-            }
-
-            AnchorBlock block = currentNode.Value;
-
-            switch (block.ImplementedBlockType)
-            {
-                case AnchorBlock.Type.SetRotation:
-                {
-                    // update if start rotating blocks can work
-                    SetRotationBlock setRotationBlock = (SetRotationBlock)block;
-                    canStartRotateWork = setRotationBlock.GetUnit() != SetRotationBlock.Unit.Time;
-                    break;
-                }
-                // update if it can't rotate
-                case AnchorBlock.Type.StartRotating:
-                    ReferenceManager.Instance.MainChainController.Children[i].SetWarning(!canStartRotateWork);
-                    break;
-            }
-
-            currentNode = currentNode.Next;
-        }
-    }
-
 
     public void UpdateSelectedAnchorLines()
     {

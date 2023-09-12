@@ -15,6 +15,8 @@ public abstract partial class AnchorBlockController : MonoBehaviour
     [HideInInspector] public AnchorBlockDragDrop AnchorBlockDragDropComp;
     private UIRestrictInRectTransform restrict;
 
+    public AnchorBlock Block { get; set; }
+
     public abstract AnchorBlock GetAnchorBlock(AnchorController anchorController);
 
     private void MainStart()
@@ -33,6 +35,16 @@ public abstract partial class AnchorBlockController : MonoBehaviour
 
         // enable lock icon if unmovable and not a source
         lockIconContainer.SetActive(IsLocked && !IsSource);
+
+        AnchorBlockDecimalInput[] inputs = GetComponentsInChildren<AnchorBlockDecimalInput>();
+        foreach (AnchorBlockDecimalInput input in inputs)
+        {
+            input.InputField.onValueChanged.AddListener(_ =>
+            {
+                AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+                AnchorManager.Instance.CheckStackOverflowWarnings();
+            });
+        }
     }
 
     public void Delete()
@@ -71,6 +83,8 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         // re-render path lines
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
         AnchorManager.Instance.SelectedAnchor.RenderLines();
+
+        AnchorManager.Instance.CheckStackOverflowWarnings();
 
         ReferenceManager.Instance.AnchorBlockConnectorController.UpdateY();
 

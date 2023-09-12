@@ -1,3 +1,4 @@
+using System.Windows.Forms;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,8 @@ public abstract class AnchorBlock
     protected AnchorController Anchor;
     protected bool IsLocked;
 
+    public AnchorBlockController Controller { get; set; }
+
     protected AnchorBlock(AnchorController anchor, bool isLocked)
     {
         Anchor = anchor;
@@ -40,9 +43,10 @@ public abstract class AnchorBlock
         GameObject anchorBlock = Object.Instantiate(Prefab, parent);
 
         // set values in object
-        AnchorBlockController controller = anchorBlock.GetComponent<AnchorBlockController>();
-        SetControllerValues(controller);
-        controller.IsLocked = IsLocked;
+        Controller = anchorBlock.GetComponent<AnchorBlockController>();
+        SetControllerValues(Controller);
+        Controller.IsLocked = IsLocked;
+        Controller.Block = this;
 
         // restrict
         UIRestrictInRectTransform restrict = anchorBlock.GetComponent<UIRestrictInRectTransform>();

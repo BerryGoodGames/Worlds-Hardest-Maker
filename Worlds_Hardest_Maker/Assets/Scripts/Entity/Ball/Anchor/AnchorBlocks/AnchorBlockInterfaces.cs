@@ -10,5 +10,5 @@ public interface IPassiveAnchorBlock
 
 public interface IDurationBlock
 {
-
+    public bool HasCurrentlyDuration();
 }

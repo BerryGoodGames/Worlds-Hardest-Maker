@@ -52,6 +52,10 @@ public partial class AnchorBlockManager : MonoBehaviour
         ReferenceManager.Instance.MainChainController.UpdateChildrenArray();
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
 
+        // check warnings
+        AnchorManager.Instance.CheckStartRotatingWarnings();
+        AnchorManager.Instance.CheckStackOverflowWarnings();
+
         AnchorController selectedAnchor = AnchorManager.Instance.SelectedAnchor;
         selectedAnchor.RenderLines();
     }
@@ -176,7 +180,9 @@ public partial class AnchorBlockManager : MonoBehaviour
         }
 
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
-        AnchorManager.Instance.UpdateWarnings();
+
+        AnchorManager.Instance.CheckStartRotatingWarnings();
+        AnchorManager.Instance.CheckStackOverflowWarnings();
 
         RectTransform stringController = (RectTransform)ReferenceManager.Instance.MainChainController.transform;
         LayoutRebuilder.ForceRebuildLayoutImmediate(stringController);

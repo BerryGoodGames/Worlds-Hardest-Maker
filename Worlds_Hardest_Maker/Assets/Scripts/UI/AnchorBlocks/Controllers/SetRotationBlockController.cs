@@ -37,6 +37,6 @@ public class SetRotationBlockController : AnchorBlockController
     public void UpdateWarnings()
     {
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
-        AnchorManager.Instance.UpdateWarnings();
+        AnchorManager.Instance.CheckStartRotatingWarnings();
     }
 }

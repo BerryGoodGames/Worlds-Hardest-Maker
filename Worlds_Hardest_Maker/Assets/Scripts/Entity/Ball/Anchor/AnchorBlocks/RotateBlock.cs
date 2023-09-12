@@ -43,5 +43,7 @@ public class RotateBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
         controller.Input.text = iterations.ToString();
     }
 
+    public bool HasCurrentlyDuration() => iterations > 0;
+
     public override AnchorBlockData GetData() => new RotateBlockData(IsLocked, iterations);
 }

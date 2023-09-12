@@ -47,4 +47,5 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
     }
 
     public override AnchorBlockData GetData() => new WaitBlockData(IsLocked, input, unit);
+    public bool HasCurrentlyDuration() => input > 0;
 }
