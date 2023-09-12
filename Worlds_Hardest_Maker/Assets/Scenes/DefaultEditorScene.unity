@@ -21123,6 +21123,7 @@ MonoBehaviour:
   AnchorCameraJumping: {fileID: 1162396418}
   AnchorNoAnchorSelectedScreen: {fileID: 572843087}
   AnchorInPlayModeScreen: {fileID: 1056971106}
+  DashedLineMaterial: {fileID: 2100000, guid: d23ae6dfc7563674f9337a8777f1b2dd, type: 2}
 --- !u!114 &3252578248619094843
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -129,6 +129,9 @@ Material:
     - _Width: 0.54
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - _amount: 5
+    - _height: 1
+    - _width: 0.25
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

@@ -10,6 +10,8 @@ using UnityEngine;
 /// </summary>
 public class DrawManager : MonoBehaviour
 {
+    private static DrawManager instance;
+
     public static int DefaultLayerID;
     public static int OutlineLayerID;
     public static int BallLayerID;
@@ -19,14 +21,16 @@ public class DrawManager : MonoBehaviour
         DefaultLayerID = SortingLayer.NameToID(LayerManager.Instance.SortingLayers.Default);
         OutlineLayerID = SortingLayer.NameToID(LayerManager.Instance.SortingLayers.Outline);
         BallLayerID = SortingLayer.NameToID(LayerManager.Instance.SortingLayers.Ball);
+
+        instance ??= this;
     }
 
     // Settings for drawing
-    public static float Weight = 0.11f;
-    public static Color Fill = new(0, 0, 0);
-    public static bool RoundedCorners = true;
-    public static int LayerID = DefaultLayerID;
-    public static int OrderInLayer;
+    public static float Weight { get; private set; } = 0.11f;
+    public static Color Fill { get; private set; } = new(0, 0, 0);
+    public static bool RoundedCorners { get; private set; } = true;
+    public static int LayerID { get; private set; } = DefaultLayerID;
+    public static int OrderInLayer { get; private set; }
 
     /// <summary>
     ///     Generates object containing a LineRenderer forming a rectangle
@@ -124,39 +128,49 @@ public class DrawManager : MonoBehaviour
 
     public static void DrawDashedLine(Vector2 start, Vector2 end, float width, float spacing, Transform parent = null)
     {
-        Vector2 totalArc = end - start;
-        float totalArcLength = totalArc.magnitude;
+        if (parent == null) parent = ReferenceManager.Instance.DrawContainer;
 
-        if (totalArcLength == 0)
-        {
-            DrawLine(start, start, parent);
-            return;
-        }
+        // generate object
+        GameObject line = DrawLine(start, end, parent).gameObject;
 
-        // get line count
-        float dashArc = width + spacing;
-        int count = Mathf.CeilToInt(totalArcLength / dashArc);
+        DashedLineController dashedLineController = line.AddComponent<DashedLineController>();
 
-        if (dashArc * (count - 1) + width <= totalArcLength) count++;
+        dashedLineController.Width = width;
+        dashedLineController.Spacing = spacing;
 
-        // Vector2 d = totalArc.normalized;
+        //Vector2 totalArc = end - start;
+        //float totalArcLength = totalArc.magnitude;
 
-        (float lowestX, float highestX, float lowestY, float highestY) = SelectionManager.GetBounds(start, end);
+        //if (totalArcLength == 0)
+        //{
+        //    DrawLine(start, start, parent);
+        //    return;
+        //}
 
-        // go along arc and draw each small line
-        for (int i = 0; i < count; i++)
-        {
-            float t = i / (float)(count - 1);
-            Vector2 p1 = Vector2.Lerp(start, end, t);
-            Vector2 p2 = Vector2.Lerp(start, end, t + width / totalArcLength);
+        //// get line count
+        //float dashArc = width + spacing;
+        //int count = Mathf.CeilToInt(totalArcLength / dashArc);
 
-            p1.ClampX(lowestX, highestX);
-            p2.ClampX(lowestX, highestX);
-            p1.ClampY(lowestY, highestY);
-            p2.ClampY(lowestY, highestY);
+        //if (dashArc * (count - 1) + width <= totalArcLength) count++;
 
-            DrawLine(p1, p2, parent);
-        }
+        //// Vector2 d = totalArc.normalized;
+
+        //(float lowestX, float highestX, float lowestY, float highestY) = SelectionManager.GetBounds(start, end);
+
+        //// go along arc and draw each small line
+        //for (int i = 0; i < count; i++)
+        //{
+        //    float t = i / (float)(count - 1);
+        //    Vector2 p1 = Vector2.Lerp(start, end, t);
+        //    Vector2 p2 = Vector2.Lerp(start, end, t + width / totalArcLength);
+
+        //    p1.ClampX(lowestX, highestX);
+        //    p2.ClampX(lowestX, highestX);
+        //    p1.ClampY(lowestY, highestY);
+        //    p2.ClampY(lowestY, highestY);
+
+        //    DrawLine(p1, p2, parent);
+        //}
     }
 
     private static LineRenderer NewDrawObject(string name, Transform parent)

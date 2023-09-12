@@ -299,10 +299,10 @@
     "m_Guid": {
         "m_GuidSerialized": "38c02fb4-7eaf-466d-a85a-660c6bf27445"
     },
-    "m_Name": "Height",
+    "m_Name": "height",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Height",
-    "m_DefaultReferenceName": "_Height",
+    "m_RefNameGeneratedByDisplayName": "height",
+    "m_DefaultReferenceName": "_height",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -359,7 +359,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "166579f74e8d46f39b5c64df65f694ee",
     "m_Id": 0,
-    "m_DisplayName": "Height",
+    "m_DisplayName": "height",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -641,9 +641,9 @@
     "m_ShaderOutputName": "BaseColor",
     "m_StageCapability": 2,
     "m_Value": {
-        "x": 0.5,
-        "y": 0.5,
-        "z": 0.5
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
     },
     "m_DefaultValue": {
         "x": 0.0,
@@ -833,7 +833,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "63d2ac87463849439797cc60510e986d",
     "m_Id": 0,
-    "m_DisplayName": "Amount",
+    "m_DisplayName": "amount",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -884,7 +884,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "690fc8e938224a329b466027ea6f8ca4",
     "m_Id": 0,
-    "m_DisplayName": "Width",
+    "m_DisplayName": "width",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -901,10 +901,10 @@
     "m_Guid": {
         "m_GuidSerialized": "1f370385-7104-441c-83e1-9d7830f77bbb"
     },
-    "m_Name": "Amount",
+    "m_Name": "amount",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Amount",
-    "m_DefaultReferenceName": "_Amount",
+    "m_RefNameGeneratedByDisplayName": "amount",
+    "m_DefaultReferenceName": "_amount",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -929,10 +929,10 @@
     "m_Guid": {
         "m_GuidSerialized": "73c23a99-d0bc-496f-8b88-e46478ac0be4"
     },
-    "m_Name": "Width",
+    "m_Name": "width",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Width",
-    "m_DefaultReferenceName": "_Width",
+    "m_RefNameGeneratedByDisplayName": "width",
+    "m_DefaultReferenceName": "_width",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
