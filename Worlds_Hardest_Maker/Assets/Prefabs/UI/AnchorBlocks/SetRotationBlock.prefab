@@ -275,22 +275,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4046638471290049802, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4810868768579070343, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
@@ -374,6 +370,7 @@ MonoBehaviour:
   IsLocked: 0
   IsSource: 0
   lockIconContainer: {fileID: 3383499906115791151}
+  warningIconContainer: {fileID: 3728495842366856184}
   AnchorBlockDragDropComp: {fileID: 0}
   MouseOverUI: {fileID: 0}
   SpeedInput: {fileID: 2885652072231867952}
@@ -397,6 +394,11 @@ MonoBehaviour:
 --- !u!1 &3383499906115791151 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4046638471290049802, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+  m_PrefabInstance: {fileID: 1647216865735687205}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3728495842366856184 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2693803718922020829, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
   m_PrefabInstance: {fileID: 1647216865735687205}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6429581467147820442
@@ -650,6 +652,34 @@ PrefabInstance:
     - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
       propertyPath: m_Options.m_Options.Array.data[3].m_Text
       value: it
+      objectReference: {fileID: 0}
+    - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6980927247459996683}
+    - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateWarnings
+      objectReference: {fileID: 0}
+    - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SetRotationBlockController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 817594828347440836, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
       propertyPath: m_AnchorMax.y

@@ -1,3 +1,4 @@
+using System.Windows.Forms;
 using DG.Tweening;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock
     public override void Execute()
     {
         float duration;
-        float dist = Vector2.Distance(Target, Anchor.Rb.position);
+        float dist = Vector2.Distance(Target, Anchor.transform.position);
 
         if (Anchor.SpeedUnit is SetSpeedBlock.Unit.Speed)
             duration = dist / Anchor.TimeInput;
@@ -25,7 +26,7 @@ public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock
             duration = Anchor.TimeInput;
 
         Anchor.DOKill();
-        Anchor.Rb.DOMove(Target, duration)
+        Anchor.transform.DOMove(Target, duration)
             .SetEase(Anchor.Ease)
             .OnComplete(Anchor.FinishCurrentExecution);
     }

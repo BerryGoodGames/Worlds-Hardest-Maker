@@ -1475,11 +1475,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1487,14 +1487,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -54
-      objectReference: {fileID: 0}
-    - target: {fileID: 4046638471290049802, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4810868768579070343, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
@@ -1557,6 +1553,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4046638471290049802, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
   m_PrefabInstance: {fileID: 3778735390812062057}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1230208259939755700 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2693803718922020829, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+  m_PrefabInstance: {fileID: 3778735390812062057}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3085765387000724420 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2207349393350425261, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
@@ -1577,6 +1578,7 @@ MonoBehaviour:
   IsLocked: 0
   IsSource: 0
   lockIconContainer: {fileID: 889548813686051939}
+  warningIconContainer: {fileID: 1230208259939755700}
   AnchorBlockDragDropComp: {fileID: 0}
   MouseOverUI: {fileID: 0}
   PositionInput: {fileID: 1416588475563191578}

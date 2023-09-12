@@ -9,20 +9,18 @@ public partial class AnchorController
     [SerializeField] private Color lineColor;
     [SerializeField] private float lineWeight;
 
-    public List<Vector2> RenderLines()
+    public void RenderLines()
     {
-        // clear lines
-        foreach (Transform line in lineContainer)
-        {
-            Destroy(line.gameObject);
-        }
+        ClearLines();
+
+        // line settings
         DrawManager.SetFill(lineColor);
         DrawManager.SetLayerID(spriteRenderer.sortingLayerID);
         DrawManager.SetOrderInLayer(spriteRenderer.sortingOrder - 1);
         DrawManager.SetRoundedCorners(true);
         DrawManager.SetWeight(lineWeight);
 
-        List<Vector2> points = new() { transform.position };
+        Vector2 previousVertex = transform.position;
 
         int index = 0;
         LinkedListNode<AnchorBlock> currentNode = Blocks.First;
@@ -31,34 +29,39 @@ public partial class AnchorController
         bool hasLooped = false;
 
         // loop through blocks
-        while (true)
+        while (currentNode != null)
         {
-            if (currentNode == null)
-            {
-                // arrived at end of chain
-                // if loop index existent -> jump to loop index
-                // only jump once to avoid recursion (if we already have looped, cancel jump)
-                if (loopIndex == -1 || hasLooped) break;
-
-                index = loopIndex;
-                currentNode = Blocks.NodeAt(index);
-                hasLooped = true;
-                continue;
-            }
-
             AnchorBlock currentBlock = currentNode.Value;
 
-            // add new target to array if MoveBlock or MoveAndRotateBlock
-            if (currentBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate or AnchorBlock.Type.Teleport)
+            // handle current block
+            ParseBlockForPath(ref currentBlock, ref previousVertex, ref loopIndex, ref index);
+
+            // increment
+            index++;
+            currentNode = currentNode.Next;
+
+            // If currentNode reaches the end, and we haven't looped, jump to loopIndex
+            if (currentNode != null) continue;
+
+            if (loopIndex == -1 || hasLooped)
             {
-                Vector2 target = ((PositionAnchorBlock)currentBlock).Target;
+                break;
+            }
 
-                points.Add(target);
+            index = loopIndex;
+            currentNode = Blocks.NodeAt(index);
+            hasLooped = true;
+        }
+    }
 
-                int i = points.Count - 1;
-
-                Vector2 currentVertex = points[i];
-                Vector2 previousVertex = points[i - 1];
+    private void ParseBlockForPath(ref AnchorBlock currentBlock, ref Vector2 previousVertex, ref int loopIndex, ref int index)
+    {
+        switch (currentBlock.ImplementedBlockType)
+        {
+            // add new target to array if MoveBlock or MoveAndRotateBlock
+            case AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate or AnchorBlock.Type.Teleport:
+            {
+                Vector2 currentVertex = ((PositionAnchorBlock)currentBlock).Target;
 
                 if (currentBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate)
                 {
@@ -69,65 +72,43 @@ public partial class AnchorController
                     DrawManager.DrawDashedLine(previousVertex, currentVertex, 0.2f, 0.2f, lineContainer);
                 }
 
-                // draw arrow head
-                const float headLineLength = 0.15f;
-                Vector2 delta = currentVertex - previousVertex;
-                Vector2 halfPoint = previousVertex + delta / 2;
-                Vector2 offset = delta.normalized * (headLineLength / 2);
-                Vector2 start = halfPoint + offset;
-                Vector2 endSideOffset = delta.normalized * Mathf.Sin(headLineLength);
-                endSideOffset.Rotate(90);
-                Vector2 end = halfPoint - offset;
+                DrawArrowHead(currentVertex, previousVertex);
 
-                DrawManager.DrawLine(start, end + endSideOffset, lineContainer);
-                DrawManager.DrawLine(start, end - endSideOffset, lineContainer);
+                previousVertex = currentVertex;
+                break;
             }
-
 
             // track loop index if LoopBlock
-            if (currentBlock.ImplementedBlockType is AnchorBlock.Type.Loop)
-            {
+            case AnchorBlock.Type.Loop:
                 // track loop index
                 loopIndex = index;
-            }
-
-            index++;
-            currentNode = currentNode.Next;
+                break;
         }
-
-        return points;
     }
 
-    // public void RenderLines(List<Vector2> points)
-    // {
-    //     
-    //
-    //     
-    //
-    //     // new line for each vertex (without i = 0)
-    //     for (int i = 1; i < points.Count; i++)
-    //     {
-    //         Vector2 currentVertex = points[i];
-    //         Vector2 previousVertex = points[i - 1];
-    //         
-    //         DrawManager.DrawLine(previousVertex, currentVertex, lineContainer);
-    //
-    //         // draw arrow head
-    //         const float headLineLength = 0.15f;
-    //         Vector2 delta = currentVertex - previousVertex;
-    //         Vector2 halfPoint = previousVertex + delta / 2;
-    //         Vector2 offset = delta.normalized * (headLineLength / 2);
-    //         Vector2 start = halfPoint + offset;
-    //         Vector2 endSideOffset = delta.normalized * Mathf.Sin(headLineLength);
-    //         endSideOffset.Rotate(90);
-    //         Vector2 end = halfPoint - offset;
-    //
-    //         DrawManager.DrawLine(start, end + endSideOffset, lineContainer);
-    //         DrawManager.DrawLine(start, end - endSideOffset, lineContainer);
-    //     }
-    // }
+    private void ClearLines()
+    {
+        // clear lines
+        foreach (Transform line in lineContainer)
+        {
+            Destroy(line.gameObject);
+        }
+    }
 
-    // public void RenderLines() => RenderLines(GetPath());
+    private void DrawArrowHead(Vector2 currentVertex, Vector2 previousVertex)
+    {
+        const float headLineLength = 0.15f;
+        Vector2 delta = currentVertex - previousVertex;
+        Vector2 halfPoint = previousVertex + delta / 2;
+        Vector2 offset = delta.normalized * (headLineLength / 2);
+        Vector2 start = halfPoint + offset;
+        Vector2 endSideOffset = delta.normalized * Mathf.Sin(headLineLength);
+        endSideOffset.Rotate(90);
+        Vector2 end = halfPoint - offset;
+
+        DrawManager.DrawLine(start, end + endSideOffset, lineContainer);
+        DrawManager.DrawLine(start, end - endSideOffset, lineContainer);
+    }
 
     public void SetLinesActive(bool active) => lineContainer.gameObject.SetActive(active);
 }

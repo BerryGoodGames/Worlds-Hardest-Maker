@@ -116,6 +116,22 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.45568627
       objectReference: {fileID: 0}
+    - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4810868768579070343, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: Color.b
       value: 0.63529414
@@ -158,6 +174,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4513640941602115107}
   m_SourcePrefab: {fileID: 100100000, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+--- !u!1 &251242017038764533 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2693803718922020829, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+  m_PrefabInstance: {fileID: 2746852163681955368}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2177010219629607714 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4046638471290049802, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
@@ -199,6 +220,7 @@ MonoBehaviour:
   IsLocked: 0
   IsSource: 0
   lockIconContainer: {fileID: 2177010219629607714}
+  warningIconContainer: {fileID: 251242017038764533}
   AnchorBlockDragDropComp: {fileID: 0}
   MouseOverUI: {fileID: 0}
   DirectionInput: {fileID: 4211056928833076074}

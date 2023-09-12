@@ -9,7 +9,8 @@ public abstract partial class AnchorBlockController : MonoBehaviour
     [Separator("General")] public bool IsLocked;
     public bool IsSource;
 
-    [Space] [SerializeField] private GameObject lockIconContainer;
+    [Space] [MustBeAssigned] [SerializeField] private GameObject lockIconContainer;
+    [Space] [MustBeAssigned][SerializeField] private GameObject warningIconContainer;
 
     [HideInInspector] public AnchorBlockDragDrop AnchorBlockDragDropComp;
     private UIRestrictInRectTransform restrict;
@@ -72,6 +73,8 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         AnchorManager.Instance.SelectedAnchor.RenderLines();
 
         ReferenceManager.Instance.AnchorBlockConnectorController.UpdateY();
+
+        SetWarning(false);
     }
 
     /// <summary>
@@ -101,6 +104,10 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         return parent != null && parent.TryGetComponent(out ChainController _);
     }
 
+    public void SetWarning(bool enable)
+    {
+        warningIconContainer.SetActive(enable);
+    }
 
     private void Start()
     {

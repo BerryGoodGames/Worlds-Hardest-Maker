@@ -126,7 +126,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1257115705517140453, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 192.65
+      value: 215.285
       objectReference: {fileID: 0}
     - target: {fileID: 1257115705517140453, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -449,22 +449,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -30
-      objectReference: {fileID: 0}
-    - target: {fileID: 4046638471290049802, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4810868768579070343, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
@@ -534,6 +530,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4046638471290049802, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
   m_PrefabInstance: {fileID: 3550532160889694314}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1451379561904672695 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2693803718922020829, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+  m_PrefabInstance: {fileID: 3550532160889694314}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3450903711411163846 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2207349393350425260, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
@@ -559,6 +560,7 @@ MonoBehaviour:
   IsLocked: 0
   IsSource: 0
   lockIconContainer: {fileID: 679632393807756640}
+  warningIconContainer: {fileID: 1451379561904672695}
   AnchorBlockDragDropComp: {fileID: 0}
   MouseOverUI: {fileID: 0}
   SpeedInput: {fileID: 4996182808074809848}

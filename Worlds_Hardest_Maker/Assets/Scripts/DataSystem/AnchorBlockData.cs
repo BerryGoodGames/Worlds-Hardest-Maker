@@ -92,12 +92,12 @@ public class MoveAndRotateBlockData : AnchorBlockData
 }
 
 [Serializable]
-public class SetRotationSpeedBlockData : AnchorBlockData
+public class SetRotationBlockData : AnchorBlockData
 {
     private readonly float speed;
     private readonly int type;
 
-    public SetRotationSpeedBlockData(bool isLocked, float speed, SetRotationBlock.Unit type) : base(isLocked)
+    public SetRotationBlockData(bool isLocked, float speed, SetRotationBlock.Unit type) : base(isLocked)
     {
         this.speed = speed;
         this.type = (int)type;

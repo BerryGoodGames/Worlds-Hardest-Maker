@@ -10,7 +10,7 @@ public class TeleportBlock : PositionAnchorBlock, IActiveAnchorBlock
     protected override GameObject Prefab => PrefabManager.Instance.TeleportBlockPrefab;
     public override void Execute()
     {
-        Anchor.Rb.position = Target;
+        Anchor.transform.position = Target;
         Anchor.FinishCurrentExecution();
     }
 

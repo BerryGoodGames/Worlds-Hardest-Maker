@@ -33,4 +33,10 @@ public class SetRotationBlockController : AnchorBlockController
 
     public static string GetOption(SetRotationBlock.Unit unit) =>
         unitOptions.FirstOrDefault(x => x.Value == unit).Key;
+
+    public void UpdateWarnings()
+    {
+        AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+        AnchorManager.Instance.UpdateWarnings();
+    }
 }

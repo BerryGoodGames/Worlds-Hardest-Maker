@@ -175,6 +175,9 @@ public partial class AnchorBlockManager : MonoBehaviour
             t.CreateAnchorBlockObject();
         }
 
+        AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+        AnchorManager.Instance.UpdateWarnings();
+
         RectTransform stringController = (RectTransform)ReferenceManager.Instance.MainChainController.transform;
         LayoutRebuilder.ForceRebuildLayoutImmediate(stringController);
     }
@@ -211,4 +214,9 @@ public partial class AnchorBlockManager : MonoBehaviour
 
     private void LateUpdate() => HoveringLateUpdate();
     // Dbg.Text(HoveredBlockIndex);
+
+    public void OnMainChainUpdate()
+    {
+
+    }
 }

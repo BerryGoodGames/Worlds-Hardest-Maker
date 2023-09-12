@@ -9,7 +9,7 @@ public class SetRotationBlock : AnchorBlock, IPassiveAnchorBlock
         Time
     }
 
-    public const Type BlockType = Type.SetRotationSpeed;
+    public const Type BlockType = Type.SetRotation;
     public override Type ImplementedBlockType => BlockType;
     protected override GameObject Prefab => PrefabManager.Instance.SetRotationSpeedBlockPrefab;
 
@@ -41,6 +41,8 @@ public class SetRotationBlock : AnchorBlock, IPassiveAnchorBlock
             _ => speed
         };
 
+    public Unit GetUnit() => unit;
+
     protected override void SetControllerValues(AnchorBlockController c)
     {
         SetRotationBlockController controller = (SetRotationBlockController)c;
@@ -49,5 +51,5 @@ public class SetRotationBlock : AnchorBlock, IPassiveAnchorBlock
             GameManager.GetDropdownValue(SetRotationBlockController.GetOption(unit), controller.UnitInput);
     }
 
-    public override AnchorBlockData GetData() => new SetRotationSpeedBlockData(IsLocked, speed, unit);
+    public override AnchorBlockData GetData() => new SetRotationBlockData(IsLocked, speed, unit);
 }

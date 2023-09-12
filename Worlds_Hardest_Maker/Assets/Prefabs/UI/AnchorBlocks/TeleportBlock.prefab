@@ -140,6 +140,22 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.23058824
       objectReference: {fileID: 0}
+    - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3827249484333360628, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4810868768579070343, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: Color.b
       value: 0.86274517
@@ -198,6 +214,7 @@ MonoBehaviour:
   IsLocked: 0
   IsSource: 0
   lockIconContainer: {fileID: 2594881243098797951}
+  warningIconContainer: {fileID: 4127552031381464488}
   AnchorBlockDragDropComp: {fileID: 0}
   MouseOverUI: {fileID: 0}
   PositionInput: {fileID: 7317361867115501440}
@@ -220,6 +237,11 @@ MonoBehaviour:
 --- !u!1 &2594881243098797951 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4046638471290049802, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+  m_PrefabInstance: {fileID: 2029525300090897013}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4127552031381464488 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2693803718922020829, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
   m_PrefabInstance: {fileID: 2029525300090897013}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6285651745728613483

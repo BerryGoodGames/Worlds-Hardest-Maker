@@ -15,7 +15,7 @@ public abstract class AnchorBlock
         Wait,
         Ease,
         SetSpeed,
-        SetRotationSpeed,
+        SetRotation,
         SetDirection
     }
 
