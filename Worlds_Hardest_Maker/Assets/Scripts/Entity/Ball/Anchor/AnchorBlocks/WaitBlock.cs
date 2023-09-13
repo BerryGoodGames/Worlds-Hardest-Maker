@@ -36,9 +36,15 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
         this.unit = unit;
     }
 
-    public override async void Execute()
+    public override void Execute()
     {
-        await Task.Delay((int)(input * factors[unit] * 1000));
+        Anchor.WaitCoroutine = Anchor.StartCoroutine(WaitCoroutine());
+    }
+
+    private IEnumerator WaitCoroutine()
+    {
+        yield return new WaitForSeconds(input * factors[unit]);
+
         Anchor.FinishCurrentExecution();
     }
 

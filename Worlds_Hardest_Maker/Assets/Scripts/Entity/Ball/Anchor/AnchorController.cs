@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
@@ -30,6 +31,7 @@ public partial class AnchorController : Controller
     public AnchorBlock CurrentExecutingBlock;
     public LinkedListNode<AnchorBlock> CurrentExecutingNode;
 
+    public Coroutine WaitCoroutine;
 
     [HideInInspector] public Rigidbody2D Rb;
     private SpriteRenderer spriteRenderer;
@@ -155,6 +157,7 @@ public partial class AnchorController : Controller
 
         Rb.DOKill();
         t.DOKill();
+        if (WaitCoroutine != null) StopCoroutine(WaitCoroutine);
         CurrentExecutingBlock = null;
 
         Rb.position = startPosition;
