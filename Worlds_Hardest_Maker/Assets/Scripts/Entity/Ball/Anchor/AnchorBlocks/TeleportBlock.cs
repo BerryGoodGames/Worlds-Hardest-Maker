@@ -20,5 +20,6 @@ public class TeleportBlock : PositionAnchorBlock, IActiveAnchorBlock
         controller.PositionInput.SetPositionValues(Target);
     }
 
+    public override bool HasCurrentlyDuration() => false;
     public override AnchorBlockData GetData() => new TeleportBlockData(IsLocked, Target);
 } 

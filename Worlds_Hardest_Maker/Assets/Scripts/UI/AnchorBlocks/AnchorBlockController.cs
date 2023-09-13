@@ -59,6 +59,9 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         if (wasInChain)
         {
             ReferenceManager.Instance.MainChainController.UpdateChildrenArray();
+            
+            AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+            AnchorManager.Instance.CheckStackOverflowWarnings();
 
             ReferenceManager.Instance.AnchorBlockConnectorController.UpdateY();
 

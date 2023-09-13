@@ -1,5 +1,9 @@
+using System;
+using MyBox;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
 {
@@ -30,5 +34,29 @@ public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         if (active && eventData.button == PointerEventData.InputButton.Left) CreateNew();
+    }
+
+    [ButtonMethod]
+    public void SetNonInteractable()
+    {
+        AnchorBlockPositionInputController[] positionInputs =
+            GetComponentsInChildren<AnchorBlockPositionInputController>();
+
+        foreach (AnchorBlockPositionInputController positionInput in positionInputs)
+        {
+            TMP_InputField[] inputs = positionInput.GetComponentsInChildren<TMP_InputField>();
+            Button[] buttons = positionInput.GetComponentsInChildren<Button>();
+
+            foreach (TMP_InputField inputField in inputs)
+            {
+                inputField.interactable = false;
+                inputField.transition = Selectable.Transition.None;
+            }
+            foreach (Button button in buttons)
+            {
+                button.interactable = false;
+                button.transition = Selectable.Transition.None;
+            }
+        }
     }
 }
