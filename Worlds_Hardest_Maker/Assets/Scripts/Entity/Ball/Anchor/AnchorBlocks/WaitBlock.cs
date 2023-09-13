@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -34,9 +36,11 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
         this.unit = unit;
     }
 
-    public override void Execute() =>
-        Anchor.Rb.DOMove(Anchor.Rb.position, input * factors[unit])
-            .OnComplete(Anchor.FinishCurrentExecution);
+    public override async void Execute()
+    {
+        await Task.Delay((int)(input * factors[unit] * 1000));
+        Anchor.FinishCurrentExecution();
+    }
 
     protected override void SetControllerValues(AnchorBlockController c)
     {
