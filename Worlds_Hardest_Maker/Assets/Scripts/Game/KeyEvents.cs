@@ -15,9 +15,24 @@ public class KeyEvents : MonoBehaviour
         // toggle playing
         if (Input.GetKeyDown(KeyCode.Space)) PlayManager.Instance.TogglePlay();
 
+        // close panel if esc pressed
+        bool closingPanel = false;
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            foreach (PanelController panel in PanelManager.Instance.Panels)
+            {
+                if (!panel.Open || !panel.CloseOnEscape) continue;
+
+                PanelManager.Instance.SetPanelOpen(panel, false);
+                closingPanel = true;
+            }
+        }
+
         // toggle menu
-        if (!MenuManager.Instance.BlockMenu && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)))
+        if (!closingPanel && !MenuManager.Instance.BlockMenu && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)))
+        {
             menuUITween.SetVisible(!menuUITween.IsVisible);
+        }
 
         // teleport player to mouse pos
         if (EditModeManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))

@@ -13,6 +13,7 @@ public class PanelController : MonoBehaviour
 
     [field:Separator("Initial settings")][field:SerializeField][field:InitializationField] public bool Open { get; private set; }
     [field:SerializeField][field:InitializationField] public bool Hidden { get; private set; }
+    [field:SerializeField][field:InitializationField] public bool CloseOnEscape { get; private set; }
 
     public void ToggleOpen(bool noAnimation = false)
     {

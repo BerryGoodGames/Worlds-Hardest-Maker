@@ -40,7 +40,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         CurrentEditedPositionInput = null;
 
         // release menu
-        MenuManager.Instance.BlockMenu = false;
+        // MenuManager.Instance.BlockMenu = false;
 
         // show panels
         ReferenceManager.Instance.ToolbarTween.SetPlay(EditModeManager.Instance.Playing);
