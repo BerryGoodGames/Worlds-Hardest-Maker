@@ -55,6 +55,7 @@ public class PrefabManager : MonoBehaviour
     [Foldout("UI")] public GameObject NumberInputOptionPrefab;
     [Foldout("UI")] public GameObject HeaderOptionPrefab;
     [Foldout("UI")] public GameObject SpaceOptionPrefab;
+    [Foldout("UI")] public GameObject GlowPrefab;
 
     [Foldout("UI")] public GameObject FillPreview;
     [Foldout("UI")] public GameObject Tooltip;

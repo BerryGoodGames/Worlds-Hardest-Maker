@@ -126,14 +126,14 @@ public class DrawManager : MonoBehaviour
         return line;
     }
 
-    public static void DrawDashedLine(Vector2 start, Vector2 end, float width, float spacing, bool pointAtEnd = false, Transform parent = null)
+    public static LineRenderer DrawDashedLine(Vector2 start, Vector2 end, float width, float spacing, bool pointAtEnd = false, Transform parent = null)
     {
         if (parent == null) parent = ReferenceManager.Instance.DrawContainer;
 
         // generate object
-        GameObject line = DrawLine(start, end, parent).gameObject;
+        LineRenderer line = DrawLine(start, end, parent);
 
-        DashedLineController dashedLineController = line.AddComponent<DashedLineController>();
+        DashedLineController dashedLineController = line.gameObject.AddComponent<DashedLineController>();
 
         dashedLineController.Width = width;
         dashedLineController.Spacing = spacing;
@@ -146,6 +146,8 @@ public class DrawManager : MonoBehaviour
             // DrawLine(end, end, parent);
             // SetWeight(Weight / 2);
         }
+
+        return line;
     }
 
     private static LineRenderer NewDrawObject(string name, Transform parent)
