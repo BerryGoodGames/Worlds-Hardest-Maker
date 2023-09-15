@@ -61,6 +61,8 @@ public class AnchorPositionInputEditManager : MonoBehaviour
 
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
         PanelManager.Instance.SetPanelOpen(anchorPanel, EditModeManager.Instance.Editing);
+        
+        AnchorManager.Instance.SelectedAnchor.RenderLines();
     }
 
     public IEnumerator EditCoroutine()
@@ -68,8 +70,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         if (CurrentEditedPositionInput == null) yield break;
 
         OnStartPositionEdit();
-
-
+        
         PositionAnchorBlockController anchorBlockController = CurrentEditedPositionInput.AnchorBlockController;
         PositionAnchorBlockController nextAnchorBlockController = null;
 
@@ -110,8 +111,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
             anchorBlockController.ArrowLines.line1.AnimateAllPoints(new() { arrowCenter, arrowVertex1 }, 0.05f,
                 Ease.Linear);
             anchorBlockController.ArrowLines.line2.AnimateAllPoints(new() { arrowCenter, arrowVertex2 }, 0.05f, Ease.Linear);
-
-
+            
             // animate next line
             if (gotNextController)
             {
