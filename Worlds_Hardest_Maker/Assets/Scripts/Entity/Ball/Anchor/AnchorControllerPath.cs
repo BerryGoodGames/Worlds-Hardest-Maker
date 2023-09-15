@@ -15,6 +15,7 @@ public partial class AnchorController
 
     public void RenderLines()
     {
+        print("Path update");
         ClearLines();
 
         // line settings
@@ -67,21 +68,18 @@ public partial class AnchorController
             {
                 Vector2 currentVertex = ((PositionAnchorBlock)currentBlock).Target;
 
-                if (ReferenceManager.Instance.MainChainController.Children[index] is PositionAnchorBlockController
-                    controller)
+                if (ReferenceManager.Instance.MainChainController.Children[index] is PositionAnchorBlockController controller)
                 {
-                    LineRenderer line = currentBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate ?
-                        DrawManager.DrawLine(previousVertex, currentVertex, lineContainer) :
-                        DrawManager.DrawDashedLine(previousVertex, currentVertex, 0.2f, 0.2f, lineContainer);
+                    AnchorPathLine line = Instantiate(PrefabManager.Instance.AnchorPathLine, Vector2.zero,
+                        Quaternion.identity, lineContainer);
 
-                    LineAnimator animator = line.GetOrAddComponent<LineAnimator>();
+                    line.CreateArrowHead(previousVertex, currentVertex);
+                    line.CreateArrowLine(previousVertex, currentVertex, currentBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate);
+                    line.CreateBlur();
 
-                    controller.LineAnimator = animator;
+                    controller.Lines.Add(line);
                 }
                 else throw new("controller was for some reason not a position block controller, this shouldn't happen");
-
-                (LineRenderer line1, LineRenderer line2) = DrawArrowHead(currentVertex, previousVertex);
-                controller.ArrowLines = (line1.GetOrAddComponent<LineAnimator>(), line2.GetOrAddComponent<LineAnimator>());
 
                 previousVertex = currentVertex;
                 break;
@@ -97,37 +95,20 @@ public partial class AnchorController
 
     private void ClearLines()
     {
+        // clear references in blocks
+        foreach (AnchorBlock anchorBlock in Blocks)
+        {
+            if (anchorBlock is not PositionAnchorBlock positionAnchorBlock) continue;
+
+            PositionAnchorBlockController controller = positionAnchorBlock.Controller;
+            controller.Lines.Clear();
+        }
+
         // clear lines
         foreach (Transform line in lineContainer)
         {
             Destroy(line.gameObject);
         }
-    }
-
-    private (LineRenderer line1, LineRenderer line2) DrawArrowHead(Vector2 currentVertex, Vector2 previousVertex)
-    {
-        (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) = GetArrowHeadPoints(currentVertex, previousVertex);
-
-        return (DrawManager.DrawLine(arrowCenter, arrowVertex1, lineContainer),
-            DrawManager.DrawLine(arrowCenter, arrowVertex2, lineContainer));
-    }
-
-    public (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) GetArrowHeadPoints(Vector2 currentVertex, Vector2 previousVertex)
-    {
-        const float headLineLength = 0.15f;
-        Vector2 delta = currentVertex - previousVertex;
-        Vector2 halfPoint = previousVertex + delta / 2;
-        Vector2 offset = delta.normalized * (headLineLength / 2);
-        Vector2 start = halfPoint + offset;
-        Vector2 endSideOffset = delta.normalized * Mathf.Sin(headLineLength);
-        endSideOffset.Rotate(90);
-        Vector2 end = halfPoint - offset;
-
-        Vector2 arrowVertex1 = end + endSideOffset;
-        Vector2 arrowVertex2 = end - endSideOffset;
-        Vector2 arrowCenter = start;
-
-        return (arrowVertex1, arrowVertex2, arrowCenter);
     }
 
     public void SetLinesActive(bool active) => lineContainer.gameObject.SetActive(active);

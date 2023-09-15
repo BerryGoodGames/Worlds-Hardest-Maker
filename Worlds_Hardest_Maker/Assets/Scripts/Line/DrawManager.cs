@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using LuLib.Vector;
 using MyBox;
 using Unity.Collections;
 using UnityEngine;
@@ -139,6 +140,24 @@ public class DrawManager : MonoBehaviour
         dashedLineController.Spacing = spacing;
 
         return line;
+    }
+
+    public static (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) GetArrowHeadPoints(Vector2 start, Vector2 end)
+    {
+        const float headLineLength = 0.15f;
+        Vector2 delta = end - start;
+        Vector2 halfPoint = start + delta / 2;
+        Vector2 offset = delta.normalized * (headLineLength / 2);
+        Vector2 _start = halfPoint + offset;
+        Vector2 endSideOffset = delta.normalized * Mathf.Sin(headLineLength);
+        endSideOffset.Rotate(90);
+        Vector2 _end = halfPoint - offset;
+
+        Vector2 arrowVertex1 = _end + endSideOffset;
+        Vector2 arrowVertex2 = _end - endSideOffset;
+        Vector2 arrowCenter = _start;
+
+        return (arrowVertex1, arrowVertex2, arrowCenter);
     }
 
     private static LineRenderer NewDrawObject(string name, Transform parent)

@@ -1,5 +1,4 @@
-using System;
-using LuLib.Vector;
+using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,12 +8,7 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
     [Separator("Position")] [InitializationField] [MustBeAssigned]
     public AnchorBlockPositionInputController PositionInput;
 
-    public LineAnimator LineAnimator { get; set; }
-    public LineRenderer Line => LineAnimator.LineRenderer;
-
-    public (LineAnimator line1, LineAnimator line2) ArrowLines { get; set; }
-
-    [SerializeField][ReadOnly]private AlphaTween blur;
+    public List<AnchorPathLine> Lines { get; set; }
 
     public new PositionAnchorBlock Block => (PositionAnchorBlock)base.Block;
 
@@ -28,38 +22,30 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (LineAnimator == null || Line == null) return;
-        
-        // calculate position etc.
-        Vector2 delta = Line.GetPosition(1) - Line.GetPosition(0);
-        Vector2 glowStart = Line.GetPosition(0) + ((Vector3)delta / 2);
-        float glowLength = delta.magnitude;
-        float glowRotation = delta.GetRotation();
-        
-        // create blur
-        if(blur == null)
-            blur = Instantiate(PrefabManager.Instance.GlowPrefab, glowStart, Quaternion.Euler(0, 0, glowRotation), Line.transform);
-        
-        // configure sprite renderer settings
-        SpriteRenderer spriteRenderer = blur.GetComponent<SpriteRenderer>();
-        
-        spriteRenderer.color = Line.startColor.WithAlphaSetTo(0);
-        
-        blur.SetVisible(true);
-
-        const float glowWidth = 0.5f;
-        spriteRenderer.size = new(glowWidth, glowLength + glowWidth);
+        foreach (AnchorPathLine line in Lines)
+        {
+            line.Blur.SetVisible(true);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if(LineAnimator == null || Line == null || blur == null) return;
-
-        blur.SetVisible(false);
+        foreach (AnchorPathLine line in Lines)
+        {
+            line.Blur.SetVisible(false);
+        }
     }
+    
+    // private void OnDestroy()
+    // {
+    //     foreach (AnchorPathLine line in Lines)
+    //     {
+    //         Destroy(line.gameObject);
+    //     }
+    // }
 
-    private void OnDestroy()
+    private void Awake()
     {
-        if(blur != null) Destroy(blur);
+        Lines = new();
     }
 }

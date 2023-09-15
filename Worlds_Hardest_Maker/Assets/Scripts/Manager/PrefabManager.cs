@@ -64,6 +64,7 @@ public class PrefabManager : MonoBehaviour
 
     #region Anchor blocks
 
+    [Foldout("Anchor blocks")] public AnchorPathLine AnchorPathLine;
     [Foldout("Anchor blocks")] public GameObject AnchorConnector;
     [Foldout("Anchor blocks")] public GameObject GoToBlockPrefab;
     [Foldout("Anchor blocks")] public GameObject MoveBlockPrefab;

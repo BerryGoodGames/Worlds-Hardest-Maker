@@ -43,9 +43,6 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         IsEditing = false;
         CurrentEditedPositionInput = null;
 
-        // release menu
-        // MenuManager.Instance.BlockMenu = false;
-
         // show panels
         ReferenceManager.Instance.ToolbarTween.SetPlay(EditModeManager.Instance.Playing);
         ReferenceManager.Instance.InfobarEditTween.SetPlay(EditModeManager.Instance.Playing);
@@ -86,6 +83,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
             break;
         }
 
+        Vector2? previousMousePos = null;
         // wait until clicked, cancel if esc is pressed
         while (!Input.GetMouseButton(0))
         {
@@ -96,25 +94,16 @@ public class AnchorPositionInputEditManager : MonoBehaviour
                 yield break;
             }
 
-            // animate current line
-            anchorBlockController.LineAnimator.AnimatePoint(1, MouseManager.Instance.MouseWorldPosGrid, 0.05f, Ease.Linear);
-            
-            (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) = AnchorManager.Instance.SelectedAnchor.GetArrowHeadPoints(MouseManager.Instance.MouseWorldPosGrid, anchorBlockController.Line.GetPosition(0));
-            anchorBlockController.ArrowLines.line1.AnimateAllPoints(new() { arrowCenter, arrowVertex1 }, 0.05f,
-                Ease.Linear);
-            anchorBlockController.ArrowLines.line2.AnimateAllPoints(new() { arrowCenter, arrowVertex2 }, 0.05f, Ease.Linear);
-            
-            // animate next line
-            if (gotNextController)
+            // animate current & next line (only if mouse position changed)
+            Vector2 mousePos = MouseManager.Instance.MouseWorldPosGrid;
+
+            if (previousMousePos == null || mousePos != previousMousePos)
             {
-                nextAnchorBlockController.LineAnimator.AnimatePoint(0, MouseManager.Instance.MouseWorldPosGrid,
-                    0.05f, Ease.Linear);
-                (Vector2 nextArrowVertex1, Vector2 nextArrowVertex2, Vector2 nextArrowCenter) = AnchorManager.Instance.SelectedAnchor.GetArrowHeadPoints(nextAnchorBlockController.Line.GetPosition(1), MouseManager.Instance.MouseWorldPosGrid);
-                nextAnchorBlockController.ArrowLines.line1.AnimateAllPoints(new() { nextArrowCenter, nextArrowVertex1 }, 0.05f,
-                    Ease.Linear);
-                nextAnchorBlockController.ArrowLines.line2.AnimateAllPoints(new() { nextArrowCenter, nextArrowVertex2 }, 0.05f, Ease.Linear);
+                anchorBlockController.Lines.ForEach(line => line.AnimateEnd(mousePos));
+                if (gotNextController) nextAnchorBlockController.Lines.ForEach(line => line.AnimateStart(mousePos));
             }
 
+            previousMousePos = mousePos;
             yield return null;
         }
 
