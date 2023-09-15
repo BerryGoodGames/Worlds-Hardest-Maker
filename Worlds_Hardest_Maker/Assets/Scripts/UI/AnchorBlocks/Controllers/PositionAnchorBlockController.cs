@@ -39,14 +39,13 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
         // create blur
         if(blur == null)
             blur = Instantiate(PrefabManager.Instance.GlowPrefab, glowStart, Quaternion.Euler(0, 0, glowRotation), Line.transform);
-        print("set");
-        blur.SetVisible(true);
-
-
+        
         // configure sprite renderer settings
         SpriteRenderer spriteRenderer = blur.GetComponent<SpriteRenderer>();
         
-        spriteRenderer.color = Line.startColor;
+        spriteRenderer.color = Line.startColor.WithAlphaSetTo(0);
+        
+        blur.SetVisible(true);
 
         const float glowWidth = 0.5f;
         spriteRenderer.size = new(glowWidth, glowLength + glowWidth);
