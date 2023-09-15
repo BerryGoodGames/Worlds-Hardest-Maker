@@ -14,7 +14,6 @@ public class AnchorPathLine : MonoBehaviour
 
     public void AnimateEnd(Vector2 end)
     {
-        print((LineRenderer.GetPosition(0), LineRenderer.GetPosition(1)));
         LineAnimator.AnimatePoint(1, end, 0.05f, Ease.Linear);
         
         (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) = DrawManager.GetArrowHeadPoints(LineRenderer.GetPosition(0), end);
@@ -24,7 +23,6 @@ public class AnchorPathLine : MonoBehaviour
 
     public void AnimateStart(Vector2 start)
     {
-        // print((LineRenderer.GetPosition(0), LineRenderer.GetPosition(1)));
         LineAnimator.AnimatePoint(0, start, 0.05f, Ease.Linear);
         
         (Vector2 nextArrowVertex1, Vector2 nextArrowVertex2, Vector2 nextArrowCenter) = DrawManager.GetArrowHeadPoints(start, LineRenderer.GetPosition(1));

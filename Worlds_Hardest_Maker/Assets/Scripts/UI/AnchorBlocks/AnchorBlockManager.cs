@@ -56,6 +56,12 @@ public partial class AnchorBlockManager : MonoBehaviour
         AnchorManager.Instance.CheckStartRotatingWarnings();
         AnchorManager.Instance.CheckStackOverflowWarnings();
 
+        // track loop block index
+        if (anchorBlock is LoopBlockController)
+        {
+            AnchorManager.Instance.SelectedAnchor.LoopBlockIndex = siblingIndex;
+        }
+
         AnchorController selectedAnchor = AnchorManager.Instance.SelectedAnchor;
         selectedAnchor.RenderLines();
     }

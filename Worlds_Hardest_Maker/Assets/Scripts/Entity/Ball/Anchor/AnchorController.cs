@@ -36,6 +36,8 @@ public partial class AnchorController : Controller
     private SpriteRenderer spriteRenderer;
     private EntityDragDrop entityDragDrop;
 
+    public int LoopBlockIndex { get; set; } = -1;
+
     private void Awake()
     {
         Rb = GetComponent<Rigidbody2D>();

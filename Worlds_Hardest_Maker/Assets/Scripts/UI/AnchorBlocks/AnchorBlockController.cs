@@ -66,6 +66,11 @@ public abstract partial class AnchorBlockController : MonoBehaviour
             ReferenceManager.Instance.AnchorBlockConnectorController.UpdateY();
 
             AnchorManager.Instance.UpdateSelectedAnchorLines();
+
+            if (this is LoopBlockController)
+            {
+                AnchorManager.Instance.SelectedAnchor.LoopBlockIndex = -1;
+            }
         }
 
         Destroy(gameObject);
@@ -90,6 +95,11 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         AnchorManager.Instance.CheckStackOverflowWarnings();
 
         ReferenceManager.Instance.AnchorBlockConnectorController.UpdateY();
+
+        if (this is LoopBlockController)
+        {
+            AnchorManager.Instance.SelectedAnchor.LoopBlockIndex = -1;
+        }
 
         SetWarning(false);
     }

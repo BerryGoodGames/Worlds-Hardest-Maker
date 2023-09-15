@@ -9,13 +9,9 @@ public partial class AnchorController
     [Separator("Path settings")] [SerializeField] private Transform lineContainer;
     [SerializeField] private Color lineColor;
     [SerializeField] private float lineWeight;
-    [SerializeField] private float dashedLineWidth;
-    [SerializeField] private float dashedLineSpacing;
-    [SerializeField] private float lineAnimationDuration;
 
     public void RenderLines()
     {
-        print("Path update");
         ClearLines();
 
         // line settings
@@ -30,6 +26,8 @@ public partial class AnchorController
         int index = 0;
         LinkedListNode<AnchorBlock> currentNode = Blocks.First;
 
+        List<(Vector2 start, Vector2 end)> lineList = new();
+
         int loopIndex = -1;
         bool hasLooped = false;
 
@@ -39,7 +37,7 @@ public partial class AnchorController
             AnchorBlock currentBlock = currentNode.Value;
 
             // handle current block
-            ParseBlockForPath(ref currentBlock, ref previousVertex, ref loopIndex, ref index);
+            ParseBlockForPath(ref currentBlock, ref previousVertex, ref loopIndex, ref index, ref lineList);
 
             // increment
             index++;
@@ -59,7 +57,7 @@ public partial class AnchorController
         }
     }
 
-    private void ParseBlockForPath(ref AnchorBlock currentBlock, ref Vector2 previousVertex, ref int loopIndex, ref int index)
+    private void ParseBlockForPath(ref AnchorBlock currentBlock, ref Vector2 previousVertex, ref int loopIndex, ref int index, ref List<(Vector2 start, Vector2 end)> lineList)
     {
         switch (currentBlock.ImplementedBlockType)
         {
@@ -79,7 +77,7 @@ public partial class AnchorController
 
                     controller.Lines.Add(line);
                 }
-                else throw new("controller was for some reason not a position block controller, this shouldn't happen");
+                else throw new("Controller was for some reason not a position block controller, this shouldn't happen");
 
                 previousVertex = currentVertex;
                 break;
