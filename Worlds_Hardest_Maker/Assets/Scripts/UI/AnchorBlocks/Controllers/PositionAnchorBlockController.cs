@@ -8,7 +8,11 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
     [Separator("Position")] [InitializationField] [MustBeAssigned]
     public AnchorBlockPositionInputController PositionInput;
 
-    [HideInInspector] public LineRenderer Line;
+    public LineAnimator LineAnimator { get; set; }
+    public LineRenderer Line => LineAnimator.LineRenderer;
+
+    public (LineAnimator line1, LineAnimator line2) ArrowLines { get; set; }
+
     private GameObject blur;
 
     public new PositionAnchorBlock Block => (PositionAnchorBlock)base.Block;
@@ -23,7 +27,7 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (Line == null) return;
+        if (LineAnimator == null || Line == null) return;
         
         // calculate position etc.
         Vector2 delta = Line.GetPosition(1) - Line.GetPosition(0);
@@ -45,7 +49,7 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if(Line == null || blur == null) return;
+        if(LineAnimator == null || Line == null || blur == null) return;
 
         Destroy(blur);
     }

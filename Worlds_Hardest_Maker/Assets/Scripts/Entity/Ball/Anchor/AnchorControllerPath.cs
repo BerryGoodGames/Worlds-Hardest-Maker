@@ -70,14 +70,18 @@ public partial class AnchorController
                 if (ReferenceManager.Instance.MainChainController.Children[index] is PositionAnchorBlockController
                     controller)
                 {
-                    controller.Line = currentBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate ? 
-                        DrawManager.DrawLine(previousVertex, currentVertex, lineContainer) : 
+                    LineRenderer line = currentBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate ?
+                        DrawManager.DrawLine(previousVertex, currentVertex, lineContainer) :
                         DrawManager.DrawDashedLine(previousVertex, currentVertex, 0.2f, 0.2f, lineContainer);
+
+                    LineAnimator animator = line.GetOrAddComponent<LineAnimator>();
+
+                    controller.LineAnimator = animator;
                 }
                 else throw new("controller was for some reason not a position block controller, this shouldn't happen");
-                
 
-                DrawArrowHead(currentVertex, previousVertex);
+                (LineRenderer line1, LineRenderer line2) = DrawArrowHead(currentVertex, previousVertex);
+                controller.ArrowLines = (line1.GetOrAddComponent<LineAnimator>(), line2.GetOrAddComponent<LineAnimator>());
 
                 previousVertex = currentVertex;
                 break;
@@ -100,18 +104,15 @@ public partial class AnchorController
         }
     }
 
-    private List<LineRenderer> DrawArrowHead(Vector2 currentVertex, Vector2 previousVertex)
+    private (LineRenderer line1, LineRenderer line2) DrawArrowHead(Vector2 currentVertex, Vector2 previousVertex)
     {
         (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) = GetArrowHeadPoints(currentVertex, previousVertex);
 
-        return new()
-        {
-            DrawManager.DrawLine(arrowCenter, arrowVertex1, lineContainer),
-            DrawManager.DrawLine(arrowCenter, arrowVertex2, lineContainer)
-        };
+        return (DrawManager.DrawLine(arrowCenter, arrowVertex1, lineContainer),
+            DrawManager.DrawLine(arrowCenter, arrowVertex2, lineContainer));
     }
 
-    private (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) GetArrowHeadPoints(Vector2 currentVertex, Vector2 previousVertex)
+    public (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) GetArrowHeadPoints(Vector2 currentVertex, Vector2 previousVertex)
     {
         const float headLineLength = 0.15f;
         Vector2 delta = currentVertex - previousVertex;

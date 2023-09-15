@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using MyBox;
 using UnityEngine;
 
@@ -76,6 +77,13 @@ public class AnchorPositionInputEditManager : MonoBehaviour
                 yield break;
             }
 
+            PositionAnchorBlockController anchorBlockController = CurrentEditedPositionInput.AnchorBlockController;
+            anchorBlockController.LineAnimator.AnimatePoint(1, MouseManager.Instance.MouseWorldPosGrid, 0.05f, Ease.Linear);
+
+            (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) = AnchorManager.Instance.SelectedAnchor.GetArrowHeadPoints(MouseManager.Instance.MouseWorldPosGrid, anchorBlockController.Line.GetPosition(0));
+            anchorBlockController.ArrowLines.line1.AnimateAllPoints(new() { arrowCenter, arrowVertex1 }, 0.05f,
+                Ease.Linear);
+            anchorBlockController.ArrowLines.line2.AnimateAllPoints(new() { arrowCenter, arrowVertex2 }, 0.05f, Ease.Linear);
 
             yield return null;
         }
