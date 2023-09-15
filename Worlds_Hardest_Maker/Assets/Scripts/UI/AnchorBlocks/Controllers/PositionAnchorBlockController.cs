@@ -8,12 +8,17 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
     [Separator("Position")] [InitializationField] [MustBeAssigned]
     public AnchorBlockPositionInputController PositionInput;
 
+<<<<<<< Updated upstream
     [HideInInspector] public LineRenderer Line;
 
 
     public new PositionAnchorBlock Block => (PositionAnchorBlock)base.Block;
 
     private GameObject blur;
+=======
+    public new PositionAnchorBlock Block => (PositionAnchorBlock)base.Block;
+
+>>>>>>> Stashed changes
     protected Vector2 GetPositionInput()
     {
         if (!float.TryParse(PositionInput.InputX.text, out float x) |
