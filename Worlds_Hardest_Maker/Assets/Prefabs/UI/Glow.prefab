@@ -102,7 +102,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 0}
   spriteRenderer: {fileID: 5532343494704011333}
   startVisible: 0
-  duration: 0.7
+  duration: 0.2
   disableObjectWhenInvisible: 0
   alphaVisible: 1
   alphaInvisible: 0
