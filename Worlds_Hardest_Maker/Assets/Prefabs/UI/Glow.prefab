@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8840151143044196379}
   - component: {fileID: 5532343494704011333}
+  - component: {fileID: 1280773324893431364}
   m_Layer: 0
   m_Name: Glow
   m_TagString: Untagged
@@ -84,3 +85,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1280773324893431364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3461606986038873170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac2e35a7172e3644b4e54c46f96ce0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 0}
+  text: {fileID: 0}
+  canvasGroup: {fileID: 0}
+  spriteRenderer: {fileID: 5532343494704011333}
+  startVisible: 0
+  duration: 0.7
+  disableObjectWhenInvisible: 0
+  alphaVisible: 1
+  alphaInvisible: 0

@@ -14,7 +14,7 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
 
     public (LineAnimator line1, LineAnimator line2) ArrowLines { get; set; }
 
-    private GameObject blur;
+    [SerializeField][ReadOnly]private AlphaTween blur;
 
     public new PositionAnchorBlock Block => (PositionAnchorBlock)base.Block;
 
@@ -39,7 +39,8 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
         // create blur
         if(blur == null)
             blur = Instantiate(PrefabManager.Instance.GlowPrefab, glowStart, Quaternion.Euler(0, 0, glowRotation), Line.transform);
-        else blur.SetActive(true);
+        print("set");
+        blur.SetVisible(true);
 
 
         // configure sprite renderer settings
@@ -55,7 +56,7 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
     {
         if(LineAnimator == null || Line == null || blur == null) return;
 
-        blur.SetActive(false);
+        blur.SetVisible(false);
     }
 
     private void OnDestroy()

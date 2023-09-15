@@ -7,13 +7,13 @@ using UnityEngine;
 public class HoveringOnOptionbar : MonoBehaviour
 {
     public GameObject OptionBar;
-    private AlphaUITween anim;
+    private AlphaTween anim;
     private MouseOverUIRect mo;
 
     private void Start()
     {
         mo = GetComponent<MouseOverUIRect>();
-        anim = OptionBar.GetComponent<AlphaUITween>();
+        anim = OptionBar.GetComponent<AlphaTween>();
     }
 
     private void Update() =>

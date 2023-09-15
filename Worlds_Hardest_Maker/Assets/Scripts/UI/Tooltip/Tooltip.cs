@@ -15,7 +15,7 @@ public class Tooltip : MonoBehaviour
 
     private const float DefaultTweenDelay = 1;
     private MouseOverUIRect mouseOver;
-    private AlphaUITween fadeTween;
+    private AlphaTween fadeTween;
     private GameObject tooltip;
     private RectTransform tooltipRectTransform;
     private TMP_Text tooltipText;
@@ -34,7 +34,7 @@ public class Tooltip : MonoBehaviour
 
         tooltip = Instantiate(PrefabManager.Instance.Tooltip, Vector2.zero, Quaternion.identity,
             ReferenceManager.Instance.TooltipCanvas.transform);
-        fadeTween = tooltip.GetComponent<AlphaUITween>();
+        fadeTween = tooltip.GetComponent<AlphaTween>();
 
         tooltipRectTransform = tooltip.GetComponent<RectTransform>();
         tooltipText = tooltip.GetComponent<TooltipController>().Text;

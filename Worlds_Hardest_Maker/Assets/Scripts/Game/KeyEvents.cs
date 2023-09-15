@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class KeyEvents : MonoBehaviour
 {
-    private AlphaUITween menuUITween;
+    private AlphaTween menuTween;
 
     private void Update()
     {
@@ -31,7 +31,7 @@ public class KeyEvents : MonoBehaviour
         // toggle menu
         if (!closingPanel && !MenuManager.Instance.BlockMenu && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)))
         {
-            menuUITween.SetVisible(!menuUITween.IsVisible);
+            menuTween.SetVisible(!menuTween.IsVisible);
         }
 
         // teleport player to mouse pos
@@ -126,5 +126,5 @@ public class KeyEvents : MonoBehaviour
         }
     }
 
-    private void Start() => menuUITween = ReferenceManager.Instance.Menu.GetComponent<AlphaUITween>();
+    private void Start() => menuTween = ReferenceManager.Instance.Menu.GetComponent<AlphaTween>();
 }

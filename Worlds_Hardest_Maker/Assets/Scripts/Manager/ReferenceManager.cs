@@ -88,9 +88,9 @@ public class ReferenceManager : MonoBehaviour
 
     [Foldout("Anchor")] public AnchorCameraJumping AnchorCameraJumping;
 
-    [Foldout("Anchor")] public AlphaUITween AnchorNoAnchorSelectedScreen;
+    [Foldout("Anchor")] public AlphaTween AnchorNoAnchorSelectedScreen;
 
-    [Foldout("Anchor")] public AlphaUITween AnchorInPlayModeScreen;
+    [Foldout("Anchor")] public AlphaTween AnchorInPlayModeScreen;
 
     #endregion
 

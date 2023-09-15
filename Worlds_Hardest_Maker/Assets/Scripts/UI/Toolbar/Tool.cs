@@ -12,7 +12,7 @@ public class Tool : MonoBehaviour
     [HideInInspector] public bool InOptionbar;
 
     private SelectionSquare selectionSquare;
-    private AlphaUITween anim;
+    private AlphaTween anim;
     private MouseOverUIRect mouseOverUIRect;
 
     private void Awake()
@@ -25,7 +25,7 @@ public class Tool : MonoBehaviour
 
     private void Start()
     {
-        anim = GetComponent<AlphaUITween>();
+        anim = GetComponent<AlphaTween>();
         mouseOverUIRect = GetComponent<MouseOverUIRect>();
         selectionSquare = transform.GetChild(1).GetComponent<SelectionSquare>();
     }
