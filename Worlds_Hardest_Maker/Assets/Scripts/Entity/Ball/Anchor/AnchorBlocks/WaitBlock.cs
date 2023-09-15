@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using DG.Tweening;
 using UnityEngine;
 
 public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
@@ -36,10 +34,7 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
         this.unit = unit;
     }
 
-    public override void Execute()
-    {
-        Anchor.WaitCoroutine = Anchor.StartCoroutine(WaitCoroutine());
-    }
+    public override void Execute() => Anchor.WaitCoroutine = Anchor.StartCoroutine(WaitCoroutine());
 
     private IEnumerator WaitCoroutine()
     {

@@ -9,8 +9,11 @@ public abstract partial class AnchorBlockController : MonoBehaviour
     [Separator("General")] public bool IsLocked;
     public bool IsSource;
 
-    [Space] [MustBeAssigned] [SerializeField] private GameObject lockIconContainer;
-    [Space] [MustBeAssigned][SerializeField] private GameObject warningIconContainer;
+    [Space] [MustBeAssigned] [SerializeField]
+    private GameObject lockIconContainer;
+
+    [Space] [MustBeAssigned] [SerializeField]
+    private GameObject warningIconContainer;
 
     [HideInInspector] public AnchorBlockDragDrop AnchorBlockDragDropComp;
     private UIRestrictInRectTransform restrict;
@@ -26,11 +29,11 @@ public abstract partial class AnchorBlockController : MonoBehaviour
 
         if (IsLocked)
         {
-            if(TryGetComponent(out AnchorBlockQuickMenu quickMenu)) quickMenu.Active = false;
+            if (TryGetComponent(out AnchorBlockQuickMenu quickMenu)) quickMenu.Active = false;
 
             if (TryGetComponent(out AnchorBlockDragDrop dragDrop)) dragDrop.IsLocked = true;
         }
-        
+
         IsSource = TryGetComponent(out AnchorBlockSource _);
 
         // enable lock icon if unmovable and not a source
@@ -59,7 +62,7 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         if (wasInChain)
         {
             ReferenceManager.Instance.MainChainController.UpdateChildrenArray();
-            
+
             AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
             AnchorManager.Instance.CheckStackOverflowWarnings();
 
@@ -131,10 +134,7 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         return parent != null && parent.TryGetComponent(out ChainController _);
     }
 
-    public void SetWarning(bool enable)
-    {
-        warningIconContainer.SetActive(enable);
-    }
+    public void SetWarning(bool enable) => warningIconContainer.SetActive(enable);
 
     private void Start()
     {

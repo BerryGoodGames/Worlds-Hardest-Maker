@@ -16,7 +16,9 @@ public class PanelTween : MonoBehaviour
 
     [Space] [SerializeField] private float duration;
 
-    [field:SerializeField][field:ReadOnly] public bool Open { get; private set; }
+    [field: SerializeField]
+    [field: ReadOnly]
+    public bool Open { get; private set; }
 
     [SerializeField] private bool closesToRight;
     private float closedX;
@@ -42,10 +44,7 @@ public class PanelTween : MonoBehaviour
         Open = open;
     }
 
-    public void ToggleOpen(bool noAnimation = false)
-    {
-        SetOpen(!Open, noAnimation);
-    }
+    public void ToggleOpen(bool noAnimation = false) => SetOpen(!Open, noAnimation);
 
     private void Awake()
     {

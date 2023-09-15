@@ -4,7 +4,6 @@ using UnityEngine;
 
 public partial class AnchorManager
 {
-
     public void CheckStackOverflowWarnings()
     {
         // check if there are no blocks with any duration after loop block
@@ -26,7 +25,7 @@ public partial class AnchorManager
                 if (currentNode.Next == null) isStackOverflow = true;
                 return false;
             }
-            
+
             // check if any of following blocks have any duration, if yes then no stack overflow
             if (!loopingDetected || block is not IDurationBlock durationBlock) return false;
             if (!durationBlock.HasCurrentlyDuration()) return false;
@@ -35,7 +34,6 @@ public partial class AnchorManager
 
             // break the loop
             return true;
-
         });
 
         if (loopingDetected)

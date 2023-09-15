@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using DG.Tweening;
@@ -14,7 +13,7 @@ public class LineAnimator : MonoBehaviour
     public void AnimatePoint(int lineRenderPoint, Vector2 pos, float duration, Ease ease = Ease.InOutSine) =>
         DOTween.To(() =>
                 {
-                    if(LineRenderer == null) return Vector2.zero;
+                    if (LineRenderer == null) return Vector2.zero;
                     return LineRenderer.GetPosition(lineRenderPoint);
                 },
                 x =>

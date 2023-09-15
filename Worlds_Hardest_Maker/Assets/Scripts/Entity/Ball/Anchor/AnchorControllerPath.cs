@@ -1,12 +1,12 @@
-using System;
 using System.Collections.Generic;
-using LuLib.Vector;
 using MyBox;
 using UnityEngine;
 
 public partial class AnchorController
 {
-    [Separator("Path settings")] [SerializeField] private Transform lineContainer;
+    [Separator("Path settings")] [SerializeField]
+    private Transform lineContainer;
+
     [SerializeField] private Color lineColor;
     [SerializeField] private float lineWeight;
 
@@ -57,7 +57,8 @@ public partial class AnchorController
         }
     }
 
-    private void ParseBlockForPath(ref AnchorBlock currentBlock, ref Vector2 previousVertex, ref int loopIndex, ref int index, ref List<(Vector2 start, Vector2 end)> lineList)
+    private void ParseBlockForPath(ref AnchorBlock currentBlock, ref Vector2 previousVertex, ref int loopIndex,
+        ref int index, ref List<(Vector2 start, Vector2 end)> lineList)
     {
         switch (currentBlock.ImplementedBlockType)
         {
@@ -66,13 +67,15 @@ public partial class AnchorController
             {
                 Vector2 currentVertex = ((PositionAnchorBlock)currentBlock).Target;
 
-                if (ReferenceManager.Instance.MainChainController.Children[index] is PositionAnchorBlockController controller)
+                if (ReferenceManager.Instance.MainChainController.Children[index] is PositionAnchorBlockController
+                    controller)
                 {
                     AnchorPathLine line = Instantiate(PrefabManager.Instance.AnchorPathLine, Vector2.zero,
                         Quaternion.identity, lineContainer);
 
                     line.CreateArrowHead(previousVertex, currentVertex);
-                    line.CreateArrowLine(previousVertex, currentVertex, currentBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate);
+                    line.CreateArrowLine(previousVertex, currentVertex,
+                        currentBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate);
                     line.CreateBlur();
 
                     controller.Lines.Add(line);

@@ -1,7 +1,5 @@
 using System;
-using System.Windows.Forms;
 using UnityEngine;
-using Application = UnityEngine.Application;
 
 public class PlayManager : MonoBehaviour
 {
@@ -104,7 +102,8 @@ public class PlayManager : MonoBehaviour
 
             anchor.SetLinesActive(false);
 
-            if (AnchorManager.Instance.SelectedAnchor == anchor && EditModeManager.Instance.CurrentEditMode.IsAnchorRelated()) continue;
+            if (AnchorManager.Instance.SelectedAnchor == anchor &&
+                EditModeManager.Instance.CurrentEditMode.IsAnchorRelated()) continue;
 
             anchor.Animator.SetBool(playingString, true);
         }
@@ -205,7 +204,8 @@ public class PlayManager : MonoBehaviour
             anchor.ResetExecution();
             anchor.Animator.SetBool(playingString, false);
 
-            if (AnchorManager.Instance.SelectedAnchor == anchor && EditModeManager.Instance.CurrentEditMode.IsAnchorRelated()) anchor.SetLinesActive(true);
+            if (AnchorManager.Instance.SelectedAnchor == anchor &&
+                EditModeManager.Instance.CurrentEditMode.IsAnchorRelated()) anchor.SetLinesActive(true);
         }
     }
 

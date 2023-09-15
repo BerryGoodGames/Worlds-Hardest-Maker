@@ -1,6 +1,5 @@
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class ReferenceManager : MonoBehaviour
 {
@@ -97,6 +96,7 @@ public class ReferenceManager : MonoBehaviour
     #region Materials
 
     [Foldout("Material")] public Material DashedLineMaterial;
+
     #endregion
 
     private void Awake()

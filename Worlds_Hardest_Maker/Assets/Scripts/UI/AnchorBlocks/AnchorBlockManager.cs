@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MyBox;
@@ -229,6 +228,5 @@ public partial class AnchorBlockManager : MonoBehaviour
 
     public void OnMainChainUpdate()
     {
-
     }
 }

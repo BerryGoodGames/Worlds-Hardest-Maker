@@ -11,7 +11,10 @@ public class FieldRotation : MonoBehaviour
     public Vector3 RotateAngle;
     private bool rotating;
     [SerializeField] private bool disableCollision;
-    [SerializeField][ConditionalField(nameof(disableCollision))][MustBeAssigned] private BoxCollider2D boxCollider;
+
+    [SerializeField] [ConditionalField(nameof(disableCollision))] [MustBeAssigned]
+    private BoxCollider2D boxCollider;
+
     private static readonly int rotateString = Animator.StringToHash("Rotate");
 
     // private void Start()

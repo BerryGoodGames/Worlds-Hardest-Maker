@@ -29,7 +29,6 @@ public class AnchorPositionInputEditManager : MonoBehaviour
 
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
         PanelManager.Instance.SetPanelHidden(anchorPanel, true);
-
     }
 
     public void OnEndPositionEdit()
@@ -46,7 +45,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
 
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
         PanelManager.Instance.SetPanelOpen(anchorPanel, EditModeManager.Instance.Editing);
-        
+
         AnchorManager.Instance.SelectedAnchor.RenderLines();
     }
 
@@ -55,7 +54,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         if (CurrentEditedPositionInput == null) yield break;
 
         OnStartPositionEdit();
-        
+
         PositionAnchorBlockController anchorBlockController = CurrentEditedPositionInput.AnchorBlockController;
         PositionAnchorBlockController nextAnchorBlockController = null;
 
@@ -73,6 +72,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
                 getNext = true;
                 continue;
             }
+
             if (!getNext) continue;
 
             nextAnchorBlockController = t.GetComponent<PositionAnchorBlockController>();
@@ -118,7 +118,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
                 anchorBlockController.Lines.ForEach(line => line.AnimateEnd(mousePos));
                 if (gotNextController)
                 {
-                    if(onlyMoveSecondArrow) nextAnchorBlockController.Lines[^1].AnimateStart(mousePos);
+                    if (onlyMoveSecondArrow) nextAnchorBlockController.Lines[^1].AnimateStart(mousePos);
                     else
                     {
                         nextAnchorBlockController.Lines.ForEach(line => line.AnimateStart(mousePos));

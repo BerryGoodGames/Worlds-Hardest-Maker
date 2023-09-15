@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using LuLib.Vector;
-using MyBox;
-using Unity.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -127,7 +124,8 @@ public class DrawManager : MonoBehaviour
         return line;
     }
 
-    public static LineRenderer DrawDashedLine(Vector2 start, Vector2 end, float width, float spacing, Transform parent = null)
+    public static LineRenderer DrawDashedLine(Vector2 start, Vector2 end, float width, float spacing,
+        Transform parent = null)
     {
         if (parent == null) parent = ReferenceManager.Instance.DrawContainer;
 
@@ -142,7 +140,8 @@ public class DrawManager : MonoBehaviour
         return line;
     }
 
-    public static (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) GetArrowHeadPoints(Vector2 start, Vector2 end)
+    public static (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) GetArrowHeadPoints(Vector2 start,
+        Vector2 end)
     {
         const float headLineLength = 0.15f;
         Vector2 delta = end - start;

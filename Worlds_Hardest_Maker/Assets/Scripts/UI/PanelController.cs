@@ -1,4 +1,3 @@
-using System;
 using MyBox;
 using UnityEngine;
 
@@ -11,14 +10,20 @@ public class PanelController : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned]
     private PanelTween buttonPanelTween;
 
-    [field:Separator("Initial settings")][field:SerializeField][field:InitializationField] public bool Open { get; private set; }
-    [field:SerializeField][field:InitializationField] public bool Hidden { get; private set; }
-    [field:SerializeField][field:InitializationField] public bool CloseOnEscape { get; private set; }
+    [field: Separator("Initial settings")]
+    [field: SerializeField]
+    [field: InitializationField]
+    public bool Open { get; private set; }
 
-    public void ToggleOpen(bool noAnimation = false)
-    {
-        SetOpen(!Open, noAnimation);
-    }
+    [field: SerializeField]
+    [field: InitializationField]
+    public bool Hidden { get; private set; }
+
+    [field: SerializeField]
+    [field: InitializationField]
+    public bool CloseOnEscape { get; private set; }
+
+    public void ToggleOpen(bool noAnimation = false) => SetOpen(!Open, noAnimation);
 
     public void SetOpen(bool open, bool noAnimation = false)
     {
@@ -31,10 +36,7 @@ public class PanelController : MonoBehaviour
         if (Open & Hidden) SetHidden(false, noAnimation);
     }
 
-    public void ToggleHidden(bool noAnimation = false)
-    {
-        SetHidden(!Hidden, noAnimation);
-    }
+    public void ToggleHidden(bool noAnimation = false) => SetHidden(!Hidden, noAnimation);
 
     public void SetHidden(bool hidden, bool noAnimation = false)
     {
@@ -63,9 +65,7 @@ public class PanelController : MonoBehaviour
         PanelManager.Instance.SetPanelOpen(this, !Open);
     }
 
-    private void OnDestroy()
-    {
+    private void OnDestroy() =>
         // track this in manager list
         PanelManager.Instance.Panels.Remove(this);
-    }
 }

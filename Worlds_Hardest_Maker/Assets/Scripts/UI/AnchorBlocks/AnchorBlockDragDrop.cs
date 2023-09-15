@@ -7,8 +7,8 @@ public class AnchorBlockDragDrop : MonoBehaviour
 {
     [SerializeField] private bool active = true;
 
-    [Separator("References")]
-    [SerializeField] [MustBeAssigned] private LockHighlightTween lockHighlightTween;
+    [Separator("References")] [SerializeField] [MustBeAssigned]
+    private LockHighlightTween lockHighlightTween;
 
     private Vector2 offset;
     private AnchorBlockController anchorBlockController;
@@ -27,7 +27,7 @@ public class AnchorBlockDragDrop : MonoBehaviour
         if (!active || IsLocked) return;
 
         Canvas canvas = ReferenceManager.Instance.Canvas;
-        
+
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             (RectTransform)canvas.transform,
             mousePos,
@@ -36,7 +36,6 @@ public class AnchorBlockDragDrop : MonoBehaviour
         );
 
         transform.position = canvas.transform.TransformPoint(position) - (Vector3)offset;
-        
     }
 
     private void OnBeginDrag(Vector2 mousePos)

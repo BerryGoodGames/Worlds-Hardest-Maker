@@ -1,13 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 
 public class DashedLineController : MonoBehaviour
 {
-    [Separator("Settings")] 
-    public float Spacing;
+    [Separator("Settings")] public float Spacing;
     public float Width;
 
     private LineRenderer lineRenderer;
@@ -49,7 +45,7 @@ public class DashedLineController : MonoBehaviour
         float lineSpacing = Spacing + Width / 2;
         float lineAmount = totalArc.magnitude / lineSpacing;
         float lineWidth = Width / lineSpacing;
-        
+
         lineRenderer.material.SetFloat(amountID, lineAmount);
         lineRenderer.material.SetFloat(widthID, lineWidth);
     }

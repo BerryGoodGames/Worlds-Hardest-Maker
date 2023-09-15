@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,7 +31,7 @@ public partial class AnchorManager : MonoBehaviour
 
         ReferenceManager.Instance.MainChainController.UpdateChildrenArray();
         List<AnchorBlock> blocksInChain = ReferenceManager.Instance.MainChainController.GetAnchorBlocks(SelectedAnchor);
-        
+
         SelectedAnchor.Blocks = new(blocksInChain);
     }
 

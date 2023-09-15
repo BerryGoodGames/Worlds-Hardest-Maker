@@ -35,7 +35,7 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
             line.Blur.SetVisible(false);
         }
     }
-    
+
     // private void OnDestroy()
     // {
     //     foreach (AnchorPathLine line in Lines)
@@ -44,8 +44,5 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
     //     }
     // }
 
-    private void Awake()
-    {
-        Lines = new();
-    }
+    private void Awake() => Lines = new();
 }

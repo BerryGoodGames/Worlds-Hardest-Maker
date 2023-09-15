@@ -19,7 +19,7 @@ public partial class AnchorController : Controller
     [HideInInspector] public SetRotationBlock.Unit RotationSpeedUnit;
     [HideInInspector] public float TimeInput;
     [HideInInspector] public float RotationTimeInput;
-    [HideInInspector] public bool IsClockwise; 
+    [HideInInspector] public bool IsClockwise;
     public LinkedListNode<AnchorBlock> LoopBlockNode;
     public TweenerCore<float, float, FloatOptions> RotationTween;
     [HideInInspector] public Ease Ease;
@@ -66,7 +66,7 @@ public partial class AnchorController : Controller
         // assuming that EntityDragDrop already moved transform
 
         LinkedList<AnchorBlock> blocks = Blocks;
-        
+
         // loop through data blocks and add offset
         foreach (AnchorBlock currentBlock in blocks)
         {
@@ -145,12 +145,10 @@ public partial class AnchorController : Controller
     }
 
 
-    public void StoreCurrentLoopIndex()
-    {
+    public void StoreCurrentLoopIndex() =>
         // for some reason, LoopBlock can't access its node in the list Blocks
         // so the anchor has to store the index himself
         LoopBlockNode = CurrentExecutingNode;
-    }
 
     public void ResetExecution()
     {

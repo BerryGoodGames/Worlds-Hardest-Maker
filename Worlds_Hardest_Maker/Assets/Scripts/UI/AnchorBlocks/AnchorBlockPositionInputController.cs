@@ -1,4 +1,3 @@
-using System;
 using System.Globalization;
 using MyBox;
 using TMPro;
@@ -9,7 +8,7 @@ public class AnchorBlockPositionInputController : MonoBehaviour
     [InitializationField] public TMP_InputField InputX;
     [InitializationField] public TMP_InputField InputY;
 
-    [field:SerializeField] public PositionAnchorBlockController AnchorBlockController { get; private set; }
+    [field: SerializeField] public PositionAnchorBlockController AnchorBlockController { get; private set; }
 
     public void OnValueChanged() => AnchorManager.Instance.UpdateSelectedAnchorLines();
 
@@ -31,8 +30,5 @@ public class AnchorBlockPositionInputController : MonoBehaviour
         );
 
 
-    private void Start()
-    {
-        AnchorBlockController = GetComponentInParent<PositionAnchorBlockController>();
-    }
+    private void Start() => AnchorBlockController = GetComponentInParent<PositionAnchorBlockController>();
 }

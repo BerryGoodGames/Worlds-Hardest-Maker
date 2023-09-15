@@ -1,4 +1,3 @@
-using System;
 using MyBox;
 using TMPro;
 using UnityEngine;
@@ -52,6 +51,7 @@ public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
                 inputField.interactable = false;
                 inputField.transition = Selectable.Transition.None;
             }
+
             foreach (Button button in buttons)
             {
                 button.interactable = false;

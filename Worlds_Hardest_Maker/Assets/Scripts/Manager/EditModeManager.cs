@@ -28,7 +28,7 @@ public class EditModeManager : MonoBehaviour
     }
 
     // edit rotation
-    [SerializeField][ReadOnly] private int editRotation = 270;
+    [SerializeField] [ReadOnly] private int editRotation = 270;
 
     public int EditRotation
     {
@@ -74,7 +74,7 @@ public class EditModeManager : MonoBehaviour
             Animator anim = anchor.GetComponentInChildren<Animator>();
             anim.SetBool(editingString, isAnchorRelated);
         }
-        
+
         // open corresponding panel
         PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;

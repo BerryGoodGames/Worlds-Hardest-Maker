@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 
 /// <summary>
@@ -29,7 +28,8 @@ public class KeyEvents : MonoBehaviour
         }
 
         // toggle menu
-        if (!closingPanel && !MenuManager.Instance.BlockMenu && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)))
+        if (!closingPanel && !MenuManager.Instance.BlockMenu &&
+            (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)))
         {
             menuTween.SetVisible(!menuTween.IsVisible);
         }
@@ -47,7 +47,8 @@ public class KeyEvents : MonoBehaviour
         }
 
         // rotate if current edit mode is field and rotatable
-        FieldType? fieldType = (FieldType?)EnumUtils.TryConvertEnum<EditMode, FieldType>(EditModeManager.Instance.CurrentEditMode);
+        FieldType? fieldType =
+            (FieldType?)EnumUtils.TryConvertEnum<EditMode, FieldType>(EditModeManager.Instance.CurrentEditMode);
 
         if (fieldType != null && ((FieldType)fieldType).IsRotatable() && Input.GetKeyDown(KeyCode.R))
         {
