@@ -70,19 +70,9 @@ public partial class AnchorController
                 if (ReferenceManager.Instance.MainChainController.Children[index] is PositionAnchorBlockController
                     controller)
                 {
-                    if (currentBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate)
-                    {
-
-                        controller.Line = DrawManager.DrawLine(previousVertex, currentVertex, lineContainer);
-                    }
-                    else
-                    {
-                        controller.Line = DrawManager.DrawDashedLine(previousVertex, currentVertex, 0.2f, 0.2f, true, lineContainer);
-                    }
-                }
-                else
-                {
-                    DrawManager.DrawDashedLine(previousVertex, currentVertex, dashedLineWidth, dashedLineSpacing, lineContainer);
+                    controller.Line = currentBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate ? 
+                        DrawManager.DrawLine(previousVertex, currentVertex, lineContainer) : 
+                        DrawManager.DrawDashedLine(previousVertex, currentVertex, 0.2f, 0.2f, lineContainer);
                 }
                 else throw new("controller was for some reason not a position block controller, this shouldn't happen");
                 
