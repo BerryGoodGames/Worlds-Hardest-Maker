@@ -27,7 +27,7 @@ public class DashedLineController : MonoBehaviour
         CalculateDashes();
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         // check if points changed
         point0 = lineRenderer.GetPosition(0);

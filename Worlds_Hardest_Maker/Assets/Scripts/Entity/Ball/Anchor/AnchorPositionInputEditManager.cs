@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Linq;
+using System.Security.Cryptography;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
@@ -67,6 +69,30 @@ public class AnchorPositionInputEditManager : MonoBehaviour
 
         OnStartPositionEdit();
 
+
+        PositionAnchorBlockController anchorBlockController = CurrentEditedPositionInput.AnchorBlockController;
+        PositionAnchorBlockController nextAnchorBlockController = null;
+
+        // get next position anchor block controller
+        bool getNext = false;
+        bool gotNextController = false;
+
+        foreach (Transform t in anchorBlockController.transform.parent)
+        {
+            if (t.CompareTag("StartBlock")) continue;
+            if (t.CompareTag("AnchorBlockPreview")) continue;
+            if (t == anchorBlockController.transform)
+            {
+                getNext = true;
+                continue;
+            }
+            if (!getNext) continue;
+
+            nextAnchorBlockController = t.GetComponent<PositionAnchorBlockController>();
+            gotNextController = true;
+            break;
+        }
+
         // wait until clicked, cancel if esc is pressed
         while (!Input.GetMouseButton(0))
         {
@@ -77,13 +103,25 @@ public class AnchorPositionInputEditManager : MonoBehaviour
                 yield break;
             }
 
-            PositionAnchorBlockController anchorBlockController = CurrentEditedPositionInput.AnchorBlockController;
+            // animate current line
             anchorBlockController.LineAnimator.AnimatePoint(1, MouseManager.Instance.MouseWorldPosGrid, 0.05f, Ease.Linear);
-
+            
             (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) = AnchorManager.Instance.SelectedAnchor.GetArrowHeadPoints(MouseManager.Instance.MouseWorldPosGrid, anchorBlockController.Line.GetPosition(0));
             anchorBlockController.ArrowLines.line1.AnimateAllPoints(new() { arrowCenter, arrowVertex1 }, 0.05f,
                 Ease.Linear);
             anchorBlockController.ArrowLines.line2.AnimateAllPoints(new() { arrowCenter, arrowVertex2 }, 0.05f, Ease.Linear);
+
+
+            // animate next line
+            if (gotNextController)
+            {
+                nextAnchorBlockController.LineAnimator.AnimatePoint(0, MouseManager.Instance.MouseWorldPosGrid,
+                    0.05f, Ease.Linear);
+                (Vector2 nextArrowVertex1, Vector2 nextArrowVertex2, Vector2 nextArrowCenter) = AnchorManager.Instance.SelectedAnchor.GetArrowHeadPoints(nextAnchorBlockController.Line.GetPosition(1), MouseManager.Instance.MouseWorldPosGrid);
+                nextAnchorBlockController.ArrowLines.line1.AnimateAllPoints(new() { nextArrowCenter, nextArrowVertex1 }, 0.05f,
+                    Ease.Linear);
+                nextAnchorBlockController.ArrowLines.line2.AnimateAllPoints(new() { nextArrowCenter, nextArrowVertex2 }, 0.05f, Ease.Linear);
+            }
 
             yield return null;
         }

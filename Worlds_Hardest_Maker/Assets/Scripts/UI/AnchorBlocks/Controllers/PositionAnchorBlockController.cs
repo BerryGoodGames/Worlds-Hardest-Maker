@@ -1,3 +1,4 @@
+using System;
 using LuLib.Vector;
 using MyBox;
 using UnityEngine;
@@ -36,7 +37,10 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
         float glowRotation = delta.GetRotation();
         
         // create blur
-        blur = Instantiate(PrefabManager.Instance.GlowPrefab, glowStart, Quaternion.Euler(0, 0, glowRotation), Line.transform);
+        if(blur == null)
+            blur = Instantiate(PrefabManager.Instance.GlowPrefab, glowStart, Quaternion.Euler(0, 0, glowRotation), Line.transform);
+        else blur.SetActive(true);
+
 
         // configure sprite renderer settings
         SpriteRenderer spriteRenderer = blur.GetComponent<SpriteRenderer>();
@@ -51,6 +55,11 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
     {
         if(LineAnimator == null || Line == null || blur == null) return;
 
-        Destroy(blur);
+        blur.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        if(blur != null) Destroy(blur);
     }
 }
