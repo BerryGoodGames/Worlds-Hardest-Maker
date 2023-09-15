@@ -46,13 +46,6 @@ public static class SaveSystem
             levelData.Add(playerData);
         }
 
-        // serialize anchors
-        // foreach (Transform anchor in ReferenceManager.Instance.AnchorContainer)
-        // {
-        //     AnchorDataOld anchorDataOld = new(anchor.GetComponentInChildren<PathControllerOld>(),
-        //         anchor.GetComponentInChildren<AnchorControllerOld>().Container.transform);
-        //     levelData.Add(anchorDataOld);
-        // }
         foreach (Transform anchor in ReferenceManager.Instance.AnchorContainer)
         {
             AnchorData anchorData = new(anchor.GetComponent<AnchorParentController>().Child);

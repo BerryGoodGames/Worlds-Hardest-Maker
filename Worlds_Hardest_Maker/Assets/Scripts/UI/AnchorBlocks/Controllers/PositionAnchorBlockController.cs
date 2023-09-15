@@ -36,13 +36,5 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
         }
     }
 
-    // private void OnDestroy()
-    // {
-    //     foreach (AnchorPathLine line in Lines)
-    //     {
-    //         Destroy(line.gameObject);
-    //     }
-    // }
-
     private void Awake() => Lines = new();
 }

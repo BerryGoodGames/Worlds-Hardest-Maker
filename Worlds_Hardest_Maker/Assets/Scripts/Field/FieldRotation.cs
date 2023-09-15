@@ -17,12 +17,6 @@ public class FieldRotation : MonoBehaviour
 
     private static readonly int rotateString = Animator.StringToHash("Rotate");
 
-    // private void Start()
-    // {
-    //     if (!TryGetComponent(out boxCollider))
-    //         disableCollision = false;
-    // }
-
     private IEnumerator Rotate(Vector3 angles, float d)
     {
         rotating = true;

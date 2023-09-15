@@ -53,9 +53,6 @@ public abstract class BallController : Controller
     private void LateUpdate() => UpdateSpeedText();
 
     public void UpdateSpeedText() =>
-        // speedText = speedText != null
-        //     ? speedText
-        //     : SliderController.GetSliderObject().transform.GetChild(1).GetComponent<TMP_Text>();
         speedText.text = Speed.ToString("0.0");
 
     [PunRPC]

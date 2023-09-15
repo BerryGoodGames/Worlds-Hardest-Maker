@@ -58,13 +58,6 @@ public class PlayManager : MonoBehaviour
 
         EditModeManager.Instance.InvokeOnPlay();
 
-        // close all panels
-        // PanelManager.Instance.CloseAllPanels();
-        //
-        // // hide panels
-        // ReferenceManager.Instance.LevelSettingsButtonPanelTween.SetOpen(false);
-        // ReferenceManager.Instance.LevelSettingsPanelController.SetOpen(false);
-
         // hide all panels
         PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
         PanelManager.Instance.SetPanelHidden(levelSettingsPanel, true);
@@ -115,11 +108,6 @@ public class PlayManager : MonoBehaviour
 
         ReferenceManager.Instance.MainCameraJumper.Jump("Player", onlyIfTargetOffScreen: true);
     }
-
-    // private static void ClosePanel(PanelTween panel)
-    // {
-    //     if (panel.Open) panel.ToggleOpen();
-    // }
 
     private static void ActivateCoinKeyAnimations()
     {
