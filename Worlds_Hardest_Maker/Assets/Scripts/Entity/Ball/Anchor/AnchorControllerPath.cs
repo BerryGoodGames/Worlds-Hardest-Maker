@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Generic;
 using LuLib.Vector;
+using MyBox;
 using UnityEngine;
 
 public partial class AnchorController
 {
-    [Space] [SerializeField] private Transform lineContainer;
+    [Separator("Path settings")] [SerializeField] private Transform lineContainer;
     [SerializeField] private Color lineColor;
     [SerializeField] private float lineWeight;
+    [SerializeField] private float dashedLineWidth;
+    [SerializeField] private float dashedLineSpacing;
+    [SerializeField] private float lineAnimationDuration;
 
     public void RenderLines()
     {
@@ -76,6 +80,10 @@ public partial class AnchorController
                         controller.Line = DrawManager.DrawDashedLine(previousVertex, currentVertex, 0.2f, 0.2f, true, lineContainer);
                     }
                 }
+                else
+                {
+                    DrawManager.DrawDashedLine(previousVertex, currentVertex, dashedLineWidth, dashedLineSpacing, lineContainer);
+                }
                 else throw new("controller was for some reason not a position block controller, this shouldn't happen");
                 
 
@@ -102,7 +110,18 @@ public partial class AnchorController
         }
     }
 
-    private void DrawArrowHead(Vector2 currentVertex, Vector2 previousVertex)
+    private List<LineRenderer> DrawArrowHead(Vector2 currentVertex, Vector2 previousVertex)
+    {
+        (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) = GetArrowHeadPoints(currentVertex, previousVertex);
+
+        return new()
+        {
+            DrawManager.DrawLine(arrowCenter, arrowVertex1, lineContainer),
+            DrawManager.DrawLine(arrowCenter, arrowVertex2, lineContainer)
+        };
+    }
+
+    private (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) GetArrowHeadPoints(Vector2 currentVertex, Vector2 previousVertex)
     {
         const float headLineLength = 0.15f;
         Vector2 delta = currentVertex - previousVertex;
@@ -113,8 +132,11 @@ public partial class AnchorController
         endSideOffset.Rotate(90);
         Vector2 end = halfPoint - offset;
 
-        DrawManager.DrawLine(start, end + endSideOffset, lineContainer);
-        DrawManager.DrawLine(start, end - endSideOffset, lineContainer);
+        Vector2 arrowVertex1 = end + endSideOffset;
+        Vector2 arrowVertex2 = end - endSideOffset;
+        Vector2 arrowCenter = start;
+
+        return (arrowVertex1, arrowVertex2, arrowCenter);
     }
 
     public void SetLinesActive(bool active) => lineContainer.gameObject.SetActive(active);

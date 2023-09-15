@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class PositionAnchorBlock : AnchorBlock, IDurationBlock
+public abstract class PositionAnchorBlock : AnchorBlock, IDurationBlock, ILinePreviewBlock
 {
     public Vector2 Target;
 
@@ -8,4 +8,5 @@ public abstract class PositionAnchorBlock : AnchorBlock, IDurationBlock
         Target = target;
 
     public virtual bool HasCurrentlyDuration() => (Target - Anchor.GetPosition()).sqrMagnitude > 0;
+    public abstract bool IsLinePreviewDashed();
 }

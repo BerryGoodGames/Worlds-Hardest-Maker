@@ -126,7 +126,7 @@ public class DrawManager : MonoBehaviour
         return line;
     }
 
-    public static LineRenderer DrawDashedLine(Vector2 start, Vector2 end, float width, float spacing, bool pointAtEnd = false, Transform parent = null)
+    public static LineRenderer DrawDashedLine(Vector2 start, Vector2 end, float width, float spacing, Transform parent = null)
     {
         if (parent == null) parent = ReferenceManager.Instance.DrawContainer;
 
@@ -137,15 +137,6 @@ public class DrawManager : MonoBehaviour
 
         dashedLineController.Width = width;
         dashedLineController.Spacing = spacing;
-
-        if (pointAtEnd)
-        {
-            // add line a the end if not reaching
-            // Vector2 d = (start - end).normalized * width / 3;
-            // SetWeight(Weight * 2);
-            // DrawLine(end, end, parent);
-            // SetWeight(Weight / 2);
-        }
 
         return line;
     }

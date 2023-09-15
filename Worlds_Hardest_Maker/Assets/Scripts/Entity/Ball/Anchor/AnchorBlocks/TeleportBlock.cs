@@ -21,5 +21,7 @@ public class TeleportBlock : PositionAnchorBlock, IActiveAnchorBlock
     }
 
     public override bool HasCurrentlyDuration() => false;
+    public override bool IsLinePreviewDashed() => true;
+
     public override AnchorBlockData GetData() => new TeleportBlockData(IsLocked, Target);
 } 

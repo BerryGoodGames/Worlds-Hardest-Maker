@@ -38,4 +38,5 @@ public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock
     }
 
     public override AnchorBlockData GetData() => new MoveBlockData(IsLocked, Target);
+    public override bool IsLinePreviewDashed() => false;
 }

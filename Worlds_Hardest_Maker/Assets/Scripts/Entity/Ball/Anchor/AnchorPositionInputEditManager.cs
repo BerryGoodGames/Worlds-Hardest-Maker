@@ -30,6 +30,15 @@ public class AnchorPositionInputEditManager : MonoBehaviour
 
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
         PanelManager.Instance.SetPanelHidden(anchorPanel, true);
+
+        // activate preview
+        // AnchorController anchorController = AnchorManager.Instance.SelectedAnchor;
+        // PositionAnchorBlockController anchorBlockController = CurrentEditedPositionInput.AnchorBlockController;
+        // PositionAnchorBlock anchorBlock = anchorBlockController.Block;
+        // Vector2 start = anchorController.GetLinePreviewStartVertex(anchorBlockController);
+        // bool dashed = anchorBlock.IsLinePreviewDashed();
+        // anchorController.ActivatePreview(start, dashed);
+
     }
 
     public void OnEndPositionEdit()

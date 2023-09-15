@@ -12,3 +12,8 @@ public interface IDurationBlock
 {
     public bool HasCurrentlyDuration();
 }
+
+public interface ILinePreviewBlock
+{
+    public bool IsLinePreviewDashed();
+}

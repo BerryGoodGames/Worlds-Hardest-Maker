@@ -321,6 +321,9 @@ MonoBehaviour:
   lineContainer: {fileID: 6016487082984928425}
   lineColor: {r: 0.9843138, g: 0.54509807, b: 0.14117648, a: 1}
   lineWeight: 0.1
+  dashedLineWidth: 0.2
+  dashedLineSpacing: 0.2
+  lineAnimationDuration: 0
 --- !u!95 &2695958956081501589
 Animator:
   serializedVersion: 5

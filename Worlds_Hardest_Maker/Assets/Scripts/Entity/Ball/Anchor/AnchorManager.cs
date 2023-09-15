@@ -34,8 +34,6 @@ public partial class AnchorManager : MonoBehaviour
         List<AnchorBlock> blocksInChain = ReferenceManager.Instance.MainChainController.GetAnchorBlocks(SelectedAnchor);
         
         SelectedAnchor.Blocks = new(blocksInChain);
-        
-        // UpdateWarnings();
     }
 
     public void UpdateSelectedAnchorLines()

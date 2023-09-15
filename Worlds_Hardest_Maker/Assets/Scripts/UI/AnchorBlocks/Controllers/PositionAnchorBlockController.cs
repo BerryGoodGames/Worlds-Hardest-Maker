@@ -10,8 +10,10 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
 
     [HideInInspector] public LineRenderer Line;
 
-    private GameObject blur;
 
+    public new PositionAnchorBlock Block => (PositionAnchorBlock)base.Block;
+
+    private GameObject blur;
     protected Vector2 GetPositionInput()
     {
         if (!float.TryParse(PositionInput.InputX.text, out float x) |
