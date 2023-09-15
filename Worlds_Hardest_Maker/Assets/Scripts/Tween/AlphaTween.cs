@@ -97,7 +97,6 @@ public class AlphaTween : MonoBehaviour
 
     private void Awake()
     {
-        print((name, startVisible));
         IsVisible = startVisible;
 
         if (image != null)
