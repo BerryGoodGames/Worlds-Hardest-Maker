@@ -85,7 +85,6 @@ public class AnchorPositionInputEditManager : MonoBehaviour
             // check if loop block is present
             if (AnchorManager.Instance.SelectedAnchor.LoopBlockIndex != -1)
             {
-                print("aaaa");
                 // get first position block after loop block
                 foreach (AnchorBlockController anchorBlock in ReferenceManager.Instance.MainChainController.Children)
                 {
