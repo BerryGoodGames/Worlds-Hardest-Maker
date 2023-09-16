@@ -1,12 +1,14 @@
 using MyBox;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public class Tooltip : MonoBehaviour
 {
     public string Text;
     public int FontSize = 20;
+    public int Offset = 10;
 
     public bool CustomTweenDelay;
 
@@ -32,13 +34,13 @@ public class Tooltip : MonoBehaviour
     {
         mouseOver = GetComponent<MouseOverUIRect>();
 
-        tooltip = Instantiate(PrefabManager.Instance.Tooltip, Vector2.zero, Quaternion.identity,
+        tooltip = Instantiate(PrefabManager.Instance.Tooltip, Vector3.zero, Quaternion.identity,
             ReferenceManager.Instance.TooltipCanvas.transform);
         fadeTween = tooltip.GetComponent<AlphaTween>();
 
         tooltipRectTransform = tooltip.GetComponent<RectTransform>();
         tooltipText = tooltip.GetComponent<TooltipController>().Text;
-        tooltipText.text = Text;
+        tooltipText.text = Text.Replace("\\n", "\n");
         tooltipText.fontSize = FontSize;
         fadeTween.SetVisible(false);
     }
@@ -51,10 +53,7 @@ public class Tooltip : MonoBehaviour
             {
                 fadeTween.SetVisible(true);
 
-                tooltip.transform.position = Input.mousePosition;
-
-                float pivotX = tooltip.transform.position.x / Screen.width;
-                tooltipRectTransform.pivot = new(pivotX, tooltipRectTransform.pivot.y);
+                tooltipRectTransform.position = Input.mousePosition + new Vector3(Offset, -Offset);
             }
 
             hovered += Time.deltaTime;

@@ -295,6 +295,10 @@ PrefabInstance:
       propertyPath: anchorBlockController
       value: 
       objectReference: {fileID: 2584121104198849371}
+    - target: {fileID: 5772829781846135297, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: Text
+      value: Cannot loop if blocks\nbelow are instant
+      objectReference: {fileID: 0}
     - target: {fileID: 6064901676226244029, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: anchorBlockPrefab
       value: 
