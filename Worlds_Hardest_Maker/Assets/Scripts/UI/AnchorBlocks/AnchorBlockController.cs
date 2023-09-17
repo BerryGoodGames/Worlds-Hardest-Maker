@@ -15,7 +15,7 @@ public abstract partial class AnchorBlockController : MonoBehaviour
     [Space] [MustBeAssigned] [SerializeField]
     private GameObject warningIconContainer;
 
-    [HideInInspector] public AnchorBlockDragDrop AnchorBlockDragDropComp;
+    public AnchorBlockDragDrop DragDrop { get; private set; }
     private UIRestrictInRectTransform restrict;
 
     public AnchorBlock Block { get; set; }
@@ -24,7 +24,7 @@ public abstract partial class AnchorBlockController : MonoBehaviour
 
     private void MainStart()
     {
-        AnchorBlockDragDropComp = GetComponent<AnchorBlockDragDrop>();
+        DragDrop = GetComponent<AnchorBlockDragDrop>();
         restrict = GetComponent<UIRestrictInRectTransform>();
 
         if (IsLocked)

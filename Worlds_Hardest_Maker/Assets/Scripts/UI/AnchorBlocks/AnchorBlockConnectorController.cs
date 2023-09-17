@@ -1,9 +1,11 @@
 using System.Collections;
+using MyBox;
 using UnityEngine;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public class AnchorBlockConnectorController : MonoBehaviour
 {
+    [SerializeField] [PositiveValueOnly] private float detectionHeight;
     [HideInInspector] public MouseOverUIRect MouseOverUIRect;
 
     private void Start()
@@ -46,6 +48,17 @@ public class AnchorBlockConnectorController : MonoBehaviour
         RectTransform anchorConnectorRt =
             (RectTransform)ReferenceManager.Instance.AnchorBlockConnectorController.transform;
         anchorConnectorRt.localPosition = new(anchorConnectorRt.localPosition.x, anchorY);
+    }
+
+    public void UpdateHeight(Vector2 mouseOffset)
+    {
+        // update anchor connector y size
+        RectTransform rt = (RectTransform)transform;
+
+        float blockHeight = ((RectTransform)AnchorBlockManager.Instance.DraggedBlock.transform).rect.height;
+        float offsetY = mouseOffset.y;
+
+        rt.sizeDelta = new(rt.sizeDelta.x, detectionHeight + blockHeight / 2 - offsetY);
     }
 
     public void UpdateYAtEndOfFrame() => StartCoroutine(UpdateYCoroutine());
