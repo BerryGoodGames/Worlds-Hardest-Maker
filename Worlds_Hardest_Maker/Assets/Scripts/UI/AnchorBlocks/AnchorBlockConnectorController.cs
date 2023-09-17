@@ -58,7 +58,7 @@ public class AnchorBlockConnectorController : MonoBehaviour
         float blockHeight = ((RectTransform)AnchorBlockManager.Instance.DraggedBlock.transform).rect.height;
         float offsetY = mouseOffset.y;
 
-        rt.sizeDelta = new(rt.sizeDelta.x, detectionHeight + blockHeight / 2 - offsetY);
+        rt.sizeDelta = new(rt.sizeDelta.x, blockHeight * 1.5f - offsetY);
     }
 
     public void UpdateYAtEndOfFrame() => StartCoroutine(UpdateYCoroutine());
