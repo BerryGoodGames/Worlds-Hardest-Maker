@@ -27,6 +27,8 @@ public partial class AnchorController
         int index = 0;
         LinkedListNode<AnchorBlock> currentNode = Blocks.First;
 
+        bool[] hasRendered = new bool[Blocks.Count];
+
         List<(Vector2, Vector2)> lineList = new();
 
         int loopIndex = -1;
@@ -38,7 +40,7 @@ public partial class AnchorController
             AnchorBlock currentBlock = currentNode.Value;
 
             // handle current block
-            ParseBlockForPath(ref currentBlock, ref previousVertex, ref loopIndex, ref index, ref lineList);
+            ParseBlockForPath(ref currentBlock, ref previousVertex, ref loopIndex, ref index, ref lineList, ref hasRendered);
 
             // increment
             index++;
@@ -59,7 +61,7 @@ public partial class AnchorController
     }
 
     private void ParseBlockForPath(ref AnchorBlock currentBlock, ref Vector2 previousVertex, ref int loopIndex,
-        ref int index, ref List<(Vector2 start, Vector2 end)> lineList)
+        ref int index, ref List<(Vector2 start, Vector2 end)> lineList, ref bool[] hasRendered)
     {
         if (currentBlock is PositionAnchorBlock positionAnchorBlock)
         {
@@ -72,7 +74,7 @@ public partial class AnchorController
             }
 
             // check if line already rendered
-            if (!lineList.Contains((previousVertex, currentVertex)))
+            if(!hasRendered[index] || !lineList.Contains((previousVertex, currentVertex)))
             {
                 AnchorPathLine line = Instantiate(PrefabManager.Instance.AnchorPathLine, Vector2.zero,
                     Quaternion.identity, lineContainer);
@@ -82,7 +84,9 @@ public partial class AnchorController
                 line.CreateBlur();
 
                 controller.Lines.Add(line);
+
                 lineList.Add((previousVertex, currentVertex));
+                hasRendered[index] = true;
             }
 
             previousVertex = currentVertex;

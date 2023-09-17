@@ -121,10 +121,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
                 if (gotNextController)
                 {
                     if (onlyMoveSecondArrow) nextAnchorBlockController.Lines[^1].AnimateStart(mousePos);
-                    else
-                    {
-                        nextAnchorBlockController.Lines[0].AnimateStart(mousePos);
-                    }
+                    else nextAnchorBlockController.Lines[0].AnimateStart(mousePos);
                 }
             }
 
