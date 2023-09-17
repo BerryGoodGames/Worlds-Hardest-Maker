@@ -1,5 +1,7 @@
 using MyBox;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ReferenceManager : MonoBehaviour
 {
@@ -97,6 +99,17 @@ public class ReferenceManager : MonoBehaviour
 
     [Foldout("Material")] public Material DashedLineMaterial;
 
+    #endregion
+
+    #region SettingInputs
+    [Foldout("SettingInputs")] public TMP_Dropdown QualityDropdown;
+    [Foldout("SettingInputs")] public TMP_Dropdown ResolutionDropdown;
+    [Foldout("SettingInputs")] public Toggle FullscreenToggle;
+    [Foldout("SettingInputs")] public Toggle OneColorToggle;
+    [Foldout("SettingInputs")] public SyncInputToSlider ToolbarSizeSlider;
+    [Foldout("SettingInputs")] public SyncInputToSlider InfobarSizeSlider;
+    [Foldout("SettingInputs")] public SyncInputToSlider MusicSlider;
+    [Foldout("SettingInputs")] public SyncInputToSlider SoundEffectSlider;
     #endregion
 
     private void Awake()

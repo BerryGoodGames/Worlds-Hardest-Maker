@@ -24,7 +24,7 @@ public class SettingGeneratorEditor : Editor
     private void OnEnable()
     {
         label = serializedObject.FindProperty("label");
-        version = serializedObject.FindProperty("version");
+        version = serializedObject.FindProperty("Version");
         amount = serializedObject.FindProperty("amount");
         fontSize = serializedObject.FindProperty("fontSize");
         height = serializedObject.FindProperty("height");

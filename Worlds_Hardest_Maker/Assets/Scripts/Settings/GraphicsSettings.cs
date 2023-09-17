@@ -22,51 +22,57 @@ public class GraphicsSettings : MonoBehaviour
 
     #region Graphics settings
 
-    public void SetQuality(int index, bool setPrefs)
+    public void SetQuality(int index, bool updateDropdown)
     {
         QualitySettings.SetQualityLevel(index);
 
         Instance.QualityLevel = index;
 
-        if (setPrefs) SettingsManager.Instance.SavePrefs();
+        if (!updateDropdown) return;
+        
+        ReferenceManager.Instance.QualityDropdown.value = index;
     }
 
-    public void SetQuality(int index) => SetQuality(index, true);
-
-    public void Fullscreen(bool fullscreen, bool setPrefs)
+    public void SetQuality(int index) => SetQuality(index, false);
+    
+    public void Fullscreen(bool fullscreen, bool updateToggle)
     {
         Screen.fullScreen = fullscreen;
 
-        if (setPrefs) SettingsManager.Instance.SavePrefs();
+        if (!updateToggle) return;
     }
+    public void Fullscreen(bool fullscreen) => Fullscreen(fullscreen, false);
 
-    public void Fullscreen(bool fullscreen) => Fullscreen(fullscreen, true);
 
-    public void SetResolution(int index, bool setPrefs)
+    public void SetResolution(int index, bool updateDropdown)
     {
-        Resolution res = Instance.resolutions[index];
+        if(index >= resolutions.Length) index = Instance.resolutions.Length - 1;
+        Resolution res = resolutions[index];
         Screen.SetResolution(res.width, res.height, Screen.fullScreen);
 
-        Instance.Resolution = res;
+        Resolution = res;
 
-        if (setPrefs) SettingsManager.Instance.SavePrefs();
+        if (!updateDropdown) return;
+        ReferenceManager.Instance.ResolutionDropdown.value = index;
     }
 
-    public void SetResolution(int index) => SetResolution(index, true);
+    public void SetResolution(int index) => SetResolution(index, false);
 
-    public void SetOneColorStartGoal(bool oneColor, bool setPrefs)
+
+    public void SetOneColorStartGoal(bool oneColor, bool updateToggle)
     {
         foreach (Transform field in ReferenceManager.Instance.FieldContainer)
         {
             FieldManager.ApplyStartGoalCheckpointFieldColor(field.gameObject, oneColor);
         }
-
+        
         Instance.OneColorStartGoalCheckpoint = oneColor;
 
-        if (setPrefs) SettingsManager.Instance.SavePrefs();
+        if (!updateToggle) return;
+        ReferenceManager.Instance.OneColorToggle.isOn = oneColor;
     }
+    public void SetOneColorStartGoal(bool oneColor) => SetOneColorStartGoal(oneColor, false);
 
-    public void SetOneColorStartGoal(bool oneColor) => SetOneColorStartGoal(oneColor, true);
 
     #endregion
 
