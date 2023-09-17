@@ -63,6 +63,12 @@ public partial class AnchorBlockManager : MonoBehaviour
 
         AnchorController selectedAnchor = AnchorManager.Instance.SelectedAnchor;
         selectedAnchor.RenderLines();
+
+        // highlight arrow
+        if (anchorBlock is PositionAnchorBlockController controller)
+        {
+            controller.SetBlurVisible(true);
+        }
     }
 
     /// <summary>

@@ -22,17 +22,19 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        foreach (AnchorPathLine line in Lines)
-        {
-            line.Blur.SetVisible(true);
-        }
+        SetBlurVisible(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        SetBlurVisible(false);
+    }
+
+    public void SetBlurVisible(bool visible)
+    {
         foreach (AnchorPathLine line in Lines)
         {
-            line.Blur.SetVisible(false);
+            line.Blur.SetVisible(visible);
         }
     }
 

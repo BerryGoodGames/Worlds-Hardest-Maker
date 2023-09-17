@@ -63,19 +63,20 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         bool gotNextController = false;
         bool onlyMoveSecondArrow = false;
 
-        foreach (Transform t in anchorBlockController.transform.parent)
+        foreach (AnchorBlockController currentAnchorBlock in ReferenceManager.Instance.MainChainController.Children)
         {
-            if (t.CompareTag("StartBlock")) continue;
-            if (t.CompareTag("AnchorBlockPreview")) continue;
-            if (t == anchorBlockController.transform)
+            // skip anchor blocks before this anchor blocks
+            if (currentAnchorBlock == anchorBlockController)
             {
                 getNext = true;
                 continue;
             }
-
+            
             if (!getNext) continue;
 
-            nextAnchorBlockController = t.GetComponent<PositionAnchorBlockController>();
+            if (currentAnchorBlock is not PositionAnchorBlockController controller) continue;
+
+            nextAnchorBlockController = controller;
             gotNextController = true;
             break;
         }
@@ -86,8 +87,10 @@ public class AnchorPositionInputEditManager : MonoBehaviour
             if (AnchorManager.Instance.SelectedAnchor.LoopBlockIndex != -1)
             {
                 // get first position block after loop block
-                foreach (AnchorBlockController anchorBlock in ReferenceManager.Instance.MainChainController.Children)
+                for (int i = AnchorManager.Instance.SelectedAnchor.LoopBlockIndex; i < ReferenceManager.Instance.MainChainController.Children.Count; i++)
                 {
+                    AnchorBlockController anchorBlock = ReferenceManager.Instance.MainChainController.Children[i];
+
                     if (anchorBlock is not PositionAnchorBlockController controller) continue;
 
                     nextAnchorBlockController = controller;
@@ -120,7 +123,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
                     if (onlyMoveSecondArrow) nextAnchorBlockController.Lines[^1].AnimateStart(mousePos);
                     else
                     {
-                        nextAnchorBlockController.Lines.ForEach(line => line.AnimateStart(mousePos));
+                        nextAnchorBlockController.Lines[0].AnimateStart(mousePos);
                     }
                 }
             }
