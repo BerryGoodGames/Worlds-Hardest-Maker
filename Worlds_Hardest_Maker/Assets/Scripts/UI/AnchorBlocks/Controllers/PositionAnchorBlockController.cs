@@ -14,9 +14,14 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
 
     protected Vector2 GetPositionInput()
     {
-        if (!float.TryParse(PositionInput.InputX.text, out float x) |
-            !float.TryParse(PositionInput.InputY.text, out float y))
-            Debug.LogWarning("Input in a Move Block was not a float");
+        float x;
+        if (PositionInput.InputX.text == string.Empty) x = 0;
+        else if(!float.TryParse(PositionInput.InputX.text, out x)) Debug.LogWarning("X input in a Move Block was not a float");
+
+        float y;
+        if (PositionInput.InputY.text == string.Empty) y = 0;
+        else if (!float.TryParse(PositionInput.InputX.text, out y)) Debug.LogWarning("X input in a Move Block was not a float");
+
         return new(x, y);
     }
 
