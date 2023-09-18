@@ -20,7 +20,7 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
 
         float y;
         if (PositionInput.InputY.text == string.Empty) y = 0;
-        else if (!float.TryParse(PositionInput.InputX.text, out y)) Debug.LogWarning("X input in a Move Block was not a float");
+        else if (!float.TryParse(PositionInput.InputY.text, out y)) Debug.LogWarning("X input in a Move Block was not a float");
 
         return new(x, y);
     }
