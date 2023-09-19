@@ -146,7 +146,7 @@ PrefabInstance:
       objectReference: {fileID: 1639666166094758898}
     - target: {fileID: 5772829781846135297, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: Text
-      value: Cannot rotate under\ncurrent rotation settings
+      value: Cannot rotate with\nundefined speed
       objectReference: {fileID: 0}
     - target: {fileID: 6382237367033516156, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_Color.b
@@ -192,7 +192,6 @@ MonoBehaviour:
   IsSource: 0
   lockIconContainer: {fileID: 3021426020777799523}
   warningIconContainer: {fileID: 3793331604420582836}
-  AnchorBlockDragDropComp: {fileID: 0}
   MouseOverUI: {fileID: 0}
 --- !u!224 &1109251508889321669 stripped
 RectTransform:

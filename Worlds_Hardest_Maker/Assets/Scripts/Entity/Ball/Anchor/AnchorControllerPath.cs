@@ -33,6 +33,7 @@ public partial class AnchorController
 
         int loopIndex = -1;
         bool hasLooped = false;
+        bool isFirstPositionBlockAfterLoop = false;
 
         // loop through blocks
         while (currentNode != null)
@@ -40,7 +41,7 @@ public partial class AnchorController
             AnchorBlock currentBlock = currentNode.Value;
 
             // handle current block
-            ParseBlockForPath(ref currentBlock, ref previousVertex, ref loopIndex, ref index, ref lineList, ref hasRendered);
+            ParseBlockForPath(ref currentBlock);
 
             // increment
             index++;
@@ -57,46 +58,50 @@ public partial class AnchorController
             index = loopIndex;
             currentNode = Blocks.NodeAt(index);
             hasLooped = true;
-        }
-    }
-
-    private void ParseBlockForPath(ref AnchorBlock currentBlock, ref Vector2 previousVertex, ref int loopIndex,
-        ref int index, ref List<(Vector2 start, Vector2 end)> lineList, ref bool[] hasRendered)
-    {
-        if (currentBlock is PositionAnchorBlock positionAnchorBlock)
-        {
-            // add new target to array if MoveBlock or MoveAndRotateBlock
-            Vector2 currentVertex = positionAnchorBlock.Target;
-
-            if (ReferenceManager.Instance.MainChainController.Children[index] is not PositionAnchorBlockController controller)
-            {
-                throw new("Controller was for some reason not a position block controller, this shouldn't happen");
-            }
-
-            // check if line already rendered
-            if(!hasRendered[index] || !lineList.Contains((previousVertex, currentVertex)))
-            {
-                AnchorPathLine line = Instantiate(PrefabManager.Instance.AnchorPathLine, Vector2.zero,
-                    Quaternion.identity, lineContainer);
-
-                line.CreateArrowHead(previousVertex, currentVertex);
-                line.CreateArrowLine(previousVertex, currentVertex, positionAnchorBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate);
-                line.CreateBlur();
-
-                controller.Lines.Add(line);
-
-                lineList.Add((previousVertex, currentVertex));
-                hasRendered[index] = true;
-            }
-
-            previousVertex = currentVertex;
+            isFirstPositionBlockAfterLoop = true;
         }
 
-        // track loop index if LoopBlock
-        else if (currentBlock.ImplementedBlockType is AnchorBlock.Type.Loop)
+        return;
+
+        void ParseBlockForPath(ref AnchorBlock anchorBlock)
         {
-            // track loop index
-            loopIndex = index;
+            if (anchorBlock is PositionAnchorBlock positionAnchorBlock)
+            {
+                // add new target to array if MoveBlock or MoveAndRotateBlock
+                Vector2 currentVertex = positionAnchorBlock.Target;
+
+                if (ReferenceManager.Instance.MainChainController.Children[index] is not PositionAnchorBlockController controller)
+                {
+                    throw new("Controller was for some reason not a position block controller, this shouldn't happen");
+                }
+
+                // check if line already rendered
+                if (!hasRendered[index] || !lineList.Contains((previousVertex, currentVertex)) || isFirstPositionBlockAfterLoop)
+                {
+                    AnchorPathLine line = Instantiate(PrefabManager.Instance.AnchorPathLine, Vector2.zero,
+                        Quaternion.identity, lineContainer);
+
+                    line.CreateArrowHead(previousVertex, currentVertex);
+                    line.CreateArrowLine(previousVertex, currentVertex, positionAnchorBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate);
+                    line.CreateBlur();
+
+                    controller.Lines.Add(line);
+
+                    lineList.Add((previousVertex, currentVertex));
+                    hasRendered[index] = true;
+                }
+
+                previousVertex = currentVertex;
+
+                isFirstPositionBlockAfterLoop = false;
+            }
+
+            // track loop index if LoopBlock
+            else if (anchorBlock.ImplementedBlockType is AnchorBlock.Type.Loop)
+            {
+                // track loop index
+                loopIndex = index;
+            }
         }
     }
 
