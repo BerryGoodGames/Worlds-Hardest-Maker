@@ -1,8 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 
-public class WaitBlock : AnchorBlock, IActiveAnchorBlock
+public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
 {
     public enum Unit
     {
@@ -34,9 +34,14 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock
         this.unit = unit;
     }
 
-    public override void Execute() =>
-        Anchor.Rb.DOMove(Anchor.Rb.position, input * factors[unit])
-            .OnComplete(Anchor.FinishCurrentExecution);
+    public override void Execute() => Anchor.WaitCoroutine = Anchor.StartCoroutine(WaitCoroutine());
+
+    private IEnumerator WaitCoroutine()
+    {
+        yield return new WaitForSeconds(input * factors[unit]);
+
+        Anchor.FinishCurrentExecution();
+    }
 
     protected override void SetControllerValues(AnchorBlockController c)
     {
@@ -47,4 +52,5 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock
     }
 
     public override AnchorBlockData GetData() => new WaitBlockData(IsLocked, input, unit);
+    public bool HasCurrentlyDuration() => input > 0;
 }

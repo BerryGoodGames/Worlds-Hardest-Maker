@@ -6,8 +6,10 @@ public class KeyController : Controller
     [ReadOnly] public KeyManager.KeyColor Color;
     [ReadOnly] public Vector2 KeyPosition;
     [ReadOnly] public bool PickedUp;
-    [Separator]
-    [InitializationField] [MustBeAssigned] public SpriteRenderer SpriteRenderer;
+
+    [Separator] [InitializationField] [MustBeAssigned]
+    public SpriteRenderer SpriteRenderer;
+
     [InitializationField] [MustBeAssigned] public Animator Animator;
     [InitializationField] [MustBeAssigned] public IntervalRandomAnimation KonamiAnimation;
 

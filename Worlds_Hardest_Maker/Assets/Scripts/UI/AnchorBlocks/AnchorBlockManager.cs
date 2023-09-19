@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MyBox;
@@ -52,8 +51,24 @@ public partial class AnchorBlockManager : MonoBehaviour
         ReferenceManager.Instance.MainChainController.UpdateChildrenArray();
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
 
+        // check warnings
+        AnchorManager.Instance.CheckStartRotatingWarnings();
+        AnchorManager.Instance.CheckStackOverflowWarnings();
+
+        // track loop block index
+        if (anchorBlock is LoopBlockController)
+        {
+            AnchorManager.Instance.SelectedAnchor.LoopBlockIndex = siblingIndex;
+        }
+
         AnchorController selectedAnchor = AnchorManager.Instance.SelectedAnchor;
         selectedAnchor.RenderLines();
+
+        // highlight arrow
+        if (anchorBlock is PositionAnchorBlockController controller)
+        {
+            controller.SetBlurVisible(true);
+        }
     }
 
     /// <summary>
@@ -176,7 +191,9 @@ public partial class AnchorBlockManager : MonoBehaviour
         }
 
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
-        AnchorManager.Instance.UpdateWarnings();
+
+        AnchorManager.Instance.CheckStartRotatingWarnings();
+        AnchorManager.Instance.CheckStackOverflowWarnings();
 
         RectTransform stringController = (RectTransform)ReferenceManager.Instance.MainChainController.transform;
         LayoutRebuilder.ForceRebuildLayoutImmediate(stringController);
@@ -217,6 +234,5 @@ public partial class AnchorBlockManager : MonoBehaviour
 
     public void OnMainChainUpdate()
     {
-
     }
 }

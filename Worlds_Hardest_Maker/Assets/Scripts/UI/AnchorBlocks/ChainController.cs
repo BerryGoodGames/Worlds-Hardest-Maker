@@ -6,7 +6,7 @@ public class ChainController : MonoBehaviour
     [HideInInspector] public List<AnchorBlockController> Children;
 
     /// <summary>
-    /// Collects its <see cref="AnchorBlockController"/>s in a list and converts them into list <see cref="AnchorBlock"/>s
+    /// Collects <see cref="AnchorBlockController"/>s from UI in a list and converts them into list <see cref="AnchorBlock"/>s
     /// </summary>
     public List<AnchorBlock> GetAnchorBlocks(AnchorController anchorController)
     {
@@ -16,7 +16,10 @@ public class ChainController : MonoBehaviour
 
         foreach (AnchorBlockController controller in Children!)
         {
-            anchorBlocks.Add(controller.GetAnchorBlock(anchorController));
+            AnchorBlock anchorBlock = controller.GetAnchorBlock(anchorController);
+            anchorBlock.Controller = controller;
+            anchorBlock.Controller.Block = anchorBlock;
+            anchorBlocks.Add(anchorBlock);
         }
 
         return anchorBlocks;

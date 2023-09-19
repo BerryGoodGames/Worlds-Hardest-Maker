@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,28 +7,6 @@ public partial class AnchorManager : MonoBehaviour
 
     private static readonly int selected = Animator.StringToHash("Selected");
     private static readonly int playing = Animator.StringToHash("Playing");
-
-    /// <summary>
-    /// Enables LevelSettingsPanel and disables AnchorEditorPanel (or the other way around)
-    /// </summary>
-    /// <param name="enableLevelSettingsPanel"></param>
-    public static void AlternatePanels(bool enableLevelSettingsPanel)
-    {
-        if (enableLevelSettingsPanel)
-        {
-            ReferenceManager.Instance.AnchorEditorButtonPanelTween.Set(false);
-            ReferenceManager.Instance.AnchorEditorPanelTween.Set(false);
-
-            ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(true);
-        }
-        else
-        {
-            ReferenceManager.Instance.AnchorEditorButtonPanelTween.Set(true);
-
-            ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(false);
-            ReferenceManager.Instance.LevelSettingsPanelTween.Set(false);
-        }
-    }
 
     private void Awake()
     {
@@ -54,48 +31,9 @@ public partial class AnchorManager : MonoBehaviour
 
         ReferenceManager.Instance.MainChainController.UpdateChildrenArray();
         List<AnchorBlock> blocksInChain = ReferenceManager.Instance.MainChainController.GetAnchorBlocks(SelectedAnchor);
-        
+
         SelectedAnchor.Blocks = new(blocksInChain);
-        
-        UpdateWarnings();
     }
-
-    public void UpdateWarnings()
-    {   
-        // check for unexecutable start rotating blocks
-        bool canStartRotateWork = false;
-
-        LinkedListNode<AnchorBlock> currentNode = SelectedAnchor.Blocks.First;
-
-        for (int i = 0; i < SelectedAnchor.Blocks.Count; i++)
-        {
-            if (currentNode == null)
-            {
-                Debug.LogWarning("the node should not be null here");
-                break;
-            }
-
-            AnchorBlock block = currentNode.Value;
-
-            switch (block.ImplementedBlockType)
-            {
-                case AnchorBlock.Type.SetRotation:
-                {
-                    // update if start rotating blocks can work
-                    SetRotationBlock setRotationBlock = (SetRotationBlock)block;
-                    canStartRotateWork = setRotationBlock.GetUnit() != SetRotationBlock.Unit.Time;
-                    break;
-                }
-                // update if it can't rotate
-                case AnchorBlock.Type.StartRotating:
-                    ReferenceManager.Instance.MainChainController.Children[i].SetWarning(!canStartRotateWork);
-                    break;
-            }
-
-            currentNode = currentNode.Next;
-        }
-    }
-
 
     public void UpdateSelectedAnchorLines()
     {

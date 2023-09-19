@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 
 /// <summary>
@@ -8,16 +7,32 @@ using UnityEngine;
 /// </summary>
 public class KeyEvents : MonoBehaviour
 {
-    private AlphaUITween menuUITween;
+    private AlphaTween menuTween;
 
     private void Update()
     {
         // toggle playing
         if (Input.GetKeyDown(KeyCode.Space)) PlayManager.Instance.TogglePlay();
 
+        // close panel if esc pressed
+        bool closingPanel = false;
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            foreach (PanelController panel in PanelManager.Instance.Panels)
+            {
+                if (!panel.Open || !panel.CloseOnEscape) continue;
+
+                PanelManager.Instance.SetPanelOpen(panel, false);
+                closingPanel = true;
+            }
+        }
+
         // toggle menu
-        if (!MenuManager.Instance.BlockMenu && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)))
-            menuUITween.SetVisible(!menuUITween.IsVisible);
+        if (!closingPanel && !MenuManager.Instance.BlockMenu &&
+            (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)))
+        {
+            menuTween.SetVisible(!menuTween.IsVisible);
+        }
 
         // teleport player to mouse pos
         if (EditModeManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))
@@ -32,7 +47,8 @@ public class KeyEvents : MonoBehaviour
         }
 
         // rotate if current edit mode is field and rotatable
-        FieldType? fieldType = (FieldType?)EnumUtils.TryConvertEnum<EditMode, FieldType>(EditModeManager.Instance.CurrentEditMode);
+        FieldType? fieldType =
+            (FieldType?)EnumUtils.TryConvertEnum<EditMode, FieldType>(EditModeManager.Instance.CurrentEditMode);
 
         if (fieldType != null && ((FieldType)fieldType).IsRotatable() && Input.GetKeyDown(KeyCode.R))
         {
@@ -111,5 +127,5 @@ public class KeyEvents : MonoBehaviour
         }
     }
 
-    private void Start() => menuUITween = ReferenceManager.Instance.Menu.GetComponent<AlphaUITween>();
+    private void Start() => menuTween = ReferenceManager.Instance.Menu.GetComponent<AlphaTween>();
 }

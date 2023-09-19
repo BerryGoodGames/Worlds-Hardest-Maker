@@ -1,11 +1,13 @@
-using System;
 using System.Collections.Generic;
-using LuLib.Vector;
+using MyBox;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public partial class AnchorController
 {
-    [Space] [SerializeField] private Transform lineContainer;
+    [Separator("Path settings")] [SerializeField]
+    private Transform lineContainer;
+
     [SerializeField] private Color lineColor;
     [SerializeField] private float lineWeight;
 
@@ -25,8 +27,13 @@ public partial class AnchorController
         int index = 0;
         LinkedListNode<AnchorBlock> currentNode = Blocks.First;
 
+        bool[] hasRendered = new bool[Blocks.Count];
+
+        List<(Vector2, Vector2)> lineList = new();
+
         int loopIndex = -1;
         bool hasLooped = false;
+        bool isFirstPositionBlockAfterLoop = false;
 
         // loop through blocks
         while (currentNode != null)
@@ -34,7 +41,7 @@ public partial class AnchorController
             AnchorBlock currentBlock = currentNode.Value;
 
             // handle current block
-            ParseBlockForPath(ref currentBlock, ref previousVertex, ref loopIndex, ref index);
+            ParseBlockForPath(ref currentBlock);
 
             // increment
             index++;
@@ -51,63 +58,69 @@ public partial class AnchorController
             index = loopIndex;
             currentNode = Blocks.NodeAt(index);
             hasLooped = true;
+            isFirstPositionBlockAfterLoop = true;
         }
-    }
 
-    private void ParseBlockForPath(ref AnchorBlock currentBlock, ref Vector2 previousVertex, ref int loopIndex, ref int index)
-    {
-        switch (currentBlock.ImplementedBlockType)
+        return;
+
+        void ParseBlockForPath(ref AnchorBlock anchorBlock)
         {
-            // add new target to array if MoveBlock or MoveAndRotateBlock
-            case AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate or AnchorBlock.Type.Teleport:
+            if (anchorBlock is PositionAnchorBlock positionAnchorBlock)
             {
-                Vector2 currentVertex = ((PositionAnchorBlock)currentBlock).Target;
+                // add new target to array if MoveBlock or MoveAndRotateBlock
+                Vector2 currentVertex = positionAnchorBlock.Target;
 
-                if (currentBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate)
+                if (ReferenceManager.Instance.MainChainController.Children[index] is not PositionAnchorBlockController controller)
                 {
-                    DrawManager.DrawLine(previousVertex, currentVertex, lineContainer);
-                }
-                else
-                {
-                    DrawManager.DrawDashedLine(previousVertex, currentVertex, 0.2f, 0.2f, lineContainer);
+                    throw new("Controller was for some reason not a position block controller, this shouldn't happen");
                 }
 
-                DrawArrowHead(currentVertex, previousVertex);
+                // check if line already rendered
+                if (!hasRendered[index] || !lineList.Contains((previousVertex, currentVertex)) || isFirstPositionBlockAfterLoop)
+                {
+                    AnchorPathLine line = Instantiate(PrefabManager.Instance.AnchorPathLine, Vector2.zero,
+                        Quaternion.identity, lineContainer);
+
+                    line.CreateArrowHead(previousVertex, currentVertex);
+                    line.CreateArrowLine(previousVertex, currentVertex, positionAnchorBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate);
+                    line.CreateBlur();
+
+                    controller.Lines.Add(line);
+
+                    lineList.Add((previousVertex, currentVertex));
+                    hasRendered[index] = true;
+                }
 
                 previousVertex = currentVertex;
-                break;
+
+                isFirstPositionBlockAfterLoop = false;
             }
 
             // track loop index if LoopBlock
-            case AnchorBlock.Type.Loop:
+            else if (anchorBlock.ImplementedBlockType is AnchorBlock.Type.Loop)
+            {
                 // track loop index
                 loopIndex = index;
-                break;
+            }
         }
     }
 
     private void ClearLines()
     {
+        // clear references in blocks
+        foreach (AnchorBlock anchorBlock in Blocks)
+        {
+            if (anchorBlock is not PositionAnchorBlock positionAnchorBlock) continue;
+
+            PositionAnchorBlockController controller = positionAnchorBlock.Controller;
+            controller.Lines.Clear();
+        }
+
         // clear lines
         foreach (Transform line in lineContainer)
         {
             Destroy(line.gameObject);
         }
-    }
-
-    private void DrawArrowHead(Vector2 currentVertex, Vector2 previousVertex)
-    {
-        const float headLineLength = 0.15f;
-        Vector2 delta = currentVertex - previousVertex;
-        Vector2 halfPoint = previousVertex + delta / 2;
-        Vector2 offset = delta.normalized * (headLineLength / 2);
-        Vector2 start = halfPoint + offset;
-        Vector2 endSideOffset = delta.normalized * Mathf.Sin(headLineLength);
-        endSideOffset.Rotate(90);
-        Vector2 end = halfPoint - offset;
-
-        DrawManager.DrawLine(start, end + endSideOffset, lineContainer);
-        DrawManager.DrawLine(start, end - endSideOffset, lineContainer);
     }
 
     public void SetLinesActive(bool active) => lineContainer.gameObject.SetActive(active);

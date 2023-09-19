@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
@@ -28,7 +25,7 @@ public class LockHighlightTween : MonoBehaviour
             .Append(transform.DOScale(Vector3.one * scale, duration / 2).SetEase(Ease.OutCubic))
             // scale back down
             .Append(transform.DOScale(Vector3.one, duration / 2).SetEase(Ease.InOutSine));
-        
+
         // shake
         Sequence shakeSequence = DOTween.Sequence();
         float singleShakeDuration = duration / shakes;
@@ -46,7 +43,8 @@ public class LockHighlightTween : MonoBehaviour
                 // return to normal position
                 .Append(transform.DORotate(Vector3.zero, singleShakeDuration / 2).SetEase(Ease.InSine))
                 // go into shake position
-                .Append(transform.DORotate(new(0, 0, shakeRotationCopy), singleShakeDuration / 2).SetEase(Ease.OutSine));
+                .Append(transform.DORotate(new(0, 0, shakeRotationCopy), singleShakeDuration / 2)
+                    .SetEase(Ease.OutSine));
 
             // shake into other direction next time
             shakeRotationCopy *= -1;

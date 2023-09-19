@@ -55,6 +55,7 @@ public class PrefabManager : MonoBehaviour
     [Foldout("UI")] public GameObject NumberInputOptionPrefab;
     [Foldout("UI")] public GameObject HeaderOptionPrefab;
     [Foldout("UI")] public GameObject SpaceOptionPrefab;
+    [Foldout("UI")] public AlphaTween GlowPrefab;
 
     [Foldout("UI")] public GameObject FillPreview;
     [Foldout("UI")] public GameObject Tooltip;
@@ -63,6 +64,7 @@ public class PrefabManager : MonoBehaviour
 
     #region Anchor blocks
 
+    [Foldout("Anchor blocks")] public AnchorPathLine AnchorPathLine;
     [Foldout("Anchor blocks")] public GameObject AnchorConnector;
     [Foldout("Anchor blocks")] public GameObject GoToBlockPrefab;
     [Foldout("Anchor blocks")] public GameObject MoveBlockPrefab;

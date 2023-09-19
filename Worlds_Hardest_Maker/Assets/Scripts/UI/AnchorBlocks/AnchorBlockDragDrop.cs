@@ -6,11 +6,11 @@ using UnityEngine.EventSystems;
 public class AnchorBlockDragDrop : MonoBehaviour
 {
     [SerializeField] private bool active = true;
+    
+    [Separator("References")] [SerializeField] [MustBeAssigned]
+    private LockHighlightTween lockHighlightTween;
 
-    [Separator("References")]
-    [SerializeField] [MustBeAssigned] private LockHighlightTween lockHighlightTween;
-
-    private Vector2 offset;
+    public Vector2 Offset { get; private set; }
     private AnchorBlockController anchorBlockController;
     private UIRestrictInRectTransform restrict;
 
@@ -27,7 +27,7 @@ public class AnchorBlockDragDrop : MonoBehaviour
         if (!active || IsLocked) return;
 
         Canvas canvas = ReferenceManager.Instance.Canvas;
-        
+
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             (RectTransform)canvas.transform,
             mousePos,
@@ -35,8 +35,7 @@ public class AnchorBlockDragDrop : MonoBehaviour
             out Vector2 position
         );
 
-        transform.position = canvas.transform.TransformPoint(position) - (Vector3)offset;
-        
+        transform.position = canvas.transform.TransformPoint(position) - (Vector3)Offset;
     }
 
     private void OnBeginDrag(Vector2 mousePos)
@@ -54,13 +53,9 @@ public class AnchorBlockDragDrop : MonoBehaviour
 
         anchorBlockController.TrimFromCurrentChain();
 
-        offset = mousePos - (Vector2)transform.position;
+        Offset = mousePos - (Vector2)transform.position;
 
-        // update anchor connector y size
-        RectTransform anchorConnectorRt =
-            (RectTransform)ReferenceManager.Instance.AnchorBlockConnectorController.transform;
-        anchorConnectorRt.sizeDelta = new(anchorConnectorRt.sizeDelta.x,
-            ((RectTransform)AnchorBlockManager.Instance.DraggedBlock.transform).rect.height);
+        ReferenceManager.Instance.AnchorBlockConnectorController.UpdateHeight(Offset);
     }
 
     private void OnEndDrag()

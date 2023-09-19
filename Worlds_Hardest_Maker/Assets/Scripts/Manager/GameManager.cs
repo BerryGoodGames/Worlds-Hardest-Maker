@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using DG.Tweening;
@@ -8,7 +7,6 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Debug = UnityEngine.Debug;
 
 public class GameManager : MonoBehaviourPun
 {
@@ -41,7 +39,6 @@ public class GameManager : MonoBehaviourPun
         LevelSettings.Instance.SetIceFriction();
         LevelSettings.Instance.SetIceMaxSpeed();
         LevelSettings.Instance.SetWaterDamping();
-
     }
 
     /// <summary>
@@ -100,7 +97,7 @@ public class GameManager : MonoBehaviourPun
                         string keyColorStr = editModeStr.Remove(editModeStr.Length - 3);
                         KeyManager.KeyColor keyColor =
                             (KeyManager.KeyColor)Enum.Parse(typeof(KeyManager.KeyColor), keyColorStr);
-                        
+
                         // place key
                         if (multiplayer) photonView.RPC("SetKey", RpcTarget.All, gridX, gridY, keyColor);
                         else KeyManager.Instance.SetKey(gridX, gridY, keyColor);

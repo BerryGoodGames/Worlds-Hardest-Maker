@@ -3,10 +3,13 @@ using UnityEngine;
 
 public class KeyDoorFieldController : MonoBehaviour
 {
-    [SerializeField][InitializationField][MustBeAssigned] private Animator animator;
-    [SerializeField][InitializationField][MustBeAssigned] private BoxCollider2D boxCollider;
-    [Separator]
-    [ReadOnly] public bool Unlocked;
+    [SerializeField] [InitializationField] [MustBeAssigned]
+    private Animator animator;
+
+    [SerializeField] [InitializationField] [MustBeAssigned]
+    private BoxCollider2D boxCollider;
+
+    [Separator] [ReadOnly] public bool Unlocked;
     [ReadOnly] public KeyManager.KeyColor Color;
 
     private static readonly int unlockedString = Animator.StringToHash("Unlocked");

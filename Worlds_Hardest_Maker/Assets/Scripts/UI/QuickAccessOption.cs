@@ -3,11 +3,11 @@ using UnityEngine;
 public class QuickAccessOption : MonoBehaviour
 {
     [SerializeField] private MouseOverUIRect mouseOverUIRect;
-    [SerializeField] private AlphaUITween tween;
+    [SerializeField] private AlphaTween tween;
     [Space] [SerializeField] private bool closesMenuOnClick;
 
     private Transform menu;
-    private AlphaUITween menuTween;
+    private AlphaTween menuTween;
 
     private void Awake()
     {
@@ -18,7 +18,7 @@ public class QuickAccessOption : MonoBehaviour
     private void Start()
     {
         menu = transform.parent;
-        menuTween = menu.GetComponent<AlphaUITween>();
+        menuTween = menu.GetComponent<AlphaTween>();
     }
 
     public void CloseMenu()

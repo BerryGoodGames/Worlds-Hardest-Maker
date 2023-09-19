@@ -15,22 +15,19 @@ public class PlayerController : Controller
 
     [Space] public float Speed;
 
-    [Separator("Water settings")]
-    [SerializeField]
+    [Separator("Water settings")] [SerializeField]
     private Transform waterLevel;
 
     [SerializeField] [Range(0, 1)] private float waterDamping;
     [SerializeField] private float drownDuration;
     private float currentDrownDuration;
 
-    [Separator("Ice settings")]
-    [SerializeField]
+    [Separator("Ice settings")] [SerializeField]
     private float iceFriction;
 
     [SerializeField] private float maxIceSpeed;
 
-    [Separator("Void settings")]
-    [SerializeField]
+    [Separator("Void settings")] [SerializeField]
     private float voidFallDuration;
 
     #endregion
@@ -56,8 +53,7 @@ public class PlayerController : Controller
 
     #region Fields
 
-    [Separator]
-    [ReadOnly] public int ID;
+    [Separator] [ReadOnly] public int ID;
 
     [ReadOnly] public int Deaths;
 
@@ -145,10 +141,7 @@ public class PlayerController : Controller
             Animator.SetTrigger(death);
     }
 
-    private void OnPlay()
-    {
-        EdgeCollider.enabled = true;
-    }
+    private void OnPlay() => EdgeCollider.enabled = true;
 
     #region Physics, Movement
 
@@ -445,7 +438,7 @@ public class PlayerController : Controller
         print(fallPosition);
 
         spriteRenderer.material.DOFade(0, voidFallDuration)
-            .SetEase(Ease.Linear);  
+            .SetEase(Ease.Linear);
         transform.DOMove(fallPosition, voidFallDuration)
             .SetEase(Ease.OutQuint);
         transform.DOScale(Vector2.zero, voidFallDuration)

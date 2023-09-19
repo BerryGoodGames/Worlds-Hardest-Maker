@@ -8,6 +8,7 @@ public class TeleportBlock : PositionAnchorBlock, IActiveAnchorBlock
 
     public override Type ImplementedBlockType => Type.Teleport;
     protected override GameObject Prefab => PrefabManager.Instance.TeleportBlockPrefab;
+
     public override void Execute()
     {
         Anchor.transform.position = Target;
@@ -20,5 +21,8 @@ public class TeleportBlock : PositionAnchorBlock, IActiveAnchorBlock
         controller.PositionInput.SetPositionValues(Target);
     }
 
+    public override bool HasCurrentlyDuration() => false;
+    public override bool IsLinePreviewDashed() => true;
+
     public override AnchorBlockData GetData() => new TeleportBlockData(IsLocked, Target);
-} 
+}

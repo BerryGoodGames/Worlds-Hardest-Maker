@@ -9,30 +9,45 @@ public abstract partial class AnchorBlockController : MonoBehaviour
     [Separator("General")] public bool IsLocked;
     public bool IsSource;
 
-    [Space] [MustBeAssigned] [SerializeField] private GameObject lockIconContainer;
-    [Space] [MustBeAssigned][SerializeField] private GameObject warningIconContainer;
+    [Space] [MustBeAssigned] [SerializeField]
+    private GameObject lockIconContainer;
 
-    [HideInInspector] public AnchorBlockDragDrop AnchorBlockDragDropComp;
+    [Space] [MustBeAssigned] [SerializeField]
+    private GameObject warningIconContainer;
+
+    public AnchorBlockDragDrop DragDrop { get; private set; }
     private UIRestrictInRectTransform restrict;
+
+    public AnchorBlock Block { get; set; }
 
     public abstract AnchorBlock GetAnchorBlock(AnchorController anchorController);
 
     private void MainStart()
     {
-        AnchorBlockDragDropComp = GetComponent<AnchorBlockDragDrop>();
+        DragDrop = GetComponent<AnchorBlockDragDrop>();
         restrict = GetComponent<UIRestrictInRectTransform>();
 
         if (IsLocked)
         {
-            if(TryGetComponent(out AnchorBlockQuickMenu quickMenu)) quickMenu.Active = false;
+            if (TryGetComponent(out AnchorBlockQuickMenu quickMenu)) quickMenu.Active = false;
 
             if (TryGetComponent(out AnchorBlockDragDrop dragDrop)) dragDrop.IsLocked = true;
         }
-        
+
         IsSource = TryGetComponent(out AnchorBlockSource _);
 
         // enable lock icon if unmovable and not a source
         lockIconContainer.SetActive(IsLocked && !IsSource);
+
+        AnchorBlockDecimalInput[] inputs = GetComponentsInChildren<AnchorBlockDecimalInput>();
+        foreach (AnchorBlockDecimalInput input in inputs)
+        {
+            input.InputField.onValueChanged.AddListener(_ =>
+            {
+                AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+                AnchorManager.Instance.CheckStackOverflowWarnings();
+            });
+        }
     }
 
     public void Delete()
@@ -48,9 +63,17 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         {
             ReferenceManager.Instance.MainChainController.UpdateChildrenArray();
 
+            AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+            AnchorManager.Instance.CheckStackOverflowWarnings();
+
             ReferenceManager.Instance.AnchorBlockConnectorController.UpdateY();
 
             AnchorManager.Instance.UpdateSelectedAnchorLines();
+
+            if (this is LoopBlockController)
+            {
+                AnchorManager.Instance.SelectedAnchor.LoopBlockIndex = -1;
+            }
         }
 
         Destroy(gameObject);
@@ -72,7 +95,14 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
         AnchorManager.Instance.SelectedAnchor.RenderLines();
 
+        AnchorManager.Instance.CheckStackOverflowWarnings();
+
         ReferenceManager.Instance.AnchorBlockConnectorController.UpdateY();
+
+        if (this is LoopBlockController)
+        {
+            AnchorManager.Instance.SelectedAnchor.LoopBlockIndex = -1;
+        }
 
         SetWarning(false);
     }
@@ -104,10 +134,7 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         return parent != null && parent.TryGetComponent(out ChainController _);
     }
 
-    public void SetWarning(bool enable)
-    {
-        warningIconContainer.SetActive(enable);
-    }
+    public void SetWarning(bool enable) => warningIconContainer.SetActive(enable);
 
     private void Start()
     {

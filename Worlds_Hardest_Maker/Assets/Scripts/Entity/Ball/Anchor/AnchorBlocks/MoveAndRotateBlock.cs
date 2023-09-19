@@ -82,4 +82,6 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
 
     public override AnchorBlockData GetData() =>
         new MoveAndRotateBlockData(IsLocked, Target, iterations, adaptRotation);
+
+    public override bool IsLinePreviewDashed() => false;
 }

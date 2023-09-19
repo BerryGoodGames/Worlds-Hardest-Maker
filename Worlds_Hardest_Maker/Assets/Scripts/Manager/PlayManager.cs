@@ -58,13 +58,9 @@ public class PlayManager : MonoBehaviour
 
         EditModeManager.Instance.InvokeOnPlay();
 
-        // close level settings / anchor editor panel if open
-        ClosePanel(ReferenceManager.Instance.LevelSettingsPanelTween);
-        // ClosePanel(ReferenceManager.Instance.AnchorEditorPanelTween);
-
-        // hide panels
-        ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(false);
-        ReferenceManager.Instance.LevelSettingsPanelTween.Set(false);
+        // hide all panels
+        PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
+        PanelManager.Instance.SetPanelHidden(levelSettingsPanel, true);
     }
 
     private static void DisablePreview() =>
@@ -99,7 +95,8 @@ public class PlayManager : MonoBehaviour
 
             anchor.SetLinesActive(false);
 
-            if (AnchorManager.Instance.SelectedAnchor == anchor && EditModeManager.Instance.CurrentEditMode.IsAnchorRelated()) continue;
+            if (AnchorManager.Instance.SelectedAnchor == anchor &&
+                EditModeManager.Instance.CurrentEditMode.IsAnchorRelated()) continue;
 
             anchor.Animator.SetBool(playingString, true);
         }
@@ -110,11 +107,6 @@ public class PlayManager : MonoBehaviour
         if (!ReferenceManager.Instance.MainCameraJumper.HasKey("Player")) return;
 
         ReferenceManager.Instance.MainCameraJumper.Jump("Player", onlyIfTargetOffScreen: true);
-    }
-
-    private static void ClosePanel(PanelTween panel)
-    {
-        if (panel.Open) panel.Toggle();
     }
 
     private static void ActivateCoinKeyAnimations()
@@ -161,7 +153,11 @@ public class PlayManager : MonoBehaviour
         EditModeManager.Instance.InvokeOnEdit();
 
         // show level setting panel
-        if(EditModeManager.Instance.CurrentEditMode != EditMode.Anchor) ReferenceManager.Instance.LevelSettingsButtonPanelTween.Set(true);
+        bool isEditModeAnchorRelated = EditModeManager.Instance.CurrentEditMode.IsAnchorRelated();
+        PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
+        PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
+        PanelManager.Instance.SetPanelHidden(isEditModeAnchorRelated ? anchorPanel : levelSettingsPanel, false);
+        // if(EditModeManager.Instance.CurrentEditMode != EditMode.Anchor) ReferenceManager.Instance.LevelSettingsButtonPanelTween.SetOpen(true);
     }
 
     private static void ResetPlayerGameStates()
@@ -196,7 +192,8 @@ public class PlayManager : MonoBehaviour
             anchor.ResetExecution();
             anchor.Animator.SetBool(playingString, false);
 
-            if (AnchorManager.Instance.SelectedAnchor == anchor && EditModeManager.Instance.CurrentEditMode.IsAnchorRelated()) anchor.SetLinesActive(true);
+            if (AnchorManager.Instance.SelectedAnchor == anchor &&
+                EditModeManager.Instance.CurrentEditMode.IsAnchorRelated()) anchor.SetLinesActive(true);
         }
     }
 

@@ -19,7 +19,7 @@ public partial class AnchorController : Controller
     [HideInInspector] public SetRotationBlock.Unit RotationSpeedUnit;
     [HideInInspector] public float TimeInput;
     [HideInInspector] public float RotationTimeInput;
-    [HideInInspector] public bool IsClockwise; 
+    [HideInInspector] public bool IsClockwise;
     public LinkedListNode<AnchorBlock> LoopBlockNode;
     public TweenerCore<float, float, FloatOptions> RotationTween;
     [HideInInspector] public Ease Ease;
@@ -30,10 +30,13 @@ public partial class AnchorController : Controller
     public AnchorBlock CurrentExecutingBlock;
     public LinkedListNode<AnchorBlock> CurrentExecutingNode;
 
+    public Coroutine WaitCoroutine;
 
     [HideInInspector] public Rigidbody2D Rb;
     private SpriteRenderer spriteRenderer;
     private EntityDragDrop entityDragDrop;
+
+    public int LoopBlockIndex { get; set; } = -1;
 
     private void Awake()
     {
@@ -63,7 +66,7 @@ public partial class AnchorController : Controller
         // assuming that EntityDragDrop already moved transform
 
         LinkedList<AnchorBlock> blocks = Blocks;
-        
+
         // loop through data blocks and add offset
         foreach (AnchorBlock currentBlock in blocks)
         {
@@ -124,7 +127,7 @@ public partial class AnchorController : Controller
         bool hasActiveBlockAfter = false;
         while (currentNode != null)
         {
-            if (currentNode.Value is IActiveAnchorBlock)
+            if (currentNode.Value is IDurationBlock)
             {
                 hasActiveBlockAfter = true;
                 break;
@@ -142,12 +145,10 @@ public partial class AnchorController : Controller
     }
 
 
-    public void StoreCurrentLoopIndex()
-    {
+    public void StoreCurrentLoopIndex() =>
         // for some reason, LoopBlock can't access its node in the list Blocks
         // so the anchor has to store the index himself
         LoopBlockNode = CurrentExecutingNode;
-    }
 
     public void ResetExecution()
     {
@@ -155,6 +156,7 @@ public partial class AnchorController : Controller
 
         Rb.DOKill();
         t.DOKill();
+        if (WaitCoroutine != null) StopCoroutine(WaitCoroutine);
         CurrentExecutingBlock = null;
 
         Rb.position = startPosition;

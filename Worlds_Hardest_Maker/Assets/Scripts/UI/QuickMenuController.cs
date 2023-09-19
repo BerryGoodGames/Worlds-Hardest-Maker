@@ -3,12 +3,12 @@ using UnityEngine;
 [RequireComponent(typeof(MouseOverUIRect))]
 public class QuickMenuController : MonoBehaviour
 {
-    private AlphaUITween tween;
+    private AlphaTween tween;
     private MouseOverUIRect mouseOver;
 
     private void Start()
     {
-        tween = GetComponent<AlphaUITween>();
+        tween = GetComponent<AlphaTween>();
         mouseOver = GetComponent<MouseOverUIRect>();
     }
 

@@ -14,7 +14,7 @@ public class ToolOptionbar : MonoBehaviour
     private RectTransform hh;
     private RectTransform rtThis;
     private GridLayoutGroup gridLayout;
-    private AlphaUITween anim;
+    private AlphaTween anim;
     private int toolCount;
     private float width;
     private float height;
@@ -23,7 +23,7 @@ public class ToolOptionbar : MonoBehaviour
     {
         // REF
         rtThis = GetComponent<RectTransform>();
-        anim = GetComponent<AlphaUITween>();
+        anim = GetComponent<AlphaTween>();
 
         anim.OnSetVisible += EnableOptionbar;
         anim.OnIsInvisible += DisableOptionbar;

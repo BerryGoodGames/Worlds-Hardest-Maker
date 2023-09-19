@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class RotateBlock : AnchorBlock, IActiveAnchorBlock
+public class RotateBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
 {
     public const Type BlockType = Type.Rotate;
     public override Type ImplementedBlockType => BlockType;
@@ -42,6 +42,8 @@ public class RotateBlock : AnchorBlock, IActiveAnchorBlock
         RotateBlockController controller = (RotateBlockController)c;
         controller.Input.text = iterations.ToString();
     }
+
+    public bool HasCurrentlyDuration() => iterations > 0;
 
     public override AnchorBlockData GetData() => new RotateBlockData(IsLocked, iterations);
 }

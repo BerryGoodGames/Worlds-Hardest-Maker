@@ -1,5 +1,7 @@
 using MyBox;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ReferenceManager : MonoBehaviour
 {
@@ -24,10 +26,8 @@ public class ReferenceManager : MonoBehaviour
     [Foldout("Objects")] public BarTween InfobarEditTween;
     [Foldout("Objects")] public BarTween PlayButtonTween;
 
-    [Foldout("Objects")] public GameObject LevelSettingsPanel;
-
-    [Foldout("Objects")] public PanelTween LevelSettingsButtonPanelTween;
-    [Foldout("Objects")] public PanelTween LevelSettingsPanelTween;
+    [Foldout("Objects")] public PanelController LevelSettingsPanelController;
+    [Foldout("Objects")] public PanelController AnchorPanelController;
 
     [Foldout("Objects")] public PlayerSpawner PlayerSpawner;
 
@@ -89,10 +89,27 @@ public class ReferenceManager : MonoBehaviour
 
     [Foldout("Anchor")] public AnchorCameraJumping AnchorCameraJumping;
 
-    [Foldout("Anchor")] public AlphaUITween AnchorNoAnchorSelectedScreen;
+    [Foldout("Anchor")] public AlphaTween AnchorNoAnchorSelectedScreen;
 
-    [Foldout("Anchor")] public AlphaUITween AnchorInPlayModeScreen;
+    [Foldout("Anchor")] public AlphaTween AnchorInPlayModeScreen;
 
+    #endregion
+
+    #region Materials
+
+    [Foldout("Material")] public Material DashedLineMaterial;
+
+    #endregion
+
+    #region SettingInputs
+    [Foldout("SettingInputs")] public TMP_Dropdown QualityDropdown;
+    [Foldout("SettingInputs")] public TMP_Dropdown ResolutionDropdown;
+    [Foldout("SettingInputs")] public Toggle FullscreenToggle;
+    [Foldout("SettingInputs")] public Toggle OneColorToggle;
+    [Foldout("SettingInputs")] public SyncInputToSlider ToolbarSizeSlider;
+    [Foldout("SettingInputs")] public SyncInputToSlider InfobarSizeSlider;
+    [Foldout("SettingInputs")] public SyncInputToSlider MusicSlider;
+    [Foldout("SettingInputs")] public SyncInputToSlider SoundEffectSlider;
     #endregion
 
     private void Awake()

@@ -16,14 +16,6 @@ public class AnchorBlockFitter : MonoBehaviour
 
     private void Start() => rt = GetComponent<RectTransform>();
 
-    // #if UNITY_EDITOR
-//     private void Update()
-//     {
-//         if (!EditorApplication.isPlaying)
-//             CheckForChanges();
-//     }
-// #endif
-
     private bool ChildrenChanged()
     {
         // check for new child / one child less

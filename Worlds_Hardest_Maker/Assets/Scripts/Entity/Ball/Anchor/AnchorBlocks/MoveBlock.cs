@@ -1,4 +1,3 @@
-using System.Windows.Forms;
 using DG.Tweening;
 using UnityEngine;
 
@@ -38,4 +37,5 @@ public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock
     }
 
     public override AnchorBlockData GetData() => new MoveBlockData(IsLocked, Target);
+    public override bool IsLinePreviewDashed() => false;
 }

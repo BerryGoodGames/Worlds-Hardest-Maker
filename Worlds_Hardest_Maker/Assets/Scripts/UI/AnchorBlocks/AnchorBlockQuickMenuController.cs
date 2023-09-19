@@ -4,7 +4,7 @@ using UnityEngine;
 public class AnchorBlockQuickMenuController : QuickMenuController
 {
     public RectTransform RectTransform;
-    public AlphaUITween Tween;
+    public AlphaTween Tween;
 
     [Space] [ReadOnly] public AnchorBlockController SelectedAnchorBlock;
 
