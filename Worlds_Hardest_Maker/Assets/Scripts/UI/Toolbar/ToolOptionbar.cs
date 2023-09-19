@@ -1,19 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 using UnityEngine.UI;
 
 [ExecuteAlways]
 public class ToolOptionbar : MonoBehaviour
 {
-    public GameObject background;
-    public GameObject hoveringHitbox;
-    public GameObject options;
-    public float size;
+    public GameObject Background;
+
+    public GameObject HoveringHitbox;
+
+    public GameObject Options;
+    public float Size;
     private RectTransform hh;
     private RectTransform rtThis;
     private GridLayoutGroup gridLayout;
-    private AlphaUITween anim;
+    private AlphaTween anim;
     private int toolCount;
     private float width;
     private float height;
@@ -22,14 +23,14 @@ public class ToolOptionbar : MonoBehaviour
     {
         // REF
         rtThis = GetComponent<RectTransform>();
-        anim = GetComponent<AlphaUITween>();
+        anim = GetComponent<AlphaTween>();
 
-        anim.onSetVisible += () => EnableOptionbar();
-        anim.onIsInvisible += () => DisableOptionbar();
+        anim.OnSetVisible += EnableOptionbar;
+        anim.OnIsInvisible += DisableOptionbar;
 
-        hh = hoveringHitbox.GetComponent(typeof(RectTransform)) as RectTransform;
-        gridLayout = options.GetComponent<GridLayoutGroup>();
-        toolCount = options.transform.childCount;
+        hh = HoveringHitbox.GetComponent(typeof(RectTransform)) as RectTransform;
+        gridLayout = Options.GetComponent<GridLayoutGroup>();
+        toolCount = Options.transform.childCount;
 
         UpdateHeight();
         ScaleOptions();
@@ -46,31 +47,36 @@ public class ToolOptionbar : MonoBehaviour
 
     public void DisableOptionbar()
     {
-        if (!anim.IsVisible())
-        {
-            hh.sizeDelta = new(gridLayout.cellSize.x, gridLayout.cellSize.y);
-            hh.localPosition = new(0, -1250);
-            rtThis.localPosition = new(0, 1000);
-        }
+        if (anim.IsVisible) return;
+
+        hh.sizeDelta = new(gridLayout.cellSize.x, gridLayout.cellSize.y);
+        hh.localPosition = new(0, -1250);
+        rtThis.localPosition = new(0, 1000);
     }
 
+    [ButtonMethod]
     public void ScaleOptions()
     {
-        foreach (Transform tool in options.transform)
+        foreach (Transform tool in Options.transform)
         {
             tool.localScale = new(0.7f, 0.7f);
         }
     }
+
+    [ButtonMethod]
     public void UpdateHeight()
     {
-        RectTransform rt = background.GetComponent(typeof(RectTransform)) as RectTransform;
+        RectTransform rt = Background.GetComponent(typeof(RectTransform)) as RectTransform;
+
+        if (rt == null) return;
+
         if (toolCount == 0)
-        {
             rt.sizeDelta = new(100, 100);
-        } else
+        else
         {
-            width = gridLayout.cellSize.x * size;
-            height = (gridLayout.cellSize.y + gridLayout.spacing.y) * toolCount - gridLayout.spacing.y + gridLayout.cellSize.y * (size - 1);
+            width = gridLayout.cellSize.x * Size;
+            height = (gridLayout.cellSize.y + gridLayout.spacing.y) * toolCount - gridLayout.spacing.y +
+                     gridLayout.cellSize.y * (Size - 1);
 
             rt.sizeDelta = new(width, height);
         }

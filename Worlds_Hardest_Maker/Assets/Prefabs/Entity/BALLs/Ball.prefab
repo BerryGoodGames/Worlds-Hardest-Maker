@@ -28,13 +28,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1414024793712416713}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2385285795945899156}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2491659069462593980
 SpriteRenderer:
@@ -98,6 +98,25 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -128,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2b634d6afae6b944bebd2b4e9fb0ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  halfGrid: 0
+  worldType: 1
 --- !u!114 &5932802461731541815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +186,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6481791030330069436}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -174,7 +194,6 @@ Transform:
   m_Children:
   - {fileID: 9215519201545249018}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &105589263788141184
 MonoBehaviour:
@@ -188,8 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e527362bc3264a14f835b8d0e129f50c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 62f726afd539ffa4a94b5379c23b1c9b, type: 3}
-  color: {r: 0, g: 0, b: 1, a: 1}
-  scale: {x: 0.5, y: 0.5}
-  showWhenSelecting: 0
-  rotate: 0
+  Sprite: {fileID: 21300000, guid: 62f726afd539ffa4a94b5379c23b1c9b, type: 3}
+  Color: {r: 0, g: 0, b: 1, a: 1}
+  Scale: {x: 0.5, y: 0.5}
+  Rotate: 0

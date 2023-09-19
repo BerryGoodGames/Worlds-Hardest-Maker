@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
-/// inits lobby: rooms, players etc
+///     Initializes lobby: rooms, players etc
 /// </summary>
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -14,16 +15,20 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public GameObject RoomItem;
     public GameObject PlayerItem;
+    [SerializeField] private LoadingScreen loadingScreen;
 
     [Space]
 
     // references
-    public TMPro.TMP_InputField roomNameInput;
-    public GameObject lobbyPanel;
-    public GameObject roomPanel;
+    public TMP_InputField RoomNameInput;
+
+    public GameObject LobbyPanel;
+    public GameObject RoomPanel;
     [SerializeField] private GameObject loadingPanel;
-    public TMPro.TMP_Text roomNameTitle;
-    public TMPro.TMP_Text yourName;
+
+    public TMP_Text RoomNameTitle;
+
+    public TMP_Text YourName;
     [SerializeField] private string privateRoomStart = "!";
     [SerializeField] private Slider loadingSlider;
 
@@ -31,182 +36,163 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     // list of all room item controllers
     private readonly List<RoomItem> roomItemsList = new();
-    public GameObject roomContainer;
+
+    public GameObject RoomContainer;
 
     [Space]
 
     // vars for tracking cooldown
-    public float timeBetweenUpdates = 1.5f;
+    public float TimeBetweenUpdates = 1.5f;
+
     private float nextUpdateTime;
 
-    [Space]
+    [Space] private readonly List<PlayerItem> playerItemsList = new();
 
-    private readonly List<PlayerItem> playerItemsList = new();
-    public GameObject playerItemContainer;
+    public GameObject PlayerItemContainer;
 
-    [Space]
+    [Space] public GameObject PlayButton;
 
-    public GameObject playButton;
+    private static readonly int load = Animator.StringToHash("Load");
 
     private void Start()
     {
         // start of lobby scene: join photon lobby
         PhotonNetwork.JoinLobby();
 
-        yourName.text = $"Your Name: {PhotonNetwork.LocalPlayer.NickName}";
+        YourName.text = $"Your Name: {PhotonNetwork.LocalPlayer.NickName}";
     }
 
     /// <summary>
-    /// onclick method for Create Room button
+    ///     OnClick callback (for Create Room button)
     /// </summary>
     public void OnClickCreate()
     {
         // if content in input
-        if (roomNameInput.text.Length <= 0) return;
+        if (RoomNameInput.text.Length <= 0) return;
 
         // check if room already exists
-        if (CheckRooms(roomNameInput.text))
-        {
+        if (CheckRooms(RoomNameInput.text))
             // join room with name
-            PhotonNetwork.JoinRoom(roomNameInput.text);
-        }
+            PhotonNetwork.JoinRoom(RoomNameInput.text);
         else
-        {
             // create new room with name
-            PhotonNetwork.CreateRoom(roomNameInput.text);
-        }
+            PhotonNetwork.CreateRoom(RoomNameInput.text);
     }
 
     /// <summary>
-    /// callback method: player joins / creates room: switch panels
+    ///     OnJoin / OnCreate callback
     /// </summary>
     public override void OnJoinedRoom()
     {
-        // hide lobbypanel, show roompanel with title
-        lobbyPanel.SetActive(false);
-        roomPanel.SetActive(true);
+        // hide lobby panel, show room panel with title
+        LobbyPanel.SetActive(false);
+        RoomPanel.SetActive(true);
 
-        roomNameTitle.text = $"Room: {PhotonNetwork.CurrentRoom.Name}";
+        RoomNameTitle.text = $"Room: {PhotonNetwork.CurrentRoom.Name}";
 
         UpdatePlayerList();
     }
 
     /// <summary>
-    /// callback method: global list of rooms updates in any way
+    ///     Callback method: global list of rooms updates in any way
     /// </summary>
     /// <param name="roomList"></param>
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         // check for cooldown
-        if(Time.time >= nextUpdateTime)
+        if (Time.time < nextUpdateTime) return;
+
+        // update room list
+        // -> clear list
+        foreach (RoomItem item in roomItemsList)
         {
-            // update room list
-            // -> clear list
-            foreach (RoomItem item in roomItemsList)
-            {
-                if(item != null && item.gameObject != null)
-                    Destroy(item.gameObject);
-            }
-            roomItemsList.Clear();
-
-            // fill list with new RoomItem gameobjects
-            foreach (RoomInfo room in roomList)
-            {
-                RoomItem controller;
-                if(!room.Name.StartsWith(privateRoomStart))
-                {
-                    // new RoomItem in roomContainer
-                    GameObject newRoom = Instantiate(RoomItem, roomContainer.transform);
-                    controller = newRoom.GetComponent<RoomItem>();
-                }
-                // create controller
-                else controller = new();
-
-                // set name and add to list
-                controller.SetRoomName(room.Name);
-                controller.SetPlayerCount(room.PlayerCount);
-                controller.info = room;
-                roomItemsList.Add(controller);
-            }
-
-            nextUpdateTime = Time.time + timeBetweenUpdates;
+            if (item != null && item.gameObject != null)
+                Destroy(item.gameObject);
         }
+
+        roomItemsList.Clear();
+
+        // fill list with new RoomItem game objects
+        foreach (RoomInfo room in roomList)
+        {
+            RoomItem controller;
+            if (!room.Name.StartsWith(privateRoomStart))
+            {
+                // new RoomItem in roomContainer
+                GameObject newRoom = Instantiate(RoomItem, RoomContainer.transform);
+                controller = newRoom.GetComponent<RoomItem>();
+            }
+            // create controller
+            else
+                controller = new();
+
+            // set name and add to list
+            controller.SetRoomName(room.Name);
+            controller.SetPlayerCount(room.PlayerCount);
+            controller.Info = room;
+            roomItemsList.Add(controller);
+        }
+
+        nextUpdateTime = Time.time + TimeBetweenUpdates;
     }
 
     /// <summary>
-    /// onclick method for leave button
+    ///     OnClick method for leave button
     /// </summary>
-    public void OnClickLeaveRoom()
-    {
-        PhotonNetwork.LeaveRoom();
-    }
+    public void OnClickLeaveRoom() => PhotonNetwork.LeaveRoom();
 
     /// <summary>
-    /// callback method: player leaves any room: switch panels
+    ///     Callback method: player leaves any room: switch panels
     /// </summary>
     public override void OnLeftRoom()
     {
-        roomPanel.SetActive(false);
-        lobbyPanel.SetActive(true);
+        RoomPanel.SetActive(false);
+        LobbyPanel.SetActive(true);
     }
 
-    public override void OnConnectedToMaster()
-    {
-        PhotonNetwork.JoinLobby();
-    }
+    public override void OnConnectedToMaster() => PhotonNetwork.JoinLobby();
 
-    void UpdatePlayerList()
+    private void UpdatePlayerList()
     {
         // update player list
         // -> clear player item list
-        foreach(PlayerItem item in playerItemsList)
+        foreach (PlayerItem item in playerItemsList)
         {
             Destroy(item.gameObject);
         }
+
         playerItemsList.Clear();
 
         // check if in a room
-        if(PhotonNetwork.CurrentRoom != null)
-        {
-            // fill in all connected player
-            foreach(KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
-            {
-                // init new player item
-                GameObject newPlayerItem = Instantiate(PlayerItem, playerItemContainer.transform);
+        if (PhotonNetwork.CurrentRoom == null) return;
 
-                // add to list
-                PlayerItem controller = newPlayerItem.GetComponent<PlayerItem>();
-                controller.SetPlayerInfo(player.Value);
-                playerItemsList.Add(controller);
-            }
+        // fill in all connected player
+        foreach (KeyValuePair<int, Player> player in PhotonNetwork.CurrentRoom.Players)
+        {
+            // init new player item
+            GameObject newPlayerItem = Instantiate(PlayerItem, PlayerItemContainer.transform);
+
+            // add to list
+            PlayerItem controller = newPlayerItem.GetComponent<PlayerItem>();
+            controller.SetPlayerInfo(player.Value);
+            playerItemsList.Add(controller);
         }
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        UpdatePlayerList();
-    }
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        UpdatePlayerList();
-    }
+    public override void OnPlayerEnteredRoom(Player newPlayer) => UpdatePlayerList();
+
+    public override void OnPlayerLeftRoom(Player otherPlayer) => UpdatePlayerList();
 
     private void Update()
     {
         // only show play button to host
         if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount >= 1)
-        {
-            playButton.SetActive(true);
-        } else
-        {
-            playButton.SetActive(false);
-        }
+            PlayButton.SetActive(true);
+        else
+            PlayButton.SetActive(false);
 
         // check enter key
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            OnClickCreate();
-        }
+        if (Input.GetKeyDown(KeyCode.Return)) OnClickCreate();
     }
 
     public void OnClickPlayButton()
@@ -215,37 +201,43 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
         PhotonNetwork.LoadLevel("DefaultEditorScene");
     }
+
     [PunRPC]
     private void StartLoading()
     {
-        Animator anim = loadingPanel.GetComponent<Animator>();
-        anim.SetTrigger("Load");
+        loadingScreen.gameObject.SetActive(true);
+        loadingScreen.SetProgress(0);
+
+        // Animator anim = loadingPanel.GetComponent<Animator>();
+        // anim.SetTrigger(load);
 
         StartCoroutine(UpdateLoadingSlider());
     }
+
     private IEnumerator UpdateLoadingSlider()
     {
-        while(PhotonNetwork.LevelLoadingProgress <= 0.9)
+        while (PhotonNetwork.LevelLoadingProgress <= 0.9)
         {
-            loadingSlider.value = PhotonNetwork.LevelLoadingProgress / 0.9f;
+            loadingScreen.SetProgress(PhotonNetwork.LevelLoadingProgress / 0.9f);
             yield return null;
         }
     }
 
     /// <summary>
-    /// checks if room already exists
+    ///     Checks if room already exists
     /// </summary>
-    /// <param name="roomName">name of room to check</param>
-    /// 
     public bool CheckRooms(string roomName)
     {
-        foreach(RoomItem room in roomItemsList)
+        foreach (RoomItem room in roomItemsList)
         {
-            if(room.info.Name.Equals(roomName))
+            if (room.Info.Name.Equals(roomName))
                 return true;
         }
+
         return false;
     }
+
+    public void Back() => loadingScreen.LoadScene(2);
 
     private void Awake()
     {

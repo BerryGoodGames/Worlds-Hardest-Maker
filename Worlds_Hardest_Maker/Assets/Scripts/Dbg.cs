@@ -1,81 +1,113 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 /// <summary>
-/// utility class for fast debug: custom for default log, count, fps, mouse pos
-/// attach to game manager
+///     Utility class for fast debug: custom for default log, count, fps, mouse pos
+///     <para>Attach to game manager</para>
 /// </summary>
 public class Dbg : MonoBehaviour
 {
     public static Dbg Instance { get; private set; }
+
     public enum DbgTextMode
     {
-        DISABLED, CUSTOM, COUNT, FPS, PLAYER_POSITION, MOUSE_POSITION_UNITS, MOUSE_POSITION_PIXELS
+        Disabled,
+        Custom,
+        Count,
+        FPS,
+        PlayerPosition,
+        MousePositionUnits,
+        MousePositionPixels
     }
 
-    [Header("Settings")]
-    public bool dbgEnabled = true;
-    [Space]
-    public DbgTextMode textMode;
-    public float count;
-    [Space]
-    public bool wallOutlines = true;
-    public bool drawRays = false;
-    [Space]
-    public float gameSpeed = 1;
-    [Space]
-    [Header("References")]
-    public GameObject DebugText;
+    [Header("Settings")] public bool DbgEnabled = true;
+
+    [Space] public DbgTextMode TextMode;
+
+    public float Count;
+
+    [Space] public bool WallOutlines = true;
+
+    public bool DrawRays;
+
+    [Space] public float GameSpeed = 1;
+
+    [Space] [Header("References")] public GameObject DebugText;
+
+    private Camera cam;
+    private Text dbgText;
 
     private void Awake()
     {
-        if(Instance == null) Instance = this;
+        if (Instance == null) Instance = this;
         else Destroy(this);
+
+        cam = Camera.main;
+
+        dbgText = Instance.DebugText.GetComponent<Text>();
     }
+
     private void Update()
     {
-        if(dbgEnabled)
+        if (!DbgEnabled) return;
+
+        Time.timeScale = GameSpeed;
+        switch (TextMode)
         {
-            Time.timeScale = gameSpeed;
-            switch (textMode)
-            {
-                case DbgTextMode.DISABLED:
-                    Text(string.Empty);
-                    break;
-                case DbgTextMode.CUSTOM: 
-                    break;
-                case DbgTextMode.COUNT:
-                    Text(count);
-                    break;
-                case DbgTextMode.FPS:
-                    Text(Mathf.Round(1 / Time.deltaTime));
-                    break;
-                case DbgTextMode.PLAYER_POSITION:
-                    try { Text((Vector2)PlayerManager.GetPlayer().transform.position); }
-                    catch(System.Exception) { Text("-"); }
-                    break;
-                case DbgTextMode.MOUSE_POSITION_UNITS:
-                    Text((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition));
-                    break;
-                case DbgTextMode.MOUSE_POSITION_PIXELS:
-                    Text((Vector2)Input.mousePosition);
-                    break;
-            }
+            case DbgTextMode.Disabled:
+                Text(string.Empty);
+                break;
+            case DbgTextMode.Custom:
+                break;
+            case DbgTextMode.Count:
+                Text(Count);
+                break;
+            case DbgTextMode.FPS:
+                Text(Mathf.Round(1 / Time.deltaTime));
+                break;
+            case DbgTextMode.PlayerPosition:
+                try
+                {
+                    Text((Vector2)PlayerManager.GetPlayer().transform.position);
+                }
+                catch (Exception)
+                {
+                    Text("-");
+                }
+
+                break;
+            case DbgTextMode.MousePositionUnits:
+                Text((Vector2)cam.ScreenToWorldPoint(Input.mousePosition));
+                break;
+            case DbgTextMode.MousePositionPixels:
+                Text((Vector2)Input.mousePosition);
+                break;
         }
     }
 
     public static void Text(object obj)
     {
-        Text comp = Instance.DebugText.GetComponent<Text>();
         try
         {
-            comp.text = obj.ToString();
+            Instance.dbgText.text = obj.ToString();
         }
         catch
         {
-            comp.text = "failed";
+            Instance.dbgText.text = "failed";
+        }
+    }
+
+    public static void PrintScriptAttachments<T>() where T : MonoBehaviour
+    {
+        Object[] list = FindObjectsOfType(typeof(T), true);
+        string scriptName = typeof(T).Name;
+
+        print($"Debug - Count of script {scriptName}: {list.Length}");
+        foreach (Object o in list)
+        {
+            print($"Debug - {o.name}");
         }
     }
 }

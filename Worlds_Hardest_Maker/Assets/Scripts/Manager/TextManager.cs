@@ -1,5 +1,6 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TextManager : MonoBehaviour
@@ -7,15 +8,19 @@ public class TextManager : MonoBehaviour
     public static TextManager Instance { get; private set; } // singleton
 
     #region Text References
-    [Header("Text References")]
-    public TMPro.TMP_Text EditModeText;
-    public TMPro.TMP_Text SelectingText;
-    public TMPro.TMP_Text DeathText;
-    public TMPro.TMP_Text Timer;
-    public TMPro.TMP_Text CoinText;
-    [Header("Colors")]
-    public Color cheatedTimerColor;
-    public Color finishedTimerColor;
+
+    [Header("Text References")] public TMP_Text EditModeText;
+
+    public TMP_Text SelectingText;
+
+    public TMP_Text DeathText;
+    public TMP_Text Timer;
+    public TMP_Text CoinText;
+
+    [Header("Colors")] public Color CheatedTimerColor;
+
+    public Color FinishedTimerColor;
+
     #endregion
 
     private float timerSeconds;
@@ -29,9 +34,10 @@ public class TextManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(this);
     }
+
     private void Start()
     {
-        GameManager.Instance.OnPlay += StartTimer;
+        EditModeManager.Instance.OnPlay += StartTimer;
         PlayerManager.Instance.OnWin += FinishTimer;
     }
 
@@ -43,10 +49,10 @@ public class TextManager : MonoBehaviour
         try
         {
             PlayerController currentPlayer = PlayerManager.GetPlayer().GetComponent<PlayerController>();
-            playerDeaths = currentPlayer.deaths;
-            playerCoinsCollected = currentPlayer.coinsCollected.Count;
+            playerDeaths = currentPlayer.Deaths;
+            playerCoinsCollected = currentPlayer.CoinsCollected.Count;
         }
-        catch (System.Exception)
+        catch (Exception)
         {
             // no player placed
             playerDeaths = "-";
@@ -54,7 +60,7 @@ public class TextManager : MonoBehaviour
         }
 
         // set edit mode text ui
-        Instance.EditModeText.text = $"Edit: {GameManager.Instance.CurrentEditMode.GetUIString()}";
+        Instance.EditModeText.text = $"Edit: {EditModeManager.Instance.CurrentEditMode.GetUIString()}";
         Instance.SelectingText.text = $"Selecting: {SelectionManager.Instance.Selecting}";
         Instance.DeathText.text = $"Deaths: {playerDeaths}";
         Instance.CoinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.TotalCoins}";
@@ -70,7 +76,7 @@ public class TextManager : MonoBehaviour
 
     public void StopTimer()
     {
-        if(timerCoroutine != null)
+        if (timerCoroutine != null)
             StopCoroutine(timerCoroutine);
     }
 
@@ -78,8 +84,8 @@ public class TextManager : MonoBehaviour
     {
         StopTimer();
 
-        if (!GameManager.Instance.Cheated)
-            Timer.color = finishedTimerColor;
+        if (!PlayManager.Instance.Cheated)
+            Timer.color = FinishedTimerColor;
     }
 
     private IEnumerator DoTimer()
@@ -92,7 +98,7 @@ public class TextManager : MonoBehaviour
         {
             timerSeconds += Time.deltaTime;
 
-            while(timerSeconds >= 60)
+            while (timerSeconds >= 60)
             {
                 timerMinutes++;
                 timerSeconds -= 60;
@@ -103,24 +109,26 @@ public class TextManager : MonoBehaviour
                 timerHours++;
                 timerMinutes -= 60;
             }
+
             Timer.text = GetTimerTime();
             yield return null;
         }
+        // ReSharper disable once IteratorNeverReturns
     }
 
     private string GetTimerTime()
     {
-        string[] splitted = timerSeconds.ToString().Split('.');
+        string[] split = timerSeconds.ToString().Split('.');
 
         string seconds;
         string milliseconds;
         string minutes = timerMinutes.ToString();
         string hours = timerHours.ToString();
 
-        if (splitted.Length > 1)
+        if (split.Length > 1)
         {
-            seconds = splitted[0];
-            milliseconds = splitted[1];
+            seconds = split[0];
+            milliseconds = split[1];
         }
         else
         {

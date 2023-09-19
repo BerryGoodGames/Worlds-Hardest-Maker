@@ -1,18 +1,19 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using MyBox;
 using Photon.Pun;
+using UnityEngine;
 
 /// <summary>
-/// script for enabling drag and drop on ball objects, also bounce pos or origin pos
-/// attach to gameobject to be dragged
+///     Enables drag and drop on ball objects, also bounce pos or origin pos
+///     <para>Attach to gameObject to be dragged</para>
 /// </summary>
 public class BallDragDrop : MonoBehaviourPun
 {
     public static Dictionary<int, GameObject> DragDropList = new();
 
-    [SerializeField] private IBallController controller;
-    [SerializeField] private int id;
+    [SerializeField] private BallController controller;
+    [SerializeField] [ReadOnly] private int id;
+
     private void Awake()
     {
         // assign id
@@ -22,22 +23,26 @@ public class BallDragDrop : MonoBehaviourPun
 
     private void OnMouseDrag()
     {
-        if (Input.GetKey(KeybindManager.Instance.EntityMoveKey))
+        if (!Input.GetKey(KeybindManager.Instance.EntityMoveKey)) return;
+
+        Vector2 unitPos = MouseManager.Instance.MouseWorldPosGrid;
+
+        if (controller == null)
         {
-            Vector2 unitPos = MouseManager.Instance.MouseWorldPosGrid;
-            if(GameManager.Instance.Multiplayer)
-            {
-                PhotonView controllerView = controller.GetComponent<PhotonView>();
-                controllerView.RPC("MoveObject", RpcTarget.All, unitPos, id);
-            }
-            else controller.MoveObject(unitPos, id);
+            transform.position = unitPos;
+            return;
         }
+
+        if (MultiplayerManager.Instance.Multiplayer)
+        {
+            PhotonView controllerView = controller.GetComponent<PhotonView>();
+            controllerView.RPC("MoveObject", RpcTarget.All, unitPos, id);
+        }
+        else
+            controller.MoveObject(unitPos, id);
     }
 
-    private void OnDestroy()
-    {
-        DragDropList.Remove(id);
-    }
+    private void OnDestroy() => DragDropList.Remove(id);
 
     private static int NextID()
     {
@@ -46,6 +51,7 @@ public class BallDragDrop : MonoBehaviourPun
         {
             res++;
         }
+
         return res;
     }
 }

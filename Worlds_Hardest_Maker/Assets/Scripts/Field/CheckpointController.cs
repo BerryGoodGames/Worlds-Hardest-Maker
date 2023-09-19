@@ -1,63 +1,66 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CheckpointController : MonoBehaviour
 {
-    public bool activated = false;
+    public bool Activated;
     private static bool reusableCheckpoints = true;
-    public static bool ReusableCheckpoints {
-        get { return reusableCheckpoints; }
+
+    public static bool ReusableCheckpoints
+    {
+        get => reusableCheckpoints;
         set
         {
-            if(value) ClearCheckpoints();
+            if (value) ResetCheckpoints();
 
             reusableCheckpoints = value;
         }
     }
 
-    private static List<CheckpointController> activatedCheckpoints = new();
+    private static readonly List<CheckpointController> activatedCheckpoints = new();
 
     private CheckpointTween anim;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject player = collision.gameObject;
-        if (player.CompareTag("Player"))
-        {
-            // check if player wasnt on checkpoint before
-            PlayerController controller = player.GetComponent<PlayerController>();
+        if (!player.CompareTag("Player")) return;
 
-            bool alreadyOnField = controller.IsOnField(FieldType.CHECKPOINT_FIELD);
+        // check if player wasn't on checkpoint before
+        PlayerController controller = player.GetComponent<PlayerController>();
 
-            if ((!activated || reusableCheckpoints) && !alreadyOnField)
-            {
-                if (reusableCheckpoints) ClearCheckpoints();
+        bool alreadyOnField = controller.IsOnField(FieldType.CheckpointField);
 
-                ChainActivate();
+        if ((Activated && !reusableCheckpoints) || alreadyOnField) return;
 
-                controller.ActivateCheckpoint((int)transform.position.x, (int)transform.position.y);
+        if (reusableCheckpoints) ResetCheckpoints();
 
-                AudioManager.Instance.Play("Checkpoint");
-            }
-        }
+        ChainActivate();
+
+        Vector2 pos = transform.position;
+        controller.ActivateCheckpoint(pos.x, pos.y);
+
+        AudioManager.Instance.Play("Checkpoint");
     }
+
     public void ChainActivate()
     {
         Activate();
 
-        List<GameObject> neighbours = FieldManager.GetNeighbours(gameObject);
-        foreach(GameObject n in neighbours)
+        List<GameObject> neighbors = FieldManager.GetNeighbors(gameObject);
+        foreach (GameObject n in neighbors)
         {
             CheckpointController checkpoint = n.GetComponent<CheckpointController>();
-            if (checkpoint == null || checkpoint.activated) continue;
+
+            if (checkpoint == null || checkpoint.Activated) continue;
+
             checkpoint.ChainActivate();
         }
     }
 
     public void Activate()
     {
-        activated = true;
+        Activated = true;
 
         activatedCheckpoints.Add(this);
 
@@ -66,26 +69,24 @@ public class CheckpointController : MonoBehaviour
 
     public void Deactivate(bool remove = true)
     {
-        activated = false;
+        Activated = false;
 
         if (remove) activatedCheckpoints.Remove(this);
 
         anim.Deactivate();
     }
 
-    private static void ClearCheckpoints()
+    private static void ResetCheckpoints()
     {
         // deactivate every checkpoint
         foreach (CheckpointController controller in activatedCheckpoints)
         {
-            if (controller != null) controller.Deactivate(false);
+            if (controller != null)
+                controller.Deactivate(false);
         }
 
         activatedCheckpoints.Clear();
     }
 
-    private void Start()
-    {
-        anim = GetComponent<CheckpointTween>();
-    }
+    private void Start() => anim = GetComponent<CheckpointTween>();
 }

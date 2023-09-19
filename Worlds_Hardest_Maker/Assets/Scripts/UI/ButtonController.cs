@@ -1,52 +1,53 @@
-using System.Collections;
-using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ButtonController : MonoBehaviour
 {
-    public GameObject background;
-    public RectTransform backgroundPanel;
-
-    public bool playSound = false;
+    public GameObject Background;
+    public RectTransform BackgroundPanel;
+    public bool DoPlaySound;
 
     public void PlaySound()
     {
-        if (AudioManager.Instance != null && playSound) AudioManager.Instance.Play("Click");
+        if (AudioManager.Instance != null && DoPlaySound) AudioManager.Instance.Play("Click");
     }
 
     public void Deselect()
     {
         if (EventSystem.current.currentSelectedGameObject.Equals(gameObject))
-        {
             EventSystem.current.SetSelectedGameObject(null);
-        }
     }
 
-    public void UpdateSomeShit()
+    [ButtonMethod]
+    public void UpdateOutlineAndBackgroundPanelSize()
     {
         RectTransform rt = GetComponent<RectTransform>();
-        float width = rt.rect.width;
-        float height = rt.rect.height;
+        Rect rect = rt.rect;
+        float width = rect.width;
+        float height = rect.height;
 
         float size = width < height ? width : height;
 
         float lineSize = size * 0.036f;
 
-        BackgroundLineSize lineSizeController = background.GetComponent<BackgroundLineSize>();
+        BackgroundLineSize lineSizeController = Background.GetComponent<BackgroundLineSize>();
         lineSizeController.SetLineSize(lineSize);
 
-        float bpoffset = size * 0.065f;
-        backgroundPanel.offsetMin = new(bpoffset, -bpoffset);
-        backgroundPanel.offsetMax = new(bpoffset, -bpoffset);
+        float backgroundPanelOffset = size * 0.065f;
+        BackgroundPanel.offsetMin = new(backgroundPanelOffset, -backgroundPanelOffset);
+        BackgroundPanel.offsetMax = new(backgroundPanelOffset, -backgroundPanelOffset);
     }
 
-    public static void UpdateEVERYFUCKINGShit()
+    // ReSharper disable once InconsistentNaming
+    // ReSharper disable once IdentifierTypo
+    [ButtonMethod]
+    public static void UpdateEVERYButton()
     {
         ButtonController[] buttons = Resources.FindObjectsOfTypeAll<ButtonController>();
-        foreach(ButtonController controller in buttons)
+        foreach (ButtonController controller in buttons)
         {
-            controller.UpdateSomeShit();
+            controller.UpdateOutlineAndBackgroundPanelSize();
         }
     }
 }

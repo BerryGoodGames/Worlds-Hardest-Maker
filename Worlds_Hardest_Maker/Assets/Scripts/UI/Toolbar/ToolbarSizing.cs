@@ -1,40 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 
 public class ToolbarSizing : MonoBehaviour
 {
-    public Canvas canvas;
+    public Canvas Canvas;
 
-    [Space]
-    public float toolbarHeight;
+    [Space] public float ToolbarHeight;
 
+    [ButtonMethod]
     public void UpdateSize()
     {
         // set height of toolbarContainer and scale values
         RectTransform rt = transform.parent.GetComponent<RectTransform>();
-        rt.sizeDelta = new(0, toolbarHeight);
+        rt.sizeDelta = new(0, ToolbarHeight);
 
-        // scale tools
+        // scale Tools
         foreach (Transform tool in transform)
         {
-            tool.localScale = new(toolbarHeight / 100, toolbarHeight / 100);
+            tool.localScale = new(ToolbarHeight / 100, ToolbarHeight / 100);
         }
 
         Transform background = transform.parent.GetChild(0);
-        RectTransform bgrt = background.GetComponent<RectTransform>();
-        bgrt.sizeDelta = new(0, toolbarHeight + 200);
+        RectTransform backgroundRectTransform = background.GetComponent<RectTransform>();
+        backgroundRectTransform.sizeDelta = new(0, ToolbarHeight + 200);
     }
 
-    public void ScaleOptionsInOptionbars()
+    [ButtonMethod]
+    public void ScaleOptionsInEveryOptionbar()
     {
         ToolOptionbar[] optionbars = FindObjectsOfType<ToolOptionbar>();
-        foreach(ToolOptionbar optionbar in optionbars)
+        foreach (ToolOptionbar optionbar in optionbars)
         {
             optionbar.ScaleOptions();
         }
     }
-    public void UpdateOptionbarHeights()
+
+    [ButtonMethod]
+    public void UpdateEveryOptionbarHeight()
     {
         ToolOptionbar[] optionbars = FindObjectsOfType<ToolOptionbar>();
         foreach (ToolOptionbar optionbar in optionbars)

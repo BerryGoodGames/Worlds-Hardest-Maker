@@ -1,20 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 
 public class KeybindManager : MonoBehaviour
 {
     public static KeybindManager Instance { get; private set; } // singleton
 
-    [Header("Key binds")]
+    [Header("Key binds")] [DefinedValues(0, 1, 2)]
     public int SelectionMouseButton;
-    public int PanMouseButton;
-    public KeyCode EntityDeleteKey;
-    public KeyCode EntityMoveKey;
-    public KeyCode BallCircleRadiusKey;
-    public KeyCode BallCircleAngleKey;
+
+    [DefinedValues(0, 1, 2)] public int PanMouseButton;
+    [SearchableEnum] public KeyCode EntityDeleteKey;
+    [SearchableEnum] public KeyCode EntityMoveKey;
+    [SearchableEnum] public KeyCode BallCircleRadiusKey;
+    [SearchableEnum] public KeyCode BallCircleAngleKey;
+
     public KeyCode EditSpeedKey;
-    public KeyCode PasteKey;
+
+    [SearchableEnum] public KeyCode PasteKey;
 
     private void Awake()
     {

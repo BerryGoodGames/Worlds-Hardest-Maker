@@ -1,42 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 /// <summary>
-/// Field attributes: position, type
+///     Field attributes: position, type
 /// </summary>
-[System.Serializable]
-public class FieldData : IData
+[Serializable]
+public class FieldData : Data
 {
-    public int[] position;
-    public string fieldType;
-    public int rotation;
+    public int[] Position;
+    public string FieldType;
+    public int Rotation;
 
     public FieldData(GameObject field)
     {
-        position = new int[2];
-        position[0] = (int)field.transform.position.x;
-        position[1] = (int)field.transform.position.y;
-        rotation = (int)field.transform.rotation.eulerAngles.z;
+        Vector2 fieldPosition = field.transform.position;
+
+        Position = new int[2];
+        Position[0] = (int)fieldPosition.x;
+        Position[1] = (int)fieldPosition.y;
+        Rotation = (int)field.transform.rotation.eulerAngles.z;
 
         FieldType typeEnum = (FieldType)FieldManager.GetFieldType(field);
-        fieldType = typeEnum.ToString();
+        FieldType = typeEnum.ToString();
     }
 
-    public override void ImportToLevel()
-    {
-        ImportToLevel(new(position[0], position[1]));
-    }
+    public override void ImportToLevel() => ImportToLevel(new(Position[0], Position[1]));
 
     public override void ImportToLevel(Vector2 pos)
     {
-        FieldType type = (FieldType)System.Enum.Parse(typeof(FieldType), fieldType);
+        FieldType type = (FieldType)Enum.Parse(typeof(FieldType), FieldType);
 
-        FieldManager.Instance.SetField(pos, type, rotation);
+        FieldManager.Instance.SetField(pos, type, Rotation);
     }
 
-    public override EditMode GetEditMode()
-    {
-        return (EditMode)System.Enum.Parse(typeof(EditMode), fieldType);    
-    }
+    public override EditMode GetEditMode() => (EditMode)Enum.Parse(typeof(EditMode), FieldType);
 }

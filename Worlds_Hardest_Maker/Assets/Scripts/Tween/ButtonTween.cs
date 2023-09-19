@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using MyBox;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler,
+    IPointerUpHandler
 {
     [SerializeField] private Transform content;
     [SerializeField] private Transform backgroundPanel;
@@ -15,23 +15,30 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private float highlightElevateDuration;
     [SerializeField] private float highlightFloatingDuration;
 
-    public bool isWarningButton;
-    [SerializeField] private float singleShakeDuration;
-    [SerializeField] private float shake1;
-    [SerializeField] private float shake2;
+    [Space] public bool IsWarningButton;
+
+    [ConditionalField(nameof(IsWarningButton))] [SerializeField]
+    private float singleShakeDuration;
+
+    [ConditionalField(nameof(IsWarningButton))] [SerializeField]
+    private float shake1;
+
+    [ConditionalField(nameof(IsWarningButton))] [SerializeField]
+    private float shake2;
 
     private RectTransform contentRT;
 
-    private bool hovered = false;
+    private bool hovered;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         hovered = true;
 
         // elevate
-        contentRT.DOAnchorPos(new(-highlightElevation, highlightElevation + highlightFloating), highlightElevateDuration);
+        contentRT.DOAnchorPos(new(-highlightElevation, highlightElevation + highlightFloating),
+            highlightElevateDuration);
 
-        if (isWarningButton)
+        if (IsWarningButton)
         {
             // add shake
             Sequence shakeSeq = DOTween.Sequence();
@@ -72,8 +79,5 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         else OnPointerExit(null);
     }
 
-    private void Start()
-    {
-        contentRT = (RectTransform)content;
-    }
+    private void Start() => contentRT = (RectTransform)content;
 }

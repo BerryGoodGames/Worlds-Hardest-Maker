@@ -1,7 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 public class CheckpointTween : MonoBehaviour
 {
@@ -34,25 +33,20 @@ public class CheckpointTween : MonoBehaviour
         if (reusable) TriggerTween();
         else ActivateTween();
     }
-    public void Deactivate()
+
+    public void Deactivate() => DeactivateTween();
+
+    private void Start() => sprite = GetComponent<SpriteRenderer>();
+
+    private static Color GetActiveColor()
     {
-        DeactivateTween();
+        List<Color> palette = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").Colors;
+        return GraphicsSettings.Instance.OneColorStartGoalCheckpoint ? palette[5] : palette[3];
     }
 
-    private void Start()
+    private static Color GetInactiveColor()
     {
-        sprite = GetComponent<SpriteRenderer>();
+        List<Color> palette = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").Colors;
+        return GraphicsSettings.Instance.OneColorStartGoalCheckpoint ? palette[4] : palette[2];
     }
-
-    private Color GetActiveColor()
-    {
-        List<Color> palette = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
-        return GraphicsSettings.Instance.oneColorStartGoal ? palette[5] : palette[3];
-    }
-    private Color GetInactiveColor()
-    {
-        List<Color> palette = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
-        return GraphicsSettings.Instance.oneColorStartGoal ? palette[4] : palette[2];
-    }
-
 }

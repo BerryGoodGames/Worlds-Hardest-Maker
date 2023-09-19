@@ -1,52 +1,69 @@
-using System.Collections;
-using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 
 public class KeyController : Controller
 {
-    [HideInInspector] public KeyManager.KeyColor color;
-    [HideInInspector] public Vector2 keyPosition;
-    [HideInInspector] public bool pickedUp = false;
+    [ReadOnly] public KeyManager.KeyColor Color;
+    [ReadOnly] public Vector2 KeyPosition;
+    [ReadOnly] public bool PickedUp;
+
+    [Separator] [InitializationField] [MustBeAssigned]
+    public SpriteRenderer SpriteRenderer;
+
+    [InitializationField] [MustBeAssigned] public Animator Animator;
+    [InitializationField] [MustBeAssigned] public IntervalRandomAnimation KonamiAnimation;
+
+    private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
 
     private void Awake()
     {
-        keyPosition = new(transform.position.x, transform.position.y);
+        KeyPosition = transform.position;
 
-        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-        int highestOrder = 0;
-        foreach(Transform key in ReferenceManager.Instance.KeyContainer)
-        {
-            int order = key.GetChild(0).GetComponent<SpriteRenderer>().sortingOrder;
-            if (order > highestOrder) highestOrder = order;
-        }
-        renderer.sortingOrder = highestOrder + 1;
+        // cache key controller
+        KeyManager.Instance.Keys.Add(this);
+
+        SetOrderInLayer();
     }
 
     private void OnDestroy()
     {
+        KeyManager.Instance.Keys.Remove(this);
+
         Destroy(transform.parent.gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // check key collection
         // check if edgeCollider is player
-        if(collision.TryGetComponent(out PlayerController controller))
-        {
-            // check if player is of own client
-            if (GameManager.Instance.Multiplayer && !controller.photonView.IsMine) return;
-            
-            // check if that player hasnt collected key yet
-            if (!controller.keysCollected.Contains(gameObject))
-            {
-                PickUp(collision.gameObject);
-            }
-        }
+        if (!collision.TryGetComponent(out PlayerController controller)) return;
+
+        // check if player is of own client
+        if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) return;
+
+        // check if that player hasn't collected key yet
+        PlayerController player = collision.GetComponent<PlayerController>();
+        if (!controller.KeysCollected.Contains(this)) PickUp(player);
     }
 
-    private void PickUp(GameObject player)
+    /// <summary>
+    /// Set order in layer to be on top of every other
+    /// </summary>
+    private void SetOrderInLayer()
     {
-        PlayerController pcontroller = player.GetComponent<PlayerController>();
-        pcontroller.keysCollected.Add(gameObject);
+        int highestOrder = 0;
+        foreach (KeyController key in KeyManager.Instance.Keys)
+        {
+            int order = key.SpriteRenderer.sortingOrder;
+            if (order > highestOrder) highestOrder = order;
+        }
+
+        SpriteRenderer.sortingOrder = highestOrder + 1;
+    }
+
+    private void PickUp(PlayerController player)
+    {
+        player.KeysCollected.Add(this);
 
         // random rotation of pickup animation
         int randRotation = Random.Range(0, 2) * 90;
@@ -54,33 +71,34 @@ public class KeyController : Controller
 
         // pickup animation and sound
         Animator anim = transform.parent.GetComponent<Animator>();
-        anim.SetBool("PickedUp", true);
+        anim.SetBool(pickedUpString, true);
         AudioManager.Instance.Play("Key");
 
-        pickedUp = true;
+        PickedUp = true;
 
-        CheckAndUnlock(player);
+        UnlockKeyDoors(player);
     }
 
-    public void CheckAndUnlock(GameObject player)
+    public void UnlockKeyDoors(PlayerController player)
     {
-        if (player.GetComponent<PlayerController>().KeysCollected(color))
+        print(player.AllKeysCollected(Color));
+        if (!player.AllKeysCollected(Color)) return;
+
+        string tagColor = Color switch
         {
-            string tagColor = "";
-            if (color == KeyManager.KeyColor.RED) tagColor = "Red";
-            else if (color == KeyManager.KeyColor.GREEN) tagColor = "Green";
-            else if (color == KeyManager.KeyColor.BLUE) tagColor = "Blue";
-            else if (color == KeyManager.KeyColor.YELLOW) tagColor = "Yellow";
-            foreach (GameObject door in GameObject.FindGameObjectsWithTag(tagColor + "KeyDoorField"))
-            {
-                KeyDoorField controller = door.GetComponent<KeyDoorField>();
-                controller.Lock(false);
-            }
+            KeyManager.KeyColor.Red => "Red",
+            KeyManager.KeyColor.Green => "Green",
+            KeyManager.KeyColor.Blue => "Blue",
+            KeyManager.KeyColor.Yellow => "Yellow",
+            _ => ""
+        };
+
+        foreach (GameObject door in GameObject.FindGameObjectsWithTag(tagColor + "KeyDoorField"))
+        {
+            KeyDoorFieldController controller = door.GetComponent<KeyDoorFieldController>();
+            controller.SetLocked(false);
         }
     }
 
-    public override IData GetData()
-    {
-        return new KeyData(this);
-    }
+    public override Data GetData() => new KeyData(this);
 }

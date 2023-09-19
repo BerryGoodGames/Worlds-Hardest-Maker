@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,7 +8,7 @@ public class NumberInputArrowTweenController : MonoBehaviour, IPointerEnterHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(left) tween.HoverEventArrowLeft(true);
+        if (left) tween.HoverEventArrowLeft(true);
         else tween.HoverEventArrowRight(true);
     }
 

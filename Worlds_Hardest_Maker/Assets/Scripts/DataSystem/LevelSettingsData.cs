@@ -1,45 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
-[System.Serializable]
-public class LevelSettingsData : IData
+[Serializable]
+public class LevelSettingsData : Data
 {
     #region Setting variables
-    public float drownDuration;
-    public float waterDamping;
-    public float iceFriction;
-    public float iceMaxSpeed;
-    public bool reusableCheckpoints;
+
+    public float DrownDuration;
+
+    public float WaterDamping;
+    public float IceFriction;
+    public float IceMaxSpeed;
+
+    public bool ReusableCheckpoints;
+
     #endregion
 
     public LevelSettingsData(LevelSettings settings)
     {
         // fetch variables
-        drownDuration = settings.drownDuration;
-        waterDamping = settings.waterDamping;
-        iceFriction = settings.iceFriction;
-        iceMaxSpeed = settings.iceMaxSpeed;
-        reusableCheckpoints = settings.reusableCheckpoints;
+        DrownDuration = settings.DrownDuration;
+        WaterDamping = settings.WaterDamping;
+        IceFriction = settings.IceFriction;
+        IceMaxSpeed = settings.IceMaxSpeed;
+        ReusableCheckpoints = settings.ReusableCheckpoints;
     }
 
     public override void ImportToLevel()
     {
-        LevelSettings.Instance.SetDrownDuration(drownDuration, false);
-        LevelSettings.Instance.SetIceFriction(iceFriction, false);
-        LevelSettings.Instance.SetIceMaxSpeed(iceMaxSpeed, false);
-        LevelSettings.Instance.SetWaterDamping(waterDamping, false);
-        LevelSettings.Instance.SetReusableCheckpoints(reusableCheckpoints, false);
+        LevelSettings.Instance.SetDrownDuration(DrownDuration, false);
+        LevelSettings.Instance.SetIceFriction(IceFriction, false);
+        LevelSettings.Instance.SetIceMaxSpeed(IceMaxSpeed, false);
+        LevelSettings.Instance.SetWaterDamping(WaterDamping, false);
+        LevelSettings.Instance.SetReusableCheckpoints(ReusableCheckpoints, false);
         LevelSettings.Instance.SyncPlayersToSettings();
     }
 
-    public override void ImportToLevel(Vector2 pos)
-    {
-        ImportToLevel();
-    }
-
-    public override EditMode GetEditMode()
-    {
-        return EditMode.WALL_FIELD;
-    }
+    public override EditMode GetEditMode() => EditMode.WallField;
 }

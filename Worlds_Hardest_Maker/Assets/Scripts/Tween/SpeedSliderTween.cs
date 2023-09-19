@@ -1,23 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
-using System;
 
 public class SpeedSliderTween : MonoBehaviour
 {
-    [SerializeField] Image background;
-    [SerializeField] Image fill;
-    [SerializeField] Image handle;
-    [SerializeField] Text speedTxt;
-    [Space]
-    [SerializeField] private float duration;
-    [Range(0, 1)][SerializeField] private float alphaVisible = 1;
-    [Range(0, 1)][SerializeField] private float alphaInvisible = 0;
+    [SerializeField] private Image background;
+    [SerializeField] private Image fill;
+    [SerializeField] private Image handle;
+    [SerializeField] private TMP_Text speedTxt;
+    [SerializeField] private TMP_Text speedValueTxt;
+    [Space] [SerializeField] private float duration;
+    [Range(0, 1)] [SerializeField] private float alphaVisible = 1;
+    [Range(0, 1)] [SerializeField] private float alphaInvisible;
 
-    public Action onSetVisible = null;
-    public Action onIsInvisible = null;
+    public Action OnSetVisible = null;
+    public Action OnIsInvisible = null;
 
     private bool isVisible = true;
 
@@ -31,6 +30,7 @@ public class SpeedSliderTween : MonoBehaviour
         fill.DOFade(alphaVisible, duration);
         handle.DOFade(alphaVisible, duration);
         speedTxt.DOFade(alphaVisible, duration);
+        speedValueTxt.DOFade(alphaVisible, duration);
     }
 
     private void TweenInvis()
@@ -39,29 +39,23 @@ public class SpeedSliderTween : MonoBehaviour
         fill.DOFade(alphaInvisible, duration).OnComplete(() => animController.Gone());
         handle.DOFade(alphaInvisible, duration).OnComplete(() => animController.Gone());
         speedTxt.DOFade(alphaInvisible, duration).OnComplete(() => animController.Gone());
+        speedValueTxt.DOFade(alphaInvisible, duration).OnComplete(() => animController.Gone());
     }
 
     public void SetVisible(bool vis)
     {
         if (isVisible && !vis)
-        {
             // the frame setting to invisible
             TweenInvis();
-        }
 
         if (!isVisible && vis)
-        {
             // the frame setting to visible
             TweenVis();
-        }
 
         isVisible = vis;
     }
 
-    public bool IsVisible()
-    {
-        return isVisible;
-    }
+    public bool IsVisible() => isVisible;
 
     private void Start()
     {
@@ -71,5 +65,6 @@ public class SpeedSliderTween : MonoBehaviour
         fill.color = new(fill.color.r, fill.color.g, fill.color.b, alphaInvisible);
         handle.color = new(handle.color.r, handle.color.g, handle.color.b, alphaInvisible);
         speedTxt.color = new(speedTxt.color.r, speedTxt.color.g, speedTxt.color.b, alphaInvisible);
+        speedValueTxt.color = new(speedValueTxt.color.r, speedValueTxt.color.g, speedValueTxt.color.b, alphaInvisible);
     }
 }

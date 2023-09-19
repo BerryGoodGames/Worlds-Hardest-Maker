@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using MyBox;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,61 +7,61 @@ using UnityEngine.EventSystems;
 public class FieldRotation : MonoBehaviour
 {
     // hippety hoppety
-    public float duration;
-    public Vector3 rotateAngle;
+    public float Duration;
+    public Vector3 RotateAngle;
     private bool rotating;
     [SerializeField] private bool disableCollision;
+
+    [SerializeField] [ConditionalField(nameof(disableCollision))] [MustBeAssigned]
     private BoxCollider2D boxCollider;
 
-    private void Start()
-    {
-        if(!TryGetComponent(out boxCollider))
-            disableCollision = false;
-    }
+    private static readonly int rotateString = Animator.StringToHash("Rotate");
 
     private IEnumerator Rotate(Vector3 angles, float d)
     {
         rotating = true;
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation = Quaternion.Euler(angles) * startRotation;
+
         for (float t = 0; t < d; t += Time.deltaTime)
         {
             transform.rotation = Quaternion.Lerp(startRotation, endRotation, t / d);
             yield return null;
         }
+
         transform.rotation = endRotation;
         rotating = false;
-        if(disableCollision)
+
+        if (disableCollision)
             boxCollider.isTrigger = false;
     }
 
     [PunRPC]
     public void StartRotation()
     {
-        if (!rotating && !EventSystem.current.IsPointerOverGameObject())
-        {
-            if(disableCollision)
-                boxCollider.isTrigger = true;
+        if (rotating || EventSystem.current.IsPointerOverGameObject()) return;
 
-            Animator anim = GetComponent<Animator>();
-            anim.SetTrigger("Rotate");
+        if (disableCollision)
+            boxCollider.isTrigger = true;
 
-            StartCoroutine(Rotate(rotateAngle, duration));
-        }
+        Animator anim = GetComponent<Animator>();
+        anim.SetTrigger(rotateString);
+
+        StartCoroutine(Rotate(RotateAngle, Duration));
     }
 
     private void OnMouseUpAsButton()
     {
-        if (!SelectionManager.Instance.Selecting && !CopyManager.pasting && !GameManager.Instance.Playing && GameManager.Instance.CurrentEditMode == GameManager.ConvertEnum<FieldType, EditMode>((FieldType)FieldManager.GetFieldType(gameObject)))
+        if (SelectionManager.Instance.Selecting || CopyManager.Instance.Pasting || EditModeManager.Instance.Playing ||
+            EditModeManager.Instance.CurrentEditMode !=
+            EnumUtils.ConvertEnum<FieldType, EditMode>((FieldType)FieldManager.GetFieldType(gameObject))) return;
+
+        if (MultiplayerManager.Instance.Multiplayer)
         {
-            if (GameManager.Instance.Multiplayer)
-            {
-                PhotonView view = PhotonView.Get(this);
-                view.RPC("StartRotation", RpcTarget.All);
-            } else
-            {
-                StartRotation();
-            }
+            PhotonView view = PhotonView.Get(this);
+            view.RPC("StartRotation", RpcTarget.All);
         }
+        else
+            StartRotation();
     }
 }

@@ -1,5 +1,4 @@
 using UnityEditor;
-using UnityEngine;
 
 [CustomEditor(typeof(ChildrenOpacity))]
 public class ChildrenOpacityEditor : Editor
@@ -10,10 +9,8 @@ public class ChildrenOpacityEditor : Editor
 
         ChildrenOpacity script = (ChildrenOpacity)target;
 
-        if (GUILayout.Button("Update Opacity"))
-        {
-            script.UpdateOpacity();
-        }
+        script.UpdateChildren();
+        script.UpdateOpacity();
     }
 
 }

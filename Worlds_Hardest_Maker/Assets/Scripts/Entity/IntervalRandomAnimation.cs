@@ -1,50 +1,50 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// animation at random intervals
-/// attach to gameobject holding animator
+///     Triggers animation at random intervals
+///     <para>Attach to gameObject holding animator</para>
 /// </summary>
+[RequireComponent(typeof(Animator))]
 public class IntervalRandomAnimation : MonoBehaviour
 {
-    public float intervalSeconds;
-    public string animTriggerString;
+    public float IntervalSeconds;
+
+    public string AnimTriggerString;
+
     // value between 0 - 1, next trigger has to be in range of deviation
-    [Range(0, 1)] public float limitDeviation;
+    [Range(0, 1)] public float LimitDeviation;
 
-    public bool triggerOnlyAtPlayMode;
+    public bool TriggerOnlyAtPlayMode;
 
-    public string soundEffect;
+    public string SoundEffect;
 
-    private int lastTrigger = 0;
+    private int lastTrigger;
 
     private Animator anim;
 
-    private void Awake()
-    {
-        anim = GetComponent<Animator>();
-    }
+    private void Awake() => anim = GetComponent<Animator>();
 
     private void FixedUpdate()
     {
-        if (triggerOnlyAtPlayMode && !GameManager.Instance.Playing) return;
+        if (TriggerOnlyAtPlayMode && !EditModeManager.Instance.Playing) return;
 
-        if(lastTrigger >= intervalSeconds / Time.fixedDeltaTime * limitDeviation)
-        {
-            float p = Time.fixedDeltaTime / intervalSeconds;
-
-            if (Random.Range(0, 0.999f) < p || lastTrigger >= intervalSeconds / Time.fixedDeltaTime * (limitDeviation + 1))
-            {
-                anim.SetTrigger(animTriggerString);
-
-                if(!soundEffect.Equals("")) AudioManager.Instance.Play(soundEffect);
-
-                lastTrigger = 0;
-                return;
-            }
-        }
+        if (lastTrigger >= IntervalSeconds / Time.fixedDeltaTime * LimitDeviation) CheckAnimationTrigger();
 
         lastTrigger++;
+    }
+
+    private void CheckAnimationTrigger()
+    {
+        // check animation trigger
+        float p = Time.fixedDeltaTime / IntervalSeconds;
+
+        if (Random.Range(0, 0.999f) >= p &&
+            lastTrigger < IntervalSeconds / Time.fixedDeltaTime * (LimitDeviation + 1)) return;
+
+        anim.SetTrigger(AnimTriggerString);
+
+        if (!SoundEffect.Equals("")) AudioManager.Instance.Play(SoundEffect);
+
+        lastTrigger = 0;
     }
 }

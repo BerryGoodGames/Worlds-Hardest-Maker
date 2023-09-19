@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 // [CustomEditor(typeof(UIRestrict))]
 public class UIRestrictEditor : Editor
 {
-    SerializedProperty restrictPaddingLeft;
-    SerializedProperty restrictPaddingRight;
-    SerializedProperty restrictPaddingTop;
-    SerializedProperty restrictPaddingBottom;
+    private SerializedProperty restrictPaddingLeft;
+    private SerializedProperty restrictPaddingRight;
+    private SerializedProperty restrictPaddingTop;
+    private SerializedProperty restrictPaddingBottom;
 
     public override void OnInspectorGUI()
     {

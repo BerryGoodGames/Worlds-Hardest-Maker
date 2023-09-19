@@ -1,22 +1,21 @@
-using System.Collections;
 using System.Collections.Generic;
+using MyBox;
+using TMPro;
 using UnityEngine;
 
 public class FontManager : MonoBehaviour
 {
-    public TMPro.TMP_FontAsset defaultFont;
-    public List<TMPro.TMP_Text> ignore = new();
+    public TMP_FontAsset DefaultFont;
+    public List<TMP_Text> Ignore = new();
 
+    [ButtonMethod]
     public void ApplyDefaultFont()
     {
-        TMPro.TMP_Text[] texts = Resources.FindObjectsOfTypeAll<TMPro.TMP_Text>();
+        TMP_Text[] texts = Resources.FindObjectsOfTypeAll<TMP_Text>();
 
-        foreach(TMPro.TMP_Text text in texts)
+        foreach (TMP_Text text in texts)
         {
-            if (!ignore.Contains(text))
-            {
-                text.font = defaultFont;
-            }
+            if (!Ignore.Contains(text)) text.font = DefaultFont;
         }
     }
 }

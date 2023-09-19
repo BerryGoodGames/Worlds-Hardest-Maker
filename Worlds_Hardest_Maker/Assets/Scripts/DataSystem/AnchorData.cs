@@ -1,89 +1,115 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// anchor attributes: position, waypoints, mode, ball positions
+///     Anchor attributes: balls (positions), blocks, position
 /// </summary>
-
-[System.Serializable]
-public class AnchorData : IData
+[Serializable]
+public class AnchorData : Data
 {
-    public float[] position = new float[2];
-    public WaypointSerializable[] waypoints;
-    public PathController.PathMode pathMode;
-    public float[] ballPositions;
+    // (list of coordinates)
+    private float[,] balls;
 
-    public AnchorData(PathController pathController, Transform ballContainer)
+    private AnchorBlockData[] blocks;
+
+    private readonly float[] position;
+
+    public AnchorData(AnchorController controller)
     {
-        position[0] = pathController.transform.position.x;
-        position[1] = pathController.transform.position.y;
-        pathMode = pathController.pathMode;
+        // init balls and blocks
+        SaveBalls(controller);
+        SaveBlocks(controller);
 
-        // convert Waypoints
-        List<WaypointSerializable> waypointsList = new();
+        Vector2 controllerPosition = controller.transform.position;
 
-        foreach (Waypoint waypoint in pathController.waypoints)
+        // init start position
+        position = new[]
         {
-            waypointsList.Add(new(waypoint));
-        }
-
-        waypoints = waypointsList.ToArray();
-
-        // convert balls (hihi)
-        List<float> ballPositionsList = new();
-        
-        foreach (Transform ball in ballContainer)
-        {
-            Transform child = ball.GetChild(0);
-            ballPositionsList.Add(child.position.x);
-            ballPositionsList.Add(child.position.y);
-        }
-
-        ballPositions = ballPositionsList.ToArray();
+            controllerPosition.x,
+            controllerPosition.y
+        };
     }
+
+    #region Saving / loading properties
+
+    private void SaveBalls(AnchorController controller)
+    {
+        // init balls
+        balls = new float[controller.Balls.Count, 2];
+        for (int i = 0; i < controller.Balls.Count; i++)
+        {
+            Vector2 ballPosition = controller.Balls[i].position;
+
+            balls[i, 0] = ballPosition.x;
+            balls[i, 1] = ballPosition.y;
+        }
+    }
+
+    private void SaveBlocks(AnchorController controller)
+    {
+        // init blocks
+        // loop through LinkedList
+        blocks = new AnchorBlockData[controller.Blocks.Count];
+        int j = 0;
+        for (LinkedListNode<AnchorBlock> currentBlockNode = controller.Blocks.First;
+             currentBlockNode != null;
+             currentBlockNode = currentBlockNode.Next)
+        {
+            AnchorBlock currentBlock = currentBlockNode.Value;
+
+            // assign data
+            blocks[j] = currentBlock.GetData();
+
+            j++;
+        }
+    }
+
+    private List<Vector2> LoadBalls()
+    {
+        // returns every coordinate of the balls
+        List<Vector2> posArr = new();
+
+        for (int i = 0; i < balls.GetLength(0); i++)
+        {
+            Vector2 pos = new(balls[i, 0], balls[i, 1]);
+            posArr.Add(pos);
+        }
+
+        return posArr;
+    }
+
+    private LinkedList<AnchorBlock> LoadBlocks(AnchorController anchor)
+    {
+        LinkedList<AnchorBlock> blockArr = new();
+
+        foreach (AnchorBlockData blockData in blocks)
+        {
+            AnchorBlock anchorBlock = blockData.GetBlock(anchor);
+            blockArr.AddLast(anchorBlock);
+        }
+
+        return blockArr;
+    }
+
+    #endregion
+
+
+    public override void ImportToLevel() => ImportToLevel(new Vector2(position[0], position[1]));
 
     public override void ImportToLevel(Vector2 pos)
     {
-        // create object
-        GameObject anchor = AnchorManager.Instance.SetAnchor(pos);
-        if (anchor == null) return;
-        PathController pathController = anchor.GetComponentInChildren<PathController>();
+        AnchorController anchor = AnchorManager.Instance.SetAnchor(pos);
 
-        // set waypoints
-        pathController.waypoints.Clear();
+        List<Vector2> ballPositions = LoadBalls();
 
-        foreach (WaypointSerializable waypoint in waypoints)
+        foreach (Vector2 ballPosition in ballPositions)
         {
-            pathController.waypoints.Add(new(waypoint));
+            AnchorBallManager.SetAnchorBall(ballPosition, anchor);
         }
 
-        // set path mode
-        pathController.pathMode = pathMode;
-
-        // reset state
-        pathController.ResetState();
-
-
-        // set balls (hihi)
-        AnchorController anchorController = anchor.GetComponentInChildren<AnchorController>();
-        Transform container = anchorController.container.transform;
-
-        for (int i = 0; i < ballPositions.Length; i += 2)
-        {
-            AnchorBallManager.SetAnchorBall(ballPositions[i], ballPositions[i + 1], container);
-        }
-
-        // fade balls in
-        anchorController.StartCoroutine(anchorController.FadeInOnNextFrame(1, 0.1f));
+        anchor.Blocks = LoadBlocks(anchor);
     }
 
-    public override void ImportToLevel()
-    {
-        ImportToLevel(new(position[0], position[1]));
-    }
-
-    public override EditMode GetEditMode()
-    {
-        return EditMode.ANCHOR;
-    }
+    public override EditMode GetEditMode() => EditMode.Anchor;
 }

@@ -1,14 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
 public class PlayerSpawner : MonoBehaviour
 {
-    public Transform spawnPoint;
+    public Transform SpawnPoint;
 
-    private void Start()
-    {
-        PlayerManager.InstantiatePlayer(spawnPoint.position, 3, true);
-    }
+    private void Start() => PlayerManager.InstantiatePlayer(SpawnPoint.position, 3, true);
 }

@@ -1,34 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UIAttachToPoint : MonoBehaviour
 {
-    public Vector2 point;
-    public bool zoomSizeWithCamera;
-    public bool zoomPositionWithCamera;    
+    public Vector2 Point;
+    public bool ZoomSizeWithCamera;
+    public bool ZoomPositionWithCamera;
 
     private Camera cam;
+    private RectTransform rt;
 
     private void Awake()
     {
         cam = Camera.main;
+        rt = GetComponent<RectTransform>();
     }
 
     private void LateUpdate()
     {
-        RectTransform rt = GetComponent<RectTransform>();
-        rt.position = cam.WorldToScreenPoint(point);
+        rt.position = cam.WorldToScreenPoint(Point);
 
-        if (zoomSizeWithCamera)
-        {
-            float scl = 10.0f / cam.orthographicSize;
-            rt.localScale = new(scl, scl);
-        }
+        if (!ZoomSizeWithCamera) return;
 
-        if (zoomPositionWithCamera)
-        {
-            // TODO
-        }
+        float scl = 10.0f / cam.orthographicSize;
+        rt.localScale = new(scl, scl);
     }
 }

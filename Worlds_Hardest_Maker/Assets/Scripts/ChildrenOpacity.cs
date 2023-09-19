@@ -1,27 +1,19 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 /// <summary>
-/// sets opacity of children; fades children in / out
-/// attach to parent object
+///     Sets opacity of children with SpriteRenderer, fades children in / out
+///     Attach to parent object
 /// </summary>
 public class ChildrenOpacity : MonoBehaviour
 {
-    [SerializeField] private float opacity = 1;
+    [SerializeField] [Range(0, 1)] private float opacity = 1;
 
     private SpriteRenderer[] children;
 
-    private void Start()
-    {
-        UpdateChildren();
-    }
+    private void Start() => UpdateChildren();
 
-    public void UpdateChildren()
-    {
-        children = transform.GetComponentsInChildren<SpriteRenderer>();
-    }
+    public void UpdateChildren() => children = transform.GetComponentsInChildren<SpriteRenderer>();
 
     public void UpdateOpacity()
     {
@@ -38,11 +30,11 @@ public class ChildrenOpacity : MonoBehaviour
         opacity = newOpacity;
         UpdateOpacity();
     }
-    
+
     public IEnumerator FadeOut(float endOpacity, float time)
     {
         UpdateChildren();
-        if(endOpacity >= 1) yield break;
+        if (endOpacity >= 1) yield break;
 
         while (opacity >= endOpacity)
         {
@@ -60,7 +52,7 @@ public class ChildrenOpacity : MonoBehaviour
         UpdateChildren();
         if (endOpacity <= 0) yield break;
 
-        if(time <= 0)
+        if (time <= 0)
         {
             opacity = endOpacity;
             UpdateOpacity();
@@ -69,12 +61,12 @@ public class ChildrenOpacity : MonoBehaviour
 
         while (opacity <= endOpacity)
         {
-
             opacity += endOpacity * Time.deltaTime / time;
             UpdateOpacity();
 
             yield return null;
         }
+
         opacity = endOpacity;
     }
 }

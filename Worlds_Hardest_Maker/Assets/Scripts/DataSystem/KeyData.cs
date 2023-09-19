@@ -1,44 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 /// <summary>
-/// Key attributes: position, color
+///     Key attributes: position, color
 /// </summary>
-[System.Serializable]
-public class KeyData : IData
+[Serializable]
+public class KeyData : Data
 {
-    public float[] position;
-    public KeyManager.KeyColor color;
+    public float[] Position;
+    public KeyManager.KeyColor Color;
 
     public KeyData(KeyController controller)
     {
-        position = new float[2];
-        position[0] = controller.transform.position.x;
-        position[1] = controller.transform.position.y;
-        color = controller.color;
+        Vector2 keyPosition = controller.transform.position;
+
+        Position = new float[2];
+        Position[0] = keyPosition.x;
+        Position[1] = keyPosition.y;
+        Color = controller.Color;
     }
 
-    public override void ImportToLevel(Vector2 pos)
-    {
-        KeyManager.Instance.SetKey(pos, color);
-    }
+    public override void ImportToLevel(Vector2 pos) => KeyManager.Instance.SetKey(pos, Color);
 
-    public override void ImportToLevel()
-    {
-        ImportToLevel(new(position[0], position[1]));
-    }
+    public override void ImportToLevel() => ImportToLevel(new(Position[0], Position[1]));
 
-    public override EditMode GetEditMode()
-    {
-        return color switch
+    public override EditMode GetEditMode() =>
+        Color switch
         {
-            KeyManager.KeyColor.GRAY => EditMode.GRAY_KEY,
-            KeyManager.KeyColor.RED => EditMode.RED_KEY,
-            KeyManager.KeyColor.GREEN => EditMode.GREEN_KEY,
-            KeyManager.KeyColor.BLUE => EditMode.BLUE_KEY,
-            KeyManager.KeyColor.YELLOW => EditMode.YELLOW_KEY,
-            _ => EditMode.GRAY_KEY,
+            KeyManager.KeyColor.Gray => EditMode.GrayKey,
+            KeyManager.KeyColor.Red => EditMode.RedKey,
+            KeyManager.KeyColor.Green => EditMode.GreenKey,
+            KeyManager.KeyColor.Blue => EditMode.BlueKey,
+            KeyManager.KeyColor.Yellow => EditMode.YellowKey,
+            _ => EditMode.GrayKey
         };
-    }
 }

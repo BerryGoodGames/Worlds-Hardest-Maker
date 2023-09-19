@@ -1,109 +1,78 @@
-using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GraphicsSettings : MonoBehaviour
 {
     public static GraphicsSettings Instance { get; private set; }
 
-    public TMPro.TMP_Dropdown resolutionDropdown;
+    public TMP_Dropdown ResolutionDropdown;
+
     private Resolution[] resolutions;
 
     #region Setting variables
-    [HideInInspector] public int qualityLevel;
-    [HideInInspector] public bool fullscreen;
-    [HideInInspector] public Resolution resolution;
-    [HideInInspector] public bool oneColorStartGoal;
+
+    [HideInInspector] public int QualityLevel;
+
+    public Resolution Resolution;
+
+    [HideInInspector] public bool OneColorStartGoalCheckpoint;
+
     #endregion
 
     #region Graphics settings
-    public void SetQuality(int index, bool setPrefs)
+
+    public void SetQuality(int index, bool updateDropdown)
     {
         QualitySettings.SetQualityLevel(index);
 
-        Instance.qualityLevel = index;
+        Instance.QualityLevel = index;
 
-        if (setPrefs) SettingsManager.Instance.SavePrefs();
+        if (!updateDropdown) return;
+        
+        ReferenceManager.Instance.QualityDropdown.value = index;
     }
-    public void SetQuality(int index) => SetQuality(index, true);
 
-    public void Fullscreen(bool fullscreen, bool setPrefs)
+    public void SetQuality(int index) => SetQuality(index, false);
+    
+    public void Fullscreen(bool fullscreen, bool updateToggle)
     {
         Screen.fullScreen = fullscreen;
 
-        Instance.fullscreen = fullscreen;
-
-        if (setPrefs) SettingsManager.Instance.SavePrefs();
+        if (!updateToggle) return;
     }
-    public void Fullscreen(bool fullscreen) => Fullscreen(fullscreen, true);
+    public void Fullscreen(bool fullscreen) => Fullscreen(fullscreen, false);
 
-    public void SetResolution(int index, bool setPrefs)
+
+    public void SetResolution(int index, bool updateDropdown)
     {
-        Resolution res = Instance.resolutions[index];
+        if(index >= resolutions.Length) index = Instance.resolutions.Length - 1;
+        Resolution res = resolutions[index];
         Screen.SetResolution(res.width, res.height, Screen.fullScreen);
 
-        Instance.resolution = res;
+        Resolution = res;
 
-        if (setPrefs) SettingsManager.Instance.SavePrefs();
+        if (!updateDropdown) return;
+        ReferenceManager.Instance.ResolutionDropdown.value = index;
     }
-    public void SetResolution(int index) => SetResolution(index, true);
 
-    public void SetOneColorStartGoal(bool oneColor, bool setPrefs)
+    public void SetResolution(int index) => SetResolution(index, false);
+
+
+    public void SetOneColorStartGoal(bool oneColor, bool updateToggle)
     {
-        // REF
         foreach (Transform field in ReferenceManager.Instance.FieldContainer)
         {
-            if (oneColor)
-            {
-                // set start, goal, checkpoints and startgoal fields unique color
-                string[] tags = { "StartField", "GoalField", "CheckpointField" };
-                for(int i = 0; i < tags.Length; i++)
-                {
-                    if (field.CompareTag(tags[i]))
-                    {
-                        field.GetComponent<SpriteRenderer>().color = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[4];
-
-                        if (field.TryGetComponent(out Animator anim))
-                        {
-                            anim.enabled = false;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                // set colorful colors to start, goal, checkpoints and startgoal fields
-                string[] tags = { "StartField", "GoalField" };
-                List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors;
-
-                for (int i = 0; i < tags.Length; i++)
-                {
-                    SpriteRenderer renderer = field.GetComponent<SpriteRenderer>();
-                    if (field.CompareTag(tags[i]))
-                    {
-                        renderer.color = colors[i];
-                    } else if (field.CompareTag("CheckpointField"))
-                    {
-                        CheckpointController checkpoint = field.GetComponent<CheckpointController>();
-                        Color checkpointUnactivated = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[2];
-                        Color checkpointActivated = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").colors[3];
-
-                        renderer.color = checkpoint.activated ? checkpointActivated : checkpointUnactivated;
-
-                        if (field.TryGetComponent(out Animator anim))
-                        {
-                            anim.enabled = true;
-                        }
-                    }
-                }
-            }
+            FieldManager.ApplyStartGoalCheckpointFieldColor(field.gameObject, oneColor);
         }
+        
+        Instance.OneColorStartGoalCheckpoint = oneColor;
 
-        Instance.oneColorStartGoal = oneColor;
-
-        if (setPrefs) SettingsManager.Instance.SavePrefs();
+        if (!updateToggle) return;
+        ReferenceManager.Instance.OneColorToggle.isOn = oneColor;
     }
-    public void SetOneColorStartGoal(bool oneColor) => SetOneColorStartGoal(oneColor, true);
+    public void SetOneColorStartGoal(bool oneColor) => SetOneColorStartGoal(oneColor, false);
+
 
     #endregion
 
@@ -112,33 +81,31 @@ public class GraphicsSettings : MonoBehaviour
         // dropdown for resolution: clear and fill in unity's resolutions options
         resolutions = Screen.resolutions;
 
-        resolutionDropdown.ClearOptions();
+        ResolutionDropdown.ClearOptions();
         List<string> options = new();
 
-        int currResIndex = 0;
+        int currentResIndex = 0;
         for (int i = 0; i < resolutions.Length; i++)
         {
             options.Add(resolutions[i].ToString().Replace(" ", string.Empty));
 
             if (resolutions[i].width == Screen.currentResolution.width &&
                 resolutions[i].height == Screen.currentResolution.height)
-            {
-                currResIndex = i;
-            }
+                currentResIndex = i;
         }
-        resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currResIndex;
-        resolutionDropdown.RefreshShownValue();
+
+        ResolutionDropdown.AddOptions(options);
+        ResolutionDropdown.value = currentResIndex;
+        ResolutionDropdown.RefreshShownValue();
     }
 
     private void Start()
     {
         UpdateResolutionOptions();
 
-        Instance.qualityLevel = QualitySettings.GetQualityLevel();
-        Instance.resolution = resolutions[0];
-        Instance.fullscreen = false;
-        Instance.oneColorStartGoal = false;
+        Instance.QualityLevel = QualitySettings.GetQualityLevel();
+        Instance.Resolution = resolutions[0];
+        Instance.OneColorStartGoalCheckpoint = false;
     }
 
     private void Awake()

@@ -4,51 +4,27 @@ using UnityEngine;
 [CustomEditor(typeof(SettingGenerator), true)]
 public class SettingGeneratorEditor : Editor
 {
-    //    #region FIELDS
-    //    #region OPTIONS
-    //#if UNITY_EDITOR
-    //    [Header("Options")]
-    //    [SerializeField] private string label;
-    //    [SerializeField] private SettingVersion version;
-    //    [SerializeField] private int amount = 1;
-    //    [SerializeField] private float fontSize = 40;
-    //    [SerializeField] private float height = 80;
-    //#endif
-    //    #endregion
-
-    //    [Space]
-
-    //    #region REFERENCES
-    //    [Header("References")]
-    //    [SerializeField] private GameObject dropdownPrefab;
-    //    [SerializeField] private GameObject checkboxPrefab;
-    //    [SerializeField] private GameObject sliderPrefab;
-    //    [SerializeField] private GameObject numberInputPrefab;
-    //    [SerializeField] private Transform container;
-    //    #endregion
-    //    #endregion
-
     #region Properties
-    SerializedProperty label;
-    SerializedProperty version;
-    SerializedProperty amount;
-    SerializedProperty fontSize;
-    SerializedProperty height;
+    private SerializedProperty label;
+    private SerializedProperty version;
+    private SerializedProperty amount;
+    private SerializedProperty fontSize;
+    private SerializedProperty height;
 
-    SerializedProperty container;
+    private SerializedProperty container;
 
-    SerializedProperty dropdownWidth;
+    private SerializedProperty dropdownWidth;
 
-    SerializedProperty sliderWidth;
-    SerializedProperty sliderSize;
+    private SerializedProperty sliderWidth;
+    private SerializedProperty sliderSize;
 
-    SerializedProperty numberInputWidth;
+    private SerializedProperty numberInputWidth;
     #endregion
 
     private void OnEnable()
     {
         label = serializedObject.FindProperty("label");
-        version = serializedObject.FindProperty("version");
+        version = serializedObject.FindProperty("Version");
         amount = serializedObject.FindProperty("amount");
         fontSize = serializedObject.FindProperty("fontSize");
         height = serializedObject.FindProperty("height");
@@ -83,30 +59,30 @@ public class SettingGeneratorEditor : Editor
         EditorGUILayout.Space();
 
         // customized settings
-        switch (script.version)
+        switch (script.Version)
         {
-            case SettingGenerator.SettingVersion.DROPDOWN:
+            case SettingGenerator.SettingVersion.Dropdown:
                 // dropdown settings
                 EditorGUILayout.PropertyField(dropdownWidth);
                 break;
 
-            case SettingGenerator.SettingVersion.CHECKBOX:
+            case SettingGenerator.SettingVersion.Checkbox:
                 // nothing for checkbox
                 break;
 
-            case SettingGenerator.SettingVersion.SLIDER:
+            case SettingGenerator.SettingVersion.Slider:
                 // slider settings
                 EditorGUILayout.PropertyField(sliderWidth);
                 EditorGUILayout.PropertyField(sliderSize);
                 break;
 
-            case SettingGenerator.SettingVersion.NUMBER_INPUT:
+            case SettingGenerator.SettingVersion.NumberInput:
                 // numberinput settings
                 EditorGUILayout.PropertyField(numberInputWidth);
                 break;
 
             default:
-                Debug.LogWarning($"Customized settings for settings generator isn't set for {script.version} yet!");
+                Debug.LogWarning($"Customized settings for settings generator isn't set for {script.Version} yet!");
                 break;
         }
 

@@ -1,70 +1,99 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MouseManager : MonoBehaviour
 {
     public static MouseManager Instance { get; private set; }
 
-    [HideInInspector] public Vector2? MouseDragStart { get; set; } = null;
-    [HideInInspector] public Vector2? MouseDragCurrent { get; set; } = null;
-    [HideInInspector] public Vector2? MouseDragEnd { get; set; } = null;
-    [HideInInspector] public Vector2 PrevMousePos { get; set; }
-    [HideInInspector] public Vector2 MousePosDelta { get; set; } = Vector2.zero;
-    private Vector2 mouseWorldPos = Vector2.positiveInfinity;
-    [HideInInspector] public Vector2 MouseWorldPos { get
-        {
-            if(mouseWorldPos.Equals(Vector2.positiveInfinity))
-            {
-                mouseWorldPos = GetMouseWorldPos();
-            }
-            return (Vector2)mouseWorldPos;
-        } private set 
-        { 
-            mouseWorldPos = value;
-        } }
-    [HideInInspector] public Vector2 PrevMouseWorldPos { get; set; } = new();
-    [HideInInspector] public Vector2 MouseWorldPosGrid { get; set; } = new();
-    [HideInInspector] public Vector2 MouseWorldPosMatrix { get; set; } = new();
-    [HideInInspector] public bool OnScreen { get; set; } = true;
+    #region Properties
 
-    public static Vector2 PosToGrid(Vector2 pos) { return new(Mathf.Round(pos.x * 2) * 0.5f, Mathf.Round(pos.y * 2) * 0.5f); }
-    public static Vector2 PosToMatrix(Vector2 pos) { return new(Mathf.Round(pos.x), Mathf.Round(pos.y)); }
-    public static Vector2 GetMouseWorldPos()
+    public Vector2? MouseDragStart { get; set; }
+    public Vector2? MouseDragCurrent { get; set; }
+    public Vector2? MouseDragEnd { get; set; }
+    public Vector2 PrevMousePos { get; set; }
+    public Vector2 MousePosDelta { get; set; } = Vector2.zero;
+    private Vector2 mouseWorldPos = Vector2.positiveInfinity;
+
+    public Vector2 MouseWorldPos
+    {
+        get
+        {
+            if (mouseWorldPos.Equals(Vector2.positiveInfinity)) mouseWorldPos = GetMouseWorldPos();
+
+            return mouseWorldPos;
+        }
+        private set => mouseWorldPos = value;
+    }
+
+    public Vector2 MouseCanvasPos => GameManager.ScreenToMainCanvas(Input.mousePosition);
+
+    public Vector2 PrevMouseWorldPos { get; set; }
+    public Vector2 MouseWorldPosGrid { get; set; }
+    public Vector2 MouseWorldPosMatrix { get; set; }
+    public bool IsOnScreen { get; set; } = true;
+    public bool IsUIHovered { get; set; }
+    public bool PrevMouseUp { get; set; }
+
+    #endregion
+
+    #region Static methods
+
+    public static Vector2 PosToGrid(Vector2 pos) => new(Mathf.Round(pos.x * 2) * 0.5f, Mathf.Round(pos.y * 2) * 0.5f);
+
+    public static Vector2 PosToMatrix(Vector2 pos) => new(Mathf.Round(pos.x), Mathf.Round(pos.y));
+
+    private static Vector2 GetMouseWorldPos()
     {
         Vector2 mousePos = Input.mousePosition;
 
-        return Camera.main.ScreenToWorldPoint(mousePos);
+        if (Camera.main != null) return Camera.main.ScreenToWorldPoint(mousePos);
+        throw new Exception("Couldn't get mouse world position because main camera is null");
     }
+
     /// <summary>
-    /// Returns a tuple: (start of drag, end of drag);
-    /// exception when trying to access drag positions while they are null (-> no current dragging)
+    ///     Returns a tuple: (start of drag, end of drag);
+    ///     <para>Exception when trying to access drag positions while they are null (-> no current dragging)</para>
     /// </summary>
-    /// <param name="worldPosition">The worldposition mode, you want the output to be in (-> any, grid, matrix)</param>
-    /// <exception cref="System.Exception"></exception>
-    public static (Vector2, Vector2) GetDragPositions(FollowMouse.WorldPosition worldPosition)
+    /// <param name="worldPositionType">The world position mode, you want the output to be in (-> any, grid, matrix)</param>
+    /// <exception cref="Exception"></exception>
+    public static (Vector2, Vector2) GetDragPositions(FollowMouse.WorldPositionType worldPositionType)
     {
-        if (Instance.MouseDragStart == null || Instance.MouseDragCurrent == null) throw new System.Exception("Trying to access drag start and end positions when neither recorded");
-        
+        if (Instance.MouseDragStart == null || Instance.MouseDragCurrent == null)
+            throw new Exception("Trying to access drag start and end positions when neither recorded");
+
         Vector2 start = (Vector2)Instance.MouseDragStart;
         Vector2 end = (Vector2)Instance.MouseDragCurrent;
 
-        return (start.ConvertPosition(worldPosition), end.ConvertPosition(worldPosition));
+        return (start.ConvertPosition(worldPositionType), end.ConvertPosition(worldPositionType));
     }
+
+    #endregion
 
     private void Update()
     {
+        // check if UI is hovered
+        Instance.IsUIHovered = EventSystem.current.IsPointerOverGameObject();
+
         // update position variables
         MouseWorldPosGrid = new(Mathf.Round(MouseWorldPos.x * 2) * 0.5f, Mathf.Round(MouseWorldPos.y * 2) * 0.5f);
         MouseWorldPosMatrix = new(Mathf.Round(MouseWorldPos.x), Mathf.Round(MouseWorldPos.y));
 
         // update drag variables
-        if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton)) Instance.MouseDragStart = Instance.MouseWorldPos;
-        if (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton)) Instance.MouseDragCurrent = Instance.MouseWorldPos;
-        if (Input.GetMouseButtonUp(KeybindManager.Instance.SelectionMouseButton)) Instance.MouseDragEnd = Instance.MouseWorldPos;
+        if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton))
+            Instance.MouseDragStart = Instance.MouseWorldPos;
+        if (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton))
+            Instance.MouseDragCurrent = Instance.MouseWorldPos;
+        if (Input.GetMouseButtonUp(KeybindManager.Instance.SelectionMouseButton))
+            Instance.MouseDragEnd = Instance.MouseWorldPos;
 
-        Vector2 view = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-        OnScreen = view.x > 0 && view.x < 1 && view.y > 0 && view.y < 1;
+        // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
+        Camera cam = Camera.main;
+        if (cam != null)
+        {
+            Vector2 view = cam.ScreenToViewportPoint(Input.mousePosition);
+            IsOnScreen = view.x is > 0 and < 1 && view.y is > 0 and < 1;
+        }
 
         MousePosDelta = (Vector2)Input.mousePosition - PrevMousePos;
     }
@@ -75,6 +104,7 @@ public class MouseManager : MonoBehaviour
         Instance.PrevMousePos = Input.mousePosition;
         Instance.PrevMouseWorldPos = Instance.MouseWorldPos;
         Instance.MouseWorldPos = Vector2.positiveInfinity;
+        Instance.PrevMouseUp = Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1);
     }
 
     private void Awake()

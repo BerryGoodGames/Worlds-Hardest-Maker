@@ -1,39 +1,55 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 using System.Linq;
+using MyBox;
+using UnityEngine;
 
 /// <summary>
-/// detects if one of hitboxes are colliding with mouse position
-/// requires child named HoveringHitboxes containing hitboxes
-/// attach to entity having speed slider
+///     Detects if one of hitboxes are colliding with mouse position
+///     <para>Requires child named HoveringHitboxes containing hitboxes</para>
+///     <para>Attach to entity having speed slider</para>
 /// </summary>
 public class HoverSliderDetection : MonoBehaviour
 {
-    public static bool sliderHovered = false;
+    public static bool SliderHovered = false;
 
-    public GameObject[] roots;
+    [SerializeField] [InitializationField] [MustBeAssigned]
+    private Transform hoveringHitboxContainer;
+
+    [SerializeField] private GameObject[] roots;
     private bool hovered;
+
+    private MouseOver[] hitboxes;
 
     public bool MouseHoverSlider()
     {
-        foreach (Transform collider in transform.GetChild(0))
+        try
         {
-            if (collider.GetComponent<MouseOver>().Over)
+            hitboxes ??= hoveringHitboxContainer.GetComponentsInChildren<MouseOver>();
+            foreach (MouseOver hitbox in hitboxes)
             {
-                if (roots.Contains(collider.gameObject))
+                if (!hitbox.Over) continue;
+
+                if (roots.Contains(hitbox.gameObject))
                 {
                     hovered = true;
                     return true;
                 }
 
-                if (hovered || roots.Length == 0)
-                {
-                    return true;
-                }
+                if (hovered || roots.Length == 0) return true;
             }
+
+            hovered = false;
         }
-        hovered = false;
+        catch (Exception e)
+        {
+            print(e.Message);
+            print(name);
+        }
+
         return false;
+    }
+
+    private void Start()
+    {
     }
 }

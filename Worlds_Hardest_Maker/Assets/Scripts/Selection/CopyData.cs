@@ -1,25 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CopyData
 {
-    public IData data;
-    public Vector2 relativePos;
+    public Data Data;
+    public Vector2 RelativePos;
 
-    public CopyData(IData data, Vector2 relativePos)
+    public CopyData(Data data, Vector2 relativePos)
     {
-        this.data = data;
-        this.relativePos = relativePos;
+        Data = data;
+        RelativePos = relativePos;
     }
 
-    public void Paste(Vector2 pos)
-    {
-        data.ImportToLevel(pos + relativePos);
-    }
+    public void Paste(Vector2 pos) => Data.ImportToLevel(pos + RelativePos);
 
-    public EditMode GetEditMode()
-    {
-        return data.GetEditMode();
-    }
+    public EditMode GetEditMode() => Data.GetEditMode();
 }

@@ -1,57 +1,59 @@
-using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
+using MyBox;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-[RequireComponent(typeof(MouseOverUI))]
+[RequireComponent(typeof(MouseOverUIRect))]
 public class Tooltip : MonoBehaviour
 {
-    public string text;
-    public int fontSize = 20;
-    public bool customTweenDelay = false;
-    public float tweenDelay = 1.5f;
-    private const float defaultTweenDelay = 1;
-    private MouseOverUI mouseOver;
-    private AlphaUITween fadeTween;
+    public string Text;
+    public int FontSize = 20;
+    public int Offset = 10;
+
+    public bool CustomTweenDelay;
+
+    [ConditionalField(nameof(CustomTweenDelay))]
+    public float TweenDelay = 1.5f;
+
+    private const float DefaultTweenDelay = 1;
+    private MouseOverUIRect mouseOver;
+    private AlphaTween fadeTween;
     private GameObject tooltip;
     private RectTransform tooltipRectTransform;
-    private TMPro.TMP_Text tooltipText;
+    private TMP_Text tooltipText;
 
-    private float hovered = 0;
+    private float hovered;
 
     private void Awake()
     {
-        if (!customTweenDelay)
-            tweenDelay = defaultTweenDelay;
+        if (!CustomTweenDelay)
+            TweenDelay = DefaultTweenDelay;
     }
 
     private void Start()
     {
-        mouseOver = GetComponent<MouseOverUI>();
+        mouseOver = GetComponent<MouseOverUIRect>();
 
-        tooltip = Instantiate(PrefabManager.Instance.Tooltip, Vector2.zero, Quaternion.identity, ReferenceManager.Instance.TooltipCanvas.transform);
-        fadeTween = tooltip.GetComponent<AlphaUITween>();
+        tooltip = Instantiate(PrefabManager.Instance.Tooltip, Vector3.zero, Quaternion.identity,
+            ReferenceManager.Instance.TooltipCanvas.transform);
+        fadeTween = tooltip.GetComponent<AlphaTween>();
 
         tooltipRectTransform = tooltip.GetComponent<RectTransform>();
         tooltipText = tooltip.GetComponent<TooltipController>().Text;
-        tooltipText.text = text;
-        tooltipText.fontSize = fontSize;
+        tooltipText.text = Text.Replace("\\n", "\n");
+        tooltipText.fontSize = FontSize;
         fadeTween.SetVisible(false);
     }
 
     private void Update()
     {
-        if (mouseOver.over)
+        if (mouseOver.Over)
         {
-            if (hovered > tweenDelay)
+            if (hovered > TweenDelay)
             {
                 fadeTween.SetVisible(true);
 
-                tooltip.transform.position = Input.mousePosition;
-
-                float pivotX = tooltip.transform.position.x / Screen.width;
-                tooltipRectTransform.pivot = new(pivotX, tooltipRectTransform.pivot.y);
+                tooltipRectTransform.position = Input.mousePosition + new Vector3(Offset, -Offset);
             }
 
             hovered += Time.deltaTime;
@@ -63,13 +65,7 @@ public class Tooltip : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        fadeTween.SetVisible(false);
-    }
+    private void OnDisable() => fadeTween.SetVisible(false);
 
-    private void OnDestroy()
-    {
-        Destroy(tooltip);
-    }
+    private void OnDestroy() => Destroy(tooltip);
 }

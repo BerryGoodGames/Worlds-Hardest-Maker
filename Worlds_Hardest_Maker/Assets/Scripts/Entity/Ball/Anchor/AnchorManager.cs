@@ -1,148 +1,48 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
-/// <summary>
-/// Manages the anchors (duh)
-/// </summary>
-public class AnchorManager : MonoBehaviour
+public partial class AnchorManager : MonoBehaviour
 {
     public static AnchorManager Instance { get; private set; }
 
-    private GameObject selectedAnchor;
-
-    public PathEditorController pathEditorController;
-
-    public GameObject SelectedAnchor
-    {
-        get { return selectedAnchor; }
-        set
-        {
-            if (value.TryGetComponent(out AnchorController AC))
-            {
-                if (selectedAnchor != null)
-                {
-                    selectedAnchor.GetComponent<Animator>().SetBool("Selected", false);
-
-                    selectedPathController.ClearLines();
-                    selectedPathController.drawLines = false;
-                }
-                selectedAnchor = value;
-                selectedAnchor.GetComponent<Animator>().SetBool("Selected", true);
-                selectedPathController = selectedAnchor.GetComponent<PathController>();
-                selectedPathController.drawLines = true;
-            }
-            pathEditorController.UpdateUI();
-        }
-    }
-
-    [HideInInspector] public PathController selectedPathController;
-
-
-    /// <summary>
-    /// places anchor at position
-    /// </summary>
-    /// <param name="mx">x position of anchor</param>
-    /// <param name="my">y position of anchor</param>
-    public GameObject SetAnchor(float mx, float my)
-    {
-        return SetAnchor(new(mx, my));
-    }
-    /// <summary>
-    /// places anchor at position
-    /// </summary>
-    /// <param name="pos">position of anchor</param>
-    public GameObject SetAnchor(Vector2 pos)
-    {
-        if (GetAnchor(pos) == null)
-        {
-            if(GameManager.Instance.Multiplayer)
-            {
-                GameObject anchor = PhotonNetwork.Instantiate("Anchor", pos, Quaternion.identity);
-                return anchor;
-            }
-            else
-            {
-                GameObject anchor = Instantiate(PrefabManager.Instance.Anchor, pos, Quaternion.identity, ReferenceManager.Instance.AnchorContainer);
-                return anchor;
-            }
-        }
-
-        return null;
-    }
-
-    [PunRPC]
-    /// <summary>
-    /// removes anchor at position
-    /// </summary>
-    /// <param name="mx">x position of anchor</param>
-    /// <param name="my">y position of anchor</param>
-    public void RemoveAnchor(float mx, float my)
-    {
-        RemoveAnchor(new(mx, my));
-    }
-
-    /// <summary>
-    /// removes anchor at position
-    /// </summary>
-    /// <param name="pos">position of anchor</param>
-    public static void RemoveAnchor(Vector2 pos)
-    {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.5f, 128);
-
-        foreach (Collider2D hit in hits)
-        {
-            if (hit.transform.parent.CompareTag("Anchor"))
-            {
-                Destroy(hit.transform.parent.gameObject);
-                break;
-            }
-        }
-    }
-
-    /// <param name="pos">position of anchor</param>
-    /// <returns>anchor at position</returns>
-    public static GameObject GetAnchor(Vector2 pos)
-    {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.5f);
-
-        foreach (Collider2D hit in hits)
-        {
-            if (hit.transform.parent.CompareTag("Anchor"))
-            {
-                return hit.gameObject;
-            }
-        }
-        return null;
-    }
-
-    public static GameObject GetAnchor(float mx, float my)
-    {
-        return GetAnchor(new(mx, my));
-    }
-
-    public static void SelectAnchor(Vector2 pos)
-    {
-        GameObject anchor = GetAnchor(pos);
-        if (anchor != null)
-        {
-            Instance.SelectedAnchor = anchor;
-            if(GameManager.Instance.CurrentEditMode != EditMode.BALL)
-                GameManager.Instance.CurrentEditMode = EditMode.ANCHOR;
-
-            Animator anim = anchor.GetComponent<Animator>();
-            anim.SetBool("Selected", true);
-        }
-    }
-
-    public static void ResetPathEditorPosition()
-    {
-        Instance.pathEditorController.ResetPosition();
-    }
+    private static readonly int selected = Animator.StringToHash("Selected");
+    private static readonly int playing = Animator.StringToHash("Playing");
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
+    }
+
+    private void Start()
+    {
+        EditModeManager.Instance.OnPlay += GameManager.DeselectInputs;
+        EditModeManager.Instance.OnPlay += UpdateBlockListInSelectedAnchor;
+
+        EditModeManager.Instance.OnEdit += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(false);
+        EditModeManager.Instance.OnPlay += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(true);
+    }
+
+    /// <summary>
+    /// If anchor selected, convert anchor blocks in UI to <see cref="List{T}">List</see>&lt;<see cref="AnchorBlock"/>&gt; and apply it to selected anchor
+    /// </summary>
+    public void UpdateBlockListInSelectedAnchor()
+    {
+        if (SelectedAnchor == null) return;
+
+        ReferenceManager.Instance.MainChainController.UpdateChildrenArray();
+        List<AnchorBlock> blocksInChain = ReferenceManager.Instance.MainChainController.GetAnchorBlocks(SelectedAnchor);
+
+        SelectedAnchor.Blocks = new(blocksInChain);
+    }
+
+    public void UpdateSelectedAnchorLines()
+    {
+        AnchorController selectedAnchor = Instance.SelectedAnchor;
+        if (selectedAnchor == null) return;
+
+        // update list of blocks in anchor
+        Instance.UpdateBlockListInSelectedAnchor();
+
+        selectedAnchor.RenderLines();
     }
 }

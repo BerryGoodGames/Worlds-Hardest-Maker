@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 public class DropdownTween : MonoBehaviour
 {
@@ -11,7 +9,7 @@ public class DropdownTween : MonoBehaviour
     public void TweenExpand()
     {
         RectTransform list = transform.GetChild(transform.childCount - 1).GetComponent<RectTransform>();
-        
+
         list.localScale = new(1, 0);
         list.DOScaleY(1, duration).SetEase(expandEase);
     }

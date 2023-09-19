@@ -1,133 +1,131 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
 /// <summary>
-/// controlling key events and managing keyboard shortcuts
-/// attach to game manager
+///     Controls key events and manages keyboard shortcuts
+///     <para>Attach to game manager</para>
 /// </summary>
 public class KeyEvents : MonoBehaviour
 {
-    void Update()
+    private AlphaTween menuTween;
+
+    private void Update()
     {
-        PhotonView view = GameManager.Instance.photonView;
-
         // toggle playing
-        if (Input.GetKeyDown(KeyCode.Space)) 
-        {
-            GameManager.Instance.TogglePlay(); 
-        }
+        if (Input.GetKeyDown(KeyCode.Space)) PlayManager.Instance.TogglePlay();
 
-        // toggle menu
-        if (!MenuManager.Instance.blockMenu && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)))
+        // close panel if esc pressed
+        bool closingPanel = false;
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            AlphaUITween anim = ReferenceManager.Instance.Menu.GetComponent<AlphaUITween>();
-            anim.SetVisible(!anim.IsVisible());
-        }
-
-        // teleport player to mouse pos
-        if(GameManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))
-        {
-            GameObject player = PlayerManager.GetPlayer();
-            if(player != null)
+            foreach (PanelController panel in PanelManager.Instance.Panels)
             {
-                player.GetComponent<Rigidbody2D>().position = MouseManager.Instance.MouseWorldPosGrid;
-                GameManager.Instance.Cheated = true;
+                if (!panel.Open || !panel.CloseOnEscape) continue;
+
+                PanelManager.Instance.SetPanelOpen(panel, false);
+                closingPanel = true;
             }
         }
 
-        // rotate rotatable fields
-        if (FieldManager.IsRotatable(GameManager.Instance.CurrentEditMode) && Input.GetKeyDown(KeyCode.R))
+        // toggle menu
+        if (!closingPanel && !MenuManager.Instance.BlockMenu &&
+            (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)))
         {
-            GameManager.Instance.EditRotation = (GameManager.Instance.EditRotation - 90) % 360;
+            menuTween.SetVisible(!menuTween.IsVisible);
+        }
+
+        // teleport player to mouse pos
+        if (EditModeManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))
+        {
+            GameObject player = PlayerManager.GetPlayer();
+            // TODO
+            if (player != null)
+            {
+                player.GetComponent<Rigidbody2D>().position = MouseManager.Instance.MouseWorldPosGrid;
+                PlayManager.Instance.Cheated = true;
+            }
+        }
+
+        // rotate if current edit mode is field and rotatable
+        FieldType? fieldType =
+            (FieldType?)EnumUtils.TryConvertEnum<EditMode, FieldType>(EditModeManager.Instance.CurrentEditMode);
+
+        if (fieldType != null && ((FieldType)fieldType).IsRotatable() && Input.GetKeyDown(KeyCode.R))
+        {
+            EditModeManager.Instance.EditRotation = (EditModeManager.Instance.EditRotation - 90) % 360;
 
             if (SelectionManager.Instance.Selecting) SelectionManager.UpdatePreviewRotation();
         }
 
 #if UNITY_EDITOR
-        KeyCode ctrl = KeyCode.Tab;
+        const KeyCode ctrl = KeyCode.Tab;
 #else
             KeyCode ctrl = KeyCode.LeftControl;
 #endif
 
         // keyboard shortcuts with ctrl
-        if (Input.GetKey(ctrl) && !GameManager.Instance.Playing)
+        if (Input.GetKey(ctrl) && !EditModeManager.Instance.Playing)
         {
             if (Input.GetKeyDown(KeyCode.S)) SaveSystem.SaveCurrentLevel();
 #if !UNTIY_WEBGL
             if (Input.GetKeyDown(KeyCode.O)) GameManager.Instance.LoadLevel();
 #endif
             // paste
-            if (Input.GetKey(KeybindManager.Instance.PasteKey))
-            {
-                StartCoroutine(CopyManager.StartPaste());
-            }
-            //if (Input.GetKeyDown(KeyCode.C))
-            //{
-            //    if (GameManager.Instance.Multiplayer) view.RPC("ClearLevel", RpcTarget.All);
-            //    else GameManager.Instance.ClearLevel();
-            //}
+            if (!CopyManager.Instance.Pasting && Input.GetKey(KeybindManager.Instance.PasteKey))
+                StartCoroutine(CopyManager.Instance.PasteCoroutine());
         }
 
         // check edit mode toggling if no ctrl and not playing
-        if (!Input.GetKey(ctrl) && !GameManager.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
-
-        
+        if (!Input.GetKey(ctrl) && !EditModeManager.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     /// <returns>list of keyboard shortcuts for edit modes</returns>
     public static Dictionary<KeyCode[], EditMode> GetKeyboardShortcuts()
     {
         Dictionary<KeyCode[], EditMode> keys = new()
         {
-            { new KeyCode[] { KeyCode.D }, EditMode.DELETE_FIELD },
-            { new KeyCode[] { KeyCode.W }, EditMode.WALL_FIELD },
-            { new KeyCode[] { KeyCode.S }, EditMode.START_FIELD },
-            { new KeyCode[] { KeyCode.G }, EditMode.GOAL_FIELD },
-            { new KeyCode[] { KeyCode.O }, EditMode.ONE_WAY_FIELD },
-            { new KeyCode[] { KeyCode.W, KeyCode.A }, EditMode.WATER },
-            { new KeyCode[] { KeyCode.I }, EditMode.ICE },
-            { new KeyCode[] { KeyCode.V }, EditMode.VOID },
-            { new KeyCode[] { KeyCode.P }, EditMode.PLAYER },
-            { new KeyCode[] { KeyCode.B }, EditMode.BALL_DEFAULT },
-            { new KeyCode[] { KeyCode.C }, EditMode.COIN },
-            { new KeyCode[] { KeyCode.K }, EditMode.GRAY_KEY },
-            { new KeyCode[] { KeyCode.R, KeyCode.K }, EditMode.RED_KEY },
-            { new KeyCode[] { KeyCode.G, KeyCode.K }, EditMode.GREEN_KEY },
-            { new KeyCode[] { KeyCode.B, KeyCode.K }, EditMode.BLUE_KEY },
-            { new KeyCode[] { KeyCode.Y, KeyCode.K }, EditMode.YELLOW_KEY },
-            { new KeyCode[] { KeyCode.B, KeyCode.C }, EditMode.BALL_CIRCLE },
-            { new KeyCode[] { KeyCode.H, KeyCode.C }, EditMode.CHECKPOINT_FIELD }
+            { new[] { KeyCode.D }, EditMode.DeleteField },
+            { new[] { KeyCode.W }, EditMode.WallField },
+            { new[] { KeyCode.S }, EditMode.StartField },
+            { new[] { KeyCode.G }, EditMode.GoalField },
+            { new[] { KeyCode.O }, EditMode.OneWayField },
+            { new[] { KeyCode.W, KeyCode.A }, EditMode.Water },
+            { new[] { KeyCode.I }, EditMode.Ice },
+            { new[] { KeyCode.V }, EditMode.Void },
+            { new[] { KeyCode.P }, EditMode.Player },
+            { new[] { KeyCode.B }, EditMode.BallDefault },
+            { new[] { KeyCode.C }, EditMode.Coin },
+            { new[] { KeyCode.K }, EditMode.GrayKey },
+            { new[] { KeyCode.R, KeyCode.K }, EditMode.RedKey },
+            { new[] { KeyCode.G, KeyCode.K }, EditMode.GreenKey },
+            { new[] { KeyCode.B, KeyCode.K }, EditMode.BlueKey },
+            { new[] { KeyCode.Y, KeyCode.K }, EditMode.YellowKey },
+            { new[] { KeyCode.B, KeyCode.C }, EditMode.BallCircle },
+            { new[] { KeyCode.H, KeyCode.C }, EditMode.CheckpointField }
         };
         return keys;
     }
 
-    private void CheckEditModeKeyEvents()
+    private static void CheckEditModeKeyEvents()
     {
         // get every user shortcut for switching edit mode
         Dictionary<KeyCode[], EditMode> keyboardShortcuts = GetKeyboardShortcuts();
 
         // check every event and set edit mode accordingly
-        foreach(KeyValuePair<KeyCode[], EditMode> shortcut in keyboardShortcuts)
+        foreach (KeyValuePair<KeyCode[], EditMode> shortcut in keyboardShortcuts)
         {
             bool combinationPressed = true;
-            foreach(KeyCode shortcutKey in shortcut.Key)
+            foreach (KeyCode shortcutKey in shortcut.Key)
             {
-                if (!Input.GetKey(shortcutKey))
-                {
-                    combinationPressed = false;
-                    break;
-                }
+                if (Input.GetKey(shortcutKey)) continue;
+
+                combinationPressed = false;
+                break;
             }
 
-            if (combinationPressed)
-            {
-                GameManager.Instance.CurrentEditMode = shortcut.Value;
-            }
+            if (combinationPressed) EditModeManager.Instance.CurrentEditMode = shortcut.Value;
         }
     }
+
+    private void Start() => menuTween = ReferenceManager.Instance.Menu.GetComponent<AlphaTween>();
 }

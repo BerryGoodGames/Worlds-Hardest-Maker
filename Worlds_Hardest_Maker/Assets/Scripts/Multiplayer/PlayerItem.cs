@@ -1,16 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
+using UnityEngine;
 
 public class PlayerItem : MonoBehaviour
 {
-    public TMPro.TMP_Text playerName;
+    public TMP_Text PlayerName;
 
-    public void SetPlayerInfo(Player _player)
-    {
-        playerName.text = _player.NickName;
-    }
+    public void SetPlayerInfo(Player player) => PlayerName.text = player.NickName;
 }

@@ -1,25 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.EventSystems;
 using UnityEngine;
 
 /// <summary>
-/// checks if optionbar should be visible
-/// attach to hovering hitbox of optionbar
+///     Checks if optionbar should be visible
+///     <para>Attach to hovering hitbox of optionbar</para>
 /// </summary>
 public class HoveringOnOptionbar : MonoBehaviour
 {
-    public GameObject optionBar;
-    private AlphaUITween anim;
-    private MouseOverUI mo;
+    public GameObject OptionBar;
+    private AlphaTween anim;
+    private MouseOverUIRect mo;
+
     private void Start()
     {
-        mo = GetComponent<MouseOverUI>();
-        anim = optionBar.GetComponent<AlphaUITween>();
+        mo = GetComponent<MouseOverUIRect>();
+        anim = OptionBar.GetComponent<AlphaTween>();
     }
 
-    private void Update()
-    {
-        anim.SetVisible(mo.over && !GameManager.Instance.Playing && !ReferenceManager.Instance.Menu.activeSelf);
-    }
+    private void Update() =>
+        anim.SetVisible(mo.Over && !EditModeManager.Instance.Playing &&
+                        !ReferenceManager.Instance.Menu.activeSelf);
 }

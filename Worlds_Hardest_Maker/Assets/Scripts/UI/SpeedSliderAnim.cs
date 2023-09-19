@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpeedSliderAnim : MonoBehaviour
@@ -8,44 +6,54 @@ public class SpeedSliderAnim : MonoBehaviour
     private UIFollowEntity follow;
     private SpeedSliderTween anim;
 
+    private HoverSliderDetection hoverSliderDetection;
+
     private void Start()
     {
         rt = GetComponent<RectTransform>();
         follow = GetComponent<UIFollowEntity>();
         anim = GetComponent<SpeedSliderTween>();
-        
+
+        hoverSliderDetection = follow.Entity.GetComponent<HoverSliderDetection>();
+
         Gone();
+
+        if (follow != null && follow.Entity != null) return;
+
+        Destroy(gameObject);
     }
 
     private void Update()
     {
-        if (follow == null || follow.entity == null) {
+        if (follow.Entity == null)
+        {
             Destroy(gameObject);
             return;
         }
+
         // set visible status (if no other slider is hovered)
-        bool hoveredHitbox = follow.entity.GetComponent<HoverSliderDetection>().MouseHoverSlider() && (!HoverSliderDetection.sliderHovered || anim.IsVisible());
+        bool hoveredHitbox = hoverSliderDetection.MouseHoverSlider() &&
+                             (!HoverSliderDetection.SliderHovered || anim.IsVisible());
 
-        bool vis = !GameManager.Instance.Playing && Input.GetKey(KeybindManager.Instance.EditSpeedKey) && hoveredHitbox;
+        bool visible = !EditModeManager.Instance.Playing && Input.GetKey(KeybindManager.Instance.EditSpeedKey) &&
+                       hoveredHitbox;
 
-        if (!vis && anim.IsVisible()) HoverSliderDetection.sliderHovered = false;
+        if (!visible && anim.IsVisible()) HoverSliderDetection.SliderHovered = false;
 
-        anim.SetVisible(vis);
+        anim.SetVisible(visible);
 
-        if (vis && hoveredHitbox) HoverSliderDetection.sliderHovered = true;
+        if (visible) HoverSliderDetection.SliderHovered = true;
     }
 
     public void Gone()
     {
-        if (!anim.IsVisible())
-        {
-            follow.enabled = false;
-            rt.position = new(2000, 2000);
-        }
+        if (!follow) return;
+
+        if (anim.IsVisible()) return;
+
+        follow.enabled = false;
+        rt.position = new(2000, 2000);
     }
 
-    public void Ungone()
-    {
-        follow.enabled = true;
-    }
+    public void Ungone() => follow.enabled = true;
 }

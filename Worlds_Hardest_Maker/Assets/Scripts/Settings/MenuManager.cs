@@ -1,26 +1,29 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Audio;
 
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance { get; private set; }
+
     public enum MenuTab
     {
-        GRAPHIC = 0, UI = 1, SOUND = 2
+        Graphic = 0,
+        UI = 1,
+        Sound = 2
     }
-    [Header("Constants & References")]
-    public GameObject graphicSettingsUI;
+
+    [Header("Constants & References")] public GameObject GraphicSettingsUI;
+
     public GameObject UISettingsUI;
-    public GameObject soundSettingsUI;
-    [Space]
-    [Header("Variables")]
-    public MenuTab currentMenuTab;
+
+    public GameObject SoundSettingsUI;
+
+    [Space] [Header("Variables")] public MenuTab CurrentMenuTab;
+
     private MenuTab prevMenuTab;
 
-    [HideInInspector] public bool blockMenu;
+    [HideInInspector] public bool BlockMenu;
 
     private void Awake()
     {
@@ -28,50 +31,45 @@ public class MenuManager : MonoBehaviour
         else Destroy(this);
     }
 
-    private void Start()
-    {
-        ChangeMenuTab(currentMenuTab);
-    }
-    public static void ExitGame()
-    {
-        GameManager.QuitGame();
-    }
+    private void Start() => ChangeMenuTab(CurrentMenuTab);
+
+    public static void ExitGame() => PlayManager.QuitGame();
 
     #region Menu Tab
+
     public void ChangeMenuTab(MenuTab tab)
     {
         // REF
         if (tab != prevMenuTab)
         {
             Dictionary<MenuTab, GameObject> dict = GetTabDict();
-            for (int i = 0; i < System.Enum.GetValues(typeof(MenuTab)).Length; i++)
+            for (int i = 0; i < Enum.GetValues(typeof(MenuTab)).Length; i++)
             {
                 dict[(MenuTab)i].SetActive(false);
             }
+
             dict[tab].SetActive(true);
-            currentMenuTab = tab;
+            CurrentMenuTab = tab;
         }
+
         prevMenuTab = tab;
     }
-    public void ChangeMenuTab(int tab)
-    {
-        ChangeMenuTab((MenuTab)tab);
-    }
-    public void ChangeMenuTab()
-    {
-        ChangeMenuTab(currentMenuTab);
-    }
+
+    public void ChangeMenuTab(int tab) => ChangeMenuTab((MenuTab)tab);
+
+    public void ChangeMenuTab() => ChangeMenuTab(CurrentMenuTab);
 
     public Dictionary<MenuTab, GameObject> GetTabDict()
     {
         // REF
         Dictionary<MenuTab, GameObject> dict = new()
         {
-            { MenuTab.GRAPHIC, graphicSettingsUI },
-            { MenuTab.SOUND, soundSettingsUI } ,
+            { MenuTab.Graphic, GraphicSettingsUI },
+            { MenuTab.Sound, SoundSettingsUI },
             { MenuTab.UI, UISettingsUI }
         };
         return dict;
     }
+
     #endregion
 }

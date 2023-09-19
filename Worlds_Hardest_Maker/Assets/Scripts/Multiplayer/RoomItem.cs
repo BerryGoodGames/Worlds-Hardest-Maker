@@ -1,36 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
-using Photon.Pun;
+using UnityEngine;
+
 /// <summary>
-/// controller of prefab RoomItem
+///     Attach to prefab RoomItem
 /// </summary>
 public class RoomItem : MonoBehaviour
 {
-    public RoomInfo info;
-    public TMP_Text roomNameTxt;
-    public TMP_Text playerCountTxt;
+    public RoomInfo Info;
+    public TMP_Text RoomNameTxt;
 
-    public void SetRoomName(string _roomName)
+    public TMP_Text PlayerCountTxt;
+
+    public void SetRoomName(string roomName)
     {
-        if(roomNameTxt != null)
-          roomNameTxt.text = _roomName;
+        if (RoomNameTxt != null)
+            RoomNameTxt.text = roomName;
     }
 
     public void SetPlayerCount(int playerCount)
     {
-        if(playerCountTxt != null)
-         playerCountTxt.text = $"{playerCount}/10";
+        if (PlayerCountTxt != null)
+            PlayerCountTxt.text = $"{playerCount}/10";
     }
 
     /// <summary>
-    /// onclick method for gameobject: join room with specific title
+    ///     OnClick method for gameObject: join room with specific title
     /// </summary>
-    public void OnClickItem()
-    {
-        PhotonNetwork.JoinRoom(roomNameTxt.text);
-    }
+    public void OnClickItem() => PhotonNetwork.JoinRoom(RoomNameTxt.text);
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -5,10 +6,12 @@ public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance { get; private set; }
 
-    public AudioMixer mainMixer;
-    public GameObject toolbarContainer;
-    public GameObject infobarEdit;
-    public GameObject infobarPlay;
+    public AudioMixer MainMixer;
+
+    public GameObject ToolbarContainer;
+
+    public GameObject InfobarEdit;
+    public GameObject InfobarPlay;
 
     private ToolbarSizing toolbarSpacing;
     private InfobarResize infobarPlayResize;
@@ -19,120 +22,142 @@ public class SettingsManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(this);
 
-        toolbarSpacing = toolbarContainer.GetComponent<ToolbarSizing>();
-        infobarPlayResize = infobarPlay.GetComponent<InfobarResize>();
-        infobarEditResize = infobarEdit.GetComponent<InfobarResize>();
+        toolbarSpacing = ToolbarContainer.GetComponent<ToolbarSizing>();
+        infobarPlayResize = InfobarPlay.GetComponent<InfobarResize>();
+        infobarEditResize = InfobarEdit.GetComponent<InfobarResize>();
+    }
 
-#if UNITY_EDITOR
-        mainMixer.SetFloat("MusicVolume", -80);
-        if (Instance != null) Instance = this;
-#endif
+    private void Start()
+    {
+        Instance.LoadPrefs();
     }
 
     public void SavePrefs()
     {
         PlayerPrefs.SetFloat("MusicVolume", GetMusicVolume());
-        PlayerPrefs.SetFloat("SoundEffectVolume", GetSoudEffectVolume());
+        PlayerPrefs.SetFloat("SoundEffectVolume", GetSoundEffectVolume());
         PlayerPrefs.SetFloat("ToolbarSize", GetToolbarSize());
         PlayerPrefs.SetFloat("InfobarSize", GetInfobarSize());
 
         // graphics
-        PlayerPrefs.SetInt("Quality", GraphicsSettings.Instance.qualityLevel);
-        PlayerPrefs.SetInt("Fullscreen", GraphicsSettings.Instance.fullscreen ? 1 : 0);
-        PlayerPrefs.SetInt("OneColorStartGoal", GraphicsSettings.Instance.oneColorStartGoal ? 1 : 0);
-
+        PlayerPrefs.SetInt("Quality", GraphicsSettings.Instance.QualityLevel);
+        PlayerPrefs.SetInt("Fullscreen", Screen.fullScreen ? 1 : 0);
+        PlayerPrefs.SetInt("OneColorStartGoal", GraphicsSettings.Instance.OneColorStartGoalCheckpoint ? 1 : 0);
     }
 
     public void LoadPrefs()
     {
-        SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"), false);
-        SetSoundEffectVolume(PlayerPrefs.GetFloat("SoundEffectVolume"), false);
-        SetToolbarSize(PlayerPrefs.GetFloat("ToolbarSize"), false);
-        SetInfobarSize(PlayerPrefs.GetFloat("InfobarSize"), false);
+        SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"), true);
+        SetSoundEffectVolume(PlayerPrefs.GetFloat("SoundEffectVolume"), true);
+        SetToolbarSize(PlayerPrefs.GetFloat("ToolbarSize"), true);
+        SetInfobarSize(PlayerPrefs.GetFloat("InfobarSize"), true);
 
         // graphics
-        GraphicsSettings.Instance.SetQuality(PlayerPrefs.GetInt("Quality"), false);
-        GraphicsSettings.Instance.Fullscreen(PlayerPrefs.GetInt("Fullscreen") == 1, false);
-        GraphicsSettings.Instance.SetOneColorStartGoal(PlayerPrefs.GetInt("OneColorStartGoal") == 1, false);
+        GraphicsSettings.Instance.SetQuality(PlayerPrefs.GetInt("Quality"), true);
+        GraphicsSettings.Instance.Fullscreen(PlayerPrefs.GetInt("Fullscreen") == 1, true);
+        GraphicsSettings.Instance.SetOneColorStartGoal(PlayerPrefs.GetInt("OneColorStartGoal") == 1, true);
     }
 
     #region Sound settings
-    public void SetMusicVolume(float vol, bool setPrefs)
+
+    public void SetMusicVolume(float vol, bool updateSlider)
     {
         // map vol from 0 - 100 to 0.0001 - 1 and convert it so vol acts linear
-        float newVol = Mathf.Log10((float)GameManager.Map(vol, 0, 100, 0.0001, 3)) * 20;
+        float newVol = MathF.Log10(vol.Map(0, 100, 0.0001f, 3)) * 20;
 
-        mainMixer.SetFloat("MusicVolume", newVol);
+        MainMixer.SetFloat("MusicVolume", newVol);
 
-        if (setPrefs) SavePrefs();
+        if (!updateSlider) return;
+
+        ReferenceManager.Instance.MusicSlider.Slider.value = vol;
+        ReferenceManager.Instance.MusicSlider.UpdateInput();
     }
-    public void SetMusicVolume(float vol) => SetMusicVolume(vol, true);
-    public void SetSoundEffectVolume(float vol, bool setPrefs)
+
+    public void SetMusicVolume(float vol) => SetMusicVolume(vol, false);
+
+
+    public void SetSoundEffectVolume(float vol, bool updateSlider)
     {
-        float newVol = Mathf.Log10((float)GameManager.Map(vol, 0, 100, 0.0001, 3)) * 20;
+        float newVol = Mathf.Log10(vol.Map(0, 100, 0.0001f, 3)) * 20;
 
-        mainMixer.SetFloat("SoundEffectVolume", newVol);
+        MainMixer.SetFloat("SoundEffectVolume", newVol);
 
-        if (setPrefs) SavePrefs();
+        if (!updateSlider) return;
+
+        ReferenceManager.Instance.SoundEffectSlider.Slider.value = vol;
+        ReferenceManager.Instance.SoundEffectSlider.UpdateInput();
     }
-    public void SetSoundEffectVolume(float vol) => SetSoundEffectVolume(vol, true);
-    public float GetMusicVolume() 
+
+    public void SetSoundEffectVolume(float vol) => SetSoundEffectVolume(vol, false);
+
+    public float GetMusicVolume()
     {
-        if (mainMixer.GetFloat("MusicVolume", out float value))
-        {
-            return value;
-        }
-        throw new System.Exception("Failed to acces music volume");
+        if (MainMixer.GetFloat("MusicVolume", out float value)) return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
+
+        throw new("Failed to access music volume");
     }
-    public float GetSoudEffectVolume()
+
+    public float GetSoundEffectVolume()
     {
-        if (mainMixer.GetFloat("SoundEffectVolume", out float value))
-        {
-            return value;
-        }
-        throw new System.Exception("Failed to acces sound effect volume");
+        if (MainMixer.GetFloat("SoundEffectVolume", out float value)) return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
+
+        throw new("Failed to access sound effect volume");
     }
+
     #endregion
 
     #region UI Settings
-    public void SetToolbarSize(float size, bool setPrefs)
+
+    public void SetToolbarSize(float size, bool updateSlider)
     {
-        if (toolbarSpacing != null)
-        {
-            toolbarSpacing.toolbarHeight = size;
-            toolbarSpacing.UpdateSize();
+        if (toolbarSpacing == null) return;
 
-            if (setPrefs) SavePrefs();
-        }
+        toolbarSpacing.ToolbarHeight = size;
+        toolbarSpacing.UpdateSize();
+
+        if(!updateSlider) return;
+
+        ReferenceManager.Instance.ToolbarSizeSlider.Slider.value = size;
+        ReferenceManager.Instance.ToolbarSizeSlider.UpdateInput();
     }
-    public void SetToolbarSize(string size, bool setPrefs)
+
+    public void SetToolbarSize(float size) => SetToolbarSize(size, false);
+
+    public void SetToolbarSize(string size)
     {
-        if (float.TryParse(size, out float conv)) SetToolbarSize(conv, setPrefs);
+        if (float.TryParse(size, out float conv)) SetToolbarSize(conv);
     }
-    public void SetToolbarSize(float size) => SetToolbarSize(size, true);
-    public void SetToolbarSize(string size) => SetToolbarSize(size, true);
 
-    public float GetToolbarSize() => toolbarSpacing.toolbarHeight;
+    public float GetToolbarSize() => toolbarSpacing.ToolbarHeight;
 
-    public void SetInfobarSize(float size, bool setPrefs)
+    public void SetInfobarSize(float size, bool updateSlider)
     {
-        if (infobarPlayResize != null && infobarEditResize != null)
-        {
-            infobarPlayResize.infobarHeight = size;
-            infobarEditResize.infobarHeight = size;
-            infobarPlayResize.UpdateSize();
-            infobarEditResize.UpdateSize();
+        if (infobarPlayResize == null || infobarEditResize == null) return;
 
-            if(setPrefs) SavePrefs();
-        }
+        infobarPlayResize.InfobarHeight = size;
+        infobarEditResize.InfobarHeight = size;
+        infobarPlayResize.UpdateSize();
+        infobarEditResize.UpdateSize();
+
+        if (!updateSlider) return;
+
+        ReferenceManager.Instance.InfobarSizeSlider.Slider.value = size;
+        ReferenceManager.Instance.InfobarSizeSlider.UpdateInput();
     }
-    public void SetInfobarSize(string size, bool setPrefs)
+
+    public void SetInfobarSize(float size) => SetInfobarSize(size, false);
+
+    public void SetInfobarSize(string size)
     {
-        if (float.TryParse(size, out float conv)) SetInfobarSize(conv, setPrefs);
+        if (float.TryParse(size, out float conv)) SetInfobarSize(conv);
     }
-    public void SetInfobarSize(float size) => SetInfobarSize(size, true);
-    public void SetInfobarSize(string size) => SetInfobarSize(size, true);
 
-    public float GetInfobarSize() => infobarPlayResize.infobarHeight;
+    public float GetInfobarSize() => infobarPlayResize.InfobarHeight;
+
     #endregion
+
+    private void OnDestroy()
+    {
+        SavePrefs();
+    }
 }

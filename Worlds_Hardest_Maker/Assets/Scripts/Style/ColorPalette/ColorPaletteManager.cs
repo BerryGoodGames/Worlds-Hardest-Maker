@@ -1,48 +1,34 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
 using UnityEngine;
-
-/// <summary>
-/// for doing color palettes'n'stuff
-/// </summary>
 
 public class ColorPaletteManager : MonoBehaviour
 {
     public static ColorPaletteManager Instance { get; private set; }
 
-    public List<ColorPalette> colorPalettes;
+    public List<ColorPalette> ColorPalettes;
 
-    private void Awake()
-    {
-        UpdateInstance();
-    }
+    private void Awake() => UpdateInstance();
 
     public void UpdateInstance()
     {
         if (Instance == null) Instance = this;
     }
 
-    public void UpdateColorPalettes()   
+    public void UpdateColorPalettes()
     {
-        foreach (ColorPaletteController CPC in Resources.FindObjectsOfTypeAll<ColorPaletteController>())
+        foreach (ColorPaletteController cpc in Resources.FindObjectsOfTypeAll<ColorPaletteController>())
         {
-            CPC.UpdateColor();
+            cpc.UpdateColor();
         }
     }
 
     public static ColorPalette GetColorPalette(string name)
     {
-        foreach (ColorPalette colorPalette in Instance.colorPalettes)
+        foreach (ColorPalette colorPalette in Instance.ColorPalettes)
         {
-            if (colorPalette.name.Equals(name))
-            {
-                return colorPalette;
-            }
+            if (colorPalette.Name.Equals(name)) return colorPalette;
         }
 
-        return null;
+        throw new("ColorPalette doesn't exist");
     }
 }

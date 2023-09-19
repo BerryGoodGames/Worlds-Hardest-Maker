@@ -29,6 +29,11 @@ TagManager:
   - Key
   - BallCircleOrigin
   - BallDefaultObject
+  - Bullet
+  - AnchorBall
+  - AnchorBallObject
+  - AnchorBlockPreview
+  - StartBlock
   layers:
   - Default
   - TransparentFX

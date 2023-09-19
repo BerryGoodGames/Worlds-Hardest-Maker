@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
 
 public class WarningConfirmPromptTween : MonoBehaviour
 {
     [SerializeField] private float activateDuration;
     [SerializeField] private float deactivateDuration;
-    [Space]
-    [SerializeField] private AnimationCurve easeScaleXActivate;
+    [Space] [SerializeField] private AnimationCurve easeScaleXActivate;
     [SerializeField] private AnimationCurve easeScaleYActivate;
     [SerializeField] private Ease easeDeactivate;
 
@@ -16,25 +13,23 @@ public class WarningConfirmPromptTween : MonoBehaviour
 
     public void SetVisible(bool vis)
     {
-        if (isVisible && !vis)
+        switch (isVisible)
         {
-            // the frame not visible
-            transform.DOScaleX(0, deactivateDuration).SetEase(easeDeactivate);
-            transform.DOScaleY(0, deactivateDuration).SetEase(easeDeactivate);
-        }
+            case true when !vis:
+                // the frame not visible
+                transform.DOScaleX(0, deactivateDuration).SetEase(easeDeactivate);
+                transform.DOScaleY(0, deactivateDuration).SetEase(easeDeactivate);
+                break;
 
-        if (!isVisible && vis)
-        {
-            // the frame visible
-            transform.DOScaleX(1, activateDuration).SetEase(easeScaleXActivate);
-            transform.DOScaleY(1, activateDuration).SetEase(easeScaleYActivate);
+            case false when vis:
+                // the frame visible
+                transform.DOScaleX(1, activateDuration).SetEase(easeScaleXActivate);
+                transform.DOScaleY(1, activateDuration).SetEase(easeScaleYActivate);
+                break;
         }
 
         isVisible = vis;
     }
 
-    private void Start()
-    {
-        transform.localScale = new(0, 0);
-    }
+    private void Start() => transform.localScale = new(0, 0);
 }

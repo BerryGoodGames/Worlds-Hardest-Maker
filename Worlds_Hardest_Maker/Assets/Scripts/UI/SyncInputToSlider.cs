@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor.Events;
 #endif
@@ -10,38 +9,27 @@ using UnityEditor.Events;
 [ExecuteInEditMode]
 public class SyncInputToSlider : MonoBehaviour
 {
-    [SerializeField] private Slider slider;
+    [FormerlySerializedAs("slider")] public Slider Slider;
     [SerializeField] private float decimals = 2;
     private TMP_InputField input;
 
-    private void Start()
-    {
-        UpdateInput();
-    }
+    private void Start() => UpdateInput();
 
-    /// <summary>
-    /// Updates the slider
-    /// </summary>
-    /// <param name="val">value that the slider is set to</param>
     public void UpdateSlider()
     {
         // try to read input text and set slider value
-        if (float.TryParse(input.text, out float value)) slider.value = Rounded(value);
+        if (float.TryParse(input.text, out float value)) Slider.value = Rounded(value);
     }
 
-    /// <summary>
-    /// Updates the input
-    /// </summary>
-    /// <param name="val">value that the input is set to</param>
     public void UpdateInput()
     {
-        if(input == null) input = GetComponent<TMP_InputField>();
+        if (input == null) input = GetComponent<TMP_InputField>();
         // convert slider value to text and put in into the input
-        input.text = Rounded(slider.value).ToString();
+        input.text = Rounded(Slider.value).ToString();
     }
 
     /// <summary>
-    /// setup for synchronisation (add event listeners etc.)
+    ///     Setup for synchronisation (add event listeners etc.)
     /// </summary>
     public void Synchronise()
     {
@@ -49,12 +37,14 @@ public class SyncInputToSlider : MonoBehaviour
         input = GetComponent<TMP_InputField>();
 
         // set stuff in input //
-        UnityEventTools.AddPersistentListener(input.onValueChanged, (string input) => { UpdateSlider(); }); // add Update Slider to persistent event listener
+        UnityEventTools.AddPersistentListener(input.onValueChanged,
+            _ => { UpdateSlider(); }); // add Update Slider to persistent event listener
 
         // set stuff in slider //
-        UnityEventTools.AddPersistentListener(slider.onValueChanged, (float input) => { UpdateInput(); }); ; // add Update Input to persistnent event listener
+        UnityEventTools.AddPersistentListener(Slider.onValueChanged, _ => { UpdateInput(); });
+        // add Update Input to persistent event listener
 #endif
     }
 
-    private float Rounded(float value) { return Mathf.Round(value * Mathf.Pow(10, decimals)) * Mathf.Pow(10, -decimals); }
+    private float Rounded(float value) => Mathf.Round(value * Mathf.Pow(10, decimals)) * Mathf.Pow(10, -decimals);
 }
