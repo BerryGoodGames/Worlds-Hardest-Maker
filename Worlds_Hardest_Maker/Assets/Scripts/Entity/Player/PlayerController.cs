@@ -250,26 +250,28 @@ public class PlayerController : Controller
 
     private void CornerPushVertical(Collision2D collider, Vector2 roundedPos, float err)
     {
-        // do vertical
+        // early-out if it should not push 
         if (movementInput.y == 0 || roundedPos.x.EqualsFloat(Mathf.Round(collider.transform.position.x)) ||
             !(Mathf.Abs(Rb.position.x) % 1 > (1 - transform.lossyScale.x) * 0.5f + err) ||
             !(Mathf.Abs(Rb.position.x) % 1 < 1 - ((1 - transform.lossyScale.x) * 0.5f + err))) return;
 
+        // calculate new position 
         Vector2 posCheck = new(roundedPos.x, Mathf.Round(Rb.position.y + movementInput.y));
         if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldType.WallField)
-            extraMovementInput = new Vector2(Rb.position.x % 1 > 0.5f ? 1 : -1, movementInput.y);
+            extraMovementInput = new(Mathf.Round(Rb.position.x) > Rb.position.x ? 1 : -1, movementInput.y);
     }
 
     private void CornerPushHorizontal(Collision2D collider, Vector2 roundedPos, float err)
     {
-        // do horizontal
+        // early-out if it should not push 
         if (movementInput.x == 0 || roundedPos.y.EqualsFloat(Mathf.Round(collider.transform.position.y)) ||
             !(Mathf.Abs(Rb.position.y) % 1 > (1 - transform.lossyScale.y) * 0.5f + err) ||
             !(Mathf.Abs(Rb.position.y) % 1 < 1 - ((1 - transform.lossyScale.y) * 0.5f + err))) return;
 
+        // calculate new position 
         Vector2 posCheck = new(Mathf.Round(Rb.position.x + movementInput.x), roundedPos.y);
         if (FieldManager.GetFieldType(FieldManager.GetField(posCheck)) != FieldType.WallField)
-            extraMovementInput = new Vector2(movementInput.x, Rb.position.y % 1 > 0.5f ? 1 : -1);
+            extraMovementInput = new(movementInput.x, Mathf.Round(Rb.position.y) > Rb.position.y ? 1 : -1);
     }
 
     #endregion
