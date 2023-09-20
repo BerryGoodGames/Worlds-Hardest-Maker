@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
@@ -36,7 +37,8 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         // elevate
         contentRT.DOAnchorPos(new(-highlightElevation, highlightElevation + highlightFloating),
-            highlightElevateDuration);
+            highlightElevateDuration)
+            .SetId(gameObject);
 
         if (IsWarningButton)
         {
@@ -44,14 +46,16 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             Sequence shakeSeq = DOTween.Sequence();
             shakeSeq.Append(content.DORotate(new(0, 0, shake1), singleShakeDuration))
                 .Append(content.DORotate(new(0, 0, -shake2), singleShakeDuration))
-                .Append(content.DORotate(new(0, 0, 0), singleShakeDuration));
+                .Append(content.DORotate(new(0, 0, 0), singleShakeDuration))
+                .SetId(gameObject);
         }
 
         // loop floating
         contentRT.DOAnchorPos(new(-highlightElevation, highlightElevation), highlightFloatingDuration * 0.5f)
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo)
-            .SetDelay(highlightElevateDuration);
+            .SetDelay(highlightElevateDuration)
+            .SetId(gameObject);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -60,14 +64,16 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         // idle anim move to original position
         contentRT.DOKill();
-        contentRT.DOAnchorPos(Vector2.zero, highlightElevateDuration);
+        contentRT.DOAnchorPos(Vector2.zero, highlightElevateDuration)
+            .SetId(gameObject);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         // click (& hold) animation
         contentRT.DOKill();
-        contentRT.DOAnchorPos(((RectTransform)backgroundPanel).anchoredPosition, clickDuration);
+        contentRT.DOAnchorPos(((RectTransform)backgroundPanel).anchoredPosition, clickDuration)
+            .SetId(gameObject);
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -80,4 +86,9 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
 
     private void Start() => contentRT = (RectTransform)content;
+
+    private void OnDestroy()
+    {
+        DOTween.Kill(gameObject);
+    }
 }

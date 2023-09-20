@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,16 +23,24 @@ public class MainMenuTween : MonoBehaviour
         player.rectTransform.anchoredPosition = new(playerStartX, player.rectTransform.anchoredPosition.y);
         player.rectTransform.DOAnchorPosX(playerEndX, playerDuration)
             .SetEase(Ease.Linear)
-            .SetDelay(delay);
+            .SetDelay(delay)
+            .SetId(gameObject);
 
         float cursorDelayTotal = cursorDelay + playerDuration + delay;
         cursor.rectTransform.eulerAngles = new(0, 0, cursorStartAngle);
         cursor.rectTransform.DORotate(new(0, 0, cursorEndAngle), cursorDuration)
-            .SetDelay(cursorDelayTotal);
+            .SetDelay(cursorDelayTotal)
+            .SetId(gameObject);
 
         cursor.rectTransform.anchoredPosition = cursorStartPos;
         cursor.rectTransform.DOAnchorPos(cursorEndPos, cursorDuration)
             .SetDelay(cursorDelayTotal)
-            .SetEase(Ease.OutQuint);
+            .SetEase(Ease.OutQuint)
+            .SetId(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        DOTween.Kill(gameObject);
     }
 }
