@@ -20,11 +20,7 @@ public class CopyManager : MonoBehaviour
         Vector2 selectionCenter = (lowestPos + highestPos) * .5f;
         Vector2 selectionSize = highestPos - lowestPos + Vector2.one * .5f;
 
-        // print($"Size: {selectionSize}   Pos: {selectionCenter}");
-
         Collider2D[] hits = Physics2D.OverlapBoxAll(selectionCenter, selectionSize, 0, 3200); // get objects
-
-        // print(hits.Length);
 
         List<Vector2> points = HitsToPoints(hits);
 

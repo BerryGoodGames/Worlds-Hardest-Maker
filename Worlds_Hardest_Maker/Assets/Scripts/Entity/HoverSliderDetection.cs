@@ -48,8 +48,4 @@ public class HoverSliderDetection : MonoBehaviour
 
         return false;
     }
-
-    private void Start()
-    {
-    }
 }

@@ -154,6 +154,7 @@ public partial class AnchorController : Controller
     {
         Transform t = transform;
 
+        RotationTween.Kill();
         t.DOKill();
         t.SetPositionAndRotation(startPosition, startRotation);
 

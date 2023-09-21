@@ -81,7 +81,6 @@ public class KeyController : Controller
 
     public void UnlockKeyDoors(PlayerController player)
     {
-        print(player.AllKeysCollected(Color));
         if (!player.AllKeysCollected(Color)) return;
 
         string tagColor = Color switch

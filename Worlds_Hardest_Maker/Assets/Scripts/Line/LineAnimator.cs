@@ -39,17 +39,11 @@ public class LineAnimator : MonoBehaviour
 
     public void AnimateMove(Vector2 move, float duration, Ease ease = Ease.InOutSine)
     {
-        Stopwatch sw = new();
-        sw.Start();
-
         for (int i = 0; i < LineRenderer.positionCount; i++)
         {
             Vector2 pointPos = LineRenderer.GetPosition(i);
 
             AnimatePoint(i, pointPos + move, duration, ease);
         }
-
-        sw.Stop();
-        print(sw.Elapsed.TotalMilliseconds);
     }
 }

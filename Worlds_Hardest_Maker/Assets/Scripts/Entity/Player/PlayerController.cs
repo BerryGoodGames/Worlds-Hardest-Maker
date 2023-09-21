@@ -435,9 +435,7 @@ public class PlayerController : Controller
         // dying through void
         GameObject currentVoid = GetCurrentVoid();
 
-        // Vector2 fallPosition = (Vector2)transform.position + movementInput * 0.5f;
         Vector2 fallPosition = currentVoid.transform.position;
-        print(fallPosition);
 
         spriteRenderer.material.DOFade(0, voidFallDuration)
             .SetEase(Ease.Linear);
