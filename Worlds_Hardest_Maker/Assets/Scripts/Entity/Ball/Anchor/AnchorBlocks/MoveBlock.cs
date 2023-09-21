@@ -20,9 +20,9 @@ public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock
         float dist = Vector2.Distance(Target, Anchor.transform.position);
 
         if (Anchor.SpeedUnit is SetSpeedBlock.Unit.Speed)
-            duration = dist / Anchor.TimeInput;
+            duration = dist / Anchor.SpeedInput;
         else
-            duration = Anchor.TimeInput;
+            duration = Anchor.SpeedInput;
 
         Anchor.DOKill();
         Anchor.transform.DOMove(Target, duration)

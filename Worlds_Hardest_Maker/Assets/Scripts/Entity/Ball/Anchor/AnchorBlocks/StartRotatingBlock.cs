@@ -13,20 +13,13 @@ public class StartRotatingBlock : AnchorBlock, IActiveAnchorBlock
 
     public override void Execute()
     {
-        if (Anchor.RotationTween is { hasLoops: true })
+        // ignore if already infinitely rotating or no speed defined
+        if (Anchor.RotationTween is not { hasLoops: true } && Anchor.RotationSpeedUnit is SetRotationBlock.Unit.Degrees or SetRotationBlock.Unit.Iterations)
         {
-            Anchor.FinishCurrentExecution();
-            return;
-        }
+            float speed = SetRotationBlock.GetSpeed(Anchor.RotationInput, Anchor.RotationSpeedUnit);
 
-        float duration;
-        if (Anchor.RotationSpeedUnit is SetRotationBlock.Unit.Degrees or SetRotationBlock.Unit.Iterations)
-            duration = 360 / Anchor.RotationTimeInput;
-        else
-            duration = Anchor.RotationTimeInput;
+            float duration = 360 / speed;
 
-        if (Anchor.RotationSpeedUnit is SetRotationBlock.Unit.Degrees or SetRotationBlock.Unit.Iterations)
-        {
             // negate rotation depending on direction
             int direction = Anchor.IsClockwise ? -1 : 1;
 

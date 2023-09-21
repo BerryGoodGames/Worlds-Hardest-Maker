@@ -60,6 +60,7 @@ public partial class AnchorManager
                     canStartRotateWork = setRotationBlock.GetUnit() != SetRotationBlock.Unit.Time;
                     break;
                 }
+
                 // update if it can't rotate
                 case AnchorBlock.Type.StartRotating:
                     ReferenceManager.Instance.MainChainController.Children[i].SetWarning(!canStartRotateWork);

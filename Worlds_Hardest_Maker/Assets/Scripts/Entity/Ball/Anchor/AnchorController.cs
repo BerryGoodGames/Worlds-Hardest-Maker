@@ -4,6 +4,7 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public partial class AnchorController : Controller
@@ -17,8 +18,8 @@ public partial class AnchorController : Controller
 
     [HideInInspector] public SetSpeedBlock.Unit SpeedUnit;
     [HideInInspector] public SetRotationBlock.Unit RotationSpeedUnit;
-    [HideInInspector] public float TimeInput;
-    [HideInInspector] public float RotationTimeInput;
+    [HideInInspector] public float SpeedInput;
+    [HideInInspector] public float RotationInput;
     [HideInInspector] public bool IsClockwise;
     public LinkedListNode<AnchorBlock> LoopBlockNode;
     public TweenerCore<float, float, FloatOptions> RotationTween;
@@ -50,8 +51,8 @@ public partial class AnchorController : Controller
         // update when moved by user
         entityDragDrop.OnMove += (oldPosition, newPosition) => MoveAnchor(newPosition - oldPosition);
 
-        TimeInput = 7;
-        RotationTimeInput = 360;
+        SpeedInput = 7;
+        RotationInput = 360;
         Ease = Ease.Linear;
 
         UpdateStartValues();

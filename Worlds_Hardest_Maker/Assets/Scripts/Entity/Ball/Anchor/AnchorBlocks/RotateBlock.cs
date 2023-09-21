@@ -18,14 +18,16 @@ public class RotateBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
 
         if (Anchor.RotationSpeedUnit is SetRotationBlock.Unit.Degrees or SetRotationBlock.Unit.Iterations)
         {
+            float speed = SetRotationBlock.GetSpeed(Anchor.RotationInput, Anchor.RotationSpeedUnit);
+
             float currentZ = Anchor.transform.localRotation.eulerAngles.z;
             float targetZ = currentZ + iterations * 360;
             float distance = targetZ - currentZ;
 
-            duration = distance / Anchor.RotationTimeInput;
+            duration = distance / speed;
         }
         else
-            duration = Anchor.RotationTimeInput;
+            duration = Anchor.RotationInput;
 
         // negate rotation depending on direction
         int direction = Anchor.IsClockwise ? -1 : 1;

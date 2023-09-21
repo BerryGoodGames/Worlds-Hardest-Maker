@@ -16,6 +16,8 @@ public class CopyManager : MonoBehaviour
     {
         clipBoard.Clear();
 
+        AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+
         // get position and size on where to get the objects
         Vector2 selectionCenter = (lowestPos + highestPos) * .5f;
         Vector2 selectionSize = highestPos - lowestPos + Vector2.one * .5f;

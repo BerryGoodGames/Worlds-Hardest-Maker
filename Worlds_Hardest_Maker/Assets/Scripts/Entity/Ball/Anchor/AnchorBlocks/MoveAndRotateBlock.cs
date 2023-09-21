@@ -32,12 +32,12 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
 
         if (Anchor.SpeedUnit is SetSpeedBlock.Unit.Speed)
         {
-            float speed = Anchor.TimeInput;
+            float speed = Anchor.SpeedInput;
 
             moveDuration = dist / speed;
         }
         else
-            moveDuration = Anchor.TimeInput;
+            moveDuration = Anchor.SpeedInput;
 
         // get rotate duration
         float rotateDuration;
@@ -45,16 +45,18 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
             rotateDuration = moveDuration;
         else if (Anchor.RotationSpeedUnit is SetRotationBlock.Unit.Degrees or SetRotationBlock.Unit.Iterations)
         {
+            float speed = SetRotationBlock.GetSpeed(Anchor.RotationInput, Anchor.RotationSpeedUnit);
+
             float currentZ = Anchor.transform.localRotation.eulerAngles.z;
             float targetZ = currentZ + iterations * 360;
             float distance = targetZ - currentZ;
 
-            rotateDuration = distance / Anchor.RotationTimeInput;
+            rotateDuration = distance / speed;
         }
         else
-            rotateDuration = Anchor.RotationTimeInput;
+            rotateDuration = Anchor.RotationInput;
 
-        Anchor.Rb.DOMove(Target, moveDuration)
+        Anchor.transform.DOMove(Target, moveDuration)
             .SetEase(Anchor.Ease)
             .OnComplete(() =>
             {

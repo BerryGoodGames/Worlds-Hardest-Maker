@@ -24,7 +24,7 @@ public class SetSpeedBlock : AnchorBlock, IPassiveAnchorBlock
     public override void Execute()
     {
         Anchor.SpeedUnit = unit;
-        Anchor.TimeInput = input;
+        Anchor.SpeedInput = input;
         Anchor.FinishCurrentExecution();
     }
 

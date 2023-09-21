@@ -95,17 +95,17 @@ public class MoveAndRotateBlockData : AnchorBlockData
 [Serializable]
 public class SetRotationBlockData : AnchorBlockData
 {
-    private readonly float speed;
+    private readonly float input;
     private readonly int unit;
 
-    public SetRotationBlockData(bool isLocked, float speed, SetRotationBlock.Unit unit) : base(isLocked)
+    public SetRotationBlockData(bool isLocked, float input, SetRotationBlock.Unit unit) : base(isLocked)
     {
-        this.speed = speed;
+        this.input = input;
         this.unit = (int)unit;
     }
 
     public override AnchorBlock GetBlock(AnchorController anchor) =>
-        new SetRotationBlock(anchor, IsLocked, speed, (SetRotationBlock.Unit)unit);
+        new SetRotationBlock(anchor, IsLocked, input, (SetRotationBlock.Unit)unit);
 }
 
 [Serializable]
