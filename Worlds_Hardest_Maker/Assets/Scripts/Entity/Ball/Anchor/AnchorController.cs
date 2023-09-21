@@ -154,13 +154,12 @@ public partial class AnchorController : Controller
     {
         Transform t = transform;
 
-        Rb.DOKill();
         t.DOKill();
-        if (WaitCoroutine != null) StopCoroutine(WaitCoroutine);
-        CurrentExecutingBlock = null;
+        t.SetPositionAndRotation(startPosition, startRotation);
 
-        Rb.position = startPosition;
-        t.rotation = startRotation;
+        if (WaitCoroutine != null) StopCoroutine(WaitCoroutine);
+
+        CurrentExecutingBlock = null;
     }
 
     #endregion
@@ -188,8 +187,10 @@ public partial class AnchorController : Controller
 
     private void UpdateStartValues()
     {
-        startPosition = Rb.position;
-        startRotation = transform.rotation;
+        Transform t = transform;
+
+        startPosition = t.position;
+        startRotation = t.rotation;
         LoopBlockNode = null;
     }
 

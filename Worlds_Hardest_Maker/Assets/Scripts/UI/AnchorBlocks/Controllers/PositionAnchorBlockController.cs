@@ -39,6 +39,7 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
     {
         foreach (AnchorPathLine line in Lines)
         {
+            if (line.Blur == null) continue;
             line.Blur.SetVisible(visible);
         }
     }
