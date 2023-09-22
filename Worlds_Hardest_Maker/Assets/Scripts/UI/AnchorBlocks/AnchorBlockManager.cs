@@ -189,14 +189,17 @@ public partial class AnchorBlockManager : MonoBehaviour
         {
             t.CreateAnchorBlockObject();
         }
-
+        
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
 
+        // update warnings
         AnchorManager.Instance.CheckStartRotatingWarnings();
         AnchorManager.Instance.CheckStackOverflowWarnings();
 
+        // update UI
         RectTransform stringController = (RectTransform)ReferenceManager.Instance.MainChainController.transform;
         LayoutRebuilder.ForceRebuildLayoutImmediate(stringController);
+        ReferenceManager.Instance.AnchorBlockFitter.CheckForChanges();
     }
 
     private static void UpdateSourceBlocksLayout()

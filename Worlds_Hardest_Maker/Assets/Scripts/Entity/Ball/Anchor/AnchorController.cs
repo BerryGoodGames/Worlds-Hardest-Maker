@@ -56,8 +56,6 @@ public partial class AnchorController : Controller
         Ease = Ease.Linear;
 
         UpdateStartValues();
-
-        RenderLines();
     }
 
     public void AppendBlock(AnchorBlock block) => Blocks.AddLast(block);

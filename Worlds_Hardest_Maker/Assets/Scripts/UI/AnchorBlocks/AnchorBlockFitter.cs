@@ -14,7 +14,7 @@ public class AnchorBlockFitter : MonoBehaviour
     private RectTransform[] children;
     private RectTransform rt;
 
-    private void Start() => rt = GetComponent<RectTransform>();
+    private void Awake() => rt = GetComponent<RectTransform>();
 
     private bool ChildrenChanged()
     {
