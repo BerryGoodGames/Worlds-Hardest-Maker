@@ -21,7 +21,7 @@ public class BallDragDrop : MonoBehaviourPun
         DragDropList.Add(id, gameObject);
     }
 
-    private void OnMouseDrag()
+    protected virtual void OnMouseDrag()
     {
         if (!Input.GetKey(KeybindManager.Instance.EntityMoveKey)) return;
 
