@@ -24,7 +24,7 @@ public class SetSpeedBlockController : AnchorBlockController
 
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
     {
-        if (!float.TryParse(SpeedInput.text, out float time)) throw new("Input in a SetSpeed Block was not a float");
+        float time = SpeedInput.GetFloatInput();
 
         return new SetSpeedBlock(anchorController, IsLocked, time, GetUnit());
     }

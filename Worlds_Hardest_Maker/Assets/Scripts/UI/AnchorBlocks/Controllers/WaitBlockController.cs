@@ -26,7 +26,7 @@ public class WaitBlockController : AnchorBlockController
 
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
     {
-        if (!float.TryParse(DurationInput.text, out float waitTime)) throw new("Input in a Wait Block was not a float");
+        float waitTime = DurationInput.GetFloatInput();
 
         return new WaitBlock(anchorController, IsLocked, waitTime, GetUnit());
     }

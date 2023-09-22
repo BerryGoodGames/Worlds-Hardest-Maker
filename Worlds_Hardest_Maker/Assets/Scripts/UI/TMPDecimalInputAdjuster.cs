@@ -20,15 +20,8 @@ public class TMPDecimalInputAdjuster : MonoBehaviour
 
     public void ApplyRules()
     {
-        string input = inputField.text;
 
-        if (input.Length == 0 || !IsDigitsOnly(input))
-        {
-            inputField.text = "0";
-            return;
-        }
-
-        float inputFloat = float.Parse(input);
+        float inputFloat = inputField.GetFloatInput();
 
         if (forbidNegative)
         {
@@ -44,15 +37,5 @@ public class TMPDecimalInputAdjuster : MonoBehaviour
         }
 
         inputField.text = inputFloat.ToString();
-    }
-
-    private static bool IsDigitsOnly(string str)
-    {
-        foreach (char c in str)
-        {
-            if (c is < '0' or > '9' && c != '.' && c != '-') return false;
-        }
-
-        return true;
     }
 }

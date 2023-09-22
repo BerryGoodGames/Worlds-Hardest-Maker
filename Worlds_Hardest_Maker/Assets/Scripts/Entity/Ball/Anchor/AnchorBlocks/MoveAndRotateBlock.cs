@@ -78,7 +78,7 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
     {
         MoveAndRotateBlockController controller = (MoveAndRotateBlockController)c;
         controller.PositionInput.SetPositionValues(Target);
-        controller.InputIterations.text = iterations.ToString();
+        controller.IterationsInput.text = iterations.ToString();
         controller.AdaptRotation.isOn = adaptRotation;
     }
 

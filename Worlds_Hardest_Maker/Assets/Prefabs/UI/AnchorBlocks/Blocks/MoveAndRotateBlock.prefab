@@ -1535,10 +1535,8 @@ MonoBehaviour:
   IsSource: 0
   lockIconContainer: {fileID: 889548813686051939}
   warningIconContainer: {fileID: 1230208259939755700}
-  AnchorBlockDragDropComp: {fileID: 0}
   MouseOverUI: {fileID: 0}
   PositionInput: {fileID: 1416588475563191578}
-  blur: {fileID: 0}
   InputIterations: {fileID: 2435710135406218886}
   AdaptRotation: {fileID: 1563540630306271270}
 --- !u!224 &3085765387000724421 stripped
