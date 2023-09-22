@@ -39,6 +39,8 @@ public partial class AnchorController : Controller
 
     public int LoopBlockIndex { get; set; } = -1;
 
+    public bool Selected => AnchorManager.Instance.SelectedAnchor == this;
+
     private void Awake()
     {
         Rb = GetComponent<Rigidbody2D>();
@@ -76,7 +78,8 @@ public partial class AnchorController : Controller
             }
         }
 
-        RenderLines();
+        if(Selected)
+            RenderLines();
     }
 
     #region Execution
