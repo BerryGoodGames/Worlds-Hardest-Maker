@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerController : Controller
+public class PlayerController : EntityController
 {
     #region Variables
 

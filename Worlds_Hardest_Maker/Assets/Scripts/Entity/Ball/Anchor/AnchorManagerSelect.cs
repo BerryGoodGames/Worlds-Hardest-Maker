@@ -14,7 +14,7 @@ public partial class AnchorManager
     public void SelectAnchor(AnchorController anchor)
     {
         if (anchor == null) return;
-
+        
         bool switchedEditMode = false;
         // switch to edit mode to anchor if not already on anchor or anchor ball
         if (EditModeManager.Instance.CurrentEditMode is not (EditMode.Anchor or EditMode.AnchorBall))
@@ -37,7 +37,7 @@ public partial class AnchorManager
             DeselectAnchor();
             return;
         }
-
+        
         // continue only if in edit mode
         if (EditModeManager.Instance.Playing) return;
 

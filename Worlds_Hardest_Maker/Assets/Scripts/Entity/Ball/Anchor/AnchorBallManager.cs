@@ -11,6 +11,7 @@ public class AnchorBallManager : MonoBehaviour
     {
         GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, Vector3.zero, Quaternion.identity,
             anchor.BallContainer);
+        ball.GetComponentInChildren<AnchorBallController>().ParentAnchor = anchor;
         anchor.Balls.Add(ball.transform);
         ball.transform.GetChild(0).position = pos;
     }

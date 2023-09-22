@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// <summary>
 ///     Base class of every ball controller
 /// </summary>
-public abstract class BallController : Controller
+public abstract class BallController : EntityController
 {
     [HideInInspector] public float Speed;
 

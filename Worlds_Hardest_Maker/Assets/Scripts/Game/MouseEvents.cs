@@ -157,24 +157,8 @@ public class MouseEvents : MonoBehaviour
         }
         else
         {
-            // remove player
-            PlayerManager.Instance.RemovePlayerAtPos(gridX, gridY);
-
-            // remove coins
-            CoinManager.Instance.RemoveCoin(gridX, gridY);
-
-            // remove balls
-            BallManager.Instance.RemoveBall(gridX, gridY);
-            BallCircleManager.Instance.RemoveBallCircle(gridX, gridY);
-            // AnchorBallManagerOld.Instance.RemoveAnchorBall(gridX, gridY);
-            // AnchorBallManager.Instance.RemoveBall(new(matrixX, matrixY));
-            AnchorBallManager.Instance.RemoveAnchorBall(gridX, gridY);
-
-            // remove anchors
-            AnchorManager.Instance.RemoveAnchor(gridX, gridY);
-
-            // remove keys
-            KeyManager.Instance.RemoveKey(gridX, gridY);
+            // remove entity
+            GameEntityManager.RemoveEntitiesAt(new(gridX, gridY));
         }
     }
 }

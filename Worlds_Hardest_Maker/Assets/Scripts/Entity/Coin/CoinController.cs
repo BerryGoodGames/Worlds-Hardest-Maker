@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CoinController : Controller
+public class CoinController : EntityController
 {
     [HideInInspector] public Vector2 CoinPosition;
 

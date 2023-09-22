@@ -1,7 +1,7 @@
 using MyBox;
 using UnityEngine;
 
-public class KeyController : Controller
+public class KeyController : EntityController
 {
     [ReadOnly] public KeyManager.KeyColor Color;
     [ReadOnly] public Vector2 KeyPosition;

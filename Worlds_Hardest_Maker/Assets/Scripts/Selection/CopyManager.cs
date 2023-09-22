@@ -40,7 +40,7 @@ public class CopyManager : MonoBehaviour
             if (hit == null) continue;
 
             // try to get controllers and save the object in clipboard
-            if (!hit.TryGetComponent(out Controller controller)) continue;
+            if (!hit.TryGetComponent(out EntityController controller)) continue;
 
             Data data = controller.GetData();
 
@@ -59,7 +59,7 @@ public class CopyManager : MonoBehaviour
             if (hit == null) continue;
 
             // try to get controllers and save the object in clipboard
-            if (!hit.TryGetComponent(out Controller controller)) continue;
+            if (!hit.TryGetComponent(out EntityController controller)) continue;
 
             points.Add(controller.GetPosition());
         }

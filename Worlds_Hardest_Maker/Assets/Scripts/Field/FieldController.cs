@@ -1,4 +1,4 @@
-public class FieldController : Controller
+public class FieldController : EntityController
 {
     private void Start()
     {
