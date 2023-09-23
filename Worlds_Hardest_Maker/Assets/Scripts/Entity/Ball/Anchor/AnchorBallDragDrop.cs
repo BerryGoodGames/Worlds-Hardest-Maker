@@ -7,7 +7,7 @@ public class AnchorBallDragDrop : BallDragDrop
 
     protected override void OnMouseDrag()
     {
-        if (!anchorBallController.ParentAnchor.Selected) return;
+        if (!anchorBallController.ParentAnchor || !anchorBallController.ParentAnchor.Selected) return;
         base.OnMouseDrag();
     }
 }

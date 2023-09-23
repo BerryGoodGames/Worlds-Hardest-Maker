@@ -58,6 +58,25 @@ public class AnchorBallManager : MonoBehaviour
 
     #endregion
 
+    public static void SelectAnchorBall(Vector2 pos)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.05f);
+
+        foreach (Collider2D hit in hits)
+        {
+            if (!hit.CompareTag("AnchorBallObject")) continue;
+
+            AnchorBallController ballController = hit.GetComponent<AnchorBallController>();
+
+            // select parent anchor if ball has parent and the parent is not currently selected (avoid deselecting anchor)
+            if (ballController.ParentAnchor == null ||
+                AnchorManager.Instance.SelectedAnchor == ballController.ParentAnchor) continue;
+
+            AnchorManager.Instance.SelectAnchor(ballController.ParentAnchor);
+            break;
+        }
+    }
+
     private void Awake()
     {
         // init singleton

@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class MouseEvents : MonoBehaviour
 {
-    private const float selectionCancelMaxTime = 0.15f;
+    private const float SelectionCancelMaxTime = 0.15f;
 
     private void Update()
     {
@@ -30,9 +30,13 @@ public class MouseEvents : MonoBehaviour
         if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton))
             StartCoroutine(StartCancelSelection());
 
-        // select Anchor
-        if (Input.GetKey(KeybindManager.Instance.EditSpeedKey) && Input.GetMouseButtonDown(0))
+        // select anchor
+        if (Input.GetMouseButtonDown(0) && Input.GetKey(KeybindManager.Instance.EditSpeedKey))
             AnchorManager.Instance.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
+
+        // select anchor through anchor ball
+        if (Input.GetMouseButtonDown(0) && Input.GetKey(KeybindManager.Instance.EditSpeedKey))
+            AnchorBallManager.SelectAnchorBall(MouseManager.Instance.MouseWorldPosGrid);
 
         // place / delete stuff
         if (!MouseManager.Instance.IsUIHovered && !EditModeManager.Instance.Playing &&
@@ -66,7 +70,7 @@ public class MouseEvents : MonoBehaviour
         float passedTime = 0;
         while (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton))
         {
-            if (passedTime > selectionCancelMaxTime || MouseManager.Instance.MousePosDelta.magnitude > 10) yield break;
+            if (passedTime > SelectionCancelMaxTime || MouseManager.Instance.MousePosDelta.magnitude > 10) yield break;
             passedTime += Time.deltaTime;
             yield return null;
         }

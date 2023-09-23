@@ -5,14 +5,11 @@ public class AnchorBallController : EntityController
 {
     [HideInInspector] public AnchorController ParentAnchor;
 
-    public override Data GetData() => throw new NotImplementedException();
+    public override Data GetData() => new AnchorBallData(transform.position);
 
     public override void Delete()
     {
-        if (ParentAnchor.Selected)
-        {
-            base.Delete();
-        }
+        if (ParentAnchor.Selected) base.Delete();
     }
 
     private void OnDestroy()
