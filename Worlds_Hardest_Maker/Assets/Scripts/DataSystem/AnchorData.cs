@@ -9,7 +9,7 @@ using UnityEngine;
 public class AnchorData : Data
 {
     // (list of coordinates)
-    private float[,] balls;
+    private AnchorBallData[] balls;
 
     private AnchorBlockData[] blocks;
 
@@ -36,13 +36,10 @@ public class AnchorData : Data
     private void SaveBalls(AnchorController controller)
     {
         // init balls
-        balls = new float[controller.Balls.Count, 2];
+        balls = new AnchorBallData[controller.Balls.Count];
         for (int i = 0; i < controller.Balls.Count; i++)
         {
-            Vector2 ballPosition = controller.Balls[i].position;
-
-            balls[i, 0] = ballPosition.x;
-            balls[i, 1] = ballPosition.y;
+            balls[i] = new(controller.Balls[i].GetChild(0).localPosition);
         }
     }
 
@@ -65,19 +62,19 @@ public class AnchorData : Data
         }
     }
 
-    private List<Vector2> LoadBalls()
-    {
-        // returns every coordinate of the balls
-        List<Vector2> posArr = new();
-
-        for (int i = 0; i < balls.GetLength(0); i++)
-        {
-            Vector2 pos = new(balls[i, 0], balls[i, 1]);
-            posArr.Add(pos);
-        }
-
-        return posArr;
-    }
+    // private List<Vector2> LoadBalls()
+    // {
+    //     // returns every coordinate of the balls
+    //     List<Vector2> posArr = new();
+    //
+    //     for (int i = 0; i < balls.GetLength(0); i++)
+    //     {
+    //         Vector2 pos = new(balls[i, 0], balls[i, 1]);
+    //         posArr.Add(pos);
+    //     }
+    //
+    //     return posArr;
+    // }
 
     private LinkedList<AnchorBlock> LoadBlocks(AnchorController anchor)
     {
@@ -101,11 +98,15 @@ public class AnchorData : Data
     {
         AnchorController anchor = AnchorManager.Instance.SetAnchor(pos);
 
-        List<Vector2> ballPositions = LoadBalls();
-
-        foreach (Vector2 ballPosition in ballPositions)
+        // List<Vector2> ballPositions = LoadBalls();
+        //
+        // foreach (Vector2 ballPosition in ballPositions)
+        // {
+        //     AnchorBallManager.SetAnchorBall(ballPosition, anchor);
+        // }
+        foreach (AnchorBallData ball in balls)
         {
-            AnchorBallManager.SetAnchorBall(ballPosition, anchor);
+            ball.ImportToLevel(anchor);
         }
 
         anchor.Blocks = LoadBlocks(anchor);

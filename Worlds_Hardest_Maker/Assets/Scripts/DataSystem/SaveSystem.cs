@@ -46,10 +46,18 @@ public static class SaveSystem
             levelData.Add(playerData);
         }
 
+        // serialize anchors
         foreach (Transform anchor in ReferenceManager.Instance.AnchorContainer)
         {
             AnchorData anchorData = new(anchor.GetComponent<AnchorParentController>().Child);
             levelData.Add(anchorData);
+        }
+
+        // serialize loose anchor balls
+        foreach (Transform ball in ReferenceManager.Instance.AnchorBallContainer.transform)
+        {
+            AnchorBallData anchorBallData = new(ball.GetChild(0).localPosition);
+            levelData.Add(anchorBallData);
         }
 
         // serialize balls

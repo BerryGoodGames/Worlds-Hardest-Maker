@@ -13,8 +13,8 @@ public class AnchorBallManager : MonoBehaviour
         Transform container =
             anchor == null ? ReferenceManager.Instance.AnchorBallContainer.transform : anchor.BallContainer;
 
-        GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, Vector3.zero, Quaternion.identity, container);
-
+        GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, container.position, Quaternion.identity, container);
+        
         if (anchor != null)
         {
             ball.GetComponentInChildren<AnchorBallController>().ParentAnchor = anchor;
@@ -33,7 +33,7 @@ public class AnchorBallManager : MonoBehaviour
 
     public static void SetAnchorBall(float mx, float my) => SetAnchorBall(new(mx, my));
 
-    public static void SetAnchorBall(float mx, float my, AnchorController anchor) => SetAnchorBall(new(mx, my), anchor);
+    public static void SetAnchorBall(float mx, float my, [CanBeNull] AnchorController anchor) => SetAnchorBall(new(mx, my), anchor);
 
     #endregion
 

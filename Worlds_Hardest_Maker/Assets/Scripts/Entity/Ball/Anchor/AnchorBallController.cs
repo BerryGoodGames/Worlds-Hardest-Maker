@@ -5,7 +5,7 @@ public class AnchorBallController : EntityController
 {
     [HideInInspector] public AnchorController ParentAnchor;
 
-    public override Data GetData() => new AnchorBallData(transform.position);
+    public override Data GetData() => new AnchorBallData(transform.localPosition);
 
     public override void Delete()
     {
