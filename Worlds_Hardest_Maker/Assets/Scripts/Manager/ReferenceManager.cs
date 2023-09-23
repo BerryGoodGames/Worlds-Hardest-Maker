@@ -51,7 +51,7 @@ public class ReferenceManager : MonoBehaviour
 
     [Foldout("Containers")] public Transform AnchorContainer;
 
-    [Foldout("Containers")] public Transform AnchorBallContainer;
+    [Foldout("Containers")] public AnchorBallFade AnchorBallContainer;
 
     [Foldout("Containers")] public Transform BallDefaultContainer;
 

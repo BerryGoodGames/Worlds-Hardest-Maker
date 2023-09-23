@@ -1,3 +1,4 @@
+using System.Windows.Forms;
 using UnityEngine;
 
 public partial class AnchorManager
@@ -17,7 +18,7 @@ public partial class AnchorManager
         
         bool switchedEditMode = false;
         // switch to edit mode to anchor if not already on anchor or anchor ball
-        if (EditModeManager.Instance.CurrentEditMode is not (EditMode.Anchor or EditMode.AnchorBall))
+        if (!EditModeManager.Instance.CurrentEditMode.IsAnchorRelated())
         {
             EditModeManager.Instance.SetEditMode(EditMode.Anchor);
             switchedEditMode = true;
@@ -37,13 +38,15 @@ public partial class AnchorManager
             DeselectAnchor();
             return;
         }
-        
+
         // continue only if in edit mode
         if (EditModeManager.Instance.Playing) return;
 
         SelectedAnchor = anchor;
         anchor.Animator.SetBool(selected, true);
         anchor.SetLinesActive(true);
+
+        ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
 
         // disable "no anchor selected" screen
         ReferenceManager.Instance.AnchorNoAnchorSelectedScreen.SetVisible(false);
@@ -57,6 +60,8 @@ public partial class AnchorManager
     public void DeselectAnchor()
     {
         if (SelectedAnchor == null) return;
+
+        ReferenceManager.Instance.AnchorBallContainer.BallFadeIn();
 
         SelectedAnchor.Animator.SetBool(selected, false);
         SelectedAnchor.Animator.SetBool(playing, EditModeManager.Instance.Playing);

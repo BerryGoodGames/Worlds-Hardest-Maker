@@ -75,6 +75,15 @@ public class EditModeManager : MonoBehaviour
             anim.SetBool(editingString, isAnchorRelated);
         }
 
+        if (isAnchorRelated && AnchorManager.Instance.SelectedAnchor)
+        {
+            ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
+        }
+        else
+        {
+            ReferenceManager.Instance.AnchorBallContainer.BallFadeIn();
+        }
+
         // open corresponding panel
         PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;

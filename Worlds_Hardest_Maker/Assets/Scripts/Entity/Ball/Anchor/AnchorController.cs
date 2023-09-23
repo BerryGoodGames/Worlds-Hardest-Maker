@@ -169,22 +169,7 @@ public partial class AnchorController : EntityController
 
     #region Ball fade
 
-    public void BallFadeOut(AnimationEvent animationEvent)
-    {
-        float endOpacity = animationEvent.floatParameter;
-        if (float.TryParse(animationEvent.stringParameter, out float time))
-            StartCoroutine(ballContainerChildrenOpacity.FadeOut(endOpacity, time));
-    }
-
-    public void BallFadeIn(AnimationEvent animationEvent)
-    {
-        float endOpacity = animationEvent.floatParameter;
-        if (float.TryParse(animationEvent.stringParameter, out float time))
-            BallFadeIn(endOpacity, time);
-    }
-
-    public void BallFadeIn(float endOpacity, float time) =>
-        StartCoroutine(ballContainerChildrenOpacity.FadeIn(endOpacity, time));
+    
 
     #endregion
 

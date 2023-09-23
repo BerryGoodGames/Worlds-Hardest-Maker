@@ -10,7 +10,7 @@ public class AnchorBallManager : MonoBehaviour
 
     public static void SetAnchorBall(Vector2 pos, [CanBeNull] AnchorController anchor)
     {
-        Transform container = anchor == null ? ReferenceManager.Instance.AnchorBallContainer : anchor.BallContainer;
+        Transform container = anchor == null ? ReferenceManager.Instance.AnchorBallContainer.transform : anchor.BallContainer;
 
         GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, Vector3.zero, Quaternion.identity, container);
 
