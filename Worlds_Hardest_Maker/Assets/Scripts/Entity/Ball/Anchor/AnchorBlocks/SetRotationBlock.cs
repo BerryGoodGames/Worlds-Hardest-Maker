@@ -29,7 +29,7 @@ public class SetRotationBlock : AnchorBlock, IPassiveAnchorBlock
         Anchor.RotationInput = input;
         Anchor.FinishCurrentExecution();
     }
-    
+
     public Unit GetUnit() => unit;
 
     protected override void SetControllerValues(AnchorBlockController c)
@@ -43,13 +43,11 @@ public class SetRotationBlock : AnchorBlock, IPassiveAnchorBlock
     public override AnchorBlockData GetData() => new SetRotationBlockData(IsLocked, input, unit);
 
 
-    public static float GetSpeed(float input, Unit unit)
-    {
-        return unit switch
+    public static float GetSpeed(float input, Unit unit) =>
+        unit switch
         {
             Unit.Iterations => input * 360,
             Unit.Degrees => input,
             _ => throw new Exception("Cannot calculate rotation speed if given unit is Unit.Time")
         };
-    }
 }

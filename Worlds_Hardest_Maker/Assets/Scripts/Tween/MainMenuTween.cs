@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,8 +38,5 @@ public class MainMenuTween : MonoBehaviour
             .SetId(gameObject);
     }
 
-    private void OnDestroy()
-    {
-        DOTween.Kill(gameObject);
-    }
+    private void OnDestroy() => DOTween.Kill(gameObject);
 }

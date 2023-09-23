@@ -29,24 +29,25 @@ public class GraphicsSettings : MonoBehaviour
         Instance.QualityLevel = index;
 
         if (!updateDropdown) return;
-        
+
         ReferenceManager.Instance.QualityDropdown.value = index;
     }
 
     public void SetQuality(int index) => SetQuality(index, false);
-    
+
     public void Fullscreen(bool fullscreen, bool updateToggle)
     {
         Screen.fullScreen = fullscreen;
 
         if (!updateToggle) return;
     }
+
     public void Fullscreen(bool fullscreen) => Fullscreen(fullscreen, false);
 
 
     public void SetResolution(int index, bool updateDropdown)
     {
-        if(index >= resolutions.Length) index = Instance.resolutions.Length - 1;
+        if (index >= resolutions.Length) index = Instance.resolutions.Length - 1;
         Resolution res = resolutions[index];
         Screen.SetResolution(res.width, res.height, Screen.fullScreen);
 
@@ -65,14 +66,14 @@ public class GraphicsSettings : MonoBehaviour
         {
             FieldManager.ApplyStartGoalCheckpointFieldColor(field.gameObject, oneColor);
         }
-        
+
         Instance.OneColorStartGoalCheckpoint = oneColor;
 
         if (!updateToggle) return;
         ReferenceManager.Instance.OneColorToggle.isOn = oneColor;
     }
-    public void SetOneColorStartGoal(bool oneColor) => SetOneColorStartGoal(oneColor, false);
 
+    public void SetOneColorStartGoal(bool oneColor) => SetOneColorStartGoal(oneColor, false);
 
     #endregion
 

@@ -1,4 +1,3 @@
-using System.Windows.Forms;
 using UnityEngine;
 
 public partial class AnchorManager
@@ -15,7 +14,7 @@ public partial class AnchorManager
     public void SelectAnchor(AnchorController anchor)
     {
         if (anchor == null) return;
-        
+
         bool switchedEditMode = false;
         // switch to edit mode to anchor if not already on anchor or anchor ball
         if (!EditModeManager.Instance.CurrentEditMode.IsAnchorRelated())

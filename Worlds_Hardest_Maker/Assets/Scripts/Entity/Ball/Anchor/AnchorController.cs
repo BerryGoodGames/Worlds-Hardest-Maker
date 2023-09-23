@@ -4,7 +4,6 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public partial class AnchorController : EntityController
@@ -78,7 +77,7 @@ public partial class AnchorController : EntityController
             }
         }
 
-        if(Selected)
+        if (Selected)
             RenderLines();
     }
 
@@ -164,12 +163,6 @@ public partial class AnchorController : EntityController
 
         CurrentExecutingBlock = null;
     }
-
-    #endregion
-
-    #region Ball fade
-
-    
 
     #endregion
 

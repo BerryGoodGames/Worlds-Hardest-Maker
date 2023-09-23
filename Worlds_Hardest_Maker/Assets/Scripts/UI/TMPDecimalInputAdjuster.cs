@@ -20,7 +20,6 @@ public class TMPDecimalInputAdjuster : MonoBehaviour
 
     public void ApplyRules()
     {
-
         float inputFloat = inputField.GetFloatInput();
 
         if (forbidNegative)

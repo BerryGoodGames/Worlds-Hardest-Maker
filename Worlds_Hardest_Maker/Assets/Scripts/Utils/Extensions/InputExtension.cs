@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
 
 public static class InputExtension
 {
@@ -20,7 +16,7 @@ public static class InputExtension
         {
             throw new("Input was not a float");
         }
-            
+
 
         return inputFloat;
     }

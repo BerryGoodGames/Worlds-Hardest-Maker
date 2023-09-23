@@ -104,6 +104,7 @@ public class ReferenceManager : MonoBehaviour
     #endregion
 
     #region SettingInputs
+
     [Foldout("SettingInputs")] public TMP_Dropdown QualityDropdown;
     [Foldout("SettingInputs")] public TMP_Dropdown ResolutionDropdown;
     [Foldout("SettingInputs")] public Toggle FullscreenToggle;
@@ -112,6 +113,7 @@ public class ReferenceManager : MonoBehaviour
     [Foldout("SettingInputs")] public SyncInputToSlider InfobarSizeSlider;
     [Foldout("SettingInputs")] public SyncInputToSlider MusicSlider;
     [Foldout("SettingInputs")] public SyncInputToSlider SoundEffectSlider;
+
     #endregion
 
     private void Awake()

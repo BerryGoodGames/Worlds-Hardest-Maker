@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class AnchorBlockDragDrop : MonoBehaviour
 {
     [SerializeField] private bool active = true;
-    
+
     [Separator("References")] [SerializeField] [MustBeAssigned]
     private LockHighlightTween lockHighlightTween;
 

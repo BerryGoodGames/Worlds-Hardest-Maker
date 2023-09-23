@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Analytics;
 
 public partial class AnchorController
 {
@@ -70,19 +69,23 @@ public partial class AnchorController
                 // add new target to array if MoveBlock or MoveAndRotateBlock
                 Vector2 currentVertex = positionAnchorBlock.Target;
 
-                if (ReferenceManager.Instance.MainChainController.Children[index] is not PositionAnchorBlockController controller)
+                if (ReferenceManager.Instance.MainChainController.Children[index] is not PositionAnchorBlockController
+                    controller)
                 {
                     throw new("Controller was for some reason not a position block controller, this shouldn't happen");
                 }
 
                 // check if line already rendered
-                if (!hasRendered[index] || !lineList.Contains((previousVertex, currentVertex)) || isFirstPositionBlockAfterLoop)
+                if (!hasRendered[index] || !lineList.Contains((previousVertex, currentVertex)) ||
+                    isFirstPositionBlockAfterLoop)
                 {
                     AnchorPathLine line = Instantiate(PrefabManager.Instance.AnchorPathLine, Vector2.zero,
                         Quaternion.identity, lineContainer);
 
                     line.CreateArrowHead(previousVertex, currentVertex);
-                    line.CreateArrowLine(previousVertex, currentVertex, positionAnchorBlock.ImplementedBlockType is AnchorBlock.Type.Move or AnchorBlock.Type.MoveAndRotate);
+                    line.CreateArrowLine(previousVertex, currentVertex,
+                        positionAnchorBlock.ImplementedBlockType is AnchorBlock.Type.Move
+                            or AnchorBlock.Type.MoveAndRotate);
                     line.CreateBlur();
 
                     controller.Lines.Add(line);

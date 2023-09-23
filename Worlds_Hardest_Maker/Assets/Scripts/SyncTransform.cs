@@ -4,10 +4,12 @@ using UnityEngine;
 public class SyncTransform : MonoBehaviour
 {
     [InitializationField] public Transform Source;
-    [Separator]
-    [SerializeField][InitializationField] private bool ignorePosition;
-    [SerializeField][InitializationField] private bool ignoreRotation;
-    [SerializeField][InitializationField] private bool ignoreScale;
+
+    [Separator] [SerializeField] [InitializationField]
+    private bool ignorePosition;
+
+    [SerializeField] [InitializationField] private bool ignoreRotation;
+    [SerializeField] [InitializationField] private bool ignoreScale;
 
     private void Update()
     {

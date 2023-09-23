@@ -27,10 +27,7 @@ public class SettingsManager : MonoBehaviour
         infobarEditResize = InfobarEdit.GetComponent<InfobarResize>();
     }
 
-    private void Start()
-    {
-        Instance.LoadPrefs();
-    }
+    private void Start() => Instance.LoadPrefs();
 
     public void SavePrefs()
     {
@@ -92,14 +89,16 @@ public class SettingsManager : MonoBehaviour
 
     public float GetMusicVolume()
     {
-        if (MainMixer.GetFloat("MusicVolume", out float value)) return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
+        if (MainMixer.GetFloat("MusicVolume", out float value))
+            return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
 
         throw new("Failed to access music volume");
     }
 
     public float GetSoundEffectVolume()
     {
-        if (MainMixer.GetFloat("SoundEffectVolume", out float value)) return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
+        if (MainMixer.GetFloat("SoundEffectVolume", out float value))
+            return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
 
         throw new("Failed to access sound effect volume");
     }
@@ -115,7 +114,7 @@ public class SettingsManager : MonoBehaviour
         toolbarSpacing.ToolbarHeight = size;
         toolbarSpacing.UpdateSize();
 
-        if(!updateSlider) return;
+        if (!updateSlider) return;
 
         ReferenceManager.Instance.ToolbarSizeSlider.Slider.value = size;
         ReferenceManager.Instance.ToolbarSizeSlider.UpdateInput();
@@ -156,8 +155,5 @@ public class SettingsManager : MonoBehaviour
 
     #endregion
 
-    private void OnDestroy()
-    {
-        SavePrefs();
-    }
+    private void OnDestroy() => SavePrefs();
 }

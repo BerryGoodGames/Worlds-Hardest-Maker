@@ -71,7 +71,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
                 getNext = true;
                 continue;
             }
-            
+
             if (!getNext) continue;
 
             if (currentAnchorBlock is not PositionAnchorBlockController controller) continue;
@@ -87,7 +87,9 @@ public class AnchorPositionInputEditManager : MonoBehaviour
             if (AnchorManager.Instance.SelectedAnchor.LoopBlockIndex != -1)
             {
                 // get first position block after loop block
-                for (int i = AnchorManager.Instance.SelectedAnchor.LoopBlockIndex; i < ReferenceManager.Instance.MainChainController.Children.Count; i++)
+                for (int i = AnchorManager.Instance.SelectedAnchor.LoopBlockIndex;
+                     i < ReferenceManager.Instance.MainChainController.Children.Count;
+                     i++)
                 {
                     AnchorBlockController anchorBlock = ReferenceManager.Instance.MainChainController.Children[i];
 

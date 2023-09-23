@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using MyBox;
@@ -13,17 +12,14 @@ public class SetRotationBlockController : AnchorBlockController
         { "s", SetRotationBlock.Unit.Time }
     };
 
-    [Separator("Specifics")] [InitializationField]
-    [AutoProperty] public TMP_InputField SpeedInput;
+    [Separator("Specifics")] [InitializationField] [AutoProperty]
+    public TMP_InputField SpeedInput;
 
     private TMPDecimalInputAdjuster inputAdjuster;
 
     [InitializationField] public TMP_Dropdown UnitInput;
 
-    private void Awake()
-    {
-        inputAdjuster = GetComponentInChildren<TMPDecimalInputAdjuster>();
-    }
+    private void Awake() => inputAdjuster = GetComponentInChildren<TMPDecimalInputAdjuster>();
 
     private SetRotationBlock.Unit GetUnit()
     {
@@ -31,7 +27,8 @@ public class SetRotationBlockController : AnchorBlockController
         return unitOptions[selectedUnitString];
     }
 
-    public override AnchorBlock GetAnchorBlock(AnchorController anchorController) => new SetRotationBlock(anchorController, IsLocked, SpeedInput.GetFloatInput(), GetUnit());
+    public override AnchorBlock GetAnchorBlock(AnchorController anchorController) =>
+        new SetRotationBlock(anchorController, IsLocked, SpeedInput.GetFloatInput(), GetUnit());
 
     public static string GetOption(SetRotationBlock.Unit unit) =>
         unitOptions.FirstOrDefault(x => x.Value == unit).Key;

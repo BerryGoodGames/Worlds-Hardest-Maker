@@ -189,7 +189,7 @@ public partial class AnchorBlockManager : MonoBehaviour
         {
             t.CreateAnchorBlockObject();
         }
-        
+
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
 
         // update warnings

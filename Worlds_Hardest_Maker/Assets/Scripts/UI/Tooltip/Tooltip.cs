@@ -1,7 +1,6 @@
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public class Tooltip : MonoBehaviour

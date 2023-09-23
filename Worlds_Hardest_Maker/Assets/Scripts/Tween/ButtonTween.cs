@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
@@ -37,7 +36,7 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         // elevate
         contentRT.DOAnchorPos(new(-highlightElevation, highlightElevation + highlightFloating),
-            highlightElevateDuration)
+                highlightElevateDuration)
             .SetId(gameObject);
 
         if (IsWarningButton)
@@ -87,8 +86,5 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private void Start() => contentRT = (RectTransform)content;
 
-    private void OnDestroy()
-    {
-        DOTween.Kill(gameObject);
-    }
+    private void OnDestroy() => DOTween.Kill(gameObject);
 }

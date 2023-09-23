@@ -152,8 +152,5 @@ public class DiscordManager : MonoBehaviour
         UpdateStatus();
     }
 
-    private void OnDestroy()
-    {
-        ClearActivity();
-    }
+    private void OnDestroy() => ClearActivity();
 }

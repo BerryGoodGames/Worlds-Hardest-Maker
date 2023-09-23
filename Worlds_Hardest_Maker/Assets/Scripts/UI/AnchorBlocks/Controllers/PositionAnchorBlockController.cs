@@ -20,15 +20,9 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
         return new(x, y);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        SetBlurVisible(true);
-    }
+    public void OnPointerEnter(PointerEventData eventData) => SetBlurVisible(true);
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        SetBlurVisible(false);
-    }
+    public void OnPointerExit(PointerEventData eventData) => SetBlurVisible(false);
 
     public void SetBlurVisible(bool visible)
     {
