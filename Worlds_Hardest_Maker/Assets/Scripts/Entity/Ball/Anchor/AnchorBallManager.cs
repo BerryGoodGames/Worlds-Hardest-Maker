@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Photon.Pun;
 using UnityEngine;
 
@@ -7,19 +8,23 @@ public class AnchorBallManager : MonoBehaviour
 
     #region Set
 
-    public static void SetAnchorBall(Vector2 pos, AnchorController anchor)
+    public static void SetAnchorBall(Vector2 pos, [CanBeNull] AnchorController anchor)
     {
-        GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, Vector3.zero, Quaternion.identity,
-            anchor.BallContainer);
-        ball.GetComponentInChildren<AnchorBallController>().ParentAnchor = anchor;
-        anchor.Balls.Add(ball.transform);
+        Transform container = anchor == null ? ReferenceManager.Instance.AnchorBallContainer : anchor.BallContainer;
+
+        GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, Vector3.zero, Quaternion.identity, container);
+
+        if (anchor != null)
+        {
+            ball.GetComponentInChildren<AnchorBallController>().ParentAnchor = anchor;
+            anchor.Balls.Add(ball.transform);
+        }
+        
         ball.transform.GetChild(0).position = pos;
     }
 
     public static void SetAnchorBall(Vector2 pos)
     {
-        if (AnchorManager.Instance.SelectedAnchor == null) return;
-
         AnchorController selectedAnchor = AnchorManager.Instance.SelectedAnchor;
 
         SetAnchorBall(pos, selectedAnchor);

@@ -89,7 +89,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 74421912579104664}
@@ -119,7 +119,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e310908f6e9c72c4c9d4cd7a8a31c8e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Entries:
+  - EditorCommentary: 
+    Type: 0
   Source: {fileID: 6560658363013939984}
+  ignorePosition: 0
+  ignoreRotation: 0
+  ignoreScale: 1
 --- !u!1 &5607907451453093492
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,8 +319,8 @@ MonoBehaviour:
   Balls: []
   SpeedUnit: 0
   RotationSpeedUnit: 0
-  TimeInput: 0
-  RotationTimeInput: 0
+  SpeedInput: 0
+  RotationInput: 0
   IsClockwise: 0
   Ease: 0
   Rb: {fileID: 0}

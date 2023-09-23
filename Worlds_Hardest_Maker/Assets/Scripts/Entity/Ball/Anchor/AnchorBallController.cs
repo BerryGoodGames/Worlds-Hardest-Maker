@@ -20,6 +20,6 @@ public class AnchorBallController : EntityController
 
     private void OnDestroy()
     {
-        ParentAnchor.Balls.Remove(transform);
+        if(ParentAnchor != null) ParentAnchor.Balls.Remove(transform);
     }
 }

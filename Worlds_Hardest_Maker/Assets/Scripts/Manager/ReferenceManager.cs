@@ -49,6 +49,10 @@ public class ReferenceManager : MonoBehaviour
 
     [Foldout("Containers")] public Transform PlayerContainer;
 
+    [Foldout("Containers")] public Transform AnchorContainer;
+
+    [Foldout("Containers")] public Transform AnchorBallContainer;
+
     [Foldout("Containers")] public Transform BallDefaultContainer;
 
     [Foldout("Containers")] public Transform BallCircleContainer;
@@ -66,8 +70,6 @@ public class ReferenceManager : MonoBehaviour
     [Foldout("Anchor")] public PanelTween AnchorEditorButtonPanelTween;
 
     [Foldout("Anchor")] public PanelTween AnchorEditorPanelTween;
-
-    [Foldout("Anchor")] public Transform AnchorContainer;
 
     [Foldout("Anchor")] public RectTransform AnchorBlockContainer;
 
