@@ -31,6 +31,8 @@ public class AnchorBallFade : MonoBehaviour
     //
     // public void BallFadeIn(float endOpacity, float time) => StartCoroutine(container.FadeIn(endOpacity, time));
 
-    public void BallFadeOut() => StartCoroutine(container.FadeOut(fadeOutOpacity, fadeDuration));
-    public void BallFadeIn() => StartCoroutine(container.FadeIn(fadeInOpacity, fadeDuration));
+    public void BallFadeOut() => container.FadeTo(fadeOutOpacity, fadeDuration);
+
+    public void BallFadeIn() => container.FadeTo(fadeInOpacity, fadeDuration);
+
 }

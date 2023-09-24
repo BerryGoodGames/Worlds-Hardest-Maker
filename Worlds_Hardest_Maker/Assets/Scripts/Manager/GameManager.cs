@@ -111,6 +111,12 @@ public class GameManager : MonoBehaviourPun
 
     #region Save system
 
+    public void LoadLevel(string path)
+    {
+        List<Data> levelData = SaveSystem.LoadLevel(path);
+
+        if (levelData != null) LoadLevelFromData(levelData.ToArray());
+    }
     public void LoadLevel()
     {
         List<Data> levelData = SaveSystem.LoadLevel();

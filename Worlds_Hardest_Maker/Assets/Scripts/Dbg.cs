@@ -1,5 +1,8 @@
 using System;
+using MyBox;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
@@ -22,22 +25,24 @@ public class Dbg : MonoBehaviour
         MousePositionPixels
     }
 
-    [Header("Settings")] public bool DbgEnabled = true;
+    [Header("Settings")] 
+    public bool Enabled = true;
+    public float GameSpeed = 1;
 
-    [Space] public DbgTextMode TextMode;
+    [Space] 
+    
+    [Foldout("Debug Text")] public DbgTextMode TextMode;
+    [Foldout("Debug Text")] public float Count;
 
-    public float Count;
+    [Foldout("Level")] public bool AutoLoadLevel;
+    [Foldout("Level")] public string LevelName = "DebugLevel";
 
-    [Space] public bool WallOutlines = true;
-
-    public bool DrawRays;
-
-    [Space] public float GameSpeed = 1;
-
-    [Space] [Header("References")] public GameObject DebugText;
+    [Foldout("Wall Outlines")] public bool WallOutlines = true;
+    [Foldout("Wall Outlines")] public bool DrawRays;
+     
+    [FormerlySerializedAs("DebugText")] [Foldout("References")] [SerializeField] [MustBeAssigned] private TMP_Text debugText;
 
     private Camera cam;
-    private Text dbgText;
 
     private void Awake()
     {
@@ -45,13 +50,17 @@ public class Dbg : MonoBehaviour
         else Destroy(this);
 
         cam = Camera.main;
+    }
 
-        dbgText = Instance.DebugText.GetComponent<Text>();
+    private void Start()
+    {
+        if(!AutoLoadLevel) return;
+        GameManager.Instance.LoadLevel(Application.persistentDataPath + $"\\{LevelName}.lvl");
     }
 
     private void Update()
     {
-        if (!DbgEnabled) return;
+        if (!Enabled) return;
 
         Time.timeScale = GameSpeed;
         switch (TextMode)
@@ -91,11 +100,11 @@ public class Dbg : MonoBehaviour
     {
         try
         {
-            Instance.dbgText.text = obj.ToString();
+            Instance.debugText.text = obj.ToString();
         }
         catch
         {
-            Instance.dbgText.text = "failed";
+            Instance.debugText.text = "failed";
         }
     }
 

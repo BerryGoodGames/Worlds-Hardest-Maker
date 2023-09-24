@@ -44,7 +44,7 @@ public partial class AnchorManager
         SelectedAnchor = anchor;
         anchor.Animator.SetBool(selected, true);
         anchor.SetLinesActive(true);
-
+        
         ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
 
         // disable "no anchor selected" screen

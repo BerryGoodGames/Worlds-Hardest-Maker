@@ -116,6 +116,11 @@ public static class SaveSystem
 
         string path = pathArr[0];
 
+        return LoadLevel(path, updateDiscordActivity);
+    }
+
+    public static List<Data> LoadLevel(string path, bool updateDiscordActivity = true)
+    {
         // check if file exists
         if (!File.Exists(path))
         {

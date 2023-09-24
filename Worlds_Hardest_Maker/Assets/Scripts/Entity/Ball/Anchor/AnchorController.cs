@@ -35,6 +35,7 @@ public partial class AnchorController : EntityController
     [HideInInspector] public Rigidbody2D Rb;
     private SpriteRenderer spriteRenderer;
     private EntityDragDrop entityDragDrop;
+    private static readonly int editing = Animator.StringToHash("Editing");
 
     public int LoopBlockIndex { get; set; } = -1;
 
@@ -45,6 +46,8 @@ public partial class AnchorController : EntityController
         Rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         entityDragDrop = GetComponent<EntityDragDrop>();
+
+        Animator.SetBool(editing, EditModeManager.Instance.CurrentEditMode.IsAnchorRelated());
     }
 
     private void Start()

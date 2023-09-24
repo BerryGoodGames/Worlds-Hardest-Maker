@@ -65,7 +65,7 @@ public class FieldOutline : MonoBehaviour
     public void UpdateOutline(bool updateNeighbor = false)
     {
         // debug stuff so not important
-        if (Dbg.Instance.DbgEnabled && !Dbg.Instance.WallOutlines) return;
+        if (Dbg.Instance.Enabled && !Dbg.Instance.WallOutlines) return;
 
         ClearLines();
 
@@ -80,7 +80,7 @@ public class FieldOutline : MonoBehaviour
     public void UpdateOutline(Vector2 dir, bool updateNeighbor = false)
     {
         // debug stuff so not important
-        if (Dbg.Instance.DbgEnabled && !Dbg.Instance.WallOutlines) return;
+        if (Dbg.Instance.Enabled && !Dbg.Instance.WallOutlines) return;
 
         ClearLineInDirection(dir);
 

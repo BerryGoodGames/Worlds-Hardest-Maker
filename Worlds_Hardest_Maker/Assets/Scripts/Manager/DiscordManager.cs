@@ -141,7 +141,7 @@ public class DiscordManager : MonoBehaviour
     public void Setup()
     {
         // Log in with the Application ID
-        discord = new Discord.Discord(applicationID, (ulong)CreateFlags.NoRequireDiscord);
+        discord = new(applicationID, (ulong)CreateFlags.NoRequireDiscord);
 
         time = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
