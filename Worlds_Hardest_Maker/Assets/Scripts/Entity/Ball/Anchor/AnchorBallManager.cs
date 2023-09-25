@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using Photon.Pun;
 using UnityEngine;
@@ -8,20 +11,30 @@ public class AnchorBallManager : MonoBehaviour
 
     #region Set
 
-    public static void SetAnchorBall(Vector2 pos, [CanBeNull] AnchorController anchor)
+    public static void SetAnchorBall(Vector2 pos, [CanBeNull] AnchorController parentAnchor)
     {
+        List<AnchorBallController> ballsAtPos = GetAnchorBalls(pos);
+
+        foreach (AnchorBallController ballAtPos in ballsAtPos)
+        {
+            // check if there is ball at position with same layer/parent
+            if (ballAtPos.ParentAnchor == parentAnchor) return;
+        }
+        // print(string.Join(" ", ballsAtPos));
+        
         Transform container =
-            anchor == null ? ReferenceManager.Instance.AnchorBallContainer.transform : anchor.BallContainer;
+            parentAnchor == null ? ReferenceManager.Instance.AnchorBallContainer.transform : parentAnchor.BallContainer;
 
         GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, container.position, Quaternion.identity, container);
         
-        if (anchor != null)
+        if (parentAnchor != null)
         {
-            ball.GetComponentInChildren<AnchorBallController>().ParentAnchor = anchor;
-            anchor.Balls.Add(ball.transform);
+            ball.GetComponentInChildren<AnchorBallController>().ParentAnchor = parentAnchor;
+            parentAnchor.Balls.Add(ball.transform);
         }
 
         ball.transform.GetChild(0).position = pos;
+        // print(string.Join(" ", GetAnchorBalls(pos)));
     }
 
     public static void SetAnchorBall(Vector2 pos)
@@ -34,6 +47,21 @@ public class AnchorBallManager : MonoBehaviour
     public static void SetAnchorBall(float mx, float my) => SetAnchorBall(new(mx, my));
 
     public static void SetAnchorBall(float mx, float my, [CanBeNull] AnchorController anchor) => SetAnchorBall(new(mx, my), anchor);
+
+    public static List<AnchorBallController> GetAnchorBalls(Vector2 pos)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.01f, LayerManager.Instance.Layers.Entity);
+        List<AnchorBallController> res = new();
+
+        foreach (Collider2D hit in hits)
+        {
+            if (!hit.CompareTag("AnchorBallObject")) continue;
+
+            res.Add(hit.GetComponent<AnchorBallController>());
+        }
+
+        return res;
+    }
 
     #endregion
 
@@ -60,19 +88,15 @@ public class AnchorBallManager : MonoBehaviour
 
     public static void SelectAnchorBall(Vector2 pos)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.05f);
+        List<AnchorBallController> ballsAtPos = GetAnchorBalls(pos);
 
-        foreach (Collider2D hit in hits)
+        foreach (AnchorBallController ball in ballsAtPos)
         {
-            if (!hit.CompareTag("AnchorBallObject")) continue;
-
-            AnchorBallController ballController = hit.GetComponent<AnchorBallController>();
-
             // select parent anchor if ball has parent and the parent is not currently selected (avoid deselecting anchor)
-            if (ballController.ParentAnchor == null ||
-                AnchorManager.Instance.SelectedAnchor == ballController.ParentAnchor) continue;
+            if (ball.ParentAnchor == null ||
+                AnchorManager.Instance.SelectedAnchor == ball.ParentAnchor) continue;
 
-            AnchorManager.Instance.SelectAnchor(ballController.ParentAnchor);
+            AnchorManager.Instance.SelectAnchor(ball.ParentAnchor);
             break;
         }
     }
