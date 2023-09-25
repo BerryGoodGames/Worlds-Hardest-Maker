@@ -367,7 +367,6 @@ MonoBehaviour:
   IsSource: 0
   lockIconContainer: {fileID: 4626706179512977860}
   warningIconContainer: {fileID: 6737245180739238675}
-  AnchorBlockDragDropComp: {fileID: 0}
   MouseOverUI: {fileID: 0}
 --- !u!114 &9211350119458854227 stripped
 MonoBehaviour:

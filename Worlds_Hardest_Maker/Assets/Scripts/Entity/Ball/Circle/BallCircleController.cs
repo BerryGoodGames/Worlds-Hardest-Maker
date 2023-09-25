@@ -188,7 +188,7 @@ public class BallCircleController : BallController
     [PunRPC]
     public override void MoveObject(Vector2 unitPos, int id) => MoveOrigin(unitPos.x, unitPos.y);
 
-    public override Vector2 GetPosition() => Origin.position;
+    public override Vector2 Position => Origin.position;
 
     public override Data GetData() => new BallCircleData(this);
 }

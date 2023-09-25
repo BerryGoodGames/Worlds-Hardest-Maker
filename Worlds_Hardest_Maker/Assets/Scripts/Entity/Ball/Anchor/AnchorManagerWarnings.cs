@@ -28,7 +28,7 @@ public partial class AnchorManager
 
             // check if any of following blocks have any duration, if yes then no stack overflow
             if (!loopingDetected || block is not IDurationBlock durationBlock) return false;
-            if (!durationBlock.HasCurrentlyDuration()) return false;
+            if (!durationBlock.HasCurrentlyDuration) return false;
 
             isStackOverflow = false;
 

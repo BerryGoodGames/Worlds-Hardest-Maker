@@ -28,7 +28,7 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
     {
         // get move duration
         float moveDuration;
-        float dist = Vector2.Distance(Target, Anchor.Rb.position);
+        float dist = Vector2.Distance(TargetAbsolute, Anchor.transform.position);
 
         if (Anchor.SpeedUnit is SetSpeedBlock.Unit.Speed)
         {
@@ -56,7 +56,7 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
         else
             rotateDuration = Anchor.RotationInput;
 
-        Anchor.transform.DOMove(Target, moveDuration)
+        Anchor.transform.DOMove(TargetAbsolute, moveDuration)
             .SetEase(Anchor.Ease)
             .OnComplete(() =>
             {
@@ -64,7 +64,11 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
                     Anchor.FinishCurrentExecution();
             });
 
-        Anchor.Rb.DORotate(iterations * 360, rotateDuration)
+        // negate rotation depending on direction
+        int direction = Anchor.IsClockwise ? -1 : 1;
+
+        Anchor.RotationTween.Kill();
+        Anchor.RotationTween = Anchor.Rb.DORotate(iterations * 360 * direction, rotateDuration)
             .SetRelative()
             .SetEase(Anchor.Ease)
             .OnComplete(() =>
@@ -77,13 +81,11 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
     protected override void SetControllerValues(AnchorBlockController c)
     {
         MoveAndRotateBlockController controller = (MoveAndRotateBlockController)c;
-        controller.PositionInput.SetPositionValues(Target);
+        controller.PositionInput.SetPositionValues(TargetAbsolute);
         controller.IterationsInput.text = iterations.ToString();
         controller.AdaptRotation.isOn = adaptRotation;
     }
 
     public override AnchorBlockData GetData() =>
         new MoveAndRotateBlockData(IsLocked, Target, iterations, adaptRotation);
-
-    public override bool IsLinePreviewDashed() => false;
 }

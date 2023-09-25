@@ -9,6 +9,8 @@ public class RotateBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
 
     private readonly float iterations;
 
+    public bool HasCurrentlyDuration => iterations > 0;
+
     public RotateBlock(AnchorController anchor, bool isLocked, float iterations) : base(anchor, isLocked) =>
         this.iterations = iterations;
 
@@ -44,8 +46,6 @@ public class RotateBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
         RotateBlockController controller = (RotateBlockController)c;
         controller.IterationsInput.text = iterations.ToString();
     }
-
-    public bool HasCurrentlyDuration() => iterations > 0;
 
     public override AnchorBlockData GetData() => new RotateBlockData(IsLocked, iterations);
 }

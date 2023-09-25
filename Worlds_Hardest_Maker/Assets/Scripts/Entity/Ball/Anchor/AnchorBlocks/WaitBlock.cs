@@ -28,6 +28,8 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
 
     private readonly Unit unit;
 
+    public bool HasCurrentlyDuration => input > 0;
+
     public WaitBlock(AnchorController anchor, bool isLocked, float input, Unit unit) : base(anchor, isLocked)
     {
         this.input = input;
@@ -52,5 +54,4 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
     }
 
     public override AnchorBlockData GetData() => new WaitBlockData(IsLocked, input, unit);
-    public bool HasCurrentlyDuration() => input > 0;
 }

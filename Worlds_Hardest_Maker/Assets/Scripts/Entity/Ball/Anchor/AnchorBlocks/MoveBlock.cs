@@ -17,7 +17,7 @@ public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock
     public override void Execute()
     {
         float duration;
-        float dist = Vector2.Distance(Target, Anchor.transform.position);
+        float dist = Vector2.Distance(TargetAbsolute, Anchor.transform.position);
 
         if (Anchor.SpeedUnit is SetSpeedBlock.Unit.Speed)
             duration = dist / Anchor.SpeedInput;
@@ -25,7 +25,7 @@ public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock
             duration = Anchor.SpeedInput;
 
         Anchor.DOKill();
-        Anchor.transform.DOMove(Target, duration)
+        Anchor.transform.DOMove(TargetAbsolute, duration)
             .SetEase(Anchor.Ease)
             .OnComplete(Anchor.FinishCurrentExecution);
     }
@@ -33,9 +33,8 @@ public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock
     protected override void SetControllerValues(AnchorBlockController c)
     {
         MoveBlockController controller = (MoveBlockController)c;
-        controller.PositionInput.SetPositionValues(Target);
+        controller.PositionInput.SetPositionValues(TargetAbsolute);
     }
 
     public override AnchorBlockData GetData() => new MoveBlockData(IsLocked, Target);
-    public override bool IsLinePreviewDashed() => false;
 }

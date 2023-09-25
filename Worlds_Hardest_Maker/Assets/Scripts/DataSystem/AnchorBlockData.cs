@@ -32,7 +32,7 @@ public class TeleportBlockData : AnchorBlockData
         this.target = new[] { target.x, target.y };
 
     public override AnchorBlock GetBlock(AnchorController anchor) =>
-        new MoveBlock(anchor, IsLocked, new(target[0], target[1]));
+        new TeleportBlock(anchor, IsLocked, new(target[0], target[1]));
 }
 
 [Serializable]

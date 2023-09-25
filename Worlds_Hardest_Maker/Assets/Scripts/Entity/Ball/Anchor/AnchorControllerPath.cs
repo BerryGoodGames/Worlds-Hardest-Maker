@@ -67,7 +67,7 @@ public partial class AnchorController
             if (anchorBlock is PositionAnchorBlock positionAnchorBlock)
             {
                 // add new target to array if MoveBlock or MoveAndRotateBlock
-                Vector2 currentVertex = positionAnchorBlock.Target;
+                Vector2 currentVertex = positionAnchorBlock.TargetAbsolute;
 
                 if (ReferenceManager.Instance.MainChainController.Children[index] is not PositionAnchorBlockController
                     controller)

@@ -11,18 +11,17 @@ public class TeleportBlock : PositionAnchorBlock, IActiveAnchorBlock
 
     public override void Execute()
     {
-        Anchor.transform.position = Target;
+        Anchor.transform.position = TargetAbsolute;
         Anchor.FinishCurrentExecution();
     }
 
     protected override void SetControllerValues(AnchorBlockController c)
     {
         TeleportBlockController controller = (TeleportBlockController)c;
-        controller.PositionInput.SetPositionValues(Target);
+        controller.PositionInput.SetPositionValues(TargetAbsolute);
     }
 
-    public override bool HasCurrentlyDuration() => false;
-    public override bool IsLinePreviewDashed() => true;
+    public override bool HasCurrentlyDuration => false;
 
     public override AnchorBlockData GetData() => new TeleportBlockData(IsLocked, Target);
 }

@@ -4,6 +4,7 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public partial class AnchorController : EntityController
@@ -24,7 +25,7 @@ public partial class AnchorController : EntityController
     public TweenerCore<float, float, FloatOptions> RotationTween;
     [HideInInspector] public Ease Ease;
 
-    private Vector2 startPosition;
+    public Vector2 StartPosition { get; private set; }
     private Quaternion startRotation;
 
     public AnchorBlock CurrentExecutingBlock;
@@ -53,7 +54,7 @@ public partial class AnchorController : EntityController
     private void Start()
     {
         // update when moved by user
-        entityDragDrop.OnMove += (oldPosition, newPosition) => MoveAnchor(newPosition - oldPosition);
+        entityDragDrop.OnMove += (_, _) => MoveAnchor();
 
         SpeedInput = 7;
         RotationInput = 360;
@@ -64,21 +65,11 @@ public partial class AnchorController : EntityController
 
     public void AppendBlock(AnchorBlock block) => Blocks.AddLast(block);
 
-    private void MoveAnchor(Vector2 delta)
+    private void MoveAnchor()
     {
         // assuming that EntityDragDrop already moved transform
 
-        LinkedList<AnchorBlock> blocks = Blocks;
-
-        // loop through data blocks and add offset
-        foreach (AnchorBlock currentBlock in blocks)
-        {
-            if (currentBlock is PositionAnchorBlock positionBlock)
-            {
-                // add offset
-                positionBlock.Target += delta;
-            }
-        }
+        StartPosition = transform.position;
 
         if (Selected)
             RenderLines();
@@ -160,7 +151,7 @@ public partial class AnchorController : EntityController
 
         RotationTween.Kill();
         t.DOKill();
-        t.SetPositionAndRotation(startPosition, startRotation);
+        t.SetPositionAndRotation(StartPosition, startRotation);
 
         if (WaitCoroutine != null) StopCoroutine(WaitCoroutine);
 
@@ -173,7 +164,7 @@ public partial class AnchorController : EntityController
     {
         Transform t = transform;
 
-        startPosition = t.position;
+        StartPosition = t.position;
         startRotation = t.rotation;
         LoopBlockNode = null;
     }

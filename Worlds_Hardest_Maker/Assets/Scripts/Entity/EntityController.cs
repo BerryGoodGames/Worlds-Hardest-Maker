@@ -2,9 +2,9 @@ using UnityEngine;
 
 public abstract class EntityController : MonoBehaviour
 {
-    public abstract Data GetData();
+    public virtual Vector2 Position => transform.position;
 
-    public virtual Vector2 GetPosition() => transform.position;
+    public abstract Data GetData();
 
     public virtual void Delete() => Destroy(transform.parent.gameObject);
 }
