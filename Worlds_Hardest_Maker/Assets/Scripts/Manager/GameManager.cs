@@ -88,6 +88,9 @@ public class GameManager : MonoBehaviourPun
                 case EditMode.Coin:
                     CoinManager.Instance.SetCoin(gridX, gridY);
                     break;
+                case EditMode.AnchorBall:
+                    AnchorBallManager.SetAnchorBall(gridX, gridY);
+                    break;
                 default:
                 {
                     if (KeyManager.IsKeyEditMode(editMode))
