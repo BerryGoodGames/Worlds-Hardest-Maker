@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using Photon.Pun;
 using UnityEngine;
@@ -9,32 +8,40 @@ public class AnchorBallManager : MonoBehaviour
 {
     public static AnchorBallManager Instance { get; set; }
 
+    public Dictionary<AnchorController, List<AnchorBallController>> AnchorBallListLayers;
+    public List<AnchorBallController> AnchorBallListGlobal;
+
     #region Set
 
     public static void SetAnchorBall(Vector2 pos, [CanBeNull] AnchorController parentAnchor)
     {
-        List<AnchorBallController> ballsAtPos = GetAnchorBalls(pos);
+        // List<AnchorBallController> ballsAtPos = GetAnchorBalls(pos);
+        //
+        // foreach (AnchorBallController ballAtPos in ballsAtPos)
+        // {
+        //     // check if there is ball at position with same layer/parent
+        //     if (ballAtPos.ParentAnchor == parentAnchor) return;
+        // }
 
-        foreach (AnchorBallController ballAtPos in ballsAtPos)
-        {
-            // check if there is ball at position with same layer/parent
-            if (ballAtPos.ParentAnchor == parentAnchor) return;
-        }
-        // print(string.Join(" ", ballsAtPos));
+        if (GetAnchorBall(pos, parentAnchor) != null) return;
         
         Transform container =
             parentAnchor == null ? ReferenceManager.Instance.AnchorBallContainer.transform : parentAnchor.BallContainer;
 
         GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, container.position, Quaternion.identity, container);
-        
+        AnchorBallController ballController = ball.GetComponentInChildren<AnchorBallController>();
+
         if (parentAnchor != null)
         {
-            ball.GetComponentInChildren<AnchorBallController>().ParentAnchor = parentAnchor;
+            ballController.ParentAnchor = parentAnchor;
             parentAnchor.Balls.Add(ball.transform);
         }
 
         ball.transform.GetChild(0).position = pos;
-        // print(string.Join(" ", GetAnchorBalls(pos)));
+
+        // track ball positions in all the layers
+        if (parentAnchor != null) Instance.AnchorBallListLayers[parentAnchor].Add(ballController);
+        else Instance.AnchorBallListGlobal.Add(ballController);
     }
 
     public static void SetAnchorBall(Vector2 pos)
@@ -52,15 +59,29 @@ public class AnchorBallManager : MonoBehaviour
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.01f, LayerManager.Instance.Layers.Entity);
         List<AnchorBallController> res = new();
-
+    
         foreach (Collider2D hit in hits)
         {
             if (!hit.CompareTag("AnchorBallObject")) continue;
-
+    
             res.Add(hit.GetComponent<AnchorBallController>());
         }
-
+    
         return res;
+    }
+
+    public static AnchorBallController GetAnchorBall(Vector2 pos, AnchorController parentAnchor)
+    {
+        List<AnchorBallController> balls = parentAnchor == null
+            ? Instance.AnchorBallListGlobal
+            : Instance.AnchorBallListLayers[parentAnchor];
+
+        foreach (AnchorBallController ball in balls)
+        {
+            if(ball.Position == pos) return ball;
+        }
+
+        return null;
     }
 
     #endregion
@@ -71,13 +92,28 @@ public class AnchorBallManager : MonoBehaviour
     public void RemoveAnchorBall(Vector2 pos)
     {
         // ReSharper disable once Unity.PreferNonAllocApi
-        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.05f);
+        // Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.05f);
+        //
+        // foreach (Collider2D hit in hits)
+        // {
+        //     if (!hit.CompareTag("AnchorBallObject")) continue;
+        //
+        //     Destroy(hit.transform.parent.gameObject);
+        // }
+        AnchorBallListGlobal.ForEach(CheckAnchorBall);
 
-        foreach (Collider2D hit in hits)
+        foreach (KeyValuePair<AnchorController, List<AnchorBallController>> anchorBallListPair in AnchorBallListLayers)
         {
-            if (!hit.CompareTag("AnchorBallObject")) continue;
+            anchorBallListPair.Value.ForEach(CheckAnchorBall);
+        }
 
-            Destroy(hit.transform.parent.gameObject);
+        return;
+
+        void CheckAnchorBall(AnchorBallController ball)
+        {
+            if (ball.transform.position.x != pos.x || ball.transform.position.y != pos.y) return;
+
+            Destroy(ball.gameObject);
         }
     }
 
@@ -99,6 +135,12 @@ public class AnchorBallManager : MonoBehaviour
             AnchorManager.Instance.SelectAnchor(ball.ParentAnchor);
             break;
         }
+    }
+
+    private void Start()
+    {
+        AnchorBallListLayers = new();
+        AnchorBallListGlobal = new();
     }
 
     private void Awake()

@@ -24,6 +24,8 @@ public partial class AnchorManager
         child.AppendBlock(new SetDirectionBlock(child, true, true));
         child.AppendBlock(new SetEaseBlock(child, true, Ease.Linear));
 
+        AnchorBallManager.Instance.AnchorBallListLayers.Add(child, new());
+
         return child;
     }
 
@@ -39,12 +41,15 @@ public partial class AnchorManager
             // check tag
             if (!hit.transform.parent.CompareTag("Anchor")) continue;
 
+            AnchorController anchor = hit.GetComponent<AnchorController>();
+
             // deselect anchor first, if selected
             if (Instance.SelectedAnchor != null)
             {
-                AnchorController anchor = hit.GetComponent<AnchorController>();
                 if (Instance.SelectedAnchor.Equals(anchor)) Instance.DeselectAnchor();
             }
+
+            AnchorBallManager.Instance.AnchorBallListLayers.Remove(anchor);
 
             // destroy anchor
             Destroy(hit.transform.parent.gameObject);
