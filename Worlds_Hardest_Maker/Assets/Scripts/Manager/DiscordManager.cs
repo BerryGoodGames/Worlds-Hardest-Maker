@@ -3,7 +3,6 @@ using Discord;
 using MyBox;
 using UnityEngine;
 
-[ExecuteAlways]
 public class DiscordManager : MonoBehaviour
 {
     public static DiscordManager Instance { get; private set; }
@@ -30,8 +29,7 @@ public class DiscordManager : MonoBehaviour
     [Space] [SerializeField] private bool printWarnings;
 
     private long time;
-
-    private static bool instanceExists;
+    
     private Discord.Discord discord;
 
     private ActivityManager activityManager;
@@ -40,18 +38,17 @@ public class DiscordManager : MonoBehaviour
     private void Awake()
     {
         // init singleton
-        if (Instance == null) Instance = this;
-        else if (Application.isPlaying) DestroyImmediate(this);
-
-        if (!Application.isPlaying) return;
-
-        // Transition the GameObject between scenes, destroy any duplicates
-        if (!instanceExists & Application.isPlaying)
+        if (Instance == null)
         {
-            instanceExists = true;
-            DontDestroyOnLoad(gameObject);
+            Instance = this;
         }
-        else if (FindObjectsOfType(GetType()).Length > 1) Destroy(gameObject);
+        else if (Application.isPlaying)
+        {
+            if(Instance == this) DontDestroyOnLoad(gameObject);
+            else DestroyImmediate(this);
+        }
+
+        if (!Application.isPlaying && FindObjectsOfType(GetType()).Length > 1) Destroy(gameObject);
     }
 
     private void Start() => Setup();
