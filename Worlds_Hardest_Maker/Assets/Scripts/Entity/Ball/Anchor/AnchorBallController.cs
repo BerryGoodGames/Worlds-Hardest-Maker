@@ -9,7 +9,7 @@ public class AnchorBallController : EntityController
 
     public override void Delete()
     {
-        if ((ParentAnchor == null && AnchorManager.Instance.SelectedAnchor == null) || ParentAnchor.Selected) base.Delete();
+        if ((ParentAnchor == null && AnchorManager.Instance.SelectedAnchor == null) || (ParentAnchor != null && ParentAnchor.Selected)) base.Delete();
     }
 
     private void OnDestroy()

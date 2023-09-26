@@ -18,8 +18,6 @@ public enum EditMode
     Player,
     Anchor,
     AnchorBall,
-    BallDefault,
-    BallCircle,
     Coin,
     GrayKey,
     RedKey,

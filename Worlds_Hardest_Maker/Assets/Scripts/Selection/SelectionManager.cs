@@ -33,8 +33,6 @@ public class SelectionManager : MonoBehaviour
 
     public static readonly List<EditMode> NoFillPreviewModes = new(new[]
     {
-        EditMode.BallDefault,
-        EditMode.BallCircle,
         EditMode.GrayKey,
         EditMode.RedKey,
         EditMode.BlueKey,

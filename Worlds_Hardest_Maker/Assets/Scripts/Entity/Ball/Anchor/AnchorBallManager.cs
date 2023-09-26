@@ -15,14 +15,6 @@ public class AnchorBallManager : MonoBehaviour
 
     public static void SetAnchorBall(Vector2 pos, [CanBeNull] AnchorController parentAnchor)
     {
-        // List<AnchorBallController> ballsAtPos = GetAnchorBalls(pos);
-        //
-        // foreach (AnchorBallController ballAtPos in ballsAtPos)
-        // {
-        //     // check if there is ball at position with same layer/parent
-        //     if (ballAtPos.ParentAnchor == parentAnchor) return;
-        // }
-
         if (GetAnchorBall(pos, parentAnchor) != null) return;
         
         Transform container =
@@ -91,15 +83,6 @@ public class AnchorBallManager : MonoBehaviour
     [PunRPC]
     public void RemoveAnchorBall(Vector2 pos)
     {
-        // ReSharper disable once Unity.PreferNonAllocApi
-        // Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.05f);
-        //
-        // foreach (Collider2D hit in hits)
-        // {
-        //     if (!hit.CompareTag("AnchorBallObject")) continue;
-        //
-        //     Destroy(hit.transform.parent.gameObject);
-        // }
         AnchorBallListGlobal.ForEach(CheckAnchorBall);
 
         foreach (KeyValuePair<AnchorController, List<AnchorBallController>> anchorBallListPair in AnchorBallListLayers)
@@ -126,14 +109,15 @@ public class AnchorBallManager : MonoBehaviour
     {
         List<AnchorBallController> ballsAtPos = GetAnchorBalls(pos);
 
-        foreach (AnchorBallController ball in ballsAtPos)
+        if (ballsAtPos.Count <= 0) return;
+        
+        if (ballsAtPos[0].ParentAnchor == null)
         {
-            // select parent anchor if ball has parent and the parent is not currently selected (avoid deselecting anchor)
-            if (ball.ParentAnchor == null ||
-                AnchorManager.Instance.SelectedAnchor == ball.ParentAnchor) continue;
-
-            AnchorManager.Instance.SelectAnchor(ball.ParentAnchor);
-            break;
+            AnchorManager.Instance.DeselectAnchor();
+        }
+        else
+        {
+            AnchorManager.Instance.SelectAnchor(ballsAtPos[0].ParentAnchor);
         }
     }
 

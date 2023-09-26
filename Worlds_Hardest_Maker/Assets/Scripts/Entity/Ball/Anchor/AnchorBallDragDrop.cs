@@ -1,7 +1,7 @@
 using MyBox;
 using UnityEngine;
 
-public class AnchorBallDragDrop : BallDragDrop
+public class AnchorBallDragDrop : EntityDragDrop
 {
     [AutoProperty] [SerializeField] private AnchorBallController anchorBallController;
 

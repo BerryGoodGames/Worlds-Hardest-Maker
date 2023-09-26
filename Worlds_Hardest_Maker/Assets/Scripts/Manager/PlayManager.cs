@@ -235,25 +235,6 @@ public class PlayManager : MonoBehaviour
             controller.DieNormal();
         }
 
-
-        // reset balls
-        foreach (Transform ball in ReferenceManager.Instance.BallDefaultContainer)
-        {
-            GameObject ballObject = ball.GetChild(0).gameObject;
-            BallDefaultController defaultController = ballObject.GetComponent<BallDefaultController>();
-
-            ballObject.transform.position = defaultController.StartPosition;
-        }
-
-        foreach (Transform ball in ReferenceManager.Instance.BallCircleContainer)
-        {
-            GameObject ballObject = ball.GetChild(0).gameObject;
-            BallCircleController controller = ballObject.GetComponent<BallCircleController>();
-
-            controller.CurrentAngle = controller.StartAngle;
-            controller.UpdateAnglePos();
-        }
-
         // reset coins
         foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
         {

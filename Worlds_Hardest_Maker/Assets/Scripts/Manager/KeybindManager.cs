@@ -11,8 +11,6 @@ public class KeybindManager : MonoBehaviour
     [DefinedValues(0, 1, 2)] public int PanMouseButton;
     [SearchableEnum] public KeyCode EntityDeleteKey;
     [SearchableEnum] public KeyCode EntityMoveKey;
-    [SearchableEnum] public KeyCode BallCircleRadiusKey;
-    [SearchableEnum] public KeyCode BallCircleAngleKey;
 
     public KeyCode EditSpeedKey;
 

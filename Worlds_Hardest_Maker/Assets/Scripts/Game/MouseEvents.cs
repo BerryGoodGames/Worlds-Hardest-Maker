@@ -121,14 +121,6 @@ public class MouseEvents : MonoBehaviour
                 // AnchorBallManagerOld.SetAnchorBall(gridX, gridY);
                 AnchorBallManager.SetAnchorBall(gridX, gridY);
                 break;
-            case EditMode.BallDefault:
-                // place new ball
-                BallManager.Instance.SetBall(gridX, gridY);
-                break;
-            case EditMode.BallCircle:
-                // place new ball circle
-                BallCircleManager.Instance.SetBallCircle(gridX, gridY);
-                break;
         }
     }
 
@@ -149,8 +141,6 @@ public class MouseEvents : MonoBehaviour
             photonView.RPC("RemoveCoin", RpcTarget.All, gridX, gridY);
 
             // remove balls
-            photonView.RPC("RemoveBall", RpcTarget.All, gridX, gridY);
-            photonView.RPC("RemoveBallCircle", RpcTarget.All, gridX, gridY);
             photonView.RPC("RemoveAnchorBall", RpcTarget.All, gridX, gridY);
 
             // remove anchors

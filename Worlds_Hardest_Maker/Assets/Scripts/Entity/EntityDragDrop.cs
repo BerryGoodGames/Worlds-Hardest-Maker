@@ -9,7 +9,7 @@ public class EntityDragDrop : MonoBehaviour
     [SerializeField] private FollowMouse.WorldPositionType worldType;
     public event Action<Vector2, Vector2> OnMove;
 
-    private void OnMouseDrag()
+    protected virtual void OnMouseDrag()
     {
         if (EditModeManager.Instance.Playing || !Input.GetKey(KeybindManager.Instance.EntityMoveKey)) return;
 

@@ -227,8 +227,6 @@ public class GameManager : MonoBehaviourPun
         Transform[] containers =
         {
             ReferenceManager.Instance.FieldContainer, ReferenceManager.Instance.PlayerContainer,
-            ReferenceManager.Instance.BallDefaultContainer,
-            ReferenceManager.Instance.BallCircleContainer,
             ReferenceManager.Instance.CoinContainer, ReferenceManager.Instance.KeyContainer,
             ReferenceManager.Instance.AnchorContainer
         };

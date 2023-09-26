@@ -12,11 +12,12 @@ GameObject:
   - component: {fileID: 2491659069462593980}
   - component: {fileID: 3287657404171501117}
   - component: {fileID: 470580513920267525}
-  - component: {fileID: 2044471552241584857}
   - component: {fileID: 5932802461731541815}
+  - component: {fileID: 2044471552241584857}
+  - component: {fileID: 2957006135882436380}
   m_Layer: 7
   m_Name: BallObject
-  m_TagString: BallObject
+  m_TagString: AnchorBallObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2385285795945899156}
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1700820465
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 62f726afd539ffa4a94b5379c23b1c9b, type: 3}
   m_Color: {r: 0, g: 0, b: 1, a: 1}
@@ -122,7 +123,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.47
 --- !u!114 &470580513920267525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,19 +136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea26693c370bae74f8df6772d0db83f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2044471552241584857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1414024793712416713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2b634d6afae6b944bebd2b4e9fb0ecd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  worldType: 1
 --- !u!114 &5932802461731541815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +150,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorPaletteName: Ball
   colorPaletteIndex: 0
+--- !u!114 &2044471552241584857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414024793712416713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b634d6afae6b944bebd2b4e9fb0ecd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldType: 1
+--- !u!114 &2957006135882436380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414024793712416713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f57c272036ebf4abcd8263ecee6a1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ParentAnchor: {fileID: 0}
 --- !u!1 &6481791030330069436
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,8 +187,8 @@ GameObject:
   - component: {fileID: 2385285795945899156}
   - component: {fileID: 105589263788141184}
   m_Layer: 7
-  m_Name: Ball
-  m_TagString: Untagged
+  m_Name: AnchorBall
+  m_TagString: AnchorBall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

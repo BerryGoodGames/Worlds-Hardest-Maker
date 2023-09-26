@@ -34,8 +34,6 @@ public class PrefabManager : MonoBehaviour
 
     [Foldout("Entities")] public GameObject Anchor;
     [Foldout("Entities")] public GameObject AnchorBall;
-    [Foldout("Entities")] public GameObject BallDefault;
-    [Foldout("Entities")] public GameObject BallCircle;
 
     [Foldout("Entities")] public GameObject Coin;
 

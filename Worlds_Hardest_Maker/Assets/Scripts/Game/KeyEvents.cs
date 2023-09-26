@@ -93,14 +93,12 @@ public class KeyEvents : MonoBehaviour
             { new[] { KeyCode.I }, EditMode.Ice },
             { new[] { KeyCode.V }, EditMode.Void },
             { new[] { KeyCode.P }, EditMode.Player },
-            { new[] { KeyCode.B }, EditMode.BallDefault },
             { new[] { KeyCode.C }, EditMode.Coin },
             { new[] { KeyCode.K }, EditMode.GrayKey },
             { new[] { KeyCode.R, KeyCode.K }, EditMode.RedKey },
             { new[] { KeyCode.G, KeyCode.K }, EditMode.GreenKey },
             { new[] { KeyCode.B, KeyCode.K }, EditMode.BlueKey },
             { new[] { KeyCode.Y, KeyCode.K }, EditMode.YellowKey },
-            { new[] { KeyCode.B, KeyCode.C }, EditMode.BallCircle },
             { new[] { KeyCode.H, KeyCode.C }, EditMode.CheckpointField }
         };
         return keys;

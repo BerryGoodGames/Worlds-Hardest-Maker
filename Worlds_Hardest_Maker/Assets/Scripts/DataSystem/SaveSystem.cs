@@ -60,20 +60,6 @@ public static class SaveSystem
             levelData.Add(anchorBallData);
         }
 
-        // serialize balls
-        foreach (Transform ball in ReferenceManager.Instance.BallDefaultContainer)
-        {
-            BallData ballData = new(ball.GetChild(0).GetComponent<BallDefaultController>());
-            levelData.Add(ballData);
-        }
-
-        // serialize ball circles
-        foreach (Transform ball in ReferenceManager.Instance.BallCircleContainer)
-        {
-            BallCircleData ballCircleData = new(ball.GetChild(0).GetComponent<BallCircleController>());
-            levelData.Add(ballCircleData);
-        }
-
         // serialize coins
         foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
         {

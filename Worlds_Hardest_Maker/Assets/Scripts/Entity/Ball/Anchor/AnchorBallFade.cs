@@ -13,24 +13,6 @@ public class AnchorBallFade : MonoBehaviour
 
     [SerializeField] [InitializationField] private float fadeOutOpacity = 0.3f;
 
-    // public void BallFadeOut(AnimationEvent animationEvent)
-    // {
-    //     float endOpacity = animationEvent.floatParameter;
-    //     if (float.TryParse(animationEvent.stringParameter, out float time))
-    //         StartCoroutine(container.FadeOut(endOpacity, time));
-    // }
-    //
-    // public void BallFadeOut(float endOpacity, float time) => StartCoroutine(container.FadeOut(endOpacity, time));
-    //
-    // public void BallFadeIn(AnimationEvent animationEvent)
-    // {
-    //     float endOpacity = animationEvent.floatParameter;
-    //     if (float.TryParse(animationEvent.stringParameter, out float time))
-    //         BallFadeIn(endOpacity, time);
-    // }
-    //
-    // public void BallFadeIn(float endOpacity, float time) => StartCoroutine(container.FadeIn(endOpacity, time));
-
     public void BallFadeOut() => container.FadeTo(fadeOutOpacity, fadeDuration);
 
     public void BallFadeIn() => container.FadeTo(fadeInOpacity, fadeDuration);
