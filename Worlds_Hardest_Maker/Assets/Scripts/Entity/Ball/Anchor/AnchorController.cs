@@ -9,7 +9,6 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public partial class AnchorController : EntityController
 {
-    [SerializeField] [InitializationField] private ChildrenOpacity ballContainerChildrenOpacity;
     [InitializationField] public Transform BallContainer;
     [InitializationField] public Animator Animator;
 

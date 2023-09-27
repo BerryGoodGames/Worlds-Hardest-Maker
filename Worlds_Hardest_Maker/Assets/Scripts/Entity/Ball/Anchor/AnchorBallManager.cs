@@ -125,6 +125,12 @@ public class AnchorBallManager : MonoBehaviour
     {
         AnchorBallListLayers = new();
         AnchorBallListGlobal = new();
+
+        EditModeManager.Instance.OnPlay += ReferenceManager.Instance.AnchorBallContainer.BallFadeIn;
+        EditModeManager.Instance.OnEdit += () =>
+        {
+            if(AnchorManager.Instance.SelectedAnchor != null) ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
+        };
     }
 
     private void Awake()
