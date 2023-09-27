@@ -1,11 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
-using UnityEditor;
-using UnityEditorInternal;
 using UnityEngine;
-using static UnityEngine.UI.ContentSizeFitter;
 
 /// <summary>
 ///     Controls mouse events: placing, filling, deleting
@@ -99,7 +95,8 @@ public class MouseEvents : MonoBehaviour
         }
 
         // if user dragged to fast, fill path between two mouse pos for smoother placing on low framerate
-        if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) > 1.414f && editMode.IsFieldType())
+        if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) > 1.414f &&
+            editMode.IsFieldType())
         {
             FieldType type = EnumUtils.ConvertEnum<EditMode, FieldType>(editMode);
             int rotation = type.IsRotatable() ? EditModeManager.Instance.EditRotation : 0;
@@ -134,7 +131,8 @@ public class MouseEvents : MonoBehaviour
         else
         {
             // remove entity
-            GameEntityManager.RemoveEntitiesAt(MouseManager.Instance.MouseWorldPosGrid, LayerManager.Instance.Layers.Entity);
+            GameEntityManager.RemoveEntitiesAt(MouseManager.Instance.MouseWorldPosGrid,
+                LayerManager.Instance.Layers.Entity);
         }
     }
 }

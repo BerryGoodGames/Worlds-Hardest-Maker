@@ -4,7 +4,6 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public partial class AnchorController : EntityController

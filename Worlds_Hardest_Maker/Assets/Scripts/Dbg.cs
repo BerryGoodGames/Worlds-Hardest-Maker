@@ -3,7 +3,6 @@ using MyBox;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 /// <summary>
@@ -25,13 +24,10 @@ public class Dbg : MonoBehaviour
         MousePositionPixels
     }
 
-    [Header("Settings")] 
-    public bool Enabled = true;
+    [Header("Settings")] public bool Enabled = true;
     public float GameSpeed = 1;
 
-    [Space] 
-    
-    [Foldout("Debug Text")] public DbgTextMode TextMode;
+    [Space] [Foldout("Debug Text")] public DbgTextMode TextMode;
     [Foldout("Debug Text")] public float Count;
 
     [Foldout("Level")] public bool AutoLoadLevel;
@@ -39,8 +35,9 @@ public class Dbg : MonoBehaviour
 
     [Foldout("Wall Outlines")] public bool WallOutlines = true;
     [Foldout("Wall Outlines")] public bool DrawRays;
-     
-    [FormerlySerializedAs("DebugText")] [Foldout("References")] [SerializeField] [MustBeAssigned] private TMP_Text debugText;
+
+    [FormerlySerializedAs("DebugText")] [Foldout("References")] [SerializeField] [MustBeAssigned]
+    private TMP_Text debugText;
 
     private Camera cam;
 
@@ -54,7 +51,7 @@ public class Dbg : MonoBehaviour
 
     private void Start()
     {
-        if(!AutoLoadLevel) return;
+        if (!AutoLoadLevel) return;
         GameManager.Instance.LoadLevel(Application.persistentDataPath + $"\\{LevelName}.lvl");
     }
 

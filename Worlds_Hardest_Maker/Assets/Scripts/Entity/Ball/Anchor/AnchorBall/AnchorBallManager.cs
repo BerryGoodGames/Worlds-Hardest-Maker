@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Photon.Pun;
@@ -16,11 +15,12 @@ public class AnchorBallManager : MonoBehaviour
     public static void SetAnchorBall(Vector2 pos, [CanBeNull] AnchorController parentAnchor)
     {
         if (GetAnchorBall(pos, parentAnchor) != null) return;
-        
+
         Transform container =
             parentAnchor == null ? ReferenceManager.Instance.AnchorBallContainer.transform : parentAnchor.BallContainer;
 
-        GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, container.position, Quaternion.identity, container);
+        GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, container.position, Quaternion.identity,
+            container);
         AnchorBallController ballController = ball.GetComponentInChildren<AnchorBallController>();
 
         if (parentAnchor != null)
@@ -45,20 +45,21 @@ public class AnchorBallManager : MonoBehaviour
 
     public static void SetAnchorBall(float mx, float my) => SetAnchorBall(new(mx, my));
 
-    public static void SetAnchorBall(float mx, float my, [CanBeNull] AnchorController anchor) => SetAnchorBall(new(mx, my), anchor);
+    public static void SetAnchorBall(float mx, float my, [CanBeNull] AnchorController anchor) =>
+        SetAnchorBall(new(mx, my), anchor);
 
     public static List<AnchorBallController> GetAnchorBalls(Vector2 pos)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.01f, LayerManager.Instance.Layers.Entity);
         List<AnchorBallController> res = new();
-    
+
         foreach (Collider2D hit in hits)
         {
             if (!hit.CompareTag("AnchorBallObject")) continue;
-    
+
             res.Add(hit.GetComponent<AnchorBallController>());
         }
-    
+
         return res;
     }
 
@@ -70,7 +71,7 @@ public class AnchorBallManager : MonoBehaviour
 
         foreach (AnchorBallController ball in balls)
         {
-            if(ball.Position == pos) return ball;
+            if (ball.Position == pos) return ball;
         }
 
         return null;
@@ -110,7 +111,7 @@ public class AnchorBallManager : MonoBehaviour
         List<AnchorBallController> ballsAtPos = GetAnchorBalls(pos);
 
         if (ballsAtPos.Count <= 0) return;
-        
+
         if (ballsAtPos[0].ParentAnchor == null)
         {
             AnchorManager.Instance.DeselectAnchor();
@@ -129,7 +130,8 @@ public class AnchorBallManager : MonoBehaviour
         EditModeManager.Instance.OnPlay += ReferenceManager.Instance.AnchorBallContainer.BallFadeIn;
         EditModeManager.Instance.OnEdit += () =>
         {
-            if(AnchorManager.Instance.SelectedAnchor != null) ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
+            if (AnchorManager.Instance.SelectedAnchor != null)
+                ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
         };
     }
 

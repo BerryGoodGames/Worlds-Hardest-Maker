@@ -14,7 +14,7 @@ public partial class AnchorManager
     public void SelectAnchor(AnchorController anchor)
     {
         if (anchor == null) return;
-        
+
         bool switchedEditMode = false;
         // switch to edit mode to anchor if not already on anchor or anchor ball
         if (!EditModeManager.Instance.CurrentEditMode.IsAnchorRelated())
@@ -44,7 +44,7 @@ public partial class AnchorManager
         SelectedAnchor = anchor;
         anchor.Animator.SetBool(selected, true);
         anchor.SetLinesActive(true);
-        
+
         ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
 
         // disable "no anchor selected" screen

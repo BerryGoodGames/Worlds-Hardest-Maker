@@ -29,7 +29,7 @@ public class DiscordManager : MonoBehaviour
     [Space] [SerializeField] private bool printWarnings;
 
     private long time;
-    
+
     private Discord.Discord discord;
 
     private ActivityManager activityManager;
@@ -44,7 +44,7 @@ public class DiscordManager : MonoBehaviour
         }
         else if (Application.isPlaying)
         {
-            if(Instance == this) DontDestroyOnLoad(gameObject);
+            if (Instance == this) DontDestroyOnLoad(gameObject);
             else DestroyImmediate(this);
         }
 

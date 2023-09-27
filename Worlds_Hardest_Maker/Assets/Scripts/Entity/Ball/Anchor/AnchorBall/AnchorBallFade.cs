@@ -16,5 +16,4 @@ public class AnchorBallFade : MonoBehaviour
     public void BallFadeOut() => container.FadeTo(fadeOutOpacity, fadeDuration);
 
     public void BallFadeIn() => container.FadeTo(fadeInOpacity, fadeDuration);
-
 }

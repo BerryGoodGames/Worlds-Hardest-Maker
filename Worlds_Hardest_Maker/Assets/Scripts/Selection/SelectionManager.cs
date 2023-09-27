@@ -235,7 +235,8 @@ public class SelectionManager : MonoBehaviour
         bool inMatrix = worldPositionType == WorldPositionType.Matrix;
 
         // find bounds
-        (float lowestX, float highestX, float lowestY, float highestY) = inMatrix ? GetBoundsMatrix(p1, p2) : GetBounds(p1, p2);
+        (float lowestX, float highestX, float lowestY, float highestY) =
+            inMatrix ? GetBoundsMatrix(p1, p2) : GetBounds(p1, p2);
 
         // collect every pos in range
         float increment = inMatrix ? 1 : 0.5f;

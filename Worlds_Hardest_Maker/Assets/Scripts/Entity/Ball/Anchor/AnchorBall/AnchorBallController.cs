@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class AnchorBallController : EntityController
@@ -17,9 +16,9 @@ public class AnchorBallController : EntityController
     {
         if (ParentAnchorNull)
         {
-            if(AnchorManager.Instance.SelectedAnchor == null) base.Delete();
+            if (AnchorManager.Instance.SelectedAnchor == null) base.Delete();
         }
-        else if(ParentAnchor.Selected) base.Delete();
+        else if (ParentAnchor.Selected) base.Delete();
     }
 
     private void OnDestroy()

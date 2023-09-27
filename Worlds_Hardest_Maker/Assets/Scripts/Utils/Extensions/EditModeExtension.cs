@@ -72,10 +72,9 @@ public static class EditModeExtension
             "Key - Yellow"
         }[(int)mode];
 
-    public static bool IsFieldType(this EditMode mode)
-    {
+    public static bool IsFieldType(this EditMode mode) =>
         // list of all field types
-        return new List<EditMode>
+        new List<EditMode>
         {
             EditMode.WallField,
             EditMode.StartField,
@@ -92,7 +91,6 @@ public static class EditModeExtension
             EditMode.BlueKeyDoorField,
             EditMode.YellowKeyDoorField
         }.Contains(mode);
-    }
 
     public static bool IsKey(this EditMode mode) => KeyManager.KeyModes.Contains(mode);
 
