@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 3287657404171501117}
   - component: {fileID: 470580513920267525}
   - component: {fileID: 5932802461731541815}
-  - component: {fileID: 2044471552241584857}
   - component: {fileID: 2957006135882436380}
+  - component: {fileID: 6819338268466665832}
   m_Layer: 7
   m_Name: BallObject
   m_TagString: AnchorBallObject
@@ -150,19 +150,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorPaletteName: Ball
   colorPaletteIndex: 0
---- !u!114 &2044471552241584857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1414024793712416713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2b634d6afae6b944bebd2b4e9fb0ecd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  worldType: 1
 --- !u!114 &2957006135882436380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +163,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ParentAnchor: {fileID: 0}
+--- !u!114 &6819338268466665832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414024793712416713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48583f858a494d2469676809b10e9d54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldType: 1
+  anchorBallController: {fileID: 2957006135882436380}
 --- !u!1 &6481791030330069436
 GameObject:
   m_ObjectHideFlags: 0
