@@ -125,4 +125,12 @@ public class AlphaTween : MonoBehaviour
             spriteRenderer.color = new(color.r, color.g, color.b, startVisible ? alphaVisible : alphaInvisible);
         }
     }
+
+    private void OnDestroy()
+    {
+        image.DOKill();
+        text.DOKill();
+        canvasGroup.DOKill();
+        spriteRenderer.DOKill();
+    }
 }

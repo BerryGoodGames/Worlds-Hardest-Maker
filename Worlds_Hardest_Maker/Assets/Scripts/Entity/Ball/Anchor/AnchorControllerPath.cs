@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using MyBox;
 using UnityEngine;
 
@@ -116,6 +117,13 @@ public partial class AnchorController
             if (anchorBlock is not PositionAnchorBlock positionAnchorBlock) continue;
 
             PositionAnchorBlockController controller = positionAnchorBlock.Controller;
+
+            // kill all glow tweens
+            foreach (AnchorPathLine line in controller.Lines)
+            {
+                line.Blur.DOKill();
+            }
+
             controller.Lines.Clear();
         }
 
