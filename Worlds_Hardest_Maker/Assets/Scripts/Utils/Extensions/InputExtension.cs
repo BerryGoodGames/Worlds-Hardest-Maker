@@ -8,7 +8,7 @@ public static class InputExtension
 
         float inputFloat;
 
-        if (input == string.Empty || !IsDigitsOnly(input))
+        if (input == string.Empty || input == "-" || input == "." || !IsDigitsOnly(input))
         {
             inputFloat = 0f;
         }

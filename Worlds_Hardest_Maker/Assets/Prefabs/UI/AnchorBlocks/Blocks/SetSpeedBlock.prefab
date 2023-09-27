@@ -537,7 +537,6 @@ MonoBehaviour:
   IsSource: 0
   lockIconContainer: {fileID: 679632393807756640}
   warningIconContainer: {fileID: 1451379561904672695}
-  AnchorBlockDragDropComp: {fileID: 0}
   MouseOverUI: {fileID: 0}
   SpeedInput: {fileID: 4996182808074809848}
   UnitInput: {fileID: 2297167765002795367}
@@ -560,6 +559,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3450903711411163846}
     m_Modifications:
+    - target: {fileID: 3971989862837306422, guid: 8140c5adea7c60a4395de5ee0669a7f6, type: 3}
+      propertyPath: forbidNegative
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7251666483022855808, guid: 8140c5adea7c60a4395de5ee0669a7f6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
