@@ -1,6 +1,11 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using Photon.Pun;
+using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
+using static UnityEngine.UI.ContentSizeFitter;
 
 /// <summary>
 ///     Controls mouse events: placing, filling, deleting
@@ -14,15 +19,6 @@ public class MouseEvents : MonoBehaviour
     {
         PhotonView photonView = GameManager.Instance.photonView;
         bool multiplayer = MultiplayerManager.Instance.Multiplayer;
-
-        // get mouse position and scale it to units
-        Vector2 mousePos = MouseManager.Instance.MouseWorldPos;
-
-        int matrixX = (int)Mathf.Round(mousePos.x);
-        int matrixY = (int)Mathf.Round(mousePos.y);
-
-        float gridX = Mathf.Round(mousePos.x * 2) * 0.5f;
-        float gridY = Mathf.Round(mousePos.y * 2) * 0.5f;
 
         EditMode editMode = EditModeManager.Instance.CurrentEditMode;
 
@@ -50,11 +46,11 @@ public class MouseEvents : MonoBehaviour
                 !Input.GetKey(KeybindManager.Instance.EntityDeleteKey) &&
                 !SelectionManager.Instance.Selecting)
             {
-                CheckFieldPlacement(editMode, matrixX, matrixY, mousePos);
-                CheckEntityPlacement(editMode, gridX, gridY);
+                if (Input.GetMouseButton(0)) CheckDragPlacement(editMode);
+                if (Input.GetMouseButtonDown(0)) CheckClickPlacement(editMode);
             }
 
-            CheckEntityDelete(gridX, gridY, photonView, multiplayer);
+            CheckEntityDelete(photonView, multiplayer);
         }
 
         // track drag positions
@@ -78,81 +74,67 @@ public class MouseEvents : MonoBehaviour
         SelectionManager.Instance.CancelSelection();
     }
 
-    private static void CheckFieldPlacement(EditMode editMode, int matrixX, int matrixY, Vector2 mousePos)
+    private static void CheckClickPlacement(EditMode editMode)
     {
-        // on drag: place fields
-        if (!Input.GetMouseButton(0)) return;
-
-        if (!editMode.IsFieldType())
+        // place anchor
+        if (editMode is EditMode.Anchor)
         {
-            GameManager.PlaceEditModeAtPosition(editMode, mousePos);
-            return;
-        }
-
-        // place field
-        FieldType type = EnumUtils.ConvertEnum<EditMode, FieldType>(editMode);
-
-        int rotation = type.IsRotatable() ? EditModeManager.Instance.EditRotation : 0;
-
-        // if user didn't drag to fast, just place field normally
-        if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) < 1.414f)
-        {
-            FieldManager.Instance.SetField(matrixX, matrixY, type, rotation);
-            return;
-        }
-
-        // if user did drag to fast, fill path between two mouse pos for smoother placing on low framerate
-        FieldManager.FillPathWithFields(type, rotation);
-    }
-
-    private static void CheckEntityPlacement(EditMode editMode, float gridX, float gridY)
-    {
-        // onclick: place entities
-        if (!Input.GetMouseButtonDown(0)) return;
-
-        switch (editMode)
-        {
-            case EditMode.Anchor:
-                // place new anchor + select
-                AnchorController anchor = AnchorManager.Instance.SetAnchor(gridX, gridY);
-                if (anchor != null) AnchorManager.Instance.SelectAnchor(anchor);
-                break;
-            case EditMode.AnchorBall:
-                // AnchorBallManagerOld.SetAnchorBall(gridX, gridY);
-                AnchorBallManager.SetAnchorBall(gridX, gridY);
-                break;
+            // place new anchor + select
+            AnchorController anchor = AnchorManager.Instance.SetAnchor(MouseManager.Instance.MouseWorldPosGrid);
+            if (anchor != null) AnchorManager.Instance.SelectAnchor(anchor);
         }
     }
 
-    private static void CheckEntityDelete(float gridX, float gridY, PhotonView photonView, bool multiplayer)
+    private static void CheckDragPlacement(EditMode editMode)
+    {
+        List<EditMode> dragPlaceEditModes = new()
+        {
+            EditMode.DeleteField, EditMode.Player, EditMode.Coin, EditMode.AnchorBall
+        };
+
+        // check placement
+        if (dragPlaceEditModes.Contains(editMode) || editMode.IsKey() || editMode.IsFieldType())
+        {
+            GameManager.PlaceEditModeAtPosition(editMode, MouseManager.Instance.MouseWorldPos);
+        }
+
+        // if user dragged to fast, fill path between two mouse pos for smoother placing on low framerate
+        if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) > 1.414f && editMode.IsFieldType())
+        {
+            FieldType type = EnumUtils.ConvertEnum<EditMode, FieldType>(editMode);
+            int rotation = type.IsRotatable() ? EditModeManager.Instance.EditRotation : 0;
+            FieldManager.FillPathWithFields(type, rotation);
+        }
+    }
+
+    private static void CheckEntityDelete(PhotonView photonView, bool multiplayer)
     {
         if (!Input.GetKey(KeybindManager.Instance.EntityDeleteKey)) return;
 
-        //if (!Input.GetMouseButton(0) || (!Input.GetMouseButtonDown(0) && Input.mousePosition.Equals(MouseManager.Instance.PrevMousePos)))
         if (!Input.GetMouseButton(0) && !Input.GetMouseButtonDown(0)) return;
 
         // delete entities
         if (multiplayer)
         {
             // remove player (only own client)
-            PlayerManager.Instance.RemovePlayerAtPosIgnoreOtherClients(gridX, gridY);
+            PlayerManager.Instance.RemovePlayerAtPosIgnoreOtherClients(MouseManager.Instance.MouseWorldPosGrid);
 
             // remove coins
-            photonView.RPC("RemoveCoin", RpcTarget.All, gridX, gridY);
+            photonView.RPC("RemoveCoin", RpcTarget.All, MouseManager.Instance.MouseWorldPosGrid);
 
             // remove balls
-            photonView.RPC("RemoveAnchorBall", RpcTarget.All, gridX, gridY);
+            photonView.RPC("RemoveAnchorBall", RpcTarget.All, MouseManager.Instance.MouseWorldPosGrid);
 
             // remove anchors
-            photonView.RPC("RemoveAnchor", RpcTarget.All, gridX, gridY);
+            photonView.RPC("RemoveAnchor", RpcTarget.All, MouseManager.Instance.MouseWorldPosGrid);
 
             // remove keys
-            photonView.RPC("RemoveKey", RpcTarget.All, gridX, gridY);
+            photonView.RPC("RemoveKey", RpcTarget.All, MouseManager.Instance.MouseWorldPosGrid);
         }
         else
         {
             // remove entity
-            GameEntityManager.RemoveEntitiesAt(new(gridX, gridY));
+            GameEntityManager.RemoveEntitiesAt(MouseManager.Instance.MouseWorldPosGrid);
         }
     }
 }

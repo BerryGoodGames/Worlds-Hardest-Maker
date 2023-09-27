@@ -80,12 +80,8 @@ public class SelectionManager : MonoBehaviour
     {
         if (MouseManager.Instance.MouseDragStart == null || MouseManager.Instance.MouseDragCurrent == null) return;
 
-        prevStart = ((Vector2)MouseManager.Instance.MouseDragStart).ConvertPosition(EditModeManager.Instance
-            .CurrentEditMode
-            .GetWorldPosition());
-        prevEnd = ((Vector2)MouseManager.Instance.MouseDragCurrent).ConvertPosition(EditModeManager.Instance
-            .CurrentEditMode
-            .GetWorldPosition());
+        prevStart = ((Vector2)MouseManager.Instance.MouseDragStart).ConvertPosition(FollowMouse.WorldPositionType.Grid);
+        prevEnd = ((Vector2)MouseManager.Instance.MouseDragCurrent).ConvertPosition(FollowMouse.WorldPositionType.Grid);
     }
 
     private void Start()
@@ -342,10 +338,9 @@ public class SelectionManager : MonoBehaviour
     {
         if (poses.Count == 0) return;
 
-        FieldType? fieldType = (FieldType?)EnumUtils.TryConvertEnum<EditMode, FieldType>(editMode);
-        if (fieldType != null)
+        if (editMode.IsFieldType())
         {
-            FillArea(poses, (FieldType)fieldType);
+            FillArea(poses, (FieldType)EnumUtils.TryConvertEnum<EditMode, FieldType>(editMode));
             return;
         }
 

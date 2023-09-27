@@ -45,76 +45,55 @@ public class GameManager : MonoBehaviourPun
     ///     Places edit mode at position
     /// </summary>
     /// <param name="editMode">the type of field/entity you want</param>
-    public static void PlaceEditModeAtPosition(EditMode editMode, Vector2 pos)
+    public static void PlaceEditModeAtPosition(EditMode editMode, Vector2 worldPos)
     {
-        int matrixX = (int)Mathf.Round(pos.x);
-        int matrixY = (int)Mathf.Round(pos.y);
+        Vector2 gridPos = worldPos.ConvertPosition(FollowMouse.WorldPositionType.Grid);
+        Vector2 matrixPos = worldPos.ConvertPosition(FollowMouse.WorldPositionType.Matrix);
 
-        bool multiplayer = MultiplayerManager.Instance.Multiplayer;
-        PhotonView photonView = Instance.photonView;
-
-        float gridX = Mathf.Round(pos.x * 2) * 0.5f;
-        float gridY = Mathf.Round(pos.y * 2) * 0.5f;
-
+        // check field placement
         if (editMode.IsFieldType())
         {
-            FieldManager.Instance.SetField((int)pos.x, (int)pos.y,
-                EnumUtils.ConvertEnum<EditMode, FieldType>(editMode));
+            FieldType type = EnumUtils.ConvertEnum<EditMode, FieldType>(editMode);
+            int rotation = type.IsRotatable() ? EditModeManager.Instance.EditRotation : 0;
+            FieldManager.Instance.SetField(matrixPos, type, rotation);
         }
-        else
+
+        // check field deletion
+        if (editMode is EditMode.DeleteField)
         {
-            switch (editMode)
-            {
-                case EditMode.DeleteField:
-                {
-                    // delete field
-                    if (multiplayer) photonView.RPC("RemoveField", RpcTarget.All, matrixX, matrixY, true);
-                    else FieldManager.Instance.RemoveField(matrixX, matrixY, true);
+            // delete field
+            FieldManager.Instance.RemoveField(matrixPos, true);
 
-                    // remove player if at deleted pos
-                    if (multiplayer)
-                        photonView.RPC("RemovePlayerAtPosIntersect", RpcTarget.All, (float)matrixX, (float)matrixY);
-                    else PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixX, matrixY);
-                    break;
-                }
-                case EditMode.Player:
-                    // place player
-                    PlayerManager.Instance.SetPlayer(gridX, gridY, true);
-                    break;
-                case EditMode.Coin when multiplayer:
-                    // place coin
-                    photonView.RPC("SetCoin", RpcTarget.All, gridX, gridY);
-                    break;
-                case EditMode.Coin:
-                    CoinManager.Instance.SetCoin(gridX, gridY);
-                    break;
-                case EditMode.AnchorBall:
-                    AnchorBallManager.SetAnchorBall(gridX, gridY);
-                    break;
-                default:
-                {
-                    if (KeyManager.IsKeyEditMode(editMode))
-                    {
-                        // get key color
-                        string editModeStr = editMode.ToString();
-                        string keyColorStr = editModeStr.Remove(editModeStr.Length - 3);
-                        KeyManager.KeyColor keyColor =
-                            (KeyManager.KeyColor)Enum.Parse(typeof(KeyManager.KeyColor), keyColorStr);
+            // remove player if at deleted pos
+            PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixPos);
+        }
 
-                        // place key
-                        if (multiplayer) photonView.RPC("SetKey", RpcTarget.All, gridX, gridY, keyColor);
-                        else KeyManager.Instance.SetKey(gridX, gridY, keyColor);
-                    }
+        if (editMode is EditMode.Player) PlayerManager.Instance.SetPlayer(gridPos, true);
+        if (editMode is EditMode.AnchorBall) AnchorBallManager.SetAnchorBall(gridPos);
+        if (editMode is EditMode.Coin) CoinManager.Instance.SetCoin(gridPos);
+        if (editMode.IsKey())
+        {
+            // get key color
+            string editModeStr = editMode.ToString();
+            string keyColorStr = editModeStr.Remove(editModeStr.Length - 3);
+            KeyManager.KeyColor keyColor = EnumUtils.ParseString<KeyManager.KeyColor>(keyColorStr);
 
-                    break;
-                }
-            }
+            // place key
+            KeyManager.Instance.SetKey(gridPos, keyColor);
+        }
+
+        // place anchor
+        if (editMode is EditMode.Anchor)
+        {
+            // place new anchor + select
+            AnchorController anchor = AnchorManager.Instance.SetAnchor(gridPos);
+            if (anchor != null) AnchorManager.Instance.SelectAnchor(anchor);
         }
     }
 
     #region Save system
 
-    public void LoadLevel(string path)
+                        public void LoadLevel(string path)
     {
         List<Data> levelData = SaveSystem.LoadLevel(path);
 

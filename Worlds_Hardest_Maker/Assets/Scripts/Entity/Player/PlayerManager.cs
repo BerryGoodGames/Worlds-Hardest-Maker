@@ -87,8 +87,8 @@ public class PlayerManager : MonoBehaviour
     public void SetPlayer(Vector2 pos, float speed, bool placeStartField = false) =>
         SetPlayer(pos.x, pos.y, speed, placeStartField);
 
-    [PunRPC]
     public void SetPlayer(float mx, float my, bool placeStartField = false) => SetPlayer(mx, my, 3f, placeStartField);
+    public void SetPlayer(Vector2 pos, bool placeStartField = false) => SetPlayer(pos.x, pos.y, 3f, placeStartField);
 
     #endregion
 
@@ -138,7 +138,8 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    [PunRPC]
+    public void RemovePlayerAtPosIgnoreOtherClients(Vector2 pos) => RemovePlayerAtPosIgnoreOtherClients(pos.x, pos.y);
+
     public void RemovePlayerAtPosIntersect(float mx, float my)
     {
         float[] dx = { -0.5f, 0, 0.5f, -0.5f, 0, 0.5f, -0.5f, 0, 0.5f };
@@ -148,6 +149,8 @@ public class PlayerManager : MonoBehaviour
             RemovePlayerAtPos(mx + dx[i], my + dy[i]);
         }
     }
+
+    public void RemovePlayerAtPosIntersect(Vector2 pos) => RemovePlayerAtPosIntersect(pos.x, pos.y);
 
     public static bool CanPlace(float mx, float my, bool checkForPlayer = true) =>
         // conditions: no player there, position is covered with possible start fields

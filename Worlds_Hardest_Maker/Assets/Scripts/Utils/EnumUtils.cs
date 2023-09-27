@@ -11,4 +11,6 @@ public static class EnumUtils
 
         return convEnum;
     }
+
+    public static T ParseString<T>(string input) => (T)Enum.Parse(typeof(T), input);
 }

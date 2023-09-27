@@ -41,7 +41,7 @@ public class FieldManager : MonoBehaviour
     public static GameObject GetField(Vector2 pos) => GetField((int)pos.x, (int)pos.y);
 
     [PunRPC]
-    public void RemoveField(int mx, int my, bool updateOutlines)
+    public void RemoveField(int mx, int my, bool updateOutlines = false)
     {
         GameObject field = GetField(mx, my);
 
@@ -56,8 +56,8 @@ public class FieldManager : MonoBehaviour
         }
     }
 
-    [PunRPC]
-    public void RemoveField(int mx, int my) => RemoveField(mx, my, false);
+    public void RemoveField(Vector2 pos, bool updateOutlines = false) =>
+        RemoveField((int)pos.x, (int)pos.y, updateOutlines);
 
     [PunRPC]
     public void SetField(int mx, int my, FieldType type, int rotation)

@@ -75,7 +75,7 @@ public static class EditModeExtension
     public static bool IsFieldType(this EditMode mode)
     {
         // list of all field types
-        List<EditMode> fieldModes = new()
+        return new List<EditMode>
         {
             EditMode.WallField,
             EditMode.StartField,
@@ -91,10 +91,12 @@ public static class EditModeExtension
             EditMode.GreenKeyDoorField,
             EditMode.BlueKeyDoorField,
             EditMode.YellowKeyDoorField
-        };
-
-        return fieldModes.Contains(mode);
+        }.Contains(mode);
     }
+
+    public static bool IsKey(this EditMode mode) => KeyManager.KeyModes.Contains(mode);
+
+    public static bool IsKeyDoor(this EditMode mode) => KeyManager.KeyDoorModes.Contains(mode);
 
     public static bool IsAnchorRelated(this EditMode mode) => mode is EditMode.Anchor or EditMode.AnchorBall;
 }
