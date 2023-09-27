@@ -57,7 +57,7 @@ public class MouseManager : MonoBehaviour
     /// </summary>
     /// <param name="worldPositionType">The world position mode, you want the output to be in (-> any, grid, matrix)</param>
     /// <exception cref="Exception"></exception>
-    public static (Vector2, Vector2) GetDragPositions(FollowMouse.WorldPositionType worldPositionType)
+    public static (Vector2, Vector2) GetDragPositions(WorldPositionType worldPositionType)
     {
         if (Instance.MouseDragStart == null || Instance.MouseDragCurrent == null)
             throw new Exception("Trying to access drag start and end positions when neither recorded");

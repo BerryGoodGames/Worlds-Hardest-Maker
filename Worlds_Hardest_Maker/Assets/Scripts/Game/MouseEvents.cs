@@ -134,7 +134,7 @@ public class MouseEvents : MonoBehaviour
         else
         {
             // remove entity
-            GameEntityManager.RemoveEntitiesAt(MouseManager.Instance.MouseWorldPosGrid);
+            GameEntityManager.RemoveEntitiesAt(MouseManager.Instance.MouseWorldPosGrid, LayerManager.Instance.Layers.Entity);
         }
     }
 }

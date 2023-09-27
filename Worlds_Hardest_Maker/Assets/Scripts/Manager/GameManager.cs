@@ -47,8 +47,8 @@ public class GameManager : MonoBehaviourPun
     /// <param name="editMode">the type of field/entity you want</param>
     public static void PlaceEditModeAtPosition(EditMode editMode, Vector2 worldPos)
     {
-        Vector2 gridPos = worldPos.ConvertPosition(FollowMouse.WorldPositionType.Grid);
-        Vector2 matrixPos = worldPos.ConvertPosition(FollowMouse.WorldPositionType.Matrix);
+        Vector2 gridPos = worldPos.ConvertPosition(WorldPositionType.Grid);
+        Vector2 matrixPos = worldPos.ConvertPosition(WorldPositionType.Matrix);
 
         // check field placement
         if (editMode.IsFieldType())

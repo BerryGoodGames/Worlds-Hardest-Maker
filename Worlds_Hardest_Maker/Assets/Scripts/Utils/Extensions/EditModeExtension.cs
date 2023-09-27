@@ -6,10 +6,10 @@ using UnityEngine;
 /// </summary>
 public static class EditModeExtension
 {
-    public static FollowMouse.WorldPositionType GetWorldPosition(this EditMode mode)
+    public static WorldPositionType GetWorldPosition(this EditMode mode)
     {
-        if (mode.IsFieldType() || mode == EditMode.DeleteField) return FollowMouse.WorldPositionType.Matrix;
-        return FollowMouse.WorldPositionType.Grid;
+        if (mode.IsFieldType() || mode == EditMode.DeleteField) return WorldPositionType.Matrix;
+        return WorldPositionType.Grid;
     }
 
     public static GameObject GetPrefab(this EditMode mode)

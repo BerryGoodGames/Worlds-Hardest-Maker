@@ -3,11 +3,11 @@ using UnityEngine;
 
 public static class VectorExtension
 {
-    public static Vector2 ConvertPosition(this Vector2 pos, FollowMouse.WorldPositionType worldPositionType) =>
+    public static Vector2 ConvertPosition(this Vector2 pos, WorldPositionType worldPositionType) =>
         worldPositionType switch
         {
-            FollowMouse.WorldPositionType.Any => pos,
-            FollowMouse.WorldPositionType.Grid => MouseManager.PosToGrid(pos),
+            WorldPositionType.Any => pos,
+            WorldPositionType.Grid => MouseManager.PosToGrid(pos),
             _ => MouseManager.PosToMatrix(pos)
         };
 

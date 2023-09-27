@@ -227,7 +227,7 @@ MonoBehaviour:
   lockIconContainer: {fileID: 4602429425331699148}
   warningIconContainer: {fileID: 2492110343676235547}
   MouseOverUI: {fileID: 0}
-  Input: {fileID: 6262847865256452984}
+  IterationsInput: {fileID: 6262847865256452984}
 --- !u!1 &2492110343676235547 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2693803718922020829, guid: c93df7803d003ab49b317d10afa7f970, type: 3}

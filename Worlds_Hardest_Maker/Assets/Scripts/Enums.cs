@@ -43,3 +43,11 @@ public enum FieldType
     BlueKeyDoorField,
     YellowKeyDoorField
 }
+
+
+public enum WorldPositionType
+{
+    Any,
+    Grid,
+    Matrix
+}

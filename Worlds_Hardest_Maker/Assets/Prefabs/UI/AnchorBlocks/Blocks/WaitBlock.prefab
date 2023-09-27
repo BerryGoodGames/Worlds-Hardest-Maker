@@ -240,7 +240,6 @@ MonoBehaviour:
   IsSource: 0
   lockIconContainer: {fileID: 1365843637522906728}
   warningIconContainer: {fileID: 1134537152211897535}
-  AnchorBlockDragDropComp: {fileID: 0}
   MouseOverUI: {fileID: 0}
   DurationInput: {fileID: 4912644674184131412}
   UnitInput: {fileID: 8903058471181402467}
@@ -731,7 +730,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1257115705517140453, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 153.02
+      value: 134.54001
       objectReference: {fileID: 0}
     - target: {fileID: 1257115705517140453, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
       propertyPath: m_AnchoredPosition.y

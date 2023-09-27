@@ -70,8 +70,8 @@ public class PreviewController : MonoBehaviour
         if (!SelectionManager.Instance.Selecting && hasFollowMouseComp)
         {
             followMouseComp.WorldPosition = currentEditMode.IsFieldType() || currentEditMode == EditMode.DeleteField
-                ? FollowMouse.WorldPositionType.Matrix
-                : FollowMouse.WorldPositionType.Grid;
+                ? WorldPositionType.Matrix
+                : WorldPositionType.Grid;
         }
 
         // check visibility of preview
@@ -105,12 +105,12 @@ public class PreviewController : MonoBehaviour
                 return false;
         }
 
-        FollowMouse.WorldPositionType positionMode = GetComponent<FollowMouse>().WorldPosition;
+        WorldPositionType positionMode = GetComponent<FollowMouse>().WorldPosition;
 
         Vector2 mousePos = positionMode switch
         {
-            FollowMouse.WorldPositionType.Any => MouseManager.Instance.MouseWorldPos,
-            FollowMouse.WorldPositionType.Grid => MouseManager.Instance.MouseWorldPosGrid,
+            WorldPositionType.Any => MouseManager.Instance.MouseWorldPos,
+            WorldPositionType.Grid => MouseManager.Instance.MouseWorldPosGrid,
             _ => MouseManager.Instance.MouseWorldPosMatrix
         };
 

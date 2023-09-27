@@ -58,7 +58,7 @@ public class SelectionManager : MonoBehaviour
             MouseManager.Instance.MouseDragCurrent != null && Selecting)
         {
             // get drag positions and world position mode
-            FollowMouse.WorldPositionType worldPositionType =
+            WorldPositionType worldPositionType =
                 EditModeManager.Instance.CurrentEditMode.GetWorldPosition();
 
             (Vector2 start, Vector2 end) = MouseManager.GetDragPositions(worldPositionType);
@@ -80,8 +80,8 @@ public class SelectionManager : MonoBehaviour
     {
         if (MouseManager.Instance.MouseDragStart == null || MouseManager.Instance.MouseDragCurrent == null) return;
 
-        prevStart = ((Vector2)MouseManager.Instance.MouseDragStart).ConvertPosition(FollowMouse.WorldPositionType.Grid);
-        prevEnd = ((Vector2)MouseManager.Instance.MouseDragCurrent).ConvertPosition(FollowMouse.WorldPositionType.Grid);
+        prevStart = ((Vector2)MouseManager.Instance.MouseDragStart).ConvertPosition(WorldPositionType.Grid);
+        prevEnd = ((Vector2)MouseManager.Instance.MouseDragCurrent).ConvertPosition(WorldPositionType.Grid);
     }
 
     private void Start()
@@ -230,9 +230,9 @@ public class SelectionManager : MonoBehaviour
 
     #region Fill
 
-    public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2, FollowMouse.WorldPositionType worldPositionType)
+    public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2, WorldPositionType worldPositionType)
     {
-        bool inMatrix = worldPositionType == FollowMouse.WorldPositionType.Matrix;
+        bool inMatrix = worldPositionType == WorldPositionType.Matrix;
 
         // find bounds
         (float lowestX, float highestX, float lowestY, float highestY) = inMatrix ? GetBoundsMatrix(p1, p2) : GetBounds(p1, p2);
@@ -355,7 +355,7 @@ public class SelectionManager : MonoBehaviour
     }
 
     public void FillArea(Vector2 start, Vector2 end, FieldType type) =>
-        Instance.FillArea(GetFillRange(start, end, FollowMouse.WorldPositionType.Matrix), type);
+        Instance.FillArea(GetFillRange(start, end, WorldPositionType.Matrix), type);
 
     private void AdaptAreaToType(Vector2 lowestPos, Vector2 highestPos, FieldType type)
     {

@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class EntityDragDrop : MonoBehaviour
 {
-    [SerializeField] private FollowMouse.WorldPositionType worldType;
+    [SerializeField] private WorldPositionType worldType;
     public event Action<Vector2, Vector2> OnMove;
 
     protected virtual void OnMouseDrag()
