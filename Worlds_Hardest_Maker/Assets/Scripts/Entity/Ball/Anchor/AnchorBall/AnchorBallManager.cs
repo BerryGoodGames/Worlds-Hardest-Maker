@@ -118,7 +118,7 @@ public class AnchorBallManager : MonoBehaviour
         }
         else
         {
-            AnchorManager.Instance.SelectAnchor(ballsAtPos[0].ParentAnchor);
+            AnchorManager.Instance.SelectAnchor(ballsAtPos[0].ParentAnchor, false);
         }
     }
 

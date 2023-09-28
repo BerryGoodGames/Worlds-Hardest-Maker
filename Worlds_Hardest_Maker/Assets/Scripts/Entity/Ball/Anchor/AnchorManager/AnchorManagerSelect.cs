@@ -11,7 +11,7 @@ public partial class AnchorManager
         Instance.SelectAnchor(anchor);
     }
 
-    public void SelectAnchor(AnchorController anchor)
+    public void SelectAnchor(AnchorController anchor, bool toggleDeselect = true)
     {
         if (anchor == null) return;
 
@@ -32,7 +32,7 @@ public partial class AnchorManager
         }
 
         // deselect anchor if "selected" again by the user (but only if edit mode before was anchor or anchor ball, not sth else)
-        if (SelectedAnchor == anchor && !switchedEditMode)
+        if (toggleDeselect && SelectedAnchor == anchor && !switchedEditMode)
         {
             DeselectAnchor();
             return;
