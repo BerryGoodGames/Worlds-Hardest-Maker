@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Photon.Pun;
@@ -112,14 +113,22 @@ public class AnchorBallManager : MonoBehaviour
 
         if (ballsAtPos.Count <= 0) return;
 
-        if (ballsAtPos[0].ParentAnchor == null)
+        foreach (AnchorBallController ball in ballsAtPos)
         {
-            AnchorManager.Instance.DeselectAnchor();
+            if (!ball.IsParentAnchorNull && ball.ParentAnchor.Position == ball.Position) continue;
+
+            if (ball.IsParentAnchorNull || AnchorManager.Instance.SelectedAnchor == ball.ParentAnchor)
+            {
+                AnchorManager.Instance.DeselectAnchor();
+            }
+            else
+            {
+                AnchorManager.Instance.SelectAnchor(ball.ParentAnchor, false);
+            }
+
+            break;
         }
-        else
-        {
-            AnchorManager.Instance.SelectAnchor(ballsAtPos[0].ParentAnchor, false);
-        }
+        
     }
 
     private void Start()

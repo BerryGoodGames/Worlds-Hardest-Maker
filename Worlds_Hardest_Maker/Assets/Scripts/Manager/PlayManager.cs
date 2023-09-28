@@ -1,5 +1,7 @@
 using System;
+using System.Windows.Forms;
 using UnityEngine;
+using Application = UnityEngine.Application;
 
 public class PlayManager : MonoBehaviour
 {
@@ -54,13 +56,17 @@ public class PlayManager : MonoBehaviour
 
         ActivateCoinKeyAnimations();
 
-        JumpToPlayer();
+        // JumpToPlayer();
 
         EditModeManager.Instance.InvokeOnPlay();
 
         // hide all panels
         PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
+        PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
         PanelManager.Instance.SetPanelHidden(levelSettingsPanel, true);
+
+        PanelManager.Instance.WasAnchorPanelOpen = anchorPanel.Open;
+        PanelManager.Instance.SetPanelHidden(anchorPanel, true);
     }
 
     private static void DisablePreview() =>
@@ -152,12 +158,25 @@ public class PlayManager : MonoBehaviour
 
         EditModeManager.Instance.InvokeOnEdit();
 
-        // show level setting panel
+        // show level setting / anchor panel
         bool isEditModeAnchorRelated = EditModeManager.Instance.CurrentEditMode.IsAnchorRelated();
         PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
-        PanelManager.Instance.SetPanelHidden(isEditModeAnchorRelated ? anchorPanel : levelSettingsPanel, false);
-        // if(EditModeManager.Instance.CurrentEditMode != EditMode.Anchor) ReferenceManager.Instance.LevelSettingsButtonPanelTween.SetOpen(true);
+        if (isEditModeAnchorRelated)
+        {
+            if (PanelManager.Instance.WasAnchorPanelOpen)
+            {
+                PanelManager.Instance.SetPanelOpen(anchorPanel, true);
+            }
+            else
+            {
+                PanelManager.Instance.SetPanelHidden(anchorPanel, false);
+            }
+        }
+        else
+        {
+            PanelManager.Instance.SetPanelHidden(levelSettingsPanel, false);
+        }
     }
 
     private static void ResetPlayerGameStates()
