@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class PanelManager : MonoBehaviour
     public static PanelManager Instance { get; private set; }
 
     [ReadOnly] public List<PanelController> Panels;
+
+    public bool WasAnchorPanelOpen { get; set; }
 
     public void SetPanelOpen(PanelController panel, bool open)
     {
