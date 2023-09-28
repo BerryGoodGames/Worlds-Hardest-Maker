@@ -39,6 +39,7 @@ public class AnchorData : Data
         balls = new AnchorBallData[controller.Balls.Count];
         for (int i = 0; i < controller.Balls.Count; i++)
         {
+            Debug.Log(controller.Balls.Count);
             balls[i] = new(controller.Balls[i].GetChild(0).localPosition);
         }
     }
