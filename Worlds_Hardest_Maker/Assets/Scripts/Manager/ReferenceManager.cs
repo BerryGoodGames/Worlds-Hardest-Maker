@@ -47,6 +47,8 @@ public class ReferenceManager : MonoBehaviour
 
     [Foldout("Containers")] public Transform FillPreviewContainer;
 
+    [Foldout("Containers")] public Transform EntityContainer;
+
     [Foldout("Containers")] public Transform PlayerContainer;
 
     [Foldout("Containers")] public Transform AnchorContainer;
