@@ -131,8 +131,6 @@ public static class SaveSystem
             // DiscordManager.State = $"Last opened Level: {levelName}";
         }
 
-        Debug.Log(stream.Length);
-
         //using (StreamReader reader = new StreamReader(stream))
         //{
         //    Debug.Log(reader.ReadToEnd());
