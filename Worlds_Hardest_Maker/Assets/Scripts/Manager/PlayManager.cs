@@ -54,7 +54,7 @@ public class PlayManager : MonoBehaviour
 
         ActivateCoinKeyAnimations();
 
-        JumpToPlayer();
+        // JumpToPlayer();
 
         EditModeManager.Instance.InvokeOnPlay();
 
