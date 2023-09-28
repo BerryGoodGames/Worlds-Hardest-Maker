@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Pipes;
 using System.Runtime.Serialization.Formatters.Binary;
 using Photon.Pun;
 using SFB;
@@ -129,6 +130,14 @@ public static class SaveSystem
             string levelName = splitPath[^1].Replace(".lvl", "");
             // DiscordManager.State = $"Last opened Level: {levelName}";
         }
+
+        Debug.Log(stream.Length);
+
+        //using (StreamReader reader = new StreamReader(stream))
+        //{
+        //    Debug.Log(reader.ReadToEnd());
+        //}
+
 
         List<Data> data = formatter.Deserialize(stream) as List<Data>;
         stream.Close();

@@ -25,7 +25,7 @@ public class AnchorBallController : EntityController
     {
         if (ParentAnchor != null)
         {
-            ParentAnchor.Balls.Remove(transform);
+            ParentAnchor.Balls.Remove(transform.parent);
             AnchorBallManager.Instance.AnchorBallListLayers[ParentAnchor].Remove(this);
         }
         else
