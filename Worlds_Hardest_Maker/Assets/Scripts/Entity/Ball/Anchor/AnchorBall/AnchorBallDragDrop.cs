@@ -7,7 +7,7 @@ public class AnchorBallDragDrop : EntityDragDrop
 
     protected override void OnMouseDrag()
     {
-        if (anchorBallController.ParentAnchorNull)
+        if (anchorBallController.IsParentAnchorNull)
         {
             if (AnchorManager.Instance.SelectedAnchor == null) base.OnMouseDrag();
         }

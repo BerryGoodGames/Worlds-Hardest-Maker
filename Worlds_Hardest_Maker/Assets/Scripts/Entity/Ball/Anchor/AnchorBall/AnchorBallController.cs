@@ -3,18 +3,18 @@ using UnityEngine;
 public class AnchorBallController : EntityController
 {
     [HideInInspector] public AnchorController ParentAnchor;
-    public bool ParentAnchorNull { get; private set; }
+    public bool IsParentAnchorNull { get; private set; }
 
     public override Data GetData() => new AnchorBallData(transform.localPosition);
 
     private void Start()
     {
-        if (ParentAnchor == null) ParentAnchorNull = true;
+        if (ParentAnchor == null) IsParentAnchorNull = true;
     }
 
     public override void Delete()
     {
-        if (ParentAnchorNull)
+        if (IsParentAnchorNull)
         {
             if (AnchorManager.Instance.SelectedAnchor == null) base.Delete();
         }
