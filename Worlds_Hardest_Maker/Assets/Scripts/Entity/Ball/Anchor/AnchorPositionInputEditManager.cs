@@ -134,13 +134,13 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         // apply position to position input
         Instance.CurrentEditedPositionInput.SetPositionValues(MouseManager.Instance.MouseWorldPosGrid);
 
-        Instance.OnEndPositionEdit();
-
         // make sure that the player can't place directly after pasting
         while (!Input.GetMouseButtonUp(0))
         {
             yield return null;
         }
+
+        Instance.OnEndPositionEdit();
     }
 
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using DG.Tweening;
 using Photon.Pun;
@@ -204,12 +205,16 @@ public class GameManager : MonoBehaviourPun
     public void ClearLevel()
     {
         PlayerManager.Instance.RemoveAllPlayers();
-        Transform[] containers =
+        List<Transform> containers = new()
         {
-            ReferenceManager.Instance.FieldContainer, ReferenceManager.Instance.PlayerContainer,
-            ReferenceManager.Instance.CoinContainer, ReferenceManager.Instance.KeyContainer,
-            ReferenceManager.Instance.AnchorContainer
+            ReferenceManager.Instance.FieldContainer
         };
+
+        foreach (Transform t in ReferenceManager.Instance.EntityContainer)
+        {
+            containers.Add(t);
+        }
+
         foreach (Transform container in containers)
         {
             for (int i = container.childCount - 1; i >= 0; i--)
