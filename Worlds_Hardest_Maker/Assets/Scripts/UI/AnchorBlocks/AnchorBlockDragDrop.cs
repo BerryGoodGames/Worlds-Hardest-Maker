@@ -78,7 +78,7 @@ public class AnchorBlockDragDrop : MonoBehaviour
             anchorBlockController.Delete();
         }
 
-        ReferenceManager.Instance.AnchorBlockFitter.CheckForChanges();
+        ReferenceManager.Instance.CustomFitter.UpdateSize();
 
         // reset values
         AnchorBlockManager.Instance.DraggedBlock = null;

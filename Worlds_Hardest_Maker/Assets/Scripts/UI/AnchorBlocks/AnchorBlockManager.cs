@@ -199,7 +199,7 @@ public partial class AnchorBlockManager : MonoBehaviour
         // update UI
         RectTransform stringController = (RectTransform)ReferenceManager.Instance.MainChainController.transform;
         LayoutRebuilder.ForceRebuildLayoutImmediate(stringController);
-        ReferenceManager.Instance.AnchorBlockFitter.CheckForChanges();
+        ReferenceManager.Instance.CustomFitter.UpdateSize();
     }
 
     private static void UpdateSourceBlocksLayout()

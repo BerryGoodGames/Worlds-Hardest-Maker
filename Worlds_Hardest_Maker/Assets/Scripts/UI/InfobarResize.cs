@@ -7,6 +7,8 @@ public class InfobarResize : MonoBehaviour
     public float InfobarHeight;
     public GameObject[] InfoTexts;
 
+    [MustBeAssigned][SerializeField] private CustomFitter fitter;
+
     [ButtonMethod]
     public void UpdateSize()
     {
@@ -24,5 +26,7 @@ public class InfobarResize : MonoBehaviour
 
             text.fontSize = InfobarHeight * 0.514f;
         }
+
+        fitter.UpdateSize();
     }
 }

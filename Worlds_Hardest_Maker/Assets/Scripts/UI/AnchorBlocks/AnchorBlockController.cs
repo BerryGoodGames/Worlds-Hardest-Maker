@@ -57,7 +57,7 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         // update scrollbar of anchor block container
         transform.SetParent(null);
 
-        ReferenceManager.Instance.AnchorBlockFitter.CheckForChanges();
+        ReferenceManager.Instance.CustomFitter.UpdateSize();
 
         if (wasInChain)
         {

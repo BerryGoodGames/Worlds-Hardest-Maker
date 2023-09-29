@@ -7,6 +7,8 @@ public class ToolbarSizing : MonoBehaviour
 
     [Space] public float ToolbarHeight;
 
+    [MustBeAssigned] [SerializeField] private CustomFitter fitter;
+
     [ButtonMethod]
     public void UpdateSize()
     {
@@ -23,6 +25,8 @@ public class ToolbarSizing : MonoBehaviour
         Transform background = transform.parent.GetChild(0);
         RectTransform backgroundRectTransform = background.GetComponent<RectTransform>();
         backgroundRectTransform.sizeDelta = new(0, ToolbarHeight + 200);
+
+        fitter.UpdateSize(false);
     }
 
     [ButtonMethod]

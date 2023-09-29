@@ -19,7 +19,6 @@ public class AnchorBlockQuickMenuController : QuickMenuController
         if (SelectedAnchorBlock.IsLocked) return;
 
         SelectedAnchorBlock.Delete();
-        ReferenceManager.Instance.AnchorBlockFitter.UpdateChildrenArray();
     }
 
     public void OnClickDuplicate()
@@ -31,6 +30,5 @@ public class AnchorBlockQuickMenuController : QuickMenuController
         }
 
         SelectedAnchorBlock.Duplicate();
-        ReferenceManager.Instance.AnchorBlockFitter.UpdateChildrenArray();
     }
 }
