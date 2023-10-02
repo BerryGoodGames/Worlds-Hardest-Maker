@@ -63,7 +63,7 @@ public static class SaveSystem
         // serialize coins
         foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
         {
-            CoinData coinData = new(coin.GetChild(0).GetComponent<CoinController>());
+            CoinData coinData = new(coin.GetComponent<CoinController>());
             levelData.Add(coinData);
         }
 

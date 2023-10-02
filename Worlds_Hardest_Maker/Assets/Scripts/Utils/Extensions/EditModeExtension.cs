@@ -33,7 +33,7 @@ public static class EditModeExtension
             { EditMode.Player, PrefabManager.Instance.Player },
             { EditMode.Anchor, PrefabManager.Instance.Anchor },
             { EditMode.AnchorBall, PrefabManager.Instance.AnchorBall },
-            { EditMode.Coin, PrefabManager.Instance.Coin },
+            { EditMode.Coin, PrefabManager.Instance.Coin.gameObject },
             { EditMode.GrayKey, PrefabManager.Instance.GrayKey },
             { EditMode.RedKey, PrefabManager.Instance.RedKey },
             { EditMode.GreenKey, PrefabManager.Instance.GreenKey },

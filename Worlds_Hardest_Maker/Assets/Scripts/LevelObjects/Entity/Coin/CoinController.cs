@@ -1,7 +1,10 @@
+using MyBox;
 using UnityEngine;
 
 public class CoinController : EntityController
 {
+    [InitializationField] [MustBeAssigned] public Animator Animator;
+
     [HideInInspector] public Vector2 CoinPosition;
 
     [HideInInspector] public bool PickedUp;
@@ -10,7 +13,9 @@ public class CoinController : EntityController
 
     private void Awake() => CoinPosition = transform.position;
 
-    private void OnDestroy() => Destroy(transform.parent.gameObject);
+    // private void OnDestroy() => Destroy(transform.parent.gameObject);
+
+    public override void Delete() => Destroy(gameObject);
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -48,8 +53,7 @@ public class CoinController : EntityController
         // coin counter, sfx, animation
         AudioManager.Instance.Play("Coin");
 
-        Animator anim = transform.parent.GetComponent<Animator>();
-        anim.SetBool(pickedUpString, true);
+        Animator.SetBool(pickedUpString, true);
         PickedUp = true;
     }
 

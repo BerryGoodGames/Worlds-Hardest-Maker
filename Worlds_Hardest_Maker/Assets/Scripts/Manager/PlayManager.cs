@@ -115,14 +115,12 @@ public class PlayManager : MonoBehaviour
 
     private static void ActivateCoinKeyAnimations()
     {
-        Animator anim;
-
         // activate coin animations
         foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
         {
-            anim = coin.GetComponent<Animator>();
-            anim.SetBool(playingString, true);
-            anim.SetBool(pickedUpString, coin.GetChild(0).GetComponent<CoinController>().PickedUp);
+            CoinController controller = coin.GetComponent<CoinController>();
+            controller.Animator.SetBool(playingString, true);
+            controller.Animator.SetBool(pickedUpString, controller.PickedUp);
         }
 
         // activate key animations
@@ -216,16 +214,14 @@ public class PlayManager : MonoBehaviour
 
     private static void ResetCoinKeyAnimations()
     {
-        Animator anim;
-
         // deactivate coin animations
         foreach (Transform coin in ReferenceManager.Instance.CoinContainer.transform)
         {
-            coin.GetChild(0).GetComponent<CoinController>().PickedUp = false;
+            CoinController controller = coin.GetComponent<CoinController>();
+            controller.PickedUp = false;
 
-            anim = coin.GetComponent<Animator>();
-            anim.SetBool(playingString, false);
-            anim.SetBool(pickedUpString, false);
+            controller.Animator.SetBool(playingString, false);
+            controller.Animator.SetBool(pickedUpString, false);
         }
 
         // deactivate key animations

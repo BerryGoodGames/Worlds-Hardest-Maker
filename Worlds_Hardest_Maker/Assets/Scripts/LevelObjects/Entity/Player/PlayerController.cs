@@ -590,7 +590,7 @@ public class PlayerController : EntityController
     {
         foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
         {
-            CoinController coinController = coin.GetChild(0).GetComponent<CoinController>();
+            CoinController coinController = coin.GetComponent<CoinController>();
 
             bool respawns = true;
             if (CurrentGameState != null)
@@ -612,8 +612,7 @@ public class PlayerController : EntityController
 
             coinController.PickedUp = false;
 
-            Animator anim = coin.GetComponent<Animator>();
-            anim.SetBool(pickedUp, false);
+            coinController.Animator.SetBool(pickedUp, false);
         }
     }
 

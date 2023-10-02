@@ -35,7 +35,7 @@ public class PrefabManager : MonoBehaviour
     [Foldout("Entities")] public GameObject Anchor;
     [Foldout("Entities")] public GameObject AnchorBall;
 
-    [Foldout("Entities")] public GameObject Coin;
+    [Foldout("Entities")] public CoinController Coin;
 
     [Foldout("Entities")] public GameObject GrayKey;
     [Foldout("Entities")] public GameObject RedKey;

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class CoinManager : MonoBehaviour
+public class CoinManager : MonoBehaviour, IPlaceable
 {
     public static CoinManager Instance { get; private set; }
 
@@ -67,10 +67,22 @@ public class CoinManager : MonoBehaviour
         if (!CanPlace(matrixPosition)) return;
 
         TotalCoins++;
-        GameObject coin = Instantiate(PrefabManager.Instance.Coin, matrixPosition, Quaternion.identity,
+        CoinController coin = Instantiate(PrefabManager.Instance.Coin, matrixPosition, Quaternion.identity,
             ReferenceManager.Instance.CoinContainer);
 
-        Animator anim = coin.GetComponent<Animator>();
-        anim.SetBool(playing, EditModeManager.Instance.Playing);
+        coin.Animator.SetBool(playing, EditModeManager.Instance.Playing);
+    }
+
+    public void Place(Vector2 worldPosition)
+    {
+        Vector2 matrixPosition = worldPosition.ConvertToGrid();
+
+        if (!CanPlace(matrixPosition)) return;
+
+        TotalCoins++;
+        CoinController coin = Instantiate(PrefabManager.Instance.Coin, matrixPosition, Quaternion.identity,
+            ReferenceManager.Instance.CoinContainer);
+
+        coin.Animator.SetBool(playing, EditModeManager.Instance.Playing);
     }
 }
