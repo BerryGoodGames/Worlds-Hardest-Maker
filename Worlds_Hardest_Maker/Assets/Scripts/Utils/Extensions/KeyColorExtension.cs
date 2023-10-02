@@ -3,9 +3,9 @@ using UnityEngine;
 
 public static class KeyColorExtension
 {
-    public static GameObject GetPrefabKey(this KeyManager.KeyColor color)
+    public static KeyController GetPrefabKey(this KeyManager.KeyColor color)
     {
-        Dictionary<KeyManager.KeyColor, GameObject> prefabs = new()
+        Dictionary<KeyManager.KeyColor, KeyController> prefabs = new()
         {
             { KeyManager.KeyColor.Gray, PrefabManager.Instance.GrayKey },
             { KeyManager.KeyColor.Red, PrefabManager.Instance.RedKey },

@@ -13,10 +13,6 @@ public class CoinController : EntityController
 
     private void Awake() => CoinPosition = transform.position;
 
-    // private void OnDestroy() => Destroy(transform.parent.gameObject);
-
-    public override void Delete() => Destroy(gameObject);
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (PickedUp) return;

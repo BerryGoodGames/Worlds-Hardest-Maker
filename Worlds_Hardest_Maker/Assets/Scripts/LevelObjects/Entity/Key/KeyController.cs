@@ -7,9 +7,8 @@ public class KeyController : EntityController
     [ReadOnly] public Vector2 KeyPosition;
     [ReadOnly] public bool PickedUp;
 
-    [Separator] [InitializationField] [MustBeAssigned]
-    public SpriteRenderer SpriteRenderer;
-
+    [Separator] 
+    [InitializationField] [MustBeAssigned] public SpriteRenderer SpriteRenderer;
     [InitializationField] [MustBeAssigned] public Animator Animator;
     [InitializationField] [MustBeAssigned] public IntervalRandomAnimation KonamiAnimation;
 
@@ -28,8 +27,6 @@ public class KeyController : EntityController
     private void OnDestroy()
     {
         KeyManager.Instance.Keys.Remove(this);
-
-        Destroy(transform.parent.gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -65,13 +62,8 @@ public class KeyController : EntityController
     {
         player.KeysCollected.Add(this);
 
-        // random rotation of pickup animation
-        int randRotation = Random.Range(0, 2) * 90;
-        transform.Rotate(0, 0, randRotation);
-
         // pickup animation and sound
-        Animator anim = transform.parent.GetComponent<Animator>();
-        anim.SetBool(pickedUpString, true);
+        Animator.SetBool(pickedUpString, true);
         AudioManager.Instance.Play("Key");
 
         PickedUp = true;

@@ -167,5 +167,7 @@ public partial class AnchorController : EntityController
         LoopBlockNode = null;
     }
 
+    public override void Delete() => Destroy(transform.parent.gameObject);
+
     public override Data GetData() => new AnchorData(this);
 }

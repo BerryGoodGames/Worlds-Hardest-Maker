@@ -6,5 +6,5 @@ public abstract class EntityController : MonoBehaviour
 
     public abstract Data GetData();
 
-    public virtual void Delete() => Destroy(transform.parent.gameObject);
+    public virtual void Delete() => Destroy(gameObject);
 }
