@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using MyBox;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -80,8 +81,8 @@ public class SelectionManager : MonoBehaviour
     {
         if (MouseManager.Instance.MouseDragStart == null || MouseManager.Instance.MouseDragCurrent == null) return;
 
-        prevStart = ((Vector2)MouseManager.Instance.MouseDragStart).ConvertPosition(WorldPositionType.Grid);
-        prevEnd = ((Vector2)MouseManager.Instance.MouseDragCurrent).ConvertPosition(WorldPositionType.Grid);
+        prevStart = ((Vector2)MouseManager.Instance.MouseDragStart).ConvertToGrid();
+        prevEnd = ((Vector2)MouseManager.Instance.MouseDragCurrent).ConvertToGrid();
     }
 
     private void Start()
@@ -133,33 +134,31 @@ public class SelectionManager : MonoBehaviour
     #region Get bounds
 
     // get bounds of multiple points (in matrix)
-    private static (float, float, float, float) GetBounds(List<Vector2> points)
+    private static (Vector2 lowest, Vector2 highest) GetBounds(List<Vector2> points)
     {
-        float lowestX = points[0].x;
-        float highestX = points[0].x;
-        float lowestY = points[0].y;
-        float highestY = points[0].y;
+        Vector2 lowest = Vector2.one * points[0].x;
+        Vector2 highest = Vector2.one * points[0].y;
+
         foreach (Vector2 pos in points)
         {
-            if (lowestX > pos.x) lowestX = pos.x;
-            if (lowestY > pos.y) lowestY = pos.y;
-            if (highestX < pos.x) highestX = pos.x;
-            if (highestY < pos.y) highestY = pos.y;
+            if (lowest.x > pos.x) lowest.x = pos.x;
+            if (lowest.y > pos.y) lowest.y = pos.y;
+            if (highest.x < pos.x) highest.x = pos.x;
+            if (highest.y < pos.y) highest.y = pos.y;
         }
 
-        return (lowestX, highestX, lowestY, highestY);
+        return (lowest, highest);
     }
 
-    public static (float, float, float, float) GetBounds(params Vector2[] points) => GetBounds(points.ToList());
+    public static (Vector2 lowest, Vector2 highest) GetBounds(params Vector2[] points) => GetBounds(points.ToList());
 
-    public static (int, int, int, int) GetBoundsMatrix(List<Vector2> points)
+    public static (Vector2Int lowest, Vector2Int highest) GetBoundsMatrix(List<Vector2> points)
     {
-        var (lowestX, highestX, lowestY, highestY) = GetBounds(points);
-        return (Mathf.CeilToInt(lowestX), Mathf.FloorToInt(highestX), Mathf.CeilToInt(lowestY),
-            Mathf.FloorToInt(highestY));
+        (Vector2 lowest, Vector2 highest) = GetBounds(points);
+        return (Vector2Int.CeilToInt(lowest), Vector2Int.FloorToInt(highest));
     }
 
-    private static (int, int, int, int) GetBoundsMatrix(params Vector2[] points) => GetBoundsMatrix(points.ToList());
+    private static (Vector2Int lowest, Vector2Int highest) GetBoundsMatrix(params Vector2[] points) => GetBoundsMatrix(points.ToList());
 
     #endregion
 
@@ -232,18 +231,18 @@ public class SelectionManager : MonoBehaviour
 
     public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2, WorldPositionType worldPositionType)
     {
-        bool inMatrix = worldPositionType == WorldPositionType.Matrix;
+        bool inMatrix = worldPositionType is WorldPositionType.Matrix;
 
         // find bounds
-        (float lowestX, float highestX, float lowestY, float highestY) =
+        (Vector2 lowest, Vector2 highest) =
             inMatrix ? GetBoundsMatrix(p1, p2) : GetBounds(p1, p2);
 
         // collect every pos in range
         float increment = inMatrix ? 1 : 0.5f;
         List<Vector2> res = new();
-        for (float x = lowestX; x <= highestX; x += increment)
+        for (float x = lowest.x; x <= highest.x; x += increment)
         {
-            for (float y = lowestY; y <= highestY; y += increment)
+            for (float y = lowest.y; y <= highest.y; y += increment)
             {
                 res.Add(new(x, y));
             }
@@ -280,23 +279,20 @@ public class SelectionManager : MonoBehaviour
             : 0;
 
         // find bounds
-        (int lowestX, int highestX, int lowestY, int highestY) = GetBoundsMatrix(poses);
-
-        Vector2 lowestPos = new(lowestX, lowestY);
-        Vector2 highestPos = new(highestX, highestY);
+        (Vector2Int lowest, Vector2Int highest) = GetBoundsMatrix(poses);
 
         // check if its 1 wide
-        if (lowestX == highestX || lowestY == highestY)
+        if (lowest.x == highest.x || lowest.y == highest.y)
         {
             foreach (Vector2 pos in poses)
             {
-                FieldManager.Instance.SetField((int)pos.x, (int)pos.y, type, rotation);
+                FieldManager.Instance.SetField(pos.ConvertToMatrix(), type, rotation);
             }
 
             return;
         }
 
-        AdaptAreaToType(lowestPos, highestPos, type);
+        AdaptAreaToType(lowest, highest, type);
 
         // REF
         // get prefab
@@ -327,12 +323,11 @@ public class SelectionManager : MonoBehaviour
         {
             GameObject player = PlayerManager.GetPlayer();
 
-            if (player != null && player.transform.position.Between(lowestPos, highestPos))
+            if (player != null && player.transform.position.IsBetween(lowest.ToVector2(), highest.ToVector2()))
                 Destroy(player);
         }
 
-        UpdateOutlinesInArea(type.GetPrefab().GetComponent<FieldOutline>() != null, new(lowestX, lowestY),
-            new(highestX, highestY));
+        UpdateOutlinesInArea(type.GetPrefab().GetComponent<FieldOutline>() != null, lowest, highest);
     }
 
     public void FillArea(List<Vector2> poses, EditMode editMode)
@@ -511,27 +506,23 @@ public class SelectionManager : MonoBehaviour
 
     #endregion
 
-    private static void UpdateOutlinesInArea(bool hasOutline, Vector2 lowestPos, Vector2 highestPos)
+    private static void UpdateOutlinesInArea(bool hasOutline, Vector2 lowest, Vector2 highest)
     {
-        int highestX = (int)highestPos.x;
-        int highestY = (int)highestPos.y;
-        int lowestX = (int)lowestPos.x;
-        int lowestY = (int)lowestPos.y;
-        int width = highestX - lowestX;
-        int height = highestY - lowestY;
+        int width = (int)highest.x - (int)lowest.x;
+        int height = (int)highest.y - (int)lowest.y;
 
         // update outlines
         if (hasOutline)
         {
             // update lowest and highest field separately cause ray casting
-            GameObject lowestField = FieldManager.GetField(lowestPos);
+            GameObject lowestField = FieldManager.GetField(Vector2Int.RoundToInt(lowest));
             if (lowestField.TryGetComponent(out FieldOutline foComp))
             {
                 foComp.UpdateOutline(Vector2.left, true);
                 foComp.UpdateOutline(Vector2.down, true);
             }
 
-            GameObject highestField = FieldManager.GetField(highestPos);
+            GameObject highestField = FieldManager.GetField(Vector2Int.RoundToInt(highest));
             if (highestField.TryGetComponent(out foComp))
             {
                 foComp.UpdateOutline(Vector2.right, true);
@@ -542,7 +533,7 @@ public class SelectionManager : MonoBehaviour
             RaycastHit2D[] hits = new RaycastHit2D[width];
 
             // bottom Fields
-            _ = Physics2D.RaycastNonAlloc(lowestPos, Vector2.right, hits, width);
+            _ = Physics2D.RaycastNonAlloc(lowest, Vector2.right, hits, width);
             foreach (RaycastHit2D hit in hits)
             {
                 if (hit.transform.TryGetComponent(out foComp))
@@ -550,7 +541,7 @@ public class SelectionManager : MonoBehaviour
             }
 
             // top Fields
-            _ = Physics2D.RaycastNonAlloc(highestPos, Vector2.left, hits, width);
+            _ = Physics2D.RaycastNonAlloc(highest, Vector2.left, hits, width);
             foreach (RaycastHit2D hit in hits)
             {
                 if (hit.transform.TryGetComponent(out foComp))
@@ -561,7 +552,7 @@ public class SelectionManager : MonoBehaviour
             hits = new RaycastHit2D[height];
 
             // left Fields
-            _ = Physics2D.RaycastNonAlloc(lowestPos, Vector2.up, hits, height);
+            _ = Physics2D.RaycastNonAlloc(lowest, Vector2.up, hits, height);
             foreach (RaycastHit2D hit in hits)
             {
                 if (hit.transform.TryGetComponent(out foComp))
@@ -569,7 +560,7 @@ public class SelectionManager : MonoBehaviour
             }
 
             // right Fields
-            _ = Physics2D.RaycastNonAlloc(highestPos, Vector2.down, hits, height);
+            _ = Physics2D.RaycastNonAlloc(highest, Vector2.down, hits, height);
             foreach (RaycastHit2D hit in hits)
             {
                 if (hit.transform.TryGetComponent(out foComp))
@@ -582,10 +573,10 @@ public class SelectionManager : MonoBehaviour
         // update fields around fill area
         (Vector2, Vector2, int)[] rays =
         {
-            (new(lowestX - 1, lowestY - 1), Vector2.right, width + 2),
-            (new(lowestX - 1, lowestY - 1), Vector2.up, height + 2),
-            (new(highestX + 1, highestY + 1), Vector2.left, width + 2),
-            (new(highestX + 1, highestY + 1), Vector2.down, height + 2)
+            (new(lowest.x - 1, lowest.y - 1), Vector2.right, width + 2),
+            (new(lowest.x - 1, lowest.y - 1), Vector2.up, height + 2),
+            (new(highest.x + 1, highest.y + 1), Vector2.left, width + 2),
+            (new(highest.x + 1, highest.y + 1), Vector2.down, height + 2)
         };
 
         foreach ((Vector2 origin, Vector2 direction, int length) in rays)

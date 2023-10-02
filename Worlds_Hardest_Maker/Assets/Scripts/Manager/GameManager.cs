@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviourPun
         canvasRT = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>();
         DOTween.Init(useSafeMode: false);
 
-        if (!MultiplayerManager.Instance.Multiplayer) PlayerManager.Instance.SetPlayer(0, 0, 3f);
+        if (!MultiplayerManager.Instance.Multiplayer) PlayerManager.Instance.SetPlayer(Vector2.zero, 3f);
 
         LevelSettings.Instance.SetDrownDuration();
         LevelSettings.Instance.SetIceFriction();
@@ -47,8 +47,8 @@ public class GameManager : MonoBehaviourPun
     /// <param name="editMode">the type of field/entity you want</param>
     public static void PlaceEditModeAtPosition(EditMode editMode, Vector2 worldPos)
     {
-        Vector2 gridPos = worldPos.ConvertPosition(WorldPositionType.Grid);
-        Vector2 matrixPos = worldPos.ConvertPosition(WorldPositionType.Matrix);
+        Vector2 gridPos = worldPos.ConvertToGrid();
+        Vector2Int matrixPos = worldPos.ConvertToMatrix();
 
         // check field placement
         if (editMode.IsFieldType())
@@ -223,10 +223,10 @@ public class GameManager : MonoBehaviourPun
         }
     }
 
-    public static void RemoveObjectInContainer(float mx, float my, Transform container)
+    public static void RemoveObjectInContainer(Vector2 position, Transform container)
     {
         Collider2D[] hits = new Collider2D[container.childCount];
-        _ = Physics2D.OverlapCircleNonAlloc(new(mx, my), 0.005f, hits, 128);
+        _ = Physics2D.OverlapCircleNonAlloc(position, 0.005f, hits, 128);
 
         foreach (Collider2D hit in hits)
         {
@@ -238,13 +238,18 @@ public class GameManager : MonoBehaviourPun
         }
     }
 
-    public static void RemoveObjectInContainerIntersect(float mx, float my, Transform container)
+    public static void RemoveObjectInContainerIntersect(Vector2 position, Transform container)
     {
-        float[] dx = { -0.5f, 0, 0.5f, -0.5f, 0, 0.5f, -0.5f, 0, 0.5f };
-        float[] dy = { -0.5f, -0.5f, -0.5f, 0, 0, 0, 0.5f, 0.5f, 0.5f };
-        for (int i = 0; i < dx.Length; i++)
+        Vector2[] deltas =
         {
-            RemoveObjectInContainer(mx + dx[i], my + dy[i], container);
+            new(-0.5f, -0.5f), new(0, -0.5f), new(0.5f, -0.5f),
+            new(-0.5f, 0),     new(0, 0),     new(0.5f, 0),
+            new(-0.5f, 0.5f),  new(0, 0.5f),  new(0.5f, 0.5f)
+        };
+
+        foreach (Vector2 d in deltas)
+        {
+            RemoveObjectInContainer(position + d, container);
         }
     }
 

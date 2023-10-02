@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class FieldTypeExtension
@@ -13,6 +14,8 @@ public static class FieldTypeExtension
 
         return rotatableFields.Contains(fieldType);
     }
+
+    public static bool IsSolid(this FieldType fieldType) => FieldManager.SolidFields.Contains(fieldType);
 
     public static GameObject GetPrefab(this FieldType type) =>
         // return prefab according to type
@@ -59,7 +62,7 @@ public static class FieldTypeExtension
     public static bool IsField(this GameObject field) => field.tag.GetFieldType() != (FieldType)(-1);
 
     public static bool IsSolidField(this GameObject field) =>
-        field.IsField() && FieldManager.SolidFields.Contains(field.tag.GetFieldType());
+        field.IsField() && field.tag.GetFieldType().IsSolid();
 
-    public static bool IsSolidFieldTag(this string tag) => FieldManager.SolidFields.Contains(tag.GetFieldType());
+    public static bool IsSolidFieldTag(this string tag) => tag.GetFieldType().IsSolid();
 }

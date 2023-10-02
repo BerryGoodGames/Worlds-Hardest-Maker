@@ -9,7 +9,7 @@ public class FieldManager : MonoBehaviour
 {
     public static FieldManager Instance { get; private set; }
 
-    public static readonly List<FieldType> SolidFields = new(new[]
+    public static readonly FieldType[] SolidFields = 
     {
         FieldType.WallField,
         FieldType.GrayKeyDoorField,
@@ -17,7 +17,7 @@ public class FieldManager : MonoBehaviour
         FieldType.GreenKeyDoorField,
         FieldType.BlueKeyDoorField,
         FieldType.YellowKeyDoorField
-    });
+    };
 
     public static FieldType? GetFieldType(GameObject field)
     {
@@ -26,9 +26,9 @@ public class FieldManager : MonoBehaviour
         return field.tag.GetFieldType();
     }
 
-    public static GameObject GetField(int mx, int my)
+    public static GameObject GetField(Vector2Int position)
     {
-        Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(new(mx, my), 0.1f, 3072);
+        Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(position, 0.1f, 3072);
 
         foreach (Collider2D c in collidedGameObjects)
         {
@@ -38,57 +38,49 @@ public class FieldManager : MonoBehaviour
         return null;
     }
 
-    public static GameObject GetField(Vector2 pos) => GetField((int)pos.x, (int)pos.y);
-
     [PunRPC]
-    public void RemoveField(int mx, int my, bool updateOutlines = false)
+    public void RemoveField(Vector2Int position, bool updateOutlines = false)
     {
-        GameObject field = GetField(mx, my);
+        GameObject field = GetField(position);
 
         if (field != null) DestroyImmediate(field);
 
         if (!updateOutlines) return;
 
         // update outlines beside removed field
-        foreach (GameObject neighbor in GetNeighbors(mx, my))
+        foreach (GameObject neighbor in GetNeighbors(position))
         {
             if (neighbor.TryGetComponent(out FieldOutline comp)) comp.UpdateOutline();
         }
     }
 
-    public void RemoveField(Vector2 pos, bool updateOutlines = false) =>
-        RemoveField((int)pos.x, (int)pos.y, updateOutlines);
-
     [PunRPC]
-    public void SetField(int mx, int my, FieldType type, int rotation)
+    public void SetField(Vector2Int position, FieldType type, int rotation)
     {
-        if (GetField(mx, my) != null && GetFieldType(GetField(mx, my)) == type) return;
+        if (GetField(position) != null && GetFieldType(GetField(position)) == type) return;
 
         // remove any field at pos
-        RemoveField(mx, my, true);
+        RemoveField(position, true);
 
         // place field according to edit mode
-        Vector2 pos = new(mx, my);
-        GameObject field = InstantiateField(pos, type, rotation);
+        GameObject field = InstantiateField(position, type, rotation);
 
         ApplyStartGoalCheckpointFieldColor(field, null);
 
         // remove player if at changed pos
-        if (!PlayerManager.StartFields.Contains(type)) PlayerManager.Instance.RemovePlayerAtPosIntersect(mx, my);
+        if (!PlayerManager.StartFields.Contains(type)) PlayerManager.Instance.RemovePlayerAtPosIntersect(position);
 
         if (CoinManager.CannotPlaceFields.Contains(type))
             // remove coin if wall is placed
-            GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.CoinContainer);
+            GameManager.RemoveObjectInContainerIntersect(position, ReferenceManager.Instance.CoinContainer);
 
         if (KeyManager.CannotPlaceFields.Contains(type))
             // remove key if wall is placed
-            GameManager.RemoveObjectInContainerIntersect(mx, my, ReferenceManager.Instance.KeyContainer);
+            GameManager.RemoveObjectInContainerIntersect(position, ReferenceManager.Instance.KeyContainer);
     }
 
-    public void SetField(Vector2 pos, FieldType type, int rotation) => SetField((int)pos.x, (int)pos.y, type, rotation);
-
     [PunRPC]
-    public void SetField(int mx, int my, FieldType type) => SetField(mx, my, type, 0);
+    public void SetField(Vector2Int position, FieldType type) => SetField(position, type, 0);
 
     public static void ApplyStartGoalCheckpointFieldColor(GameObject field, bool? oneColor)
     {
@@ -137,43 +129,44 @@ public class FieldManager : MonoBehaviour
 
     public static List<GameObject> GetNeighbors(GameObject field)
     {
-        Vector2 pos = field.transform.position;
-        return GetNeighbors((int)pos.x, (int)pos.y);
+        Vector2Int position = Vector2Int.RoundToInt(field.transform.position);
+        return GetNeighbors(position);
     }
 
-    public static List<GameObject> GetNeighbors(int mx, int my)
+    public static List<GameObject> GetNeighbors(Vector2Int position)
     {
+        Vector2Int[] deltas = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
+
         List<GameObject> neighbors = new();
-        int[] dx = { 1, -1, 0, 0 };
-        int[] dy = { 0, 0, 1, -1 };
-        for (int d = 0; d < dx.Length; d++)
+
+        foreach (Vector2Int d in deltas)
         {
-            GameObject neighbor = GetField(dx[d] + mx, dy[d] + my);
+            GameObject neighbor = GetField(position + d);
             if (neighbor != null) neighbors.Add(neighbor);
         }
 
         return neighbors;
     }
 
-    public static List<GameObject> GetFieldsAtPos(float mx, float my)
+    public static List<GameObject> GetFieldsAtPos(Vector2 position)
     {
-        (int x, int y)[] checkPoses =
+        Vector2Int[] checkPoses =
         {
-            (Mathf.FloorToInt(mx), Mathf.FloorToInt(my)),
-            (Mathf.CeilToInt(mx), Mathf.FloorToInt(my)),
-            (Mathf.FloorToInt(mx), Mathf.CeilToInt(my)),
-            (Mathf.CeilToInt(mx), Mathf.CeilToInt(my))
+            Vector2Int.FloorToInt(position), 
+            new(Mathf.CeilToInt(position.x), Mathf.FloorToInt(position.y)),
+            new(Mathf.FloorToInt(position.x), Mathf.CeilToInt(position.y)),
+            Vector2Int.CeilToInt(position)
         };
 
         checkPoses = checkPoses.Distinct().ToArray();
-
+        
         List<GameObject> res = new();
-        foreach ((int x, int y) in checkPoses)
+        foreach (Vector2Int checkPosition in checkPoses)
         {
-            GameObject field = GetField(x, y);
+            GameObject field = GetField(checkPosition);
             if (field != null) res.Add(field);
         }
-
+        
         return res;
     }
 
@@ -203,7 +196,7 @@ public class FieldManager : MonoBehaviour
 
         while (cmpt >= 0)
         {
-            Instance.SetField((int)x, (int)y, type, rotation);
+            Instance.SetField(new((int)x, (int)y), type, rotation);
             cmpt -= 1;
 
             if (error >= 0 || dX > dY) x += incX;
@@ -215,11 +208,11 @@ public class FieldManager : MonoBehaviour
 
     #region Field intersection
 
-    public static bool IntersectingAnyFieldsAtPos(float mx, float my, params FieldType[] t)
+    public static bool IntersectingAnyFieldsAtPos(Vector2 position, params FieldType[] t)
     {
         List<FieldType> types = t.ToList();
 
-        List<GameObject> intersectingFields = GetFieldsAtPos(mx, my);
+        List<GameObject> intersectingFields = GetFieldsAtPos(position);
         foreach (GameObject field in intersectingFields)
         {
             if (types.Contains((FieldType)GetFieldType(field)))
@@ -229,10 +222,10 @@ public class FieldManager : MonoBehaviour
         return false;
     }
 
-    public static bool IntersectingEveryFieldAtPos(float mx, float my, params FieldType[] t)
+    public static bool IntersectingEveryFieldAtPos(Vector2 position, params FieldType[] t)
     {
         List<FieldType> types = t.ToList();
-        List<GameObject> intersectingFields = GetFieldsAtPos(mx, my);
+        List<GameObject> intersectingFields = GetFieldsAtPos(position);
         foreach (GameObject field in intersectingFields)
         {
             if (!types.Contains((FieldType)GetFieldType(field)))
@@ -242,13 +235,13 @@ public class FieldManager : MonoBehaviour
         return true;
     }
 
-    public static bool IsPosCoveredWithFieldType(float mx, float my, params FieldType[] t)
+    public static bool IsPosCoveredWithFieldType(Vector2 position, params FieldType[] t)
     {
         List<FieldType> types = t.ToList();
-        List<GameObject> intersectingFields = GetFieldsAtPos(mx, my);
+        List<GameObject> intersectingFields = GetFieldsAtPos(position);
         if (intersectingFields.Count == 0) return false;
 
-        int expectedCount = IntersectionCountAtPos(mx, my);
+        int expectedCount = IntersectionCountAtPos(position);
 
         foreach (GameObject field in intersectingFields)
         {
@@ -259,14 +252,14 @@ public class FieldManager : MonoBehaviour
         return true;
     }
 
-    public static int IntersectionCountAtPos(float mx, float my)
+    public static int IntersectionCountAtPos(Vector2 position)
     {
-        (int x, int y)[] checkPoses =
+        Vector2Int[] checkPoses =
         {
-            (Mathf.FloorToInt(mx), Mathf.FloorToInt(my)),
-            (Mathf.CeilToInt(mx), Mathf.FloorToInt(my)),
-            (Mathf.FloorToInt(mx), Mathf.CeilToInt(my)),
-            (Mathf.CeilToInt(mx), Mathf.CeilToInt(my))
+            Vector2Int.FloorToInt(position),
+            new(Mathf.CeilToInt(position.x), Mathf.FloorToInt(position.y)),
+            new(Mathf.FloorToInt(position.x), Mathf.CeilToInt(position.y)),
+            Vector2Int.CeilToInt(position)
         };
 
         return checkPoses.Distinct().ToArray().Length;

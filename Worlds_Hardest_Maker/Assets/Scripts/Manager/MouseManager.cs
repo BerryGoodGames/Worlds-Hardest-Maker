@@ -39,10 +39,6 @@ public class MouseManager : MonoBehaviour
 
     #region Static methods
 
-    public static Vector2 PosToGrid(Vector2 pos) => new(Mathf.Round(pos.x * 2) * 0.5f, Mathf.Round(pos.y * 2) * 0.5f);
-
-    public static Vector2 PosToMatrix(Vector2 pos) => new(Mathf.Round(pos.x), Mathf.Round(pos.y));
-
     private static Vector2 GetMouseWorldPos()
     {
         Vector2 mousePos = Input.mousePosition;
@@ -65,7 +61,7 @@ public class MouseManager : MonoBehaviour
         Vector2 start = (Vector2)Instance.MouseDragStart;
         Vector2 end = (Vector2)Instance.MouseDragCurrent;
 
-        return (start.ConvertPosition(worldPositionType), end.ConvertPosition(worldPositionType));
+        return (start.ConvertToGrid(), end.ConvertToGrid());
     }
 
     #endregion

@@ -28,12 +28,10 @@ public class CopyManager : MonoBehaviour
 
         if (points.Count == 0) return;
 
-        (int lowestX, int highestX, int lowestY, int highestY) = SelectionManager.GetBoundsMatrix(points);
-        Vector2 lowestPoint = new(lowestX, lowestY);
-        Vector2 highestPoint = new(highestX, highestY);
+        (Vector2 lowest, Vector2 highest) = SelectionManager.GetBoundsMatrix(points);
 
         // center and size of actual controllers user selected
-        Vector2 castCenter = (.5f * (lowestPoint + highestPoint)).Floor();
+        Vector2 castCenter = (.5f * (lowest + highest)).Floor();
 
         foreach (Collider2D hit in hits)
         {

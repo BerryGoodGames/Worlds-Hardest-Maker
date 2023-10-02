@@ -1,20 +1,15 @@
 using System;
 using UnityEngine;
-
 public static class VectorExtension
 {
-    public static Vector2 ConvertPosition(this Vector2 pos, WorldPositionType worldPositionType) =>
-        worldPositionType switch
-        {
-            WorldPositionType.Any => pos,
-            WorldPositionType.Grid => MouseManager.PosToGrid(pos),
-            _ => MouseManager.PosToMatrix(pos)
-        };
+    public static Vector2 ConvertToGrid(this Vector2 position) => (2 * position).Round() / 2;
 
-    public static bool Between(this Vector2 pos, Vector2 point1, Vector2 point2) =>
+    public static Vector2Int ConvertToMatrix(this Vector2 pos) => Vector2Int.RoundToInt(pos);
+
+    public static bool IsBetween(this Vector2 pos, Vector2 point1, Vector2 point2) =>
         pos.x > point1.x && pos.x < point2.x && pos.y > point1.y && pos.y < point2.y;
 
-    public static bool Between(this Vector3 pos, Vector3 point1, Vector3 point2) =>
+    public static bool IsBetween(this Vector3 pos, Vector3 point1, Vector3 point2) =>
         pos.x > point1.x && pos.x < point2.x && pos.y > point1.y && pos.y < point2.y;
 
     public static Vector3 Ceil(this Vector3 vector)
