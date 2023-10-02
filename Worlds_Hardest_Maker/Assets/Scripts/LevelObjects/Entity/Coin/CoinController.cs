@@ -1,3 +1,4 @@
+using System;
 using MyBox;
 using UnityEngine;
 
@@ -11,7 +12,13 @@ public class CoinController : EntityController
 
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
 
-    private void Awake() => CoinPosition = transform.position;
+    private void Awake()
+    {
+        CoinPosition = transform.position;
+
+        // cache coin
+        CoinManager.Instance.Coins.Add(this);
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -39,6 +46,12 @@ public class CoinController : EntityController
             controller.Win();
             break;
         }
+    }
+
+    private void OnDestroy()
+    {
+        // un-cache coin
+        CoinManager.Instance.Coins.Remove(this);
     }
 
     private void PickUp(GameObject player)

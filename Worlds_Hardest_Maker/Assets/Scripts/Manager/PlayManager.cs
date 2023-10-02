@@ -116,11 +116,10 @@ public class PlayManager : MonoBehaviour
     private static void ActivateCoinKeyAnimations()
     {
         // activate coin animations
-        foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
+        foreach (CoinController coin in CoinManager.Instance.Coins)
         {
-            CoinController controller = coin.GetComponent<CoinController>();
-            controller.Animator.SetBool(playingString, true);
-            controller.Animator.SetBool(pickedUpString, controller.PickedUp);
+            coin.Animator.SetBool(playingString, true);
+            coin.Animator.SetBool(pickedUpString, coin.PickedUp);
         }
 
         // activate key animations
@@ -215,13 +214,12 @@ public class PlayManager : MonoBehaviour
     private static void ResetCoinKeyAnimations()
     {
         // deactivate coin animations
-        foreach (Transform coin in ReferenceManager.Instance.CoinContainer.transform)
+        foreach (CoinController coin in CoinManager.Instance.Coins)
         {
-            CoinController controller = coin.GetComponent<CoinController>();
-            controller.PickedUp = false;
+            coin.PickedUp = false;
 
-            controller.Animator.SetBool(playingString, false);
-            controller.Animator.SetBool(pickedUpString, false);
+            coin.Animator.SetBool(playingString, false);
+            coin.Animator.SetBool(pickedUpString, false);
         }
 
         // deactivate key animations
@@ -249,11 +247,10 @@ public class PlayManager : MonoBehaviour
         }
 
         // reset coins
-        foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
+        foreach (CoinController coin in CoinManager.Instance.Coins)
         {
-            Animator anim = coin.GetComponent<Animator>();
-            anim.SetBool(playingString, false);
-            anim.SetBool(pickedUpString, false);
+            coin.Animator.SetBool(playingString, false);
+            coin.Animator.SetBool(pickedUpString, false);
         }
 
         // reset keys

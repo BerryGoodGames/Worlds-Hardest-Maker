@@ -588,17 +588,15 @@ public class PlayerController : EntityController
 
     private void ResetCoinsToCurrentGameState()
     {
-        foreach (Transform coin in ReferenceManager.Instance.CoinContainer)
+        foreach (CoinController coin in CoinManager.Instance.Coins)
         {
-            CoinController coinController = coin.GetComponent<CoinController>();
-
             bool respawns = true;
             if (CurrentGameState != null)
             {
                 foreach (Vector2 collected in CurrentGameState.CollectedCoins)
                 {
-                    if (!collected.x.EqualsFloat(coinController.CoinPosition.x) ||
-                        !collected.y.EqualsFloat(coinController.CoinPosition.y)) continue;
+                    if (!collected.x.EqualsFloat(coin.CoinPosition.x) ||
+                        !collected.y.EqualsFloat(coin.CoinPosition.y)) continue;
 
                     // if coin is collected or no state exists it doesn't respawn
                     respawns = false;
@@ -610,9 +608,9 @@ public class PlayerController : EntityController
 
             CoinsCollected.Remove(coin.gameObject);
 
-            coinController.PickedUp = false;
+            coin.PickedUp = false;
 
-            coinController.Animator.SetBool(pickedUp, false);
+            coin.Animator.SetBool(pickedUp, false);
         }
     }
 

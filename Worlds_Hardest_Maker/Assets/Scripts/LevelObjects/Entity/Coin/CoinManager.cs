@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MyBox;
 using Photon.Pun;
 using UnityEngine;
 
@@ -18,7 +19,8 @@ public class CoinManager : MonoBehaviour, IPlaceable
 
     private static readonly int playing = Animator.StringToHash("Playing");
 
-    public int TotalCoins { get; set; }
+    [ReadOnly] public List<CoinController> Coins = new();
+    public int TotalCoins => Coins.Count;
 
     [PunRPC]
     public void RemoveCoin(Vector2 position)
@@ -27,13 +29,11 @@ public class CoinManager : MonoBehaviour, IPlaceable
 
         GameObject currentPlayer = PlayerManager.GetPlayer();
         if (currentPlayer != null) currentPlayer.GetComponent<PlayerController>().UncollectCoinAtPos(position);
-
-        TotalCoins = ReferenceManager.Instance.CoinContainer.childCount - 1;
     }
 
     public static GameObject GetCoin(Vector2 position)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.1f, 128);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Entity);
         foreach (Collider2D hit in hits)
         {
             if (hit.GetComponent<CoinController>() != null) return hit.transform.parent.gameObject;
@@ -56,33 +56,19 @@ public class CoinManager : MonoBehaviour, IPlaceable
         if (Instance == null) Instance = this;
     }
 
-    private void Start() =>
-        EditModeManager.Instance.OnPlay += () =>
-            Instance.TotalCoins = ReferenceManager.Instance.CoinContainer.transform.childCount;
-
     public void SetCoin(Vector2 worldPosition)
     {
         Vector2 matrixPosition = worldPosition.ConvertToGrid();
-
+    
         if (!CanPlace(matrixPosition)) return;
-
-        TotalCoins++;
+    
         CoinController coin = Instantiate(PrefabManager.Instance.Coin, matrixPosition, Quaternion.identity,
             ReferenceManager.Instance.CoinContainer);
-
+    
         coin.Animator.SetBool(playing, EditModeManager.Instance.Playing);
     }
 
     public void Place(Vector2 worldPosition)
     {
-        Vector2 matrixPosition = worldPosition.ConvertToGrid();
-
-        if (!CanPlace(matrixPosition)) return;
-
-        TotalCoins++;
-        CoinController coin = Instantiate(PrefabManager.Instance.Coin, matrixPosition, Quaternion.identity,
-            ReferenceManager.Instance.CoinContainer);
-
-        coin.Animator.SetBool(playing, EditModeManager.Instance.Playing);
     }
 }

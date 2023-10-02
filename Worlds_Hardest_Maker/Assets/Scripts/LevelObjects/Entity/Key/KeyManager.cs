@@ -55,7 +55,7 @@ public class KeyManager : MonoBehaviour
 
     private static readonly int playingString = Animator.StringToHash("Playing");
 
-    [ReadOnly] public List<KeyController> Keys;
+    [ReadOnly] public List<KeyController> Keys = new();
 
     [PunRPC]
     public void SetKey(Vector2 position, KeyColor color)
