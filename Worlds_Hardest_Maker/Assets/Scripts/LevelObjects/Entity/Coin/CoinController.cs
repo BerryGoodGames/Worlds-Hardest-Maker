@@ -16,7 +16,6 @@ public class CoinController : EntityController
     {
         CoinPosition = transform.position;
 
-        // cache coin
         CoinManager.Instance.Coins.Add(this);
     }
 
