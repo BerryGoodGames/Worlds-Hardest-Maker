@@ -17,15 +17,13 @@ public class TextManager : MonoBehaviour
     public TMP_Text Timer;
     public TMP_Text CoinText;
 
-    [Header("Colors")] public Color CheatedTimerColor;
-
-    public Color FinishedTimerColor;
+    [field: Header("Colors")] [field: SerializeField] public Color CheatedTimerColor { get; private set; }
+    [field: SerializeField] public Color FinishedTimerColor { get; private set; }
+    [field: SerializeField] public Color TimerDefaultColor { get; private set; }
 
     #endregion
 
     private float timerSeconds;
-    private float timerMinutes;
-    private float timerHours;
     private Coroutine timerCoroutine;
 
     private void Awake()
@@ -70,7 +68,7 @@ public class TextManager : MonoBehaviour
     {
         StopTimer();
 
-        Timer.color = Color.black;
+        Timer.color = TimerDefaultColor;
         timerCoroutine = StartCoroutine(DoTimer());
     }
 
@@ -91,59 +89,21 @@ public class TextManager : MonoBehaviour
     private IEnumerator DoTimer()
     {
         timerSeconds = 0;
-        timerMinutes = 0;
-        timerHours = 0;
+
         Timer.text = GetTimerTime();
         while (true)
         {
             timerSeconds += Time.deltaTime;
 
-            while (timerSeconds >= 60)
-            {
-                timerMinutes++;
-                timerSeconds -= 60;
-            }
-
-            while (timerMinutes >= 60)
-            {
-                timerHours++;
-                timerMinutes -= 60;
-            }
-
             Timer.text = GetTimerTime();
+
             yield return null;
         }
-        // ReSharper disable once IteratorNeverReturns
     }
 
     private string GetTimerTime()
     {
-        string[] split = timerSeconds.ToString().Split('.');
-
-        string seconds;
-        string milliseconds;
-        string minutes = timerMinutes.ToString();
-        string hours = timerHours.ToString();
-
-        if (split.Length > 1)
-        {
-            seconds = split[0];
-            milliseconds = split[1];
-        }
-        else
-        {
-            seconds = timerSeconds.ToString();
-            milliseconds = "000";
-        }
-
-        seconds = seconds.PadLeft(2, '0');
-        milliseconds = milliseconds.PadLeft(3, '0');
-        minutes = minutes.PadLeft(2, '0');
-        hours = hours.PadLeft(2, '0');
-
-        if (milliseconds.Length > 3)
-            milliseconds = milliseconds[..3];
-
-        return $"{hours}:{minutes}:{seconds}.{milliseconds}";
+        TimeSpan t = TimeSpan.FromSeconds(timerSeconds);
+        return $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}.{t.Milliseconds:D3}";
     }
 }

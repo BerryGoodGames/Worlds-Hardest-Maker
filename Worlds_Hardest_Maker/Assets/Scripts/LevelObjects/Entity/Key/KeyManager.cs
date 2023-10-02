@@ -66,9 +66,8 @@ public class KeyManager : MonoBehaviour
         // remove other key (which has mby other color)
         RemoveKey(position);
 
-        GameObject keyObject = Instantiate(color.GetPrefabKey(), position, Quaternion.identity, ReferenceManager.Instance.KeyContainer);
+        KeyController key = Instantiate(color.GetPrefabKey(), position, Quaternion.identity, ReferenceManager.Instance.KeyContainer);
 
-        KeyController key = keyObject.transform.GetChild(0).GetComponent<KeyController>();
         key.Color = color;
 
         // setup idle animation

@@ -34,11 +34,11 @@ public static class EditModeExtension
             { EditMode.Anchor, PrefabManager.Instance.Anchor },
             { EditMode.AnchorBall, PrefabManager.Instance.AnchorBall },
             { EditMode.Coin, PrefabManager.Instance.Coin.gameObject },
-            { EditMode.GrayKey, PrefabManager.Instance.GrayKey },
-            { EditMode.RedKey, PrefabManager.Instance.RedKey },
-            { EditMode.GreenKey, PrefabManager.Instance.GreenKey },
-            { EditMode.BlueKey, PrefabManager.Instance.BlueKey },
-            { EditMode.YellowKey, PrefabManager.Instance.YellowKey }
+            { EditMode.GrayKey, PrefabManager.Instance.GrayKey.gameObject },
+            { EditMode.RedKey, PrefabManager.Instance.RedKey.gameObject },
+            { EditMode.GreenKey, PrefabManager.Instance.GreenKey.gameObject },
+            { EditMode.BlueKey, PrefabManager.Instance.BlueKey.gameObject },
+            { EditMode.YellowKey, PrefabManager.Instance.YellowKey.gameObject }
         };
         return prefabs[mode];
     }

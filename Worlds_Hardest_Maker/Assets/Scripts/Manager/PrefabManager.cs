@@ -37,11 +37,11 @@ public class PrefabManager : MonoBehaviour
 
     [Foldout("Entities")] public CoinController Coin;
 
-    [Foldout("Entities")] public GameObject GrayKey;
-    [Foldout("Entities")] public GameObject RedKey;
-    [Foldout("Entities")] public GameObject GreenKey;
-    [Foldout("Entities")] public GameObject BlueKey;
-    [Foldout("Entities")] public GameObject YellowKey;
+    [Foldout("Entities")] public KeyController GrayKey;
+    [Foldout("Entities")] public KeyController RedKey;
+    [Foldout("Entities")] public KeyController GreenKey;
+    [Foldout("Entities")] public KeyController BlueKey;
+    [Foldout("Entities")] public KeyController YellowKey;
 
     #endregion
 
