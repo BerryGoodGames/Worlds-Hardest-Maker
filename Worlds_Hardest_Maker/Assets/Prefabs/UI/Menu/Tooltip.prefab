@@ -60,6 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Text: ef
   FontSize: 20
+  Offset: 10
   CustomTweenDelay: 0
   TweenDelay: 3
 --- !u!114 &7058458982480343986

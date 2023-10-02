@@ -7,7 +7,7 @@ public class InfobarResize : MonoBehaviour
     public float InfobarHeight;
     public GameObject[] InfoTexts;
 
-    [MustBeAssigned][SerializeField] private CustomFitter fitter;
+    [MustBeAssigned] [SerializeField] private CustomFitter fitter;
 
     [ButtonMethod]
     public void UpdateSize()

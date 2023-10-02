@@ -1,7 +1,6 @@
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ReferenceManager : MonoBehaviour
@@ -80,7 +79,7 @@ public class ReferenceManager : MonoBehaviour
 
     [Foldout("Anchor")] public ChainController MainChainController;
 
-    [FormerlySerializedAs("AnchorBlockFitter")] [Foldout("Anchor")] public CustomFitter CustomFitter;
+    [Foldout("Anchor")] public CustomFitter CustomFitter;
 
     [Foldout("Anchor")] public AnchorBlockConnectorController AnchorBlockConnectorController;
 

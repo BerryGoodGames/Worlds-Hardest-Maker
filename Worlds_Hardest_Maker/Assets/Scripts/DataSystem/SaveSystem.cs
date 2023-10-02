@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Pipes;
 using System.Runtime.Serialization.Formatters.Binary;
 using Photon.Pun;
 using SFB;
