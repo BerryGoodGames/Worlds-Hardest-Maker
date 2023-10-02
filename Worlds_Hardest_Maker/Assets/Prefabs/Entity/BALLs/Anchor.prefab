@@ -311,7 +311,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4d9f08cc6d09d24aa52973475e52907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballContainerChildrenOpacity: {fileID: 3467334307650034706}
   BallContainer: {fileID: 3516165864050137394}
   Animator: {fileID: 2695958956081501589}
   Balls: []
@@ -338,6 +337,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   container: {fileID: 3467334307650034706}
+  fadeDuration: 0.2
+  fadeInOpacity: 1
+  fadeOutOpacity: 0.3
 --- !u!95 &2695958956081501589
 Animator:
   serializedVersion: 5

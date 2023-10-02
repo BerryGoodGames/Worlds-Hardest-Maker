@@ -1,11 +1,10 @@
 using MyBox;
 using TMPro;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MoveAndRotateBlockController : PositionAnchorBlockController
 {
-    [FormerlySerializedAs("InputIterations")] [Separator("Specifics")] [InitializationField]
+    [Separator("Specifics")] [InitializationField]
     public TMP_InputField IterationsInput;
 
     [InitializationField] public Toggle AdaptRotation;

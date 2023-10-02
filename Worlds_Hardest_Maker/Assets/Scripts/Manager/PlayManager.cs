@@ -1,7 +1,5 @@
 using System;
-using System.Windows.Forms;
 using UnityEngine;
-using Application = UnityEngine.Application;
 
 public class PlayManager : MonoBehaviour
 {

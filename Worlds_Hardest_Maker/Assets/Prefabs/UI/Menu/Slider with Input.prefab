@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e594ba1ad4e3bf647bdcf2b3ee521a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 5590605081825563027}
+  Slider: {fileID: 5590605081825563027}
   decimals: 2
 --- !u!224 &9195570286088925062 stripped
 RectTransform:

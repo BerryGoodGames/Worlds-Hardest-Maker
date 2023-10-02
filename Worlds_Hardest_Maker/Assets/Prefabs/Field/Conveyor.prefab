@@ -182,6 +182,7 @@ MonoBehaviour:
   Duration: 0.2
   RotateAngle: {x: 0, y: 0, z: 90}
   disableCollision: 0
+  boxCollider: {fileID: 0}
 --- !u!114 &5773534488034781539
 MonoBehaviour:
   m_ObjectHideFlags: 0

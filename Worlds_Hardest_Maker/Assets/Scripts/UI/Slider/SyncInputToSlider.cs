@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor.Events;
@@ -9,7 +8,7 @@ using UnityEditor.Events;
 [ExecuteInEditMode]
 public class SyncInputToSlider : MonoBehaviour
 {
-    [FormerlySerializedAs("slider")] public Slider Slider;
+    public Slider Slider;
     [SerializeField] private float decimals = 2;
     private TMP_InputField input;
 

@@ -2,7 +2,6 @@ using System;
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 
 /// <summary>
@@ -24,8 +23,11 @@ public class Dbg : MonoBehaviour
         MousePositionPixels
     }
 
-    [Header("Settings")] public bool Enabled = true;
-    public float GameSpeed = 1;
+    [field: Header("Settings")]
+    [field: SerializeField]
+    public bool Enabled { get; set; } = true;
+
+    [field: SerializeField] public float GameSpeed { get; set; } = 1;
 
     [Space] [Foldout("Debug Text")] public DbgTextMode TextMode;
     [Foldout("Debug Text")] public float Count;
@@ -36,7 +38,7 @@ public class Dbg : MonoBehaviour
     [Foldout("Wall Outlines")] public bool WallOutlines = true;
     [Foldout("Wall Outlines")] public bool DrawRays;
 
-    [FormerlySerializedAs("DebugText")] [Foldout("References")] [SerializeField] [MustBeAssigned]
+    [Foldout("References")] [SerializeField] [MustBeAssigned]
     private TMP_Text debugText;
 
     private Camera cam;

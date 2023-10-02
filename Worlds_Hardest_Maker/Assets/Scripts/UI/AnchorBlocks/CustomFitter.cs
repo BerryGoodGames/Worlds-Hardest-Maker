@@ -1,4 +1,3 @@
-using System;
 using MyBox;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,7 +23,7 @@ public class CustomFitter : MonoBehaviour
     private void Awake()
     {
         rt = GetComponent<RectTransform>();
-        if(TryGetComponent(out layoutElement)) hasLayoutElement = true;
+        if (TryGetComponent(out layoutElement)) hasLayoutElement = true;
     }
 
     private void Update()

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Photon.Pun;
@@ -128,7 +127,6 @@ public class AnchorBallManager : MonoBehaviour
 
             break;
         }
-        
     }
 
     private void Start()

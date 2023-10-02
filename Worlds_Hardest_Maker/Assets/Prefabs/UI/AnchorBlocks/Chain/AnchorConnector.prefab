@@ -73,6 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 798f56165aea853478069bdad725359f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionHeight: 0
   MouseOverUIRect: {fileID: 0}
 --- !u!114 &5272093715303691661
 MonoBehaviour:

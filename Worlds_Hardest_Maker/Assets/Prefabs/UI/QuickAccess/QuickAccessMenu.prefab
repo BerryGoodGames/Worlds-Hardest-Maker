@@ -138,6 +138,7 @@ MonoBehaviour:
   image: {fileID: 0}
   text: {fileID: 0}
   canvasGroup: {fileID: 6657427134052727562}
+  spriteRenderer: {fileID: 0}
   startVisible: 0
   duration: 0.15
   disableObjectWhenInvisible: 1
