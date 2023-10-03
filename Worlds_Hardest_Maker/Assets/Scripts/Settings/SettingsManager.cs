@@ -137,11 +137,7 @@ public class SettingsManager : MonoBehaviour
         if (float.TryParse(size, out float conv)) SetToolbarSize(conv);
     }
 
-    public float GetToolbarSize()
-    {
-        print(toolbarSpacing.ToolbarHeight);
-        return toolbarSpacing.ToolbarHeight;
-    }
+    public float GetToolbarSize() => toolbarSpacing.ToolbarHeight;
 
     public void SetInfobarSize(float size, bool updateSlider)
     {
