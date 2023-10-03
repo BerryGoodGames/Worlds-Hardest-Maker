@@ -40,10 +40,15 @@ public class SettingsManager : MonoBehaviour
         PlayerPrefs.SetInt("Quality", GraphicsSettings.Instance.QualityLevel);
         PlayerPrefs.SetInt("Fullscreen", Screen.fullScreen ? 1 : 0);
         PlayerPrefs.SetInt("OneColorStartGoal", GraphicsSettings.Instance.OneColorStartGoalCheckpoint ? 1 : 0);
+
+        PlayerPrefs.Save();
     }
 
     public void LoadPrefs()
     {
+        // check if preferences already exist, and if they don't then set the current (default) prefs
+        if (!PlayerPrefs.HasKey("MusicVolume")) SavePrefs();
+        
         SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"), true);
         SetSoundEffectVolume(PlayerPrefs.GetFloat("SoundEffectVolume"), true);
         SetToolbarSize(PlayerPrefs.GetFloat("ToolbarSize"), true);
@@ -116,18 +121,27 @@ public class SettingsManager : MonoBehaviour
 
         if (!updateSlider) return;
 
+        print(size);
+
         ReferenceManager.Instance.ToolbarSizeSlider.Slider.value = size;
         ReferenceManager.Instance.ToolbarSizeSlider.UpdateInput();
     }
 
-    public void SetToolbarSize(float size) => SetToolbarSize(size, false);
+    public void SetToolbarSize(float size)
+    {
+        SetToolbarSize(size, false);
+    }
 
     public void SetToolbarSize(string size)
     {
         if (float.TryParse(size, out float conv)) SetToolbarSize(conv);
     }
 
-    public float GetToolbarSize() => toolbarSpacing.ToolbarHeight;
+    public float GetToolbarSize()
+    {
+        print(toolbarSpacing.ToolbarHeight);
+        return toolbarSpacing.ToolbarHeight;
+    }
 
     public void SetInfobarSize(float size, bool updateSlider)
     {

@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,7 +6,6 @@ using UnityEngine.UI;
 using UnityEditor.Events;
 #endif
 
-[ExecuteInEditMode]
 public class SyncInputToSlider : MonoBehaviour
 {
     public Slider Slider;
@@ -23,6 +23,9 @@ public class SyncInputToSlider : MonoBehaviour
     public void UpdateInput()
     {
         if (input == null) input = GetComponent<TMP_InputField>();
+
+        print( "internal: " + transform.parent.parent.name + " " + input.text + " " + Slider.value);
+
         // convert slider value to text and put in into the input
         input.text = Rounded(Slider.value).ToString();
     }

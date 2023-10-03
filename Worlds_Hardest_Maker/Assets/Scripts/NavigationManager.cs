@@ -19,10 +19,9 @@ public class NavigationManager : MonoBehaviour
         if (system.currentSelectedGameObject == null ||
             !system.currentSelectedGameObject.TryGetComponent(out Selectable selectable)) return;
 
-        Selectable next;
-
-        // try to navigate down
-        next = selectable.FindSelectableOnDown();
+        Selectable next =
+            // try to navigate down
+            selectable.FindSelectableOnDown();
 
         if (next != null)
         {

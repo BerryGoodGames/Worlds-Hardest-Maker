@@ -118,4 +118,10 @@ public class Dbg : MonoBehaviour
             print($"Debug - {o.name}");
         }
     }
+
+    [ButtonMethod]
+    private static void DeletePlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 }
