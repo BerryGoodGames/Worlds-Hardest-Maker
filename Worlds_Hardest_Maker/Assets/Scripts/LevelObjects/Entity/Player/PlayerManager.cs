@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -127,7 +128,6 @@ public class PlayerManager : MonoBehaviour
         // remove player only if at pos
         foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
         {
-            if (MultiplayerManager.Instance.Multiplayer && !player.GetComponent<PhotonView>().IsMine) continue;
             if ((Vector2)player.position == position)
                 player.GetComponent<PlayerController>().DestroySelf();
         }
