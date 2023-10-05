@@ -18,6 +18,8 @@ public class BallDeathTriggerEvent : MonoBehaviour
 
         if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) return;
 
+        if (controller.InDeathAnim) return;
+
         if (!controller.IsOnSafeField()) controller.DieNormal();
     }
 }
