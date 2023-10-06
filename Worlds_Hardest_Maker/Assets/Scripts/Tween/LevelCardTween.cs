@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
@@ -14,13 +15,11 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnHover()
     {
-        card.DOKill();
         card.DOScale(hoverScale, duration).SetEase(Ease.InOutSine);
     }
 
     public void OnUnhover()
     {
-        card.DOKill();
         card.DOScale(1, duration).SetEase(Ease.InOutSine);
     }
 
