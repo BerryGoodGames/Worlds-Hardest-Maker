@@ -5,5 +5,5 @@ using UnityEngine;
 
 public class LevelHubManager : MonoBehaviour
 {
-    public static string LoadLevelPath = string.Empty;
+    public static string LoadedLevelPath = string.Empty;
 }

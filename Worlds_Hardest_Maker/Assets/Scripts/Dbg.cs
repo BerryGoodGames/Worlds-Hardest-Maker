@@ -49,12 +49,26 @@ public class Dbg : MonoBehaviour
         else Destroy(this);
 
         cam = Camera.main;
+
+        if (LevelHubManager.LoadedLevelPath == string.Empty) AutoLoadLevel = true;
+
+        if (!AutoLoadLevel) return;
+        
+        LevelHubManager.LoadedLevelPath = SaveSystem.LevelSavePath + $"/{LevelName}.lvl";
     }
 
     private void Start()
     {
         if (!AutoLoadLevel) return;
-        GameManager.Instance.LoadLevel(SaveSystem.LevelSavePath + $"\\{LevelName}.lvl");
+
+        try
+        {
+            GameManager.Instance.LoadLevel(LevelHubManager.LoadedLevelPath);
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     private void Update()

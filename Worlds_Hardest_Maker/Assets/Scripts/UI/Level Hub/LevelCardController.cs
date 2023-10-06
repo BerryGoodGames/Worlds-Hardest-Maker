@@ -18,7 +18,7 @@ public class LevelCardController : MonoBehaviour
 
     public void EditLevel()
     {
-        LevelHubManager.LoadLevelPath = LevelPath;
+        LevelHubManager.LoadedLevelPath = LevelPath;
 
         SceneManager.LoadScene("DefaultEditorScene");
     }

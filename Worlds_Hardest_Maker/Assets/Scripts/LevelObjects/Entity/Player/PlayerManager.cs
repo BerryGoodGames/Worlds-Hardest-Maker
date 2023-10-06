@@ -188,6 +188,7 @@ public class PlayerManager : MonoBehaviour
     {
         Transform container = ReferenceManager.Instance.PlayerContainer;
         List<GameObject> players = new();
+        
         for (int i = 0; i < container.childCount; i++)
         {
             players.Add(container.GetChild(i).gameObject);

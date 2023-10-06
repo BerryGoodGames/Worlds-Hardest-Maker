@@ -1,18 +1,24 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using DG.Tweening;
+using MyBox;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPun
 {
     public static GameManager Instance { get; private set; }
 
     [SerializeField] private LoadingScreen loadingScreen;
+
+    [Separator("Save")] [SerializeField] private float autoSaveInterval = 300;
+
     private RectTransform canvasRT;
 
     private void Awake()
@@ -36,8 +42,10 @@ public class GameManager : MonoBehaviourPun
 
         if (!MultiplayerManager.Instance.Multiplayer) PlayerManager.Instance.SetPlayer(Vector2.zero, 3f);
 
-        if(LevelHubManager.LoadLevelPath != string.Empty)
-            LoadLevel(LevelHubManager.LoadLevelPath);
+        if(LevelHubManager.LoadedLevelPath != string.Empty)
+            LoadLevel(LevelHubManager.LoadedLevelPath);
+
+        StartCoroutine(AutoSave());
     }
 
     /// <summary>
@@ -179,6 +187,17 @@ public class GameManager : MonoBehaviourPun
         return stream;
     }
 
+    private IEnumerator AutoSave()
+    {
+        while (true)
+        {
+            SaveSystem.SaveCurrentLevel();
+
+            // wait for next auto save
+            yield return new WaitForSeconds(autoSaveInterval);
+        }
+    }
+
     #endregion
 
     public static void SetCameraUnitWidth(float width)
@@ -252,7 +271,11 @@ public class GameManager : MonoBehaviourPun
         }
     }
 
-    public void MainMenu() => loadingScreen.LoadScene(0);
+    public void MainMenu()
+    {
+        SaveSystem.SaveCurrentLevel();
+        loadingScreen.LoadScene(0);
+    }
 
     public static void DeselectInputs()
     {

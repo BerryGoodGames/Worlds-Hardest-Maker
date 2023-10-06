@@ -16299,7 +16299,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 40.303894}
+  m_AnchoredPosition: {x: 0, y: 64.49536}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1786665322
@@ -21119,6 +21119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadingScreen: {fileID: 1920386819}
+  autoSaveInterval: 60
 --- !u!4 &3252578248619094825
 Transform:
   m_ObjectHideFlags: 0

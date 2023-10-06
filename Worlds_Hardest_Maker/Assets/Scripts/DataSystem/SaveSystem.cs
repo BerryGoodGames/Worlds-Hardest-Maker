@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using Photon.Pun;
 using SFB;
@@ -26,25 +27,35 @@ public static class SaveSystem
 
     public static void SaveCurrentLevel()
     {
-        AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+        SaveCurrentLevel(LevelHubManager.LoadedLevelPath);
+    }
 
-        BinaryFormatter formatter = new();
-        string path = StandaloneFileBrowser.SaveFilePanel("Save your level (.lvl)", LevelSavePath,
-            "MyLevel.lvl", "lvl");
-
+    public static void SaveCurrentLevel(string path)
+    {
         // check if user didn't pick any path
         if (path.Equals(""))
         {
-            Debug.Log("Cancelled saving");
+            Debug.LogWarning("No Level Selected");
             return;
         }
+        
+        AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
 
         // create file
         FileStream stream = new(path, FileMode.Create);
 
-        List<Data> levelData = SerializeCurrentLevel();
+        try
+        {
+            List<Data> levelData = SerializeCurrentLevel();
+            BinaryFormatter formatter = new();
+            formatter.Serialize(stream, levelData);
+        }
+        catch
+        {
+            stream.Close();
+            throw;
+        }
 
-        formatter.Serialize(stream, levelData);
         stream.Close();
 
         Debug.Log($"Saved level at {path}");
@@ -133,27 +144,36 @@ public static class SaveSystem
         // // load / deserialize file
         BinaryFormatter formatter = new();
         FileStream stream = new(path, FileMode.Open);
+        List<Data> data;
 
-        if (MultiplayerManager.Instance.Multiplayer)
-            // RPC to every other client with path
-            SendLevel(path);
-
-        // set discord activity
-        if (updateDiscordActivity)
+        try
         {
-            string[] splitPath = stream.Name.Split("\\");
-            string levelName = splitPath[^1].Replace(".lvl", "");
-            // DiscordManager.State = $"Last opened Level: {levelName}";
+            if (MultiplayerManager.Instance.Multiplayer)
+                // RPC to every other client with path
+                SendLevel(path);
+
+            // set discord activity
+            if (updateDiscordActivity)
+            {
+                string[] splitPath = stream.Name.Split("\\");
+                string levelName = splitPath[^1].Replace(".lvl", "");
+                // DiscordManager.State = $"Last opened Level: {levelName}";
+            }
+
+            //using (StreamReader reader = new StreamReader(stream))
+            //{
+            //    Debug.Log(reader.ReadToEnd());
+            //}
+
+            data = formatter.Deserialize(stream) as List<Data>;
+        }
+        catch
+        {
+            stream.Close();
+            throw;
         }
 
-        //using (StreamReader reader = new StreamReader(stream))
-        //{
-        //    Debug.Log(reader.ReadToEnd());
-        //}
-        
-        List<Data> data = formatter.Deserialize(stream) as List<Data>;
         stream.Close();
-
         return data;
     }
 
