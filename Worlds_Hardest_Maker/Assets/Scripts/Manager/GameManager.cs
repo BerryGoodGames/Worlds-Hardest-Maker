@@ -26,20 +26,18 @@ public class GameManager : MonoBehaviourPun
         Utils.ForceDecimalSeparator(".");
 
         SetCameraUnitWidth(23);
+        
+        DOTween.Init(useSafeMode: false);
     }
 
     private void Start()
     {
         canvasRT = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>();
-        DOTween.Init(useSafeMode: false);
 
         if (!MultiplayerManager.Instance.Multiplayer) PlayerManager.Instance.SetPlayer(Vector2.zero, 3f);
 
-        LevelSettings.Instance.SetDrownDuration();
-        LevelSettings.Instance.SetIceFriction();
-        LevelSettings.Instance.SetIceMaxSpeed();
-        LevelSettings.Instance.SetWaterDamping();
-
+        if(LevelHubManager.LoadLevelPath != string.Empty)
+            LoadLevel(LevelHubManager.LoadLevelPath);
     }
 
     /// <summary>

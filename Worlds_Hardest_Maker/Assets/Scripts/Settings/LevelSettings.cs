@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -121,5 +122,13 @@ public class LevelSettings : MonoBehaviour
     {
         // init singleton
         if (Instance == null) Instance = this;
+    }
+
+    private void Start()
+    {
+        SetDrownDuration();
+        SetIceFriction();
+        SetIceMaxSpeed();
+        SetWaterDamping();
     }
 }

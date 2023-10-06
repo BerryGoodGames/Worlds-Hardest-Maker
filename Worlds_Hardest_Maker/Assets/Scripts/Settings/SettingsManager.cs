@@ -121,8 +121,6 @@ public class SettingsManager : MonoBehaviour
 
         if (!updateSlider) return;
 
-        print(size);
-
         ReferenceManager.Instance.ToolbarSizeSlider.Slider.value = size;
         ReferenceManager.Instance.ToolbarSizeSlider.UpdateInput();
     }

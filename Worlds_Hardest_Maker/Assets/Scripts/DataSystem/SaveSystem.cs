@@ -8,12 +8,28 @@ using UnityEngine;
 
 public static class SaveSystem
 {
+    public static string LevelSavePath
+    {
+        get
+        {
+            // create path if it doesn't exist yet
+            string path = Application.persistentDataPath + "/Levels";
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            return path;
+        }
+    }
+
     public static void SaveCurrentLevel()
     {
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
 
         BinaryFormatter formatter = new();
-        string path = StandaloneFileBrowser.SaveFilePanel("Save your level (.lvl)", Application.persistentDataPath,
+        string path = StandaloneFileBrowser.SaveFilePanel("Save your level (.lvl)", LevelSavePath,
             "MyLevel.lvl", "lvl");
 
         // check if user didn't pick any path
@@ -91,7 +107,7 @@ public static class SaveSystem
     {
         // requests path from user and returns level in form of List<IData>
         string[] pathArr = StandaloneFileBrowser.OpenFilePanel("Select your level (.lvl)",
-            Application.persistentDataPath, "lvl", false);
+            LevelSavePath, "lvl", false);
 
         // check if user selected nothing
         if (pathArr.Length != 1)
@@ -134,8 +150,7 @@ public static class SaveSystem
         //{
         //    Debug.Log(reader.ReadToEnd());
         //}
-
-
+        
         List<Data> data = formatter.Deserialize(stream) as List<Data>;
         stream.Close();
 

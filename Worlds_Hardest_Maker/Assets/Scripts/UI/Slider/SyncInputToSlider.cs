@@ -24,8 +24,6 @@ public class SyncInputToSlider : MonoBehaviour
     {
         if (input == null) input = GetComponent<TMP_InputField>();
 
-        print( "internal: " + transform.parent.parent.name + " " + input.text + " " + Slider.value);
-
         // convert slider value to text and put in into the input
         input.text = Rounded(Slider.value).ToString();
     }

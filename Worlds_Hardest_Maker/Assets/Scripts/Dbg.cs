@@ -54,7 +54,7 @@ public class Dbg : MonoBehaviour
     private void Start()
     {
         if (!AutoLoadLevel) return;
-        GameManager.Instance.LoadLevel(Application.persistentDataPath + $"\\{LevelName}.lvl");
+        GameManager.Instance.LoadLevel(SaveSystem.LevelSavePath + $"\\{LevelName}.lvl");
     }
 
     private void Update()
