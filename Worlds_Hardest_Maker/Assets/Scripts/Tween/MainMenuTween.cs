@@ -38,5 +38,7 @@ public class MainMenuTween : MonoBehaviour
             .SetId(gameObject);
     }
 
-    private void OnDestroy() => DOTween.Kill(gameObject);
+    private void OnDestroy() => KillTweens();
+
+    public void KillTweens() => DOTween.Kill(gameObject);
 }

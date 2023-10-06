@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using MyBox;
@@ -15,15 +16,17 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnHover()
     {
-        card.DOScale(hoverScale, duration).SetEase(Ease.InOutSine);
+        card.DOScale(hoverScale, duration).SetEase(Ease.InOutSine).SetId(gameObject);
     }
 
     public void OnUnhover()
     {
-        card.DOScale(1, duration).SetEase(Ease.InOutSine);
+        card.DOScale(1, duration).SetEase(Ease.InOutSine).SetId(gameObject);
     }
 
     public void OnPointerEnter(PointerEventData eventData) => OnHover();
 
     public void OnPointerExit(PointerEventData eventData) => OnUnhover();
+
+    private void OnDestroy() => DOTween.Kill(gameObject);
 }
