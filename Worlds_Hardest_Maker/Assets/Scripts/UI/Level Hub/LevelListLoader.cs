@@ -15,7 +15,7 @@ public class LevelListLoader : MonoBehaviour
     [Separator("References")] [SerializeField]
     private GameObject levelCardPrefab;
 
-    private FileInfo[] prevLevels;
+    private FileInfo[] prevLevelInfo;
 
     private void Awake()
     {
@@ -40,12 +40,26 @@ public class LevelListLoader : MonoBehaviour
 
         FileInfo[] levelInfo = levelDirectory.GetFiles("*.lvl");
 
-        if (prevLevels == null || !levelInfo.SequenceEqual(prevLevels))
+        bool levelsChanged = false;
+
+        if(prevLevelInfo == null || levelInfo.Length != prevLevelInfo.Length) levelsChanged = true;
+        else
+        {
+            for (int i = 0; i < levelInfo.Length; i++)
+            {
+                if (levelInfo[i].Name == prevLevelInfo[i].Name) continue;
+                levelsChanged = true;
+                break;
+            }
+        }
+        
+
+        if (levelsChanged)
         {
             UpdateLevelCards(levelInfo);
         }
 
-        prevLevels = levelInfo;
+        prevLevelInfo = levelInfo;
     }
 
     private void UpdateLevelCards(IEnumerable<FileInfo> levelInfo)
