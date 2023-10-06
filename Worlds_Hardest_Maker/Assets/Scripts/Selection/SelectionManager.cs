@@ -60,7 +60,7 @@ public class SelectionManager : MonoBehaviour
         {
             // get drag positions and world position mode
             WorldPositionType worldPositionType =
-                EditModeManager.Instance.CurrentEditMode.GetWorldPosition();
+                EditModeManager.Instance.CurrentEditMode.GetWorldPositionType();
 
             (Vector2 start, Vector2 end) = MouseManager.GetDragPositions(worldPositionType);
 
@@ -136,8 +136,8 @@ public class SelectionManager : MonoBehaviour
     // get bounds of multiple points (in matrix)
     private static (Vector2 lowest, Vector2 highest) GetBounds(List<Vector2> points)
     {
-        Vector2 lowest = Vector2.one * points[0].x;
-        Vector2 highest = Vector2.one * points[0].y;
+        Vector2 lowest = points[0];
+        Vector2 highest = points[0];
 
         foreach (Vector2 pos in points)
         {
@@ -229,13 +229,12 @@ public class SelectionManager : MonoBehaviour
 
     #region Fill
 
-    public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2, WorldPositionType worldPositionType)
+    public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2)
     {
-        bool inMatrix = worldPositionType is WorldPositionType.Matrix;
+        bool inMatrix = EditModeManager.Instance.CurrentEditMode.GetWorldPositionType() is WorldPositionType.Matrix;
 
         // find bounds
-        (Vector2 lowest, Vector2 highest) =
-            inMatrix ? GetBoundsMatrix(p1, p2) : GetBounds(p1, p2);
+        (Vector2 lowest, Vector2 highest) = inMatrix ? GetBoundsMatrix(p1, p2) : GetBounds(p1, p2);
 
         // collect every pos in range
         float increment = inMatrix ? 1 : 0.5f;
@@ -254,8 +253,8 @@ public class SelectionManager : MonoBehaviour
     public static List<Vector2> GetCurrentFillRange()
     {
         if (SelectionStart == null || SelectionEnd == null) return null;
-        return GetFillRange((Vector2)SelectionStart, (Vector2)SelectionEnd,
-            EditModeManager.Instance.CurrentEditMode.GetWorldPosition());
+        // print((SelectionStart, SelectionEnd));
+        return GetFillRange((Vector2)SelectionStart, (Vector2)SelectionEnd);
     }
 
     public void FillSelectedArea()
@@ -268,7 +267,7 @@ public class SelectionManager : MonoBehaviour
         selectionOptions.SetActive(false);
     }
 
-    public void FillArea(List<Vector2> poses, FieldType type)
+    public void FillAreaWithFields(List<Vector2> poses, FieldType type)
     {
         if (CurrentSelectionRange == null) return;
         CurrentSelectionRange = null;
@@ -292,7 +291,7 @@ public class SelectionManager : MonoBehaviour
             return;
         }
 
-        AdaptAreaToType(lowest, highest, type);
+        AdaptAreaToFieldType(lowest, highest, type);
 
         // REF
         // get prefab
@@ -336,7 +335,7 @@ public class SelectionManager : MonoBehaviour
 
         if (editMode.IsFieldType())
         {
-            FillArea(poses, (FieldType)EnumUtils.TryConvertEnum<EditMode, FieldType>(editMode));
+            FillAreaWithFields(poses, (FieldType)EnumUtils.TryConvertEnum<EditMode, FieldType>(editMode));
             return;
         }
 
@@ -350,13 +349,12 @@ public class SelectionManager : MonoBehaviour
         UpdateOutlinesInArea(false, poses[0].Floor(), poses.Last().Ceil());
     }
 
-    public void FillArea(Vector2 start, Vector2 end, FieldType type) =>
-        Instance.FillArea(GetFillRange(start, end, WorldPositionType.Matrix), type);
+    public void FillArea(Vector2 start, Vector2 end, EditMode editMode) => Instance.FillArea(start, end, editMode);
 
-    private void AdaptAreaToType(Vector2 lowestPos, Vector2 highestPos, FieldType type)
+    private void AdaptAreaToFieldType(Vector2 lowestPos, Vector2 highestPos, FieldType type)
     {
         // clear fields in area
-        int fieldLayer = (int)Mathf.Pow(2, LayerMask.NameToLayer("Field"));
+        int fieldLayer = LayerManager.Instance.Layers.Field;
         int fieldCount = ReferenceManager.Instance.FieldContainer.childCount;
         Collider2D[] fieldHits = new Collider2D[fieldCount];
         _ = Physics2D.OverlapAreaNonAlloc(lowestPos, highestPos, fieldHits, fieldLayer);
@@ -368,14 +366,14 @@ public class SelectionManager : MonoBehaviour
             Destroy(fieldHit.gameObject);
         }
 
-        int entityLayer = (int)Mathf.Pow(2, LayerMask.NameToLayer("Entity"));
+        // clear coins + keys
+        int entityLayer = LayerManager.Instance.Layers.Entity;
 
         bool clearCoins = CoinManager.CannotPlaceFields.Contains(type);
         bool clearKeys = KeyManager.CannotPlaceFields.Contains(type);
 
         if (!clearCoins && !clearKeys) return;
 
-        // clear coins + keys
         Collider2D[] entityHits = Physics2D.OverlapAreaAll(lowestPos, highestPos, entityLayer);
 
         foreach (Collider2D hit in entityHits)
@@ -413,6 +411,12 @@ public class SelectionManager : MonoBehaviour
         // DESTROY IT MUHAHAHAHAHAHHAHAHAHAHAHAHAHAHA
         foreach (Collider2D collider in hits)
         {
+            if (collider.CompareTag("AnchorObject"))
+            {
+                collider.GetComponent<AnchorController>().Delete();
+                continue;
+            }
+
             Destroy(collider.gameObject);
             DestroyImmediate(collider);
         }
