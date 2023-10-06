@@ -5,10 +5,12 @@ using System.IO;
 using System.Linq;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LevelListLoader : MonoBehaviour
 {
-    [SerializeField] private float loadInterval = 5;
+    [SerializeField] private bool refresh;
+    [SerializeField][ConditionalField(nameof(refresh))] private float refreshInterval = 5;
 
     [Separator("References")] [SerializeField]
     private GameObject levelCardPrefab;
@@ -24,20 +26,26 @@ public class LevelListLoader : MonoBehaviour
     {
         while (true)
         {
-            DirectoryInfo levelDirectory = new(SaveSystem.LevelSavePath);
-
-            FileInfo[] levelInfo = levelDirectory.GetFiles("*.lvl");
-
-            if (prevLevels == null || !levelInfo.SequenceEqual(prevLevels))
-            {
-                UpdateLevelCards(levelInfo);
-            }
-
-            prevLevels = levelInfo;
+            if(refresh) Refresh();
 
             // wait until trying to load levels again
-            yield return new WaitForSeconds(loadInterval);
+            yield return new WaitForSeconds(refreshInterval);
         }
+    }
+
+    [ButtonMethod]
+    private void Refresh()
+    {
+        DirectoryInfo levelDirectory = new(SaveSystem.LevelSavePath);
+
+        FileInfo[] levelInfo = levelDirectory.GetFiles("*.lvl");
+
+        if (prevLevels == null || !levelInfo.SequenceEqual(prevLevels))
+        {
+            UpdateLevelCards(levelInfo);
+        }
+
+        prevLevels = levelInfo;
     }
 
     private void UpdateLevelCards(IEnumerable<FileInfo> levelInfo)
@@ -45,6 +53,14 @@ public class LevelListLoader : MonoBehaviour
         // destroy all level cards
         foreach (Transform t in transform)
         {
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                DestroyImmediate(t.gameObject);
+                continue;
+            }
+#endif
+
             Destroy(t.gameObject);
         }
 
