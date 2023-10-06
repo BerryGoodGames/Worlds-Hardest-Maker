@@ -5,17 +5,16 @@ public class SyncTransform : MonoBehaviour
 {
     [InitializationField] public Transform Source;
 
-    [Separator] [SerializeField] [InitializationField]
-    private bool ignorePosition;
-
-    [SerializeField] [InitializationField] private bool ignoreRotation;
-    [SerializeField] [InitializationField] private bool ignoreScale;
+    [Separator]
+    [SerializeField] [InitializationField] private bool syncPosition = true;
+    [SerializeField] [InitializationField] private bool syncRotation = true;
+    [SerializeField] [InitializationField] private bool syncScale = true;
 
     private void Update()
     {
         // Synchronize the target transform with the source transform
-        if (!ignorePosition) transform.position = Source.position;
-        if (!ignoreRotation) transform.rotation = Source.rotation;
-        if (!ignoreScale) transform.localScale = Source.localScale;
+        if (syncPosition) transform.position = Source.position;
+        if (syncRotation) transform.rotation = Source.rotation;
+        if (syncScale) transform.localScale = Source.localScale;
     }
 }
