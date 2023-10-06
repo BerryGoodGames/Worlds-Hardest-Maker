@@ -71,7 +71,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3516165864050137394}
   - component: {fileID: 3467334307650034706}
-  - component: {fileID: 3775177726094416683}
+  - component: {fileID: 192380122639183852}
   m_Layer: 7
   m_Name: AnchorBallContainer
   m_TagString: Untagged
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   opacity: 1
---- !u!114 &3775177726094416683
+--- !u!114 &192380122639183852
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,9 +120,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Source: {fileID: 6560658363013939984}
-  ignorePosition: 0
-  ignoreRotation: 0
-  ignoreScale: 1
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
 --- !u!1 &5607907451453093492
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 2695958956081501589}
   m_Layer: 7
   m_Name: AnchorObject
-  m_TagString: Untagged
+  m_TagString: AnchorObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public static class EditModeExtension
 {
-    public static WorldPositionType GetWorldPosition(this EditMode mode)
+    public static WorldPositionType GetWorldPositionType(this EditMode mode)
     {
         if (mode.IsFieldType() || mode == EditMode.DeleteField) return WorldPositionType.Matrix;
         return WorldPositionType.Grid;
