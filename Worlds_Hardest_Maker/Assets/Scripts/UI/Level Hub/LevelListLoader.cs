@@ -46,12 +46,15 @@ public class LevelListLoader : MonoBehaviour
         if (refreshScheduled) return;
 
         StartCoroutine(ScheduledRefresh());
+
+        refreshScheduled = true;
     }
 
     private IEnumerator ScheduledRefresh()
     {
+
 #if UNITY_EDITOR
-        if(Application.isPlaying)
+        if (Application.isPlaying)
 #endif
             yield return new WaitForEndOfFrame();
 
