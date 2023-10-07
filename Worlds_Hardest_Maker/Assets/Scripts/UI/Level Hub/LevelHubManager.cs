@@ -1,15 +1,18 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using MyBox;
 using SFB;
 using UnityEngine;
 
 public class LevelHubManager : MonoBehaviour
 {
+    public static LevelHubManager Instance { get; private set; }
+
     public static string LoadedLevelPath = string.Empty;
+
+    [InitializationField][MustBeAssigned] public WarningConfirmPromptController DeleteWarningPrompt;
+    [InitializationField][MustBeAssigned] public AlphaTween DeleteWarningBlockerTween;
+    [HideInInspector] public LevelCardController CurrentDeletingLevelCard;
 
     public void ImportLevel()
     {
@@ -67,5 +70,27 @@ public class LevelHubManager : MonoBehaviour
         fileName += $" ({copyNumber + 1})";
 
         return fileName;
+    }
+
+    public void CancelDeletion()
+    {
+        DeleteWarningPrompt.Tween.SetVisible(false);
+        DeleteWarningBlockerTween.SetVisible(false);
+
+        CurrentDeletingLevelCard = null;
+    }
+
+    public void DeleteCard()
+    {
+        DeleteWarningPrompt.Tween.SetVisible(false);
+        DeleteWarningBlockerTween.SetVisible(false);
+
+        if (CurrentDeletingLevelCard != null) CurrentDeletingLevelCard.DeleteLevel();
+        CurrentDeletingLevelCard = null;
+    }
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
     }
 }

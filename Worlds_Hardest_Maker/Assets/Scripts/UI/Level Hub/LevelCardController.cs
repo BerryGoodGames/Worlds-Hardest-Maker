@@ -2,7 +2,6 @@ using System.IO;
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LevelCardController : MonoBehaviour
 {
@@ -21,6 +20,15 @@ public class LevelCardController : MonoBehaviour
     {
         LevelHubManager.LoadedLevelPath = LevelPath;
         MainMenuManager.Instance.StartEditor();
+    }
+
+    public void OpenDeleteWarning()
+    {
+        LevelHubManager.Instance.CurrentDeletingLevelCard = this;
+        LevelHubManager.Instance.DeleteWarningPrompt.Tween.SetVisible(true);
+        LevelHubManager.Instance.DeleteWarningBlockerTween.SetVisible(true);
+
+        LevelHubManager.Instance.DeleteWarningPrompt.ConfirmationText.text = $"Do you really want to delete '{Name}'?";
     }
 
     public void DeleteLevel()

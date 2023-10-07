@@ -69,7 +69,6 @@ public class LevelListLoader : MonoBehaviour
     private void UpdateLevelCards(IEnumerable<FileInfo> levelInfo)
     {
         // destroy all level cards
-        print(transform == null);
         foreach (Transform t in transform)
         {
 #if UNITY_EDITOR
