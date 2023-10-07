@@ -18,7 +18,7 @@ public class LevelHubManager : MonoBehaviour
     {
         // ask user for path
         string[] paths = StandaloneFileBrowser.OpenFilePanel("Import Level",
-            Environment.SpecialFolder.UserProfile + @"\Downloads", "lvl", false);
+            Environment.SpecialFolder.UserProfile + "\\Downloads", "lvl", false);
 
         // import selected level
         if (paths.Length <= 0) return;

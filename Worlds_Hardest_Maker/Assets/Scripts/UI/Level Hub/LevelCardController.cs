@@ -1,5 +1,8 @@
+using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using MyBox;
+using SFB;
 using TMPro;
 using UnityEngine;
 
@@ -15,6 +18,8 @@ public class LevelCardController : MonoBehaviour
     }
 
     [HideInInspector] public string LevelPath;
+
+    public string LevelName => Path.GetFileName(LevelPath);
 
     public void EditLevel()
     {
@@ -40,7 +45,7 @@ public class LevelCardController : MonoBehaviour
     public void CopyLevel()
     {
         // get new name
-        string newName = Path.GetFileName(LevelPath)[..^4].GetCopyName();
+        string newName = LevelName[..^4].GetCopyName();
 
         while (File.Exists(newName + ".lvl"))
         {
@@ -52,5 +57,15 @@ public class LevelCardController : MonoBehaviour
             File.Copy(LevelPath, SaveSystem.LevelSavePath + newName + ".lvl", true);
 
         LevelListLoader.Instance.Refresh();
+    }
+
+    public void ExportLevel()
+    {
+        string exportPath = StandaloneFileBrowser.SaveFilePanel("Export Level",
+            Environment.SpecialFolder.UserProfile + "\\Downloads", LevelName, "lvl");
+        
+
+        if(exportPath != string.Empty)
+            File.Copy(LevelPath, exportPath, true);
     }
 }
