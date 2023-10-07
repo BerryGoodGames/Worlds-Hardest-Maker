@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MyBox;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -18,6 +19,8 @@ public class LevelListLoader : MonoBehaviour
     private GameObject levelCardPrefab;
 
     private FileInfo[] prevLevelInfo;
+
+    private bool refreshScheduled;
 
     private void Awake()
     {
@@ -40,13 +43,27 @@ public class LevelListLoader : MonoBehaviour
     [ButtonMethod]
     public void Refresh()
     {
+        if (refreshScheduled) return;
+
+        StartCoroutine(ScheduledRefresh());
+    }
+
+    private IEnumerator ScheduledRefresh()
+    {
+#if UNITY_EDITOR
+        if(Application.isPlaying)
+#endif
+            yield return new WaitForEndOfFrame();
+
+        refreshScheduled = false;
+
         DirectoryInfo levelDirectory = new(SaveSystem.LevelSavePath);
 
         FileInfo[] levelInfo = levelDirectory.GetFiles("*.lvl");
 
         bool levelsChanged = false;
 
-        if(prevLevelInfo == null || levelInfo.Length != prevLevelInfo.Length) levelsChanged = true;
+        if (prevLevelInfo == null || levelInfo.Length != prevLevelInfo.Length) levelsChanged = true;
         else
         {
             for (int i = 0; i < levelInfo.Length; i++)
@@ -56,7 +73,7 @@ public class LevelListLoader : MonoBehaviour
                 break;
             }
         }
-        
+
 
         if (levelsChanged)
         {
