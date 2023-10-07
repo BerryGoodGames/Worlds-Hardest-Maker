@@ -21,7 +21,6 @@ public class LevelHubManager : MonoBehaviour
         if (paths.Length <= 0) return;
         ImportLevel(paths[0]);
     }
-
     public static void ImportLevel(string filePath)
     {
         if (!File.Exists(filePath))
@@ -45,7 +44,6 @@ public class LevelHubManager : MonoBehaviour
         // update level list
         LevelListLoader.Instance.Refresh();
     }
-
     private static string GetCopyName(string fileName)
     {
         int copyNumber = 0;

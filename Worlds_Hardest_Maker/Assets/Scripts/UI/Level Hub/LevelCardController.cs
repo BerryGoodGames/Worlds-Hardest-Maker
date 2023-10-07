@@ -1,3 +1,4 @@
+using System.IO;
 using MyBox;
 using TMPro;
 using UnityEngine;
@@ -20,5 +21,11 @@ public class LevelCardController : MonoBehaviour
     {
         LevelHubManager.LoadedLevelPath = LevelPath;
         MainMenuManager.Instance.StartEditor();
+    }
+
+    public void DeleteLevel()
+    {
+        File.Delete(LevelPath);
+        LevelListLoader.Instance.Refresh();
     }
 }
