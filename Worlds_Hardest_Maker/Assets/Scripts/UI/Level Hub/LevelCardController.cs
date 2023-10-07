@@ -28,7 +28,7 @@ public class LevelCardController : MonoBehaviour
         LevelHubManager.Instance.DeleteWarningPrompt.Tween.SetVisible(true);
         LevelHubManager.Instance.DeleteWarningBlockerTween.SetVisible(true);
 
-        LevelHubManager.Instance.DeleteWarningPrompt.ConfirmationText.text = $"Do you really want to delete '{Name}'?";
+        LevelHubManager.Instance.DeleteWarningPrompt.ConfirmationText.text = $"Do you really want to delete \"{Name}\"?";
     }
 
     public void DeleteLevel()

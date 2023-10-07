@@ -47,4 +47,26 @@ public class LevelHubManager : MonoBehaviour
         // update level list
         LevelListLoader.Instance.Refresh();
     }
+
+    public void CancelDeletion()
+    {
+        DeleteWarningPrompt.Tween.SetVisible(false);
+        DeleteWarningBlockerTween.SetVisible(false);
+
+        CurrentDeletingLevelCard = null;
+    }
+
+    public void DeleteCard()
+    {
+        DeleteWarningPrompt.Tween.SetVisible(false);
+        DeleteWarningBlockerTween.SetVisible(false);
+
+        if (CurrentDeletingLevelCard != null) CurrentDeletingLevelCard.DeleteLevel();
+        CurrentDeletingLevelCard = null;
+    }
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
 }
