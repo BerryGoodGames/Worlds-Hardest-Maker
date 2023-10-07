@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviourPun
     public static GameManager Instance { get; private set; }
 
     [SerializeField] private LoadingScreen loadingScreen;
+    [SerializeField] private ChainableTween swipeTween;
 
     [Separator("Save")] [SerializeField] private float autoSaveInterval = 300;
 
@@ -46,6 +47,8 @@ public class GameManager : MonoBehaviourPun
             LoadLevel(LevelHubManager.LoadedLevelPath);
 
         StartCoroutine(AutoSave());
+
+        swipeTween.StartChain();
     }
 
     /// <summary>

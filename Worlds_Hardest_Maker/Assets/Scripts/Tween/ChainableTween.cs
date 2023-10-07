@@ -23,6 +23,6 @@ public abstract class ChainableTween : TweenController
 public abstract class TweenController : MonoBehaviour
 {
     [Separator("Tween Settings")]
-    [SerializeField][PositiveValueOnly] protected float Duration;
-    [SerializeField][PositiveValueOnly] protected float Delay;
+    [PositiveValueOnly] public float Duration;
+    [PositiveValueOnly] public float Delay;
 }
