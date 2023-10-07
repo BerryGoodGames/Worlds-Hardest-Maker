@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using MyBox;
@@ -16,6 +17,8 @@ public class LevelCardController : MonoBehaviour
         get => nameText.text;
         set => nameText.text = value;
     }
+
+    [SerializeField] private List<Tooltip> buttonTooltips;
 
     [HideInInspector] public string LevelPath;
 
@@ -67,5 +70,13 @@ public class LevelCardController : MonoBehaviour
 
         if(exportPath != string.Empty)
             File.Copy(LevelPath, exportPath, true);
+    }
+
+    private void Awake()
+    {
+        foreach (Tooltip tooltip in buttonTooltips)
+        {
+            tooltip.Container = LevelHubManager.Instance.TooltipContainer;
+        }
     }
 }

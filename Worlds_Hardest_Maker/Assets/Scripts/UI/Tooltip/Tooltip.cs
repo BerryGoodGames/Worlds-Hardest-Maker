@@ -1,18 +1,39 @@
 using MyBox;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public class Tooltip : MonoBehaviour
 {
-    public string Text;
-    public int FontSize = 20;
-    public int Offset = 10;
+    [SerializeField] private GameObject tooltipPrefab;
+    [FormerlySerializedAs("useCustomContainer")] [SerializeField] private bool customContainer;
 
-    public bool CustomTweenDelay;
+    [SerializeField] [ConditionalField(nameof(customContainer))] private Transform container;
+    public Transform Container
+    {
+        get => container;
+        set
+        {
+            if (tooltip != null)
+            {
+                tooltip.transform.SetParent(value);
+            }
+            container = value;
+        }
+    }
 
-    [ConditionalField(nameof(CustomTweenDelay))]
-    public float TweenDelay = 1.5f;
+    [SerializeField] private bool restrictInCanvas = true;
+
+    [FormerlySerializedAs("Text")] [Separator] [SerializeField] private string text;
+    [FormerlySerializedAs("FontSize")] [SerializeField] private int fontSize = 20;
+    [FormerlySerializedAs("Offset")] [SerializeField] private int offset = 10;
+
+    [FormerlySerializedAs("CustomTweenDelay")] [SerializeField] private bool customTweenDelay;
+
+    [FormerlySerializedAs("TweenDelay")]
+    [ConditionalField(nameof(customTweenDelay))]
+    [SerializeField] private float tweenDelay = 1.5f;
 
     private const float DefaultTweenDelay = 1;
     private MouseOverUIRect mouseOver;
@@ -25,22 +46,24 @@ public class Tooltip : MonoBehaviour
 
     private void Awake()
     {
-        if (!CustomTweenDelay)
-            TweenDelay = DefaultTweenDelay;
+        if (!customTweenDelay)
+            tweenDelay = DefaultTweenDelay;
     }
 
     private void Start()
     {
         mouseOver = GetComponent<MouseOverUIRect>();
 
-        tooltip = Instantiate(PrefabManager.Instance.Tooltip, Vector3.zero, Quaternion.identity,
-            ReferenceManager.Instance.TooltipCanvas.transform);
+        tooltip = Instantiate(tooltipPrefab, Vector3.zero, Quaternion.identity, customContainer ? Container : ReferenceManager.Instance.TooltipCanvas.transform);
+
+        if(!restrictInCanvas) Destroy(tooltip.GetComponent<UIRestrict>());
+
         fadeTween = tooltip.GetComponent<AlphaTween>();
 
         tooltipRectTransform = tooltip.GetComponent<RectTransform>();
         tooltipText = tooltip.GetComponent<TooltipController>().Text;
-        tooltipText.text = Text.Replace("\\n", "\n");
-        tooltipText.fontSize = FontSize;
+        tooltipText.text = text.Replace("\\n", "\n");
+        tooltipText.fontSize = fontSize;
         fadeTween.SetVisible(false);
     }
 
@@ -48,11 +71,11 @@ public class Tooltip : MonoBehaviour
     {
         if (mouseOver.Over)
         {
-            if (hovered > TweenDelay)
+            if (hovered > tweenDelay)
             {
                 fadeTween.SetVisible(true);
 
-                tooltipRectTransform.position = Input.mousePosition + new Vector3(Offset, -Offset);
+                tooltipRectTransform.position = Input.mousePosition + new Vector3(offset, -offset);
             }
 
             hovered += Time.deltaTime;

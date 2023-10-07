@@ -12,6 +12,9 @@ public class LevelHubManager : MonoBehaviour
 
     [InitializationField][MustBeAssigned] public WarningConfirmPromptController DeleteWarningPrompt;
     [InitializationField][MustBeAssigned] public AlphaTween DeleteWarningBlockerTween;
+
+    public Transform TooltipContainer;
+
     [HideInInspector] public LevelCardController CurrentDeletingLevelCard;
 
     public void ImportLevel()
