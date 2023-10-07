@@ -36,4 +36,21 @@ public class LevelCardController : MonoBehaviour
         File.Delete(LevelPath);
         LevelListLoader.Instance.Refresh();
     }
+
+    public void CopyLevel()
+    {
+        // get new name
+        string newName = Path.GetFileName(LevelPath)[..^4].GetCopyName();
+
+        while (File.Exists(newName + ".lvl"))
+        {
+            newName = newName.GetCopyName();
+        }
+
+        // copy the data
+        if (LevelPath != null) 
+            File.Copy(LevelPath, SaveSystem.LevelSavePath + newName + ".lvl", true);
+
+        LevelListLoader.Instance.Refresh();
+    }
 }
