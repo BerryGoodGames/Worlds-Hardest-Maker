@@ -67,9 +67,7 @@ public class KeyEvents : MonoBehaviour
         if (Input.GetKey(ctrl) && !EditModeManager.Instance.Playing)
         {
             if (Input.GetKeyDown(KeyCode.S)) SaveSystem.SaveCurrentLevel();
-#if !UNTIY_WEBGL
-            if (Input.GetKeyDown(KeyCode.O)) GameManager.Instance.LoadLevel();
-#endif
+
             // paste
             if (!CopyManager.Instance.Pasting && Input.GetKey(KeybindManager.Instance.PasteKey))
                 StartCoroutine(CopyManager.Instance.PasteCoroutine());

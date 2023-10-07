@@ -9,6 +9,8 @@ using UnityEngine.Serialization;
 
 public class LevelListLoader : MonoBehaviour
 {
+    public static LevelListLoader Instance { get; private set; }
+
     [SerializeField] private bool refresh;
     [SerializeField][ConditionalField(nameof(refresh))] private float refreshInterval = 5;
 
@@ -20,6 +22,8 @@ public class LevelListLoader : MonoBehaviour
     private void Awake()
     {
         StartCoroutine(LoadCoroutine());
+
+        Instance ??= this;
     }
 
     private IEnumerator LoadCoroutine()
@@ -34,7 +38,7 @@ public class LevelListLoader : MonoBehaviour
     }
 
     [ButtonMethod]
-    private void Refresh()
+    public void Refresh()
     {
         DirectoryInfo levelDirectory = new(SaveSystem.LevelSavePath);
 

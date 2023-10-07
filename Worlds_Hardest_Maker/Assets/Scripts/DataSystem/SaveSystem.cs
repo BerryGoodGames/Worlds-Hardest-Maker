@@ -14,7 +14,7 @@ public static class SaveSystem
         get
         {
             // create path if it doesn't exist yet
-            string path = Application.persistentDataPath + "/Levels";
+            string path = Application.persistentDataPath + "/Levels/";
 
             if (!Directory.Exists(path))
             {
