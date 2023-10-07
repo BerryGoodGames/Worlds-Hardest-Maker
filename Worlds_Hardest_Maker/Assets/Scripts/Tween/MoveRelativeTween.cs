@@ -7,18 +7,20 @@ public class MoveRelativeTween : ChainableTween
     [Separator] [SerializeField] private bool isRectTransform;
     [SerializeField] private Vector2 movement;
 
+    public Tween MoveTween { get; private set; }
+
     public void Move()
     {
         if (isRectTransform)
         {
-            ((RectTransform)transform).DOAnchorPos(movement, Duration)
+            MoveTween = ((RectTransform)transform).DOAnchorPos(movement, Duration)
                 .SetRelative()
                 .SetEase(Ease.InOutSine)
                 .SetDelay(Delay);
         }
         else
         {
-            transform.DOMove(movement, Duration)
+            MoveTween = transform.DOMove(movement, Duration)
                 .SetRelative()
                 .SetEase(Ease.InOutSine)
                 .SetDelay(Delay);
