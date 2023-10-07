@@ -20,7 +20,7 @@ public class MainMenuTween : MonoBehaviour
     private void Start()
     {
         player.rectTransform.anchoredPosition = new(playerStartX, player.rectTransform.anchoredPosition.y);
-        player.rectTransform.DOLocalMoveX(playerEndX, playerDuration)
+        player.rectTransform.DOAnchorPosX(playerEndX, playerDuration)
             .SetEase(Ease.Linear)
             .SetDelay(delay)
             .SetId(gameObject);
@@ -32,7 +32,7 @@ public class MainMenuTween : MonoBehaviour
             .SetId(gameObject);
 
         cursor.rectTransform.anchoredPosition = cursorStartPos;
-        cursor.rectTransform.DOLocalMove(cursorEndPos, cursorDuration)
+        cursor.rectTransform.DOAnchorPos(cursorEndPos, cursorDuration)
             .SetDelay(cursorDelayTotal)
             .SetEase(Ease.OutQuint)
             .SetId(gameObject);
