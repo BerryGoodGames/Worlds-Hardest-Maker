@@ -32,9 +32,9 @@ namespace SFB {
                 fd.Filter = string.Empty;
             }
             fd.Multiselect = multiselect;
-            if (!string.IsNullOrEmpty(directory)) {
-                fd.FileName = GetDirectoryPath(directory);
-            }
+            //if (!string.IsNullOrEmpty(directory)) {
+            //    fd.FileName = GetDirectoryPath(directory);
+            //}
             var res = fd.ShowDialog(new WindowWrapper(GetActiveWindow()));
             var filenames = res == DialogResult.OK ? fd.FileNames : new string[0];
             fd.Dispose();
@@ -67,9 +67,9 @@ namespace SFB {
 
             var finalFilename = "";
 
-            if (!string.IsNullOrEmpty(directory)) {
-                finalFilename = GetDirectoryPath(directory);
-            }
+            //if (!string.IsNullOrEmpty(directory)) {
+            //    finalFilename = GetDirectoryPath(directory);
+            //}
 
             if (!string.IsNullOrEmpty(defaultName)) {
                 finalFilename += defaultName;
