@@ -37,7 +37,7 @@ public class LevelHubManager : MonoBehaviour
         // generate copy name if needed
         while (File.Exists(SaveSystem.LevelSavePath + fileName + ".lvl"))
         {
-            fileName = GetCopyName(fileName);
+            fileName = fileName.GetCopyName();
         }
         
         // copy file to level save path
@@ -46,51 +46,5 @@ public class LevelHubManager : MonoBehaviour
 
         // update level list
         LevelListLoader.Instance.Refresh();
-    }
-    private static string GetCopyName(string fileName)
-    {
-        int copyNumber = 0;
-        const string pattern = " (";
-
-        int indexOfPattern = fileName.LastIndexOf(pattern, StringComparison.Ordinal);
-
-        if (indexOfPattern != -1)
-        {
-            int endIndex = fileName.LastIndexOf(')');
-            if (endIndex != -1 && endIndex > indexOfPattern)
-            {
-                string numberString = fileName.Substring(indexOfPattern + pattern.Length, endIndex - indexOfPattern - pattern.Length);
-                if (int.TryParse(numberString, out copyNumber))
-                {
-                    fileName = fileName.Remove(indexOfPattern);
-                }
-            }
-        }
-
-        fileName += $" ({copyNumber + 1})";
-
-        return fileName;
-    }
-
-    public void CancelDeletion()
-    {
-        DeleteWarningPrompt.Tween.SetVisible(false);
-        DeleteWarningBlockerTween.SetVisible(false);
-
-        CurrentDeletingLevelCard = null;
-    }
-
-    public void DeleteCard()
-    {
-        DeleteWarningPrompt.Tween.SetVisible(false);
-        DeleteWarningBlockerTween.SetVisible(false);
-
-        if (CurrentDeletingLevelCard != null) CurrentDeletingLevelCard.DeleteLevel();
-        CurrentDeletingLevelCard = null;
-    }
-
-    private void Awake()
-    {
-        if (Instance == null) Instance = this;
     }
 }
