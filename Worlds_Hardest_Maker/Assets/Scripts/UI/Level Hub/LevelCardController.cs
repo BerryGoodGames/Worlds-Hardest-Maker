@@ -50,7 +50,7 @@ public class LevelCardController : MonoBehaviour
         // get new name
         string newName = LevelName[..^4].GetCopyName();
 
-        while (File.Exists(newName + ".lvl"))
+        while (File.Exists(SaveSystem.LevelSavePath + newName + ".lvl"))
         {
             newName = newName.GetCopyName();
         }
