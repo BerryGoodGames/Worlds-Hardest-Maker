@@ -2635,7 +2635,6 @@ GameObject:
   - component: {fileID: 837163318}
   - component: {fileID: 837163319}
   - component: {fileID: 837163321}
-  - component: {fileID: 837163322}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -2702,23 +2701,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &837163322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 837163317}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a03053863aa1cb4995ddfa4d9b5cd48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  refresh: 1
-  refreshInterval: 5
-  levelCardPrefab: {fileID: 1975980292224698916, guid: 4280848001e96af4e8754f37624bc957, type: 3}
-  sortInput: {fileID: 1579949166}
-  SortSetting: 0
 --- !u!1 &873435600 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4796778379937859287, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
@@ -9453,7 +9435,7 @@ PrefabInstance:
     - target: {fileID: 9121703162432958398, guid: df5cf19f5f46a044b9e671a65919f9a6, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 837163322}
+      objectReference: {fileID: 0}
     - target: {fileID: 9121703162432958398, guid: df5cf19f5f46a044b9e671a65919f9a6, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -10674,6 +10656,7 @@ GameObject:
   - component: {fileID: 1797219931}
   - component: {fileID: 1797219930}
   - component: {fileID: 1797219932}
+  - component: {fileID: 1797219933}
   m_Layer: 5
   m_Name: LevelList
   m_TagString: Untagged
@@ -10775,6 +10758,24 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1797219933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797219927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a03053863aa1cb4995ddfa4d9b5cd48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  refresh: 1
+  refreshInterval: 5
+  levelCardPrefab: {fileID: 1975980292224698916, guid: 4280848001e96af4e8754f37624bc957, type: 3}
+  sortInput: {fileID: 1579949166}
+  levelCardContainer: {fileID: 837163318}
+  SortSetting: 0
 --- !u!1 &1836894512
 GameObject:
   m_ObjectHideFlags: 0

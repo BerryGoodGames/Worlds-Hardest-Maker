@@ -16,10 +16,12 @@ public class LevelListLoader : MonoBehaviour
     [SerializeField] [ConditionalField(nameof(refresh))]
     private float refreshInterval = 5;
 
-    [Separator("References")] [SerializeField]
+    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned]
     private GameObject levelCardPrefab;
 
-    [SerializeField] private TMP_Dropdown sortInput;
+    [SerializeField] [InitializationField][MustBeAssigned] private TMP_Dropdown sortInput;
+
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform levelCardContainer;
 
     private FileInfo[] prevLevelInfo;
 
@@ -37,7 +39,7 @@ public class LevelListLoader : MonoBehaviour
     {
         StartCoroutine(LoadCoroutine());
 
-        Instance ??= this;
+        if(Instance == null) Instance = this;
     }
 
     private IEnumerator LoadCoroutine()
@@ -109,7 +111,7 @@ public class LevelListLoader : MonoBehaviour
     private void UpdateLevelCards(IEnumerable<FileInfo> levelInfo)
     {
         // destroy all level cards
-        foreach (Transform t in transform)
+        foreach (Transform t in levelCardContainer)
         {
 #if UNITY_EDITOR
             if (!Application.isPlaying)
@@ -125,7 +127,7 @@ public class LevelListLoader : MonoBehaviour
         foreach (FileInfo info in levelInfo)
         {
             // create new level cards
-            LevelCardController levelCard = Instantiate(levelCardPrefab, transform).GetComponent<LevelCardController>();
+            LevelCardController levelCard = Instantiate(levelCardPrefab, levelCardContainer).GetComponent<LevelCardController>();
 
             // level card settings
             levelCard.Name = info.Name[..^4]; // remove .lvl at end
@@ -138,11 +140,6 @@ public class LevelListLoader : MonoBehaviour
         SortSetting = stringToSetting[sortInput.options[index].text];
 
         Refresh();
-    }
-
-    private void OnDestroy()
-    {
-        print("Destroy");
     }
 }
 
