@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviourPun
 
         StartCoroutine(AutoSave());
 
+        MainMenuTween.HasStartSwipe = true;
         swipeTween.StartChain();
     }
 

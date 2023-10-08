@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class MainMenuTween : MonoBehaviour
 {
+    public static bool HasStartSwipe = false;
+
+    [SerializeField] private MoveRelativeTween startSwipeTween;
     [SerializeField] private Image cursor;
     [SerializeField] private Image player;
     [Space] [SerializeField] private float playerStartX = 530;
@@ -19,6 +22,13 @@ public class MainMenuTween : MonoBehaviour
 
     private void Start()
     {
+        if (HasStartSwipe)
+        {
+            startSwipeTween.gameObject.SetActive(true);
+            startSwipeTween.Move();
+        } 
+        else startSwipeTween.gameObject.SetActive(false);
+
         player.rectTransform.anchoredPosition = new(playerStartX, player.rectTransform.anchoredPosition.y);
         player.rectTransform.DOAnchorPosX(playerEndX, playerDuration)
             .SetEase(Ease.Linear)
