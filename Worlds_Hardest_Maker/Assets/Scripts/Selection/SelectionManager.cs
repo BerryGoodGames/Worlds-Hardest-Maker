@@ -158,7 +158,8 @@ public class SelectionManager : MonoBehaviour
         return (Vector2Int.CeilToInt(lowest), Vector2Int.FloorToInt(highest));
     }
 
-    private static (Vector2Int lowest, Vector2Int highest) GetBoundsMatrix(params Vector2[] points) => GetBoundsMatrix(points.ToList());
+    private static (Vector2Int lowest, Vector2Int highest) GetBoundsMatrix(params Vector2[] points) =>
+        GetBoundsMatrix(points.ToList());
 
     #endregion
 

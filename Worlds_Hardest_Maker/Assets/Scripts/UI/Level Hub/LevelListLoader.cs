@@ -3,20 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using MyBox;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Application = UnityEngine.Application;
 
 public class LevelListLoader : MonoBehaviour
 {
     public static LevelListLoader Instance { get; private set; }
 
     [SerializeField] private bool refresh;
-    [SerializeField][ConditionalField(nameof(refresh))] private float refreshInterval = 5;
+
+    [SerializeField] [ConditionalField(nameof(refresh))]
+    private float refreshInterval = 5;
 
     [Separator("References")] [SerializeField]
     private GameObject levelCardPrefab;
@@ -32,7 +30,7 @@ public class LevelListLoader : MonoBehaviour
     private Dictionary<string, SortSettings> stringToSetting = new()
     {
         { "Name", SortSettings.Name },
-        { "Latest", SortSettings.Latest },
+        { "Latest", SortSettings.Latest }
     };
 
     private void Awake()
@@ -46,7 +44,7 @@ public class LevelListLoader : MonoBehaviour
     {
         while (true)
         {
-            if(refresh) Refresh();
+            if (refresh) Refresh();
 
             // wait until trying to load levels again
             yield return new WaitForSeconds(refreshInterval);
@@ -65,7 +63,6 @@ public class LevelListLoader : MonoBehaviour
 
     private IEnumerator ScheduledRefresh()
     {
-
 #if UNITY_EDITOR
         if (Application.isPlaying)
 #endif
@@ -142,11 +139,15 @@ public class LevelListLoader : MonoBehaviour
 
         Refresh();
     }
+
+    private void OnDestroy()
+    {
+        print("Destroy");
+    }
 }
 
 public enum SortSettings
 {
     Name,
-    Latest,
+    Latest
 }
-

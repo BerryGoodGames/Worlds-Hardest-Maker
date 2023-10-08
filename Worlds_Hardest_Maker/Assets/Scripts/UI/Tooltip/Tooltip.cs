@@ -7,9 +7,13 @@ using UnityEngine.Serialization;
 public class Tooltip : MonoBehaviour
 {
     [SerializeField] private GameObject tooltipPrefab;
-    [FormerlySerializedAs("useCustomContainer")] [SerializeField] private bool customContainer;
 
-    [SerializeField] [ConditionalField(nameof(customContainer))] private Transform container;
+    [FormerlySerializedAs("useCustomContainer")] [SerializeField]
+    private bool customContainer;
+
+    [SerializeField] [ConditionalField(nameof(customContainer))]
+    private Transform container;
+
     public Transform Container
     {
         get => container;
@@ -19,21 +23,27 @@ public class Tooltip : MonoBehaviour
             {
                 tooltip.transform.SetParent(value);
             }
+
             container = value;
         }
     }
 
     [SerializeField] private bool restrictInCanvas = true;
 
-    [FormerlySerializedAs("Text")] [Separator] [SerializeField] private string text;
-    [FormerlySerializedAs("FontSize")] [SerializeField] private int fontSize = 20;
-    [FormerlySerializedAs("Offset")] [SerializeField] private int offset = 10;
+    [FormerlySerializedAs("Text")] [Separator] [SerializeField]
+    private string text;
 
-    [FormerlySerializedAs("CustomTweenDelay")] [SerializeField] private bool customTweenDelay;
+    [FormerlySerializedAs("FontSize")] [SerializeField]
+    private int fontSize = 20;
 
-    [FormerlySerializedAs("TweenDelay")]
-    [ConditionalField(nameof(customTweenDelay))]
-    [SerializeField] private float tweenDelay = 1.5f;
+    [FormerlySerializedAs("Offset")] [SerializeField]
+    private int offset = 10;
+
+    [FormerlySerializedAs("CustomTweenDelay")] [SerializeField]
+    private bool customTweenDelay;
+
+    [FormerlySerializedAs("TweenDelay")] [ConditionalField(nameof(customTweenDelay))] [SerializeField]
+    private float tweenDelay = 1.5f;
 
     private const float DefaultTweenDelay = 1;
     private MouseOverUIRect mouseOver;
@@ -54,9 +64,10 @@ public class Tooltip : MonoBehaviour
     {
         mouseOver = GetComponent<MouseOverUIRect>();
 
-        tooltip = Instantiate(tooltipPrefab, Vector3.zero, Quaternion.identity, customContainer ? Container : ReferenceManager.Instance.TooltipCanvas.transform);
+        tooltip = Instantiate(tooltipPrefab, Vector3.zero, Quaternion.identity,
+            customContainer ? Container : ReferenceManager.Instance.TooltipCanvas.transform);
 
-        if(!restrictInCanvas) Destroy(tooltip.GetComponent<UIRestrict>());
+        if (!restrictInCanvas) Destroy(tooltip.GetComponent<UIRestrict>());
 
         fadeTween = tooltip.GetComponent<AlphaTween>();
 

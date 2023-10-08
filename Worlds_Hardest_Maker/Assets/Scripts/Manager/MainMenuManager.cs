@@ -1,5 +1,4 @@
 using System;
-using MyBox;
 using UnityEngine;
 
 public class MainMenuManager : MonoBehaviour

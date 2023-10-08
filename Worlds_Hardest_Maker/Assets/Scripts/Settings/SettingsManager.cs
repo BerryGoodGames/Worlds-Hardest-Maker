@@ -48,7 +48,7 @@ public class SettingsManager : MonoBehaviour
     {
         // check if preferences already exist, and if they don't then set the current (default) prefs
         if (!PlayerPrefs.HasKey("MusicVolume")) SavePrefs();
-        
+
         SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"), true);
         SetSoundEffectVolume(PlayerPrefs.GetFloat("SoundEffectVolume"), true);
         SetToolbarSize(PlayerPrefs.GetFloat("ToolbarSize"), true);
@@ -125,10 +125,7 @@ public class SettingsManager : MonoBehaviour
         ReferenceManager.Instance.ToolbarSizeSlider.UpdateInput();
     }
 
-    public void SetToolbarSize(float size)
-    {
-        SetToolbarSize(size, false);
-    }
+    public void SetToolbarSize(float size) => SetToolbarSize(size, false);
 
     public void SetToolbarSize(string size)
     {

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using Photon.Pun;
 using SFB;
@@ -25,10 +24,7 @@ public static class SaveSystem
         }
     }
 
-    public static void SaveCurrentLevel()
-    {
-        SaveCurrentLevel(LevelHubManager.LoadedLevelPath);
-    }
+    public static void SaveCurrentLevel() => SaveCurrentLevel(LevelHubManager.LoadedLevelPath);
 
     public static void SaveCurrentLevel(string path)
     {
@@ -38,7 +34,7 @@ public static class SaveSystem
             Debug.LogWarning("No Level Selected");
             return;
         }
-        
+
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
 
         // create file

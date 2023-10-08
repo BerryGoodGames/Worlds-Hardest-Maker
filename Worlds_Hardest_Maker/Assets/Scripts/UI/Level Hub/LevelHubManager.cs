@@ -10,8 +10,8 @@ public class LevelHubManager : MonoBehaviour
 
     public static string LoadedLevelPath = string.Empty;
 
-    [InitializationField][MustBeAssigned] public WarningConfirmPromptController DeleteWarningPrompt;
-    [InitializationField][MustBeAssigned] public AlphaTween DeleteWarningBlockerTween;
+    [InitializationField] [MustBeAssigned] public WarningConfirmPromptController DeleteWarningPrompt;
+    [InitializationField] [MustBeAssigned] public AlphaTween DeleteWarningBlockerTween;
 
     public Transform TooltipContainer;
 
@@ -27,6 +27,7 @@ public class LevelHubManager : MonoBehaviour
         if (paths.Length <= 0) return;
         ImportLevel(paths[0]);
     }
+
     public static void ImportLevel(string filePath)
     {
         if (!File.Exists(filePath))
@@ -34,7 +35,7 @@ public class LevelHubManager : MonoBehaviour
             Debug.LogWarning("Path for importing does not exist");
             return;
         }
-        
+
         string fileName = Path.GetFileName(filePath)[..^4];
 
         // generate copy name if needed
@@ -42,10 +43,10 @@ public class LevelHubManager : MonoBehaviour
         {
             fileName = fileName.GetCopyName();
         }
-        
+
         // copy file to level save path
         string newFilePath = SaveSystem.LevelSavePath + fileName + ".lvl";
-        File.Copy(filePath,  newFilePath);
+        File.Copy(filePath, newFilePath);
 
         // update level list
         LevelListLoader.Instance.Refresh();

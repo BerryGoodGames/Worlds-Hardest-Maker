@@ -1,5 +1,4 @@
 using System.Collections;
-using DG.Tweening;
 using MyBox;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,8 +9,9 @@ public class LoadingScreen : MonoBehaviour
     [Separator("Settings")] [SerializeField]
     private float duration = 1;
 
-    [Separator("References")]
-    [SerializeField] private Slider slider;
+    [Separator("References")] [SerializeField]
+    private Slider slider;
+
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private ChainableTween tween;
 

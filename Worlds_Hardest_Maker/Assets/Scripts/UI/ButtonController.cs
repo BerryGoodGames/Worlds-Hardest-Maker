@@ -15,7 +15,8 @@ public class ButtonController : MonoBehaviour
 
     public void Deselect()
     {
-        if (EventSystem.current.currentSelectedGameObject == null || EventSystem.current.currentSelectedGameObject.Equals(gameObject))
+        if (EventSystem.current.currentSelectedGameObject == null ||
+            EventSystem.current.currentSelectedGameObject.Equals(gameObject))
             EventSystem.current.SetSelectedGameObject(null);
     }
 

@@ -9,7 +9,6 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPun
 {
@@ -33,7 +32,7 @@ public class GameManager : MonoBehaviourPun
         Utils.ForceDecimalSeparator(".");
 
         SetCameraUnitWidth(23);
-        
+
         DOTween.Init(useSafeMode: false);
     }
 
@@ -43,7 +42,7 @@ public class GameManager : MonoBehaviourPun
 
         if (!MultiplayerManager.Instance.Multiplayer) PlayerManager.Instance.SetPlayer(Vector2.zero, 3f);
 
-        if(LevelHubManager.LoadedLevelPath != string.Empty)
+        if (LevelHubManager.LoadedLevelPath != string.Empty)
             LoadLevel(LevelHubManager.LoadedLevelPath);
 
         StartCoroutine(AutoSave());
@@ -264,8 +263,8 @@ public class GameManager : MonoBehaviourPun
         Vector2[] deltas =
         {
             new(-0.5f, -0.5f), new(0, -0.5f), new(0.5f, -0.5f),
-            new(-0.5f, 0),     new(0, 0),     new(0.5f, 0),
-            new(-0.5f, 0.5f),  new(0, 0.5f),  new(0.5f, 0.5f)
+            new(-0.5f, 0), new(0, 0), new(0.5f, 0),
+            new(-0.5f, 0.5f), new(0, 0.5f), new(0.5f, 0.5f)
         };
 
         foreach (Vector2 d in deltas)

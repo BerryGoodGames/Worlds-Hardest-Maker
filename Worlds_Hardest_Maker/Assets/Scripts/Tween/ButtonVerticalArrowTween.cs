@@ -5,11 +5,9 @@ using UnityEngine.UI;
 
 public class ButtonVerticalArrowTween : MonoBehaviour
 {
-    [SerializeField][InitializationField] private Image directionImage;
+    [SerializeField] [InitializationField] private Image directionImage;
 
-    [SerializeField]
-    [InitializationField]
-    [PositiveValueOnly]
+    [SerializeField] [InitializationField] [PositiveValueOnly]
     private float animationDuration;
 
     private bool isUp;

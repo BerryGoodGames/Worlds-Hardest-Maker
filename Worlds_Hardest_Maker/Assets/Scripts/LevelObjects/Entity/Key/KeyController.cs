@@ -7,8 +7,9 @@ public class KeyController : EntityController
     [ReadOnly] public Vector2 KeyPosition;
     [ReadOnly] public bool PickedUp;
 
-    [Separator] 
-    [InitializationField] [MustBeAssigned] public SpriteRenderer SpriteRenderer;
+    [Separator] [InitializationField] [MustBeAssigned]
+    public SpriteRenderer SpriteRenderer;
+
     [InitializationField] [MustBeAssigned] public Animator Animator;
     [InitializationField] [MustBeAssigned] public IntervalRandomAnimation KonamiAnimation;
 
@@ -24,10 +25,7 @@ public class KeyController : EntityController
         SetOrderInLayer();
     }
 
-    private void OnDestroy()
-    {
-        KeyManager.Instance.Keys.Remove(this);
-    }
+    private void OnDestroy() => KeyManager.Instance.Keys.Remove(this);
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -1,10 +1,6 @@
-using System;
-using LuLib.Vector;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class NavigationManager : MonoBehaviour
 {
@@ -44,15 +40,12 @@ public class NavigationManager : MonoBehaviour
         // if it's an input field, also set the text caret
         if (next.TryGetComponent(out InputField inputField))
         {
-            inputField.OnPointerClick(new(system));  
+            inputField.OnPointerClick(new(system));
         }
 
         // select new game object
         system.SetSelectedGameObject(next.gameObject, new(system));
     }
 
-    private void Start()
-    {
-        system = EventSystem.current;
-    }
+    private void Start() => system = EventSystem.current;
 }

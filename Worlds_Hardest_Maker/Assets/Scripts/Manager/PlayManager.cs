@@ -16,7 +16,8 @@ public class PlayManager : MonoBehaviour
         set
         {
             cheated = value;
-            TextManager.Instance.Timer.color = cheated ? TextManager.Instance.CheatedTimerColor : TextManager.Instance.TimerDefaultColor;
+            TextManager.Instance.Timer.color =
+                cheated ? TextManager.Instance.CheatedTimerColor : TextManager.Instance.TimerDefaultColor;
         }
     }
 

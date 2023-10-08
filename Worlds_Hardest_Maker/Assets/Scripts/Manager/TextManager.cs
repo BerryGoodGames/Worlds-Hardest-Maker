@@ -17,7 +17,10 @@ public class TextManager : MonoBehaviour
     public TMP_Text Timer;
     public TMP_Text CoinText;
 
-    [field: Header("Colors")] [field: SerializeField] public Color CheatedTimerColor { get; private set; }
+    [field: Header("Colors")]
+    [field: SerializeField]
+    public Color CheatedTimerColor { get; private set; }
+
     [field: SerializeField] public Color FinishedTimerColor { get; private set; }
     [field: SerializeField] public Color TimerDefaultColor { get; private set; }
 

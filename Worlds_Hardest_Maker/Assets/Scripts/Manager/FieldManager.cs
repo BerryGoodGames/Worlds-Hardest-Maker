@@ -9,7 +9,7 @@ public class FieldManager : MonoBehaviour
 {
     public static FieldManager Instance { get; private set; }
 
-    public static readonly FieldType[] SolidFields = 
+    public static readonly FieldType[] SolidFields =
     {
         FieldType.WallField,
         FieldType.GrayKeyDoorField,
@@ -152,21 +152,21 @@ public class FieldManager : MonoBehaviour
     {
         Vector2Int[] checkPoses =
         {
-            Vector2Int.FloorToInt(position), 
+            Vector2Int.FloorToInt(position),
             new(Mathf.CeilToInt(position.x), Mathf.FloorToInt(position.y)),
             new(Mathf.FloorToInt(position.x), Mathf.CeilToInt(position.y)),
             Vector2Int.CeilToInt(position)
         };
 
         checkPoses = checkPoses.Distinct().ToArray();
-        
+
         List<GameObject> res = new();
         foreach (Vector2Int checkPosition in checkPoses)
         {
             GameObject field = GetField(checkPosition);
             if (field != null) res.Add(field);
         }
-        
+
         return res;
     }
 

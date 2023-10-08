@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
 using MyBox;
 using SFB;
 using TMPro;
@@ -9,8 +8,8 @@ using UnityEngine;
 
 public class LevelCardController : MonoBehaviour
 {
-    [Separator("References")]
-    [SerializeField] private TMP_Text nameText;
+    [Separator("References")] [SerializeField]
+    private TMP_Text nameText;
 
     public string Name
     {
@@ -36,7 +35,8 @@ public class LevelCardController : MonoBehaviour
         LevelHubManager.Instance.DeleteWarningPrompt.Tween.SetVisible(true);
         LevelHubManager.Instance.DeleteWarningBlockerTween.SetVisible(true);
 
-        LevelHubManager.Instance.DeleteWarningPrompt.ConfirmationText.text = $"Do you really want to delete \"{Name}\"?";
+        LevelHubManager.Instance.DeleteWarningPrompt.ConfirmationText.text =
+            $"Do you really want to delete \"{Name}\"?";
     }
 
     public void DeleteLevel()
@@ -56,7 +56,7 @@ public class LevelCardController : MonoBehaviour
         }
 
         // copy the data
-        if (LevelPath != null) 
+        if (LevelPath != null)
             File.Copy(LevelPath, SaveSystem.LevelSavePath + newName + ".lvl", true);
 
         LevelListLoader.Instance.Refresh();
@@ -66,9 +66,9 @@ public class LevelCardController : MonoBehaviour
     {
         string exportPath = StandaloneFileBrowser.SaveFilePanel("Export Level",
             Environment.SpecialFolder.UserProfile + "\\Downloads", LevelName, "lvl");
-        
 
-        if(exportPath != string.Empty)
+
+        if (exportPath != string.Empty)
             File.Copy(LevelPath, exportPath, true);
     }
 

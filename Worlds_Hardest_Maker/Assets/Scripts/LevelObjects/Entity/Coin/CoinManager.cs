@@ -59,12 +59,12 @@ public class CoinManager : MonoBehaviour, IPlaceable
     public void SetCoin(Vector2 worldPosition)
     {
         Vector2 matrixPosition = worldPosition.ConvertToGrid();
-    
+
         if (!CanPlace(matrixPosition)) return;
-    
+
         CoinController coin = Instantiate(PrefabManager.Instance.Coin, matrixPosition, Quaternion.identity,
             ReferenceManager.Instance.CoinContainer);
-    
+
         coin.Animator.SetBool(playing, EditModeManager.Instance.Playing);
     }
 

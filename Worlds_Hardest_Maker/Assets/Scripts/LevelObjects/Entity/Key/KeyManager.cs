@@ -65,7 +65,8 @@ public class KeyManager : MonoBehaviour
         // remove other key (which has mby other color)
         RemoveKey(position);
 
-        KeyController key = Instantiate(color.GetPrefabKey(), position, Quaternion.identity, ReferenceManager.Instance.KeyContainer);
+        KeyController key = Instantiate(color.GetPrefabKey(), position, Quaternion.identity,
+            ReferenceManager.Instance.KeyContainer);
 
         key.Color = color;
 

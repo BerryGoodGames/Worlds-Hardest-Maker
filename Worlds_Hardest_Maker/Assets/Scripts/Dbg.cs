@@ -53,7 +53,7 @@ public class Dbg : MonoBehaviour
         if (LevelHubManager.LoadedLevelPath == string.Empty) AutoLoadLevel = true;
 
         if (!AutoLoadLevel) return;
-        
+
         LevelHubManager.LoadedLevelPath = SaveSystem.LevelSavePath + $"/{LevelName}.lvl";
     }
 
@@ -134,8 +134,5 @@ public class Dbg : MonoBehaviour
     }
 
     [ButtonMethod]
-    private static void DeletePlayerPrefs()
-    {
-        PlayerPrefs.DeleteAll();
-    }
+    private static void DeletePlayerPrefs() => PlayerPrefs.DeleteAll();
 }

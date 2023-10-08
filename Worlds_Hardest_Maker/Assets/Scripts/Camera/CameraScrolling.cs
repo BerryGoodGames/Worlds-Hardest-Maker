@@ -9,7 +9,10 @@ public class CameraScrolling : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private bool randomDirection;
-    [SerializeField] [ConditionalField(nameof(randomDirection), true)] private float scrollDirAngle;
+
+    [SerializeField] [ConditionalField(nameof(randomDirection), true)]
+    private float scrollDirAngle;
+
     private Vector2 dir;
 
     private void Awake()

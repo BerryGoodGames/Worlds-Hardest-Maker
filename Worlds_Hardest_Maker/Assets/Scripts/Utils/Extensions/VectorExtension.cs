@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+
 public static class VectorExtension
 {
     public static Vector2 ConvertToGrid(this Vector2 position) => (2 * position).Round() / 2;
