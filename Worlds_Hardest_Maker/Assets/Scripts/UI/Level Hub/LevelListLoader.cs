@@ -19,27 +19,33 @@ public class LevelListLoader : MonoBehaviour
     [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned]
     private GameObject levelCardPrefab;
 
-    [SerializeField] [InitializationField][MustBeAssigned] private TMP_Dropdown sortInput;
-
+    [SerializeField][InitializationField][MustBeAssigned] private TMP_Dropdown sortInput;
+    [SerializeField][InitializationField][MustBeAssigned] private ButtonVerticalArrowTween sortOrderButton;
+    
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform levelCardContainer;
 
     private FileInfo[] prevLevelInfo;
 
-    private bool refreshScheduled;
-
     [HideInInspector] public SortSettings SortSetting = SortSettings.Name;
+    [HideInInspector] public bool IsDescending;
 
-    private Dictionary<string, SortSettings> stringToSetting = new()
+    private readonly Dictionary<string, SortSettings> stringToSetting = new()
     {
-        { "Name", SortSettings.Name },
-        { "Latest", SortSettings.Latest }
+        { "Latest", SortSettings.Latest },
+        { "Name", SortSettings.Name }
     };
 
     private void Awake()
     {
-        StartCoroutine(LoadCoroutine());
-
         if(Instance == null) Instance = this;
+    }
+
+    private void Start()
+    {
+        UpdateSortSetting();
+        UpdateSortOrder();
+
+        StartCoroutine(LoadCoroutine());
     }
 
     private IEnumerator LoadCoroutine()
@@ -54,24 +60,10 @@ public class LevelListLoader : MonoBehaviour
     }
 
     [ButtonMethod]
-    public void Refresh()
+    public void Refresh() => Refresh(false);
+
+    public void Refresh(bool forceUpdateList)
     {
-        if (refreshScheduled) return;
-
-        StartCoroutine(ScheduledRefresh());
-
-        refreshScheduled = true;
-    }
-
-    private IEnumerator ScheduledRefresh()
-    {
-#if UNITY_EDITOR
-        if (Application.isPlaying)
-#endif
-            yield return new WaitForEndOfFrame();
-
-        refreshScheduled = false;
-
         DirectoryInfo levelDirectory = new(SaveSystem.LevelSavePath);
 
         FileInfo[] levelInfo = levelDirectory.GetFiles("*.lvl");
@@ -100,7 +92,9 @@ public class LevelListLoader : MonoBehaviour
                 break;
         }
 
-        if (levelsChanged)
+        if (IsDescending) Array.Reverse(levelInfo);
+
+        if (levelsChanged || forceUpdateList)
         {
             UpdateLevelCards(levelInfo);
         }
@@ -135,12 +129,9 @@ public class LevelListLoader : MonoBehaviour
         }
     }
 
-    public void SetSortSetting(int index)
-    {
-        SortSetting = stringToSetting[sortInput.options[index].text];
+    public void UpdateSortSetting() => SortSetting = stringToSetting[sortInput.options[sortInput.value].text];
 
-        Refresh();
-    }
+    public void UpdateSortOrder() => IsDescending = sortOrderButton.IsUp;
 }
 
 public enum SortSettings
