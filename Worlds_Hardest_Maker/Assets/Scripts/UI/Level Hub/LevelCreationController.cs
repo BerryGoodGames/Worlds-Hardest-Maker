@@ -15,13 +15,13 @@ public class LevelCreationController : MonoBehaviour
     {
         string levelName = levelNameText.text;
 
-        CreateLevel(levelName);
+        CreateLevel(ref levelName);
 
         LevelHubManager.LoadedLevelPath = SaveSystem.LevelSavePath + levelName + ".lvl";
         MainMenuManager.Instance.StartEditor();
     }
 
-    private static void CreateLevel(string name)
+    private static void CreateLevel(ref string name)
     {
         // make sure that the file doesn't already exist
         while (File.Exists(SaveSystem.LevelSavePath + name + ".lvl"))
