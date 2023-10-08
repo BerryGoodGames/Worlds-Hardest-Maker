@@ -488,10 +488,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 681379981}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 12}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1350, y: -550}
-  m_SizeDelta: {x: 175.99995, y: 228.66661}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 566, y: -114.33}
+  m_SizeDelta: {x: 175.99994, y: 228.66661}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &217451711
 MonoBehaviour:
@@ -9125,8 +9125,8 @@ MonoBehaviour:
   playerEndX: 500
   cursorStartAngle: 0
   cursorEndAngle: 12
-  cursorStartPos: {x: 900, y: 175}
-  cursorEndPos: {x: 1350, y: -550}
+  cursorStartPos: {x: 250, y: 650}
+  cursorEndPos: {x: 566, y: -114}
   delay: 0.5
   cursorDelay: 0.75
   playerDuration: 1.25
