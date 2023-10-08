@@ -8172,7 +8172,9 @@ MonoBehaviour:
   tooltipPrefab: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
   customContainer: 1
   container: {fileID: 942976313}
-  restrictInCanvas: 0
+  restrictInCanvas: 1
+  customRestrictContainer: 1
+  restrictContainer: {fileID: 942976313}
   text: Back
   fontSize: 22
   offset: 10
@@ -8509,7 +8511,9 @@ MonoBehaviour:
   tooltipPrefab: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
   customContainer: 1
   container: {fileID: 942976313}
-  restrictInCanvas: 0
+  restrictInCanvas: 1
+  customRestrictContainer: 1
+  restrictContainer: {fileID: 942976313}
   text: Create new level
   fontSize: 22
   offset: 10
@@ -8583,7 +8587,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4143297822597661228, guid: 157d603543c86c24b82ae88347c1b662, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 4143297822597661228, guid: 157d603543c86c24b82ae88347c1b662, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8615,7 +8619,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4143297822597661228, guid: 157d603543c86c24b82ae88347c1b662, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 4143297822597661228, guid: 157d603543c86c24b82ae88347c1b662, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -10069,7 +10073,9 @@ MonoBehaviour:
   tooltipPrefab: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
   customContainer: 1
   container: {fileID: 942976313}
-  restrictInCanvas: 0
+  restrictInCanvas: 1
+  customRestrictContainer: 1
+  restrictContainer: {fileID: 942976313}
   text: Back
   fontSize: 22
   offset: 10
@@ -10746,13 +10752,13 @@ MonoBehaviour:
   m_MovementType: 2
   m_Elasticity: 0.07
   m_Inertia: 1
-  m_DecelerationRate: 0.135
+  m_DecelerationRate: 0.003
   m_ScrollSensitivity: 7
   m_Viewport: {fileID: 49949211}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1169536487}
   m_HorizontalScrollbarVisibility: 0
-  m_VerticalScrollbarVisibility: 1
+  m_VerticalScrollbarVisibility: 0
   m_HorizontalScrollbarSpacing: 0
   m_VerticalScrollbarSpacing: 0
   m_OnValueChanged:
@@ -11598,6 +11604,8 @@ GameObject:
   - component: {fileID: 1988457008}
   - component: {fileID: 1988457007}
   - component: {fileID: 1988457010}
+  - component: {fileID: 1988457012}
+  - component: {fileID: 1988457011}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -11733,6 +11741,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directionImage: {fileID: 1885189497}
   animationDuration: 0.2
+--- !u!114 &1988457011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988457005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5998e77396b9b6c408c091aec837ce28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipPrefab: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
+  customContainer: 1
+  container: {fileID: 942976313}
+  restrictInCanvas: 1
+  customRestrictContainer: 1
+  restrictContainer: {fileID: 942976313}
+  text: Ascending / Descending order
+  fontSize: 20
+  offset: 10
+  customTweenDelay: 0
+  tweenDelay: 1.5
+--- !u!114 &1988457012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988457005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46dea2531bd4fc479c3cbe79db2d4ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  over: 0
+  printDbg: 0
 --- !u!1001 &2057106167
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12224,7 +12269,9 @@ MonoBehaviour:
   tooltipPrefab: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
   customContainer: 1
   container: {fileID: 942976313}
-  restrictInCanvas: 0
+  restrictInCanvas: 1
+  customRestrictContainer: 1
+  restrictContainer: {fileID: 942976313}
   text: Import level from file
   fontSize: 22
   offset: 10

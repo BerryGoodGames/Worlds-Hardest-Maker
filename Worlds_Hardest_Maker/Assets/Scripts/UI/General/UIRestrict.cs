@@ -1,15 +1,18 @@
+using MyBox;
 using UnityEngine;
 
 public class UIRestrict : MonoBehaviour
 {
     public float Left, Right, Top, Bottom;
+    [Space] public bool CustomRestrictContainer;
+    [ConditionalField(nameof(CustomRestrictContainer))] public RectTransform RestrictContainer;
 
     private Vector2 canvasSize;
     private RectTransform rt;
 
     private void Awake()
     {
-        canvasSize = ((RectTransform)ReferenceManager.Instance.Canvas.transform).rect.size;
+        canvasSize = (CustomRestrictContainer ? RestrictContainer : (RectTransform)ReferenceManager.Instance.Canvas.transform).rect.size;
         rt = GetComponent<RectTransform>();
     }
 

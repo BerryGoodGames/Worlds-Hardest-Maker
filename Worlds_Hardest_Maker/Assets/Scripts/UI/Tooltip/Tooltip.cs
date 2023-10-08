@@ -8,7 +8,7 @@ public class Tooltip : MonoBehaviour
 {
     [SerializeField] private GameObject tooltipPrefab;
 
-    [FormerlySerializedAs("useCustomContainer")] [SerializeField]
+    [FormerlySerializedAs("useCustomContainer")] [Space] [SerializeField]
     private bool customContainer;
 
     [SerializeField] [ConditionalField(nameof(customContainer))]
@@ -28,7 +28,9 @@ public class Tooltip : MonoBehaviour
         }
     }
 
-    [SerializeField] private bool restrictInCanvas = true;
+    [Space] [SerializeField] private bool restrictInCanvas = true;
+    [SerializeField] [ConditionalField(nameof(restrictInCanvas))] private bool customRestrictContainer;
+    [SerializeField] [ConditionalField(nameof(customRestrictContainer), nameof(restrictInCanvas))] private RectTransform restrictContainer;
 
     [FormerlySerializedAs("Text")] [Separator] [SerializeField]
     private string text;
@@ -67,7 +69,16 @@ public class Tooltip : MonoBehaviour
         tooltip = Instantiate(tooltipPrefab, Vector3.zero, Quaternion.identity,
             customContainer ? Container : ReferenceManager.Instance.TooltipCanvas.transform);
 
-        if (!restrictInCanvas) Destroy(tooltip.GetComponent<UIRestrict>());
+        UIRestrict restrict = tooltip.GetComponent<UIRestrict>();
+        if (restrictInCanvas)
+        {
+            if (customRestrictContainer)
+            {
+                restrict.CustomRestrictContainer = true;
+                restrict.RestrictContainer = restrictContainer;
+            }
+        }
+        else Destroy(restrict);
 
         fadeTween = tooltip.GetComponent<AlphaTween>();
 

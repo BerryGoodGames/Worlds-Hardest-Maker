@@ -21,7 +21,7 @@ public class AnchorData : Data
         SaveBalls(controller);
         SaveBlocks(controller);
 
-        Vector2 controllerPosition = controller.transform.position;
+        Vector2 controllerPosition = controller.StartPosition;
 
         // init start position
         position = new[]
