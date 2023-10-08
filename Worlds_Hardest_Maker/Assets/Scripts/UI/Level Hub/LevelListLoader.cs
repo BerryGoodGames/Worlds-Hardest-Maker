@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using MyBox;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Application = UnityEngine.Application;
 
 public class LevelListLoader : MonoBehaviour
 {
@@ -18,9 +21,19 @@ public class LevelListLoader : MonoBehaviour
     [Separator("References")] [SerializeField]
     private GameObject levelCardPrefab;
 
+    [SerializeField] private TMP_Dropdown sortInput;
+
     private FileInfo[] prevLevelInfo;
 
     private bool refreshScheduled;
+
+    [HideInInspector] public SortSettings SortSetting = SortSettings.Name;
+
+    private Dictionary<string, SortSettings> stringToSetting = new()
+    {
+        { "Name", SortSettings.Name },
+        { "Latest", SortSettings.Latest },
+    };
 
     private void Awake()
     {
@@ -77,6 +90,16 @@ public class LevelListLoader : MonoBehaviour
             }
         }
 
+        // sort level info
+        switch (SortSetting)
+        {
+            case SortSettings.Name:
+                levelInfo = levelInfo.OrderBy(x => x.Name).ToArray();
+                break;
+            case SortSettings.Latest:
+                levelInfo = levelInfo.OrderBy(x => x.LastAccessTime).ToArray();
+                break;
+        }
 
         if (levelsChanged)
         {
@@ -112,4 +135,18 @@ public class LevelListLoader : MonoBehaviour
             levelCard.LevelPath = info.FullName;
         }
     }
+
+    public void SetSortSetting(int index)
+    {
+        SortSetting = stringToSetting[sortInput.options[index].text];
+
+        Refresh();
+    }
 }
+
+public enum SortSettings
+{
+    Name,
+    Latest,
+}
+
