@@ -8,7 +8,7 @@ public class LevelCreationController : MonoBehaviour
 {
     private static readonly string defaultLevelPath = Application.dataPath + "/Resources/DefaultLevel.lvl";
 
-    [FormerlySerializedAs("levelName")] [FormerlySerializedAs("LevelName")] [Separator("References")] [SerializeField]
+    [Separator("References")] [SerializeField]
     private TMP_InputField levelNameText;
 
     public void CreateLevel()

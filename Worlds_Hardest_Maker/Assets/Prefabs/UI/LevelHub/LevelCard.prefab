@@ -1289,6 +1289,8 @@ MonoBehaviour:
   customContainer: 1
   container: {fileID: 0}
   restrictInCanvas: 0
+  customRestrictContainer: 0
+  restrictContainer: {fileID: 0}
   text: Export
   fontSize: 22
   offset: 10
@@ -1576,6 +1578,8 @@ MonoBehaviour:
   customContainer: 1
   container: {fileID: 0}
   restrictInCanvas: 0
+  customRestrictContainer: 0
+  restrictContainer: {fileID: 0}
   text: Delete
   fontSize: 22
   offset: 10
@@ -2043,6 +2047,8 @@ MonoBehaviour:
   customContainer: 1
   container: {fileID: 0}
   restrictInCanvas: 0
+  customRestrictContainer: 0
+  restrictContainer: {fileID: 0}
   text: Copy
   fontSize: 22
   offset: 10
@@ -2347,6 +2353,8 @@ MonoBehaviour:
   customContainer: 1
   container: {fileID: 0}
   restrictInCanvas: 0
+  customRestrictContainer: 0
+  restrictContainer: {fileID: 0}
   text: Edit
   fontSize: 22
   offset: 10

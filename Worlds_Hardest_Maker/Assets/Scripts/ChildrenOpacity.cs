@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 
@@ -13,7 +15,11 @@ public class ChildrenOpacity : MonoBehaviour
 
     private void Start() => UpdateChildren();
 
-    public void UpdateChildren() => children = transform.GetComponentsInChildren<SpriteRenderer>();
+    public void UpdateChildren()
+    {
+        children = GetComponentsInChildren<SpriteRenderer>();
+        print(string.Join(" ", children.ToList()));
+    }
 
     public void UpdateOpacity()
     {

@@ -45,10 +45,11 @@ public class GameManager : MonoBehaviourPun
         if (LevelHubManager.LoadedLevelPath != string.Empty)
             LoadLevel(LevelHubManager.LoadedLevelPath);
 
-        StartCoroutine(AutoSave());
-
         MainMenuTween.HasStartSwipe = true;
+
         swipeTween.StartChain();
+
+        StartCoroutine(AutoSave());
     }
 
     /// <summary>

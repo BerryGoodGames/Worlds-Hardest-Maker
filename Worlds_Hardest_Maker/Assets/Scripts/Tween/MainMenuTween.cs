@@ -1,9 +1,12 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MainMenuTween : MonoBehaviour
 {
+    public static MainMenuTween Instance { get; private set; }
+
     public static bool HasStartSwipe = false;
 
     [SerializeField] private MoveRelativeTween startSwipeTween;
@@ -46,6 +49,11 @@ public class MainMenuTween : MonoBehaviour
             .SetDelay(cursorDelayTotal)
             .SetEase(Ease.OutQuint)
             .SetId(gameObject);
+    }
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
     }
 
     private void OnDestroy() => KillTweens();

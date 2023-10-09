@@ -8,7 +8,7 @@ public class Tooltip : MonoBehaviour
 {
     [SerializeField] private GameObject tooltipPrefab;
 
-    [FormerlySerializedAs("useCustomContainer")] [Space] [SerializeField]
+    [Space] [SerializeField]
     private bool customContainer;
 
     [SerializeField] [ConditionalField(nameof(customContainer))]
@@ -32,19 +32,16 @@ public class Tooltip : MonoBehaviour
     [SerializeField] [ConditionalField(nameof(restrictInCanvas))] private bool customRestrictContainer;
     [SerializeField] [ConditionalField(nameof(customRestrictContainer), nameof(restrictInCanvas))] private RectTransform restrictContainer;
 
-    [FormerlySerializedAs("Text")] [Separator] [SerializeField]
+    [Separator] [SerializeField]
     private string text;
 
-    [FormerlySerializedAs("FontSize")] [SerializeField]
-    private int fontSize = 20;
+    [SerializeField] private int fontSize = 20;
 
-    [FormerlySerializedAs("Offset")] [SerializeField]
-    private int offset = 10;
+    [SerializeField] private int offset = 10;
 
-    [FormerlySerializedAs("CustomTweenDelay")] [SerializeField]
-    private bool customTweenDelay;
+    [SerializeField] private bool customTweenDelay;
 
-    [FormerlySerializedAs("TweenDelay")] [ConditionalField(nameof(customTweenDelay))] [SerializeField]
+    [ConditionalField(nameof(customTweenDelay))] [SerializeField]
     private float tweenDelay = 1.5f;
 
     private const float DefaultTweenDelay = 1;

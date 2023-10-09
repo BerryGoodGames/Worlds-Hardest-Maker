@@ -532,10 +532,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5998e77396b9b6c408c091aec837ce28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipPrefab: {fileID: 0}
+  tooltipPrefab: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
   customContainer: 0
   container: {fileID: 0}
   restrictInCanvas: 1
+  customRestrictContainer: 0
+  restrictContainer: {fileID: 0}
   text: Fill
   fontSize: 20
   offset: 10
@@ -748,6 +750,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -25
       objectReference: {fileID: 0}
+    - target: {fileID: 5305101178454587041, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
+      propertyPath: tooltipPrefab
+      value: 
+      objectReference: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
     - target: {fileID: 5333748757296645163, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: suppressWarning
       value: 1
@@ -2577,10 +2583,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5998e77396b9b6c408c091aec837ce28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipPrefab: {fileID: 0}
+  tooltipPrefab: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
   customContainer: 0
   container: {fileID: 0}
   restrictInCanvas: 1
+  customRestrictContainer: 0
+  restrictContainer: {fileID: 0}
   text: Cut
   fontSize: 20
   offset: 10
@@ -2870,6 +2878,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4745660217545812072, guid: aebdd729b1a104041ad26b4b60a0fde8, type: 3}
+      propertyPath: tooltipPrefab
+      value: 
+      objectReference: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
     - target: {fileID: 4774151528281201378, guid: aebdd729b1a104041ad26b4b60a0fde8, type: 3}
       propertyPath: suppressWarning
       value: 1
@@ -4783,6 +4795,10 @@ PrefabInstance:
       propertyPath: suppressWarning
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5098392652362624548, guid: 42159a5ef8862134f91330cbb90985f3, type: 3}
+      propertyPath: tooltipPrefab
+      value: 
+      objectReference: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
     - target: {fileID: 6550284614157535946, guid: 42159a5ef8862134f91330cbb90985f3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5141,6 +5157,10 @@ PrefabInstance:
       propertyPath: suppressWarning
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8503905935444065321, guid: 3b94a36061818f141940b9248b5bb80c, type: 3}
+      propertyPath: tooltipPrefab
+      value: 
+      objectReference: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
     m_RemovedComponents:
     - {fileID: 3354522592051993190, guid: 3b94a36061818f141940b9248b5bb80c, type: 3}
     m_RemovedGameObjects: []
@@ -5506,6 +5526,10 @@ PrefabInstance:
       propertyPath: IsSource
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2882557645320457935, guid: e4eea3214032b514ab4c089e417fd85a, type: 3}
+      propertyPath: tooltipPrefab
+      value: 
+      objectReference: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
     - target: {fileID: 2955993802531694649, guid: e4eea3214032b514ab4c089e417fd85a, type: 3}
       propertyPath: m_Transition
       value: 0
@@ -6104,6 +6128,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5491968875155820660, guid: 9b162963ad136c04e8e828889f7ad4b2, type: 3}
+      propertyPath: tooltipPrefab
+      value: 
+      objectReference: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
     - target: {fileID: 5741436200673714942, guid: 9b162963ad136c04e8e828889f7ad4b2, type: 3}
       propertyPath: suppressWarning
       value: 1
@@ -9999,6 +10027,10 @@ PrefabInstance:
       propertyPath: Active
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1181912093304642920, guid: 3126a29611824c549b6cd4cdb63e5c29, type: 3}
+      propertyPath: tooltipPrefab
+      value: 
+      objectReference: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
     - target: {fileID: 1440087138329358306, guid: 3126a29611824c549b6cd4cdb63e5c29, type: 3}
       propertyPath: suppressWarning
       value: 1
@@ -12240,6 +12272,10 @@ PrefabInstance:
       propertyPath: m_Navigation.m_Mode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6335059492889377479, guid: 8da422c085be186488ff0f11e83a2fd9, type: 3}
+      propertyPath: tooltipPrefab
+      value: 
+      objectReference: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
     m_RemovedComponents:
     - {fileID: 1109291687463722120, guid: 8da422c085be186488ff0f11e83a2fd9, type: 3}
     - {fileID: 7027878505019159388, guid: 8da422c085be186488ff0f11e83a2fd9, type: 3}
@@ -12670,7 +12706,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_AnchorMin.x
@@ -12678,11 +12714,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_SizeDelta.y
@@ -12718,11 +12754,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -140
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -13466,6 +13502,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7236710419659805544, guid: 18d3a92829e7f19459d641511239e03b, type: 3}
+      propertyPath: tooltipPrefab
+      value: 
+      objectReference: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
     - target: {fileID: 7491523157856313826, guid: 18d3a92829e7f19459d641511239e03b, type: 3}
       propertyPath: suppressWarning
       value: 1
@@ -14063,6 +14103,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3284752581299181072, guid: 5346f04c8b83e9548809042eeb5d8ce8, type: 3}
+      propertyPath: tooltipPrefab
+      value: 
+      objectReference: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
     - target: {fileID: 3318871757618750618, guid: 5346f04c8b83e9548809042eeb5d8ce8, type: 3}
       propertyPath: suppressWarning
       value: 1
@@ -15265,10 +15309,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5998e77396b9b6c408c091aec837ce28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipPrefab: {fileID: 0}
+  tooltipPrefab: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
   customContainer: 0
   container: {fileID: 0}
   restrictInCanvas: 1
+  customRestrictContainer: 0
+  restrictContainer: {fileID: 0}
   text: Cancel
   fontSize: 20
   offset: 10
@@ -15459,7 +15505,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_AnchorMin.x
@@ -15467,11 +15513,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_SizeDelta.y
@@ -15507,11 +15553,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 7856550958380123048, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -16256,7 +16302,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 40.303955}
+  m_AnchoredPosition: {x: 0, y: 37.551758}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1786665322
@@ -17165,6 +17211,8 @@ MonoBehaviour:
   Right: 10
   Top: 80
   Bottom: 80
+  CustomRestrictContainer: 0
+  RestrictContainer: {fileID: 0}
 --- !u!1001 &1900125382
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17858,10 +17906,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5998e77396b9b6c408c091aec837ce28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipPrefab: {fileID: 0}
+  tooltipPrefab: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
   customContainer: 0
   container: {fileID: 0}
   restrictInCanvas: 1
+  customRestrictContainer: 0
+  restrictContainer: {fileID: 0}
   text: Delete
   fontSize: 20
   offset: 10
@@ -18214,6 +18264,10 @@ PrefabInstance:
       propertyPath: suppressWarning
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8845572881176328547, guid: 70e8213d3f95e0647b91d34d1f75ab8f, type: 3}
+      propertyPath: tooltipPrefab
+      value: 
+      objectReference: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
     - target: {fileID: 8903058471181402467, guid: 70e8213d3f95e0647b91d34d1f75ab8f, type: 3}
       propertyPath: m_Transition
       value: 0
@@ -19103,10 +19157,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5998e77396b9b6c408c091aec837ce28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipPrefab: {fileID: 0}
+  tooltipPrefab: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
   customContainer: 0
   container: {fileID: 0}
   restrictInCanvas: 1
+  customRestrictContainer: 0
+  restrictContainer: {fileID: 0}
   text: Copy
   fontSize: 20
   offset: 10
@@ -19754,6 +19810,10 @@ PrefabInstance:
       propertyPath: active
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4406765932290880846, guid: e185995d2e010c8488437a6cf9f52955, type: 3}
+      propertyPath: tooltipPrefab
+      value: 
+      objectReference: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
     - target: {fileID: 4520825754609387460, guid: e185995d2e010c8488437a6cf9f52955, type: 3}
       propertyPath: suppressWarning
       value: 1
