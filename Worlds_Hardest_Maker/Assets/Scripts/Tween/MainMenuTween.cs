@@ -7,8 +7,6 @@ public class MainMenuTween : MonoBehaviour
 {
     public static MainMenuTween Instance { get; private set; }
 
-    public static bool HasStartSwipe = false;
-
     [SerializeField] private MoveRelativeTween startSwipeTween;
     [SerializeField] private Image cursor;
     [SerializeField] private Image player;
@@ -25,7 +23,7 @@ public class MainMenuTween : MonoBehaviour
 
     private void Start()
     {
-        if (HasStartSwipe)
+        if (TransitionManager.Instance.HasMainMenuStartSwipe)
         {
             startSwipeTween.gameObject.SetActive(true);
             startSwipeTween.Move();

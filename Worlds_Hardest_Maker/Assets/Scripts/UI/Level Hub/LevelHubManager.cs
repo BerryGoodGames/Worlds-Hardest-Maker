@@ -8,8 +8,6 @@ public class LevelHubManager : MonoBehaviour
 {
     public static LevelHubManager Instance { get; private set; }
 
-    public static string LoadedLevelPath = string.Empty;
-
     [InitializationField] [MustBeAssigned] public WarningConfirmPromptController DeleteWarningPrompt;
     [InitializationField] [MustBeAssigned] public AlphaTween DeleteWarningBlockerTween;
 

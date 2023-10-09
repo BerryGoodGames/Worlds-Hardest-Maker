@@ -24,7 +24,7 @@ public static class SaveSystem
         }
     }
 
-    public static void SaveCurrentLevel() => SaveCurrentLevel(LevelHubManager.LoadedLevelPath);
+    public static void SaveCurrentLevel() => SaveCurrentLevel(LevelSessionManager.Instance.LevelSessionPath);
 
     public static void SaveCurrentLevel(string path)
     {
@@ -133,7 +133,7 @@ public static class SaveSystem
         // check if file exists
         if (!File.Exists(path))
         {
-            Debug.LogError($"Save file not found in {path}");
+            Debug.LogError($"Save file not found in path \"{path}\"");
             return null;
         }
 

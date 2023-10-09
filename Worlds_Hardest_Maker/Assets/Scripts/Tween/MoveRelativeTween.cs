@@ -18,8 +18,6 @@ public class MoveRelativeTween : ChainableTween
     [ConditionalField(nameof(animateAnchor))] [SerializeField]
     private Vector2 anchorMax;
 
-    public Tween MoveTween { get; private set; }
-
     public void Move()
     {
         if (isRectTransform)

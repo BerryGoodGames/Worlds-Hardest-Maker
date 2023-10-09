@@ -50,20 +50,24 @@ public class Dbg : MonoBehaviour
 
         cam = Camera.main;
 
-        if (LevelHubManager.LoadedLevelPath == string.Empty) AutoLoadLevel = true;
-
         if (!AutoLoadLevel) return;
 
-        LevelHubManager.LoadedLevelPath = SaveSystem.LevelSavePath + $"/{LevelName}.lvl";
+        // avoid overriding with auto level when scene loaded from main menu
+        // since we want to load the user selected level
+        if (!LevelSessionManager.IsSessionFromEditor) return;
+
+        LevelSessionManager.Instance.LevelSessionPath = SaveSystem.LevelSavePath + $"/{LevelName}.lvl";
     }
 
     private void Start()
     {
         if (!AutoLoadLevel) return;
 
+        if (!LevelSessionManager.IsSessionFromEditor) return;
+
         try
         {
-            GameManager.Instance.LoadLevel(LevelHubManager.LoadedLevelPath);
+            GameManager.Instance.LoadLevel(LevelSessionManager.Instance.LevelSessionPath);
         }
         catch
         {

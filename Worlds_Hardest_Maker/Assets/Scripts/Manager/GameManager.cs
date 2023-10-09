@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows.Forms.VisualStyles;
 using DG.Tweening;
 using MyBox;
 using Photon.Pun;
 using TMPro;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -42,14 +44,28 @@ public class GameManager : MonoBehaviourPun
 
         if (!MultiplayerManager.Instance.Multiplayer) PlayerManager.Instance.SetPlayer(Vector2.zero, 3f);
 
-        if (LevelHubManager.LoadedLevelPath != string.Empty)
-            LoadLevel(LevelHubManager.LoadedLevelPath);
+        if (!LevelSessionManager.IsSessionFromEditor)
+        {
+            // user loaded editor scene from main menu
+            // force enable start swipe
+            swipeTween.gameObject.SetActive(true);
+            swipeTween.StartChain();
 
-        MainMenuTween.HasStartSwipe = true;
+            // pass level session path over to LevelSessionManager
+            LevelSessionManager.Instance.LevelSessionPath = TransitionManager.Instance.LoadLevelPath;
 
-        swipeTween.StartChain();
+            // make main menu also enable start swipe
+            TransitionManager.Instance.HasMainMenuStartSwipe = true;
 
-        StartCoroutine(AutoSave());
+        }
+        
+        // load user-selected level
+        if (!LevelSessionManager.IsSessionFromEditor)
+            LoadLevel(LevelSessionManager.Instance.LevelSessionPath);
+
+        // start saving interval if either Dbg auto load enabled or any path given
+        if (Dbg.Instance.AutoLoadLevel || LevelSessionManager.Instance.LevelSessionPath != string.Empty)
+            StartCoroutine(AutoSave());
     }
 
     /// <summary>
@@ -277,7 +293,12 @@ public class GameManager : MonoBehaviourPun
 
     public void MainMenu()
     {
-        SaveSystem.SaveCurrentLevel();
+        // save level if any path given
+        if (LevelSessionManager.Instance.LevelSessionPath != string.Empty)
+        {
+            SaveSystem.SaveCurrentLevel();
+        }
+
         loadingScreen.LoadScene(0);
     }
 

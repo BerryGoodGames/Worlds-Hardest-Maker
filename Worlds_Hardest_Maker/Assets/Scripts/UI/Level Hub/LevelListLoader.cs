@@ -88,7 +88,7 @@ public class LevelListLoader : MonoBehaviour
                 levelInfo = levelInfo.OrderBy(x => x.Name).ToArray();
                 break;
             case SortSettings.Latest:
-                levelInfo = levelInfo.OrderBy(x => x.LastAccessTime).ToArray();
+                levelInfo = levelInfo.OrderBy(x => x.LastAccessTime).Reverse().ToArray();
                 break;
         }
 
