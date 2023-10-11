@@ -66,8 +66,14 @@ public class GameManager : MonoBehaviourPun
             if (TransitionManager.Instance.HasCreatedNewLevel)
             {
                 // create new level info
-                LevelSessionManager.Instance.LoadedLevelData.Info = new();
+                LevelSessionManager.Instance.LoadedLevelData.Info = new()
+                {
+                    Description = TransitionManager.Instance.Inputs.Description,
+                    Creator = TransitionManager.Instance.Inputs.Creator
+                };
             }
+
+            print(LevelSessionManager.Instance.LoadedLevelData.Info.Creator);
         }
 
         // start saving interval if either Dbg auto load enabled or any path given

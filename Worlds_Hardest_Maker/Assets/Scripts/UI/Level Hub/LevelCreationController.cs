@@ -8,8 +8,10 @@ public class LevelCreationController : MonoBehaviour
 {
     private static readonly string defaultLevelPath = Application.dataPath + "/Resources/DefaultLevel.lvl";
 
-    [Separator("References")] [SerializeField]
-    private TMP_InputField levelNameText;
+    [Separator("References")]
+    [SerializeField] private TMP_InputField levelNameText;
+    [SerializeField] private TMP_InputField descriptionText;
+    [SerializeField] private TMP_InputField creatorText;
 
     public void CreateLevel()
     {
@@ -19,6 +21,12 @@ public class LevelCreationController : MonoBehaviour
 
         TransitionManager.Instance.LoadLevelPath = SaveSystem.LevelSavePath + levelName + ".lvl";
         TransitionManager.Instance.HasCreatedNewLevel = true;
+        TransitionManager.Instance.Inputs = new()
+        {
+            Description = descriptionText.text,
+            Creator = creatorText.text
+        };
+
         MainMenuManager.Instance.StartEditor();
     }
 

@@ -10,6 +10,7 @@ public class TransitionManager : MonoBehaviour
     [ReadOnly] public bool HasMainMenuStartSwipe;
     [ReadOnly] public string LoadLevelPath = string.Empty;
     [ReadOnly] public bool HasCreatedNewLevel;
+    public LevelDataInputs Inputs;
 
     private void Awake()
     {
@@ -18,4 +19,10 @@ public class TransitionManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
+}
+
+public class LevelDataInputs
+{
+    public string Description;
+    public string Creator;
 }
