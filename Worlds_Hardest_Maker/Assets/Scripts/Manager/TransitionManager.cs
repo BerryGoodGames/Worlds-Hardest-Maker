@@ -1,7 +1,5 @@
-using System;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class TransitionManager : MonoBehaviour
 {
@@ -10,7 +8,8 @@ public class TransitionManager : MonoBehaviour
     public static bool HasLoaded => Instance != null;
 
     [ReadOnly] public bool HasMainMenuStartSwipe;
-    [FormerlySerializedAs("LevelLoadString")] [ReadOnly] public string LoadLevelPath = string.Empty;
+    [ReadOnly] public string LoadLevelPath = string.Empty;
+    [ReadOnly] public bool HasCreatedNewLevel;
 
     private void Awake()
     {

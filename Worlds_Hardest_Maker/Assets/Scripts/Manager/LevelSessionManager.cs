@@ -1,3 +1,4 @@
+using System;
 using MyBox;
 using UnityEngine;
 
@@ -12,7 +13,9 @@ public class LevelSessionManager : MonoBehaviour
     public static bool IsSessionFromEditor => !TransitionManager.HasLoaded;
 
     [ReadOnly] public string LevelSessionPath = string.Empty;
+    [ReadOnly] public LevelData LoadedLevelData;
 
+    public TimeSpan EditTime;
 
     private void Awake()
     {

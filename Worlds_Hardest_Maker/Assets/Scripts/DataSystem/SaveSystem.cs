@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows.Forms;
 using Photon.Pun;
 using SFB;
 using UnityEngine;
+using Application = UnityEngine.Application;
 
 public static class SaveSystem
 {
@@ -25,7 +27,6 @@ public static class SaveSystem
     }
 
     public static void SaveCurrentLevel() => SaveCurrentLevel(LevelSessionManager.Instance.LevelSessionPath);
-
     public static void SaveCurrentLevel(string path)
     {
         // check if user didn't pick any path
@@ -42,12 +43,26 @@ public static class SaveSystem
 
         try
         {
-            List<Data> levelData = SerializeCurrentLevel();
+            LevelInfo levelInfo = LevelSessionManager.Instance.LoadedLevelData.Info;
+            levelInfo.LastEdited = DateTime.Now;
+            levelInfo.EditTime = LevelSessionManager.Instance.EditTime;
+
+            List<Data> levelObjects = SerializeCurrentLevel();
+
+            LevelData levelData = new()
+            {
+                Info = levelInfo,
+                Objects = levelObjects
+            };
+
             BinaryFormatter formatter = new();
             formatter.Serialize(stream, levelData);
         }
-        catch
+        catch(Exception e)
         {
+            Debug.Log(e.Message);
+            Debug.Log(e.StackTrace);
+
             stream.Close();
             throw;
         }
@@ -110,7 +125,7 @@ public static class SaveSystem
         return levelData;
     }
 
-    public static List<Data> LoadLevel(bool updateDiscordActivity = true)
+    public static LevelData LoadLevel()
     {
         // requests path from user and returns level in form of List<IData>
         string[] pathArr = StandaloneFileBrowser.OpenFilePanel("Select your level (.lvl)",
@@ -125,10 +140,10 @@ public static class SaveSystem
 
         string path = pathArr[0];
 
-        return LoadLevel(path, updateDiscordActivity);
+        return LoadLevel(path);
     }
 
-    public static List<Data> LoadLevel(string path, bool updateDiscordActivity = true)
+    public static LevelData LoadLevel(string path)
     {
         // check if file exists
         if (!File.Exists(path))
@@ -140,28 +155,11 @@ public static class SaveSystem
         // // load / deserialize file
         BinaryFormatter formatter = new();
         FileStream stream = new(path, FileMode.Open);
-        List<Data> data;
+        LevelData data;
 
         try
         {
-            if (MultiplayerManager.Instance.Multiplayer)
-                // RPC to every other client with path
-                SendLevel(path);
-
-            // set discord activity
-            if (updateDiscordActivity)
-            {
-                string[] splitPath = stream.Name.Split("\\");
-                string levelName = splitPath[^1].Replace(".lvl", "");
-                // DiscordManager.State = $"Last opened Level: {levelName}";
-            }
-
-            //using (StreamReader reader = new StreamReader(stream))
-            //{
-            //    Debug.Log(reader.ReadToEnd());
-            //}
-
-            data = formatter.Deserialize(stream) as List<Data>;
+            data = formatter.Deserialize(stream) as LevelData;
         }
         catch
         {
@@ -170,6 +168,7 @@ public static class SaveSystem
         }
 
         stream.Close();
+
         return data;
     }
 

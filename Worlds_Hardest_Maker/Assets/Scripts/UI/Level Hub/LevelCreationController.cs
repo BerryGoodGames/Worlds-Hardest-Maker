@@ -18,6 +18,7 @@ public class LevelCreationController : MonoBehaviour
         CreateLevel(ref levelName);
 
         TransitionManager.Instance.LoadLevelPath = SaveSystem.LevelSavePath + levelName + ".lvl";
+        TransitionManager.Instance.HasCreatedNewLevel = true;
         MainMenuManager.Instance.StartEditor();
     }
 

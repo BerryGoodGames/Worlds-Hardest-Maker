@@ -56,12 +56,19 @@ public class GameManager : MonoBehaviourPun
 
             // make main menu also enable start swipe
             TransitionManager.Instance.HasMainMenuStartSwipe = true;
-
         }
         
         // load user-selected level
         if (!LevelSessionManager.IsSessionFromEditor)
+        {
             LoadLevel(LevelSessionManager.Instance.LevelSessionPath);
+
+            if (TransitionManager.Instance.HasCreatedNewLevel)
+            {
+                // create new level info
+                LevelSessionManager.Instance.LoadedLevelData.Info = new();
+            }
+        }
 
         // start saving interval if either Dbg auto load enabled or any path given
         if (Dbg.Instance.AutoLoadLevel || LevelSessionManager.Instance.LevelSessionPath != string.Empty)
@@ -122,29 +129,31 @@ public class GameManager : MonoBehaviourPun
 
     public void LoadLevel(string path)
     {
-        List<Data> levelData = SaveSystem.LoadLevel(path);
+        LevelData levelData = SaveSystem.LoadLevel(path);
 
-        if (levelData != null) LoadLevelFromData(levelData.ToArray());
+        if (levelData != null) LoadLevelFromData(levelData);
     }
 
     public void LoadLevel()
     {
-        List<Data> levelData = SaveSystem.LoadLevel();
+        LevelData levelData = SaveSystem.LoadLevel();
 
-        if (levelData != null) LoadLevelFromData(levelData.ToArray());
+        if (levelData != null) LoadLevelFromData(levelData);
     }
 
     [PunRPC]
-    public void LoadLevelFromData(Data[] levelData)
+    public void LoadLevelFromData(LevelData levelData)
     {
         ClearLevel();
+
+        List<Data> levelObjects = levelData.Objects;
 
         List<FieldData> fieldData = new();
         PlayerData playerData = null;
         LevelSettingsData levelSettingsData = null;
 
         // load ball, coins
-        foreach (Data levelObject in levelData)
+        foreach (Data levelObject in levelObjects)
         {
             if (levelObject.GetType() == typeof(FieldData))
             {
@@ -179,33 +188,36 @@ public class GameManager : MonoBehaviourPun
 
         // load level settings
         levelSettingsData?.ImportToLevel();
+
+        // store data in LevelSessionManager
+        LevelSessionManager.Instance.LoadedLevelData = levelData;
     }
 
-    [PunRPC]
-    public void ReceiveLevel(string content)
-    {
-        BinaryFormatter formatter = new();
-        Stream s = GenerateStreamFromString(content);
+    // [PunRPC]
+    // public void ReceiveLevel(string content)
+    // {
+    //     BinaryFormatter formatter = new();
+    //     Stream s = GenerateStreamFromString(content);
+    //
+    //     List<Data> data = formatter.Deserialize(s) as List<Data>;
+    //
+    //     s.Close();
+    //
+    //     if (data == null)
+    //         throw new Exception("Something went wrong when receiving level and parsing received information");
+    //
+    //     LoadLevelFromData(data.ToArray());
+    // }
 
-        List<Data> data = formatter.Deserialize(s) as List<Data>;
-
-        s.Close();
-
-        if (data == null)
-            throw new Exception("Something went wrong when receiving level and parsing received information");
-
-        LoadLevelFromData(data.ToArray());
-    }
-
-    private static Stream GenerateStreamFromString(string s)
-    {
-        MemoryStream stream = new();
-        StreamWriter writer = new(stream);
-        writer.Write(s);
-        writer.Flush();
-        stream.Position = 0;
-        return stream;
-    }
+    // private static Stream GenerateStreamFromString(string s)
+    // {
+    //     MemoryStream stream = new();
+    //     StreamWriter writer = new(stream);
+    //     writer.Write(s);
+    //     writer.Flush();
+    //     stream.Position = 0;
+    //     return stream;
+    // }
 
     private IEnumerator AutoSave()
     {
