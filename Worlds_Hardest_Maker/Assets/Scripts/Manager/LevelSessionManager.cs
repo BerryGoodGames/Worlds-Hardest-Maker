@@ -15,7 +15,12 @@ public class LevelSessionManager : MonoBehaviour
     [ReadOnly] public string LevelSessionPath = string.Empty;
     [ReadOnly] public LevelData LoadedLevelData;
 
-    public TimeSpan EditTime;
+    public TimeSpan EditTime = TimeSpan.Zero;
+
+    private void Update()
+    {
+        EditTime += TimeSpan.FromSeconds(Time.deltaTime);
+    }
 
     private void Awake()
     {

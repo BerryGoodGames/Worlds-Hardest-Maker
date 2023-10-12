@@ -152,6 +152,7 @@ public class LevelListLoader : MonoBehaviour
             levelCard.Creator = $"by {info.Creator}";
             levelCard.Description = info.Description;
             levelCard.LastEdited = $"Last edited {info.LastEdited}";
+            levelCard.EditTime = $@"Edit time: {info.EditTime:hh\:mm\:ss}";
             levelCard.LevelPath = levelFileInfo.FullName;
         }
 
