@@ -75,6 +75,9 @@ public class LevelListLoader : MonoBehaviour
         if (prevLevelInfo == null || levelInfo.Length != prevLevelInfo.Length) levelsChanged = true;
         else
         {
+            levelInfo = levelInfo.OrderBy(x => x.Name).ToArray();
+            prevLevelInfo = prevLevelInfo.OrderBy(x => x.Name).ToArray();
+
             for (int i = 0; i < levelInfo.Length; i++)
             {
                 if (levelInfo[i].Name == prevLevelInfo[i].Name) continue;
