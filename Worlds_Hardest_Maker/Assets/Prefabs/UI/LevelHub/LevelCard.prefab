@@ -424,7 +424,7 @@ MonoBehaviour:
   levelCard: {fileID: 7086213966181704370}
   card: {fileID: 7041818947101408830}
   hoverScale: 1.02
-  startEditScale: 1.05
+  startEditScale: 1.044
   hoverDuration: 0.15
   startEditingDuration: 0.5
   expandHeight: 290

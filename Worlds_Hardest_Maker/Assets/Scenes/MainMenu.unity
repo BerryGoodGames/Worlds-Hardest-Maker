@@ -279,7 +279,7 @@ MonoBehaviour:
   m_MinWidth: -1
   m_MinHeight: -1
   m_PreferredWidth: -1
-  m_PreferredHeight: 3.4028235e+38
+  m_PreferredHeight: 3000
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
@@ -374,7 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Padding: {x: -25, y: -2, z: -45, w: -2}
+  m_Padding: {x: -34, y: -2, z: -69, w: -2}
   m_Softness: {x: 0, y: 0}
 --- !u!114 &49949213
 MonoBehaviour:
@@ -12462,7 +12462,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 711.425
+      value: 711.4248
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.y
