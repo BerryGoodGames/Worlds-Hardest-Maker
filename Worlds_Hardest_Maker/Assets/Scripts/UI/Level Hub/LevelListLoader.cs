@@ -148,9 +148,10 @@ public class LevelListLoader : MonoBehaviour
             LevelCardController levelCard = Instantiate(levelCardPrefab, levelCardContainer).GetComponent<LevelCardController>();
 
             // level card settings
-            levelCard.Name = levelFileInfo.Name[..^4]; // remove .lvl at end
-            levelCard.Description = info.Description;
+            levelCard.Name = levelFileInfo.Name[..^4]; // removes .lvl at end
             levelCard.Creator = $"by {info.Creator}";
+            levelCard.Description = info.Description;
+            levelCard.LastEdited = $"Last edited {info.LastEdited}";
             levelCard.LevelPath = levelFileInfo.FullName;
         }
 

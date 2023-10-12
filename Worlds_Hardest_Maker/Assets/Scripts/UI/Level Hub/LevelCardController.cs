@@ -13,6 +13,7 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private TMP_Text creatorText;
+    [SerializeField] private TMP_Text lastEditedText;
 
     public string Name
     {
@@ -30,6 +31,12 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
     {
         get => creatorText.text;
         set => creatorText.text = value;
+    }
+
+    public string LastEdited
+    {
+        get => lastEditedText.text;
+        set => lastEditedText.text = value;
     }
 
     [Space] [SerializeField] private LevelCardTween levelCardTween;
