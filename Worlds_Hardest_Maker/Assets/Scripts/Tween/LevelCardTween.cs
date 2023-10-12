@@ -56,13 +56,23 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void Expand()
     {
-        levelCard.DOSizeDelta(new(levelCard.rect.width, expandHeight), expandDuration);
+        levelCard.DOSizeDelta(new(levelCard.rect.width, expandHeight), expandDuration)
+            .onUpdate += () =>
+        {
+            LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate();
+        };
+
         IsExpanded = true;
     }
 
     public void Collapse()
     {
-        levelCard.DOSizeDelta(new(levelCard.rect.width, collapsedHeight), expandDuration);
+        levelCard.DOSizeDelta(new(levelCard.rect.width, collapsedHeight), expandDuration)
+            .onUpdate += () =>
+        {
+            LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate();
+        };
+
         IsExpanded = false;
     }
 

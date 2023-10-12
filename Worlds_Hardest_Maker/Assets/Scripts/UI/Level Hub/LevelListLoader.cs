@@ -22,8 +22,9 @@ public class LevelListLoader : MonoBehaviour
 
     [SerializeField][InitializationField][MustBeAssigned] private TMP_Dropdown sortInput;
     [SerializeField][InitializationField][MustBeAssigned] private ButtonVerticalArrowTween sortOrderButton;
-    
-    [SerializeField] [InitializationField] [MustBeAssigned] private Transform levelCardContainer;
+
+    [SerializeField][InitializationField][MustBeAssigned] private Transform levelCardContainer;
+    [InitializationField][MustBeAssigned] public ContentSizeFitter LevelCardContentSizeFitter;
 
     private FileInfo[] prevLevelInfo;
 
@@ -155,8 +156,6 @@ public class LevelListLoader : MonoBehaviour
             levelCard.EditTime = $@"Edit time: {info.EditTime:hh\:mm\:ss}";
             levelCard.LevelPath = levelFileInfo.FullName;
         }
-
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)levelCardContainer);
     }
 
     public void UpdateSortSetting() => SortSetting = stringToSetting[sortInput.options[sortInput.value].text];
