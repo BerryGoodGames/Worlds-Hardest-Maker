@@ -31,7 +31,8 @@ public class LevelCardController : MonoBehaviour
         set => creatorText.text = value;
     }
 
-    [SerializeField] private List<Tooltip> buttonTooltips;
+    [Space] [SerializeField] private LevelCardTween levelCardTween;
+    [Space] [SerializeField] private List<Tooltip> buttonTooltips;
 
     [HideInInspector] public string LevelPath;
 
@@ -39,6 +40,8 @@ public class LevelCardController : MonoBehaviour
 
     public void EditLevel()
     {
+        levelCardTween.OnStartEditing();
+
         TransitionManager.Instance.LoadLevelPath = LevelPath;
         MainMenuManager.Instance.StartEditor();
     }

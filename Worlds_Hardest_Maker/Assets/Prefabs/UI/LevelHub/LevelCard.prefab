@@ -384,6 +384,7 @@ MonoBehaviour:
   nameText: {fileID: 8983837881790201108}
   descriptionText: {fileID: 4526178645857876046}
   creatorText: {fileID: 5561695618217323361}
+  levelCardTween: {fileID: 2711609935180200388}
   buttonTooltips:
   - {fileID: 867666787941691581}
   - {fileID: 1013419000931777849}
@@ -1014,7 +1015,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   card: {fileID: 7041818947101408830}
   hoverScale: 1.02
-  duration: 0.15
+  startEditScale: 1.04
+  hoverDuration: 0.15
+  startEditingDuration: 0.5
 --- !u!222 &2893946133322798047
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -6,19 +6,21 @@ using UnityEngine.UI;
 
 public class LoadingScreen : MonoBehaviour
 {
-    [Separator("Settings")] [SerializeField]
-    private float duration = 1;
+    [Separator("Settings")] 
+    [SerializeField] [PositiveValueOnly] private float delay;
+    [SerializeField] [PositiveValueOnly] private float duration = 1;
 
-    [Separator("References")] [SerializeField]
+    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned]
     private Slider slider;
 
-    [SerializeField] private GameObject loadingScreen;
-    [SerializeField] private ChainableTween tween;
+    [SerializeField] [InitializationField] [MustBeAssigned]
+    private ChainableTween tween;
 
     public void SetProgress(float progress) => slider.value = progress;
 
     public void LoadScene(int sceneId)
     {
+        tween.Delay = delay;
         tween.Duration = duration;
         tween.StartChain();
 
@@ -33,6 +35,8 @@ public class LoadingScreen : MonoBehaviour
 
     private IEnumerator LoadSceneAsync(int sceneId)
     {
+        yield return new WaitForSeconds(delay);
+
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId);
 
         operation.allowSceneActivation = false;
