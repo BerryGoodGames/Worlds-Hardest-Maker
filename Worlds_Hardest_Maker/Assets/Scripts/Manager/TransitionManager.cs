@@ -23,6 +23,7 @@ public class TransitionManager : MonoBehaviour
 
 public class LevelDataInputs
 {
+    public string Name;
     public string Description;
     public string Creator;
 }

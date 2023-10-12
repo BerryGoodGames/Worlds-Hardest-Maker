@@ -163,6 +163,7 @@ public static class SaveSystem
         }
         catch
         {
+            Debug.LogWarning($"Failed to load file at path: {path}");
             stream.Close();
             throw;
         }

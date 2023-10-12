@@ -8,13 +8,27 @@ using UnityEngine;
 
 public class LevelCardController : MonoBehaviour
 {
-    [Separator("References")] [SerializeField]
-    private TMP_Text nameText;
+    [Separator("References")]
+    [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text descriptionText;
+    [SerializeField] private TMP_Text creatorText;
 
     public string Name
     {
         get => nameText.text;
         set => nameText.text = value;
+    }
+
+    public string Description
+    {
+        get => descriptionText.text;
+        set => descriptionText.text = value;
+    }
+
+    public string Creator
+    {
+        get => creatorText.text;
+        set => creatorText.text = value;
     }
 
     [SerializeField] private List<Tooltip> buttonTooltips;
@@ -57,7 +71,11 @@ public class LevelCardController : MonoBehaviour
 
         // copy the data
         if (LevelPath != null)
-            File.Copy(LevelPath, SaveSystem.LevelSavePath + newName + ".lvl", true);
+        {
+            string copyPath = SaveSystem.LevelSavePath + newName + ".lvl";
+
+            File.Copy(LevelPath, copyPath, true);
+        }
 
         LevelListLoader.Instance.Refresh();
     }

@@ -67,7 +67,7 @@ public class LevelListLoader : MonoBehaviour
         DirectoryInfo levelDirectory = new(SaveSystem.LevelSavePath);
 
         FileInfo[] levelInfo = levelDirectory.GetFiles("*.lvl");
-
+        
         bool levelsChanged = false;
 
         if (prevLevelInfo == null || levelInfo.Length != prevLevelInfo.Length) levelsChanged = true;
@@ -102,7 +102,7 @@ public class LevelListLoader : MonoBehaviour
         prevLevelInfo = levelInfo;
     }
 
-    private void UpdateLevelCards(IEnumerable<FileInfo> levelInfo)
+    private void UpdateLevelCards(FileInfo[] levelInfo)
     {
         // destroy all level cards
         foreach (Transform t in levelCardContainer)
@@ -118,14 +118,39 @@ public class LevelListLoader : MonoBehaviour
             Destroy(t.gameObject);
         }
 
-        foreach (FileInfo info in levelInfo)
+        // load all levels into LevelData in array
+        LevelData[] levelDataArr = new LevelData[levelInfo.Length];
+        for (int i = 0; i < levelInfo.Length; i++)
         {
+            try
+            {
+                levelDataArr[i] = SaveSystem.LoadLevel(levelInfo[i].FullName);
+            }
+            catch (Exception _)
+            {
+                // failed to load file -> old / corrupt file
+                // ignored
+            }
+        }
+
+        // create level cards and display info
+        for (int i = 0; i < levelDataArr.Length; i++)
+        {
+            if (levelDataArr[i] == null) continue;
+
+            LevelData levelData = levelDataArr[i];
+            FileInfo levelFileInfo = levelInfo[i];
+
+            LevelInfo info = levelData.Info;
+
             // create new level cards
             LevelCardController levelCard = Instantiate(levelCardPrefab, levelCardContainer).GetComponent<LevelCardController>();
 
             // level card settings
-            levelCard.Name = info.Name[..^4]; // remove .lvl at end
-            levelCard.LevelPath = info.FullName;
+            levelCard.Name = levelFileInfo.Name[..^4]; // remove .lvl at end
+            levelCard.Description = info.Description;
+            levelCard.Creator = $"by {info.Creator}";
+            levelCard.LevelPath = levelFileInfo.FullName;
         }
     }
 

@@ -23,6 +23,7 @@ public class LevelCreationController : MonoBehaviour
         TransitionManager.Instance.HasCreatedNewLevel = true;
         TransitionManager.Instance.Inputs = new()
         {
+            Name = levelName,
             Description = descriptionText.text,
             Creator = creatorText.text
         };
