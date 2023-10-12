@@ -5,8 +5,9 @@ using MyBox;
 using SFB;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class LevelCardController : MonoBehaviour
+public class LevelCardController : MonoBehaviour, IPointerClickHandler
 {
     [Separator("References")]
     [SerializeField] private TMP_Text nameText;
@@ -93,6 +94,8 @@ public class LevelCardController : MonoBehaviour
             File.Copy(LevelPath, exportPath, true);
     }
 
+    
+
     private void Awake()
     {
         foreach (Tooltip tooltip in buttonTooltips)
@@ -100,4 +103,6 @@ public class LevelCardController : MonoBehaviour
             tooltip.Container = LevelHubManager.Instance.TooltipContainer;
         }
     }
+
+    public void OnPointerClick(PointerEventData eventData) => levelCardTween.ToggleExpandCollapse();
 }

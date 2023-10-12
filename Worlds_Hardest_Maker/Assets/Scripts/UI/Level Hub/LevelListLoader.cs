@@ -6,6 +6,7 @@ using System.Linq;
 using MyBox;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelListLoader : MonoBehaviour
 {
@@ -126,7 +127,7 @@ public class LevelListLoader : MonoBehaviour
             {
                 levelDataArr[i] = SaveSystem.LoadLevel(levelInfo[i].FullName);
             }
-            catch (Exception _)
+            catch (Exception)
             {
                 // failed to load file -> old / corrupt file
                 // ignored
@@ -152,6 +153,8 @@ public class LevelListLoader : MonoBehaviour
             levelCard.Creator = $"by {info.Creator}";
             levelCard.LevelPath = levelFileInfo.FullName;
         }
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)levelCardContainer);
     }
 
     public void UpdateSortSetting() => SortSetting = stringToSetting[sortInput.options[sortInput.value].text];
