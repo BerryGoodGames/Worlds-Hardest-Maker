@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
@@ -13,9 +12,7 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] [InitializationField] [MustBeAssigned]
     private RectTransform card;
 
-    [SerializeField]
-    [InitializationField]
-    [MustBeAssigned]
+    [SerializeField] [InitializationField] [MustBeAssigned]
     private ContentSizeFitter extendedArea;
 
     [Separator] [SerializeField] [PositiveValueOnly]
@@ -26,13 +23,12 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] [PositiveValueOnly] private float hoverDuration;
     [SerializeField] [PositiveValueOnly] private float startEditingDuration;
 
-    [Separator("Expand settings")]
-    private float expandHeight;
+    [Separator("Expand settings")] private float expandHeight;
 
 
     private float collapsedHeight;
 
-    [SerializeField][PositiveValueOnly] private float bottomPadding;
+    [SerializeField] [PositiveValueOnly] private float bottomPadding;
     [SerializeField] [PositiveValueOnly] private float expandDuration;
 
     public bool IsExpanded { get; private set; }
@@ -64,10 +60,7 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public void Expand()
     {
         levelCard.DOSizeDelta(new(levelCard.rect.width, expandHeight), expandDuration)
-            .onUpdate += () =>
-        {
-            LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate();
-        };
+            .onUpdate += () => { LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate(); };
 
         IsExpanded = true;
     }
@@ -75,10 +68,7 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public void Collapse()
     {
         levelCard.DOSizeDelta(new(levelCard.rect.width, collapsedHeight), expandDuration)
-            .onUpdate += () =>
-        {
-            LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate();
-        };
+            .onUpdate += () => { LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate(); };
 
         IsExpanded = false;
     }

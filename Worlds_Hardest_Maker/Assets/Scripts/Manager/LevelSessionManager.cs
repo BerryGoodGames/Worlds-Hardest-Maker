@@ -17,10 +17,7 @@ public class LevelSessionManager : MonoBehaviour
 
     public TimeSpan EditTime = TimeSpan.Zero;
 
-    private void Update()
-    {
-        EditTime += TimeSpan.FromSeconds(Time.deltaTime);
-    }
+    private void Update() => EditTime += TimeSpan.FromSeconds(Time.deltaTime);
 
     private void Awake()
     {

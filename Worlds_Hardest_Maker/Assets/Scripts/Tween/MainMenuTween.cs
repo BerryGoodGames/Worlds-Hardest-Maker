@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,7 +26,7 @@ public class MainMenuTween : MonoBehaviour
         {
             startSwipeTween.gameObject.SetActive(true);
             startSwipeTween.Move();
-        } 
+        }
         else startSwipeTween.gameObject.SetActive(false);
 
         player.rectTransform.anchoredPosition = new(playerStartX, player.rectTransform.anchoredPosition.y);
