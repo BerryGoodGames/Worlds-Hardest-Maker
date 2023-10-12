@@ -32,5 +32,7 @@ public class AnchorBallController : EntityController
         {
             AnchorBallManager.Instance.AnchorBallListGlobal.Remove(this);
         }
+
+        Destroy(transform.parent.gameObject);
     }
 }
