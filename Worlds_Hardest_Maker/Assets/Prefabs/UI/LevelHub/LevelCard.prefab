@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 583.03, y: 38.2}
+  m_SizeDelta: {x: 950, y: 46.92}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &6620367176815718319
 CanvasRenderer:
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -308,7 +308,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1788213046521094756}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.8279692}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -330,7 +330,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1788213046521094756}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
@@ -423,11 +423,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelCard: {fileID: 7086213966181704370}
   card: {fileID: 7041818947101408830}
+  extendedArea: {fileID: 1260665956391148958}
   hoverScale: 1.02
   startEditScale: 1.044
   hoverDuration: 0.15
   startEditingDuration: 0.5
-  expandHeight: 290
+  bottomPadding: 25
   expandDuration: 0.3
 --- !u!1 &2681921523193276179
 GameObject:
@@ -464,7 +465,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 583.03, y: 38.2}
+  m_SizeDelta: {x: 600, y: 40}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &4154622588976764770
 CanvasRenderer:
@@ -598,7 +599,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 583.03, y: 38.2}
+  m_SizeDelta: {x: 600, y: 40}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1485958189088851972
 CanvasRenderer:
@@ -1276,6 +1277,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8587707942588392730}
   - component: {fileID: 1644438732120136338}
+  - component: {fileID: 1260665956391148958}
   m_Layer: 0
   m_Name: ExpandArea
   m_TagString: Untagged
@@ -1303,7 +1305,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -183.49, y: -120}
-  m_SizeDelta: {x: -416.96, y: 176.4616}
+  m_SizeDelta: {x: -416.96, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1644438732120136338
 MonoBehaviour:
@@ -1331,6 +1333,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1260665956391148958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6727069563205143660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 1
 --- !u!1 &8134700070222488311
 GameObject:
   m_ObjectHideFlags: 0

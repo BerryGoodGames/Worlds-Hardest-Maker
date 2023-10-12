@@ -3,6 +3,7 @@ using DG.Tweening;
 using MyBox;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -12,6 +13,11 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] [InitializationField] [MustBeAssigned]
     private RectTransform card;
 
+    [SerializeField]
+    [InitializationField]
+    [MustBeAssigned]
+    private ContentSizeFitter extendedArea;
+
     [Separator] [SerializeField] [PositiveValueOnly]
     private float hoverScale;
 
@@ -20,12 +26,13 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] [PositiveValueOnly] private float hoverDuration;
     [SerializeField] [PositiveValueOnly] private float startEditingDuration;
 
-    [Separator("Expand settings")] [SerializeField] [PositiveValueOnly]
+    [Separator("Expand settings")]
     private float expandHeight;
 
 
     private float collapsedHeight;
 
+    [SerializeField][PositiveValueOnly] private float bottomPadding;
     [SerializeField] [PositiveValueOnly] private float expandDuration;
 
     public bool IsExpanded { get; private set; }
@@ -88,5 +95,9 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         // remember initial values
         collapsedHeight = levelCard.rect.height;
+
+        extendedArea.Recalculate();
+
+        expandHeight = collapsedHeight + ((RectTransform)extendedArea.transform).sizeDelta.y + bottomPadding;
     }
 }
