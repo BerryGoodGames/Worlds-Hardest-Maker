@@ -20,11 +20,16 @@ public class LevelListLoader : MonoBehaviour
     [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned]
     private GameObject levelCardPrefab;
 
-    [SerializeField][InitializationField][MustBeAssigned] private TMP_Dropdown sortInput;
-    [SerializeField][InitializationField][MustBeAssigned] private ButtonVerticalArrowTween sortOrderButton;
+    [SerializeField] [InitializationField] [MustBeAssigned]
+    private TMP_Dropdown sortInput;
 
-    [SerializeField][InitializationField][MustBeAssigned] private Transform levelCardContainer;
-    [InitializationField][MustBeAssigned] public ContentSizeFitter LevelCardContentSizeFitter;
+    [SerializeField] [InitializationField] [MustBeAssigned]
+    private ButtonVerticalArrowTween sortOrderButton;
+
+    [SerializeField] [InitializationField] [MustBeAssigned]
+    private Transform levelCardContainer;
+
+    [InitializationField] [MustBeAssigned] public ContentSizeFitter LevelCardContentSizeFitter;
 
     private FileInfo[] prevLevelInfo;
 
@@ -39,7 +44,7 @@ public class LevelListLoader : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null) Instance = this;
+        if (Instance == null) Instance = this;
     }
 
     private void Start()
@@ -69,7 +74,7 @@ public class LevelListLoader : MonoBehaviour
         DirectoryInfo levelDirectory = new(SaveSystem.LevelSavePath);
 
         FileInfo[] levelInfo = levelDirectory.GetFiles("*.lvl");
-        
+
         bool levelsChanged = false;
 
         if (prevLevelInfo == null || levelInfo.Length != prevLevelInfo.Length) levelsChanged = true;
@@ -149,7 +154,8 @@ public class LevelListLoader : MonoBehaviour
             LevelInfo info = levelData.Info;
 
             // create new level cards
-            LevelCardController levelCard = Instantiate(levelCardPrefab, levelCardContainer).GetComponent<LevelCardController>();
+            LevelCardController levelCard =
+                Instantiate(levelCardPrefab, levelCardContainer).GetComponent<LevelCardController>();
 
             // level card settings
             levelCard.Name = levelFileInfo.Name[..^4]; // removes .lvl at end

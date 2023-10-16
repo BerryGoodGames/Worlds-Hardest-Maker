@@ -2,14 +2,14 @@ using System.IO;
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class LevelCreationController : MonoBehaviour
 {
     private static readonly string defaultLevelPath = Application.dataPath + "/Resources/DefaultLevel.lvl";
 
-    [Separator("References")]
-    [SerializeField] private TMP_InputField levelNameText;
+    [Separator("References")] [SerializeField]
+    private TMP_InputField levelNameText;
+
     [SerializeField] private TMP_InputField descriptionText;
     [SerializeField] private TMP_InputField creatorText;
 

@@ -1,15 +1,13 @@
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public class Tooltip : MonoBehaviour
 {
     [SerializeField] private GameObject tooltipPrefab;
 
-    [Space] [SerializeField]
-    private bool customContainer;
+    [Space] [SerializeField] private bool customContainer;
 
     [SerializeField] [ConditionalField(nameof(customContainer))]
     private Transform container;
@@ -29,11 +27,14 @@ public class Tooltip : MonoBehaviour
     }
 
     [Space] [SerializeField] private bool restrictInCanvas = true;
-    [SerializeField] [ConditionalField(nameof(restrictInCanvas))] private bool customRestrictContainer;
-    [SerializeField] [ConditionalField(nameof(customRestrictContainer), nameof(restrictInCanvas))] private RectTransform restrictContainer;
 
-    [Separator] [SerializeField]
-    private string text;
+    [SerializeField] [ConditionalField(nameof(restrictInCanvas))]
+    private bool customRestrictContainer;
+
+    [SerializeField] [ConditionalField(nameof(customRestrictContainer), nameof(restrictInCanvas))]
+    private RectTransform restrictContainer;
+
+    [Separator] [SerializeField] private string text;
 
     [SerializeField] private int fontSize = 20;
 

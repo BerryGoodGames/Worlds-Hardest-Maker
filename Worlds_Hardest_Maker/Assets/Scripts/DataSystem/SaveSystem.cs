@@ -2,11 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Windows.Forms;
 using Photon.Pun;
 using SFB;
 using UnityEngine;
-using Application = UnityEngine.Application;
 
 public static class SaveSystem
 {
@@ -27,6 +25,7 @@ public static class SaveSystem
     }
 
     public static void SaveCurrentLevel() => SaveCurrentLevel(LevelSessionManager.Instance.LevelSessionPath);
+
     public static void SaveCurrentLevel(string path)
     {
         // check if user didn't pick any path
@@ -58,7 +57,7 @@ public static class SaveSystem
             BinaryFormatter formatter = new();
             formatter.Serialize(stream, levelData);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Debug.Log(e.Message);
             Debug.Log(e.StackTrace);

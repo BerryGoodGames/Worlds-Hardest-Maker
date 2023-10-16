@@ -9,8 +9,9 @@ using UnityEngine.EventSystems;
 
 public class LevelCardController : MonoBehaviour, IPointerClickHandler
 {
-    [Separator("References")]
-    [SerializeField] private TMP_Text nameText;
+    [Separator("References")] [SerializeField]
+    private TMP_Text nameText;
+
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private TMP_Text creatorText;
     [SerializeField] private TMP_Text lastEditedText;
@@ -108,7 +109,6 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
             File.Copy(LevelPath, exportPath, true);
     }
 
-    
 
     private void Awake()
     {

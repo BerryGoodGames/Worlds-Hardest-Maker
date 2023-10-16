@@ -6,8 +6,9 @@ using UnityEngine.UI;
 
 public class LoadingScreen : MonoBehaviour
 {
-    [Separator("Settings")] 
-    [SerializeField] [PositiveValueOnly] private float delay;
+    [Separator("Settings")] [SerializeField] [PositiveValueOnly]
+    private float delay;
+
     [SerializeField] [PositiveValueOnly] private float duration = 1;
 
     [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned]

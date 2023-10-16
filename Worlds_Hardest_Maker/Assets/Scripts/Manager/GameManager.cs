@@ -1,14 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Windows.Forms.VisualStyles;
 using DG.Tweening;
 using MyBox;
 using Photon.Pun;
 using TMPro;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -57,7 +53,7 @@ public class GameManager : MonoBehaviourPun
             // make main menu also enable start swipe
             TransitionManager.Instance.HasMainMenuStartSwipe = true;
         }
-        
+
         // load user-selected level
         if (!LevelSessionManager.IsSessionFromEditor)
         {
