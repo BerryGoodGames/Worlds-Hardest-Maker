@@ -56,11 +56,20 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
 
     public void EditLevel()
     {
-        levelCardTween.OnStartEditing();
+        levelCardTween.OnOpenLevel();
 
         TransitionManager.Instance.LoadLevelPath = LevelPath;
         TransitionManager.Instance.IsEdit = true;
-        MainMenuManager.Instance.StartEditor();
+        MainMenuManager.Instance.OpenLevelScene();
+    }
+
+    public void PlayLevel()
+    {
+        levelCardTween.OnOpenLevel();
+
+        TransitionManager.Instance.LoadLevelPath = LevelPath;
+        TransitionManager.Instance.IsEdit = false;
+        MainMenuManager.Instance.OpenLevelScene();
     }
 
     public void OpenDeleteWarning()

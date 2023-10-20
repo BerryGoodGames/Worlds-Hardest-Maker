@@ -28,7 +28,7 @@ public class LevelCreationController : MonoBehaviour
             Creator = creatorText.text
         };
 
-        MainMenuManager.Instance.StartEditor();
+        MainMenuManager.Instance.OpenLevelScene();
     }
 
     private static void CreateLevel(ref string name)
