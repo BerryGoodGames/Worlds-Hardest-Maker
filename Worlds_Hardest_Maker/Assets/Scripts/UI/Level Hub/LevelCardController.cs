@@ -59,6 +59,7 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
         levelCardTween.OnStartEditing();
 
         TransitionManager.Instance.LoadLevelPath = LevelPath;
+        TransitionManager.Instance.IsEdit = true;
         MainMenuManager.Instance.StartEditor();
     }
 
