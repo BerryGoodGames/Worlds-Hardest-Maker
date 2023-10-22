@@ -59,7 +59,7 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
         levelCardTween.OnOpenLevel();
 
         TransitionManager.Instance.LoadLevelPath = LevelPath;
-        TransitionManager.Instance.IsEdit = true;
+        TransitionManager.Instance.LevelSessionMode = LevelSessionMode.Edit;
         MainMenuManager.Instance.OpenLevelScene();
     }
 
@@ -68,7 +68,7 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
         levelCardTween.OnOpenLevel();
 
         TransitionManager.Instance.LoadLevelPath = LevelPath;
-        TransitionManager.Instance.IsEdit = false;
+        TransitionManager.Instance.LevelSessionMode = LevelSessionMode.Play;
         MainMenuManager.Instance.OpenLevelScene();
     }
 

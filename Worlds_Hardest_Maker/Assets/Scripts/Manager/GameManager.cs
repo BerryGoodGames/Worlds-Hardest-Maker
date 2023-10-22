@@ -46,32 +46,13 @@ public class GameManager : MonoBehaviourPun
             // force enable start swipe
             swipeTween.gameObject.SetActive(true);
             swipeTween.StartChain();
-
-            // pass level session path over to LevelSessionManager
-            LevelSessionManager.Instance.LevelSessionPath = TransitionManager.Instance.LoadLevelPath;
-
+            
             // make main menu also enable start swipe
             TransitionManager.Instance.HasMainMenuStartSwipe = true;
         }
 
-        // load user-selected level
-        if (!LevelSessionManager.IsSessionFromEditor)
-        {
-            LoadLevel(LevelSessionManager.Instance.LevelSessionPath);
-
-            if (TransitionManager.Instance.HasCreatedNewLevel)
-            {
-                // create new level info
-                LevelSessionManager.Instance.LoadedLevelData.Info = new()
-                {
-                    Description = TransitionManager.Instance.Inputs.Description,
-                    Creator = TransitionManager.Instance.Inputs.Creator
-                };
-            }
-        }
-
         // start saving interval if either Dbg auto load enabled or any path given
-        if (TransitionManager.Instance.IsEdit && Dbg.Instance.AutoLoadLevel || LevelSessionManager.Instance.LevelSessionPath != string.Empty)
+        if (LevelSessionManager.Instance.IsEdit && Dbg.Instance.AutoLoadLevel || LevelSessionManager.Instance.LevelSessionPath != string.Empty)
             StartCoroutine(AutoSave());
     }
 

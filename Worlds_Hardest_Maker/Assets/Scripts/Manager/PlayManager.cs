@@ -311,7 +311,7 @@ public class PlayManager : MonoBehaviour
 
     private void Start()
     {
-        if(!TransitionManager.Instance.IsEdit)
+        if(!LevelSessionManager.Instance.IsEdit)
             SwitchToPlay();
     }
 }

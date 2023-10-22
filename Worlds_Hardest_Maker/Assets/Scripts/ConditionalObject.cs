@@ -9,9 +9,7 @@ public class ConditionalObject : MonoBehaviour
 
     private void Start()
     {
-        if (TransitionManager.Instance == null) return;
-
-        if (editOnly && !TransitionManager.Instance.IsEdit)
+        if (editOnly && !LevelSessionManager.Instance.IsEdit)
         {
             Destroy(gameObject);
         }
