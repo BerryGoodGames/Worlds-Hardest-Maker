@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ConditionalObject : MonoBehaviour
 {
-    [SerializeField] private bool editOnly = false;
+    [SerializeField] private bool editOnly = true;
 
     private void Start()
     {
