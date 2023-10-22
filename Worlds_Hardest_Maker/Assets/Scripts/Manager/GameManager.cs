@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviourPun
         }
 
         // start saving interval if either Dbg auto load enabled or any path given
-        if (Dbg.Instance.AutoLoadLevel || LevelSessionManager.Instance.LevelSessionPath != string.Empty)
+        if (TransitionManager.Instance.IsEdit && Dbg.Instance.AutoLoadLevel || LevelSessionManager.Instance.LevelSessionPath != string.Empty)
             StartCoroutine(AutoSave());
     }
 
@@ -231,7 +231,7 @@ public class GameManager : MonoBehaviourPun
     }
 
     #endregion
-
+    
     public static void SetCameraUnitWidth(float width)
     {
         Camera cam = Camera.main;
