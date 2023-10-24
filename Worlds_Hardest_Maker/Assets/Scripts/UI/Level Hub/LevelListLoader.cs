@@ -163,6 +163,7 @@ public class LevelListLoader : MonoBehaviour
             levelCard.Description = info.Description;
             levelCard.LastEdited = $"Last edited {info.LastEdited}";
             levelCard.EditTime = $@"Edit time: {info.EditTime:hh\:mm\:ss}";
+            levelCard.PlayTime = $@"Play time: {info.PlayTime:hh\:mm\:ss}";
             levelCard.LevelPath = levelFileInfo.FullName;
         }
     }
