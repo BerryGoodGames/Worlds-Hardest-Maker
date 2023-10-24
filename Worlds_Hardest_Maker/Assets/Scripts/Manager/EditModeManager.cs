@@ -110,9 +110,11 @@ public class EditModeManager : MonoBehaviour
 
     private void Start()
     {
-        Instance.OnEdit += () => PlayManager.Instance.Cheated = false;
+        if (!LevelSessionManager.Instance.IsEdit) return;
 
-        Instance.SetEditMode(currentEditMode);
+        OnEdit += () => PlayManager.Instance.Cheated = false;
+
+        SetEditMode(currentEditMode);
     }
 
     private void Awake()
