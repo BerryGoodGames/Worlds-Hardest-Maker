@@ -19,8 +19,13 @@ public class LevelSessionManager : MonoBehaviour
     public bool IsEdit => LevelSessionMode is LevelSessionMode.Edit;
 
     public TimeSpan EditTime = TimeSpan.Zero;
+    public TimeSpan PlayTime = TimeSpan.Zero;
 
-    private void Update() => EditTime += TimeSpan.FromSeconds(Time.deltaTime);
+    private void Update()
+    {
+        if (IsEdit) EditTime += TimeSpan.FromSeconds(Time.deltaTime); 
+        else PlayTime += TimeSpan.FromSeconds(Time.deltaTime);
+    }
 
     private void Start()
     {
@@ -49,6 +54,12 @@ public class LevelSessionManager : MonoBehaviour
                     Creator = TransitionManager.Instance.Inputs.Creator
                 };
             }
+        }
+
+        ConditionalObject[] conditionalObjects = FindObjectsOfType<ConditionalObject>(true);
+        foreach (ConditionalObject obj in conditionalObjects)
+        {
+            if(obj.EditOnly && !IsEdit) Destroy(obj.gameObject);
         }
     }
 

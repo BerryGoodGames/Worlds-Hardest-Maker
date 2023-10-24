@@ -112,19 +112,21 @@ public class GameManager : MonoBehaviourPun
     {
         LevelData levelData = SaveSystem.LoadLevel(path);
 
-        if (levelData != null) LoadLevelFromData(levelData);
+        if (levelData != null) StartCoroutine(LoadLevelFromData(levelData));
     }
 
     public void LoadLevel()
     {
         LevelData levelData = SaveSystem.LoadLevel();
 
-        if (levelData != null) LoadLevelFromData(levelData);
+        if (levelData != null) StartCoroutine(LoadLevelFromData(levelData));
     }
 
     [PunRPC]
-    public void LoadLevelFromData(LevelData levelData)
+    public IEnumerator LoadLevelFromData(LevelData levelData)
     {
+        yield return new WaitForEndOfFrame();
+
         ClearLevel();
 
         List<Data> levelObjects = levelData.Objects;
@@ -173,32 +175,6 @@ public class GameManager : MonoBehaviourPun
         // store data in LevelSessionManager
         LevelSessionManager.Instance.LoadedLevelData = levelData;
     }
-
-    // [PunRPC]
-    // public void ReceiveLevel(string content)
-    // {
-    //     BinaryFormatter formatter = new();
-    //     Stream s = GenerateStreamFromString(content);
-    //
-    //     List<Data> data = formatter.Deserialize(s) as List<Data>;
-    //
-    //     s.Close();
-    //
-    //     if (data == null)
-    //         throw new Exception("Something went wrong when receiving level and parsing received information");
-    //
-    //     LoadLevelFromData(data.ToArray());
-    // }
-
-    // private static Stream GenerateStreamFromString(string s)
-    // {
-    //     MemoryStream stream = new();
-    //     StreamWriter writer = new(stream);
-    //     writer.Write(s);
-    //     writer.Flush();
-    //     stream.Position = 0;
-    //     return stream;
-    // }
 
     private IEnumerator AutoSave()
     {
@@ -286,13 +262,18 @@ public class GameManager : MonoBehaviourPun
 
     public void MainMenu()
     {
+        BackupLevel();
+
+        loadingScreen.LoadScene(0);
+    }
+
+    public void BackupLevel()
+    {
         // save level if any path given
         if (LevelSessionManager.Instance.LevelSessionPath != string.Empty)
         {
             SaveSystem.SaveCurrentLevel();
         }
-
-        loadingScreen.LoadScene(0);
     }
 
     public static void DeselectInputs()
@@ -317,5 +298,10 @@ public class GameManager : MonoBehaviourPun
 
         Debug.LogWarning("There was no option found");
         return -1;
+    }
+
+    private void OnApplicationQuit()
+    {
+        BackupLevel();
     }
 }

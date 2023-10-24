@@ -51,6 +51,8 @@ public class EditModeManager : MonoBehaviour
 
     public void SetEditMode(EditMode value)
     {
+        if (!LevelSessionManager.Instance.IsEdit) return;
+
         currentEditMode = value;
 
         // invoke OnEditModeChanged
