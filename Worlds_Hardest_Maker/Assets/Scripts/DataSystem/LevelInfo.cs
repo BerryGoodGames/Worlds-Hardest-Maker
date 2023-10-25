@@ -1,4 +1,5 @@
 using System;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class LevelInfo
@@ -7,9 +8,8 @@ public class LevelInfo
     public DateTime LastEdited = DateTime.Now;
     public TimeSpan EditTime = TimeSpan.Zero;
     public TimeSpan PlayTime = TimeSpan.Zero;
-    public bool Completed;
-    public TimeSpan CompletionTime = TimeSpan.Zero;
+    public TimeSpan BestCompletionTime = TimeSpan.Zero;
     public string Creator = "Default creator name";
-    public uint Tries;
+    public uint Deaths;
     public uint Completions;
 }

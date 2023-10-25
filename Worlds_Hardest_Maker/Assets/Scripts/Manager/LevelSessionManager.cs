@@ -1,6 +1,7 @@
 using System;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// This manager exists to assure that the session data (e.g. path of currently edited level) is always available and loaded,
@@ -20,6 +21,9 @@ public class LevelSessionManager : MonoBehaviour
 
     public TimeSpan EditTime = TimeSpan.Zero;
     public TimeSpan PlayTime = TimeSpan.Zero;
+    public uint Deaths;
+    public uint Completions;
+    public TimeSpan BestCompletionTime;
 
     private void Update()
     {
@@ -62,10 +66,17 @@ public class LevelSessionManager : MonoBehaviour
         {
             if (obj.EditOnly && !IsEdit) Destroy(obj.gameObject);
         }
+
+        PlayerManager.Instance.OnWin += () => Completions++;
     }
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
+    }
+
+    public void TrySetBestTime(TimeSpan time)
+    {
+        if (time < BestCompletionTime) BestCompletionTime = time;
     }
 }

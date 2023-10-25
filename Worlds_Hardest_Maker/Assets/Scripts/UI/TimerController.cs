@@ -40,9 +40,11 @@ public class TimerController : MonoBehaviour
     public void FinishTimer()
     {
         StopTimer();
-
+        
         if (!PlayManager.Instance.Cheated)
             Text.color = FinishedTimerColor;
+
+        LevelSessionManager.Instance.TrySetBestTime(TimeSpan.FromSeconds(timerSeconds));
     }
 
     private IEnumerator DoTimer()

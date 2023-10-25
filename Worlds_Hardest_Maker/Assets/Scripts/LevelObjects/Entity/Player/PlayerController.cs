@@ -454,7 +454,11 @@ public class PlayerController : EntityController
         // avoid doing more if not own view in multiplayer
         if (MultiplayerManager.Instance.Multiplayer && !PhotonView.IsMine) return;
 
-        if (EditModeManager.Instance.Playing) Deaths++;
+        if (EditModeManager.Instance.Playing)
+        {
+            Deaths++;
+            LevelSessionManager.Instance.Deaths++;
+        }
 
         // update coin counter
         CoinsCollected.Clear();
