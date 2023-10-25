@@ -5,7 +5,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class PlaySceneToggle : MonoBehaviour
 {
-    public static PlaySceneToggle Instance { get; private set; }
+    private static PlaySceneToggle Instance { get; set; }
 
     [SerializeField] private bool isEdit;
 

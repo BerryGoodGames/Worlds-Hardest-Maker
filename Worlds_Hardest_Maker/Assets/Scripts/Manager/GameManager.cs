@@ -185,11 +185,13 @@ public class GameManager : MonoBehaviourPun
             // wait for next auto save
             yield return new WaitForSeconds(autoSaveInterval);
         }
+        
+        // ReSharper disable once IteratorNeverReturns
     }
 
     #endregion
-    
-    public static void SetCameraUnitWidth(float width)
+
+    private static void SetCameraUnitWidth(float width)
     {
         Camera cam = Camera.main;
         if (cam != null) cam.orthographicSize = width * 0.5f / cam.aspect;

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TextManager : MonoBehaviour
 {
-    public static TextManager Instance { get; private set; } // singleton
+    private static TextManager Instance { get; set; } // singleton
 
     #region Text References
 

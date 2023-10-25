@@ -30,6 +30,12 @@ public class AppendSlider : MonoBehaviour
 
     private void Awake()
     {
+        if (!LevelSessionManager.Instance.IsEdit)
+        {
+            Destroy(this);
+            return;
+        }
+        
         Slider = Instantiate(sliderPrefab, Vector2.zero, Quaternion.identity,
             ReferenceManager.Instance.SliderContainer);
         Slider settings = Slider.GetComponent<Slider>();

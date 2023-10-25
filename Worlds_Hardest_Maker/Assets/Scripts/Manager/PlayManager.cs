@@ -107,12 +107,14 @@ public class PlayManager : MonoBehaviour
         }
     }
 
+/*
     private static void JumpToPlayer()
     {
         if (!ReferenceManager.Instance.MainCameraJumper.HasKey("Player")) return;
 
         ReferenceManager.Instance.MainCameraJumper.Jump("Player", onlyIfTargetOffScreen: true);
     }
+*/
 
     private static void ActivateCoinKeyAnimations()
     {

@@ -39,7 +39,7 @@ public class GraphicsSettings : MonoBehaviour
     {
         Screen.fullScreen = fullscreen;
 
-        if (!updateToggle) return;
+        // if (!updateToggle) return;
     }
 
     public void Fullscreen(bool fullscreen) => Fullscreen(fullscreen, false);
