@@ -169,7 +169,7 @@ public class LevelListLoader : MonoBehaviour
             levelCard.CompletionTime = $@"PB: {info.BestCompletionTime:hh\:mm\:ss}";
             
             // display completion rate
-            string display = info.Deaths == 0 ? "-" : $"{100 * (float)info.Completions / info.Deaths:F2}%";
+            string display = info.Deaths + info.Completions == 0 ? "-" : $"{100 * (float)info.Completions / (info.Deaths + info.Completions):F2}%";
             levelCard.CompletionRate = $"Completion rate: {display}";
             
             levelCard.LevelPath = levelFileInfo.FullName;

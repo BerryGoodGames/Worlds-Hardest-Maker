@@ -457,7 +457,7 @@ public class PlayerController : EntityController
         if (EditModeManager.Instance.Playing)
         {
             Deaths++;
-            LevelSessionManager.Instance.Deaths++;
+            if(!LevelSessionManager.Instance.IsEdit) LevelSessionManager.Instance.Deaths++;
         }
 
         // update coin counter
