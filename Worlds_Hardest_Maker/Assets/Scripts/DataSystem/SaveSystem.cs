@@ -45,7 +45,6 @@ public static class SaveSystem
             LevelInfo levelInfo = LevelSessionManager.Instance.LoadedLevelData.Info;
             levelInfo.LastEdited = DateTime.Now;
             levelInfo.EditTime += LevelSessionManager.Instance.EditTime;
-            levelInfo.PlayTime += LevelSessionManager.Instance.PlayTime;
 
             List<Data> levelObjects = SerializeCurrentLevel();
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
@@ -53,7 +52,7 @@ public class BarTween : MonoBehaviour
         AnimationCurve curve = isResultVisibleState ? easeAppearCurve : easeDisappearCurve;
         float duration = isResultVisibleState ? appearDuration : disappearDuration;
 
-        Tween t = rt.DOAnchorPosY(y, duration).SetId(gameObject);
+        Tween t = rt.DOAnchorPosY(y, duration);
         if (curve.length > 1) t.SetEase(curve);
         else t.SetEase(ease);
 
@@ -75,10 +74,4 @@ public class BarTween : MonoBehaviour
     }
 
     private void Awake() => TweenList.Add(this);
-
-    private void OnDestroy()
-    {
-        TweenList.Remove(this);
-        DOTween.Kill(gameObject);
-    }
 }

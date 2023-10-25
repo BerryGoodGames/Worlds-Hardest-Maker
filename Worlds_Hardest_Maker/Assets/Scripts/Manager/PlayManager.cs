@@ -16,8 +16,8 @@ public class PlayManager : MonoBehaviour
         set
         {
             cheated = value;
-            ReferenceManager.Instance.TimerController.Text.color =
-                cheated ? ReferenceManager.Instance.TimerController.CheatedTimerColor : ReferenceManager.Instance.TimerController.TimerDefaultColor;
+            TextManager.Instance.Timer.color =
+                cheated ? TextManager.Instance.CheatedTimerColor : TextManager.Instance.TimerDefaultColor;
         }
     }
 
@@ -311,20 +311,7 @@ public class PlayManager : MonoBehaviour
 
     private void Start()
     {
-        // setup play scene mode
-        if (!LevelSessionManager.Instance.IsEdit)
-        {
-            ReferenceManager.Instance.InfobarPlayTween.SetPlay(true);
-
-            SetupPlayers();
-
-            EditModeManager.Instance.Playing = true;
-
-            StartAnchors();
-
-            ActivateCoinKeyAnimations();
-
-            ReferenceManager.Instance.TimerController.StartTimer();
-        }
+        if(!TransitionManager.Instance.IsEdit)
+            SwitchToPlay();
     }
 }

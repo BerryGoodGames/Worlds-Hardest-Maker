@@ -50,8 +50,6 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
-        if (!LevelSessionManager.Instance.IsEdit) return;
-
         if (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton) && !EditModeManager.Instance.Playing &&
             !EventSystem.current.IsPointerOverGameObject())
             Selecting = true;
@@ -193,8 +191,6 @@ public class SelectionManager : MonoBehaviour
 
     private static void DestroyPreview()
     {
-        if (!LevelSessionManager.Instance.IsEdit) return;
-
         // destroy selection previews
         foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer)
         {

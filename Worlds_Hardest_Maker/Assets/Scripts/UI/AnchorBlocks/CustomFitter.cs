@@ -58,7 +58,6 @@ public class CustomFitter : MonoBehaviour
     [ButtonMethod]
     public void UpdateSize(bool checkChanged = true)
     {
-        if (rt == null) return;
         if (checkChanged && !ChildrenChanged()) return;
 
         float y;

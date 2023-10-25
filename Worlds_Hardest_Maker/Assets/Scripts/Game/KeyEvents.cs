@@ -12,7 +12,7 @@ public class KeyEvents : MonoBehaviour
     private void Update()
     {
         // toggle playing
-        if (LevelSessionManager.Instance.IsEdit && Input.GetKeyDown(KeyCode.Space)) PlayManager.Instance.TogglePlay();
+        if (TransitionManager.Instance.IsEdit && Input.GetKeyDown(KeyCode.Space)) PlayManager.Instance.TogglePlay();
 
         // close panel if esc pressed
         bool closingPanel = false;

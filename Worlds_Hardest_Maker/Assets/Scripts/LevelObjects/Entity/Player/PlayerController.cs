@@ -104,12 +104,18 @@ public class PlayerController : EntityController
 
         UpdateSpeedText();
 
+        if (MultiplayerManager.Instance.Multiplayer)
+            PhotonView.RPC("SetNameTagActive", RpcTarget.All, EditModeManager.Instance.Playing);
+
         SyncToLevelSettings();
     }
 
     private void Update()
     {
         movementInput = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+        if (MultiplayerManager.Instance.Multiplayer)
+            PhotonView.RPC("SetNameTagActive", RpcTarget.All, EditModeManager.Instance.Playing);
     }
 
     private void OnCollisionStay2D(Collision2D collider) => CornerPush(collider);

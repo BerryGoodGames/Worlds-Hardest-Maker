@@ -38,8 +38,6 @@ public class Dbg : MonoBehaviour
     [Foldout("Wall Outlines")] public bool WallOutlines = true;
     [Foldout("Wall Outlines")] public bool DrawRays;
 
-    [Foldout("Other")] public LevelSessionMode EditorLevelSessionMode;
-
     [Foldout("References")] [SerializeField] [MustBeAssigned]
     private TMP_Text debugText;
 
@@ -51,6 +49,14 @@ public class Dbg : MonoBehaviour
         else Destroy(this);
 
         cam = Camera.main;
+
+        if (!AutoLoadLevel) return;
+
+        // avoid overriding with auto level when scene loaded from main menu
+        // since we want to load the user selected level
+        if (!LevelSessionManager.IsSessionFromEditor) return;
+
+        LevelSessionManager.Instance.LevelSessionPath = SaveSystem.LevelSavePath + $"/{LevelName}.lvl";
     }
 
     private void Start()

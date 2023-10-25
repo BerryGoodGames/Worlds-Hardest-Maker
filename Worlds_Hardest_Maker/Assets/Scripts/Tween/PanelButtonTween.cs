@@ -28,9 +28,7 @@ public class PanelButtonTween : MonoBehaviour
 
         // closed state -> x = closedX
         // opened state -> x = closedX + width
-        button.DOAnchorPosX(Open ? closedX : openedX, duration)
-            .SetEase(Open ? closeEase : openEase)
-            .SetId(gameObject);
+        button.DOAnchorPosX(Open ? closedX : openedX, duration).SetEase(Open ? closeEase : openEase);
 
         Open = !Open;
     }
@@ -47,6 +45,4 @@ public class PanelButtonTween : MonoBehaviour
 
         button.anchoredPosition = new(Open ? openedX : closedX, button.anchoredPosition.y);
     }
-
-    private void OnDestroy() => DOTween.Kill(gameObject);
 }
