@@ -78,7 +78,7 @@ public class AnchorData : Data
     #endregion
 
 
-    public override void ImportToLevel() => ImportToLevel(new (position[0], position[1]));
+    public override void ImportToLevel() => ImportToLevel(new(position[0], position[1]));
 
     public override void ImportToLevel(Vector2 pos)
     {

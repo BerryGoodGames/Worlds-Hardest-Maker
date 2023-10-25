@@ -35,7 +35,7 @@ public class AppendSlider : MonoBehaviour
             Destroy(this);
             return;
         }
-        
+
         Slider = Instantiate(sliderPrefab, Vector2.zero, Quaternion.identity,
             ReferenceManager.Instance.SliderContainer);
         Slider settings = Slider.GetComponent<Slider>();

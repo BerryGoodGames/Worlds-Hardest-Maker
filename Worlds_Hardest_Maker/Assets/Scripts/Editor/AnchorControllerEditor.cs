@@ -13,6 +13,7 @@ public class AnchorControllerEditor : Editor
         {
             anchorController.StartExecuting();
         }
+
         if (Application.isPlaying && GUILayout.Button("Reset execution"))
         {
             anchorController.ResetExecution();

@@ -85,7 +85,7 @@ public class PlayerController : EntityController
     private void Awake()
     {
         InitComponents();
-        if(LevelSessionManager.Instance.IsEdit) InitSlider();
+        if (LevelSessionManager.Instance.IsEdit) InitSlider();
 
         StartPos = transform.position;
     }
@@ -102,15 +102,12 @@ public class PlayerController : EntityController
 
         ApplyCurrentGameState();
 
-        if(LevelSessionManager.Instance.IsEdit) UpdateSpeedText();
+        if (LevelSessionManager.Instance.IsEdit) UpdateSpeedText();
 
         SyncToLevelSettings();
     }
 
-    private void Update()
-    {
-        movementInput = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-    }
+    private void Update() => movementInput = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
     private void OnCollisionStay2D(Collision2D collider) => CornerPush(collider);
 

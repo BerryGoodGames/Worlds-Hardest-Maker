@@ -23,7 +23,7 @@ public class LevelSessionManager : MonoBehaviour
 
     private void Update()
     {
-        if (IsEdit) EditTime += TimeSpan.FromSeconds(Time.deltaTime); 
+        if (IsEdit) EditTime += TimeSpan.FromSeconds(Time.deltaTime);
         else PlayTime += TimeSpan.FromSeconds(Time.deltaTime);
     }
 
@@ -32,7 +32,8 @@ public class LevelSessionManager : MonoBehaviour
         if (IsSessionFromEditor)
         {
             // load level from Dbg if session is from editor
-            if (Dbg.Instance.AutoLoadLevel) LevelSessionPath = SaveSystem.LevelSavePath + $"/{Dbg.Instance.LevelName}.lvl";
+            if (Dbg.Instance.AutoLoadLevel)
+                LevelSessionPath = SaveSystem.LevelSavePath + $"/{Dbg.Instance.LevelName}.lvl";
 
             LevelSessionMode = Dbg.Instance.EditorLevelSessionMode;
         }
@@ -59,7 +60,7 @@ public class LevelSessionManager : MonoBehaviour
         ConditionalObject[] conditionalObjects = FindObjectsOfType<ConditionalObject>(true);
         foreach (ConditionalObject obj in conditionalObjects)
         {
-            if(obj.EditOnly && !IsEdit) Destroy(obj.gameObject);
+            if (obj.EditOnly && !IsEdit) Destroy(obj.gameObject);
         }
     }
 

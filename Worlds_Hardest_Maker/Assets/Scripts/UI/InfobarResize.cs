@@ -32,7 +32,7 @@ public class InfobarResize : MonoBehaviour
 
     public void ExpandToEntireWidth()
     {
-        RectTransform rt = (RectTransform)(transform.GetChild(0));
+        RectTransform rt = (RectTransform)transform.GetChild(0);
 
         rt.sizeDelta = new(0, rt.sizeDelta.y);
         rt.anchoredPosition = new(0, rt.anchoredPosition.y);

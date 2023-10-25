@@ -1,13 +1,11 @@
-using System;
 using MyBox;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 public class ConditionalObject : MonoBehaviour
 {
     public bool EditOnly;
-    
+
     [ReadOnly] public bool IsActiveInEdit = true;
     [ReadOnly] public bool IsActiveInPlay = true;
 
@@ -16,7 +14,7 @@ public class ConditionalObject : MonoBehaviour
 
     private void Start()
     {
-        if(EditModeManager.Instance.Editing) whenEdit?.Invoke();
+        if (EditModeManager.Instance.Editing) whenEdit?.Invoke();
         else whenPlay?.Invoke();
     }
 }

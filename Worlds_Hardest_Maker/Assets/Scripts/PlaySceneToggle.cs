@@ -1,4 +1,3 @@
-using System;
 using MyBox;
 using UnityEngine;
 
@@ -9,7 +8,8 @@ public class PlaySceneToggle : MonoBehaviour
 
     [SerializeField] private bool isEdit;
 
-    [ReadOnly] [OverrideLabel("Is Scene currently edit scene")] public bool IsEditPrev;
+    [ReadOnly] [OverrideLabel("Is Scene currently edit scene")]
+    public bool IsEditPrev;
 
     // [ButtonMethod]
     public void UpdateStates()

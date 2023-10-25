@@ -5,6 +5,7 @@ using UnityEngine;
 public class SettingGeneratorEditor : Editor
 {
     #region Properties
+
     private SerializedProperty label;
     private SerializedProperty version;
     private SerializedProperty amount;
@@ -19,6 +20,7 @@ public class SettingGeneratorEditor : Editor
     private SerializedProperty sliderSize;
 
     private SerializedProperty numberInputWidth;
+
     #endregion
 
     private void OnEnable()
@@ -37,7 +39,6 @@ public class SettingGeneratorEditor : Editor
         sliderSize = serializedObject.FindProperty("sliderSize");
 
         numberInputWidth = serializedObject.FindProperty("numberInputWidth");
-
     }
 
     public override void OnInspectorGUI()

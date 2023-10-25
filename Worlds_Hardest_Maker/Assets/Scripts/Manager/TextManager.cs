@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -15,6 +14,7 @@ public class TextManager : MonoBehaviour
 
     public TMP_Text DeathText;
     public TMP_Text CoinText;
+
     #endregion
 
     private void Awake()

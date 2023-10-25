@@ -46,13 +46,14 @@ public class GameManager : MonoBehaviourPun
             // force enable start swipe
             swipeTween.gameObject.SetActive(true);
             swipeTween.StartChain();
-            
+
             // make main menu also enable start swipe
             TransitionManager.Instance.HasMainMenuStartSwipe = true;
         }
 
         // start saving interval if either Dbg auto load enabled or any path given
-        if (LevelSessionManager.Instance.IsEdit && Dbg.Instance.AutoLoadLevel || LevelSessionManager.Instance.LevelSessionPath != string.Empty)
+        if ((LevelSessionManager.Instance.IsEdit && Dbg.Instance.AutoLoadLevel) ||
+            LevelSessionManager.Instance.LevelSessionPath != string.Empty)
             StartCoroutine(AutoSave());
     }
 
@@ -185,7 +186,7 @@ public class GameManager : MonoBehaviourPun
             // wait for next auto save
             yield return new WaitForSeconds(autoSaveInterval);
         }
-        
+
         // ReSharper disable once IteratorNeverReturns
     }
 
@@ -302,8 +303,5 @@ public class GameManager : MonoBehaviourPun
         return -1;
     }
 
-    private void OnApplicationQuit()
-    {
-        BackupLevel();
-    }
+    private void OnApplicationQuit() => BackupLevel();
 }
