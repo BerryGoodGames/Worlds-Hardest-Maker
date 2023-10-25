@@ -164,6 +164,14 @@ public class LevelListLoader : MonoBehaviour
             levelCard.LastEdited = $"Last edited {info.LastEdited}";
             levelCard.EditTime = $@"Edit time: {info.EditTime:hh\:mm\:ss}";
             levelCard.PlayTime = $@"Play time: {info.PlayTime:hh\:mm\:ss}";
+            levelCard.Completions = $"Completions: {info.Completions}";
+            levelCard.Deaths = $"Deaths: {info.Deaths}";
+            levelCard.CompletionTime = $@"PB: {info.BestCompletionTime:hh\:mm\:ss}";
+            
+            // display completion rate
+            string display = info.Deaths == 0 ? "-" : $"{100 * (float)info.Completions / info.Deaths:F2}%";
+            levelCard.CompletionRate = $"Completion rate: {display}";
+            
             levelCard.LevelPath = levelFileInfo.FullName;
         }
     }
