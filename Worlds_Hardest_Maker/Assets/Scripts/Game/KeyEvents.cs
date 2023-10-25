@@ -35,10 +35,9 @@ public class KeyEvents : MonoBehaviour
         }
 
         // teleport player to mouse pos
-        if (EditModeManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))
+        if (LevelSessionManager.Instance.IsEdit && EditModeManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))
         {
             GameObject player = PlayerManager.GetPlayer();
-            // TODO
             if (player != null)
             {
                 player.GetComponent<Rigidbody2D>().position = MouseManager.Instance.MouseWorldPosGrid;
