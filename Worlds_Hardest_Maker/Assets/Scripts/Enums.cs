@@ -51,3 +51,10 @@ public enum WorldPositionType
     Grid,
     Matrix
 }
+
+public enum LevelSessionMode
+{
+    Play,
+    Edit,
+    Multiplayer
+}

@@ -51,6 +51,8 @@ public class EditModeManager : MonoBehaviour
 
     public void SetEditMode(EditMode value)
     {
+        if (!LevelSessionManager.Instance.IsEdit) return;
+
         currentEditMode = value;
 
         // invoke OnEditModeChanged
@@ -110,9 +112,11 @@ public class EditModeManager : MonoBehaviour
 
     private void Start()
     {
-        Instance.OnEdit += () => PlayManager.Instance.Cheated = false;
+        if (!LevelSessionManager.Instance.IsEdit) return;
 
-        Instance.SetEditMode(currentEditMode);
+        OnEdit += () => PlayManager.Instance.Cheated = false;
+
+        SetEditMode(currentEditMode);
     }
 
     private void Awake()
