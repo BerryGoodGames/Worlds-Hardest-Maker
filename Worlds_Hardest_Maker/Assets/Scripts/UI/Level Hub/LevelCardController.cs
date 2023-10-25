@@ -16,6 +16,7 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TMP_Text creatorText;
     [SerializeField] private TMP_Text lastEditedText;
     [SerializeField] private TMP_Text editTimeText;
+    [SerializeField] private TMP_Text playTimeText;
 
     public string Name
     {
@@ -47,6 +48,12 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
         set => editTimeText.text = value;
     }
 
+    public string PlayTime
+    {
+        get => playTimeText.text;
+        set => playTimeText.text = value;
+    }
+
     [Space] [SerializeField] private LevelCardTween levelCardTween;
     [Space] [SerializeField] private List<Tooltip> buttonTooltips;
 
@@ -59,7 +66,7 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
         levelCardTween.OnOpenLevel();
 
         TransitionManager.Instance.LoadLevelPath = LevelPath;
-        TransitionManager.Instance.IsEdit = true;
+        TransitionManager.Instance.LevelSessionMode = LevelSessionMode.Edit;
         MainMenuManager.Instance.OpenLevelScene();
     }
 
@@ -68,7 +75,7 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
         levelCardTween.OnOpenLevel();
 
         TransitionManager.Instance.LoadLevelPath = LevelPath;
-        TransitionManager.Instance.IsEdit = false;
+        TransitionManager.Instance.LevelSessionMode = LevelSessionMode.Play;
         MainMenuManager.Instance.OpenLevelScene();
     }
 

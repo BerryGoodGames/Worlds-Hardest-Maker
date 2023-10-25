@@ -1,19 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 
 public class ConditionalObject : MonoBehaviour
 {
-    [SerializeField] private bool editOnly = true;
+    public bool EditOnly;
 
-    private void Start()
-    {
-        if (TransitionManager.Instance == null) return;
-
-        if (editOnly && !TransitionManager.Instance.IsEdit)
-        {
-            Destroy(gameObject);
-        }
-    }
+    [ReadOnly] public bool IsActiveInEdit = true;
+    [ReadOnly] public bool IsActiveInPlay = true;
 }

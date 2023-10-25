@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -19,16 +20,20 @@ public class PlayButtonTween : MonoBehaviour
             // the frame unplayed
         {
             rt.DOAnchorPosY(editingY, duration)
-                .SetEase(easeAppear);
+                .SetEase(easeAppear)
+                .SetId(gameObject);
         }
 
         if (!playing && play)
             // the frame played
         {
             rt.DOAnchorPosY(playingY, duration)
-                .SetEase(easeDisappear);
+                .SetEase(easeDisappear)
+                .SetId(gameObject);
         }
 
         playing = play;
     }
+
+    private void OnDestroy() => DOTween.Kill(gameObject);
 }
