@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 
@@ -9,7 +6,6 @@ public class ShotgunController : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned]
     private ParticleSystem fireParticles;
 
-    [SerializeField] [InitializationField] [MustBeAssigned]
     private ParticleSystem bulletParticle;
 
     private float currentAngle;
@@ -39,8 +35,18 @@ public class ShotgunController : MonoBehaviour
         ParticleSystem.MainModule main = bulletParticle.main;
         main.startRotationZ = -currentAngle / 180 * Mathf.PI;
         
+        
+        
         bulletParticle.Play();
     }
 
+    private void OnParticleTrigger()
+    {
+        print("Trigger");
+        Debug.Break();
+    }
+
     private static float LookAt(Vector2 here, Vector2 there) => Vector2.SignedAngle(Vector2.right, there - here);
+
+    private void Awake() => bulletParticle = GetComponent<ParticleSystem>();
 }
