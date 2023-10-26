@@ -17,8 +17,15 @@ public class ConveyorController : MonoBehaviour
         rotationController = GetComponent<FieldRotation>();
         anim = GetComponent<Animator>();
 
-        EditModeManager.Instance.OnPlay += SwitchAnimToRunning;
-        EditModeManager.Instance.OnEdit += SwitchAnimToStaying;
+        if (LevelSessionManager.Instance.IsEdit)
+        {
+            EditModeManager.Instance.OnPlay += SwitchAnimToRunning;
+            EditModeManager.Instance.OnEdit += SwitchAnimToStaying;
+        }
+        else
+        {
+            SwitchAnimToRunning();
+        }
     }
 
     public void SwitchAnimToRunning()

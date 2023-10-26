@@ -147,14 +147,14 @@ public class DrawManager : MonoBehaviour
         Vector2 delta = end - start;
         Vector2 halfPoint = start + delta / 2;
         Vector2 offset = delta.normalized * (headLineLength / 2);
-        Vector2 _start = halfPoint + offset;
+        Vector2 startPoint = halfPoint + offset;
         Vector2 endSideOffset = delta.normalized * Mathf.Sin(headLineLength);
         endSideOffset.Rotate(90);
-        Vector2 _end = halfPoint - offset;
+        Vector2 endPoint = halfPoint - offset;
 
-        Vector2 arrowVertex1 = _end + endSideOffset;
-        Vector2 arrowVertex2 = _end - endSideOffset;
-        Vector2 arrowCenter = _start;
+        Vector2 arrowVertex1 = endPoint + endSideOffset;
+        Vector2 arrowVertex2 = endPoint - endSideOffset;
+        Vector2 arrowCenter = startPoint;
 
         return (arrowVertex1, arrowVertex2, arrowCenter);
     }

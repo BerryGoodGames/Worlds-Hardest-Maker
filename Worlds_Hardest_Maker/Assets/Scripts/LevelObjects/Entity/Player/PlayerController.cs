@@ -85,7 +85,7 @@ public class PlayerController : EntityController
     private void Awake()
     {
         InitComponents();
-        InitSlider();
+        if (LevelSessionManager.Instance.IsEdit) InitSlider();
 
         StartPos = transform.position;
     }
@@ -102,21 +102,12 @@ public class PlayerController : EntityController
 
         ApplyCurrentGameState();
 
-        UpdateSpeedText();
-
-        if (MultiplayerManager.Instance.Multiplayer)
-            PhotonView.RPC("SetNameTagActive", RpcTarget.All, EditModeManager.Instance.Playing);
+        if (LevelSessionManager.Instance.IsEdit) UpdateSpeedText();
 
         SyncToLevelSettings();
     }
 
-    private void Update()
-    {
-        movementInput = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
-        if (MultiplayerManager.Instance.Multiplayer)
-            PhotonView.RPC("SetNameTagActive", RpcTarget.All, EditModeManager.Instance.Playing);
-    }
+    private void Update() => movementInput = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
     private void OnCollisionStay2D(Collision2D collider) => CornerPush(collider);
 
@@ -285,10 +276,13 @@ public class PlayerController : EntityController
     {
         Speed = speed;
 
-        // sync slider
-        float currentSliderValue = sliderController.GetValue() / sliderController.Step;
-        if (!currentSliderValue.EqualsFloat(speed))
-            sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
+        if (LevelSessionManager.Instance.IsEdit)
+        {
+            // sync slider
+            float currentSliderValue = sliderController.GetValue() / sliderController.Step;
+            if (!currentSliderValue.EqualsFloat(speed))
+                sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
+        }
     }
 
     [PunRPC]
@@ -460,7 +454,11 @@ public class PlayerController : EntityController
         // avoid doing more if not own view in multiplayer
         if (MultiplayerManager.Instance.Multiplayer && !PhotonView.IsMine) return;
 
-        if (EditModeManager.Instance.Playing) Deaths++;
+        if (EditModeManager.Instance.Playing)
+        {
+            Deaths++;
+            if(!LevelSessionManager.Instance.IsEdit) LevelSessionManager.Instance.Deaths++;
+        }
 
         // update coin counter
         CoinsCollected.Clear();
@@ -529,7 +527,7 @@ public class PlayerController : EntityController
         return true;
     }
 
-    public void UpdateSpeedText() => speedText.text = Speed.ToString("0.0");
+    private void UpdateSpeedText() => speedText.text = Speed.ToString("0.0");
 
     public void ResetGame() => Rb.MovePosition(StartPos);
 
@@ -540,7 +538,7 @@ public class PlayerController : EntityController
             ReferenceManager.Instance.MainCameraJumper.RemoveTarget("Player");
         }
 
-        Destroy(sliderController.GetSliderObject());
+        if (LevelSessionManager.Instance.IsEdit) Destroy(sliderController.GetSliderObject());
 
         if (nameTagController != null) Destroy(nameTagController.NameTag);
 
@@ -676,7 +674,6 @@ public class PlayerController : EntityController
 
         Rb = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
-        sliderController = GetComponent<AppendSlider>();
 
         EdgeCollider = GetComponent<EdgeCollider2D>();
 
@@ -684,7 +681,11 @@ public class PlayerController : EntityController
 
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        speedText = sliderController.GetSliderObject().transform.GetChild(1).GetComponent<TMP_Text>();
+        if (LevelSessionManager.Instance.IsEdit)
+        {
+            sliderController = GetComponent<AppendSlider>();
+            speedText = sliderController.GetSliderObject().transform.GetChild(1).GetComponent<TMP_Text>();
+        }
 
         if (!MultiplayerManager.Instance.Multiplayer) return;
 

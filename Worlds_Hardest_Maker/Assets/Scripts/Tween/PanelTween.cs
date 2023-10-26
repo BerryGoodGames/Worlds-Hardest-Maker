@@ -38,7 +38,9 @@ public class PanelTween : MonoBehaviour
         }
         else
         {
-            panel.DOAnchorPosX(open ? openedX : closedX, duration).SetEase(Open ? closeEase : openEase);
+            panel.DOAnchorPosX(open ? openedX : closedX, duration)
+                .SetEase(Open ? closeEase : openEase)
+                .SetId(gameObject);
         }
 
         Open = open;
@@ -51,4 +53,6 @@ public class PanelTween : MonoBehaviour
         openedX = 0;
         closedX = (closesToRight ? 1 : -1) * panel.rect.width;
     }
+
+    private void OnDestroy() => DOTween.Kill(gameObject);
 }

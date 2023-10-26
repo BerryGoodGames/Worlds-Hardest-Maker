@@ -13,10 +13,16 @@ public class SettingOptionEditor : Editor
 }
 
 [CustomEditor(typeof(DropdownMenuOption))]
-public class DropdownMenuOptionEditor : SettingOptionEditor { }
+public class DropdownMenuOptionEditor : SettingOptionEditor
+{
+}
 
 [CustomEditor(typeof(NumberInputOption))]
-public class NumberInputOptionEditor : SettingOptionEditor { }
+public class NumberInputOptionEditor : SettingOptionEditor
+{
+}
 
 [CustomEditor(typeof(SliderOption))]
-public class SliderOptionEditor : SettingOptionEditor { }
+public class SliderOptionEditor : SettingOptionEditor
+{
+}

@@ -49,7 +49,7 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (checkHoverDetection) OnUnhover();
     }
 
-    public void OnStartEditing()
+    public void OnOpenLevel()
     {
         card.DOScale(startEditScale, startEditingDuration).SetEase(Ease.OutCubic).SetId(gameObject);
 

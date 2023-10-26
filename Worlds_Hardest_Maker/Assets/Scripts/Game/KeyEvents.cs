@@ -12,7 +12,7 @@ public class KeyEvents : MonoBehaviour
     private void Update()
     {
         // toggle playing
-        if (Input.GetKeyDown(KeyCode.Space)) PlayManager.Instance.TogglePlay();
+        if (LevelSessionManager.Instance.IsEdit && Input.GetKeyDown(KeyCode.Space)) PlayManager.Instance.TogglePlay();
 
         // close panel if esc pressed
         bool closingPanel = false;
@@ -35,10 +35,9 @@ public class KeyEvents : MonoBehaviour
         }
 
         // teleport player to mouse pos
-        if (EditModeManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))
+        if (LevelSessionManager.Instance.IsEdit && EditModeManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))
         {
             GameObject player = PlayerManager.GetPlayer();
-            // TODO
             if (player != null)
             {
                 player.GetComponent<Rigidbody2D>().position = MouseManager.Instance.MouseWorldPosGrid;

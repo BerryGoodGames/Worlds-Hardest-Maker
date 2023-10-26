@@ -16,8 +16,10 @@ public class PlayManager : MonoBehaviour
         set
         {
             cheated = value;
-            TextManager.Instance.Timer.color =
-                cheated ? TextManager.Instance.CheatedTimerColor : TextManager.Instance.TimerDefaultColor;
+            ReferenceManager.Instance.TimerController.Text.color =
+                cheated
+                    ? ReferenceManager.Instance.TimerController.CheatedTimerColor
+                    : ReferenceManager.Instance.TimerController.TimerDefaultColor;
         }
     }
 
@@ -107,12 +109,14 @@ public class PlayManager : MonoBehaviour
         }
     }
 
+/*
     private static void JumpToPlayer()
     {
         if (!ReferenceManager.Instance.MainCameraJumper.HasKey("Player")) return;
 
         ReferenceManager.Instance.MainCameraJumper.Jump("Player", onlyIfTargetOffScreen: true);
     }
+*/
 
     private static void ActivateCoinKeyAnimations()
     {
@@ -307,5 +311,24 @@ public class PlayManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
+    }
+
+    private void Start()
+    {
+        // setup play scene mode
+        if (!LevelSessionManager.Instance.IsEdit)
+        {
+            ReferenceManager.Instance.InfobarPlayTween.SetPlay(true);
+
+            SetupPlayers();
+
+            EditModeManager.Instance.Playing = true;
+
+            StartAnchors();
+
+            ActivateCoinKeyAnimations();
+
+            ReferenceManager.Instance.TimerController.StartTimer();
+        }
     }
 }

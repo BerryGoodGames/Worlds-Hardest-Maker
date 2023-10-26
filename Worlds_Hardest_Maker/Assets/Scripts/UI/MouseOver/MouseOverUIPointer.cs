@@ -9,8 +9,8 @@ public class MouseOverUIPointer : MonoBehaviour, IPointerEnterHandler, IPointerE
 {
     public bool Over { get; private set; }
 
-    public Action OnHovered = () => { };
-    public Action OnUnhovered = () => { };
+    private Action OnHovered = () => { };
+    private Action OnUnhovered = () => { };
 
     [SerializeField] private bool printDbg;
 

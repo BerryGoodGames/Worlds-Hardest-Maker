@@ -12,5 +12,4 @@ public class ChildrenOpacityEditor : Editor
         script.UpdateChildren();
         script.UpdateOpacity();
     }
-
 }

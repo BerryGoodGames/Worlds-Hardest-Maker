@@ -50,6 +50,8 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
+        if (!LevelSessionManager.Instance.IsEdit) return;
+
         if (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton) && !EditModeManager.Instance.Playing &&
             !EventSystem.current.IsPointerOverGameObject())
             Selecting = true;
@@ -191,6 +193,8 @@ public class SelectionManager : MonoBehaviour
 
     private static void DestroyPreview()
     {
+        if (!LevelSessionManager.Instance.IsEdit) return;
+
         // destroy selection previews
         foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer)
         {
@@ -270,9 +274,6 @@ public class SelectionManager : MonoBehaviour
 
     public void FillAreaWithFields(List<Vector2> poses, FieldType type)
     {
-        if (CurrentSelectionRange == null) return;
-        CurrentSelectionRange = null;
-
         // set rotation
         int rotation = type.IsRotatable()
             ? EditModeManager.Instance.EditRotation
@@ -350,7 +351,7 @@ public class SelectionManager : MonoBehaviour
         UpdateOutlinesInArea(false, poses[0].Floor(), poses.Last().Ceil());
     }
 
-    public void FillArea(Vector2 start, Vector2 end, EditMode editMode) => Instance.FillArea(start, end, editMode);
+    public void FillArea(Vector2 start, Vector2 end, EditMode editMode) => FillArea(GetFillRange(start, end), editMode);
 
     private void AdaptAreaToFieldType(Vector2 lowestPos, Vector2 highestPos, FieldType type)
     {
