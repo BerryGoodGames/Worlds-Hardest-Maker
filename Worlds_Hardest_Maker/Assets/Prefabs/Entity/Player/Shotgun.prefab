@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 2498079814339410247}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.63, y: 0, z: 0}
+  m_LocalPosition: {x: 0.42, y: 0, z: 0}
   m_LocalScale: {x: 2.17, y: 2.17, z: 2.17}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -749,7 +749,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 30
+    angle: 26.01
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
@@ -5027,6 +5027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f53849a01aa58e84eb6cd9f5a30c1b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballLaunchStrength: 13
   fireParticles: {fileID: 9008191564929603506}
 --- !u!199 &863992651010663079
 ParticleSystemRenderer:
@@ -5236,7 +5237,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 20
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5737,7 +5738,7 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 1.2, y: 0, z: -1}
+    m_Position: {x: 1, y: 0, z: -1}
     m_Rotation: {x: 0, y: 90, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0

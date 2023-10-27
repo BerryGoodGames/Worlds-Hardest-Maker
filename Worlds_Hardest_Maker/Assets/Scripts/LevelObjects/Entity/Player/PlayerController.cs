@@ -5,6 +5,7 @@ using MyBox;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerController : EntityController
@@ -48,6 +49,8 @@ public class PlayerController : EntityController
     [HideInInspector] public PhotonView PhotonView;
 
     private SpriteRenderer spriteRenderer;
+
+    public ShotgunController Shotgun { get; private set; }
 
     #endregion
 
@@ -130,9 +133,19 @@ public class PlayerController : EntityController
 
         if (Won && Animator != null)
             Animator.SetTrigger(death);
+        
+        Shotgun.gameObject.SetActive(false);
     }
 
-    private void OnPlay() => EdgeCollider.enabled = true;
+    private void OnPlay()
+    {
+        EdgeCollider.enabled = true;
+
+        if (KonamiManager.Instance.KonamiActive)
+        {
+            Shotgun.gameObject.SetActive(true);
+        }
+    }
 
     #region Physics, Movement
 
@@ -670,6 +683,8 @@ public class PlayerController : EntityController
 
     private void InitComponents()
     {
+        bool isEdit = LevelSessionManager.Instance.IsEdit;
+        
         CoinsCollected = new();
 
         Rb = GetComponent<Rigidbody2D>();
@@ -681,16 +696,20 @@ public class PlayerController : EntityController
 
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        if (LevelSessionManager.Instance.IsEdit)
+        if (isEdit)
         {
             sliderController = GetComponent<AppendSlider>();
             speedText = sliderController.GetSliderObject().transform.GetChild(1).GetComponent<TMP_Text>();
         }
 
-        if (!MultiplayerManager.Instance.Multiplayer) return;
-
-        nameTagController = GetComponent<AppendNameTag>();
-        nameTagController.SetNameTag(PhotonView.Controller.NickName);
+        if (MultiplayerManager.Instance.Multiplayer)
+        {
+            nameTagController = GetComponent<AppendNameTag>();
+            nameTagController.SetNameTag(PhotonView.Controller.NickName);
+        }
+        
+        Shotgun = GetComponentInChildren<ShotgunController>(true);
+        Shotgun.gameObject.SetActive(isEdit ? EditModeManager.Instance.Playing && KonamiManager.Instance.KonamiActive : KonamiManager.Instance.KonamiActive);
     }
 
     private void InitSlider()

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <Summary>
@@ -5,20 +6,20 @@ using UnityEngine;
 /// </Summary>
 public class KonamiManager : MonoBehaviour
 {
-    private int keyIndex;
-    public static bool KonamiActive { get; set; }
+    public static KonamiManager Instance { get; private set; }
+    
+    public bool KonamiActive { get; private set; }
 
-    // Konami Code: ???????BA
+    private int keyIndex;
+
+    // Konami Code: up up down down left right left right BA
     private readonly KeyCode[] konamiKeys =
     {
         KeyCode.UpArrow, KeyCode.UpArrow,
         KeyCode.DownArrow, KeyCode.DownArrow,
-        KeyCode.LeftArrow,
-        KeyCode.RightArrow,
-        KeyCode.LeftArrow,
-        KeyCode.RightArrow,
-        KeyCode.B,
-        KeyCode.A
+        KeyCode.LeftArrow, KeyCode.RightArrow,
+        KeyCode.LeftArrow, KeyCode.RightArrow,
+        KeyCode.B, KeyCode.A
     };
 
     private void Update()
@@ -35,7 +36,7 @@ public class KonamiManager : MonoBehaviour
 
             KonamiActive = !KonamiActive;
 
-            KeyManager.SetKonamiMode(KonamiActive);
+            SetKonamiActive(KonamiActive);
 
             // ReSharper disable once StringLiteralTypo
             print($"Konami {(KonamiActive ? "en" : "dis")}abled");
@@ -43,5 +44,27 @@ public class KonamiManager : MonoBehaviour
         }
         else
             keyIndex = 0;
+    }
+
+    private static void SetKonamiActive(bool active)
+    {
+        // toggle key sneezing
+        foreach (KeyController key in KeyManager.Instance.Keys)
+        {
+            key.KonamiAnimation.enabled = active;
+        }
+        
+        // toggle shotgun (if player exists)
+        GameObject player = PlayerManager.GetPlayer();
+        if (player != null)
+        {
+            PlayerController controller = player.GetComponent<PlayerController>();
+            controller.Shotgun.gameObject.SetActive((!LevelSessionManager.Instance.IsEdit || EditModeManager.Instance.Playing) && active);
+        }
+    }
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
     }
 }

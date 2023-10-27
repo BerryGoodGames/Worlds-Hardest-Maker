@@ -10,11 +10,26 @@ public class AnchorBallController : EntityController
 
     [HideInInspector] public Vector2 StartPosition;
 
+    private Rigidbody2D rb;
+
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+        
         if (ParentAnchor == null) IsParentAnchorNull = true;
         
         StartPosition = transform.localPosition;
+
+        if (LevelSessionManager.Instance.IsEdit)
+        {
+            EditModeManager.Instance.OnEdit += ResetPosition;
+        }
+    }
+
+    private void ResetPosition()
+    {
+        transform.localPosition = StartPosition;
+        rb.velocity = Vector2.zero;
     }
     
     public override void Delete()
@@ -41,5 +56,11 @@ public class AnchorBallController : EntityController
         }
         
         Destroy(transform.parent.gameObject);
+
+        // unsubscribe
+        if (LevelSessionManager.Instance.IsEdit)
+        {
+            EditModeManager.Instance.OnEdit -= ResetPosition;
+        }
     }
 }

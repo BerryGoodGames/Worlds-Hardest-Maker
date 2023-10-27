@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class ShotgunController : MonoBehaviour
 {
+    [SerializeField] [PositiveValueOnly] private float ballLaunchStrength;
+    
     [SerializeField] [InitializationField] [MustBeAssigned]
     private ParticleSystem fireParticles;
 
@@ -68,7 +70,7 @@ public class ShotgunController : MonoBehaviour
                 if (!hit.CompareTag("AnchorBallObject")) continue;
                 
                 // launch ball
-                hit.GetComponent<Rigidbody2D>().AddForce(p.velocity, ForceMode2D.Impulse);
+                hit.GetComponent<Rigidbody2D>().AddForce(ballLaunchStrength * p.velocity.normalized, ForceMode2D.Impulse);
 
                 break;
             }
@@ -77,11 +79,6 @@ public class ShotgunController : MonoBehaviour
         }
         
         bulletParticle.SetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
-    }
-
-    private void OnParticleCollision(GameObject other)
-    {
-        print(other.name);
     }
 
     private static float LookAt(Vector2 here, Vector2 there) => Vector2.SignedAngle(Vector2.right, there - here);
