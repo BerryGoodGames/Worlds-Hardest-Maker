@@ -26,7 +26,7 @@ public class AnchorBallController : EntityController
         }
     }
 
-    private void ResetPosition()
+    public void ResetPosition()
     {
         transform.localPosition = StartPosition;
         rb.velocity = Vector2.zero;

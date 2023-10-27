@@ -475,12 +475,24 @@ public class PlayerController : EntityController
 
         // update coin counter
         CoinsCollected.Clear();
-        if (CurrentGameState == null) return;
-
-        foreach (Vector2 coinPos in CurrentGameState.CollectedCoins)
+        if (CurrentGameState != null)
         {
-            GameObject coin = CoinManager.GetCoin(coinPos);
-            if (coin != null) CoinsCollected.Add(coin);
+            foreach (Vector2 coinPos in CurrentGameState.CollectedCoins)
+            {
+                GameObject coin = CoinManager.GetCoin(coinPos);
+                if (coin != null) CoinsCollected.Add(coin);
+            }
+        }
+
+        if (!KonamiManager.Instance.KonamiActive)
+        {
+            PlayManager.Instance.Cheated = false;
+            
+            // reset balls to start position (if player launched them e.g. with shotgun)
+            foreach (AnchorBallController ball in AnchorBallManager.Instance.AnchorBallList)
+            {
+                ball.ResetPosition();
+            }
         }
     }
 

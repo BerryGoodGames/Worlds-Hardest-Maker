@@ -61,6 +61,9 @@ public class KonamiManager : MonoBehaviour
             PlayerController controller = player.GetComponent<PlayerController>();
             controller.Shotgun.gameObject.SetActive((!LevelSessionManager.Instance.IsEdit || EditModeManager.Instance.Playing) && active);
         }
+        
+        // mark play try as cheated if enabling
+        if (active) PlayManager.Instance.Cheated = true;
     }
 
     private void Awake()
