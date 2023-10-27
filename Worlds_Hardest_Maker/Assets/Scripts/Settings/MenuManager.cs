@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MenuManager : MonoBehaviour
 {
@@ -10,21 +11,23 @@ public class MenuManager : MonoBehaviour
     {
         Graphic = 0,
         UI = 1,
-        Sound = 2
+        Sound = 2,
+        KeyBinds = 3,
     }
 
-    [Header("Constants & References")] public GameObject GraphicSettingsUI;
-
-    public GameObject UISettingsUI;
-
-    public GameObject SoundSettingsUI;
+    [Header("Constants & References")] 
+    [SerializeField] private GameObject graphicSettingsUI;
+    [SerializeField] private GameObject uiSettingsUI;
+    [SerializeField] private GameObject soundSettingsUI;
+    [SerializeField] private GameObject keyBindSettingsUI;
+    
 
     [Space] [Header("Variables")] public MenuTab CurrentMenuTab;
 
     private MenuTab prevMenuTab;
 
     [HideInInspector] public bool BlockMenu;
-
+    
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -55,21 +58,21 @@ public class MenuManager : MonoBehaviour
         prevMenuTab = tab;
     }
 
-    public void ChangeMenuTab(int tab) => ChangeMenuTab((MenuTab)tab);
-
-    public void ChangeMenuTab() => ChangeMenuTab(CurrentMenuTab);
-
-    public Dictionary<MenuTab, GameObject> GetTabDict()
+    private Dictionary<MenuTab, GameObject> GetTabDict()
     {
-        // REF
         Dictionary<MenuTab, GameObject> dict = new()
         {
-            { MenuTab.Graphic, GraphicSettingsUI },
-            { MenuTab.Sound, SoundSettingsUI },
-            { MenuTab.UI, UISettingsUI }
+            { MenuTab.Graphic, graphicSettingsUI },
+            { MenuTab.Sound, soundSettingsUI },
+            { MenuTab.UI, uiSettingsUI },
+            { MenuTab.KeyBinds, keyBindSettingsUI },
         };
         return dict;
     }
+
+    public void ChangeMenuTab(int tab) => ChangeMenuTab((MenuTab)tab);
+
+    public void ChangeMenuTab() => ChangeMenuTab(CurrentMenuTab);
 
     #endregion
 }

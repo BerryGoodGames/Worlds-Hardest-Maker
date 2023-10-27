@@ -10,7 +10,7 @@ public class SettingGenerator : MonoBehaviour
         Slider,
         NumberInput,
         Header,
-        Space
+        Space,
     }
 
     #region Fields
