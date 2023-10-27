@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class AnchorBallController : EntityController
@@ -5,13 +6,17 @@ public class AnchorBallController : EntityController
     [HideInInspector] public AnchorController ParentAnchor;
     public bool IsParentAnchorNull { get; private set; }
 
-    public override Data GetData() => new AnchorBallData(transform.localPosition);
+    public override Data GetData() => new AnchorBallData(StartPosition);
+
+    [HideInInspector] public Vector2 StartPosition;
 
     private void Start()
     {
         if (ParentAnchor == null) IsParentAnchorNull = true;
+        
+        StartPosition = transform.localPosition;
     }
-
+    
     public override void Delete()
     {
         if (IsParentAnchorNull)
@@ -23,6 +28,8 @@ public class AnchorBallController : EntityController
 
     private void OnDestroy()
     {
+        AnchorBallManager.Instance.AnchorBallList.Remove(this);
+        
         if (ParentAnchor != null)
         {
             ParentAnchor.Balls.Remove(transform.parent);
@@ -32,7 +39,7 @@ public class AnchorBallController : EntityController
         {
             AnchorBallManager.Instance.AnchorBallListGlobal.Remove(this);
         }
-
+        
         Destroy(transform.parent.gameObject);
     }
 }
