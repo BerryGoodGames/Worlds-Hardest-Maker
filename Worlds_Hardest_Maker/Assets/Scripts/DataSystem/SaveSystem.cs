@@ -96,9 +96,9 @@ public static class SaveSystem
         }
 
         // serialize loose anchor balls
-        foreach (Transform ball in ReferenceManager.Instance.AnchorBallContainer.transform)
+        foreach (AnchorBallController anchorBall in AnchorBallManager.Instance.AnchorBallListGlobal)
         {
-            AnchorBallData anchorBallData = new(ball.GetChild(0).localPosition);
+            AnchorBallData anchorBallData = (AnchorBallData)anchorBall.GetData();
             levelData.Add(anchorBallData);
         }
 

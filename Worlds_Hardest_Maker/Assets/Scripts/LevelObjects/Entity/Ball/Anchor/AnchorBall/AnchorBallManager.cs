@@ -7,6 +7,7 @@ public class AnchorBallManager : MonoBehaviour
 {
     public static AnchorBallManager Instance { get; set; }
 
+    public List<AnchorBallController> AnchorBallList;
     public Dictionary<AnchorController, List<AnchorBallController>> AnchorBallListLayers;
     public List<AnchorBallController> AnchorBallListGlobal;
 
@@ -16,23 +17,25 @@ public class AnchorBallManager : MonoBehaviour
     {
         if (GetAnchorBall(pos, parentAnchor) != null) return;
 
-        Transform container =
-            parentAnchor == null ? ReferenceManager.Instance.AnchorBallContainer.transform : parentAnchor.BallContainer;
+        bool hasParent = parentAnchor != null;
 
-        GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, container.position, Quaternion.identity,
-            container);
+        Transform container = hasParent ? parentAnchor.BallContainer : ReferenceManager.Instance.AnchorBallContainer.transform;
+
+        GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, container.position, Quaternion.identity, container);
         AnchorBallController ballController = ball.GetComponentInChildren<AnchorBallController>();
 
-        if (parentAnchor != null)
+        if (hasParent)
         {
             ballController.ParentAnchor = parentAnchor;
             parentAnchor.Balls.Add(ball.transform);
         }
 
-        ball.transform.GetChild(0).position = pos;
+        ballController.transform.position = pos;
 
         // track ball positions in all the layers
-        if (parentAnchor != null) Instance.AnchorBallListLayers[parentAnchor].Add(ballController);
+        Instance.AnchorBallList.Add(ballController);
+        
+        if (hasParent) Instance.AnchorBallListLayers[parentAnchor].Add(ballController);
         else Instance.AnchorBallListGlobal.Add(ballController);
     }
 
@@ -95,9 +98,9 @@ public class AnchorBallManager : MonoBehaviour
             Destroy(ball.gameObject);
         }
     }
-
+    
     #endregion
-
+    
     public static void SelectAnchorBall(Vector2 position)
     {
         List<AnchorBallController> ballsAtPos = GetAnchorBalls(position);
@@ -120,12 +123,12 @@ public class AnchorBallManager : MonoBehaviour
             break;
         }
     }
-
+    
     private void Start()
     {
         AnchorBallListLayers = new();
         AnchorBallListGlobal = new();
-
+        
         EditModeManager.Instance.OnPlay += ReferenceManager.Instance.AnchorBallContainer.BallFadeIn;
         EditModeManager.Instance.OnEdit += () =>
         {

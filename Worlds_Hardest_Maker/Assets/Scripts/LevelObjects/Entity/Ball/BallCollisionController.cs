@@ -4,7 +4,7 @@ using UnityEngine;
 ///     Detects player death event
 ///     <para>Attach to ball objects</para>
 /// </summary>
-public class BallDeathTriggerEvent : MonoBehaviour
+public class BallCollisionController : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other) => OnTriggerStay2D(other);
 
