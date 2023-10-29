@@ -20,6 +20,9 @@ public class ReferenceManager : MonoBehaviour
     [Foldout("Objects")] public GameObject Menu;
     [Foldout("Objects")] public GameObject PlayButton;
 
+    [Foldout("Objects")] public AlphaTween KeybindBlocker;
+    [Foldout("Objects")] public TMP_Text KeybindBlockerText;
+
     [Foldout("Objects")] public PreviewController PlacementPreview;
 
     [Foldout("Objects")] public BarTween ToolbarTween;

@@ -1,3 +1,4 @@
+using System.Collections;
 using MyBox;
 using TMPro;
 using UnityEngine;
@@ -63,7 +64,7 @@ public class Tooltip : MonoBehaviour
     private void Start()
     {
         mouseOver = GetComponent<MouseOverUIRect>();
-
+        
         tooltip = Instantiate(tooltipPrefab, Vector3.zero, Quaternion.identity,
             customContainer ? Container : ReferenceManager.Instance.TooltipCanvas.transform);
 
@@ -107,7 +108,10 @@ public class Tooltip : MonoBehaviour
         }
     }
 
-    private void OnDisable() => fadeTween.SetVisible(false);
+    private void OnDisable()
+    {
+        if(fadeTween != null) fadeTween.SetVisible(false);
+    }
 
     private void OnDestroy() => Destroy(tooltip);
 }

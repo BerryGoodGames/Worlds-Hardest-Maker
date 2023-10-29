@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class KeyCodeDisplay : MonoBehaviour
 {
+    [SerializeField] [InitializationField] [MustBeAssigned]
+    private Image keyCodeImageContainer;
+    
     #region Key Code Sprites
     [Foldout("Key Code Spites")] [SerializeField] private Sprite key0;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite key1;
@@ -199,4 +203,6 @@ public class KeyCodeDisplay : MonoBehaviour
             #endregion
         };
     }
+
+    public void SetKeyCodeSprite(KeyCode keyCode) => keyCodeImageContainer.sprite = keyCodeToSprite[keyCode];
 }

@@ -6,29 +6,32 @@ using UnityEngine;
 public static class KeyBinds
 {
     // naming convention for key bind is: Category_CamelCaseName
-    private static readonly Dictionary<string, List<KeyCode>> keyBindToKeyCode = new()
+    public static Dictionary<string, List<KeyCode>> KeyBindToKeyCode { get; } = new()
     {
-        { "Movement_Up", new(){ KeyCode.W, KeyCode.UpArrow } },
-        { "Movement_Right", new(){ KeyCode.D, KeyCode.RightArrow } },
-        { "Movement_Down", new(){ KeyCode.S, KeyCode.DownArrow } },
-        { "Movement_Left", new(){ KeyCode.A, KeyCode.LeftArrow } },
+        { "Movement_Up", new() { KeyCode.W, KeyCode.UpArrow } },
+        { "Movement_Right", new() { KeyCode.D, KeyCode.RightArrow } },
+        { "Movement_Down", new() { KeyCode.S, KeyCode.DownArrow } },
+        { "Movement_Left", new() { KeyCode.A, KeyCode.LeftArrow } },
     };
 
-    public static bool GetKeyBind(string keyBindName) => keyBindToKeyCode[keyBindName].Any(Input.GetKey);
+    public static bool GetKeyBind(string keyBindName) => KeyBindToKeyCode[keyBindName].Any(Input.GetKey);
 
-    public static bool GetKeyBindDown(string keyBindName) => keyBindToKeyCode[keyBindName].Any(Input.GetKeyDown);
+    public static bool GetKeyBindDown(string keyBindName) => KeyBindToKeyCode[keyBindName].Any(Input.GetKeyDown);
 
-    public static bool GetKeyBindUp(string keyBindName) => keyBindToKeyCode[keyBindName].Any(Input.GetKeyUp);
+    public static bool GetKeyBindUp(string keyBindName) => KeyBindToKeyCode[keyBindName].Any(Input.GetKeyUp);
 
-    public static void ResetKeyBind(string keyBindName) => keyBindToKeyCode[keyBindName].Clear();
+    public static void ResetKeyBind(string keyBindName) => KeyBindToKeyCode[keyBindName].Clear();
 
-    public static void AddKeyCodesToKeyBind(string keyBindName, params KeyCode[] keyCodes) => keyBindToKeyCode[keyBindName].AddRange(keyCodes);
+    public static void AddKeyCodesToKeyBind(string keyBindName, params KeyCode[] keyCodes) => KeyBindToKeyCode[keyBindName].AddRange(keyCodes);
+
+    public static bool HasKeyBindKeyCode(string keyBindName, KeyCode keyCode) =>
+        KeyBindToKeyCode[keyBindName].Contains(keyCode);
 
     public static List<KeyBind> GetAllKeyBinds()
     {
         List<KeyBind> keyBinds = new();
         
-        foreach (KeyValuePair<string, List<KeyCode>> keyBindPair in keyBindToKeyCode)
+        foreach (KeyValuePair<string, List<KeyCode>> keyBindPair in KeyBindToKeyCode)
         {
             KeyBind keyBind = new(keyBindPair.Key, keyBindPair.Value.ToArray());
             

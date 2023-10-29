@@ -27,6 +27,9 @@ public class MenuManager : MonoBehaviour
     private MenuTab prevMenuTab;
 
     [HideInInspector] public bool BlockMenu;
+
+    [HideInInspector] public bool IsAddingKeyBind;
+    [HideInInspector] public KeyBindSetterController AddingKeyBindSetter;
     
     private void Awake()
     {

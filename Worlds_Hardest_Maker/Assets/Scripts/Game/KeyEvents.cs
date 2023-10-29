@@ -11,6 +11,25 @@ public class KeyEvents : MonoBehaviour
 
     private void Update()
     {
+        // check if user adding key bind
+        if (MenuManager.Instance.IsAddingKeyBind)
+        {
+            // cancel adding key bind
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                KeyBindSetterController.CancelAddingKeyBind();
+                return;
+            }
+            
+            // else add the key the user typed
+            if (Input.anyKeyDown && Input.inputString.Length > 0)
+            {
+                MenuManager.Instance.AddingKeyBindSetter.AddKeyCode(Input.inputString);
+                KeyBindSetterController.CancelAddingKeyBind();
+            }
+            return;
+        }
+        
         // toggle playing
         if (LevelSessionManager.Instance.IsEdit && Input.GetKeyDown(KeyCode.Space)) PlayManager.Instance.TogglePlay();
 
