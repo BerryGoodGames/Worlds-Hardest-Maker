@@ -25,8 +25,10 @@ public class NumberInputTween : MonoBehaviour
         rightArrow.DOKill();
 
         wiggleSeqRight = DOTween.Sequence();
-        wiggleSeqRight.Append(rightArrow.DOLocalMoveX(rightArrowX + wiggle, wiggleDuration * 0.5f)
-                .SetEase(WiggleStartEase))
+        wiggleSeqRight.Append(
+                rightArrow.DOLocalMoveX(rightArrowX + wiggle, wiggleDuration * 0.5f)
+                    .SetEase(WiggleStartEase)
+            )
             .Append(rightArrow.DOLocalMoveX(rightArrowX, wiggleDuration * 0.5f).SetEase(WiggleReturnEase));
     }
 

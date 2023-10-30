@@ -9,13 +9,11 @@ public class ScreenDimensions : MonoBehaviour
 
     public bool ApplyMaxZoomFromMapController;
 
-    [ConditionalField(nameof(ApplyMaxZoomFromMapController), true)] [SerializeField]
-    private float maxZoom;
+    [ConditionalField(nameof(ApplyMaxZoomFromMapController), true)] [SerializeField] private float maxZoom;
 
     public bool HasRectTransform;
 
-    [ConditionalField(nameof(HasRectTransform))] [SerializeField]
-    private RectTransform canvas;
+    [ConditionalField(nameof(HasRectTransform))] [SerializeField] private RectTransform canvas;
 
     private void Start()
     {
@@ -36,8 +34,7 @@ public class ScreenDimensions : MonoBehaviour
                 MapController map = cam.GetComponent<MapController>();
                 zoom = map.ZoomLimits.Max;
             }
-            else
-                zoom = maxZoom;
+            else zoom = maxZoom;
 
             float height = 2 * zoom;
             float width = cam.aspect * height;

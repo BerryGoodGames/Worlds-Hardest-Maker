@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using MyBox;
 using TMPro;
 using UnityEngine;
@@ -11,24 +9,24 @@ public class KeyBindSetterController : MonoBehaviour
 {
     [HideInInspector] public KeyBind KeyBind;
 
-    [Separator("References")] 
-    [SerializeField] private TMP_Text keyBindName;
+    [Separator("References")] [SerializeField] private TMP_Text keyBindName;
     [SerializeField] private RectTransform displayContainer;
-    
+
     private void AddKeyCode(KeyCode keyCode)
     {
         if (KeyBinds.HasKeyBindKeyCode(KeyBind, keyCode)) return;
-        
+
         KeyBinds.AddKeyCodesToKeyBind(KeyBind, keyCode);
 
         InstantiateKeyCodeDisplay(keyCode);
-        
+
         print($"Successfully added key code {keyCode} to {keyBindName.text}");
     }
 
     public void AddKeyCode(string keyCodeName)
     {
         #region charToKeycode
+
         //NOTE: This is only a DICTIONARY with MOST character to keycode bindings... it is NOT a working cs file
         //ITS USEFUL: when you are reading in your control scheme from a file
 
@@ -36,7 +34,7 @@ public class KeyBindSetterController : MonoBehaviour
         //since this is a dictionary, only 1 character is bound to 1 keycode
         //EX: * from the keyboard will be read the same as * from the keypad... because they produce the same character in a text file
 
-        Dictionary<char, KeyCode> charToKeycode = new Dictionary<char, KeyCode>()
+        Dictionary<char, KeyCode> charToKeycode = new()
         {
             //-------------------------LOGICAL mappings-------------------------
 
@@ -170,6 +168,7 @@ public class KeyBindSetterController : MonoBehaviour
             //{'|', KeyCode.Line},   
             //{'%', KeyCode.percent},
         };
+
         #endregion
 
         if (keyCodeName.Length > 1)
@@ -179,22 +178,16 @@ public class KeyBindSetterController : MonoBehaviour
         }
 
         char keyCodeChar = keyCodeName[0];
-        
-        try
-        {
-            AddKeyCode(charToKeycode[keyCodeChar]);
-        }
-        catch
-        {
-            print($"Couldn't parse {keyCodeChar} into KeyCode, ignored");
-        }
+
+        try { AddKeyCode(charToKeycode[keyCodeChar]); }
+        catch { print($"Couldn't parse {keyCodeChar} into KeyCode, ignored"); }
     }
 
     public void OnAddButtonClick()
     {
         MenuManager.Instance.IsAddingKeyBind = true;
         MenuManager.Instance.AddingKeyBindSetter = this;
-        
+
         ReferenceManager.Instance.KeybindBlocker.SetVisible(true);
         ReferenceManager.Instance.KeybindBlockerText.text = keyBindName.text;
     }
@@ -204,16 +197,13 @@ public class KeyBindSetterController : MonoBehaviour
         KeyBind.KeyCodes = Array.Empty<KeyCode>();
         KeyBinds.ResetKeyBind(KeyBind);
 
-        foreach (RectTransform keyCodeDisplay in displayContainer)
-        {
-            Destroy(keyCodeDisplay.gameObject);
-        }
+        foreach (RectTransform keyCodeDisplay in displayContainer) { Destroy(keyCodeDisplay.gameObject); }
     }
 
     public static void CancelAddingKeyBind()
     {
         MenuManager.Instance.IsAddingKeyBind = false;
-        MenuManager.Instance.AddingKeyBindSetter = default(KeyBindSetterController);
+        MenuManager.Instance.AddingKeyBindSetter = default;
         ReferenceManager.Instance.KeybindBlocker.SetVisible(false);
     }
 
@@ -231,7 +221,7 @@ public class KeyBindSetterController : MonoBehaviour
         // instantiate key code display
         KeyCodeDisplay keyCodeDisplay = Instantiate(PrefabManager.Instance.KeyCodeDisplay, displayContainer);
         keyCodeDisplay.SetKeyCodeSprite(keyCode);
-        
+
         // rebuild
         LayoutRebuilder.ForceRebuildLayoutImmediate(displayContainer);
     }

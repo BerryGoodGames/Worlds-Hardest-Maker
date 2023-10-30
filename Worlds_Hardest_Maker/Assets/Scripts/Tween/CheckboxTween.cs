@@ -19,12 +19,14 @@ public class CheckboxTween : MonoBehaviour
                 // the frame setting to unchecked
                 checkMark.DOScale(Vector2.zero, duration)
                     .SetEase(easeType);
+
                 break;
 
             case false when check:
                 // the frame setting to checked
                 checkMark.DOScale(new Vector2(1, 1), duration)
                     .SetEase(easeType);
+
                 break;
         }
 

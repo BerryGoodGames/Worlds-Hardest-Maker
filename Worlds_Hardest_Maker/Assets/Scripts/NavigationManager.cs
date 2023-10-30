@@ -24,10 +24,7 @@ public class NavigationManager : MonoBehaviour
             // try to navigate left again
             next = next.FindSelectableOnLeft();
 
-            if (next == null)
-            {
-                next = selectable.FindSelectableOnDown();
-            }
+            if (next == null) next = selectable.FindSelectableOnDown();
         }
         else
         {
@@ -38,10 +35,7 @@ public class NavigationManager : MonoBehaviour
         }
 
         // if it's an input field, also set the text caret
-        if (next.TryGetComponent(out InputField inputField))
-        {
-            inputField.OnPointerClick(new(system));
-        }
+        if (next.TryGetComponent(out InputField inputField)) inputField.OnPointerClick(new(system));
 
         // select new game object
         system.SetSelectedGameObject(next.gameObject, new(system));

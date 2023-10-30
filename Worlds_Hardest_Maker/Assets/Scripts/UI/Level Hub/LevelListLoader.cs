@@ -14,20 +14,15 @@ public class LevelListLoader : MonoBehaviour
 
     [SerializeField] private bool refresh;
 
-    [SerializeField] [ConditionalField(nameof(refresh))]
-    private float refreshInterval = 5;
+    [SerializeField] [ConditionalField(nameof(refresh))] private float refreshInterval = 5;
 
-    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned]
-    private GameObject levelCardPrefab;
+    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private GameObject levelCardPrefab;
 
-    [SerializeField] [InitializationField] [MustBeAssigned]
-    private TMP_Dropdown sortInput;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Dropdown sortInput;
 
-    [SerializeField] [InitializationField] [MustBeAssigned]
-    private ButtonVerticalArrowTween sortOrderButton;
+    [SerializeField] [InitializationField] [MustBeAssigned] private ButtonVerticalArrowTween sortOrderButton;
 
-    [SerializeField] [InitializationField] [MustBeAssigned]
-    private Transform levelCardContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform levelCardContainer;
 
     [InitializationField] [MustBeAssigned] public ContentSizeFitter LevelCardContentSizeFitter;
 
@@ -39,7 +34,7 @@ public class LevelListLoader : MonoBehaviour
     private readonly Dictionary<string, SortSettings> stringToSetting = new()
     {
         { "Latest", SortSettings.Latest },
-        { "Name", SortSettings.Name }
+        { "Name", SortSettings.Name },
     };
 
     private void Awake()
@@ -104,10 +99,7 @@ public class LevelListLoader : MonoBehaviour
 
         if (IsDescending) Array.Reverse(levelInfo);
 
-        if (levelsChanged || forceUpdateList)
-        {
-            UpdateLevelCards(levelInfo);
-        }
+        if (levelsChanged || forceUpdateList) UpdateLevelCards(levelInfo);
 
         prevLevelInfo = levelInfo;
     }
@@ -132,10 +124,7 @@ public class LevelListLoader : MonoBehaviour
         LevelData[] levelDataArr = new LevelData[levelInfo.Length];
         for (int i = 0; i < levelInfo.Length; i++)
         {
-            try
-            {
-                levelDataArr[i] = SaveSystem.LoadLevel(levelInfo[i].FullName);
-            }
+            try { levelDataArr[i] = SaveSystem.LoadLevel(levelInfo[i].FullName); }
             catch (Exception)
             {
                 // failed to load file -> old / corrupt file
@@ -167,11 +156,11 @@ public class LevelListLoader : MonoBehaviour
             levelCard.Completions = $"Completions: {info.Completions}";
             levelCard.Deaths = $"Deaths: {info.Deaths}";
             levelCard.CompletionTime = $@"PB: {info.BestCompletionTime:hh\:mm\:ss}";
-            
+
             // display completion rate
             string display = info.Deaths + info.Completions == 0 ? "-" : $"{100 * (float)info.Completions / (info.Deaths + info.Completions):F2}%";
             levelCard.CompletionRate = $"Completion rate: {display}";
-            
+
             levelCard.LevelPath = levelFileInfo.FullName;
         }
     }
@@ -184,5 +173,5 @@ public class LevelListLoader : MonoBehaviour
 public enum SortSettings
 {
     Name,
-    Latest
+    Latest,
 }

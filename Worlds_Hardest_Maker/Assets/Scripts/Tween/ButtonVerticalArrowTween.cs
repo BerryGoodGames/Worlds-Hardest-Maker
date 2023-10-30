@@ -7,8 +7,7 @@ public class ButtonVerticalArrowTween : MonoBehaviour
 {
     [SerializeField] [InitializationField] private Image directionImage;
 
-    [SerializeField] [InitializationField] [PositiveValueOnly]
-    private float animationDuration;
+    [SerializeField] [InitializationField] [PositiveValueOnly] private float animationDuration;
 
     private bool isUp;
 
@@ -34,7 +33,8 @@ public class ButtonVerticalArrowTween : MonoBehaviour
         {
             // this alternates the arrow even though it shouldn't, i have no idea wtf it's 3am just let me sleep unity
             directionImage.rectTransform.DORotate(
-                new Vector3(180, currentRotation.y, currentRotation.z), animationDuration);
+                new Vector3(180, currentRotation.y, currentRotation.z), animationDuration
+            );
         }
         else
         {

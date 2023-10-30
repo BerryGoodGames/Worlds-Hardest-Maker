@@ -12,8 +12,7 @@ public class FieldRotation : MonoBehaviour
     private bool rotating;
     [SerializeField] private bool disableCollision;
 
-    [SerializeField] [ConditionalField(nameof(disableCollision))] [MustBeAssigned]
-    private BoxCollider2D boxCollider;
+    [SerializeField] [ConditionalField(nameof(disableCollision))] [MustBeAssigned] private BoxCollider2D boxCollider;
 
     private static readonly int rotateString = Animator.StringToHash("Rotate");
 
@@ -32,8 +31,7 @@ public class FieldRotation : MonoBehaviour
         transform.rotation = endRotation;
         rotating = false;
 
-        if (disableCollision)
-            boxCollider.isTrigger = false;
+        if (disableCollision) boxCollider.isTrigger = false;
     }
 
     [PunRPC]
@@ -41,8 +39,7 @@ public class FieldRotation : MonoBehaviour
     {
         if (rotating || EventSystem.current.IsPointerOverGameObject()) return;
 
-        if (disableCollision)
-            boxCollider.isTrigger = true;
+        if (disableCollision) boxCollider.isTrigger = true;
 
         Animator anim = GetComponent<Animator>();
         anim.SetTrigger(rotateString);
@@ -61,7 +58,6 @@ public class FieldRotation : MonoBehaviour
             PhotonView view = PhotonView.Get(this);
             view.RPC("StartRotation", RpcTarget.All);
         }
-        else
-            StartRotation();
+        else StartRotation();
     }
 }

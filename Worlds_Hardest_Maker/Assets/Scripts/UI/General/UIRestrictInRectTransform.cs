@@ -14,16 +14,14 @@ public class UIRestrictInRectTransform : MonoBehaviour
         // disable if it does not have a rect transform
         if (RectTransform != null) return;
 
-        if (!suppressWarning)
-            Debug.LogWarning($"{name}: There isn't a rect transform passed");
+        if (!suppressWarning) Debug.LogWarning($"{name}: There isn't a rect transform passed");
 
         enabled = false;
     }
 
     private void LateUpdate()
     {
-        if (Continuous)
-            Restrict();
+        if (Continuous) Restrict();
     }
 
     public void Restrict()

@@ -87,8 +87,7 @@ public class GraphicsSettings : MonoBehaviour
             options.Add(resolutions[i].ToString().Replace(" ", string.Empty));
 
             if (resolutions[i].width == Screen.currentResolution.width &&
-                resolutions[i].height == Screen.currentResolution.height)
-                currentResIndex = i;
+                resolutions[i].height == Screen.currentResolution.height) currentResIndex = i;
         }
 
         ResolutionDropdown.AddOptions(options);

@@ -15,14 +15,12 @@ public class RoomItem : MonoBehaviour
 
     public void SetRoomName(string roomName)
     {
-        if (RoomNameTxt != null)
-            RoomNameTxt.text = roomName;
+        if (RoomNameTxt != null) RoomNameTxt.text = roomName;
     }
 
     public void SetPlayerCount(int playerCount)
     {
-        if (PlayerCountTxt != null)
-            PlayerCountTxt.text = $"{playerCount}/10";
+        if (PlayerCountTxt != null) PlayerCountTxt.text = $"{playerCount}/10";
     }
 
     /// <summary>

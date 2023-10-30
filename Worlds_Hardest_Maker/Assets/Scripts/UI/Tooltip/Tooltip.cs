@@ -1,4 +1,3 @@
-using System.Collections;
 using MyBox;
 using TMPro;
 using UnityEngine;
@@ -10,18 +9,14 @@ public class Tooltip : MonoBehaviour
 
     [Space] [SerializeField] private bool customContainer;
 
-    [SerializeField] [ConditionalField(nameof(customContainer))]
-    private Transform container;
+    [SerializeField] [ConditionalField(nameof(customContainer))] private Transform container;
 
     public Transform Container
     {
         get => container;
         set
         {
-            if (tooltip != null)
-            {
-                tooltip.transform.SetParent(value);
-            }
+            if (tooltip != null) tooltip.transform.SetParent(value);
 
             container = value;
         }
@@ -29,11 +24,9 @@ public class Tooltip : MonoBehaviour
 
     [Space] [SerializeField] private bool restrictInCanvas = true;
 
-    [SerializeField] [ConditionalField(nameof(restrictInCanvas))]
-    private bool customRestrictContainer;
+    [SerializeField] [ConditionalField(nameof(restrictInCanvas))] private bool customRestrictContainer;
 
-    [SerializeField] [ConditionalField(nameof(customRestrictContainer), nameof(restrictInCanvas))]
-    private RectTransform restrictContainer;
+    [SerializeField] [ConditionalField(nameof(customRestrictContainer), nameof(restrictInCanvas))] private RectTransform restrictContainer;
 
     [Separator] [SerializeField] private string text;
 
@@ -43,8 +36,7 @@ public class Tooltip : MonoBehaviour
 
     [SerializeField] private bool customTweenDelay;
 
-    [ConditionalField(nameof(customTweenDelay))] [SerializeField]
-    private float tweenDelay = 1.5f;
+    [ConditionalField(nameof(customTweenDelay))] [SerializeField] private float tweenDelay = 1.5f;
 
     private const float DefaultTweenDelay = 1;
     private MouseOverUIRect mouseOver;
@@ -57,16 +49,17 @@ public class Tooltip : MonoBehaviour
 
     private void Awake()
     {
-        if (!customTweenDelay)
-            tweenDelay = DefaultTweenDelay;
+        if (!customTweenDelay) tweenDelay = DefaultTweenDelay;
     }
 
     private void Start()
     {
         mouseOver = GetComponent<MouseOverUIRect>();
-        
-        tooltip = Instantiate(tooltipPrefab, Vector3.zero, Quaternion.identity,
-            customContainer ? Container : ReferenceManager.Instance.TooltipCanvas.transform);
+
+        tooltip = Instantiate(
+            tooltipPrefab, Vector3.zero, Quaternion.identity,
+            customContainer ? Container : ReferenceManager.Instance.TooltipCanvas.transform
+        );
 
         UIRestrict restrict = tooltip.GetComponent<UIRestrict>();
         if (restrictInCanvas)
@@ -110,7 +103,7 @@ public class Tooltip : MonoBehaviour
 
     private void OnDisable()
     {
-        if(fadeTween != null) fadeTween.SetVisible(false);
+        if (fadeTween != null) fadeTween.SetVisible(false);
     }
 
     private void OnDestroy() => Destroy(tooltip);

@@ -1,5 +1,3 @@
 using UnityEngine;
 
-public class SaveBeforeQuit : MonoBehaviour
-{
-}
+public class SaveBeforeQuit : MonoBehaviour { }

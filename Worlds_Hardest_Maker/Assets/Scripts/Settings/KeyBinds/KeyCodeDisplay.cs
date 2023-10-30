@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class KeyCodeDisplay : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [MustBeAssigned]
-    private Image keyCodeImageContainer;
-    
+    [SerializeField] [InitializationField] [MustBeAssigned] private Image keyCodeImageContainer;
+
     #region Key Code Sprites
+
     [Foldout("Key Code Spites")] [SerializeField] private Sprite key0;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite key1;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite key2;
@@ -99,6 +98,7 @@ public class KeyCodeDisplay : MonoBehaviour
     [Foldout("Key Code Spites")] [SerializeField] private Sprite keyX;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite keyY;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite keyZ;
+
     #endregion
 
     private Dictionary<KeyCode, Sprite> keyCodeToSprite;
@@ -108,6 +108,7 @@ public class KeyCodeDisplay : MonoBehaviour
         keyCodeToSprite = new()
         {
             #region Key Code to Sprite
+
             { KeyCode.Alpha0, key0 },
             { KeyCode.Alpha1, key1 },
             { KeyCode.Alpha2, key2 },
@@ -200,6 +201,7 @@ public class KeyCodeDisplay : MonoBehaviour
             { KeyCode.X, keyX },
             { KeyCode.Y, keyY },
             { KeyCode.Z, keyZ },
+
             #endregion
         };
     }

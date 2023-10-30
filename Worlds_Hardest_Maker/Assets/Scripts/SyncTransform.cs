@@ -5,8 +5,7 @@ public class SyncTransform : MonoBehaviour
 {
     [InitializationField] public Transform Source;
 
-    [Separator] [SerializeField] [InitializationField]
-    private bool syncPosition = true;
+    [Separator] [SerializeField] [InitializationField] private bool syncPosition = true;
 
     [SerializeField] [InitializationField] private bool syncRotation = true;
     [SerializeField] [InitializationField] private bool syncScale = true;

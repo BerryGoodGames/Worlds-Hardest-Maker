@@ -43,8 +43,10 @@ public class LockHighlightTween : MonoBehaviour
                 // return to normal position
                 .Append(transform.DORotate(Vector3.zero, singleShakeDuration / 2).SetEase(Ease.InSine))
                 // go into shake position
-                .Append(transform.DORotate(new(0, 0, shakeRotationCopy), singleShakeDuration / 2)
-                    .SetEase(Ease.OutSine));
+                .Append(
+                    transform.DORotate(new(0, 0, shakeRotationCopy), singleShakeDuration / 2)
+                        .SetEase(Ease.OutSine)
+                );
 
             // shake into other direction next time
             shakeRotationCopy *= -1;

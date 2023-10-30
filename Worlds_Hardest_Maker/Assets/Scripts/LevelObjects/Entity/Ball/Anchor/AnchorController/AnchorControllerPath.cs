@@ -5,8 +5,7 @@ using UnityEngine;
 
 public partial class AnchorController
 {
-    [Separator("Path settings")] [SerializeField]
-    private Transform lineContainer;
+    [Separator("Path settings")] [SerializeField] private Transform lineContainer;
 
     [SerializeField] private Color lineColor;
     [SerializeField] private float lineWeight;
@@ -50,10 +49,7 @@ public partial class AnchorController
             // If currentNode reaches the end, and we haven't looped, jump to loopIndex
             if (currentNode != null) continue;
 
-            if (loopIndex == -1 || hasLooped)
-            {
-                break;
-            }
+            if (loopIndex == -1 || hasLooped) break;
 
             index = loopIndex;
             currentNode = Blocks.NodeAt(index);
@@ -71,22 +67,24 @@ public partial class AnchorController
                 Vector2 currentVertex = positionAnchorBlock.TargetAbsolute;
 
                 if (ReferenceManager.Instance.MainChainController.Children[index] is not PositionAnchorBlockController
-                    controller)
-                {
-                    throw new("Controller was for some reason not a position block controller, this shouldn't happen");
-                }
+                    controller) throw new("Controller was for some reason not a position block controller, this shouldn't happen");
 
                 // check if line already rendered
                 if (!hasRendered[index] || !lineList.Contains((previousVertex, currentVertex)) ||
                     isFirstPositionBlockAfterLoop)
                 {
-                    AnchorPathLine line = Instantiate(PrefabManager.Instance.AnchorPathLine, Vector2.zero,
-                        Quaternion.identity, lineContainer);
+                    AnchorPathLine line = Instantiate(
+                        PrefabManager.Instance.AnchorPathLine, Vector2.zero,
+                        Quaternion.identity, lineContainer
+                    );
 
                     line.CreateArrowHead(previousVertex, currentVertex);
-                    line.CreateArrowLine(previousVertex, currentVertex,
+                    line.CreateArrowLine(
+                        previousVertex, currentVertex,
                         positionAnchorBlock.ImplementedBlockType is AnchorBlock.Type.Move
-                            or AnchorBlock.Type.MoveAndRotate);
+                            or AnchorBlock.Type.MoveAndRotate
+                    );
+
                     line.CreateBlur();
 
                     controller.Lines.Add(line);
@@ -119,19 +117,13 @@ public partial class AnchorController
             PositionAnchorBlockController controller = positionAnchorBlock.Controller;
 
             // kill all glow tweens
-            foreach (AnchorPathLine line in controller.Lines)
-            {
-                line.Blur.DOKill();
-            }
+            foreach (AnchorPathLine line in controller.Lines) { line.Blur.DOKill(); }
 
             controller.Lines.Clear();
         }
 
         // clear lines
-        foreach (Transform line in lineContainer)
-        {
-            Destroy(line.gameObject);
-        }
+        foreach (Transform line in lineContainer) { Destroy(line.gameObject); }
     }
 
     public void SetLinesActive(bool active) => lineContainer.gameObject.SetActive(active);

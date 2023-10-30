@@ -42,7 +42,7 @@ public static class UIGradientUtils
         return new Matrix2x3(m00, m01, m02, m10, m11, m12);
     }
 
-    private static Vector2[] ms_verticesPositions = { Vector2.up, Vector2.one, Vector2.right, Vector2.zero };
+    private static Vector2[] ms_verticesPositions = { Vector2.up, Vector2.one, Vector2.right, Vector2.zero, };
     public static Vector2[] VerticePositions => ms_verticesPositions;
 
     public static Vector2 RotationDir(float angle)

@@ -1,11 +1,11 @@
 using System;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
-/// This manager exists to assure that the session data (e.g. path of currently edited level) is always available and loaded,
-/// unlike TransitionManager which is only loaded when the scene is entered after main menu
+///     This manager exists to assure that the session data (e.g. path of currently edited level) is always available and
+///     loaded,
+///     unlike TransitionManager which is only loaded when the scene is entered after main menu
 /// </summary>
 public class LevelSessionManager : MonoBehaviour
 {
@@ -36,8 +36,7 @@ public class LevelSessionManager : MonoBehaviour
         if (IsSessionFromEditor)
         {
             // load level from Dbg if session is from editor
-            if (Dbg.Instance.AutoLoadLevel)
-                LevelSessionPath = SaveSystem.LevelSavePath + $"/{Dbg.Instance.LevelName}.lvl";
+            if (Dbg.Instance.AutoLoadLevel) LevelSessionPath = SaveSystem.LevelSavePath + $"/{Dbg.Instance.LevelName}.lvl";
 
             LevelSessionMode = Dbg.Instance.EditorLevelSessionMode;
         }
@@ -56,7 +55,7 @@ public class LevelSessionManager : MonoBehaviour
                 LoadedLevelData.Info = new()
                 {
                     Description = TransitionManager.Instance.Inputs.Description,
-                    Creator = TransitionManager.Instance.Inputs.Creator
+                    Creator = TransitionManager.Instance.Inputs.Creator,
                 };
             }
         }

@@ -6,7 +6,8 @@ public class ChainController : MonoBehaviour
     [HideInInspector] public List<AnchorBlockController> Children;
 
     /// <summary>
-    /// Collects <see cref="AnchorBlockController"/>s from UI in a list and converts them into list <see cref="AnchorBlock"/>s
+    ///     Collects <see cref="AnchorBlockController" />s from UI in a list and converts them into list
+    ///     <see cref="AnchorBlock" />s
     /// </summary>
     public List<AnchorBlock> GetAnchorBlocks(AnchorController anchorController)
     {
@@ -34,10 +35,7 @@ public class ChainController : MonoBehaviour
 
         foreach (Transform child in transform)
         {
-            if (child.TryGetComponent(out AnchorBlockController component))
-            {
-                Children.Add(component);
-            }
+            if (child.TryGetComponent(out AnchorBlockController component)) Children.Add(component);
         }
     }
 }

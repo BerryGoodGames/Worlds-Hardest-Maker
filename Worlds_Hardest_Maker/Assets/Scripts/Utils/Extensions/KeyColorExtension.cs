@@ -11,8 +11,9 @@ public static class KeyColorExtension
             { KeyManager.KeyColor.Red, PrefabManager.Instance.RedKey },
             { KeyManager.KeyColor.Blue, PrefabManager.Instance.BlueKey },
             { KeyManager.KeyColor.Green, PrefabManager.Instance.GreenKey },
-            { KeyManager.KeyColor.Yellow, PrefabManager.Instance.YellowKey }
+            { KeyManager.KeyColor.Yellow, PrefabManager.Instance.YellowKey },
         };
+
         return prefabs[color];
     }
 
@@ -24,8 +25,9 @@ public static class KeyColorExtension
             { KeyManager.KeyColor.Red, PrefabManager.Instance.RedKeyDoorField },
             { KeyManager.KeyColor.Blue, PrefabManager.Instance.BlueKeyDoorField },
             { KeyManager.KeyColor.Green, PrefabManager.Instance.GreenKeyDoorField },
-            { KeyManager.KeyColor.Yellow, PrefabManager.Instance.YellowKeyDoorField }
+            { KeyManager.KeyColor.Yellow, PrefabManager.Instance.YellowKeyDoorField },
         };
+
         return prefabs[color];
     }
 }

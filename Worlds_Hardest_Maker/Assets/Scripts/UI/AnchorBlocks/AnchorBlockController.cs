@@ -9,11 +9,9 @@ public abstract partial class AnchorBlockController : MonoBehaviour
     [Separator("General")] public bool IsLocked;
     public bool IsSource;
 
-    [Space] [MustBeAssigned] [SerializeField]
-    private GameObject lockIconContainer;
+    [Space] [MustBeAssigned] [SerializeField] private GameObject lockIconContainer;
 
-    [Space] [MustBeAssigned] [SerializeField]
-    private GameObject warningIconContainer;
+    [Space] [MustBeAssigned] [SerializeField] private GameObject warningIconContainer;
 
     public AnchorBlockDragDrop DragDrop { get; private set; }
     private UIRestrictInRectTransform restrict;
@@ -42,11 +40,13 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         AnchorBlockDecimalInput[] inputs = GetComponentsInChildren<AnchorBlockDecimalInput>();
         foreach (AnchorBlockDecimalInput input in inputs)
         {
-            input.InputField.onValueChanged.AddListener(_ =>
-            {
-                AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
-                AnchorManager.Instance.CheckStackOverflowWarnings();
-            });
+            input.InputField.onValueChanged.AddListener(
+                _ =>
+                {
+                    AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+                    AnchorManager.Instance.CheckStackOverflowWarnings();
+                }
+            );
         }
     }
 
@@ -70,18 +70,17 @@ public abstract partial class AnchorBlockController : MonoBehaviour
 
             AnchorManager.Instance.UpdateSelectedAnchorLines();
 
-            if (this is LoopBlockController)
-            {
-                AnchorManager.Instance.SelectedAnchor.LoopBlockIndex = -1;
-            }
+            if (this is LoopBlockController) AnchorManager.Instance.SelectedAnchor.LoopBlockIndex = -1;
         }
 
         Destroy(gameObject);
     }
 
     public void Duplicate() =>
-        Instantiate(gameObject, transform.position + (Vector3)duplicateOffset, Quaternion.identity,
-            ReferenceManager.Instance.AnchorBlockChainContainer);
+        Instantiate(
+            gameObject, transform.position + (Vector3)duplicateOffset, Quaternion.identity,
+            ReferenceManager.Instance.AnchorBlockChainContainer
+        );
 
     public void TrimFromCurrentChain()
     {
@@ -99,16 +98,13 @@ public abstract partial class AnchorBlockController : MonoBehaviour
 
         ReferenceManager.Instance.AnchorBlockConnectorController.UpdateY();
 
-        if (this is LoopBlockController)
-        {
-            AnchorManager.Instance.SelectedAnchor.LoopBlockIndex = -1;
-        }
+        if (this is LoopBlockController) AnchorManager.Instance.SelectedAnchor.LoopBlockIndex = -1;
 
         SetWarning(false);
     }
 
     /// <summary>
-    /// Gets sibling index inside of string while ignoring preview object
+    ///     Gets sibling index inside of string while ignoring preview object
     /// </summary>
     public int GetChainIndex()
     {
@@ -125,8 +121,7 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         return res;
     }
 
-    public bool IsInChain(out ChainController chainController) =>
-        transform.parent.TryGetComponent(out chainController);
+    public bool IsInChain(out ChainController chainController) => transform.parent.TryGetComponent(out chainController);
 
     public bool IsInChain()
     {

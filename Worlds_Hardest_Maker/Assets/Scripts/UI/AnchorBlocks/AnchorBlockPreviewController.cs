@@ -33,7 +33,7 @@ public class AnchorBlockPreviewController : MonoBehaviour
     }
 
     /// <summary>
-    /// Resizes itself to the block currently dragged
+    ///     Resizes itself to the block currently dragged
     /// </summary>
     public void UpdateSize()
     {
@@ -74,8 +74,7 @@ public class AnchorBlockPreviewController : MonoBehaviour
     {
         if (activated && !AnchorBlockManager.Instance.IsPreviewHovered &&
             !AnchorBlockManager.Instance.IsConnectorHovered &&
-            !AnchorBlockManager.Instance.IsPeriblockerHovered && !AnchorBlockManager.IsAnyBlockHovered())
-            Deactivate();
+            !AnchorBlockManager.Instance.IsPeriblockerHovered && !AnchorBlockManager.IsAnyBlockHovered()) Deactivate();
     }
 
     private void Awake()

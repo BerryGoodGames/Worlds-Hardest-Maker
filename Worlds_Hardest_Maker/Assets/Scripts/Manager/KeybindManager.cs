@@ -5,8 +5,7 @@ public class KeybindManager : MonoBehaviour
 {
     public static KeybindManager Instance { get; private set; } // singleton
 
-    [Header("Key binds")] [DefinedValues(0, 1, 2)]
-    public int SelectionMouseButton;
+    [Header("Key binds")] [DefinedValues(0, 1, 2)] public int SelectionMouseButton;
 
     [DefinedValues(0, 1, 2)] public int PanMouseButton;
     [SearchableEnum] public KeyCode EntityDeleteKey;

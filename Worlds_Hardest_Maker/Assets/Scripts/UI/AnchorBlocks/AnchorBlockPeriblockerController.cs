@@ -6,7 +6,7 @@ public class AnchorBlockPeriblockerController : MonoBehaviour
     [HideInInspector] public MouseOverUIRect MouseOverUIRect;
 
     /// <summary>
-    /// Resizes itself to <c>anchorBlock</c>
+    ///     Resizes itself to <c>anchorBlock</c>
     /// </summary>
     /// <param name="anchorBlock">The anchor block it should resize to, if <c>null</c> passed then sets width and height to 0</param>
     public void UpdateSize(AnchorBlockController anchorBlock)

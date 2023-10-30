@@ -8,8 +8,7 @@ public class PlaySceneToggle : MonoBehaviour
 
     [SerializeField] private bool isEdit;
 
-    [ReadOnly] [OverrideLabel("Is Scene currently edit scene")]
-    public bool IsEditPrev;
+    [ReadOnly] [OverrideLabel("Is Scene currently edit scene")] public bool IsEditPrev;
 
     // [ButtonMethod]
     public void UpdateStates()
@@ -18,14 +17,8 @@ public class PlaySceneToggle : MonoBehaviour
 
         foreach (ConditionalObject obj in objArr)
         {
-            if (isEdit)
-            {
-                obj.IsActiveInEdit = obj.gameObject.activeSelf;
-            }
-            else
-            {
-                obj.IsActiveInPlay = obj.gameObject.activeSelf;
-            }
+            if (isEdit) obj.IsActiveInEdit = obj.gameObject.activeSelf;
+            else obj.IsActiveInPlay = obj.gameObject.activeSelf;
         }
     }
 
@@ -38,14 +31,8 @@ public class PlaySceneToggle : MonoBehaviour
         {
             if (isEdit != IsEditPrev)
             {
-                if (isEdit)
-                {
-                    obj.IsActiveInPlay = obj.gameObject.activeSelf;
-                }
-                else
-                {
-                    obj.IsActiveInEdit = obj.gameObject.activeSelf;
-                }
+                if (isEdit) obj.IsActiveInPlay = obj.gameObject.activeSelf;
+                else obj.IsActiveInEdit = obj.gameObject.activeSelf;
             }
 
             obj.gameObject.SetActive(isEdit ? obj.IsActiveInEdit : obj.IsActiveInPlay);

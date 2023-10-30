@@ -38,10 +38,7 @@ public class DiscordManager : MonoBehaviour
     private void Awake()
     {
         // init singleton
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        if (Instance == null) Instance = this;
         else if (Application.isPlaying)
         {
             if (Instance == this) DontDestroyOnLoad(gameObject);
@@ -56,10 +53,7 @@ public class DiscordManager : MonoBehaviour
     private void Update()
     {
         // Destroy the GameObject if Discord isn't running
-        try
-        {
-            discord.RunCallbacks();
-        }
+        try { discord.RunCallbacks(); }
         catch
         {
             if (Application.isPlaying) Destroy(gameObject);
@@ -94,44 +88,47 @@ public class DiscordManager : MonoBehaviour
                 Assets =
                 {
                     LargeImage = largeImage,
-                    LargeText = largeText
+                    LargeText = largeText,
                 },
                 Timestamps =
                 {
-                    Start = time
-                }
+                    Start = time,
+                },
             };
 
-            activityManager.UpdateActivity(activity, res =>
-            {
-                if (res != Result.Ok) Debug.LogWarning("Failed connecting to Discord!");
-            });
+            activityManager.UpdateActivity(
+                activity, res =>
+                {
+                    if (res != Result.Ok) Debug.LogWarning("Failed connecting to Discord!");
+                }
+            );
         }
         catch
         {
             // If updating the status fails, Destroy the GameObject (or warning)
-            if (Application.isPlaying)
-                Destroy(gameObject);
+            if (Application.isPlaying) Destroy(gameObject);
             else if (printWarnings) Debug.LogWarning("Updating status failed!");
         }
     }
 
     public void ClearActivity() =>
-        activityManager.ClearActivity(res =>
-        {
-            if (res != Result.Ok)
-                Debug.LogError("Failed to clear activity!");
-            else
-                CurrentActivity = new Activity();
-        });
+        activityManager.ClearActivity(
+            res =>
+            {
+                if (res != Result.Ok) Debug.LogError("Failed to clear activity!");
+                else CurrentActivity = new Activity();
+            }
+        );
 
     public void SetActivity(string details = "", string state = "")
     {
-        CurrentActivity = new Activity { Details = details, State = state };
-        activityManager.UpdateActivity(CurrentActivity, res =>
-        {
-            if (res != Result.Ok) Debug.LogError("Discord status failed!");
-        });
+        CurrentActivity = new Activity { Details = details, State = state, };
+        activityManager.UpdateActivity(
+            CurrentActivity, res =>
+            {
+                if (res != Result.Ok) Debug.LogError("Discord status failed!");
+            }
+        );
     }
 
     [ButtonMethod]

@@ -13,7 +13,7 @@ public class SearchForComponents : EditorWindow
     }
 
 
-    private readonly string[] modes = { "Search for component usage", "Search for missing components" };
+    private readonly string[] modes = { "Search for component usage", "Search for missing components", };
 
     private List<string> listResult;
     private int editorMode, editorModeOld;
@@ -55,14 +55,11 @@ public class SearchForComponents : EditorWindow
                     listResult = new List<string>();
                     foreach (string prefab in allPrefabs)
                     {
-                        string[] single = { prefab };
+                        string[] single = { prefab, };
                         string[] dependencies = AssetDatabase.GetDependencies(single);
                         foreach (string dependedAsset in dependencies)
                         {
-                            if (dependedAsset == targetPath)
-                            {
-                                listResult.Add(prefab);
-                            }
+                            if (dependedAsset == targetPath) listResult.Add(prefab);
                         }
                     }
                 }
@@ -82,16 +79,10 @@ public class SearchForComponents : EditorWindow
                             Component[] components = go.GetComponentsInChildren<Component>(true);
                             foreach (Component c in components)
                             {
-                                if (c == null)
-                                {
-                                    listResult.Add(prefab);
-                                }
+                                if (c == null) listResult.Add(prefab);
                             }
                         }
-                        catch
-                        {
-                            Debug.Log("For some reason, prefab " + prefab + " won't cast to GameObject");
-                        }
+                        catch { Debug.Log("For some reason, prefab " + prefab + " won't cast to GameObject"); }
                     }
                 }
 
@@ -102,24 +93,27 @@ public class SearchForComponents : EditorWindow
 
         if (listResult.Count == 0)
         {
-            GUILayout.Label(editorMode == 0
-                ? componentName == "" ? "Choose a component" : "No prefabs use component " + componentName
-                : "No prefabs have missing components!\nClick Search to check again");
+            GUILayout.Label(
+                editorMode == 0
+                    ? componentName == "" ? "Choose a component" : "No prefabs use component " + componentName
+                    : "No prefabs have missing components!\nClick Search to check again"
+            );
         }
         else
         {
-            GUILayout.Label(editorMode == 0
-                ? "The following prefabs use component " + componentName + ":"
-                : "The following prefabs have missing components:");
+            GUILayout.Label(
+                editorMode == 0
+                    ? "The following prefabs use component " + componentName + ":"
+                    : "The following prefabs have missing components:"
+            );
+
             scroll = GUILayout.BeginScrollView(scroll);
             foreach (string s in listResult)
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(s, GUILayout.Width(position.width / 2));
                 if (GUILayout.Button("Select", GUILayout.Width(position.width / 2 - 10)))
-                {
                     Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(s);
-                }
 
                 GUILayout.EndHorizontal();
             }

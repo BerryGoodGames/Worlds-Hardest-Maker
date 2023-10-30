@@ -9,11 +9,10 @@ public class SetRotationBlockController : AnchorBlockController
     {
         { "deg / s", SetRotationBlock.Unit.Degrees },
         { "it / s", SetRotationBlock.Unit.Iterations },
-        { "s", SetRotationBlock.Unit.Time }
+        { "s", SetRotationBlock.Unit.Time },
     };
 
-    [Separator("Specifics")] [InitializationField] [AutoProperty]
-    public TMP_InputField SpeedInput;
+    [Separator("Specifics")] [InitializationField] [AutoProperty] public TMP_InputField SpeedInput;
 
     private TMPDecimalInputAdjuster inputAdjuster;
 
@@ -30,8 +29,7 @@ public class SetRotationBlockController : AnchorBlockController
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController) =>
         new SetRotationBlock(anchorController, IsLocked, SpeedInput.GetFloatInput(), GetUnit());
 
-    public static string GetOption(SetRotationBlock.Unit unit) =>
-        unitOptions.FirstOrDefault(x => x.Value == unit).Key;
+    public static string GetOption(SetRotationBlock.Unit unit) => unitOptions.FirstOrDefault(x => x.Value == unit).Key;
 
     public void UpdateWarnings()
     {

@@ -69,8 +69,7 @@ public partial class AnchorController : EntityController
 
         StartPosition = transform.position;
 
-        if (Selected)
-            RenderLines();
+        if (Selected) RenderLines();
     }
 
     #region Execution

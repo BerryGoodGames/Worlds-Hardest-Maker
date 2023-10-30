@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using MyBox;
 using TMPro;
 using UnityEngine;
@@ -20,10 +19,7 @@ public class ButtonUserEnabledController : MonoBehaviour
     [ButtonMethod]
     private void SetUserEnabled()
     {
-        foreach (Image image in imageList)
-        {
-            image.color = userEnabled ? enabledColor : disabledColor;
-        }
+        foreach (Image image in imageList) { image.color = userEnabled ? enabledColor : disabledColor; }
 
         buttonText.color = userEnabled ? enabledTextColor : disabledTextColor;
 

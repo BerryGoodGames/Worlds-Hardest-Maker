@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class MenuManager : MonoBehaviour
 {
@@ -15,12 +14,11 @@ public class MenuManager : MonoBehaviour
         KeyBinds = 3,
     }
 
-    [Header("Constants & References")] 
-    [SerializeField] private GameObject graphicSettingsUI;
+    [Header("Constants & References")] [SerializeField] private GameObject graphicSettingsUI;
     [SerializeField] private GameObject uiSettingsUI;
     [SerializeField] private GameObject soundSettingsUI;
     [SerializeField] private GameObject keyBindSettingsUI;
-    
+
 
     [Space] [Header("Variables")] public MenuTab CurrentMenuTab;
 
@@ -30,7 +28,7 @@ public class MenuManager : MonoBehaviour
 
     [HideInInspector] public bool IsAddingKeyBind;
     [HideInInspector] public KeyBindSetterController AddingKeyBindSetter;
-    
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -49,10 +47,7 @@ public class MenuManager : MonoBehaviour
         if (tab != prevMenuTab)
         {
             Dictionary<MenuTab, GameObject> dict = GetTabDict();
-            for (int i = 0; i < Enum.GetValues(typeof(MenuTab)).Length; i++)
-            {
-                dict[(MenuTab)i].SetActive(false);
-            }
+            for (int i = 0; i < Enum.GetValues(typeof(MenuTab)).Length; i++) { dict[(MenuTab)i].SetActive(false); }
 
             dict[tab].SetActive(true);
             CurrentMenuTab = tab;
@@ -70,6 +65,7 @@ public class MenuManager : MonoBehaviour
             { MenuTab.UI, uiSettingsUI },
             { MenuTab.KeyBinds, keyBindSettingsUI },
         };
+
         return dict;
     }
 

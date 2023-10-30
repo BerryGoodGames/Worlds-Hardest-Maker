@@ -16,7 +16,7 @@ public abstract class AnchorBlock
         Ease,
         SetSpeed,
         SetRotation,
-        SetDirection
+        SetDirection,
     }
 
     protected AnchorController Anchor;
@@ -33,8 +33,7 @@ public abstract class AnchorBlock
     public abstract Type ImplementedBlockType { get; }
     protected abstract GameObject Prefab { get; }
 
-    public void CreateAnchorBlockObject() =>
-        CreateAnchorBlockObject(ReferenceManager.Instance.MainChainController.transform);
+    public void CreateAnchorBlockObject() => CreateAnchorBlockObject(ReferenceManager.Instance.MainChainController.transform);
 
     private void CreateAnchorBlockObject(Transform parent)
     {

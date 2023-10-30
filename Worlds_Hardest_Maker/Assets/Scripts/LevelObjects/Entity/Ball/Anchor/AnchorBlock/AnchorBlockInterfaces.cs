@@ -1,10 +1,6 @@
-public interface IActiveAnchorBlock
-{
-}
+public interface IActiveAnchorBlock { }
 
-public interface IPassiveAnchorBlock
-{
-}
+public interface IPassiveAnchorBlock { }
 
 public interface IDurationBlock
 {

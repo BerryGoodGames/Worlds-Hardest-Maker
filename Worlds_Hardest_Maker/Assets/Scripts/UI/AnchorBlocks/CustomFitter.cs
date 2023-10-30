@@ -3,9 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// custom fitter I mean like what else
-///
-/// Niko sucks
+///     custom fitter I mean like what else
+///     Niko sucks
 /// </summary>
 [ExecuteInEditMode]
 public class CustomFitter : MonoBehaviour
@@ -53,7 +52,7 @@ public class CustomFitter : MonoBehaviour
     }
 
     /// <summary>
-    /// Checks for any changes within the anchor blocks and updates size to fit the anchor blocks on the y-axis
+    ///     Checks for any changes within the anchor blocks and updates size to fit the anchor blocks on the y-axis
     /// </summary>
     [ButtonMethod]
     public void UpdateSize(bool checkChanged = true)

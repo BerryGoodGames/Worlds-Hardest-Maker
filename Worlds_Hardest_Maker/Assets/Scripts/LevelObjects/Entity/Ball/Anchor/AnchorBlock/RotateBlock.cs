@@ -11,8 +11,7 @@ public class RotateBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
 
     public bool HasCurrentlyDuration => iterations > 0;
 
-    public RotateBlock(AnchorController anchor, bool isLocked, float iterations) : base(anchor, isLocked) =>
-        this.iterations = iterations;
+    public RotateBlock(AnchorController anchor, bool isLocked, float iterations) : base(anchor, isLocked) => this.iterations = iterations;
 
     public override void Execute()
     {
@@ -28,8 +27,7 @@ public class RotateBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
 
             duration = distance / speed;
         }
-        else
-            duration = Anchor.RotationInput;
+        else duration = Anchor.RotationInput;
 
         // negate rotation depending on direction
         int direction = Anchor.IsClockwise ? -1 : 1;

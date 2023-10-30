@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using MyBox;
 using TMPro;
@@ -8,26 +6,22 @@ using UnityEngine.Serialization;
 
 public class KeyBindGenerator : MonoBehaviour
 {
-    [FormerlySerializedAs("category")] [Separator("References")] 
-    [SerializeField] private TMP_Text categoryHeader;
+    [FormerlySerializedAs("category")] [Separator("References")] [SerializeField] private TMP_Text categoryHeader;
     [SerializeField] private KeyBindSetterController keyBindSetter;
 
-    private void Start()
-    {
-        GenerateKeyBindSetters();
-    }
+    private void Start() => GenerateKeyBindSetters();
 
     private void GenerateKeyBindSetters()
     {
         // get categories and key binds
         List<KeyBind> keyBinds = KeyBinds.GetAllKeyBinds();
-        
+
         string currentCategory = string.Empty;
 
         foreach (KeyBind keyBind in keyBinds)
         {
-            if(keyBind.Category == "Hidden") continue;
-            
+            if (keyBind.Category == "Hidden") continue;
+
             if (currentCategory != keyBind.Category)
             {
                 currentCategory = keyBind.Category;
@@ -39,6 +33,4 @@ public class KeyBindGenerator : MonoBehaviour
             setterController.KeyBind = keyBind;
         }
     }
-
-    
 }

@@ -6,9 +6,6 @@ public static class GameEntityManager
     {
         Collider2D[] hits = Physics2D.OverlapPointAll(position, entityLayer);
 
-        foreach (Collider2D hit in hits)
-        {
-            hit.GetComponent<EntityController>().Delete();
-        }
+        foreach (Collider2D hit in hits) { hit.GetComponent<EntityController>().Delete(); }
     }
 }

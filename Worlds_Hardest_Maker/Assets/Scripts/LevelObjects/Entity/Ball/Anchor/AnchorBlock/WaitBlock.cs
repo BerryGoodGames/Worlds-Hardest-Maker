@@ -9,7 +9,7 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
         Seconds,
         Minutes,
         Hours,
-        Days
+        Days,
     }
 
     private static readonly Dictionary<Unit, float> factors = new()
@@ -17,7 +17,7 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
         { Unit.Seconds, 1 },
         { Unit.Minutes, 60 },
         { Unit.Hours, 3600 },
-        { Unit.Days, 86400 }
+        { Unit.Days, 86400 },
     };
 
     public const Type BlockType = Type.Wait;

@@ -34,7 +34,7 @@ public class AnchorBallManager : MonoBehaviour
 
         // track ball positions in all the layers
         Instance.AnchorBallList.Add(ballController);
-        
+
         if (hasParent) Instance.AnchorBallListLayers[parentAnchor].Add(ballController);
         else Instance.AnchorBallListGlobal.Add(ballController);
     }
@@ -98,9 +98,9 @@ public class AnchorBallManager : MonoBehaviour
             Destroy(ball.gameObject);
         }
     }
-    
+
     #endregion
-    
+
     public static void SelectAnchorBall(Vector2 position)
     {
         List<AnchorBallController> ballsAtPos = GetAnchorBalls(position);
@@ -111,29 +111,22 @@ public class AnchorBallManager : MonoBehaviour
         {
             if (!ball.IsParentAnchorNull && ball.ParentAnchor.Position == ball.Position) continue;
 
-            if (ball.IsParentAnchorNull || AnchorManager.Instance.SelectedAnchor == ball.ParentAnchor)
-            {
-                AnchorManager.Instance.DeselectAnchor();
-            }
-            else
-            {
-                AnchorManager.Instance.SelectAnchor(ball.ParentAnchor, false);
-            }
+            if (ball.IsParentAnchorNull || AnchorManager.Instance.SelectedAnchor == ball.ParentAnchor) AnchorManager.Instance.DeselectAnchor();
+            else AnchorManager.Instance.SelectAnchor(ball.ParentAnchor, false);
 
             break;
         }
     }
-    
+
     private void Start()
     {
         AnchorBallListLayers = new();
         AnchorBallListGlobal = new();
-        
+
         EditModeManager.Instance.OnPlay += ReferenceManager.Instance.AnchorBallContainer.BallFadeIn;
         EditModeManager.Instance.OnEdit += () =>
         {
-            if (AnchorManager.Instance.SelectedAnchor != null)
-                ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
+            if (AnchorManager.Instance.SelectedAnchor != null) ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
         };
     }
 

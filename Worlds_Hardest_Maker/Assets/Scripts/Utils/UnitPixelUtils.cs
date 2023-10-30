@@ -19,8 +19,7 @@ public static class UnitPixelUtils
 
     public static Vector2 PixelToUnit(Vector2 pixel) => new(PixelToUnit(pixel.x), PixelToUnit(pixel.y));
 
-    public static Vector2 PixelToUnit(Vector2 pixel, float ortho) =>
-        new(PixelToUnit(pixel.x, ortho), PixelToUnit(pixel.y, ortho));
+    public static Vector2 PixelToUnit(Vector2 pixel, float ortho) => new(PixelToUnit(pixel.x, ortho), PixelToUnit(pixel.y, ortho));
 
     public static float UnitToPixel(float unit)
     {
