@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using MyBox;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class KeyBindSetterController : MonoBehaviour
 {
@@ -12,11 +13,10 @@ public class KeyBindSetterController : MonoBehaviour
 
     [Separator("References")] 
     [SerializeField] private TMP_Text keyBindName;
-    [SerializeField] private Transform displayContainer;
+    [SerializeField] private RectTransform displayContainer;
     
     private void AddKeyCode(KeyCode keyCode)
     {
-        print(KeyBinds.HasKeyBindKeyCode(KeyBind, keyCode));
         if (KeyBinds.HasKeyBindKeyCode(KeyBind, keyCode)) return;
         
         KeyBinds.AddKeyCodesToKeyBind(KeyBind, keyCode);
@@ -199,6 +199,17 @@ public class KeyBindSetterController : MonoBehaviour
         ReferenceManager.Instance.KeybindBlockerText.text = keyBindName.text;
     }
 
+    public void OnClearButtonClick()
+    {
+        KeyBind.KeyCodes = Array.Empty<KeyCode>();
+        KeyBinds.ResetKeyBind(KeyBind);
+
+        foreach (RectTransform keyCodeDisplay in displayContainer)
+        {
+            Destroy(keyCodeDisplay.gameObject);
+        }
+    }
+
     public static void CancelAddingKeyBind()
     {
         MenuManager.Instance.IsAddingKeyBind = false;
@@ -220,5 +231,8 @@ public class KeyBindSetterController : MonoBehaviour
         // instantiate key code display
         KeyCodeDisplay keyCodeDisplay = Instantiate(PrefabManager.Instance.KeyCodeDisplay, displayContainer);
         keyCodeDisplay.SetKeyCodeSprite(keyCode);
+        
+        // rebuild
+        LayoutRebuilder.ForceRebuildLayoutImmediate(displayContainer);
     }
 }
