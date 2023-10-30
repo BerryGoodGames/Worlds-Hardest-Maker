@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayManager : MonoBehaviour
@@ -88,7 +89,7 @@ public class PlayManager : MonoBehaviour
     private static void StartAnchors()
     {
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
-
+        
         // let anchors start executing
         foreach (Transform t in ReferenceManager.Instance.AnchorContainer)
         {
@@ -307,8 +308,14 @@ public class PlayManager : MonoBehaviour
     private void Start()
     {
         // setup play scene mode
-        if (!LevelSessionManager.Instance.IsEdit)
+        if (!LevelSessionManager.Instance.IsEdit) StartCoroutine(SetupPlayScene());
+
+        return;
+        
+        IEnumerator SetupPlayScene()
         {
+            yield return new WaitForEndOfFrame();
+            
             ReferenceManager.Instance.InfobarPlayTween.SetPlay(true);
 
             SetupPlayers();
