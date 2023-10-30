@@ -7,15 +7,17 @@ public class CoinManager : MonoBehaviour, IPlaceable
 {
     public static CoinManager Instance { get; private set; }
 
-    public static List<FieldType> CannotPlaceFields = new(new[]
-    {
-        FieldType.WallField,
-        FieldType.RedKeyDoorField,
-        FieldType.BlueKeyDoorField,
-        FieldType.GreenKeyDoorField,
-        FieldType.YellowKeyDoorField,
-        FieldType.GrayKeyDoorField
-    });
+    public static List<FieldType> CannotPlaceFields = new(
+        new[]
+        {
+            FieldType.WallField,
+            FieldType.RedKeyDoorField,
+            FieldType.BlueKeyDoorField,
+            FieldType.GreenKeyDoorField,
+            FieldType.YellowKeyDoorField,
+            FieldType.GrayKeyDoorField,
+        }
+    );
 
     private static readonly int playing = Animator.StringToHash("Playing");
 
@@ -62,13 +64,13 @@ public class CoinManager : MonoBehaviour, IPlaceable
 
         if (!CanPlace(matrixPosition)) return;
 
-        CoinController coin = Instantiate(PrefabManager.Instance.Coin, matrixPosition, Quaternion.identity,
-            ReferenceManager.Instance.CoinContainer);
+        CoinController coin = Instantiate(
+            PrefabManager.Instance.Coin, matrixPosition, Quaternion.identity,
+            ReferenceManager.Instance.CoinContainer
+        );
 
         coin.Animator.SetBool(playing, EditModeManager.Instance.Playing);
     }
 
-    public void Place(Vector2 worldPosition)
-    {
-    }
+    public void Place(Vector2 worldPosition) { }
 }

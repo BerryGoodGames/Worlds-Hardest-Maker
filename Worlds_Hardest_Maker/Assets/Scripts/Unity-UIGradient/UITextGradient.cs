@@ -17,7 +17,7 @@ public class UITextGradient : BaseMeshEffect
             UIGradientUtils.Matrix2x3 localPositionMatrix =
                 UIGradientUtils.LocalPositionMatrix(new Rect(0f, 0f, 1f, 1f), dir);
 
-            UIVertex vertex = default(UIVertex);
+            UIVertex vertex = default;
             for (int i = 0; i < vh.currentVertCount; i++)
             {
                 vh.PopulateUIVertex(ref vertex, i);

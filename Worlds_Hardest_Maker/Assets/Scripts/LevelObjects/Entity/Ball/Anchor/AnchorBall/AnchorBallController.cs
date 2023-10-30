@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class AnchorBallController : EntityController
@@ -15,15 +14,12 @@ public class AnchorBallController : EntityController
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        
+
         if (ParentAnchor == null) IsParentAnchorNull = true;
-        
+
         StartPosition = transform.localPosition;
 
-        if (LevelSessionManager.Instance.IsEdit)
-        {
-            EditModeManager.Instance.OnEdit += ResetPosition;
-        }
+        if (LevelSessionManager.Instance.IsEdit) EditModeManager.Instance.OnEdit += ResetPosition;
     }
 
     public void ResetPosition()
@@ -31,7 +27,7 @@ public class AnchorBallController : EntityController
         transform.localPosition = StartPosition;
         rb.velocity = Vector2.zero;
     }
-    
+
     public override void Delete()
     {
         if (IsParentAnchorNull)
@@ -44,23 +40,17 @@ public class AnchorBallController : EntityController
     private void OnDestroy()
     {
         AnchorBallManager.Instance.AnchorBallList.Remove(this);
-        
+
         if (ParentAnchor != null)
         {
             ParentAnchor.Balls.Remove(transform.parent);
             AnchorBallManager.Instance.AnchorBallListLayers[ParentAnchor].Remove(this);
         }
-        else
-        {
-            AnchorBallManager.Instance.AnchorBallListGlobal.Remove(this);
-        }
-        
+        else AnchorBallManager.Instance.AnchorBallListGlobal.Remove(this);
+
         Destroy(transform.parent.gameObject);
 
         // unsubscribe
-        if (LevelSessionManager.Instance.IsEdit)
-        {
-            EditModeManager.Instance.OnEdit -= ResetPosition;
-        }
+        if (LevelSessionManager.Instance.IsEdit) EditModeManager.Instance.OnEdit -= ResetPosition;
     }
 }

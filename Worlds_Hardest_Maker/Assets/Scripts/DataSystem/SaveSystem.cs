@@ -15,10 +15,7 @@ public static class SaveSystem
             // create path if it doesn't exist yet
             string path = Application.persistentDataPath + "/Levels/";
 
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
             return path;
         }
@@ -56,7 +53,7 @@ public static class SaveSystem
             LevelData levelData = new()
             {
                 Info = levelInfo,
-                Objects = levelObjects
+                Objects = levelObjects,
             };
 
             BinaryFormatter formatter = new();
@@ -132,8 +129,10 @@ public static class SaveSystem
     public static LevelData LoadLevel()
     {
         // requests path from user and returns level in form of List<IData>
-        string[] pathArr = StandaloneFileBrowser.OpenFilePanel("Select your level (.lvl)",
-            LevelSavePath, "lvl", false);
+        string[] pathArr = StandaloneFileBrowser.OpenFilePanel(
+            "Select your level (.lvl)",
+            LevelSavePath, "lvl", false
+        );
 
         // check if user selected nothing
         if (pathArr.Length != 1)
@@ -161,10 +160,7 @@ public static class SaveSystem
         FileStream stream = new(path, FileMode.Open);
         LevelData data;
 
-        try
-        {
-            data = formatter.Deserialize(stream) as LevelData;
-        }
+        try { data = formatter.Deserialize(stream) as LevelData; }
         catch
         {
             Debug.LogWarning($"Failed to load file at path: {path}");

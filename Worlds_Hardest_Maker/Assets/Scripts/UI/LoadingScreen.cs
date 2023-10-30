@@ -6,16 +6,13 @@ using UnityEngine.UI;
 
 public class LoadingScreen : MonoBehaviour
 {
-    [Separator("Settings")] [SerializeField] [PositiveValueOnly]
-    private float delay;
+    [Separator("Settings")] [SerializeField] [PositiveValueOnly] private float delay;
 
     [SerializeField] [PositiveValueOnly] private float duration = 1;
 
-    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned]
-    private Slider slider;
+    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private Slider slider;
 
-    [SerializeField] [InitializationField] [MustBeAssigned]
-    private ChainableTween tween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private ChainableTween tween;
 
     public void SetProgress(float progress) => slider.value = progress;
 

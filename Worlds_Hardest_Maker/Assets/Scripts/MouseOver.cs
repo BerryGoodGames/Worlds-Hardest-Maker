@@ -7,9 +7,7 @@ using UnityEngine;
 /// </summary>
 public class MouseOver : MonoBehaviour
 {
-    [field: SerializeField]
-    [field: ReadOnly]
-    public bool Over { get; set; }
+    [field: SerializeField] [field: ReadOnly] public bool Over { get; set; }
 
     [Space] [SerializeField] private bool updateChildrenEveryFrame;
 

@@ -10,8 +10,10 @@ public partial class AnchorManager
 
         GameObject anchor = MultiplayerManager.Instance.Multiplayer
             ? PhotonNetwork.Instantiate("Anchor", Vector2.zero, Quaternion.identity)
-            : Instantiate(PrefabManager.Instance.Anchor, Vector2.zero, Quaternion.identity,
-                ReferenceManager.Instance.AnchorContainer);
+            : Instantiate(
+                PrefabManager.Instance.Anchor, Vector2.zero, Quaternion.identity,
+                ReferenceManager.Instance.AnchorContainer
+            );
 
         AnchorController child = anchor.GetComponent<AnchorParentController>().Child;
         child.transform.position = position;
@@ -40,9 +42,8 @@ public partial class AnchorManager
 
             // deselect anchor first, if selected
             if (Instance.SelectedAnchor != null)
-            {
-                if (Instance.SelectedAnchor.Equals(anchor)) Instance.DeselectAnchor();
-            }
+                if (Instance.SelectedAnchor.Equals(anchor))
+                    Instance.DeselectAnchor();
 
             AnchorBallManager.Instance.AnchorBallListLayers.Remove(anchor);
 

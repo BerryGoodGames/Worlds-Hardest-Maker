@@ -32,6 +32,6 @@ public class KeyData : Data
             KeyManager.KeyColor.Green => EditMode.GreenKey,
             KeyManager.KeyColor.Blue => EditMode.BlueKey,
             KeyManager.KeyColor.Yellow => EditMode.YellowKey,
-            _ => EditMode.GrayKey
+            _ => EditMode.GrayKey,
         };
 }

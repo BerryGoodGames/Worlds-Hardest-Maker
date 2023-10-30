@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 public class MoveAndRotateBlockController : PositionAnchorBlockController
 {
-    [Separator("Specifics")] [InitializationField]
-    public TMP_InputField IterationsInput;
+    [Separator("Specifics")] [InitializationField] public TMP_InputField IterationsInput;
 
     [InitializationField] public Toggle AdaptRotation;
 
@@ -13,7 +12,9 @@ public class MoveAndRotateBlockController : PositionAnchorBlockController
     {
         float iterations = IterationsInput.GetFloatInput();
 
-        return new MoveAndRotateBlock(anchorController, IsLocked, GetPositionInput(),
-            iterations, AdaptRotation.isOn);
+        return new MoveAndRotateBlock(
+            anchorController, IsLocked, GetPositionInput(),
+            iterations, AdaptRotation.isOn
+        );
     }
 }

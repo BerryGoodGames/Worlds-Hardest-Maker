@@ -6,17 +6,13 @@ using UnityEngine.UI;
 
 public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] [InitializationField] [MustBeAssigned]
-    private RectTransform levelCard;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform levelCard;
 
-    [SerializeField] [InitializationField] [MustBeAssigned]
-    private RectTransform card;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform card;
 
-    [SerializeField] [InitializationField] [MustBeAssigned]
-    private ContentSizeFitter extendedArea;
+    [SerializeField] [InitializationField] [MustBeAssigned] private ContentSizeFitter extendedArea;
 
-    [Separator] [SerializeField] [PositiveValueOnly]
-    private float hoverScale;
+    [Separator] [SerializeField] [PositiveValueOnly] private float hoverScale;
 
     [SerializeField] [PositiveValueOnly] private float startEditScale;
 

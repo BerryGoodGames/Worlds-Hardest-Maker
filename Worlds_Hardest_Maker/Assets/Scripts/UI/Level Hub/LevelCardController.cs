@@ -9,8 +9,7 @@ using UnityEngine.EventSystems;
 
 public class LevelCardController : MonoBehaviour, IPointerClickHandler
 {
-    [Separator("References")] [SerializeField]
-    private TMP_Text nameText;
+    [Separator("References")] [SerializeField] private TMP_Text nameText;
 
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private TMP_Text creatorText;
@@ -57,25 +56,25 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
         get => playTimeText.text;
         set => playTimeText.text = value;
     }
-    
+
     public string Completions
     {
         get => completionsText.text;
         set => completionsText.text = value;
     }
-    
+
     public string Deaths
     {
         get => deathsText.text;
         set => deathsText.text = value;
     }
-    
+
     public string CompletionTime
     {
         get => completionTimeText.text;
         set => completionTimeText.text = value;
     }
-    
+
     public string CompletionRate
     {
         get => completionRateText.text;
@@ -128,10 +127,7 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
         // get new name
         string newName = LevelName[..^4].GetCopyName();
 
-        while (File.Exists(SaveSystem.LevelSavePath + newName + ".lvl"))
-        {
-            newName = newName.GetCopyName();
-        }
+        while (File.Exists(SaveSystem.LevelSavePath + newName + ".lvl")) { newName = newName.GetCopyName(); }
 
         // copy the data
         if (LevelPath != null)
@@ -146,21 +142,19 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
 
     public void ExportLevel()
     {
-        string exportPath = StandaloneFileBrowser.SaveFilePanel("Export Level",
-            Environment.SpecialFolder.UserProfile + "\\Downloads", LevelName, "lvl");
+        string exportPath = StandaloneFileBrowser.SaveFilePanel(
+            "Export Level",
+            Environment.SpecialFolder.UserProfile + "\\Downloads", LevelName, "lvl"
+        );
 
 
-        if (exportPath != string.Empty)
-            File.Copy(LevelPath, exportPath, true);
+        if (exportPath != string.Empty) File.Copy(LevelPath, exportPath, true);
     }
 
 
     private void Awake()
     {
-        foreach (Tooltip tooltip in buttonTooltips)
-        {
-            tooltip.Container = LevelHubManager.Instance.TooltipContainer;
-        }
+        foreach (Tooltip tooltip in buttonTooltips) { tooltip.Container = LevelHubManager.Instance.TooltipContainer; }
     }
 
     public void OnPointerClick(PointerEventData eventData) => levelCardTween.ToggleExpandCollapse();

@@ -11,9 +11,10 @@ public class MainMenuManager : MonoBehaviour
 
     public void StartMultiplayer() => loadingScreen.LoadScene(2);
 
-    public void OpenOptions() => throw
-        // TODO add game options
-        new NotImplementedException();
+    public void OpenOptions() =>
+        throw
+            // TODO add game options
+            new NotImplementedException();
 
     public void QuitGame() => Application.Quit();
 

@@ -18,8 +18,10 @@ public class LevelHubManager : MonoBehaviour
     public void ImportLevel()
     {
         // ask user for path
-        string[] paths = StandaloneFileBrowser.OpenFilePanel("Import Level",
-            Environment.SpecialFolder.UserProfile + "\\Downloads", "lvl", false);
+        string[] paths = StandaloneFileBrowser.OpenFilePanel(
+            "Import Level",
+            Environment.SpecialFolder.UserProfile + "\\Downloads", "lvl", false
+        );
 
         // import selected level
         if (paths.Length <= 0) return;
@@ -37,10 +39,7 @@ public class LevelHubManager : MonoBehaviour
         string fileName = Path.GetFileName(filePath)[..^4];
 
         // generate copy name if needed
-        while (File.Exists(SaveSystem.LevelSavePath + fileName + ".lvl"))
-        {
-            fileName = fileName.GetCopyName();
-        }
+        while (File.Exists(SaveSystem.LevelSavePath + fileName + ".lvl")) { fileName = fileName.GetCopyName(); }
 
         // copy file to level save path
         string newFilePath = SaveSystem.LevelSavePath + fileName + ".lvl";

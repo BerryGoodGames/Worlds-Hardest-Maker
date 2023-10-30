@@ -16,8 +16,7 @@ public class PreviewController : MonoBehaviour
     [SerializeField] private Sprite defaultSprite;
     [SerializeField] private Color defaultColor;
 
-    [Space] [SerializeField] [Range(0, 255)]
-    private float alpha;
+    [Space] [SerializeField] [Range(0, 255)] private float alpha;
 
     [ReadOnly] public bool CheckUpdateEveryFrame = true;
 
@@ -63,8 +62,7 @@ public class PreviewController : MonoBehaviour
         // update sprite if necessary
         bool hasEditModeChanged = previousEditMode != currentEditMode;
         bool hasPlayingChanged = previousPlaying != EditModeManager.Instance.Playing;
-        if (CheckUpdateEveryFrame && (hasEditModeChanged || hasPlayingChanged))
-            UpdateSprite();
+        if (CheckUpdateEveryFrame && (hasEditModeChanged || hasPlayingChanged)) UpdateSprite();
 
 
         if (!SelectionManager.Instance.Selecting && hasFollowMouseComp)
@@ -101,8 +99,7 @@ public class PreviewController : MonoBehaviour
         // check if preview of prefab not allowed during filling
         if (SelectionManager.Instance.Selecting)
         {
-            if (SelectionManager.NoFillPreviewModes.Contains(mode))
-                return false;
+            if (SelectionManager.NoFillPreviewModes.Contains(mode)) return false;
         }
 
         WorldPositionType positionMode = GetComponent<FollowMouse>().WorldPosition;
@@ -111,12 +108,11 @@ public class PreviewController : MonoBehaviour
         {
             WorldPositionType.Any => MouseManager.Instance.MouseWorldPos,
             WorldPositionType.Grid => MouseManager.Instance.MouseWorldPosGrid,
-            _ => MouseManager.Instance.MouseWorldPosMatrix
+            _ => MouseManager.Instance.MouseWorldPosMatrix,
         };
 
         // check coin placement
-        if (mode != EditMode.Coin)
-            return !KeyManager.KeyModes.Contains(mode) || KeyManager.CanPlace(mousePos);
+        if (mode != EditMode.Coin) return !KeyManager.KeyModes.Contains(mode) || KeyManager.CanPlace(mousePos);
 
         if (!CoinManager.CanPlace(mousePos)) return false;
 
@@ -151,8 +147,11 @@ public class PreviewController : MonoBehaviour
         {
             // apply PreviewSprite settings if it has one
             SpriteRenderer.sprite = previewSprite.Sprite;
-            SpriteRenderer.color = new(previewSprite.Color.r, previewSprite.Color.g, previewSprite.Color.b,
-                alpha / 255f);
+            SpriteRenderer.color = new(
+                previewSprite.Color.r, previewSprite.Color.g, previewSprite.Color.b,
+                alpha / 255f
+            );
+
             transform.localScale = previewSprite.Scale;
 
             UpdateRotation(!previewSprite.Rotate);
@@ -163,8 +162,7 @@ public class PreviewController : MonoBehaviour
         Vector2 scale = new();
 
         // get sprite and scale
-        if (currentPrefab.TryGetComponent(out SpriteRenderer prefabRenderer))
-            scale = currentPrefab.transform.localScale;
+        if (currentPrefab.TryGetComponent(out SpriteRenderer prefabRenderer)) scale = currentPrefab.transform.localScale;
         else
         {
             foreach (Transform child in currentPrefab.transform)
@@ -182,8 +180,7 @@ public class PreviewController : MonoBehaviour
         SpriteRenderer.sprite = prefabRenderer.sprite;
         SpriteRenderer.color = new(prefabColor.r, prefabColor.g, prefabColor.b, alpha / 255f);
         transform.localScale = scale;
-        if (updateRotation)
-            UpdateRotation(true);
+        if (updateRotation) UpdateRotation(true);
 
         // for filling preview go to FillManager.cs
     }
@@ -205,8 +202,7 @@ public class PreviewController : MonoBehaviour
             transform.DORotateQuaternion(rotation, rotateDuration)
                 .SetEase(Ease.OutCubic);
         }
-        else
-            transform.localRotation = rotation;
+        else transform.localRotation = rotation;
     }
 
     private void ApplyDefaultSprite()

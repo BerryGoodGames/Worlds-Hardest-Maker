@@ -9,10 +9,7 @@ public class AnchorBlockRebuilder : MonoBehaviour
 
     public void RebuildLayout()
     {
-        foreach (ContentSizeFitter contentSizeFitter in contentSizeFitters)
-        {
-            contentSizeFitter.Recalculate();
-        }
+        foreach (ContentSizeFitter contentSizeFitter in contentSizeFitters) { contentSizeFitter.Recalculate(); }
     }
 
     [ButtonMethod]
@@ -46,8 +43,7 @@ public class AnchorBlockRebuilder : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             Transform child = transform.GetChild(i);
-            if (child.TryGetComponent(out ContentSizeFitter childContentSizeFitter))
-                children.Add(childContentSizeFitter);
+            if (child.TryGetComponent(out ContentSizeFitter childContentSizeFitter)) children.Add(childContentSizeFitter);
         }
 
         return children;

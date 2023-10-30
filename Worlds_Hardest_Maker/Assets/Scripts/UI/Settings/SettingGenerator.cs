@@ -97,9 +97,7 @@ public class SettingGenerator : MonoBehaviour
                 nio.Response();
                 break;
 
-            case SettingVersion.Checkbox:
-
-                break;
+            case SettingVersion.Checkbox: break;
 
             case SettingVersion.Slider:
                 SliderUI s = ((SliderOption)option).SliderUI;
@@ -111,13 +109,9 @@ public class SettingGenerator : MonoBehaviour
                 s.Response();
                 break;
 
-            case SettingVersion.Header:
+            case SettingVersion.Header: break;
 
-                break;
-
-            case SettingVersion.Space:
-
-                break;
+            case SettingVersion.Space: break;
         }
     }
 #endif

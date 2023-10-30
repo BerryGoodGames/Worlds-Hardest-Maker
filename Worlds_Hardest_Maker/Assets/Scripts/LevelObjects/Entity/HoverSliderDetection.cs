@@ -12,8 +12,7 @@ public class HoverSliderDetection : MonoBehaviour
 {
     public static bool SliderHovered = false;
 
-    [SerializeField] [InitializationField] [MustBeAssigned]
-    private Transform hoveringHitboxContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform hoveringHitboxContainer;
 
     [SerializeField] private GameObject[] roots;
     private bool hovered;

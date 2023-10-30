@@ -36,8 +36,11 @@ public class AppendSlider : MonoBehaviour
             return;
         }
 
-        Slider = Instantiate(sliderPrefab, Vector2.zero, Quaternion.identity,
-            ReferenceManager.Instance.SliderContainer);
+        Slider = Instantiate(
+            sliderPrefab, Vector2.zero, Quaternion.identity,
+            ReferenceManager.Instance.SliderContainer
+        );
+
         Slider settings = Slider.GetComponent<Slider>();
         settings.minValue = limits.Min / step;
         settings.maxValue = limits.Max / step;

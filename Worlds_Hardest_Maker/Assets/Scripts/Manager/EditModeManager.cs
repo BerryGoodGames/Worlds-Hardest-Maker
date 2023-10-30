@@ -77,14 +77,8 @@ public class EditModeManager : MonoBehaviour
             anim.SetBool(editingString, isAnchorRelated);
         }
 
-        if (isAnchorRelated && AnchorManager.Instance.SelectedAnchor)
-        {
-            ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
-        }
-        else
-        {
-            ReferenceManager.Instance.AnchorBallContainer.BallFadeIn();
-        }
+        if (isAnchorRelated && AnchorManager.Instance.SelectedAnchor) ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
+        else ReferenceManager.Instance.AnchorBallContainer.BallFadeIn();
 
         // open corresponding panel
         PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
@@ -93,8 +87,7 @@ public class EditModeManager : MonoBehaviour
 
 
         // enable/disable anchor path
-        if (AnchorManager.Instance.SelectedAnchor)
-            AnchorManager.Instance.SelectedAnchor.SetLinesActive(isAnchorRelated);
+        if (AnchorManager.Instance.SelectedAnchor) AnchorManager.Instance.SelectedAnchor.SetLinesActive(isAnchorRelated);
     }
 
     private void SetEditRotation(int value)

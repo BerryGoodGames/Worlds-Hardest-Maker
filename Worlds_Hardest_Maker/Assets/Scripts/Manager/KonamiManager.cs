@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 /// <Summary>
@@ -7,7 +6,7 @@ using UnityEngine;
 public class KonamiManager : MonoBehaviour
 {
     public static KonamiManager Instance { get; private set; }
-    
+
     public bool KonamiActive { get; private set; }
 
     private int keyIndex;
@@ -19,7 +18,7 @@ public class KonamiManager : MonoBehaviour
         KeyCode.DownArrow, KeyCode.DownArrow,
         KeyCode.LeftArrow, KeyCode.RightArrow,
         KeyCode.LeftArrow, KeyCode.RightArrow,
-        KeyCode.B, KeyCode.A
+        KeyCode.B, KeyCode.A,
     };
 
     private void Update()
@@ -42,18 +41,14 @@ public class KonamiManager : MonoBehaviour
             print($"Konami {(KonamiActive ? "en" : "dis")}abled");
             keyIndex = 0;
         }
-        else
-            keyIndex = 0;
+        else keyIndex = 0;
     }
 
     private static void SetKonamiActive(bool active)
     {
         // toggle key sneezing
-        foreach (KeyController key in KeyManager.Instance.Keys)
-        {
-            key.KonamiAnimation.enabled = active;
-        }
-        
+        foreach (KeyController key in KeyManager.Instance.Keys) { key.KonamiAnimation.enabled = active; }
+
         // toggle shotgun (if player exists)
         GameObject player = PlayerManager.GetPlayer();
         if (player != null)
@@ -61,7 +56,7 @@ public class KonamiManager : MonoBehaviour
             PlayerController controller = player.GetComponent<PlayerController>();
             controller.Shotgun.gameObject.SetActive((!LevelSessionManager.Instance.IsEdit || EditModeManager.Instance.Playing) && active);
         }
-        
+
         // mark play try as cheated if enabling
         if (active) PlayManager.Instance.Cheated = true;
     }

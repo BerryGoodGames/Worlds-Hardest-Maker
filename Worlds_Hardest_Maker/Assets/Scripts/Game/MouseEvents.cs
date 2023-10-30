@@ -19,8 +19,7 @@ public class MouseEvents : MonoBehaviour
         EditMode editMode = EditModeManager.Instance.CurrentEditMode;
 
         // selection
-        if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton))
-            StartCoroutine(StartCancelSelection());
+        if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton)) StartCoroutine(StartCancelSelection());
 
         // select anchor
         if (Input.GetMouseButtonDown(0) && Input.GetKey(KeybindManager.Instance.EditSpeedKey))
@@ -85,14 +84,12 @@ public class MouseEvents : MonoBehaviour
     {
         List<EditMode> dragPlaceEditModes = new()
         {
-            EditMode.DeleteField, EditMode.Player, EditMode.Coin, EditMode.AnchorBall
+            EditMode.DeleteField, EditMode.Player, EditMode.Coin, EditMode.AnchorBall,
         };
 
         // check placement
         if (dragPlaceEditModes.Contains(editMode) || editMode.IsKey() || editMode.IsFieldType())
-        {
             GameManager.PlaceEditModeAtPosition(editMode, MouseManager.Instance.MouseWorldPos);
-        }
 
         // if user dragged to fast, fill path between two mouse pos for smoother placing on low framerate
         if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) > 1.414f &&
@@ -131,8 +128,10 @@ public class MouseEvents : MonoBehaviour
         else
         {
             // remove entity
-            GameEntityManager.RemoveEntitiesAt(MouseManager.Instance.MouseWorldPosGrid,
-                LayerManager.Instance.Layers.Entity);
+            GameEntityManager.RemoveEntitiesAt(
+                MouseManager.Instance.MouseWorldPosGrid,
+                LayerManager.Instance.Layers.Entity
+            );
         }
     }
 }

@@ -22,16 +22,12 @@ public class ConveyorController : MonoBehaviour
             EditModeManager.Instance.OnPlay += SwitchAnimToRunning;
             EditModeManager.Instance.OnEdit += SwitchAnimToStaying;
         }
-        else
-        {
-            SwitchAnimToRunning();
-        }
+        else SwitchAnimToRunning();
     }
 
     public void SwitchAnimToRunning()
     {
-        if (anim == null)
-            GetComponent<Animator>();
+        if (anim == null) GetComponent<Animator>();
 
         anim.speed = Strength;
         anim.SetBool(running, true);
@@ -39,8 +35,7 @@ public class ConveyorController : MonoBehaviour
 
     private void SwitchAnimToStaying()
     {
-        if (anim == null)
-            GetComponent<Animator>();
+        if (anim == null) GetComponent<Animator>();
 
         anim.SetBool(running, false);
     }

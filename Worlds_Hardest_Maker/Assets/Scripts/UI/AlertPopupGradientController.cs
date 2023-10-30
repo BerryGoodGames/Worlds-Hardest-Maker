@@ -11,8 +11,7 @@ public class AlertPopupGradientController : MonoBehaviour
     [SerializeField] private List<UIGradient> gradientBorders;
     [SerializeField] private List<UIGradient> gradientCenters;
 
-    [Separator("Settings")] [SerializeField]
-    private Color backgroundColor;
+    [Separator("Settings")] [SerializeField] private Color backgroundColor;
 
     [SerializeField] private Color outlineColor;
     [SerializeField] private float fadeWidth = 100;

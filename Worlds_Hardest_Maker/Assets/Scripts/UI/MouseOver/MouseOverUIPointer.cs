@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>
-/// Detects mouse hovering of a UI element using pointer events
+///     Detects mouse hovering of a UI element using pointer events
 /// </summary>
 public class MouseOverUIPointer : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {

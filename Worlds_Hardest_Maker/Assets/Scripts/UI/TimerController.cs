@@ -7,9 +7,7 @@ public class TimerController : MonoBehaviour
 {
     public TMP_Text Text;
 
-    [field: Header("Colors")]
-    [field: SerializeField]
-    public Color CheatedTimerColor { get; private set; }
+    [field: Header("Colors")] [field: SerializeField] public Color CheatedTimerColor { get; private set; }
 
     [field: SerializeField] public Color FinishedTimerColor { get; private set; }
     [field: SerializeField] public Color TimerDefaultColor { get; private set; }
@@ -33,16 +31,14 @@ public class TimerController : MonoBehaviour
 
     public void StopTimer()
     {
-        if (timerCoroutine != null)
-            StopCoroutine(timerCoroutine);
+        if (timerCoroutine != null) StopCoroutine(timerCoroutine);
     }
 
     public void FinishTimer()
     {
         StopTimer();
-        
-        if (!PlayManager.Instance.Cheated)
-            Text.color = FinishedTimerColor;
+
+        if (!PlayManager.Instance.Cheated) Text.color = FinishedTimerColor;
 
         LevelSessionManager.Instance.TrySetBestTime(TimeSpan.FromSeconds(timerSeconds));
     }

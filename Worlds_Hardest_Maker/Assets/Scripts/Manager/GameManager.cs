@@ -22,8 +22,7 @@ public class GameManager : MonoBehaviourPun
     private void Awake()
     {
         // init singleton
-        if (Instance == null)
-            Instance = this;
+        if (Instance == null) Instance = this;
         // DontDestroyOnLoad(gameObject);
         else Destroy(gameObject);
 
@@ -53,8 +52,7 @@ public class GameManager : MonoBehaviourPun
 
         // start saving interval if either Dbg auto load enabled or any path given
         if ((LevelSessionManager.Instance.IsEdit && Dbg.Instance.AutoLoadLevel) ||
-            LevelSessionManager.Instance.LevelSessionPath != string.Empty)
-            StartCoroutine(AutoSave());
+            LevelSessionManager.Instance.LevelSessionPath != string.Empty) StartCoroutine(AutoSave());
     }
 
     /// <summary>
@@ -162,10 +160,7 @@ public class GameManager : MonoBehaviourPun
 
 
         // load fields
-        foreach (FieldData field in fieldData)
-        {
-            field.ImportToLevel();
-        }
+        foreach (FieldData field in fieldData) { field.ImportToLevel(); }
 
         // load player last
         playerData?.ImportToLevel();
@@ -206,8 +201,7 @@ public class GameManager : MonoBehaviourPun
         else throw new Exception($"Couldn't set camera height (in units) to {height} because main camera is null");
     }
 
-    public static Vector2 ScreenToMainCanvas(Vector2 position) =>
-        position * (Instance.canvasRT.sizeDelta / new Vector2(Screen.width, Screen.height));
+    public static Vector2 ScreenToMainCanvas(Vector2 position) => position * (Instance.canvasRT.sizeDelta / new Vector2(Screen.width, Screen.height));
 
 
     [PunRPC]
@@ -216,20 +210,14 @@ public class GameManager : MonoBehaviourPun
         PlayerManager.Instance.RemoveAllPlayers();
         List<Transform> containers = new()
         {
-            ReferenceManager.Instance.FieldContainer
+            ReferenceManager.Instance.FieldContainer,
         };
 
-        foreach (Transform t in ReferenceManager.Instance.EntityContainer)
-        {
-            containers.Add(t);
-        }
+        foreach (Transform t in ReferenceManager.Instance.EntityContainer) { containers.Add(t); }
 
         foreach (Transform container in containers)
         {
-            for (int i = container.childCount - 1; i >= 0; i--)
-            {
-                DestroyImmediate(container.GetChild(i).gameObject);
-            }
+            for (int i = container.childCount - 1; i >= 0; i--) { DestroyImmediate(container.GetChild(i).gameObject); }
         }
     }
 
@@ -242,8 +230,7 @@ public class GameManager : MonoBehaviourPun
         {
             if (hit == null) continue;
 
-            if (hit.transform.parent == container)
-                Destroy(hit.gameObject);
+            if (hit.transform.parent == container) Destroy(hit.gameObject);
             else if (hit.transform.parent.parent == container) Destroy(hit.transform.parent.gameObject);
         }
     }
@@ -254,13 +241,10 @@ public class GameManager : MonoBehaviourPun
         {
             new(-0.5f, -0.5f), new(0, -0.5f), new(0.5f, -0.5f),
             new(-0.5f, 0), new(0, 0), new(0.5f, 0),
-            new(-0.5f, 0.5f), new(0, 0.5f), new(0.5f, 0.5f)
+            new(-0.5f, 0.5f), new(0, 0.5f), new(0.5f, 0.5f),
         };
 
-        foreach (Vector2 d in deltas)
-        {
-            RemoveObjectInContainer(position + d, container);
-        }
+        foreach (Vector2 d in deltas) { RemoveObjectInContainer(position + d, container); }
     }
 
     public void MainMenu()
@@ -273,10 +257,7 @@ public class GameManager : MonoBehaviourPun
     public void BackupLevel()
     {
         // save level if any path given
-        if (LevelSessionManager.Instance.LevelSessionPath != string.Empty)
-        {
-            SaveSystem.SaveCurrentLevel();
-        }
+        if (LevelSessionManager.Instance.LevelSessionPath != string.Empty) SaveSystem.SaveCurrentLevel();
     }
 
     public static void DeselectInputs()
@@ -295,8 +276,7 @@ public class GameManager : MonoBehaviourPun
     {
         for (int i = 0; i < dropdown.options.Count; i++)
         {
-            if (dropdown.options[i].text == option)
-                return i;
+            if (dropdown.options[i].text == option) return i;
         }
 
         Debug.LogWarning("There was no option found");

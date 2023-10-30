@@ -34,10 +34,7 @@ public class PlayManager : MonoBehaviour
         if (EditModeManager.Instance.Playing) SwitchToEdit();
         else SwitchToPlay();
 
-        foreach (BarTween tween in BarTween.TweenList)
-        {
-            tween.SetPlay(EditModeManager.Instance.Playing);
-        }
+        foreach (BarTween tween in BarTween.TweenList) { tween.SetPlay(EditModeManager.Instance.Playing); }
     }
 
     #region On play
@@ -164,19 +161,10 @@ public class PlayManager : MonoBehaviour
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
         if (isEditModeAnchorRelated)
         {
-            if (PanelManager.Instance.WasAnchorPanelOpen)
-            {
-                PanelManager.Instance.SetPanelOpen(anchorPanel, true);
-            }
-            else
-            {
-                PanelManager.Instance.SetPanelHidden(anchorPanel, false);
-            }
+            if (PanelManager.Instance.WasAnchorPanelOpen) PanelManager.Instance.SetPanelOpen(anchorPanel, true);
+            else PanelManager.Instance.SetPanelHidden(anchorPanel, false);
         }
-        else
-        {
-            PanelManager.Instance.SetPanelHidden(levelSettingsPanel, false);
-        }
+        else PanelManager.Instance.SetPanelHidden(levelSettingsPanel, false);
     }
 
     private static void ResetPlayerGameStates()
@@ -195,9 +183,11 @@ public class PlayManager : MonoBehaviour
         // enable placement preview and place it at mouse
         ReferenceManager.Instance.PlacementPreview.gameObject.SetActive(true);
         ReferenceManager.Instance.PlacementPreview.transform.position =
-            FollowMouse.GetCurrentMouseWorldPos(ReferenceManager.Instance.PlacementPreview
-                .GetComponent<FollowMouse>()
-                .WorldPosition);
+            FollowMouse.GetCurrentMouseWorldPos(
+                ReferenceManager.Instance.PlacementPreview
+                    .GetComponent<FollowMouse>()
+                    .WorldPosition
+            );
     }
 
     private static void ResetAnchors()
@@ -286,7 +276,8 @@ public class PlayManager : MonoBehaviour
 
         // reset key doors
         string[] tags =
-            { "KeyDoorField", "RedKeyDoorField", "GreenKeyDoorField", "BlueKeyDoorField", "YellowKeyDoorField" };
+            { "KeyDoorField", "RedKeyDoorField", "GreenKeyDoorField", "BlueKeyDoorField", "YellowKeyDoorField", };
+
         foreach (string tag in tags)
         {
             foreach (GameObject door in GameObject.FindGameObjectsWithTag(tag))

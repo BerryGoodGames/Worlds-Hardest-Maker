@@ -36,8 +36,10 @@ public class SyncInputToSlider : MonoBehaviour
         input = GetComponent<TMP_InputField>();
 
         // set stuff in input //
-        UnityEventTools.AddPersistentListener(input.onValueChanged,
-            _ => { UpdateSlider(); }); // add Update Slider to persistent event listener
+        UnityEventTools.AddPersistentListener(
+            input.onValueChanged,
+            _ => { UpdateSlider(); }
+        ); // add Update Slider to persistent event listener
 
         // set stuff in slider //
         UnityEventTools.AddPersistentListener(Slider.onValueChanged, _ => { UpdateInput(); });

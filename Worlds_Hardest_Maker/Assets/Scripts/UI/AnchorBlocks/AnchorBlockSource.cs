@@ -13,10 +13,12 @@ public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
     {
         Vector2 position = transform.position;
 
-        GameObject anchorBlock = Instantiate(anchorBlockPrefab,
+        GameObject anchorBlock = Instantiate(
+            anchorBlockPrefab,
             position,
             Quaternion.identity,
-            ReferenceManager.Instance.AnchorBlockChainContainer);
+            ReferenceManager.Instance.AnchorBlockChainContainer
+        );
 
         // activate restriction
         UIRestrictInRectTransform restrict = anchorBlock.GetComponent<UIRestrictInRectTransform>();

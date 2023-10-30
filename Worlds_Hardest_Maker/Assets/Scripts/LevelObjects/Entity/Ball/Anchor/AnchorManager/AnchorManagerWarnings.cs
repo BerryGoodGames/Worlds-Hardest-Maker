@@ -11,30 +11,32 @@ public partial class AnchorManager
         bool isStackOverflow = true;
 
         AnchorBlock loopBlock = null;
-        CheckWarningsForEach((_, currentNode) =>
-        {
-            AnchorBlock block = currentNode.Value;
-
-            // detect loop block
-            if (block.ImplementedBlockType is AnchorBlock.Type.Loop)
+        CheckWarningsForEach(
+            (_, currentNode) =>
             {
-                loopingDetected = true;
-                loopBlock = block;
+                AnchorBlock block = currentNode.Value;
 
-                // stack overflow if no block after loop block
-                if (currentNode.Next == null) isStackOverflow = true;
-                return false;
+                // detect loop block
+                if (block.ImplementedBlockType is AnchorBlock.Type.Loop)
+                {
+                    loopingDetected = true;
+                    loopBlock = block;
+
+                    // stack overflow if no block after loop block
+                    if (currentNode.Next == null) isStackOverflow = true;
+                    return false;
+                }
+
+                // check if any of following blocks have any duration, if yes then no stack overflow
+                if (!loopingDetected || block is not IDurationBlock durationBlock) return false;
+                if (!durationBlock.HasCurrentlyDuration) return false;
+
+                isStackOverflow = false;
+
+                // break the loop
+                return true;
             }
-
-            // check if any of following blocks have any duration, if yes then no stack overflow
-            if (!loopingDetected || block is not IDurationBlock durationBlock) return false;
-            if (!durationBlock.HasCurrentlyDuration) return false;
-
-            isStackOverflow = false;
-
-            // break the loop
-            return true;
-        });
+        );
 
         if (loopingDetected)
         {
@@ -47,28 +49,30 @@ public partial class AnchorManager
     {
         // check if start rotating block as seconds as time input -> one rotation takes [time input] amount of time
         bool canStartRotateWork = false;
-        CheckWarningsForEach((i, currentNode) =>
-        {
-            AnchorBlock block = currentNode.Value;
-
-            switch (block.ImplementedBlockType)
+        CheckWarningsForEach(
+            (i, currentNode) =>
             {
-                case AnchorBlock.Type.SetRotation:
+                AnchorBlock block = currentNode.Value;
+
+                switch (block.ImplementedBlockType)
                 {
-                    // update if start rotating blocks can work
-                    SetRotationBlock setRotationBlock = (SetRotationBlock)block;
-                    canStartRotateWork = setRotationBlock.GetUnit() != SetRotationBlock.Unit.Time;
-                    break;
+                    case AnchorBlock.Type.SetRotation:
+                    {
+                        // update if start rotating blocks can work
+                        SetRotationBlock setRotationBlock = (SetRotationBlock)block;
+                        canStartRotateWork = setRotationBlock.GetUnit() != SetRotationBlock.Unit.Time;
+                        break;
+                    }
+
+                    // update if it can't rotate
+                    case AnchorBlock.Type.StartRotating:
+                        ReferenceManager.Instance.MainChainController.Children[i].SetWarning(!canStartRotateWork);
+                        break;
                 }
 
-                // update if it can't rotate
-                case AnchorBlock.Type.StartRotating:
-                    ReferenceManager.Instance.MainChainController.Children[i].SetWarning(!canStartRotateWork);
-                    break;
+                return false;
             }
-
-            return false;
-        });
+        );
     }
 
     private void CheckWarningsForEach(Func<int, LinkedListNode<AnchorBlock>, bool> action)

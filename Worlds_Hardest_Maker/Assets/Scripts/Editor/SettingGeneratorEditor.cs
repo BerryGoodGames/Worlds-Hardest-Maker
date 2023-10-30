@@ -90,10 +90,7 @@ public class SettingGeneratorEditor : Editor
         EditorGUILayout.Space();
 
         // generates setting on click
-        if (GUILayout.Button("Generate"))
-        {
-            script.GenerateSetting();
-        }
+        if (GUILayout.Button("Generate")) script.GenerateSetting();
 
         serializedObject.ApplyModifiedProperties();
     }

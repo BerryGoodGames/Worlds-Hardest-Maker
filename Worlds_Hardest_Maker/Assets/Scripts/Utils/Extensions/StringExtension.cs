@@ -22,12 +22,12 @@ public static class StringExtension
             int endIndex = fileName.LastIndexOf(')');
             if (endIndex != -1 && endIndex > indexOfPattern)
             {
-                string numberString = fileName.Substring(indexOfPattern + pattern.Length,
-                    endIndex - indexOfPattern - pattern.Length);
-                if (int.TryParse(numberString, out copyNumber))
-                {
-                    fileName = fileName.Remove(indexOfPattern);
-                }
+                string numberString = fileName.Substring(
+                    indexOfPattern + pattern.Length,
+                    endIndex - indexOfPattern - pattern.Length
+                );
+
+                if (int.TryParse(numberString, out copyNumber)) fileName = fileName.Remove(indexOfPattern);
             }
         }
 

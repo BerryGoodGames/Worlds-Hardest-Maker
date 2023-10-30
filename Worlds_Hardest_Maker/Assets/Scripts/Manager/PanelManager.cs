@@ -42,18 +42,12 @@ public class PanelManager : MonoBehaviour
 
     public void CloseAllPanels()
     {
-        foreach (PanelController panel in Panels)
-        {
-            SetPanelOpen(panel, false);
-        }
+        foreach (PanelController panel in Panels) { SetPanelOpen(panel, false); }
     }
 
     public void HideAllPanels()
     {
-        foreach (PanelController panel in Panels)
-        {
-            SetPanelHidden(panel, true);
-        }
+        foreach (PanelController panel in Panels) { SetPanelHidden(panel, true); }
     }
 
     private void Awake()

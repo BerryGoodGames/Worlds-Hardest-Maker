@@ -35,9 +35,6 @@ public class SelectGameObjectsWithMissingScripts : Editor
             //Set the selection in the editor
             Selection.objects = objectsWithDeadLinks.ToArray();
         }
-        else
-        {
-            Debug.Log("No GameObjects in '" + currentScene.name + "' have missing scripts! Yay!");
-        }
+        else Debug.Log("No GameObjects in '" + currentScene.name + "' have missing scripts! Yay!");
     }
 }

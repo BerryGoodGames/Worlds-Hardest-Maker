@@ -5,7 +5,6 @@ using MyBox;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerController : EntityController
@@ -16,20 +15,17 @@ public class PlayerController : EntityController
 
     [Space] public float Speed;
 
-    [Separator("Water settings")] [SerializeField]
-    private Transform waterLevel;
+    [Separator("Water settings")] [SerializeField] private Transform waterLevel;
 
     [SerializeField] [Range(0, 1)] private float waterDamping;
     [SerializeField] private float drownDuration;
     private float currentDrownDuration;
 
-    [Separator("Ice settings")] [SerializeField]
-    private float iceFriction;
+    [Separator("Ice settings")] [SerializeField] private float iceFriction;
 
     [SerializeField] private float maxIceSpeed;
 
-    [Separator("Void settings")] [SerializeField]
-    private float voidFallDuration;
+    [Separator("Void settings")] [SerializeField] private float voidFallDuration;
 
     #endregion
 
@@ -100,8 +96,7 @@ public class PlayerController : EntityController
 
         EdgeCollider.enabled = EditModeManager.Instance.Playing;
 
-        if (transform.parent != ReferenceManager.Instance.PlayerContainer)
-            transform.SetParent(ReferenceManager.Instance.PlayerContainer);
+        if (transform.parent != ReferenceManager.Instance.PlayerContainer) transform.SetParent(ReferenceManager.Instance.PlayerContainer);
 
         ApplyCurrentGameState();
 
@@ -139,9 +134,8 @@ public class PlayerController : EntityController
     {
         EdgeCollider.enabled = false;
 
-        if (Won && Animator != null)
-            Animator.SetTrigger(death);
-        
+        if (Won && Animator != null) Animator.SetTrigger(death);
+
         Shotgun.gameObject.SetActive(false);
     }
 
@@ -149,10 +143,7 @@ public class PlayerController : EntityController
     {
         EdgeCollider.enabled = true;
 
-        if (KonamiManager.Instance.KonamiActive)
-        {
-            Shotgun.gameObject.SetActive(true);
-        }
+        if (KonamiManager.Instance.KonamiActive) Shotgun.gameObject.SetActive(true);
     }
 
     #region Physics, Movement
@@ -168,10 +159,8 @@ public class PlayerController : EntityController
         {
             if (MultiplayerManager.Instance.Multiplayer && !PhotonView.IsMine) return;
 
-            if (ice)
-                IcePhysics();
-            else
-                UpdateMovement(ref totalMovement);
+            if (ice) IcePhysics();
+            else UpdateMovement(ref totalMovement);
         }
 
         UpdateConveyorMovement(ref totalMovement);
@@ -225,7 +214,8 @@ public class PlayerController : EntityController
         {
             totalMovement += GetCurrentSpeed() * Time.fixedDeltaTime * new Vector2(
                 Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1),
-                Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1));
+                Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1)
+            );
         }
 
         extraMovementInput = Vector2.zero;
@@ -301,8 +291,7 @@ public class PlayerController : EntityController
         {
             // sync slider
             float currentSliderValue = sliderController.GetValue() / sliderController.Step;
-            if (!currentSliderValue.EqualsFloat(speed))
-                sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
+            if (!currentSliderValue.EqualsFloat(speed)) sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
         }
     }
 
@@ -311,8 +300,7 @@ public class PlayerController : EntityController
     {
         if (!PhotonView.IsMine) print($"Set name tag {active}");
 
-        if (!MultiplayerManager.Instance.Multiplayer)
-            throw new Exception("Trying to enable/disable name tag while in singleplayer");
+        if (!MultiplayerManager.Instance.Multiplayer) throw new Exception("Trying to enable/disable name tag while in singleplayer");
         nameTagController.NameTag.SetActive(active);
     }
 
@@ -350,10 +338,7 @@ public class PlayerController : EntityController
         // finds every field the player is at least half way on
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.011f);
         List<GameObject> res = new();
-        foreach (Collider2D hit in hits)
-        {
-            res.Add(hit.gameObject);
-        }
+        foreach (Collider2D hit in hits) { res.Add(hit.gameObject); }
 
         return res;
     }
@@ -455,8 +440,10 @@ public class PlayerController : EntityController
 
         spriteRenderer.material.DOFade(0, voidFallDuration)
             .SetEase(Ease.Linear);
+
         transform.DOMove(fallPosition, voidFallDuration)
             .SetEase(Ease.OutQuint);
+
         transform.DOScale(Vector2.zero, voidFallDuration)
             .SetEase(Ease.OutQuad)
             .OnComplete(DeathAnimFinish);
@@ -478,7 +465,7 @@ public class PlayerController : EntityController
         if (EditModeManager.Instance.Playing)
         {
             Deaths++;
-            if(!LevelSessionManager.Instance.IsEdit) LevelSessionManager.Instance.Deaths++;
+            if (!LevelSessionManager.Instance.IsEdit) LevelSessionManager.Instance.Deaths++;
         }
 
         // update coin counter
@@ -495,12 +482,9 @@ public class PlayerController : EntityController
         if (!KonamiManager.Instance.KonamiActive)
         {
             PlayManager.Instance.Cheated = false;
-            
+
             // reset balls to start position (if player launched them e.g. with shotgun)
-            foreach (AnchorBallController ball in AnchorBallManager.Instance.AnchorBallList)
-            {
-                ball.ResetPosition();
-            }
+            foreach (AnchorBallController ball in AnchorBallManager.Instance.AnchorBallList) { ball.ResetPosition(); }
         }
     }
 
@@ -524,7 +508,8 @@ public class PlayerController : EntityController
         ResetKeysToCurrentGameState();
 
         string[] tags =
-            { "KeyDoorField", "RedKeyDoorField", "GreenKeyDoorField", "BlueKeyDoorField", "YellowKeyDoorField" };
+            { "KeyDoorField", "RedKeyDoorField", "GreenKeyDoorField", "BlueKeyDoorField", "YellowKeyDoorField", };
+
         foreach (string tag in tags)
         {
             foreach (GameObject door in GameObject.FindGameObjectsWithTag(tag))
@@ -537,8 +522,7 @@ public class PlayerController : EntityController
 
     #endregion
 
-    public bool AllCoinsCollected() =>
-        CoinsCollected.Count >= ReferenceManager.Instance.CoinContainer.childCount;
+    public bool AllCoinsCollected() => CoinsCollected.Count >= ReferenceManager.Instance.CoinContainer.childCount;
 
     public void UncollectCoinAtPos(Vector2 position)
     {
@@ -567,9 +551,7 @@ public class PlayerController : EntityController
     public void DestroySelf(bool removeTargetFromCamera = true)
     {
         if (removeTargetFromCamera && ReferenceManager.Instance.MainCameraJumper.GetTarget("Player") == gameObject)
-        {
             ReferenceManager.Instance.MainCameraJumper.RemoveTarget("Player");
-        }
 
         if (LevelSessionManager.Instance.IsEdit) Destroy(sliderController.GetSliderObject());
 
@@ -600,16 +582,10 @@ public class PlayerController : EntityController
         // convert collectedCoins and collectedKeys to List<Vector2>
         List<Vector2> coinPositions = new();
 
-        foreach (GameObject c in CoinsCollected)
-        {
-            coinPositions.Add(c.GetComponent<CoinController>().CoinPosition);
-        }
+        foreach (GameObject c in CoinsCollected) { coinPositions.Add(c.GetComponent<CoinController>().CoinPosition); }
 
         List<Vector2> keyPositions = new();
-        foreach (KeyController key in KeysCollected)
-        {
-            keyPositions.Add(key.KeyPosition);
-        }
+        foreach (KeyController key in KeysCollected) { keyPositions.Add(key.KeyPosition); }
 
         GameState res = new(statePlayerStartingPos, coinPositions, keyPositions);
 
@@ -683,6 +659,7 @@ public class PlayerController : EntityController
 
         GameObject player =
             PlayerManager.InstantiatePlayer(spawnPos, applySpeed, MultiplayerManager.Instance.Multiplayer);
+
         PlayerController newController = player.GetComponent<PlayerController>();
         newController.Deaths = deaths;
         newController.StartPos = StartPos;
@@ -704,7 +681,7 @@ public class PlayerController : EntityController
     private void InitComponents()
     {
         bool isEdit = LevelSessionManager.Instance.IsEdit;
-        
+
         CoinsCollected = new();
 
         Rb = GetComponent<Rigidbody2D>();
@@ -727,9 +704,11 @@ public class PlayerController : EntityController
             nameTagController = GetComponent<AppendNameTag>();
             nameTagController.SetNameTag(PhotonView.Controller.NickName);
         }
-        
+
         Shotgun = GetComponentInChildren<ShotgunController>(true);
-        Shotgun.gameObject.SetActive(isEdit ? EditModeManager.Instance.Playing && KonamiManager.Instance.KonamiActive : KonamiManager.Instance.KonamiActive);
+        Shotgun.gameObject.SetActive(
+            isEdit ? EditModeManager.Instance.Playing && KonamiManager.Instance.KonamiActive : KonamiManager.Instance.KonamiActive
+        );
     }
 
     private void InitSlider()
@@ -740,16 +719,18 @@ public class PlayerController : EntityController
 
         // update speed every time changed
         Slider slider = sliderController.GetSlider();
-        slider.onValueChanged.AddListener(_ =>
-        {
-            float newSpeed = sliderController.GetValue();
+        slider.onValueChanged.AddListener(
+            _ =>
+            {
+                float newSpeed = sliderController.GetValue();
 
-            Speed = newSpeed;
+                Speed = newSpeed;
 
-            UpdateSpeedText();
+                UpdateSpeedText();
 
-            if (MultiplayerManager.Instance.Multiplayer) PhotonView.RPC("SetSpeed", RpcTarget.Others, newSpeed);
-        });
+                if (MultiplayerManager.Instance.Multiplayer) PhotonView.RPC("SetSpeed", RpcTarget.Others, newSpeed);
+            }
+        );
 
         UIFollowEntity follow = sliderController.GetSliderObject().GetComponent<UIFollowEntity>();
         follow.Entity = gameObject;

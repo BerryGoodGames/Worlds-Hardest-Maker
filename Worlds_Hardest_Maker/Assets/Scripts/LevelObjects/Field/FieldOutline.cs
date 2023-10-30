@@ -15,7 +15,7 @@ public class FieldOutline : MonoBehaviour
         FieldType.RedKeyDoorField,
         FieldType.BlueKeyDoorField,
         FieldType.GreenKeyDoorField,
-        FieldType.YellowKeyDoorField
+        FieldType.YellowKeyDoorField,
     };
 
     [SerializeField] private Color color = Color.black;
@@ -27,7 +27,7 @@ public class FieldOutline : MonoBehaviour
 
     [Separator] [SerializeField] private float rayLength = 1f;
 
-    private readonly Vector2[] directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
+    private readonly Vector2[] directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right, };
 
     [HideInInspector] public bool UpdateOnStart = true;
 
@@ -42,7 +42,7 @@ public class FieldOutline : MonoBehaviour
         // create line container which has this transform as parent
         lineContainer = new("LineContainer")
         {
-            transform = { parent = transform }
+            transform = { parent = transform, },
         };
 
         if (connectToOwnTag) connectorTags.Add(transform.tag);
@@ -155,10 +155,7 @@ public class FieldOutline : MonoBehaviour
     private void ClearLines()
     {
         // clear lines
-        foreach (Transform child in lineContainer.transform)
-        {
-            Destroy(child.gameObject);
-        }
+        foreach (Transform child in lineContainer.transform) { Destroy(child.gameObject); }
     }
 
     private void ClearLineInDirection(Vector2 dir)

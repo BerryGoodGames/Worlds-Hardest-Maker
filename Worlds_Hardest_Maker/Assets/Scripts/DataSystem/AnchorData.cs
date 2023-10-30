@@ -27,7 +27,7 @@ public class AnchorData : Data
         position = new[]
         {
             controllerPosition.x,
-            controllerPosition.y
+            controllerPosition.y,
         };
     }
 
@@ -38,10 +38,7 @@ public class AnchorData : Data
         // init balls
         List<AnchorBallController> anchorBalls = AnchorBallManager.Instance.AnchorBallListLayers[controller];
         balls = new AnchorBallData[anchorBalls.Count];
-        for (int i = 0; i < balls.Length; i++)
-        {
-            balls[i] = (AnchorBallData)anchorBalls[i].GetData();
-        }
+        for (int i = 0; i < balls.Length; i++) { balls[i] = (AnchorBallData)anchorBalls[i].GetData(); }
         // for (int i = 0; i < controller.Balls.Count; i++)
         // {
         //     balls[i] = new(controller.Balls[i].GetChild(0).localPosition);
@@ -89,10 +86,7 @@ public class AnchorData : Data
     {
         AnchorController anchor = AnchorManager.Instance.SetAnchor(pos);
 
-        foreach (AnchorBallData ball in balls)
-        {
-            ball.ImportToLevel(anchor);
-        }
+        foreach (AnchorBallData ball in balls) { ball.ImportToLevel(anchor); }
 
         anchor.Blocks = LoadBlocks(anchor);
     }

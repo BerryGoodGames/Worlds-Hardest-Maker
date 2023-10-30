@@ -6,8 +6,7 @@ public class UIRestrict : MonoBehaviour
     public float Left, Right, Top, Bottom;
     [Space] public bool CustomRestrictContainer;
 
-    [ConditionalField(nameof(CustomRestrictContainer))]
-    public RectTransform RestrictContainer;
+    [ConditionalField(nameof(CustomRestrictContainer))] public RectTransform RestrictContainer;
 
     private Vector2 canvasSize;
     private RectTransform rt;
@@ -17,6 +16,7 @@ public class UIRestrict : MonoBehaviour
         canvasSize = (CustomRestrictContainer
             ? RestrictContainer
             : (RectTransform)ReferenceManager.Instance.Canvas.transform).rect.size;
+
         rt = GetComponent<RectTransform>();
     }
 
@@ -26,10 +26,15 @@ public class UIRestrict : MonoBehaviour
         Vector2 pivot = rt.pivot;
         Vector2 size = rt.rect.size;
 
-        float x = Mathf.Clamp(pos.x, pivot.x * size.x - canvasSize.x * 0.5f + Left,
-            canvasSize.x * 0.5f - (1 - pivot.x) * size.x - Right);
-        float y = Mathf.Clamp(pos.y, pivot.y * size.y - canvasSize.y * 0.5f + Bottom,
-            canvasSize.y * 0.5f - (1 - pivot.y) * size.y - Top);
+        float x = Mathf.Clamp(
+            pos.x, pivot.x * size.x - canvasSize.x * 0.5f + Left,
+            canvasSize.x * 0.5f - (1 - pivot.x) * size.x - Right
+        );
+
+        float y = Mathf.Clamp(
+            pos.y, pivot.y * size.y - canvasSize.y * 0.5f + Bottom,
+            canvasSize.y * 0.5f - (1 - pivot.y) * size.y - Top
+        );
 
         rt.localPosition = new(x, y);
     }

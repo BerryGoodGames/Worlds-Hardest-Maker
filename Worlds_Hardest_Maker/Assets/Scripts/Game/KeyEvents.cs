@@ -20,16 +20,17 @@ public class KeyEvents : MonoBehaviour
                 KeyBindSetterController.CancelAddingKeyBind();
                 return;
             }
-            
+
             // else add the key the user typed
             if (Input.anyKeyDown && Input.inputString.Length > 0)
             {
                 MenuManager.Instance.AddingKeyBindSetter.AddKeyCode(Input.inputString);
                 KeyBindSetterController.CancelAddingKeyBind();
             }
+
             return;
         }
-        
+
         // toggle playing
         if (LevelSessionManager.Instance.IsEdit && Input.GetKeyDown(KeyCode.Space)) PlayManager.Instance.TogglePlay();
 
@@ -48,10 +49,7 @@ public class KeyEvents : MonoBehaviour
 
         // toggle menu
         if (!closingPanel && !MenuManager.Instance.BlockMenu &&
-            (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M)))
-        {
-            menuTween.SetVisible(!menuTween.IsVisible);
-        }
+            (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.M))) menuTween.SetVisible(!menuTween.IsVisible);
 
         // teleport player to mouse pos
         if (LevelSessionManager.Instance.IsEdit && EditModeManager.Instance.Playing && Input.GetKeyDown(KeyCode.T))
@@ -78,7 +76,7 @@ public class KeyEvents : MonoBehaviour
 #if UNITY_EDITOR
         const KeyCode ctrl = KeyCode.Tab;
 #else
-            KeyCode ctrl = KeyCode.LeftControl;
+        KeyCode ctrl = KeyCode.LeftControl;
 #endif
 
         // keyboard shortcuts with ctrl
@@ -100,23 +98,24 @@ public class KeyEvents : MonoBehaviour
     {
         Dictionary<KeyCode[], EditMode> keys = new()
         {
-            { new[] { KeyCode.D }, EditMode.DeleteField },
-            { new[] { KeyCode.W }, EditMode.WallField },
-            { new[] { KeyCode.S }, EditMode.StartField },
-            { new[] { KeyCode.G }, EditMode.GoalField },
-            { new[] { KeyCode.O }, EditMode.OneWayField },
-            { new[] { KeyCode.W, KeyCode.A }, EditMode.Water },
-            { new[] { KeyCode.I }, EditMode.Ice },
-            { new[] { KeyCode.V }, EditMode.Void },
-            { new[] { KeyCode.P }, EditMode.Player },
-            { new[] { KeyCode.C }, EditMode.Coin },
-            { new[] { KeyCode.K }, EditMode.GrayKey },
-            { new[] { KeyCode.R, KeyCode.K }, EditMode.RedKey },
-            { new[] { KeyCode.G, KeyCode.K }, EditMode.GreenKey },
-            { new[] { KeyCode.B, KeyCode.K }, EditMode.BlueKey },
-            { new[] { KeyCode.Y, KeyCode.K }, EditMode.YellowKey },
-            { new[] { KeyCode.H, KeyCode.C }, EditMode.CheckpointField }
+            { new[] { KeyCode.D, }, EditMode.DeleteField },
+            { new[] { KeyCode.W, }, EditMode.WallField },
+            { new[] { KeyCode.S, }, EditMode.StartField },
+            { new[] { KeyCode.G, }, EditMode.GoalField },
+            { new[] { KeyCode.O, }, EditMode.OneWayField },
+            { new[] { KeyCode.W, KeyCode.A, }, EditMode.Water },
+            { new[] { KeyCode.I, }, EditMode.Ice },
+            { new[] { KeyCode.V, }, EditMode.Void },
+            { new[] { KeyCode.P, }, EditMode.Player },
+            { new[] { KeyCode.C, }, EditMode.Coin },
+            { new[] { KeyCode.K, }, EditMode.GrayKey },
+            { new[] { KeyCode.R, KeyCode.K, }, EditMode.RedKey },
+            { new[] { KeyCode.G, KeyCode.K, }, EditMode.GreenKey },
+            { new[] { KeyCode.B, KeyCode.K, }, EditMode.BlueKey },
+            { new[] { KeyCode.Y, KeyCode.K, }, EditMode.YellowKey },
+            { new[] { KeyCode.H, KeyCode.C, }, EditMode.CheckpointField },
         };
+
         return keys;
     }
 

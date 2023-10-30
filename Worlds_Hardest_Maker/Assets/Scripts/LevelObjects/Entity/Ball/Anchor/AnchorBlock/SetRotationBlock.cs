@@ -7,7 +7,7 @@ public class SetRotationBlock : AnchorBlock, IPassiveAnchorBlock
     {
         Iterations,
         Degrees,
-        Time
+        Time,
     }
 
     public const Type BlockType = Type.SetRotation;
@@ -48,6 +48,6 @@ public class SetRotationBlock : AnchorBlock, IPassiveAnchorBlock
         {
             Unit.Iterations => input * 360,
             Unit.Degrees => input,
-            _ => throw new Exception("Cannot calculate rotation speed if given unit is Unit.Time")
+            _ => throw new Exception("Cannot calculate rotation speed if given unit is Unit.Time"),
         };
 }

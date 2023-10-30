@@ -10,9 +10,6 @@ public class PanelTweenEditor : Editor
 
         base.OnInspectorGUI();
 
-        if (Application.isPlaying && GUILayout.Button("Toggle"))
-        {
-            script.ToggleOpen();
-        }
+        if (Application.isPlaying && GUILayout.Button("Toggle")) script.ToggleOpen();
     }
 }

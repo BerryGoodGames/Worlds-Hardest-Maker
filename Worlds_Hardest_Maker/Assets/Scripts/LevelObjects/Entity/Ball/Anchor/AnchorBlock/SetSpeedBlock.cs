@@ -5,7 +5,7 @@ public class SetSpeedBlock : AnchorBlock, IPassiveAnchorBlock
     public enum Unit
     {
         Speed,
-        Time
+        Time,
     }
 
     public const Type BlockType = Type.SetSpeed;
