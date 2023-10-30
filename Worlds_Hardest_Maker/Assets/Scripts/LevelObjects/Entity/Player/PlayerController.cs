@@ -110,7 +110,15 @@ public class PlayerController : EntityController
         SyncToLevelSettings();
     }
 
-    private void Update() => movementInput = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+    private void Update()
+    {
+        // get movement input
+        movementInput = Vector2.zero;
+        if (KeyBinds.GetKeyBind("Movement_Up")) movementInput += Vector2.up;
+        if (KeyBinds.GetKeyBind("Movement_Left")) movementInput += Vector2.left;
+        if (KeyBinds.GetKeyBind("Movement_Down")) movementInput += Vector2.down;
+        if (KeyBinds.GetKeyBind("Movement_Right")) movementInput += Vector2.right;
+    }
 
     private void OnCollisionStay2D(Collision2D collider) => CornerPush(collider);
 
