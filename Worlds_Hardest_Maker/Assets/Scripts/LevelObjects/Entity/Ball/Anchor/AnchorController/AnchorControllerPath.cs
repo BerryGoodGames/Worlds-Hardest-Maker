@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using MyBox;
@@ -10,8 +11,12 @@ public partial class AnchorController
     [SerializeField] private Color lineColor;
     [SerializeField] private float lineWeight;
 
-    public void RenderLines()
+    public void RenderLines() => StartCoroutine(RenderLinesCoroutine());
+
+    private IEnumerator RenderLinesCoroutine()
     {
+        yield return new WaitForEndOfFrame();
+        
         ClearLines();
 
         // line settings
@@ -57,46 +62,11 @@ public partial class AnchorController
             isFirstPositionBlockAfterLoop = true;
         }
 
-        return;
+        yield break;
 
         void ParseBlockForPath(ref AnchorBlock anchorBlock)
         {
-            if (anchorBlock is PositionAnchorBlock positionAnchorBlock)
-            {
-                // add new target to array if MoveBlock or MoveAndRotateBlock
-                Vector2 currentVertex = positionAnchorBlock.TargetAbsolute;
-
-                if (ReferenceManager.Instance.MainChainController.Children[index] is not PositionAnchorBlockController
-                    controller) throw new("Controller was for some reason not a position block controller, this shouldn't happen");
-
-                // check if line already rendered
-                if (!hasRendered[index] || !lineList.Contains((previousVertex, currentVertex)) ||
-                    isFirstPositionBlockAfterLoop)
-                {
-                    AnchorPathLine line = Instantiate(
-                        PrefabManager.Instance.AnchorPathLine, Vector2.zero,
-                        Quaternion.identity, lineContainer
-                    );
-
-                    line.CreateArrowHead(previousVertex, currentVertex);
-                    line.CreateArrowLine(
-                        previousVertex, currentVertex,
-                        positionAnchorBlock.ImplementedBlockType is AnchorBlock.Type.Move
-                            or AnchorBlock.Type.MoveAndRotate
-                    );
-
-                    line.CreateBlur();
-
-                    controller.Lines.Add(line);
-
-                    lineList.Add((previousVertex, currentVertex));
-                    hasRendered[index] = true;
-                }
-
-                previousVertex = currentVertex;
-
-                isFirstPositionBlockAfterLoop = false;
-            }
+            if (anchorBlock is PositionAnchorBlock positionAnchorBlock) ParsePositionBlockForPath(ref positionAnchorBlock);
 
             // track loop index if LoopBlock
             else if (anchorBlock.ImplementedBlockType is AnchorBlock.Type.Loop)
@@ -105,26 +75,65 @@ public partial class AnchorController
                 loopIndex = index;
             }
         }
-    }
 
-    private void ClearLines()
-    {
-        // clear references in blocks
-        foreach (AnchorBlock anchorBlock in Blocks)
+        void ParsePositionBlockForPath(ref PositionAnchorBlock positionAnchorBlock)
         {
-            if (anchorBlock is not PositionAnchorBlock positionAnchorBlock) continue;
+            // add new target to array if MoveBlock or MoveAndRotateBlock
+            Vector2 currentVertex = positionAnchorBlock.TargetAbsolute;
 
-            PositionAnchorBlockController controller = positionAnchorBlock.Controller;
+            if (ReferenceManager.Instance.MainChainController.Children[index] is not PositionAnchorBlockController
+                controller) throw new("Controller was for some reason not a position block controller, this shouldn't happen");
 
-            // kill all glow tweens
-            foreach (AnchorPathLine line in controller.Lines) { line.Blur.DOKill(); }
+            // setup line, check if line already rendered
+            if (!hasRendered[index] || !lineList.Contains((previousVertex, currentVertex)) ||
+                isFirstPositionBlockAfterLoop) SetupLine(ref positionAnchorBlock, ref controller, ref currentVertex);
 
-            controller.Lines.Clear();
+            previousVertex = currentVertex;
+
+            isFirstPositionBlockAfterLoop = false;
         }
 
-        // clear lines
-        foreach (Transform line in lineContainer) { Destroy(line.gameObject); }
-    }
+        void SetupLine(ref PositionAnchorBlock positionAnchorBlock, ref PositionAnchorBlockController controller, ref Vector2 currentVertex)
+        {
+            AnchorPathLine line = Instantiate(
+                PrefabManager.Instance.AnchorPathLine, Vector2.zero,
+                Quaternion.identity, lineContainer
+            );
 
+            line.CreateArrowHead(previousVertex, currentVertex);
+            line.CreateArrowLine(
+                previousVertex, currentVertex,
+                positionAnchorBlock.ImplementedBlockType is AnchorBlock.Type.Move
+                    or AnchorBlock.Type.MoveAndRotate
+            );
+
+            line.CreateBlur();
+
+            controller.Lines.Add(line);
+
+            lineList.Add((previousVertex, currentVertex));
+            hasRendered[index] = true;
+        }
+
+        void ClearLines()
+        {
+            // clear references in blocks
+            foreach (AnchorBlock anchorBlock in Blocks)
+            {
+                if (anchorBlock is not PositionAnchorBlock positionAnchorBlock) continue;
+
+                PositionAnchorBlockController controller = positionAnchorBlock.Controller;
+
+                // kill all glow tweens
+                foreach (AnchorPathLine line in controller.Lines) { line.Blur.DOKill(); }
+
+                controller.Lines.Clear();
+            }
+
+            // clear lines
+            foreach (Transform line in lineContainer) { Destroy(line.gameObject); }
+        }
+    }
+    
     public void SetLinesActive(bool active) => lineContainer.gameObject.SetActive(active);
 }
