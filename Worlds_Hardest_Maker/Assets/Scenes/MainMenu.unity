@@ -11733,7 +11733,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4796778379937859287, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_Name
-      value: Create
+      value: CreateButton
       objectReference: {fileID: 0}
     - target: {fileID: 5557022261055032920, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_AnchoredPosition.x

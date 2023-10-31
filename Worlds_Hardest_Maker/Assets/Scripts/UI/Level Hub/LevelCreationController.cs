@@ -2,6 +2,7 @@ using System.IO;
 using MyBox;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelCreationController : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class LevelCreationController : MonoBehaviour
         CreateLevel(ref levelName);
 
         TransitionManager.Instance.LoadLevelPath = SaveSystem.LevelSavePath + levelName + ".lvl";
+        TransitionManager.Instance.LevelSessionMode = LevelSessionMode.Edit;
         TransitionManager.Instance.HasCreatedNewLevel = true;
         TransitionManager.Instance.Inputs = new()
         {

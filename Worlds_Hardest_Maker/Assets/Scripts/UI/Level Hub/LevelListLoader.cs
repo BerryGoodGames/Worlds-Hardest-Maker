@@ -155,10 +155,15 @@ public class LevelListLoader : MonoBehaviour
             levelCard.PlayTime = $@"Play time: {info.PlayTime:hh\:mm\:ss}";
             levelCard.Completions = $"Completions: {info.Completions}";
             levelCard.Deaths = $"Deaths: {info.Deaths}";
-            levelCard.CompletionTime = $@"PB: {info.BestCompletionTime:hh\:mm\:ss}";
+            
+            // display best completion time
+            bool hasEverCompleted = info.Completions != 0;
+            string display = hasEverCompleted ? $@"{info.BestCompletionTime:hh\:mm\:ss\.fff}" : "-";
+            levelCard.CompletionTime = $"PB: {display}";
 
             // display completion rate
-            string display = info.Deaths + info.Completions == 0 ? "-" : $"{100 * (float)info.Completions / (info.Deaths + info.Completions):F2}%";
+            bool hasEverPlayed = info.Deaths + info.Completions != 0;
+            display = hasEverPlayed ? $"{100 * (float)info.Completions / (info.Deaths + info.Completions):F2}%" : "-";
             levelCard.CompletionRate = $"Completion rate: {display}";
 
             levelCard.LevelPath = levelFileInfo.FullName;

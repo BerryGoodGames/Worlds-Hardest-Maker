@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.ComponentModel;
 using TMPro;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public class TimerController : MonoBehaviour
     [field: SerializeField] public Color FinishedTimerColor { get; private set; }
     [field: SerializeField] public Color TimerDefaultColor { get; private set; }
 
-    private float timerSeconds;
+    public float TimerSeconds { get; private set; }
     private Coroutine timerCoroutine;
 
     private void Start()
@@ -38,19 +39,21 @@ public class TimerController : MonoBehaviour
     {
         StopTimer();
 
-        if (!PlayManager.Instance.Cheated) Text.color = FinishedTimerColor;
-
-        LevelSessionManager.Instance.TrySetBestTime(TimeSpan.FromSeconds(timerSeconds));
+        if (PlayManager.Instance.Cheated) return;
+        
+        Text.color = FinishedTimerColor;
+            
+        if (!LevelSessionManager.Instance.IsEdit) LevelSessionManager.Instance.TrySetBestTime(TimeSpan.FromSeconds(TimerSeconds));
     }
 
     private IEnumerator DoTimer()
     {
-        timerSeconds = 0;
+        TimerSeconds = 0;
 
         Text.text = GetTimerTime();
         while (true)
         {
-            timerSeconds += Time.deltaTime;
+            TimerSeconds += Time.deltaTime;
 
             Text.text = GetTimerTime();
 
@@ -60,7 +63,7 @@ public class TimerController : MonoBehaviour
 
     private string GetTimerTime()
     {
-        TimeSpan t = TimeSpan.FromSeconds(timerSeconds);
+        TimeSpan t = TimeSpan.FromSeconds(TimerSeconds);
         return $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}.{t.Milliseconds:D3}";
     }
 }

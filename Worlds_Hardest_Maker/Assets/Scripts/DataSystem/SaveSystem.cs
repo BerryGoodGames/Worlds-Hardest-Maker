@@ -45,7 +45,7 @@ public static class SaveSystem
             levelInfo.PlayTime += LevelSessionManager.Instance.PlayTime;
             levelInfo.Deaths += LevelSessionManager.Instance.Deaths;
             levelInfo.Completions += LevelSessionManager.Instance.Completions;
-            if (LevelSessionManager.Instance.BestCompletionTime < levelInfo.BestCompletionTime)
+            if (LevelSessionManager.Instance.BestCompletionTime < levelInfo.BestCompletionTime) 
                 levelInfo.BestCompletionTime = LevelSessionManager.Instance.BestCompletionTime;
 
             List<Data> levelObjects = SerializeCurrentLevel();
