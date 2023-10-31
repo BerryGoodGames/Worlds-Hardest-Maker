@@ -3517,11 +3517,11 @@ MonoBehaviour:
   hasNext: 0
   nextDelay: 0
   next: {fileID: 0}
-  isRectTransform: 0
-  animateAnchor: 0
-  movement: {x: 500, y: 0}
-  anchorMin: {x: 0, y: 0}
-  anchorMax: {x: 0, y: 0}
+  isRectTransform: 1
+  animateAnchor: 1
+  movement: {x: 600, y: 0}
+  anchorMin: {x: 0.4, y: 0}
+  anchorMax: {x: 0.4, y: 0}
 --- !u!114 &681379984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3539,11 +3539,11 @@ MonoBehaviour:
   hasNext: 0
   nextDelay: 0
   next: {fileID: 0}
-  isRectTransform: 0
-  animateAnchor: 0
-  movement: {x: -500, y: 0}
-  anchorMin: {x: 0, y: 0}
-  anchorMax: {x: 0, y: 0}
+  isRectTransform: 1
+  animateAnchor: 1
+  movement: {x: -600, y: 0}
+  anchorMin: {x: -0.4, y: 0}
+  anchorMax: {x: -0.4, y: 0}
 --- !u!1 &715000206
 GameObject:
   m_ObjectHideFlags: 0
@@ -12710,7 +12710,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2482777314814029965, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_text
-      value: Editor
+      value: Levels
       objectReference: {fileID: 0}
     - target: {fileID: 2482777314814029965, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_fontSize
@@ -12722,7 +12722,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4796778379937859287, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_Name
-      value: EditorButton
+      value: LevelsButton
       objectReference: {fileID: 0}
     - target: {fileID: 5557022261055032920, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_AnchoredPosition.x

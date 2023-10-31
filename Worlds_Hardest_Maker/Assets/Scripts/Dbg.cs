@@ -52,6 +52,7 @@ public class Dbg : MonoBehaviour
 
     private void Start()
     {
+#if UNITY_EDITOR
         if (!AutoLoadLevel) return;
 
         if (!LevelSessionManager.IsSessionFromEditor) return;
@@ -61,6 +62,7 @@ public class Dbg : MonoBehaviour
         {
             // ignored
         }
+#endif
     }
 
     private void Update()

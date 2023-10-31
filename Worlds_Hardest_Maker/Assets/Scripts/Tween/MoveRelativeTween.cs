@@ -14,8 +14,12 @@ public class MoveRelativeTween : ChainableTween
 
     [ConditionalField(nameof(animateAnchor))] [SerializeField] private Vector2 anchorMax;
 
+    private Tween tween;
+
     public void Move()
     {
+        if (tween != null && tween.IsPlaying()) return;
+        
         if (isRectTransform)
         {
             if (animateAnchor)
@@ -23,12 +27,12 @@ public class MoveRelativeTween : ChainableTween
                 ((RectTransform)transform).DOAnchorMin(anchorMin, Duration).SetRelative().SetEase(Ease.InOutSine)
                     .SetDelay(Delay);
 
-                ((RectTransform)transform).DOAnchorMax(anchorMax, Duration).SetRelative().SetEase(Ease.InOutSine)
+                tween = ((RectTransform)transform).DOAnchorMax(anchorMax, Duration).SetRelative().SetEase(Ease.InOutSine)
                     .SetDelay(Delay);
             }
             else
             {
-                ((RectTransform)transform).DOAnchorPos(movement, Duration)
+                tween = ((RectTransform)transform).DOAnchorPos(movement, Duration)
                     .SetRelative()
                     .SetEase(Ease.InOutSine)
                     .SetDelay(Delay);
@@ -36,7 +40,7 @@ public class MoveRelativeTween : ChainableTween
         }
         else
         {
-            transform.DOMove(movement, Duration)
+            tween = transform.DOMove(movement, Duration)
                 .SetRelative()
                 .SetEase(Ease.InOutSine)
                 .SetDelay(Delay);

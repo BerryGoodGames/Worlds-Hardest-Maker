@@ -59,7 +59,7 @@ public class LevelModifyController : MonoBehaviour
     {
         levelNameText.text = card.Name;
         descriptionText.text = card.Description;
-        creatorText.text = card.Creator.Substring(2, card.Creator.Length - 2);
+        creatorText.text = card.Creator.Substring(3, card.Creator.Length - 3);
     }
 
     private void Awake()
