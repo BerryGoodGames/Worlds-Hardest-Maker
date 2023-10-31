@@ -8,7 +8,7 @@ public class AnchorCameraJumping : MonoBehaviour
     [SerializeField] private PanelTween anchorEditorPanelTween;
 
     /// <summary>
-    /// Lets main camera jump to currently selected anchor if anchor editor panel is open
+    ///     Lets main camera jump to currently selected anchor if anchor editor panel is open
     /// </summary>
     public void CameraJumpToAnchor()
     {

@@ -43,42 +43,50 @@ public class AlphaTween : MonoBehaviour
     {
         if (image != null)
         {
-            image.DOFade(alphaInvisible, duration).OnComplete(() =>
-            {
-                if (IsVisible) return;
-                if (disableObjectWhenInvisible) image.gameObject.SetActive(false);
-                OnIsInvisible?.Invoke();
-            });
+            image.DOFade(alphaInvisible, duration).OnComplete(
+                () =>
+                {
+                    if (IsVisible) return;
+                    if (disableObjectWhenInvisible) image.gameObject.SetActive(false);
+                    OnIsInvisible?.Invoke();
+                }
+            );
         }
 
         if (text != null)
         {
-            text.DOFade(alphaInvisible, duration).OnComplete(() =>
-            {
-                if (IsVisible) return;
-                if (disableObjectWhenInvisible) text.gameObject.SetActive(false);
-                OnIsInvisible?.Invoke();
-            });
+            text.DOFade(alphaInvisible, duration).OnComplete(
+                () =>
+                {
+                    if (IsVisible) return;
+                    if (disableObjectWhenInvisible) text.gameObject.SetActive(false);
+                    OnIsInvisible?.Invoke();
+                }
+            );
         }
 
         if (canvasGroup != null)
         {
-            canvasGroup.DOFade(alphaInvisible, duration).OnComplete(() =>
-            {
-                if (IsVisible) return;
-                if (disableObjectWhenInvisible) canvasGroup.gameObject.SetActive(false);
-                OnIsInvisible?.Invoke();
-            });
+            canvasGroup.DOFade(alphaInvisible, duration).OnComplete(
+                () =>
+                {
+                    if (IsVisible) return;
+                    if (disableObjectWhenInvisible) canvasGroup.gameObject.SetActive(false);
+                    OnIsInvisible?.Invoke();
+                }
+            );
         }
 
         if (spriteRenderer != null)
         {
-            spriteRenderer.DOFade(alphaInvisible, duration).OnComplete(() =>
-            {
-                if (IsVisible) return;
-                if (disableObjectWhenInvisible) spriteRenderer.gameObject.SetActive(false);
-                OnIsInvisible?.Invoke();
-            });
+            spriteRenderer.DOFade(alphaInvisible, duration).OnComplete(
+                () =>
+                {
+                    if (IsVisible) return;
+                    if (disableObjectWhenInvisible) spriteRenderer.gameObject.SetActive(false);
+                    OnIsInvisible?.Invoke();
+                }
+            );
         }
     }
 
@@ -102,8 +110,10 @@ public class AlphaTween : MonoBehaviour
         if (image != null)
         {
             if (disableObjectWhenInvisible) image.gameObject.SetActive(startVisible);
-            image.color = new(image.color.r, image.color.g, image.color.b,
-                startVisible ? alphaVisible : alphaInvisible);
+            image.color = new(
+                image.color.r, image.color.g, image.color.b,
+                startVisible ? alphaVisible : alphaInvisible
+            );
         }
 
         if (text != null)

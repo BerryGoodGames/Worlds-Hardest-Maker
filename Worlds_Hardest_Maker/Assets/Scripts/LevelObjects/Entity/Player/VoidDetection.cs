@@ -20,7 +20,8 @@ public class VoidDetection : MonoBehaviour
             {
                 if (!CheckVoidCollision(
                         new Vector2(transform.lossyScale.x * x * 0.5f, transform.lossyScale.y * y * 0.5f) +
-                        (Vector2)transform.position)) continue;
+                        (Vector2)transform.position
+                    )) continue;
 
                 collisionId += (int)(Mathf.Clamp01(x) + Mathf.Clamp01(y) * 2);
                 collisions++;
@@ -32,6 +33,5 @@ public class VoidDetection : MonoBehaviour
 
     /// <param name="position">position where to check</param>
     /// <returns>if there is a void at the position</returns>
-    private static bool CheckVoidCollision(Vector2 position) =>
-        Physics2D.OverlapPoint(position, LayerManager.Instance.Layers.Void) != null;
+    private static bool CheckVoidCollision(Vector2 position) => Physics2D.OverlapPoint(position, LayerManager.Instance.Layers.Void) != null;
 }

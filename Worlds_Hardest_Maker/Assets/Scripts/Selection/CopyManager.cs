@@ -39,7 +39,7 @@ public class CopyManager : MonoBehaviour
 
             // try to get controllers and save the object in clipboard
             if (!hit.TryGetComponent(out EntityController controller)) continue;
-            if (controller is AnchorBallController { IsParentAnchorNull: false }) continue;
+            if (controller is AnchorBallController { IsParentAnchorNull: false, }) continue;
 
             Data data = controller.GetData();
 
@@ -89,10 +89,7 @@ public class CopyManager : MonoBehaviour
         Paste();
 
         // make sure that the player can't place directly after pasting
-        while (!Input.GetMouseButtonUp(0))
-        {
-            yield return null;
-        }
+        while (!Input.GetMouseButtonUp(0)) { yield return null; }
 
         Pasting = false;
     }
@@ -153,10 +150,7 @@ public class CopyManager : MonoBehaviour
     public void LoadClipboard(Vector2 pos)
     {
         // just load clipboard to pos
-        foreach (CopyData copyData in clipBoard)
-        {
-            copyData.Paste(pos);
-        }
+        foreach (CopyData copyData in clipBoard) { copyData.Paste(pos); }
     }
 
     private void CreatePreview()
@@ -168,8 +162,11 @@ public class CopyManager : MonoBehaviour
             Quaternion rotation = copyData.Data.GetType() == typeof(FieldData)
                 ? Quaternion.Euler(0, 0, ((FieldData)copyData.Data).Rotation)
                 : Quaternion.identity;
-            GameObject preview = Instantiate(PrefabManager.Instance.FillPreview, Vector2.zero, rotation,
-                Instance.previewContainer);
+
+            GameObject preview = Instantiate(
+                PrefabManager.Instance.FillPreview, Vector2.zero, rotation,
+                Instance.previewContainer
+            );
 
             preview.transform.localPosition = copyData.RelativePos;
 
@@ -187,10 +184,7 @@ public class CopyManager : MonoBehaviour
 
     private static void ClearPreview()
     {
-        foreach (Transform child in Instance.previewContainer)
-        {
-            Destroy(child.gameObject);
-        }
+        foreach (Transform child in Instance.previewContainer) { Destroy(child.gameObject); }
     }
 
     private void Awake()

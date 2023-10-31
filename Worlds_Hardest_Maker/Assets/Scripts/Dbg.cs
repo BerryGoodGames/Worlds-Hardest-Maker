@@ -20,12 +20,10 @@ public class Dbg : MonoBehaviour
         FPS,
         PlayerPosition,
         MousePositionUnits,
-        MousePositionPixels
+        MousePositionPixels,
     }
 
-    [field: Header("Settings")]
-    [field: SerializeField]
-    public bool Enabled { get; set; } = true;
+    [field: Header("Settings")] [field: SerializeField] public bool Enabled { get; set; } = true;
 
     [field: SerializeField] public float GameSpeed { get; set; } = 1;
 
@@ -38,8 +36,9 @@ public class Dbg : MonoBehaviour
     [Foldout("Wall Outlines")] public bool WallOutlines = true;
     [Foldout("Wall Outlines")] public bool DrawRays;
 
-    [Foldout("References")] [SerializeField] [MustBeAssigned]
-    private TMP_Text debugText;
+    [Foldout("Other")] public LevelSessionMode EditorLevelSessionMode;
+
+    [Foldout("References")] [SerializeField] [MustBeAssigned] private TMP_Text debugText;
 
     private Camera cam;
 
@@ -54,7 +53,14 @@ public class Dbg : MonoBehaviour
     private void Start()
     {
         if (!AutoLoadLevel) return;
-        GameManager.Instance.LoadLevel(Application.persistentDataPath + $"\\{LevelName}.lvl");
+
+        if (!LevelSessionManager.IsSessionFromEditor) return;
+
+        try { GameManager.Instance.LoadLevel(LevelSessionManager.Instance.LevelSessionPath); }
+        catch
+        {
+            // ignored
+        }
     }
 
     private void Update()
@@ -67,8 +73,7 @@ public class Dbg : MonoBehaviour
             case DbgTextMode.Disabled:
                 Text(string.Empty);
                 break;
-            case DbgTextMode.Custom:
-                break;
+            case DbgTextMode.Custom: break;
             case DbgTextMode.Count:
                 Text(Count);
                 break;
@@ -76,14 +81,8 @@ public class Dbg : MonoBehaviour
                 Text(Mathf.Round(1 / Time.deltaTime));
                 break;
             case DbgTextMode.PlayerPosition:
-                try
-                {
-                    Text((Vector2)PlayerManager.GetPlayer().transform.position);
-                }
-                catch (Exception)
-                {
-                    Text("-");
-                }
+                try { Text((Vector2)PlayerManager.GetPlayer().transform.position); }
+                catch (Exception) { Text("-"); }
 
                 break;
             case DbgTextMode.MousePositionUnits:
@@ -97,14 +96,8 @@ public class Dbg : MonoBehaviour
 
     public static void Text(object obj)
     {
-        try
-        {
-            Instance.debugText.text = obj.ToString();
-        }
-        catch
-        {
-            Instance.debugText.text = "failed";
-        }
+        try { Instance.debugText.text = obj.ToString(); }
+        catch { Instance.debugText.text = "failed"; }
     }
 
     public static void PrintScriptAttachments<T>() where T : MonoBehaviour
@@ -113,15 +106,9 @@ public class Dbg : MonoBehaviour
         string scriptName = typeof(T).Name;
 
         print($"Debug - Count of script {scriptName}: {list.Length}");
-        foreach (Object o in list)
-        {
-            print($"Debug - {o.name}");
-        }
+        foreach (Object o in list) { print($"Debug - {o.name}"); }
     }
 
     [ButtonMethod]
-    private static void DeletePlayerPrefs()
-    {
-        PlayerPrefs.DeleteAll();
-    }
+    private static void DeletePlayerPrefs() => PlayerPrefs.DeleteAll();
 }

@@ -3,7 +3,7 @@ using MyBox;
 using UnityEngine;
 
 /// <summary>
-/// Detects collision logic of rect transform and the mouse
+///     Detects collision logic of rect transform and the mouse
 /// </summary>
 [RequireComponent(typeof(RectTransform))]
 public class MouseOverUIRect : MonoBehaviour
@@ -39,10 +39,12 @@ public class MouseOverUIRect : MonoBehaviour
         Vector2 position = rt.position;
         Vector2 pivot = rt.pivot;
 
-        Set(Input.mousePosition.x > position.x - width * pivot.x &&
+        Set(
+            Input.mousePosition.x > position.x - width * pivot.x &&
             Input.mousePosition.x < position.x + width * (1 - pivot.x) &&
             Input.mousePosition.y > position.y - height * pivot.y &&
-            Input.mousePosition.y < position.y + height * (1 - pivot.y));
+            Input.mousePosition.y < position.y + height * (1 - pivot.y)
+        );
     }
 
     private void OnDisable() => Set(false);

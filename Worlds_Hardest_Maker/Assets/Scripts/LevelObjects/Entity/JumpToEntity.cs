@@ -5,7 +5,7 @@ using MyBox;
 using UnityEngine;
 
 /// <summary>
-/// Jumps to specified transform Target
+///     Jumps to specified transform Target
 /// </summary>
 public class JumpToEntity : MonoBehaviour
 {
@@ -13,8 +13,7 @@ public class JumpToEntity : MonoBehaviour
 
     [Space] public bool Smooth;
 
-    [ConditionalField(nameof(Smooth))] [MinValue(0.001f)]
-    public float Time;
+    [ConditionalField(nameof(Smooth))] [MinValue(0.001f)] public float Time;
 
     [Space] [SerializeField] private bool cancelByRightClick = true;
 
@@ -22,7 +21,7 @@ public class JumpToEntity : MonoBehaviour
     private Tween jumpTween;
 
     /// <summary>
-    /// Jumps to target with specified key
+    ///     Jumps to target with specified key
     /// </summary>
     /// <param name="key">Key leading to the target jumping to</param>
     /// <param name="offset">Offset of the target towards the jumper at the end</param>
@@ -77,7 +76,8 @@ public class JumpToEntity : MonoBehaviour
         }
 
         Debug.LogWarning(
-            $"Couldn't find Renderer component on game object {target}, which was added to the target list");
+            $"Couldn't find Renderer component on game object {target}, which was added to the target list"
+        );
     }
 
     public void AddTarget(string key, GameObject target, Renderer targetRenderer)

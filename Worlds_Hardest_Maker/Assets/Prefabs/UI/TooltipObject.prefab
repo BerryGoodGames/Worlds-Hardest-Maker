@@ -288,6 +288,8 @@ MonoBehaviour:
   Right: 0
   Top: 0
   Bottom: 0
+  CustomRestrictContainer: 0
+  RestrictContainer: {fileID: 0}
 --- !u!1001 &6557979423388360048
 PrefabInstance:
   m_ObjectHideFlags: 0

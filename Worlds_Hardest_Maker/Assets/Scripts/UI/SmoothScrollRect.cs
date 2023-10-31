@@ -25,10 +25,8 @@ public class SmoothScrollRect : ScrollRect, IPointerEnterHandler, IPointerExitHa
         if (SmoothScrolling)
         {
             // Amplify the mousewheel so that it matches the scroll sensitivity.
-            if (data.scrollDelta.y < -Mathf.Epsilon)
-                data.scrollDelta = new Vector2(0f, -scrollSensitivity);
-            else if (data.scrollDelta.y > Mathf.Epsilon)
-                data.scrollDelta = new Vector2(0f, scrollSensitivity);
+            if (data.scrollDelta.y < -Mathf.Epsilon) data.scrollDelta = new Vector2(0f, -scrollSensitivity);
+            else if (data.scrollDelta.y > Mathf.Epsilon) data.scrollDelta = new Vector2(0f, scrollSensitivity);
 
             Vector2 positionBefore = normalizedPosition;
             this.DOKill(true);
@@ -38,8 +36,7 @@ public class SmoothScrollRect : ScrollRect, IPointerEnterHandler, IPointerExitHa
             normalizedPosition = positionBefore;
             this.DONormalizedPos(positionAfter, SmoothScrollTime);
         }
-        else
-            base.OnScroll(data);
+        else base.OnScroll(data);
     }
 
     private void Update()
@@ -52,7 +49,7 @@ public class SmoothScrollRect : ScrollRect, IPointerEnterHandler, IPointerExitHa
 
         PointerEventData pointerData = new(EventSystem.current)
         {
-            scrollDelta = new Vector2(0f, delta)
+            scrollDelta = new Vector2(0f, delta),
         };
 
         swallowMouseWheelScrolls = false;

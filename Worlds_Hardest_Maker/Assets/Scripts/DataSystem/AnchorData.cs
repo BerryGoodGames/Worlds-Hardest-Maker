@@ -21,13 +21,13 @@ public class AnchorData : Data
         SaveBalls(controller);
         SaveBlocks(controller);
 
-        Vector2 controllerPosition = controller.transform.position;
+        Vector2 controllerPosition = controller.StartPosition;
 
         // init start position
         position = new[]
         {
             controllerPosition.x,
-            controllerPosition.y
+            controllerPosition.y,
         };
     }
 
@@ -36,12 +36,13 @@ public class AnchorData : Data
     private void SaveBalls(AnchorController controller)
     {
         // init balls
-        balls = new AnchorBallData[controller.Balls.Count];
-        for (int i = 0; i < controller.Balls.Count; i++)
-        {
-            Debug.Log(controller.Balls.Count);
-            balls[i] = new(controller.Balls[i].GetChild(0).localPosition);
-        }
+        List<AnchorBallController> anchorBalls = AnchorBallManager.Instance.AnchorBallListLayers[controller];
+        balls = new AnchorBallData[anchorBalls.Count];
+        for (int i = 0; i < balls.Length; i++) { balls[i] = (AnchorBallData)anchorBalls[i].GetData(); }
+        // for (int i = 0; i < controller.Balls.Count; i++)
+        // {
+        //     balls[i] = new(controller.Balls[i].GetChild(0).localPosition);
+        // }
     }
 
     private void SaveBlocks(AnchorController controller)
@@ -79,16 +80,13 @@ public class AnchorData : Data
     #endregion
 
 
-    public override void ImportToLevel() => ImportToLevel(new Vector2(position[0], position[1]));
+    public override void ImportToLevel() => ImportToLevel(new(position[0], position[1]));
 
     public override void ImportToLevel(Vector2 pos)
     {
         AnchorController anchor = AnchorManager.Instance.SetAnchor(pos);
 
-        foreach (AnchorBallData ball in balls)
-        {
-            ball.ImportToLevel(anchor);
-        }
+        foreach (AnchorBallData ball in balls) { ball.ImportToLevel(anchor); }
 
         anchor.Blocks = LoadBlocks(anchor);
     }

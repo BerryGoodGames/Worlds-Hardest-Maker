@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayManager : MonoBehaviour
@@ -16,7 +17,10 @@ public class PlayManager : MonoBehaviour
         set
         {
             cheated = value;
-            TextManager.Instance.Timer.color = cheated ? TextManager.Instance.CheatedTimerColor : TextManager.Instance.TimerDefaultColor;
+            ReferenceManager.Instance.TimerController.Text.color =
+                cheated
+                    ? ReferenceManager.Instance.TimerController.CheatedTimerColor
+                    : ReferenceManager.Instance.TimerController.TimerDefaultColor;
         }
     }
 
@@ -31,10 +35,7 @@ public class PlayManager : MonoBehaviour
         if (EditModeManager.Instance.Playing) SwitchToEdit();
         else SwitchToPlay();
 
-        foreach (BarTween tween in BarTween.TweenList)
-        {
-            tween.SetPlay(EditModeManager.Instance.Playing);
-        }
+        foreach (BarTween tween in BarTween.TweenList) { tween.SetPlay(EditModeManager.Instance.Playing); }
     }
 
     #region On play
@@ -88,7 +89,7 @@ public class PlayManager : MonoBehaviour
     private static void StartAnchors()
     {
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
-
+        
         // let anchors start executing
         foreach (Transform t in ReferenceManager.Instance.AnchorContainer)
         {
@@ -106,12 +107,14 @@ public class PlayManager : MonoBehaviour
         }
     }
 
+/*
     private static void JumpToPlayer()
     {
         if (!ReferenceManager.Instance.MainCameraJumper.HasKey("Player")) return;
 
         ReferenceManager.Instance.MainCameraJumper.Jump("Player", onlyIfTargetOffScreen: true);
     }
+*/
 
     private static void ActivateCoinKeyAnimations()
     {
@@ -159,19 +162,10 @@ public class PlayManager : MonoBehaviour
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
         if (isEditModeAnchorRelated)
         {
-            if (PanelManager.Instance.WasAnchorPanelOpen)
-            {
-                PanelManager.Instance.SetPanelOpen(anchorPanel, true);
-            }
-            else
-            {
-                PanelManager.Instance.SetPanelHidden(anchorPanel, false);
-            }
+            if (PanelManager.Instance.WasAnchorPanelOpen) PanelManager.Instance.SetPanelOpen(anchorPanel, true);
+            else PanelManager.Instance.SetPanelHidden(anchorPanel, false);
         }
-        else
-        {
-            PanelManager.Instance.SetPanelHidden(levelSettingsPanel, false);
-        }
+        else PanelManager.Instance.SetPanelHidden(levelSettingsPanel, false);
     }
 
     private static void ResetPlayerGameStates()
@@ -190,9 +184,11 @@ public class PlayManager : MonoBehaviour
         // enable placement preview and place it at mouse
         ReferenceManager.Instance.PlacementPreview.gameObject.SetActive(true);
         ReferenceManager.Instance.PlacementPreview.transform.position =
-            FollowMouse.GetCurrentMouseWorldPos(ReferenceManager.Instance.PlacementPreview
-                .GetComponent<FollowMouse>()
-                .WorldPosition);
+            FollowMouse.GetCurrentMouseWorldPos(
+                ReferenceManager.Instance.PlacementPreview
+                    .GetComponent<FollowMouse>()
+                    .WorldPosition
+            );
     }
 
     private static void ResetAnchors()
@@ -281,7 +277,8 @@ public class PlayManager : MonoBehaviour
 
         // reset key doors
         string[] tags =
-            { "KeyDoorField", "RedKeyDoorField", "GreenKeyDoorField", "BlueKeyDoorField", "YellowKeyDoorField" };
+            { "KeyDoorField", "RedKeyDoorField", "GreenKeyDoorField", "BlueKeyDoorField", "YellowKeyDoorField", };
+
         foreach (string tag in tags)
         {
             foreach (GameObject door in GameObject.FindGameObjectsWithTag(tag))
@@ -306,5 +303,30 @@ public class PlayManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
+    }
+
+    private void Start()
+    {
+        // setup play scene mode
+        if (!LevelSessionManager.Instance.IsEdit) StartCoroutine(SetupPlayScene());
+
+        return;
+        
+        IEnumerator SetupPlayScene()
+        {
+            yield return new WaitForEndOfFrame();
+            
+            ReferenceManager.Instance.InfobarPlayTween.SetPlay(true);
+
+            SetupPlayers();
+
+            EditModeManager.Instance.Playing = true;
+
+            StartAnchors();
+
+            ActivateCoinKeyAnimations();
+
+            ReferenceManager.Instance.TimerController.StartTimer();
+        }
     }
 }

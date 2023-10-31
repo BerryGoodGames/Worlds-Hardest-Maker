@@ -6,9 +6,7 @@ public class LoopBlock : AnchorBlock, IPassiveAnchorBlock
     public override Type ImplementedBlockType => BlockType;
     protected override GameObject Prefab => PrefabManager.Instance.GoToBlockPrefab;
 
-    public LoopBlock(AnchorController anchor, bool isLocked) : base(anchor, isLocked)
-    {
-    }
+    public LoopBlock(AnchorController anchor, bool isLocked) : base(anchor, isLocked) { }
 
     public override void Execute()
     {
@@ -17,9 +15,7 @@ public class LoopBlock : AnchorBlock, IPassiveAnchorBlock
         Anchor.FinishCurrentExecution();
     }
 
-    protected override void SetControllerValues(AnchorBlockController c)
-    {
-    }
+    protected override void SetControllerValues(AnchorBlockController c) { }
 
     public override AnchorBlockData GetData() => new LoopBlockData(IsLocked);
 }

@@ -13,7 +13,7 @@ public class KeyManager : MonoBehaviour
         Red,
         Green,
         Blue,
-        Yellow
+        Yellow,
     }
 
     public static readonly List<EditMode> KeyModes = new()
@@ -22,7 +22,7 @@ public class KeyManager : MonoBehaviour
         EditMode.RedKey,
         EditMode.BlueKey,
         EditMode.GreenKey,
-        EditMode.YellowKey
+        EditMode.YellowKey,
     };
 
     public static readonly List<EditMode> KeyDoorModes = new()
@@ -31,7 +31,7 @@ public class KeyManager : MonoBehaviour
         EditMode.RedKeyDoorField,
         EditMode.BlueKeyDoorField,
         EditMode.GreenKeyDoorField,
-        EditMode.YellowKeyDoorField
+        EditMode.YellowKeyDoorField,
     };
 
     public static readonly List<FieldType> KeyDoorTypes = new()
@@ -40,7 +40,7 @@ public class KeyManager : MonoBehaviour
         FieldType.RedKeyDoorField,
         FieldType.BlueKeyDoorField,
         FieldType.GreenKeyDoorField,
-        FieldType.YellowKeyDoorField
+        FieldType.YellowKeyDoorField,
     };
 
     public static readonly List<FieldType> CannotPlaceFields = new()
@@ -50,7 +50,7 @@ public class KeyManager : MonoBehaviour
         FieldType.RedKeyDoorField,
         FieldType.BlueKeyDoorField,
         FieldType.GreenKeyDoorField,
-        FieldType.YellowKeyDoorField
+        FieldType.YellowKeyDoorField,
     };
 
     private static readonly int playingString = Animator.StringToHash("Playing");
@@ -65,7 +65,10 @@ public class KeyManager : MonoBehaviour
         // remove other key (which has mby other color)
         RemoveKey(position);
 
-        KeyController key = Instantiate(color.GetPrefabKey(), position, Quaternion.identity, ReferenceManager.Instance.KeyContainer);
+        KeyController key = Instantiate(
+            color.GetPrefabKey(), position, Quaternion.identity,
+            ReferenceManager.Instance.KeyContainer
+        );
 
         key.Color = color;
 
@@ -73,7 +76,7 @@ public class KeyManager : MonoBehaviour
         key.Animator.SetBool(playingString, EditModeManager.Instance.Playing);
 
         // setup konami code animation
-        key.KonamiAnimation.enabled = KonamiManager.KonamiActive;
+        key.KonamiAnimation.enabled = KonamiManager.Instance.KonamiActive;
     }
 
     [PunRPC]
@@ -88,14 +91,6 @@ public class KeyManager : MonoBehaviour
 
         // destroy
         DestroyImmediate(key.transform.gameObject);
-    }
-
-    public static void SetKonamiMode(bool konami)
-    {
-        foreach (KeyController key in Instance.Keys)
-        {
-            key.KonamiAnimation.enabled = konami;
-        }
     }
 
     public static bool CanPlace(Vector2 position) =>

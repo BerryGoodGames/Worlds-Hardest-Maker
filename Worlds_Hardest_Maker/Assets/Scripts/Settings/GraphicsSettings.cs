@@ -35,13 +35,9 @@ public class GraphicsSettings : MonoBehaviour
 
     public void SetQuality(int index) => SetQuality(index, false);
 
-    public void Fullscreen(bool fullscreen, bool updateToggle)
-    {
-        Screen.fullScreen = fullscreen;
+    public void Fullscreen(bool fullscreen, bool updateToggle) => Screen.fullScreen = fullscreen;
 
-        if (!updateToggle) return;
-    }
-
+    // if (!updateToggle) return;
     public void Fullscreen(bool fullscreen) => Fullscreen(fullscreen, false);
 
 
@@ -91,8 +87,7 @@ public class GraphicsSettings : MonoBehaviour
             options.Add(resolutions[i].ToString().Replace(" ", string.Empty));
 
             if (resolutions[i].width == Screen.currentResolution.width &&
-                resolutions[i].height == Screen.currentResolution.height)
-                currentResIndex = i;
+                resolutions[i].height == Screen.currentResolution.height) currentResIndex = i;
         }
 
         ResolutionDropdown.AddOptions(options);

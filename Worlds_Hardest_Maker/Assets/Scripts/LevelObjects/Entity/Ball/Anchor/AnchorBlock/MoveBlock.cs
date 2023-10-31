@@ -8,9 +8,7 @@ public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock
 
     #region Constructors
 
-    public MoveBlock(AnchorController anchor, bool isLocked, Vector2 target) : base(anchor, isLocked, target)
-    {
-    }
+    public MoveBlock(AnchorController anchor, bool isLocked, Vector2 target) : base(anchor, isLocked, target) { }
 
     #endregion
 
@@ -19,10 +17,8 @@ public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock
         float duration;
         float dist = Vector2.Distance(TargetAbsolute, Anchor.transform.position);
 
-        if (Anchor.SpeedUnit is SetSpeedBlock.Unit.Speed)
-            duration = dist / Anchor.SpeedInput;
-        else
-            duration = Anchor.SpeedInput;
+        if (Anchor.SpeedUnit is SetSpeedBlock.Unit.Speed) duration = dist / Anchor.SpeedInput;
+        else duration = Anchor.SpeedInput;
 
         Anchor.DOKill();
         Anchor.transform.DOMove(TargetAbsolute, duration)

@@ -23,7 +23,7 @@ public enum EditMode
     RedKey,
     GreenKey,
     BlueKey,
-    YellowKey
+    YellowKey,
 }
 
 public enum FieldType
@@ -41,7 +41,7 @@ public enum FieldType
     RedKeyDoorField,
     GreenKeyDoorField,
     BlueKeyDoorField,
-    YellowKeyDoorField
+    YellowKeyDoorField,
 }
 
 
@@ -49,5 +49,12 @@ public enum WorldPositionType
 {
     Any,
     Grid,
-    Matrix
+    Matrix,
+}
+
+public enum LevelSessionMode
+{
+    Play,
+    Edit,
+    Multiplayer,
 }

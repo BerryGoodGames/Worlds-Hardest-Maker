@@ -8,14 +8,8 @@ public static class InputExtension
 
         float inputFloat;
 
-        if (input == string.Empty || input == "-" || input == "." || !IsDigitsOnly(input))
-        {
-            inputFloat = 0f;
-        }
-        else if (!float.TryParse(input, out inputFloat))
-        {
-            throw new("Input was not a float");
-        }
+        if (input == string.Empty || input == "-" || input == "." || !IsDigitsOnly(input)) inputFloat = 0f;
+        else if (!float.TryParse(input, out inputFloat)) throw new("Input was not a float");
 
 
         return inputFloat;

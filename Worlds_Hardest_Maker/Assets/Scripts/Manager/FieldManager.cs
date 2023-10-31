@@ -9,14 +9,14 @@ public class FieldManager : MonoBehaviour
 {
     public static FieldManager Instance { get; private set; }
 
-    public static readonly FieldType[] SolidFields = 
+    public static readonly FieldType[] SolidFields =
     {
         FieldType.WallField,
         FieldType.GrayKeyDoorField,
         FieldType.RedKeyDoorField,
         FieldType.GreenKeyDoorField,
         FieldType.BlueKeyDoorField,
-        FieldType.YellowKeyDoorField
+        FieldType.YellowKeyDoorField,
     };
 
     public static FieldType? GetFieldType(GameObject field)
@@ -104,7 +104,7 @@ public class FieldManager : MonoBehaviour
         }
 
         // // every other case
-        string[] tags = { "StartField", "GoalField" };
+        string[] tags = { "StartField", "GoalField", };
 
         for (int i = 0; i < tags.Length; i++)
         {
@@ -121,8 +121,10 @@ public class FieldManager : MonoBehaviour
         GameObject prefab = type.GetPrefab();
         GameObject res = MultiplayerManager.Instance.Multiplayer
             ? PhotonNetwork.Instantiate(prefab.name, pos, Quaternion.Euler(0, 0, rotation))
-            : Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation),
-                ReferenceManager.Instance.FieldContainer);
+            : Instantiate(
+                prefab, pos, Quaternion.Euler(0, 0, rotation),
+                ReferenceManager.Instance.FieldContainer
+            );
 
         return res;
     }
@@ -135,7 +137,7 @@ public class FieldManager : MonoBehaviour
 
     public static List<GameObject> GetNeighbors(Vector2Int position)
     {
-        Vector2Int[] deltas = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left };
+        Vector2Int[] deltas = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left, };
 
         List<GameObject> neighbors = new();
 
@@ -152,21 +154,21 @@ public class FieldManager : MonoBehaviour
     {
         Vector2Int[] checkPoses =
         {
-            Vector2Int.FloorToInt(position), 
+            Vector2Int.FloorToInt(position),
             new(Mathf.CeilToInt(position.x), Mathf.FloorToInt(position.y)),
             new(Mathf.FloorToInt(position.x), Mathf.CeilToInt(position.y)),
-            Vector2Int.CeilToInt(position)
+            Vector2Int.CeilToInt(position),
         };
 
         checkPoses = checkPoses.Distinct().ToArray();
-        
+
         List<GameObject> res = new();
         foreach (Vector2Int checkPosition in checkPoses)
         {
             GameObject field = GetField(checkPosition);
             if (field != null) res.Add(field);
         }
-        
+
         return res;
     }
 
@@ -215,8 +217,7 @@ public class FieldManager : MonoBehaviour
         List<GameObject> intersectingFields = GetFieldsAtPos(position);
         foreach (GameObject field in intersectingFields)
         {
-            if (types.Contains((FieldType)GetFieldType(field)))
-                return true;
+            if (types.Contains((FieldType)GetFieldType(field))) return true;
         }
 
         return false;
@@ -228,8 +229,7 @@ public class FieldManager : MonoBehaviour
         List<GameObject> intersectingFields = GetFieldsAtPos(position);
         foreach (GameObject field in intersectingFields)
         {
-            if (!types.Contains((FieldType)GetFieldType(field)))
-                return false;
+            if (!types.Contains((FieldType)GetFieldType(field))) return false;
         }
 
         return true;
@@ -245,8 +245,7 @@ public class FieldManager : MonoBehaviour
 
         foreach (GameObject field in intersectingFields)
         {
-            if (expectedCount != intersectingFields.Count || !types.Contains((FieldType)GetFieldType(field)))
-                return false;
+            if (expectedCount != intersectingFields.Count || !types.Contains((FieldType)GetFieldType(field))) return false;
         }
 
         return true;
@@ -259,7 +258,7 @@ public class FieldManager : MonoBehaviour
             Vector2Int.FloorToInt(position),
             new(Mathf.CeilToInt(position.x), Mathf.FloorToInt(position.y)),
             new(Mathf.FloorToInt(position.x), Mathf.CeilToInt(position.y)),
-            Vector2Int.CeilToInt(position)
+            Vector2Int.CeilToInt(position),
         };
 
         return checkPoses.Distinct().ToArray().Length;

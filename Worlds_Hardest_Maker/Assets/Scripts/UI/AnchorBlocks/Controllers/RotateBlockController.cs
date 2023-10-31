@@ -3,8 +3,7 @@ using TMPro;
 
 public class RotateBlockController : AnchorBlockController
 {
-    [Separator("Specifics")] [InitializationField]
-    public TMP_InputField IterationsInput;
+    [Separator("Specifics")] [InitializationField] public TMP_InputField IterationsInput;
 
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
     {

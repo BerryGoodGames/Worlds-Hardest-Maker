@@ -57,10 +57,7 @@ public class ToolOptionbar : MonoBehaviour
     [ButtonMethod]
     public void ScaleOptions()
     {
-        foreach (Transform tool in Options.transform)
-        {
-            tool.localScale = new(0.7f, 0.7f);
-        }
+        foreach (Transform tool in Options.transform) { tool.localScale = new(0.7f, 0.7f); }
     }
 
     [ButtonMethod]
@@ -70,8 +67,7 @@ public class ToolOptionbar : MonoBehaviour
 
         if (rt == null) return;
 
-        if (toolCount == 0)
-            rt.sizeDelta = new(100, 100);
+        if (toolCount == 0) rt.sizeDelta = new(100, 100);
         else
         {
             width = gridLayout.cellSize.x * Size;

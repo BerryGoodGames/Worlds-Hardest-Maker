@@ -69,8 +69,7 @@ public partial class AnchorController : EntityController
 
         StartPosition = transform.position;
 
-        if (Selected)
-            RenderLines();
+        if (Selected) RenderLines();
     }
 
     #region Execution
@@ -78,8 +77,7 @@ public partial class AnchorController : EntityController
     public void StartExecuting()
     {
         UpdateStartValues();
-
-
+        
         CurrentExecutingNode = Blocks.First;
         CurrentExecutingBlock = CurrentExecutingNode.Value;
         CurrentExecutingBlock.Execute();

@@ -16,9 +16,7 @@ public class PanelTween : MonoBehaviour
 
     [Space] [SerializeField] private float duration;
 
-    [field: SerializeField]
-    [field: ReadOnly]
-    public bool Open { get; private set; }
+    [field: SerializeField] [field: ReadOnly] public bool Open { get; private set; }
 
     [SerializeField] private bool closesToRight;
     private float closedX;
@@ -32,13 +30,12 @@ public class PanelTween : MonoBehaviour
 
         // closed state -> x = closedX
         // opened state -> x = closedX + width = openedX
-        if (noAnimation)
-        {
-            panel.anchoredPosition = new(open ? openedX : closedX, panel.anchoredPosition.y);
-        }
+        if (noAnimation) panel.anchoredPosition = new(open ? openedX : closedX, panel.anchoredPosition.y);
         else
         {
-            panel.DOAnchorPosX(open ? openedX : closedX, duration).SetEase(Open ? closeEase : openEase);
+            panel.DOAnchorPosX(open ? openedX : closedX, duration)
+                .SetEase(Open ? closeEase : openEase)
+                .SetId(gameObject);
         }
 
         Open = open;
@@ -51,4 +48,6 @@ public class PanelTween : MonoBehaviour
         openedX = 0;
         closedX = (closesToRight ? 1 : -1) * panel.rect.width;
     }
+
+    private void OnDestroy() => DOTween.Kill(gameObject);
 }

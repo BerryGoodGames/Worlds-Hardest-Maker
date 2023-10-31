@@ -17,14 +17,17 @@ public class ConveyorController : MonoBehaviour
         rotationController = GetComponent<FieldRotation>();
         anim = GetComponent<Animator>();
 
-        EditModeManager.Instance.OnPlay += SwitchAnimToRunning;
-        EditModeManager.Instance.OnEdit += SwitchAnimToStaying;
+        if (LevelSessionManager.Instance.IsEdit)
+        {
+            EditModeManager.Instance.OnPlay += SwitchAnimToRunning;
+            EditModeManager.Instance.OnEdit += SwitchAnimToStaying;
+        }
+        else SwitchAnimToRunning();
     }
 
     public void SwitchAnimToRunning()
     {
-        if (anim == null)
-            GetComponent<Animator>();
+        if (anim == null) GetComponent<Animator>();
 
         anim.speed = Strength;
         anim.SetBool(running, true);
@@ -32,8 +35,7 @@ public class ConveyorController : MonoBehaviour
 
     private void SwitchAnimToStaying()
     {
-        if (anim == null)
-            GetComponent<Animator>();
+        if (anim == null) GetComponent<Animator>();
 
         anim.SetBool(running, false);
     }

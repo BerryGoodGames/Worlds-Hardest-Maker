@@ -4,8 +4,7 @@ public class SetDirectionBlock : AnchorBlock, IPassiveAnchorBlock
 {
     private bool isClockwise;
 
-    public SetDirectionBlock(AnchorController anchor, bool isLocked, bool isClockwise) : base(anchor, isLocked) =>
-        this.isClockwise = isClockwise;
+    public SetDirectionBlock(AnchorController anchor, bool isLocked, bool isClockwise) : base(anchor, isLocked) => this.isClockwise = isClockwise;
 
     public override Type ImplementedBlockType => Type.SetDirection;
     protected override GameObject Prefab => PrefabManager.Instance.SetDirectionBlockPrefab;

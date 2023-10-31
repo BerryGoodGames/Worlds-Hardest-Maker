@@ -14,7 +14,7 @@ public class InfobarResize : MonoBehaviour
     {
         float height = InfobarHeight;
 
-        transform.GetComponent<RectTransform>().sizeDelta = new(0, height);
+        ((RectTransform)transform).sizeDelta = new(0, height);
 
         RectTransform backgroundRectTransform = transform.GetChild(0).GetComponent<RectTransform>();
         backgroundRectTransform.sizeDelta = new(backgroundRectTransform.rect.width, height + 200);
@@ -28,5 +28,13 @@ public class InfobarResize : MonoBehaviour
         }
 
         fitter.UpdateSize();
+    }
+
+    public void ExpandToEntireWidth()
+    {
+        RectTransform rt = (RectTransform)transform.GetChild(0);
+
+        rt.sizeDelta = new(0, rt.sizeDelta.y);
+        rt.anchoredPosition = new(0, rt.anchoredPosition.y);
     }
 }

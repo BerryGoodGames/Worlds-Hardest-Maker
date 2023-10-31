@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+
 public static class VectorExtension
 {
     public static Vector2 ConvertToGrid(this Vector2 position) => (2 * position).Round() / 2;
@@ -64,13 +65,11 @@ public static class VectorExtension
     }
 
 
-    public static Vector2 Clamp(this Vector2 v, float min, float max) =>
-        new(Mathf.Clamp(v.x, min, max), Mathf.Clamp(v.y, min, max));
+    public static Vector2 Clamp(this Vector2 v, float min, float max) => new(Mathf.Clamp(v.x, min, max), Mathf.Clamp(v.y, min, max));
 
     public static bool PointOnScreen(this Vector2 point, bool worldPoint)
     {
-        if (Camera.main == null)
-            throw new Exception("Couldn't check if point is on screen because main camera is null!");
+        if (Camera.main == null) throw new Exception("Couldn't check if point is on screen because main camera is null!");
 
         Vector3 screenPoint = worldPoint ? Camera.main.WorldToViewportPoint(point) : point;
         bool onScreen = screenPoint.x is > 0 and < 1 && screenPoint.y is > 0 and < 1;

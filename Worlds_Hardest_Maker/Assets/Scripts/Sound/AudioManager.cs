@@ -16,8 +16,7 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
+        if (Instance == null) Instance = this;
 
         foreach (Sound s in Sounds)
         {
@@ -46,9 +45,7 @@ public class AudioManager : MonoBehaviour
 
     public void MusicFiltered(bool filtered)
     {
-        if (filtered)
-            FilteredState.TransitionTo(TransitionTime);
-        else
-            DefaultState.TransitionTo(TransitionTime);
+        if (filtered) FilteredState.TransitionTo(TransitionTime);
+        else DefaultState.TransitionTo(TransitionTime);
     }
 }

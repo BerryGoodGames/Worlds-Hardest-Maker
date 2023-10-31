@@ -13,7 +13,7 @@ public class ChildrenOpacity : MonoBehaviour
 
     private void Start() => UpdateChildren();
 
-    public void UpdateChildren() => children = transform.GetComponentsInChildren<SpriteRenderer>();
+    public void UpdateChildren() => children = GetComponentsInChildren<SpriteRenderer>();
 
     public void UpdateOpacity()
     {

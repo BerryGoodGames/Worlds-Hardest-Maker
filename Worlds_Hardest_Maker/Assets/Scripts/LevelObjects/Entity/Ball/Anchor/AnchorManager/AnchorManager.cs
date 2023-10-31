@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,12 +24,15 @@ public partial class AnchorManager : MonoBehaviour
     }
 
     /// <summary>
-    /// If anchor selected, convert anchor blocks in UI to <see cref="List{T}">List</see>&lt;<see cref="AnchorBlock"/>&gt; and apply it to selected anchor
+    ///     If anchor selected, convert anchor blocks in UI to <see cref="List{T}">List</see>&lt;<see cref="AnchorBlock" />&gt;
+    ///     and apply it to selected anchor
     /// </summary>
     public void UpdateBlockListInSelectedAnchor()
     {
         if (SelectedAnchor == null) return;
 
+        // throw new Exception("Break");
+        
         ReferenceManager.Instance.MainChainController.UpdateChildrenArray();
         List<AnchorBlock> blocksInChain = ReferenceManager.Instance.MainChainController.GetAnchorBlocks(SelectedAnchor);
 

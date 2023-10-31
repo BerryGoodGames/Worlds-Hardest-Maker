@@ -697,8 +697,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5998e77396b9b6c408c091aec837ce28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Text: Warning text not implemented yet
-  FontSize: 20
-  Offset: 10
-  CustomTweenDelay: 1
-  TweenDelay: 0.25
+  tooltipPrefab: {fileID: 4055570121836575833, guid: 5dcefe3a95dd51143985c4578bf3da40, type: 3}
+  customContainer: 0
+  container: {fileID: 0}
+  restrictInCanvas: 1
+  customRestrictContainer: 0
+  restrictContainer: {fileID: 0}
+  text: Warning text not implemented yet
+  fontSize: 20
+  offset: 10
+  customTweenDelay: 1
+  tweenDelay: 0.25

@@ -3,11 +3,9 @@ using UnityEngine;
 
 public class AnchorBallFade : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [MustBeAssigned]
-    private ChildrenOpacity container;
+    [SerializeField] [InitializationField] [MustBeAssigned] private ChildrenOpacity container;
 
-    [Separator] [SerializeField] [InitializationField]
-    private float fadeDuration = 0.2f;
+    [Separator] [SerializeField] [InitializationField] private float fadeDuration = 0.2f;
 
     [SerializeField] [InitializationField] private float fadeInOpacity = 1;
 

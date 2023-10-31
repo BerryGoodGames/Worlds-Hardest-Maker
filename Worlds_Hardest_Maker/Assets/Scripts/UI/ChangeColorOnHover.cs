@@ -16,28 +16,22 @@ public class ChangeColorOnHover : MonoBehaviour, IPointerEnterHandler, IPointerE
         TryGetComponent(out spriteRenderer);
 
         // get default color
-        if (image != null)
-            defaultColor = image.color;
+        if (image != null) defaultColor = image.color;
 
-        else if (spriteRenderer != null)
-            defaultColor = spriteRenderer.color;
+        else if (spriteRenderer != null) defaultColor = spriteRenderer.color;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         // try to color the image/sprite to the hover color
-        if (image != null)
-            image.color = hoverColor;
-        else if (spriteRenderer != null)
-            spriteRenderer.color = hoverColor;
+        if (image != null) image.color = hoverColor;
+        else if (spriteRenderer != null) spriteRenderer.color = hoverColor;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         // try to color the image/sprite to the default color
-        if (image != null)
-            image.color = defaultColor;
-        else if (spriteRenderer != null)
-            spriteRenderer.color = defaultColor;
+        if (image != null) image.color = defaultColor;
+        else if (spriteRenderer != null) spriteRenderer.color = defaultColor;
     }
 }

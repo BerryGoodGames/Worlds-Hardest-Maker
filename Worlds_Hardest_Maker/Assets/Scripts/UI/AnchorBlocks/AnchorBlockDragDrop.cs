@@ -7,8 +7,7 @@ public class AnchorBlockDragDrop : MonoBehaviour
 {
     [SerializeField] private bool active = true;
 
-    [Separator("References")] [SerializeField] [MustBeAssigned]
-    private LockHighlightTween lockHighlightTween;
+    [Separator("References")] [SerializeField] [MustBeAssigned] private LockHighlightTween lockHighlightTween;
 
     public Vector2 Offset { get; private set; }
     private AnchorBlockController anchorBlockController;
@@ -67,6 +66,7 @@ public class AnchorBlockDragDrop : MonoBehaviour
 
         MouseOverUIPointer mouseOverUI =
             ReferenceManager.Instance.AnchorBlockChainContainer.GetComponent<MouseOverUIPointer>();
+
         if (mouseOverUI.Over)
         {
             // push anchor block in container

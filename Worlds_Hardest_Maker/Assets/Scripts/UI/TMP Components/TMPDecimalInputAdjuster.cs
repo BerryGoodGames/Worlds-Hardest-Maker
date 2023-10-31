@@ -9,8 +9,7 @@ public class TMPDecimalInputAdjuster : MonoBehaviour
     [SerializeField] private bool forbidNegative;
     public bool ForbidDecimals;
 
-    [ConditionalField(nameof(ForbidDecimals), true)]
-    public bool RoundToStep;
+    [ConditionalField(nameof(ForbidDecimals), true)] public bool RoundToStep;
 
     public float StepValue;
 
@@ -28,8 +27,7 @@ public class TMPDecimalInputAdjuster : MonoBehaviour
             inputFloat = MathF.Abs(inputFloat);
         }
 
-        if (ForbidDecimals)
-            inputFloat = MathF.Round(inputFloat);
+        if (ForbidDecimals) inputFloat = MathF.Round(inputFloat);
         else
         {
             if (RoundToStep) inputFloat = MathF.Round(inputFloat / StepValue) * StepValue;

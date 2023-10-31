@@ -17,14 +17,11 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     [Space] public bool IsWarningButton;
 
-    [ConditionalField(nameof(IsWarningButton))] [SerializeField]
-    private float singleShakeDuration;
+    [ConditionalField(nameof(IsWarningButton))] [SerializeField] private float singleShakeDuration;
 
-    [ConditionalField(nameof(IsWarningButton))] [SerializeField]
-    private float shake1;
+    [ConditionalField(nameof(IsWarningButton))] [SerializeField] private float shake1;
 
-    [ConditionalField(nameof(IsWarningButton))] [SerializeField]
-    private float shake2;
+    [ConditionalField(nameof(IsWarningButton))] [SerializeField] private float shake2;
 
     private RectTransform contentRT;
 
@@ -35,8 +32,10 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         hovered = true;
 
         // elevate
-        contentRT.DOAnchorPos(new(-highlightElevation, highlightElevation + highlightFloating),
-                highlightElevateDuration)
+        contentRT.DOAnchorPos(
+                new(-highlightElevation, highlightElevation + highlightFloating),
+                highlightElevateDuration
+            )
             .SetId(gameObject);
 
         if (IsWarningButton)

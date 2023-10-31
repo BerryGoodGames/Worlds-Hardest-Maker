@@ -38,8 +38,9 @@ public static class EditModeExtension
             { EditMode.RedKey, PrefabManager.Instance.RedKey.gameObject },
             { EditMode.GreenKey, PrefabManager.Instance.GreenKey.gameObject },
             { EditMode.BlueKey, PrefabManager.Instance.BlueKey.gameObject },
-            { EditMode.YellowKey, PrefabManager.Instance.YellowKey.gameObject }
+            { EditMode.YellowKey, PrefabManager.Instance.YellowKey.gameObject },
         };
+
         return prefabs[mode];
     }
 
@@ -69,7 +70,7 @@ public static class EditModeExtension
             "Key - Red",
             "Key - Green",
             "Key - Blue",
-            "Key - Yellow"
+            "Key - Yellow",
         }[(int)mode];
 
     public static bool IsFieldType(this EditMode mode) =>
@@ -89,7 +90,7 @@ public static class EditModeExtension
             EditMode.RedKeyDoorField,
             EditMode.GreenKeyDoorField,
             EditMode.BlueKeyDoorField,
-            EditMode.YellowKeyDoorField
+            EditMode.YellowKeyDoorField,
         }.Contains(mode);
 
     public static bool IsKey(this EditMode mode) => KeyManager.KeyModes.Contains(mode);

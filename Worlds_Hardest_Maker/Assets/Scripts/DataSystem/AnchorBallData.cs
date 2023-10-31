@@ -10,7 +10,7 @@ public class AnchorBallData : Data
         position = new[]
         {
             ballPosition.x,
-            ballPosition.y
+            ballPosition.y,
         };
 
     public override void ImportToLevel(Vector2 pos) => AnchorBallManager.SetAnchorBall(pos);

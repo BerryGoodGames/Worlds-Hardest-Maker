@@ -48,7 +48,7 @@ public class SettingsManager : MonoBehaviour
     {
         // check if preferences already exist, and if they don't then set the current (default) prefs
         if (!PlayerPrefs.HasKey("MusicVolume")) SavePrefs();
-        
+
         SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"), true);
         SetSoundEffectVolume(PlayerPrefs.GetFloat("SoundEffectVolume"), true);
         SetToolbarSize(PlayerPrefs.GetFloat("ToolbarSize"), true);
@@ -94,16 +94,14 @@ public class SettingsManager : MonoBehaviour
 
     public float GetMusicVolume()
     {
-        if (MainMixer.GetFloat("MusicVolume", out float value))
-            return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
+        if (MainMixer.GetFloat("MusicVolume", out float value)) return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
 
         throw new("Failed to access music volume");
     }
 
     public float GetSoundEffectVolume()
     {
-        if (MainMixer.GetFloat("SoundEffectVolume", out float value))
-            return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
+        if (MainMixer.GetFloat("SoundEffectVolume", out float value)) return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
 
         throw new("Failed to access sound effect volume");
     }
@@ -121,16 +119,11 @@ public class SettingsManager : MonoBehaviour
 
         if (!updateSlider) return;
 
-        print(size);
-
         ReferenceManager.Instance.ToolbarSizeSlider.Slider.value = size;
         ReferenceManager.Instance.ToolbarSizeSlider.UpdateInput();
     }
 
-    public void SetToolbarSize(float size)
-    {
-        SetToolbarSize(size, false);
-    }
+    public void SetToolbarSize(float size) => SetToolbarSize(size, false);
 
     public void SetToolbarSize(string size)
     {

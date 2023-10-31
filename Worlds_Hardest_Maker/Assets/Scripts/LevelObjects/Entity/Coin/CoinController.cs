@@ -1,4 +1,3 @@
-using System;
 using MyBox;
 using UnityEngine;
 
@@ -47,11 +46,9 @@ public class CoinController : EntityController
         }
     }
 
-    private void OnDestroy()
-    {
+    private void OnDestroy() =>
         // un-cache coin
         CoinManager.Instance.Coins.Remove(this);
-    }
 
     private void PickUp(GameObject player)
     {

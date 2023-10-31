@@ -11,11 +11,10 @@ public class SetEaseBlockController : AnchorBlockController
         { "linear", Ease.Linear },
         { "ease-out", Ease.OutCubic },
         { "ease-in", Ease.InCubic },
-        { "ease-in-out", Ease.InOutCubic }
+        { "ease-in-out", Ease.InOutCubic },
     };
 
-    [Separator("Specifics")] [InitializationField]
-    public TMP_Dropdown Input;
+    [Separator("Specifics")] [InitializationField] public TMP_Dropdown Input;
 
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
     {

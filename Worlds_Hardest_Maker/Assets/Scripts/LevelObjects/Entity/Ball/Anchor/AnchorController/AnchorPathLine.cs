@@ -18,8 +18,9 @@ public class AnchorPathLine : MonoBehaviour
 
         (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) =
             DrawManager.GetArrowHeadPoints(LineRenderer.GetPosition(0), end);
-        ArrowLines.line1.AnimateAllPoints(new() { arrowCenter, arrowVertex1 }, 0.05f, Ease.Linear);
-        ArrowLines.line2.AnimateAllPoints(new() { arrowCenter, arrowVertex2 }, 0.05f, Ease.Linear);
+
+        ArrowLines.line1.AnimateAllPoints(new() { arrowCenter, arrowVertex1, }, 0.05f, Ease.Linear);
+        ArrowLines.line2.AnimateAllPoints(new() { arrowCenter, arrowVertex2, }, 0.05f, Ease.Linear);
     }
 
     public void AnimateStart(Vector2 start)
@@ -28,8 +29,9 @@ public class AnchorPathLine : MonoBehaviour
 
         (Vector2 nextArrowVertex1, Vector2 nextArrowVertex2, Vector2 nextArrowCenter) =
             DrawManager.GetArrowHeadPoints(start, LineRenderer.GetPosition(1));
-        ArrowLines.line1.AnimateAllPoints(new() { nextArrowCenter, nextArrowVertex1 }, 0.05f, Ease.Linear);
-        ArrowLines.line2.AnimateAllPoints(new() { nextArrowCenter, nextArrowVertex2 }, 0.05f, Ease.Linear);
+
+        ArrowLines.line1.AnimateAllPoints(new() { nextArrowCenter, nextArrowVertex1, }, 0.05f, Ease.Linear);
+        ArrowLines.line2.AnimateAllPoints(new() { nextArrowCenter, nextArrowVertex2, }, 0.05f, Ease.Linear);
     }
 
     public void CreateArrowLine(Vector2 start, Vector2 end, bool dashed)
@@ -62,8 +64,10 @@ public class AnchorPathLine : MonoBehaviour
         // create blur
         if (Blur == null)
         {
-            Blur = Instantiate(PrefabManager.Instance.GlowPrefab, glowStart, Quaternion.Euler(0, 0, glowRotation),
-                transform);
+            Blur = Instantiate(
+                PrefabManager.Instance.GlowPrefab, glowStart, Quaternion.Euler(0, 0, glowRotation),
+                transform
+            );
         }
 
         // configure sprite renderer settings

@@ -14,8 +14,10 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
 
     #region Constructors
 
-    public MoveAndRotateBlock(AnchorController anchor, bool isLocked, Vector2 target, float iterations,
-        bool adaptRotation) :
+    public MoveAndRotateBlock(
+        AnchorController anchor, bool isLocked, Vector2 target, float iterations,
+        bool adaptRotation
+    ) :
         base(anchor, isLocked, target)
     {
         this.iterations = iterations;
@@ -36,13 +38,11 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
 
             moveDuration = dist / speed;
         }
-        else
-            moveDuration = Anchor.SpeedInput;
+        else moveDuration = Anchor.SpeedInput;
 
         // get rotate duration
         float rotateDuration;
-        if (adaptRotation)
-            rotateDuration = moveDuration;
+        if (adaptRotation) rotateDuration = moveDuration;
         else if (Anchor.RotationSpeedUnit is SetRotationBlock.Unit.Degrees or SetRotationBlock.Unit.Iterations)
         {
             float speed = SetRotationBlock.GetSpeed(Anchor.RotationInput, Anchor.RotationSpeedUnit);
@@ -53,16 +53,16 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
 
             rotateDuration = distance / speed;
         }
-        else
-            rotateDuration = Anchor.RotationInput;
+        else rotateDuration = Anchor.RotationInput;
 
         Anchor.transform.DOMove(TargetAbsolute, moveDuration)
             .SetEase(Anchor.Ease)
-            .OnComplete(() =>
-            {
-                if (rotateDuration < moveDuration || Math.Abs(rotateDuration - moveDuration) < 0.001)
-                    Anchor.FinishCurrentExecution();
-            });
+            .OnComplete(
+                () =>
+                {
+                    if (rotateDuration < moveDuration || Math.Abs(rotateDuration - moveDuration) < 0.001) Anchor.FinishCurrentExecution();
+                }
+            );
 
         // negate rotation depending on direction
         int direction = Anchor.IsClockwise ? -1 : 1;
@@ -71,11 +71,12 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
         Anchor.RotationTween = Anchor.Rb.DORotate(iterations * 360 * direction, rotateDuration)
             .SetRelative()
             .SetEase(Anchor.Ease)
-            .OnComplete(() =>
-            {
-                if (rotateDuration > moveDuration)
-                    Anchor.FinishCurrentExecution();
-            });
+            .OnComplete(
+                () =>
+                {
+                    if (rotateDuration > moveDuration) Anchor.FinishCurrentExecution();
+                }
+            );
     }
 
     protected override void SetControllerValues(AnchorBlockController c)
@@ -86,6 +87,5 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
         controller.AdaptRotation.isOn = adaptRotation;
     }
 
-    public override AnchorBlockData GetData() =>
-        new MoveAndRotateBlockData(IsLocked, Target, iterations, adaptRotation);
+    public override AnchorBlockData GetData() => new MoveAndRotateBlockData(IsLocked, Target, iterations, adaptRotation);
 }

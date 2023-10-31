@@ -16,12 +16,11 @@ public class UIGradient : BaseMeshEffect
             Rect rect = graphic.rectTransform.rect;
             Vector2 dir = UIGradientUtils.RotationDir(m_angle);
 
-            if (!m_ignoreRatio)
-                dir = UIGradientUtils.CompensateAspectRatio(rect, dir);
+            if (!m_ignoreRatio) dir = UIGradientUtils.CompensateAspectRatio(rect, dir);
 
             UIGradientUtils.Matrix2x3 localPositionMatrix = UIGradientUtils.LocalPositionMatrix(rect, dir);
 
-            UIVertex vertex = default(UIVertex);
+            UIVertex vertex = default;
             for (int i = 0; i < vh.currentVertCount; i++)
             {
                 vh.PopulateUIVertex(ref vertex, i);

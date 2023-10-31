@@ -3,14 +3,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>
-/// Detects mouse hovering of a UI element using pointer events
+///     Detects mouse hovering of a UI element using pointer events
 /// </summary>
 public class MouseOverUIPointer : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public bool Over { get; private set; }
 
-    public Action OnHovered = () => { };
-    public Action OnUnhovered = () => { };
+    private Action OnHovered = () => { };
+    private Action OnUnhovered = () => { };
 
     [SerializeField] private bool printDbg;
 

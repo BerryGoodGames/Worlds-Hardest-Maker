@@ -1,3 +1,4 @@
+using MyBox;
 using UnityEngine;
 
 /// <summary>
@@ -8,7 +9,9 @@ public class CameraScrolling : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private bool randomDirection;
-    [SerializeField] private float scrollDirAngle;
+
+    [SerializeField] [ConditionalField(nameof(randomDirection), true)] private float scrollDirAngle;
+
     private Vector2 dir;
 
     private void Awake()
@@ -19,8 +22,7 @@ public class CameraScrolling : MonoBehaviour
             float random = Random.Range(0f, 260f);
             dir = new(Mathf.Cos(random), Mathf.Sin(random));
         }
-        else
-            dir = new(Mathf.Cos(scrollDirAngle * Mathf.PI / 180), Mathf.Sin(scrollDirAngle * Mathf.PI / 180));
+        else dir = new(Mathf.Cos(scrollDirAngle * Mathf.PI / 180), Mathf.Sin(scrollDirAngle * Mathf.PI / 180));
     }
 
     private void FixedUpdate() => transform.position += (Vector3)dir * speed;

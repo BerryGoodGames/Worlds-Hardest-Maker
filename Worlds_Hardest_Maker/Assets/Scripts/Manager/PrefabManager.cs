@@ -56,7 +56,7 @@ public class PrefabManager : MonoBehaviour
     [Foldout("UI")] public AlphaTween GlowPrefab;
 
     [Foldout("UI")] public GameObject FillPreview;
-    [Foldout("UI")] public GameObject Tooltip;
+    [Foldout("UI")] public KeyCodeDisplay KeyCodeDisplay;
 
     #endregion
 

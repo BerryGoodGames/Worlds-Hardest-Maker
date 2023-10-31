@@ -1,8 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using DG.Tweening;
+using MyBox;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -13,33 +13,46 @@ public class GameManager : MonoBehaviourPun
     public static GameManager Instance { get; private set; }
 
     [SerializeField] private LoadingScreen loadingScreen;
+    [SerializeField] private ChainableTween swipeTween;
+
+    [Separator("Save")] [SerializeField] private float autoSaveInterval = 300;
+
     private RectTransform canvasRT;
 
     private void Awake()
     {
         // init singleton
-        if (Instance == null)
-            Instance = this;
+        if (Instance == null) Instance = this;
         // DontDestroyOnLoad(gameObject);
         else Destroy(gameObject);
 
         Utils.ForceDecimalSeparator(".");
 
         SetCameraUnitWidth(23);
+
+        DOTween.Init(useSafeMode: false);
     }
 
     private void Start()
     {
         canvasRT = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>();
-        DOTween.Init(useSafeMode: false);
 
         if (!MultiplayerManager.Instance.Multiplayer) PlayerManager.Instance.SetPlayer(Vector2.zero, 3f);
 
-        LevelSettings.Instance.SetDrownDuration();
-        LevelSettings.Instance.SetIceFriction();
-        LevelSettings.Instance.SetIceMaxSpeed();
-        LevelSettings.Instance.SetWaterDamping();
+        if (!LevelSessionManager.IsSessionFromEditor)
+        {
+            // user loaded editor scene from main menu
+            // force enable start swipe
+            swipeTween.gameObject.SetActive(true);
+            swipeTween.StartChain();
 
+            // make main menu also enable start swipe
+            TransitionManager.Instance.HasMainMenuStartSwipe = true;
+        }
+
+        // start saving interval if either Dbg auto load enabled or any path given
+        if ((LevelSessionManager.Instance.IsEdit && Dbg.Instance.AutoLoadLevel) ||
+            LevelSessionManager.Instance.LevelSessionPath != string.Empty) StartCoroutine(AutoSave());
     }
 
     /// <summary>
@@ -96,29 +109,33 @@ public class GameManager : MonoBehaviourPun
 
     public void LoadLevel(string path)
     {
-        List<Data> levelData = SaveSystem.LoadLevel(path);
+        LevelData levelData = SaveSystem.LoadLevel(path);
 
-        if (levelData != null) LoadLevelFromData(levelData.ToArray());
+        if (levelData != null) StartCoroutine(LoadLevelFromData(levelData));
     }
 
     public void LoadLevel()
     {
-        List<Data> levelData = SaveSystem.LoadLevel();
+        LevelData levelData = SaveSystem.LoadLevel();
 
-        if (levelData != null) LoadLevelFromData(levelData.ToArray());
+        if (levelData != null) StartCoroutine(LoadLevelFromData(levelData));
     }
 
     [PunRPC]
-    public void LoadLevelFromData(Data[] levelData)
+    public IEnumerator LoadLevelFromData(LevelData levelData)
     {
+        yield return new WaitForEndOfFrame();
+
         ClearLevel();
+
+        List<Data> levelObjects = levelData.Objects;
 
         List<FieldData> fieldData = new();
         PlayerData playerData = null;
         LevelSettingsData levelSettingsData = null;
 
         // load ball, coins
-        foreach (Data levelObject in levelData)
+        foreach (Data levelObject in levelObjects)
         {
             if (levelObject.GetType() == typeof(FieldData))
             {
@@ -143,47 +160,34 @@ public class GameManager : MonoBehaviourPun
 
 
         // load fields
-        foreach (FieldData field in fieldData)
-        {
-            field.ImportToLevel();
-        }
+        foreach (FieldData field in fieldData) { field.ImportToLevel(); }
 
         // load player last
         playerData?.ImportToLevel();
 
         // load level settings
         levelSettingsData?.ImportToLevel();
+
+        // store data in LevelSessionManager
+        LevelSessionManager.Instance.LoadedLevelData = levelData;
     }
 
-    [PunRPC]
-    public void ReceiveLevel(string content)
+    private IEnumerator AutoSave()
     {
-        BinaryFormatter formatter = new();
-        Stream s = GenerateStreamFromString(content);
+        while (true)
+        {
+            SaveSystem.SaveCurrentLevel();
 
-        List<Data> data = formatter.Deserialize(s) as List<Data>;
+            // wait for next auto save
+            yield return new WaitForSeconds(autoSaveInterval);
+        }
 
-        s.Close();
-
-        if (data == null)
-            throw new Exception("Something went wrong when receiving level and parsing received information");
-
-        LoadLevelFromData(data.ToArray());
-    }
-
-    private static Stream GenerateStreamFromString(string s)
-    {
-        MemoryStream stream = new();
-        StreamWriter writer = new(stream);
-        writer.Write(s);
-        writer.Flush();
-        stream.Position = 0;
-        return stream;
+        // ReSharper disable once IteratorNeverReturns
     }
 
     #endregion
 
-    public static void SetCameraUnitWidth(float width)
+    private static void SetCameraUnitWidth(float width)
     {
         Camera cam = Camera.main;
         if (cam != null) cam.orthographicSize = width * 0.5f / cam.aspect;
@@ -197,8 +201,7 @@ public class GameManager : MonoBehaviourPun
         else throw new Exception($"Couldn't set camera height (in units) to {height} because main camera is null");
     }
 
-    public static Vector2 ScreenToMainCanvas(Vector2 position) =>
-        position * (Instance.canvasRT.sizeDelta / new Vector2(Screen.width, Screen.height));
+    public static Vector2 ScreenToMainCanvas(Vector2 position) => position * (Instance.canvasRT.sizeDelta / new Vector2(Screen.width, Screen.height));
 
 
     [PunRPC]
@@ -207,20 +210,14 @@ public class GameManager : MonoBehaviourPun
         PlayerManager.Instance.RemoveAllPlayers();
         List<Transform> containers = new()
         {
-            ReferenceManager.Instance.FieldContainer
+            ReferenceManager.Instance.FieldContainer,
         };
 
-        foreach (Transform t in ReferenceManager.Instance.EntityContainer)
-        {
-            containers.Add(t);
-        }
+        foreach (Transform t in ReferenceManager.Instance.EntityContainer) { containers.Add(t); }
 
         foreach (Transform container in containers)
         {
-            for (int i = container.childCount - 1; i >= 0; i--)
-            {
-                DestroyImmediate(container.GetChild(i).gameObject);
-            }
+            for (int i = container.childCount - 1; i >= 0; i--) { DestroyImmediate(container.GetChild(i).gameObject); }
         }
     }
 
@@ -233,8 +230,7 @@ public class GameManager : MonoBehaviourPun
         {
             if (hit == null) continue;
 
-            if (hit.transform.parent == container)
-                Destroy(hit.gameObject);
+            if (hit.transform.parent == container) Destroy(hit.gameObject);
             else if (hit.transform.parent.parent == container) Destroy(hit.transform.parent.gameObject);
         }
     }
@@ -244,17 +240,25 @@ public class GameManager : MonoBehaviourPun
         Vector2[] deltas =
         {
             new(-0.5f, -0.5f), new(0, -0.5f), new(0.5f, -0.5f),
-            new(-0.5f, 0),     new(0, 0),     new(0.5f, 0),
-            new(-0.5f, 0.5f),  new(0, 0.5f),  new(0.5f, 0.5f)
+            new(-0.5f, 0), new(0, 0), new(0.5f, 0),
+            new(-0.5f, 0.5f), new(0, 0.5f), new(0.5f, 0.5f),
         };
 
-        foreach (Vector2 d in deltas)
-        {
-            RemoveObjectInContainer(position + d, container);
-        }
+        foreach (Vector2 d in deltas) { RemoveObjectInContainer(position + d, container); }
     }
 
-    public void MainMenu() => loadingScreen.LoadScene(0);
+    public void MainMenu()
+    {
+        BackupLevel();
+
+        loadingScreen.LoadScene(0);
+    }
+
+    public void BackupLevel()
+    {
+        // save level if any path given
+        if (LevelSessionManager.Instance.LevelSessionPath != string.Empty) SaveSystem.SaveCurrentLevel();
+    }
 
     public static void DeselectInputs()
     {
@@ -272,11 +276,12 @@ public class GameManager : MonoBehaviourPun
     {
         for (int i = 0; i < dropdown.options.Count; i++)
         {
-            if (dropdown.options[i].text == option)
-                return i;
+            if (dropdown.options[i].text == option) return i;
         }
 
         Debug.LogWarning("There was no option found");
         return -1;
     }
+
+    private void OnApplicationQuit() => BackupLevel();
 }

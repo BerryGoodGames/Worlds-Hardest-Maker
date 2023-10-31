@@ -8,30 +8,74 @@ using UnityEngine;
 
 public static class SaveSystem
 {
-    public static void SaveCurrentLevel()
+    public static string LevelSavePath
     {
-        AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+        get
+        {
+            // create path if it doesn't exist yet
+            string path = Application.persistentDataPath + "/Levels/";
 
-        BinaryFormatter formatter = new();
-        string path = StandaloneFileBrowser.SaveFilePanel("Save your level (.lvl)", Application.persistentDataPath,
-            "MyLevel.lvl", "lvl");
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
+            return path;
+        }
+    }
+
+    public static void SaveCurrentLevel() => SaveCurrentLevel(LevelSessionManager.Instance.LevelSessionPath);
+
+    public static void SaveCurrentLevel(string path)
+    {
         // check if user didn't pick any path
         if (path.Equals(""))
         {
-            Debug.Log("Cancelled saving");
+            Debug.LogWarning("No Level Selected");
             return;
         }
+
+        AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
 
         // create file
         FileStream stream = new(path, FileMode.Create);
 
-        List<Data> levelData = SerializeCurrentLevel();
+        try
+        {
+            LevelInfo levelInfo = LevelSessionManager.Instance.LoadedLevelData.Info;
+            levelInfo.LastEdited = DateTime.Now;
+            levelInfo.EditTime += LevelSessionManager.Instance.EditTime;
+            levelInfo.PlayTime += LevelSessionManager.Instance.PlayTime;
+            levelInfo.Deaths += LevelSessionManager.Instance.Deaths;
+            levelInfo.Completions += LevelSessionManager.Instance.Completions;
+            if (LevelSessionManager.Instance.BestCompletionTime < levelInfo.BestCompletionTime) 
+                levelInfo.BestCompletionTime = LevelSessionManager.Instance.BestCompletionTime;
 
-        formatter.Serialize(stream, levelData);
+            List<Data> levelObjects = SerializeCurrentLevel();
+
+            LevelData levelData = new()
+            {
+                Info = levelInfo,
+                Objects = levelObjects,
+            };
+
+            BinaryFormatter formatter = new();
+            formatter.Serialize(stream, levelData);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+            Debug.Log(e.StackTrace);
+
+            stream.Close();
+            throw;
+        }
+
         stream.Close();
 
         Debug.Log($"Saved level at {path}");
+    }
+
+    public static void SaveLevel()
+    {
+        
     }
 
     private static List<Data> SerializeCurrentLevel()
@@ -54,9 +98,9 @@ public static class SaveSystem
         }
 
         // serialize loose anchor balls
-        foreach (Transform ball in ReferenceManager.Instance.AnchorBallContainer.transform)
+        foreach (AnchorBallController anchorBall in AnchorBallManager.Instance.AnchorBallListGlobal)
         {
-            AnchorBallData anchorBallData = new(ball.GetChild(0).localPosition);
+            AnchorBallData anchorBallData = (AnchorBallData)anchorBall.GetData();
             levelData.Add(anchorBallData);
         }
 
@@ -87,11 +131,13 @@ public static class SaveSystem
         return levelData;
     }
 
-    public static List<Data> LoadLevel(bool updateDiscordActivity = true)
+    public static LevelData LoadLevel()
     {
         // requests path from user and returns level in form of List<IData>
-        string[] pathArr = StandaloneFileBrowser.OpenFilePanel("Select your level (.lvl)",
-            Application.persistentDataPath, "lvl", false);
+        string[] pathArr = StandaloneFileBrowser.OpenFilePanel(
+            "Select your level (.lvl)",
+            LevelSavePath, "lvl", false
+        );
 
         // check if user selected nothing
         if (pathArr.Length != 1)
@@ -102,41 +148,31 @@ public static class SaveSystem
 
         string path = pathArr[0];
 
-        return LoadLevel(path, updateDiscordActivity);
+        return LoadLevel(path);
     }
 
-    public static List<Data> LoadLevel(string path, bool updateDiscordActivity = true)
+    public static LevelData LoadLevel(string path)
     {
         // check if file exists
         if (!File.Exists(path))
         {
-            Debug.LogError($"Save file not found in {path}");
+            Debug.LogError($"Save file not found in path \"{path}\"");
             return null;
         }
 
         // // load / deserialize file
         BinaryFormatter formatter = new();
         FileStream stream = new(path, FileMode.Open);
+        LevelData data;
 
-        if (MultiplayerManager.Instance.Multiplayer)
-            // RPC to every other client with path
-            SendLevel(path);
-
-        // set discord activity
-        if (updateDiscordActivity)
+        try { data = formatter.Deserialize(stream) as LevelData; }
+        catch
         {
-            string[] splitPath = stream.Name.Split("\\");
-            string levelName = splitPath[^1].Replace(".lvl", "");
-            // DiscordManager.State = $"Last opened Level: {levelName}";
+            Debug.LogWarning($"Failed to load file at path: {path}");
+            stream.Close();
+            throw;
         }
 
-        //using (StreamReader reader = new StreamReader(stream))
-        //{
-        //    Debug.Log(reader.ReadToEnd());
-        //}
-
-
-        List<Data> data = formatter.Deserialize(stream) as List<Data>;
         stream.Close();
 
         return data;

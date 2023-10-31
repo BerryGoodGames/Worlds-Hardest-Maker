@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,8 +23,6 @@ public class SyncInputToSlider : MonoBehaviour
     {
         if (input == null) input = GetComponent<TMP_InputField>();
 
-        print( "internal: " + transform.parent.parent.name + " " + input.text + " " + Slider.value);
-
         // convert slider value to text and put in into the input
         input.text = Rounded(Slider.value).ToString();
     }
@@ -39,8 +36,10 @@ public class SyncInputToSlider : MonoBehaviour
         input = GetComponent<TMP_InputField>();
 
         // set stuff in input //
-        UnityEventTools.AddPersistentListener(input.onValueChanged,
-            _ => { UpdateSlider(); }); // add Update Slider to persistent event listener
+        UnityEventTools.AddPersistentListener(
+            input.onValueChanged,
+            _ => { UpdateSlider(); }
+        ); // add Update Slider to persistent event listener
 
         // set stuff in slider //
         UnityEventTools.AddPersistentListener(Slider.onValueChanged, _ => { UpdateInput(); });

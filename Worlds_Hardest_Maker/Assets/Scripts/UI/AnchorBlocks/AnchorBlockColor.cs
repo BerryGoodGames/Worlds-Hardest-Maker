@@ -20,8 +20,7 @@ public class AnchorBlockColor : AnchorBlockColorController
         List<AnchorBlockColorController> colorControllers = new();
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (transform.GetChild(i).TryGetComponent(out AnchorBlockColorController colorController))
-                colorControllers.Add(colorController);
+            if (transform.GetChild(i).TryGetComponent(out AnchorBlockColorController colorController)) colorControllers.Add(colorController);
         }
 
         foreach (AnchorBlockColorController colorController in colorControllers)

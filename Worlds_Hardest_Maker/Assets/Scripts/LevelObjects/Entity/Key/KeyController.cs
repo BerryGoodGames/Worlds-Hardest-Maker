@@ -7,8 +7,8 @@ public class KeyController : EntityController
     [ReadOnly] public Vector2 KeyPosition;
     [ReadOnly] public bool PickedUp;
 
-    [Separator] 
-    [InitializationField] [MustBeAssigned] public SpriteRenderer SpriteRenderer;
+    [Separator] [InitializationField] [MustBeAssigned] public SpriteRenderer SpriteRenderer;
+
     [InitializationField] [MustBeAssigned] public Animator Animator;
     [InitializationField] [MustBeAssigned] public IntervalRandomAnimation KonamiAnimation;
 
@@ -24,10 +24,7 @@ public class KeyController : EntityController
         SetOrderInLayer();
     }
 
-    private void OnDestroy()
-    {
-        KeyManager.Instance.Keys.Remove(this);
-    }
+    private void OnDestroy() => KeyManager.Instance.Keys.Remove(this);
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -44,7 +41,7 @@ public class KeyController : EntityController
     }
 
     /// <summary>
-    /// Set order in layer to be on top of every other
+    ///     Set order in layer to be on top of every other
     /// </summary>
     private void SetOrderInLayer()
     {
@@ -81,7 +78,7 @@ public class KeyController : EntityController
             KeyManager.KeyColor.Green => "Green",
             KeyManager.KeyColor.Blue => "Blue",
             KeyManager.KeyColor.Yellow => "Yellow",
-            _ => ""
+            _ => "",
         };
 
         foreach (GameObject door in GameObject.FindGameObjectsWithTag(tagColor + "KeyDoorField"))

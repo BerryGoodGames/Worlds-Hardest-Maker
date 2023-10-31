@@ -21,6 +21,6 @@ public class FollowMouse : MonoBehaviour
         {
             WorldPositionType.Any => MouseManager.Instance.MouseWorldPos,
             WorldPositionType.Grid => MouseManager.Instance.MouseWorldPosGrid,
-            _ => MouseManager.Instance.MouseWorldPosMatrix
+            _ => MouseManager.Instance.MouseWorldPosMatrix,
         };
 }

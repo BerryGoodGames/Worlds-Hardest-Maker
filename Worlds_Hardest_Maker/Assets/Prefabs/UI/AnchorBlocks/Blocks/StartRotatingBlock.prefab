@@ -148,6 +148,10 @@ PrefabInstance:
       propertyPath: Text
       value: Cannot rotate with\nundefined speed
       objectReference: {fileID: 0}
+    - target: {fileID: 5772829781846135297, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: text
+      value: Cannot rotate with\nundefined speed
+      objectReference: {fileID: 0}
     - target: {fileID: 6382237367033516156, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: m_Color.b
       value: 0.63529414
