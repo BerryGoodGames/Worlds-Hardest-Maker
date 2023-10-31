@@ -3,6 +3,7 @@ using System.IO;
 using MyBox;
 using SFB;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LevelHubManager : MonoBehaviour
 {

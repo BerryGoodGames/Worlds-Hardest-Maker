@@ -73,6 +73,11 @@ public static class SaveSystem
         Debug.Log($"Saved level at {path}");
     }
 
+    public static void SaveLevel()
+    {
+        
+    }
+
     private static List<Data> SerializeCurrentLevel()
     {
         List<Data> levelData = new();

@@ -147,11 +147,16 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
             Environment.SpecialFolder.UserProfile + "\\Downloads", LevelName, "lvl"
         );
 
-
         if (exportPath != string.Empty) File.Copy(LevelPath, exportPath, true);
     }
 
-
+    public void EditSettings()
+    {
+        LevelModifyController.Instance.LevelModifyStartTween.Move();
+        LevelModifyController.Instance.CurrentCard = this;
+        LevelModifyController.Instance.FillInputs(this);
+    }
+    
     private void Awake()
     {
         foreach (Tooltip tooltip in buttonTooltips) { tooltip.Container = LevelHubManager.Instance.TooltipContainer; }
