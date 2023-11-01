@@ -77,7 +77,7 @@ public partial class AnchorController : EntityController
     public void StartExecuting()
     {
         UpdateStartValues();
-        
+
         CurrentExecutingNode = Blocks.First;
         CurrentExecutingBlock = CurrentExecutingNode.Value;
         CurrentExecutingBlock.Execute();

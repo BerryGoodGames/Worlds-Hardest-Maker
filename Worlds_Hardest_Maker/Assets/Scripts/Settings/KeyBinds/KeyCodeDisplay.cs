@@ -5,12 +5,11 @@ using UnityEngine.UI;
 
 public class KeyCodeDisplay : MonoBehaviour
 {
-    [Separator("References")]
-    [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyCodeImageContainer;
+    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyCodeImageContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private Image keyCodeImage;
 
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform separator;
-    
+
 
     #region Key Code Sprites
 
@@ -214,16 +213,13 @@ public class KeyCodeDisplay : MonoBehaviour
     public void SetKeyCodeSprite(KeyCode[] keyCodes)
     {
         if (keyCodes.Length <= 0) throw new("There has to be at least one key code");
-        
+
         // destroy the children MUGUHUAHAHAHAGAAGAGGAGAAGAGAGAGGAGAGAGAHAHAHAHAHAHAHHASJHHAHASHYHHAHHAJHHAHAHA
-        foreach (Transform child in keyCodeImageContainer)
-        {
-            Destroy(child.gameObject);
-        }
-        
+        foreach (Transform child in keyCodeImageContainer) { Destroy(child.gameObject); }
+
         // create first image
         CreateKeyCodeImage(keyCodes[0]);
-        
+
         // create other images with separator
         for (int i = 1; i < keyCodes.Length; i++)
         {

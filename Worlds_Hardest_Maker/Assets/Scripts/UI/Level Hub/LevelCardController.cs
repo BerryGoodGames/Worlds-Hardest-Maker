@@ -127,7 +127,7 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
         // get new name
         string newName = LevelName[..^4].GetCopyName();
 
-        while (File.Exists(SaveSystem.LevelSavePath + newName + ".lvl")) { newName = newName.GetCopyName(); }
+        while (File.Exists(SaveSystem.LevelSavePath + newName + ".lvl")) newName = newName.GetCopyName();
 
         // copy the data
         if (LevelPath != null)
@@ -156,10 +156,10 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
         LevelModifyController.Instance.CurrentCard = this;
         LevelModifyController.Instance.FillInputs(this);
     }
-    
+
     private void Awake()
     {
-        foreach (Tooltip tooltip in buttonTooltips) { tooltip.Container = LevelHubManager.Instance.TooltipContainer; }
+        foreach (Tooltip tooltip in buttonTooltips) tooltip.Container = LevelHubManager.Instance.TooltipContainer;
     }
 
     public void OnPointerClick(PointerEventData eventData) => levelCardTween.ToggleExpandCollapse();

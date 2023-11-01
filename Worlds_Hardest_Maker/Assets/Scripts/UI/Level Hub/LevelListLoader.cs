@@ -155,7 +155,7 @@ public class LevelListLoader : MonoBehaviour
             levelCard.PlayTime = $@"Play time: {info.PlayTime:hh\:mm\:ss}";
             levelCard.Completions = $"Completions: {info.Completions}";
             levelCard.Deaths = $"Deaths: {info.Deaths}";
-            
+
             // display best completion time
             bool hasEverCompleted = info.Completions != 0;
             string display = hasEverCompleted ? $@"{info.BestCompletionTime:hh\:mm\:ss\.fff}" : "-";

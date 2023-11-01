@@ -47,7 +47,7 @@ public class KonamiManager : MonoBehaviour
     private static void SetKonamiActive(bool active)
     {
         // toggle key sneezing
-        foreach (KeyController key in KeyManager.Instance.Keys) { key.KonamiAnimation.enabled = active; }
+        foreach (KeyController key in KeyManager.Instance.Keys) key.KonamiAnimation.enabled = active;
 
         // toggle shotgun (if player exists)
         GameObject player = PlayerManager.GetPlayer();

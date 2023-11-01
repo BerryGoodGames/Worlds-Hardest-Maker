@@ -154,7 +154,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         // update player list
         // -> clear player item list
-        foreach (PlayerItem item in playerItemsList) { Destroy(item.gameObject); }
+        foreach (PlayerItem item in playerItemsList) Destroy(item.gameObject);
 
         playerItemsList.Clear();
 

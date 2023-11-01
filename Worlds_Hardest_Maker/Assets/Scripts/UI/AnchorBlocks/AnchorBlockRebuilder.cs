@@ -9,7 +9,7 @@ public class AnchorBlockRebuilder : MonoBehaviour
 
     public void RebuildLayout()
     {
-        foreach (ContentSizeFitter contentSizeFitter in contentSizeFitters) { contentSizeFitter.Recalculate(); }
+        foreach (ContentSizeFitter contentSizeFitter in contentSizeFitters) contentSizeFitter.Recalculate();
     }
 
     [ButtonMethod]

@@ -69,7 +69,7 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
         Instance.OnEndIndexEdit();
 
         // make sure that the player can't place directly after pasting
-        while (!Input.GetMouseButtonUp(0)) { yield return null; }
+        while (!Input.GetMouseButtonUp(0)) yield return null;
     }
 
 

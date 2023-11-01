@@ -2,7 +2,6 @@ using System.IO;
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LevelCreationController : MonoBehaviour
 {
@@ -34,7 +33,7 @@ public class LevelCreationController : MonoBehaviour
     private static void CreateLevel(ref string name)
     {
         // make sure that the file doesn't already exist
-        while (File.Exists(SaveSystem.LevelSavePath + name + ".lvl")) { name = name.GetCopyName(); }
+        while (File.Exists(SaveSystem.LevelSavePath + name + ".lvl")) name = name.GetCopyName();
 
         string levelPath = SaveSystem.LevelSavePath + name + ".lvl";
 

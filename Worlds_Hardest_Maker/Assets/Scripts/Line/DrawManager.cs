@@ -85,7 +85,7 @@ public class DrawManager : MonoBehaviour
 
         // set points
         circle.positionCount = steps + 1;
-        for (int i = 0; i < points.Count; i++) { circle.SetPosition(i, points[i]); }
+        for (int i = 0; i < points.Count; i++) circle.SetPosition(i, points[i]);
 
         return circle;
     }

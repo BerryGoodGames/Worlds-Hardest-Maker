@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.ComponentModel;
 using TMPro;
 using UnityEngine;
 
@@ -40,9 +39,9 @@ public class TimerController : MonoBehaviour
         StopTimer();
 
         if (PlayManager.Instance.Cheated) return;
-        
+
         Text.color = FinishedTimerColor;
-            
+
         if (!LevelSessionManager.Instance.IsEdit) LevelSessionManager.Instance.TrySetBestTime(TimeSpan.FromSeconds(TimerSeconds));
     }
 

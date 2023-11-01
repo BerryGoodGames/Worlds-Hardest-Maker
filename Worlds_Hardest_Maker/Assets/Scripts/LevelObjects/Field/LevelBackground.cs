@@ -33,7 +33,7 @@ public class LevelBackground : MonoBehaviour
 
     public void CalcSize(float zoom)
     {
-        foreach (Transform child in container) { Destroy(child.gameObject); }
+        foreach (Transform child in container) Destroy(child.gameObject);
 
         Vector2 containerPos = container.position;
 

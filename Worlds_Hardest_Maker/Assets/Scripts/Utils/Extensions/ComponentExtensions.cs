@@ -7,7 +7,7 @@ public static class ComponentExtensions
     {
         List<T> components = new();
 
-        foreach (Transform child in parent.transform) { components.Add(child.GetComponent<T>()); }
+        foreach (Transform child in parent.transform) components.Add(child.GetComponent<T>());
 
         return components.ToArray();
     }

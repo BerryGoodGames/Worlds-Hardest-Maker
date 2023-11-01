@@ -160,7 +160,7 @@ public class GameManager : MonoBehaviourPun
 
 
         // load fields
-        foreach (FieldData field in fieldData) { field.ImportToLevel(); }
+        foreach (FieldData field in fieldData) field.ImportToLevel();
 
         // load player last
         playerData?.ImportToLevel();
@@ -213,11 +213,11 @@ public class GameManager : MonoBehaviourPun
             ReferenceManager.Instance.FieldContainer,
         };
 
-        foreach (Transform t in ReferenceManager.Instance.EntityContainer) { containers.Add(t); }
+        foreach (Transform t in ReferenceManager.Instance.EntityContainer) containers.Add(t);
 
         foreach (Transform container in containers)
         {
-            for (int i = container.childCount - 1; i >= 0; i--) { DestroyImmediate(container.GetChild(i).gameObject); }
+            for (int i = container.childCount - 1; i >= 0; i--) DestroyImmediate(container.GetChild(i).gameObject);
         }
     }
 
@@ -244,7 +244,7 @@ public class GameManager : MonoBehaviourPun
             new(-0.5f, 0.5f), new(0, 0.5f), new(0.5f, 0.5f),
         };
 
-        foreach (Vector2 d in deltas) { RemoveObjectInContainer(position + d, container); }
+        foreach (Vector2 d in deltas) RemoveObjectInContainer(position + d, container);
     }
 
     public void MainMenu()

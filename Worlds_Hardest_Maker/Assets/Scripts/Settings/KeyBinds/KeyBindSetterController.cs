@@ -19,8 +19,6 @@ public class KeyBindSetterController : MonoBehaviour
         KeyBinds.AddKeyCodesToKeyBind(KeyBind, keyCodes);
 
         InstantiateKeyCodeDisplay(keyCodes);
-
-        print($"Successfully added key codes { "{" + string.Join(',', keyCodes) +"}" } to {keyBindName.text}");
     }
 
     public void AddKeyCode(string keyCodeName)
@@ -180,12 +178,9 @@ public class KeyBindSetterController : MonoBehaviour
         try
         {
             KeyCode[] keyCodes = new KeyCode[keyCodeName.Length];
-        
-            for (int i = 0; i < keyCodeName.Length; i++)
-            {
-                keyCodes[i] = charToKeycode[keyCodeName[i]];
-            }
-            
+
+            for (int i = 0; i < keyCodeName.Length; i++) { keyCodes[i] = charToKeycode[keyCodeName[i]]; }
+
             AddKeyCode(keyCodes);
         }
         catch { print($"Couldn't parse {keyCodeName} into KeyCodes, ignored"); }
@@ -205,7 +200,7 @@ public class KeyBindSetterController : MonoBehaviour
         KeyBind.KeyCodes = Array.Empty<KeyCode[]>();
         KeyBinds.ResetKeyBind(KeyBind);
 
-        foreach (RectTransform keyCodeDisplay in displayContainer) { Destroy(keyCodeDisplay.gameObject); }
+        foreach (RectTransform keyCodeDisplay in displayContainer) Destroy(keyCodeDisplay.gameObject);
     }
 
     public static void CancelAddingKeyBind()

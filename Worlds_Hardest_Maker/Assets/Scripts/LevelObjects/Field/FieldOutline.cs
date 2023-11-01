@@ -155,7 +155,7 @@ public class FieldOutline : MonoBehaviour
     private void ClearLines()
     {
         // clear lines
-        foreach (Transform child in lineContainer.transform) { Destroy(child.gameObject); }
+        foreach (Transform child in lineContainer.transform) Destroy(child.gameObject);
     }
 
     private void ClearLineInDirection(Vector2 dir)

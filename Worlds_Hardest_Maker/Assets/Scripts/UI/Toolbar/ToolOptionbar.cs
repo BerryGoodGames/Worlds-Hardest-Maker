@@ -57,7 +57,7 @@ public class ToolOptionbar : MonoBehaviour
     [ButtonMethod]
     public void ScaleOptions()
     {
-        foreach (Transform tool in Options.transform) { tool.localScale = new(0.7f, 0.7f); }
+        foreach (Transform tool in Options.transform) tool.localScale = new(0.7f, 0.7f);
     }
 
     [ButtonMethod]

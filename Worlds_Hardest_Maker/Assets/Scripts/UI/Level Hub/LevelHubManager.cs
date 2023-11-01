@@ -3,7 +3,6 @@ using System.IO;
 using MyBox;
 using SFB;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class LevelHubManager : MonoBehaviour
 {
@@ -40,7 +39,7 @@ public class LevelHubManager : MonoBehaviour
         string fileName = Path.GetFileName(filePath)[..^4];
 
         // generate copy name if needed
-        while (File.Exists(SaveSystem.LevelSavePath + fileName + ".lvl")) { fileName = fileName.GetCopyName(); }
+        while (File.Exists(SaveSystem.LevelSavePath + fileName + ".lvl")) fileName = fileName.GetCopyName();
 
         // copy file to level save path
         string newFilePath = SaveSystem.LevelSavePath + fileName + ".lvl";

@@ -45,6 +45,6 @@ public class ButtonController : MonoBehaviour
     public static void UpdateEVERYButton()
     {
         ButtonController[] buttons = Resources.FindObjectsOfTypeAll<ButtonController>();
-        foreach (ButtonController controller in buttons) { controller.UpdateOutlineAndBackgroundPanelSize(); }
+        foreach (ButtonController controller in buttons) controller.UpdateOutlineAndBackgroundPanelSize();
     }
 }

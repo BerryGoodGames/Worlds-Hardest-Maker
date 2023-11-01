@@ -19,7 +19,7 @@ public class MoveRelativeTween : ChainableTween
     public void Move()
     {
         if (tween != null && tween.IsPlaying()) return;
-        
+
         if (isRectTransform)
         {
             if (animateAnchor)

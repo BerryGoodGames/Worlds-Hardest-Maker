@@ -338,7 +338,7 @@ public class PlayerController : EntityController
         // finds every field the player is at least half way on
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.011f);
         List<GameObject> res = new();
-        foreach (Collider2D hit in hits) { res.Add(hit.gameObject); }
+        foreach (Collider2D hit in hits) res.Add(hit.gameObject);
 
         return res;
     }
@@ -484,7 +484,7 @@ public class PlayerController : EntityController
             PlayManager.Instance.Cheated = false;
 
             // reset balls to start position (if player launched them e.g. with shotgun)
-            foreach (AnchorBallController ball in AnchorBallManager.Instance.AnchorBallList) { ball.ResetPosition(); }
+            foreach (AnchorBallController ball in AnchorBallManager.Instance.AnchorBallList) ball.ResetPosition();
         }
     }
 
@@ -582,10 +582,10 @@ public class PlayerController : EntityController
         // convert collectedCoins and collectedKeys to List<Vector2>
         List<Vector2> coinPositions = new();
 
-        foreach (GameObject c in CoinsCollected) { coinPositions.Add(c.GetComponent<CoinController>().CoinPosition); }
+        foreach (GameObject c in CoinsCollected) coinPositions.Add(c.GetComponent<CoinController>().CoinPosition);
 
         List<Vector2> keyPositions = new();
-        foreach (KeyController key in KeysCollected) { keyPositions.Add(key.KeyPosition); }
+        foreach (KeyController key in KeysCollected) keyPositions.Add(key.KeyPosition);
 
         GameState res = new(statePlayerStartingPos, coinPositions, keyPositions);
 

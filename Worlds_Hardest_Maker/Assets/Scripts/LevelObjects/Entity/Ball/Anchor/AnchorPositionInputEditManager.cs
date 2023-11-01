@@ -135,7 +135,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         Instance.CurrentEditedPositionInput.SetPositionValues(MouseManager.Instance.MouseWorldPosGrid);
 
         // make sure that the player can't place directly after pasting
-        while (!Input.GetMouseButtonUp(0)) { yield return null; }
+        while (!Input.GetMouseButtonUp(0)) yield return null;
 
         Instance.OnEndPositionEdit();
     }

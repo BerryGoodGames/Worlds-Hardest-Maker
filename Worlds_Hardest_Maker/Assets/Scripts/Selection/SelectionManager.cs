@@ -197,19 +197,19 @@ public class SelectionManager : MonoBehaviour
         if (!LevelSessionManager.Instance.IsEdit) return;
 
         // destroy selection previews
-        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) { Destroy(preview.gameObject); }
+        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) Destroy(preview.gameObject);
     }
 
     private static void InitSelectedPreview() => InitPreview(GetCurrentFillRange());
 
     public static void UpdatePreviewRotation()
     {
-        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) { preview.GetComponent<PreviewController>().UpdateRotation(); }
+        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) preview.GetComponent<PreviewController>().UpdateRotation();
     }
 
     public static void UpdatePreviewSprite()
     {
-        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) { preview.GetComponent<PreviewController>().UpdateSprite(); }
+        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) preview.GetComponent<PreviewController>().UpdateSprite();
     }
 
     private static void SetPreviewVisible()
@@ -237,7 +237,7 @@ public class SelectionManager : MonoBehaviour
         List<Vector2> res = new();
         for (float x = lowest.x; x <= highest.x; x += increment)
         {
-            for (float y = lowest.y; y <= highest.y; y += increment) { res.Add(new(x, y)); }
+            for (float y = lowest.y; y <= highest.y; y += increment) res.Add(new(x, y));
         }
 
         return res;
@@ -273,7 +273,7 @@ public class SelectionManager : MonoBehaviour
         // check if its 1 wide
         if (lowest.x == highest.x || lowest.y == highest.y)
         {
-            foreach (Vector2 pos in poses) { FieldManager.Instance.SetField(pos.ConvertToMatrix(), type, rotation); }
+            foreach (Vector2 pos in poses) FieldManager.Instance.SetField(pos.ConvertToMatrix(), type, rotation);
 
             return;
         }
@@ -329,7 +329,7 @@ public class SelectionManager : MonoBehaviour
 
         DeleteArea(poses);
 
-        foreach (Vector2 pos in poses) { GameManager.PlaceEditModeAtPosition(editMode, pos); }
+        foreach (Vector2 pos in poses) GameManager.PlaceEditModeAtPosition(editMode, pos);
 
         UpdateOutlinesInArea(false, poses[0].Floor(), poses.Last().Ceil());
     }

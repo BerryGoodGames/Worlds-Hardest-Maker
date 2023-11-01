@@ -7,10 +7,10 @@ public static class KeyBinds
     // naming convention for key bind is: Category_CamelCaseName
     public static Dictionary<string, List<KeyCode[]>> KeyBindToKeyCode { get; } = new()
     {
-        { "Movement_Up", new() { new[] { KeyCode.A, KeyCode.W }, new[] { KeyCode.UpArrow }, } },
-        { "Movement_Right", new() { new[] { KeyCode.D }, new[] { KeyCode.RightArrow }, } },
-        { "Movement_Down", new() { new[] { KeyCode.S }, new[] { KeyCode.DownArrow }, } },
-        { "Movement_Left", new() { new[] { KeyCode.A }, new[] { KeyCode.LeftArrow }, } },
+        { "Movement_Up", new() { new[] { KeyCode.A, KeyCode.W, }, new[] { KeyCode.UpArrow, }, } },
+        { "Movement_Right", new() { new[] { KeyCode.D, }, new[] { KeyCode.RightArrow, }, } },
+        { "Movement_Down", new() { new[] { KeyCode.S, }, new[] { KeyCode.DownArrow, }, } },
+        { "Movement_Left", new() { new[] { KeyCode.A, }, new[] { KeyCode.LeftArrow, }, } },
     };
 
     public static bool GetKeyBind(string keyBindName) => KeyBindToKeyCode[keyBindName].Any(combination => combination.All(Input.GetKey));

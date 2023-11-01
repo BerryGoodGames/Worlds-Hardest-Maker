@@ -23,20 +23,16 @@ public class KeyEvents : MonoBehaviour
                 KeyBindSetterController.CancelAddingKeyBind();
                 return;
             }
-            
+
             // else add the key the user typed
             KeyCode[] keysDown = GetKeysDown();
-            print(string.Join(',', keysDown) + $" {keysDown.Length} " + string.Join(',', prevHeldDownKeys) + " " + prevHeldDownKeys.Length);
             if (prevHeldDownKeys.Length > keysDown.Length && prevHeldDownKeys.Length > 0)
             {
                 MenuManager.Instance.AddingKeyBindSetter.AddKeyCode(prevHeldDownKeys);
                 prevHeldDownKeys = Array.Empty<KeyCode>();
                 KeyBindSetterController.CancelAddingKeyBind();
             }
-            else
-            {
-                prevHeldDownKeys = keysDown;
-            }
+            else prevHeldDownKeys = keysDown;
 
             return;
         }
@@ -106,10 +102,10 @@ public class KeyEvents : MonoBehaviour
     private static KeyCode[] GetKeysDown()
     {
         List<KeyCode> keysDown = new();
-        
-        foreach(KeyCode keyCode in Enum.GetValues(typeof(KeyCode)))
+
+        foreach (KeyCode keyCode in Enum.GetValues(typeof(KeyCode)))
         {
-            if(Input.GetKey(keyCode)) keysDown.Add(keyCode);
+            if (Input.GetKey(keyCode)) keysDown.Add(keyCode);
         }
 
         return keysDown.ToArray();

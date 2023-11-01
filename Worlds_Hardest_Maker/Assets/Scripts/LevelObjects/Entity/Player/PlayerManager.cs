@@ -42,7 +42,7 @@ public class PlayerManager : MonoBehaviour
                     Vector2Int.CeilToInt(position),
                 };
 
-                foreach (Vector2Int checkPosition in checkPoses) { FieldManager.Instance.SetField(checkPosition, FieldType.StartField); }
+                foreach (Vector2Int checkPosition in checkPoses) FieldManager.Instance.SetField(checkPosition, FieldType.StartField);
             }
             else return;
         }
@@ -92,7 +92,7 @@ public class PlayerManager : MonoBehaviour
     [PunRPC]
     public void RemoveAllPlayers()
     {
-        foreach (Transform player in ReferenceManager.Instance.PlayerContainer) { player.GetComponent<PlayerController>().DestroySelf(); }
+        foreach (Transform player in ReferenceManager.Instance.PlayerContainer) player.GetComponent<PlayerController>().DestroySelf();
     }
 
     [PunRPC]
@@ -135,7 +135,7 @@ public class PlayerManager : MonoBehaviour
             new(-0.5f, 0.5f), new(0, 0.5f), new(0.5f, 0.5f),
         };
 
-        foreach (Vector2 d in deltas) { RemovePlayerAtPos(position + d); }
+        foreach (Vector2 d in deltas) RemovePlayerAtPos(position + d);
     }
 
     public static bool CanPlace(Vector2 position, bool checkForPlayer = true) =>
@@ -178,7 +178,7 @@ public class PlayerManager : MonoBehaviour
         Transform container = ReferenceManager.Instance.PlayerContainer;
         List<GameObject> players = new();
 
-        for (int i = 0; i < container.childCount; i++) { players.Add(container.GetChild(i).gameObject); }
+        for (int i = 0; i < container.childCount; i++) players.Add(container.GetChild(i).gameObject);
 
         return players;
     }

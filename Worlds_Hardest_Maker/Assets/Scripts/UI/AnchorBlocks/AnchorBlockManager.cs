@@ -140,13 +140,13 @@ public partial class AnchorBlockManager : MonoBehaviour
     {
         // destroy loose strings (ignore main string and anchor connector)
         List<GameObject> strings = new();
-        foreach (Transform s in ReferenceManager.Instance.AnchorBlockChainContainer) { strings.Add(s.gameObject); }
+        foreach (Transform s in ReferenceManager.Instance.AnchorBlockChainContainer) strings.Add(s.gameObject);
 
-        for (int i = 2; i < strings.Count; i++) { DestroyImmediate(strings[i]); }
+        for (int i = 2; i < strings.Count; i++) DestroyImmediate(strings[i]);
 
         // destroy anchor blocks in main string (ignore start block and preview)
         List<GameObject> anchorBlocks = new();
-        foreach (Transform anchorBlock in ReferenceManager.Instance.MainChainController.transform) { anchorBlocks.Add(anchorBlock.gameObject); }
+        foreach (Transform anchorBlock in ReferenceManager.Instance.MainChainController.transform) anchorBlocks.Add(anchorBlock.gameObject);
 
         for (int i = 1; i < anchorBlocks.Count; i++)
         {
@@ -183,7 +183,7 @@ public partial class AnchorBlockManager : MonoBehaviour
         // create objects
         AnchorBlock[] blocks = anchor.Blocks.ToArray();
 
-        foreach (AnchorBlock t in blocks) { t.CreateAnchorBlockObject(); }
+        foreach (AnchorBlock t in blocks) t.CreateAnchorBlockObject();
 
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
 

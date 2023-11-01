@@ -16,7 +16,7 @@ public partial class AnchorController
     private IEnumerator RenderLinesCoroutine()
     {
         yield return new WaitForEndOfFrame();
-        
+
         ClearLines();
 
         // line settings
@@ -125,15 +125,15 @@ public partial class AnchorController
                 PositionAnchorBlockController controller = positionAnchorBlock.Controller;
 
                 // kill all glow tweens
-                foreach (AnchorPathLine line in controller.Lines) { line.Blur.DOKill(); }
+                foreach (AnchorPathLine line in controller.Lines) line.Blur.DOKill();
 
                 controller.Lines.Clear();
             }
 
             // clear lines
-            foreach (Transform line in lineContainer) { Destroy(line.gameObject); }
+            foreach (Transform line in lineContainer) Destroy(line.gameObject);
         }
     }
-    
+
     public void SetLinesActive(bool active) => lineContainer.gameObject.SetActive(active);
 }

@@ -16,7 +16,7 @@ public class ColorPaletteManager : MonoBehaviour
 
     public void UpdateColorPalettes()
     {
-        foreach (ColorPaletteController cpc in Resources.FindObjectsOfTypeAll<ColorPaletteController>()) { cpc.UpdateColor(); }
+        foreach (ColorPaletteController cpc in Resources.FindObjectsOfTypeAll<ColorPaletteController>()) cpc.UpdateColor();
     }
 
     public static ColorPalette GetColorPalette(string name)

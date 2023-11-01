@@ -89,7 +89,7 @@ public class CopyManager : MonoBehaviour
         Paste();
 
         // make sure that the player can't place directly after pasting
-        while (!Input.GetMouseButtonUp(0)) { yield return null; }
+        while (!Input.GetMouseButtonUp(0)) yield return null;
 
         Pasting = false;
     }
@@ -150,7 +150,7 @@ public class CopyManager : MonoBehaviour
     public void LoadClipboard(Vector2 pos)
     {
         // just load clipboard to pos
-        foreach (CopyData copyData in clipBoard) { copyData.Paste(pos); }
+        foreach (CopyData copyData in clipBoard) copyData.Paste(pos);
     }
 
     private void CreatePreview()
@@ -184,7 +184,7 @@ public class CopyManager : MonoBehaviour
 
     private static void ClearPreview()
     {
-        foreach (Transform child in Instance.previewContainer) { Destroy(child.gameObject); }
+        foreach (Transform child in Instance.previewContainer) Destroy(child.gameObject);
     }
 
     private void Awake()
