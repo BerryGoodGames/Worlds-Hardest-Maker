@@ -39,7 +39,7 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (checkHoverDetection) OnHover();
     }
-
+    
     public void OnPointerExit(PointerEventData eventData)
     {
         if (checkHoverDetection) OnUnhover();
@@ -58,6 +58,11 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         levelCard.DOSizeDelta(new(levelCard.rect.width, expandHeight), expandDuration)
             .onUpdate += () => { LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate(); };
 
+        float deltaHeight = expandHeight - collapsedHeight;
+        float deltaY = deltaHeight * (hoverScale - 1) / 2;
+
+        card.DOAnchorPosY(-deltaY, expandDuration).SetRelative(true);
+
         IsExpanded = true;
     }
 
@@ -65,7 +70,12 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         levelCard.DOSizeDelta(new(levelCard.rect.width, collapsedHeight), expandDuration)
             .onUpdate += () => { LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate(); };
+        
+        float deltaHeight = expandHeight - collapsedHeight;
+        float deltaY = deltaHeight * (hoverScale - 1) / 2;
 
+        card.DOAnchorPosY(deltaY, expandDuration).SetRelative(true);
+        
         IsExpanded = false;
     }
 
