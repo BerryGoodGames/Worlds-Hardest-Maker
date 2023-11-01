@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ using UnityEngine;
 public class KeyEvents : MonoBehaviour
 {
     private AlphaTween menuTween;
+
+    private KeyCode[] prevHeldDownKeys = Array.Empty<KeyCode>();
 
     private void Update()
     {
@@ -20,12 +23,19 @@ public class KeyEvents : MonoBehaviour
                 KeyBindSetterController.CancelAddingKeyBind();
                 return;
             }
-
+            
             // else add the key the user typed
-            if (Input.anyKeyDown && Input.inputString.Length > 0)
+            KeyCode[] keysDown = GetKeysDown();
+            print(string.Join(',', keysDown) + $" {keysDown.Length} " + string.Join(',', prevHeldDownKeys) + " " + prevHeldDownKeys.Length);
+            if (prevHeldDownKeys.Length > keysDown.Length && prevHeldDownKeys.Length > 0)
             {
-                MenuManager.Instance.AddingKeyBindSetter.AddKeyCode(Input.inputString);
+                MenuManager.Instance.AddingKeyBindSetter.AddKeyCode(prevHeldDownKeys);
+                prevHeldDownKeys = Array.Empty<KeyCode>();
                 KeyBindSetterController.CancelAddingKeyBind();
+            }
+            else
+            {
+                prevHeldDownKeys = keysDown;
             }
 
             return;
@@ -91,6 +101,18 @@ public class KeyEvents : MonoBehaviour
 
         // check edit mode toggling if no ctrl and not playing
         if (!Input.GetKey(ctrl) && !EditModeManager.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
+    }
+
+    private static KeyCode[] GetKeysDown()
+    {
+        List<KeyCode> keysDown = new();
+        
+        foreach(KeyCode keyCode in Enum.GetValues(typeof(KeyCode)))
+        {
+            if(Input.GetKey(keyCode)) keysDown.Add(keyCode);
+        }
+
+        return keysDown.ToArray();
     }
 
     /// <returns>list of keyboard shortcuts for edit modes</returns>

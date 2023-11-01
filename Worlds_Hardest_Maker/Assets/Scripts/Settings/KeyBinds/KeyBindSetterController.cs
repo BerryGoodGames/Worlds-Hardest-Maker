@@ -12,15 +12,15 @@ public class KeyBindSetterController : MonoBehaviour
     [Separator("References")] [SerializeField] private TMP_Text keyBindName;
     [SerializeField] private RectTransform displayContainer;
 
-    private void AddKeyCode(KeyCode keyCode)
+    public void AddKeyCode(KeyCode[] keyCodes)
     {
-        if (KeyBinds.HasKeyBindKeyCode(KeyBind, keyCode)) return;
+        if (KeyBinds.HasKeyBindKeyCode(KeyBind, keyCodes)) return;
 
-        KeyBinds.AddKeyCodesToKeyBind(KeyBind, keyCode);
+        KeyBinds.AddKeyCodesToKeyBind(KeyBind, keyCodes);
 
-        InstantiateKeyCodeDisplay(keyCode);
+        InstantiateKeyCodeDisplay(keyCodes);
 
-        print($"Successfully added key code {keyCode} to {keyBindName.text}");
+        print($"Successfully added key codes { "{" + string.Join(',', keyCodes) +"}" } to {keyBindName.text}");
     }
 
     public void AddKeyCode(string keyCodeName)
@@ -177,10 +177,18 @@ public class KeyBindSetterController : MonoBehaviour
             return;
         }
 
-        char keyCodeChar = keyCodeName[0];
-
-        try { AddKeyCode(charToKeycode[keyCodeChar]); }
-        catch { print($"Couldn't parse {keyCodeChar} into KeyCode, ignored"); }
+        try
+        {
+            KeyCode[] keyCodes = new KeyCode[keyCodeName.Length];
+        
+            for (int i = 0; i < keyCodeName.Length; i++)
+            {
+                keyCodes[i] = charToKeycode[keyCodeName[i]];
+            }
+            
+            AddKeyCode(keyCodes);
+        }
+        catch { print($"Couldn't parse {keyCodeName} into KeyCodes, ignored"); }
     }
 
     public void OnAddButtonClick()
@@ -194,7 +202,7 @@ public class KeyBindSetterController : MonoBehaviour
 
     public void OnClearButtonClick()
     {
-        KeyBind.KeyCodes = Array.Empty<KeyCode>();
+        KeyBind.KeyCodes = Array.Empty<KeyCode[]>();
         KeyBinds.ResetKeyBind(KeyBind);
 
         foreach (RectTransform keyCodeDisplay in displayContainer) { Destroy(keyCodeDisplay.gameObject); }
@@ -216,13 +224,14 @@ public class KeyBindSetterController : MonoBehaviour
 
     private void SetupInitKeyCodes() => KeyBind.KeyCodes.ForEach(InstantiateKeyCodeDisplay);
 
-    private void InstantiateKeyCodeDisplay(KeyCode keyCode)
+    private void InstantiateKeyCodeDisplay(KeyCode[] keyCode)
     {
         // instantiate key code display
         KeyCodeDisplay keyCodeDisplay = Instantiate(PrefabManager.Instance.KeyCodeDisplay, displayContainer);
         keyCodeDisplay.SetKeyCodeSprite(keyCode);
 
         // rebuild
+        LayoutRebuilder.ForceRebuildLayoutImmediate(displayContainer);
         LayoutRebuilder.ForceRebuildLayoutImmediate(displayContainer);
     }
 }
