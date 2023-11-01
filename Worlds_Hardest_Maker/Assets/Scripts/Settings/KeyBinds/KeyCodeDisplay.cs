@@ -13,6 +13,7 @@ public class KeyCodeDisplay : MonoBehaviour
 
     #region Key Code Sprites
 
+    [Foldout("Key Code Spites")] [SerializeField] private Sprite keyBlank;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite key0;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite key1;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite key2;
@@ -174,7 +175,7 @@ public class KeyCodeDisplay : MonoBehaviour
             { KeyCode.Minus, keyMinus },
             { KeyCode.Mouse0, keyMouseLeft },
             { KeyCode.Mouse1, keyMouseRight },
-            { KeyCode.Mouse3, keyMouseMiddle },
+            { KeyCode.Mouse2, keyMouseMiddle },
             { KeyCode.N, keyN },
             { KeyCode.Numlock, keyNumLock },
             { KeyCode.O, keyO },
@@ -205,7 +206,7 @@ public class KeyCodeDisplay : MonoBehaviour
             { KeyCode.X, keyX },
             { KeyCode.Y, keyY },
             { KeyCode.Z, keyZ },
-
+            
             #endregion
         };
     }
@@ -232,7 +233,9 @@ public class KeyCodeDisplay : MonoBehaviour
         void CreateKeyCodeImage(KeyCode keyCode)
         {
             Image image = Instantiate(keyCodeImage, keyCodeImageContainer);
-            image.sprite = keyCodeToSprite[keyCode];
+            
+            if (keyCodeToSprite.TryGetValue(keyCode, out Sprite sprite)) image.sprite = sprite;
+            else Debug.LogWarning($"There is no sprite for the key code \"{keyCode}\"");
         }
     }
 }
