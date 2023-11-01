@@ -3,7 +3,7 @@ using MyBox;
 using Photon.Pun;
 using UnityEngine;
 
-public class CoinManager : MonoBehaviour, IPlaceable
+public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance { get; private set; }
 
@@ -38,7 +38,7 @@ public class CoinManager : MonoBehaviour, IPlaceable
         Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Entity);
         foreach (Collider2D hit in hits)
         {
-            if (hit.GetComponent<CoinController>() != null) return hit.transform.parent.gameObject;
+            if (hit.GetComponent<CoinController>() != null) return hit.gameObject;
         }
 
         return null;
