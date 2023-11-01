@@ -48,16 +48,6 @@ public class LevelSessionManager : MonoBehaviour
 
             // load user-selected level
             GameManager.Instance.LoadLevel(LevelSessionPath);
-
-            if (TransitionManager.Instance.HasCreatedNewLevel)
-            {
-                // create new level info
-                LoadedLevelData.Info = new()
-                {
-                    Description = TransitionManager.Instance.Inputs.Description,
-                    Creator = TransitionManager.Instance.Inputs.Creator,
-                };
-            }
         }
 
         ConditionalObject[] conditionalObjects = FindObjectsOfType<ConditionalObject>(true);

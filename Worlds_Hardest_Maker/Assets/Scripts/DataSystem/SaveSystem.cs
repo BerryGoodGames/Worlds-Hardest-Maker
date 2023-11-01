@@ -33,11 +33,20 @@ public static class SaveSystem
         }
 
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+        
+        // setup level data
+        LevelInfo levelInfo = LevelSessionManager.Instance.LoadedLevelData.Info;
+        levelInfo.LastEdited = DateTime.Now;
+        levelInfo.EditTime += LevelSessionManager.Instance.EditTime;
+        levelInfo.PlayTime += LevelSessionManager.Instance.PlayTime;
+        levelInfo.Deaths += LevelSessionManager.Instance.Deaths;
+        levelInfo.Completions += LevelSessionManager.Instance.Completions;
+        if (LevelSessionManager.Instance.BestCompletionTime < levelInfo.BestCompletionTime)
+            levelInfo.BestCompletionTime = LevelSessionManager.Instance.BestCompletionTime;
 
-        // create file
-        FileStream stream = new(path, FileMode.Create);
+        List<Data> levelObjects = SerializeCurrentLevel();
 
-        try
+        LevelData levelData = new()
         {
             LevelInfo levelInfo = LevelSessionManager.Instance.LoadedLevelData.Info;
             levelInfo.LastEdited = DateTime.Now;
@@ -48,33 +57,16 @@ public static class SaveSystem
             
             if (LevelSessionManager.Instance.BestCompletionTime != null && LevelSessionManager.Instance.BestCompletionTime < levelInfo.BestCompletionTime)
                 levelInfo.BestCompletionTime = (TimeSpan)LevelSessionManager.Instance.BestCompletionTime;
+            Info = levelInfo,
+            Objects = levelObjects,
+        };
 
-            List<Data> levelObjects = SerializeCurrentLevel();
-
-            LevelData levelData = new()
-            {
-                Info = levelInfo,
-                Objects = levelObjects,
-            };
-
-            BinaryFormatter formatter = new();
-            formatter.Serialize(stream, levelData);
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e.Message);
-            Debug.Log(e.StackTrace);
-
-            stream.Close();
-            throw;
-        }
-
-        stream.Close();
+        SerializeLevelData(path, levelData);
 
         Debug.Log($"Saved level at {path}");
     }
 
-    private static List<Data> SerializeCurrentLevel()
+    public static List<Data> SerializeCurrentLevel()
     {
         List<Data> levelData = new();
 
@@ -125,6 +117,28 @@ public static class SaveSystem
         levelData.Add(new LevelSettingsData(LevelSettings.Instance));
 
         return levelData;
+    }
+
+    public static void SerializeLevelData(string path, LevelData data)
+    {
+        // create file
+        FileStream stream = new(path, FileMode.Create);
+
+        try
+        {
+            BinaryFormatter formatter = new();
+            formatter.Serialize(stream, data);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e.Message);
+            Debug.Log(e.StackTrace);
+
+            stream.Close();
+            throw;
+        }
+
+        stream.Close();
     }
 
     public static LevelData LoadLevel()

@@ -9,9 +9,7 @@ public class TransitionManager : MonoBehaviour
 
     [ReadOnly] public bool HasMainMenuStartSwipe;
     [ReadOnly] public string LoadLevelPath = string.Empty;
-    [ReadOnly] public bool HasCreatedNewLevel;
     [ReadOnly] public LevelSessionMode LevelSessionMode;
-    public LevelDataInputs Inputs;
 
     private void Awake()
     {

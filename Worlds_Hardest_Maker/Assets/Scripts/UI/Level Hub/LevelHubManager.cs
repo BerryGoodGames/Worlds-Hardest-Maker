@@ -69,7 +69,5 @@ public class LevelHubManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
-
-        TransitionManager.Instance.HasCreatedNewLevel = false;
     }
 }
