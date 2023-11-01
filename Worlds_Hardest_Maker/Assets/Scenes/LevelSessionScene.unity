@@ -4828,12 +4828,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1f7017eb24045489c2f2e782c9b4e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectionMouseButton: 1
-  PanMouseButton: 2
-  EntityDeleteKey: 127
-  EntityMoveKey: 304
-  EditSpeedKey: 306
-  PasteKey: 118
 --- !u!1001 &566220919
 PrefabInstance:
   m_ObjectHideFlags: 0

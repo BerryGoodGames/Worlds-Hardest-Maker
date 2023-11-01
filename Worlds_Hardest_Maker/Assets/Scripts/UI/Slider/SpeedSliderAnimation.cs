@@ -35,7 +35,7 @@ public class SpeedSliderAnim : MonoBehaviour
         bool hoveredHitbox = hoverSliderDetection.MouseHoverSlider() &&
                              (!HoverSliderDetection.SliderHovered || anim.IsVisible());
 
-        bool visible = !EditModeManager.Instance.Playing && Input.GetKey(KeybindManager.Instance.EditSpeedKey) &&
+        bool visible = !EditModeManager.Instance.Playing && KeyBinds.GetKeyBind("Editor_Modify") &&
                        hoveredHitbox;
 
         if (!visible && anim.IsVisible()) HoverSliderDetection.SliderHovered = false;

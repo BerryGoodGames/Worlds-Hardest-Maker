@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using UnityEngine;
 
 public static class KeyBinds
@@ -24,6 +26,9 @@ public static class KeyBinds
         {"Editor_MoveEntity", new() { new[] { KeyCode.LeftShift, }, }},
         {"Editor_DeleteEntity", new() { new[] { KeyCode.Delete, }, }},
         {"Editor_Rotate", new() { new[] { KeyCode.R, }, }},
+        {"Editor_PlayLevel", new() { new[] {KeyCode.Space, }, }},
+        {"Editor_SaveLevel", new() { new[] { KeyCode.LeftControl, KeyCode.S, }, }},
+        {"Editor_TeleportPlayer", new() { new[] { KeyCode.T, }, }},
         
         {"EditMode_Delete", new() { new[] { KeyCode.D, }, }},
         {"EditMode_Wall", new() { new[] { KeyCode.W, }, }},
@@ -69,6 +74,38 @@ public static class KeyBinds
         }
 
         return keyBinds;
+    }
+
+    public static Vector2 GetMovementInput()
+    {
+        Vector2 movementInput = Vector2.zero;
+        if (KeyBinds.GetKeyBind("Movement_Up")) movementInput += Vector2.up;
+        if (KeyBinds.GetKeyBind("Movement_Left")) movementInput += Vector2.left;
+        if (KeyBinds.GetKeyBind("Movement_Down")) movementInput += Vector2.down;
+        if (KeyBinds.GetKeyBind("Movement_Right")) movementInput += Vector2.right;
+
+        return movementInput;
+    }
+
+    public static KeyCode[][] KeyCodesFromString(string serializedKeyCodes)
+    {
+        string[] combinations = serializedKeyCodes.Split(';', StringSplitOptions.RemoveEmptyEntries);
+
+        List<KeyCode[]> keyCodes = new ();
+
+        for (int i = 0; i < combinations.Length; i++)
+        {
+            string[] keyCodesString = combinations[i].Split(',', StringSplitOptions.RemoveEmptyEntries);
+
+            keyCodes.Add(new KeyCode[keyCodesString.Length]);
+            
+            for (int j = 0; j < keyCodesString.Length; j++)
+            {
+                keyCodes[i][j] = (KeyCode)int.Parse(keyCodesString[j]);
+            }
+        }
+
+        return keyCodes.ToArray();
     }
 }
 
@@ -130,4 +167,29 @@ public struct KeyBind
     }
 
     public static implicit operator string(KeyBind keyBind) => keyBind.Name;
+
+    public string KeyCodesToString()
+    {
+        string converted = string.Empty;
+        
+        foreach (KeyCode[] combination in KeyCodes)
+        {
+            if(combination.Length <= 0) continue;
+            
+            // add first key code
+            converted += (int)combination[0];
+            
+            // add other key codes required for combination
+            for (int i = 1; i < combination.Length; i++)
+            {
+                converted += ',';
+                converted += (int)combination[1];
+            }
+            
+            // end the combination
+            converted += ';';
+        }
+
+        return converted;
+    }
 }

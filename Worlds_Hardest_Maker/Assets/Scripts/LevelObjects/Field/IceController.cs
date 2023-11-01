@@ -14,7 +14,7 @@ public class IceController : MonoBehaviour
             // transition between normal ground and ice
             // transfer velocity to player
         {
-            controller.Rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) *
+            controller.Rb.velocity = KeyBinds.GetMovementInput() *
                                      controller.Speed;
         }
     }

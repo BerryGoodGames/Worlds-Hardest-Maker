@@ -54,7 +54,7 @@ public class SelectionManager : MonoBehaviour
     {
         if (!LevelSessionManager.Instance.IsEdit) return;
 
-        if (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton) && !EditModeManager.Instance.Playing &&
+        if (KeyBinds.GetKeyBind("Editor_Select") && !EditModeManager.Instance.Playing &&
             !EventSystem.current.IsPointerOverGameObject()) Selecting = true;
 
         // update selection markings
@@ -70,8 +70,8 @@ public class SelectionManager : MonoBehaviour
             // disable normal placement preview
             ReferenceManager.Instance.PlacementPreview.gameObject.SetActive(false);
 
-            if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton)) OnStartSelect(start);
-            else if (Input.GetMouseButtonUp(KeybindManager.Instance.SelectionMouseButton)) OnAreaSelected(start, end);
+            if (KeyBinds.GetKeyBindDown("Editor_Select")) OnStartSelect(start);
+            else if (KeyBinds.GetKeyBindUp("Editor_Select")) OnAreaSelected(start, end);
 
             if (!prevStart.Equals(start) || !prevEnd.Equals(end)) OnAreaSelectionChanged(start, end);
         }

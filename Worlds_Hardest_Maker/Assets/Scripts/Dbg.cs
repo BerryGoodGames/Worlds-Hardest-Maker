@@ -113,5 +113,9 @@ public class Dbg : MonoBehaviour
 
     [ButtonMethod]
     // ReSharper disable once UnusedMember.Local
-    private static void DeletePlayerPrefs() => PlayerPrefs.DeleteAll();
+    private static void DeletePlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+        print("Deleted Player Preferences");
+    }
 }

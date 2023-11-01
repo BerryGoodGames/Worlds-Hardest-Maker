@@ -108,11 +108,8 @@ public class PlayerController : EntityController
     private void Update()
     {
         // get movement input
-        movementInput = Vector2.zero;
-        if (KeyBinds.GetKeyBind("Movement_Up")) movementInput += Vector2.up;
-        if (KeyBinds.GetKeyBind("Movement_Left")) movementInput += Vector2.left;
-        if (KeyBinds.GetKeyBind("Movement_Down")) movementInput += Vector2.down;
-        if (KeyBinds.GetKeyBind("Movement_Right")) movementInput += Vector2.right;
+        movementInput = KeyBinds.GetMovementInput();
+        
     }
 
     private void OnCollisionStay2D(Collision2D collider) => CornerPush(collider);

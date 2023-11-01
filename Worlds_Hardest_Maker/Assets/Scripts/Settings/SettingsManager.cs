@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Runtime.Serialization.Json;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -39,7 +41,13 @@ public class SettingsManager : MonoBehaviour
         // graphics
         PlayerPrefs.SetInt("Fullscreen", Screen.fullScreen ? 1 : 0);
         PlayerPrefs.SetInt("OneColorStartGoal", GraphicsSettings.Instance.OneColorStartGoalCheckpoint ? 1 : 0);
-
+        
+        // key binds
+        foreach (KeyBind keyBind in KeyBinds.GetAllKeyBinds())
+        {
+            PlayerPrefs.SetString(keyBind.Name, keyBind.KeyCodesToString());
+        }
+        
         PlayerPrefs.Save();
     }
 
@@ -56,6 +64,18 @@ public class SettingsManager : MonoBehaviour
         // graphics
         GraphicsSettings.Instance.Fullscreen(PlayerPrefs.GetInt("Fullscreen") == 1, true);
         GraphicsSettings.Instance.SetOneColorStartGoal(PlayerPrefs.GetInt("OneColorStartGoal") == 1, true);
+        
+        // key binds
+        foreach (KeyBind keyBind in KeyBinds.GetAllKeyBinds())
+        {
+            // check if key bind exists (in case new are added)
+            if(!PlayerPrefs.HasKey(keyBind.Name)) continue;
+            
+            // get and deserialize key codes
+            KeyCode[][] keyCodes = KeyBinds.KeyCodesFromString(PlayerPrefs.GetString(keyBind.Name));
+            KeyBinds.ResetKeyBind(keyBind.Name);
+            KeyBinds.AddKeyCodesToKeyBind(keyBind.Name, keyCodes);
+        }
     }
 
     #region Sound settings

@@ -7,7 +7,7 @@ public class AnchorBallDragDrop : EntityDragDrop
 
     protected override void OnMouseDrag()
     {
-        if (EditModeManager.Instance.Playing || !Input.GetKey(KeybindManager.Instance.EntityMoveKey)) return;
+        if (EditModeManager.Instance.Playing || !KeyBinds.GetKeyBind("Editor_MoveEntity")) return;
 
         if (anchorBallController.IsParentAnchorNull)
         {

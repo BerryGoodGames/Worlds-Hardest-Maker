@@ -19,15 +19,15 @@ public class MouseEvents : MonoBehaviour
         EditMode editMode = EditModeManager.Instance.CurrentEditMode;
 
         // selection
-        if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton)) StartCoroutine(StartCancelSelection());
+        if (KeyBinds.GetKeyBindDown("Editor_Select")) StartCoroutine(StartCancelSelection());
 
         // select anchor
-        if (Input.GetMouseButtonDown(0) && Input.GetKey(KeybindManager.Instance.EditSpeedKey))
+        if (Input.GetMouseButtonDown(0) && KeyBinds.GetKeyBind("Editor_Modify"))
+        {
             AnchorManager.Instance.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
-
-        // select anchor through anchor ball
-        if (Input.GetMouseButtonDown(0) && Input.GetKey(KeybindManager.Instance.EditSpeedKey))
             AnchorBallManager.SelectAnchorBall(MouseManager.Instance.MouseWorldPosGrid);
+        }
+            
 
         // place / delete stuff
         if (!MouseManager.Instance.IsUIHovered && !EditModeManager.Instance.Playing &&
@@ -36,9 +36,9 @@ public class MouseEvents : MonoBehaviour
             !AnchorPositionInputEditManager.Instance.IsEditing)
         {
             // if none of the relevant keys is held, check field placement + entity placement
-            if (!Input.GetKey(KeybindManager.Instance.EntityMoveKey) &&
-                !Input.GetKey(KeybindManager.Instance.EditSpeedKey) &&
-                !Input.GetKey(KeybindManager.Instance.EntityDeleteKey) &&
+            if (!KeyBinds.GetKeyBind("Editor_MoveEntity") &&
+                !KeyBinds.GetKeyBind("Editor_Modify") &&
+                !KeyBinds.GetKeyBind("Editor_DeleteEntity") &&
                 !SelectionManager.Instance.Selecting)
             {
                 if (Input.GetMouseButton(0)) CheckDragPlacement(editMode);
@@ -59,7 +59,7 @@ public class MouseEvents : MonoBehaviour
     private static IEnumerator StartCancelSelection()
     {
         float passedTime = 0;
-        while (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton))
+        while (KeyBinds.GetKeyBind("Editor_Select"))
         {
             if (passedTime > SelectionCancelMaxTime || MouseManager.Instance.MousePosDelta.magnitude > 10) yield break;
             passedTime += Time.deltaTime;
@@ -103,7 +103,7 @@ public class MouseEvents : MonoBehaviour
 
     private static void CheckEntityDelete(PhotonView photonView, bool multiplayer)
     {
-        if (!Input.GetKey(KeybindManager.Instance.EntityDeleteKey)) return;
+        if (!KeyBinds.GetKeyBind("Editor_DeleteEntity")) return;
 
         if (!Input.GetMouseButton(0) && !Input.GetMouseButtonDown(0)) return;
 
