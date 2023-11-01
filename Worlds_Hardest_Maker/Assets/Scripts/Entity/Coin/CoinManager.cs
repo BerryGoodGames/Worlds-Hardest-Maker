@@ -53,7 +53,7 @@ public class CoinManager : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(new(mx, my), 0.1f, 128);
         foreach (Collider2D hit in hits)
         {
-            if (hit.GetComponent<CoinController>() != null) return hit.transform.parent.gameObject;
+            if (hit.GetComponent<CoinController>() != null) return hit.gameObject;
         }
 
         return null;
