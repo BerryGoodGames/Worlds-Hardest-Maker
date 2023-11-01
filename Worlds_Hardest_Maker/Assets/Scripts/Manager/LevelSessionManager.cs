@@ -23,7 +23,7 @@ public class LevelSessionManager : MonoBehaviour
     public TimeSpan PlayTime = TimeSpan.Zero;
     public uint Deaths;
     public uint Completions;
-    public TimeSpan BestCompletionTime = TimeSpan.MaxValue;
+    public TimeSpan? BestCompletionTime = null;
 
     private void Update()
     {
