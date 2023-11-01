@@ -90,8 +90,19 @@ public struct KeyBind
             // check if there is a category
             if (!Name.Contains('_')) throw new($"There was no category in key bind {Name}");
 
-            // return everything before the underscore
-            return Name.Split('_')[0];
+            // get everything before the underscore
+            string category = Name.Split('_')[0];
+            
+            // add space before capital letters
+            for (int i = category.Length - 1; i >= 1; i--)
+            {
+                if (!char.IsUpper(category[i])) continue;
+
+                category = category.Insert(i, " ");
+                
+            }
+            
+            return category;
         }
     }
 
@@ -103,17 +114,18 @@ public struct KeyBind
             if (!Name.Contains('_')) throw new($"There was no category in key bind {Name}");
 
             // remove category
-            string name = Name.Split('_')[1];
+            string formattedName = Name.Split('_')[1];
 
             // add spaces before capital letters
-            for (int i = 1; i < name.Length; i++)
+            for (int i = formattedName.Length - 1; i >= 1; i--)
             {
-                if (!char.IsUpper(Name[i])) continue;
+                if (!char.IsUpper(formattedName[i])) continue;
 
-                name = name.Insert(i, " ");
+                formattedName = formattedName.Insert(i, " ");
+                
             }
 
-            return name;
+            return formattedName;
         }
     }
 
