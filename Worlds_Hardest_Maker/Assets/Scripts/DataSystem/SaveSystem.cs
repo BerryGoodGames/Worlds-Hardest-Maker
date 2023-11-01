@@ -41,22 +41,13 @@ public static class SaveSystem
         levelInfo.PlayTime += LevelSessionManager.Instance.PlayTime;
         levelInfo.Deaths += LevelSessionManager.Instance.Deaths;
         levelInfo.Completions += LevelSessionManager.Instance.Completions;
-        if (LevelSessionManager.Instance.BestCompletionTime < levelInfo.BestCompletionTime)
-            levelInfo.BestCompletionTime = LevelSessionManager.Instance.BestCompletionTime;
+        if (LevelSessionManager.Instance.BestCompletionTime != null && LevelSessionManager.Instance.BestCompletionTime < levelInfo.BestCompletionTime)
+            levelInfo.BestCompletionTime = (TimeSpan)LevelSessionManager.Instance.BestCompletionTime;
 
         List<Data> levelObjects = SerializeCurrentLevel();
 
         LevelData levelData = new()
         {
-            LevelInfo levelInfo = LevelSessionManager.Instance.LoadedLevelData.Info;
-            levelInfo.LastEdited = DateTime.Now;
-            levelInfo.EditTime += LevelSessionManager.Instance.EditTime;
-            levelInfo.PlayTime += LevelSessionManager.Instance.PlayTime;
-            levelInfo.Deaths += LevelSessionManager.Instance.Deaths;
-            levelInfo.Completions += LevelSessionManager.Instance.Completions;
-            
-            if (LevelSessionManager.Instance.BestCompletionTime != null && LevelSessionManager.Instance.BestCompletionTime < levelInfo.BestCompletionTime)
-                levelInfo.BestCompletionTime = (TimeSpan)LevelSessionManager.Instance.BestCompletionTime;
             Info = levelInfo,
             Objects = levelObjects,
         };
