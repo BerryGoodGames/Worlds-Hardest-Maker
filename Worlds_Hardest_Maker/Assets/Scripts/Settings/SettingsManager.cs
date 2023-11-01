@@ -37,7 +37,6 @@ public class SettingsManager : MonoBehaviour
         PlayerPrefs.SetFloat("InfobarSize", GetInfobarSize());
 
         // graphics
-        PlayerPrefs.SetInt("Quality", GraphicsSettings.Instance.QualityLevel);
         PlayerPrefs.SetInt("Fullscreen", Screen.fullScreen ? 1 : 0);
         PlayerPrefs.SetInt("OneColorStartGoal", GraphicsSettings.Instance.OneColorStartGoalCheckpoint ? 1 : 0);
 
@@ -55,7 +54,6 @@ public class SettingsManager : MonoBehaviour
         SetInfobarSize(PlayerPrefs.GetFloat("InfobarSize"), true);
 
         // graphics
-        GraphicsSettings.Instance.SetQuality(PlayerPrefs.GetInt("Quality"), true);
         GraphicsSettings.Instance.Fullscreen(PlayerPrefs.GetInt("Fullscreen") == 1, true);
         GraphicsSettings.Instance.SetOneColorStartGoal(PlayerPrefs.GetInt("OneColorStartGoal") == 1, true);
     }
