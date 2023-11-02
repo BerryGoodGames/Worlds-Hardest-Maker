@@ -161,22 +161,60 @@ public static class SaveSystem
             return null;
         }
 
-        // // load / deserialize file
-        BinaryFormatter formatter = new();
-        FileStream stream = new(path, FileMode.Open);
-        LevelData data;
-
-        try { data = formatter.Deserialize(stream) as LevelData; }
+        // try to load like v0.13.1
+        try
+        {
+            List<Data> tryLoadData = LoadLevel_v0_13_1(path);
+            
+            // adapt old level data to v0.14
+            return new()
+            {
+                Info = new(),
+                Objects = tryLoadData,
+            };
+        }
+        catch (Exception)
+        {
+            Console.WriteLine($"Failed to load level at path {path} like v0.13.1");
+        }
+        
+        // try to load like v0.14
+        try { return LoadLevel_v0_14(path); }
         catch
         {
-            Debug.LogWarning($"Failed to load file at path: {path}");
-            stream.Close();
-            throw;
+            Console.WriteLine($"Failed to load file at path {path} like v0.14");
         }
+        
+        Debug.LogWarning($"Failed to load level totally at path {path}");
+        return null;
+    }
 
-        stream.Close();
+    public static LevelData LoadLevel_v0_14(string path)
+    {
+        // // load / deserialize file like v0.14
+        BinaryFormatter formatter = new();
+        FileStream stream = new(path, FileMode.Open);
 
-        return data;
+        try
+        {
+            LevelData data = formatter.Deserialize(stream) as LevelData;
+            return data;
+        }
+        finally { stream.Close(); }
+    }
+    
+    public static List<Data> LoadLevel_v0_13_1(string path)
+    {
+        // // load / deserialize file like v0.13.1
+        BinaryFormatter formatter = new();
+        FileStream stream = new(path, FileMode.Open);
+
+        try
+        {
+            List<Data> data = formatter.Deserialize(stream) as List<Data>;
+            return data;
+        }
+        finally { stream.Close(); }
     }
 
     public static void SendLevel(string path)
