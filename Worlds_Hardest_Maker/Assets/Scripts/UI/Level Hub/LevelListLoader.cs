@@ -72,30 +72,30 @@ public class LevelListLoader : MonoBehaviour
 
         bool levelsChanged = false;
 
-        if (prevLevelInfo == null || levelInfo.Length != prevLevelInfo.Length) levelsChanged = true;
-        else
+        if (!forceUpdateList)
         {
-            levelInfo = levelInfo.OrderBy(x => x.Name).ToArray();
-            prevLevelInfo = prevLevelInfo.OrderBy(x => x.Name).ToArray();
-
-            for (int i = 0; i < levelInfo.Length; i++)
+            if (prevLevelInfo == null || levelInfo.Length != prevLevelInfo.Length) levelsChanged = true;
+            else
             {
-                if (levelInfo[i].Name == prevLevelInfo[i].Name) continue;
-                levelsChanged = true;
-                break;
+                levelInfo = levelInfo.OrderBy(x => x.Name).ToArray();
+                prevLevelInfo = prevLevelInfo.OrderBy(x => x.Name).ToArray();
+
+                for (int i = 0; i < levelInfo.Length; i++)
+                {
+                    if (levelInfo[i].Name == prevLevelInfo[i].Name) continue;
+                    levelsChanged = true;
+                    break;
+                }
             }
         }
 
         // sort level info
-        switch (SortSetting)
+        levelInfo = SortSetting switch
         {
-            case SortSettings.Name:
-                levelInfo = levelInfo.OrderBy(x => x.Name).ToArray();
-                break;
-            case SortSettings.Latest:
-                levelInfo = levelInfo.OrderBy(x => x.LastAccessTime).Reverse().ToArray();
-                break;
-        }
+            SortSettings.Name => levelInfo.OrderBy(x => x.Name).ToArray(),
+            SortSettings.Latest => levelInfo.OrderBy(x => x.LastAccessTime).Reverse().ToArray(),
+            _ => levelInfo,
+        };
 
         if (IsDescending) Array.Reverse(levelInfo);
 

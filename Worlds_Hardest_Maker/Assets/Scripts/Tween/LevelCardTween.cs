@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
@@ -55,8 +56,21 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void Expand()
     {
+        float listScrollValue = LevelHubManager.Instance.LevelListScrollRect.GetValue();
+
         levelCard.DOSizeDelta(new(levelCard.rect.width, expandHeight), expandDuration)
-            .onUpdate += () => { LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate(); };
+            .onUpdate += () =>
+        {
+            LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate();
+            
+            StartCoroutine(Wait());
+            IEnumerator Wait()
+            {
+                yield return new WaitForEndOfFrame();
+                
+                LevelHubManager.Instance.LevelListScrollRect.SetValue(listScrollValue);
+            }
+        };
 
         float deltaHeight = expandHeight - collapsedHeight;
         float deltaY = deltaHeight * (hoverScale - 1) / 2;
@@ -68,8 +82,21 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void Collapse()
     {
+        float listScrollValue = LevelHubManager.Instance.LevelListScrollRect.GetValue();
+        
         levelCard.DOSizeDelta(new(levelCard.rect.width, collapsedHeight), expandDuration)
-            .onUpdate += () => { LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate(); };
+            .onUpdate += () =>
+        {
+            LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate();
+            
+            StartCoroutine(Wait());
+            IEnumerator Wait()
+            {
+                yield return new WaitForEndOfFrame();
+                
+                LevelHubManager.Instance.LevelListScrollRect.SetValue(listScrollValue);
+            }
+        };
         
         float deltaHeight = expandHeight - collapsedHeight;
         float deltaY = deltaHeight * (hoverScale - 1) / 2;

@@ -125,10 +125,24 @@ public class GameManager : MonoBehaviourPun
     public IEnumerator LoadLevelFromData(LevelData levelData)
     {
         yield return new WaitForEndOfFrame();
-
-        ClearLevel();
-
+        
+        // store data in LevelSessionManager
+        LevelSessionManager.Instance.LoadedLevelData = levelData;
+        
+        // load
         List<Data> levelObjects = levelData.Objects;
+
+        if (levelObjects.Count == 0)
+        {
+            // newly created level
+            levelData.Objects = SaveSystem.SerializeCurrentLevel();
+            string levelPath = SaveSystem.LevelSavePath + levelData.Info.Name + ".lvl";
+
+            SaveSystem.SerializeLevelData(levelPath, levelData);
+            yield break;
+        }
+        
+        ClearLevel();
 
         List<FieldData> fieldData = new();
         PlayerData playerData = null;
@@ -167,9 +181,6 @@ public class GameManager : MonoBehaviourPun
 
         // load level settings
         levelSettingsData?.ImportToLevel();
-
-        // store data in LevelSessionManager
-        LevelSessionManager.Instance.LoadedLevelData = levelData;
     }
 
     private IEnumerator AutoSave()

@@ -22,9 +22,9 @@ public class LevelModifyController : MonoBehaviour
     {
         LevelModifyBackTween.Move();
 
-        string newName = levelNameText.text;
-        string newDescription = descriptionText.text;
-        string newCreator = creatorText.text;
+        string newName = levelNameText.text.Trim();
+        string newDescription = descriptionText.text.Trim();
+        string newCreator = creatorText.text.Trim();
 
         string oldPath = CurrentCard.LevelPath;
         string newPath =
@@ -33,24 +33,12 @@ public class LevelModifyController : MonoBehaviour
         File.Move(oldPath, newPath);
 
         LevelData levelData = SaveSystem.LoadLevel(newPath);
+        levelData.Info.Name = newName;
         levelData.Info.Description = newDescription;
         levelData.Info.Creator = newCreator;
 
         // overwrite file with new description and creator
-        FileStream stream = new(newPath, FileMode.Create);
-        try
-        {
-            BinaryFormatter formatter = new();
-            formatter.Serialize(stream, levelData);
-        }
-        catch (Exception e)
-        {
-            Debug.Log(e.Message);
-            Debug.Log(e.StackTrace);
-
-            stream.Close();
-            throw;
-        }
+        SaveSystem.SerializeLevelData(newPath, levelData);
 
         LevelListLoader.Instance.Refresh(true);
     }

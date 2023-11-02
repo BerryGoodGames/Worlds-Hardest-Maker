@@ -19,6 +19,7 @@ public class TimerController : MonoBehaviour
     {
         EditModeManager.Instance.OnPlay += StartTimer;
         PlayerManager.Instance.OnWin += FinishTimer;
+        
     }
 
     public void StartTimer()
