@@ -56,20 +56,11 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void Expand()
     {
-        float listScrollValue = LevelHubManager.Instance.LevelListScrollRect.GetValue();
 
         levelCard.DOSizeDelta(new(levelCard.rect.width, expandHeight), expandDuration)
             .onUpdate += () =>
         {
             LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate();
-            
-            StartCoroutine(Wait());
-            IEnumerator Wait()
-            {
-                yield return new WaitForEndOfFrame();
-                
-                LevelHubManager.Instance.LevelListScrollRect.SetValue(listScrollValue);
-            }
         };
 
         float deltaHeight = expandHeight - collapsedHeight;
@@ -82,20 +73,10 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void Collapse()
     {
-        float listScrollValue = LevelHubManager.Instance.LevelListScrollRect.GetValue();
-        
         levelCard.DOSizeDelta(new(levelCard.rect.width, collapsedHeight), expandDuration)
             .onUpdate += () =>
         {
             LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate();
-            
-            StartCoroutine(Wait());
-            IEnumerator Wait()
-            {
-                yield return new WaitForEndOfFrame();
-                
-                LevelHubManager.Instance.LevelListScrollRect.SetValue(listScrollValue);
-            }
         };
         
         float deltaHeight = expandHeight - collapsedHeight;
