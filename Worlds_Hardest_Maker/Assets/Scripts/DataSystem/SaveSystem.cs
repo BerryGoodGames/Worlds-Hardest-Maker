@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows.Forms;
 using Photon.Pun;
 using SFB;
 using UnityEngine;
+using Application = UnityEngine.Application;
 
 public static class SaveSystem
 {
@@ -160,6 +162,13 @@ public static class SaveSystem
             Debug.LogError($"Save file not found in path \"{path}\"");
             return null;
         }
+        
+        // try to load like v0.14
+        try { return LoadLevel_v0_14(path); }
+        catch
+        {
+            Console.WriteLine($"Failed to load file at path {path} like v0.14");
+        }
 
         // try to load like v0.13.1
         try
@@ -178,13 +187,6 @@ public static class SaveSystem
             Console.WriteLine($"Failed to load level at path {path} like v0.13.1");
         }
         
-        // try to load like v0.14
-        try { return LoadLevel_v0_14(path); }
-        catch
-        {
-            Console.WriteLine($"Failed to load file at path {path} like v0.14");
-        }
-        
         Debug.LogWarning($"Failed to load level totally at path {path}");
         return null;
     }
@@ -198,6 +200,9 @@ public static class SaveSystem
         try
         {
             LevelData data = formatter.Deserialize(stream) as LevelData;
+
+            if (data == null) throw new Exception();
+            
             return data;
         }
         finally { stream.Close(); }
@@ -212,6 +217,9 @@ public static class SaveSystem
         try
         {
             List<Data> data = formatter.Deserialize(stream) as List<Data>;
+            
+            if (data == null) throw new Exception();
+            
             return data;
         }
         finally { stream.Close(); }
