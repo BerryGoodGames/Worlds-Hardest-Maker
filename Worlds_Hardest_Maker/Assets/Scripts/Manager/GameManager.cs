@@ -111,18 +111,18 @@ public class GameManager : MonoBehaviourPun
     {
         LevelData levelData = SaveSystem.LoadLevel(path);
 
-        if (levelData != null) StartCoroutine(LoadLevelFromData(levelData));
+        if (levelData != null) StartCoroutine(LoadLevelFromData(levelData, path));
     }
 
     public void LoadLevel()
     {
-        LevelData levelData = SaveSystem.LoadLevel();
+        (LevelData levelData, string path) = SaveSystem.LoadLevel();
 
-        if (levelData != null) StartCoroutine(LoadLevelFromData(levelData));
+        if (levelData != null) StartCoroutine(LoadLevelFromData(levelData, path));
     }
 
     [PunRPC]
-    public IEnumerator LoadLevelFromData(LevelData levelData)
+    public IEnumerator LoadLevelFromData(LevelData levelData, string levelPath)
     {
         yield return new WaitForEndOfFrame();
         
@@ -136,7 +136,6 @@ public class GameManager : MonoBehaviourPun
         {
             // newly created level
             levelData.Objects = SaveSystem.SerializeCurrentLevel();
-            string levelPath = SaveSystem.LevelSavePath + levelData.Info.Name + ".lvl";
 
             SaveSystem.SerializeLevelData(levelPath, levelData);
             yield break;

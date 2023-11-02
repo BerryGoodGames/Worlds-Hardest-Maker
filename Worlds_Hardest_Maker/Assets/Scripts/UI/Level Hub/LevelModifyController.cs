@@ -28,14 +28,15 @@ public class LevelModifyController : MonoBehaviour
         string newDescription = descriptionText.text.Trim();
         string newCreator = creatorText.text.Trim();
 
+        newName = newName.GetCopyName();
+        
         string oldPath = CurrentCard.LevelPath;
         string newPath =
             $"{string.Join("\\", CurrentCard.LevelPath.Split("\\").Take(CurrentCard.LevelPath.Split("\\").Length - 1).ToArray())}\\{newName}.lvl";
-
+        
         File.Move(oldPath, newPath);
 
         LevelData levelData = SaveSystem.LoadLevel(newPath);
-        levelData.Info.Name = newName;
         levelData.Info.Description = newDescription;
         levelData.Info.Creator = newCreator;
 

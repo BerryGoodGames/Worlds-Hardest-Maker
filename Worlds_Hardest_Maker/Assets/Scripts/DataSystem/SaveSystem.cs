@@ -134,7 +134,7 @@ public static class SaveSystem
         stream.Close();
     }
 
-    public static LevelData LoadLevel()
+    public static (LevelData levelData, string path) LoadLevel()
     {
         // requests path from user and returns level in form of List<IData>
         string[] pathArr = StandaloneFileBrowser.OpenFilePanel(
@@ -146,12 +146,12 @@ public static class SaveSystem
         if (pathArr.Length != 1)
         {
             Debug.Log("Cancelled loading");
-            return null;
+            return (null, string.Empty);
         }
 
         string path = pathArr[0];
 
-        return LoadLevel(path);
+        return (LoadLevel(path), path);
     }
 
     public static LevelData LoadLevel(string path)

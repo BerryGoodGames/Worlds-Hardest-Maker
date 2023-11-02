@@ -147,7 +147,7 @@ public class LevelListLoader : MonoBehaviour
                 Instantiate(levelCardPrefab, levelCardContainer).GetComponent<LevelCardController>();
 
             // level card settings
-            levelCard.Name = info.Name;
+            levelCard.Name = levelFileInfo.Name.Replace(levelFileInfo.Extension, "");
             levelCard.Creator = $"by {info.Creator}";
             levelCard.Description = info.Description;
             levelCard.LastEdited = $"Last edited {info.LastEdited}";

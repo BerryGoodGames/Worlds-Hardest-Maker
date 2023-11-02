@@ -3,7 +3,6 @@ using System;
 [Serializable]
 public class LevelInfo
 {
-    public string Name = "Unknown";
     public string Description = "Unknown";
     public DateTime LastEdited = DateTime.Now;
     public TimeSpan EditTime = TimeSpan.Zero;
