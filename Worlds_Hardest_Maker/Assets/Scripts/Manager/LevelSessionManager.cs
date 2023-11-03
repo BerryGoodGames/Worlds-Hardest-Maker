@@ -66,6 +66,6 @@ public class LevelSessionManager : MonoBehaviour
 
     public void TrySetBestTime(TimeSpan time)
     {
-        if (time < BestCompletionTime) BestCompletionTime = time;
+        if (BestCompletionTime == null || time < BestCompletionTime) BestCompletionTime = time;
     }
 }

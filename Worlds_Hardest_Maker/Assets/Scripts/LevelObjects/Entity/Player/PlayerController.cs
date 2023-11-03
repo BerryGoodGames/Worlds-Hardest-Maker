@@ -452,7 +452,8 @@ public class PlayerController : EntityController
 
     private void Die()
     {
-        // general method when dying in any way
+        // // general method when dying in any way
+        
         Rb.simulated = false;
         InDeathAnim = true;
 
@@ -465,9 +466,12 @@ public class PlayerController : EntityController
             if (!LevelSessionManager.Instance.IsEdit) LevelSessionManager.Instance.Deaths++;
         }
 
+        
+
         // update coin counter
+        bool hasCheckpointActivated = CurrentGameState != null;
         CoinsCollected.Clear();
-        if (CurrentGameState != null)
+        if (hasCheckpointActivated)
         {
             foreach (Vector2 coinPos in CurrentGameState.CollectedCoins)
             {
@@ -494,6 +498,10 @@ public class PlayerController : EntityController
         DestroySelf(false);
 
         if (MultiplayerManager.Instance.Multiplayer && !PhotonView.IsMine) return;
+        
+        // reset timer if no checkpoint activated
+        bool hasCheckpointActivated = CurrentGameState != null;
+        if (!hasCheckpointActivated) ReferenceManager.Instance.TimerController.ResetTimer();
 
         Won = false;
         InDeathAnim = false;

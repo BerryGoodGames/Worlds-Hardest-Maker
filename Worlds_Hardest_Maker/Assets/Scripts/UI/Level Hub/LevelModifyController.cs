@@ -23,16 +23,19 @@ public class LevelModifyController : MonoBehaviour
     public void SaveLevelSettings()
     {
         LevelModifyBackTween.Move();
-
+        
+        string oldPath = CurrentCard.LevelPath;
         string newName = levelNameText.text.Trim();
+        string newPath =
+            $"{string.Join("\\", CurrentCard.LevelPath.Split("\\").Take(CurrentCard.LevelPath.Split("\\").Length - 1).ToArray())}\\{newName}.lvl";
         string newDescription = descriptionText.text.Trim();
         string newCreator = creatorText.text.Trim();
 
-        newName = newName.GetCopyName();
-        
-        string oldPath = CurrentCard.LevelPath;
-        string newPath =
-            $"{string.Join("\\", CurrentCard.LevelPath.Split("\\").Take(CurrentCard.LevelPath.Split("\\").Length - 1).ToArray())}\\{newName}.lvl";
+        if (File.Exists(newPath) && oldPath != newPath)
+        {
+            newName = newName.GetCopyName();
+            newPath = $"{string.Join("\\", CurrentCard.LevelPath.Split("\\").Take(CurrentCard.LevelPath.Split("\\").Length - 1).ToArray())}\\{newName}.lvl";
+        }
         
         File.Move(oldPath, newPath);
 

@@ -38,20 +38,23 @@ public partial class AnchorManager
             // check tag
             if (!hit.transform.parent.CompareTag("Anchor")) continue;
 
-            AnchorController anchor = hit.GetComponent<AnchorController>();
-
-            // deselect anchor first, if selected
-            if (Instance.SelectedAnchor != null)
-            {
-                if (Instance.SelectedAnchor.Equals(anchor)) Instance.DeselectAnchor();
-            }
-
-            AnchorBallManager.Instance.AnchorBallListLayers.Remove(anchor);
-
-            // destroy anchor
-            Destroy(hit.transform.parent.gameObject);
+            RemoveAnchor(hit.GetComponent<AnchorController>());
             break;
         }
+    }
+
+    public static void RemoveAnchor(AnchorController anchor)
+    {
+        // deselect anchor first, if selected
+        if (Instance.SelectedAnchor != null)
+        {
+            if (Instance.SelectedAnchor == anchor) Instance.DeselectAnchor();
+        }
+
+        AnchorBallManager.Instance.AnchorBallListLayers.Remove(anchor);
+
+        // destroy anchor
+        Destroy(anchor.transform.parent.gameObject);
     }
 
     public static AnchorController GetAnchor(Vector2 position)

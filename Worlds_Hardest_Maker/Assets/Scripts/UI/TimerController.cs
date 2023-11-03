@@ -35,6 +35,12 @@ public class TimerController : MonoBehaviour
         if (timerCoroutine != null) StopCoroutine(timerCoroutine);
     }
 
+    public void ResetTimer()
+    {
+        TimerSeconds = 0;
+        Text.text = GetTimerTime();
+    }
+
     public void FinishTimer()
     {
         StopTimer();
@@ -48,15 +54,13 @@ public class TimerController : MonoBehaviour
 
     private IEnumerator DoTimer()
     {
-        TimerSeconds = 0;
-
-        Text.text = GetTimerTime();
+        ResetTimer();
+        
         while (true)
         {
             TimerSeconds += Time.deltaTime;
-
             Text.text = GetTimerTime();
-
+            
             yield return null;
         }
     }

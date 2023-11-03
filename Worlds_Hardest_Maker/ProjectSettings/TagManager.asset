@@ -84,14 +84,14 @@ TagManager:
   - name: Player
     uniqueID: 2411509005
     locked: 0
-  - name: Anchor
-    uniqueID: 3403536663
-    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: Outline
     uniqueID: 2603803107
+    locked: 0
+  - name: Anchor
+    uniqueID: 3403536663
     locked: 0
   - name: Ball
     uniqueID: 1700820465
