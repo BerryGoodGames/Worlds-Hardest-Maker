@@ -279,4 +279,32 @@ public class PlayerManager : MonoBehaviour
         // init singleton
         if (Instance == null) Instance = this;
     }
+
+    public void ResetStates()
+    {
+        // reset players
+        foreach (GameObject player in GetPlayers())
+        {
+            PlayerController controller = player.GetComponent<PlayerController>();
+            if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) continue;
+            controller.DieNormal();
+            controller.CoinsCollected.Clear();
+            controller.KeysCollected.Clear();
+            controller.CurrentGameState = null;
+        }
+    }
+
+    public void Setup()
+    {
+        foreach (Transform player in ReferenceManager.Instance.PlayerContainer.transform)
+        {
+            PlayerController controller = player.GetComponent<PlayerController>();
+
+            if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) continue;
+
+            controller.CurrentFields.Clear();
+            controller.CurrentGameState = null;
+            controller.Deaths = 0;
+        }
+    }
 }

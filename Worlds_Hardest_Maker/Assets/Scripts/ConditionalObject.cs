@@ -4,7 +4,8 @@ using UnityEngine.Events;
 
 public class ConditionalObject : MonoBehaviour
 {
-    public bool EditOnly;
+    public bool EditOnly = true;
+    public bool PlayOnly = false;
 
     [ReadOnly] public bool IsActiveInEdit = true;
     [ReadOnly] public bool IsActiveInPlay = true;

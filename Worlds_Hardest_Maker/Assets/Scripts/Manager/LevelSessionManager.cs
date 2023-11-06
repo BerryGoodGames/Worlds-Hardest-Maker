@@ -54,6 +54,7 @@ public class LevelSessionManager : MonoBehaviour
         foreach (ConditionalObject obj in conditionalObjects)
         {
             if (obj.EditOnly && !IsEdit) Destroy(obj.gameObject);
+            if (obj.PlayOnly && IsEdit) Destroy(obj.gameObject);
         }
 
         PlayerManager.Instance.OnWin += () => Completions++;

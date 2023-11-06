@@ -53,7 +53,8 @@ public class KeyManager : MonoBehaviour
         FieldType.YellowKeyDoorField,
     };
 
-    private static readonly int playingString = Animator.StringToHash("Playing");
+    private static readonly int playing = Animator.StringToHash("Playing");
+    private static readonly int pickedUp = Animator.StringToHash("PickedUp");
 
     [ReadOnly] public List<KeyController> Keys = new();
 
@@ -73,7 +74,7 @@ public class KeyManager : MonoBehaviour
         key.Color = color;
 
         // setup idle animation
-        key.Animator.SetBool(playingString, EditModeManager.Instance.Playing);
+        key.Animator.SetBool(playing, EditModeManager.Instance.Playing);
 
         // setup konami code animation
         key.KonamiAnimation.enabled = KonamiManager.Instance.KonamiActive;
@@ -126,5 +127,28 @@ public class KeyManager : MonoBehaviour
     {
         // init singleton
         if (Instance == null) Instance = this;
+    }
+
+    public void ActivateAnimations()
+    {
+        // activate key animations
+        foreach (KeyController key in Keys)
+        {
+            // TODO: refactor that you don't have to access the animator and just wrap it into a property (also do this for coins etc.)
+            // REMEMBER: you shouldn't have to know how the internals work to use it!
+            key.Animator.SetBool(playing, true);
+            key.Animator.SetBool(pickedUp, key.PickedUp);
+        }
+    }
+
+    public void ResetStates()
+    {
+        foreach (KeyController key in Keys)
+        {
+            key.PickedUp = false;
+
+            key.Animator.SetBool(playing, false);
+            key.Animator.SetBool(pickedUp, false);
+        }
     }
 }

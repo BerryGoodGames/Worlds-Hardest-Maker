@@ -8,8 +8,6 @@ using UnityEngine;
 /// </summary>
 public class KeyEvents : MonoBehaviour
 {
-    private AlphaTween menuTween;
-
     private KeyCode[] prevHeldDownKeys = Array.Empty<KeyCode>();
 
     private static readonly Dictionary<string, EditMode> keyboardShortcuts = new()
@@ -75,7 +73,7 @@ public class KeyEvents : MonoBehaviour
 
         // toggle menu
         if (!closingPanel && !MenuManager.Instance.BlockMenu &&
-            (Input.GetKeyDown(KeyCode.Escape) || KeyBinds.GetKeyBindDown("Editor_Menu"))) menuTween.SetVisible(!menuTween.IsVisible);
+            (Input.GetKeyDown(KeyCode.Escape) || KeyBinds.GetKeyBindDown("Editor_Menu"))) ReferenceManager.Instance.MenuTween.SetVisible(!ReferenceManager.Instance.MenuTween.IsVisible);
 
         // teleport player to mouse pos
         if (LevelSessionManager.Instance.IsEdit && EditModeManager.Instance.Playing && KeyBinds.GetKeyBindDown("Editor_TeleportPlayer"))
@@ -133,6 +131,4 @@ public class KeyEvents : MonoBehaviour
             if (KeyBinds.GetKeyBindDown(shortcut.Key)) EditModeManager.Instance.CurrentEditMode = shortcut.Value;
         }
     }
-
-    private void Start() => menuTween = ReferenceManager.Instance.Menu.GetComponent<AlphaTween>();
 }

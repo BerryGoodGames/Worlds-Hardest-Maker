@@ -48,4 +48,41 @@ public partial class AnchorManager : MonoBehaviour
 
         selectedAnchor.RenderLines();
     }
+    
+    public void ResetStates()
+    {
+        // reset anchors
+        foreach (Transform t in ReferenceManager.Instance.AnchorContainer)
+        {
+            AnchorParentController parent = t.GetComponent<AnchorParentController>();
+            AnchorController anchor = parent.Child;
+
+            anchor.ResetExecution();
+            anchor.Animator.SetBool(playing, false);
+
+            if (SelectedAnchor == anchor &&
+                EditModeManager.Instance.CurrentEditMode.IsAnchorRelated()) anchor.SetLinesActive(true);
+        }
+    }
+    
+    public void StartExecuting()
+    {
+        UpdateBlockListInSelectedAnchor();
+
+        // let anchors start executing
+        foreach (Transform t in ReferenceManager.Instance.AnchorContainer)
+        {
+            AnchorParentController parent = t.GetComponent<AnchorParentController>();
+            AnchorController anchor = parent.Child;
+
+            anchor.StartExecuting();
+
+            anchor.SetLinesActive(false);
+
+            if (SelectedAnchor == anchor &&
+                EditModeManager.Instance.CurrentEditMode.IsAnchorRelated()) continue;
+
+            anchor.Animator.SetBool(playing, true);
+        }
+    }
 }

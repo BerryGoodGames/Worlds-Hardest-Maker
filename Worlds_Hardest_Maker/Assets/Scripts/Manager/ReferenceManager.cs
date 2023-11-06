@@ -18,6 +18,7 @@ public class ReferenceManager : MonoBehaviour
     [Foldout("Objects")] public GameObject TooltipCanvas;
 
     [Foldout("Objects")] public GameObject Menu;
+    [Foldout("Objects")] public AlphaTween MenuTween;
     [Foldout("Objects")] public GameObject PlayButton;
 
     [Foldout("Objects")] public AlphaTween KeybindBlocker;
