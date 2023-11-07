@@ -10,20 +10,24 @@ public class MenuManager : MonoBehaviour
     {
         Graphic = 0,
         UI = 1,
-        Sound = 2
+        Sound = 2,
+        KeyBinds = 3,
     }
 
-    [Header("Constants & References")] public GameObject GraphicSettingsUI;
+    [Header("Constants & References")] [SerializeField] private GameObject graphicSettingsUI;
+    [SerializeField] private GameObject uiSettingsUI;
+    [SerializeField] private GameObject soundSettingsUI;
+    [SerializeField] private GameObject keyBindSettingsUI;
 
-    public GameObject UISettingsUI;
-
-    public GameObject SoundSettingsUI;
 
     [Space] [Header("Variables")] public MenuTab CurrentMenuTab;
 
     private MenuTab prevMenuTab;
 
     [HideInInspector] public bool BlockMenu;
+
+    [HideInInspector] public bool IsAddingKeyBind;
+    [HideInInspector] public KeyBindSetterController AddingKeyBindSetter;
 
     private void Awake()
     {
@@ -43,10 +47,7 @@ public class MenuManager : MonoBehaviour
         if (tab != prevMenuTab)
         {
             Dictionary<MenuTab, GameObject> dict = GetTabDict();
-            for (int i = 0; i < Enum.GetValues(typeof(MenuTab)).Length; i++)
-            {
-                dict[(MenuTab)i].SetActive(false);
-            }
+            for (int i = 0; i < Enum.GetValues(typeof(MenuTab)).Length; i++) dict[(MenuTab)i].SetActive(false);
 
             dict[tab].SetActive(true);
             CurrentMenuTab = tab;
@@ -55,21 +56,22 @@ public class MenuManager : MonoBehaviour
         prevMenuTab = tab;
     }
 
+    private Dictionary<MenuTab, GameObject> GetTabDict()
+    {
+        Dictionary<MenuTab, GameObject> dict = new()
+        {
+            { MenuTab.Graphic, graphicSettingsUI },
+            { MenuTab.Sound, soundSettingsUI },
+            { MenuTab.UI, uiSettingsUI },
+            { MenuTab.KeyBinds, keyBindSettingsUI },
+        };
+
+        return dict;
+    }
+
     public void ChangeMenuTab(int tab) => ChangeMenuTab((MenuTab)tab);
 
     public void ChangeMenuTab() => ChangeMenuTab(CurrentMenuTab);
-
-    public Dictionary<MenuTab, GameObject> GetTabDict()
-    {
-        // REF
-        Dictionary<MenuTab, GameObject> dict = new()
-        {
-            { MenuTab.Graphic, GraphicSettingsUI },
-            { MenuTab.Sound, SoundSettingsUI },
-            { MenuTab.UI, UISettingsUI }
-        };
-        return dict;
-    }
 
     #endregion
 }

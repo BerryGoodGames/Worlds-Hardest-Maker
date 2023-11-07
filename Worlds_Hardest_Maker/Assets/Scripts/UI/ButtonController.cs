@@ -15,8 +15,8 @@ public class ButtonController : MonoBehaviour
 
     public void Deselect()
     {
-        if (EventSystem.current.currentSelectedGameObject.Equals(gameObject))
-            EventSystem.current.SetSelectedGameObject(null);
+        if (EventSystem.current.currentSelectedGameObject == null ||
+            EventSystem.current.currentSelectedGameObject.Equals(gameObject)) EventSystem.current.SetSelectedGameObject(null);
     }
 
     [ButtonMethod]
@@ -45,9 +45,6 @@ public class ButtonController : MonoBehaviour
     public static void UpdateEVERYButton()
     {
         ButtonController[] buttons = Resources.FindObjectsOfTypeAll<ButtonController>();
-        foreach (ButtonController controller in buttons)
-        {
-            controller.UpdateOutlineAndBackgroundPanelSize();
-        }
+        foreach (ButtonController controller in buttons) controller.UpdateOutlineAndBackgroundPanelSize();
     }
 }

@@ -12,7 +12,7 @@ public class MainMenuParticles : MonoBehaviour
 
         float camWidth = Utils.GetScreenDimensions(cam, null).x;
 
-        var shape = ps.shape;
+        ParticleSystem.ShapeModule shape = ps.shape;
         shape.scale = new(camWidth, camWidth, 1);
     }
 }

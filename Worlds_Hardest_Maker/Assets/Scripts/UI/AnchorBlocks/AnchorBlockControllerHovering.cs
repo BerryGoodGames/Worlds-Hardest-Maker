@@ -25,8 +25,7 @@ public abstract partial class AnchorBlockController
             // case: player dragged from preview to this block -> set the preview for the block after this one
             AnchorBlockManager.Instance.HoveredBlockIndex++;
         }
-        else
-            AnchorBlockManager.Instance.HoveredBlockIndex = thisIndex;
+        else AnchorBlockManager.Instance.HoveredBlockIndex = thisIndex;
 
         // activate preview only if locked
         if (!IsLocked) ReferenceManager.Instance.AnchorBlockPreview.Activate();

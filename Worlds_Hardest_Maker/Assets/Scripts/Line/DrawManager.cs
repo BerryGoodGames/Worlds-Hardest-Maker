@@ -33,8 +33,10 @@ public class DrawManager : MonoBehaviour
     /// <summary>
     ///     Generates object containing a LineRenderer forming a rectangle
     /// </summary>
-    public static LineRenderer DrawRect(float x, float y, float width, float height, bool alignCenter = false,
-        Transform parent = null)
+    public static LineRenderer DrawRect(
+        float x, float y, float width, float height, bool alignCenter = false,
+        Transform parent = null
+    )
     {
         // generate object
         LineRenderer rect = NewDrawObject("DrawRect", parent);
@@ -49,7 +51,7 @@ public class DrawManager : MonoBehaviour
             new(x + width, y),
             new(x + width, y + height),
             new(x, y + height),
-            new(x, y)
+            new(x, y),
         };
 
         // set positions
@@ -83,10 +85,7 @@ public class DrawManager : MonoBehaviour
 
         // set points
         circle.positionCount = steps + 1;
-        for (int i = 0; i < points.Count; i++)
-        {
-            circle.SetPosition(i, points[i]);
-        }
+        for (int i = 0; i < points.Count; i++) circle.SetPosition(i, points[i]);
 
         return circle;
     }
@@ -94,8 +93,7 @@ public class DrawManager : MonoBehaviour
     /// <summary>
     ///     Generates object containing a LineRenderer forming a circle
     /// </summary>
-    public static LineRenderer DrawCircle(float x, float y, float radius, Transform parent = null) =>
-        DrawCircle(new(x, y), radius, parent);
+    public static LineRenderer DrawCircle(float x, float y, float radius, Transform parent = null) => DrawCircle(new(x, y), radius, parent);
 
     /// <summary>
     ///     Generates object containing a LineRenderer
@@ -124,8 +122,10 @@ public class DrawManager : MonoBehaviour
         return line;
     }
 
-    public static LineRenderer DrawDashedLine(Vector2 start, Vector2 end, float width, float spacing,
-        Transform parent = null)
+    public static LineRenderer DrawDashedLine(
+        Vector2 start, Vector2 end, float width, float spacing,
+        Transform parent = null
+    )
     {
         if (parent == null) parent = ReferenceManager.Instance.DrawContainer;
 
@@ -140,21 +140,23 @@ public class DrawManager : MonoBehaviour
         return line;
     }
 
-    public static (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) GetArrowHeadPoints(Vector2 start,
-        Vector2 end)
+    public static (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) GetArrowHeadPoints(
+        Vector2 start,
+        Vector2 end
+    )
     {
         const float headLineLength = 0.15f;
         Vector2 delta = end - start;
         Vector2 halfPoint = start + delta / 2;
         Vector2 offset = delta.normalized * (headLineLength / 2);
-        Vector2 _start = halfPoint + offset;
+        Vector2 startPoint = halfPoint + offset;
         Vector2 endSideOffset = delta.normalized * Mathf.Sin(headLineLength);
         endSideOffset.Rotate(90);
-        Vector2 _end = halfPoint - offset;
+        Vector2 endPoint = halfPoint - offset;
 
-        Vector2 arrowVertex1 = _end + endSideOffset;
-        Vector2 arrowVertex2 = _end - endSideOffset;
-        Vector2 arrowCenter = _start;
+        Vector2 arrowVertex1 = endPoint + endSideOffset;
+        Vector2 arrowVertex2 = endPoint - endSideOffset;
+        Vector2 arrowCenter = startPoint;
 
         return (arrowVertex1, arrowVertex2, arrowCenter);
     }
@@ -167,7 +169,7 @@ public class DrawManager : MonoBehaviour
         GameObject stroke = new()
         {
             name = name,
-            transform = { parent = parent }
+            transform = { parent = parent, },
         };
 
         LineRenderer line = stroke.AddComponent<LineRenderer>();

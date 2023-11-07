@@ -18,6 +18,5 @@ public static class ListExtension
         return mark;
     }
 
-    public static void Print<T>(this List<T> list) =>
-        Debug.Log($"[{string.Join(", ", list)}] --- Length: {list.Count}");
+    public static void Print<T>(this List<T> list) => Debug.Log($"[{string.Join(", ", list)}] --- Length: {list.Count}");
 }

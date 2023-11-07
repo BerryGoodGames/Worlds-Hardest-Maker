@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 147.75491, y: 0}
+  m_AnchoredPosition: {x: 12, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6102808320844496030
@@ -116,7 +116,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 135.75491, y: 0}
+  m_AnchoredPosition: {x: 128.86491, y: 0}
   m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7594978952006153597
@@ -1535,11 +1535,9 @@ MonoBehaviour:
   IsSource: 0
   lockIconContainer: {fileID: 889548813686051939}
   warningIconContainer: {fileID: 1230208259939755700}
-  AnchorBlockDragDropComp: {fileID: 0}
   MouseOverUI: {fileID: 0}
   PositionInput: {fileID: 1416588475563191578}
-  blur: {fileID: 0}
-  InputIterations: {fileID: 2435710135406218886}
+  IterationsInput: {fileID: 2435710135406218886}
   AdaptRotation: {fileID: 1563540630306271270}
 --- !u!224 &3085765387000724421 stripped
 RectTransform:

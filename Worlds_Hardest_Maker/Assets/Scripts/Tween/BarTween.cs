@@ -52,7 +52,7 @@ public class BarTween : MonoBehaviour
         AnimationCurve curve = isResultVisibleState ? easeAppearCurve : easeDisappearCurve;
         float duration = isResultVisibleState ? appearDuration : disappearDuration;
 
-        Tween t = rt.DOAnchorPosY(y, duration);
+        Tween t = rt.DOAnchorPosY(y, duration).SetId(gameObject);
         if (curve.length > 1) t.SetEase(curve);
         else t.SetEase(ease);
 
@@ -68,10 +68,15 @@ public class BarTween : MonoBehaviour
     {
         rt = (RectTransform)transform;
 
-        if (EditModeManager.Instance.Playing)
-            rt.anchoredPosition = new(rt.anchoredPosition.x, isVisibleOnlyOnEdit ? invisibleY : visibleY);
+        if (EditModeManager.Instance.Playing) rt.anchoredPosition = new(rt.anchoredPosition.x, isVisibleOnlyOnEdit ? invisibleY : visibleY);
         else rt.anchoredPosition = new(rt.anchoredPosition.x, !isVisibleOnlyOnEdit ? invisibleY : visibleY);
     }
 
     private void Awake() => TweenList.Add(this);
+
+    private void OnDestroy()
+    {
+        TweenList.Remove(this);
+        DOTween.Kill(gameObject);
+    }
 }

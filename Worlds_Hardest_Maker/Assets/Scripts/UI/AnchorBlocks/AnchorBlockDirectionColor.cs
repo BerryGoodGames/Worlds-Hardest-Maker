@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 public class AnchorBlockDirectionColor : AnchorBlockColorController
 {
-    [SerializeField] [InitializationField] [MustBeAssigned]
-    private Image backgroundImage;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Image backgroundImage;
 
     public override void UpdateColor()
     {

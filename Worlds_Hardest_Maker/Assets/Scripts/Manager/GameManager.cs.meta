@@ -8,7 +8,7 @@ MonoImporter:
   - StartField: {fileID: 5987469266172408362, guid: d2797d7a0b4977f4290eaa676e1091fd, type: 3}
   - GoalField: {fileID: 95060502970102672, guid: b926be3848f92d541aa8df58c7272f32, type: 3}
   - FieldContainer: {instanceID: 0}
-  executionOrder: 0
+  executionOrder: 3
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

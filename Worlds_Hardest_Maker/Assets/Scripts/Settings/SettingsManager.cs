@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Runtime.Serialization.Json;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -27,10 +29,7 @@ public class SettingsManager : MonoBehaviour
         infobarEditResize = InfobarEdit.GetComponent<InfobarResize>();
     }
 
-    private void Start()
-    {
-        Instance.LoadPrefs();
-    }
+    private void Start() => Instance.LoadPrefs();
 
     public void SavePrefs()
     {
@@ -40,22 +39,43 @@ public class SettingsManager : MonoBehaviour
         PlayerPrefs.SetFloat("InfobarSize", GetInfobarSize());
 
         // graphics
-        PlayerPrefs.SetInt("Quality", GraphicsSettings.Instance.QualityLevel);
         PlayerPrefs.SetInt("Fullscreen", Screen.fullScreen ? 1 : 0);
         PlayerPrefs.SetInt("OneColorStartGoal", GraphicsSettings.Instance.OneColorStartGoalCheckpoint ? 1 : 0);
+        
+        // key binds
+        foreach (KeyBind keyBind in KeyBinds.GetAllKeyBinds())
+        {
+            PlayerPrefs.SetString(keyBind.Name, keyBind.KeyCodesToString());
+        }
+        
+        PlayerPrefs.Save();
     }
 
     public void LoadPrefs()
     {
+        // check if preferences already exist, and if they don't then set the current (default) prefs
+        if (!PlayerPrefs.HasKey("MusicVolume")) SavePrefs();
+
         SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"), true);
         SetSoundEffectVolume(PlayerPrefs.GetFloat("SoundEffectVolume"), true);
         SetToolbarSize(PlayerPrefs.GetFloat("ToolbarSize"), true);
         SetInfobarSize(PlayerPrefs.GetFloat("InfobarSize"), true);
 
         // graphics
-        GraphicsSettings.Instance.SetQuality(PlayerPrefs.GetInt("Quality"), true);
         GraphicsSettings.Instance.Fullscreen(PlayerPrefs.GetInt("Fullscreen") == 1, true);
         GraphicsSettings.Instance.SetOneColorStartGoal(PlayerPrefs.GetInt("OneColorStartGoal") == 1, true);
+        
+        // key binds
+        foreach (KeyBind keyBind in KeyBinds.GetAllKeyBinds())
+        {
+            // check if key bind exists (in case new are added)
+            if(!PlayerPrefs.HasKey(keyBind.Name)) continue;
+            
+            // get and deserialize key codes
+            KeyCode[][] keyCodes = KeyBinds.KeyCodesFromString(PlayerPrefs.GetString(keyBind.Name));
+            KeyBinds.ResetKeyBind(keyBind.Name);
+            KeyBinds.AddKeyCodesToKeyBind(keyBind.Name, keyCodes);
+        }
     }
 
     #region Sound settings
@@ -115,7 +135,7 @@ public class SettingsManager : MonoBehaviour
         toolbarSpacing.ToolbarHeight = size;
         toolbarSpacing.UpdateSize();
 
-        if(!updateSlider) return;
+        if (!updateSlider) return;
 
         ReferenceManager.Instance.ToolbarSizeSlider.Slider.value = size;
         ReferenceManager.Instance.ToolbarSizeSlider.UpdateInput();
@@ -156,8 +176,5 @@ public class SettingsManager : MonoBehaviour
 
     #endregion
 
-    private void OnDestroy()
-    {
-        SavePrefs();
-    }
+    private void OnDestroy() => SavePrefs();
 }

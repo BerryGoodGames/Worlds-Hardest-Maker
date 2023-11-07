@@ -30,7 +30,7 @@ public class FieldData : Data
     {
         FieldType type = (FieldType)Enum.Parse(typeof(FieldType), FieldType);
 
-        FieldManager.Instance.SetField(pos, type, Rotation);
+        FieldManager.Instance.SetField(Vector2Int.RoundToInt(pos), type, Rotation);
     }
 
     public override EditMode GetEditMode() => (EditMode)Enum.Parse(typeof(EditMode), FieldType);

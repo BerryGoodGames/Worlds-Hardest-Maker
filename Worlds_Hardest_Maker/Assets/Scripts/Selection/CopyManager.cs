@@ -16,37 +16,34 @@ public class CopyManager : MonoBehaviour
     {
         clipBoard.Clear();
 
+        AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+
         // get position and size on where to get the objects
         Vector2 selectionCenter = (lowestPos + highestPos) * .5f;
         Vector2 selectionSize = highestPos - lowestPos + Vector2.one * .5f;
 
-        // print($"Size: {selectionSize}   Pos: {selectionCenter}");
-
         Collider2D[] hits = Physics2D.OverlapBoxAll(selectionCenter, selectionSize, 0, 3200); // get objects
-
-        // print(hits.Length);
 
         List<Vector2> points = HitsToPoints(hits);
 
         if (points.Count == 0) return;
 
-        (int lowestX, int highestX, int lowestY, int highestY) = SelectionManager.GetBoundsMatrix(points);
-        Vector2 lowestPoint = new(lowestX, lowestY);
-        Vector2 highestPoint = new(highestX, highestY);
+        (Vector2 lowest, Vector2 highest) = SelectionManager.GetBoundsMatrix(points);
 
         // center and size of actual controllers user selected
-        Vector2 castCenter = (.5f * (lowestPoint + highestPoint)).Floor();
+        Vector2 castCenter = (.5f * (lowest + highest)).Floor();
 
         foreach (Collider2D hit in hits)
         {
             if (hit == null) continue;
 
             // try to get controllers and save the object in clipboard
-            if (!hit.TryGetComponent(out Controller controller)) continue;
+            if (!hit.TryGetComponent(out EntityController controller)) continue;
+            if (controller is AnchorBallController { IsParentAnchorNull: false, }) continue;
 
             Data data = controller.GetData();
 
-            Vector2 pos = controller.GetPosition();
+            Vector2 pos = controller.Position;
 
             CopyData copyData = new(data, pos - castCenter);
             clipBoard.Add(copyData);
@@ -61,9 +58,9 @@ public class CopyManager : MonoBehaviour
             if (hit == null) continue;
 
             // try to get controllers and save the object in clipboard
-            if (!hit.TryGetComponent(out Controller controller)) continue;
+            if (!hit.TryGetComponent(out EntityController controller)) continue;
 
-            points.Add(controller.GetPosition());
+            points.Add(controller.Position);
         }
 
         return points;
@@ -92,10 +89,7 @@ public class CopyManager : MonoBehaviour
         Paste();
 
         // make sure that the player can't place directly after pasting
-        while (!Input.GetMouseButtonUp(0))
-        {
-            yield return null;
-        }
+        while (!Input.GetMouseButtonUp(0)) yield return null;
 
         Pasting = false;
     }
@@ -156,10 +150,7 @@ public class CopyManager : MonoBehaviour
     public void LoadClipboard(Vector2 pos)
     {
         // just load clipboard to pos
-        foreach (CopyData copyData in clipBoard)
-        {
-            copyData.Paste(pos);
-        }
+        foreach (CopyData copyData in clipBoard) copyData.Paste(pos);
     }
 
     private void CreatePreview()
@@ -171,8 +162,11 @@ public class CopyManager : MonoBehaviour
             Quaternion rotation = copyData.Data.GetType() == typeof(FieldData)
                 ? Quaternion.Euler(0, 0, ((FieldData)copyData.Data).Rotation)
                 : Quaternion.identity;
-            GameObject preview = Instantiate(PrefabManager.Instance.FillPreview, Vector2.zero, rotation,
-                Instance.previewContainer);
+
+            GameObject preview = Instantiate(
+                PrefabManager.Instance.FillPreview, Vector2.zero, rotation,
+                Instance.previewContainer
+            );
 
             preview.transform.localPosition = copyData.RelativePos;
 
@@ -190,10 +184,7 @@ public class CopyManager : MonoBehaviour
 
     private static void ClearPreview()
     {
-        foreach (Transform child in Instance.previewContainer)
-        {
-            Destroy(child.gameObject);
-        }
+        foreach (Transform child in Instance.previewContainer) Destroy(child.gameObject);
     }
 
     private void Awake()

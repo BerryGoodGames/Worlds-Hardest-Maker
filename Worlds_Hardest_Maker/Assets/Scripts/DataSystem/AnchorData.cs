@@ -9,7 +9,7 @@ using UnityEngine;
 public class AnchorData : Data
 {
     // (list of coordinates)
-    private float[,] balls;
+    private AnchorBallData[] balls;
 
     private AnchorBlockData[] blocks;
 
@@ -21,13 +21,13 @@ public class AnchorData : Data
         SaveBalls(controller);
         SaveBlocks(controller);
 
-        Vector2 controllerPosition = controller.transform.position;
+        Vector2 controllerPosition = controller.StartPosition;
 
         // init start position
         position = new[]
         {
             controllerPosition.x,
-            controllerPosition.y
+            controllerPosition.y,
         };
     }
 
@@ -36,14 +36,13 @@ public class AnchorData : Data
     private void SaveBalls(AnchorController controller)
     {
         // init balls
-        balls = new float[controller.Balls.Count, 2];
-        for (int i = 0; i < controller.Balls.Count; i++)
-        {
-            Vector2 ballPosition = controller.Balls[i].position;
-
-            balls[i, 0] = ballPosition.x;
-            balls[i, 1] = ballPosition.y;
-        }
+        List<AnchorBallController> anchorBalls = AnchorBallManager.Instance.AnchorBallListLayers[controller];
+        balls = new AnchorBallData[anchorBalls.Count];
+        for (int i = 0; i < balls.Length; i++) balls[i] = (AnchorBallData)anchorBalls[i].GetData();
+        // for (int i = 0; i < controller.Balls.Count; i++)
+        // {
+        //     balls[i] = new(controller.Balls[i].GetChild(0).localPosition);
+        // }
     }
 
     private void SaveBlocks(AnchorController controller)
@@ -65,20 +64,6 @@ public class AnchorData : Data
         }
     }
 
-    private List<Vector2> LoadBalls()
-    {
-        // returns every coordinate of the balls
-        List<Vector2> posArr = new();
-
-        for (int i = 0; i < balls.GetLength(0); i++)
-        {
-            Vector2 pos = new(balls[i, 0], balls[i, 1]);
-            posArr.Add(pos);
-        }
-
-        return posArr;
-    }
-
     private LinkedList<AnchorBlock> LoadBlocks(AnchorController anchor)
     {
         LinkedList<AnchorBlock> blockArr = new();
@@ -95,18 +80,13 @@ public class AnchorData : Data
     #endregion
 
 
-    public override void ImportToLevel() => ImportToLevel(new Vector2(position[0], position[1]));
+    public override void ImportToLevel() => ImportToLevel(new(position[0], position[1]));
 
     public override void ImportToLevel(Vector2 pos)
     {
         AnchorController anchor = AnchorManager.Instance.SetAnchor(pos);
 
-        List<Vector2> ballPositions = LoadBalls();
-
-        foreach (Vector2 ballPosition in ballPositions)
-        {
-            AnchorBallManager.SetAnchorBall(ballPosition, anchor);
-        }
+        foreach (AnchorBallData ball in balls) ball.ImportToLevel(anchor);
 
         anchor.Blocks = LoadBlocks(anchor);
     }

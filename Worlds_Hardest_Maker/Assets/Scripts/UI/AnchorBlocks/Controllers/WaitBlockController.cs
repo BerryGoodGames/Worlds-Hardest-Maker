@@ -10,11 +10,10 @@ public class WaitBlockController : AnchorBlockController
         { "s", WaitBlock.Unit.Seconds },
         { "min", WaitBlock.Unit.Minutes },
         { "h", WaitBlock.Unit.Hours },
-        { "d", WaitBlock.Unit.Days }
+        { "d", WaitBlock.Unit.Days },
     };
 
-    [Separator("Specifics")] [InitializationField]
-    public TMP_InputField DurationInput;
+    [Separator("Specifics")] [InitializationField] public TMP_InputField DurationInput;
 
     [InitializationField] public TMP_Dropdown UnitInput;
 
@@ -26,7 +25,7 @@ public class WaitBlockController : AnchorBlockController
 
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
     {
-        if (!float.TryParse(DurationInput.text, out float waitTime)) throw new("Input in a Wait Block was not a float");
+        float waitTime = DurationInput.GetFloatInput();
 
         return new WaitBlock(anchorController, IsLocked, waitTime, GetUnit());
     }

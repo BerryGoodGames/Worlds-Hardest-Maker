@@ -4,8 +4,7 @@ using UnityEngine;
 public class BackgroundLineSize : MonoBehaviour
 {
     // order: top, right, bottom, left
-    [Header("Line order: top, right, bottom, left")]
-    public RectTransform[] Lines;
+    [Header("Line order: top, right, bottom, left")] public RectTransform[] Lines;
 
     [Space] public float NewLineSize;
 
@@ -14,10 +13,7 @@ public class BackgroundLineSize : MonoBehaviour
 
     public void SetLineSize(float size)
     {
-        for (int i = 0; i < Lines.Length; i++)
-        {
-            SetLineSize(i, size);
-        }
+        for (int i = 0; i < Lines.Length; i++) SetLineSize(i, size);
     }
 
     public void SetLineSize(int i, float size)

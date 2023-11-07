@@ -9,13 +9,16 @@ public class SetRotationBlockController : AnchorBlockController
     {
         { "deg / s", SetRotationBlock.Unit.Degrees },
         { "it / s", SetRotationBlock.Unit.Iterations },
-        { "s", SetRotationBlock.Unit.Time }
+        { "s", SetRotationBlock.Unit.Time },
     };
 
-    [Separator("Specifics")] [InitializationField]
-    public TMP_InputField SpeedInput;
+    [Separator("Specifics")] [InitializationField] [AutoProperty] public TMP_InputField SpeedInput;
+
+    private TMPDecimalInputAdjuster inputAdjuster;
 
     [InitializationField] public TMP_Dropdown UnitInput;
+
+    private void Awake() => inputAdjuster = GetComponentInChildren<TMPDecimalInputAdjuster>();
 
     private SetRotationBlock.Unit GetUnit()
     {
@@ -23,16 +26,10 @@ public class SetRotationBlockController : AnchorBlockController
         return unitOptions[selectedUnitString];
     }
 
-    public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
-    {
-        if (!float.TryParse(SpeedInput.text, out float speed))
-            throw new("Input in a SetAngularSpeed Block was not a float");
+    public override AnchorBlock GetAnchorBlock(AnchorController anchorController) =>
+        new SetRotationBlock(anchorController, IsLocked, SpeedInput.GetFloatInput(), GetUnit());
 
-        return new SetRotationBlock(anchorController, IsLocked, speed, GetUnit());
-    }
-
-    public static string GetOption(SetRotationBlock.Unit unit) =>
-        unitOptions.FirstOrDefault(x => x.Value == unit).Key;
+    public static string GetOption(SetRotationBlock.Unit unit) => unitOptions.FirstOrDefault(x => x.Value == unit).Key;
 
     public void UpdateWarnings()
     {

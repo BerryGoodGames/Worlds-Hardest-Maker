@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class MainMenuTween : MonoBehaviour
 {
+    public static MainMenuTween Instance { get; private set; }
+
+    [SerializeField] private MoveRelativeTween startSwipeTween;
     [SerializeField] private Image cursor;
     [SerializeField] private Image player;
     [Space] [SerializeField] private float playerStartX = 530;
@@ -19,19 +22,38 @@ public class MainMenuTween : MonoBehaviour
 
     private void Start()
     {
+        if (TransitionManager.Instance.HasMainMenuStartSwipe)
+        {
+            startSwipeTween.gameObject.SetActive(true);
+            startSwipeTween.Move();
+        }
+        else startSwipeTween.gameObject.SetActive(false);
+
         player.rectTransform.anchoredPosition = new(playerStartX, player.rectTransform.anchoredPosition.y);
         player.rectTransform.DOAnchorPosX(playerEndX, playerDuration)
             .SetEase(Ease.Linear)
-            .SetDelay(delay);
+            .SetDelay(delay)
+            .SetId(gameObject);
 
         float cursorDelayTotal = cursorDelay + playerDuration + delay;
         cursor.rectTransform.eulerAngles = new(0, 0, cursorStartAngle);
         cursor.rectTransform.DORotate(new(0, 0, cursorEndAngle), cursorDuration)
-            .SetDelay(cursorDelayTotal);
+            .SetDelay(cursorDelayTotal)
+            .SetId(gameObject);
 
         cursor.rectTransform.anchoredPosition = cursorStartPos;
         cursor.rectTransform.DOAnchorPos(cursorEndPos, cursorDuration)
             .SetDelay(cursorDelayTotal)
-            .SetEase(Ease.OutQuint);
+            .SetEase(Ease.OutQuint)
+            .SetId(gameObject);
     }
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
+
+    private void OnDestroy() => KillTweens();
+
+    public void KillTweens() => DOTween.Kill(gameObject);
 }

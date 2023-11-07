@@ -8,11 +8,10 @@ public class SetSpeedBlockController : AnchorBlockController
     private static readonly Dictionary<string, SetSpeedBlock.Unit> unitOptions = new()
     {
         { "m / s", SetSpeedBlock.Unit.Speed },
-        { "s", SetSpeedBlock.Unit.Time }
+        { "s", SetSpeedBlock.Unit.Time },
     };
 
-    [Separator("Specifics")] [InitializationField]
-    public TMP_InputField SpeedInput;
+    [Separator("Specifics")] [InitializationField] public TMP_InputField SpeedInput;
 
     [InitializationField] public TMP_Dropdown UnitInput;
 
@@ -24,7 +23,7 @@ public class SetSpeedBlockController : AnchorBlockController
 
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
     {
-        if (!float.TryParse(SpeedInput.text, out float time)) throw new("Input in a SetSpeed Block was not a float");
+        float time = SpeedInput.GetFloatInput();
 
         return new SetSpeedBlock(anchorController, IsLocked, time, GetUnit());
     }

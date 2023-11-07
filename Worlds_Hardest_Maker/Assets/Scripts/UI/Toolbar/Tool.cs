@@ -17,8 +17,7 @@ public class Tool : MonoBehaviour
 
     private void Awake()
     {
-        if (!Enum.TryParse(toolType, out ToolName))
-            Debug.LogError($"{toolType} was not a valid type");
+        if (!Enum.TryParse(toolType, out ToolName)) Debug.LogError($"{toolType} was not a valid type");
 
         InOptionbar = transform.parent.CompareTag("OptionContainer");
     }
@@ -55,6 +54,5 @@ public class Tool : MonoBehaviour
 
     public void SubSelected(bool subselected) => selectionSquare.SubSelected(subselected);
 
-    private void Update() =>
-        anim.SetVisible(Selected || (mouseOverUIRect.Over && !ReferenceManager.Instance.Menu.activeSelf));
+    private void Update() => anim.SetVisible(Selected || (mouseOverUIRect.Over && !ReferenceManager.Instance.Menu.activeSelf));
 }

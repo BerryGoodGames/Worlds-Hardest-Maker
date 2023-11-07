@@ -106,8 +106,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         // -> clear list
         foreach (RoomItem item in roomItemsList)
         {
-            if (item != null && item.gameObject != null)
-                Destroy(item.gameObject);
+            if (item != null && item.gameObject != null) Destroy(item.gameObject);
         }
 
         roomItemsList.Clear();
@@ -123,8 +122,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
                 controller = newRoom.GetComponent<RoomItem>();
             }
             // create controller
-            else
-                controller = new();
+            else controller = new();
 
             // set name and add to list
             controller.SetRoomName(room.Name);
@@ -156,10 +154,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         // update player list
         // -> clear player item list
-        foreach (PlayerItem item in playerItemsList)
-        {
-            Destroy(item.gameObject);
-        }
+        foreach (PlayerItem item in playerItemsList) Destroy(item.gameObject);
 
         playerItemsList.Clear();
 
@@ -186,10 +181,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private void Update()
     {
         // only show play button to host
-        if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount >= 1)
-            PlayButton.SetActive(true);
-        else
-            PlayButton.SetActive(false);
+        if (PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount >= 1) PlayButton.SetActive(true);
+        else PlayButton.SetActive(false);
 
         // check enter key
         if (Input.GetKeyDown(KeyCode.Return)) OnClickCreate();
@@ -230,8 +223,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         foreach (RoomItem room in roomItemsList)
         {
-            if (room.Info.Name.Equals(roomName))
-                return true;
+            if (room.Info.Name.Equals(roomName)) return true;
         }
 
         return false;

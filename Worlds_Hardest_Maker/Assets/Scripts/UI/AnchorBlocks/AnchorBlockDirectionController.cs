@@ -7,8 +7,7 @@ public class AnchorBlockDirectionController : MonoBehaviour
 {
     [SerializeField] [InitializationField] private Image directionImage;
 
-    [SerializeField] [InitializationField] [PositiveValueOnly]
-    private float animationDuration;
+    [SerializeField] [InitializationField] [PositiveValueOnly] private float animationDuration;
 
     private bool isClockwise = true;
 
@@ -33,7 +32,8 @@ public class AnchorBlockDirectionController : MonoBehaviour
         if (animation)
         {
             directionImage.rectTransform.DORotate(
-                new Vector3(currentRotation.x, isClockwise ? 360 : 180, currentRotation.z), animationDuration);
+                new Vector3(currentRotation.x, isClockwise ? 360 : 180, currentRotation.z), animationDuration
+            );
         }
         else
         {

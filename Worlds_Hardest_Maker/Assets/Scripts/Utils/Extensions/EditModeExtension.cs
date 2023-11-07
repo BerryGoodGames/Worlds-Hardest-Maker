@@ -6,10 +6,10 @@ using UnityEngine;
 /// </summary>
 public static class EditModeExtension
 {
-    public static FollowMouse.WorldPositionType GetWorldPosition(this EditMode mode)
+    public static WorldPositionType GetWorldPositionType(this EditMode mode)
     {
-        if (mode.IsFieldType() || mode == EditMode.DeleteField) return FollowMouse.WorldPositionType.Matrix;
-        return FollowMouse.WorldPositionType.Grid;
+        if (mode.IsFieldType() || mode == EditMode.DeleteField) return WorldPositionType.Matrix;
+        return WorldPositionType.Grid;
     }
 
     public static GameObject GetPrefab(this EditMode mode)
@@ -33,15 +33,14 @@ public static class EditModeExtension
             { EditMode.Player, PrefabManager.Instance.Player },
             { EditMode.Anchor, PrefabManager.Instance.Anchor },
             { EditMode.AnchorBall, PrefabManager.Instance.AnchorBall },
-            { EditMode.BallDefault, PrefabManager.Instance.BallDefault },
-            { EditMode.BallCircle, PrefabManager.Instance.BallCircle },
-            { EditMode.Coin, PrefabManager.Instance.Coin },
-            { EditMode.GrayKey, PrefabManager.Instance.GrayKey },
-            { EditMode.RedKey, PrefabManager.Instance.RedKey },
-            { EditMode.GreenKey, PrefabManager.Instance.GreenKey },
-            { EditMode.BlueKey, PrefabManager.Instance.BlueKey },
-            { EditMode.YellowKey, PrefabManager.Instance.YellowKey }
+            { EditMode.Coin, PrefabManager.Instance.Coin.gameObject },
+            { EditMode.GrayKey, PrefabManager.Instance.GrayKey.gameObject },
+            { EditMode.RedKey, PrefabManager.Instance.RedKey.gameObject },
+            { EditMode.GreenKey, PrefabManager.Instance.GreenKey.gameObject },
+            { EditMode.BlueKey, PrefabManager.Instance.BlueKey.gameObject },
+            { EditMode.YellowKey, PrefabManager.Instance.YellowKey.gameObject },
         };
+
         return prefabs[mode];
     }
 
@@ -66,20 +65,17 @@ public static class EditModeExtension
             "Player",
             "Anchor",
             "Ball",
-            "Ball - Line",
-            "Ball - Circle",
             "Coin",
             "Key - Gray",
             "Key - Red",
             "Key - Green",
             "Key - Blue",
-            "Key - Yellow"
+            "Key - Yellow",
         }[(int)mode];
 
-    public static bool IsFieldType(this EditMode mode)
-    {
+    public static bool IsFieldType(this EditMode mode) =>
         // list of all field types
-        List<EditMode> fieldModes = new()
+        new List<EditMode>
         {
             EditMode.WallField,
             EditMode.StartField,
@@ -94,11 +90,12 @@ public static class EditModeExtension
             EditMode.RedKeyDoorField,
             EditMode.GreenKeyDoorField,
             EditMode.BlueKeyDoorField,
-            EditMode.YellowKeyDoorField
-        };
+            EditMode.YellowKeyDoorField,
+        }.Contains(mode);
 
-        return fieldModes.Contains(mode);
-    }
+    public static bool IsKey(this EditMode mode) => KeyManager.KeyModes.Contains(mode);
+
+    public static bool IsKeyDoor(this EditMode mode) => KeyManager.KeyDoorModes.Contains(mode);
 
     public static bool IsAnchorRelated(this EditMode mode) => mode is EditMode.Anchor or EditMode.AnchorBall;
 }

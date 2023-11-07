@@ -8,13 +8,6 @@ public class FollowMouse : MonoBehaviour
     public WorldPositionType WorldPosition;
     // ANY explains itself, GRID only round or half positions, MATRIX only round positions
 
-    public enum WorldPositionType
-    {
-        Any,
-        Grid,
-        Matrix
-    }
-
     private void FixedUpdate()
     {
         Vector2 pos = GetCurrentMouseWorldPos(WorldPosition);
@@ -28,6 +21,6 @@ public class FollowMouse : MonoBehaviour
         {
             WorldPositionType.Any => MouseManager.Instance.MouseWorldPos,
             WorldPositionType.Grid => MouseManager.Instance.MouseWorldPosGrid,
-            _ => MouseManager.Instance.MouseWorldPosMatrix
+            _ => MouseManager.Instance.MouseWorldPosMatrix,
         };
 }

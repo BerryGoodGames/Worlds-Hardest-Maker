@@ -5,8 +5,7 @@ using UnityEngine.EventSystems;
 
 public abstract class PositionAnchorBlockController : AnchorBlockController, IPointerEnterHandler, IPointerExitHandler
 {
-    [Separator("Position")] [InitializationField] [MustBeAssigned]
-    public AnchorBlockPositionInputController PositionInput;
+    [Separator("Position")] [InitializationField] [MustBeAssigned] public AnchorBlockPositionInputController PositionInput;
 
     public List<AnchorPathLine> Lines { get; set; }
 
@@ -14,31 +13,21 @@ public abstract class PositionAnchorBlockController : AnchorBlockController, IPo
 
     protected Vector2 GetPositionInput()
     {
-        float x;
-        if (PositionInput.InputX.text == string.Empty) x = 0;
-        else if(!float.TryParse(PositionInput.InputX.text, out x)) Debug.LogWarning("X input in a Move Block was not a float");
-
-        float y;
-        if (PositionInput.InputY.text == string.Empty) y = 0;
-        else if (!float.TryParse(PositionInput.InputY.text, out y)) Debug.LogWarning("X input in a Move Block was not a float");
+        float x = PositionInput.InputX.GetFloatInput();
+        float y = PositionInput.InputY.GetFloatInput();
 
         return new(x, y);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        SetBlurVisible(true);
-    }
+    public void OnPointerEnter(PointerEventData eventData) => SetBlurVisible(true);
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        SetBlurVisible(false);
-    }
+    public void OnPointerExit(PointerEventData eventData) => SetBlurVisible(false);
 
     public void SetBlurVisible(bool visible)
     {
         foreach (AnchorPathLine line in Lines)
         {
+            if (line.Blur == null) continue;
             line.Blur.SetVisible(visible);
         }
     }

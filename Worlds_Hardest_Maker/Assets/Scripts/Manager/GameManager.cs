@@ -1,8 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using DG.Tweening;
+using MyBox;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -13,114 +13,134 @@ public class GameManager : MonoBehaviourPun
     public static GameManager Instance { get; private set; }
 
     [SerializeField] private LoadingScreen loadingScreen;
+    [SerializeField] private ChainableTween swipeTween;
+
+    [Separator("Save")] [SerializeField] private float autoSaveInterval = 300;
+
     private RectTransform canvasRT;
 
     private void Awake()
     {
         // init singleton
-        if (Instance == null)
-            Instance = this;
+        if (Instance == null) Instance = this;
         // DontDestroyOnLoad(gameObject);
         else Destroy(gameObject);
 
         Utils.ForceDecimalSeparator(".");
 
         SetCameraUnitWidth(23);
+
+        DOTween.Init(useSafeMode: false);
     }
 
     private void Start()
     {
         canvasRT = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>();
-        DOTween.Init(useSafeMode: false);
 
-        if (!MultiplayerManager.Instance.Multiplayer) PlayerManager.Instance.SetPlayer(0, 0, 3f);
+        if (!MultiplayerManager.Instance.Multiplayer) PlayerManager.Instance.SetPlayer(Vector2.zero, 3f);
 
-        LevelSettings.Instance.SetDrownDuration();
-        LevelSettings.Instance.SetIceFriction();
-        LevelSettings.Instance.SetIceMaxSpeed();
-        LevelSettings.Instance.SetWaterDamping();
+        if (!LevelSessionManager.IsSessionFromEditor)
+        {
+            // user loaded editor scene from main menu
+            // force enable start swipe
+            swipeTween.gameObject.SetActive(true);
+            swipeTween.StartChain();
+
+            // make main menu also enable start swipe
+            TransitionManager.Instance.HasMainMenuStartSwipe = true;
+        }
+
+        // start saving interval if either Dbg auto load enabled or any path given
+        if ((LevelSessionManager.Instance.IsEdit && Dbg.Instance.AutoLoadLevel) ||
+            LevelSessionManager.Instance.LevelSessionPath != string.Empty) StartCoroutine(AutoSave());
     }
 
     /// <summary>
     ///     Places edit mode at position
     /// </summary>
     /// <param name="editMode">the type of field/entity you want</param>
-    public static void PlaceEditModeAtPosition(EditMode editMode, Vector2 pos)
+    public static void PlaceEditModeAtPosition(EditMode editMode, Vector2 worldPos)
     {
-        int matrixX = (int)Mathf.Round(pos.x);
-        int matrixY = (int)Mathf.Round(pos.y);
+        Vector2 gridPos = worldPos.ConvertToGrid();
+        Vector2Int matrixPos = worldPos.ConvertToMatrix();
 
-        bool multiplayer = MultiplayerManager.Instance.Multiplayer;
-        PhotonView photonView = Instance.photonView;
-
-        float gridX = Mathf.Round(pos.x * 2) * 0.5f;
-        float gridY = Mathf.Round(pos.y * 2) * 0.5f;
-
+        // check field placement
         if (editMode.IsFieldType())
         {
-            FieldManager.Instance.SetField((int)pos.x, (int)pos.y,
-                EnumUtils.ConvertEnum<EditMode, FieldType>(editMode));
+            FieldType type = EnumUtils.ConvertEnum<EditMode, FieldType>(editMode);
+            int rotation = type.IsRotatable() ? EditModeManager.Instance.EditRotation : 0;
+            FieldManager.Instance.SetField(matrixPos, type, rotation);
         }
-        else
+
+        // check field deletion
+        if (editMode is EditMode.DeleteField)
         {
-            switch (editMode)
-            {
-                case EditMode.DeleteField:
-                {
-                    // delete field
-                    if (multiplayer) photonView.RPC("RemoveField", RpcTarget.All, matrixX, matrixY, true);
-                    else FieldManager.Instance.RemoveField(matrixX, matrixY, true);
+            // delete field
+            FieldManager.Instance.RemoveField(matrixPos, true);
 
-                    // remove player if at deleted pos
-                    if (multiplayer)
-                        photonView.RPC("RemovePlayerAtPosIntersect", RpcTarget.All, (float)matrixX, (float)matrixY);
-                    else PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixX, matrixY);
-                    break;
-                }
-                case EditMode.Player:
-                    // place player
-                    PlayerManager.Instance.SetPlayer(gridX, gridY, true);
-                    break;
-                case EditMode.Coin when multiplayer:
-                    // place coin
-                    photonView.RPC("SetCoin", RpcTarget.All, gridX, gridY);
-                    break;
-                case EditMode.Coin:
-                    CoinManager.Instance.SetCoin(gridX, gridY);
-                    break;
-                default:
-                {
-                    if (KeyManager.IsKeyEditMode(editMode))
-                    {
-                        // get key color
-                        string editModeStr = editMode.ToString();
-                        string keyColorStr = editModeStr.Remove(editModeStr.Length - 3);
-                        KeyManager.KeyColor keyColor =
-                            (KeyManager.KeyColor)Enum.Parse(typeof(KeyManager.KeyColor), keyColorStr);
+            // remove player if at deleted pos
+            PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixPos);
+        }
 
-                        // place key
-                        if (multiplayer) photonView.RPC("SetKey", RpcTarget.All, gridX, gridY, keyColor);
-                        else KeyManager.Instance.SetKey(gridX, gridY, keyColor);
-                    }
+        if (editMode is EditMode.Player) PlayerManager.Instance.SetPlayer(gridPos, true);
+        if (editMode is EditMode.AnchorBall) AnchorBallManager.SetAnchorBall(gridPos);
+        if (editMode is EditMode.Coin) CoinManager.Instance.SetCoin(gridPos);
+        if (editMode.IsKey())
+        {
+            // get key color
+            string editModeStr = editMode.ToString();
+            string keyColorStr = editModeStr.Remove(editModeStr.Length - 3);
+            KeyManager.KeyColor keyColor = EnumUtils.ParseString<KeyManager.KeyColor>(keyColorStr);
 
-                    break;
-                }
-            }
+            // place key
+            KeyManager.Instance.SetKey(gridPos, keyColor);
+        }
+
+        // place anchor
+        if (editMode is EditMode.Anchor)
+        {
+            // place new anchor + select
+            AnchorController anchor = AnchorManager.Instance.SetAnchor(gridPos);
+            if (anchor != null) AnchorManager.Instance.SelectAnchor(anchor);
         }
     }
 
     #region Save system
 
+    public void LoadLevel(string path)
+    {
+        LevelData levelData = SaveSystem.LoadLevel(path);
+
+        if (levelData != null) StartCoroutine(LoadLevelFromData(levelData, path));
+    }
+
     public void LoadLevel()
     {
-        List<Data> levelData = SaveSystem.LoadLevel();
+        (LevelData levelData, string path) = SaveSystem.LoadLevel();
 
-        if (levelData != null) LoadLevelFromData(levelData.ToArray());
+        if (levelData != null) StartCoroutine(LoadLevelFromData(levelData, path));
     }
 
     [PunRPC]
-    public void LoadLevelFromData(Data[] levelData)
+    public IEnumerator LoadLevelFromData(LevelData levelData, string levelPath)
     {
+        yield return new WaitForEndOfFrame();
+        
+        // store data in LevelSessionManager
+        LevelSessionManager.Instance.LoadedLevelData = levelData;
+        
+        // load
+        List<Data> levelObjects = levelData.Objects;
+
+        if (levelObjects.Count == 0)
+        {
+            // newly created level
+            levelData.Objects = SaveSystem.SerializeCurrentLevel();
+
+            SaveSystem.SerializeLevelData(levelPath, levelData);
+            yield break;
+        }
+        
         ClearLevel();
 
         List<FieldData> fieldData = new();
@@ -128,7 +148,7 @@ public class GameManager : MonoBehaviourPun
         LevelSettingsData levelSettingsData = null;
 
         // load ball, coins
-        foreach (Data levelObject in levelData)
+        foreach (Data levelObject in levelObjects)
         {
             if (levelObject.GetType() == typeof(FieldData))
             {
@@ -153,10 +173,7 @@ public class GameManager : MonoBehaviourPun
 
 
         // load fields
-        foreach (FieldData field in fieldData)
-        {
-            field.ImportToLevel();
-        }
+        foreach (FieldData field in fieldData) field.ImportToLevel();
 
         // load player last
         playerData?.ImportToLevel();
@@ -165,35 +182,22 @@ public class GameManager : MonoBehaviourPun
         levelSettingsData?.ImportToLevel();
     }
 
-    [PunRPC]
-    public void ReceiveLevel(string content)
+    private IEnumerator AutoSave()
     {
-        BinaryFormatter formatter = new();
-        Stream s = GenerateStreamFromString(content);
+        while (true)
+        {
+            SaveSystem.SaveCurrentLevel();
 
-        List<Data> data = formatter.Deserialize(s) as List<Data>;
+            // wait for next auto save
+            yield return new WaitForSeconds(autoSaveInterval);
+        }
 
-        s.Close();
-
-        if (data == null)
-            throw new Exception("Something went wrong when receiving level and parsing received information");
-
-        LoadLevelFromData(data.ToArray());
-    }
-
-    private static Stream GenerateStreamFromString(string s)
-    {
-        MemoryStream stream = new();
-        StreamWriter writer = new(stream);
-        writer.Write(s);
-        writer.Flush();
-        stream.Position = 0;
-        return stream;
+        // ReSharper disable once IteratorNeverReturns
     }
 
     #endregion
 
-    public static void SetCameraUnitWidth(float width)
+    private static void SetCameraUnitWidth(float width)
     {
         Camera cam = Camera.main;
         if (cam != null) cam.orthographicSize = width * 0.5f / cam.aspect;
@@ -207,57 +211,64 @@ public class GameManager : MonoBehaviourPun
         else throw new Exception($"Couldn't set camera height (in units) to {height} because main camera is null");
     }
 
-    public static Vector2 ScreenToMainCanvas(Vector2 position) =>
-        position * (Instance.canvasRT.sizeDelta / new Vector2(Screen.width, Screen.height));
+    public static Vector2 ScreenToMainCanvas(Vector2 position) => position * (Instance.canvasRT.sizeDelta / new Vector2(Screen.width, Screen.height));
 
 
     [PunRPC]
     public void ClearLevel()
     {
         PlayerManager.Instance.RemoveAllPlayers();
-        Transform[] containers =
+        List<Transform> containers = new()
         {
-            ReferenceManager.Instance.FieldContainer, ReferenceManager.Instance.PlayerContainer,
-            ReferenceManager.Instance.BallDefaultContainer,
-            ReferenceManager.Instance.BallCircleContainer,
-            ReferenceManager.Instance.CoinContainer, ReferenceManager.Instance.KeyContainer,
-            ReferenceManager.Instance.AnchorContainer
+            ReferenceManager.Instance.FieldContainer,
         };
+
+        foreach (Transform t in ReferenceManager.Instance.EntityContainer) containers.Add(t);
+
         foreach (Transform container in containers)
         {
-            for (int i = container.childCount - 1; i >= 0; i--)
-            {
-                DestroyImmediate(container.GetChild(i).gameObject);
-            }
+            for (int i = container.childCount - 1; i >= 0; i--) DestroyImmediate(container.GetChild(i).gameObject);
         }
     }
 
-    public static void RemoveObjectInContainer(float mx, float my, Transform container)
+    public static void RemoveObjectInContainer(Vector2 position, Transform container)
     {
         Collider2D[] hits = new Collider2D[container.childCount];
-        _ = Physics2D.OverlapCircleNonAlloc(new(mx, my), 0.005f, hits, 128);
+        _ = Physics2D.OverlapCircleNonAlloc(position, 0.005f, hits, 128);
 
         foreach (Collider2D hit in hits)
         {
             if (hit == null) continue;
 
-            if (hit.transform.parent == container)
-                Destroy(hit.gameObject);
+            if (hit.transform.parent == container) Destroy(hit.gameObject);
             else if (hit.transform.parent.parent == container) Destroy(hit.transform.parent.gameObject);
         }
     }
 
-    public static void RemoveObjectInContainerIntersect(float mx, float my, Transform container)
+    public static void RemoveObjectInContainerIntersect(Vector2 position, Transform container)
     {
-        float[] dx = { -0.5f, 0, 0.5f, -0.5f, 0, 0.5f, -0.5f, 0, 0.5f };
-        float[] dy = { -0.5f, -0.5f, -0.5f, 0, 0, 0, 0.5f, 0.5f, 0.5f };
-        for (int i = 0; i < dx.Length; i++)
+        Vector2[] deltas =
         {
-            RemoveObjectInContainer(mx + dx[i], my + dy[i], container);
-        }
+            new(-0.5f, -0.5f), new(0, -0.5f), new(0.5f, -0.5f),
+            new(-0.5f, 0), new(0, 0), new(0.5f, 0),
+            new(-0.5f, 0.5f), new(0, 0.5f), new(0.5f, 0.5f),
+        };
+
+        foreach (Vector2 d in deltas) RemoveObjectInContainer(position + d, container);
     }
 
-    public void MainMenu() => loadingScreen.LoadScene(0);
+    public void MainMenu()
+    {
+        BackupLevel();
+
+        loadingScreen.LoadScene(0);
+    }
+
+    public void BackupLevel()
+    {
+        // save level if any path given
+        if (LevelSessionManager.Instance.LevelSessionPath != string.Empty) SaveSystem.SaveCurrentLevel();
+    }
 
     public static void DeselectInputs()
     {
@@ -275,11 +286,12 @@ public class GameManager : MonoBehaviourPun
     {
         for (int i = 0; i < dropdown.options.Count; i++)
         {
-            if (dropdown.options[i].text == option)
-                return i;
+            if (dropdown.options[i].text == option) return i;
         }
 
         Debug.LogWarning("There was no option found");
         return -1;
     }
+
+    private void OnApplicationQuit() => BackupLevel();
 }

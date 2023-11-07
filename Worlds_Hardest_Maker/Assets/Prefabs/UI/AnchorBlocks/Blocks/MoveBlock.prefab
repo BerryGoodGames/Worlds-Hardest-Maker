@@ -821,10 +821,8 @@ MonoBehaviour:
   IsSource: 0
   lockIconContainer: {fileID: 5017136667492012315}
   warningIconContainer: {fileID: 6407126099371205580}
-  AnchorBlockDragDropComp: {fileID: 0}
   MouseOverUI: {fileID: 0}
   PositionInput: {fileID: 720889376612679926}
-  blur: {fileID: 0}
 --- !u!224 &7145782815987990205 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2207349393350425260, guid: c93df7803d003ab49b317d10afa7f970, type: 3}

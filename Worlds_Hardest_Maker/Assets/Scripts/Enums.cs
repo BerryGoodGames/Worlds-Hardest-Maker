@@ -18,14 +18,12 @@ public enum EditMode
     Player,
     Anchor,
     AnchorBall,
-    BallDefault,
-    BallCircle,
     Coin,
     GrayKey,
     RedKey,
     GreenKey,
     BlueKey,
-    YellowKey
+    YellowKey,
 }
 
 public enum FieldType
@@ -43,5 +41,20 @@ public enum FieldType
     RedKeyDoorField,
     GreenKeyDoorField,
     BlueKeyDoorField,
-    YellowKeyDoorField
+    YellowKeyDoorField,
+}
+
+
+public enum WorldPositionType
+{
+    Any,
+    Grid,
+    Matrix,
+}
+
+public enum LevelSessionMode
+{
+    Play,
+    Edit,
+    Multiplayer,
 }

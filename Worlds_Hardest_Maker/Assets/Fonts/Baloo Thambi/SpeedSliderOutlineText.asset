@@ -60,9 +60,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: SpeedSliderOutlineText
   m_EditorClassIdentifier: 
-  hashCode: -1516088516
+  hashCode: 1651659711
   material: {fileID: 5159760981295103350}
-  materialHashCode: 375754396
+  materialHashCode: 729218367
   m_Version: 1.1.0
   m_SourceFontFileGUID: 6d0247a555131324aa596e0c15759470
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 6d0247a555131324aa596e0c15759470, type: 3}

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using MyBox;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -31,17 +32,17 @@ public class SelectionManager : MonoBehaviour
 
     public static SelectionManager Instance { get; private set; }
 
-    public static readonly List<EditMode> NoFillPreviewModes = new(new[]
-    {
-        EditMode.BallDefault,
-        EditMode.BallCircle,
-        EditMode.GrayKey,
-        EditMode.RedKey,
-        EditMode.BlueKey,
-        EditMode.GreenKey,
-        EditMode.YellowKey,
-        EditMode.Player
-    });
+    public static readonly List<EditMode> NoFillPreviewModes = new(
+        new[]
+        {
+            EditMode.GrayKey,
+            EditMode.RedKey,
+            EditMode.BlueKey,
+            EditMode.GreenKey,
+            EditMode.YellowKey,
+            EditMode.Player,
+        }
+    );
 
     private Vector2 prevStart;
     private Vector2 prevEnd;
@@ -51,43 +52,39 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton) && !EditModeManager.Instance.Playing &&
-            !EventSystem.current.IsPointerOverGameObject())
-            Selecting = true;
+        if (!LevelSessionManager.Instance.IsEdit) return;
+
+        if (KeyBinds.GetKeyBind("Editor_Select") && !EditModeManager.Instance.Playing &&
+            !EventSystem.current.IsPointerOverGameObject()) Selecting = true;
 
         // update selection markings
         if (!EditModeManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null &&
             MouseManager.Instance.MouseDragCurrent != null && Selecting)
         {
             // get drag positions and world position mode
-            FollowMouse.WorldPositionType worldPositionType =
-                EditModeManager.Instance.CurrentEditMode.GetWorldPosition();
+            WorldPositionType worldPositionType =
+                EditModeManager.Instance.CurrentEditMode.GetWorldPositionType();
 
             (Vector2 start, Vector2 end) = MouseManager.GetDragPositions(worldPositionType);
 
             // disable normal placement preview
             ReferenceManager.Instance.PlacementPreview.gameObject.SetActive(false);
 
-            if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton)) OnStartSelect(start);
-            else if (Input.GetMouseButtonUp(KeybindManager.Instance.SelectionMouseButton)) OnAreaSelected(start, end);
+            if (KeyBinds.GetKeyBindDown("Editor_Select")) OnStartSelect(start);
+            else if (KeyBinds.GetKeyBindUp("Editor_Select")) OnAreaSelected(start, end);
 
             if (!prevStart.Equals(start) || !prevEnd.Equals(end)) OnAreaSelectionChanged(start, end);
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-            CancelSelection();
+        if (Input.GetKeyDown(KeyCode.Escape)) CancelSelection();
     }
 
     private void LateUpdate()
     {
         if (MouseManager.Instance.MouseDragStart == null || MouseManager.Instance.MouseDragCurrent == null) return;
 
-        prevStart = ((Vector2)MouseManager.Instance.MouseDragStart).ConvertPosition(EditModeManager.Instance
-            .CurrentEditMode
-            .GetWorldPosition());
-        prevEnd = ((Vector2)MouseManager.Instance.MouseDragCurrent).ConvertPosition(EditModeManager.Instance
-            .CurrentEditMode
-            .GetWorldPosition());
+        prevStart = ((Vector2)MouseManager.Instance.MouseDragStart).ConvertToGrid();
+        prevEnd = ((Vector2)MouseManager.Instance.MouseDragCurrent).ConvertToGrid();
     }
 
     private void Start()
@@ -139,33 +136,31 @@ public class SelectionManager : MonoBehaviour
     #region Get bounds
 
     // get bounds of multiple points (in matrix)
-    private static (float, float, float, float) GetBounds(List<Vector2> points)
+    private static (Vector2 lowest, Vector2 highest) GetBounds(List<Vector2> points)
     {
-        float lowestX = points[0].x;
-        float highestX = points[0].x;
-        float lowestY = points[0].y;
-        float highestY = points[0].y;
+        Vector2 lowest = points[0];
+        Vector2 highest = points[0];
+
         foreach (Vector2 pos in points)
         {
-            if (lowestX > pos.x) lowestX = pos.x;
-            if (lowestY > pos.y) lowestY = pos.y;
-            if (highestX < pos.x) highestX = pos.x;
-            if (highestY < pos.y) highestY = pos.y;
+            if (lowest.x > pos.x) lowest.x = pos.x;
+            if (lowest.y > pos.y) lowest.y = pos.y;
+            if (highest.x < pos.x) highest.x = pos.x;
+            if (highest.y < pos.y) highest.y = pos.y;
         }
 
-        return (lowestX, highestX, lowestY, highestY);
+        return (lowest, highest);
     }
 
-    public static (float, float, float, float) GetBounds(params Vector2[] points) => GetBounds(points.ToList());
+    public static (Vector2 lowest, Vector2 highest) GetBounds(params Vector2[] points) => GetBounds(points.ToList());
 
-    public static (int, int, int, int) GetBoundsMatrix(List<Vector2> points)
+    public static (Vector2Int lowest, Vector2Int highest) GetBoundsMatrix(List<Vector2> points)
     {
-        var (lowestX, highestX, lowestY, highestY) = GetBounds(points);
-        return (Mathf.CeilToInt(lowestX), Mathf.FloorToInt(highestX), Mathf.CeilToInt(lowestY),
-            Mathf.FloorToInt(highestY));
+        (Vector2 lowest, Vector2 highest) = GetBounds(points);
+        return (Vector2Int.CeilToInt(lowest), Vector2Int.FloorToInt(highest));
     }
 
-    private static (int, int, int, int) GetBoundsMatrix(params Vector2[] points) => GetBoundsMatrix(points.ToList());
+    private static (Vector2Int lowest, Vector2Int highest) GetBoundsMatrix(params Vector2[] points) => GetBoundsMatrix(points.ToList());
 
     #endregion
 
@@ -185,8 +180,10 @@ public class SelectionManager : MonoBehaviour
 
         foreach (Vector2 pos in range)
         {
-            GameObject preview = Instantiate(PrefabManager.Instance.FillPreview, pos, Quaternion.identity,
-                ReferenceManager.Instance.FillPreviewContainer);
+            GameObject preview = Instantiate(
+                PrefabManager.Instance.FillPreview, pos, Quaternion.identity,
+                ReferenceManager.Instance.FillPreviewContainer
+            );
 
             PreviewController c = preview.GetComponent<PreviewController>();
             c.Awake_();
@@ -197,29 +194,22 @@ public class SelectionManager : MonoBehaviour
 
     private static void DestroyPreview()
     {
+        if (!LevelSessionManager.Instance.IsEdit) return;
+
         // destroy selection previews
-        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer)
-        {
-            Destroy(preview.gameObject);
-        }
+        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) Destroy(preview.gameObject);
     }
 
     private static void InitSelectedPreview() => InitPreview(GetCurrentFillRange());
 
     public static void UpdatePreviewRotation()
     {
-        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer)
-        {
-            preview.GetComponent<PreviewController>().UpdateRotation();
-        }
+        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) preview.GetComponent<PreviewController>().UpdateRotation();
     }
 
     public static void UpdatePreviewSprite()
     {
-        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer)
-        {
-            preview.GetComponent<PreviewController>().UpdateSprite();
-        }
+        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) preview.GetComponent<PreviewController>().UpdateSprite();
     }
 
     private static void SetPreviewVisible()
@@ -229,29 +219,25 @@ public class SelectionManager : MonoBehaviour
         ReferenceManager.Instance.FillPreviewContainer.gameObject.SetActive(true);
     }
 
-    private static void SetPreviewInvisible() =>
-        ReferenceManager.Instance.FillPreviewContainer.gameObject.SetActive(false);
+    private static void SetPreviewInvisible() => ReferenceManager.Instance.FillPreviewContainer.gameObject.SetActive(false);
 
     #endregion
 
     #region Fill
 
-    public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2, FollowMouse.WorldPositionType worldPositionType)
+    public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2)
     {
-        bool inMatrix = worldPositionType == FollowMouse.WorldPositionType.Matrix;
+        bool inMatrix = EditModeManager.Instance.CurrentEditMode.GetWorldPositionType() is WorldPositionType.Matrix;
 
         // find bounds
-        var (lowestX, highestX, lowestY, highestY) = inMatrix ? GetBoundsMatrix(p1, p2) : GetBounds(p1, p2);
+        (Vector2 lowest, Vector2 highest) = inMatrix ? GetBoundsMatrix(p1, p2) : GetBounds(p1, p2);
 
         // collect every pos in range
         float increment = inMatrix ? 1 : 0.5f;
         List<Vector2> res = new();
-        for (float x = lowestX; x <= highestX; x += increment)
+        for (float x = lowest.x; x <= highest.x; x += increment)
         {
-            for (float y = lowestY; y <= highestY; y += increment)
-            {
-                res.Add(new(x, y));
-            }
+            for (float y = lowest.y; y <= highest.y; y += increment) res.Add(new(x, y));
         }
 
         return res;
@@ -260,8 +246,8 @@ public class SelectionManager : MonoBehaviour
     public static List<Vector2> GetCurrentFillRange()
     {
         if (SelectionStart == null || SelectionEnd == null) return null;
-        return GetFillRange((Vector2)SelectionStart, (Vector2)SelectionEnd,
-            EditModeManager.Instance.CurrentEditMode.GetWorldPosition());
+        // print((SelectionStart, SelectionEnd));
+        return GetFillRange((Vector2)SelectionStart, (Vector2)SelectionEnd);
     }
 
     public void FillSelectedArea()
@@ -274,41 +260,32 @@ public class SelectionManager : MonoBehaviour
         selectionOptions.SetActive(false);
     }
 
-    public void FillArea(List<Vector2> poses, FieldType type)
+    public void FillAreaWithFields(List<Vector2> poses, FieldType type)
     {
-        if (CurrentSelectionRange == null) return;
-        CurrentSelectionRange = null;
-
         // set rotation
         int rotation = type.IsRotatable()
             ? EditModeManager.Instance.EditRotation
             : 0;
 
         // find bounds
-        (int lowestX, int highestX, int lowestY, int highestY) = GetBoundsMatrix(poses);
-
-        Vector2 lowestPos = new(lowestX, lowestY);
-        Vector2 highestPos = new(highestX, highestY);
+        (Vector2Int lowest, Vector2Int highest) = GetBoundsMatrix(poses);
 
         // check if its 1 wide
-        if (lowestX == highestX || lowestY == highestY)
+        if (lowest.x == highest.x || lowest.y == highest.y)
         {
-            foreach (Vector2 pos in poses)
-            {
-                FieldManager.Instance.SetField((int)pos.x, (int)pos.y, type, rotation);
-            }
+            foreach (Vector2 pos in poses) FieldManager.Instance.SetField(pos.ConvertToMatrix(), type, rotation);
 
             return;
         }
 
-        AdaptAreaToType(lowestPos, highestPos, type);
+        AdaptAreaToFieldType(lowest, highest, type);
 
         // REF
         // get prefab
         GameObject prefab = type.GetPrefab();
 
         // search if tag is in tags
-        string[] tags = { "StartField", "GoalField", "CheckpointField" };
+        string[] tags = { "StartField", "GoalField", "CheckpointField", };
 
         foreach (string tag in tags)
         {
@@ -319,8 +296,10 @@ public class SelectionManager : MonoBehaviour
         foreach (Vector2 pos in poses)
         {
             // set field at pos
-            GameObject field = Instantiate(prefab, pos, Quaternion.Euler(0, 0, rotation),
-                ReferenceManager.Instance.FieldContainer);
+            GameObject field = Instantiate(
+                prefab, pos, Quaternion.Euler(0, 0, rotation),
+                ReferenceManager.Instance.FieldContainer
+            );
 
             FieldManager.ApplyStartGoalCheckpointFieldColor(field, null);
 
@@ -332,42 +311,35 @@ public class SelectionManager : MonoBehaviour
         {
             GameObject player = PlayerManager.GetPlayer();
 
-            if (player != null && player.transform.position.Between(lowestPos, highestPos))
-                Destroy(player);
+            if (player != null && player.transform.position.IsBetween(lowest.ToVector2(), highest.ToVector2())) Destroy(player);
         }
 
-        UpdateOutlinesInArea(type.GetPrefab().GetComponent<FieldOutline>() != null, new(lowestX, lowestY),
-            new(highestX, highestY));
+        UpdateOutlinesInArea(type.GetPrefab().GetComponent<FieldOutline>() != null, lowest, highest);
     }
 
     public void FillArea(List<Vector2> poses, EditMode editMode)
     {
         if (poses.Count == 0) return;
 
-        FieldType? fieldType = (FieldType?)EnumUtils.TryConvertEnum<EditMode, FieldType>(editMode);
-        if (fieldType != null)
+        if (editMode.IsFieldType())
         {
-            FillArea(poses, (FieldType)fieldType);
+            FillAreaWithFields(poses, (FieldType)EnumUtils.TryConvertEnum<EditMode, FieldType>(editMode));
             return;
         }
 
         DeleteArea(poses);
 
-        foreach (Vector2 pos in poses)
-        {
-            GameManager.PlaceEditModeAtPosition(editMode, pos);
-        }
+        foreach (Vector2 pos in poses) GameManager.PlaceEditModeAtPosition(editMode, pos);
 
         UpdateOutlinesInArea(false, poses[0].Floor(), poses.Last().Ceil());
     }
 
-    public void FillArea(Vector2 start, Vector2 end, FieldType type) =>
-        Instance.FillArea(GetFillRange(start, end, FollowMouse.WorldPositionType.Matrix), type);
+    public void FillArea(Vector2 start, Vector2 end, EditMode editMode) => FillArea(GetFillRange(start, end), editMode);
 
-    private void AdaptAreaToType(Vector2 lowestPos, Vector2 highestPos, FieldType type)
+    private void AdaptAreaToFieldType(Vector2 lowestPos, Vector2 highestPos, FieldType type)
     {
         // clear fields in area
-        int fieldLayer = (int)Mathf.Pow(2, LayerMask.NameToLayer("Field"));
+        int fieldLayer = LayerManager.Instance.Layers.Field;
         int fieldCount = ReferenceManager.Instance.FieldContainer.childCount;
         Collider2D[] fieldHits = new Collider2D[fieldCount];
         _ = Physics2D.OverlapAreaNonAlloc(lowestPos, highestPos, fieldHits, fieldLayer);
@@ -379,14 +351,14 @@ public class SelectionManager : MonoBehaviour
             Destroy(fieldHit.gameObject);
         }
 
-        int entityLayer = (int)Mathf.Pow(2, LayerMask.NameToLayer("Entity"));
+        // clear coins + keys
+        int entityLayer = LayerManager.Instance.Layers.Entity;
 
         bool clearCoins = CoinManager.CannotPlaceFields.Contains(type);
         bool clearKeys = KeyManager.CannotPlaceFields.Contains(type);
 
         if (!clearCoins && !clearKeys) return;
 
-        // clear coins + keys
         Collider2D[] entityHits = Physics2D.OverlapAreaAll(lowestPos, highestPos, entityLayer);
 
         foreach (Collider2D hit in entityHits)
@@ -424,6 +396,12 @@ public class SelectionManager : MonoBehaviour
         // DESTROY IT MUHAHAHAHAHAHHAHAHAHAHAHAHAHAHA
         foreach (Collider2D collider in hits)
         {
+            if (collider.CompareTag("AnchorObject"))
+            {
+                collider.GetComponent<AnchorController>().Delete();
+                continue;
+            }
+
             Destroy(collider.gameObject);
             DestroyImmediate(collider);
         }
@@ -503,41 +481,39 @@ public class SelectionManager : MonoBehaviour
         float w = width > 0 ? width + 1 : width - 1;
         float h = height > 0 ? height + 1 : height - 1;
 
-        List<Vector2> lineVertices = new(new Vector2[]
-        {
-            new(x, y),
-            new(x + w, y),
-            new(x + w, y + h),
-            new(x, y + h),
-            new(x, y)
-        });
+        List<Vector2> lineVertices = new(
+            new Vector2[]
+            {
+                new(x, y),
+                new(x + w, y),
+                new(x + w, y + h),
+                new(x, y + h),
+                new(x, y),
+            }
+        );
 
         selectionOutlineAnim.AnimateAllPoints(lineVertices, .1f, Ease.OutSine);
     }
 
     #endregion
 
-    private static void UpdateOutlinesInArea(bool hasOutline, Vector2 lowestPos, Vector2 highestPos)
+    private static void UpdateOutlinesInArea(bool hasOutline, Vector2 lowest, Vector2 highest)
     {
-        int highestX = (int)highestPos.x;
-        int highestY = (int)highestPos.y;
-        int lowestX = (int)lowestPos.x;
-        int lowestY = (int)lowestPos.y;
-        int width = highestX - lowestX;
-        int height = highestY - lowestY;
+        int width = (int)highest.x - (int)lowest.x;
+        int height = (int)highest.y - (int)lowest.y;
 
         // update outlines
         if (hasOutline)
         {
             // update lowest and highest field separately cause ray casting
-            GameObject lowestField = FieldManager.GetField(lowestPos);
+            GameObject lowestField = FieldManager.GetField(Vector2Int.RoundToInt(lowest));
             if (lowestField.TryGetComponent(out FieldOutline foComp))
             {
                 foComp.UpdateOutline(Vector2.left, true);
                 foComp.UpdateOutline(Vector2.down, true);
             }
 
-            GameObject highestField = FieldManager.GetField(highestPos);
+            GameObject highestField = FieldManager.GetField(Vector2Int.RoundToInt(highest));
             if (highestField.TryGetComponent(out foComp))
             {
                 foComp.UpdateOutline(Vector2.right, true);
@@ -548,38 +524,34 @@ public class SelectionManager : MonoBehaviour
             RaycastHit2D[] hits = new RaycastHit2D[width];
 
             // bottom Fields
-            _ = Physics2D.RaycastNonAlloc(lowestPos, Vector2.right, hits, width);
+            _ = Physics2D.RaycastNonAlloc(lowest, Vector2.right, hits, width);
             foreach (RaycastHit2D hit in hits)
             {
-                if (hit.transform.TryGetComponent(out foComp))
-                    foComp.UpdateOutline(Vector2.down, true);
+                if (hit.transform.TryGetComponent(out foComp)) foComp.UpdateOutline(Vector2.down, true);
             }
 
             // top Fields
-            _ = Physics2D.RaycastNonAlloc(highestPos, Vector2.left, hits, width);
+            _ = Physics2D.RaycastNonAlloc(highest, Vector2.left, hits, width);
             foreach (RaycastHit2D hit in hits)
             {
-                if (hit.transform.TryGetComponent(out foComp))
-                    foComp.UpdateOutline(Vector2.up, true);
+                if (hit.transform.TryGetComponent(out foComp)) foComp.UpdateOutline(Vector2.up, true);
             }
 
             // // vertical
             hits = new RaycastHit2D[height];
 
             // left Fields
-            _ = Physics2D.RaycastNonAlloc(lowestPos, Vector2.up, hits, height);
+            _ = Physics2D.RaycastNonAlloc(lowest, Vector2.up, hits, height);
             foreach (RaycastHit2D hit in hits)
             {
-                if (hit.transform.TryGetComponent(out foComp))
-                    foComp.UpdateOutline(Vector2.left, true);
+                if (hit.transform.TryGetComponent(out foComp)) foComp.UpdateOutline(Vector2.left, true);
             }
 
             // right Fields
-            _ = Physics2D.RaycastNonAlloc(highestPos, Vector2.down, hits, height);
+            _ = Physics2D.RaycastNonAlloc(highest, Vector2.down, hits, height);
             foreach (RaycastHit2D hit in hits)
             {
-                if (hit.transform.TryGetComponent(out foComp))
-                    foComp.UpdateOutline(Vector2.right, true);
+                if (hit.transform.TryGetComponent(out foComp)) foComp.UpdateOutline(Vector2.right, true);
             }
 
             return;
@@ -588,10 +560,10 @@ public class SelectionManager : MonoBehaviour
         // update fields around fill area
         (Vector2, Vector2, int)[] rays =
         {
-            (new(lowestX - 1, lowestY - 1), Vector2.right, width + 2),
-            (new(lowestX - 1, lowestY - 1), Vector2.up, height + 2),
-            (new(highestX + 1, highestY + 1), Vector2.left, width + 2),
-            (new(highestX + 1, highestY + 1), Vector2.down, height + 2)
+            (new(lowest.x - 1, lowest.y - 1), Vector2.right, width + 2),
+            (new(lowest.x - 1, lowest.y - 1), Vector2.up, height + 2),
+            (new(highest.x + 1, highest.y + 1), Vector2.left, width + 2),
+            (new(highest.x + 1, highest.y + 1), Vector2.down, height + 2),
         };
 
         foreach ((Vector2 origin, Vector2 direction, int length) in rays)

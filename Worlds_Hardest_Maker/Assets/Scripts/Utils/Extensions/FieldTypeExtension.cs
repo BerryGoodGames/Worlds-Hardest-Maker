@@ -1,18 +1,23 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class FieldTypeExtension
 {
     public static bool IsRotatable(this FieldType fieldType)
     {
-        List<FieldType> rotatableFields = new(new[]
-        {
-            FieldType.OneWayField,
-            FieldType.Conveyor
-        });
+        List<FieldType> rotatableFields = new(
+            new[]
+            {
+                FieldType.OneWayField,
+                FieldType.Conveyor,
+            }
+        );
 
         return rotatableFields.Contains(fieldType);
     }
+
+    public static bool IsSolid(this FieldType fieldType) => FieldManager.SolidFields.Contains(fieldType);
 
     public static GameObject GetPrefab(this FieldType type) =>
         // return prefab according to type
@@ -31,7 +36,7 @@ public static class FieldTypeExtension
             PrefabManager.Instance.RedKeyDoorField,
             PrefabManager.Instance.GreenKeyDoorField,
             PrefabManager.Instance.BlueKeyDoorField,
-            PrefabManager.Instance.YellowKeyDoorField
+            PrefabManager.Instance.YellowKeyDoorField,
         }[(int)type];
 
     public static FieldType GetFieldType(this string tag)
@@ -51,15 +56,15 @@ public static class FieldTypeExtension
             "RedKeyDoorField",
             "GreenKeyDoorField",
             "BlueKeyDoorField",
-            "YellowKeyDoorField"
+            "YellowKeyDoorField",
         };
+
         return (FieldType)tags.IndexOf(tag);
     }
 
     public static bool IsField(this GameObject field) => field.tag.GetFieldType() != (FieldType)(-1);
 
-    public static bool IsSolidField(this GameObject field) =>
-        field.IsField() && FieldManager.SolidFields.Contains(field.tag.GetFieldType());
+    public static bool IsSolidField(this GameObject field) => field.IsField() && field.tag.GetFieldType().IsSolid();
 
-    public static bool IsSolidFieldTag(this string tag) => FieldManager.SolidFields.Contains(tag.GetFieldType());
+    public static bool IsSolidFieldTag(this string tag) => tag.GetFieldType().IsSolid();
 }

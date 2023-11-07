@@ -3,7 +3,6 @@ using Discord;
 using MyBox;
 using UnityEngine;
 
-[ExecuteAlways]
 public class DiscordManager : MonoBehaviour
 {
     public static DiscordManager Instance { get; private set; }
@@ -31,7 +30,6 @@ public class DiscordManager : MonoBehaviour
 
     private long time;
 
-    private static bool instanceExists;
     private Discord.Discord discord;
 
     private ActivityManager activityManager;
@@ -41,17 +39,13 @@ public class DiscordManager : MonoBehaviour
     {
         // init singleton
         if (Instance == null) Instance = this;
-        else if (Application.isPlaying) DestroyImmediate(this);
-
-        if (!Application.isPlaying) return;
-
-        // Transition the GameObject between scenes, destroy any duplicates
-        if (!instanceExists & Application.isPlaying)
+        else if (Application.isPlaying)
         {
-            instanceExists = true;
-            DontDestroyOnLoad(gameObject);
+            if (Instance == this) DontDestroyOnLoad(gameObject);
+            else DestroyImmediate(this);
         }
-        else if (FindObjectsOfType(GetType()).Length > 1) Destroy(gameObject);
+
+        if (!Application.isPlaying && FindObjectsOfType(GetType()).Length > 1) Destroy(gameObject);
     }
 
     private void Start() => Setup();
@@ -59,10 +53,7 @@ public class DiscordManager : MonoBehaviour
     private void Update()
     {
         // Destroy the GameObject if Discord isn't running
-        try
-        {
-            discord.RunCallbacks();
-        }
+        try { discord.RunCallbacks(); }
         catch
         {
             if (Application.isPlaying) Destroy(gameObject);
@@ -97,51 +88,54 @@ public class DiscordManager : MonoBehaviour
                 Assets =
                 {
                     LargeImage = largeImage,
-                    LargeText = largeText
+                    LargeText = largeText,
                 },
                 Timestamps =
                 {
-                    Start = time
-                }
+                    Start = time,
+                },
             };
 
-            activityManager.UpdateActivity(activity, res =>
-            {
-                if (res != Result.Ok) Debug.LogWarning("Failed connecting to Discord!");
-            });
+            activityManager.UpdateActivity(
+                activity, res =>
+                {
+                    if (res != Result.Ok) Debug.LogWarning("Failed connecting to Discord!");
+                }
+            );
         }
         catch
         {
             // If updating the status fails, Destroy the GameObject (or warning)
-            if (Application.isPlaying)
-                Destroy(gameObject);
+            if (Application.isPlaying) Destroy(gameObject);
             else if (printWarnings) Debug.LogWarning("Updating status failed!");
         }
     }
 
     public void ClearActivity() =>
-        activityManager.ClearActivity(res =>
-        {
-            if (res != Result.Ok)
-                Debug.LogError("Failed to clear activity!");
-            else
-                CurrentActivity = new Activity();
-        });
+        activityManager.ClearActivity(
+            res =>
+            {
+                if (res != Result.Ok) Debug.LogError("Failed to clear activity!");
+                else CurrentActivity = new Activity();
+            }
+        );
 
     public void SetActivity(string details = "", string state = "")
     {
-        CurrentActivity = new Activity { Details = details, State = state };
-        activityManager.UpdateActivity(CurrentActivity, res =>
-        {
-            if (res != Result.Ok) Debug.LogError("Discord status failed!");
-        });
+        CurrentActivity = new Activity { Details = details, State = state, };
+        activityManager.UpdateActivity(
+            CurrentActivity, res =>
+            {
+                if (res != Result.Ok) Debug.LogError("Discord status failed!");
+            }
+        );
     }
 
     [ButtonMethod]
     public void Setup()
     {
         // Log in with the Application ID
-        discord = new Discord.Discord(applicationID, (ulong)CreateFlags.NoRequireDiscord);
+        discord = new(applicationID, (ulong)CreateFlags.NoRequireDiscord);
 
         time = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
@@ -151,4 +145,6 @@ public class DiscordManager : MonoBehaviour
 
         UpdateStatus();
     }
+
+    private void OnDestroy() => ClearActivity();
 }

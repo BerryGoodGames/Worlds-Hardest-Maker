@@ -299,6 +299,10 @@ PrefabInstance:
       propertyPath: Text
       value: Cannot loop if blocks\nbelow are instant
       objectReference: {fileID: 0}
+    - target: {fileID: 5772829781846135297, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
+      propertyPath: text
+      value: Cannot loop if blocks\nbelow are instant
+      objectReference: {fileID: 0}
     - target: {fileID: 6064901676226244029, guid: c93df7803d003ab49b317d10afa7f970, type: 3}
       propertyPath: anchorBlockPrefab
       value: 
@@ -367,7 +371,6 @@ MonoBehaviour:
   IsSource: 0
   lockIconContainer: {fileID: 4626706179512977860}
   warningIconContainer: {fileID: 6737245180739238675}
-  AnchorBlockDragDropComp: {fileID: 0}
   MouseOverUI: {fileID: 0}
 --- !u!114 &9211350119458854227 stripped
 MonoBehaviour:

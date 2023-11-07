@@ -18,13 +18,21 @@ public class ReferenceManager : MonoBehaviour
     [Foldout("Objects")] public GameObject TooltipCanvas;
 
     [Foldout("Objects")] public GameObject Menu;
+    [Foldout("Objects")] public AlphaTween MenuTween;
     [Foldout("Objects")] public GameObject PlayButton;
+
+    [Foldout("Objects")] public AlphaTween KeybindBlocker;
+    [Foldout("Objects")] public TMP_Text KeybindBlockerText;
 
     [Foldout("Objects")] public PreviewController PlacementPreview;
 
     [Foldout("Objects")] public BarTween ToolbarTween;
     [Foldout("Objects")] public BarTween InfobarEditTween;
+    [Foldout("Objects")] public BarTween InfobarPlayTween;
     [Foldout("Objects")] public BarTween PlayButtonTween;
+
+    [Foldout("Objects")] public TimerController TimerController;
+
 
     [Foldout("Objects")] public PanelController LevelSettingsPanelController;
     [Foldout("Objects")] public PanelController AnchorPanelController;
@@ -47,11 +55,13 @@ public class ReferenceManager : MonoBehaviour
 
     [Foldout("Containers")] public Transform FillPreviewContainer;
 
+    [Foldout("Containers")] public Transform EntityContainer;
+
     [Foldout("Containers")] public Transform PlayerContainer;
 
-    [Foldout("Containers")] public Transform BallDefaultContainer;
+    [Foldout("Containers")] public Transform AnchorContainer;
 
-    [Foldout("Containers")] public Transform BallCircleContainer;
+    [Foldout("Containers")] public AnchorBallFade AnchorBallContainer;
 
     [Foldout("Containers")] public Transform CoinContainer;
 
@@ -67,8 +77,6 @@ public class ReferenceManager : MonoBehaviour
 
     [Foldout("Anchor")] public PanelTween AnchorEditorPanelTween;
 
-    [Foldout("Anchor")] public Transform AnchorContainer;
-
     [Foldout("Anchor")] public RectTransform AnchorBlockContainer;
 
     [Foldout("Anchor")] public RectTransform AnchorBlockChainContainer;
@@ -79,7 +87,7 @@ public class ReferenceManager : MonoBehaviour
 
     [Foldout("Anchor")] public ChainController MainChainController;
 
-    [Foldout("Anchor")] public AnchorBlockFitter AnchorBlockFitter;
+    [Foldout("Anchor")] public CustomFitter CustomFitter;
 
     [Foldout("Anchor")] public AnchorBlockConnectorController AnchorBlockConnectorController;
 
@@ -102,6 +110,7 @@ public class ReferenceManager : MonoBehaviour
     #endregion
 
     #region SettingInputs
+
     [Foldout("SettingInputs")] public TMP_Dropdown QualityDropdown;
     [Foldout("SettingInputs")] public TMP_Dropdown ResolutionDropdown;
     [Foldout("SettingInputs")] public Toggle FullscreenToggle;
@@ -110,6 +119,7 @@ public class ReferenceManager : MonoBehaviour
     [Foldout("SettingInputs")] public SyncInputToSlider InfobarSizeSlider;
     [Foldout("SettingInputs")] public SyncInputToSlider MusicSlider;
     [Foldout("SettingInputs")] public SyncInputToSlider SoundEffectSlider;
+
     #endregion
 
     private void Awake()

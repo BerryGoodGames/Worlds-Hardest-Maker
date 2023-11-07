@@ -39,10 +39,6 @@ public class MouseManager : MonoBehaviour
 
     #region Static methods
 
-    public static Vector2 PosToGrid(Vector2 pos) => new(Mathf.Round(pos.x * 2) * 0.5f, Mathf.Round(pos.y * 2) * 0.5f);
-
-    public static Vector2 PosToMatrix(Vector2 pos) => new(Mathf.Round(pos.x), Mathf.Round(pos.y));
-
     private static Vector2 GetMouseWorldPos()
     {
         Vector2 mousePos = Input.mousePosition;
@@ -57,7 +53,7 @@ public class MouseManager : MonoBehaviour
     /// </summary>
     /// <param name="worldPositionType">The world position mode, you want the output to be in (-> any, grid, matrix)</param>
     /// <exception cref="Exception"></exception>
-    public static (Vector2, Vector2) GetDragPositions(FollowMouse.WorldPositionType worldPositionType)
+    public static (Vector2, Vector2) GetDragPositions(WorldPositionType worldPositionType)
     {
         if (Instance.MouseDragStart == null || Instance.MouseDragCurrent == null)
             throw new Exception("Trying to access drag start and end positions when neither recorded");
@@ -65,7 +61,7 @@ public class MouseManager : MonoBehaviour
         Vector2 start = (Vector2)Instance.MouseDragStart;
         Vector2 end = (Vector2)Instance.MouseDragCurrent;
 
-        return (start.ConvertPosition(worldPositionType), end.ConvertPosition(worldPositionType));
+        return (start.ConvertToGrid(), end.ConvertToGrid());
     }
 
     #endregion
@@ -80,12 +76,9 @@ public class MouseManager : MonoBehaviour
         MouseWorldPosMatrix = new(Mathf.Round(MouseWorldPos.x), Mathf.Round(MouseWorldPos.y));
 
         // update drag variables
-        if (Input.GetMouseButtonDown(KeybindManager.Instance.SelectionMouseButton))
-            Instance.MouseDragStart = Instance.MouseWorldPos;
-        if (Input.GetMouseButton(KeybindManager.Instance.SelectionMouseButton))
-            Instance.MouseDragCurrent = Instance.MouseWorldPos;
-        if (Input.GetMouseButtonUp(KeybindManager.Instance.SelectionMouseButton))
-            Instance.MouseDragEnd = Instance.MouseWorldPos;
+        if (KeyBinds.GetKeyBindDown("Editor_Select")) Instance.MouseDragStart = Instance.MouseWorldPos;
+        if (KeyBinds.GetKeyBind("Editor_Select")) Instance.MouseDragCurrent = Instance.MouseWorldPos;
+        if (KeyBinds.GetKeyBindUp("Editor_Select")) Instance.MouseDragEnd = Instance.MouseWorldPos;
 
         // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
         Camera cam = Camera.main;

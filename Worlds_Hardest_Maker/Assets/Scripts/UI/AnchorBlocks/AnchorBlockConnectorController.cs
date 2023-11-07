@@ -20,6 +20,7 @@ public class AnchorBlockConnectorController : MonoBehaviour
     {
         AnchorBlockManager.Instance.HoveredBlockIndex =
             ReferenceManager.Instance.MainChainController.transform.childCount - 2;
+
         ReferenceManager.Instance.AnchorBlockPreview.Activate();
     }
 
@@ -47,6 +48,7 @@ public class AnchorBlockConnectorController : MonoBehaviour
 
         RectTransform anchorConnectorRt =
             (RectTransform)ReferenceManager.Instance.AnchorBlockConnectorController.transform;
+
         anchorConnectorRt.localPosition = new(anchorConnectorRt.localPosition.x, anchorY);
     }
 
