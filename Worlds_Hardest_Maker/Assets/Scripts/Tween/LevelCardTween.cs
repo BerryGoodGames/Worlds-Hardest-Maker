@@ -1,4 +1,3 @@
-using System.Collections;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
@@ -40,7 +39,7 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (checkHoverDetection) OnHover();
     }
-    
+
     public void OnPointerExit(PointerEventData eventData)
     {
         if (checkHoverDetection) OnUnhover();
@@ -56,12 +55,8 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void Expand()
     {
-
         levelCard.DOSizeDelta(new(levelCard.rect.width, expandHeight), expandDuration)
-            .onUpdate += () =>
-        {
-            LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate();
-        };
+            .onUpdate += () => { LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate(); };
 
         float deltaHeight = expandHeight - collapsedHeight;
         float deltaY = deltaHeight * (hoverScale - 1) / 2;
@@ -74,16 +69,13 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public void Collapse()
     {
         levelCard.DOSizeDelta(new(levelCard.rect.width, collapsedHeight), expandDuration)
-            .onUpdate += () =>
-        {
-            LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate();
-        };
-        
+            .onUpdate += () => { LevelListLoader.Instance.LevelCardContentSizeFitter.Recalculate(); };
+
         float deltaHeight = expandHeight - collapsedHeight;
         float deltaY = deltaHeight * (hoverScale - 1) / 2;
 
         card.DOAnchorPosY(deltaY, expandDuration).SetRelative(true);
-        
+
         IsExpanded = false;
     }
 

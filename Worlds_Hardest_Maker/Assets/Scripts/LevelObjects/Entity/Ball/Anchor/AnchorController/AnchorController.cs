@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core;
@@ -54,12 +53,12 @@ public partial class AnchorController : EntityController
     {
         // update when moved by user
         entityDragDrop.OnMove += (_, _) => MoveAnchor();
-        
+
         SpeedInput = 7;
         RotationInput = 360;
         Ease = Ease.Linear;
 
-        if(LevelSessionManager.Instance.IsEdit) UpdateStartValues();
+        if (LevelSessionManager.Instance.IsEdit) UpdateStartValues();
     }
 
     public void AppendBlock(AnchorBlock block) => Blocks.AddLast(block);
@@ -160,7 +159,7 @@ public partial class AnchorController : EntityController
     private void UpdateStartValues()
     {
         Transform t = transform;
-        
+
         StartPosition = t.position;
         startRotation = t.rotation;
         LoopBlockNode = null;

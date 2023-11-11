@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -14,9 +13,6 @@ public class SpeedSliderTween : MonoBehaviour
     [Space] [SerializeField] private float duration;
     [Range(0, 1)] [SerializeField] private float alphaVisible = 1;
     [Range(0, 1)] [SerializeField] private float alphaInvisible;
-
-    public Action OnSetVisible;
-    public Action OnIsInvisible;
 
     private bool isVisible = true;
 

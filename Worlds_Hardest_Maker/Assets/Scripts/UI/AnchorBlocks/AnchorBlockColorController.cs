@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using MyBox;
 using UnityEditor;
 using UnityEngine;
@@ -23,7 +24,7 @@ public abstract class AnchorBlockColorController : MonoBehaviour
 
     protected static Color KeepA(Color @new, Color assign) => new(@new.r, @new.g, @new.b, assign.a);
 
-    [ButtonMethod]
+    [ButtonMethod] [UsedImplicitly]
     private void UpdateColorButton()
     {
         UpdateColor();

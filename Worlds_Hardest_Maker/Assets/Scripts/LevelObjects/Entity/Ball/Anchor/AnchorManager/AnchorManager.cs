@@ -48,7 +48,7 @@ public partial class AnchorManager : MonoBehaviour
 
         selectedAnchor.RenderLines();
     }
-    
+
     public void ResetStates()
     {
         // reset anchors
@@ -64,7 +64,7 @@ public partial class AnchorManager : MonoBehaviour
                 EditModeManager.Instance.CurrentEditMode.IsAnchorRelated()) anchor.SetLinesActive(true);
         }
     }
-    
+
     public void StartExecuting()
     {
         UpdateBlockListInSelectedAnchor();

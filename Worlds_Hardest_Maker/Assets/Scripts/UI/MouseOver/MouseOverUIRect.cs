@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ public class MouseOverUIRect : MonoBehaviour
 {
     public bool Over { get; private set; }
 
-    [Space] [ReadOnly] [SerializeField] private bool over;
+    [Space] [ReadOnly] [SerializeField] [UsedImplicitly] private bool over;
 
     [Space] [SerializeField] private bool printDbg;
 
@@ -20,8 +21,8 @@ public class MouseOverUIRect : MonoBehaviour
     private float width;
     private float height;
 
-    public Action OnHovered = () => { };
-    public Action OnUnhovered = () => { };
+    public event Action OnHovered = () => { };
+    public event Action OnUnhovered = () => { };
 
     private void Start() => rt = GetComponent<RectTransform>();
 

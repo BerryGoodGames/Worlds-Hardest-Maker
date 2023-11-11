@@ -1,19 +1,17 @@
 using System.Collections;
-using MyBox;
 using UnityEngine;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public class AnchorBlockConnectorController : MonoBehaviour
 {
-    [SerializeField] [PositiveValueOnly] private float detectionHeight;
     [HideInInspector] public MouseOverUIRect MouseOverUIRect;
 
     private void Start()
     {
         MouseOverUIRect = GetComponent<MouseOverUIRect>();
 
-        MouseOverUIRect.OnHovered = () => AnchorBlockManager.Instance.ExecuteConnectorOnHover = true;
-        MouseOverUIRect.OnUnhovered = () => AnchorBlockManager.Instance.ExecuteConnectorOnUnhover = true;
+        MouseOverUIRect.OnHovered += () => AnchorBlockManager.Instance.ExecuteConnectorOnHover = true;
+        MouseOverUIRect.OnUnhovered += () => AnchorBlockManager.Instance.ExecuteConnectorOnUnhover = true;
     }
 
     public void OnHover()

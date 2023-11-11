@@ -25,9 +25,9 @@ public class GraphicsSettings : MonoBehaviour
     public void SetQuality(int index, bool updateDropdown)
     {
         QualitySettings.SetQualityLevel(index);
-        
+
         print("s");
-        
+
         Instance.QualityLevel = index;
 
         if (!updateDropdown) return;

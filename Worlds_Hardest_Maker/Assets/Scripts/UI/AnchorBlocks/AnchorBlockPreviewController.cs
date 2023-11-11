@@ -80,7 +80,7 @@ public class AnchorBlockPreviewController : MonoBehaviour
     private void Awake()
     {
         MouseOverUIRect = GetComponent<MouseOverUIRect>();
-        MouseOverUIRect.OnUnhovered = () => AnchorBlockManager.Instance.ExecutePreviewOnUnhover = true;
+        MouseOverUIRect.OnUnhovered += () => AnchorBlockManager.Instance.ExecutePreviewOnUnhover = true;
 
         Periblocker.Init();
 

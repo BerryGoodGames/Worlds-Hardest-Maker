@@ -99,11 +99,11 @@ public class LevelSettings : MonoBehaviour
         if (syncPlayers) SyncPlayersToSettings();
     }
 
-    public void SetReusableCheckpoints(bool syncPlayers = true)
+    public void SetReusableCheckpoints()
     {
         Instance.ReusableCheckpoints = reusableCheckpointCheckbox.isOn;
         reusableCheckpointCheckbox.isOn = reusableCheckpointCheckbox.isOn;
-        if (syncPlayers) SyncPlayersToSettings();
+        SyncPlayersToSettings();
     }
 
     #endregion

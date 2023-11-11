@@ -13,7 +13,6 @@ public class KeyCodeDisplay : MonoBehaviour
 
     #region Key Code Sprites
 
-    [Foldout("Key Code Spites")] [SerializeField] private Sprite keyBlank;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite key0;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite key1;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite key2;
@@ -43,7 +42,6 @@ public class KeyCodeDisplay : MonoBehaviour
     [Foldout("Key Code Spites")] [SerializeField] private Sprite keyDel;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite keyE;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite keyEnd;
-    [Foldout("Key Code Spites")] [SerializeField] private Sprite keyEnter;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite keyEnterTall;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite keyEsc;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite keyF1;
@@ -206,7 +204,7 @@ public class KeyCodeDisplay : MonoBehaviour
             { KeyCode.X, keyX },
             { KeyCode.Y, keyY },
             { KeyCode.Z, keyZ },
-            
+
             #endregion
         };
     }
@@ -216,7 +214,7 @@ public class KeyCodeDisplay : MonoBehaviour
         if (keyCodes.Length <= 0) throw new("There has to be at least one key code");
 
         // destroy the children MUGUHUAHAHAHAGAAGAGGAGAAGAGAGAGGAGAGAGAHAHAHAHAHAHAHHASJHHAHASHYHHAHHAJHHAHAHA
-        foreach (Transform child in keyCodeImageContainer) { Destroy(child.gameObject); }
+        foreach (Transform child in keyCodeImageContainer) Destroy(child.gameObject);
 
         // create first image
         CreateKeyCodeImage(keyCodes[0]);
@@ -233,7 +231,7 @@ public class KeyCodeDisplay : MonoBehaviour
         void CreateKeyCodeImage(KeyCode keyCode)
         {
             Image image = Instantiate(keyCodeImage, keyCodeImageContainer);
-            
+
             if (keyCodeToSprite.TryGetValue(keyCode, out Sprite sprite)) image.sprite = sprite;
             else Debug.LogWarning($"There is no sprite for the key code \"{keyCode}\"");
         }

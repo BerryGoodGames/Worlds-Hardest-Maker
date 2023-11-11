@@ -73,7 +73,8 @@ public class KeyEvents : MonoBehaviour
 
         // toggle menu
         if (!closingPanel && !MenuManager.Instance.BlockMenu &&
-            (Input.GetKeyDown(KeyCode.Escape) || KeyBinds.GetKeyBindDown("Editor_Menu"))) ReferenceManager.Instance.MenuTween.SetVisible(!ReferenceManager.Instance.MenuTween.IsVisible);
+            (Input.GetKeyDown(KeyCode.Escape) || KeyBinds.GetKeyBindDown("Editor_Menu")))
+            ReferenceManager.Instance.MenuTween.SetVisible(!ReferenceManager.Instance.MenuTween.IsVisible);
 
         // teleport player to mouse pos
         if (LevelSessionManager.Instance.IsEdit && EditModeManager.Instance.Playing && KeyBinds.GetKeyBindDown("Editor_TeleportPlayer"))
@@ -103,8 +104,7 @@ public class KeyEvents : MonoBehaviour
             if (KeyBinds.GetKeyBindDown("Editor_SaveLevel")) SaveSystem.SaveCurrentLevel();
 
             // paste
-            if (!CopyManager.Instance.Pasting && KeyBinds.GetKeyBind("Editor_Paste"))
-                StartCoroutine(CopyManager.Instance.PasteCoroutine());
+            if (!CopyManager.Instance.Pasting && KeyBinds.GetKeyBind("Editor_Paste")) StartCoroutine(CopyManager.Instance.PasteCoroutine());
         }
 
         // check edit mode toggling if no ctrl and not playing

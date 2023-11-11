@@ -9,8 +9,8 @@ public abstract partial class AnchorBlockController
     {
         MouseOverUI = GetComponent<MouseOverUIRect>();
 
-        MouseOverUI.OnHovered = () => AnchorBlockManager.Instance.ExecuteBlockOnHover = this;
-        MouseOverUI.OnUnhovered = () => AnchorBlockManager.Instance.ExecuteBlockOnUnhover = this;
+        MouseOverUI.OnHovered += () => AnchorBlockManager.Instance.ExecuteBlockOnHover = this;
+        MouseOverUI.OnUnhovered += () => AnchorBlockManager.Instance.ExecuteBlockOnUnhover = this;
     }
 
     public void OnHover()

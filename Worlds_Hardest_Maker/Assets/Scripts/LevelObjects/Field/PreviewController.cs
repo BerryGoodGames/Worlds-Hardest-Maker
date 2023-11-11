@@ -98,8 +98,9 @@ public class PreviewController : MonoBehaviour
 
         // check if preview of prefab not allowed during filling
         if (SelectionManager.Instance.Selecting)
-            if (SelectionManager.NoFillPreviewModes.Contains(mode))
-                return false;
+        {
+            if (SelectionManager.NoFillPreviewModes.Contains(mode)) return false;
+        }
 
         WorldPositionType positionMode = GetComponent<FollowMouse>().WorldPosition;
 

@@ -12,7 +12,7 @@ public class LevelHubManager : MonoBehaviour
     [InitializationField] [MustBeAssigned] public AlphaTween DeleteWarningBlockerTween;
 
     [InitializationField] [MustBeAssigned] public Transform TooltipContainer;
-    
+
     [InitializationField] [MustBeAssigned] public SmoothScrollRect LevelListScrollRect;
 
     [HideInInspector] public LevelCardController CurrentDeletingLevelCard;

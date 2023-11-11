@@ -105,12 +105,9 @@ public class PlayerController : EntityController
         SyncToLevelSettings();
     }
 
-    private void Update()
-    {
+    private void Update() =>
         // get movement input
         movementInput = KeyBinds.GetMovementInput();
-        
-    }
 
     private void OnCollisionStay2D(Collision2D collider) => CornerPush(collider);
 
@@ -453,7 +450,7 @@ public class PlayerController : EntityController
     private void Die()
     {
         // // general method when dying in any way
-        
+
         Rb.simulated = false;
         InDeathAnim = true;
 
@@ -466,7 +463,6 @@ public class PlayerController : EntityController
             if (!LevelSessionManager.Instance.IsEdit) LevelSessionManager.Instance.Deaths++;
         }
 
-        
 
         // update coin counter
         bool hasCheckpointActivated = CurrentGameState != null;
@@ -498,7 +494,7 @@ public class PlayerController : EntityController
         DestroySelf(false);
 
         if (MultiplayerManager.Instance.Multiplayer && !PhotonView.IsMine) return;
-        
+
         // reset timer if no checkpoint activated
         bool hasCheckpointActivated = CurrentGameState != null;
         if (!hasCheckpointActivated) ReferenceManager.Instance.TimerController.ResetTimer();

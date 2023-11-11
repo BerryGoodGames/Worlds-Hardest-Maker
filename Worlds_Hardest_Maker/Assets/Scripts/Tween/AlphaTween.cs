@@ -16,8 +16,8 @@ public class AlphaTween : MonoBehaviour
     [Range(0, 1)] [SerializeField] private float alphaVisible = 1;
     [Range(0, 1)] [SerializeField] private float alphaInvisible;
 
-    public Action OnSetVisible;
-    public Action OnIsInvisible;
+    public event Action OnSetVisible;
+    public event Action OnIsInvisible;
 
     public bool IsVisible { get; private set; }
 

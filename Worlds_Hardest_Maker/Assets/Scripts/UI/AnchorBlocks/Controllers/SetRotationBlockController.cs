@@ -13,13 +13,9 @@ public class SetRotationBlockController : AnchorBlockController
     };
 
     [Separator("Specifics")] [InitializationField] [AutoProperty] public TMP_InputField SpeedInput;
-
-    private TMPDecimalInputAdjuster inputAdjuster;
-
+    
     [InitializationField] public TMP_Dropdown UnitInput;
-
-    private void Awake() => inputAdjuster = GetComponentInChildren<TMPDecimalInputAdjuster>();
-
+    
     private SetRotationBlock.Unit GetUnit()
     {
         string selectedUnitString = UnitInput.options[UnitInput.value].text;

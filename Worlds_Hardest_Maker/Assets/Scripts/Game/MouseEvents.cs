@@ -27,7 +27,7 @@ public class MouseEvents : MonoBehaviour
             AnchorManager.Instance.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
             AnchorBallManager.SelectAnchorBall(MouseManager.Instance.MouseWorldPosGrid);
         }
-            
+
 
         // place / delete stuff
         if (!MouseManager.Instance.IsUIHovered && !EditModeManager.Instance.Playing &&

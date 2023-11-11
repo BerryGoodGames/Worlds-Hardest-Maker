@@ -179,7 +179,7 @@ public class KeyBindSetterController : MonoBehaviour
         {
             KeyCode[] keyCodes = new KeyCode[keyCodeName.Length];
 
-            for (int i = 0; i < keyCodeName.Length; i++) { keyCodes[i] = charToKeycode[keyCodeName[i]]; }
+            for (int i = 0; i < keyCodeName.Length; i++) keyCodes[i] = charToKeycode[keyCodeName[i]];
 
             AddKeyCode(keyCodes);
         }

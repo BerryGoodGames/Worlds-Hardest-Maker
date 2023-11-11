@@ -1,5 +1,5 @@
-using System;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
 public class PlayManager : MonoBehaviour
@@ -21,8 +21,6 @@ public class PlayManager : MonoBehaviour
                     : ReferenceManager.Instance.TimerController.TimerDefaultColor;
         }
     }
-
-    public Action OnGameQuit;
 
     #region Methods
 
@@ -49,7 +47,7 @@ public class PlayManager : MonoBehaviour
         ReferenceManager.Instance.PlacementPreview.gameObject.SetActive(false);
 
         PlayerManager.Instance.Setup();
-        
+
         AnchorManager.Instance.StartExecuting();
 
         CoinManager.Instance.ActivateAnimations();
@@ -69,7 +67,7 @@ public class PlayManager : MonoBehaviour
         PanelManager.Instance.WasAnchorPanelOpen = anchorPanel.Open;
         PanelManager.Instance.SetPanelHidden(anchorPanel, true);
     }
-    
+
 /*
     private static void JumpToPlayer()
     {
@@ -78,8 +76,6 @@ public class PlayManager : MonoBehaviour
         ReferenceManager.Instance.MainCameraJumper.Jump("Player", onlyIfTargetOffScreen: true);
     }
 */
-
-    
 
     #endregion
 
@@ -133,7 +129,7 @@ public class PlayManager : MonoBehaviour
         CoinManager.Instance.ResetStates();
 
         KeyManager.Instance.ResetStates();
-        
+
         AnchorManager.Instance.ResetStates();
 
         // reset checkpoints
@@ -164,12 +160,7 @@ public class PlayManager : MonoBehaviour
 
     #endregion
 
-    public static void QuitGame()
-    {
-        Instance.OnGameQuit?.Invoke();
-
-        Application.Quit();
-    }
+    public static void QuitGame() => Application.Quit();
 
     #endregion
 
@@ -177,7 +168,7 @@ public class PlayManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
     }
-
+    
     private void Start()
     {
         // setup play scene mode
@@ -185,14 +176,15 @@ public class PlayManager : MonoBehaviour
 
         return;
 
+        [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
         IEnumerator SetupPlayScene()
         {
             EditModeManager.Instance.Playing = true;
-            
+
             yield return new WaitForEndOfFrame();
-            
+
             ReferenceManager.Instance.InfobarPlayTween.SetPlay(true);
-            
+
             PlayerManager.Instance.Setup();
             AnchorManager.Instance.StartExecuting();
             CoinManager.Instance.ActivateAnimations();
@@ -206,13 +198,13 @@ public class PlayManager : MonoBehaviour
     {
         // reset game
         ResetLevel();
-        
+
         // start again
         PlayerManager.Instance.Setup();
         AnchorManager.Instance.StartExecuting();
         CoinManager.Instance.ActivateAnimations();
         KeyManager.Instance.ActivateAnimations();
-        
+
         // close menu
         ReferenceManager.Instance.MenuTween.SetVisible(false);
     }

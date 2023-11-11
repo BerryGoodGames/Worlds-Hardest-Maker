@@ -2,11 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Windows.Forms;
 using Photon.Pun;
 using SFB;
 using UnityEngine;
-using Application = UnityEngine.Application;
 
 public static class SaveSystem
 {
@@ -35,7 +33,7 @@ public static class SaveSystem
         }
 
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
-        
+
         // setup level data
         LevelInfo levelInfo = LevelSessionManager.Instance.LoadedLevelData.Info;
         levelInfo.LastEdited = DateTime.Now;
@@ -162,19 +160,16 @@ public static class SaveSystem
             Debug.LogError($"Save file not found in path \"{path}\"");
             return null;
         }
-        
+
         // try to load like v0.14
         try { return LoadLevel_v0_14(path); }
-        catch
-        {
-            Console.WriteLine($"Failed to load file at path {path} like v0.14");
-        }
+        catch { Console.WriteLine($"Failed to load file at path {path} like v0.14"); }
 
         // try to load like v0.13.1
         try
         {
             List<Data> tryLoadData = LoadLevel_v0_13_1(path);
-            
+
             // adapt old level data to v0.14
             return new()
             {
@@ -182,11 +177,8 @@ public static class SaveSystem
                 Objects = tryLoadData,
             };
         }
-        catch (Exception)
-        {
-            Console.WriteLine($"Failed to load level at path {path} like v0.13.1");
-        }
-        
+        catch (Exception) { Console.WriteLine($"Failed to load level at path {path} like v0.13.1"); }
+
         Debug.LogWarning($"Failed to load level totally at path {path}");
         return null;
     }
@@ -202,12 +194,12 @@ public static class SaveSystem
             LevelData data = formatter.Deserialize(stream) as LevelData;
 
             if (data == null) throw new Exception();
-            
+
             return data;
         }
         finally { stream.Close(); }
     }
-    
+
     public static List<Data> LoadLevel_v0_13_1(string path)
     {
         // // load / deserialize file like v0.13.1
@@ -217,9 +209,9 @@ public static class SaveSystem
         try
         {
             List<Data> data = formatter.Deserialize(stream) as List<Data>;
-            
+
             if (data == null) throw new Exception();
-            
+
             return data;
         }
         finally { stream.Close(); }

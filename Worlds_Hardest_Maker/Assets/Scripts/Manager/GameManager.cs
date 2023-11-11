@@ -125,10 +125,10 @@ public class GameManager : MonoBehaviourPun
     public IEnumerator LoadLevelFromData(LevelData levelData, string levelPath)
     {
         yield return new WaitForEndOfFrame();
-        
+
         // store data in LevelSessionManager
         LevelSessionManager.Instance.LoadedLevelData = levelData;
-        
+
         // load
         List<Data> levelObjects = levelData.Objects;
 
@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviourPun
             SaveSystem.SerializeLevelData(levelPath, levelData);
             yield break;
         }
-        
+
         ClearLevel();
 
         List<FieldData> fieldData = new();

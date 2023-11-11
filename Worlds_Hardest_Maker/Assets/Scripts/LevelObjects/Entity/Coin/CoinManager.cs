@@ -81,12 +81,12 @@ public class CoinManager : MonoBehaviour
         foreach (CoinController coin in Coins)
         {
             coin.PickedUp = false;
-            
+
             coin.Animator.SetBool(playing, false);
             coin.Animator.SetBool(pickedUp, false);
         }
     }
-    
+
     public void ActivateAnimations()
     {
         // activate coin animations

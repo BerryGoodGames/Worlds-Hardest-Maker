@@ -19,7 +19,6 @@ public class TimerController : MonoBehaviour
     {
         EditModeManager.Instance.OnPlay += StartTimer;
         PlayerManager.Instance.OnWin += FinishTimer;
-        
     }
 
     public void StartTimer()
@@ -55,14 +54,15 @@ public class TimerController : MonoBehaviour
     private IEnumerator DoTimer()
     {
         ResetTimer();
-        
+
         while (true)
         {
             TimerSeconds += Time.deltaTime;
             Text.text = GetTimerTime();
-            
+
             yield return null;
         }
+        // ReSharper disable once IteratorNeverReturns
     }
 
     private string GetTimerTime()

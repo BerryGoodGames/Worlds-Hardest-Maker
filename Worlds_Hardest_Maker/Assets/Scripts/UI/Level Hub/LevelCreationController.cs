@@ -14,7 +14,7 @@ public class LevelCreationController : MonoBehaviour
     public void CreateLevel()
     {
         string levelName = MakeNameUnique(levelNameText.text.Trim());
-        
+
         CreateLevel(levelName, descriptionText.text.Trim(), creatorText.text.Trim());
 
         TransitionManager.Instance.LoadLevelPath = SaveSystem.LevelSavePath + levelName + ".lvl";

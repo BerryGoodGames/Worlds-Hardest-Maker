@@ -64,6 +64,6 @@ public class AnchorBlockPeriblockerController : MonoBehaviour
     public void Init()
     {
         MouseOverUIRect = GetComponent<MouseOverUIRect>();
-        MouseOverUIRect.OnUnhovered = () => AnchorBlockManager.Instance.ExecutePeriblockerOnUnhover = true;
+        MouseOverUIRect.OnUnhovered += () => AnchorBlockManager.Instance.ExecutePeriblockerOnUnhover = true;
     }
 }
