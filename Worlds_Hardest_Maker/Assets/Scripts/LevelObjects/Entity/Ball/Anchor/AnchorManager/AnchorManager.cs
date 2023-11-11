@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,6 +22,8 @@ public partial class AnchorManager : MonoBehaviour
         EditModeManager.Instance.OnEdit += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(false);
         EditModeManager.Instance.OnPlay += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(true);
     }
+
+    private void Update() => CheckAnchorSelection();
 
     /// <summary>
     ///     If anchor selected, convert anchor blocks in UI to <see cref="List{T}">List</see>&lt;<see cref="AnchorBlock" />&gt;

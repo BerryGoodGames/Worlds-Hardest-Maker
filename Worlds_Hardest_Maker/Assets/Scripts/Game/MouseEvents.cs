@@ -13,40 +13,10 @@ public class MouseEvents : MonoBehaviour
 
     private void Update()
     {
-        PhotonView photonView = GameManager.Instance.photonView;
-        bool multiplayer = MultiplayerManager.Instance.Multiplayer;
-
-        EditMode editMode = EditModeManager.Instance.CurrentEditMode;
-
         // selection
         if (KeyBinds.GetKeyBindDown("Editor_Select")) StartCoroutine(StartCancelSelection());
 
-        // select anchor
-        if (Input.GetMouseButtonDown(0) && KeyBinds.GetKeyBind("Editor_Modify"))
-        {
-            AnchorManager.Instance.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
-            AnchorBallManager.SelectAnchorBall(MouseManager.Instance.MouseWorldPosGrid);
-        }
-
-
-        // place / delete stuff
-        if (!MouseManager.Instance.IsUIHovered && !EditModeManager.Instance.Playing &&
-            !SelectionManager.Instance.Selecting &&
-            !CopyManager.Instance.Pasting &&
-            !AnchorPositionInputEditManager.Instance.IsEditing)
-        {
-            // if none of the relevant keys is held, check field placement + entity placement
-            if (!KeyBinds.GetKeyBind("Editor_MoveEntity") &&
-                !KeyBinds.GetKeyBind("Editor_Modify") &&
-                !KeyBinds.GetKeyBind("Editor_DeleteEntity") &&
-                !SelectionManager.Instance.Selecting)
-            {
-                if (Input.GetMouseButton(0)) CheckDragPlacement(editMode);
-                if (Input.GetMouseButtonDown(0)) CheckClickPlacement(editMode);
-            }
-
-            CheckEntityDelete(photonView, multiplayer);
-        }
+        CheckPlaceAndDelete();
 
         // track drag positions
         if (!Input.GetMouseButtonUp(0)) return;
@@ -54,6 +24,33 @@ public class MouseEvents : MonoBehaviour
         MouseManager.Instance.MouseDragStart = null;
         MouseManager.Instance.MouseDragCurrent = null;
         MouseManager.Instance.MouseDragEnd = null;
+    }
+
+
+    private static void CheckPlaceAndDelete()
+    {
+        PhotonView photonView = GameManager.Instance.photonView;
+        bool multiplayer = MultiplayerManager.Instance.Multiplayer;
+        EditMode editMode = EditModeManager.Instance.CurrentEditMode;
+        
+        // place / delete stuff
+        if (MouseManager.Instance.IsUIHovered
+            || EditModeManager.Instance.Playing
+            || SelectionManager.Instance.Selecting
+            || CopyManager.Instance.Pasting
+            || AnchorPositionInputEditManager.Instance.IsEditing) return;
+
+        // if none of the relevant keys is held, check field placement + entity placement
+        if (!KeyBinds.GetKeyBind("Editor_MoveEntity")
+            && !KeyBinds.GetKeyBind("Editor_Modify")
+            && !KeyBinds.GetKeyBind("Editor_DeleteEntity")
+            && !SelectionManager.Instance.Selecting)
+        {
+            if (Input.GetMouseButton(0)) CheckDragPlacement(editMode);
+            if (Input.GetMouseButtonDown(0)) CheckClickPlacement(editMode);
+        }
+
+        CheckEntityDelete(photonView, multiplayer);
     }
 
     private static IEnumerator StartCancelSelection()
