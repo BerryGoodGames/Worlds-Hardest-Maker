@@ -30,8 +30,8 @@ public class CoinManager : MonoBehaviour
     {
         Destroy(GetCoin(position));
 
-        GameObject currentPlayer = PlayerManager.GetPlayer();
-        if (currentPlayer != null) currentPlayer.GetComponent<PlayerController>().UncollectCoinAtPos(position);
+        PlayerController currentPlayer = PlayerManager.GetPlayer();
+        if (currentPlayer != null) currentPlayer.UncollectCoinAtPos(position);
     }
 
     public static GameObject GetCoin(Vector2 position)

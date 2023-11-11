@@ -30,7 +30,7 @@ public class PrefabManager : MonoBehaviour
 
     #region Entities
 
-    [Foldout("Entities")] public GameObject Player;
+    [Foldout("Entities")] public PlayerController Player;
 
     [Foldout("Entities")] public GameObject Anchor;
     [Foldout("Entities")] public GameObject AnchorBall;

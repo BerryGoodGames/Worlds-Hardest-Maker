@@ -30,7 +30,7 @@ public static class EditModeExtension
             { EditMode.GreenKeyDoorField, PrefabManager.Instance.GreenKeyDoorField },
             { EditMode.BlueKeyDoorField, PrefabManager.Instance.BlueKeyDoorField },
             { EditMode.YellowKeyDoorField, PrefabManager.Instance.YellowKeyDoorField },
-            { EditMode.Player, PrefabManager.Instance.Player },
+            { EditMode.Player, PrefabManager.Instance.Player.gameObject },
             { EditMode.Anchor, PrefabManager.Instance.Anchor },
             { EditMode.AnchorBall, PrefabManager.Instance.AnchorBall },
             { EditMode.Coin, PrefabManager.Instance.Coin.gameObject },

@@ -3827,7 +3827,7 @@ MonoBehaviour:
   GreenKeyDoorField: {fileID: 1520595850377835539, guid: 1cfe2e8c75161444f8253d43150c6017, type: 3}
   BlueKeyDoorField: {fileID: 6303020789245932182, guid: 87b327e9081a0fa41b6ba04562a6734b, type: 3}
   YellowKeyDoorField: {fileID: 1878144512390914466, guid: ef067f96bc0d40d428b1c62b3c45478b, type: 3}
-  Player: {fileID: 7464887056985239505, guid: 8b35e9f8e793281489f59c83ce103156, type: 3}
+  Player: {fileID: 7464887056985239508, guid: 8b35e9f8e793281489f59c83ce103156, type: 3}
   Anchor: {fileID: 877708834729050389, guid: d8a4218bce541fe4c928de7a522407dd, type: 3}
   AnchorBall: {fileID: 6481791030330069436, guid: 1ecb51dd2ee9f29488eaa421ed43b3d6, type: 3}
   Coin: {fileID: 2938817021750922450, guid: 5e13d2eae759f3643b04b6e7dc5cefe2, type: 3}
@@ -14062,7 +14062,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 711.4248
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -18512,11 +18512,11 @@ MonoBehaviour:
   <GameSpeed>k__BackingField: 1
   TextMode: 1
   Count: 0
-  AutoLoadLevel: 1
+  AutoLoadLevel: 0
   LevelName: MyLevel
   WallOutlines: 1
   DrawRays: 0
-  EditorLevelSessionMode: 0
+  EditorLevelSessionMode: 1
   debugText: {fileID: 1281434036}
 --- !u!224 &1753536776 stripped
 RectTransform:
@@ -19147,7 +19147,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 40.273987}
+  m_AnchoredPosition: {x: 0, y: 39.619812}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1786665322

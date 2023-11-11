@@ -8,10 +8,7 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance { get; private set; }
 
     // list of fields which are safe for player
-    public static readonly List<FieldType> SafeFields = new(
-        new FieldType[]
-            { }
-    );
+    public static readonly List<FieldType> SafeFields = new(new FieldType[] { });
 
     public static readonly List<FieldType> StartFields = new(
         new[]
@@ -20,9 +17,9 @@ public class PlayerManager : MonoBehaviour
             FieldType.GoalField,
         }
     );
-
+    
     public event Action OnWin;
-
+    
     public void InvokeOnWin() => OnWin?.Invoke();
 
     #region Set player
@@ -76,13 +73,13 @@ public class PlayerManager : MonoBehaviour
         else RemoveAllPlayers();
 
         // place player
-        GameObject newPlayer = InstantiatePlayer(position, speed, MultiplayerManager.Instance.Multiplayer);
+        PlayerController newPlayer = InstantiatePlayer(position, speed, MultiplayerManager.Instance.Multiplayer);
 
-        int newID = AvailableID();
-        newPlayer.GetComponent<PlayerController>().ID = newID;
+        // int newID = AvailableID();
+        // newPlayer.GetComponent<PlayerController>().ID = newID;
 
         // set target of camera
-        ReferenceManager.Instance.MainCameraJumper.AddTarget("Player", newPlayer);
+        ReferenceManager.Instance.MainCameraJumper.AddTarget("Player", newPlayer.gameObject);
     }
 
     public void SetPlayer(Vector2 position, bool placeStartField = false) => SetPlayer(position, 3f, placeStartField);
@@ -143,76 +140,79 @@ public class PlayerManager : MonoBehaviour
         !(checkForPlayer && IsPlayerThere(position)) &&
         FieldManager.IsPosCoveredWithFieldType(position, StartFields.ToArray());
 
-    public static int AvailableID()
-    {
-        if (GetPlayers().Count == 0) return 0;
-
-        int highestID = 0;
-        foreach (Transform p in ReferenceManager.Instance.PlayerContainer)
-        {
-            PlayerController controller = p.GetComponent<PlayerController>();
-            if (controller.ID > highestID) highestID = controller.ID;
-        }
-
-        return highestID + 1;
-    }
+    // public static int AvailableID()
+    // {
+    //     if (GetPlayers().Count == 0) return 0;
+    //
+    //     int highestID = 0;
+    //     foreach (Transform p in ReferenceManager.Instance.PlayerContainer)
+    //     {
+    //         PlayerController controller = p.GetComponent<PlayerController>();
+    //         if (controller.ID > highestID) highestID = controller.ID;
+    //     }
+    //
+    //     return highestID + 1;
+    // }
 
     #region Get player
 
-    public static GameObject GetClientPlayer()
+    public static PlayerController GetClientPlayer()
     {
-        if (!MultiplayerManager.Instance.Multiplayer) throw new Exception("Trying to acces player of client while singleplayer");
+        if (!MultiplayerManager.Instance.Multiplayer) throw new Exception("Trying to access player of client while singleplayer");
 
-        List<GameObject> players = GetPlayers();
-        foreach (GameObject player in players)
+        List<PlayerController> players = GetPlayers();
+        foreach (PlayerController controller in players)
         {
-            PlayerController controller = player.GetComponent<PlayerController>();
-            if (controller.PhotonView.IsMine) return player;
+            if (controller.PhotonView.IsMine) return controller;
         }
 
         return null;
     }
 
-    public static List<GameObject> GetPlayers()
+    public static List<PlayerController> GetPlayers()
     {
         Transform container = ReferenceManager.Instance.PlayerContainer;
-        List<GameObject> players = new();
+        List<PlayerController> players = new();
 
-        for (int i = 0; i < container.childCount; i++) players.Add(container.GetChild(i).gameObject);
-
+        foreach (Transform player in container)
+        {
+            if (player.TryGetComponent(out PlayerController controller)) players.Add(controller);
+            else Debug.LogWarning("Could not find PlayerController component in player");
+        }
+        
         return players;
     }
 
-    public static GameObject GetPlayer(Vector2 position)
+    public static PlayerController GetPlayer(Vector2 position)
     {
-        List<GameObject> players = GetPlayers();
-        foreach (GameObject player in players)
+        List<PlayerController> players = GetPlayers();
+        foreach (PlayerController player in players)
         {
-            if (MultiplayerManager.Instance.Multiplayer && !player.GetComponent<PhotonView>().IsMine) continue;
+            if (MultiplayerManager.Instance.Multiplayer && !player.PhotonView.IsMine) continue;
             if ((Vector2)player.transform.position == position) return player;
         }
 
         return null;
     }
 
-    public static GameObject GetPlayer()
+    public static PlayerController GetPlayer()
     {
         if (MultiplayerManager.Instance.Multiplayer) return GetClientPlayer();
 
         // getting the one player in single player
-        Transform container = ReferenceManager.Instance.PlayerContainer;
-        if (container.transform.childCount > 1)
+        // Transform container = ReferenceManager.Instance.PlayerContainer;
+        List<PlayerController> players = GetPlayers();
+        if (players.Count > 1)
         {
             throw new Exception(
                 "There are multiple player objects within GameManager.PlayerContainer while trying to access the specific player in singleplayer"
             );
         }
 
-        try { return container.GetChild(0).gameObject; }
-        catch (Exception) { return null; }
+        return players.Count == 0 ? null : players[0];
     }
 
-    public static GameObject GetPlayer(int id) => PlayerIDList()[id];
+    // public static GameObject GetPlayer(int id) => PlayerIDList()[id];
 
     public static bool IsPlayerThere(Vector2 position) => GetPlayer(position) != null;
 
@@ -235,30 +235,31 @@ public class PlayerManager : MonoBehaviour
 
     #endregion
 
-    public static Dictionary<int, GameObject> PlayerIDList()
-    {
-        Dictionary<int, GameObject> res = new();
-        foreach (Transform p in ReferenceManager.Instance.PlayerContainer)
-        {
-            PlayerController controller = p.GetComponent<PlayerController>();
-            res.Add(controller.ID, p.gameObject);
-        }
+    // public static Dictionary<int, GameObject> PlayerIDList()
+    // {
+    //     Dictionary<int, GameObject> res = new();
+    //     foreach (Transform p in ReferenceManager.Instance.PlayerContainer)
+    //     {
+    //         PlayerController controller = p.GetComponent<PlayerController>();
+    //         res.Add(controller.ID, p.gameObject);
+    //     }
+    //
+    //     return res;
+    // }
 
-        return res;
-    }
-
-    public static GameObject InstantiatePlayer(Vector2 position, float speed, bool multiplayer)
+    public static PlayerController InstantiatePlayer(Vector2 position, float speed, bool multiplayer)
     {
-        GameObject newPlayer;
+        PlayerController newPlayer;
         if (multiplayer)
         {
-            newPlayer = PhotonNetwork.Instantiate(
+            GameObject newPlayerObject = PhotonNetwork.Instantiate(
                 PrefabManager.Instance.Player.name, position,
                 Quaternion.identity
             );
 
-            PhotonView view = newPlayer.GetComponent<PhotonView>();
-            view.RPC("SetSpeed", RpcTarget.All, speed);
+            newPlayer = newPlayerObject.GetComponent<PlayerController>();
+
+            newPlayer.PhotonView.RPC("SetSpeed", RpcTarget.All, speed);
         }
         else
         {
@@ -266,9 +267,8 @@ public class PlayerManager : MonoBehaviour
                 PrefabManager.Instance.Player, position, Quaternion.identity,
                 ReferenceManager.Instance.PlayerContainer
             );
-
-            PlayerController controller = newPlayer.GetComponent<PlayerController>();
-            controller.SetSpeed(speed);
+            
+            newPlayer.SetSpeed(speed);
         }
 
         return newPlayer;
@@ -282,15 +282,16 @@ public class PlayerManager : MonoBehaviour
 
     public void ResetStates()
     {
+        List<PlayerController> players = GetPlayers();
+        
         // reset players
-        foreach (GameObject player in GetPlayers())
+        foreach (PlayerController player in players)
         {
-            PlayerController controller = player.GetComponent<PlayerController>();
-            if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) continue;
-            controller.DieNormal();
-            controller.CoinsCollected.Clear();
-            controller.KeysCollected.Clear();
-            controller.CurrentGameState = null;
+            if (MultiplayerManager.Instance.Multiplayer && !player.PhotonView.IsMine) continue;
+            player.DieNormal();
+            player.CoinsCollected.Clear();
+            player.KeysCollected.Clear();
+            player.CurrentGameState = null;
         }
     }
 

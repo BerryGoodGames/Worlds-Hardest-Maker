@@ -83,10 +83,10 @@ public class KeyEvents : MonoBehaviour
         // teleport player to mouse pos
         if (!LevelSessionManager.Instance.IsEdit || !EditModeManager.Instance.Playing || !KeyBinds.GetKeyBindDown("Editor_TeleportPlayer")) return;
         
-        GameObject player = PlayerManager.GetPlayer();
+        PlayerController player = PlayerManager.GetPlayer();
         if (player == null) return;
         
-        player.GetComponent<Rigidbody2D>().position = MouseManager.Instance.MouseWorldPosGrid;
+        player.Rb.position = MouseManager.Instance.MouseWorldPosGrid;
         PlayManager.Instance.Cheated = true;
     }
 

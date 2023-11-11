@@ -52,7 +52,7 @@ public class PlayerController : EntityController
 
     #region Fields
 
-    [Separator] [ReadOnly] public int ID;
+    // [Separator] [ReadOnly] public int ID;
 
     [ReadOnly] public int Deaths;
 
@@ -658,17 +658,15 @@ public class PlayerController : EntityController
             ? StartPos
             : CurrentGameState.PlayerStartPos;
 
-        GameObject player =
-            PlayerManager.InstantiatePlayer(spawnPos, applySpeed, MultiplayerManager.Instance.Multiplayer);
+        PlayerController player = PlayerManager.InstantiatePlayer(spawnPos, applySpeed, MultiplayerManager.Instance.Multiplayer);
 
-        PlayerController newController = player.GetComponent<PlayerController>();
-        newController.Deaths = deaths;
-        newController.StartPos = StartPos;
-        newController.CurrentGameState = CurrentGameState;
+        player.Deaths = deaths;
+        player.StartPos = StartPos;
+        player.CurrentGameState = CurrentGameState;
 
         if (Camera.main == null) return;
         JumpToEntity jumpToPlayer = Camera.main.GetComponent<JumpToEntity>();
-        if (jumpToPlayer.GetTarget("Player") == gameObject) jumpToPlayer.AddTarget("Player", player);
+        if (jumpToPlayer.GetTarget("Player") == gameObject) jumpToPlayer.AddTarget("Player", player.gameObject);
     }
 
     public void SyncToLevelSettings()

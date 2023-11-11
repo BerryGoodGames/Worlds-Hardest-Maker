@@ -31,7 +31,7 @@ public class Dbg : MonoBehaviour
     [Foldout("Debug Text")] public float Count;
 
     [Foldout("Level")] public bool AutoLoadLevel;
-    [Foldout("Level")] public string LevelName = "DebugLevel";
+    [Foldout("Level")] [ConditionalField(nameof(AutoLoadLevel))] public string LevelName = "DebugLevel";
 
     [Foldout("Wall Outlines")] public bool WallOutlines = true;
     [Foldout("Wall Outlines")] public bool DrawRays;

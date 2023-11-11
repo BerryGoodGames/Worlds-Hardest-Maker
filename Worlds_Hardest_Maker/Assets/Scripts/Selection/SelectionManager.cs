@@ -309,9 +309,9 @@ public class SelectionManager : MonoBehaviour
         // remove player if at changed pos
         if (!PlayerManager.StartFields.Contains(type))
         {
-            GameObject player = PlayerManager.GetPlayer();
+            PlayerController player = PlayerManager.GetPlayer();
 
-            if (player != null && player.transform.position.IsBetween(lowest.ToVector2(), highest.ToVector2())) Destroy(player);
+            if (player != null && player.transform.position.IsBetween(lowest.ToVector2(), highest.ToVector2())) Destroy(player.gameObject);
         }
 
         UpdateOutlinesInArea(type.GetPrefab().GetComponent<FieldOutline>() != null, lowest, highest);
@@ -406,7 +406,7 @@ public class SelectionManager : MonoBehaviour
             DestroyImmediate(collider);
         }
 
-        GameObject player = PlayerManager.GetPlayer();
+        PlayerController player = PlayerManager.GetPlayer();
 
         if (player != null && !PlayerManager.CanPlace(player.transform.position, false))
             PlayerManager.Instance.RemovePlayerAtPos(player.transform.position);

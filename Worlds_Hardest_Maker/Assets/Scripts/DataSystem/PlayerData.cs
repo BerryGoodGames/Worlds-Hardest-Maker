@@ -7,14 +7,14 @@ using UnityEngine;
 [Serializable]
 public class PlayerData : Data
 {
-    public int ID;
+    // public int ID;
     public float Speed;
 
     public float[] StartPosition;
 
     public PlayerData(PlayerController controller)
     {
-        ID = controller.ID;
+        // ID = controller.ID;
         Speed = controller.Speed;
 
         StartPosition = new float[2];
