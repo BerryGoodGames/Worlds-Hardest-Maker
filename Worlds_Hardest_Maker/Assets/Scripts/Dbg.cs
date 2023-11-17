@@ -70,29 +70,26 @@ public class Dbg : MonoBehaviour
         if (!Enabled) return;
 
         Time.timeScale = GameSpeed;
-        switch (TextMode)
-        {
-            case DbgTextMode.Disabled:
-                Text(string.Empty);
-                break;
-            case DbgTextMode.Custom: break;
-            case DbgTextMode.Count:
-                Text(Count);
-                break;
-            case DbgTextMode.FPS:
-                Text(Mathf.Round(1 / Time.deltaTime));
-                break;
-            case DbgTextMode.PlayerPosition:
-                try { Text((Vector2)PlayerManager.GetPlayer().transform.position); }
-                catch (Exception) { Text("-"); }
 
-                break;
-            case DbgTextMode.MousePositionUnits:
-                Text((Vector2)cam.ScreenToWorldPoint(Input.mousePosition));
-                break;
-            case DbgTextMode.MousePositionPixels:
-                Text((Vector2)Input.mousePosition);
-                break;
+        try
+        {
+            object message = TextMode switch
+            {
+                DbgTextMode.Disabled => string.Empty,
+                DbgTextMode.Custom => string.Empty,
+                DbgTextMode.Count => Count,
+                DbgTextMode.FPS => Mathf.Round(1 / Time.deltaTime),
+                DbgTextMode.PlayerPosition => (Vector2)PlayerManager.GetPlayer().transform.position,
+                DbgTextMode.MousePositionUnits => (Vector2)cam.ScreenToWorldPoint(Input.mousePosition),
+                DbgTextMode.MousePositionPixels => (Vector2)Input.mousePosition,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        
+            Text(message);
+        }
+        catch (Exception)
+        {
+            Text("-");
         }
     }
 

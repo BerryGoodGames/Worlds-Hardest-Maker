@@ -11,68 +11,67 @@ public partial class AnchorManager
         bool isStackOverflow = true;
 
         AnchorBlock loopBlock = null;
-        CheckWarningsForEach(
-            (_, currentNode) =>
-            {
-                AnchorBlock block = currentNode.Value;
+        CheckWarningsForEach((_, currentNode) => CheckStackOverflowWarningsBlock(currentNode, ref loopingDetected, ref isStackOverflow, ref loopBlock));
 
-                // detect loop block
-                if (block.ImplementedBlockType is AnchorBlock.Type.Loop)
-                {
-                    loopingDetected = true;
-                    loopBlock = block;
+        if (!loopingDetected) return;
+        
+        AnchorBlockController loopBlockController = loopBlock.Controller;
+        loopBlockController.SetWarning(isStackOverflow);
+    }
 
-                    // stack overflow if no block after loop block
-                    if (currentNode.Next == null) isStackOverflow = true;
-                    return false;
-                }
+    private static bool CheckStackOverflowWarningsBlock(LinkedListNode<AnchorBlock> currentNode, ref bool loopingDetected, ref bool isStackOverflow, ref AnchorBlock loopBlock)
+    {
+        AnchorBlock block = currentNode.Value;
 
-                // check if any of following blocks have any duration, if yes then no stack overflow
-                if (!loopingDetected || block is not IDurationBlock durationBlock) return false;
-                if (!durationBlock.HasCurrentlyDuration) return false;
-
-                isStackOverflow = false;
-
-                // break the loop
-                return true;
-            }
-        );
-
-        if (loopingDetected)
+        // detect loop block
+        if (block.ImplementedBlockType is AnchorBlock.Type.Loop)
         {
-            AnchorBlockController loopBlockController = loopBlock.Controller;
-            loopBlockController.SetWarning(isStackOverflow);
+            loopingDetected = true;
+            loopBlock = block;
+
+            // stack overflow if no block after loop block
+            if (currentNode.Next == null) isStackOverflow = true;
+            return false;
         }
+
+        // check if any of following blocks have any duration, if yes then no stack overflow
+        if (!loopingDetected || block is not IDurationBlock durationBlock) return false;
+        if (!durationBlock.HasCurrentlyDuration) return false;
+
+        isStackOverflow = false;
+
+        // break the loop
+        return true;
     }
 
     public void CheckStartRotatingWarnings()
     {
         // check if start rotating block as seconds as time input -> one rotation takes [time input] amount of time
         bool canStartRotateWork = false;
-        CheckWarningsForEach(
-            (i, currentNode) =>
+        CheckWarningsForEach((i, node) => CheckStartRotatingWarningsBlock(i, node, ref canStartRotateWork));
+    }
+
+    private static bool CheckStartRotatingWarningsBlock(int i, LinkedListNode<AnchorBlock> currentNode, ref bool canStartRotateWork)
+    {
+        AnchorBlock block = currentNode.Value;
+
+        switch (block.ImplementedBlockType)
+        {
+            case AnchorBlock.Type.SetRotation:
             {
-                AnchorBlock block = currentNode.Value;
-
-                switch (block.ImplementedBlockType)
-                {
-                    case AnchorBlock.Type.SetRotation:
-                    {
-                        // update if start rotating blocks can work
-                        SetRotationBlock setRotationBlock = (SetRotationBlock)block;
-                        canStartRotateWork = setRotationBlock.GetUnit() != SetRotationBlock.Unit.Time;
-                        break;
-                    }
-
-                    // update if it can't rotate
-                    case AnchorBlock.Type.StartRotating:
-                        ReferenceManager.Instance.MainChainController.Children[i].SetWarning(!canStartRotateWork);
-                        break;
-                }
-
-                return false;
+                // update if start rotating blocks can work
+                SetRotationBlock setRotationBlock = (SetRotationBlock)block;
+                canStartRotateWork = setRotationBlock.GetUnit() != SetRotationBlock.Unit.Time;
+                break;
             }
-        );
+
+            // update if it can't rotate
+            case AnchorBlock.Type.StartRotating:
+                ReferenceManager.Instance.MainChainController.Children[i].SetWarning(!canStartRotateWork);
+                break;
+        }
+
+        return false;
     }
 
     private void CheckWarningsForEach(Func<int, LinkedListNode<AnchorBlock>, bool> action)

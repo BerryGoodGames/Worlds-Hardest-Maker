@@ -45,7 +45,7 @@ public partial class AnchorController
             AnchorBlock currentBlock = currentNode.Value;
 
             // handle current block
-            ParseBlockForPath(ref currentBlock);
+            ParseBlockForPath(ref currentBlock, index, hasRendered, lineList, ref previousVertex, ref isFirstPositionBlockAfterLoop, ref loopIndex);
 
             // increment
             index++;
@@ -61,78 +61,76 @@ public partial class AnchorController
             hasLooped = true;
             isFirstPositionBlockAfterLoop = true;
         }
+    }
 
-        yield break;
+    private void ParseBlockForPath(ref AnchorBlock anchorBlock, int index, bool[] hasRendered, List<(Vector2, Vector2)> lineList, ref Vector2 previousVertex, ref bool isFirstPositionBlockAfterLoop, ref int loopIndex)
+    {
+        if (anchorBlock is PositionAnchorBlock positionAnchorBlock) ParsePositionBlockForPath(ref positionAnchorBlock, index, hasRendered, lineList, ref previousVertex, ref isFirstPositionBlockAfterLoop);
 
-        void ParseBlockForPath(ref AnchorBlock anchorBlock)
+        // track loop index if LoopBlock
+        else if (anchorBlock.ImplementedBlockType is AnchorBlock.Type.Loop)
         {
-            if (anchorBlock is PositionAnchorBlock positionAnchorBlock) ParsePositionBlockForPath(ref positionAnchorBlock);
+            // track loop index
+            loopIndex = index;
+        }
+    }
 
-            // track loop index if LoopBlock
-            else if (anchorBlock.ImplementedBlockType is AnchorBlock.Type.Loop)
-            {
-                // track loop index
-                loopIndex = index;
-            }
+    private void ParsePositionBlockForPath(ref PositionAnchorBlock positionAnchorBlock, int index, bool[] hasRendered, List<(Vector2, Vector2)> lineList, ref Vector2 previousVertex, ref bool isFirstPositionBlockAfterLoop)
+    {
+        // add new target to array if MoveBlock or MoveAndRotateBlock
+        Vector2 currentVertex = positionAnchorBlock.TargetAbsolute;
+
+        if (ReferenceManager.Instance.MainChainController.Children[index] is not PositionAnchorBlockController
+            controller) throw new("Controller was for some reason not a position block controller, this shouldn't happen");
+
+        // setup line, check if line already rendered
+        if (!hasRendered[index] || !lineList.Contains((previousVertex, currentVertex)) ||
+            isFirstPositionBlockAfterLoop) SetupLine(ref positionAnchorBlock, ref controller, ref currentVertex, in previousVertex, lineList, hasRendered, index);
+
+        previousVertex = currentVertex;
+
+        isFirstPositionBlockAfterLoop = false;
+    }
+
+    private void SetupLine(ref PositionAnchorBlock positionAnchorBlock, ref PositionAnchorBlockController controller, ref Vector2 currentVertex, in Vector2 previousVertex, List<(Vector2, Vector2)> lineList, bool[] hasRendered, int index)
+    {
+        AnchorPathLine line = Instantiate(
+            PrefabManager.Instance.AnchorPathLine, Vector2.zero,
+            Quaternion.identity, lineContainer
+        );
+
+        line.CreateArrowHead(previousVertex, currentVertex);
+        line.CreateArrowLine(
+            previousVertex, currentVertex,
+            positionAnchorBlock.ImplementedBlockType is AnchorBlock.Type.Move
+                or AnchorBlock.Type.MoveAndRotate
+        );
+
+        line.CreateBlur();
+
+        controller.Lines.Add(line);
+
+        lineList.Add((previousVertex, currentVertex));
+        hasRendered[index] = true;
+    }
+
+    private void ClearLines()
+    {
+        // clear references in blocks
+        foreach (AnchorBlock anchorBlock in Blocks)
+        {
+            if (anchorBlock is not PositionAnchorBlock positionAnchorBlock) continue;
+
+            PositionAnchorBlockController controller = positionAnchorBlock.Controller;
+
+            // kill all glow tweens
+            foreach (AnchorPathLine line in controller.Lines) line.Blur.DOKill();
+
+            controller.Lines.Clear();
         }
 
-        void ParsePositionBlockForPath(ref PositionAnchorBlock positionAnchorBlock)
-        {
-            // add new target to array if MoveBlock or MoveAndRotateBlock
-            Vector2 currentVertex = positionAnchorBlock.TargetAbsolute;
-
-            if (ReferenceManager.Instance.MainChainController.Children[index] is not PositionAnchorBlockController
-                controller) throw new("Controller was for some reason not a position block controller, this shouldn't happen");
-
-            // setup line, check if line already rendered
-            if (!hasRendered[index] || !lineList.Contains((previousVertex, currentVertex)) ||
-                isFirstPositionBlockAfterLoop) SetupLine(ref positionAnchorBlock, ref controller, ref currentVertex);
-
-            previousVertex = currentVertex;
-
-            isFirstPositionBlockAfterLoop = false;
-        }
-
-        void SetupLine(ref PositionAnchorBlock positionAnchorBlock, ref PositionAnchorBlockController controller, ref Vector2 currentVertex)
-        {
-            AnchorPathLine line = Instantiate(
-                PrefabManager.Instance.AnchorPathLine, Vector2.zero,
-                Quaternion.identity, lineContainer
-            );
-
-            line.CreateArrowHead(previousVertex, currentVertex);
-            line.CreateArrowLine(
-                previousVertex, currentVertex,
-                positionAnchorBlock.ImplementedBlockType is AnchorBlock.Type.Move
-                    or AnchorBlock.Type.MoveAndRotate
-            );
-
-            line.CreateBlur();
-
-            controller.Lines.Add(line);
-
-            lineList.Add((previousVertex, currentVertex));
-            hasRendered[index] = true;
-        }
-
-        void ClearLines()
-        {
-            // clear references in blocks
-            foreach (AnchorBlock anchorBlock in Blocks)
-            {
-                if (anchorBlock is not PositionAnchorBlock positionAnchorBlock) continue;
-
-                PositionAnchorBlockController controller = positionAnchorBlock.Controller;
-
-                // kill all glow tweens
-                foreach (AnchorPathLine line in controller.Lines) line.Blur.DOKill();
-
-                controller.Lines.Clear();
-            }
-
-            // clear lines
-            foreach (Transform line in lineContainer) Destroy(line.gameObject);
-        }
+        // clear lines
+        foreach (Transform line in lineContainer) Destroy(line.gameObject);
     }
 
     public void SetLinesActive(bool active) => lineContainer.gameObject.SetActive(active);

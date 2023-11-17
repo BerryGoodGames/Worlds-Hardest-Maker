@@ -71,24 +71,7 @@ public class LevelListLoader : MonoBehaviour
 
         FileInfo[] levelInfo = levelDirectory.GetFiles("*.lvl");
 
-        bool levelsChanged = false;
-
-        if (!forceUpdateList)
-        {
-            if (prevLevelInfo == null || levelInfo.Length != prevLevelInfo.Length) levelsChanged = true;
-            else
-            {
-                levelInfo = levelInfo.OrderBy(x => x.Name).ToArray();
-                prevLevelInfo = prevLevelInfo.OrderBy(x => x.Name).ToArray();
-
-                for (int i = 0; i < levelInfo.Length; i++)
-                {
-                    if (levelInfo[i].Name == prevLevelInfo[i].Name) continue;
-                    levelsChanged = true;
-                    break;
-                }
-            }
-        }
+        bool levelsChanged = CheckIfLevelsChanged(forceUpdateList, ref levelInfo);
 
         // sort level info
         levelInfo = SortSetting switch
@@ -100,9 +83,32 @@ public class LevelListLoader : MonoBehaviour
 
         if (IsDescending) Array.Reverse(levelInfo);
 
-        if (levelsChanged || forceUpdateList) UpdateLevelCards(levelInfo);
+        if (levelsChanged) UpdateLevelCards(levelInfo);
 
         prevLevelInfo = levelInfo;
+    }
+
+    private bool CheckIfLevelsChanged(bool forceUpdateList, ref FileInfo[] levelInfo)
+    {
+        bool levelsChanged = false;
+
+        if (forceUpdateList) return false;
+        
+        if (prevLevelInfo == null || levelInfo.Length != prevLevelInfo.Length) levelsChanged = true;
+        else
+        {
+            levelInfo = levelInfo.OrderBy(x => x.Name).ToArray();
+            prevLevelInfo = prevLevelInfo.OrderBy(x => x.Name).ToArray();
+
+            for (int i = 0; i < levelInfo.Length; i++)
+            {
+                if (levelInfo[i].Name == prevLevelInfo[i].Name) continue;
+                levelsChanged = true;
+                break;
+            }
+        }
+
+        return levelsChanged;
     }
 
     private void UpdateLevelCards(FileInfo[] levelInfo)

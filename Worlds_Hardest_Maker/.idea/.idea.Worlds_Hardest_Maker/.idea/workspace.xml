@@ -5,19 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ebc63df6-9e8a-49dd-baeb-2faf52348d5b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Worlds_Hardest_Maker/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Worlds_Hardest_Maker/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/LevelSession.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/LevelSession.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DataSystem/PlayerData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataSystem/PlayerData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DataSystem/SaveSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DataSystem/SaveSystem.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Dbg.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Dbg.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game/KeyEvents.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game/KeyEvents.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelObjects/Entity/Coin/CoinManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelObjects/Entity/Coin/CoinManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelObjects/Entity/Ball/Anchor/AnchorController/AnchorControllerPath.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelObjects/Entity/Ball/Anchor/AnchorController/AnchorControllerPath.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelObjects/Entity/Ball/Anchor/AnchorManager/AnchorManagerWarnings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelObjects/Entity/Ball/Anchor/AnchorManager/AnchorManagerWarnings.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelObjects/Entity/Player/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelObjects/Entity/Player/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LevelObjects/Entity/Player/PlayerManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LevelObjects/Entity/Player/PlayerManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/KonamiManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Manager/KonamiManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/PrefabManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Manager/PrefabManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Selection/SelectionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Selection/SelectionManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Utils/Extensions/EditModeExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Utils/Extensions/EditModeExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/AnchorBlocks/CustomFitter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/AnchorBlocks/CustomFitter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Level Hub/LevelListLoader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Level Hub/LevelListLoader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MouseOver/MouseOverUIRect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MouseOver/MouseOverUIRect.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +119,7 @@
       <workItem from="1699725134483" duration="4212000" />
       <workItem from="1699732421873" duration="131000" />
       <workItem from="1699732565706" duration="1319000" />
-      <workItem from="1699735331437" duration="3339000" />
+      <workItem from="1699735331437" duration="7489000" />
     </task>
     <servers />
   </component>

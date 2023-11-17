@@ -64,17 +64,17 @@ public class MouseOverUIRect : MonoBehaviour
             }
 
             Over = true;
+
+            return;
         }
-        else
+        
+        if (Over)
         {
-            if (Over)
-            {
-                OnUnhovered.Invoke();
+            OnUnhovered.Invoke();
 
-                if (printDbg) print($"{name} (Rect): Pointer exit");
-            }
-
-            Over = false;
+            if (printDbg) print($"{name} (Rect): Pointer exit");
         }
+
+        Over = false;
     }
 }

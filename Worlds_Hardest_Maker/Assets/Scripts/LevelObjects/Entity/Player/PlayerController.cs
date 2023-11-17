@@ -462,26 +462,29 @@ public class PlayerController : EntityController
             Deaths++;
             if (!LevelSessionManager.Instance.IsEdit) LevelSessionManager.Instance.Deaths++;
         }
+        
+        UpdateCoinCounterDeath();
 
+        if (KonamiManager.Instance.KonamiActive) return;
+        
+        PlayManager.Instance.Cheated = false;
 
+        // reset balls to start position (if player launched them e.g. with shotgun)
+        foreach (AnchorBallController ball in AnchorBallManager.Instance.AnchorBallList) ball.ResetPosition();
+    }
+
+    private void UpdateCoinCounterDeath()
+    {
         // update coin counter
         bool hasCheckpointActivated = CurrentGameState != null;
         CoinsCollected.Clear();
-        if (hasCheckpointActivated)
+        
+        if (!hasCheckpointActivated) return;
+        
+        foreach (Vector2 coinPos in CurrentGameState.CollectedCoins)
         {
-            foreach (Vector2 coinPos in CurrentGameState.CollectedCoins)
-            {
-                GameObject coin = CoinManager.GetCoin(coinPos);
-                if (coin != null) CoinsCollected.Add(coin);
-            }
-        }
-
-        if (!KonamiManager.Instance.KonamiActive)
-        {
-            PlayManager.Instance.Cheated = false;
-
-            // reset balls to start position (if player launched them e.g. with shotgun)
-            foreach (AnchorBallController ball in AnchorBallManager.Instance.AnchorBallList) ball.ResetPosition();
+            GameObject coin = CoinManager.GetCoin(coinPos);
+            if (coin != null) CoinsCollected.Add(coin);
         }
     }
 
@@ -598,21 +601,7 @@ public class PlayerController : EntityController
     {
         foreach (CoinController coin in CoinManager.Instance.Coins)
         {
-            bool respawns = true;
-            if (CurrentGameState != null)
-            {
-                foreach (Vector2 collected in CurrentGameState.CollectedCoins)
-                {
-                    if (!collected.x.EqualsFloat(coin.CoinPosition.x) ||
-                        !collected.y.EqualsFloat(coin.CoinPosition.y)) continue;
-
-                    // if coin is collected or no state exists it doesn't respawn
-                    respawns = false;
-                    break;
-                }
-            }
-
-            if (!respawns) continue;
+            if (!ShouldCoinRespawn(coin)) continue;
 
             CoinsCollected.Remove(coin.gameObject);
 
@@ -620,6 +609,25 @@ public class PlayerController : EntityController
 
             coin.Animator.SetBool(pickedUp, false);
         }
+    }
+
+    private bool ShouldCoinRespawn(CoinController coin)
+    {
+        // check if coin should respawn
+        bool respawns = true;
+        if (CurrentGameState == null) return true;
+        
+        foreach (Vector2 collected in CurrentGameState.CollectedCoins)
+        {
+            if (!collected.x.EqualsFloat(coin.CoinPosition.x) ||
+                !collected.y.EqualsFloat(coin.CoinPosition.y)) continue;
+
+            // if coin is collected or no state exists it doesn't respawn
+            respawns = false;
+            break;
+        }
+
+        return respawns;
     }
 
     private void ResetKeysToCurrentGameState()

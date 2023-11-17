@@ -60,37 +60,18 @@ public class CustomFitter : MonoBehaviour
         if (rt == null) return;
         if (checkChanged && !ChildrenChanged()) return;
 
-        float y;
+        float y = (top ? 1 : -1) * minimumHeight - bottomPadding;
 
-        if (top)
+        // get maximum / minimum y of all children
+        foreach (RectTransform child in transform)
         {
-            y = minimumHeight - bottomPadding;
+            Vector2 scale = child.sizeDelta;
 
-            // get maximum y of all children
-            foreach (RectTransform child in transform)
-            {
-                Vector2 scale = child.sizeDelta;
+            Vector2 position = child.anchoredPosition;
+            float thisMaxMinY = position.y + scale.y * (top ? 1 : -1);
 
-                Vector2 position = child.anchoredPosition;
-                float thisMaxY = position.y + scale.y;
-
-                if (thisMaxY > y) y = thisMaxY;
-            }
-        }
-        else
-        {
-            y = -minimumHeight + bottomPadding;
-
-            // get minimum y of all children
-            foreach (RectTransform child in transform)
-            {
-                Vector2 scale = child.sizeDelta;
-
-                Vector2 position = child.anchoredPosition;
-                float thisMinY = position.y - scale.y;
-
-                if (thisMinY < y) y = thisMinY;
-            }
+            if ((top && thisMaxMinY > y)
+                || (!top && thisMaxMinY < y)) y = thisMaxMinY;
         }
 
         y -= bottomPadding;
@@ -99,7 +80,9 @@ public class CustomFitter : MonoBehaviour
         {
             layoutElement.minHeight = Mathf.Abs(y);
             LayoutRebuilder.MarkLayoutForRebuild((RectTransform)rt.parent);
+            return;
         }
-        else rt.sizeDelta = new(rt.sizeDelta.x, -y);
+        
+        rt.sizeDelta = new(rt.sizeDelta.x, -y);
     }
 }
