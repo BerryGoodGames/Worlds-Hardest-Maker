@@ -5,6 +5,8 @@ public class AnchorBallController : EntityController
     [HideInInspector] public AnchorController ParentAnchor;
     public bool IsParentAnchorNull { get; private set; }
 
+    public override EditMode EditMode => EditMode.AnchorBall;
+
     public override Data GetData() => new AnchorBallData(StartPosition);
 
     [HideInInspector] public Vector2 StartPosition;

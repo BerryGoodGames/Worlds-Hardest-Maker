@@ -11,6 +11,9 @@ public class CoinController : EntityController
 
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
 
+
+    public override EditMode EditMode => EditMode.Coin;
+
     private void Awake()
     {
         CoinPosition = transform.position;
@@ -61,6 +64,5 @@ public class CoinController : EntityController
         Animator.SetBool(pickedUpString, true);
         PickedUp = true;
     }
-
     public override Data GetData() => new CoinData(this);
 }

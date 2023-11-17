@@ -81,6 +81,8 @@ public class PlayerController : EntityController
 
     #endregion
 
+    public override EditMode EditMode => EditMode.Player;
+
     private void Awake()
     {
         InitComponents();

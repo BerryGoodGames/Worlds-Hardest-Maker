@@ -62,7 +62,7 @@
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$PROJECT_DIR$/../../WHM Builds/v0.14/Default\Worlds Hardest Maker.exe" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/../../Builds/Worlds Hardest Maker/Windows/Worlds Hardest Maker.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\Meyer-Dieterle\Downloads\WHMv0.14" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -137,17 +137,14 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/DataSystem/SaveSystem.cs</url>
           <line>43</line>
-          <properties documentPath="C:\Users\Meyer-Dieterle\Code files\Unity\Worlds-Hardest-Maker\Worlds_Hardest_Maker\Assets\Scripts\DataSystem\SaveSystem.cs" initialLine="45" containingFunctionPresentation="Method 'SaveCurrentLevel'">
-            <startOffsets>
-              <option value="1352" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1494" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\Meyer-Dieterle\Code files\Unity\Worlds-Hardest-Maker\Worlds_Hardest_Maker\Assets\Scripts\DataSystem\SaveSystem.cs" initialLine="45" containingFunctionPresentation="Method 'SaveCurrentLevel'" />
           <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

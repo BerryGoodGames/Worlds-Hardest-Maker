@@ -9,12 +9,14 @@ using UnityEngine;
 /// </summary>
 public class MouseEvents : MonoBehaviour
 {
-    private const float SelectionCancelMaxTime = 0.15f;
+    private const float selectionCancelMaxTime = 0.15f;
 
     private void Update()
     {
         // selection
         if (KeyBinds.GetKeyBindDown("Editor_Select")) StartCoroutine(StartCancelSelection());
+        
+        if (KeyBinds.GetKeyBindDown("Editor_Pick")) 
 
         CheckPlaceAndDelete();
 
@@ -58,7 +60,7 @@ public class MouseEvents : MonoBehaviour
         float passedTime = 0;
         while (KeyBinds.GetKeyBind("Editor_Select"))
         {
-            if (passedTime > SelectionCancelMaxTime || MouseManager.Instance.MousePosDelta.magnitude > 10) yield break;
+            if (passedTime > selectionCancelMaxTime || MouseManager.Instance.MousePosDelta.magnitude > 10) yield break;
             passedTime += Time.deltaTime;
             yield return null;
         }

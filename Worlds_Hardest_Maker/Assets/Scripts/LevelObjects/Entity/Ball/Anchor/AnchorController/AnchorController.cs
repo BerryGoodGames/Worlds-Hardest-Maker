@@ -40,6 +40,8 @@ public partial class AnchorController : EntityController
 
     public bool Selected => AnchorManager.Instance.SelectedAnchor == this;
 
+    public override EditMode EditMode => EditMode.Anchor;
+
     private void Awake()
     {
         Rb = GetComponent<Rigidbody2D>();

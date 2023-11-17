@@ -1,3 +1,4 @@
+using System;
 using MyBox;
 using UnityEngine;
 
@@ -13,6 +14,22 @@ public class KeyController : EntityController
     [InitializationField] [MustBeAssigned] public IntervalRandomAnimation KonamiAnimation;
 
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
+
+    public override EditMode EditMode
+    {
+        get
+        {
+            return Color switch
+            {
+                KeyManager.KeyColor.Gray => EditMode.GrayKey,
+                KeyManager.KeyColor.Red => EditMode.RedKey,
+                KeyManager.KeyColor.Green => EditMode.GreenKey,
+                KeyManager.KeyColor.Blue => EditMode.BlueKey,
+                KeyManager.KeyColor.Yellow => EditMode.YellowKey,
+                _ => throw new("There is no edit mode assigned for color " + Color),
+            };
+        }
+    }
 
     private void Awake()
     {
