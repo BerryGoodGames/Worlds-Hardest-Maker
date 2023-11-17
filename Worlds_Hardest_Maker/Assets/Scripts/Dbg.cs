@@ -115,4 +115,5 @@ public class Dbg : MonoBehaviour
         PlayerPrefs.DeleteAll();
         print("Deleted Player Preferences");
     }
+    
 }

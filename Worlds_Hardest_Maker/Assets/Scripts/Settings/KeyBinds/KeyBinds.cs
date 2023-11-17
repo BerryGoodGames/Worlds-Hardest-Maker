@@ -18,7 +18,7 @@ public static class KeyBinds
         { "Editor_Select", new() { new[] { KeyCode.Mouse1, }, } },
         { "Editor_Copy", new() { new[] { KeyCode.LeftControl, KeyCode.C, }, } },
         { "Editor_Paste", new() { new[] { KeyCode.LeftControl, KeyCode.V, }, } },
-        { "Editor_Pick", new() { new[] { KeyCode.LeftControl, KeyCode.K, }, } },
+        { "Editor_Pick", new() { new[] { KeyCode.J }, } },
         { "Editor_Menu", new() { new[] { KeyCode.M, }, } },
         { "Editor_Save", new() { new[] { KeyCode.LeftControl, KeyCode.S, }, } },
         { "Editor_Load", new() { new[] { KeyCode.LeftControl, KeyCode.O, }, } },
@@ -103,6 +103,24 @@ public static class KeyBinds
         }
 
         return keyCodes.ToArray();
+    }
+    
+    public static void ReplaceKeyCode(KeyCode old, KeyCode @new) 
+    {
+        foreach (KeyValuePair<string, List<KeyCode[]>> keyBind in keyBindToKeyCode)
+        {
+            foreach (KeyCode[] combinations in keyBind.Value)
+            {
+                for (int i = 0; i < combinations.Length; i++)
+                {
+                    if (combinations[i] == old)
+                    {
+                        Debug.Log(keyBind.Key);
+                        combinations[i] = @new;
+                    }
+                }
+            }
+        }
     }
 }
 

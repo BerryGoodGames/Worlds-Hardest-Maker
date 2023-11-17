@@ -34,6 +34,13 @@ public class KeyEvents : MonoBehaviour
     {
         if (CheckKeyBindAddition()) return;
 
+        // pick object
+        if (KeyBinds.GetKeyBindDown("Editor_Pick"))
+        {
+            print("sex2");
+            PickManager.PickObject(MouseManager.Instance.MouseWorldPos);
+        }
+        
         // toggle playing
         if (LevelSessionManager.Instance.IsEdit && KeyBinds.GetKeyBindDown("Editor_PlayLevel")) PlayManager.Instance.TogglePlay();
 

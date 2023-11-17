@@ -53,8 +53,6 @@ public static class SaveSystem
         };
 
         SerializeLevelData(path, levelData);
-
-        Debug.Log($"Saved level at {path}");
     }
 
     public static List<Data> SerializeCurrentLevel()

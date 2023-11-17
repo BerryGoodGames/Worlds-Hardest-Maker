@@ -15,8 +15,6 @@ public class MouseEvents : MonoBehaviour
     {
         // selection
         if (KeyBinds.GetKeyBindDown("Editor_Select")) StartCoroutine(StartCancelSelection());
-        
-        if (KeyBinds.GetKeyBindDown("Editor_Pick")) 
 
         CheckPlaceAndDelete();
 

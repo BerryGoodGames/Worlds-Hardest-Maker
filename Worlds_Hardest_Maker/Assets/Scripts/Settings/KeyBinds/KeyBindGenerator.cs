@@ -9,7 +9,14 @@ public class KeyBindGenerator : MonoBehaviour
     [FormerlySerializedAs("category")] [Separator("References")] [SerializeField] private TMP_Text categoryHeader;
     [SerializeField] private KeyBindSetterController keyBindSetter;
 
-    private void Start() => GenerateKeyBindSetters();
+    private void Start()
+    {
+        #if UNITY_EDITOR
+        // change ctrl to shift in unity editor because of conflicts with the uniteh editor
+        KeyBinds.ReplaceKeyCode(KeyCode.LeftControl, KeyCode.Tab);
+        #endif
+        GenerateKeyBindSetters();
+    }
 
     private void GenerateKeyBindSetters()
     {

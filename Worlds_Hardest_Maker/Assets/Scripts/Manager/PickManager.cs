@@ -1,18 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PickManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static PickManager Instance { get; private set; }
+
+    private static int levelObjectMask = LayerMask.GetMask("Entity", "Field", "Player", "Void", "Water");
+
+    private void Awake()
     {
-        
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    public static void PickObject(Vector2 position)
     {
+        Collider2D[] hits = Physics2D.OverlapPointAll(position, levelObjectMask);
+
+        if (hits.Length <= 0) return;
+
+        if (!hits[0].TryGetComponent(out EntityController entity))
+        {
+            throw new("object that was tried to pick from is not an entity");
+        }
         
+        EditModeManager.Instance.SetEditMode(entity.EditMode);
     }
 }
