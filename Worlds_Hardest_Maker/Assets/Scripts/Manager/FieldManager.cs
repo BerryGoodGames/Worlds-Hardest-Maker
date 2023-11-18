@@ -172,42 +172,6 @@ public class FieldManager : MonoBehaviour
         return res;
     }
 
-    public static void FillPathWithFields(FieldType type, int rotation)
-    {
-        // generalized Bresenham's Line Algorithm optimized without /, find (unoptimized) algorithm here: https://www.uobabylon.edu.iq/eprints/publication_2_22893_6215.pdf
-        // I tried my best to explain the variables, but I have no idea how it works
-
-        Vector2 a = MouseManager.Instance.MouseWorldPos;
-        Vector2 b = MouseManager.Instance.PrevMouseWorldPos;
-
-        // increment and delta x
-        float incX = Mathf.Sign(b.x - a.x);
-        float dX = Mathf.Abs(b.x - a.x);
-
-        // increment and delta y
-        float incY = Mathf.Sign(b.y - a.y);
-        float dY = Mathf.Abs(b.y - a.y);
-
-        float cmpt = Mathf.Max(dX, dY); // max of both numbers
-        float incD = -2 * Mathf.Abs(dX - dY); // increment of delta
-        float incS = 2 * Mathf.Min(dX, dY); // I have no idea
-
-        float error = incD + cmpt; // error of line
-        float x = a.x; // where we are x
-        float y = a.y; // where we are y
-
-        while (cmpt >= 0)
-        {
-            Instance.SetField(new((int)x, (int)y), type, rotation);
-            cmpt -= 1;
-
-            if (error >= 0 || dX > dY) x += incX;
-            if (error >= 0 || dX <= dY) y += incY;
-            if (error >= 0) error += incD;
-            else error += incS;
-        }
-    }
-
     #region Field intersection
 
     public static bool IntersectingAnyFieldsAtPos(Vector2 position, params FieldType[] t)

@@ -55,56 +55,6 @@ public class GameManager : MonoBehaviourPun
             LevelSessionManager.Instance.LevelSessionPath != string.Empty) StartCoroutine(AutoSave());
     }
 
-    /// <summary>
-    ///     Places edit mode at position
-    /// </summary>
-    /// <param name="editMode">the type of field/entity you want</param>
-    public static void PlaceEditModeAtPosition(EditMode editMode, Vector2 worldPos)
-    {
-        Vector2 gridPos = worldPos.ConvertToGrid();
-        Vector2Int matrixPos = worldPos.ConvertToMatrix();
-
-        // check field placement
-        if (editMode.IsFieldType())
-        {
-            FieldType type = EnumUtils.ConvertEnum<EditMode, FieldType>(editMode);
-            int rotation = type.IsRotatable() ? EditModeManager.Instance.EditRotation : 0;
-            FieldManager.Instance.SetField(matrixPos, type, rotation);
-        }
-
-        // check field deletion
-        if (editMode is EditMode.DeleteField)
-        {
-            // delete field
-            FieldManager.Instance.RemoveField(matrixPos, true);
-
-            // remove player if at deleted pos
-            PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixPos);
-        }
-
-        if (editMode is EditMode.Player) PlayerManager.Instance.SetPlayer(gridPos, true);
-        if (editMode is EditMode.AnchorBall) AnchorBallManager.SetAnchorBall(gridPos);
-        if (editMode is EditMode.Coin) CoinManager.Instance.SetCoin(gridPos);
-        if (editMode.IsKey())
-        {
-            // get key color
-            string editModeStr = editMode.ToString();
-            string keyColorStr = editModeStr.Remove(editModeStr.Length - 3);
-            KeyManager.KeyColor keyColor = EnumUtils.ParseString<KeyManager.KeyColor>(keyColorStr);
-
-            // place key
-            KeyManager.Instance.SetKey(gridPos, keyColor);
-        }
-
-        // place anchor
-        if (editMode is EditMode.Anchor)
-        {
-            // place new anchor + select
-            AnchorController anchor = AnchorManager.Instance.SetAnchor(gridPos);
-            if (anchor != null) AnchorManager.Instance.SelectAnchor(anchor);
-        }
-    }
-
     #region Save system
 
     public void LoadLevel(string path)

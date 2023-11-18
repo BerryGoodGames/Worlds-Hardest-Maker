@@ -76,7 +76,7 @@ public class KeyEvents : MonoBehaviour
     {
         // rotate if current edit mode is field and rotatable
         FieldType? fieldType =
-            (FieldType?)EnumUtils.TryConvertEnum<EditMode, FieldType>(EditModeManager.Instance.CurrentEditMode);
+            (FieldType?)EnumExtensions.TryConvertTo<EditMode, FieldType>(EditModeManager.Instance.CurrentEditMode);
 
         if (fieldType == null || !((FieldType)fieldType).IsRotatable() || !KeyBinds.GetKeyBindDown("Editor_Rotate")) return;
         

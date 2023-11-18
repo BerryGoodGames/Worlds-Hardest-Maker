@@ -323,13 +323,13 @@ public class SelectionManager : MonoBehaviour
 
         if (editMode.IsFieldType())
         {
-            FillAreaWithFields(poses, (FieldType)EnumUtils.TryConvertEnum<EditMode, FieldType>(editMode));
+            FillAreaWithFields(poses, (FieldType)EnumExtensions.TryConvertTo<EditMode, FieldType>(editMode));
             return;
         }
 
         DeleteArea(poses);
 
-        foreach (Vector2 pos in poses) GameManager.PlaceEditModeAtPosition(editMode, pos);
+        foreach (Vector2 pos in poses) PlaceManager.Instance.Place(editMode, pos);
 
         UpdateOutlinesInArea(false, poses[0].Floor(), poses.Last().Ceil());
     }

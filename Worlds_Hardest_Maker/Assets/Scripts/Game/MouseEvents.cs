@@ -68,34 +68,34 @@ public class MouseEvents : MonoBehaviour
 
     private static void CheckClickPlacement(EditMode editMode)
     {
-        // place anchor
-        if (editMode is EditMode.Anchor)
-        {
-            // place new anchor + select
-            AnchorController anchor = AnchorManager.Instance.SetAnchor(MouseManager.Instance.MouseWorldPosGrid);
-            if (anchor != null) AnchorManager.Instance.SelectAnchor(anchor);
-        }
+        if (!editMode.IsDraggable()) return;
+        
+        PlaceManager.Instance.Place(editMode, MouseManager.Instance.MouseWorldPos);
     }
 
     private static void CheckDragPlacement(EditMode editMode)
     {
-        List<EditMode> dragPlaceEditModes = new()
-        {
-            EditMode.DeleteField, EditMode.Player, EditMode.Coin, EditMode.AnchorBall,
-        };
-
         // check placement
-        if (dragPlaceEditModes.Contains(editMode) || editMode.IsKey() || editMode.IsFieldType())
-            GameManager.PlaceEditModeAtPosition(editMode, MouseManager.Instance.MouseWorldPos);
+        if (!editMode.IsDraggable()) return;
+        
+        if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) > 1.414f)
+        {
+            if (editMode.IsFieldType())
+            {
+                
+            }
+            PlaceManager.Instance.PlacePath(editMode, 
+                                        MouseManager.Instance.PrevMouseWorldPos, MouseManager.Instance.MouseWorldPos, 
+                                            EditModeManager.Instance.EditRotation, true);
+        }
+        else
+        {
+            PlaceManager.Instance.Place(editMode, MouseManager.Instance.MouseWorldPos,
+                                        EditModeManager.Instance.EditRotation, true);
+        }
 
         // if user dragged to fast, fill path between two mouse pos for smoother placing on low framerate
-        if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) > 1.414f &&
-            editMode.IsFieldType())
-        {
-            FieldType type = EnumUtils.ConvertEnum<EditMode, FieldType>(editMode);
-            int rotation = type.IsRotatable() ? EditModeManager.Instance.EditRotation : 0;
-            FieldManager.FillPathWithFields(type, rotation);
-        }
+
     }
 
     private static void CheckEntityDelete(PhotonView photonView, bool multiplayer)
