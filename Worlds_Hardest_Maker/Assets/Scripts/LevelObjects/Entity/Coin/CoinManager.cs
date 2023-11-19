@@ -59,11 +59,11 @@ public class CoinManager : MonoBehaviour
         if (Instance == null) Instance = this;
     }
 
-    public void SetCoin(Vector2 worldPosition)
+    public CoinController SetCoin(Vector2 worldPosition)
     {
         Vector2 matrixPosition = worldPosition.ConvertToGrid();
 
-        if (!CanPlace(matrixPosition)) return;
+        if (!CanPlace(matrixPosition)) return null;
 
         CoinController coin = Instantiate(
             PrefabManager.Instance.Coin, matrixPosition, Quaternion.identity,
@@ -71,6 +71,8 @@ public class CoinManager : MonoBehaviour
         );
 
         coin.Animator.SetBool(playing, EditModeManager.Instance.Playing);
+
+        return coin;
     }
 
     public void Place(Vector2 worldPosition) { }

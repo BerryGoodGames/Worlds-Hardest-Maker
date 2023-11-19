@@ -13,9 +13,9 @@ public class AnchorBallManager : MonoBehaviour
 
     #region Set
 
-    public static void SetAnchorBall(Vector2 pos, [CanBeNull] AnchorController parentAnchor)
+    public static AnchorBallController SetAnchorBall(Vector2 pos, [CanBeNull] AnchorController parentAnchor)
     {
-        if (GetAnchorBall(pos, parentAnchor) != null) return;
+        if (GetAnchorBall(pos, parentAnchor) != null) return null;
 
         bool hasParent = parentAnchor != null;
 
@@ -37,13 +37,15 @@ public class AnchorBallManager : MonoBehaviour
 
         if (hasParent) Instance.AnchorBallListLayers[parentAnchor].Add(ballController);
         else Instance.AnchorBallListGlobal.Add(ballController);
+
+        return ballController;
     }
 
-    public static void SetAnchorBall(Vector2 position)
+    public static AnchorBallController SetAnchorBall(Vector2 position)
     {
         AnchorController selectedAnchor = AnchorManager.Instance.SelectedAnchor;
 
-        SetAnchorBall(position, selectedAnchor);
+        return SetAnchorBall(position, selectedAnchor);
     }
 
     public static List<AnchorBallController> GetAnchorBalls(Vector2 pos)

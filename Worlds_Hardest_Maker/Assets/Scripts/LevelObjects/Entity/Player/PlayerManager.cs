@@ -24,7 +24,7 @@ public class PlayerManager : MonoBehaviour
 
     #region Set player
 
-    public void SetPlayer(Vector2 position, float speed, bool placeStartField = false)
+    public PlayerController SetPlayer(Vector2 position, float speed, bool placeStartField = false)
     {
         // TODO: improve
         if (!CanPlace(position))
@@ -39,9 +39,10 @@ public class PlayerManager : MonoBehaviour
                     Vector2Int.CeilToInt(position),
                 };
 
-                foreach (Vector2Int checkPosition in checkPoses) FieldManager.Instance.SetField(checkPosition, FieldType.StartField);
+                foreach (Vector2Int checkPosition in checkPoses)
+                    FieldManager.Instance.SetField(checkPosition, FieldType.StartField);
             }
-            else return;
+            else return null;
         }
 
         // clear area from coins and keys
@@ -80,9 +81,11 @@ public class PlayerManager : MonoBehaviour
 
         // set target of camera
         ReferenceManager.Instance.MainCameraJumper.AddTarget("Player", newPlayer.gameObject);
+
+        return newPlayer;
     }
 
-    public void SetPlayer(Vector2 position, bool placeStartField = false) => SetPlayer(position, 3f, placeStartField);
+    public PlayerController SetPlayer(Vector2 position, bool placeStartField = false) => SetPlayer(position, 3f, placeStartField);
 
     #endregion
 

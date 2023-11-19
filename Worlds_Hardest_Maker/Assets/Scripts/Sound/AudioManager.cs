@@ -18,29 +18,22 @@ public class AudioManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
 
-        foreach (Sound s in Sounds)
+        foreach (Sound sound in Sounds)
         {
-            s.Source = gameObject.AddComponent<AudioSource>();
-            s.Source.clip = s.AudioClip;
-            s.Source.outputAudioMixerGroup = s.Output;
-            s.Source.mute = s.Mute;
-            s.Source.loop = s.Loop;
-            s.Source.volume = s.Volume;
-            s.Source.pitch = s.Pitch;
-            if (s.PlayOnAwake) s.Source.Play();
+            sound.CreateSources(gameObject);
         }
     }
 
     public void Play(string name)
     {
-        Sound s = Array.Find(Sounds, sound => sound.Name == name);
-        if (s == null)
+        Sound sound = Array.Find(Sounds, sound => sound.Name == name);
+        if (sound == null)
         {
-            Debug.LogWarning($"The sound name {name} was not found!");
+            Debug.LogWarning($"The sound called {name} was not found!");
             return;
         }
 
-        s.Source.Play();
+        sound.Play();
     }
 
     public void MusicFiltered(bool filtered)
