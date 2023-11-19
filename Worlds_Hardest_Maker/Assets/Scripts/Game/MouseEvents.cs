@@ -68,9 +68,9 @@ public class MouseEvents : MonoBehaviour
 
     private static void CheckClickPlacement(EditMode editMode)
     {
-        if (!editMode.IsDraggable()) return;
+        if (editMode.IsDraggable()) return;
         
-        PlaceManager.Instance.Place(editMode, MouseManager.Instance.MouseWorldPos);
+        PlaceManager.Instance.Place(editMode, MouseManager.Instance.MouseWorldPos, EditModeManager.Instance.EditRotation, true);
     }
 
     private static void CheckDragPlacement(EditMode editMode)
