@@ -59,9 +59,9 @@ public class KeyManager : MonoBehaviour
     [ReadOnly] public List<KeyController> Keys = new();
 
     [PunRPC]
-    public void SetKey(Vector2 position, KeyColor color)
+    public KeyController SetKey(Vector2 position, KeyColor color)
     {
-        if (!CanPlace(position)) return;
+        if (!CanPlace(position)) return null;
 
         // remove other key (which has mby other color)
         RemoveKey(position);
@@ -78,6 +78,8 @@ public class KeyManager : MonoBehaviour
 
         // setup konami code animation
         key.KonamiAnimation.enabled = KonamiManager.Instance.KonamiActive;
+
+        return key;
     }
 
     [PunRPC]

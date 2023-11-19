@@ -39,33 +39,41 @@ public class FieldManager : MonoBehaviour
     }
 
     [PunRPC]
-    public void RemoveField(Vector2Int position, bool updateOutlines = false)
+    public bool RemoveField(Vector2Int position, bool updateOutlines = false)
     {
         GameObject field = GetField(position);
 
-        if (field != null) DestroyImmediate(field);
+        bool fieldDestroyed = false;
 
-        if (!updateOutlines) return;
+        if (field != null)
+        {
+            DestroyImmediate(field);
+            fieldDestroyed = true;
+        }
+
+        if (!updateOutlines) return fieldDestroyed;
 
         // update outlines beside removed field
         foreach (GameObject neighbor in GetNeighbors(position))
         {
             if (neighbor.TryGetComponent(out FieldOutline comp)) comp.UpdateOutline();
         }
+
+        return fieldDestroyed;
     }
 
     [PunRPC]
-    public void SetField(Vector2Int position, FieldType type, int rotation)
+    public FieldController SetField(Vector2Int position, FieldType type, int rotation)
     {
-        if (GetField(position) != null && GetFieldType(GetField(position)) == type) return;
+        if (GetField(position) is not null && GetFieldType(GetField(position)) == type) return null;
 
         // remove any field at pos
         RemoveField(position, true);
 
         // place field according to edit mode
-        GameObject field = InstantiateField(position, type, rotation);
+        FieldController field = InstantiateField(position, type, rotation);
 
-        ApplyStartGoalCheckpointFieldColor(field, null);
+        ApplyStartGoalCheckpointFieldColor(field.gameObject, null);
 
         // remove player if at changed pos
         if (!PlayerManager.StartFields.Contains(type)) PlayerManager.Instance.RemovePlayerAtPosIntersect(position);
@@ -77,6 +85,8 @@ public class FieldManager : MonoBehaviour
         if (KeyManager.CannotPlaceFields.Contains(type))
             // remove key if wall is placed
             GameManager.RemoveObjectInContainerIntersect(position, ReferenceManager.Instance.KeyContainer);
+
+        return field;
     }
 
     [PunRPC]
@@ -116,7 +126,7 @@ public class FieldManager : MonoBehaviour
         }
     }
 
-    private static GameObject InstantiateField(Vector2 pos, FieldType type, int rotation)
+    private static FieldController InstantiateField(Vector2 pos, FieldType type, int rotation)
     {
         GameObject prefab = type.GetPrefab();
         GameObject res = MultiplayerManager.Instance.Multiplayer
@@ -126,7 +136,7 @@ public class FieldManager : MonoBehaviour
                 ReferenceManager.Instance.FieldContainer
             );
 
-        return res;
+        return res.GetComponent<FieldController>();
     }
 
     public static List<GameObject> GetNeighbors(GameObject field)

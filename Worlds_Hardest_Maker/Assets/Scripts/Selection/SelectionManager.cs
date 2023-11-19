@@ -323,7 +323,7 @@ public class SelectionManager : MonoBehaviour
 
         if (editMode.IsFieldType())
         {
-            FillAreaWithFields(poses, (FieldType)EnumExtensions.TryConvertTo<EditMode, FieldType>(editMode));
+            FillAreaWithFields(poses, (FieldType)editMode.TryConvertTo<EditMode, FieldType>());
             return;
         }
 

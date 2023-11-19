@@ -20,9 +20,6 @@ public class PlaceManager : MonoBehaviour
     /// <param name="playSound">if it should play the place sound</param>
     public void Place(EditMode editMode, Vector2 position, int rotation = 0, bool playSound = false)
     {
-        if(playSound)
-            AudioManager.Instance.Play(GetSfx(editMode));
-        
         Vector2 gridPosition = position.ConvertToGrid();
         Vector2Int matrixPosition = position.ConvertToMatrix();
 
@@ -31,7 +28,10 @@ public class PlaceManager : MonoBehaviour
         {
             FieldType type = editMode.ConvertTo<EditMode, FieldType>();
             if (!type.IsRotatable()) rotation = 0;
-            FieldManager.Instance.SetField(matrixPosition, type, rotation);
+            if (FieldManager.Instance.SetField(matrixPosition, type, rotation) is not null && playSound)
+            {
+                AudioManager.Instance.Play(GetSfx(editMode));
+            }
         }
         // TODO: fix complexity by putting set methods in abstract class and make a general method to get the abstract classes
         else switch (editMode)
@@ -39,24 +39,39 @@ public class PlaceManager : MonoBehaviour
             // check field deletion
             case EditMode.DeleteField:
                 // delete field
-                FieldManager.Instance.RemoveField(matrixPosition, true);
-
+                if (FieldManager.Instance.RemoveField(matrixPosition, true) && playSound)
+                {
+                    AudioManager.Instance.Play(GetSfx(editMode));
+                }
                 // remove player if at deleted pos
                 PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixPosition);
                 break;
             case EditMode.Player:
-                PlayerManager.Instance.SetPlayer(gridPosition, true);
+                if (PlayerManager.Instance.SetPlayer(gridPosition, true) is not null && playSound)
+                {
+                    AudioManager.Instance.Play(GetSfx(editMode));
+                }
                 break;
             case EditMode.AnchorBall:
-                AnchorBallManager.SetAnchorBall(gridPosition);
+                if (AnchorBallManager.SetAnchorBall(gridPosition) is not null && playSound)
+                {
+                    AudioManager.Instance.Play(GetSfx(editMode));
+                }
                 break;
             case EditMode.Coin:
-                CoinManager.Instance.SetCoin(gridPosition);
+                if (CoinManager.Instance.SetCoin(gridPosition) is not null && playSound)
+                {
+                    AudioManager.Instance.Play(GetSfx(editMode));
+                }
                 break;
             case EditMode.Anchor:
                 // place new anchor + select
                 AnchorController anchor = AnchorManager.Instance.SetAnchor(gridPosition);
-                if (anchor != null) AnchorManager.Instance.SelectAnchor(anchor);
+                if (anchor is not null && playSound)
+                {
+                    AudioManager.Instance.Play(GetSfx(editMode));
+                    AnchorManager.Instance.SelectAnchor(anchor);
+                }
                 break;
             default:
             {
@@ -68,7 +83,10 @@ public class PlaceManager : MonoBehaviour
                     KeyManager.KeyColor keyColor = keyColorStr.ToEnum<KeyManager.KeyColor>();
 
                     // place key
-                    KeyManager.Instance.SetKey(gridPosition, keyColor);
+                    if (KeyManager.Instance.SetKey(gridPosition, keyColor) is not null && playSound)
+                    {
+                        AudioManager.Instance.Play(GetSfx(editMode));
+                    }
                 }
                 break;
             }
