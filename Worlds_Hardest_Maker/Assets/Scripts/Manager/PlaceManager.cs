@@ -8,6 +8,7 @@ public class PlaceManager : MonoBehaviour
     public static PlaceManager Instance { get; private set; }
     
     [SerializeField] private string defaultPlaceSfx = "Place";
+    [SerializeField] [PositiveValueOnly] private float defaultPlaceSfxPitchDeviation;
     [SerializeField] private PlaceSfx[] customPlaceSfx;
 
     /// <summary>
@@ -126,7 +127,11 @@ public class PlaceManager : MonoBehaviour
 
     private PlaceSfx GetSfx(EditMode editMode)
     {
-        PlaceSfx sfx = new(EditMode.Void, defaultPlaceSfx);
+        PlaceSfx sfx = new(EditMode.Void, defaultPlaceSfx)
+        {
+            PitchRandomization = true,
+            PitchDeviation = defaultPlaceSfxPitchDeviation,
+        };
 
         foreach (PlaceSfx placeSfx in customPlaceSfx)
         {
