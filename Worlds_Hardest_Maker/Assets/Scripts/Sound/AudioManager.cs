@@ -1,32 +1,31 @@
 using System;
+using MyBox;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Serialization;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    public float TransitionTime = 1;
+    [SerializeField] [PositiveValueOnly] [InitializationField] private float transitionTime = 0.5f;
 
-    public AudioMixerSnapshot DefaultState;
+    [FormerlySerializedAs("DefaultState")] [SerializeField] [InitializationField] private AudioMixerSnapshot defaultState;
 
-    public AudioMixerSnapshot FilteredState;
+    [FormerlySerializedAs("FilteredState")] [SerializeField] [InitializationField] private AudioMixerSnapshot filteredState;
 
-    [Space] public Sound[] Sounds;
+    [FormerlySerializedAs("Sounds")] [Space] [SerializeField] private Sound[] sounds;
 
     private void Awake()
     {
         if (Instance == null) Instance = this;
 
-        foreach (Sound sound in Sounds)
-        {
-            sound.CreateSources(gameObject);
-        }
+        sounds.ForEach(sound => sound.CreateSources(gameObject));
     }
 
     public void Play(string name)
     {
-        Sound sound = Array.Find(Sounds, sound => sound.Name == name);
+        Sound sound = Array.Find(sounds, sound => sound.Name == name);
         if (sound == null)
         {
             Debug.LogWarning($"The sound called {name} was not found!");
@@ -36,9 +35,5 @@ public class AudioManager : MonoBehaviour
         sound.Play();
     }
 
-    public void MusicFiltered(bool filtered)
-    {
-        if (filtered) FilteredState.TransitionTo(TransitionTime);
-        else DefaultState.TransitionTo(TransitionTime);
-    }
+    public void MusicFiltered(bool filtered) => (filtered ? filteredState : defaultState).TransitionTo(transitionTime);
 }

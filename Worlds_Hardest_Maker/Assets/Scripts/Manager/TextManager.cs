@@ -1,6 +1,8 @@
 using System;
+using MyBox;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TextManager : MonoBehaviour
 {
@@ -8,12 +10,12 @@ public class TextManager : MonoBehaviour
 
     #region Text References
 
-    [Header("Text References")] public TMP_Text EditModeText;
+    [FormerlySerializedAs("EditModeText")] [Header("Text References")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text editModeText;
 
-    public TMP_Text SelectingText;
+    [FormerlySerializedAs("SelectingText")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text selectingText;
 
-    public TMP_Text DeathText;
-    public TMP_Text CoinText;
+    [FormerlySerializedAs("DeathText")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text deathText;
+    [FormerlySerializedAs("CoinText")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text coinText;
 
     #endregion
 
@@ -43,9 +45,9 @@ public class TextManager : MonoBehaviour
         }
 
         // set edit mode text ui
-        Instance.EditModeText.text = $"Edit: {EditModeManager.Instance.CurrentEditMode.GetUIString()}";
-        Instance.SelectingText.text = $"Selecting: {SelectionManager.Instance.Selecting}";
-        Instance.DeathText.text = $"Deaths: {playerDeaths}";
-        Instance.CoinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.TotalCoins}";
+        Instance.editModeText.text = $"Edit: {EditModeManager.Instance.CurrentEditMode.GetUIString()}";
+        Instance.selectingText.text = $"Selecting: {SelectionManager.Instance.Selecting}";
+        Instance.deathText.text = $"Deaths: {playerDeaths}";
+        Instance.coinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.TotalCoins}";
     }
 }

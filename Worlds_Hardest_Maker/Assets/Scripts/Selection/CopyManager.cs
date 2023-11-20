@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 
 public class CopyManager : MonoBehaviour
 {
-    public static CopyManager Instance { get; set; }
+    public static CopyManager Instance { get; private set; }
 
     private readonly List<CopyData> clipBoard = new();
 
-    public bool Pasting;
+    [field: SerializeField] [field: ReadOnly] public bool Pasting { get; private set; }
 
-    [SerializeField] private Transform previewContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform previewContainer;
 
     public void Copy(Vector2 lowestPos, Vector2 highestPos)
     {

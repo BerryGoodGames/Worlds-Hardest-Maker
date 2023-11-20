@@ -1,29 +1,32 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using Photon.Pun;
+using MyBox;
 using UnityEngine;
 
 public class AnchorBallManager : MonoBehaviour
 {
-    public static AnchorBallManager Instance { get; set; }
+    public static AnchorBallManager Instance { get; private set; }
 
-    public List<AnchorBallController> AnchorBallList;
-    public Dictionary<AnchorController, List<AnchorBallController>> AnchorBallListLayers;
-    public List<AnchorBallController> AnchorBallListGlobal;
+    [ReadOnly] public List<AnchorBallController> AnchorBallList;
+    [ReadOnly] public Dictionary<AnchorController, List<AnchorBallController>> AnchorBallListLayers;
+    [ReadOnly] public List<AnchorBallController> AnchorBallListGlobal;
 
-    #region Set
+    #region Set, Get
 
     public static AnchorBallController SetAnchorBall(Vector2 pos, [CanBeNull] AnchorController parentAnchor)
     {
         if (GetAnchorBall(pos, parentAnchor) != null) return null;
 
         bool hasParent = parentAnchor != null;
-
+        
+        // assign container
         Transform container = hasParent ? parentAnchor.BallContainer : ReferenceManager.Instance.AnchorBallContainer.transform;
-
+        
+        // instantiate
         GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, container.position, Quaternion.identity, container);
         AnchorBallController ballController = ball.GetComponentInChildren<AnchorBallController>();
-
+        
+        // setup parent
         if (hasParent)
         {
             ballController.ParentAnchor = parentAnchor;
@@ -41,10 +44,10 @@ public class AnchorBallManager : MonoBehaviour
         return ballController;
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     public static AnchorBallController SetAnchorBall(Vector2 position)
     {
         AnchorController selectedAnchor = AnchorManager.Instance.SelectedAnchor;
-
         return SetAnchorBall(position, selectedAnchor);
     }
 
@@ -76,39 +79,41 @@ public class AnchorBallManager : MonoBehaviour
 
         return null;
     }
-
-    #endregion
-
-    #region Remove
-
-    [PunRPC]
-    public void RemoveAnchorBall(Vector2 position)
-    {
-        AnchorBallListGlobal.ForEach(CheckAnchorBall);
-
-        foreach (KeyValuePair<AnchorController, List<AnchorBallController>> anchorBallListPair in AnchorBallListLayers)
-        {
-            anchorBallListPair.Value.ForEach(CheckAnchorBall);
-        }
-
-        return;
-
-        void CheckAnchorBall(AnchorBallController ball)
-        {
-            if ((Vector2)ball.transform.position != position) return;
-
-            Destroy(ball.gameObject);
-        }
-    }
+    //
+    // #endregion
+    //
+    // #region Remove
+    //
+    // [PunRPC]
+    // public void RemoveAnchorBall(Vector2 position)
+    // {
+    //     AnchorBallListGlobal.ForEach(CheckAnchorBall);
+    //
+    //     foreach (KeyValuePair<AnchorController, List<AnchorBallController>> anchorBallListPair in AnchorBallListLayers)
+    //     {
+    //         anchorBallListPair.Value.ForEach(CheckAnchorBall);
+    //     }
+    //
+    //     return;
+    //
+    //     void CheckAnchorBall(AnchorBallController ball)
+    //     {
+    //         if ((Vector2)ball.transform.position != position) return;
+    //
+    //         Destroy(ball.gameObject);
+    //     }
+    // }
 
     #endregion
 
     public static void SelectAnchorBall(Vector2 position)
     {
+        // check if anchor ball there
         List<AnchorBallController> ballsAtPos = GetAnchorBalls(position);
 
         if (ballsAtPos.Count <= 0) return;
-
+        
+        // get first ball at position and (de)select corresponding anchor
         foreach (AnchorBallController ball in ballsAtPos)
         {
             if (!ball.IsParentAnchorNull && ball.ParentAnchor.Position == ball.Position) continue;

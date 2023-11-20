@@ -53,8 +53,8 @@ public class AnchorBlockPeriblockerController : MonoBehaviour
     public void OnUnhover()
     {
         // check if any hoverable object is hovered (anchor blocks or anchor connector or periblocker)
-        if (AnchorBlockManager.IsAnyBlockHovered() || AnchorBlockManager.Instance.IsConnectorHovered ||
-            AnchorBlockManager.Instance.IsPeriblockerHovered) return;
+        if (AnchorBlockManager.IsAnyBlockHovered() || AnchorBlockManager.IsConnectorHovered ||
+            AnchorBlockManager.IsPeriblockerHovered) return;
 
         // disable preview
         AnchorBlockManager.Instance.HoveredBlockIndex = -1;

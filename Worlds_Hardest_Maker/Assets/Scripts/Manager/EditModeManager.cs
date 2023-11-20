@@ -8,8 +8,7 @@ public class EditModeManager : MonoBehaviour
 
     #region Variables & properties
 
-    // current edit mode
-    [SerializeField] [SearchableEnum] private EditMode currentEditMode;
+    [SerializeField] [SearchableEnum] [InitializationField] private EditMode currentEditMode;
     private EditMode? prevEditMode;
 
     public EditMode CurrentEditMode
@@ -18,16 +17,13 @@ public class EditModeManager : MonoBehaviour
         set => Instance.SetEditMode(value);
     }
 
-    // editing
-    [field: SerializeField] public bool Editing { get; set; }
-
+    [field: SerializeField] [field: ReadOnly] public bool Editing { get; set; }
     public bool Playing
     {
         get => !Editing;
         set => Editing = !value;
     }
 
-    // edit rotation
     [SerializeField] [ReadOnly] private int editRotation = 270;
 
     public int EditRotation

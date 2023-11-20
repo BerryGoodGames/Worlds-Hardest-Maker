@@ -12,10 +12,10 @@ public class GameManager : MonoBehaviourPun
 {
     public static GameManager Instance { get; private set; }
 
-    [SerializeField] private LoadingScreen loadingScreen;
-    [SerializeField] private ChainableTween swipeTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private LoadingScreen loadingScreen;
+    [SerializeField] [InitializationField] [MustBeAssigned] private ChainableTween swipeTween;
 
-    [Separator("Save")] [SerializeField] private float autoSaveInterval = 300;
+    [Separator("Save")] [SerializeField] [PositiveValueOnly] private float autoSaveInterval = 300;
 
     private RectTransform canvasRT;
 

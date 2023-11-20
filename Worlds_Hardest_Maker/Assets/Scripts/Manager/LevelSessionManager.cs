@@ -21,8 +21,8 @@ public class LevelSessionManager : MonoBehaviour
 
     public TimeSpan EditTime = TimeSpan.Zero;
     public TimeSpan PlayTime = TimeSpan.Zero;
-    public uint Deaths;
-    public uint Completions;
+    [Space] [ReadOnly] [OverrideLabel("Play Session Deaths")] public uint Deaths;
+    [ReadOnly] [OverrideLabel("Play Session Completions")] public uint Completions;
     public TimeSpan? BestCompletionTime;
 
     private void Update()
@@ -57,7 +57,10 @@ public class LevelSessionManager : MonoBehaviour
             if (obj.PlayOnly && IsEdit) Destroy(obj.gameObject);
         }
 
-        PlayerManager.Instance.OnWin += () => Completions++;
+        PlayerManager.Instance.OnWin += () =>
+        {
+            if (!IsEdit) Completions++;
+        };
     }
 
     private void Awake()

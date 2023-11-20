@@ -1,3 +1,4 @@
+using MyBox;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,11 +8,11 @@ public class LevelSettings : MonoBehaviour
 
     #region Setting UI element references
 
-    [SerializeField] private NumberInput drownDurationInput;
-    [SerializeField] private Slider waterDampingSlider;
-    [SerializeField] private NumberInput iceFrictionInput;
-    [SerializeField] private NumberInput iceMaxSpeedInput;
-    [SerializeField] private Toggle reusableCheckpointCheckbox;
+    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput drownDurationInput;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Slider waterDampingSlider;
+    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput iceFrictionInput;
+    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput iceMaxSpeedInput;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Toggle reusableCheckpointCheckbox;
 
     #endregion
 

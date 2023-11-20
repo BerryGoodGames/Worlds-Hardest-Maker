@@ -1,12 +1,14 @@
 using System.Collections.Generic;
+using MyBox;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GraphicsSettings : MonoBehaviour
 {
     public static GraphicsSettings Instance { get; private set; }
 
-    public TMP_Dropdown ResolutionDropdown;
+    [FormerlySerializedAs("ResolutionDropdown")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Dropdown resolutionDropdown;
 
     private Resolution[] resolutions;
 
@@ -80,7 +82,7 @@ public class GraphicsSettings : MonoBehaviour
         // dropdown for resolution: clear and fill in unity's resolutions options
         resolutions = Screen.resolutions;
 
-        ResolutionDropdown.ClearOptions();
+        resolutionDropdown.ClearOptions();
         List<string> options = new();
 
         int currentResIndex = 0;
@@ -92,9 +94,9 @@ public class GraphicsSettings : MonoBehaviour
                 resolutions[i].height == Screen.currentResolution.height) currentResIndex = i;
         }
 
-        ResolutionDropdown.AddOptions(options);
-        ResolutionDropdown.value = currentResIndex;
-        ResolutionDropdown.RefreshShownValue();
+        resolutionDropdown.AddOptions(options);
+        resolutionDropdown.value = currentResIndex;
+        resolutionDropdown.RefreshShownValue();
     }
 
     private void Start()

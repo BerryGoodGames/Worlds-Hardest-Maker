@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using MyBox;
 using TMPro;
 using UnityEngine;
@@ -23,12 +24,11 @@ public class Dbg : MonoBehaviour
         MousePositionPixels,
     }
 
-    [field: Header("Settings")] [field: SerializeField] public bool Enabled { get; set; } = true;
+    [field: Foldout("Settings")] [field: SerializeField] public bool Enabled { get; set; } = true;
+    [field: Foldout("Settings")] [field: SerializeField] [field: PositiveValueOnly] public float GameSpeed { get; set; } = 1;
 
-    [field: SerializeField] public float GameSpeed { get; set; } = 1;
-
-    [Space] [Foldout("Debug Text")] public DbgTextMode TextMode;
-    [Foldout("Debug Text")] public float Count;
+    [Foldout("Debug Text")] public DbgTextMode TextMode;
+    [Foldout("Debug Text")] public uint Count;
 
     [Foldout("Level")] public bool AutoLoadLevel;
     [Foldout("Level")] [ConditionalField(nameof(AutoLoadLevel))] public string LevelName = "DebugLevel";
@@ -93,12 +93,14 @@ public class Dbg : MonoBehaviour
         }
     }
 
+    [UsedImplicitly]
     public static void Text(object obj)
     {
         try { Instance.debugText.text = obj.ToString(); }
         catch { Instance.debugText.text = "failed"; }
     }
 
+    [UsedImplicitly]
     public static void PrintScriptAttachments<T>() where T : MonoBehaviour
     {
         Object[] list = FindObjectsOfType(typeof(T), true);

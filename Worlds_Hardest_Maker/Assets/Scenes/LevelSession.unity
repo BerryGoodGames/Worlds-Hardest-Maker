@@ -1209,7 +1209,6 @@ Transform:
   - {fileID: 2112649816}
   - {fileID: 261002466}
   - {fileID: 1285270084}
-  - {fileID: 552730101}
   - {fileID: 930056954}
   - {fileID: 961560553}
   - {fileID: 591220726}
@@ -1773,10 +1772,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d67f32a21e0dd647b0e87d9738989dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainMixer: {fileID: 24100000, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
-  ToolbarContainer: {fileID: 3914619141356778195}
-  InfobarEdit: {fileID: 1060004923}
-  InfobarPlay: {fileID: 660451849}
+  mainMixer: {fileID: 24100000, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+  toolbarContainer: {fileID: 3914619141356778195}
+  infobarEdit: {fileID: 1060004923}
+  infobarPlay: {fileID: 660451849}
 --- !u!224 &257577884 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 917516803659758717, guid: 840b4e83d3fed374a8081e570c5f2efc, type: 3}
@@ -5111,50 +5110,6 @@ MonoBehaviour:
   whenEdit:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &552730100
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 552730101}
-  - component: {fileID: 552730102}
-  m_Layer: 0
-  m_Name: _Keybind
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &552730101
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 552730100}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 198493967}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &552730102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 552730100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef1f7017eb24045489c2f2e782c9b4e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &566220919
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5502,7 +5457,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
-  NoFriction: {fileID: 6200000, guid: 88face5bfde0aba43a3bbd9678a95eab, type: 2}
 --- !u!1 &613163606 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9129395691176777980, guid: 840b4e83d3fed374a8081e570c5f2efc, type: 3}
@@ -10714,8 +10668,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94082a70f26ed84780155aec640a6a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsEditing: 0
-  CurrentEditedIndexInput: {fileID: 0}
+  isEditing: 0
+  currentEditedIndexInput: {fileID: 0}
 --- !u!114 &1183487572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11870,7 +11824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa07597f4abf86048a42439dce9631ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ResolutionDropdown: {fileID: 2035818201}
+  resolutionDropdown: {fileID: 2035818201}
   QualityLevel: 0
   OneColorStartGoalCheckpoint: 0
 --- !u!114 &1299631141 stripped
@@ -14123,7 +14077,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 711.425
+      value: 711.4248
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -14959,10 +14913,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 823aa81e050b7e54394444bcc17cb7b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EditModeText: {fileID: 208353116}
-  SelectingText: {fileID: 1392039350}
-  DeathText: {fileID: 2013123740}
-  CoinText: {fileID: 1602660789}
+  editModeText: {fileID: 208353116}
+  selectingText: {fileID: 1392039350}
+  deathText: {fileID: 2013123740}
+  coinText: {fileID: 1602660789}
 --- !u!1001 &1567936779
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15253,10 +15207,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ebc34f4202622a4faffef383eca9d6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TransitionTime: 0.5
-  DefaultState: {fileID: 24500006, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
-  FilteredState: {fileID: 4007947744481246619, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
-  Sounds:
+  transitionTime: 0.5
+  defaultState: {fileID: 24500006, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+  filteredState: {fileID: 4007947744481246619, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+  sounds:
   - Name: MainMusic
     audioClip: {fileID: 8300000, guid: b218ba2646183ed449e81c925a1fc46a, type: 3}
     output: {fileID: 1135677753749239577, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
@@ -16727,7 +16681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed4929a14a44f394ab8b40fe295d6385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionOptions: {fileID: 1898372879}
+  selectionOptions: {fileID: 1898372880}
   fillMouseOver: {fileID: 42787709}
 --- !u!224 &1641938108 stripped
 RectTransform:
@@ -17897,7 +17851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3937e6e0e3128a41a456eee94ca9929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pasting: 0
+  <Pasting>k__BackingField: 0
   previewContainer: {fileID: 441104387}
 --- !u!224 &1719956724 stripped
 RectTransform:
@@ -19262,7 +19216,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 40.273987}
+  m_AnchoredPosition: {x: 0, y: 39.619812}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1786665322

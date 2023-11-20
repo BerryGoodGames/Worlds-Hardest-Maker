@@ -11,9 +11,9 @@ public partial class AnchorBlockManager : MonoBehaviour
     [ReadOnly] public bool DraggingBlock;
     [ReadOnly] public AnchorBlockController DraggedBlock;
 
-    public bool IsConnectorHovered => ReferenceManager.Instance.AnchorBlockConnectorController.MouseOverUIRect.Over;
-    public bool IsPreviewHovered => ReferenceManager.Instance.AnchorBlockPreview.MouseOverUIRect.Over;
-    public bool IsPeriblockerHovered => ReferenceManager.Instance.AnchorBlockPreview.Periblocker.MouseOverUIRect.Over;
+    public static bool IsConnectorHovered => ReferenceManager.Instance.AnchorBlockConnectorController.MouseOverUIRect.Over;
+    public static bool IsPreviewHovered => ReferenceManager.Instance.AnchorBlockPreview.MouseOverUIRect.Over;
+    public static bool IsPeriblockerHovered => ReferenceManager.Instance.AnchorBlockPreview.Periblocker.MouseOverUIRect.Over;
 
     #region Block insertion
 
@@ -81,7 +81,7 @@ public partial class AnchorBlockManager : MonoBehaviour
     /// </summary>
     public static void CheckBlockInsert()
     {
-        if (!IsAnyBlockHovered() && !Instance.IsPreviewHovered && !Instance.IsPeriblockerHovered) return;
+        if (!IsAnyBlockHovered() && !IsPreviewHovered && !IsPeriblockerHovered) return;
 
         InsertAnchorBlockIntoChain(siblingIndex: Instance.HoveredBlockIndex + 1);
     }
@@ -126,7 +126,7 @@ public partial class AnchorBlockManager : MonoBehaviour
     /// </summary>
     public static void CheckConnectorInsert()
     {
-        if (!Instance.IsConnectorHovered) return;
+        if (!IsConnectorHovered) return;
 
         InsertAnchorBlockIntoChain();
     }

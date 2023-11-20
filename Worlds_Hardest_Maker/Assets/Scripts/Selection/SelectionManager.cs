@@ -11,24 +11,14 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class SelectionManager : MonoBehaviour
 {
-    [SerializeField] private GameObject selectionOptions;
-    [SerializeField] private MouseOverUIRect fillMouseOver;
-    private RectTransform selectionOptionsRect;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform selectionOptions;
+    [SerializeField] [InitializationField] [MustBeAssigned] private MouseOverUIRect fillMouseOver;
 
     private GameObject selectionOutline;
     private LineAnimator selectionOutlineAnim;
-    public bool Selecting { get; set; }
+    public bool Selecting { get; private set; }
 
-    public List<Vector2> CurrentSelectionRange
-    {
-        get => SelectionStart == null || SelectionEnd == null ? null : GetCurrentFillRange();
-        set
-        {
-            if (value != null) return;
-            SelectionStart = null;
-            SelectionEnd = null;
-        }
-    }
+    public static List<Vector2> CurrentSelectionRange => SelectionStart == null || SelectionEnd == null ? null : GetCurrentFillRange();
 
     public static SelectionManager Instance { get; private set; }
 
@@ -89,7 +79,6 @@ public class SelectionManager : MonoBehaviour
 
     private void Start()
     {
-        selectionOptionsRect = selectionOptions.GetComponent<RectTransform>();
         EditModeManager.Instance.OnPlay += CancelSelection;
         EditModeManager.Instance.OnEditModeChange += RemakePreview;
 
@@ -107,7 +96,7 @@ public class SelectionManager : MonoBehaviour
     private void OnAreaSelected(Vector2 start, Vector2 end)
     {
         // called when mouse button was released and area was selected
-        selectionOptions.SetActive(true);
+        selectionOptions.gameObject.SetActive(true);
         float width = end.x - start.x;
         float height = end.y - start.y;
 
@@ -116,7 +105,7 @@ public class SelectionManager : MonoBehaviour
 
         posController.Point = position;
 
-        selectionOptionsRect.pivot = new(width > 0 ? 0 : 1, height > 0 ? 0 : 1);
+        selectionOptions.pivot = new(width > 0 ? 0 : 1, height > 0 ? 0 : 1);
 
         RemakePreview();
     }
@@ -126,7 +115,7 @@ public class SelectionManager : MonoBehaviour
         // called when mouse button was pressed and user starts selecting
         InitSelectionOutline(start);
 
-        selectionOptions.SetActive(false);
+        selectionOptions.gameObject.SetActive(false);
 
         MenuManager.Instance.BlockMenu = true;
     }
@@ -257,7 +246,7 @@ public class SelectionManager : MonoBehaviour
         FillArea(CurrentSelectionRange, EditModeManager.Instance.CurrentEditMode);
         ResetPreview();
         Selecting = false;
-        selectionOptions.SetActive(false);
+        selectionOptions.gameObject.SetActive(false);
     }
 
     public void FillAreaWithFields(List<Vector2> poses, FieldType type)
@@ -605,7 +594,7 @@ public class SelectionManager : MonoBehaviour
         ResetPreview();
 
         // hide selection menu
-        Instance.selectionOptions.SetActive(false);
+        Instance.selectionOptions.gameObject.SetActive(false);
 
         Selecting = false;
 

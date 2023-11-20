@@ -6,18 +6,18 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
 {
     public static AnchorBlockIndexInputEditManager Instance { get; private set; }
 
-    [ReadOnly] public bool IsEditing;
-    [ReadOnly] public AnchorBlockIndexInputController CurrentEditedIndexInput;
+    [SerializeField] [ReadOnly] private bool isEditing;
+    [SerializeField] [ReadOnly] private AnchorBlockIndexInputController currentEditedIndexInput;
 
     public void StartIndexInputEdit(AnchorBlockIndexInputController indexInput)
     {
-        CurrentEditedIndexInput = indexInput;
+        currentEditedIndexInput = indexInput;
         StartCoroutine(EditCoroutine());
     }
 
-    public void OnStartIndexEdit()
+    private void OnStartIndexEdit()
     {
-        IsEditing = true;
+        isEditing = true;
 
         // block menu from opening
         MenuManager.Instance.BlockMenu = true;
@@ -28,12 +28,12 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
         ReferenceManager.Instance.PlayButtonTween.TweenToY(-125, false);
     }
 
-    public void OnEndIndexEdit()
+    private void OnEndIndexEdit()
     {
-        if (!IsEditing) return;
+        if (!isEditing) return;
 
-        IsEditing = false;
-        CurrentEditedIndexInput = null;
+        isEditing = false;
+        currentEditedIndexInput = null;
 
         // release menu
         MenuManager.Instance.BlockMenu = false;
@@ -44,9 +44,9 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
         ReferenceManager.Instance.PlayButtonTween.SetPlay(EditModeManager.Instance.Playing);
     }
 
-    public IEnumerator EditCoroutine()
+    private IEnumerator EditCoroutine()
     {
-        if (CurrentEditedIndexInput == null) yield break;
+        if (currentEditedIndexInput == null) yield break;
 
         OnStartIndexEdit();
 
@@ -64,7 +64,7 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
         }
 
         // apply index to index input
-        Instance.CurrentEditedIndexInput.SetIndexValue(AnchorBlockManager.Instance.HoveredBlockIndex);
+        Instance.currentEditedIndexInput.SetIndexValue(AnchorBlockManager.Instance.HoveredBlockIndex);
 
         Instance.OnEndIndexEdit();
 

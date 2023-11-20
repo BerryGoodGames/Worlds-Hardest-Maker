@@ -1,17 +1,19 @@
 using System;
+using MyBox;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Serialization;
 
 public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance { get; private set; }
 
-    public AudioMixer MainMixer;
+    [FormerlySerializedAs("MainMixer")] [SerializeField] [InitializationField] [MustBeAssigned] private AudioMixer mainMixer;
 
-    public GameObject ToolbarContainer;
+    [FormerlySerializedAs("ToolbarContainer")] [SerializeField] [InitializationField] [MustBeAssigned] private GameObject toolbarContainer;
 
-    public GameObject InfobarEdit;
-    public GameObject InfobarPlay;
+    [FormerlySerializedAs("InfobarEdit")] [SerializeField] [InitializationField] [MustBeAssigned] private GameObject infobarEdit;
+    [FormerlySerializedAs("InfobarPlay")] [SerializeField] [InitializationField] [MustBeAssigned] private GameObject infobarPlay;
 
     private ToolbarSizing toolbarSpacing;
     private InfobarResize infobarPlayResize;
@@ -22,9 +24,9 @@ public class SettingsManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(this);
 
-        toolbarSpacing = ToolbarContainer.GetComponent<ToolbarSizing>();
-        infobarPlayResize = InfobarPlay.GetComponent<InfobarResize>();
-        infobarEditResize = InfobarEdit.GetComponent<InfobarResize>();
+        toolbarSpacing = toolbarContainer.GetComponent<ToolbarSizing>();
+        infobarPlayResize = infobarPlay.GetComponent<InfobarResize>();
+        infobarEditResize = infobarEdit.GetComponent<InfobarResize>();
     }
 
     private void Start() => Instance.LoadPrefs();
@@ -80,7 +82,7 @@ public class SettingsManager : MonoBehaviour
         // map vol from 0 - 100 to 0.0001 - 1 and convert it so vol acts linear
         float newVol = MathF.Log10(vol.Map(0, 100, 0.0001f, 3)) * 20;
 
-        MainMixer.SetFloat("MusicVolume", newVol);
+        mainMixer.SetFloat("MusicVolume", newVol);
 
         if (!updateSlider) return;
 
@@ -95,7 +97,7 @@ public class SettingsManager : MonoBehaviour
     {
         float newVol = Mathf.Log10(vol.Map(0, 100, 0.0001f, 3)) * 20;
 
-        MainMixer.SetFloat("SoundEffectVolume", newVol);
+        mainMixer.SetFloat("SoundEffectVolume", newVol);
 
         if (!updateSlider) return;
 
@@ -107,14 +109,14 @@ public class SettingsManager : MonoBehaviour
 
     public float GetMusicVolume()
     {
-        if (MainMixer.GetFloat("MusicVolume", out float value)) return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
+        if (mainMixer.GetFloat("MusicVolume", out float value)) return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
 
         throw new("Failed to access music volume");
     }
 
     public float GetSoundEffectVolume()
     {
-        if (MainMixer.GetFloat("SoundEffectVolume", out float value)) return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
+        if (mainMixer.GetFloat("SoundEffectVolume", out float value)) return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
 
         throw new("Failed to access sound effect volume");
     }
