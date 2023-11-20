@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 public class KeyBindGenerator : MonoBehaviour
 {
-    [FormerlySerializedAs("category")] [Separator("References")] [SerializeField] private TMP_Text categoryHeader;
+    [Separator("References")] [SerializeField] private TMP_Text categoryHeader;
     [SerializeField] private KeyBindSetterController keyBindSetter;
 
     private void Start()

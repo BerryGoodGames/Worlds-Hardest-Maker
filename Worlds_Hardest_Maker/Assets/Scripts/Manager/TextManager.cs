@@ -10,12 +10,12 @@ public class TextManager : MonoBehaviour
 
     #region Text References
 
-    [FormerlySerializedAs("EditModeText")] [Header("Text References")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text editModeText;
+    [Header("Text References")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text editModeText;
 
-    [FormerlySerializedAs("SelectingText")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text selectingText;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text selectingText;
 
-    [FormerlySerializedAs("DeathText")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text deathText;
-    [FormerlySerializedAs("CoinText")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text coinText;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text deathText;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text coinText;
 
     #endregion
 

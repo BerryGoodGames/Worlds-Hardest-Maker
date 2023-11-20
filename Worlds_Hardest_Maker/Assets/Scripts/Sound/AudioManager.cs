@@ -10,11 +10,11 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] [PositiveValueOnly] [InitializationField] private float transitionTime = 0.5f;
 
-    [FormerlySerializedAs("DefaultState")] [SerializeField] [InitializationField] private AudioMixerSnapshot defaultState;
+    [SerializeField] [InitializationField] private AudioMixerSnapshot defaultState;
 
-    [FormerlySerializedAs("FilteredState")] [SerializeField] [InitializationField] private AudioMixerSnapshot filteredState;
+    [SerializeField] [InitializationField] private AudioMixerSnapshot filteredState;
 
-    [FormerlySerializedAs("Sounds")] [Space] [SerializeField] private Sound[] sounds;
+    [Space] [SerializeField] private Sound[] sounds;
 
     private void Awake()
     {

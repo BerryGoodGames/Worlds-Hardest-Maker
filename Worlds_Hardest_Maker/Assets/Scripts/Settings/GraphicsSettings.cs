@@ -8,7 +8,7 @@ public class GraphicsSettings : MonoBehaviour
 {
     public static GraphicsSettings Instance { get; private set; }
 
-    [FormerlySerializedAs("ResolutionDropdown")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Dropdown resolutionDropdown;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Dropdown resolutionDropdown;
 
     private Resolution[] resolutions;
 

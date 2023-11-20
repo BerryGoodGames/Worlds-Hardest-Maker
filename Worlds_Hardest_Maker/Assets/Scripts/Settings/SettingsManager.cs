@@ -8,12 +8,12 @@ public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance { get; private set; }
 
-    [FormerlySerializedAs("MainMixer")] [SerializeField] [InitializationField] [MustBeAssigned] private AudioMixer mainMixer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private AudioMixer mainMixer;
 
-    [FormerlySerializedAs("ToolbarContainer")] [SerializeField] [InitializationField] [MustBeAssigned] private GameObject toolbarContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject toolbarContainer;
 
-    [FormerlySerializedAs("InfobarEdit")] [SerializeField] [InitializationField] [MustBeAssigned] private GameObject infobarEdit;
-    [FormerlySerializedAs("InfobarPlay")] [SerializeField] [InitializationField] [MustBeAssigned] private GameObject infobarPlay;
+    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject infobarEdit;
+    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject infobarPlay;
 
     private ToolbarSizing toolbarSpacing;
     private InfobarResize infobarPlayResize;
