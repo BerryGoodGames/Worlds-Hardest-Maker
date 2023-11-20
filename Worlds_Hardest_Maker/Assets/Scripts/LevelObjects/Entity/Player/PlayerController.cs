@@ -254,6 +254,9 @@ public class PlayerController : EntityController
             !(Mathf.Abs(Rb.position.x) % 1 > (1 - transform.lossyScale.x) * 0.5f + err) ||
             !(Mathf.Abs(Rb.position.x) % 1 < 1 - ((1 - transform.lossyScale.x) * 0.5f + err))) return;
 
+        // check if player counteracts
+        if (movementInput.x != 0) return;
+        
         // calculate new position 
         Vector2 posCheck = new(roundedPos.x, Mathf.Round(Rb.position.y + movementInput.y));
         if (FieldManager.GetFieldType(FieldManager.GetField(Vector2Int.RoundToInt(posCheck))) != FieldType.WallField)
@@ -262,11 +265,16 @@ public class PlayerController : EntityController
 
     private void CornerPushHorizontal(Collision2D collider, Vector2 roundedPos, float err)
     {
+        
         // early-out if it should not push 
         if (movementInput.x == 0 || roundedPos.y.EqualsFloat(Mathf.Round(collider.transform.position.y)) ||
             !(Mathf.Abs(Rb.position.y) % 1 > (1 - transform.lossyScale.y) * 0.5f + err) ||
             !(Mathf.Abs(Rb.position.y) % 1 < 1 - ((1 - transform.lossyScale.y) * 0.5f + err))) return;
 
+        
+        // check if player counteracts
+        if (movementInput.y != 0) return;
+        
         // calculate new position 
         Vector2 posCheck = new(Mathf.Round(Rb.position.x + movementInput.x), roundedPos.y);
         if (FieldManager.GetFieldType(FieldManager.GetField(Vector2Int.RoundToInt(posCheck))) != FieldType.WallField)

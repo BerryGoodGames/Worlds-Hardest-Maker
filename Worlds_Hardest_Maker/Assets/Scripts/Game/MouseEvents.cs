@@ -80,10 +80,6 @@ public class MouseEvents : MonoBehaviour
         
         if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) > 1.414f)
         {
-            if (editMode.IsFieldType())
-            {
-                
-            }
             PlaceManager.Instance.PlacePath(editMode, 
                                         MouseManager.Instance.PrevMouseWorldPos, MouseManager.Instance.MouseWorldPos, 
                                             EditModeManager.Instance.EditRotation, true);
@@ -93,8 +89,6 @@ public class MouseEvents : MonoBehaviour
             PlaceManager.Instance.Place(editMode, MouseManager.Instance.MouseWorldPos,
                                         EditModeManager.Instance.EditRotation, true);
         }
-
-        // if user dragged to fast, fill path between two mouse pos for smoother placing on low framerate
 
     }
 
