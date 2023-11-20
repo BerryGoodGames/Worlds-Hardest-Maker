@@ -3,6 +3,7 @@ using MyBox;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Serialization;
+using Random = System.Random;
 
 [Serializable]
 public class Sound
@@ -20,9 +21,9 @@ public class Sound
     [SerializeField] private bool allowOverlap = true;
 
     [SerializeField] private float cooldown;
-    [Range(0f, 1f)][SerializeField] private float volume = 1;
+    [Range(0f, 1f)] [SerializeField] private float volume = 1;
 
-    [Range(-3f, 3f)][SerializeField] private float pitch = 1;
+    [Range(-3f, 3f)] [SerializeField] private float pitch = 1;
 
     private AudioSource source;
 
@@ -39,9 +40,11 @@ public class Sound
     }
 
     private TimeSpan nextPlay = DateTime.Now.TimeOfDay;
-    
-    public void Play()
+
+    public void Play(float pitchRandomizationDeviation = 0)
     {
+        source.pitch = pitch + UnityEngine.Random.Range(-pitchRandomizationDeviation, pitchRandomizationDeviation);
+        
         // check if on cooldown
         if (cooldown > 0)
         {

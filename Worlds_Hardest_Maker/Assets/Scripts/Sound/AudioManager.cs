@@ -34,6 +34,24 @@ public class AudioManager : MonoBehaviour
 
         sound.Play();
     }
+    public void Play(PlaceManager.PlaceSfx sfx)
+    {
+        Sound sound = Array.Find(sounds, sound => sound.Name == sfx.Sound);
+        if (sound == null)
+        {
+            Debug.LogWarning($"The sound called {name} was not found!");
+            return;
+        }
+
+        // randomize pitch
+        if (sfx.PitchRandomization)
+        {
+            sound.Play(sfx.PitchDeviation);
+            return;
+        }
+        
+        sound.Play();
+    }
 
     public void MusicFiltered(bool filtered) => (filtered ? filteredState : defaultState).TransitionTo(transitionTime);
 }

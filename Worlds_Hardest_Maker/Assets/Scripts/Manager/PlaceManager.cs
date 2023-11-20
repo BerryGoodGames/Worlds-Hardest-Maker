@@ -1,15 +1,14 @@
 using System;
-using System.Collections.Generic;
 using Cinemachine.Utility;
+using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PlaceManager : MonoBehaviour
 {
     public static PlaceManager Instance { get; private set; }
     
     [SerializeField] private string defaultPlaceSfx = "Place";
-    public PlaceSfx[] customPlaceSfx;
+    [SerializeField] private PlaceSfx[] customPlaceSfx;
 
     /// <summary>
     /// Places edit mode at position
@@ -125,16 +124,16 @@ public class PlaceManager : MonoBehaviour
         }
     }
 
-    private string GetSfx(EditMode editMode)
+    private PlaceSfx GetSfx(EditMode editMode)
     {
-        string sfx = defaultPlaceSfx;
+        PlaceSfx sfx = new(EditMode.Void, defaultPlaceSfx);
 
         foreach (PlaceSfx placeSfx in customPlaceSfx)
         {
-            if (placeSfx.Mode == editMode)
-            {
-                sfx = placeSfx.Sound;
-            }
+            if (placeSfx.Mode != editMode) continue;
+            
+            sfx = placeSfx;
+            break;
         }
 
         return sfx;
@@ -151,13 +150,24 @@ public class PlaceManager : MonoBehaviour
     {   
         [SerializeField] public EditMode Mode;
         [SerializeField] public string Sound;
+        [SerializeField] public bool PitchRandomization;
+        [SerializeField] [PositiveValueOnly] [ConditionalField(nameof(PitchRandomization))] public float PitchDeviation;
 
         public PlaceSfx(EditMode mode, string sound)
         {
             Mode = mode;
             Sound = sound;
+            PitchRandomization = false;
+            PitchDeviation = 0;
+        }
+        
+        public PlaceSfx(EditMode mode, string sound, bool pitchRandomization, float pitchDeviation)
+        {
+            Mode = mode;
+            Sound = sound;
+            PitchRandomization = pitchRandomization;
+            PitchDeviation = pitchDeviation;
         }
     }
-    
 }
 

@@ -171,18 +171,32 @@ MonoBehaviour:
   customPlaceSfx:
   - Mode: 0
     Sound: Delete
+    PitchRandomization: 1
+    PitchDeviation: 0.1
   - Mode: 18
     Sound: PlaceCoin
+    PitchRandomization: 1
+    PitchDeviation: 0.05
   - Mode: 19
     Sound: PlaceKey
+    PitchRandomization: 0
+    PitchDeviation: 0
   - Mode: 20
     Sound: PlaceKey
+    PitchRandomization: 0
+    PitchDeviation: 0
   - Mode: 21
     Sound: PlaceKey
+    PitchRandomization: 0
+    PitchDeviation: 0
   - Mode: 22
     Sound: PlaceKey
+    PitchRandomization: 0
+    PitchDeviation: 0
   - Mode: 23
     Sound: PlaceKey
+    PitchRandomization: 0
+    PitchDeviation: 0
 --- !u!1 &32777001
 GameObject:
   m_ObjectHideFlags: 0
@@ -15252,14 +15266,14 @@ MonoBehaviour:
     volume: 1
     pitch: 1
   - Name: Delete
-    audioClip: {fileID: 8300000, guid: daea84deeda8a21499e4f822096a9fe8, type: 3}
+    audioClip: {fileID: 8300000, guid: ec4e440e7e75d2245bfb2d62abef9e7e, type: 3}
     output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
     loop: 0
     allowOverlap: 1
     cooldown: 0
-    volume: 1
+    volume: 0.3
     pitch: 1
   - Name: Bell
     audioClip: {fileID: 8300000, guid: 7d781692799d5404fac05add2f47be98, type: 3}
