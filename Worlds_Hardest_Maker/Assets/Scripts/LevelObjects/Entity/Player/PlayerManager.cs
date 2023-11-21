@@ -29,20 +29,20 @@ public class PlayerManager : MonoBehaviour
         // TODO: improve
         if (!CanPlace(position))
         {
-            if (placeStartField)
+            if (!placeStartField) return null;
+            
+            Vector2Int[] checkPoses =
             {
-                Vector2Int[] checkPoses =
-                {
-                    Vector2Int.FloorToInt(position),
-                    new(Mathf.CeilToInt(position.x), Mathf.FloorToInt(position.y)),
-                    new(Mathf.FloorToInt(position.x), Mathf.CeilToInt(position.y)),
-                    Vector2Int.CeilToInt(position),
-                };
+                Vector2Int.FloorToInt(position),
+                new(Mathf.CeilToInt(position.x), Mathf.FloorToInt(position.y)),
+                new(Mathf.FloorToInt(position.x), Mathf.CeilToInt(position.y)),
+                Vector2Int.CeilToInt(position),
+            };
 
-                foreach (Vector2Int checkPosition in checkPoses)
-                    FieldManager.Instance.SetField(checkPosition, FieldType.StartField);
+            foreach (Vector2Int checkPosition in checkPoses)
+            {
+                FieldManager.Instance.SetField(checkPosition, FieldType.StartField);
             }
-            else return null;
         }
 
         // clear area from coins and keys

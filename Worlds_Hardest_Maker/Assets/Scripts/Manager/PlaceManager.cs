@@ -20,6 +20,8 @@ public class PlaceManager : MonoBehaviour
     /// <param name="playSound">if it should play the place sound</param>
     public void Place(EditMode editMode, Vector2 position, int rotation = 0, bool playSound = false)
     {
+        if (AnchorBlockManager.Instance.DraggingBlock) return;
+        
         Vector2 gridPosition = position.ConvertToGrid();
         Vector2Int matrixPosition = position.ConvertToMatrix();
 
@@ -59,7 +61,7 @@ public class PlaceManager : MonoBehaviour
                 }
                 break;
             case EditMode.Coin:
-                if (CoinManager.Instance.SetCoin(gridPosition) is not null && playSound)
+                if (CoinManager.SetCoin(gridPosition) is not null && playSound)
                 {
                     AudioManager.Instance.Play(GetSfx(editMode));
                 }
@@ -95,10 +97,13 @@ public class PlaceManager : MonoBehaviour
 
     public void PlacePath(EditMode editMode, Vector2 start, Vector2 end, int rotation = 0, bool playSound = false)
     {
-        if(playSound)
-            AudioManager.Instance.Play(GetSfx(editMode));
-        
-        
+        if(playSound) AudioManager.Instance.Play(GetSfx(editMode));
+
+        LineForEach(start, end, pos => Place(editMode, pos, rotation));
+    }
+
+    private static void LineForEach(Vector2 start, Vector2 end, Action<Vector2> action)
+    {
         // generalized Bresenham's Line Algorithm optimized without /, find (unoptimized) algorithm here: https://www.uobabylon.edu.iq/eprints/publication_2_22893_6215.pdf
         // I tried my best to explain the variables, but I have no idea how it works
 
@@ -115,7 +120,8 @@ public class PlaceManager : MonoBehaviour
 
         while (cmpt >= 0)
         {
-            Place(editMode, current, rotation);
+            action.Invoke(current);
+            
             cmpt -= 1;
 
             if (error >= 0 || delta.x > delta.y) current.x += increment.x;

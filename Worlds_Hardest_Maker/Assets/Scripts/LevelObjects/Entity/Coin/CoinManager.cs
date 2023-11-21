@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using MyBox;
 using Photon.Pun;
 using UnityEngine;
@@ -7,17 +8,7 @@ public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance { get; private set; }
 
-    public static List<FieldType> CannotPlaceFields = new(
-        new[]
-        {
-            FieldType.WallField,
-            FieldType.RedKeyDoorField,
-            FieldType.BlueKeyDoorField,
-            FieldType.GreenKeyDoorField,
-            FieldType.YellowKeyDoorField,
-            FieldType.GrayKeyDoorField,
-        }
-    );
+    [UsedImplicitly] public static readonly List<FieldType> CannotPlaceFields = new();
 
     private static readonly int playing = Animator.StringToHash("Playing");
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
@@ -34,12 +25,12 @@ public class CoinManager : MonoBehaviour
         if (currentPlayer != null) currentPlayer.UncollectCoinAtPos(position);
     }
 
-    public static GameObject GetCoin(Vector2 position)
+    public static CoinController GetCoin(Vector2 position)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Entity);
         foreach (Collider2D hit in hits)
         {
-            if (hit.GetComponent<CoinController>() != null) return hit.gameObject;
+            if (hit.TryGetComponent(out CoinController c)) return c;
         }
 
         return null;
@@ -53,13 +44,7 @@ public class CoinManager : MonoBehaviour
         !FieldManager.IntersectingAnyFieldsAtPos(position, CannotPlaceFields.ToArray()) &&
         !PlayerManager.IsPlayerThere(position);
 
-    private void Awake()
-    {
-        // init singleton
-        if (Instance == null) Instance = this;
-    }
-
-    public CoinController SetCoin(Vector2 worldPosition)
+    public static CoinController SetCoin(Vector2 worldPosition)
     {
         Vector2 matrixPosition = worldPosition.ConvertToGrid();
 
@@ -74,8 +59,6 @@ public class CoinManager : MonoBehaviour
 
         return coin;
     }
-
-    public void Place(Vector2 worldPosition) { }
 
     public void ResetStates()
     {
@@ -97,5 +80,11 @@ public class CoinManager : MonoBehaviour
             coin.Animator.SetBool(playing, true);
             coin.Animator.SetBool(pickedUp, coin.PickedUp);
         }
+    }
+
+    private void Awake()
+    {
+        // init singleton
+        if (Instance == null) Instance = this;
     }
 }

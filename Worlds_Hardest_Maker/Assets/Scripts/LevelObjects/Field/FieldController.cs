@@ -1,10 +1,9 @@
-using System;
 using MyBox;
 using UnityEngine;
 
 public class FieldController : EntityController
 {
-    [MustBeAssigned][InitializationField][SerializeField] private EditMode editMode;
+    [MustBeAssigned] [InitializationField] [SerializeField] private EditMode editMode;
 
     public override EditMode EditMode => editMode;
 

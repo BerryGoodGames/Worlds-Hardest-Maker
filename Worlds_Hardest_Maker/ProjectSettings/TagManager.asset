@@ -75,12 +75,6 @@ TagManager:
   - name: Field
     uniqueID: 2010378691
     locked: 0
-  - name: Coin
-    uniqueID: 2369048943
-    locked: 0
-  - name: Key
-    uniqueID: 3716413133
-    locked: 0
   - name: Player
     uniqueID: 2411509005
     locked: 0
@@ -89,6 +83,12 @@ TagManager:
     locked: 0
   - name: Outline
     uniqueID: 2603803107
+    locked: 0
+  - name: Key
+    uniqueID: 3716413133
+    locked: 0
+  - name: Coin
+    uniqueID: 2369048943
     locked: 0
   - name: Anchor
     uniqueID: 3403536663

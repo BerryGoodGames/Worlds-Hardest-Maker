@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using MyBox;
 using Photon.Pun;
 using UnityEngine;
@@ -43,15 +44,7 @@ public class KeyManager : MonoBehaviour
         FieldType.YellowKeyDoorField,
     };
 
-    public static readonly List<FieldType> CannotPlaceFields = new()
-    {
-        FieldType.WallField,
-        FieldType.GrayKeyDoorField,
-        FieldType.RedKeyDoorField,
-        FieldType.BlueKeyDoorField,
-        FieldType.GreenKeyDoorField,
-        FieldType.YellowKeyDoorField,
-    };
+    [UsedImplicitly] public static readonly List<FieldType> CannotPlaceFields = new();
 
     private static readonly int playing = Animator.StringToHash("Playing");
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");

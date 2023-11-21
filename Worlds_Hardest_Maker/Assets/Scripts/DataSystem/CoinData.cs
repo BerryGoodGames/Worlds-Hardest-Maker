@@ -20,7 +20,7 @@ public class CoinData : Data
 
     public override void ImportToLevel() => ImportToLevel(new(Position[0], Position[1]));
 
-    public override void ImportToLevel(Vector2 pos) => CoinManager.Instance.SetCoin(pos);
+    public override void ImportToLevel(Vector2 pos) => CoinManager.SetCoin(pos);
 
     public override EditMode GetEditMode() => EditMode.Coin;
 }

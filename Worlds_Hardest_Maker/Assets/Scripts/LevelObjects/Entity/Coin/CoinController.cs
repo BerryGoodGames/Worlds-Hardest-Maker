@@ -32,7 +32,7 @@ public class CoinController : EntityController
         if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) return;
 
         // check if that player hasn't picked coin up yet
-        if (controller.CoinsCollected.Contains(gameObject)) return;
+        if (controller.CoinsCollected.Contains(this)) return;
 
         PickUp(collision.gameObject);
 
@@ -56,7 +56,7 @@ public class CoinController : EntityController
     private void PickUp(GameObject player)
     {
         PlayerController controller = player.GetComponent<PlayerController>();
-        controller.CoinsCollected.Add(gameObject);
+        controller.CoinsCollected.Add(this);
 
         // coin counter, sfx, animation
         AudioManager.Instance.Play("Coin");

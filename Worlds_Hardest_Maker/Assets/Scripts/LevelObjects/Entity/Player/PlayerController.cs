@@ -56,7 +56,7 @@ public class PlayerController : EntityController
 
     [ReadOnly] public int Deaths;
 
-    [HideInInspector] public List<GameObject> CoinsCollected;
+    [HideInInspector] public List<CoinController> CoinsCollected;
     [HideInInspector] public List<KeyController> KeysCollected;
 
     [HideInInspector] public List<GameObject> CurrentFields;
@@ -493,7 +493,7 @@ public class PlayerController : EntityController
         
         foreach (Vector2 coinPos in CurrentGameState.CollectedCoins)
         {
-            GameObject coin = CoinManager.GetCoin(coinPos);
+            CoinController coin = CoinManager.GetCoin(coinPos);
             if (coin != null) CoinsCollected.Add(coin);
         }
     }
@@ -542,8 +542,8 @@ public class PlayerController : EntityController
     {
         for (int i = CoinsCollected.Count - 1; i >= 0; i--)
         {
-            GameObject c = CoinsCollected[i];
-            if (c.GetComponent<CoinController>().CoinPosition == position) CoinsCollected.Remove(c);
+            CoinController c = CoinsCollected[i];
+            if (c.CoinPosition == position) CoinsCollected.Remove(c);
         }
     }
 
@@ -596,7 +596,7 @@ public class PlayerController : EntityController
         // convert collectedCoins and collectedKeys to List<Vector2>
         List<Vector2> coinPositions = new();
 
-        foreach (GameObject c in CoinsCollected) coinPositions.Add(c.GetComponent<CoinController>().CoinPosition);
+        foreach (CoinController c in CoinsCollected) coinPositions.Add(c.CoinPosition);
 
         List<Vector2> keyPositions = new();
         foreach (KeyController key in KeysCollected) keyPositions.Add(key.KeyPosition);
@@ -613,7 +613,7 @@ public class PlayerController : EntityController
         {
             if (!ShouldCoinRespawn(coin)) continue;
 
-            CoinsCollected.Remove(coin.gameObject);
+            CoinsCollected.Remove(coin);
 
             coin.PickedUp = false;
 
@@ -761,7 +761,7 @@ public class PlayerController : EntityController
 
         foreach (Vector2 coinCollectedPos in CurrentGameState.CollectedCoins)
         {
-            GameObject coin = CoinManager.GetCoin(coinCollectedPos);
+            CoinController coin = CoinManager.GetCoin(coinCollectedPos);
             if (coin == null) throw new Exception("Passed game state has null value for coin");
 
             CoinsCollected.Add(coin);

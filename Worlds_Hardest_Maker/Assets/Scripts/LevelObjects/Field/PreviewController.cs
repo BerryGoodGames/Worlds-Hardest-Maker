@@ -88,10 +88,11 @@ public class PreviewController : MonoBehaviour
     /// <param name="mode">edit mode which needs to be checked</param>
     private bool CheckVisibility(EditMode mode)
     {
-        if (MouseManager.Instance.IsUIHovered ||
-            KeyBinds.GetKeyBind("Editor_MoveEntity") ||
-            KeyBinds.GetKeyBind("Editor_Modify") ||
-            KeyBinds.GetKeyBind("Editor_DeleteEntity")) return false;
+        if (MouseManager.Instance.IsUIHovered 
+            || KeyBinds.GetKeyBind("Editor_MoveEntity") 
+            || KeyBinds.GetKeyBind("Editor_Modify") 
+            || KeyBinds.GetKeyBind("Editor_DeleteEntity")
+            || AnchorBlockManager.Instance.DraggingBlock) return false;
 
         if (CopyManager.Instance.Pasting) return false;
         if (AnchorPositionInputEditManager.Instance.IsEditing) return false;
