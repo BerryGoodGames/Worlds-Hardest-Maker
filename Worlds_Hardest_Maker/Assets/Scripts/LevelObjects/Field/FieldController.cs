@@ -1,16 +1,14 @@
 using MyBox;
-using UnityEngine;
 
 public class FieldController : EntityController
 {
-    [MustBeAssigned] [InitializationField] [SerializeField] private EditMode editMode;
-
-    public override EditMode EditMode => editMode;
+    [DisplayInspector] [InitializationField] [MustBeAssigned] public FieldObject ScriptableObject;
 
     private void Start()
     {
         if (transform.parent != ReferenceManager.Instance.FieldContainer) transform.SetParent(ReferenceManager.Instance.FieldContainer);
     }
 
-    public override Data GetData() => new FieldData(gameObject);
+    public override EditMode EditMode => ScriptableObject.EditMode;
+    public override Data GetData() => new FieldData(this);
 }

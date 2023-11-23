@@ -4,67 +4,37 @@ using UnityEngine;
 
 public static class FieldTypeExtension
 {
-    public static bool IsRotatable(this FieldType fieldType)
+    private static FieldObject[] GetAllFieldObjects()
     {
-        List<FieldType> rotatableFields = new(
-            new[]
-            {
-                FieldType.OneWayField,
-                FieldType.Conveyor,
-            }
-        );
-
-        return rotatableFields.Contains(fieldType);
-    }
-
-    public static bool IsSolid(this FieldType fieldType) => FieldManager.SolidFields.Contains(fieldType);
-
-    public static GameObject GetPrefab(this FieldType type) =>
-        // return prefab according to type
-        new[]
+        return new[]
         {
-            PrefabManager.Instance.WallField,
-            PrefabManager.Instance.StartField,
-            PrefabManager.Instance.GoalField,
-            PrefabManager.Instance.CheckpointField,
-            PrefabManager.Instance.OneWayField,
-            PrefabManager.Instance.Conveyor,
-            PrefabManager.Instance.Water,
-            PrefabManager.Instance.Ice,
-            PrefabManager.Instance.Void,
-            PrefabManager.Instance.GrayKeyDoorField,
-            PrefabManager.Instance.RedKeyDoorField,
-            PrefabManager.Instance.GreenKeyDoorField,
-            PrefabManager.Instance.BlueKeyDoorField,
-            PrefabManager.Instance.YellowKeyDoorField,
-        }[(int)type];
-
-    public static FieldType GetFieldType(this string tag)
-    {
-        List<string> tags = new()
-        {
-            "WallField",
-            "StartField",
-            "GoalField",
-            "CheckpointField",
-            "OneWayField",
-            "Conveyor",
-            "Water",
-            "Ice",
-            "Void",
-            "KeyDoorField",
-            "RedKeyDoorField",
-            "GreenKeyDoorField",
-            "BlueKeyDoorField",
-            "YellowKeyDoorField",
+            FieldManager.Instance.Wall,
+            FieldManager.Instance.Start,
+            FieldManager.Instance.Goal,
+            FieldManager.Instance.Checkpoint,
+            FieldManager.Instance.OneWay,
+            FieldManager.Instance.Conveyor,
+            FieldManager.Instance.Water,
+            FieldManager.Instance.Ice,
+            FieldManager.Instance.Void,
+            FieldManager.Instance.GrayKeyDoor,
+            FieldManager.Instance.RedKeyDoor,
+            FieldManager.Instance.GreenKeyDoor,
+            FieldManager.Instance.BlueKeyDoor,
+            FieldManager.Instance.YellowKeyDoor,
         };
-
-        return (FieldType)tags.IndexOf(tag);
     }
+    
+    public static FieldObject GetFieldObject(this FieldType type) => GetAllFieldObjects()[(int)type];
 
-    public static bool IsField(this GameObject field) => field.tag.GetFieldType() != (FieldType)(-1);
-
-    public static bool IsSolidField(this GameObject field) => field.IsField() && field.tag.GetFieldType().IsSolid();
-
-    public static bool IsSolidFieldTag(this string tag) => tag.GetFieldType().IsSolid();
+    public static FieldObject GetFieldObject(this string tag)
+    {
+        foreach (FieldObject fieldObject in GetAllFieldObjects())
+        {
+            if (tag.Equals(fieldObject.Tag)) return fieldObject;
+        }
+        return null;
+    }
+    
+    public static bool IsSolidFieldTag(this string tag) => tag.GetFieldObject().IsSolid;
 }

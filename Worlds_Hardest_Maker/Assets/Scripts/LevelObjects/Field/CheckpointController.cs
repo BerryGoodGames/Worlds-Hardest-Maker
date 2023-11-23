@@ -29,7 +29,7 @@ public class CheckpointController : MonoBehaviour
         // check if player wasn't on checkpoint before
         PlayerController controller = player.GetComponent<PlayerController>();
 
-        bool alreadyOnField = controller.IsOnField(FieldType.CheckpointField);
+        bool alreadyOnField = controller.IsOnField(FieldType.Checkpoint);
 
         if ((Activated && !reusableCheckpoints) || alreadyOnField) return;
 
@@ -47,12 +47,10 @@ public class CheckpointController : MonoBehaviour
     {
         Activate();
 
-        List<GameObject> neighbors = FieldManager.GetNeighbors(gameObject);
-        foreach (GameObject n in neighbors)
+        List<FieldController> neighbors = FieldManager.GetNeighbors(gameObject);
+        foreach (FieldController n in neighbors)
         {
-            CheckpointController checkpoint = n.GetComponent<CheckpointController>();
-
-            if (checkpoint == null || checkpoint.Activated) continue;
+            if (!n.TryGetComponent(out CheckpointController checkpoint) || checkpoint.Activated) continue;
 
             checkpoint.ChainActivate();
         }

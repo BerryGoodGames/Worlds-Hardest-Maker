@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using MyBox;
 using Photon.Pun;
@@ -13,6 +14,8 @@ public class FieldRotation : MonoBehaviour
     [SerializeField] private bool disableCollision;
 
     [SerializeField] [ConditionalField(nameof(disableCollision))] [MustBeAssigned] private BoxCollider2D boxCollider;
+
+    private FieldController controller;
 
     private static readonly int rotateString = Animator.StringToHash("Rotate");
 
@@ -49,9 +52,9 @@ public class FieldRotation : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        if (SelectionManager.Instance.Selecting || CopyManager.Instance.Pasting || EditModeManager.Instance.Playing ||
-            EditModeManager.Instance.CurrentEditMode !=
-            EnumExtensions.ConvertTo<FieldType, EditMode>((FieldType)FieldManager.GetFieldType(gameObject))) return;
+        if (SelectionManager.Instance.Selecting || CopyManager.Instance.Pasting || EditModeManager.Instance.Playing) return;
+        
+        if (EditModeManager.Instance.CurrentEditMode != controller.ScriptableObject.EditMode) return;
 
         if (MultiplayerManager.Instance.Multiplayer)
         {
@@ -60,4 +63,6 @@ public class FieldRotation : MonoBehaviour
         }
         else StartRotation();
     }
+
+    private void Awake() => controller = GetComponent<FieldController>();
 }

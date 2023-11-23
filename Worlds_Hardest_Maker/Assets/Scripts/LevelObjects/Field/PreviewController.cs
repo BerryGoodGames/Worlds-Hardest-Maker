@@ -67,7 +67,7 @@ public class PreviewController : MonoBehaviour
 
         if (!SelectionManager.Instance.Selecting && hasFollowMouseComp)
         {
-            followMouseComp.WorldPosition = currentEditMode.IsFieldType() || currentEditMode == EditMode.DeleteField
+            followMouseComp.WorldPosition = currentEditMode.IsFieldType() || currentEditMode == EditMode.Delete
                 ? WorldPositionType.Matrix
                 : WorldPositionType.Grid;
         }
@@ -134,7 +134,7 @@ public class PreviewController : MonoBehaviour
 
     public void SetSprite(EditMode editMode, bool updateRotation = false)
     {
-        if (editMode == EditMode.DeleteField)
+        if (editMode == EditMode.Delete)
         {
             // defaultSprite for preview when deleting
             ApplyDefaultSprite();

@@ -7,17 +7,6 @@ using UnityEngine;
 /// </summary>
 public class FieldOutline : MonoBehaviour
 {
-    // array not dynamic
-    public static readonly FieldType[] TypesWithOutlines =
-    {
-        FieldType.WallField,
-        FieldType.GrayKeyDoorField,
-        FieldType.RedKeyDoorField,
-        FieldType.BlueKeyDoorField,
-        FieldType.GreenKeyDoorField,
-        FieldType.YellowKeyDoorField,
-    };
-
     [SerializeField] private Color color = Color.black;
     [SerializeField] private bool imitateAlpha;
     [SerializeField] private float weight = 0.1f;

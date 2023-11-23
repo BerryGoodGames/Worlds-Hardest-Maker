@@ -252,7 +252,7 @@ public class SelectionManager : MonoBehaviour
     public void FillAreaWithFields(List<Vector2> poses, FieldType type)
     {
         // set rotation
-        int rotation = type.IsRotatable()
+        int rotation = type.GetFieldObject().IsRotatable
             ? EditModeManager.Instance.EditRotation
             : 0;
 
@@ -271,14 +271,14 @@ public class SelectionManager : MonoBehaviour
 
         // REF
         // get prefab
-        GameObject prefab = type.GetPrefab();
+        FieldObject fieldObject = type.GetFieldObject();
 
         // search if tag is in tags
-        string[] tags = { "StartField", "GoalField", "CheckpointField", };
+        string[] tags = { "Start", "Goal", "Checkpoint", };
 
         foreach (string tag in tags)
         {
-            if (!prefab.CompareTag(tag)) continue;
+            if (!fieldObject.Tag.Equals(tag)) continue;
             break;
         }
 
@@ -286,7 +286,7 @@ public class SelectionManager : MonoBehaviour
         {
             // set field at pos
             GameObject field = Instantiate(
-                prefab, pos, Quaternion.Euler(0, 0, rotation),
+                fieldObject.Prefab, pos, Quaternion.Euler(0, 0, rotation),
                 ReferenceManager.Instance.FieldContainer
             );
 
@@ -302,8 +302,8 @@ public class SelectionManager : MonoBehaviour
 
             if (player != null && player.transform.position.IsBetween(lowest.ToVector2(), highest.ToVector2())) Destroy(player.gameObject);
         }
-
-        UpdateOutlinesInArea(type.GetPrefab().GetComponent<FieldOutline>() != null, lowest, highest);
+        
+        UpdateOutlinesInArea(fieldObject.HasOutline, lowest, highest);
     }
 
     public void FillArea(List<Vector2> poses, EditMode editMode)
@@ -495,14 +495,14 @@ public class SelectionManager : MonoBehaviour
         if (hasOutline)
         {
             // update lowest and highest field separately cause ray casting
-            GameObject lowestField = FieldManager.GetField(Vector2Int.RoundToInt(lowest));
+            FieldController lowestField = FieldManager.GetField(Vector2Int.RoundToInt(lowest));
             if (lowestField.TryGetComponent(out FieldOutline foComp))
             {
                 foComp.UpdateOutline(Vector2.left, true);
                 foComp.UpdateOutline(Vector2.down, true);
             }
 
-            GameObject highestField = FieldManager.GetField(Vector2Int.RoundToInt(highest));
+            FieldController highestField = FieldManager.GetField(Vector2Int.RoundToInt(highest));
             if (highestField.TryGetComponent(out foComp))
             {
                 foComp.UpdateOutline(Vector2.right, true);

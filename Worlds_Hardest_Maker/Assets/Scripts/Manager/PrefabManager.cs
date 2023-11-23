@@ -1,5 +1,6 @@
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [ExecuteAlways]
 public class PrefabManager : MonoBehaviour
@@ -8,23 +9,23 @@ public class PrefabManager : MonoBehaviour
 
     #region Fields
 
-    [Foldout("Fields")] public GameObject WallField;
+    [FormerlySerializedAs("WallField")] [Foldout("Fields")] public GameObject Wall;
 
-    [Foldout("Fields")] public GameObject StartField;
-    [Foldout("Fields")] public GameObject GoalField;
-    [Foldout("Fields")] public GameObject CheckpointField;
+    [FormerlySerializedAs("StartField")] [Foldout("Fields")] public GameObject Start;
+    [FormerlySerializedAs("GoalField")] [Foldout("Fields")] public GameObject Goal;
+    [FormerlySerializedAs("CheckpointField")] [Foldout("Fields")] public GameObject Checkpoint;
 
-    [Foldout("Fields")] public GameObject OneWayField;
+    [FormerlySerializedAs("OneWayField")] [Foldout("Fields")] public GameObject OneWay;
     [Foldout("Fields")] public GameObject Conveyor;
     [Foldout("Fields")] public GameObject Water;
     [Foldout("Fields")] public GameObject Ice;
     [Foldout("Fields")] public GameObject Void;
 
-    [Foldout("Fields")] public GameObject GrayKeyDoorField;
-    [Foldout("Fields")] public GameObject RedKeyDoorField;
-    [Foldout("Fields")] public GameObject GreenKeyDoorField;
-    [Foldout("Fields")] public GameObject BlueKeyDoorField;
-    [Foldout("Fields")] public GameObject YellowKeyDoorField;
+    [FormerlySerializedAs("GrayKeyDoorField")] [Foldout("Fields")] public GameObject GrayKeyDoor;
+    [FormerlySerializedAs("RedKeyDoorField")] [Foldout("Fields")] public GameObject RedKeyDoor;
+    [FormerlySerializedAs("GreenKeyDoorField")] [Foldout("Fields")] public GameObject GreenKeyDoor;
+    [FormerlySerializedAs("BlueKeyDoorField")] [Foldout("Fields")] public GameObject BlueKeyDoor;
+    [FormerlySerializedAs("YellowKeyDoorField")] [Foldout("Fields")] public GameObject YellowKeyDoor;
 
     #endregion
 

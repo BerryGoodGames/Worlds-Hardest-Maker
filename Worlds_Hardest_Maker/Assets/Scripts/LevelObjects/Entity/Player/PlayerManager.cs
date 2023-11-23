@@ -13,8 +13,8 @@ public class PlayerManager : MonoBehaviour
     public static readonly List<FieldType> StartFields = new(
         new[]
         {
-            FieldType.StartField,
-            FieldType.GoalField,
+            FieldType.Start,
+            FieldType.Goal,
         }
     );
     
@@ -41,7 +41,7 @@ public class PlayerManager : MonoBehaviour
 
             foreach (Vector2Int checkPosition in checkPoses)
             {
-                FieldManager.Instance.SetField(checkPosition, FieldType.StartField);
+                FieldManager.Instance.SetField(checkPosition, FieldType.Start);
             }
         }
 

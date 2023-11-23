@@ -1,38 +1,38 @@
 using System.Collections.Generic;
 using System.Linq;
+using MyBox;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 // class for global functions
 // no active activities
 public class FieldManager : MonoBehaviour
 {
     public static FieldManager Instance { get; private set; }
+    
+    [Foldout("Field Scriptable Objects")] public FieldObject Wall;
+    [Foldout("Field Scriptable Objects")] public FieldObject Start;
+    [Foldout("Field Scriptable Objects")] public FieldObject Goal;
+    [Foldout("Field Scriptable Objects")] public FieldObject Checkpoint;
+    [Foldout("Field Scriptable Objects")] public FieldObject OneWay;
+    [Foldout("Field Scriptable Objects")] public FieldObject Conveyor;
+    [Foldout("Field Scriptable Objects")] public FieldObject Water;
+    [Foldout("Field Scriptable Objects")] public FieldObject Ice;
+    [Foldout("Field Scriptable Objects")] public FieldObject Void;
+    [Foldout("Field Scriptable Objects")] public FieldObject GrayKeyDoor;
+    [Foldout("Field Scriptable Objects")] public FieldObject RedKeyDoor;
+    [Foldout("Field Scriptable Objects")] public FieldObject GreenKeyDoor;
+    [Foldout("Field Scriptable Objects")] public FieldObject BlueKeyDoor;
+    [Foldout("Field Scriptable Objects")] public FieldObject YellowKeyDoor;
 
-    public static readonly FieldType[] SolidFields =
-    {
-        FieldType.WallField,
-        FieldType.GrayKeyDoorField,
-        FieldType.RedKeyDoorField,
-        FieldType.GreenKeyDoorField,
-        FieldType.BlueKeyDoorField,
-        FieldType.YellowKeyDoorField,
-    };
-
-    public static FieldType? GetFieldType(GameObject field)
-    {
-        if (field == null) return null;
-
-        return field.tag.GetFieldType();
-    }
-
-    public static GameObject GetField(Vector2Int position)
+    public static FieldController GetField(Vector2Int position)
     {
         Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(position, 0.1f, 3072);
 
         foreach (Collider2D c in collidedGameObjects)
         {
-            if (c.gameObject.IsField()) return c.gameObject;
+            if (c.TryGetComponent(out FieldController f)) return f;
         }
 
         return null;
@@ -41,7 +41,7 @@ public class FieldManager : MonoBehaviour
     [PunRPC]
     public bool RemoveField(Vector2Int position, bool updateOutlines = false)
     {
-        GameObject field = GetField(position);
+        FieldController field = GetField(position);
 
         bool fieldDestroyed = false;
 
@@ -54,7 +54,7 @@ public class FieldManager : MonoBehaviour
         if (!updateOutlines) return fieldDestroyed;
 
         // update outlines beside removed field
-        foreach (GameObject neighbor in GetNeighbors(position))
+        foreach (FieldController neighbor in GetNeighbors(position))
         {
             if (neighbor.TryGetComponent(out FieldOutline comp)) comp.UpdateOutline();
         }
@@ -65,8 +65,9 @@ public class FieldManager : MonoBehaviour
     [PunRPC]
     public FieldController SetField(Vector2Int position, FieldType type, int rotation)
     {
-        if (GetField(position) is not null && GetFieldType(GetField(position)) == type) return null;
-
+        FieldController fieldAtPosition = GetField(position);
+        if (fieldAtPosition is not null && fieldAtPosition.ScriptableObject.FieldType == type) return null;
+        
         // remove any field at pos
         RemoveField(position, true);
 
@@ -99,7 +100,7 @@ public class FieldManager : MonoBehaviour
 
         // special case for checkpoint
         SpriteRenderer renderer = field.GetComponent<SpriteRenderer>();
-        if (field.CompareTag("CheckpointField"))
+        if (field.CompareTag("Checkpoint"))
         {
             CheckpointController checkpoint = field.GetComponent<CheckpointController>();
 
@@ -114,7 +115,7 @@ public class FieldManager : MonoBehaviour
         }
 
         // // every other case
-        string[] tags = { "StartField", "GoalField", };
+        string[] tags = { "Start", "Goal", };
 
         for (int i = 0; i < tags.Length; i++)
         {
@@ -128,7 +129,7 @@ public class FieldManager : MonoBehaviour
 
     private static FieldController InstantiateField(Vector2 pos, FieldType type, int rotation)
     {
-        GameObject prefab = type.GetPrefab();
+        GameObject prefab = type.GetFieldObject().Prefab;
         GameObject res = MultiplayerManager.Instance.Multiplayer
             ? PhotonNetwork.Instantiate(prefab.name, pos, Quaternion.Euler(0, 0, rotation))
             : Instantiate(
@@ -139,28 +140,28 @@ public class FieldManager : MonoBehaviour
         return res.GetComponent<FieldController>();
     }
 
-    public static List<GameObject> GetNeighbors(GameObject field)
+    public static List<FieldController> GetNeighbors(GameObject field)
     {
         Vector2Int position = Vector2Int.RoundToInt(field.transform.position);
         return GetNeighbors(position);
     }
 
-    public static List<GameObject> GetNeighbors(Vector2Int position)
+    public static List<FieldController> GetNeighbors(Vector2Int position)
     {
         Vector2Int[] deltas = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left, };
 
-        List<GameObject> neighbors = new();
+        List<FieldController> neighbors = new();
 
         foreach (Vector2Int d in deltas)
         {
-            GameObject neighbor = GetField(position + d);
+            FieldController neighbor = GetField(position + d);
             if (neighbor != null) neighbors.Add(neighbor);
         }
 
         return neighbors;
     }
 
-    public static List<GameObject> GetFieldsAtPos(Vector2 position)
+    public static List<FieldController> GetFieldsAtPos(Vector2 position)
     {
         Vector2Int[] checkPoses =
         {
@@ -172,10 +173,10 @@ public class FieldManager : MonoBehaviour
 
         checkPoses = checkPoses.Distinct().ToArray();
 
-        List<GameObject> res = new();
+        List<FieldController> res = new();
         foreach (Vector2Int checkPosition in checkPoses)
         {
-            GameObject field = GetField(checkPosition);
+            FieldController field = GetField(checkPosition);
             if (field != null) res.Add(field);
         }
 
@@ -188,10 +189,10 @@ public class FieldManager : MonoBehaviour
     {
         List<FieldType> types = t.ToList();
 
-        List<GameObject> intersectingFields = GetFieldsAtPos(position);
-        foreach (GameObject field in intersectingFields)
+        List<FieldController> intersectingFields = GetFieldsAtPos(position);
+        foreach (FieldController field in intersectingFields)
         {
-            if (types.Contains((FieldType)GetFieldType(field))) return true;
+            if (types.Contains(field.ScriptableObject.FieldType)) return true;
         }
 
         return false;
@@ -200,10 +201,10 @@ public class FieldManager : MonoBehaviour
     public static bool IntersectingEveryFieldAtPos(Vector2 position, params FieldType[] t)
     {
         List<FieldType> types = t.ToList();
-        List<GameObject> intersectingFields = GetFieldsAtPos(position);
-        foreach (GameObject field in intersectingFields)
+        List<FieldController> intersectingFields = GetFieldsAtPos(position);
+        foreach (FieldController field in intersectingFields)
         {
-            if (!types.Contains((FieldType)GetFieldType(field))) return false;
+            if (!types.Contains(field.ScriptableObject.FieldType)) return false;
         }
 
         return true;
@@ -212,14 +213,14 @@ public class FieldManager : MonoBehaviour
     public static bool IsPosCoveredWithFieldType(Vector2 position, params FieldType[] t)
     {
         List<FieldType> types = t.ToList();
-        List<GameObject> intersectingFields = GetFieldsAtPos(position);
+        List<FieldController> intersectingFields = GetFieldsAtPos(position);
         if (intersectingFields.Count == 0) return false;
 
         int expectedCount = IntersectionCountAtPos(position);
 
-        foreach (GameObject field in intersectingFields)
+        foreach (FieldController field in intersectingFields)
         {
-            if (expectedCount != intersectingFields.Count || !types.Contains((FieldType)GetFieldType(field))) return false;
+            if (expectedCount != intersectingFields.Count || !types.Contains(field.ScriptableObject.FieldType)) return false;
         }
 
         return true;

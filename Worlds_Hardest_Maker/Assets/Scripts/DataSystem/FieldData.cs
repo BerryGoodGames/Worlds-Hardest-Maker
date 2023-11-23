@@ -11,7 +11,7 @@ public class FieldData : Data
     public string FieldType;
     public int Rotation;
 
-    public FieldData(GameObject field)
+    public FieldData(FieldController field)
     {
         Vector2 fieldPosition = field.transform.position;
 
@@ -20,7 +20,7 @@ public class FieldData : Data
         Position[1] = (int)fieldPosition.y;
         Rotation = (int)field.transform.rotation.eulerAngles.z;
 
-        FieldType typeEnum = (FieldType)FieldManager.GetFieldType(field);
+        FieldType typeEnum = field.ScriptableObject.FieldType;
         FieldType = typeEnum.ToString();
     }
 

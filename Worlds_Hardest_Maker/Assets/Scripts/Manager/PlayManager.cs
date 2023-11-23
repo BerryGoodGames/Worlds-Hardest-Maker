@@ -135,7 +135,7 @@ public class PlayManager : MonoBehaviour
         // reset checkpoints
         foreach (Transform field in ReferenceManager.Instance.FieldContainer)
         {
-            if (!field.CompareTag("CheckpointField")) continue;
+            if (!field.CompareTag("Checkpoint")) continue;
 
             CheckpointTween anim = field.GetComponent<CheckpointTween>();
             anim.Deactivate();
@@ -146,7 +146,7 @@ public class PlayManager : MonoBehaviour
 
         // reset key doors
         string[] tags =
-            { "KeyDoorField", "RedKeyDoorField", "GreenKeyDoorField", "BlueKeyDoorField", "YellowKeyDoorField", };
+            { "GrayKeyDoor", "RedKeyDoor", "GreenKeyDoor", "BlueKeyDoor", "YellowKeyDoor", };
 
         foreach (string tag in tags)
         {

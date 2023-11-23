@@ -9,20 +9,20 @@ public static class EditModeExtension
 {
     private static readonly Dictionary<EditMode, GameObject> editModeToPrefab = new()
     {
-        { EditMode.WallField, PrefabManager.Instance.WallField },
-        { EditMode.StartField, PrefabManager.Instance.StartField },
-        { EditMode.GoalField, PrefabManager.Instance.GoalField },
-        { EditMode.CheckpointField, PrefabManager.Instance.CheckpointField },
-        { EditMode.OneWayField, PrefabManager.Instance.OneWayField },
+        { EditMode.Wall, PrefabManager.Instance.Wall },
+        { EditMode.Start, PrefabManager.Instance.Start },
+        { EditMode.Goal, PrefabManager.Instance.Goal },
+        { EditMode.Checkpoint, PrefabManager.Instance.Checkpoint },
+        { EditMode.OneWay, PrefabManager.Instance.OneWay },
         { EditMode.Conveyor, PrefabManager.Instance.Conveyor },
         { EditMode.Water, PrefabManager.Instance.Water },
         { EditMode.Ice, PrefabManager.Instance.Ice },
         { EditMode.Void, PrefabManager.Instance.Void },
-        { EditMode.GrayKeyDoorField, PrefabManager.Instance.GrayKeyDoorField },
-        { EditMode.RedKeyDoorField, PrefabManager.Instance.RedKeyDoorField },
-        { EditMode.GreenKeyDoorField, PrefabManager.Instance.GreenKeyDoorField },
-        { EditMode.BlueKeyDoorField, PrefabManager.Instance.BlueKeyDoorField },
-        { EditMode.YellowKeyDoorField, PrefabManager.Instance.YellowKeyDoorField },
+        { EditMode.GrayKeyDoor, PrefabManager.Instance.GrayKeyDoor },
+        { EditMode.RedKeyDoor, PrefabManager.Instance.RedKeyDoor },
+        { EditMode.GreenKeyDoor, PrefabManager.Instance.GreenKeyDoor },
+        { EditMode.BlueKeyDoor, PrefabManager.Instance.BlueKeyDoor },
+        { EditMode.YellowKeyDoor, PrefabManager.Instance.YellowKeyDoor },
         { EditMode.Player, PrefabManager.Instance.Player.gameObject },
         { EditMode.Anchor, PrefabManager.Instance.Anchor },
         { EditMode.AnchorBall, PrefabManager.Instance.AnchorBall },
@@ -64,20 +64,20 @@ public static class EditModeExtension
 
     private static readonly EditMode[] fieldTypes =
     {
-        EditMode.WallField,
-        EditMode.StartField,
-        EditMode.GoalField,
-        EditMode.CheckpointField,
-        EditMode.OneWayField,
+        EditMode.Wall,
+        EditMode.Start,
+        EditMode.Goal,
+        EditMode.Checkpoint,
+        EditMode.OneWay,
         EditMode.Conveyor,
         EditMode.Water,
         EditMode.Ice,
         EditMode.Void,
-        EditMode.GrayKeyDoorField,
-        EditMode.RedKeyDoorField,
-        EditMode.GreenKeyDoorField,
-        EditMode.BlueKeyDoorField,
-        EditMode.YellowKeyDoorField,
+        EditMode.GrayKeyDoor,
+        EditMode.RedKeyDoor,
+        EditMode.GreenKeyDoor,
+        EditMode.BlueKeyDoor,
+        EditMode.YellowKeyDoor,
     };
 
     private static readonly EditMode[] notDraggable =
@@ -87,7 +87,7 @@ public static class EditModeExtension
     
     public static WorldPositionType GetWorldPositionType(this EditMode mode)
     {
-        if (mode.IsFieldType() || mode == EditMode.DeleteField) return WorldPositionType.Matrix;
+        if (mode.IsFieldType() || mode == EditMode.Delete) return WorldPositionType.Matrix;
         return WorldPositionType.Grid;
     }
 

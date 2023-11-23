@@ -98,7 +98,7 @@ public static class SaveSystem
         // serialize fields
         foreach (Transform field in ReferenceManager.Instance.FieldContainer)
         {
-            FieldData fieldData = new(field.gameObject);
+            FieldData fieldData = new(field.GetComponent<FieldController>());
             levelData.Add(fieldData);
         }
 

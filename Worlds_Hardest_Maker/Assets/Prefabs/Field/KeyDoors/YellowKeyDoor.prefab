@@ -18,11 +18,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3315082733933200473, guid: 6996851b8e355ab489aa50b0829d3bc4, type: 3}
       propertyPath: m_Name
-      value: YellowKeyDoorField
+      value: YellowKeyDoor
       objectReference: {fileID: 0}
     - target: {fileID: 3315082733933200473, guid: 6996851b8e355ab489aa50b0829d3bc4, type: 3}
       propertyPath: m_TagString
-      value: YellowKeyDoorField
+      value: YellowKeyDoor
       objectReference: {fileID: 0}
     - target: {fileID: 3724499486436504991, guid: 6996851b8e355ab489aa50b0829d3bc4, type: 3}
       propertyPath: m_Color.b
@@ -40,6 +40,10 @@ PrefabInstance:
       propertyPath: editMode
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 5830105467690332561, guid: 6996851b8e355ab489aa50b0829d3bc4, type: 3}
+      propertyPath: ScriptableObject
+      value: 
+      objectReference: {fileID: 11400000, guid: dd8dcd13f3f3a0e46ae77de84ec67c6f, type: 2}
     - target: {fileID: 6053181342507690478, guid: 6996851b8e355ab489aa50b0829d3bc4, type: 3}
       propertyPath: Order
       value: 0

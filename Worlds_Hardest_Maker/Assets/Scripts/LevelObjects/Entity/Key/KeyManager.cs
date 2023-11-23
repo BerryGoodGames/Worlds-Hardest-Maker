@@ -28,20 +28,20 @@ public class KeyManager : MonoBehaviour
 
     public static readonly List<EditMode> KeyDoorModes = new()
     {
-        EditMode.GrayKeyDoorField,
-        EditMode.RedKeyDoorField,
-        EditMode.BlueKeyDoorField,
-        EditMode.GreenKeyDoorField,
-        EditMode.YellowKeyDoorField,
+        EditMode.GrayKeyDoor,
+        EditMode.RedKeyDoor,
+        EditMode.BlueKeyDoor,
+        EditMode.GreenKeyDoor,
+        EditMode.YellowKeyDoor,
     };
 
     public static readonly List<FieldType> KeyDoorTypes = new()
     {
-        FieldType.GrayKeyDoorField,
-        FieldType.RedKeyDoorField,
-        FieldType.BlueKeyDoorField,
-        FieldType.GreenKeyDoorField,
-        FieldType.YellowKeyDoorField,
+        FieldType.GrayKeyDoor,
+        FieldType.RedKeyDoor,
+        FieldType.BlueKeyDoor,
+        FieldType.GreenKeyDoor,
+        FieldType.YellowKeyDoor,
     };
 
     [UsedImplicitly] public static readonly List<FieldType> CannotPlaceFields = new();

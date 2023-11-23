@@ -59,7 +59,7 @@ public class PlayerController : EntityController
     [HideInInspector] public List<CoinController> CoinsCollected;
     [HideInInspector] public List<KeyController> KeysCollected;
 
-    [HideInInspector] public List<GameObject> CurrentFields;
+    [HideInInspector] public List<FieldController> CurrentFields;
 
     public GameState CurrentGameState;
 
@@ -248,7 +248,6 @@ public class PlayerController : EntityController
 
     private void CornerPushVertical(Collision2D collider, Vector2 roundedPos, float err)
     {
-        // TODO
         // early-out if it should not push 
         if (movementInput.y == 0 || roundedPos.x.EqualsFloat(Mathf.Round(collider.transform.position.x)) ||
             !(Mathf.Abs(Rb.position.x) % 1 > (1 - transform.lossyScale.x) * 0.5f + err) ||
@@ -259,13 +258,13 @@ public class PlayerController : EntityController
         
         // calculate new position 
         Vector2 posCheck = new(roundedPos.x, Mathf.Round(Rb.position.y + movementInput.y));
-        if (FieldManager.GetFieldType(FieldManager.GetField(Vector2Int.RoundToInt(posCheck))) != FieldType.WallField)
+        FieldController fieldAtPosition = FieldManager.GetField(Vector2Int.RoundToInt(posCheck));
+        if (fieldAtPosition.ScriptableObject.FieldType != FieldType.Wall)
             extraMovementInput = new(Mathf.Round(Rb.position.x) > Rb.position.x ? 1 : -1, movementInput.y);
     }
 
     private void CornerPushHorizontal(Collision2D collider, Vector2 roundedPos, float err)
     {
-        
         // early-out if it should not push 
         if (movementInput.x == 0 || roundedPos.y.EqualsFloat(Mathf.Round(collider.transform.position.y)) ||
             !(Mathf.Abs(Rb.position.y) % 1 > (1 - transform.lossyScale.y) * 0.5f + err) ||
@@ -277,7 +276,8 @@ public class PlayerController : EntityController
         
         // calculate new position 
         Vector2 posCheck = new(Mathf.Round(Rb.position.x + movementInput.x), roundedPos.y);
-        if (FieldManager.GetFieldType(FieldManager.GetField(Vector2Int.RoundToInt(posCheck))) != FieldType.WallField)
+        FieldController fieldAtPosition = FieldManager.GetField(Vector2Int.RoundToInt(posCheck));
+        if (fieldAtPosition.ScriptableObject.FieldType != FieldType.Wall)
             extraMovementInput = new(movementInput.x, Mathf.Round(Rb.position.y) > Rb.position.y ? 1 : -1);
     }
 
@@ -315,11 +315,11 @@ public class PlayerController : EntityController
 
     public bool IsOnSafeField()
     {
-        foreach (GameObject field in CurrentFields)
+        foreach (FieldController field in CurrentFields)
         {
             // check if current field is safe
-            FieldType? currentFieldType = FieldManager.GetFieldType(field);
-            if (PlayerManager.SafeFields.Contains((FieldType)currentFieldType)) return true;
+            FieldType currentFieldType = field.ScriptableObject.FieldType;
+            if (PlayerManager.SafeFields.Contains(currentFieldType)) return true;
         }
 
         return false;
@@ -327,32 +327,35 @@ public class PlayerController : EntityController
 
     public bool IsOnField(FieldType type)
     {
-        foreach (GameObject field in CurrentFields)
+        foreach (FieldController field in CurrentFields)
         {
             // check if current field is type
-            FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            FieldType currentFieldType = field.ScriptableObject.FieldType;
             if (currentFieldType == type) return true;
         }
-
+        
         return false;
     }
 
-    public List<GameObject> GetFullyOnFields()
+    public List<FieldController> GetFullyOnFields()
     {
         // finds every field the player is at least half way on
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.011f);
-        List<GameObject> res = new();
-        foreach (Collider2D hit in hits) res.Add(hit.gameObject);
+        List<FieldController> res = new();
+        foreach (Collider2D hit in hits)
+        {
+            if(hit.TryGetComponent(out FieldController f)) res.Add(f);
+        }
 
         return res;
     }
 
     public bool IsFullyOnField(FieldType type)
     {
-        List<GameObject> fullyOnFields = GetFullyOnFields();
-        foreach (GameObject field in fullyOnFields)
+        List<FieldController> fullyOnFields = GetFullyOnFields();
+        foreach (FieldController field in fullyOnFields)
         {
-            FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            FieldType currentFieldType = field.ScriptableObject.FieldType;
             if (currentFieldType == type) return true;
         }
 
@@ -367,23 +370,23 @@ public class PlayerController : EntityController
     {
         if (!IsFullyOnField(FieldType.Conveyor)) return null;
 
-        List<GameObject> fullyOnFields = GetFullyOnFields();
-        foreach (GameObject field in fullyOnFields)
+        List<FieldController> fullyOnFields = GetFullyOnFields();
+        foreach (FieldController field in fullyOnFields)
         {
-            FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            FieldType currentFieldType = field.ScriptableObject.FieldType;
             if (currentFieldType == FieldType.Conveyor) return field.GetComponent<ConveyorController>();
         }
 
         return null;
     }
 
-    public GameObject GetCurrentVoid()
+    public FieldController GetCurrentVoid()
     {
         // returns the void the player falls into (null if none)
-        List<GameObject> fullyOnFields = GetFullyOnFields();
-        foreach (GameObject field in fullyOnFields)
+        List<FieldController> fullyOnFields = GetFullyOnFields();
+        foreach (FieldController field in fullyOnFields)
         {
-            FieldType? currentFieldType = FieldManager.GetFieldType(field);
+            FieldType currentFieldType = field.ScriptableObject.FieldType;
             if (currentFieldType == FieldType.Void) return field;
         }
 
@@ -394,7 +397,7 @@ public class PlayerController : EntityController
         // we don't need that, its just there lol
         IsFullyOnField(FieldType.Void);
 
-    public GameObject GetCurrentField() => FieldManager.GetField(Vector2Int.RoundToInt(transform.position));
+    public FieldController GetCurrentField() => FieldManager.GetField(Vector2Int.RoundToInt(transform.position));
 
     #endregion
 
@@ -438,7 +441,7 @@ public class PlayerController : EntityController
         if (Won) return;
 
         // dying through void
-        GameObject currentVoid = GetCurrentVoid();
+        FieldController currentVoid = GetCurrentVoid();
 
         Vector2 fallPosition = currentVoid.transform.position;
 
@@ -522,7 +525,7 @@ public class PlayerController : EntityController
         ResetKeysToCurrentGameState();
 
         string[] tags =
-            { "KeyDoorField", "RedKeyDoorField", "GreenKeyDoorField", "BlueKeyDoorField", "YellowKeyDoorField", };
+            { "GrayKeyDoor", "RedKeyDoor", "GreenKeyDoor", "BlueKeyDoor", "YellowKeyDoor", };
 
         foreach (string tag in tags)
         {

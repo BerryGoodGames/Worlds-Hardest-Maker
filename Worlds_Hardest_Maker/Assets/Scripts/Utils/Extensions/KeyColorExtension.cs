@@ -21,11 +21,11 @@ public static class KeyColorExtension
     {
         Dictionary<KeyManager.KeyColor, GameObject> prefabs = new()
         {
-            { KeyManager.KeyColor.Gray, PrefabManager.Instance.GrayKeyDoorField },
-            { KeyManager.KeyColor.Red, PrefabManager.Instance.RedKeyDoorField },
-            { KeyManager.KeyColor.Blue, PrefabManager.Instance.BlueKeyDoorField },
-            { KeyManager.KeyColor.Green, PrefabManager.Instance.GreenKeyDoorField },
-            { KeyManager.KeyColor.Yellow, PrefabManager.Instance.YellowKeyDoorField },
+            { KeyManager.KeyColor.Gray, PrefabManager.Instance.GrayKeyDoor },
+            { KeyManager.KeyColor.Red, PrefabManager.Instance.RedKeyDoor },
+            { KeyManager.KeyColor.Blue, PrefabManager.Instance.BlueKeyDoor },
+            { KeyManager.KeyColor.Green, PrefabManager.Instance.GreenKeyDoor },
+            { KeyManager.KeyColor.Yellow, PrefabManager.Instance.YellowKeyDoor },
         };
 
         return prefabs[color];

@@ -29,7 +29,8 @@ public class PlaceManager : MonoBehaviour
         if (editMode.IsFieldType())
         {
             FieldType type = editMode.ConvertTo<EditMode, FieldType>();
-            if (!type.IsRotatable()) rotation = 0;
+            FieldObject fieldObject = type.GetFieldObject();
+            if (!fieldObject.IsRotatable) rotation = 0;
             if (FieldManager.Instance.SetField(matrixPosition, type, rotation) is not null && playSound)
             {
                 AudioManager.Instance.Play(GetSfx(editMode));
@@ -39,7 +40,7 @@ public class PlaceManager : MonoBehaviour
         else switch (editMode)
         {
             // check field deletion
-            case EditMode.DeleteField:
+            case EditMode.Delete:
                 // delete field
                 if (FieldManager.Instance.RemoveField(matrixPosition, true) && playSound)
                 {

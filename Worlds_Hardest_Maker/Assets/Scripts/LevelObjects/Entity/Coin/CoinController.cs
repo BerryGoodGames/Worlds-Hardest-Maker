@@ -39,10 +39,10 @@ public class CoinController : EntityController
         // check if player is in goal while collecting coin
         if (!controller.AllCoinsCollected()) return;
 
-        foreach (GameObject field in controller.CurrentFields)
+        foreach (FieldController field in controller.CurrentFields)
         {
-            FieldType fieldType = (FieldType)FieldManager.GetFieldType(field);
-            if (fieldType != FieldType.GoalField) continue;
+            FieldType fieldType = field.ScriptableObject.FieldType;
+            if (fieldType != FieldType.Goal) continue;
 
             controller.Win();
             break;

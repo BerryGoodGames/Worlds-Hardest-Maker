@@ -12,11 +12,11 @@ public class KeyEvents : MonoBehaviour
 
     private static readonly Dictionary<string, EditMode> keyboardShortcuts = new()
     {
-        { "EditMode_Delete", EditMode.DeleteField },
-        { "EditMode_Wall", EditMode.WallField },
-        { "EditMode_Start", EditMode.StartField },
-        { "EditMode_Goal", EditMode.GoalField },
-        { "EditMode_OneWayGate", EditMode.OneWayField },
+        { "EditMode_Delete", EditMode.Delete },
+        { "EditMode_Wall", EditMode.Wall },
+        { "EditMode_Start", EditMode.Start },
+        { "EditMode_Goal", EditMode.Goal },
+        { "EditMode_OneWayGate", EditMode.OneWay },
         { "EditMode_Water", EditMode.Water },
         { "EditMode_Ice", EditMode.Ice },
         { "EditMode_Void", EditMode.Void },
@@ -27,7 +27,7 @@ public class KeyEvents : MonoBehaviour
         { "EditMode_GreenKey", EditMode.GreenKey },
         { "EditMode_BlueKey", EditMode.BlueKey },
         { "EditMode_YellowKey", EditMode.YellowKey },
-        { "EditMode_Checkpoint", EditMode.CheckpointField },
+        { "EditMode_Checkpoint", EditMode.Checkpoint },
     };
 
     private void Update()
@@ -75,10 +75,11 @@ public class KeyEvents : MonoBehaviour
     private static void CheckEditModeRotation()
     {
         // rotate if current edit mode is field and rotatable
-        FieldType? fieldType =
-            (FieldType?)EnumExtensions.TryConvertTo<EditMode, FieldType>(EditModeManager.Instance.CurrentEditMode);
+        FieldType? fieldType = (FieldType?)EditModeManager.Instance.CurrentEditMode.TryConvertTo<EditMode, FieldType>();
 
-        if (fieldType == null || !((FieldType)fieldType).IsRotatable() || !KeyBinds.GetKeyBindDown("Editor_Rotate")) return;
+        if (fieldType == null 
+            || !((FieldType)fieldType).GetFieldObject().IsRotatable 
+            || !KeyBinds.GetKeyBindDown("Editor_Rotate")) return;
         
         EditModeManager.Instance.EditRotation = (EditModeManager.Instance.EditRotation - 90) % 360;
 

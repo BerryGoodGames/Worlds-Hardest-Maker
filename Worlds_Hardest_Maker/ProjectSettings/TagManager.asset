@@ -4,20 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - WallField
-  - StartField
-  - GoalField
   - DefaultField
-  - CheckpointField
   - Tool
-  - OneWayField
-  - KeyDoorField
   - OptionContainer
   - ToolOptionbar
-  - RedKeyDoorField
-  - GreenKeyDoorField
-  - BlueKeyDoorField
-  - YellowKeyDoorField
   - Anchor
   - BallObject
   - DontDestroy
@@ -35,6 +25,16 @@ TagManager:
   - AnchorBlockPreview
   - StartBlock
   - AnchorObject
+  - Wall
+  - Start
+  - Goal
+  - Checkpoint
+  - OneWay
+  - GrayKeyDoor
+  - RedKeyDoor
+  - GreenKeyDoor
+  - BlueKeyDoor
+  - YellowKeyDoor
   layers:
   - Default
   - TransparentFX
