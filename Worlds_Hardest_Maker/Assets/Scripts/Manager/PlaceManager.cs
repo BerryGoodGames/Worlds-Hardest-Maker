@@ -102,6 +102,13 @@ public class PlaceManager : MonoBehaviour
 
         LineForEach(start, end, pos => Place(editMode, pos, rotation));
     }
+    
+    public static void RemoveEntitiesAt(Vector2 position, LayerMask entityLayer)
+    {
+        Collider2D[] hits = Physics2D.OverlapPointAll(position, entityLayer);
+
+        foreach (Collider2D hit in hits) hit.GetComponent<EntityController>().Delete();
+    }
 
     private static void LineForEach(Vector2 start, Vector2 end, Action<Vector2> action)
     {

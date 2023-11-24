@@ -14,4 +14,19 @@ public class ToolbarManager : MonoBehaviour
             tool.IsSelected(false);
         }
     }
+
+    public static void SelectEditMode(EditMode editMode)
+    {
+        // update toolbarContainer
+        GameObject[] tools = Tools;
+        foreach (GameObject tool in tools)
+        {
+            Tool t = tool.GetComponent<Tool>();
+            if (t.ToolName == editMode)
+            {
+                // avoid recursion
+                t.SwitchGameMode(false);
+            }
+        }
+    }
 }

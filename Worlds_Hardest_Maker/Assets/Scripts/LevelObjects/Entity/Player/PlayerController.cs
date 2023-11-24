@@ -52,8 +52,6 @@ public class PlayerController : EntityController
 
     #region Fields
 
-    // [Separator] [ReadOnly] public int ID;
-
     [ReadOnly] public int Deaths;
 
     [HideInInspector] public List<CoinController> CoinsCollected;

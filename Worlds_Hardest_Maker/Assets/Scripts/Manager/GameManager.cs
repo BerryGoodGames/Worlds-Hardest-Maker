@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviourPun
     {
         // init singleton
         if (Instance == null) Instance = this;
-        // DontDestroyOnLoad(gameObject);
         else Destroy(gameObject);
 
         Utils.ForceDecimalSeparator(".");

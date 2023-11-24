@@ -4,17 +4,49 @@ using UnityEngine;
 
 public class EditModeManager : MonoBehaviour
 {
-    public static EditModeManager Instance { get; set; }
+    public static EditModeManager Instance { get; private set; }
 
     #region Variables & properties
 
-    [SerializeField] [SearchableEnum] [InitializationField] private EditMode currentEditMode;
+    [SerializeField] [SearchableEnum] [InitializationField] private EditMode startEditMode;
+    private EditMode currentEditMode;
     private EditMode? prevEditMode;
 
     public EditMode CurrentEditMode
     {
         get => currentEditMode;
-        set => Instance.SetEditMode(value);
+        set
+        {
+            if (!LevelSessionManager.Instance.IsEdit) return;
+
+            currentEditMode = value;
+
+            // invoke OnEditModeChanged
+            if (prevEditMode != null && prevEditMode != currentEditMode) OnEditModeChange?.Invoke();
+            prevEditMode = currentEditMode;
+
+            // select edit mode in toolbar
+            ToolbarManager.SelectEditMode(value);
+
+            // enable/disable outlines and panel when switching to/away from anchors or anchor ball
+            bool isAnchorRelated = currentEditMode.IsAnchorRelated();
+            foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
+            {
+                Animator anim = anchor.GetComponentInChildren<Animator>();
+                anim.SetBool(editingString, isAnchorRelated);
+            }
+
+            if (isAnchorRelated && AnchorManager.Instance.SelectedAnchor) ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
+            else ReferenceManager.Instance.AnchorBallContainer.BallFadeIn();
+
+            // open corresponding panel
+            PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
+            PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
+            PanelManager.Instance.SetPanelHidden(isAnchorRelated ? anchorPanel : levelSettingsPanel, false);
+
+            // enable/disable anchor path
+            if (AnchorManager.Instance.SelectedAnchor) AnchorManager.Instance.SelectedAnchor.SetLinesActive(isAnchorRelated);
+        }
     }
 
     [field: SerializeField] [field: ReadOnly] public bool Editing { get; set; }
@@ -29,7 +61,11 @@ public class EditModeManager : MonoBehaviour
     public int EditRotation
     {
         get => editRotation;
-        set => Instance.SetEditRotation(value);
+        set 
+        {
+            editRotation = value;
+            ReferenceManager.Instance.PlacementPreview.UpdateRotation();
+        }
     }
 
     #endregion
@@ -43,58 +79,6 @@ public class EditModeManager : MonoBehaviour
 
     #endregion
 
-    #region Methods
-
-    public void SetEditMode(EditMode value)
-    {
-        if (!LevelSessionManager.Instance.IsEdit) return;
-
-        currentEditMode = value;
-
-        // invoke OnEditModeChanged
-        if (prevEditMode != null && prevEditMode != currentEditMode) OnEditModeChange?.Invoke();
-        prevEditMode = currentEditMode;
-
-        // update toolbarContainer
-        GameObject[] tools = ToolbarManager.Tools;
-        foreach (GameObject tool in tools)
-        {
-            Tool t = tool.GetComponent<Tool>();
-            if (t.ToolName == value)
-                // avoid recursion
-                t.SwitchGameMode(false);
-        }
-
-        // enable/disable outlines and panel when switching to/away from anchors or anchor ball
-        bool isAnchorRelated = currentEditMode.IsAnchorRelated();
-        foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
-        {
-            Animator anim = anchor.GetComponentInChildren<Animator>();
-            anim.SetBool(editingString, isAnchorRelated);
-        }
-
-        if (isAnchorRelated && AnchorManager.Instance.SelectedAnchor) ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
-        else ReferenceManager.Instance.AnchorBallContainer.BallFadeIn();
-
-        // open corresponding panel
-        PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
-        PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
-        PanelManager.Instance.SetPanelHidden(isAnchorRelated ? anchorPanel : levelSettingsPanel, false);
-
-
-        // enable/disable anchor path
-        if (AnchorManager.Instance.SelectedAnchor) AnchorManager.Instance.SelectedAnchor.SetLinesActive(isAnchorRelated);
-    }
-
-    private void SetEditRotation(int value)
-    {
-        editRotation = value;
-
-        ReferenceManager.Instance.PlacementPreview.UpdateRotation();
-    }
-
-    #endregion
-
     public void InvokeOnPlay() => OnPlay?.Invoke();
 
     public void InvokeOnEdit() => OnEdit?.Invoke();
@@ -103,9 +87,7 @@ public class EditModeManager : MonoBehaviour
     {
         if (!LevelSessionManager.Instance.IsEdit) return;
 
-        OnEdit += () => PlayManager.Instance.Cheated = false;
-
-        SetEditMode(currentEditMode);
+        CurrentEditMode = startEditMode;
     }
 
     private void Awake()

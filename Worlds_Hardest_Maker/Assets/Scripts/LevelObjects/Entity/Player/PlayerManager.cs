@@ -76,9 +76,6 @@ public class PlayerManager : MonoBehaviour
         // place player
         PlayerController newPlayer = InstantiatePlayer(position, speed, MultiplayerManager.Instance.Multiplayer);
 
-        // int newID = AvailableID();
-        // newPlayer.GetComponent<PlayerController>().ID = newID;
-
         // set target of camera
         ReferenceManager.Instance.MainCameraJumper.AddTarget("Player", newPlayer.gameObject);
 
@@ -142,20 +139,6 @@ public class PlayerManager : MonoBehaviour
         // conditions: no player there, position is covered with possible start fields
         !(checkForPlayer && IsPlayerThere(position)) &&
         FieldManager.IsPosCoveredWithFieldType(position, StartFields.ToArray());
-
-    // public static int AvailableID()
-    // {
-    //     if (GetPlayers().Count == 0) return 0;
-    //
-    //     int highestID = 0;
-    //     foreach (Transform p in ReferenceManager.Instance.PlayerContainer)
-    //     {
-    //         PlayerController controller = p.GetComponent<PlayerController>();
-    //         if (controller.ID > highestID) highestID = controller.ID;
-    //     }
-    //
-    //     return highestID + 1;
-    // }
 
     #region Get player
 
@@ -237,18 +220,6 @@ public class PlayerManager : MonoBehaviour
     }
 
     #endregion
-
-    // public static Dictionary<int, GameObject> PlayerIDList()
-    // {
-    //     Dictionary<int, GameObject> res = new();
-    //     foreach (Transform p in ReferenceManager.Instance.PlayerContainer)
-    //     {
-    //         PlayerController controller = p.GetComponent<PlayerController>();
-    //         res.Add(controller.ID, p.gameObject);
-    //     }
-    //
-    //     return res;
-    // }
 
     public static PlayerController InstantiatePlayer(Vector2 position, float speed, bool multiplayer)
     {

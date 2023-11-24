@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ public class PlaySceneToggle : MonoBehaviour
         }
     }
 
-    [ButtonMethod]
+    [ButtonMethod] [UsedImplicitly]
     public void Apply()
     {
         ConditionalObject[] objArr = FindObjectsOfType<ConditionalObject>(true);

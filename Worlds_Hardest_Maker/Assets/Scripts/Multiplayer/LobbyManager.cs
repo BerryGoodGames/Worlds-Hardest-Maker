@@ -192,7 +192,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         photonView.RPC("StartLoading", RpcTarget.All);
 
-        PhotonNetwork.LoadLevel("DefaultEditorScene");
+        PhotonNetwork.LoadLevel("LevelSession");
     }
 
     [PunRPC]

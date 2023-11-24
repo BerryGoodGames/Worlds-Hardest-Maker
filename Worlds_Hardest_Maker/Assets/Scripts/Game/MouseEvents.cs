@@ -119,7 +119,7 @@ public class MouseEvents : MonoBehaviour
         else
         {
             // remove entity
-            GameEntityManager.RemoveEntitiesAt(
+            PlaceManager.RemoveEntitiesAt(
                 MouseManager.Instance.MouseWorldPosGrid,
                 LayerManager.Instance.Layers.Entity
             );

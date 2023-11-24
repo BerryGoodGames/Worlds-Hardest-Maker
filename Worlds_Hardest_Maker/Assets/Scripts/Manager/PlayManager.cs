@@ -174,6 +174,8 @@ public class PlayManager : MonoBehaviour
         // setup play scene mode
         if (!LevelSessionManager.Instance.IsEdit) StartCoroutine(SetupPlayScene());
 
+        EditModeManager.Instance.OnEdit += () => Instance.Cheated = false;
+
         return;
 
         [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
