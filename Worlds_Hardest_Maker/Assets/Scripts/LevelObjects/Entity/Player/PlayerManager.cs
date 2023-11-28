@@ -163,6 +163,7 @@ public class PlayerManager : MonoBehaviour
         foreach (Transform player in container)
         {
             if (player.TryGetComponent(out PlayerController controller)) players.Add(controller);
+            // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
             else Debug.LogWarning("Could not find PlayerController component in player");
         }
         
