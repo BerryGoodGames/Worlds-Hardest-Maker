@@ -28,7 +28,7 @@ public class FieldManager : MonoBehaviour
 
     public static FieldController GetField(Vector2Int position)
     {
-        Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(position, 0.1f, 3072);
+        Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Field);
 
         foreach (Collider2D c in collidedGameObjects)
         {
@@ -92,6 +92,19 @@ public class FieldManager : MonoBehaviour
 
     [PunRPC]
     public void SetField(Vector2Int position, FieldType type) => SetField(position, type, 0);
+    
+    public void PlaceField(FieldType type, int rotation, bool playSound, Vector2Int matrixPosition)
+    {
+        // TODO: PlaceField vs. SetField??
+        FieldObject fieldObject = type.GetFieldObject();
+        
+        if (!fieldObject.IsRotatable) rotation = 0;
+        
+        if (SetField(matrixPosition, type, rotation) is not null && playSound)
+        {
+            AudioManager.Instance.Play(PlaceManager.Instance.GetSfx(type));
+        }
+    }
 
     public static void ApplyStartGoalCheckpointFieldColor(GameObject field, bool? oneColor)
     {

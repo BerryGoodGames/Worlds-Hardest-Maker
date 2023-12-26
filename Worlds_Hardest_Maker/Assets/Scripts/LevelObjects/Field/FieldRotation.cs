@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using MyBox;
 using Photon.Pun;
@@ -9,10 +8,9 @@ public class FieldRotation : MonoBehaviour
 {
     // hippety hoppety
     public float Duration;
-    public Vector3 RotateAngle;
+    public Vector3 RotateAngle = new(0, 0, -90);
     private bool rotating;
     [SerializeField] private bool disableCollision;
-
     [SerializeField] [ConditionalField(nameof(disableCollision))] [MustBeAssigned] private BoxCollider2D boxCollider;
 
     private FieldController controller;

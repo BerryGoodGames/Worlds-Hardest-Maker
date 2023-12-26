@@ -92,33 +92,30 @@ public class PreviewController : MonoBehaviour
             || KeyBinds.GetKeyBind("Editor_MoveEntity") 
             || KeyBinds.GetKeyBind("Editor_Modify") 
             || KeyBinds.GetKeyBind("Editor_DeleteEntity")
-            || AnchorBlockManager.Instance.DraggingBlock) return false;
+            || AnchorBlockManager.Instance.DraggingBlock
+            || CopyManager.Instance.Pasting
+            || AnchorPositionInputEditManager.Instance.IsEditing) return false;
 
-        if (CopyManager.Instance.Pasting) return false;
-        if (AnchorPositionInputEditManager.Instance.IsEditing) return false;
-
-        // check if preview of prefab not allowed during filling
+        // check if preview of edit mode is not allowed during filling
         if (SelectionManager.Instance.Selecting)
         {
             if (SelectionManager.NoFillPreviewModes.Contains(mode)) return false;
         }
 
-        WorldPositionType positionMode = GetComponent<FollowMouse>().WorldPosition;
-
-        Vector2 mousePos = positionMode switch
+        Vector2 mousePos = followMouseComp.WorldPosition switch
         {
             WorldPositionType.Any => MouseManager.Instance.MouseWorldPos,
             WorldPositionType.Grid => MouseManager.Instance.MouseWorldPosGrid,
             _ => MouseManager.Instance.MouseWorldPosMatrix,
         };
-
+        
         // check coin placement
-        if (mode != EditMode.Coin) return !KeyManager.KeyModes.Contains(mode) || KeyManager.CanPlace(mousePos);
+        if (mode is EditMode.Coin) return CoinManager.CanPlace(mousePos);
+        
+        // check key placement
+        if (KeyManager.KeyModes.Contains(mode)) return KeyManager.CanPlace(mousePos);
 
-        if (!CoinManager.CanPlace(mousePos)) return false;
-
-        // check key placement + return
-        return !KeyManager.KeyModes.Contains(mode) || KeyManager.CanPlace(mousePos);
+        return true;
     }
 
     /// <summary>
@@ -142,8 +139,8 @@ public class PreviewController : MonoBehaviour
         }
 
         GameObject currentPrefab = editMode.GetPrefab();
-        bool hasCurrentPrefabPreviewController = currentPrefab.TryGetComponent(out PreviewSprite previewSprite);
-        if (hasCurrentPrefabPreviewController &&
+        bool hasCurrentPrefabPreviewSpriteController = currentPrefab.TryGetComponent(out PreviewSprite previewSprite);
+        if (hasCurrentPrefabPreviewSpriteController &&
             ((!SelectionManager.Instance.Selecting && !CopyManager.Instance.Pasting) || ShowSpriteWhenPasting))
         {
             // apply PreviewSprite settings if it has one

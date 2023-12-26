@@ -95,10 +95,10 @@ public class KeyController : EntityController
             KeyManager.KeyColor.Green => "Green",
             KeyManager.KeyColor.Blue => "Blue",
             KeyManager.KeyColor.Yellow => "Yellow",
-            _ => "",
+            _ => "Gray",
         };
 
-        foreach (GameObject door in GameObject.FindGameObjectsWithTag(tagColor + "KeyDoorField"))
+        foreach (GameObject door in GameObject.FindGameObjectsWithTag(tagColor + "KeyDoor"))
         {
             KeyDoorFieldController controller = door.GetComponent<KeyDoorFieldController>();
             controller.SetLocked(false);

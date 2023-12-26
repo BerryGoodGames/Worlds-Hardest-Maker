@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Cinemachine.Utility;
 using MyBox;
 using UnityEngine;
@@ -29,15 +30,12 @@ public class PlaceManager : MonoBehaviour
         if (editMode.IsFieldType())
         {
             FieldType type = editMode.ConvertTo<EditMode, FieldType>();
-            FieldObject fieldObject = type.GetFieldObject();
-            if (!fieldObject.IsRotatable) rotation = 0;
-            if (FieldManager.Instance.SetField(matrixPosition, type, rotation) is not null && playSound)
-            {
-                AudioManager.Instance.Play(GetSfx(editMode));
-            }
+            FieldManager.Instance.PlaceField(type, rotation, playSound, matrixPosition);
+            return;
         }
+        
         // TODO: fix complexity by putting set methods in abstract class and make a general method to get the abstract classes
-        else switch (editMode)
+        switch (editMode)
         {
             // check field deletion
             case EditMode.Delete:
@@ -139,7 +137,7 @@ public class PlaceManager : MonoBehaviour
         }
     }
 
-    private PlaceSfx GetSfx(EditMode editMode)
+    public PlaceSfx GetSfx(EditMode editMode)
     {
         PlaceSfx sfx = new(EditMode.Void, defaultPlaceSfx)
         {
@@ -157,7 +155,9 @@ public class PlaceManager : MonoBehaviour
 
         return sfx;
     }
-    
+
+    public PlaceSfx GetSfx(FieldType fieldType) => GetSfx(fieldType.ConvertTo<FieldType, EditMode>());
+
     private void Awake()
     {
         if (Instance == null) Instance = this;

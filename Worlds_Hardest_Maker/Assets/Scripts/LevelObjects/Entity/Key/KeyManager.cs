@@ -35,15 +35,6 @@ public class KeyManager : MonoBehaviour
         EditMode.YellowKeyDoor,
     };
 
-    public static readonly List<FieldType> KeyDoorTypes = new()
-    {
-        FieldType.GrayKeyDoor,
-        FieldType.RedKeyDoor,
-        FieldType.BlueKeyDoor,
-        FieldType.GreenKeyDoor,
-        FieldType.YellowKeyDoor,
-    };
-
     [UsedImplicitly] public static readonly List<FieldType> CannotPlaceFields = new();
 
     private static readonly int playing = Animator.StringToHash("Playing");
@@ -91,9 +82,9 @@ public class KeyManager : MonoBehaviour
 
     public static bool CanPlace(Vector2 position) =>
         // conditions: no key there, covered by canplacefield or default, no player there
-        !PlayerManager.IsPlayerThere(position) &&
-        !IsKeyThere(position) &&
-        !FieldManager.IntersectingAnyFieldsAtPos(position, CannotPlaceFields.ToArray());
+        !PlayerManager.IsPlayerThere(position)
+        && !IsKeyThere(position) 
+        && !FieldManager.IntersectingAnyFieldsAtPos(position, CannotPlaceFields.ToArray());
 
     public static KeyController GetKey(Vector2 position)
     {
