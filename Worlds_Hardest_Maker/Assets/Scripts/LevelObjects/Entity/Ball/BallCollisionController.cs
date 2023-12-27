@@ -12,7 +12,7 @@ public class BallCollisionController : MonoBehaviour
     {
         GameObject collider = collision.gameObject;
 
-        if (EditModeManager.Instance.Editing || !collider.CompareTag("Player")) return;
+        if (EditModeManagerOther.Instance.Editing || !collider.CompareTag("Player")) return;
 
         PlayerController controller = collider.GetComponent<PlayerController>();
 

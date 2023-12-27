@@ -26,12 +26,12 @@ public class PlayerRecordingManager : MonoBehaviour
 
     private void Start()
     {
-        EditModeManager.Instance.OnPlay += () =>
+        EditModeManagerOther.Instance.OnPlay += () =>
         {
             ClearRecording();
             recording = StartCoroutine(RecordPlayer());
         };
-        EditModeManager.Instance.OnEdit += () =>
+        EditModeManagerOther.Instance.OnEdit += () =>
         {
             StopCoroutine(recording);
             StartCoroutine(DisplayRecording(recordedPositions));
@@ -46,7 +46,7 @@ public class PlayerRecordingManager : MonoBehaviour
 
         if (player is null) yield break;
         
-        while (!EditModeManager.Instance.Editing)
+        while (!EditModeManagerOther.Instance.Editing)
         {
             recordedPositions.Add(player.position);
             

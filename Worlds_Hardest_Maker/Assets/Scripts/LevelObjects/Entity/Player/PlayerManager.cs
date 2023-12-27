@@ -8,13 +8,13 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance { get; private set; }
 
     // list of fields which are safe for player
-    public static readonly List<FieldType> SafeFields = new(new FieldType[] { });
+    public static readonly List<FieldMode> SafeFields = new(new FieldMode[] { });
 
-    public static readonly List<FieldType> StartFields = new(
+    public static readonly List<FieldMode> StartFields = new(
         new[]
         {
-            FieldType.Start,
-            FieldType.Goal,
+            FieldModeManager.Start,
+            FieldModeManager.Goal,
         }
     );
     
@@ -41,7 +41,7 @@ public class PlayerManager : MonoBehaviour
 
             foreach (Vector2Int checkPosition in checkPoses)
             {
-                FieldManager.Instance.SetField(checkPosition, FieldType.Start);
+                FieldManager.Instance.SetField(checkPosition, FieldModeManager.Start);
             }
         }
 

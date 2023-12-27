@@ -29,7 +29,7 @@ public class CheckpointController : MonoBehaviour
         // check if player wasn't on checkpoint before
         PlayerController controller = player.GetComponent<PlayerController>();
 
-        bool alreadyOnField = controller.IsOnField(FieldType.Checkpoint);
+        bool alreadyOnField = controller.IsOnField(FieldModeManager.Checkpoint);
 
         if ((Activated && !reusableCheckpoints) || alreadyOnField) return;
 

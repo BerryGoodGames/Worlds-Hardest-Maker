@@ -15,7 +15,7 @@ public class DestroyingOurProject : MonoBehaviour
 
         SelectionManager.Instance.FillArea(
             new(-INTENSITY, -INTENSITY), new(INTENSITY, INTENSITY),
-            EditMode.Wall
+            EditModeManager.Wall
         );
 
         SaveSystem.SaveCurrentLevel();

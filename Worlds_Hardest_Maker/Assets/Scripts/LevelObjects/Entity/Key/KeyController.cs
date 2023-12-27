@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class KeyController : EntityController
 {
-    [ReadOnly] public KeyManager.KeyColor Color;
+    [ReadOnly] public KeyColor Color;
     [ReadOnly] public Vector2 KeyPosition;
     [ReadOnly] public bool PickedUp;
 
@@ -21,11 +21,11 @@ public class KeyController : EntityController
         {
             return Color switch
             {
-                KeyManager.KeyColor.Gray => EditMode.GrayKey,
-                KeyManager.KeyColor.Red => EditMode.RedKey,
-                KeyManager.KeyColor.Green => EditMode.GreenKey,
-                KeyManager.KeyColor.Blue => EditMode.BlueKey,
-                KeyManager.KeyColor.Yellow => EditMode.YellowKey,
+                KeyColor.Gray => EditModeManager.GrayKey,
+                KeyColor.Red => EditModeManager.RedKey,
+                KeyColor.Green => EditModeManager.GreenKey,
+                KeyColor.Blue => EditModeManager.BlueKey,
+                KeyColor.Yellow => EditModeManager.YellowKey,
                 _ => throw new("There is no edit mode assigned for color " + Color),
             };
         }
@@ -91,10 +91,10 @@ public class KeyController : EntityController
 
         string tagColor = Color switch
         {
-            KeyManager.KeyColor.Red => "Red",
-            KeyManager.KeyColor.Green => "Green",
-            KeyManager.KeyColor.Blue => "Blue",
-            KeyManager.KeyColor.Yellow => "Yellow",
+            KeyColor.Red => "Red",
+            KeyColor.Green => "Green",
+            KeyColor.Blue => "Blue",
+            KeyColor.Yellow => "Yellow",
             _ => "Gray",
         };
 

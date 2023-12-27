@@ -8,7 +8,7 @@ using UnityEngine;
 public class KeyData : Data
 {
     public float[] Position;
-    public KeyManager.KeyColor Color;
+    public KeyColor Color;
 
     public KeyData(KeyController controller)
     {
@@ -27,11 +27,11 @@ public class KeyData : Data
     public override EditMode GetEditMode() =>
         Color switch
         {
-            KeyManager.KeyColor.Gray => EditMode.GrayKey,
-            KeyManager.KeyColor.Red => EditMode.RedKey,
-            KeyManager.KeyColor.Green => EditMode.GreenKey,
-            KeyManager.KeyColor.Blue => EditMode.BlueKey,
-            KeyManager.KeyColor.Yellow => EditMode.YellowKey,
-            _ => EditMode.GrayKey,
+            KeyColor.Gray => EditModeManager.GrayKey,
+            KeyColor.Red => EditModeManager.RedKey,
+            KeyColor.Green => EditModeManager.GreenKey,
+            KeyColor.Blue => EditModeManager.BlueKey,
+            KeyColor.Yellow => EditModeManager.YellowKey,
+            _ => EditModeManager.GrayKey,
         };
 }

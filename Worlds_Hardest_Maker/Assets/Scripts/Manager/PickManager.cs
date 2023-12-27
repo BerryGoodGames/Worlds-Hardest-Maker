@@ -23,6 +23,6 @@ public class PickManager : MonoBehaviour
             throw new("Object that was tried to pick from is not an entity");
         }
         
-        EditModeManager.Instance.CurrentEditMode = entity.EditMode;
+        EditModeManagerOther.Instance.CurrentEditMode = entity.EditMode;
     }
 }

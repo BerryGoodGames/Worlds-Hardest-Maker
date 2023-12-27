@@ -170,39 +170,39 @@ MonoBehaviour:
   defaultPlaceSfx: Place
   defaultPlaceSfxPitchDeviation: 0.08
   customPlaceSfx:
-  - Mode: 0
+  - Mode: {fileID: 0}
     Sound: Delete
     PitchRandomization: 1
     PitchDeviation: 0.4
-  - Mode: 18
+  - Mode: {fileID: 0}
     Sound: PlaceCoin
     PitchRandomization: 1
     PitchDeviation: 0.05
-  - Mode: 19
+  - Mode: {fileID: 0}
     Sound: PlaceKey
     PitchRandomization: 0
     PitchDeviation: 0
-  - Mode: 20
+  - Mode: {fileID: 0}
     Sound: PlaceKey
     PitchRandomization: 0
     PitchDeviation: 0
-  - Mode: 21
+  - Mode: {fileID: 0}
     Sound: PlaceKey
     PitchRandomization: 0
     PitchDeviation: 0
-  - Mode: 22
+  - Mode: {fileID: 0}
     Sound: PlaceKey
     PitchRandomization: 0
     PitchDeviation: 0
-  - Mode: 23
+  - Mode: {fileID: 0}
     Sound: PlaceKey
     PitchRandomization: 0
     PitchDeviation: 0
-  - Mode: 8
+  - Mode: {fileID: 0}
     Sound: PlaceIce
     PitchRandomization: 1
     PitchDeviation: 0.1
-  - Mode: 7
+  - Mode: {fileID: 0}
     Sound: PlaceWater
     PitchRandomization: 1
     PitchDeviation: 0.1
@@ -1230,6 +1230,7 @@ Transform:
   - {fileID: 1054767411}
   - {fileID: 1709400181}
   - {fileID: 2112649816}
+  - {fileID: 483670037}
   - {fileID: 261002466}
   - {fileID: 1285270084}
   - {fileID: 930056954}
@@ -4131,6 +4132,101 @@ Transform:
   - {fileID: 1697968432}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &483670036
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 483670037}
+  - component: {fileID: 483670039}
+  - component: {fileID: 483670038}
+  m_Layer: 0
+  m_Name: _EditMode
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &483670037
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483670036}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 198493967}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &483670038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483670036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ead4a5dce510954c96bfa00123bad33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WallMode: {fileID: 0}
+  StartMode: {fileID: 0}
+  GoalMode: {fileID: 0}
+  CheckpointMode: {fileID: 0}
+  OneWayMode: {fileID: 0}
+  ConveyorMode: {fileID: 0}
+  WaterMode: {fileID: 0}
+  IceMode: {fileID: 0}
+  VoidMode: {fileID: 0}
+  GrayKeyDoorMode: {fileID: 0}
+  RedKeyDoorMode: {fileID: 0}
+  GreenKeyDoorMode: {fileID: 0}
+  BlueKeyDoorMode: {fileID: 0}
+  YellowKeyDoorMode: {fileID: 0}
+--- !u!114 &483670039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483670036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04b6d3c10bdeca442aadfc39922b0c98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DeleteMode: {fileID: 0}
+  WallMode: {fileID: 0}
+  StartMode: {fileID: 0}
+  GoalMode: {fileID: 0}
+  CheckpointMode: {fileID: 0}
+  OneWayMode: {fileID: 0}
+  ConveyorMode: {fileID: 0}
+  WaterMode: {fileID: 0}
+  IceMode: {fileID: 0}
+  VoidMode: {fileID: 0}
+  GrayKeyDoorMode: {fileID: 0}
+  RedKeyDoorMode: {fileID: 0}
+  GreenKeyDoorMode: {fileID: 0}
+  BlueKeyDoorMode: {fileID: 0}
+  YellowKeyDoorMode: {fileID: 0}
+  PlayerMode: {fileID: 0}
+  AnchorMode: {fileID: 0}
+  AnchorBallMode: {fileID: 0}
+  CoinMode: {fileID: 0}
+  GrayKeyMode: {fileID: 0}
+  RedKeyMode: {fileID: 0}
+  GreenKeyMode: {fileID: 0}
+  BlueKeyMode: {fileID: 0}
+  YellowKeyMode: {fileID: 0}
 --- !u!114 &503401290 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1761931465531820438, guid: 0c96c71fe87983542a8dc6af1738fb87, type: 3}
@@ -10430,7 +10526,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 6
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -14115,7 +14211,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 711.4248
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -14313,7 +14409,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 8
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -16786,8 +16882,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02a0c332d7c888748ab90276af062384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recordingFrequency: 0.25
-  displayDelay: 0.025
+  recordingFrequency: 0.001
+  displayDelay: 0.0025
   recordingContainer: {fileID: 1810098789}
 --- !u!224 &1641938108 stripped
 RectTransform:
@@ -19322,7 +19418,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 39.619812}
+  m_AnchoredPosition: {x: 0, y: 39.42862}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1786665322
@@ -20974,7 +21070,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 7
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -23053,7 +23149,7 @@ GameObject:
   - component: {fileID: 2112649816}
   - component: {fileID: 2112649817}
   m_Layer: 0
-  m_Name: _EditMode
+  m_Name: _EditModeOther
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23086,7 +23182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c16a2a2683b36419602bb6a0fb25ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startEditMode: 0
+  startEditMode: {fileID: 0}
   <Editing>k__BackingField: 1
   editRotation: 270
 --- !u!4 &2114596312 stripped
@@ -24528,7 +24624,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 15
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -24745,7 +24841,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 11
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -24895,7 +24991,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 9
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -25127,7 +25223,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 14
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -25264,7 +25360,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 13
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -25414,7 +25510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 20
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -25683,7 +25779,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 12
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -25829,7 +25925,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 21
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -25975,7 +26071,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 22
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -26121,7 +26217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 10
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -26275,7 +26371,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 3
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -26425,7 +26521,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 1
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -26712,7 +26808,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 24
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -26858,7 +26954,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 4
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -26992,7 +27088,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 5
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -27239,7 +27335,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 19
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -27463,7 +27559,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 2
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -27607,7 +27703,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 23
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName
@@ -27757,7 +27853,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: ToolName
-      value: 16
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7465456736653454119, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
       propertyPath: toolName

@@ -25,24 +25,24 @@
 //     BlueKey,
 //     YellowKey,
 // }
-
-public enum FieldType
-{
-    Wall,
-    Start,
-    Goal,
-    Checkpoint,
-    OneWay,
-    Conveyor,
-    Water,
-    Ice,
-    Void,
-    GrayKeyDoor,
-    RedKeyDoor,
-    GreenKeyDoor,
-    BlueKeyDoor,
-    YellowKeyDoor,
-}
+//
+// public enum FieldType
+// {
+//     Wall,
+//     Start,
+//     Goal,
+//     Checkpoint,
+//     OneWay,
+//     Conveyor,
+//     Water,
+//     Ice,
+//     Void,
+//     GrayKeyDoor,
+//     RedKeyDoor,
+//     GreenKeyDoor,
+//     BlueKeyDoor,
+//     YellowKeyDoor,
+// }
 
 public enum KeyColor
 {

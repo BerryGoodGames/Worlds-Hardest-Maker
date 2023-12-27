@@ -40,7 +40,7 @@ public partial class AnchorController : EntityController
 
     public bool Selected => AnchorManager.Instance.SelectedAnchor == this;
 
-    public override EditMode EditMode => EditMode.Anchor;
+    public override EditMode EditMode => EditModeManager.Anchor;
 
     private void Awake()
     {
@@ -48,7 +48,7 @@ public partial class AnchorController : EntityController
         spriteRenderer = GetComponent<SpriteRenderer>();
         entityDragDrop = GetComponent<EntityDragDrop>();
 
-        Animator.SetBool(editing, EditModeManager.Instance.CurrentEditMode.IsAnchorRelated());
+        Animator.SetBool(editing, EditModeManagerOther.Instance.CurrentEditMode.IsAnchorRelated());
     }
 
     private void Start()

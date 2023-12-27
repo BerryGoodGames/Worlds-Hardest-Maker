@@ -27,69 +27,57 @@ public class PlaceManager : MonoBehaviour
         Vector2Int matrixPosition = position.ConvertToMatrix();
 
         // check field placement
-        if (editMode.IsFieldType())
+        if (editMode.IsField)
         {
-            FieldType type = editMode.ConvertTo<EditMode, FieldType>();
+            FieldMode type = (FieldMode)editMode;
             FieldManager.Instance.PlaceField(type, rotation, playSound, matrixPosition);
             return;
         }
         
         // TODO: fix complexity by putting set methods in abstract class and make a general method to get the abstract classes
-        switch (editMode)
-        {
+        if (editMode ==
             // check field deletion
-            case EditMode.Delete:
-                // delete field
-                if (FieldManager.Instance.RemoveField(matrixPosition, true) && playSound)
-                {
-                    AudioManager.Instance.Play(GetSfx(editMode));
-                }
-                // remove player if at deleted pos
-                PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixPosition);
-                break;
-            case EditMode.Player:
-                if (PlayerManager.Instance.SetPlayer(gridPosition, true) is not null && playSound)
-                {
-                    AudioManager.Instance.Play(GetSfx(editMode));
-                }
-                break;
-            case EditMode.AnchorBall:
-                if (AnchorBallManager.SetAnchorBall(gridPosition) is not null && playSound)
-                {
-                    AudioManager.Instance.Play(GetSfx(editMode));
-                }
-                break;
-            case EditMode.Coin:
-                if (CoinManager.SetCoin(gridPosition) is not null && playSound)
-                {
-                    AudioManager.Instance.Play(GetSfx(editMode));
-                }
-                break;
-            case EditMode.Anchor:
-                // place new anchor + select
-                AnchorController anchor = AnchorManager.Instance.SetAnchor(gridPosition);
-                if (anchor is not null && playSound)
-                {
-                    AudioManager.Instance.Play(GetSfx(editMode));
-                    AnchorManager.Instance.SelectAnchor(anchor);
-                }
-                break;
-            default:
-            {
-                if (editMode.IsKey())
-                {
-                    // get key color
-                    string editModeStr = editMode.ToString();
-                    string keyColorStr = editModeStr.Remove(editModeStr.Length - 3);
-                    KeyManager.KeyColor keyColor = keyColorStr.ToEnum<KeyManager.KeyColor>();
+            EditModeManager.Delete)
+        {
+            // delete field
+            if (FieldManager.Instance.RemoveField(matrixPosition, true) && playSound) { AudioManager.Instance.Play(GetSfx(editMode)); }
 
-                    // place key
-                    if (KeyManager.Instance.SetKey(gridPosition, keyColor) is not null && playSound)
-                    {
-                        AudioManager.Instance.Play(GetSfx(editMode));
-                    }
-                }
-                break;
+            // remove player if at deleted pos
+            PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixPosition);
+        }
+        else if (editMode == EditModeManager.Player)
+        {
+            if (PlayerManager.Instance.SetPlayer(gridPosition, true) is not null && playSound) { AudioManager.Instance.Play(GetSfx(editMode)); }
+        }
+        else if (editMode == EditModeManager.AnchorBall)
+        {
+            if (AnchorBallManager.SetAnchorBall(gridPosition) is not null && playSound) { AudioManager.Instance.Play(GetSfx(editMode)); }
+        }
+        else if (editMode == EditModeManager.Coin)
+        {
+            if (CoinManager.SetCoin(gridPosition) is not null && playSound) { AudioManager.Instance.Play(GetSfx(editMode)); }
+        }
+        else if (editMode == EditModeManager.Anchor)
+        {
+            // place new anchor + select
+            AnchorController anchor = AnchorManager.Instance.SetAnchor(gridPosition);
+            if (anchor is not null && playSound)
+            {
+                AudioManager.Instance.Play(GetSfx(editMode));
+                AnchorManager.Instance.SelectAnchor(anchor);
+            }
+        }
+        else
+        {
+            if (editMode.IsKey)
+            {
+                // get key color
+                string editModeStr = editMode.ToString();
+                string keyColorStr = editModeStr.Remove(editModeStr.Length - 3);
+                KeyColor keyColor = keyColorStr.ToEnum<KeyColor>();
+
+                // place key
+                if (KeyManager.Instance.SetKey(gridPosition, keyColor) is not null && playSound) { AudioManager.Instance.Play(GetSfx(editMode)); }
             }
         }
     }
@@ -139,7 +127,7 @@ public class PlaceManager : MonoBehaviour
 
     public PlaceSfx GetSfx(EditMode editMode)
     {
-        PlaceSfx sfx = new(EditMode.Void, defaultPlaceSfx)
+        PlaceSfx sfx = new(EditModeManager.Void, defaultPlaceSfx)
         {
             PitchRandomization = true,
             PitchDeviation = defaultPlaceSfxPitchDeviation,
@@ -156,7 +144,7 @@ public class PlaceManager : MonoBehaviour
         return sfx;
     }
 
-    public PlaceSfx GetSfx(FieldType fieldType) => GetSfx(fieldType.ConvertTo<FieldType, EditMode>());
+    // public PlaceSfx GetSfx(FieldMode fieldMode) => GetSfx((EditMode)fieldMode);
 
     private void Awake()
     {

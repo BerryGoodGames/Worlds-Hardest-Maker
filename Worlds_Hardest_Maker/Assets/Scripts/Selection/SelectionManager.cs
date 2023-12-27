@@ -25,12 +25,12 @@ public class SelectionManager : MonoBehaviour
     public static readonly List<EditMode> NoFillPreviewModes = new(
         new[]
         {
-            EditMode.GrayKey,
-            EditMode.RedKey,
-            EditMode.BlueKey,
-            EditMode.GreenKey,
-            EditMode.YellowKey,
-            EditMode.Player,
+            EditModeManager.GrayKey,
+            EditModeManager.RedKey,
+            EditModeManager.BlueKey,
+            EditModeManager.GreenKey,
+            EditModeManager.YellowKey,
+            EditModeManager.Player,
         }
     );
 
@@ -44,16 +44,16 @@ public class SelectionManager : MonoBehaviour
     {
         if (!LevelSessionManager.Instance.IsEdit) return;
 
-        if (KeyBinds.GetKeyBind("Editor_Select") && !EditModeManager.Instance.Playing &&
+        if (KeyBinds.GetKeyBind("Editor_Select") && !EditModeManagerOther.Instance.Playing &&
             !EventSystem.current.IsPointerOverGameObject()) Selecting = true;
 
         // update selection markings
-        if (!EditModeManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null &&
+        if (!EditModeManagerOther.Instance.Playing && MouseManager.Instance.MouseDragStart != null &&
             MouseManager.Instance.MouseDragCurrent != null && Selecting)
         {
             // get drag positions and world position mode
             WorldPositionType worldPositionType =
-                EditModeManager.Instance.CurrentEditMode.GetWorldPositionType();
+                EditModeManagerOther.Instance.CurrentEditMode.GetWorldPositionType();
 
             (Vector2 start, Vector2 end) = MouseManager.GetDragPositions(worldPositionType);
 
@@ -79,8 +79,8 @@ public class SelectionManager : MonoBehaviour
 
     private void Start()
     {
-        EditModeManager.Instance.OnPlay += CancelSelection;
-        EditModeManager.Instance.OnEditModeChange += RemakePreview;
+        EditModeManagerOther.Instance.OnPlay += CancelSelection;
+        EditModeManagerOther.Instance.OnEditModeChange += RemakePreview;
 
         fillMouseOver.OnHovered += SetPreviewVisible;
         fillMouseOver.OnUnhovered += SetPreviewInvisible;
@@ -165,7 +165,7 @@ public class SelectionManager : MonoBehaviour
     private static void InitPreview(List<Vector2> range)
     {
         // set new previews, only if edit mode not in NoFillPreviewModes
-        if (NoFillPreviewModes.Contains(EditModeManager.Instance.CurrentEditMode)) return;
+        if (NoFillPreviewModes.Contains(EditModeManagerOther.Instance.CurrentEditMode)) return;
 
         foreach (Vector2 pos in range)
         {
@@ -216,7 +216,7 @@ public class SelectionManager : MonoBehaviour
 
     public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2)
     {
-        bool inMatrix = EditModeManager.Instance.CurrentEditMode.GetWorldPositionType() is WorldPositionType.Matrix;
+        bool inMatrix = EditModeManagerOther.Instance.CurrentEditMode.GetWorldPositionType() is WorldPositionType.Matrix;
 
         // find bounds
         (Vector2 lowest, Vector2 highest) = inMatrix ? GetBoundsMatrix(p1, p2) : GetBounds(p1, p2);
@@ -243,17 +243,17 @@ public class SelectionManager : MonoBehaviour
     {
         if (!Selecting) return;
 
-        FillArea(CurrentSelectionRange, EditModeManager.Instance.CurrentEditMode);
+        FillArea(CurrentSelectionRange, EditModeManagerOther.Instance.CurrentEditMode);
         ResetPreview();
         Selecting = false;
         selectionOptions.gameObject.SetActive(false);
     }
 
-    public void FillAreaWithFields(List<Vector2> poses, FieldType type)
+    public void FillAreaWithFields(List<Vector2> poses, FieldMode mode)
     {
         // set rotation
-        int rotation = type.GetFieldObject().IsRotatable
-            ? EditModeManager.Instance.EditRotation
+        int rotation = mode.IsRotatable
+            ? EditModeManagerOther.Instance.EditRotation
             : 0;
 
         // find bounds
@@ -262,23 +262,22 @@ public class SelectionManager : MonoBehaviour
         // check if its 1 wide
         if (lowest.x == highest.x || lowest.y == highest.y)
         {
-            foreach (Vector2 pos in poses) FieldManager.Instance.SetField(pos.ConvertToMatrix(), type, rotation);
+            foreach (Vector2 pos in poses) FieldManager.Instance.SetField(pos.ConvertToMatrix(), mode, rotation);
 
             return;
         }
 
-        AdaptAreaToFieldType(lowest, highest, type);
+        AdaptAreaToFieldType(lowest, highest, mode);
 
         // REF
         // get prefab
-        FieldObject fieldObject = type.GetFieldObject();
 
         // search if tag is in tags
         string[] tags = { "Start", "Goal", "Checkpoint", };
 
         foreach (string tag in tags)
         {
-            if (!fieldObject.Tag.Equals(tag)) continue;
+            if (!mode.Tag.Equals(tag)) continue;
             break;
         }
 
@@ -286,7 +285,7 @@ public class SelectionManager : MonoBehaviour
         {
             // set field at pos
             GameObject field = Instantiate(
-                fieldObject.Prefab, pos, Quaternion.Euler(0, 0, rotation),
+                mode.Prefab, pos, Quaternion.Euler(0, 0, rotation),
                 ReferenceManager.Instance.FieldContainer
             );
 
@@ -296,23 +295,23 @@ public class SelectionManager : MonoBehaviour
         }
 
         // remove player if at changed pos
-        if (!PlayerManager.StartFields.Contains(type))
+        if (!PlayerManager.StartFields.Contains(mode))
         {
             PlayerController player = PlayerManager.GetPlayer();
 
             if (player != null && player.transform.position.IsBetween(lowest.ToVector2(), highest.ToVector2())) Destroy(player.gameObject);
         }
         
-        UpdateOutlinesInArea(fieldObject.HasOutline, lowest, highest);
+        UpdateOutlinesInArea(mode.HasOutline, lowest, highest);
     }
 
     public void FillArea(List<Vector2> poses, EditMode editMode)
     {
         if (poses.Count == 0) return;
 
-        if (editMode.IsFieldType())
+        if (editMode.IsField)
         {
-            FillAreaWithFields(poses, (FieldType)editMode.TryConvertTo<EditMode, FieldType>());
+            FillAreaWithFields(poses, (FieldMode)editMode);
             return;
         }
 
@@ -325,7 +324,7 @@ public class SelectionManager : MonoBehaviour
 
     public void FillArea(Vector2 start, Vector2 end, EditMode editMode) => FillArea(GetFillRange(start, end), editMode);
 
-    private void AdaptAreaToFieldType(Vector2 lowestPos, Vector2 highestPos, FieldType type)
+    private void AdaptAreaToFieldType(Vector2 lowestPos, Vector2 highestPos, FieldMode mode)
     {
         // clear fields in area
         int fieldLayer = LayerManager.Instance.Layers.Field;
@@ -343,8 +342,8 @@ public class SelectionManager : MonoBehaviour
         // clear coins + keys
         int entityLayer = LayerManager.Instance.Layers.Entity;
 
-        bool clearCoins = CoinManager.CannotPlaceFields.Contains(type);
-        bool clearKeys = KeyManager.CannotPlaceFields.Contains(type);
+        bool clearCoins = CoinManager.CannotPlaceFields.Contains(mode);
+        bool clearKeys = KeyManager.CannotPlaceFields.Contains(mode);
 
         if (!clearCoins && !clearKeys) return;
 
@@ -577,7 +576,7 @@ public class SelectionManager : MonoBehaviour
         DestroyPreview();
 
         // enable placement preview
-        if (!EditModeManager.Instance.Playing)
+        if (!EditModeManagerOther.Instance.Playing)
         {
             GameObject preview = ReferenceManager.Instance.PlacementPreview.gameObject;
             preview.SetActive(true);

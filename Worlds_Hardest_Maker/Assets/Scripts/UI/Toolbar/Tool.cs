@@ -17,7 +17,7 @@ public class Tool : MonoBehaviour
 
     private void Awake()
     {
-        if (!Enum.TryParse(toolType, out ToolName)) Debug.LogError($"{toolType} was not a valid type");
+        // if (!Enum.TryParse(toolType, out ToolName)) Debug.LogError($"{toolType} was not a valid type");
 
         InOptionbar = transform.parent.CompareTag("OptionContainer");
     }
@@ -33,7 +33,7 @@ public class Tool : MonoBehaviour
     {
         ToolbarManager.DeselectAll();
         IsSelected(true);
-        if (setEditModeVariable) EditModeManager.Instance.CurrentEditMode = ToolName;
+        if (setEditModeVariable) EditModeManagerOther.Instance.CurrentEditMode = ToolName;
     }
 
     public void SwitchGameMode() => SwitchGameMode(true);

@@ -22,5 +22,5 @@ public class CoinData : Data
 
     public override void ImportToLevel(Vector2 pos) => CoinManager.SetCoin(pos);
 
-    public override EditMode GetEditMode() => EditMode.Coin;
+    public override EditMode GetEditMode() => EditModeManager.Coin;
 }
