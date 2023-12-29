@@ -56,52 +56,42 @@ public class EditModeManager : MonoBehaviour
     public static KeyMode BlueKey => Instance.BlueKeyMode;
     public static KeyMode YellowKey => Instance.YellowKeyMode;
 
-    [HideInInspector] public List<EditMode> AllEditModes = new()
-    {
-        Delete,
-        Wall,
-        Start,
-        Goal,
-        Checkpoint,
-        OneWay,
-        Conveyor,
-        Water,
-        Ice,
-        RedKeyDoor,
-        GreenKeyDoor,
-        BlueKeyDoor,
-        YellowKeyDoor,
-        Player,
-        Anchor,
-        AnchorBall,
-        Coin,
-        GrayKey,
-        RedKey,
-        GreenKey,
-        BlueKey,
-        YellowKey,
-    };
-
-    private List<FieldMode> allFieldModes;
-    public List<FieldMode> AllFieldModes
-    {
-        get
-        {
-            if (allFieldModes != null) return allFieldModes;
-            
-            // cache array
-            allFieldModes = new();
-            foreach (EditMode editMode in AllEditModes)
-            {
-                if (editMode.Attributes.IsField) allFieldModes.Add((FieldMode)editMode);
-            }
-
-            return allFieldModes;
-        }
-    }
+    public List<EditMode> AllEditModes { get; private set; }
+    public List<FieldMode> AllFieldModes { get; private set; }
+    public List<FieldMode> AllPlayerStartFieldModes { get; private set; }
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance != null) return;
+        
+        Instance = this;
+        AllEditModes = new()
+        {
+            Delete,
+            Wall,
+            Start, Goal, Checkpoint,
+            OneWay,
+            Conveyor,
+            Water, Ice,
+            GrayKeyDoor, RedKeyDoor, GreenKeyDoor, BlueKeyDoor, YellowKeyDoor,
+            Player,
+            Anchor, AnchorBall,
+            Coin,
+            GrayKey, RedKey, GreenKey, BlueKey, YellowKey,
+        };
+        
+        // cache AllFieldModes
+        AllFieldModes = new();
+        foreach (EditMode editMode in AllEditModes)
+        {
+            if (editMode.Attributes.IsField) AllFieldModes.Add((FieldMode)editMode);
+        }
+        
+        // cache AllPlayerStartFieldModes
+        AllPlayerStartFieldModes = new();
+        foreach (FieldMode fieldMode in AllFieldModes)
+        {
+            if (fieldMode.IsStartFieldForPlayer) AllPlayerStartFieldModes.Add(fieldMode);
+        }
     }
 }

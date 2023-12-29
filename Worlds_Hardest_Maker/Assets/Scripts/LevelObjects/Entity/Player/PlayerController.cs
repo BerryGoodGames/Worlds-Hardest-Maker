@@ -317,7 +317,7 @@ public class PlayerController : EntityController
         {
             // check if current field is safe
             FieldMode currentFieldType = field.FieldMode;
-            if (PlayerManager.SafeFields.Contains(currentFieldType)) return true;
+            if (currentFieldType.IsSafeForPlayer) return true;
         }
 
         return false;

@@ -4,10 +4,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewFieldMode", menuName = "ScriptableObjects/FieldMode")]
 public class FieldMode : EditMode
 {
-    [Separator]
+    [Separator("Field settings")]
     public bool HasOutline;
     public bool IsRotatable;
     public bool IsSolid;
+    [Space]
+    public bool IsStartFieldForPlayer;
+    public bool IsSafeForPlayer;
 
     protected virtual void Reset()
     {

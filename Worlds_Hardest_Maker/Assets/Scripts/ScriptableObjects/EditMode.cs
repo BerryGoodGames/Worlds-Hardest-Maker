@@ -7,10 +7,12 @@ public abstract class EditMode : ScriptableObject
     public EditModeAttributes Attributes;
     [Separator]
     public string Tag;
+    public string UIString;
+    public string KeyboardShortcut;
     public GameObject Prefab;
     public WorldPositionType WorldPositionType = WorldPositionType.Grid;
-    public string UIString;
     public bool IsDraggable;
+    public bool ShowFillPreview;
 }
 
 [Serializable]

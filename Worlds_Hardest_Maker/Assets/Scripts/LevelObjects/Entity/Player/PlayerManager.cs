@@ -8,13 +8,13 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance { get; private set; }
 
     // list of fields which are safe for player
-    public static readonly List<FieldMode> SafeFields = new(new FieldMode[] { });
+    // public static readonly List<FieldMode> SafeFields = new(new FieldMode[] { });
 
-    public static readonly List<FieldMode> StartFields = new()
-    {
-        EditModeManager.Start,
-        EditModeManager.Goal,
-    };
+    // public static readonly List<FieldMode> StartFields = new()
+    // {
+    //     EditModeManager.Start,
+    //     EditModeManager.Goal,
+    // };
     
     public event Action OnWin;
     
@@ -136,7 +136,7 @@ public class PlayerManager : MonoBehaviour
     public static bool CanPlace(Vector2 position, bool checkForPlayer = true) =>
         // conditions: no player there, position is covered with possible start fields
         !(checkForPlayer && IsPlayerThere(position)) &&
-        FieldManager.IsPosCoveredWithFieldType(position, StartFields.ToArray());
+        FieldManager.IsPosCoveredWithFieldType(position, EditModeManager.Instance.AllPlayerStartFieldModes.ToArray());
 
     #region Get player
 

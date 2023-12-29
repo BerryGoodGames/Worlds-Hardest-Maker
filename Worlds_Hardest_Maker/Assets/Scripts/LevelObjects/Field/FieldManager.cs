@@ -77,7 +77,7 @@ public class FieldManager : MonoBehaviour
         ApplyStartGoalCheckpointFieldColor(field.gameObject, null);
 
         // remove player if at changed pos
-        if (!PlayerManager.StartFields.Contains(mode)) PlayerManager.Instance.RemovePlayerAtPosIntersect(position);
+        if (!mode.IsStartFieldForPlayer) PlayerManager.Instance.RemovePlayerAtPosIntersect(position);
 
         if (CoinManager.CannotPlaceFields.Contains(mode))
             // remove coin if wall is placed

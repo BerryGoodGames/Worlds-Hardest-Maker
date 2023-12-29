@@ -22,17 +22,17 @@ public class SelectionManager : MonoBehaviour
 
     public static SelectionManager Instance { get; private set; }
 
-    public static readonly List<EditMode> NoFillPreviewModes = new(
-        new[]
-        {
-            EditModeManager.GrayKey,
-            EditModeManager.RedKey,
-            EditModeManager.BlueKey,
-            EditModeManager.GreenKey,
-            EditModeManager.YellowKey,
-            EditModeManager.Player,
-        }
-    );
+    // public static readonly List<EditMode> NoFillPreviewModes = new(
+    //     new[]
+    //     {
+    //         EditModeManager.GrayKey,
+    //         EditModeManager.RedKey,
+    //         EditModeManager.BlueKey,
+    //         EditModeManager.GreenKey,
+    //         EditModeManager.YellowKey,
+    //         EditModeManager.Player,
+    //     }
+    // );
 
     private Vector2 prevStart;
     private Vector2 prevEnd;
@@ -165,7 +165,7 @@ public class SelectionManager : MonoBehaviour
     private static void InitPreview(List<Vector2> range)
     {
         // set new previews, only if edit mode not in NoFillPreviewModes
-        if (NoFillPreviewModes.Contains(EditModeManagerOther.Instance.CurrentEditMode)) return;
+        if (!EditModeManagerOther.Instance.CurrentEditMode.ShowFillPreview) return;
 
         foreach (Vector2 pos in range)
         {
@@ -295,7 +295,7 @@ public class SelectionManager : MonoBehaviour
         }
 
         // remove player if at changed pos
-        if (!PlayerManager.StartFields.Contains(mode))
+        if (!mode.IsStartFieldForPlayer)
         {
             PlayerController player = PlayerManager.GetPlayer();
 
