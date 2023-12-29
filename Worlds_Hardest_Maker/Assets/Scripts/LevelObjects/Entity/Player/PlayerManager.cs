@@ -10,13 +10,11 @@ public class PlayerManager : MonoBehaviour
     // list of fields which are safe for player
     public static readonly List<FieldMode> SafeFields = new(new FieldMode[] { });
 
-    public static readonly List<FieldMode> StartFields = new(
-        new[]
-        {
-            FieldModeManager.Start,
-            FieldModeManager.Goal,
-        }
-    );
+    public static readonly List<FieldMode> StartFields = new()
+    {
+        EditModeManager.Start,
+        EditModeManager.Goal,
+    };
     
     public event Action OnWin;
     
@@ -41,7 +39,7 @@ public class PlayerManager : MonoBehaviour
 
             foreach (Vector2Int checkPosition in checkPoses)
             {
-                FieldManager.Instance.SetField(checkPosition, FieldModeManager.Start);
+                FieldManager.Instance.SetField(checkPosition, EditModeManager.Start);
             }
         }
 

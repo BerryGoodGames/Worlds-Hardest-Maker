@@ -87,7 +87,7 @@ public static class EditModeExtension
     
     public static WorldPositionType GetWorldPositionType(this EditMode mode)
     {
-        if (mode.IsField || mode == EditModeManager.Delete) return WorldPositionType.Matrix;
+        if (mode.Attributes.IsField || mode == EditModeManager.Delete) return WorldPositionType.Matrix;
         return WorldPositionType.Grid;
     }
 
@@ -103,5 +103,5 @@ public static class EditModeExtension
     //
     // public static bool IsDraggable(this EditMode mode) => !notDraggable.Contains(mode);
 
-    public static bool IsAnchorRelated(this EditMode mode) => mode == EditModeManager.Anchor || mode == EditModeManager.AnchorBall;
+    // public static bool IsAnchorRelated(this EditMode mode) => mode == EditModeManager.Anchor || mode == EditModeManager.AnchorBall;
 }

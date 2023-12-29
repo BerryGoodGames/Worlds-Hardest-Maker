@@ -42,7 +42,7 @@ public class CoinController : EntityController
         foreach (FieldController field in controller.CurrentFields)
         {
             FieldMode fieldMode = field.FieldMode;
-            if (fieldMode != FieldModeManager.Goal) continue;
+            if (fieldMode != EditModeManager.Goal) continue;
 
             controller.Win();
             break;

@@ -29,7 +29,7 @@ public static class FieldTypeExtension
 
     public static FieldMode GetFieldMode(this string tag)
     {
-        foreach (FieldMode fieldMode in FieldModeManager.AllFieldModes)
+        foreach (FieldMode fieldMode in EditModeManager.Instance.AllFieldModes)
         {
             if (tag.Equals(fieldMode.Tag)) return fieldMode;
         }

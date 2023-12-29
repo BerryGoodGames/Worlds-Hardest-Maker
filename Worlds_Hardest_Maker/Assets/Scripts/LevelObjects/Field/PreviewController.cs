@@ -67,7 +67,7 @@ public class PreviewController : MonoBehaviour
 
         if (!SelectionManager.Instance.Selecting && hasFollowMouseComp)
         {
-            followMouseComp.WorldPosition = currentEditMode.IsField || currentEditMode == EditModeManager.Delete
+            followMouseComp.WorldPosition = currentEditMode.Attributes.IsField || currentEditMode == EditModeManager.Delete
                 ? WorldPositionType.Matrix
                 : WorldPositionType.Grid;
         }
@@ -113,7 +113,7 @@ public class PreviewController : MonoBehaviour
         if (mode == EditModeManager.Coin) return CoinManager.CanPlace(mousePos);
         
         // check key placement
-        if (mode.IsKey) return KeyManager.CanPlace(mousePos);
+        if (mode.Attributes.IsKey) return KeyManager.CanPlace(mousePos);
 
         return true;
     }

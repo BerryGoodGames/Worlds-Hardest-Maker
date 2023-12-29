@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewKeyDoorField", menuName = "ScriptableObjects/KeyDoorField")]
+[CreateAssetMenu(fileName = "NewKeyDoorField", menuName = "ScriptableObjectsOld/KeyDoorField")]
 public class KeyDoorFieldObject : FieldObject
 {
     public KeyColor Color;

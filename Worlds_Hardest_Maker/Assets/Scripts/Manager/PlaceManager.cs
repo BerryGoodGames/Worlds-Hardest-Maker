@@ -27,7 +27,7 @@ public class PlaceManager : MonoBehaviour
         Vector2Int matrixPosition = position.ConvertToMatrix();
 
         // check field placement
-        if (editMode.IsField)
+        if (editMode.Attributes.IsField)
         {
             FieldMode type = (FieldMode)editMode;
             FieldManager.Instance.PlaceField(type, rotation, playSound, matrixPosition);
@@ -69,7 +69,7 @@ public class PlaceManager : MonoBehaviour
         }
         else
         {
-            if (editMode.IsKey)
+            if (editMode.Attributes.IsKey)
             {
                 // get key color
                 string editModeStr = editMode.ToString();

@@ -309,7 +309,7 @@ public class SelectionManager : MonoBehaviour
     {
         if (poses.Count == 0) return;
 
-        if (editMode.IsField)
+        if (editMode.Attributes.IsField)
         {
             FillAreaWithFields(poses, (FieldMode)editMode);
             return;

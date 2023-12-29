@@ -257,7 +257,7 @@ public class PlayerController : EntityController
         // calculate new position 
         Vector2 posCheck = new(roundedPos.x, Mathf.Round(Rb.position.y + movementInput.y));
         FieldController fieldAtPosition = FieldManager.GetField(Vector2Int.RoundToInt(posCheck));
-        if (fieldAtPosition.FieldMode != FieldModeManager.Wall)
+        if (fieldAtPosition.FieldMode != EditModeManager.Wall)
             extraMovementInput = new(Mathf.Round(Rb.position.x) > Rb.position.x ? 1 : -1, movementInput.y);
     }
 
@@ -275,7 +275,7 @@ public class PlayerController : EntityController
         // calculate new position 
         Vector2 posCheck = new(Mathf.Round(Rb.position.x + movementInput.x), roundedPos.y);
         FieldController fieldAtPosition = FieldManager.GetField(Vector2Int.RoundToInt(posCheck));
-        if (fieldAtPosition.FieldMode != FieldModeManager.Wall)
+        if (fieldAtPosition.FieldMode != EditModeManager.Wall)
             extraMovementInput = new(movementInput.x, Mathf.Round(Rb.position.y) > Rb.position.y ? 1 : -1);
     }
 
@@ -360,19 +360,19 @@ public class PlayerController : EntityController
         return false;
     }
 
-    public bool IsOnWater() => IsFullyOnField(FieldModeManager.Water);
+    public bool IsOnWater() => IsFullyOnField(EditModeManager.Water);
 
-    public bool IsOnIce() => IsFullyOnField(FieldModeManager.Ice);
+    public bool IsOnIce() => IsFullyOnField(EditModeManager.Ice);
 
     public ConveyorController GetCurrentConveyor()
     {
-        if (!IsFullyOnField(FieldModeManager.Conveyor)) return null;
+        if (!IsFullyOnField(EditModeManager.Conveyor)) return null;
 
         List<FieldController> fullyOnFields = GetFullyOnFields();
         foreach (FieldController field in fullyOnFields)
         {
             FieldMode currentFieldType = field.FieldMode;
-            if (currentFieldType == FieldModeManager.Conveyor) return field.GetComponent<ConveyorController>();
+            if (currentFieldType == EditModeManager.Conveyor) return field.GetComponent<ConveyorController>();
         }
 
         return null;
@@ -385,7 +385,7 @@ public class PlayerController : EntityController
         foreach (FieldController field in fullyOnFields)
         {
             FieldMode currentFieldType = field.FieldMode;
-            if (currentFieldType == FieldModeManager.Void) return field;
+            if (currentFieldType == EditModeManager.Void) return field;
         }
 
         return null;
@@ -393,7 +393,7 @@ public class PlayerController : EntityController
 
     public bool IsOnVoid() =>
         // we don't need that, its just there lol
-        IsFullyOnField(FieldModeManager.Void);
+        IsFullyOnField(EditModeManager.Void);
 
     public FieldController GetCurrentField() => FieldManager.GetField(Vector2Int.RoundToInt(transform.position));
 

@@ -61,7 +61,7 @@ public partial class AnchorManager : MonoBehaviour
             anchor.Animator.SetBool(playing, false);
 
             if (SelectedAnchor == anchor &&
-                EditModeManagerOther.Instance.CurrentEditMode.IsAnchorRelated()) anchor.SetLinesActive(true);
+                EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated) anchor.SetLinesActive(true);
         }
     }
 
@@ -80,7 +80,7 @@ public partial class AnchorManager : MonoBehaviour
             anchor.SetLinesActive(false);
 
             if (SelectedAnchor == anchor &&
-                EditModeManagerOther.Instance.CurrentEditMode.IsAnchorRelated()) continue;
+                EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated) continue;
 
             anchor.Animator.SetBool(playing, true);
         }

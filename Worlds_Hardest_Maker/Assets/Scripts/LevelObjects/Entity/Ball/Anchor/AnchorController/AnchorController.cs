@@ -48,7 +48,7 @@ public partial class AnchorController : EntityController
         spriteRenderer = GetComponent<SpriteRenderer>();
         entityDragDrop = GetComponent<EntityDragDrop>();
 
-        Animator.SetBool(editing, EditModeManagerOther.Instance.CurrentEditMode.IsAnchorRelated());
+        Animator.SetBool(editing, EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated);
     }
 
     private void Start()

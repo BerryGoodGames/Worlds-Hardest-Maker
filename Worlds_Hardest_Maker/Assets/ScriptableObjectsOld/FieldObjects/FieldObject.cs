@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewField", menuName = "ScriptableObjects/Field")]
+[CreateAssetMenu(fileName = "NewField", menuName = "ScriptableObjectsOld/Field")]
 public class FieldObject : ScriptableObject
 {
     public GameObject Prefab;

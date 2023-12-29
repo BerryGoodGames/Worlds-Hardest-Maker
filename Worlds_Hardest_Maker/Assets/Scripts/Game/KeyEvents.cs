@@ -78,7 +78,7 @@ public class KeyEvents : MonoBehaviour
         // FieldMode? fieldType = (FieldMode?)EditModeManagerOther.Instance.CurrentEditMode.TryConvertTo<EditMode, FieldMode>();
         EditMode currentEditMode = EditModeManagerOther.Instance.CurrentEditMode;
 
-        if (currentEditMode.IsField 
+        if (currentEditMode.Attributes.IsField 
             || !((FieldMode)currentEditMode).IsRotatable 
             || !KeyBinds.GetKeyBindDown("Editor_Rotate")) return;
         

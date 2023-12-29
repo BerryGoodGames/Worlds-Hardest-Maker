@@ -17,7 +17,7 @@ public partial class AnchorManager
 
         bool switchedEditMode = false;
         // switch to edit mode to anchor if not already on anchor or anchor ball
-        if (!EditModeManagerOther.Instance.CurrentEditMode.IsAnchorRelated())
+        if (!EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated)
         {
             EditModeManagerOther.Instance.CurrentEditMode = EditModeManager.Anchor;
             switchedEditMode = true;

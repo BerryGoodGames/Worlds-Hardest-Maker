@@ -17,8 +17,6 @@ TagManager:
   - Conveyor
   - Coin
   - Key
-  - BallCircleOrigin
-  - BallDefaultObject
   - Bullet
   - AnchorBall
   - AnchorBallObject
@@ -29,12 +27,13 @@ TagManager:
   - Start
   - Goal
   - Checkpoint
+  - Oneway
+  - GrayKeydoor
+  - RedKeydoor
+  - GreenKeydoor
+  - BlueKeydoor
+  - YellowKeydoor
   - OneWay
-  - GrayKeyDoor
-  - RedKeyDoor
-  - GreenKeyDoor
-  - BlueKeyDoor
-  - YellowKeyDoor
   layers:
   - Default
   - TransparentFX
