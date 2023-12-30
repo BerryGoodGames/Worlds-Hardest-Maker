@@ -7,5 +7,6 @@ public class EntityMode : EditMode
     {
         Attributes.IsEntity = true;
         WorldPositionType = WorldPositionType.Grid;
+        IsDraggable = true;
     }
 }

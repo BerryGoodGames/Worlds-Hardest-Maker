@@ -21,7 +21,7 @@ public class SelectionSquare : MonoBehaviour
         else rt.sizeDelta = GetComponentInParent<RectTransform>().rect.size;
     }
 
-    public void Selected(bool selected) => image.sprite = selected ? SelectedSprite : DeselectedSprite;
+    public void SetSelected(bool selected) => image.sprite = selected ? SelectedSprite : DeselectedSprite;
 
-    public void SubSelected(bool subselected) => image.sprite = subselected ? SubSelectedSprite : image.sprite;
+    public void SetSubSelected(bool subSelected) => image.sprite = subSelected ? SubSelectedSprite : image.sprite;
 }

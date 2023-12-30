@@ -8,7 +8,7 @@ public class EditModeManagerOther : MonoBehaviour
 
     #region Variables & properties
 
-    [SerializeField] [SearchableEnum] [InitializationField] private EditMode startEditMode;
+    [SerializeField] [MustBeAssigned] [InitializationField] private EditMode startEditMode;
     private EditMode currentEditMode;
     private EditMode? prevEditMode;
 

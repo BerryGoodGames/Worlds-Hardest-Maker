@@ -9,8 +9,8 @@ public class FieldMode : EditMode
     public bool IsRotatable;
     public bool IsSolid;
     [Space]
-    public bool IsStartFieldForPlayer;
-    public bool IsSafeForPlayer;
+    [ConditionalField(nameof(IsSolid), true)] public bool IsStartFieldForPlayer;
+    [ConditionalField(nameof(IsSolid), true)] public bool IsSafeForPlayer;
 
     protected virtual void Reset()
     {

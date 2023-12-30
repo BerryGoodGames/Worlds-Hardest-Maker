@@ -11,5 +11,6 @@ public sealed class KeyMode : EntityMode
     {
         base.Reset();
         Attributes.IsKey = true;
+        ShowFillPreview = false;
     }
 }

@@ -9,19 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3926d48c58a6cc949939865509a98e95, type: 3}
-  m_Name: DeleteMode
+  m_Script: {fileID: 11500000, guid: ee10b2f0f44aaef439be2527abe38fe3, type: 3}
+  m_Name: YellowKeyMode
   m_EditorClassIdentifier: 
   Attributes:
     IsField: 0
     IsKeydoor: 0
-    IsEntity: 0
-    IsKey: 0
+    IsEntity: 1
+    IsKey: 1
     IsAnchorRelated: 0
-  Tag: 
-  UIString: 
-  KeyboardShortcut: 
-  Prefab: {fileID: 0}
+  Tag: YellowKey
+  UIString: Yellow Key
+  KeyboardShortcut: Editor_YellowKey
+  Prefab: {fileID: 7934974448700493311, guid: b82300a84e5b00947b3af5aadb9f2227, type: 3}
   WorldPositionType: 1
-  IsDraggable: 0
+  IsDraggable: 1
   ShowFillPreview: 0
+  KeyColor: 4

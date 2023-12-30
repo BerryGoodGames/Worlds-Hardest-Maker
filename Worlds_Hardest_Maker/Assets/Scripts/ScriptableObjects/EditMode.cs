@@ -4,15 +4,15 @@ using UnityEngine;
 
 public abstract class EditMode : ScriptableObject
 {
-    public EditModeAttributes Attributes;
-    [Separator]
+    [OverrideLabel("Class attributes")] public EditModeAttributes Attributes;
+    [Separator("General settings")]
     public string Tag;
     public string UIString;
     public string KeyboardShortcut;
     public GameObject Prefab;
     public WorldPositionType WorldPositionType = WorldPositionType.Grid;
     public bool IsDraggable;
-    public bool ShowFillPreview;
+    public bool ShowFillPreview = true;
 }
 
 [Serializable]

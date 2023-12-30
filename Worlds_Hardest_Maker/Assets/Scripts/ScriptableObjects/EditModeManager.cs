@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using AssetUsageDetectorNamespace;
 using MyBox;
 using UnityEngine;
 
@@ -81,17 +84,14 @@ public class EditModeManager : MonoBehaviour
         };
         
         // cache AllFieldModes
-        AllFieldModes = new();
-        foreach (EditMode editMode in AllEditModes)
-        {
-            if (editMode.Attributes.IsField) AllFieldModes.Add((FieldMode)editMode);
-        }
+        AllFieldModes = AllEditModes
+            .Where(editMode => editMode.Attributes.IsField)
+            .OfType<FieldMode>()
+            .ToList();
         
         // cache AllPlayerStartFieldModes
-        AllPlayerStartFieldModes = new();
-        foreach (FieldMode fieldMode in AllFieldModes)
-        {
-            if (fieldMode.IsStartFieldForPlayer) AllPlayerStartFieldModes.Add(fieldMode);
-        }
+        AllPlayerStartFieldModes = AllFieldModes
+            .Where(fieldMode => fieldMode.IsStartFieldForPlayer)
+            .ToList();
     }
 }

@@ -1,13 +1,10 @@
-using System;
 using UnityEngine;
 
 public class Tool : MonoBehaviour
 {
-    [HideInInspector] public EditMode ToolName;
+    public EditMode ToolEditMode;
 
-    [SerializeField] private string toolType;
-
-    [HideInInspector] public bool Selected;
+    [HideInInspector] public bool IsSelected;
 
     [HideInInspector] public bool InOptionbar;
 
@@ -17,8 +14,6 @@ public class Tool : MonoBehaviour
 
     private void Awake()
     {
-        // if (!Enum.TryParse(toolType, out ToolName)) Debug.LogError($"{toolType} was not a valid type");
-
         InOptionbar = transform.parent.CompareTag("OptionContainer");
     }
 
@@ -32,27 +27,27 @@ public class Tool : MonoBehaviour
     public void SwitchGameMode(bool setEditModeVariable)
     {
         ToolbarManager.DeselectAll();
-        IsSelected(true);
-        if (setEditModeVariable) EditModeManagerOther.Instance.CurrentEditMode = ToolName;
+        SetSelected(true);
+        if (setEditModeVariable) EditModeManagerOther.Instance.CurrentEditMode = ToolEditMode;
     }
 
     public void SwitchGameMode() => SwitchGameMode(true);
 
-    public void IsSelected(bool selected)
+    public void SetSelected(bool selected)
     {
         if (selectionSquare == null) return;
 
-        selectionSquare.Selected(selected);
+        selectionSquare.SetSelected(selected);
 
-        Selected = selected;
+        IsSelected = selected;
 
-        if (!InOptionbar || !selected) return;
+        if (!InOptionbar || !IsSelected) return;
 
         Tool parentTool = transform.parent.parent.parent.GetComponent<Tool>();
         parentTool.SubSelected(true);
     }
 
-    public void SubSelected(bool subselected) => selectionSquare.SubSelected(subselected);
+    public void SubSelected(bool subselected) => selectionSquare.SetSubSelected(subselected);
 
-    private void Update() => anim.SetVisible(Selected || (mouseOverUIRect.Over && !ReferenceManager.Instance.Menu.activeSelf));
+    private void Update() => anim.SetVisible(IsSelected || (mouseOverUIRect.Over && !ReferenceManager.Instance.Menu.activeSelf));
 }

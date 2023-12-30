@@ -9,19 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3926d48c58a6cc949939865509a98e95, type: 3}
-  m_Name: DeleteMode
+  m_Script: {fileID: 11500000, guid: f041760253b70d7499053ed8ce865ebe, type: 3}
+  m_Name: CoinMode
   m_EditorClassIdentifier: 
   Attributes:
     IsField: 0
     IsKeydoor: 0
-    IsEntity: 0
+    IsEntity: 1
     IsKey: 0
     IsAnchorRelated: 0
-  Tag: 
-  UIString: 
-  KeyboardShortcut: 
-  Prefab: {fileID: 0}
+  Tag: Coin
+  UIString: Coin
+  KeyboardShortcut: Editor_Coin
+  Prefab: {fileID: 8839871402222588891, guid: 5e13d2eae759f3643b04b6e7dc5cefe2, type: 3}
   WorldPositionType: 1
-  IsDraggable: 0
-  ShowFillPreview: 0
+  IsDraggable: 1
+  ShowFillPreview: 1

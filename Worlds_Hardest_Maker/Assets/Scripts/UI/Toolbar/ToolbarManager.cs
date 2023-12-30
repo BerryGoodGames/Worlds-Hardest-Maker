@@ -11,7 +11,7 @@ public class ToolbarManager : MonoBehaviour
         foreach (GameObject t in Tools)
         {
             Tool tool = t.GetComponent<Tool>();
-            tool.IsSelected(false);
+            tool.SetSelected(false);
         }
     }
 
@@ -22,7 +22,7 @@ public class ToolbarManager : MonoBehaviour
         foreach (GameObject tool in tools)
         {
             Tool t = tool.GetComponent<Tool>();
-            if (t.ToolName == editMode)
+            if (t.ToolEditMode == editMode)
             {
                 // avoid recursion
                 t.SwitchGameMode(false);
