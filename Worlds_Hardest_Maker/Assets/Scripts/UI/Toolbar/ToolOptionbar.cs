@@ -5,6 +5,8 @@ using UnityEngine.UI;
 [ExecuteAlways]
 public class ToolOptionbar : MonoBehaviour
 {
+    [SerializeField] private RectTransform toolPrefab;
+    
     public GameObject Background;
 
     public GameObject HoveringHitbox;
@@ -13,7 +15,7 @@ public class ToolOptionbar : MonoBehaviour
     public float Size;
     private RectTransform hh;
     private RectTransform rtThis;
-    private GridLayoutGroup gridLayout;
+    private VerticalLayoutGroup verticalLayout;
     private AlphaTween anim;
     private int toolCount;
     private float width;
@@ -25,23 +27,26 @@ public class ToolOptionbar : MonoBehaviour
         rtThis = GetComponent<RectTransform>();
         anim = GetComponent<AlphaTween>();
 
-        anim.OnSetVisible += EnableOptionbar;
-        anim.OnIsInvisible += DisableOptionbar;
+        // anim.OnSetVisible += EnableOptionbar;
+        // anim.OnIsInvisible += DisableOptionbar;
 
-        hh = HoveringHitbox.GetComponent(typeof(RectTransform)) as RectTransform;
-        gridLayout = Options.GetComponent<GridLayoutGroup>();
+        hh = (RectTransform)HoveringHitbox.transform;
+        verticalLayout = Options.GetComponent<VerticalLayoutGroup>();
         toolCount = Options.transform.childCount;
 
         UpdateHeight();
         ScaleOptions();
 
-        DisableOptionbar();
+        // DisableOptionbar();
+        EnableOptionbar();
     }
 
     public void EnableOptionbar()
     {
-        hh.sizeDelta = new(width, height + gridLayout.cellSize.y + gridLayout.spacing.y);
-        hh.localPosition = new(0, (2 - toolCount) * (gridLayout.cellSize.y + gridLayout.spacing.y) * 0.5f);
+        Rect toolRect = toolPrefab.rect;
+        
+        hh.sizeDelta = new(width, height + toolRect.height + 0);
+        hh.localPosition = new(0, (2 - toolCount) * (toolRect.height + 0) * 0.5f);
         rtThis.localPosition = new(0, -95);
     }
 
@@ -63,18 +68,20 @@ public class ToolOptionbar : MonoBehaviour
     [ButtonMethod]
     public void UpdateHeight()
     {
-        RectTransform rt = Background.GetComponent(typeof(RectTransform)) as RectTransform;
+        RectTransform rt = (RectTransform)Background.transform;
 
         if (rt == null) return;
 
-        if (toolCount == 0) rt.sizeDelta = new(100, 100);
-        else
+        if (toolCount == 0)
         {
-            width = gridLayout.cellSize.x * Size;
-            height = (gridLayout.cellSize.y + gridLayout.spacing.y) * toolCount - gridLayout.spacing.y +
-                     gridLayout.cellSize.y * (Size - 1);
-
-            rt.sizeDelta = new(width, height);
+            rt.sizeDelta = ToolHeight * Vector2.one;
+            return;
         }
+
+        width = rt.rect.width;
+        height = (gridLayout.cellSize.y + gridLayout.spacing.y) * toolCount
+            - gridLayout.spacing.y + gridLayout.cellSize.y * (Size - 1);
+
+        rt.sizeDelta = new(width, height);
     }
 }
