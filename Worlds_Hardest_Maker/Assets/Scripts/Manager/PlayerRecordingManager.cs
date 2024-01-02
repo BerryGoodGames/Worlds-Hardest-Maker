@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using MyBox;
 using LuLib.Transform;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerRecordingManager : MonoBehaviour
 {
     [Separator("Settings")]
     [SerializeField] private float recordingFrequency = 1f;
     [SerializeField] private float displayDelay = 0.25f;
+    [Header("Player")]
+    [SerializeField] private uint playerTrailFrequency = 4;
+    [SerializeField] [Range(0, 1)] private float playerTrailMaxAlpha = 0.75f;
+    [SerializeField] private uint playerTrailAmount = 5;
 
-    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned]
-    private Transform recordingContainer;
+    [Separator("References")]
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform recordingContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer playerSprite;
 
     private LineRenderer lineRenderer;
     
@@ -33,7 +39,9 @@ public class PlayerRecordingManager : MonoBehaviour
         };
         EditModeManager.Instance.OnEdit += () =>
         {
-            StopCoroutine(recording);
+            
+            if(recording != null) StopCoroutine(recording);
+            
             StartCoroutine(DisplayRecording(recordedPositions));
         };
     }
@@ -62,6 +70,15 @@ public class PlayerRecordingManager : MonoBehaviour
         {
             lineRenderer.positionCount++;
             lineRenderer.SetPosition(i, recordedPositions[i]);
+
+            float playerTrailIndex = (i - (recordedPositions.Count - (float)(playerTrailAmount * playerTrailFrequency))) / playerTrailFrequency + 1;
+            
+            if (playerTrailIndex > 0 && i % playerTrailFrequency == 0)
+            {
+                SpriteRenderer playerTrail = Instantiate(playerSprite, recordedPositions[i],Quaternion.identity, recordingContainer);
+                
+                playerTrail.SetAlpha(playerTrailIndex / playerTrailAmount * playerTrailMaxAlpha);
+            }
             
             yield return new WaitForSeconds(displayDelay);
         }
