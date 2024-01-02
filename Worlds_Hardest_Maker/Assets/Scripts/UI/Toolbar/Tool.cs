@@ -1,15 +1,17 @@
+using MyBox;
 using UnityEngine;
 
 public class Tool : MonoBehaviour
 {
     public EditMode ToolEditMode;
+    
+    [Separator] [OverrideLabel("Fade Tween")] [SerializeField] private AlphaTween anim;
+    [SerializeField] private SelectionSquare selectionSquare;
 
     [HideInInspector] public bool IsSelected;
 
     [HideInInspector] public bool InOptionbar;
 
-    private SelectionSquare selectionSquare;
-    private AlphaTween anim;
     private MouseOverUIRect mouseOverUIRect;
 
     private void Awake()
@@ -19,9 +21,7 @@ public class Tool : MonoBehaviour
 
     private void Start()
     {
-        anim = GetComponent<AlphaTween>();
         mouseOverUIRect = GetComponent<MouseOverUIRect>();
-        selectionSquare = transform.GetChild(1).GetComponent<SelectionSquare>();
     }
 
     public void SwitchGameMode(bool setEditModeVariable)
@@ -49,5 +49,8 @@ public class Tool : MonoBehaviour
 
     public void SubSelected(bool subselected) => selectionSquare.SetSubSelected(subselected);
 
-    private void Update() => anim.SetVisible(IsSelected || (mouseOverUIRect.Over && !ReferenceManager.Instance.Menu.activeSelf));
+    private void Update()
+    {
+        anim.SetVisible(IsSelected || (mouseOverUIRect.Over && !ReferenceManager.Instance.Menu.activeSelf));
+    }
 }

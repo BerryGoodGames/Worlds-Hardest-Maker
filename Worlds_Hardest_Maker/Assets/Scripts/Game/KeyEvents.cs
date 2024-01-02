@@ -78,7 +78,7 @@ public class KeyEvents : MonoBehaviour
         // FieldMode? fieldType = (FieldMode?)EditModeManagerOther.Instance.CurrentEditMode.TryConvertTo<EditMode, FieldMode>();
         EditMode currentEditMode = EditModeManagerOther.Instance.CurrentEditMode;
 
-        if (currentEditMode.Attributes.IsField 
+        if (!currentEditMode.Attributes.IsField 
             || !((FieldMode)currentEditMode).IsRotatable 
             || !KeyBinds.GetKeyBindDown("Editor_Rotate")) return;
         
@@ -160,6 +160,9 @@ public class KeyEvents : MonoBehaviour
         // check every event and set edit mode accordingly
         foreach (EditMode editMode in EditModeManager.Instance.AllEditModes)
         {
+            // key doors do not have key binds hahahahhahahah
+            if (editMode.Attributes.IsKeydoor) continue;
+            
             if(KeyBinds.GetKeyBindDown(editMode.KeyboardShortcut)) EditModeManagerOther.Instance.CurrentEditMode = editMode;
         }
     }

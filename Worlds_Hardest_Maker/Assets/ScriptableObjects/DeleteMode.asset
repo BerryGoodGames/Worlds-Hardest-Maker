@@ -19,9 +19,9 @@ MonoBehaviour:
     IsKey: 0
     IsAnchorRelated: 0
   Tag: 
-  UIString: 
-  KeyboardShortcut: 
+  UIString: Delete
+  KeyboardShortcut: Editor_Delete
   Prefab: {fileID: 0}
-  WorldPositionType: 1
-  IsDraggable: 0
-  ShowFillPreview: 0
+  WorldPositionType: 2
+  IsDraggable: 1
+  ShowFillPreview: 1

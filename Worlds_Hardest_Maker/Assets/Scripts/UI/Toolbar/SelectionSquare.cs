@@ -1,27 +1,36 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Image))]
 public class SelectionSquare : MonoBehaviour
 {
-    public Sprite SelectedSprite, DeselectedSprite, SubSelectedSprite;
+    [FormerlySerializedAs("SelectedSprite")] [SerializeField] private Sprite selectedSprite;
+    [FormerlySerializedAs("DeselectedSprite")] [SerializeField] private Sprite deselectedSprite;
+    [FormerlySerializedAs("SubSelectedSprite")] [SerializeField] private Sprite subSelectedSprite;
 
     private Image image;
-    private RectTransform rt;
 
     private void Awake()
     {
-        rt = GetComponent<RectTransform>();
         image = GetComponent<Image>();
     }
 
     private void Start()
     {
-        if (transform.parent.transform.parent != null && transform.parent.parent.CompareTag("OptionContainer"))
-            rt.sizeDelta = transform.parent.parent.GetComponent<RectTransform>().rect.size * 1.25f;
-        else rt.sizeDelta = GetComponentInParent<RectTransform>().rect.size;
+        Transform t = transform;
+        
+        Transform optionContainer = t.parent.parent;
+        RectTransform rt = (RectTransform)t;
+        
+        bool inOptionbar = optionContainer.CompareTag("OptionContainer");
+        
+        // rt.sizeDelta = inOptionbar
+        //     ? ((RectTransform)optionContainer).rect.size * 1.25f
+        //     : GetComponentInParent<RectTransform>().rect.size;
     }
 
-    public void SetSelected(bool selected) => image.sprite = selected ? SelectedSprite : DeselectedSprite;
+    public void SetSelected(bool selected) => image.sprite = selected ? selectedSprite : deselectedSprite;
 
-    public void SetSubSelected(bool subSelected) => image.sprite = subSelected ? SubSelectedSprite : image.sprite;
+    public void SetSubSelected(bool subSelected) => image.sprite = subSelected ? subSelectedSprite : image.sprite;
 }
