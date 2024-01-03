@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using Cinemachine.Utility;
 using MyBox;
 using UnityEngine;
@@ -11,6 +10,8 @@ public class PlaceManager : MonoBehaviour
     [SerializeField] private string defaultPlaceSfx = "Place";
     [SerializeField] [PositiveValueOnly] private float defaultPlaceSfxPitchDeviation;
     [SerializeField] private PlaceSfx[] customPlaceSfx;
+    [Separator] [SerializeField] private PlaceSfx konamiDeleteSfx;
+    [SerializeField] private PlaceSfx konamiPlaceSfx;
 
     /// <summary>
     /// Places edit mode at position
@@ -122,6 +123,12 @@ public class PlaceManager : MonoBehaviour
 
     public PlaceSfx GetSfx(EditMode editMode)
     {
+        // konami troll sfx haha (but leave delete sfx as it is)
+        if (KonamiManager.Instance.KonamiActive)
+        {
+            return editMode == EditModeManager.Delete ? konamiDeleteSfx : konamiPlaceSfx;
+        }
+        
         PlaceSfx sfx = new(EditModeManager.Void, defaultPlaceSfx)
         {
             PitchRandomization = true,
@@ -138,8 +145,6 @@ public class PlaceManager : MonoBehaviour
 
         return sfx;
     }
-
-    // public PlaceSfx GetSfx(FieldMode fieldMode) => GetSfx((EditMode)fieldMode);
 
     private void Awake()
     {
