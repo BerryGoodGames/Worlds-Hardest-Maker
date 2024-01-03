@@ -28,7 +28,9 @@ public class FieldManager : MonoBehaviour
 
     public static FieldController GetField(Vector2Int position)
     {
-        Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Field);
+        // get all collisions from layers Field and Void
+        Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Field)
+            .Concat(Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Void)).ToArray();
 
         foreach (Collider2D c in collidedGameObjects)
         {
@@ -47,7 +49,7 @@ public class FieldManager : MonoBehaviour
 
         if (field != null)
         {
-            DestroyImmediate(field);
+            DestroyImmediate(field.gameObject);
             fieldDestroyed = true;
         }
 
@@ -148,8 +150,11 @@ public class FieldManager : MonoBehaviour
                 prefab, pos, Quaternion.Euler(0, 0, rotation),
                 ReferenceManager.Instance.FieldContainer
             );
+        
+        FieldController fieldController = res.GetComponent<FieldController>();
+        fieldController.FieldMode = mode;
 
-        return res.GetComponent<FieldController>();
+        return fieldController;
     }
 
     public static List<FieldController> GetNeighbors(GameObject field)

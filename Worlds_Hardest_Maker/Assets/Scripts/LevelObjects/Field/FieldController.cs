@@ -1,10 +1,8 @@
-using MyBox;
-using UnityEngine.Serialization;
+using UnityEngine;
 
 public class FieldController : EntityController
 {
-    // [DisplayInspector] [InitializationField] [MustBeAssigned] public FieldObject ScriptableObject;
-    [DisplayInspector] [InitializationField] [MustBeAssigned] public FieldMode FieldMode;
+   [HideInInspector] public FieldMode FieldMode;
 
     private void Start()
     {
