@@ -8,7 +8,7 @@ public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance { get; private set; }
 
-    [UsedImplicitly] public static readonly List<FieldType> CannotPlaceFields = new();
+    [UsedImplicitly] public static readonly List<FieldMode> CannotPlaceFields = new();
 
     [ReadOnly] public List<CoinController> Coins = new();
     public int TotalCoins => Coins.Count;
@@ -55,7 +55,7 @@ public class CoinManager : MonoBehaviour
             ReferenceManager.Instance.CoinContainer
         );
 
-        coin.Animator.SetBool(playing, EditModeManager.Instance.Playing);
+        coin.Animator.SetBool(playing, EditModeManagerOther.Instance.Playing);
 
         return coin;
     }

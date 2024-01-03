@@ -91,5 +91,5 @@ public class AnchorData : Data
         anchor.Blocks = LoadBlocks(anchor);
     }
 
-    public override EditMode GetEditMode() => EditMode.Anchor;
+    public override EditMode GetEditMode() => EditModeManager.Anchor;
 }

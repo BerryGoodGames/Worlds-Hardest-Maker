@@ -1,12 +1,12 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewField", menuName = "ScriptableObjects/Field")]
+[CreateAssetMenu(fileName = "NewField", menuName = "ScriptableObjectsOld/Field")]
 public class FieldObject : ScriptableObject
 {
     public GameObject Prefab;
     public string Tag;
     public EditMode EditMode;
-    public FieldType FieldType;
+    public FieldMode FieldMode;
     public bool IsRotatable;
     public bool IsSolid;
     public bool HasOutline;

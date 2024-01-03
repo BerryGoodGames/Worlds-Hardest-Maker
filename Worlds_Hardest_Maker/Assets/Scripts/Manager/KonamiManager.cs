@@ -53,7 +53,7 @@ public class KonamiManager : MonoBehaviour
         PlayerController player = PlayerManager.GetPlayer();
         if (player != null)
         {
-            player.Shotgun.gameObject.SetActive((!LevelSessionManager.Instance.IsEdit || EditModeManager.Instance.Playing) && active);
+            player.Shotgun.gameObject.SetActive((!LevelSessionManager.Instance.IsEdit || EditModeManagerOther.Instance.Playing) && active);
         }
 
         // mark play try as cheated if enabling

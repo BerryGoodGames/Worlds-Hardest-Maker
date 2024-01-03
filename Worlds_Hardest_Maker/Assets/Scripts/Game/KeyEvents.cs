@@ -10,25 +10,25 @@ public class KeyEvents : MonoBehaviour
 {
     private KeyCode[] prevHeldDownKeys = Array.Empty<KeyCode>();
 
-    private static readonly Dictionary<string, EditMode> keyboardShortcuts = new()
-    {
-        { "EditMode_Delete", EditMode.Delete },
-        { "EditMode_Wall", EditMode.Wall },
-        { "EditMode_Start", EditMode.Start },
-        { "EditMode_Goal", EditMode.Goal },
-        { "EditMode_OneWayGate", EditMode.OneWay },
-        { "EditMode_Water", EditMode.Water },
-        { "EditMode_Ice", EditMode.Ice },
-        { "EditMode_Void", EditMode.Void },
-        { "EditMode_Player", EditMode.Player },
-        { "EditMode_Coin", EditMode.Coin },
-        { "EditMode_GrayKey", EditMode.GrayKey },
-        { "EditMode_RedKey", EditMode.RedKey },
-        { "EditMode_GreenKey", EditMode.GreenKey },
-        { "EditMode_BlueKey", EditMode.BlueKey },
-        { "EditMode_YellowKey", EditMode.YellowKey },
-        { "EditMode_Checkpoint", EditMode.Checkpoint },
-    };
+    // private static readonly Dictionary<string, EditMode> keyboardShortcuts = new()
+    // {
+    //     { "EditMode_Delete", EditModeManager.Delete },
+    //     { "EditMode_Wall", EditModeManager.Wall },
+    //     { "EditMode_Start", EditModeManager.Start },
+    //     { "EditMode_Goal", EditModeManager.Goal },
+    //     { "EditMode_OneWayGate", EditModeManager.OneWay },
+    //     { "EditMode_Water", EditModeManager.Water },
+    //     { "EditMode_Ice", EditModeManager.Ice },
+    //     { "EditMode_Void", EditModeManager.Void },
+    //     { "EditMode_Player", EditModeManager.Player },
+    //     { "EditMode_Coin", EditModeManager.Coin },
+    //     { "EditMode_GrayKey", EditModeManager.GrayKey },
+    //     { "EditMode_RedKey", EditModeManager.RedKey },
+    //     { "EditMode_GreenKey", EditModeManager.GreenKey },
+    //     { "EditMode_BlueKey", EditModeManager.BlueKey },
+    //     { "EditMode_YellowKey", EditModeManager.YellowKey },
+    //     { "EditMode_Checkpoint", EditModeManager.Checkpoint },
+    // };
 
     private void Update()
     {
@@ -58,13 +58,13 @@ public class KeyEvents : MonoBehaviour
         CheckEditorKeyBinds();
 
         // check edit mode toggling if no ctrl and not playing
-        if (!KeyBinds.GetKeyBind("Editor_Modify") && !EditModeManager.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
+        if (!KeyBinds.GetKeyBind("Editor_Modify") && !EditModeManagerOther.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
     }
 
     private void CheckEditorKeyBinds()
     {
         // keyboard shortcuts with ctrl
-        if (EditModeManager.Instance.Playing) return;
+        if (EditModeManagerOther.Instance.Playing) return;
         
         if (KeyBinds.GetKeyBindDown("Editor_SaveLevel")) SaveSystem.SaveCurrentLevel();
 
@@ -75,13 +75,14 @@ public class KeyEvents : MonoBehaviour
     private static void CheckEditModeRotation()
     {
         // rotate if current edit mode is field and rotatable
-        FieldType? fieldType = (FieldType?)EditModeManager.Instance.CurrentEditMode.TryConvertTo<EditMode, FieldType>();
+        // FieldMode? fieldType = (FieldMode?)EditModeManagerOther.Instance.CurrentEditMode.TryConvertTo<EditMode, FieldMode>();
+        EditMode currentEditMode = EditModeManagerOther.Instance.CurrentEditMode;
 
-        if (fieldType == null 
-            || !((FieldType)fieldType).GetFieldObject().IsRotatable 
+        if (!currentEditMode.Attributes.IsField 
+            || !((FieldMode)currentEditMode).IsRotatable 
             || !KeyBinds.GetKeyBindDown("Editor_Rotate")) return;
         
-        EditModeManager.Instance.EditRotation = (EditModeManager.Instance.EditRotation - 90) % 360;
+        EditModeManagerOther.Instance.EditRotation = (EditModeManagerOther.Instance.EditRotation - 90) % 360;
 
         if (SelectionManager.Instance.Selecting) SelectionManager.UpdatePreviewRotation();
     }
@@ -89,7 +90,7 @@ public class KeyEvents : MonoBehaviour
     private static void CheckTeleportPlayer()
     {
         // teleport player to mouse pos
-        if (!LevelSessionManager.Instance.IsEdit || !EditModeManager.Instance.Playing || !KeyBinds.GetKeyBindDown("Editor_TeleportPlayer")) return;
+        if (!LevelSessionManager.Instance.IsEdit || !EditModeManagerOther.Instance.Playing || !KeyBinds.GetKeyBindDown("Editor_TeleportPlayer")) return;
         
         PlayerController player = PlayerManager.GetPlayer();
         if (player == null) return;
@@ -157,9 +158,12 @@ public class KeyEvents : MonoBehaviour
     private static void CheckEditModeKeyEvents()
     {
         // check every event and set edit mode accordingly
-        foreach (KeyValuePair<string, EditMode> shortcut in keyboardShortcuts)
+        foreach (EditMode editMode in EditModeManager.Instance.AllEditModes)
         {
-            if (KeyBinds.GetKeyBindDown(shortcut.Key)) EditModeManager.Instance.CurrentEditMode = shortcut.Value;
+            // key doors do not have key binds hahahahhahahah
+            if (editMode.Attributes.IsKeydoor) continue;
+            
+            if(KeyBinds.GetKeyBindDown(editMode.KeyboardShortcut)) EditModeManagerOther.Instance.CurrentEditMode = editMode;
         }
     }
 }

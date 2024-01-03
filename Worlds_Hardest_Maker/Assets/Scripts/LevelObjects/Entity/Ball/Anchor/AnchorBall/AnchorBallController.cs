@@ -5,7 +5,7 @@ public class AnchorBallController : EntityController
     [HideInInspector] public AnchorController ParentAnchor;
     public bool IsParentAnchorNull { get; private set; }
 
-    public override EditMode EditMode => EditMode.AnchorBall;
+    public override EditMode EditMode => EditModeManager.AnchorBall;
 
     public override Data GetData() => new AnchorBallData(StartPosition);
 
@@ -21,7 +21,7 @@ public class AnchorBallController : EntityController
 
         StartPosition = transform.localPosition;
 
-        if (LevelSessionManager.Instance.IsEdit) EditModeManager.Instance.OnEdit += ResetPosition;
+        if (LevelSessionManager.Instance.IsEdit) EditModeManagerOther.Instance.OnEdit += ResetPosition;
     }
 
     public void ResetPosition()
@@ -53,6 +53,6 @@ public class AnchorBallController : EntityController
         Destroy(transform.parent.gameObject);
 
         // unsubscribe
-        if (LevelSessionManager.Instance.IsEdit) EditModeManager.Instance.OnEdit -= ResetPosition;
+        if (LevelSessionManager.Instance.IsEdit) EditModeManagerOther.Instance.OnEdit -= ResetPosition;
     }
 }

@@ -31,11 +31,11 @@ public class MouseEvents : MonoBehaviour
     {
         PhotonView photonView = GameManager.Instance.photonView;
         bool multiplayer = MultiplayerManager.Instance.Multiplayer;
-        EditMode editMode = EditModeManager.Instance.CurrentEditMode;
+        EditMode editMode = EditModeManagerOther.Instance.CurrentEditMode;
         
         // place / delete stuff
         if (MouseManager.Instance.IsUIHovered
-            || EditModeManager.Instance.Playing
+            || EditModeManagerOther.Instance.Playing
             || SelectionManager.Instance.Selecting
             || CopyManager.Instance.Pasting
             || AnchorPositionInputEditManager.Instance.IsEditing) return;
@@ -68,26 +68,26 @@ public class MouseEvents : MonoBehaviour
 
     private static void CheckClickPlacement(EditMode editMode)
     {
-        if (editMode.IsDraggable()) return;
+        if (editMode.IsDraggable) return;
         
-        PlaceManager.Instance.Place(editMode, MouseManager.Instance.MouseWorldPos, EditModeManager.Instance.EditRotation, true);
+        PlaceManager.Instance.Place(editMode, MouseManager.Instance.MouseWorldPos, EditModeManagerOther.Instance.EditRotation, true);
     }
 
     private static void CheckDragPlacement(EditMode editMode)
     {
         // check placement
-        if (!editMode.IsDraggable()) return;
+        if (!editMode.IsDraggable) return;
         
         if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) > 1.414f)
         {
             PlaceManager.Instance.PlacePath(editMode, 
                                         MouseManager.Instance.PrevMouseWorldPos, MouseManager.Instance.MouseWorldPos, 
-                                            EditModeManager.Instance.EditRotation, true);
+                                            EditModeManagerOther.Instance.EditRotation, true);
         }
         else
         {
             PlaceManager.Instance.Place(editMode, MouseManager.Instance.MouseWorldPos,
-                                        EditModeManager.Instance.EditRotation, true);
+                                        EditModeManagerOther.Instance.EditRotation, true);
         }
 
     }

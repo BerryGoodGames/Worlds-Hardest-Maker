@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     Field attributes: position, type
@@ -8,7 +9,7 @@ using UnityEngine;
 public class FieldData : Data
 {
     public int[] Position;
-    public string FieldType;
+    public string FieldMode;
     public int Rotation;
 
     public FieldData(FieldController field)
@@ -20,18 +21,18 @@ public class FieldData : Data
         Position[1] = (int)fieldPosition.y;
         Rotation = (int)field.transform.rotation.eulerAngles.z;
 
-        FieldType typeEnum = field.ScriptableObject.FieldType;
-        FieldType = typeEnum.ToString();
+        FieldMode mode = field.FieldMode;
+        FieldMode = mode.ToString();
     }
 
     public override void ImportToLevel() => ImportToLevel(new(Position[0], Position[1]));
 
     public override void ImportToLevel(Vector2 pos)
     {
-        FieldType type = (FieldType)Enum.Parse(typeof(FieldType), FieldType);
+        FieldMode mode = (FieldMode)Enum.Parse(typeof(FieldMode), FieldMode);
 
-        FieldManager.Instance.SetField(Vector2Int.RoundToInt(pos), type, Rotation);
+        FieldManager.Instance.SetField(Vector2Int.RoundToInt(pos), mode, Rotation);
     }
 
-    public override EditMode GetEditMode() => (EditMode)Enum.Parse(typeof(EditMode), FieldType);
+    public override EditMode GetEditMode() => (EditMode)Enum.Parse(typeof(EditMode), FieldMode);
 }

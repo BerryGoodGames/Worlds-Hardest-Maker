@@ -8,15 +8,13 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance { get; private set; }
 
     // list of fields which are safe for player
-    public static readonly List<FieldType> SafeFields = new(new FieldType[] { });
+    // public static readonly List<FieldMode> SafeFields = new(new FieldMode[] { });
 
-    public static readonly List<FieldType> StartFields = new(
-        new[]
-        {
-            FieldType.Start,
-            FieldType.Goal,
-        }
-    );
+    // public static readonly List<FieldMode> StartFields = new()
+    // {
+    //     EditModeManager.Start,
+    //     EditModeManager.Goal,
+    // };
     
     public event Action OnWin;
     
@@ -26,6 +24,8 @@ public class PlayerManager : MonoBehaviour
 
     public PlayerController SetPlayer(Vector2 position, float speed, bool placeStartField = false)
     {
+        if (IsPlayerThere(position)) return null;
+        
         // TODO: improve
         if (!CanPlace(position))
         {
@@ -41,7 +41,7 @@ public class PlayerManager : MonoBehaviour
 
             foreach (Vector2Int checkPosition in checkPoses)
             {
-                FieldManager.Instance.SetField(checkPosition, FieldType.Start);
+                FieldManager.Instance.SetField(checkPosition, EditModeManager.Start);
             }
         }
 
@@ -50,29 +50,30 @@ public class PlayerManager : MonoBehaviour
         GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.KeyContainer);
 
         // clear all players (only from this client tho)
-        if (MultiplayerManager.Instance.Multiplayer)
-        {
-            foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
-            {
-                PlayerController p = player.GetComponent<PlayerController>();
-                PhotonView view = player.GetComponent<PhotonView>();
-
-                // check if player is from own client
-                if (!view.IsMine) continue;
-
-                Vector2 playerPos = p.transform.position;
-
-                // remove player
-                GameManager.Instance.photonView.RPC(
-                    "RemovePlayerAtPosOnlyOtherClients", RpcTarget.Others, playerPos.x,
-                    playerPos.y
-                );
-
-                RemovePlayerAtPosIgnoreOtherClients(playerPos);
-            }
-        }
-        else RemoveAllPlayers();
-
+        // if (MultiplayerManager.Instance.Multiplayer)
+        // {
+        //     foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
+        //     {
+        //         PlayerController p = player.GetComponent<PlayerController>();
+        //         PhotonView view = player.GetComponent<PhotonView>();
+        //
+        //         // check if player is from own client
+        //         if (!view.IsMine) continue;
+        //
+        //         Vector2 playerPos = p.transform.position;
+        //
+        //         // remove player
+        //         GameManager.Instance.photonView.RPC(
+        //             "RemovePlayerAtPosOnlyOtherClients", RpcTarget.Others, playerPos.x,
+        //             playerPos.y
+        //         );
+        //
+        //         RemovePlayerAtPosIgnoreOtherClients(playerPos);
+        //     }
+        // }
+        // else 
+        RemoveAllPlayers();
+        
         // place player
         PlayerController newPlayer = InstantiatePlayer(position, speed, MultiplayerManager.Instance.Multiplayer);
 
@@ -138,7 +139,7 @@ public class PlayerManager : MonoBehaviour
     public static bool CanPlace(Vector2 position, bool checkForPlayer = true) =>
         // conditions: no player there, position is covered with possible start fields
         !(checkForPlayer && IsPlayerThere(position)) &&
-        FieldManager.IsPosCoveredWithFieldType(position, StartFields.ToArray());
+        FieldManager.IsPosCoveredWithFieldType(position, EditModeManager.Instance.AllPlayerStartFieldModes.ToArray());
 
     #region Get player
 

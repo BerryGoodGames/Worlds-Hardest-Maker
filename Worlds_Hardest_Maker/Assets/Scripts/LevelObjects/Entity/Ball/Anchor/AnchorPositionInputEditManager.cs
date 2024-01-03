@@ -39,12 +39,12 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         CurrentEditedPositionInput = null;
 
         // show panels
-        ReferenceManager.Instance.ToolbarTween.SetPlay(EditModeManager.Instance.Playing);
-        ReferenceManager.Instance.InfobarEditTween.SetPlay(EditModeManager.Instance.Playing);
-        ReferenceManager.Instance.PlayButtonTween.SetPlay(EditModeManager.Instance.Playing);
+        ReferenceManager.Instance.ToolbarTween.SetPlay(EditModeManagerOther.Instance.Playing);
+        ReferenceManager.Instance.InfobarEditTween.SetPlay(EditModeManagerOther.Instance.Playing);
+        ReferenceManager.Instance.PlayButtonTween.SetPlay(EditModeManagerOther.Instance.Playing);
 
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
-        PanelManager.Instance.SetPanelOpen(anchorPanel, EditModeManager.Instance.Editing);
+        PanelManager.Instance.SetPanelOpen(anchorPanel, EditModeManagerOther.Instance.Editing);
 
         AnchorManager.Instance.SelectedAnchor.RenderLines();
     }
@@ -108,7 +108,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         while (!Input.GetMouseButton(0))
         {
             // cancel if these things happen
-            if (Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || EditModeManager.Instance.Playing)
+            if (Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || EditModeManagerOther.Instance.Playing)
             {
                 OnEndPositionEdit();
                 yield break;
