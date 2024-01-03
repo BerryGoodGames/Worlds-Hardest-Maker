@@ -20,7 +20,7 @@ MonoBehaviour:
     IsAnchorRelated: 0
   Tag: Coin
   UIString: Coin
-  KeyboardShortcut: Editor_Coin
+  KeyboardShortcut: EditMode_Coin
   Prefab: {fileID: 8839871402222588891, guid: 5e13d2eae759f3643b04b6e7dc5cefe2, type: 3}
   WorldPositionType: 1
   IsDraggable: 1

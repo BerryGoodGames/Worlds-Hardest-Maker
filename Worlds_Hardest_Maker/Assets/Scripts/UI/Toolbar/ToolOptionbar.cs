@@ -1,6 +1,8 @@
 using System;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 [ExecuteAlways]
 public class ToolOptionbar : MonoBehaviour
@@ -9,10 +11,12 @@ public class ToolOptionbar : MonoBehaviour
     
     [Separator] [SerializeField] private RectTransform toolPrefab;
     
-    public RectTransform HoveringHitbox;
-    public RectTransform Options;
+    [FormerlySerializedAs("HoveringHitbox")] [SerializeField][InitializationField][MustBeAssigned] private RectTransform hoveringHitbox;
+    [SerializeField][InitializationField][MustBeAssigned] private VerticalLayoutGroup optionsLayoutGroup;
 
-    private int ToolCount => Options.childCount;
+    [Separator] [PositiveValueOnly] [SerializeField] private float width;
+
+    private int ToolCount => optionsLayoutGroup.transform.childCount;
 
     [ButtonMethod]
     public void UpdateHeight()
@@ -21,16 +25,21 @@ public class ToolOptionbar : MonoBehaviour
         
         // set (width and) height of tool optionbar to fit every option
         Rect toolRect = toolPrefab.rect;
+
+        float toolMargin = (width - toolRect.width) / 2;
         
         Vector2 size = ToolCount == 0 
-            ? toolRect.width * Vector2.one 
-            : new(toolRect.width, toolRect.height * ToolCount);
+            ? width * Vector2.one 
+            : new(width, toolRect.height * ToolCount + 2 * toolMargin);
         
         rt.sizeDelta = size;
         
         // set hovering hitbox width and height
         const float arrowHeight = 35;
-        HoveringHitbox.offsetMax = new Vector2(HoveringHitbox.offsetMax.x, arrowHeight);
+        hoveringHitbox.offsetMax = new Vector2(hoveringHitbox.offsetMax.x, arrowHeight);
+        
+        // set top offset in vertical layout group
+        optionsLayoutGroup.padding.top = (int)toolMargin;
     }
     
     private void Awake() => UpdateHeight();

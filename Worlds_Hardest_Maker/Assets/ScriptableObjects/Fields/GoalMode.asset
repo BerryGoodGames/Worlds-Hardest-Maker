@@ -20,7 +20,7 @@ MonoBehaviour:
     IsAnchorRelated: 0
   Tag: Goal
   UIString: Goal
-  KeyboardShortcut: Editor_Goal
+  KeyboardShortcut: EditMode_Goal
   Prefab: {fileID: 5843572617449173902, guid: 9f2c485bf01f15143af9e0e1407b0632, type: 3}
   WorldPositionType: 2
   IsDraggable: 1

@@ -20,7 +20,7 @@ MonoBehaviour:
     IsAnchorRelated: 0
   Tag: Checkpoint
   UIString: Checkpoint
-  KeyboardShortcut: Editor_Checkpoint
+  KeyboardShortcut: EditMode_Checkpoint
   Prefab: {fileID: 1931411524142851042, guid: e0507e0e005a11845b87553093bf4f1d, type: 3}
   WorldPositionType: 2
   IsDraggable: 1

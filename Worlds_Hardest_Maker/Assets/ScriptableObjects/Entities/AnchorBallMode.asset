@@ -20,7 +20,7 @@ MonoBehaviour:
     IsAnchorRelated: 1
   Tag: AnchorBall
   UIString: Anchor Ball
-  KeyboardShortcut: 
+  KeyboardShortcut: EditMode_AnchorBall
   Prefab: {fileID: 6481791030330069436, guid: 1ecb51dd2ee9f29488eaa421ed43b3d6, type: 3}
   WorldPositionType: 1
   IsDraggable: 1

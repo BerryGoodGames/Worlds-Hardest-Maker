@@ -20,7 +20,7 @@ MonoBehaviour:
     IsAnchorRelated: 0
   Tag: Conveyor
   UIString: Conveyor
-  KeyboardShortcut: Editor_Conveyor
+  KeyboardShortcut: EditMode_Conveyor
   Prefab: {fileID: 4128830541207341781, guid: a6710523b1360804da7c880ba63b2735, type: 3}
   WorldPositionType: 2
   IsDraggable: 1

@@ -67,18 +67,13 @@ public class PlaceManager : MonoBehaviour
                 AnchorManager.Instance.SelectAnchor(anchor);
             }
         }
-        else
+        else if (editMode.Attributes.IsKey)
         {
-            if (editMode.Attributes.IsKey)
-            {
-                // get key color
-                string editModeStr = editMode.ToString();
-                string keyColorStr = editModeStr.Remove(editModeStr.Length - 3);
-                KeyColor keyColor = keyColorStr.ToEnum<KeyColor>();
+            // get key color
+            KeyColor keyColor = ((KeyMode)editMode).KeyColor;
 
-                // place key
-                if (KeyManager.Instance.SetKey(gridPosition, keyColor) is not null && playSound) { AudioManager.Instance.Play(GetSfx(editMode)); }
-            }
+            // place key
+            if (KeyManager.Instance.SetKey(gridPosition, keyColor) is not null && playSound) { AudioManager.Instance.Play(GetSfx(editMode)); }
         }
     }
 

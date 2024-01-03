@@ -20,7 +20,7 @@ MonoBehaviour:
     IsAnchorRelated: 0
   Tag: Ice
   UIString: Ice
-  KeyboardShortcut: Editor_Ice
+  KeyboardShortcut: EditMode_Ice
   Prefab: {fileID: 3023231347907058821, guid: 9a32a2a0dd3a7e94faed61a05f0a2940, type: 3}
   WorldPositionType: 2
   IsDraggable: 1

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Tool : MonoBehaviour
 {
-    public EditMode ToolEditMode;
+    [InitializationField] [MustBeAssigned] public EditMode ToolEditMode;
     
     [Separator] [OverrideLabel("Fade Tween")] [SerializeField] private AlphaTween anim;
     [SerializeField] private SelectionSquare selectionSquare;
@@ -12,7 +12,7 @@ public class Tool : MonoBehaviour
 
     [HideInInspector] public bool InOptionbar;
 
-    private MouseOverUIRect mouseOverUIRect;
+    public MouseOverUIRect MouseOverUIRect { get; private set; }
 
     private void Awake()
     {
@@ -21,7 +21,7 @@ public class Tool : MonoBehaviour
 
     private void Start()
     {
-        mouseOverUIRect = GetComponent<MouseOverUIRect>();
+        MouseOverUIRect = GetComponent<MouseOverUIRect>();
     }
 
     public void SwitchGameMode(bool setEditModeVariable)
@@ -51,6 +51,6 @@ public class Tool : MonoBehaviour
 
     private void Update()
     {
-        anim.SetVisible(IsSelected || (mouseOverUIRect.Over && !ReferenceManager.Instance.Menu.activeSelf));
+        anim.SetVisible(IsSelected || (MouseOverUIRect.Over && !ReferenceManager.Instance.Menu.activeSelf));
     }
 }

@@ -20,7 +20,7 @@ MonoBehaviour:
     IsAnchorRelated: 0
   Tag: Void
   UIString: Void
-  KeyboardShortcut: Editor_Void
+  KeyboardShortcut: EditMode_Void
   Prefab: {fileID: 3640838890659820898, guid: 2c047949e0400734fb2ceb5fcb3c83cd, type: 3}
   WorldPositionType: 2
   IsDraggable: 1

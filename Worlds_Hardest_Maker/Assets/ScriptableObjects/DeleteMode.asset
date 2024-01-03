@@ -20,7 +20,7 @@ MonoBehaviour:
     IsAnchorRelated: 0
   Tag: 
   UIString: Delete
-  KeyboardShortcut: Editor_Delete
+  KeyboardShortcut: EditMode_Delete
   Prefab: {fileID: 0}
   WorldPositionType: 2
   IsDraggable: 1

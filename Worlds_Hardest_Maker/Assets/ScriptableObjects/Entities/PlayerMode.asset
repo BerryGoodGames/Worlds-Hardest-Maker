@@ -20,7 +20,7 @@ MonoBehaviour:
     IsAnchorRelated: 0
   Tag: Player
   UIString: Player
-  KeyboardShortcut: Editor_Player
+  KeyboardShortcut: EditMode_Player
   Prefab: {fileID: 7464887056985239505, guid: 8b35e9f8e793281489f59c83ce103156, type: 3}
   WorldPositionType: 1
   IsDraggable: 1

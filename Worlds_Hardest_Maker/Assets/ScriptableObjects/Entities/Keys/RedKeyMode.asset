@@ -20,7 +20,7 @@ MonoBehaviour:
     IsAnchorRelated: 0
   Tag: RedKey
   UIString: Red Key
-  KeyboardShortcut: Editor_RedKey
+  KeyboardShortcut: EditMode_RedKey
   Prefab: {fileID: 5865937533351922079, guid: f88dbe36182b75f41a25a8147e62bff1, type: 3}
   WorldPositionType: 1
   IsDraggable: 1

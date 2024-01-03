@@ -20,7 +20,7 @@ MonoBehaviour:
     IsAnchorRelated: 0
   Tag: GrayKey
   UIString: Gray Key
-  KeyboardShortcut: Editor_GrayKey
+  KeyboardShortcut: EditMode_GrayKey
   Prefab: {fileID: 8839871402222588891, guid: f216fe92c2f2b2d47a292fc4bb779cdd, type: 3}
   WorldPositionType: 1
   IsDraggable: 1

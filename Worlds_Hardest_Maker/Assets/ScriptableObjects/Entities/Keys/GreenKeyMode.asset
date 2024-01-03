@@ -20,7 +20,7 @@ MonoBehaviour:
     IsAnchorRelated: 0
   Tag: GreenKey
   UIString: Green Key
-  KeyboardShortcut: Editor_GreenKey
+  KeyboardShortcut: EditMode_GreenKey
   Prefab: {fileID: 6358839366331224957, guid: ebbfc5e2a760abd489911d3a04e6d453, type: 3}
   WorldPositionType: 1
   IsDraggable: 1

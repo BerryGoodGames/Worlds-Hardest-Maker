@@ -20,7 +20,7 @@ MonoBehaviour:
     IsAnchorRelated: 1
   Tag: Anchor
   UIString: Anchor
-  KeyboardShortcut: Editor_Anchor
+  KeyboardShortcut: EditMode_Anchor
   Prefab: {fileID: 877708834729050389, guid: d8a4218bce541fe4c928de7a522407dd, type: 3}
   WorldPositionType: 1
   IsDraggable: 0

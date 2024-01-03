@@ -20,7 +20,7 @@ MonoBehaviour:
     IsAnchorRelated: 0
   Tag: YellowKey
   UIString: Yellow Key
-  KeyboardShortcut: Editor_YellowKey
+  KeyboardShortcut: EditMode_YellowKey
   Prefab: {fileID: 7934974448700493311, guid: b82300a84e5b00947b3af5aadb9f2227, type: 3}
   WorldPositionType: 1
   IsDraggable: 1
