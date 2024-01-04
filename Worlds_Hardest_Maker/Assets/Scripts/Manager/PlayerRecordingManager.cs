@@ -69,8 +69,6 @@ public class PlayerRecordingManager : MonoBehaviour
             // display player sprite
             float playerTrailIndex = (i - (recordedPositions.Count - (float)(playerTrailAmount * playerTrailFrequency))) / playerTrailFrequency + 1;
             
-            print(recordedPositions.Count - i);
-            
             if (playerTrailIndex > 0 && (recordedPositions.Count - 1 - i) % playerTrailFrequency == 0)
             {
                 SpriteRenderer playerTrail = Instantiate(playerSprite, recordedPositions[i], Quaternion.identity, recordingContainer);

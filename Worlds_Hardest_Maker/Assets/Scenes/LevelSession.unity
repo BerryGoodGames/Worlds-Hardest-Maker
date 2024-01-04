@@ -17813,7 +17813,7 @@ MonoBehaviour:
   playerTrailMaxAlpha: 0.75
   playerTrailAmount: 5
   recordingContainer: {fileID: 1810098789}
-  playerSprite: {fileID: 0}
+  playerSprite: {fileID: 5865789220577753341, guid: 859e4f16df8437d47bc4d015c1f55356, type: 3}
 --- !u!224 &1641938108 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7465456736653454112, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
