@@ -1,27 +1,19 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Image))]
 public class SelectionSquare : MonoBehaviour
 {
-    public Sprite SelectedSprite, DeselectedSprite, SubSelectedSprite;
+    [FormerlySerializedAs("SelectedSprite")] [SerializeField] private Sprite selectedSprite;
+    [FormerlySerializedAs("DeselectedSprite")] [SerializeField] private Sprite deselectedSprite;
+    [FormerlySerializedAs("SubSelectedSprite")] [SerializeField] private Sprite subSelectedSprite;
 
     private Image image;
-    private RectTransform rt;
 
-    private void Awake()
-    {
-        rt = GetComponent<RectTransform>();
-        image = GetComponent<Image>();
-    }
+    private void Awake() => image = GetComponent<Image>();
 
-    private void Start()
-    {
-        if (transform.parent.transform.parent != null && transform.parent.parent.CompareTag("OptionContainer"))
-            rt.sizeDelta = transform.parent.parent.GetComponent<RectTransform>().rect.size * 1.25f;
-        else rt.sizeDelta = GetComponentInParent<RectTransform>().rect.size;
-    }
+    public void SetSelected(bool selected) => image.sprite = selected ? selectedSprite : deselectedSprite;
 
-    public void Selected(bool selected) => image.sprite = selected ? SelectedSprite : DeselectedSprite;
-
-    public void SubSelected(bool subselected) => image.sprite = subselected ? SubSelectedSprite : image.sprite;
+    public void SetSubSelected(bool subSelected) => image.sprite = subSelected ? subSelectedSprite : image.sprite;
 }

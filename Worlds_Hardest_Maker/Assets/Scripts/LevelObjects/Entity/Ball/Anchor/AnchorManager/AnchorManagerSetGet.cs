@@ -47,8 +47,9 @@ public partial class AnchorManager
     {
         // deselect anchor first, if selected
         if (Instance.SelectedAnchor != null)
-            if (Instance.SelectedAnchor == anchor)
-                Instance.DeselectAnchor();
+        {
+            if (Instance.SelectedAnchor == anchor) Instance.DeselectAnchor();
+        }
 
         AnchorBallManager.Instance.AnchorBallListLayers.Remove(anchor);
 

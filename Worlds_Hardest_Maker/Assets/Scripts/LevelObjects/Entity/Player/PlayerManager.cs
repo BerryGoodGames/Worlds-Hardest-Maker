@@ -7,30 +7,21 @@ public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance { get; private set; }
 
-    // list of fields which are safe for player
-    public static readonly List<FieldType> SafeFields = new(new FieldType[] { });
-
-    public static readonly List<FieldType> StartFields = new(
-        new[]
-        {
-            FieldType.Start,
-            FieldType.Goal,
-        }
-    );
-    
     public event Action OnWin;
-    
+
     public void InvokeOnWin() => OnWin?.Invoke();
 
     #region Set player
 
     public PlayerController SetPlayer(Vector2 position, float speed, bool placeStartField = false)
     {
+        if (IsPlayerThere(position)) return null;
+
         // TODO: improve
         if (!CanPlace(position))
         {
             if (!placeStartField) return null;
-            
+
             Vector2Int[] checkPoses =
             {
                 Vector2Int.FloorToInt(position),
@@ -39,39 +30,15 @@ public class PlayerManager : MonoBehaviour
                 Vector2Int.CeilToInt(position),
             };
 
-            foreach (Vector2Int checkPosition in checkPoses)
-            {
-                FieldManager.Instance.SetField(checkPosition, FieldType.Start);
-            }
+            foreach (Vector2Int checkPosition in checkPoses) { FieldManager.Instance.SetField(checkPosition, EditModeManager.Start); }
         }
 
         // clear area from coins and keys
         GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.CoinContainer);
         GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.KeyContainer);
 
-        // clear all players (only from this client tho)
-        if (MultiplayerManager.Instance.Multiplayer)
-        {
-            foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
-            {
-                PlayerController p = player.GetComponent<PlayerController>();
-                PhotonView view = player.GetComponent<PhotonView>();
-
-                // check if player is from own client
-                if (!view.IsMine) continue;
-
-                Vector2 playerPos = p.transform.position;
-
-                // remove player
-                GameManager.Instance.photonView.RPC(
-                    "RemovePlayerAtPosOnlyOtherClients", RpcTarget.Others, playerPos.x,
-                    playerPos.y
-                );
-
-                RemovePlayerAtPosIgnoreOtherClients(playerPos);
-            }
-        }
-        else RemoveAllPlayers();
+        // clear all players
+        RemoveAllPlayers();
 
         // place player
         PlayerController newPlayer = InstantiatePlayer(position, speed, MultiplayerManager.Instance.Multiplayer);
@@ -138,7 +105,7 @@ public class PlayerManager : MonoBehaviour
     public static bool CanPlace(Vector2 position, bool checkForPlayer = true) =>
         // conditions: no player there, position is covered with possible start fields
         !(checkForPlayer && IsPlayerThere(position)) &&
-        FieldManager.IsPosCoveredWithFieldType(position, StartFields.ToArray());
+        FieldManager.IsPosCoveredWithFieldType(position, EditModeManager.Instance.AllPlayerStartFieldModes.ToArray());
 
     #region Get player
 
@@ -166,7 +133,7 @@ public class PlayerManager : MonoBehaviour
             // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
             else Debug.LogWarning("Could not find PlayerController component in player");
         }
-        
+
         return players;
     }
 
@@ -187,7 +154,6 @@ public class PlayerManager : MonoBehaviour
         if (MultiplayerManager.Instance.Multiplayer) return GetClientPlayer();
 
         // getting the one player in single player
-        // Transform container = ReferenceManager.Instance.PlayerContainer;
         List<PlayerController> players = GetPlayers();
         if (players.Count > 1)
         {
@@ -198,8 +164,6 @@ public class PlayerManager : MonoBehaviour
 
         return players.Count == 0 ? null : players[0];
     }
-
-    // public static GameObject GetPlayer(int id) => PlayerIDList()[id];
 
     public static bool IsPlayerThere(Vector2 position) => GetPlayer(position) != null;
 
@@ -242,7 +206,7 @@ public class PlayerManager : MonoBehaviour
                 PrefabManager.Instance.Player, position, Quaternion.identity,
                 ReferenceManager.Instance.PlayerContainer
             );
-            
+
             newPlayer.SetSpeed(speed);
         }
 
@@ -258,7 +222,7 @@ public class PlayerManager : MonoBehaviour
     public void ResetStates()
     {
         List<PlayerController> players = GetPlayers();
-        
+
         // reset players
         foreach (PlayerController player in players)
         {

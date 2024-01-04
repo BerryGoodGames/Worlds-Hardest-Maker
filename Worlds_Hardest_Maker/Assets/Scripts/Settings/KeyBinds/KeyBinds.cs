@@ -18,7 +18,7 @@ public static class KeyBinds
         { "Editor_Select", new() { new[] { KeyCode.Mouse1, }, } },
         { "Editor_Copy", new() { new[] { KeyCode.LeftControl, KeyCode.C, }, } },
         { "Editor_Paste", new() { new[] { KeyCode.LeftControl, KeyCode.V, }, } },
-        { "Editor_Pick", new() { new[] { KeyCode.J }, } },
+        { "Editor_Pick", new() { new[] { KeyCode.J, }, } },
         { "Editor_Menu", new() { new[] { KeyCode.M, }, } },
         { "Editor_Save", new() { new[] { KeyCode.LeftControl, KeyCode.S, }, } },
         { "Editor_Load", new() { new[] { KeyCode.LeftControl, KeyCode.O, }, } },
@@ -35,12 +35,14 @@ public static class KeyBinds
         { "EditMode_Start", new() { new[] { KeyCode.S, }, } },
         { "EditMode_Goal", new() { new[] { KeyCode.G, }, } },
         { "EditMode_Checkpoint", new() { new[] { KeyCode.C, KeyCode.H, }, } },
+        { "EditMode_Conveyor", new() { new[] { KeyCode.C, KeyCode.O, }, } },
         { "EditMode_Void", new() { new[] { KeyCode.V, }, } },
         { "EditMode_OneWayGate", new() { new[] { KeyCode.O, }, } },
         { "EditMode_Water", new() { new[] { KeyCode.W, KeyCode.A, }, } },
         { "EditMode_Ice", new() { new[] { KeyCode.I, }, } },
         { "EditMode_Player", new() { new[] { KeyCode.P, }, } },
         { "EditMode_Anchor", new() { new[] { KeyCode.A, }, } },
+        { "EditMode_AnchorBall", new() { new[] { KeyCode.A, KeyCode.B, }, } },
         { "EditMode_Ball", new() { new[] { KeyCode.B, }, } },
         { "EditMode_Coin", new() { new[] { KeyCode.C, }, } },
         { "EditMode_GrayKey", new() { new[] { KeyCode.K, }, } },
@@ -99,13 +101,13 @@ public static class KeyBinds
 
             keyCodes.Add(new KeyCode[keyCodesString.Length]);
 
-            for (int j = 0; j < keyCodesString.Length; j++) { keyCodes[i][j] = (KeyCode)int.Parse(keyCodesString[j]); }
+            for (int j = 0; j < keyCodesString.Length; j++) keyCodes[i][j] = (KeyCode)int.Parse(keyCodesString[j]);
         }
 
         return keyCodes.ToArray();
     }
-    
-    public static void ReplaceKeyCode(KeyCode old, KeyCode @new) 
+
+    public static void ReplaceKeyCode(KeyCode old, KeyCode @new)
     {
         foreach (KeyValuePair<string, List<KeyCode[]>> keyBind in keyBindToKeyCode)
         {

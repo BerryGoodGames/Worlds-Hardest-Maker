@@ -11,15 +11,19 @@ public partial class AnchorManager
         bool isStackOverflow = true;
 
         AnchorBlock loopBlock = null;
-        CheckWarningsForEach((_, currentNode) => CheckStackOverflowWarningsBlock(currentNode, ref loopingDetected, ref isStackOverflow, ref loopBlock));
+        CheckWarningsForEach(
+            (_, currentNode) => CheckStackOverflowWarningsBlock(currentNode, ref loopingDetected, ref isStackOverflow, ref loopBlock)
+        );
 
         if (!loopingDetected) return;
-        
+
         AnchorBlockController loopBlockController = loopBlock.Controller;
         loopBlockController.SetWarning(isStackOverflow);
     }
 
-    private static bool CheckStackOverflowWarningsBlock(LinkedListNode<AnchorBlock> currentNode, ref bool loopingDetected, ref bool isStackOverflow, ref AnchorBlock loopBlock)
+    private static bool CheckStackOverflowWarningsBlock(
+        LinkedListNode<AnchorBlock> currentNode, ref bool loopingDetected, ref bool isStackOverflow, ref AnchorBlock loopBlock
+    )
     {
         AnchorBlock block = currentNode.Value;
 

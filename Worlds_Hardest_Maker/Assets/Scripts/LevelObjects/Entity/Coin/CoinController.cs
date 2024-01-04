@@ -12,7 +12,7 @@ public class CoinController : EntityController
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
 
 
-    public override EditMode EditMode => EditMode.Coin;
+    public override EditMode EditMode => EditModeManager.Coin;
 
     private void Awake()
     {
@@ -41,8 +41,8 @@ public class CoinController : EntityController
 
         foreach (FieldController field in controller.CurrentFields)
         {
-            FieldType fieldType = field.ScriptableObject.FieldType;
-            if (fieldType != FieldType.Goal) continue;
+            FieldMode fieldMode = field.FieldMode;
+            if (fieldMode != EditModeManager.Goal) continue;
 
             controller.Win();
             break;
@@ -64,5 +64,6 @@ public class CoinController : EntityController
         Animator.SetBool(pickedUpString, true);
         PickedUp = true;
     }
+
     public override Data GetData() => new CoinData(this);
 }

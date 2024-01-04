@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff996cab3b807a438d0dce0ab4e4aa2, type: 3}
+  m_Name: YellowKeyDoorMode
+  m_EditorClassIdentifier: 
+  Attributes:
+    IsField: 1
+    IsKeydoor: 1
+    IsEntity: 0
+    IsKey: 0
+    IsAnchorRelated: 0
+  Tag: YellowKeyDoor
+  UIString: Yellow Key Door
+  KeyboardShortcut: 
+  Prefab: {fileID: 1878144512390914466, guid: ef067f96bc0d40d428b1c62b3c45478b, type: 3}
+  WorldPositionType: 2
+  IsDraggable: 1
+  ShowFillPreview: 1
+  HasOutline: 1
+  IsRotatable: 0
+  IsSolid: 1
+  IsStartFieldForPlayer: 0
+  IsSafeForPlayer: 0
+  KeyColor: 4

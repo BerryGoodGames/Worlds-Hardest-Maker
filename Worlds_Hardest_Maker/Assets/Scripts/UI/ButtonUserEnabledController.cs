@@ -17,7 +17,8 @@ public class ButtonUserEnabledController : MonoBehaviour
     [SerializeField] private Color disabledTextColor;
     [Separator] [SerializeField] private bool userEnabled = true;
 
-    [ButtonMethod] [UsedImplicitly]
+    [ButtonMethod]
+    [UsedImplicitly]
     private void SetUserEnabled()
     {
         foreach (Image image in imageList) image.color = userEnabled ? enabledColor : disabledColor;

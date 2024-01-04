@@ -52,22 +52,22 @@ public class PreviewController : MonoBehaviour
     {
         hasFollowMouseComp = TryGetComponent(out followMouseComp);
 
-        previousEditMode = EditModeManager.Instance.CurrentEditMode;
+        previousEditMode = EditModeManagerOther.Instance.CurrentEditMode;
     }
 
     private void Update()
     {
-        EditMode currentEditMode = EditModeManager.Instance.CurrentEditMode;
+        EditMode currentEditMode = EditModeManagerOther.Instance.CurrentEditMode;
 
         // update sprite if necessary
         bool hasEditModeChanged = previousEditMode != currentEditMode;
-        bool hasPlayingChanged = previousPlaying != EditModeManager.Instance.Playing;
+        bool hasPlayingChanged = previousPlaying != EditModeManagerOther.Instance.Playing;
         if (CheckUpdateEveryFrame && (hasEditModeChanged || hasPlayingChanged)) UpdateSprite();
 
 
         if (!SelectionManager.Instance.Selecting && hasFollowMouseComp)
         {
-            followMouseComp.WorldPosition = currentEditMode.IsFieldType() || currentEditMode == EditMode.Delete
+            followMouseComp.WorldPosition = currentEditMode.Attributes.IsField || currentEditMode == EditModeManager.Delete
                 ? WorldPositionType.Matrix
                 : WorldPositionType.Grid;
         }
@@ -80,7 +80,7 @@ public class PreviewController : MonoBehaviour
     ///     Checks if preview should currently be visible with current edit mode
     /// </summary>
     /// <returns></returns>
-    private bool CheckVisibility() => CheckVisibility(EditModeManager.Instance.CurrentEditMode);
+    private bool CheckVisibility() => CheckVisibility(EditModeManagerOther.Instance.CurrentEditMode);
 
     /// <summary>
     ///     Checks if preview should currently be visible at the moment
@@ -88,9 +88,9 @@ public class PreviewController : MonoBehaviour
     /// <param name="mode">edit mode which needs to be checked</param>
     private bool CheckVisibility(EditMode mode)
     {
-        if (MouseManager.Instance.IsUIHovered 
-            || KeyBinds.GetKeyBind("Editor_MoveEntity") 
-            || KeyBinds.GetKeyBind("Editor_Modify") 
+        if (MouseManager.Instance.IsUIHovered
+            || KeyBinds.GetKeyBind("Editor_MoveEntity")
+            || KeyBinds.GetKeyBind("Editor_Modify")
             || KeyBinds.GetKeyBind("Editor_DeleteEntity")
             || AnchorBlockManager.Instance.DraggingBlock
             || CopyManager.Instance.Pasting
@@ -98,9 +98,8 @@ public class PreviewController : MonoBehaviour
 
         // check if preview of edit mode is not allowed during filling
         if (SelectionManager.Instance.Selecting)
-        {
-            if (SelectionManager.NoFillPreviewModes.Contains(mode)) return false;
-        }
+            if (!mode.ShowFillPreview)
+                return false;
 
         Vector2 mousePos = followMouseComp.WorldPosition switch
         {
@@ -108,12 +107,12 @@ public class PreviewController : MonoBehaviour
             WorldPositionType.Grid => MouseManager.Instance.MouseWorldPosGrid,
             _ => MouseManager.Instance.MouseWorldPosMatrix,
         };
-        
+
         // check coin placement
-        if (mode is EditMode.Coin) return CoinManager.CanPlace(mousePos);
-        
+        if (mode == EditModeManager.Coin) return CoinManager.CanPlace(mousePos);
+
         // check key placement
-        if (KeyManager.KeyModes.Contains(mode)) return KeyManager.CanPlace(mousePos);
+        if (mode.Attributes.IsKey) return KeyManager.CanPlace(mousePos);
 
         return true;
     }
@@ -123,22 +122,22 @@ public class PreviewController : MonoBehaviour
     /// </summary>
     public void UpdateSprite()
     {
-        SetSprite(EditModeManager.Instance.CurrentEditMode);
+        SetSprite(EditModeManagerOther.Instance.CurrentEditMode);
 
-        previousPlaying = EditModeManager.Instance.Playing;
-        previousEditMode = EditModeManager.Instance.CurrentEditMode;
+        previousPlaying = EditModeManagerOther.Instance.Playing;
+        previousEditMode = EditModeManagerOther.Instance.CurrentEditMode;
     }
 
     public void SetSprite(EditMode editMode, bool updateRotation = false)
     {
-        if (editMode == EditMode.Delete)
+        if (editMode == EditModeManager.Delete)
         {
             // defaultSprite for preview when deleting
             ApplyDefaultSprite();
             return;
         }
 
-        GameObject currentPrefab = editMode.GetPrefab();
+        GameObject currentPrefab = editMode.Prefab;
         bool hasCurrentPrefabPreviewSpriteController = currentPrefab.TryGetComponent(out PreviewSprite previewSprite);
         if (hasCurrentPrefabPreviewSpriteController &&
             ((!SelectionManager.Instance.Selecting && !CopyManager.Instance.Pasting) || ShowSpriteWhenPasting))
@@ -193,7 +192,7 @@ public class PreviewController : MonoBehaviour
 
         if (!RotateToEditRotation) return;
 
-        Quaternion rotation = Quaternion.Euler(0, 0, EditModeManager.Instance.EditRotation);
+        Quaternion rotation = Quaternion.Euler(0, 0, EditModeManagerOther.Instance.EditRotation);
         if (smoothRotation && smooth)
         {
             transform.DOKill();

@@ -67,7 +67,7 @@ public class MouseOverUIRect : MonoBehaviour
 
             return;
         }
-        
+
         if (Over)
         {
             OnUnhovered.Invoke();

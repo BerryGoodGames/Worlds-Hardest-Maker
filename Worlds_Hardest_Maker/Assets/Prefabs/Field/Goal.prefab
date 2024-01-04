@@ -13,6 +13,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -7633074681480853962, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: FieldMode
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f529b599c7f2cc4f945cd3c06616399, type: 2}
+    - target: {fileID: -7633074681480853962, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: ScriptableObject
       value: 
       objectReference: {fileID: 11400000, guid: 4773fcba9d994f74191c121066f702b7, type: 2}

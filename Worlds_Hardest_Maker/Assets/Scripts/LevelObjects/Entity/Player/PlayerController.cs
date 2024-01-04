@@ -79,7 +79,7 @@ public class PlayerController : EntityController
 
     #endregion
 
-    public override EditMode EditMode => EditMode.Player;
+    public override EditMode EditMode => EditModeManager.Player;
 
     private void Awake()
     {
@@ -91,10 +91,10 @@ public class PlayerController : EntityController
 
     private void Start()
     {
-        EditModeManager.Instance.OnEdit += OnEdit;
-        EditModeManager.Instance.OnPlay += OnPlay;
+        EditModeManagerOther.Instance.OnEdit += OnEdit;
+        EditModeManagerOther.Instance.OnPlay += OnPlay;
 
-        EdgeCollider.enabled = EditModeManager.Instance.Playing;
+        EdgeCollider.enabled = EditModeManagerOther.Instance.Playing;
 
         if (transform.parent != ReferenceManager.Instance.PlayerContainer) transform.SetParent(ReferenceManager.Instance.PlayerContainer);
 
@@ -120,8 +120,8 @@ public class PlayerController : EntityController
 
     private void OnDestroy()
     {
-        EditModeManager.Instance.OnEdit -= OnEdit;
-        EditModeManager.Instance.OnPlay -= OnPlay;
+        EditModeManagerOther.Instance.OnEdit -= OnEdit;
+        EditModeManagerOther.Instance.OnPlay -= OnPlay;
     }
 
     private void OnEdit()
@@ -149,7 +149,7 @@ public class PlayerController : EntityController
 
         Vector2 totalMovement = Vector2.zero;
         // movement (if player is yours in multiplayer mode)
-        if (EditModeManager.Instance.Playing)
+        if (EditModeManagerOther.Instance.Playing)
         {
             if (MultiplayerManager.Instance.Multiplayer && !PhotonView.IsMine) return;
 
@@ -253,11 +253,11 @@ public class PlayerController : EntityController
 
         // check if player counteracts
         if (movementInput.x != 0) return;
-        
+
         // calculate new position 
         Vector2 posCheck = new(roundedPos.x, Mathf.Round(Rb.position.y + movementInput.y));
         FieldController fieldAtPosition = FieldManager.GetField(Vector2Int.RoundToInt(posCheck));
-        if (fieldAtPosition.ScriptableObject.FieldType != FieldType.Wall)
+        if (fieldAtPosition.FieldMode != EditModeManager.Wall)
             extraMovementInput = new(Mathf.Round(Rb.position.x) > Rb.position.x ? 1 : -1, movementInput.y);
     }
 
@@ -268,14 +268,14 @@ public class PlayerController : EntityController
             !(Mathf.Abs(Rb.position.y) % 1 > (1 - transform.lossyScale.y) * 0.5f + err) ||
             !(Mathf.Abs(Rb.position.y) % 1 < 1 - ((1 - transform.lossyScale.y) * 0.5f + err))) return;
 
-        
+
         // check if player counteracts
         if (movementInput.y != 0) return;
-        
+
         // calculate new position 
         Vector2 posCheck = new(Mathf.Round(Rb.position.x + movementInput.x), roundedPos.y);
         FieldController fieldAtPosition = FieldManager.GetField(Vector2Int.RoundToInt(posCheck));
-        if (fieldAtPosition.ScriptableObject.FieldType != FieldType.Wall)
+        if (fieldAtPosition.FieldMode != EditModeManager.Wall)
             extraMovementInput = new(movementInput.x, Mathf.Round(Rb.position.y) > Rb.position.y ? 1 : -1);
     }
 
@@ -316,22 +316,22 @@ public class PlayerController : EntityController
         foreach (FieldController field in CurrentFields)
         {
             // check if current field is safe
-            FieldType currentFieldType = field.ScriptableObject.FieldType;
-            if (PlayerManager.SafeFields.Contains(currentFieldType)) return true;
+            FieldMode currentFieldType = field.FieldMode;
+            if (currentFieldType.IsSafeForPlayer) return true;
         }
 
         return false;
     }
 
-    public bool IsOnField(FieldType type)
+    public bool IsOnField(FieldMode mode)
     {
         foreach (FieldController field in CurrentFields)
         {
             // check if current field is type
-            FieldType currentFieldType = field.ScriptableObject.FieldType;
-            if (currentFieldType == type) return true;
+            FieldMode currentFieldType = field.FieldMode;
+            if (currentFieldType == mode) return true;
         }
-        
+
         return false;
     }
 
@@ -342,37 +342,37 @@ public class PlayerController : EntityController
         List<FieldController> res = new();
         foreach (Collider2D hit in hits)
         {
-            if(hit.TryGetComponent(out FieldController f)) res.Add(f);
+            if (hit.TryGetComponent(out FieldController f)) res.Add(f);
         }
 
         return res;
     }
 
-    public bool IsFullyOnField(FieldType type)
+    public bool IsFullyOnField(FieldMode mode)
     {
         List<FieldController> fullyOnFields = GetFullyOnFields();
         foreach (FieldController field in fullyOnFields)
         {
-            FieldType currentFieldType = field.ScriptableObject.FieldType;
-            if (currentFieldType == type) return true;
+            FieldMode currentFieldType = field.FieldMode;
+            if (currentFieldType == mode) return true;
         }
 
         return false;
     }
 
-    public bool IsOnWater() => IsFullyOnField(FieldType.Water);
+    public bool IsOnWater() => IsFullyOnField(EditModeManager.Water);
 
-    public bool IsOnIce() => IsFullyOnField(FieldType.Ice);
+    public bool IsOnIce() => IsFullyOnField(EditModeManager.Ice);
 
     public ConveyorController GetCurrentConveyor()
     {
-        if (!IsFullyOnField(FieldType.Conveyor)) return null;
+        if (!IsFullyOnField(EditModeManager.Conveyor)) return null;
 
         List<FieldController> fullyOnFields = GetFullyOnFields();
         foreach (FieldController field in fullyOnFields)
         {
-            FieldType currentFieldType = field.ScriptableObject.FieldType;
-            if (currentFieldType == FieldType.Conveyor) return field.GetComponent<ConveyorController>();
+            FieldMode currentFieldType = field.FieldMode;
+            if (currentFieldType == EditModeManager.Conveyor) return field.GetComponent<ConveyorController>();
         }
 
         return null;
@@ -384,8 +384,8 @@ public class PlayerController : EntityController
         List<FieldController> fullyOnFields = GetFullyOnFields();
         foreach (FieldController field in fullyOnFields)
         {
-            FieldType currentFieldType = field.ScriptableObject.FieldType;
-            if (currentFieldType == FieldType.Void) return field;
+            FieldMode currentFieldType = field.FieldMode;
+            if (currentFieldType == EditModeManager.Void) return field;
         }
 
         return null;
@@ -393,7 +393,7 @@ public class PlayerController : EntityController
 
     public bool IsOnVoid() =>
         // we don't need that, its just there lol
-        IsFullyOnField(FieldType.Void);
+        IsFullyOnField(EditModeManager.Void);
 
     public FieldController GetCurrentField() => FieldManager.GetField(Vector2Int.RoundToInt(transform.position));
 
@@ -427,7 +427,7 @@ public class PlayerController : EntityController
         // avoid doing more if not own view in multiplayer
         if (MultiplayerManager.Instance.Multiplayer && !PhotonView.IsMine) return;
 
-        if (EditModeManager.Instance.Playing)
+        if (EditModeManagerOther.Instance.Playing)
             // sfx and death counter
             AudioManager.Instance.Play(soundEffect);
 
@@ -468,16 +468,16 @@ public class PlayerController : EntityController
         // avoid doing more if not own view in multiplayer
         if (MultiplayerManager.Instance.Multiplayer && !PhotonView.IsMine) return;
 
-        if (EditModeManager.Instance.Playing)
+        if (EditModeManagerOther.Instance.Playing)
         {
             Deaths++;
             if (!LevelSessionManager.Instance.IsEdit) LevelSessionManager.Instance.Deaths++;
         }
-        
+
         UpdateCoinCounterDeath();
 
         if (KonamiManager.Instance.KonamiActive) return;
-        
+
         PlayManager.Instance.Cheated = false;
 
         // reset balls to start position (if player launched them e.g. with shotgun)
@@ -489,9 +489,9 @@ public class PlayerController : EntityController
         // update coin counter
         bool hasCheckpointActivated = CurrentGameState != null;
         CoinsCollected.Clear();
-        
+
         if (!hasCheckpointActivated) return;
-        
+
         foreach (Vector2 coinPos in CurrentGameState.CollectedCoins)
         {
             CoinController coin = CoinManager.GetCoin(coinPos);
@@ -548,7 +548,7 @@ public class PlayerController : EntityController
         }
     }
 
-    public bool AllKeysCollected(KeyManager.KeyColor color)
+    public bool AllKeysCollected(KeyColor color)
     {
         // check if every key of specific color is picked up
         foreach (KeyController key in KeyManager.Instance.Keys)
@@ -627,7 +627,7 @@ public class PlayerController : EntityController
         // check if coin should respawn
         bool respawns = true;
         if (CurrentGameState == null) return true;
-        
+
         foreach (Vector2 collected in CurrentGameState.CollectedCoins)
         {
             if (!collected.x.EqualsFloat(coin.CoinPosition.x) ||
@@ -673,7 +673,7 @@ public class PlayerController : EntityController
         float applySpeed = Speed;
         int deaths = Deaths;
 
-        Vector2 spawnPos = !EditModeManager.Instance.Playing || CurrentGameState == null
+        Vector2 spawnPos = !EditModeManagerOther.Instance.Playing || CurrentGameState == null
             ? StartPos
             : CurrentGameState.PlayerStartPos;
 
@@ -725,7 +725,7 @@ public class PlayerController : EntityController
 
         Shotgun = GetComponentInChildren<ShotgunController>(true);
         Shotgun.gameObject.SetActive(
-            isEdit ? EditModeManager.Instance.Playing && KonamiManager.Instance.KonamiActive : KonamiManager.Instance.KonamiActive
+            isEdit ? EditModeManagerOther.Instance.Playing && KonamiManager.Instance.KonamiActive : KonamiManager.Instance.KonamiActive
         );
     }
 

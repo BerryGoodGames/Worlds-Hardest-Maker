@@ -28,17 +28,17 @@ public class PlayManager : MonoBehaviour
     {
         if (ReferenceManager.Instance.Menu.activeSelf) return;
 
-        if (EditModeManager.Instance.Playing) SwitchToEdit();
+        if (EditModeManagerOther.Instance.Playing) SwitchToEdit();
         else SwitchToPlay();
 
-        foreach (BarTween tween in BarTween.TweenList) tween.SetPlay(EditModeManager.Instance.Playing);
+        foreach (BarTween tween in BarTween.TweenList) tween.SetPlay(EditModeManagerOther.Instance.Playing);
     }
 
     #region On play
 
     public static void SwitchToPlay()
     {
-        EditModeManager.Instance.Playing = true;
+        EditModeManagerOther.Instance.Playing = true;
 
         AudioManager.Instance.Play("Bell");
         AudioManager.Instance.MusicFiltered(false);
@@ -56,7 +56,7 @@ public class PlayManager : MonoBehaviour
 
         // JumpToPlayer();
 
-        EditModeManager.Instance.InvokeOnPlay();
+        EditModeManagerOther.Instance.InvokeOnPlay();
 
         // hide all panels
         // TODO: abstract this
@@ -83,7 +83,7 @@ public class PlayManager : MonoBehaviour
 
     public static void SwitchToEdit()
     {
-        EditModeManager.Instance.Playing = false;
+        EditModeManagerOther.Instance.Playing = false;
 
         AudioManager.Instance.Play("Bell");
         AudioManager.Instance.MusicFiltered(true);
@@ -92,10 +92,10 @@ public class PlayManager : MonoBehaviour
 
         EnablePreview();
 
-        EditModeManager.Instance.InvokeOnEdit();
+        EditModeManagerOther.Instance.InvokeOnEdit();
 
         // show level setting / anchor panel
-        bool isEditModeAnchorRelated = EditModeManager.Instance.CurrentEditMode.IsAnchorRelated();
+        bool isEditModeAnchorRelated = EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
         PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
         if (isEditModeAnchorRelated)
@@ -168,20 +168,20 @@ public class PlayManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
     }
-    
+
     private void Start()
     {
         // setup play scene mode
         if (!LevelSessionManager.Instance.IsEdit) StartCoroutine(SetupPlayScene());
 
-        EditModeManager.Instance.OnEdit += () => Instance.Cheated = false;
+        EditModeManagerOther.Instance.OnEdit += () => Instance.Cheated = false;
 
         return;
 
         [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
         IEnumerator SetupPlayScene()
         {
-            EditModeManager.Instance.Playing = true;
+            EditModeManagerOther.Instance.Playing = true;
 
             yield return new WaitForEndOfFrame();
 

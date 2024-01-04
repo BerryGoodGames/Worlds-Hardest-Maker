@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4d22bdb2497c3f44a556b2f13b74c1c, type: 3}
+  m_Name: WaterMode
+  m_EditorClassIdentifier: 
+  Attributes:
+    IsField: 1
+    IsKeydoor: 0
+    IsEntity: 0
+    IsKey: 0
+    IsAnchorRelated: 0
+  Tag: Water
+  UIString: Water
+  KeyboardShortcut: EditMode_Water
+  Prefab: {fileID: 6937139618367240684, guid: fd249bcf3ba6a6d4382d3361fc4f84f9, type: 3}
+  WorldPositionType: 2
+  IsDraggable: 1
+  ShowFillPreview: 1
+  HasOutline: 0
+  IsRotatable: 0
+  IsSolid: 0
+  IsStartFieldForPlayer: 0
+  IsSafeForPlayer: 0

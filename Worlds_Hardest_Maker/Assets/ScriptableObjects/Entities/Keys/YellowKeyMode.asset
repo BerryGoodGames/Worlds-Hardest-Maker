@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee10b2f0f44aaef439be2527abe38fe3, type: 3}
+  m_Name: YellowKeyMode
+  m_EditorClassIdentifier: 
+  Attributes:
+    IsField: 0
+    IsKeydoor: 0
+    IsEntity: 1
+    IsKey: 1
+    IsAnchorRelated: 0
+  Tag: YellowKey
+  UIString: Yellow Key
+  KeyboardShortcut: EditMode_YellowKey
+  Prefab: {fileID: 7934974448700493311, guid: b82300a84e5b00947b3af5aadb9f2227, type: 3}
+  WorldPositionType: 1
+  IsDraggable: 1
+  ShowFillPreview: 0
+  KeyColor: 4

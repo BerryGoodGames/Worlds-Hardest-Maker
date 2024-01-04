@@ -30,7 +30,6 @@ public class ChainController : MonoBehaviour
 
     public void UpdateChildrenArray()
     {
-        // children = GetComponentsInChildren<AnchorBlockController>();
         Children = new();
 
         foreach (Transform child in transform)

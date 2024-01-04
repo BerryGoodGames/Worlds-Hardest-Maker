@@ -3,29 +3,29 @@ using UnityEngine;
 
 public static class KeyColorExtension
 {
-    public static KeyController GetPrefabKey(this KeyManager.KeyColor color)
+    public static KeyController GetPrefabKey(this KeyColor color)
     {
-        Dictionary<KeyManager.KeyColor, KeyController> prefabs = new()
+        Dictionary<KeyColor, KeyController> prefabs = new()
         {
-            { KeyManager.KeyColor.Gray, PrefabManager.Instance.GrayKey },
-            { KeyManager.KeyColor.Red, PrefabManager.Instance.RedKey },
-            { KeyManager.KeyColor.Blue, PrefabManager.Instance.BlueKey },
-            { KeyManager.KeyColor.Green, PrefabManager.Instance.GreenKey },
-            { KeyManager.KeyColor.Yellow, PrefabManager.Instance.YellowKey },
+            { KeyColor.Gray, PrefabManager.Instance.GrayKey },
+            { KeyColor.Red, PrefabManager.Instance.RedKey },
+            { KeyColor.Blue, PrefabManager.Instance.BlueKey },
+            { KeyColor.Green, PrefabManager.Instance.GreenKey },
+            { KeyColor.Yellow, PrefabManager.Instance.YellowKey },
         };
 
         return prefabs[color];
     }
 
-    public static GameObject GetPrefabDoor(this KeyManager.KeyColor color)
+    public static GameObject GetPrefabDoor(this KeyColor color)
     {
-        Dictionary<KeyManager.KeyColor, GameObject> prefabs = new()
+        Dictionary<KeyColor, GameObject> prefabs = new()
         {
-            { KeyManager.KeyColor.Gray, PrefabManager.Instance.GrayKeyDoor },
-            { KeyManager.KeyColor.Red, PrefabManager.Instance.RedKeyDoor },
-            { KeyManager.KeyColor.Blue, PrefabManager.Instance.BlueKeyDoor },
-            { KeyManager.KeyColor.Green, PrefabManager.Instance.GreenKeyDoor },
-            { KeyManager.KeyColor.Yellow, PrefabManager.Instance.YellowKeyDoor },
+            { KeyColor.Gray, PrefabManager.Instance.GrayKeyDoor },
+            { KeyColor.Red, PrefabManager.Instance.RedKeyDoor },
+            { KeyColor.Blue, PrefabManager.Instance.BlueKeyDoor },
+            { KeyColor.Green, PrefabManager.Instance.GreenKeyDoor },
+            { KeyColor.Yellow, PrefabManager.Instance.YellowKeyDoor },
         };
 
         return prefabs[color];

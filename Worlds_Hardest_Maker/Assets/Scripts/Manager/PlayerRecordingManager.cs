@@ -1,47 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
-using MyBox;
 using LuLib.Transform;
+using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PlayerRecordingManager : MonoBehaviour
 {
-    [Separator("Settings")]
-    [SerializeField] private float recordingFrequency = 1f;
+    [Separator("Settings")] [SerializeField] private float recordingFrequency = 1f;
     [SerializeField] private float displayDelay = 0.25f;
-    [Header("Player")]
-    [SerializeField] private uint playerTrailFrequency = 4;
+    [Header("Player")] [SerializeField] private uint playerTrailFrequency = 4;
     [SerializeField] [Range(0, 1)] private float playerTrailMaxAlpha = 0.75f;
     [SerializeField] private uint playerTrailAmount = 5;
 
-    [Separator("References")]
-    [SerializeField] [InitializationField] [MustBeAssigned] private Transform recordingContainer;
+    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private Transform recordingContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer playerSprite;
 
     private LineRenderer lineRenderer;
-    
+
     private Coroutine recording;
 
     private List<Vector2> recordedPositions;
-    
-    private void Awake()
-    {
-        lineRenderer = recordingContainer.GetComponent<LineRenderer>();
-    }
+
+    private void Awake() => lineRenderer = recordingContainer.GetComponent<LineRenderer>();
 
     private void Start()
     {
-        EditModeManager.Instance.OnPlay += () =>
+        EditModeManagerOther.Instance.OnPlay += () =>
         {
             ClearRecording();
             recording = StartCoroutine(RecordPlayer());
         };
-        EditModeManager.Instance.OnEdit += () =>
+
+        EditModeManagerOther.Instance.OnEdit += () =>
         {
-            
-            if(recording != null) StopCoroutine(recording);
-            
+            if (recording != null) StopCoroutine(recording);
+
             StartCoroutine(DisplayRecording(recordedPositions));
         };
     }
@@ -58,7 +51,7 @@ public class PlayerRecordingManager : MonoBehaviour
         while (!EditModeManager.Instance.Editing)
         {
             recordedPositions.Add(player.position);
-            
+
             yield return new WaitForSeconds(recordingFrequency);
         }
     }
@@ -66,7 +59,7 @@ public class PlayerRecordingManager : MonoBehaviour
     private IEnumerator DisplayRecording(IReadOnlyList<Vector2> recordedPositions)
     {
         if (recordedPositions == null) yield break;
-        
+
         for (int i = 0; i < recordedPositions.Count; i++)
         {
             // display line
@@ -80,8 +73,8 @@ public class PlayerRecordingManager : MonoBehaviour
             
             if (playerTrailIndex > 0 && (recordedPositions.Count - 1 - i) % playerTrailFrequency == 0)
             {
-                SpriteRenderer playerTrail = Instantiate(playerSprite, recordedPositions[i],Quaternion.identity, recordingContainer);
-                
+                SpriteRenderer playerTrail = Instantiate(playerSprite, recordedPositions[i], Quaternion.identity, recordingContainer);
+
                 playerTrail.SetAlpha(playerTrailIndex / playerTrailAmount * playerTrailMaxAlpha);
             }
             

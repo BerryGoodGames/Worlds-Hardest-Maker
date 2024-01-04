@@ -24,7 +24,8 @@ public abstract class AnchorBlockColorController : MonoBehaviour
 
     protected static Color KeepA(Color @new, Color assign) => new(@new.r, @new.g, @new.b, assign.a);
 
-    [ButtonMethod] [UsedImplicitly]
+    [ButtonMethod]
+    [UsedImplicitly]
     private void UpdateColorButton()
     {
         UpdateColor();

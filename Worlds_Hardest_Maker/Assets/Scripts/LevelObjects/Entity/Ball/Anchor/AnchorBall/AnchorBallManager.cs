@@ -18,14 +18,14 @@ public class AnchorBallManager : MonoBehaviour
         if (GetAnchorBall(pos, parentAnchor) != null) return null;
 
         bool hasParent = parentAnchor != null;
-        
+
         // assign container
         Transform container = hasParent ? parentAnchor.BallContainer : ReferenceManager.Instance.AnchorBallContainer.transform;
-        
+
         // instantiate
         GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, container.position, Quaternion.identity, container);
         AnchorBallController ballController = ball.GetComponentInChildren<AnchorBallController>();
-        
+
         // setup parent
         if (hasParent)
         {
@@ -79,30 +79,6 @@ public class AnchorBallManager : MonoBehaviour
 
         return null;
     }
-    //
-    // #endregion
-    //
-    // #region Remove
-    //
-    // [PunRPC]
-    // public void RemoveAnchorBall(Vector2 position)
-    // {
-    //     AnchorBallListGlobal.ForEach(CheckAnchorBall);
-    //
-    //     foreach (KeyValuePair<AnchorController, List<AnchorBallController>> anchorBallListPair in AnchorBallListLayers)
-    //     {
-    //         anchorBallListPair.Value.ForEach(CheckAnchorBall);
-    //     }
-    //
-    //     return;
-    //
-    //     void CheckAnchorBall(AnchorBallController ball)
-    //     {
-    //         if ((Vector2)ball.transform.position != position) return;
-    //
-    //         Destroy(ball.gameObject);
-    //     }
-    // }
 
     #endregion
 
@@ -112,7 +88,7 @@ public class AnchorBallManager : MonoBehaviour
         List<AnchorBallController> ballsAtPos = GetAnchorBalls(position);
 
         if (ballsAtPos.Count <= 0) return;
-        
+
         // get first ball at position and (de)select corresponding anchor
         foreach (AnchorBallController ball in ballsAtPos)
         {
@@ -130,8 +106,8 @@ public class AnchorBallManager : MonoBehaviour
         AnchorBallListLayers = new();
         AnchorBallListGlobal = new();
 
-        EditModeManager.Instance.OnPlay += ReferenceManager.Instance.AnchorBallContainer.BallFadeIn;
-        EditModeManager.Instance.OnEdit += () =>
+        EditModeManagerOther.Instance.OnPlay += ReferenceManager.Instance.AnchorBallContainer.BallFadeIn;
+        EditModeManagerOther.Instance.OnEdit += () =>
         {
             if (AnchorManager.Instance.SelectedAnchor != null) ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
         };

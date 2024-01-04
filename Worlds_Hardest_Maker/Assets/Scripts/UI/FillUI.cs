@@ -14,7 +14,7 @@ public class FillUI : MonoBehaviour
         if (Math.Abs(content.offsetMin.y - prevOffsetMin) < 0.1f) return;
 
         Vector2 offsetMin = content.offsetMin;
-        
+
         prevOffsetMin = offsetMin.y;
         content.hasChanged = false;
         fill.offsetMax = new(fill.offsetMax.x, offsetMin.y);

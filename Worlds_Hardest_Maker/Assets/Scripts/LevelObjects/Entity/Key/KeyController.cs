@@ -1,10 +1,9 @@
-using System;
 using MyBox;
 using UnityEngine;
 
 public class KeyController : EntityController
 {
-    [ReadOnly] public KeyManager.KeyColor Color;
+    [ReadOnly] public KeyColor Color;
     [ReadOnly] public Vector2 KeyPosition;
     [ReadOnly] public bool PickedUp;
 
@@ -15,21 +14,16 @@ public class KeyController : EntityController
 
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
 
-    public override EditMode EditMode
-    {
-        get
+    public override EditMode EditMode =>
+        Color switch
         {
-            return Color switch
-            {
-                KeyManager.KeyColor.Gray => EditMode.GrayKey,
-                KeyManager.KeyColor.Red => EditMode.RedKey,
-                KeyManager.KeyColor.Green => EditMode.GreenKey,
-                KeyManager.KeyColor.Blue => EditMode.BlueKey,
-                KeyManager.KeyColor.Yellow => EditMode.YellowKey,
-                _ => throw new("There is no edit mode assigned for color " + Color),
-            };
-        }
-    }
+            KeyColor.Gray => EditModeManager.GrayKey,
+            KeyColor.Red => EditModeManager.RedKey,
+            KeyColor.Green => EditModeManager.GreenKey,
+            KeyColor.Blue => EditModeManager.BlueKey,
+            KeyColor.Yellow => EditModeManager.YellowKey,
+            _ => throw new("There is no edit mode assigned for color " + Color),
+        };
 
     private void Awake()
     {
@@ -91,10 +85,10 @@ public class KeyController : EntityController
 
         string tagColor = Color switch
         {
-            KeyManager.KeyColor.Red => "Red",
-            KeyManager.KeyColor.Green => "Green",
-            KeyManager.KeyColor.Blue => "Blue",
-            KeyManager.KeyColor.Yellow => "Yellow",
+            KeyColor.Red => "Red",
+            KeyColor.Green => "Green",
+            KeyColor.Blue => "Blue",
+            KeyColor.Yellow => "Yellow",
             _ => "Gray",
         };
 

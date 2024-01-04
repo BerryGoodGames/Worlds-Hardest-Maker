@@ -21,11 +21,7 @@ public class TMPDecimalInputAdjuster : MonoBehaviour
     {
         float inputFloat = inputField.GetFloatInput();
 
-        if (forbidNegative)
-        {
-            // input = input.Replace("-", "");
-            inputFloat = MathF.Abs(inputFloat);
-        }
+        if (forbidNegative) inputFloat = MathF.Abs(inputFloat);
 
         if (ForbidDecimals) inputFloat = MathF.Round(inputFloat);
         else

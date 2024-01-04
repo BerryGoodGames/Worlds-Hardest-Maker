@@ -2,8 +2,7 @@ using System;
 using MyBox;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Serialization;
-using Random = System.Random;
+using Random = UnityEngine.Random;
 
 [Serializable]
 public class Sound
@@ -13,9 +12,8 @@ public class Sound
     [Space] [SerializeField] private AudioClip audioClip;
 
     [Space] [SerializeField] private AudioMixerGroup output;
-    
-    [Separator("Settings")] 
-    [SerializeField] private bool mute;
+
+    [Separator("Settings")] [SerializeField] private bool mute;
     [SerializeField] private bool playOnAwake;
     [SerializeField] private bool loop;
     [SerializeField] private bool allowOverlap = true;
@@ -43,18 +41,17 @@ public class Sound
 
     public void Play(float pitchRandomizationDeviation = 0)
     {
-        source.pitch = pitch + UnityEngine.Random.Range(-pitchRandomizationDeviation, pitchRandomizationDeviation);
-        
+        source.pitch = pitch + Random.Range(-pitchRandomizationDeviation, pitchRandomizationDeviation);
+
         // check if on cooldown
         if (cooldown > 0)
         {
             if (nextPlay > DateTime.Now.TimeOfDay) return;
-            
+
             nextPlay = DateTime.Now.TimeOfDay + TimeSpan.FromSeconds(cooldown);
         }
-        
-        if(allowOverlap)
-            source.PlayOneShot(audioClip);
+
+        if (allowOverlap) source.PlayOneShot(audioClip);
         else source.Play();
     }
 }

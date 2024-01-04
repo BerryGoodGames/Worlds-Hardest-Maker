@@ -15,11 +15,11 @@ public partial class AnchorManager : MonoBehaviour
 
     private void Start()
     {
-        EditModeManager.Instance.OnPlay += GameManager.DeselectInputs;
-        EditModeManager.Instance.OnPlay += UpdateBlockListInSelectedAnchor;
+        EditModeManagerOther.Instance.OnPlay += GameManager.DeselectInputs;
+        EditModeManagerOther.Instance.OnPlay += UpdateBlockListInSelectedAnchor;
 
-        EditModeManager.Instance.OnEdit += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(false);
-        EditModeManager.Instance.OnPlay += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(true);
+        EditModeManagerOther.Instance.OnEdit += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(false);
+        EditModeManagerOther.Instance.OnPlay += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(true);
     }
 
     private void Update() => CheckAnchorSelection();
@@ -61,7 +61,7 @@ public partial class AnchorManager : MonoBehaviour
             anchor.Animator.SetBool(playing, false);
 
             if (SelectedAnchor == anchor &&
-                EditModeManager.Instance.CurrentEditMode.IsAnchorRelated()) anchor.SetLinesActive(true);
+                EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated) anchor.SetLinesActive(true);
         }
     }
 
@@ -80,7 +80,7 @@ public partial class AnchorManager : MonoBehaviour
             anchor.SetLinesActive(false);
 
             if (SelectedAnchor == anchor &&
-                EditModeManager.Instance.CurrentEditMode.IsAnchorRelated()) continue;
+                EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated) continue;
 
             anchor.Animator.SetBool(playing, true);
         }

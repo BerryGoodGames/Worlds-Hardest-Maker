@@ -23,7 +23,8 @@ public class PlaySceneToggle : MonoBehaviour
         }
     }
 
-    [ButtonMethod] [UsedImplicitly]
+    [ButtonMethod]
+    [UsedImplicitly]
     public void Apply()
     {
         ConditionalObject[] objArr = FindObjectsOfType<ConditionalObject>(true);

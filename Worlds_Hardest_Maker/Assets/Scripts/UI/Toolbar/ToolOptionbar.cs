@@ -1,80 +1,56 @@
+using System;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [ExecuteAlways]
 public class ToolOptionbar : MonoBehaviour
 {
-    public GameObject Background;
+    [ReadOnly] public Tool Root;
 
-    public GameObject HoveringHitbox;
+    [Separator] [SerializeField] private RectTransform toolPrefab;
 
-    public GameObject Options;
-    public float Size;
-    private RectTransform hh;
-    private RectTransform rtThis;
-    private GridLayoutGroup gridLayout;
-    private AlphaTween anim;
-    private int toolCount;
-    private float width;
-    private float height;
+    [FormerlySerializedAs("HoveringHitbox")] [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform hoveringHitbox;
+    [SerializeField] [InitializationField] [MustBeAssigned] private VerticalLayoutGroup optionsLayoutGroup;
 
-    private void Awake()
-    {
-        // REF
-        rtThis = GetComponent<RectTransform>();
-        anim = GetComponent<AlphaTween>();
+    [Separator] [PositiveValueOnly] [SerializeField] private float width;
 
-        anim.OnSetVisible += EnableOptionbar;
-        anim.OnIsInvisible += DisableOptionbar;
-
-        hh = HoveringHitbox.GetComponent(typeof(RectTransform)) as RectTransform;
-        gridLayout = Options.GetComponent<GridLayoutGroup>();
-        toolCount = Options.transform.childCount;
-
-        UpdateHeight();
-        ScaleOptions();
-
-        DisableOptionbar();
-    }
-
-    public void EnableOptionbar()
-    {
-        hh.sizeDelta = new(width, height + gridLayout.cellSize.y + gridLayout.spacing.y);
-        hh.localPosition = new(0, (2 - toolCount) * (gridLayout.cellSize.y + gridLayout.spacing.y) * 0.5f);
-        rtThis.localPosition = new(0, -95);
-    }
-
-    public void DisableOptionbar()
-    {
-        if (anim.IsVisible) return;
-
-        hh.sizeDelta = new(gridLayout.cellSize.x, gridLayout.cellSize.y);
-        hh.localPosition = new(0, -1250);
-        rtThis.localPosition = new(0, 1000);
-    }
-
-    [ButtonMethod]
-    public void ScaleOptions()
-    {
-        foreach (Transform tool in Options.transform) tool.localScale = new(0.7f, 0.7f);
-    }
+    private int ToolCount => optionsLayoutGroup.transform.childCount;
 
     [ButtonMethod]
     public void UpdateHeight()
     {
-        RectTransform rt = Background.GetComponent(typeof(RectTransform)) as RectTransform;
+        RectTransform rt = (RectTransform)transform;
 
-        if (rt == null) return;
+        // set (width and) height of tool optionbar to fit every option
+        Rect toolRect = toolPrefab.rect;
 
-        if (toolCount == 0) rt.sizeDelta = new(100, 100);
-        else
+        float toolMargin = (width - toolRect.width) / 2;
+
+        Vector2 size = ToolCount == 0
+            ? width * Vector2.one
+            : new(width, toolRect.height * ToolCount + 2 * toolMargin);
+
+        rt.sizeDelta = size;
+
+        // set hovering hitbox width and height
+        const float arrowHeight = 35;
+        hoveringHitbox.offsetMax = new Vector2(hoveringHitbox.offsetMax.x, arrowHeight);
+
+        // set top offset in vertical layout group
+        optionsLayoutGroup.padding.top = (int)toolMargin;
+    }
+
+    private void Awake() => UpdateHeight();
+
+    private void Start()
+    {
+        if (!transform.parent.TryGetComponent(out Root))
         {
-            width = gridLayout.cellSize.x * Size;
-            height = (gridLayout.cellSize.y + gridLayout.spacing.y) * toolCount - gridLayout.spacing.y +
-                     gridLayout.cellSize.y * (Size - 1);
-
-            rt.sizeDelta = new(width, height);
+            throw new Exception(
+                "This tool optionbar does not have a tool as root\ntool optionbar is expected to be direct child of a tool"
+            );
         }
     }
 }

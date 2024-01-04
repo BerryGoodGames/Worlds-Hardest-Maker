@@ -2,7 +2,6 @@ using System;
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class TextManager : MonoBehaviour
 {
@@ -45,7 +44,7 @@ public class TextManager : MonoBehaviour
         }
 
         // set edit mode text ui
-        Instance.editModeText.text = $"Edit: {EditModeManager.Instance.CurrentEditMode.GetUIString()}";
+        Instance.editModeText.text = $"Edit: {EditModeManagerOther.Instance.CurrentEditMode.UIString}";
         Instance.selectingText.text = $"Selecting: {SelectionManager.Instance.Selecting}";
         Instance.deathText.text = $"Deaths: {playerDeaths}";
         Instance.coinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.TotalCoins}";

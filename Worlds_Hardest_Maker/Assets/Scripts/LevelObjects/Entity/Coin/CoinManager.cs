@@ -8,14 +8,14 @@ public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance { get; private set; }
 
-    [UsedImplicitly] public static readonly List<FieldType> CannotPlaceFields = new();
+    [UsedImplicitly] public static readonly List<FieldMode> CannotPlaceFields = new();
 
     [ReadOnly] public List<CoinController> Coins = new();
     public int TotalCoins => Coins.Count;
-    
+
     private static readonly int playing = Animator.StringToHash("Playing");
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
-    
+
     [PunRPC]
     public void RemoveCoin(Vector2 position)
     {
@@ -40,8 +40,8 @@ public class CoinManager : MonoBehaviour
 
     public static bool CanPlace(Vector2 position) =>
         // conditions: no coin there, doesn't intersect with any walls etc, no player there
-        !IsCoinThere(position) 
-        && !FieldManager.IntersectingAnyFieldsAtPos(position, CannotPlaceFields.ToArray()) 
+        !IsCoinThere(position)
+        && !FieldManager.IntersectingAnyFieldsAtPos(position, CannotPlaceFields.ToArray())
         && !PlayerManager.IsPlayerThere(position);
 
     public static CoinController SetCoin(Vector2 worldPosition)
@@ -55,7 +55,7 @@ public class CoinManager : MonoBehaviour
             ReferenceManager.Instance.CoinContainer
         );
 
-        coin.Animator.SetBool(playing, EditModeManager.Instance.Playing);
+        coin.Animator.SetBool(playing, EditModeManagerOther.Instance.Playing);
 
         return coin;
     }

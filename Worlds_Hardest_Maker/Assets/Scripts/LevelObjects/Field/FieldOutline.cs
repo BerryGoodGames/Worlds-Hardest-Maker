@@ -133,7 +133,6 @@ public class FieldOutline : MonoBehaviour
             if (updateNeighbor && outlineNeighbor != null) outlineNeighbor.UpdateOutline();
 
             if (!connectorTags.Contains(r.collider.tag)) continue;
-            // if (!r.collider.CompareTag(gameObject.tag)) continue;
 
             return true;
         }
