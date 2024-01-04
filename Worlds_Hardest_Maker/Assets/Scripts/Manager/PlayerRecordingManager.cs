@@ -48,7 +48,7 @@ public class PlayerRecordingManager : MonoBehaviour
         if (player is null) yield break;
         
         // save positions of player
-        while (!EditModeManager.Instance.Editing)
+        while (!EditModeManagerOther.Instance.Editing)
         {
             recordedPositions.Add(player.position);
 
