@@ -10,26 +10,6 @@ public class KeyEvents : MonoBehaviour
 {
     private KeyCode[] prevHeldDownKeys = Array.Empty<KeyCode>();
 
-    // private static readonly Dictionary<string, EditMode> keyboardShortcuts = new()
-    // {
-    //     { "EditMode_Delete", EditModeManager.Delete },
-    //     { "EditMode_Wall", EditModeManager.Wall },
-    //     { "EditMode_Start", EditModeManager.Start },
-    //     { "EditMode_Goal", EditModeManager.Goal },
-    //     { "EditMode_OneWayGate", EditModeManager.OneWay },
-    //     { "EditMode_Water", EditModeManager.Water },
-    //     { "EditMode_Ice", EditModeManager.Ice },
-    //     { "EditMode_Void", EditModeManager.Void },
-    //     { "EditMode_Player", EditModeManager.Player },
-    //     { "EditMode_Coin", EditModeManager.Coin },
-    //     { "EditMode_GrayKey", EditModeManager.GrayKey },
-    //     { "EditMode_RedKey", EditModeManager.RedKey },
-    //     { "EditMode_GreenKey", EditModeManager.GreenKey },
-    //     { "EditMode_BlueKey", EditModeManager.BlueKey },
-    //     { "EditMode_YellowKey", EditModeManager.YellowKey },
-    //     { "EditMode_Checkpoint", EditModeManager.Checkpoint },
-    // };
-
     private void Update()
     {
         if (CheckKeyBindAddition()) return;
@@ -37,7 +17,6 @@ public class KeyEvents : MonoBehaviour
         // pick object
         if (KeyBinds.GetKeyBindDown("Editor_Pick"))
         {
-            print("sex2");
             PickManager.PickObject(MouseManager.Instance.MouseWorldPos);
         }
         
@@ -75,7 +54,6 @@ public class KeyEvents : MonoBehaviour
     private static void CheckEditModeRotation()
     {
         // rotate if current edit mode is field and rotatable
-        // FieldMode? fieldType = (FieldMode?)EditModeManagerOther.Instance.CurrentEditMode.TryConvertTo<EditMode, FieldMode>();
         EditMode currentEditMode = EditModeManagerOther.Instance.CurrentEditMode;
 
         if (!currentEditMode.Attributes.IsField 

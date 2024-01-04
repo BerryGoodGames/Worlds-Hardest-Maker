@@ -79,31 +79,7 @@ public class AnchorBallManager : MonoBehaviour
 
         return null;
     }
-    //
-    // #endregion
-    //
-    // #region Remove
-    //
-    // [PunRPC]
-    // public void RemoveAnchorBall(Vector2 position)
-    // {
-    //     AnchorBallListGlobal.ForEach(CheckAnchorBall);
-    //
-    //     foreach (KeyValuePair<AnchorController, List<AnchorBallController>> anchorBallListPair in AnchorBallListLayers)
-    //     {
-    //         anchorBallListPair.Value.ForEach(CheckAnchorBall);
-    //     }
-    //
-    //     return;
-    //
-    //     void CheckAnchorBall(AnchorBallController ball)
-    //     {
-    //         if ((Vector2)ball.transform.position != position) return;
-    //
-    //         Destroy(ball.gameObject);
-    //     }
-    // }
-
+    
     #endregion
 
     public static void SelectAnchorBall(Vector2 position)

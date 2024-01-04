@@ -22,18 +22,6 @@ public class SelectionManager : MonoBehaviour
 
     public static SelectionManager Instance { get; private set; }
 
-    // public static readonly List<EditMode> NoFillPreviewModes = new(
-    //     new[]
-    //     {
-    //         EditModeManager.GrayKey,
-    //         EditModeManager.RedKey,
-    //         EditModeManager.BlueKey,
-    //         EditModeManager.GreenKey,
-    //         EditModeManager.YellowKey,
-    //         EditModeManager.Player,
-    //     }
-    // );
-
     private Vector2 prevStart;
     private Vector2 prevEnd;
     public static Vector2? SelectionStart;
@@ -235,7 +223,6 @@ public class SelectionManager : MonoBehaviour
     public static List<Vector2> GetCurrentFillRange()
     {
         if (SelectionStart == null || SelectionEnd == null) return null;
-        // print((SelectionStart, SelectionEnd));
         return GetFillRange((Vector2)SelectionStart, (Vector2)SelectionEnd);
     }
 

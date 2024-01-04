@@ -23,7 +23,6 @@ public class TMPDecimalInputAdjuster : MonoBehaviour
 
         if (forbidNegative)
         {
-            // input = input.Replace("-", "");
             inputFloat = MathF.Abs(inputFloat);
         }
 

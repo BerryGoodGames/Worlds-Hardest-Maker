@@ -39,10 +39,6 @@ public class AnchorData : Data
         List<AnchorBallController> anchorBalls = AnchorBallManager.Instance.AnchorBallListLayers[controller];
         balls = new AnchorBallData[anchorBalls.Count];
         for (int i = 0; i < balls.Length; i++) balls[i] = (AnchorBallData)anchorBalls[i].GetData();
-        // for (int i = 0; i < controller.Balls.Count; i++)
-        // {
-        //     balls[i] = new(controller.Balls[i].GetChild(0).localPosition);
-        // }
     }
 
     private void SaveBlocks(AnchorController controller)

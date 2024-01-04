@@ -8,33 +8,6 @@ public class KeyManager : MonoBehaviour
 {
     public static KeyManager Instance { get; private set; }
 
-    // public enum KeyColor
-    // {
-    //     Gray,
-    //     Red,
-    //     Green,
-    //     Blue,
-    //     Yellow,
-    // }
-
-    // public static readonly List<EditMode> KeyModes = new()
-    // {
-    //     EditModeManager.GrayKey,
-    //     EditModeManager.RedKey,
-    //     EditModeManager.BlueKey,
-    //     EditModeManager.GreenKey,
-    //     EditModeManager.YellowKey,
-    // };
-
-    // public static readonly List<EditMode> KeyDoorModes = new()
-    // {
-    //     EditModeManager.GrayKeyDoor,
-    //     EditModeManager.RedKeyDoor,
-    //     EditModeManager.BlueKeyDoor,
-    //     EditModeManager.GreenKeyDoor,
-    //     EditModeManager.YellowKeyDoor,
-    // };
-
     [UsedImplicitly] public static readonly List<FieldMode> CannotPlaceFields = new();
 
     private static readonly int playing = Animator.StringToHash("Playing");
@@ -104,10 +77,6 @@ public class KeyManager : MonoBehaviour
     }
 
     public static bool IsKeyThere(Vector2 position) => GetKey(position) != null;
-
-    // public static bool IsKeyDoorEditMode(EditMode mode) => KeyDoorModes.Contains(mode);
-    //
-    // public static bool IsKeyEditMode(EditMode mode) => KeyModes.Contains(mode);
 
     private void Awake()
     {

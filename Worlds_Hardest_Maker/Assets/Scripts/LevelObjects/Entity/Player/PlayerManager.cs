@@ -6,15 +6,6 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance { get; private set; }
-
-    // list of fields which are safe for player
-    // public static readonly List<FieldMode> SafeFields = new(new FieldMode[] { });
-
-    // public static readonly List<FieldMode> StartFields = new()
-    // {
-    //     EditModeManager.Start,
-    //     EditModeManager.Goal,
-    // };
     
     public event Action OnWin;
     
@@ -49,29 +40,7 @@ public class PlayerManager : MonoBehaviour
         GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.CoinContainer);
         GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.KeyContainer);
 
-        // clear all players (only from this client tho)
-        // if (MultiplayerManager.Instance.Multiplayer)
-        // {
-        //     foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
-        //     {
-        //         PlayerController p = player.GetComponent<PlayerController>();
-        //         PhotonView view = player.GetComponent<PhotonView>();
-        //
-        //         // check if player is from own client
-        //         if (!view.IsMine) continue;
-        //
-        //         Vector2 playerPos = p.transform.position;
-        //
-        //         // remove player
-        //         GameManager.Instance.photonView.RPC(
-        //             "RemovePlayerAtPosOnlyOtherClients", RpcTarget.Others, playerPos.x,
-        //             playerPos.y
-        //         );
-        //
-        //         RemovePlayerAtPosIgnoreOtherClients(playerPos);
-        //     }
-        // }
-        // else 
+        // clear all players
         RemoveAllPlayers();
         
         // place player
@@ -188,7 +157,6 @@ public class PlayerManager : MonoBehaviour
         if (MultiplayerManager.Instance.Multiplayer) return GetClientPlayer();
 
         // getting the one player in single player
-        // Transform container = ReferenceManager.Instance.PlayerContainer;
         List<PlayerController> players = GetPlayers();
         if (players.Count > 1)
         {
@@ -199,8 +167,6 @@ public class PlayerManager : MonoBehaviour
 
         return players.Count == 0 ? null : players[0];
     }
-
-    // public static GameObject GetPlayer(int id) => PlayerIDList()[id];
 
     public static bool IsPlayerThere(Vector2 position) => GetPlayer(position) != null;
 

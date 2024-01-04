@@ -114,7 +114,6 @@ public class DrawManager : MonoBehaviour
         line.sortingOrder = OrderInLayer;
         line.sortingLayerID = LayerID;
         line.positionCount = 2;
-        // line.numCapVertices = 0;
 
         line.SetPosition(0, point1);
         line.SetPosition(1, point2);

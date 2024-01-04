@@ -28,8 +28,6 @@ public class GraphicsSettings : MonoBehaviour
     {
         QualitySettings.SetQualityLevel(index);
 
-        print("s");
-
         Instance.QualityLevel = index;
 
         if (!updateDropdown) return;
@@ -41,7 +39,6 @@ public class GraphicsSettings : MonoBehaviour
 
     public void Fullscreen(bool fullscreen, bool updateToggle) => Screen.fullScreen = fullscreen;
 
-    // if (!updateToggle) return;
     public void Fullscreen(bool fullscreen) => Fullscreen(fullscreen, false);
 
 

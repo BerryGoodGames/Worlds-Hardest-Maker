@@ -61,8 +61,6 @@ public class AnchorBlockPreviewController : MonoBehaviour
 
     private void Update()
     {
-        // if (!AnchorBlockManager.Instance.DraggingBlock && gameObject.activeSelf) Deactivate();
-
         if (AnchorBlockManager.IsPreviewHovered && AnchorBlockManager.Instance.HoveredBlockIndex == -1)
         {
             // correct mistake of overriding index to -1

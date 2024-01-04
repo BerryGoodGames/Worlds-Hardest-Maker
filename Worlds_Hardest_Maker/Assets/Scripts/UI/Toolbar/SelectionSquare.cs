@@ -16,20 +16,6 @@ public class SelectionSquare : MonoBehaviour
         image = GetComponent<Image>();
     }
 
-    private void Start()
-    {
-        Transform t = transform;
-        
-        Transform optionContainer = t.parent.parent;
-        RectTransform rt = (RectTransform)t;
-        
-        bool inOptionbar = optionContainer.CompareTag("OptionContainer");
-        
-        // rt.sizeDelta = inOptionbar
-        //     ? ((RectTransform)optionContainer).rect.size * 1.25f
-        //     : GetComponentInParent<RectTransform>().rect.size;
-    }
-
     public void SetSelected(bool selected) => image.sprite = selected ? selectedSprite : deselectedSprite;
 
     public void SetSubSelected(bool subSelected) => image.sprite = subSelected ? subSelectedSprite : image.sprite;
