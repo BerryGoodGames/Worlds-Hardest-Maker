@@ -87,4 +87,9 @@ public class PlayerRecordingManager : MonoBehaviour
 
         lineRenderer.positionCount = 0;
     }
+
+    public void ToggleVisibility()
+    {
+        recordingContainer.gameObject.SetActive(!recordingContainer.gameObject.activeSelf);
+    }
 }
