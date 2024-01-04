@@ -50,6 +50,7 @@ public class EditModeManagerOther : MonoBehaviour
     }
 
     [field: SerializeField] [field: ReadOnly] public bool Editing { get; set; }
+
     public bool Playing
     {
         get => !Editing;
@@ -61,7 +62,7 @@ public class EditModeManagerOther : MonoBehaviour
     public int EditRotation
     {
         get => editRotation;
-        set 
+        set
         {
             editRotation = value;
             ReferenceManager.Instance.PlacementPreview.UpdateRotation();

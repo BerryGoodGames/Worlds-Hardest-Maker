@@ -2,7 +2,8 @@ using System;
 
 public static class EnumExtensions
 {
-    public static TEnumTo ConvertTo<TEnumFrom, TEnumTo>(this TEnumFrom e) where TEnumFrom : Enum where TEnumTo : Enum => (TEnumTo)Enum.Parse(typeof(TEnumTo), e.ToString());
+    public static TEnumTo ConvertTo<TEnumFrom, TEnumTo>(this TEnumFrom e) where TEnumFrom : Enum where TEnumTo : Enum =>
+        (TEnumTo)Enum.Parse(typeof(TEnumTo), e.ToString());
 
     public static object TryConvertTo<TEnumFrom, TEnumTo>(this TEnumFrom e) where TEnumFrom : Enum where TEnumTo : Enum
     {

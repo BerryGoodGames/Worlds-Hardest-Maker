@@ -1,4 +1,3 @@
-using System;
 using MyBox;
 using UnityEngine;
 
@@ -15,21 +14,16 @@ public class KeyController : EntityController
 
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
 
-    public override EditMode EditMode
-    {
-        get
+    public override EditMode EditMode =>
+        Color switch
         {
-            return Color switch
-            {
-                KeyColor.Gray => EditModeManager.GrayKey,
-                KeyColor.Red => EditModeManager.RedKey,
-                KeyColor.Green => EditModeManager.GreenKey,
-                KeyColor.Blue => EditModeManager.BlueKey,
-                KeyColor.Yellow => EditModeManager.YellowKey,
-                _ => throw new("There is no edit mode assigned for color " + Color),
-            };
-        }
-    }
+            KeyColor.Gray => EditModeManager.GrayKey,
+            KeyColor.Red => EditModeManager.RedKey,
+            KeyColor.Green => EditModeManager.GreenKey,
+            KeyColor.Blue => EditModeManager.BlueKey,
+            KeyColor.Yellow => EditModeManager.YellowKey,
+            _ => throw new("There is no edit mode assigned for color " + Color),
+        };
 
     private void Awake()
     {

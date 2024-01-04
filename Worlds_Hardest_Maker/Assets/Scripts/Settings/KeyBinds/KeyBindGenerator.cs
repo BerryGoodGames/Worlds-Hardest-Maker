@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class KeyBindGenerator : MonoBehaviour
 {
@@ -11,10 +10,10 @@ public class KeyBindGenerator : MonoBehaviour
 
     private void Start()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         // change ctrl to shift in unity editor because of conflicts with the uniteh editor
         KeyBinds.ReplaceKeyCode(KeyCode.LeftControl, KeyCode.Tab);
-        #endif
+#endif
         GenerateKeyBindSetters();
     }
 

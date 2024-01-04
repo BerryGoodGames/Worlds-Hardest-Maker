@@ -88,9 +88,9 @@ public class PreviewController : MonoBehaviour
     /// <param name="mode">edit mode which needs to be checked</param>
     private bool CheckVisibility(EditMode mode)
     {
-        if (MouseManager.Instance.IsUIHovered 
-            || KeyBinds.GetKeyBind("Editor_MoveEntity") 
-            || KeyBinds.GetKeyBind("Editor_Modify") 
+        if (MouseManager.Instance.IsUIHovered
+            || KeyBinds.GetKeyBind("Editor_MoveEntity")
+            || KeyBinds.GetKeyBind("Editor_Modify")
             || KeyBinds.GetKeyBind("Editor_DeleteEntity")
             || AnchorBlockManager.Instance.DraggingBlock
             || CopyManager.Instance.Pasting
@@ -98,9 +98,8 @@ public class PreviewController : MonoBehaviour
 
         // check if preview of edit mode is not allowed during filling
         if (SelectionManager.Instance.Selecting)
-        {
-            if (!mode.ShowFillPreview) return false;
-        }
+            if (!mode.ShowFillPreview)
+                return false;
 
         Vector2 mousePos = followMouseComp.WorldPosition switch
         {
@@ -108,10 +107,10 @@ public class PreviewController : MonoBehaviour
             WorldPositionType.Grid => MouseManager.Instance.MouseWorldPosGrid,
             _ => MouseManager.Instance.MouseWorldPosMatrix,
         };
-        
+
         // check coin placement
         if (mode == EditModeManager.Coin) return CoinManager.CanPlace(mousePos);
-        
+
         // check key placement
         if (mode.Attributes.IsKey) return KeyManager.CanPlace(mousePos);
 

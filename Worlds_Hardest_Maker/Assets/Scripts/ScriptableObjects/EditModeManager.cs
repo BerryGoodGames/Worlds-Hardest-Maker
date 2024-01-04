@@ -6,7 +6,7 @@ using UnityEngine;
 public class EditModeManager : MonoBehaviour
 {
     public static EditModeManager Instance { get; private set; }
-    
+
     [InitializationField] [MustBeAssigned] public DeleteMode DeleteMode;
     [InitializationField] [MustBeAssigned] public FieldMode WallMode;
     [InitializationField] [MustBeAssigned] public FieldMode StartMode;
@@ -31,7 +31,7 @@ public class EditModeManager : MonoBehaviour
     [InitializationField] [MustBeAssigned] public KeyMode GreenKeyMode;
     [InitializationField] [MustBeAssigned] public KeyMode BlueKeyMode;
     [InitializationField] [MustBeAssigned] public KeyMode YellowKeyMode;
-    
+
     public static DeleteMode Delete => Instance.DeleteMode;
     public static FieldMode Wall => Instance.WallMode;
     public static FieldMode Start => Instance.StartMode;
@@ -64,7 +64,7 @@ public class EditModeManager : MonoBehaviour
     private void Awake()
     {
         if (Instance != null) return;
-        
+
         Instance = this;
         AllEditModes = new()
         {
@@ -80,13 +80,13 @@ public class EditModeManager : MonoBehaviour
             Coin,
             GrayKey, RedKey, GreenKey, BlueKey, YellowKey,
         };
-        
+
         // cache AllFieldModes
         AllFieldModes = AllEditModes
             .Where(editMode => editMode.Attributes.IsField)
             .OfType<FieldMode>()
             .ToList();
-        
+
         // cache AllPlayerStartFieldModes
         AllPlayerStartFieldModes = AllFieldModes
             .Where(fieldMode => fieldMode.IsStartFieldForPlayer)

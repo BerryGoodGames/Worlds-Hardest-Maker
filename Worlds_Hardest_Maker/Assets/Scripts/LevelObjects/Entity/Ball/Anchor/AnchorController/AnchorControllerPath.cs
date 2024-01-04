@@ -63,9 +63,13 @@ public partial class AnchorController
         }
     }
 
-    private void ParseBlockForPath(ref AnchorBlock anchorBlock, int index, bool[] hasRendered, List<(Vector2, Vector2)> lineList, ref Vector2 previousVertex, ref bool isFirstPositionBlockAfterLoop, ref int loopIndex)
+    private void ParseBlockForPath(
+        ref AnchorBlock anchorBlock, int index, bool[] hasRendered, List<(Vector2, Vector2)> lineList, ref Vector2 previousVertex,
+        ref bool isFirstPositionBlockAfterLoop, ref int loopIndex
+    )
     {
-        if (anchorBlock is PositionAnchorBlock positionAnchorBlock) ParsePositionBlockForPath(ref positionAnchorBlock, index, hasRendered, lineList, ref previousVertex, ref isFirstPositionBlockAfterLoop);
+        if (anchorBlock is PositionAnchorBlock positionAnchorBlock)
+            ParsePositionBlockForPath(ref positionAnchorBlock, index, hasRendered, lineList, ref previousVertex, ref isFirstPositionBlockAfterLoop);
 
         // track loop index if LoopBlock
         else if (anchorBlock.ImplementedBlockType is AnchorBlock.Type.Loop)
@@ -75,7 +79,10 @@ public partial class AnchorController
         }
     }
 
-    private void ParsePositionBlockForPath(ref PositionAnchorBlock positionAnchorBlock, int index, bool[] hasRendered, List<(Vector2, Vector2)> lineList, ref Vector2 previousVertex, ref bool isFirstPositionBlockAfterLoop)
+    private void ParsePositionBlockForPath(
+        ref PositionAnchorBlock positionAnchorBlock, int index, bool[] hasRendered, List<(Vector2, Vector2)> lineList, ref Vector2 previousVertex,
+        ref bool isFirstPositionBlockAfterLoop
+    )
     {
         // add new target to array if MoveBlock or MoveAndRotateBlock
         Vector2 currentVertex = positionAnchorBlock.TargetAbsolute;
@@ -85,14 +92,18 @@ public partial class AnchorController
 
         // setup line, check if line already rendered
         if (!hasRendered[index] || !lineList.Contains((previousVertex, currentVertex)) ||
-            isFirstPositionBlockAfterLoop) SetupLine(ref positionAnchorBlock, ref controller, ref currentVertex, in previousVertex, lineList, hasRendered, index);
+            isFirstPositionBlockAfterLoop)
+            SetupLine(ref positionAnchorBlock, ref controller, ref currentVertex, in previousVertex, lineList, hasRendered, index);
 
         previousVertex = currentVertex;
 
         isFirstPositionBlockAfterLoop = false;
     }
 
-    private void SetupLine(ref PositionAnchorBlock positionAnchorBlock, ref PositionAnchorBlockController controller, ref Vector2 currentVertex, in Vector2 previousVertex, List<(Vector2, Vector2)> lineList, bool[] hasRendered, int index)
+    private void SetupLine(
+        ref PositionAnchorBlock positionAnchorBlock, ref PositionAnchorBlockController controller, ref Vector2 currentVertex,
+        in Vector2 previousVertex, List<(Vector2, Vector2)> lineList, bool[] hasRendered, int index
+    )
     {
         AnchorPathLine line = Instantiate(
             PrefabManager.Instance.AnchorPathLine, Vector2.zero,

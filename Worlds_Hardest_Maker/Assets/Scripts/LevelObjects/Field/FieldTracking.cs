@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 /// <summary>
@@ -7,7 +6,7 @@ using UnityEngine;
 public class FieldTracking : MonoBehaviour
 {
     private FieldController controller;
-    
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject collider = collision.gameObject;

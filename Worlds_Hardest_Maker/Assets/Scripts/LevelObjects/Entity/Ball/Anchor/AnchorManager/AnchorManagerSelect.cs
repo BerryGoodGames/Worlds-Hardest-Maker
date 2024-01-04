@@ -81,13 +81,13 @@ public partial class AnchorManager
             PanelManager.Instance.SetPanelOpen(levelSettingsPanel, true);
         }
     }
-    
+
     private static void CheckAnchorSelection()
     {
         // select anchor
         if (!Input.GetMouseButtonDown(0) || !KeyBinds.GetKeyBind("Editor_Modify")) return;
-        
-        AnchorManager.Instance.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
+
+        Instance.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
         AnchorBallManager.SelectAnchorBall(MouseManager.Instance.MouseWorldPosGrid);
     }
 }

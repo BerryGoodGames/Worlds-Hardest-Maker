@@ -288,7 +288,7 @@ public class SelectionManager : MonoBehaviour
 
             if (player != null && player.transform.position.IsBetween(lowest.ToVector2(), highest.ToVector2())) Destroy(player.gameObject);
         }
-        
+
         UpdateOutlinesInArea(mode.HasOutline, lowest, highest);
     }
 

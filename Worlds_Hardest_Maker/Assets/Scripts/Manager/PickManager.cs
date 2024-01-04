@@ -18,11 +18,8 @@ public class PickManager : MonoBehaviour
 
         if (hits.Length <= 0) return;
 
-        if (!hits[0].TryGetComponent(out EntityController entity))
-        {
-            throw new("Object that was tried to pick from is not an entity");
-        }
-        
+        if (!hits[0].TryGetComponent(out EntityController entity)) throw new("Object that was tried to pick from is not an entity");
+
         EditModeManagerOther.Instance.CurrentEditMode = entity.EditMode;
     }
 }

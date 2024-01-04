@@ -6,8 +6,9 @@ public static class FieldModeExtension
         {
             if (tag.Equals(fieldMode.Tag)) return fieldMode;
         }
+
         return null;
     }
-    
+
     public static bool IsSolidFieldTag(this string tag) => tag.GetFieldMode().IsSolid;
 }

@@ -2,7 +2,6 @@ using System;
 using MyBox;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Serialization;
 
 public class AudioManager : MonoBehaviour
 {
@@ -34,6 +33,7 @@ public class AudioManager : MonoBehaviour
 
         sound.Play();
     }
+
     public void Play(PlaceManager.PlaceSfx sfx)
     {
         Sound sound = Array.Find(sounds, sound => sound.Name == sfx.Sound);
@@ -49,7 +49,7 @@ public class AudioManager : MonoBehaviour
             sound.Play(sfx.PitchDeviation);
             return;
         }
-        
+
         sound.Play();
     }
 

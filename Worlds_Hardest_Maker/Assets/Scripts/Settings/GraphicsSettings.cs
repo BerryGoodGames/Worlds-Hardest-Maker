@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class GraphicsSettings : MonoBehaviour
 {

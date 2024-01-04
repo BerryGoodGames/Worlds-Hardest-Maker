@@ -6,9 +6,9 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance { get; private set; }
-    
+
     public event Action OnWin;
-    
+
     public void InvokeOnWin() => OnWin?.Invoke();
 
     #region Set player
@@ -16,12 +16,12 @@ public class PlayerManager : MonoBehaviour
     public PlayerController SetPlayer(Vector2 position, float speed, bool placeStartField = false)
     {
         if (IsPlayerThere(position)) return null;
-        
+
         // TODO: improve
         if (!CanPlace(position))
         {
             if (!placeStartField) return null;
-            
+
             Vector2Int[] checkPoses =
             {
                 Vector2Int.FloorToInt(position),
@@ -30,10 +30,7 @@ public class PlayerManager : MonoBehaviour
                 Vector2Int.CeilToInt(position),
             };
 
-            foreach (Vector2Int checkPosition in checkPoses)
-            {
-                FieldManager.Instance.SetField(checkPosition, EditModeManager.Start);
-            }
+            foreach (Vector2Int checkPosition in checkPoses) { FieldManager.Instance.SetField(checkPosition, EditModeManager.Start); }
         }
 
         // clear area from coins and keys
@@ -42,7 +39,7 @@ public class PlayerManager : MonoBehaviour
 
         // clear all players
         RemoveAllPlayers();
-        
+
         // place player
         PlayerController newPlayer = InstantiatePlayer(position, speed, MultiplayerManager.Instance.Multiplayer);
 
@@ -136,7 +133,7 @@ public class PlayerManager : MonoBehaviour
             // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
             else Debug.LogWarning("Could not find PlayerController component in player");
         }
-        
+
         return players;
     }
 
@@ -209,7 +206,7 @@ public class PlayerManager : MonoBehaviour
                 PrefabManager.Instance.Player, position, Quaternion.identity,
                 ReferenceManager.Instance.PlayerContainer
             );
-            
+
             newPlayer.SetSpeed(speed);
         }
 
@@ -225,7 +222,7 @@ public class PlayerManager : MonoBehaviour
     public void ResetStates()
     {
         List<PlayerController> players = GetPlayers();
-        
+
         // reset players
         foreach (PlayerController player in players)
         {

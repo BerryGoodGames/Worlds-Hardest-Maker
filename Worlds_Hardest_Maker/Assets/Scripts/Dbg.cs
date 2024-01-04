@@ -82,15 +82,12 @@ public class Dbg : MonoBehaviour
                 DbgTextMode.PlayerPosition => (Vector2)PlayerManager.GetPlayer().transform.position,
                 DbgTextMode.MousePositionUnits => (Vector2)cam.ScreenToWorldPoint(Input.mousePosition),
                 DbgTextMode.MousePositionPixels => (Vector2)Input.mousePosition,
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new ArgumentOutOfRangeException(),
             };
-        
+
             Text(message);
         }
-        catch (Exception)
-        {
-            Text("-");
-        }
+        catch (Exception) { Text("-"); }
     }
 
     [UsedImplicitly]
@@ -117,5 +114,4 @@ public class Dbg : MonoBehaviour
         PlayerPrefs.DeleteAll();
         print("Deleted Player Preferences");
     }
-    
 }

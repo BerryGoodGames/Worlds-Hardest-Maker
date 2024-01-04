@@ -4,7 +4,7 @@ using UnityEngine;
 public class Tool : MonoBehaviour
 {
     [InitializationField] [MustBeAssigned] public EditMode ToolEditMode;
-    
+
     [Separator] [OverrideLabel("Fade Tween")] [SerializeField] private AlphaTween anim;
     [SerializeField] private SelectionSquare selectionSquare;
 
@@ -14,15 +14,9 @@ public class Tool : MonoBehaviour
 
     public MouseOverUIRect MouseOverUIRect { get; private set; }
 
-    private void Awake()
-    {
-        InOptionbar = transform.parent.CompareTag("OptionContainer");
-    }
+    private void Awake() => InOptionbar = transform.parent.CompareTag("OptionContainer");
 
-    private void Start()
-    {
-        MouseOverUIRect = GetComponent<MouseOverUIRect>();
-    }
+    private void Start() => MouseOverUIRect = GetComponent<MouseOverUIRect>();
 
     public void SwitchGameMode(bool setEditModeVariable)
     {
@@ -49,8 +43,5 @@ public class Tool : MonoBehaviour
 
     public void SubSelected(bool subselected) => selectionSquare.SetSubSelected(subselected);
 
-    private void Update()
-    {
-        anim.SetVisible(IsSelected || (MouseOverUIRect.Over && !ReferenceManager.Instance.Menu.activeSelf));
-    }
+    private void Update() => anim.SetVisible(IsSelected || (MouseOverUIRect.Over && !ReferenceManager.Instance.Menu.activeSelf));
 }

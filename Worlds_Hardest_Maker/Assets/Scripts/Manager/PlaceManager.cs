@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlaceManager : MonoBehaviour
 {
     public static PlaceManager Instance { get; private set; }
-    
+
     [SerializeField] private string defaultPlaceSfx = "Place";
     [SerializeField] [PositiveValueOnly] private float defaultPlaceSfxPitchDeviation;
     [SerializeField] private PlaceSfx[] customPlaceSfx;
@@ -14,7 +14,7 @@ public class PlaceManager : MonoBehaviour
     [SerializeField] private PlaceSfx konamiPlaceSfx;
 
     /// <summary>
-    /// Places edit mode at position
+    ///     Places edit mode at position
     /// </summary>
     /// <param name="editMode">the type of field/entity you want</param>
     /// <param name="position">position of the field/entity</param>
@@ -23,7 +23,7 @@ public class PlaceManager : MonoBehaviour
     public void Place(EditMode editMode, Vector2 position, int rotation = 0, bool playSound = false)
     {
         if (AnchorBlockManager.Instance.DraggingBlock) return;
-        
+
         Vector2 gridPosition = position.ConvertToGrid();
         Vector2Int matrixPosition = position.ConvertToMatrix();
 
@@ -34,29 +34,29 @@ public class PlaceManager : MonoBehaviour
             FieldManager.Instance.PlaceField(type, rotation, playSound, matrixPosition);
             return;
         }
-        
+
         // TODO: fix complexity by putting set methods in abstract class and make a general method to get the abstract classes
         if (editMode ==
             // check field deletion
             EditModeManager.Delete)
         {
             // delete field
-            if (FieldManager.Instance.RemoveField(matrixPosition, true) && playSound) { AudioManager.Instance.Play(GetSfx(editMode)); }
+            if (FieldManager.Instance.RemoveField(matrixPosition, true) && playSound) AudioManager.Instance.Play(GetSfx(editMode));
 
             // remove player if at deleted pos
             PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixPosition);
         }
         else if (editMode == EditModeManager.Player)
         {
-            if (PlayerManager.Instance.SetPlayer(gridPosition, true) is not null && playSound) { AudioManager.Instance.Play(GetSfx(editMode)); }
+            if (PlayerManager.Instance.SetPlayer(gridPosition, true) is not null && playSound) AudioManager.Instance.Play(GetSfx(editMode));
         }
         else if (editMode == EditModeManager.AnchorBall)
         {
-            if (AnchorBallManager.SetAnchorBall(gridPosition) is not null && playSound) { AudioManager.Instance.Play(GetSfx(editMode)); }
+            if (AnchorBallManager.SetAnchorBall(gridPosition) is not null && playSound) AudioManager.Instance.Play(GetSfx(editMode));
         }
         else if (editMode == EditModeManager.Coin)
         {
-            if (CoinManager.SetCoin(gridPosition) is not null && playSound) { AudioManager.Instance.Play(GetSfx(editMode)); }
+            if (CoinManager.SetCoin(gridPosition) is not null && playSound) AudioManager.Instance.Play(GetSfx(editMode));
         }
         else if (editMode == EditModeManager.Anchor)
         {
@@ -74,17 +74,17 @@ public class PlaceManager : MonoBehaviour
             KeyColor keyColor = ((KeyMode)editMode).KeyColor;
 
             // place key
-            if (KeyManager.Instance.SetKey(gridPosition, keyColor) is not null && playSound) { AudioManager.Instance.Play(GetSfx(editMode)); }
+            if (KeyManager.Instance.SetKey(gridPosition, keyColor) is not null && playSound) AudioManager.Instance.Play(GetSfx(editMode));
         }
     }
 
     public void PlacePath(EditMode editMode, Vector2 start, Vector2 end, int rotation = 0, bool playSound = false)
     {
-        if(playSound) AudioManager.Instance.Play(GetSfx(editMode));
+        if (playSound) AudioManager.Instance.Play(GetSfx(editMode));
 
         LineForEach(start, end, pos => Place(editMode, pos, rotation));
     }
-    
+
     public static void RemoveEntitiesAt(Vector2 position, LayerMask entityLayer)
     {
         Collider2D[] hits = Physics2D.OverlapPointAll(position, entityLayer);
@@ -111,7 +111,7 @@ public class PlaceManager : MonoBehaviour
         while (cmpt >= 0)
         {
             action.Invoke(current);
-            
+
             cmpt -= 1;
 
             if (error >= 0 || delta.x > delta.y) current.x += increment.x;
@@ -124,11 +124,8 @@ public class PlaceManager : MonoBehaviour
     public PlaceSfx GetSfx(EditMode editMode)
     {
         // konami troll sfx haha (but leave delete sfx as it is)
-        if (KonamiManager.Instance.KonamiActive)
-        {
-            return editMode == EditModeManager.Delete ? konamiDeleteSfx : konamiPlaceSfx;
-        }
-        
+        if (KonamiManager.Instance.KonamiActive) return editMode == EditModeManager.Delete ? konamiDeleteSfx : konamiPlaceSfx;
+
         PlaceSfx sfx = new(EditModeManager.Void, defaultPlaceSfx)
         {
             PitchRandomization = true,
@@ -138,7 +135,7 @@ public class PlaceManager : MonoBehaviour
         foreach (PlaceSfx placeSfx in customPlaceSfx)
         {
             if (placeSfx.Mode != editMode) continue;
-            
+
             sfx = placeSfx;
             break;
         }
@@ -154,7 +151,7 @@ public class PlaceManager : MonoBehaviour
 
     [Serializable]
     public struct PlaceSfx
-    {   
+    {
         [SerializeField] public EditMode Mode;
         [SerializeField] public string Sound;
         [SerializeField] public bool PitchRandomization;
@@ -167,7 +164,7 @@ public class PlaceManager : MonoBehaviour
             PitchRandomization = false;
             PitchDeviation = 0;
         }
-        
+
         public PlaceSfx(EditMode mode, string sound, bool pitchRandomization, float pitchDeviation)
         {
             Mode = mode;
@@ -177,4 +174,3 @@ public class PlaceManager : MonoBehaviour
         }
     }
 }
-

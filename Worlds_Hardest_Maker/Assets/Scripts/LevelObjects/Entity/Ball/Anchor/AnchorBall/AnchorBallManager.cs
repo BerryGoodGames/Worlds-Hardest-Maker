@@ -18,14 +18,14 @@ public class AnchorBallManager : MonoBehaviour
         if (GetAnchorBall(pos, parentAnchor) != null) return null;
 
         bool hasParent = parentAnchor != null;
-        
+
         // assign container
         Transform container = hasParent ? parentAnchor.BallContainer : ReferenceManager.Instance.AnchorBallContainer.transform;
-        
+
         // instantiate
         GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, container.position, Quaternion.identity, container);
         AnchorBallController ballController = ball.GetComponentInChildren<AnchorBallController>();
-        
+
         // setup parent
         if (hasParent)
         {
@@ -79,7 +79,7 @@ public class AnchorBallManager : MonoBehaviour
 
         return null;
     }
-    
+
     #endregion
 
     public static void SelectAnchorBall(Vector2 position)
@@ -88,7 +88,7 @@ public class AnchorBallManager : MonoBehaviour
         List<AnchorBallController> ballsAtPos = GetAnchorBalls(position);
 
         if (ballsAtPos.Count <= 0) return;
-        
+
         // get first ball at position and (de)select corresponding anchor
         foreach (AnchorBallController ball in ballsAtPos)
         {

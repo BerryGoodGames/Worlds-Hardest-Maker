@@ -64,5 +64,6 @@ public class CoinController : EntityController
         Animator.SetBool(pickedUpString, true);
         PickedUp = true;
     }
+
     public override Data GetData() => new CoinData(this);
 }

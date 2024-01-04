@@ -3,14 +3,13 @@ using System.Linq;
 using MyBox;
 using Photon.Pun;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 // class for global functions
 // no active activities
 public class FieldManager : MonoBehaviour
 {
     public static FieldManager Instance { get; private set; }
-    
+
     [Foldout("Field Scriptable Objects")] public FieldObject Wall;
     [Foldout("Field Scriptable Objects")] public FieldObject Start;
     [Foldout("Field Scriptable Objects")] public FieldObject Goal;
@@ -69,7 +68,7 @@ public class FieldManager : MonoBehaviour
     {
         FieldController fieldAtPosition = GetField(position);
         if (fieldAtPosition is not null && fieldAtPosition.FieldMode == mode) return null;
-        
+
         // remove any field at pos
         RemoveField(position, true);
 
@@ -94,17 +93,14 @@ public class FieldManager : MonoBehaviour
 
     [PunRPC]
     public void SetField(Vector2Int position, FieldMode mode) => SetField(position, mode, 0);
-    
+
     public void PlaceField(FieldMode mode, int rotation, bool playSound, Vector2Int matrixPosition)
     {
         // TODO: PlaceField vs. SetField??
-        
+
         if (!mode.IsRotatable) rotation = 0;
-        
-        if (SetField(matrixPosition, mode, rotation) is not null && playSound)
-        {
-            AudioManager.Instance.Play(PlaceManager.Instance.GetSfx(mode));
-        }
+
+        if (SetField(matrixPosition, mode, rotation) is not null && playSound) AudioManager.Instance.Play(PlaceManager.Instance.GetSfx(mode));
     }
 
     public static void ApplyStartGoalCheckpointFieldColor(GameObject field, bool? oneColor)
@@ -150,7 +146,7 @@ public class FieldManager : MonoBehaviour
                 prefab, pos, Quaternion.Euler(0, 0, rotation),
                 ReferenceManager.Instance.FieldContainer
             );
-        
+
         FieldController fieldController = res.GetComponent<FieldController>();
         fieldController.FieldMode = mode;
 

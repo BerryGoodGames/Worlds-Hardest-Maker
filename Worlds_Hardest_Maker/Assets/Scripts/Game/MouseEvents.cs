@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
@@ -32,7 +31,7 @@ public class MouseEvents : MonoBehaviour
         PhotonView photonView = GameManager.Instance.photonView;
         bool multiplayer = MultiplayerManager.Instance.Multiplayer;
         EditMode editMode = EditModeManagerOther.Instance.CurrentEditMode;
-        
+
         // place / delete stuff
         if (MouseManager.Instance.IsUIHovered
             || EditModeManagerOther.Instance.Playing
@@ -69,7 +68,7 @@ public class MouseEvents : MonoBehaviour
     private static void CheckClickPlacement(EditMode editMode)
     {
         if (editMode.IsDraggable) return;
-        
+
         PlaceManager.Instance.Place(editMode, MouseManager.Instance.MouseWorldPos, EditModeManagerOther.Instance.EditRotation, true);
     }
 
@@ -77,19 +76,22 @@ public class MouseEvents : MonoBehaviour
     {
         // check placement
         if (!editMode.IsDraggable) return;
-        
+
         if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) > 1.414f)
         {
-            PlaceManager.Instance.PlacePath(editMode, 
-                                        MouseManager.Instance.PrevMouseWorldPos, MouseManager.Instance.MouseWorldPos, 
-                                            EditModeManagerOther.Instance.EditRotation, true);
+            PlaceManager.Instance.PlacePath(
+                editMode,
+                MouseManager.Instance.PrevMouseWorldPos, MouseManager.Instance.MouseWorldPos,
+                EditModeManagerOther.Instance.EditRotation, true
+            );
         }
         else
         {
-            PlaceManager.Instance.Place(editMode, MouseManager.Instance.MouseWorldPos,
-                                        EditModeManagerOther.Instance.EditRotation, true);
+            PlaceManager.Instance.Place(
+                editMode, MouseManager.Instance.MouseWorldPos,
+                EditModeManagerOther.Instance.EditRotation, true
+            );
         }
-
     }
 
     private static void CheckEntityDelete(PhotonView photonView, bool multiplayer)

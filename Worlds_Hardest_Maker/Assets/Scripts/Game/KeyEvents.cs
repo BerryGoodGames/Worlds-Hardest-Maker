@@ -15,11 +15,8 @@ public class KeyEvents : MonoBehaviour
         if (CheckKeyBindAddition()) return;
 
         // pick object
-        if (KeyBinds.GetKeyBindDown("Editor_Pick"))
-        {
-            PickManager.PickObject(MouseManager.Instance.MouseWorldPos);
-        }
-        
+        if (KeyBinds.GetKeyBindDown("Editor_Pick")) PickManager.PickObject(MouseManager.Instance.MouseWorldPos);
+
         // toggle playing
         if (LevelSessionManager.Instance.IsEdit && KeyBinds.GetKeyBindDown("Editor_PlayLevel")) PlayManager.Instance.TogglePlay();
 
@@ -44,7 +41,7 @@ public class KeyEvents : MonoBehaviour
     {
         // keyboard shortcuts with ctrl
         if (EditModeManagerOther.Instance.Playing) return;
-        
+
         if (KeyBinds.GetKeyBindDown("Editor_SaveLevel")) SaveSystem.SaveCurrentLevel();
 
         // paste
@@ -56,10 +53,10 @@ public class KeyEvents : MonoBehaviour
         // rotate if current edit mode is field and rotatable
         EditMode currentEditMode = EditModeManagerOther.Instance.CurrentEditMode;
 
-        if (!currentEditMode.Attributes.IsField 
-            || !((FieldMode)currentEditMode).IsRotatable 
+        if (!currentEditMode.Attributes.IsField
+            || !((FieldMode)currentEditMode).IsRotatable
             || !KeyBinds.GetKeyBindDown("Editor_Rotate")) return;
-        
+
         EditModeManagerOther.Instance.EditRotation = (EditModeManagerOther.Instance.EditRotation - 90) % 360;
 
         if (SelectionManager.Instance.Selecting) SelectionManager.UpdatePreviewRotation();
@@ -68,11 +65,12 @@ public class KeyEvents : MonoBehaviour
     private static void CheckTeleportPlayer()
     {
         // teleport player to mouse pos
-        if (!LevelSessionManager.Instance.IsEdit || !EditModeManagerOther.Instance.Playing || !KeyBinds.GetKeyBindDown("Editor_TeleportPlayer")) return;
-        
+        if (!LevelSessionManager.Instance.IsEdit || !EditModeManagerOther.Instance.Playing ||
+            !KeyBinds.GetKeyBindDown("Editor_TeleportPlayer")) return;
+
         PlayerController player = PlayerManager.GetPlayer();
         if (player == null) return;
-        
+
         player.Rb.position = MouseManager.Instance.MouseWorldPosGrid;
         PlayManager.Instance.Cheated = true;
     }
@@ -81,9 +79,9 @@ public class KeyEvents : MonoBehaviour
     {
         // close panel if esc pressed
         bool closingPanel = false;
-        
+
         if (!Input.GetKeyDown(KeyCode.Escape)) return false;
-        
+
         foreach (PanelController panel in PanelManager.Instance.Panels)
         {
             if (!panel.Open || !panel.CloseOnEscape) continue;
@@ -99,7 +97,7 @@ public class KeyEvents : MonoBehaviour
     {
         // check if user adding key bind
         if (!MenuManager.Instance.IsAddingKeyBind) return false;
-        
+
         // cancel adding key bind
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -118,7 +116,6 @@ public class KeyEvents : MonoBehaviour
         else prevHeldDownKeys = keysDown;
 
         return true;
-
     }
 
     private static KeyCode[] GetKeysDown()
@@ -140,8 +137,8 @@ public class KeyEvents : MonoBehaviour
         {
             // key doors do not have key binds hahahahhahahah
             if (editMode.Attributes.IsKeydoor) continue;
-            
-            if(KeyBinds.GetKeyBindDown(editMode.KeyboardShortcut)) EditModeManagerOther.Instance.CurrentEditMode = editMode;
+
+            if (KeyBinds.GetKeyBindDown(editMode.KeyboardShortcut)) EditModeManagerOther.Instance.CurrentEditMode = editMode;
         }
     }
 }

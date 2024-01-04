@@ -4,12 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewFieldMode", menuName = "ScriptableObjects/FieldMode")]
 public class FieldMode : EditMode
 {
-    [Separator("Field settings")]
-    public bool HasOutline;
+    [Separator("Field settings")] public bool HasOutline;
     public bool IsRotatable;
     public bool IsSolid;
-    [Space]
-    [ConditionalField(nameof(IsSolid), true)] public bool IsStartFieldForPlayer;
+    [Space] [ConditionalField(nameof(IsSolid), true)] public bool IsStartFieldForPlayer;
     [ConditionalField(nameof(IsSolid), true)] public bool IsSafeForPlayer;
 
     protected virtual void Reset()
@@ -19,4 +17,3 @@ public class FieldMode : EditMode
         IsDraggable = true;
     }
 }
-

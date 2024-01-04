@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FieldController : EntityController
 {
-   [HideInInspector] public FieldMode FieldMode;
+    [HideInInspector] public FieldMode FieldMode;
 
     private void Start()
     {

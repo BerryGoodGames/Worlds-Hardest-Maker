@@ -2,7 +2,6 @@ using System;
 using MyBox;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Serialization;
 
 public class SettingsManager : MonoBehaviour
 {
@@ -43,7 +42,7 @@ public class SettingsManager : MonoBehaviour
         PlayerPrefs.SetInt("OneColorStartGoal", GraphicsSettings.Instance.OneColorStartGoalCheckpoint ? 1 : 0);
 
         // key binds
-        foreach (KeyBind keyBind in KeyBinds.GetAllKeyBinds()) { PlayerPrefs.SetString(keyBind.Name, keyBind.KeyCodesToString()); }
+        foreach (KeyBind keyBind in KeyBinds.GetAllKeyBinds()) PlayerPrefs.SetString(keyBind.Name, keyBind.KeyCodesToString());
 
         PlayerPrefs.Save();
     }

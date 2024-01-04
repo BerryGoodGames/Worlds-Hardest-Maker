@@ -51,7 +51,7 @@ public class FieldRotation : MonoBehaviour
     private void OnMouseUpAsButton()
     {
         if (SelectionManager.Instance.Selecting || CopyManager.Instance.Pasting || EditModeManagerOther.Instance.Playing) return;
-        
+
         if (EditModeManagerOther.Instance.CurrentEditMode != controller.FieldMode) return;
 
         if (MultiplayerManager.Instance.Multiplayer)

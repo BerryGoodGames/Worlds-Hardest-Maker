@@ -2,7 +2,6 @@ using System;
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class TextManager : MonoBehaviour
 {

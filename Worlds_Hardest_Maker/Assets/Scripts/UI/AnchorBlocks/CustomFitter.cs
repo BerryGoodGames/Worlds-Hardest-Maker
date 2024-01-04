@@ -82,7 +82,7 @@ public class CustomFitter : MonoBehaviour
             LayoutRebuilder.MarkLayoutForRebuild((RectTransform)rt.parent);
             return;
         }
-        
+
         rt.sizeDelta = new(rt.sizeDelta.x, -y);
     }
 }

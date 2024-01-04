@@ -168,7 +168,7 @@ public class PlayManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
     }
-    
+
     private void Start()
     {
         // setup play scene mode

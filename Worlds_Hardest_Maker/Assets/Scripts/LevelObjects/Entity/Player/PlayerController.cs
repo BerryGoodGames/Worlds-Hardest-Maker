@@ -253,7 +253,7 @@ public class PlayerController : EntityController
 
         // check if player counteracts
         if (movementInput.x != 0) return;
-        
+
         // calculate new position 
         Vector2 posCheck = new(roundedPos.x, Mathf.Round(Rb.position.y + movementInput.y));
         FieldController fieldAtPosition = FieldManager.GetField(Vector2Int.RoundToInt(posCheck));
@@ -268,10 +268,10 @@ public class PlayerController : EntityController
             !(Mathf.Abs(Rb.position.y) % 1 > (1 - transform.lossyScale.y) * 0.5f + err) ||
             !(Mathf.Abs(Rb.position.y) % 1 < 1 - ((1 - transform.lossyScale.y) * 0.5f + err))) return;
 
-        
+
         // check if player counteracts
         if (movementInput.y != 0) return;
-        
+
         // calculate new position 
         Vector2 posCheck = new(Mathf.Round(Rb.position.x + movementInput.x), roundedPos.y);
         FieldController fieldAtPosition = FieldManager.GetField(Vector2Int.RoundToInt(posCheck));
@@ -331,7 +331,7 @@ public class PlayerController : EntityController
             FieldMode currentFieldType = field.FieldMode;
             if (currentFieldType == mode) return true;
         }
-        
+
         return false;
     }
 
@@ -342,7 +342,7 @@ public class PlayerController : EntityController
         List<FieldController> res = new();
         foreach (Collider2D hit in hits)
         {
-            if(hit.TryGetComponent(out FieldController f)) res.Add(f);
+            if (hit.TryGetComponent(out FieldController f)) res.Add(f);
         }
 
         return res;
@@ -473,11 +473,11 @@ public class PlayerController : EntityController
             Deaths++;
             if (!LevelSessionManager.Instance.IsEdit) LevelSessionManager.Instance.Deaths++;
         }
-        
+
         UpdateCoinCounterDeath();
 
         if (KonamiManager.Instance.KonamiActive) return;
-        
+
         PlayManager.Instance.Cheated = false;
 
         // reset balls to start position (if player launched them e.g. with shotgun)
@@ -489,9 +489,9 @@ public class PlayerController : EntityController
         // update coin counter
         bool hasCheckpointActivated = CurrentGameState != null;
         CoinsCollected.Clear();
-        
+
         if (!hasCheckpointActivated) return;
-        
+
         foreach (Vector2 coinPos in CurrentGameState.CollectedCoins)
         {
             CoinController coin = CoinManager.GetCoin(coinPos);
@@ -627,7 +627,7 @@ public class PlayerController : EntityController
         // check if coin should respawn
         bool respawns = true;
         if (CurrentGameState == null) return true;
-        
+
         foreach (Vector2 collected in CurrentGameState.CollectedCoins)
         {
             if (!collected.x.EqualsFloat(coin.CoinPosition.x) ||

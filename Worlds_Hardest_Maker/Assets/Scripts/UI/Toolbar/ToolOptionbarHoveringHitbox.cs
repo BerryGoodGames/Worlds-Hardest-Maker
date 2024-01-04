@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
 ///     Checks if optionbar should be visible
@@ -8,7 +7,7 @@ using UnityEngine.Serialization;
 public class ToolOptionbarHoveringHitbox : MonoBehaviour
 {
     [SerializeField] private ToolOptionbar toolOptionbar;
-    
+
     private AlphaTween anim;
     private MouseOverUIRect mo;
 
@@ -18,13 +17,11 @@ public class ToolOptionbarHoveringHitbox : MonoBehaviour
         anim = toolOptionbar.GetComponent<AlphaTween>();
     }
 
-    private void Update()
-    {
+    private void Update() =>
         anim.SetVisible(
             (mo.Over || toolOptionbar.Root.MouseOverUIRect.Over)
             && (anim.IsVisible || toolOptionbar.Root.MouseOverUIRect.Over)
-            && !EditModeManagerOther.Instance.Playing 
+            && !EditModeManagerOther.Instance.Playing
             && !ReferenceManager.Instance.Menu.activeSelf
         );
-    }
 }

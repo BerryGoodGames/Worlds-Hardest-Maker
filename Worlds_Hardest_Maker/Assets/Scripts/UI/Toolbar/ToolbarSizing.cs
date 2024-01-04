@@ -24,7 +24,8 @@ public class ToolbarSizing : MonoBehaviour
         fitter.UpdateSize(false);
     }
 
-    [ButtonMethod] [UsedImplicitly]
+    [ButtonMethod]
+    [UsedImplicitly]
     public void UpdateEveryOptionbarHeight()
     {
         ToolOptionbar[] optionbars = FindObjectsOfType<ToolOptionbar>();

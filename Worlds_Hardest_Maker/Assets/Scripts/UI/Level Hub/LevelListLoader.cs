@@ -93,7 +93,7 @@ public class LevelListLoader : MonoBehaviour
         bool levelsChanged = false;
 
         if (forceUpdateList) return false;
-        
+
         if (prevLevelInfo == null || levelInfo.Length != prevLevelInfo.Length) levelsChanged = true;
         else
         {

@@ -11,10 +11,7 @@ public class SelectionSquare : MonoBehaviour
 
     private Image image;
 
-    private void Awake()
-    {
-        image = GetComponent<Image>();
-    }
+    private void Awake() => image = GetComponent<Image>();
 
     public void SetSelected(bool selected) => image.sprite = selected ? selectedSprite : deselectedSprite;
 
