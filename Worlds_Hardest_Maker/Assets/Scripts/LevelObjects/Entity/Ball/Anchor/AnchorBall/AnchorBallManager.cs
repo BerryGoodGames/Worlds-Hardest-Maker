@@ -74,7 +74,7 @@ public class AnchorBallManager : MonoBehaviour
 
         foreach (AnchorBallController ball in balls)
         {
-            if (ball.Position == pos) return ball;
+            if ((Vector2)ball.transform.position == pos) return ball;
         }
 
         return null;
@@ -92,7 +92,7 @@ public class AnchorBallManager : MonoBehaviour
         // get first ball at position and (de)select corresponding anchor
         foreach (AnchorBallController ball in ballsAtPos)
         {
-            if (!ball.IsParentAnchorNull && ball.ParentAnchor.Position == ball.Position) continue;
+            if (!ball.IsParentAnchorNull && ball.ParentAnchor.transform.position == ball.transform.position) continue;
 
             if (ball.IsParentAnchorNull || AnchorManager.Instance.SelectedAnchor == ball.ParentAnchor) AnchorManager.Instance.DeselectAnchor();
             else AnchorManager.Instance.SelectAnchor(ball.ParentAnchor, false);

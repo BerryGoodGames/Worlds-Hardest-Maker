@@ -44,7 +44,7 @@ public class CopyManager : MonoBehaviour
 
             Data data = controller.GetData();
 
-            Vector2 pos = controller.Position;
+            Vector2 pos = controller.transform.position;
 
             CopyData copyData = new(data, pos - castCenter);
             clipBoard.Add(copyData);
@@ -61,7 +61,7 @@ public class CopyManager : MonoBehaviour
             // try to get controllers and save the object in clipboard
             if (!hit.TryGetComponent(out EntityController controller)) continue;
 
-            points.Add(controller.Position);
+            points.Add(controller.transform.position);
         }
 
         return points;

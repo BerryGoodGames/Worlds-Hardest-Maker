@@ -136,6 +136,11 @@ public class AlphaTween : MonoBehaviour
         }
     }
 
+    private void Start() 
+    {
+        if(!startVisible) OnIsInvisible?.Invoke(); 
+    }
+
     private void OnDestroy()
     {
         image.DOKill();

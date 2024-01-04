@@ -13,6 +13,7 @@ public class ToolOptionbar : MonoBehaviour
 
     [FormerlySerializedAs("HoveringHitbox")] [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform hoveringHitbox;
     [SerializeField] [InitializationField] [MustBeAssigned] private VerticalLayoutGroup optionsLayoutGroup;
+    [SerializeField] [InitializationField] [MustBeAssigned] private AlphaTween anim;
 
     [Separator] [PositiveValueOnly] [SerializeField] private float width;
 
@@ -52,5 +53,13 @@ public class ToolOptionbar : MonoBehaviour
                 "This tool optionbar does not have a tool as root\ntool optionbar is expected to be direct child of a tool"
             );
         }
+        
+        // teleport optionbar up when invisible (dont care)
+        RectTransform rt = (RectTransform)transform;
+        Vector2 visiblePosition = rt.anchoredPosition;
+        Vector2 invisiblePosition = visiblePosition + Vector2.up * 1000;
+
+        anim.OnIsInvisible += () => rt.anchoredPosition = invisiblePosition;
+        anim.OnSetVisible += () => rt.anchoredPosition = visiblePosition;
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FieldController : EntityController
+public class FieldController : LevelObjectController
 {
     [HideInInspector] public FieldMode FieldMode;
 
