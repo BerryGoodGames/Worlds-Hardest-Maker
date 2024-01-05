@@ -356,24 +356,24 @@ MonoBehaviour:
     PitchDeviation: 0.05
     Mode: {fileID: 11400000, guid: 939858190fd748a4c99155df0b0a17f3, type: 2}
   - Sound: PlaceKey
-    PitchRandomization: 0
-    PitchDeviation: 0
+    PitchRandomization: 1
+    PitchDeviation: 0.08
     Mode: {fileID: 11400000, guid: fc22b38975ac1f14d9efdba0a8e52138, type: 2}
   - Sound: PlaceKey
-    PitchRandomization: 0
-    PitchDeviation: 0
+    PitchRandomization: 1
+    PitchDeviation: 0.08
     Mode: {fileID: 11400000, guid: 02797eb62b4540c48aa2b77062f0d0ee, type: 2}
   - Sound: PlaceKey
-    PitchRandomization: 0
-    PitchDeviation: 0
+    PitchRandomization: 1
+    PitchDeviation: 0.08
     Mode: {fileID: 11400000, guid: ff97ebd6cb13a3d40ae065c07e09055d, type: 2}
   - Sound: PlaceKey
-    PitchRandomization: 0
-    PitchDeviation: 0
+    PitchRandomization: 1
+    PitchDeviation: 0.08
     Mode: {fileID: 11400000, guid: 592c468b613e2d3419495eb6666c0d35, type: 2}
   - Sound: PlaceKey
-    PitchRandomization: 0
-    PitchDeviation: 0
+    PitchRandomization: 1
+    PitchDeviation: 0.08
     Mode: {fileID: 11400000, guid: 86913c56d50e11c4a8a884a466aecbf4, type: 2}
   - Sound: PlaceIce
     PitchRandomization: 1
@@ -17105,7 +17105,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
   - Name: PlaceKey
-    audioClip: {fileID: 8300000, guid: 7483290f6dba723419c6c9c92c9a6305, type: 3}
+    audioClip: {fileID: 8300000, guid: b471001b8da7b664b9006afd00bcac12, type: 3}
     output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
@@ -21245,7 +21245,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 40.095398}
+  m_AnchoredPosition: {x: 0, y: 40.095337}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1786665322
