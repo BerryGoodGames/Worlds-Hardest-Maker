@@ -8,11 +8,12 @@ public class PlaceManager : MonoBehaviour
 {
     public static PlaceManager Instance { get; private set; }
 
-    [FormerlySerializedAs("defaultPlaceSfx")] public string DefaultPlaceSfx = "Place";
-    [SerializeField] [PositiveValueOnly] private float defaultPlaceSfxPitchDeviation;
+    [Separator("General sfx")]
+    public SoundEffect DefaultPlaceSfx;
     [SerializeField] private PlaceSoundEffect[] customPlaceSfx;
-    [Separator] [SerializeField] private SoundEffect konamiDeleteSfx;
-    [FormerlySerializedAs("konamiPlaceSfx")] [SerializeField] private SoundEffect konamiSoundEffect;
+    
+    [Separator("Konami sfx")] [SerializeField] private SoundEffect konamiPlaceSfx;
+    [SerializeField] private PlaceSoundEffect[] customKonamiPlaceSfx;
 
     /// <summary>
     ///     Places edit mode at position
@@ -124,16 +125,11 @@ public class PlaceManager : MonoBehaviour
 
     public SoundEffect GetSfx(EditMode editMode)
     {
-        // konami troll sfx haha (but leave delete sfx as it is)
-        if (KonamiManager.Instance.KonamiActive) return editMode == EditModeManager.Delete ? konamiDeleteSfx : konamiSoundEffect;
+        SoundEffect sfx = KonamiManager.Instance.KonamiActive ? konamiPlaceSfx : DefaultPlaceSfx;
+        
+        PlaceSoundEffect[] soundCollection = KonamiManager.Instance.KonamiActive ? customKonamiPlaceSfx : customPlaceSfx;
 
-        PlaceSoundEffect sfx = new(EditModeManager.Void, DefaultPlaceSfx)
-        {
-            PitchRandomization = true,
-            PitchDeviation = defaultPlaceSfxPitchDeviation,
-        };
-
-        foreach (PlaceSoundEffect placeSfx in customPlaceSfx)
+        foreach (PlaceSoundEffect placeSfx in soundCollection)
         {
             if (placeSfx.Mode != editMode) continue;
 

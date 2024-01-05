@@ -342,8 +342,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f096aabcac6c35448fcfe3c90980e43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultPlaceSfx: Place
-  defaultPlaceSfxPitchDeviation: 0.08
+  DefaultPlaceSfx:
+    Sound: Place
+    PitchRandomization: 1
+    PitchDeviation: 0.08
   customPlaceSfx:
   - Sound: Delete
     PitchRandomization: 1
@@ -381,14 +383,19 @@ MonoBehaviour:
     PitchRandomization: 1
     PitchDeviation: 0.1
     Mode: {fileID: 11400000, guid: c4f8199b55bdb6d42b0de6508470d358, type: 2}
-  konamiDeleteSfx:
-    Sound: KonamiDelete
-    PitchRandomization: 0
-    PitchDeviation: 0.1
-  konamiSoundEffect:
+  konamiPlaceSfx:
     Sound: KonamiPlace
-    PitchRandomization: 0
+    PitchRandomization: 1
     PitchDeviation: 0.1
+  customKonamiPlaceSfx:
+  - Sound: KonamiDelete
+    PitchRandomization: 1
+    PitchDeviation: 0.08
+    Mode: {fileID: 11400000, guid: 9fe34bd3bd1a37a4b81b2f66ef1408de, type: 2}
+  - Sound: KonamiPlaceWater
+    PitchRandomization: 1
+    PitchDeviation: 0.08
+    Mode: {fileID: 11400000, guid: c4f8199b55bdb6d42b0de6508470d358, type: 2}
 --- !u!1001 &26600856
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17118,7 +17125,7 @@ MonoBehaviour:
     volume: 0.35
     pitch: 1
   - Name: PlaceWater
-    audioClip: {fileID: 8300000, guid: 6e4f4a531ddf7894fb09a53319f22e17, type: 3}
+    audioClip: {fileID: 8300000, guid: 5e93ba88ce4b38e44818ef26ad232eb7, type: 3}
     output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
@@ -17137,6 +17144,16 @@ MonoBehaviour:
     cooldown: 0
     volume: 0.3
     pitch: 1
+  - Name: KonamiDelete
+    audioClip: {fileID: 8300000, guid: 7a04b0f4b881d654a83ec4ffff957161, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    mute: 0
+    playOnAwake: 0
+    loop: 0
+    allowOverlap: 1
+    cooldown: 0
+    volume: 1
+    pitch: 1
   - Name: KonamiPlace
     audioClip: {fileID: 8300000, guid: 6e993ac58744f19428808a4fbc2a894e, type: 3}
     output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
@@ -17147,15 +17164,15 @@ MonoBehaviour:
     cooldown: 0
     volume: 1
     pitch: 1
-  - Name: KonamiDelete
-    audioClip: {fileID: 8300000, guid: 7a04b0f4b881d654a83ec4ffff957161, type: 3}
+  - Name: KonamiPlaceWater
+    audioClip: {fileID: 8300000, guid: 6e4f4a531ddf7894fb09a53319f22e17, type: 3}
     output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
     playOnAwake: 0
     loop: 0
     allowOverlap: 1
     cooldown: 0
-    volume: 1
+    volume: 0.915
     pitch: 1
   - Name: Bell
     audioClip: {fileID: 8300000, guid: 7d781692799d5404fac05add2f47be98, type: 3}
