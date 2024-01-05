@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Photon.Pun;
 using UnityEngine;
 
 // class for global functions
@@ -23,7 +22,7 @@ public class FieldManager : MonoBehaviour
         return null;
     }
 
-    [PunRPC]
+    
     public bool RemoveField(Vector2Int position, bool updateOutlines = false)
     {
         FieldController field = GetField(position);
@@ -47,7 +46,7 @@ public class FieldManager : MonoBehaviour
         return fieldDestroyed;
     }
 
-    [PunRPC]
+    
     public FieldController SetField(Vector2Int position, FieldMode mode, int rotation)
     {
         FieldController fieldAtPosition = GetField(position);
@@ -75,7 +74,7 @@ public class FieldManager : MonoBehaviour
         return field;
     }
 
-    [PunRPC]
+    
     public void SetField(Vector2Int position, FieldMode mode) => SetField(position, mode, 0);
 
     public void PlaceField(FieldMode mode, int rotation, bool playSound, Vector2Int matrixPosition)
@@ -124,12 +123,10 @@ public class FieldManager : MonoBehaviour
     private static FieldController InstantiateField(Vector2 pos, FieldMode mode, int rotation)
     {
         GameObject prefab = mode.Prefab;
-        GameObject res = MultiplayerManager.Instance.Multiplayer
-            ? PhotonNetwork.Instantiate(prefab.name, pos, Quaternion.Euler(0, 0, rotation))
-            : Instantiate(
-                prefab, pos, Quaternion.Euler(0, 0, rotation),
-                ReferenceManager.Instance.FieldContainer
-            );
+        GameObject res = Instantiate(
+            prefab, pos, Quaternion.Euler(0, 0, rotation),
+            ReferenceManager.Instance.FieldContainer
+        );
 
         FieldController fieldController = res.GetComponent<FieldController>();
         fieldController.FieldMode = mode;

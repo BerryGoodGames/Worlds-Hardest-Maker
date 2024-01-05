@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using MyBox;
-using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class GameManager : MonoBehaviourPun
+public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
@@ -36,7 +35,7 @@ public class GameManager : MonoBehaviourPun
     {
         canvasRT = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>();
 
-        if (!MultiplayerManager.Instance.Multiplayer) PlayerManager.Instance.SetPlayer(Vector2.zero, 3f);
+        PlayerManager.Instance.SetPlayer(Vector2.zero, 3f);
 
         if (!LevelSessionManager.IsSessionFromEditor)
         {
@@ -70,7 +69,6 @@ public class GameManager : MonoBehaviourPun
         if (levelData != null) StartCoroutine(LoadLevelFromData(levelData, path));
     }
 
-    [PunRPC]
     public IEnumerator LoadLevelFromData(LevelData levelData, string levelPath)
     {
         yield return new WaitForEndOfFrame();
@@ -162,8 +160,6 @@ public class GameManager : MonoBehaviourPun
 
     public static Vector2 ScreenToMainCanvas(Vector2 position) => position * (Instance.canvasRT.sizeDelta / new Vector2(Screen.width, Screen.height));
 
-
-    [PunRPC]
     public void ClearLevel()
     {
         PlayerManager.Instance.RemoveAllPlayers();

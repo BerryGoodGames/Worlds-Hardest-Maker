@@ -1,6 +1,5 @@
 using System.Collections;
 using MyBox;
-using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -35,7 +34,7 @@ public class FieldRotation : MonoBehaviour
         if (disableCollision) boxCollider.isTrigger = false;
     }
 
-    [PunRPC]
+    
     public void StartRotation()
     {
         if (rotating || EventSystem.current.IsPointerOverGameObject()) return;
@@ -54,12 +53,7 @@ public class FieldRotation : MonoBehaviour
 
         if (EditModeManagerOther.Instance.CurrentEditMode != controller.FieldMode) return;
 
-        if (MultiplayerManager.Instance.Multiplayer)
-        {
-            PhotonView view = PhotonView.Get(this);
-            view.RPC("StartRotation", RpcTarget.All);
-        }
-        else StartRotation();
+        StartRotation();
     }
 
     private void Awake() => controller = GetComponent<FieldController>();

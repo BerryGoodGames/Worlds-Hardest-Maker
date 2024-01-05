@@ -28,9 +28,6 @@ public class CoinController : EntityController
         // check if edgeCollider is player
         if (!collision.TryGetComponent(out PlayerController controller)) return;
 
-        // check if player is of own client
-        if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) return;
-
         // check if that player hasn't picked coin up yet
         if (controller.CoinsCollected.Contains(this)) return;
 

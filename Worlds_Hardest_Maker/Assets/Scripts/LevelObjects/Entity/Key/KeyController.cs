@@ -43,9 +43,6 @@ public class KeyController : EntityController
         // check if edgeCollider is player
         if (!collision.TryGetComponent(out PlayerController controller)) return;
 
-        // check if player is of own client
-        if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) return;
-
         // check if that player hasn't collected key yet
         PlayerController player = collision.GetComponent<PlayerController>();
         if (!controller.KeysCollected.Contains(this)) PickUp(player);

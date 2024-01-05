@@ -1,5 +1,4 @@
 using DG.Tweening;
-using Photon.Pun;
 using UnityEngine;
 
 public partial class AnchorManager
@@ -8,12 +7,10 @@ public partial class AnchorManager
     {
         if (GetAnchor(position) != null) return null;
 
-        GameObject anchor = MultiplayerManager.Instance.Multiplayer
-            ? PhotonNetwork.Instantiate("Anchor", Vector2.zero, Quaternion.identity)
-            : Instantiate(
-                PrefabManager.Instance.Anchor, Vector2.zero, Quaternion.identity,
-                ReferenceManager.Instance.AnchorContainer
-            );
+        GameObject anchor = Instantiate(
+            PrefabManager.Instance.Anchor, Vector2.zero, Quaternion.identity,
+            ReferenceManager.Instance.AnchorContainer
+        );
 
         AnchorController child = anchor.GetComponent<AnchorParentController>().Child;
         child.transform.position = position;
