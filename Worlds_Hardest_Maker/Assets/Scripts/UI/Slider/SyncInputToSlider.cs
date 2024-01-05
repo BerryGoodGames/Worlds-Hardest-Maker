@@ -16,7 +16,12 @@ public class SyncInputToSlider : MonoBehaviour
     public void UpdateSlider()
     {
         // try to read input text and set slider value
-        if (float.TryParse(input.text, out float value)) Slider.value = Rounded(value);
+        if (!float.TryParse(input.text, out float value)) return;
+        
+        float clampedValue = Mathf.Clamp(Rounded(value), Slider.minValue, Slider.maxValue);
+            
+        input.text = clampedValue.ToString();
+        Slider.value = clampedValue;
     }
 
     public void UpdateInput()
