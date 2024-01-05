@@ -54,6 +54,9 @@ public partial class AnchorManager
 
         ReferenceManager.Instance.MainCameraJumper.AddTarget("Anchor", anchor.gameObject);
         ReferenceManager.Instance.AnchorCameraJumping.CameraJumpToAnchor();
+        
+        // play sfx
+        AudioManager.Instance.Play("AnchorBlockButton");
     }
 
     public void DeselectAnchor()
@@ -80,6 +83,9 @@ public partial class AnchorManager
             PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
             PanelManager.Instance.SetPanelOpen(levelSettingsPanel, true);
         }
+        
+        // play sfx
+        AudioManager.Instance.Play("AnchorDeselect");
     }
 
     private static void CheckAnchorSelection()

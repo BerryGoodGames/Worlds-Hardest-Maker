@@ -72,7 +72,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 53.125, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7815748455442673681
@@ -919,6 +919,7 @@ GameObject:
   - component: {fileID: 2747994214740830284}
   - component: {fileID: 7497880851439848221}
   - component: {fileID: 2226382708289855006}
+  - component: {fileID: 5156100466533744307}
   m_Layer: 5
   m_Name: Viewport
   m_TagString: Untagged
@@ -997,6 +998,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5156100466533744307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7962778417841407081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46dea2531bd4fc479c3cbe79db2d4ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  over: 0
+  printDbg: 0
 --- !u!1 &8658581682107253599
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,7 +1029,9 @@ GameObject:
   - component: {fileID: 401416444525517678}
   - component: {fileID: 1583201553707824145}
   - component: {fileID: 3652110027671275083}
+  - component: {fileID: 1776992921368871177}
   - component: {fileID: 4030078462602818716}
+  - component: {fileID: 7302815991148091340}
   m_Layer: 5
   m_Name: AnchorBlockDropdown
   m_TagString: Untagged
@@ -1183,9 +1200,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4030078462602818716}
-        m_TargetAssemblyTypeName: PlaySoundEffect, Assembly-CSharp
-        m_MethodName: Play
+      - m_Target: {fileID: 1776992921368871177}
+        m_TargetAssemblyTypeName: AnchorBlockDropdown, Assembly-CSharp
+        m_MethodName: PlaySoundEffect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1236,6 +1253,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 1
   m_VerticalFit: 1
+--- !u!114 &1776992921368871177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8658581682107253599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c86c2db7b03b72458a3709b0efbc4f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffect: {fileID: 4030078462602818716}
+  viewportTemplateMouseOver: {fileID: 5156100466533744307}
 --- !u!114 &4030078462602818716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1252,6 +1283,20 @@ MonoBehaviour:
     Sound: AnchorBlockButton
     PitchRandomization: 0
     PitchDeviation: 0
+--- !u!114 &7302815991148091340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8658581682107253599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46dea2531bd4fc479c3cbe79db2d4ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  over: 0
+  printDbg: 0
 --- !u!1 &8911578932728839129
 GameObject:
   m_ObjectHideFlags: 0
