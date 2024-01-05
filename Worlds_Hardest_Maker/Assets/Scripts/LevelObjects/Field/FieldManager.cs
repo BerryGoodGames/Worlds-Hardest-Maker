@@ -10,21 +10,6 @@ public class FieldManager : MonoBehaviour
 {
     public static FieldManager Instance { get; private set; }
 
-    [Foldout("Field Scriptable Objects")] public FieldObject Wall;
-    [Foldout("Field Scriptable Objects")] public FieldObject Start;
-    [Foldout("Field Scriptable Objects")] public FieldObject Goal;
-    [Foldout("Field Scriptable Objects")] public FieldObject Checkpoint;
-    [Foldout("Field Scriptable Objects")] public FieldObject OneWay;
-    [Foldout("Field Scriptable Objects")] public FieldObject Conveyor;
-    [Foldout("Field Scriptable Objects")] public FieldObject Water;
-    [Foldout("Field Scriptable Objects")] public FieldObject Ice;
-    [Foldout("Field Scriptable Objects")] public FieldObject Void;
-    [Foldout("Field Scriptable Objects")] public FieldObject GrayKeyDoor;
-    [Foldout("Field Scriptable Objects")] public FieldObject RedKeyDoor;
-    [Foldout("Field Scriptable Objects")] public FieldObject GreenKeyDoor;
-    [Foldout("Field Scriptable Objects")] public FieldObject BlueKeyDoor;
-    [Foldout("Field Scriptable Objects")] public FieldObject YellowKeyDoor;
-
     public static FieldController GetField(Vector2Int position)
     {
         // get all collisions from layers Field and Void

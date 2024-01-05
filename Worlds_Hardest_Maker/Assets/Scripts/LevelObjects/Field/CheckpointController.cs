@@ -40,7 +40,7 @@ public class CheckpointController : MonoBehaviour
         Vector2 pos = transform.position;
         controller.ActivateCheckpoint(pos);
 
-        AudioManager.Instance.Play("Checkpoint");
+        AudioManager.Instance.Play("ActivateCheckpoint");
     }
 
     public void ChainActivate()

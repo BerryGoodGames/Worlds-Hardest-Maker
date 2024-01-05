@@ -16,7 +16,7 @@ public class IntervalRandomAnimation : MonoBehaviour
 
     public bool TriggerOnlyAtPlayMode;
 
-    public string SoundEffect;
+    public SoundEffect SoundEffect;
 
     private int lastTrigger;
 
@@ -43,7 +43,7 @@ public class IntervalRandomAnimation : MonoBehaviour
 
         anim.SetTrigger(AnimTriggerString);
 
-        if (!SoundEffect.Equals("")) AudioManager.Instance.Play(SoundEffect);
+        AudioManager.Instance.Play(SoundEffect);
 
         lastTrigger = 0;
     }

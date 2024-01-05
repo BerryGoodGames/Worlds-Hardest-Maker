@@ -176,7 +176,7 @@ public class PlayerController : EntityController
         {
             currentDrownDuration += Time.fixedDeltaTime;
 
-            if (currentDrownDuration >= drownDuration) DieNormal("Drown");
+            if (currentDrownDuration >= drownDuration) DieNormal("DeathDrown");
         }
         else if (!InDeathAnim && !onWater) currentDrownDuration = 0;
 
@@ -411,7 +411,7 @@ public class PlayerController : EntityController
 
     #region Dying
 
-    public void DieNormal(string soundEffect = "Smack")
+    public void DieNormal(string soundEffect = "Death")
     {
         if (Won) return;
 
@@ -453,7 +453,7 @@ public class PlayerController : EntityController
             .SetEase(Ease.OutQuad)
             .OnComplete(DeathAnimFinish);
 
-        AudioManager.Instance.Play("Void");
+        AudioManager.Instance.Play("DeathFall");
 
         Die();
     }

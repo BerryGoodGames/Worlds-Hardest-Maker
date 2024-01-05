@@ -10,7 +10,7 @@ public class ButtonController : MonoBehaviour
 
     public void PlaySound()
     {
-        if (AudioManager.Instance != null && DoPlaySound) AudioManager.Instance.Play("Click");
+        if (AudioManager.Instance != null && DoPlaySound) AudioManager.Instance.Play("ButtonClick");
     }
 
     public void Deselect()
