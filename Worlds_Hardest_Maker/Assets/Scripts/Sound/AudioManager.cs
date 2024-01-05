@@ -34,7 +34,7 @@ public class AudioManager : MonoBehaviour
         sound.Play();
     }
 
-    public void Play(PlaceManager.PlaceSfx sfx)
+    public void Play(SoundEffect sfx)
     {
         Sound sound = Array.Find(sounds, sound => sound.Name == sfx.Sound);
         if (sound == null)

@@ -74,6 +74,9 @@ public partial class AnchorBlockManager : MonoBehaviour
 
         // highlight arrow
         if (anchorBlock is PositionAnchorBlockController controller) controller.SetBlurVisible(true);
+        
+        // play sfx
+        AudioManager.Instance.Play("AnchorBlockDrop");
     }
 
     /// <summary>

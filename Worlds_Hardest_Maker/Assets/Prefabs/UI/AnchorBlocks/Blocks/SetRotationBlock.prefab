@@ -630,30 +630,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 6980927247459996683}
-    - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 6980927247459996683}
+    - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: UpdateWarnings
       objectReference: {fileID: 0}
     - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: SetRotationBlockController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 401416444525517678, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 817594828347440836, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
@@ -762,7 +762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1257115705517140453, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 198.95
+      value: 230.635
       objectReference: {fileID: 0}
     - target: {fileID: 1257115705517140453, guid: ce8dfdbcc01325642aa58d2b3e0f1de3, type: 3}
       propertyPath: m_AnchoredPosition.y

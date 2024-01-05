@@ -2,16 +2,17 @@ using System;
 using Cinemachine.Utility;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlaceManager : MonoBehaviour
 {
     public static PlaceManager Instance { get; private set; }
 
-    [SerializeField] private string defaultPlaceSfx = "Place";
+    [FormerlySerializedAs("defaultPlaceSfx")] public string DefaultPlaceSfx = "Place";
     [SerializeField] [PositiveValueOnly] private float defaultPlaceSfxPitchDeviation;
-    [SerializeField] private PlaceSfx[] customPlaceSfx;
-    [Separator] [SerializeField] private PlaceSfx konamiDeleteSfx;
-    [SerializeField] private PlaceSfx konamiPlaceSfx;
+    [SerializeField] private PlaceSoundEffect[] customPlaceSfx;
+    [Separator] [SerializeField] private SoundEffect konamiDeleteSfx;
+    [FormerlySerializedAs("konamiPlaceSfx")] [SerializeField] private SoundEffect konamiSoundEffect;
 
     /// <summary>
     ///     Places edit mode at position
@@ -121,18 +122,18 @@ public class PlaceManager : MonoBehaviour
         }
     }
 
-    public PlaceSfx GetSfx(EditMode editMode)
+    public SoundEffect GetSfx(EditMode editMode)
     {
         // konami troll sfx haha (but leave delete sfx as it is)
-        if (KonamiManager.Instance.KonamiActive) return editMode == EditModeManager.Delete ? konamiDeleteSfx : konamiPlaceSfx;
+        if (KonamiManager.Instance.KonamiActive) return editMode == EditModeManager.Delete ? konamiDeleteSfx : konamiSoundEffect;
 
-        PlaceSfx sfx = new(EditModeManager.Void, defaultPlaceSfx)
+        PlaceSoundEffect sfx = new(EditModeManager.Void, DefaultPlaceSfx)
         {
             PitchRandomization = true,
             PitchDeviation = defaultPlaceSfxPitchDeviation,
         };
 
-        foreach (PlaceSfx placeSfx in customPlaceSfx)
+        foreach (PlaceSoundEffect placeSfx in customPlaceSfx)
         {
             if (placeSfx.Mode != editMode) continue;
 
@@ -150,27 +151,20 @@ public class PlaceManager : MonoBehaviour
     }
 
     [Serializable]
-    public struct PlaceSfx
+    public class PlaceSoundEffect : SoundEffect
     {
         [SerializeField] public EditMode Mode;
-        [SerializeField] public string Sound;
-        [SerializeField] public bool PitchRandomization;
-        [SerializeField] [PositiveValueOnly] [ConditionalField(nameof(PitchRandomization))] public float PitchDeviation;
-
-        public PlaceSfx(EditMode mode, string sound)
+        
+        public PlaceSoundEffect(EditMode mode, string sound) : base(sound)
         {
             Mode = mode;
-            Sound = sound;
-            PitchRandomization = false;
-            PitchDeviation = 0;
         }
 
-        public PlaceSfx(EditMode mode, string sound, bool pitchRandomization, float pitchDeviation)
+        public PlaceSoundEffect(EditMode mode, string sound, bool pitchRandomization, float pitchDeviation) : base(
+            sound, pitchRandomization, pitchDeviation
+        )
         {
             Mode = mode;
-            Sound = sound;
-            PitchRandomization = pitchRandomization;
-            PitchDeviation = pitchDeviation;
         }
     }
 }

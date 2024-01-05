@@ -342,52 +342,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f096aabcac6c35448fcfe3c90980e43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultPlaceSfx: Place
+  DefaultPlaceSfx: Place
   defaultPlaceSfxPitchDeviation: 0.08
   customPlaceSfx:
-  - Mode: {fileID: 11400000, guid: 9fe34bd3bd1a37a4b81b2f66ef1408de, type: 2}
-    Sound: Delete
+  - Sound: Delete
     PitchRandomization: 1
     PitchDeviation: 0.4
-  - Mode: {fileID: 11400000, guid: 939858190fd748a4c99155df0b0a17f3, type: 2}
-    Sound: PlaceCoin
+    Mode: {fileID: 11400000, guid: 9fe34bd3bd1a37a4b81b2f66ef1408de, type: 2}
+  - Sound: PlaceCoin
     PitchRandomization: 1
     PitchDeviation: 0.05
-  - Mode: {fileID: 11400000, guid: fc22b38975ac1f14d9efdba0a8e52138, type: 2}
-    Sound: PlaceKey
+    Mode: {fileID: 11400000, guid: 939858190fd748a4c99155df0b0a17f3, type: 2}
+  - Sound: PlaceKey
     PitchRandomization: 0
     PitchDeviation: 0
-  - Mode: {fileID: 11400000, guid: 02797eb62b4540c48aa2b77062f0d0ee, type: 2}
-    Sound: PlaceKey
+    Mode: {fileID: 11400000, guid: fc22b38975ac1f14d9efdba0a8e52138, type: 2}
+  - Sound: PlaceKey
     PitchRandomization: 0
     PitchDeviation: 0
-  - Mode: {fileID: 11400000, guid: ff97ebd6cb13a3d40ae065c07e09055d, type: 2}
-    Sound: PlaceKey
+    Mode: {fileID: 11400000, guid: 02797eb62b4540c48aa2b77062f0d0ee, type: 2}
+  - Sound: PlaceKey
     PitchRandomization: 0
     PitchDeviation: 0
-  - Mode: {fileID: 11400000, guid: 592c468b613e2d3419495eb6666c0d35, type: 2}
-    Sound: PlaceKey
+    Mode: {fileID: 11400000, guid: ff97ebd6cb13a3d40ae065c07e09055d, type: 2}
+  - Sound: PlaceKey
     PitchRandomization: 0
     PitchDeviation: 0
-  - Mode: {fileID: 11400000, guid: 86913c56d50e11c4a8a884a466aecbf4, type: 2}
-    Sound: PlaceKey
+    Mode: {fileID: 11400000, guid: 592c468b613e2d3419495eb6666c0d35, type: 2}
+  - Sound: PlaceKey
     PitchRandomization: 0
     PitchDeviation: 0
-  - Mode: {fileID: 11400000, guid: 7b531457a471cee4dab2eb47004fd0b4, type: 2}
-    Sound: PlaceIce
+    Mode: {fileID: 11400000, guid: 86913c56d50e11c4a8a884a466aecbf4, type: 2}
+  - Sound: PlaceIce
     PitchRandomization: 1
     PitchDeviation: 0.1
-  - Mode: {fileID: 11400000, guid: c4f8199b55bdb6d42b0de6508470d358, type: 2}
-    Sound: PlaceWater
+    Mode: {fileID: 11400000, guid: 7b531457a471cee4dab2eb47004fd0b4, type: 2}
+  - Sound: PlaceWater
     PitchRandomization: 1
     PitchDeviation: 0.1
+    Mode: {fileID: 11400000, guid: c4f8199b55bdb6d42b0de6508470d358, type: 2}
   konamiDeleteSfx:
-    Mode: {fileID: 0}
     Sound: KonamiDelete
     PitchRandomization: 0
     PitchDeviation: 0.1
-  konamiPlaceSfx:
-    Mode: {fileID: 0}
+  konamiSoundEffect:
     Sound: KonamiPlace
     PitchRandomization: 0
     PitchDeviation: 0.1
@@ -1201,7 +1199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 513590573494820364, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 513590573494820364, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1209,11 +1207,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 513590573494820364, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 513590573494820364, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 121.19
       objectReference: {fileID: 0}
     - target: {fileID: 513590573494820364, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1249,7 +1247,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 513590573494820364, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 513590573494820364, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1309,35 +1307,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3215473733746164052, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3215473733746164052, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3215473733746164052, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3215473733746164052, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 4516551227519450971, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4516551227519450971, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4516551227519450971, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 43.19
       objectReference: {fileID: 0}
     - target: {fileID: 4516551227519450971, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 31.51
       objectReference: {fileID: 0}
     - target: {fileID: 4516551227519450971, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1345,7 +1343,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4516551227519450971, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 5305101178454587041, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: tooltipPrefab
@@ -1357,11 +1355,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7053944495143317877, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7053944495143317877, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7053944495143317877, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1369,11 +1367,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7053944495143317877, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 89.19
       objectReference: {fileID: 0}
     - target: {fileID: 7053944495143317877, guid: b8acd7f3af60bf04aa54433a604fa189, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7200,9 +7198,9 @@ RectTransform:
   - {fileID: 1009501805}
   m_Father: {fileID: 1265522661}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -80}
   m_SizeDelta: {x: 200, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &760941646
@@ -15606,7 +15604,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 711.425
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -17259,6 +17257,66 @@ MonoBehaviour:
     allowOverlap: 1
     cooldown: 0
     volume: 1
+    pitch: 1
+  - Name: AnchorBlockDrop
+    audioClip: {fileID: 8300000, guid: 2dc9d1e0e3482df449e1a00bdb04adcf, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    mute: 0
+    playOnAwake: 0
+    loop: 0
+    allowOverlap: 1
+    cooldown: 0
+    volume: 1
+    pitch: 1
+  - Name: AnchorBlockPickUp
+    audioClip: {fileID: 8300000, guid: 7713aaf0b7bf59c43ab4f133bd0286f6, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    mute: 0
+    playOnAwake: 0
+    loop: 0
+    allowOverlap: 1
+    cooldown: 0
+    volume: 1
+    pitch: 1
+  - Name: AnchorBlockDiscard
+    audioClip: {fileID: 8300000, guid: e8e0ba2ea5e94054e8ce048f38745416, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    mute: 0
+    playOnAwake: 0
+    loop: 0
+    allowOverlap: 1
+    cooldown: 0
+    volume: 1
+    pitch: 1
+  - Name: AnchorBlockButton
+    audioClip: {fileID: 8300000, guid: 7283d033a3aff4442a973c76bcf27bda, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    mute: 0
+    playOnAwake: 0
+    loop: 0
+    allowOverlap: 1
+    cooldown: 0
+    volume: 1
+    pitch: 1
+  - Name: AnchorBlockBrowse
+    audioClip: {fileID: 8300000, guid: 6ce20a8cbbebbef42b47a496c0bd94f2, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    mute: 0
+    playOnAwake: 0
+    loop: 0
+    allowOverlap: 1
+    cooldown: 0
+    volume: 0.435
+    pitch: 1
+  - Name: AnchorBlockWarning
+    audioClip: {fileID: 8300000, guid: a5264da719272034abde10640bd09525, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    mute: 0
+    playOnAwake: 0
+    loop: 0
+    allowOverlap: 1
+    cooldown: 0
+    volume: 0.435
     pitch: 1
 --- !u!1001 &1592984477
 PrefabInstance:
@@ -21131,7 +21189,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 39.42859}
+  m_AnchoredPosition: {x: 0, y: 40.095398}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1786665322

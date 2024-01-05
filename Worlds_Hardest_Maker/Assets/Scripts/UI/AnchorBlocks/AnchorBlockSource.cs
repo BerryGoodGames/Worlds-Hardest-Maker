@@ -30,6 +30,9 @@ public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
 
         // transition to dragging
         anchorBlock.GetComponent<AnchorBlockDragDrop>().BeginDrag();
+        
+        // play sfx
+        AudioManager.Instance.Play("AnchorBlockPickUp");
     }
 
     public void OnPointerDown(PointerEventData eventData)

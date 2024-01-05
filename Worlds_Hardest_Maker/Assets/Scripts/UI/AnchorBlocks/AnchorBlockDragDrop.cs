@@ -50,11 +50,14 @@ public class AnchorBlockDragDrop : MonoBehaviour
         AnchorBlockManager.Instance.DraggedBlock = anchorBlockController;
         AnchorBlockManager.Instance.DraggingBlock = true;
 
-        anchorBlockController.TrimFromCurrentChain();
+        bool wasInChain = anchorBlockController.TrimFromCurrentChain();
 
         Offset = mousePos - (Vector2)transform.position;
 
         ReferenceManager.Instance.AnchorBlockConnectorController.UpdateHeight(Offset);
+        
+        // play sfx
+        if(wasInChain) AudioManager.Instance.Play("AnchorBlockPickUp");
     }
 
     private void OnEndDrag()
@@ -76,6 +79,7 @@ public class AnchorBlockDragDrop : MonoBehaviour
         {
             // discard anchor block
             anchorBlockController.Delete();
+            AudioManager.Instance.Play("AnchorBlockDiscard");
         }
 
         ReferenceManager.Instance.CustomFitter.UpdateSize();

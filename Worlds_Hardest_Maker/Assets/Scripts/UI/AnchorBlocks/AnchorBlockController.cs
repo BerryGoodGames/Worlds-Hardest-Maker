@@ -82,9 +82,9 @@ public abstract partial class AnchorBlockController : MonoBehaviour
             ReferenceManager.Instance.AnchorBlockChainContainer
         );
 
-    public void TrimFromCurrentChain()
+    public bool TrimFromCurrentChain()
     {
-        if (!IsInChain(out ChainController _)) return;
+        if (!IsInChain(out ChainController _)) return false;
 
         // push anchor block to container and remove from string
         transform.SetParent(ReferenceManager.Instance.AnchorBlockChainContainer);
@@ -101,6 +101,8 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         if (this is LoopBlockController) AnchorManager.Instance.SelectedAnchor.LoopBlockIndex = -1;
 
         SetWarning(false);
+
+        return true;
     }
 
     /// <summary>
@@ -129,7 +131,16 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         return parent != null && parent.TryGetComponent(out ChainController _);
     }
 
-    public void SetWarning(bool enable) => warningIconContainer.SetActive(enable);
+    public void SetWarning(bool enable)
+    {
+        warningIconContainer.SetActive(enable);
+
+        if (enable)
+        {
+            // play warning sfx
+            AudioManager.Instance.Play("AnchorBlockWarning");
+        }
+    }
 
     private void Start()
     {

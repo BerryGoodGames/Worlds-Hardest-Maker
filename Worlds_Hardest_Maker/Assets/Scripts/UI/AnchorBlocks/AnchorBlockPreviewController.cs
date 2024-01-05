@@ -45,7 +45,11 @@ public class AnchorBlockPreviewController : MonoBehaviour
         ((RectTransform)transform).sizeDelta = new Vector2(width, height);
     }
 
-    public void UpdateSiblingIndex() => transform.SetSiblingIndex(AnchorBlockManager.Instance.HoveredBlockIndex + 1);
+    public void UpdateSiblingIndex()
+    {
+        transform.SetSiblingIndex(AnchorBlockManager.Instance.HoveredBlockIndex + 1);
+        AudioManager.Instance.Play("AnchorBlockBrowse");
+    }
 
     public void OnUnhover()
     {
