@@ -12,6 +12,8 @@ public abstract class EditMode : ScriptableObject
     public WorldPositionType WorldPositionType = WorldPositionType.Grid;
     public bool IsDraggable;
     public bool ShowFillPreview = true;
+
+    public override string ToString() => name;
 }
 
 [Serializable]

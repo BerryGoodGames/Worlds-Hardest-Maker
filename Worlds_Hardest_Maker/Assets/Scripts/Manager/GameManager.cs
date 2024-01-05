@@ -135,10 +135,10 @@ public class GameManager : MonoBehaviourPun
     {
         while (true)
         {
-            SaveSystem.SaveCurrentLevel();
-
             // wait for next auto save
             yield return new WaitForSeconds(autoSaveInterval);
+            
+            SaveSystem.SaveCurrentLevel();
         }
 
         // ReSharper disable once IteratorNeverReturns

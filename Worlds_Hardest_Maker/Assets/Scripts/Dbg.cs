@@ -31,6 +31,7 @@ public class Dbg : MonoBehaviour
     [Foldout("Debug Text")] public uint Count;
 
     [Foldout("Level")] public bool AutoLoadLevel;
+    [Foldout("Level")] [ConditionalField(nameof(AutoLoadLevel), true)] [SerializeField] private bool autoPlacePlayer;
     [Foldout("Level")] [ConditionalField(nameof(AutoLoadLevel))] public string LevelName = "DebugLevel";
 
     [Foldout("Wall Outlines")] public bool WallOutlines = true;
@@ -53,14 +54,22 @@ public class Dbg : MonoBehaviour
     private void Start()
     {
 #if UNITY_EDITOR
-        if (!AutoLoadLevel) return;
-
-        if (!LevelSessionManager.IsSessionFromEditor) return;
-
-        try { GameManager.Instance.LoadLevel(LevelSessionManager.Instance.LevelSessionPath); }
-        catch
+        if (AutoLoadLevel)
         {
-            // ignored
+            if (!LevelSessionManager.IsSessionFromEditor) return;
+
+            try
+            {
+                GameManager.Instance.LoadLevel(LevelSessionManager.Instance.LevelSessionPath);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+        else if (autoPlacePlayer)
+        {
+            PlayerManager.Instance.SetPlayer(Vector2.zero, true);
         }
 #endif
     }

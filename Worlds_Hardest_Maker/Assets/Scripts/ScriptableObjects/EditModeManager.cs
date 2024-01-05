@@ -61,6 +61,24 @@ public class EditModeManager : MonoBehaviour
     public List<FieldMode> AllFieldModes { get; private set; }
     public List<FieldMode> AllPlayerStartFieldModes { get; private set; }
 
+    public static EditMode GetEditMode(string editModeName)
+    {
+        EditMode editMode = Instance.AllEditModes.First(e => e.name == editModeName);
+
+        if (editMode == null) throw new($"Edit mode with name \"{editModeName}\" was not found");
+
+        return editMode;
+    }
+    
+    public static FieldMode GetFieldMode(string fieldModeName)
+    {
+        FieldMode fieldMode = Instance.AllFieldModes.First(e => e.name == fieldModeName);
+
+        if (fieldMode == null) throw new($"Field mode with name \"{fieldModeName}\" was not found");
+
+        return fieldMode;
+    }
+
     private void Awake()
     {
         if (Instance != null) return;

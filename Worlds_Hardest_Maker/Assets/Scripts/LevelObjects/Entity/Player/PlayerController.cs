@@ -458,10 +458,12 @@ public class PlayerController : EntityController
         Die();
     }
 
+    
+    /// <summary>
+    /// general method when dying in any way
+    /// </summary>
     private void Die()
     {
-        // // general method when dying in any way
-
         Rb.simulated = false;
         InDeathAnim = true;
 
