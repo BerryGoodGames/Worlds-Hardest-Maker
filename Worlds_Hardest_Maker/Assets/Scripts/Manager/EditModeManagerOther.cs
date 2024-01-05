@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ public class EditModeManagerOther : MonoBehaviour
 
     [SerializeField] [MustBeAssigned] [InitializationField] private EditMode startEditMode;
     private EditMode currentEditMode;
-    private EditMode? prevEditMode;
+    [CanBeNull] private EditMode prevEditMode;
 
     public EditMode CurrentEditMode
     {

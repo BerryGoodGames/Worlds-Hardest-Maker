@@ -1,4 +1,3 @@
-using System;
 using MyBox;
 using UnityEngine;
 
@@ -6,8 +5,6 @@ using UnityEngine;
 public class AnchorBlockQuickMenuController : QuickMenuController
 {
     [ReadOnly] [SerializeField] private AnchorBlockController selectedAnchorBlock;
-
-    private AlphaTween tween;
 
     public void OnClickDelete()
     {
@@ -35,7 +32,7 @@ public class AnchorBlockQuickMenuController : QuickMenuController
 
     public void Activate(AnchorBlockController anchorBlock)
     {
-        if(tween == null) tween = GetComponent<AlphaTween>();
+        if(Tween == null) Tween = GetComponent<AlphaTween>();
         
         // open and position quick menu
         Vector2 mousePos = MouseManager.Instance.MouseCanvasPos;
@@ -43,6 +40,6 @@ public class AnchorBlockQuickMenuController : QuickMenuController
         
         selectedAnchorBlock = anchorBlock;
         ((RectTransform)transform).anchoredPosition = mousePos;
-        tween.SetVisible(true);
+        Tween.SetVisible(true);
     }
 }
