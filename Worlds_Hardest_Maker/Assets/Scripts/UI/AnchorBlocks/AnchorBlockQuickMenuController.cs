@@ -1,34 +1,48 @@
+using System;
 using MyBox;
 using UnityEngine;
 
+[RequireComponent(typeof(AlphaTween))]
 public class AnchorBlockQuickMenuController : QuickMenuController
 {
-    public RectTransform RectTransform;
-    public AlphaTween Tween;
+    [ReadOnly] [SerializeField] private AnchorBlockController selectedAnchorBlock;
 
-    [Space] [ReadOnly] public AnchorBlockController SelectedAnchorBlock;
+    private AlphaTween tween;
 
     public void OnClickDelete()
     {
-        if (SelectedAnchorBlock == null)
+        if (selectedAnchorBlock == null)
         {
             Debug.LogWarning("Tried to delete anchor block, but none was selected by quick menu");
             return;
         }
 
-        if (SelectedAnchorBlock.IsLocked) return;
+        if (selectedAnchorBlock.IsLocked) return;
 
-        SelectedAnchorBlock.Delete();
+        selectedAnchorBlock.Delete();
     }
 
     public void OnClickDuplicate()
     {
-        if (SelectedAnchorBlock == null)
+        if (selectedAnchorBlock == null)
         {
             Debug.LogWarning("Tried to duplicate anchor block, but none was selected by quick menu");
             return;
         }
 
-        SelectedAnchorBlock.Duplicate();
+        selectedAnchorBlock.Duplicate();
+    }
+
+    public void Activate(AnchorBlockController anchorBlock)
+    {
+        if(tween == null) tween = GetComponent<AlphaTween>();
+        
+        // open and position quick menu
+        Vector2 mousePos = MouseManager.Instance.MouseCanvasPos;
+        mousePos.y = MouseManager.Instance.MouseCanvasPos.y - GameManager.GetCanvasDimensions().y;
+        
+        selectedAnchorBlock = anchorBlock;
+        ((RectTransform)transform).anchoredPosition = mousePos;
+        tween.SetVisible(true);
     }
 }

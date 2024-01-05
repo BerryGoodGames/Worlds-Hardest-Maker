@@ -27,7 +27,7 @@ public abstract partial class AnchorBlockController : MonoBehaviour
 
         if (IsLocked)
         {
-            if (TryGetComponent(out AnchorBlockQuickMenu quickMenu)) quickMenu.Active = false;
+            if (TryGetComponent(out AnchorBlockQuickMenuTrigger quickMenu)) quickMenu.Active = false;
 
             if (TryGetComponent(out AnchorBlockDragDrop dragDrop)) dragDrop.IsLocked = true;
         }
