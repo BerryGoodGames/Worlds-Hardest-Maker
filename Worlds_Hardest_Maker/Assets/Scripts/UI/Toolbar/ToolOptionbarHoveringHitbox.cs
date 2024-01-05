@@ -17,13 +17,11 @@ public class ToolOptionbarHoveringHitbox : MonoBehaviour
         anim = toolOptionbar.GetComponent<AlphaTween>();
     }
 
-    private void Update()
-    {
+    private void Update() =>
         anim.SetVisible(
             (mo.Over || toolOptionbar.Root.MouseOverUIRect.Over)
             && (anim.IsVisible || toolOptionbar.Root.MouseOverUIRect.Over)
             && !EditModeManagerOther.Instance.Playing
             && !ReferenceManager.Instance.Menu.activeSelf
         );
-    }
 }

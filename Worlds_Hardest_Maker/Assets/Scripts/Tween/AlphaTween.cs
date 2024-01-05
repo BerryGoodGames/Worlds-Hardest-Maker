@@ -136,9 +136,9 @@ public class AlphaTween : MonoBehaviour
         }
     }
 
-    private void Start() 
+    private void Start()
     {
-        if(!startVisible) OnIsInvisible?.Invoke(); 
+        if (!startVisible) OnIsInvisible?.Invoke();
     }
 
     private void OnDestroy()

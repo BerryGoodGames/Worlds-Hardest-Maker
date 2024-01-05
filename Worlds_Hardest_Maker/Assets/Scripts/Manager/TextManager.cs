@@ -47,6 +47,6 @@ public class TextManager : MonoBehaviour
         Instance.editModeText.text = $"Edit: {EditModeManagerOther.Instance.CurrentEditMode.UIString}";
         Instance.selectingText.text = $"Selecting: {SelectionManager.Instance.Selecting}";
         Instance.deathText.text = $"Deaths: {playerDeaths}";
-        Instance.coinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.TotalCoins}"; 
+        Instance.coinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.TotalCoins}";
     }
 }

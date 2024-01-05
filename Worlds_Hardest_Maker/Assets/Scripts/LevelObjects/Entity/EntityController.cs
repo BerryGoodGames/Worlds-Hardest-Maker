@@ -1,4 +1,1 @@
-public abstract class EntityController : LevelObjectController
-{
-    
-}
+public abstract class EntityController : LevelObjectController { }

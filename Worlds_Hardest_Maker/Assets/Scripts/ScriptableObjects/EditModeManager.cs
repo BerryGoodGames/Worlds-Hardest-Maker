@@ -69,7 +69,7 @@ public class EditModeManager : MonoBehaviour
 
         return editMode;
     }
-    
+
     public static FieldMode GetFieldMode(string fieldModeName)
     {
         FieldMode fieldMode = Instance.AllFieldModes.First(e => e.name == fieldModeName);

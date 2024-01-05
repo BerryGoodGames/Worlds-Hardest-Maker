@@ -46,7 +46,7 @@ public class PlayerRecordingManager : MonoBehaviour
         recordedPositions = new();
 
         if (player is null) yield break;
-        
+
         // save positions of player
         while (!EditModeManagerOther.Instance.Editing)
         {
@@ -65,17 +65,17 @@ public class PlayerRecordingManager : MonoBehaviour
             // display line
             lineRenderer.positionCount++;
             lineRenderer.SetPosition(i, recordedPositions[i]);
-            
+
             // display player sprite
             float playerTrailIndex = (i - (recordedPositions.Count - (float)(playerTrailAmount * playerTrailFrequency))) / playerTrailFrequency + 1;
-            
+
             if (playerTrailIndex > 0 && (recordedPositions.Count - 1 - i) % playerTrailFrequency == 0)
             {
                 SpriteRenderer playerTrail = Instantiate(playerSprite, recordedPositions[i], Quaternion.identity, recordingContainer);
 
                 playerTrail.SetAlpha(playerTrailIndex / playerTrailAmount * playerTrailMaxAlpha);
             }
-            
+
             // wait delay
             yield return new WaitForSeconds(displayDelay);
         }
@@ -88,8 +88,5 @@ public class PlayerRecordingManager : MonoBehaviour
         lineRenderer.positionCount = 0;
     }
 
-    public void ToggleVisibility()
-    {
-        recordingContainer.gameObject.SetActive(!recordingContainer.gameObject.activeSelf);
-    }
+    public void ToggleVisibility() => recordingContainer.gameObject.SetActive(!recordingContainer.gameObject.activeSelf);
 }

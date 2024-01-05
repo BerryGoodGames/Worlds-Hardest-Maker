@@ -137,7 +137,7 @@ public class GameManager : MonoBehaviourPun
         {
             // wait for next auto save
             yield return new WaitForSeconds(autoSaveInterval);
-            
+
             SaveSystem.SaveCurrentLevel();
         }
 

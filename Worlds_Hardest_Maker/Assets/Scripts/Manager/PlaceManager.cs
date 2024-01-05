@@ -2,16 +2,14 @@ using System;
 using Cinemachine.Utility;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PlaceManager : MonoBehaviour
 {
     public static PlaceManager Instance { get; private set; }
 
-    [Separator("General sfx")]
-    public SoundEffect DefaultPlaceSfx;
+    [Separator("General sfx")] public SoundEffect DefaultPlaceSfx;
     [SerializeField] private PlaceSoundEffect[] customPlaceSfx;
-    
+
     [Separator("Konami sfx")] [SerializeField] private SoundEffect konamiPlaceSfx;
     [SerializeField] private PlaceSoundEffect[] customKonamiPlaceSfx;
 
@@ -126,7 +124,7 @@ public class PlaceManager : MonoBehaviour
     public SoundEffect GetSfx(EditMode editMode)
     {
         SoundEffect sfx = KonamiManager.Instance.KonamiActive ? konamiPlaceSfx : DefaultPlaceSfx;
-        
+
         PlaceSoundEffect[] soundCollection = KonamiManager.Instance.KonamiActive ? customKonamiPlaceSfx : customPlaceSfx;
 
         foreach (PlaceSoundEffect placeSfx in soundCollection)
@@ -150,17 +148,12 @@ public class PlaceManager : MonoBehaviour
     public class PlaceSoundEffect : SoundEffect
     {
         [SerializeField] public EditMode Mode;
-        
-        public PlaceSoundEffect(EditMode mode, string sound) : base(sound)
-        {
-            Mode = mode;
-        }
+
+        public PlaceSoundEffect(EditMode mode, string sound) : base(sound) => Mode = mode;
 
         public PlaceSoundEffect(EditMode mode, string sound, bool pitchRandomization, float pitchDeviation) : base(
             sound, pitchRandomization, pitchDeviation
-        )
-        {
+        ) =>
             Mode = mode;
-        }
     }
 }

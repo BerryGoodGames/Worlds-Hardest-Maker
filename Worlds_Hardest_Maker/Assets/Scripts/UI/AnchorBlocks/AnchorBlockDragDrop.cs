@@ -55,9 +55,9 @@ public class AnchorBlockDragDrop : MonoBehaviour
         Offset = mousePos - (Vector2)transform.position;
 
         ReferenceManager.Instance.AnchorBlockConnectorController.UpdateHeight(Offset);
-        
+
         // play sfx
-        if(wasInChain) AudioManager.Instance.Play("AnchorBlockPickUp");
+        if (wasInChain) AudioManager.Instance.Play("AnchorBlockPickUp");
     }
 
     private void OnEndDrag()

@@ -47,7 +47,6 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         PanelManager.Instance.SetPanelOpen(anchorPanel, EditModeManagerOther.Instance.Editing);
 
         AnchorManager.Instance.SelectedAnchor.RenderLines();
-        
     }
 
     public IEnumerator EditCoroutine()
@@ -139,7 +138,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         while (!Input.GetMouseButtonUp(0)) yield return null;
 
         Instance.OnEndPositionEdit();
-        
+
         // play sfx
         AudioManager.Instance.Play(PlaceManager.Instance.DefaultPlaceSfx);
     }

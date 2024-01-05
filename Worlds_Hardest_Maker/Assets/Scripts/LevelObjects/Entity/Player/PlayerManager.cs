@@ -30,7 +30,7 @@ public class PlayerManager : MonoBehaviour
                 Vector2Int.CeilToInt(position),
             };
 
-            foreach (Vector2Int checkPosition in checkPoses) { FieldManager.Instance.SetField(checkPosition, EditModeManager.Start); }
+            foreach (Vector2Int checkPosition in checkPoses) FieldManager.Instance.SetField(checkPosition, EditModeManager.Start);
         }
 
         // clear area from coins and keys
