@@ -563,13 +563,7 @@ public class SelectionManager : MonoBehaviour
         DestroyPreview();
 
         // enable placement preview
-        if (!EditModeManagerOther.Instance.Playing)
-        {
-            GameObject preview = ReferenceManager.Instance.PlacementPreview.gameObject;
-            preview.SetActive(true);
-            preview.transform.position =
-                FollowMouse.GetCurrentMouseWorldPos(preview.GetComponent<FollowMouse>().WorldPosition);
-        }
+        if (!EditModeManagerOther.Instance.Playing) ReferenceManager.Instance.PlacementPreview.Activate();
 
         // reset selection marking
         if (selectionOutline != null) Destroy(selectionOutline);

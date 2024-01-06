@@ -1,12 +1,11 @@
-using System;
 using MyBox;
 using UnityEngine;
 
-public class KeyController : EntityController, IResettable
+public class KeyController : EntityController, IResettable, ICollectible
 {
     [ReadOnly] public KeyColor Color;
     [ReadOnly] public Vector2 KeyPosition;
-    [ReadOnly] public bool PickedUp;
+    [ReadOnly] public bool Collected;
 
     [Separator] [InitializationField] [MustBeAssigned] public SpriteRenderer SpriteRenderer;
 
@@ -47,13 +46,8 @@ public class KeyController : EntityController, IResettable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // check key collection
-        // check if edgeCollider is player
-        if (!collision.TryGetComponent(out PlayerController controller)) return;
-
-        // check if that player hasn't collected key yet
-        PlayerController player = collision.GetComponent<PlayerController>();
-        if (!controller.KeysCollected.Contains(this)) PickUp(player);
+        // check key collection: collider is player, key is not yet collected
+        if (collision.CompareTag("Player") && !Collected) Collect();
     }
 
     /// <summary>
@@ -71,22 +65,22 @@ public class KeyController : EntityController, IResettable
         SpriteRenderer.sortingOrder = highestOrder + 1;
     }
 
-    private void PickUp(PlayerController player)
+    public void Collect()
     {
-        player.KeysCollected.Add(this);
+        KeyManager.Instance.CollectedKeys.Add(this);
 
         // pickup animation and sound
         Animator.SetBool(pickedUpString, true);
         AudioManager.Instance.Play("PlaceKey");
 
-        PickedUp = true;
+        Collected = true;
 
-        UnlockKeyDoors(player);
+        UnlockKeyDoors();
     }
 
-    public void UnlockKeyDoors(PlayerController player)
+    public void UnlockKeyDoors()
     {
-        if (!player.AllKeysCollected(Color)) return;
+        if (!KeyManager.Instance.AllKeysCollected(Color)) return;
 
         string tagColor = Color switch
         {
@@ -106,7 +100,7 @@ public class KeyController : EntityController, IResettable
 
     public void ResetState()
     {
-        PickedUp = false;
+        Collected = false;
 
         Animator.SetBool(playingString, false);
         Animator.SetBool(pickedUpString, false);
@@ -115,7 +109,7 @@ public class KeyController : EntityController, IResettable
     public void ActivateAnimation()
     {
         Animator.SetBool(playingString, true);
-        Animator.SetBool(pickedUpString, PickedUp);
+        Animator.SetBool(pickedUpString, Collected);
     }
 
     public override Data GetData() => new KeyData(this);

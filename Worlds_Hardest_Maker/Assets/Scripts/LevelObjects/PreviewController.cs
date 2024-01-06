@@ -25,7 +25,7 @@ public class PreviewController : MonoBehaviour
     public bool RotateToEditRotation = true;
 
     [Space] [SerializeField] private bool smoothRotation;
-    [SerializeField] private float rotateDuration;
+    [SerializeField] [ConditionalField(nameof(smoothRotation))] [PositiveValueOnly] private float rotateDuration;
 
     protected FollowMouse FollowMouseComp;
     private bool hasFollowMouseComp;

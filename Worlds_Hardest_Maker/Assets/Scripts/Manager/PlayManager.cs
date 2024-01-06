@@ -31,7 +31,9 @@ public class PlayManager : MonoBehaviour
     {
         if (ReferenceManager.Instance.Menu.activeSelf) return;
 
-        (EditModeManagerOther.Instance.Playing ? OnSwitchToEdit : OnSwitchToPlay)?.Invoke();
+        EditModeManagerOther.Instance.Playing = !EditModeManagerOther.Instance.Playing;
+
+        (EditModeManagerOther.Instance.Playing ? OnSwitchToPlay : OnSwitchToEdit)?.Invoke();
 
         OnToggle.Invoke();
     }

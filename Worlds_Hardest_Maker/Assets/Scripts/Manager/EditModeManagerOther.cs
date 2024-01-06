@@ -81,9 +81,6 @@ public class EditModeManagerOther : MonoBehaviour
         if (!LevelSessionManager.Instance.IsEdit) return;
 
         CurrentEditMode = startEditMode;
-
-        PlayManager.Instance.OnSwitchToPlay += () => Playing = true;
-        PlayManager.Instance.OnSwitchToEdit += () => Editing = false;
     }
 
     private void Awake()

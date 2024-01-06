@@ -161,7 +161,6 @@ GameObject:
   - component: {fileID: 7464887056985239506}
   - component: {fileID: 7464887056985239504}
   - component: {fileID: 4452671531424631131}
-  - component: {fileID: 1347314094112749841}
   - component: {fileID: 1103030783182041800}
   - component: {fileID: 1961154637363439688}
   - component: {fileID: 7464887056985239508}
@@ -288,27 +287,6 @@ MonoBehaviour:
   step: 0.5
   startValue: 3
   sliderPrefab: {fileID: 8017886087061505585, guid: 45b1da3dfa8855742b83afeef2e283e2, type: 3}
---- !u!95 &1347314094112749841
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7464887056985239505}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 232e991e746f60f44a8f4e0297b628ad, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!68 &1103030783182041800
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -393,7 +371,6 @@ MonoBehaviour:
   EdgeCollider: {fileID: 0}
   Deaths: 0
   CoinsCollected: []
-  KeysCollected: []
   CurrentFields: []
   StartPos: {x: 0, y: 0}
   InDeathAnim: 0

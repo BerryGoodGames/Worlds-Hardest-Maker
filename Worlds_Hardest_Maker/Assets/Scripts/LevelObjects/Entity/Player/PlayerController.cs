@@ -4,12 +4,11 @@ using DG.Tweening;
 using MyBox;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerController : EntityController
 {
-    #region Variables
-
     #region Editor variables
 
     [Space] public float Speed;
@@ -24,15 +23,13 @@ public class PlayerController : EntityController
 
     [SerializeField] private float maxIceSpeed;
 
-    [Separator("Void settings")] [SerializeField] private float voidFallDuration;
+    [FormerlySerializedAs("voidFallDuration")] [Separator("Void settings")] [SerializeField] private float deathFadeDuration;
 
     #endregion
 
     #region Components
 
     [HideInInspector] public Rigidbody2D Rb;
-
-    [HideInInspector] public Animator Animator;
 
     [HideInInspector] public EdgeCollider2D EdgeCollider;
 
@@ -50,7 +47,6 @@ public class PlayerController : EntityController
     [ReadOnly] public int Deaths;
 
     [HideInInspector] public List<CoinController> CoinsCollected;
-    [HideInInspector] public List<KeyController> KeysCollected;
 
     [HideInInspector] public List<FieldController> CurrentFields;
 
@@ -71,8 +67,6 @@ public class PlayerController : EntityController
 
     private static readonly int death = Animator.StringToHash("Death");
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
-
-    #endregion
 
     public override EditMode EditMode => EditModeManager.Player;
 
@@ -125,7 +119,7 @@ public class PlayerController : EntityController
     {
         EdgeCollider.enabled = false;
 
-        if (Won && Animator != null) Animator.SetTrigger(death);
+        DefaultDeathAnim();
 
         Shotgun.gameObject.SetActive(false);
     }
@@ -404,8 +398,7 @@ public class PlayerController : EntityController
         // avoid dying while in animation
         if (!InDeathAnim)
         {
-            // animation trigger and no movement
-            DeathAnim();
+            DefaultDeathAnim();
         }
 
         if (EditModeManagerOther.Instance.Playing)
@@ -414,7 +407,7 @@ public class PlayerController : EntityController
             AudioManager.Instance.Play(soundEffect);
         }
 
-        Die();
+        Death();
     }
 
     public void DieVoid()
@@ -426,26 +419,33 @@ public class PlayerController : EntityController
 
         Vector2 fallPosition = currentVoid.transform.position;
 
-        spriteRenderer.material.DOFade(0, voidFallDuration)
+        spriteRenderer.DOFade(0, deathFadeDuration)
             .SetEase(Ease.Linear);
 
-        transform.DOMove(fallPosition, voidFallDuration)
+        transform.DOMove(fallPosition, deathFadeDuration)
             .SetEase(Ease.OutQuint);
 
-        transform.DOScale(Vector2.zero, voidFallDuration)
+        transform.DOScale(Vector2.zero, deathFadeDuration)
             .SetEase(Ease.OutQuad)
             .OnComplete(DeathAnimFinish);
 
         AudioManager.Instance.Play("DeathFall");
 
-        Die();
+        Death();
+    }
+
+    private void DefaultDeathAnim()
+    {
+        spriteRenderer.DOFade(0, deathFadeDuration)
+            .SetEase(Ease.Linear)
+            .OnComplete(DeathAnimFinish);
     }
 
 
     /// <summary>
     ///     general method when dying in any way
     /// </summary>
-    private void Die()
+    private void Death()
     {
         Rb.simulated = false;
         InDeathAnim = true;
@@ -480,24 +480,32 @@ public class PlayerController : EntityController
             if (coin != null) CoinsCollected.Add(coin);
         }
     }
-
     
-    public void DeathAnim() => Animator.SetTrigger(death);
-
-
     public void DeathAnimFinish()
     {
-        DestroySelf(false);
-
         // reset timer if no checkpoint activated
         bool hasCheckpointActivated = CurrentGameState != null;
         if (!hasCheckpointActivated) ReferenceManager.Instance.TimerController.ResetTimer();
 
         Won = false;
         InDeathAnim = false;
+        Rb.simulated = true;
 
-        // create new player at start position
-        CreateRespawnPlayer();
+        Vector2 spawnPos = !EditModeManagerOther.Instance.Playing || CurrentGameState == null
+            ? StartPos
+            : CurrentGameState.PlayerStartPos;
+
+        transform.position = spawnPos;
+
+        Color color = spriteRenderer.color;
+        color = new(color.r, color.g, color.b, 1);
+        spriteRenderer.color = color;
+
+        if (Camera.main != null)
+        {
+            JumpToEntity jumpToPlayer = Camera.main.GetComponent<JumpToEntity>();
+            if (jumpToPlayer.GetTarget("Player") == gameObject) jumpToPlayer.SetTarget("Player", gameObject);
+        }
 
         ResetCoinsToCurrentGameState();
         ResetKeysToCurrentGameState();
@@ -510,7 +518,7 @@ public class PlayerController : EntityController
             foreach (GameObject door in GameObject.FindGameObjectsWithTag(tag))
             {
                 KeyDoorFieldController comp = door.GetComponent<KeyDoorFieldController>();
-                if (!AllKeysCollected(comp.Color)) comp.SetLocked(true);
+                if (!KeyManager.Instance.AllKeysCollected(comp.Color)) comp.SetLocked(true);
             }
         }
     }
@@ -526,17 +534,6 @@ public class PlayerController : EntityController
             CoinController c = CoinsCollected[i];
             if (c.CoinPosition == position) CoinsCollected.Remove(c);
         }
-    }
-
-    public bool AllKeysCollected(KeyColor color)
-    {
-        // check if every key of specific color is picked up
-        foreach (KeyController key in KeyManager.Instance.Keys)
-        {
-            if (!key.PickedUp && key.Color == color) return false;
-        }
-
-        return true;
     }
 
     private void UpdateSpeedText() => speedText.text = Speed.ToString("0.0");
@@ -566,7 +563,7 @@ public class PlayerController : EntityController
     public GameState GetGameStateNow()
     {
         CoinsCollected.RemoveAll(e => e == null);
-        KeysCollected.RemoveAll(e => e == null);
+        KeyManager.Instance.CollectedKeys.RemoveAll(e => e == null);
 
         // mx my coords of checkpoint field
         Vector2 statePlayerStartingPos = CurrentGameState?.PlayerStartPos ?? StartPos;
@@ -578,7 +575,7 @@ public class PlayerController : EntityController
         foreach (CoinController c in CoinsCollected) coinPositions.Add(c.CoinPosition);
 
         List<Vector2> keyPositions = new();
-        foreach (KeyController key in KeysCollected) keyPositions.Add(key.KeyPosition);
+        foreach (KeyController key in KeyManager.Instance.CollectedKeys) keyPositions.Add(key.KeyPosition);
 
         GameState res = new(statePlayerStartingPos, coinPositions, keyPositions);
 
@@ -589,7 +586,7 @@ public class PlayerController : EntityController
     {
         DieNormal();
         CoinsCollected.Clear();
-        KeysCollected.Clear();
+        KeyManager.Instance.CollectedKeys.Clear();
         CurrentGameState = null;
     }
 
@@ -646,31 +643,11 @@ public class PlayerController : EntityController
 
             if (!isRespawning) continue;
 
-            KeysCollected.Remove(key);
+            KeyManager.Instance.CollectedKeys.Remove(key);
 
-            key.PickedUp = false;
+            key.Collected = false;
             key.Animator.SetBool(pickedUp, false);
         }
-    }
-
-    private void CreateRespawnPlayer()
-    {
-        float applySpeed = Speed;
-        int deaths = Deaths;
-
-        Vector2 spawnPos = !EditModeManagerOther.Instance.Playing || CurrentGameState == null
-            ? StartPos
-            : CurrentGameState.PlayerStartPos;
-
-        PlayerController player = PlayerManager.InstantiatePlayer(spawnPos, applySpeed);
-
-        player.Deaths = deaths;
-        player.StartPos = StartPos;
-        player.CurrentGameState = CurrentGameState;
-
-        if (Camera.main == null) return;
-        JumpToEntity jumpToPlayer = Camera.main.GetComponent<JumpToEntity>();
-        if (jumpToPlayer.GetTarget("Player") == gameObject) jumpToPlayer.SetTarget("Player", player.gameObject);
     }
 
     public void SyncToLevelSettings()
@@ -688,7 +665,6 @@ public class PlayerController : EntityController
         CoinsCollected = new();
 
         Rb = GetComponent<Rigidbody2D>();
-        Animator = GetComponent<Animator>();
 
         EdgeCollider = GetComponent<EdgeCollider2D>();
 
@@ -748,7 +724,7 @@ public class PlayerController : EntityController
             KeyController key = KeyManager.GetKey(keyCollectedPos);
             if (key == null) throw new Exception("Passed game state has null value for key");
 
-            KeysCollected.Add(key);
+            KeyManager.Instance.CollectedKeys.Add(key);
         }
     }
 
