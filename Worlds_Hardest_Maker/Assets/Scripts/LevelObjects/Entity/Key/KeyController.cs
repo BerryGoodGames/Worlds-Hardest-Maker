@@ -1,7 +1,8 @@
+using System;
 using MyBox;
 using UnityEngine;
 
-public class KeyController : EntityController
+public class KeyController : EntityController, IResettable
 {
     [ReadOnly] public KeyColor Color;
     [ReadOnly] public Vector2 KeyPosition;
@@ -12,6 +13,7 @@ public class KeyController : EntityController
     [InitializationField] [MustBeAssigned] public Animator Animator;
     [InitializationField] [MustBeAssigned] public IntervalRandomAnimation KonamiAnimation;
 
+    private static readonly int playingString = Animator.StringToHash("Playing");
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
 
     public override EditMode EditMode =>
@@ -33,6 +35,12 @@ public class KeyController : EntityController
         KeyManager.Instance.Keys.Add(this);
 
         SetOrderInLayer();
+    }
+
+    private void Start()
+    {
+        ((IResettable)this).Subscribe();
+        PlayManager.Instance.OnSwitchToPlay += ActivateAnimation;
     }
 
     private void OnDestroy() => KeyManager.Instance.Keys.Remove(this);
@@ -69,7 +77,7 @@ public class KeyController : EntityController
 
         // pickup animation and sound
         Animator.SetBool(pickedUpString, true);
-        AudioManager.Instance.Play("Key");
+        AudioManager.Instance.Play("PlaceKey");
 
         PickedUp = true;
 
@@ -94,6 +102,20 @@ public class KeyController : EntityController
             KeyDoorFieldController controller = door.GetComponent<KeyDoorFieldController>();
             controller.SetLocked(false);
         }
+    }
+
+    public void ResetState()
+    {
+        PickedUp = false;
+
+        Animator.SetBool(playingString, false);
+        Animator.SetBool(pickedUpString, false);
+    }
+
+    public void ActivateAnimation()
+    {
+        Animator.SetBool(playingString, true);
+        Animator.SetBool(pickedUpString, PickedUp);
     }
 
     public override Data GetData() => new KeyData(this);

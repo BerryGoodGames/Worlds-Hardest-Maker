@@ -83,26 +83,5 @@ public class KeyManager : MonoBehaviour
         if (Instance == null) Instance = this;
     }
 
-    public void ActivateAnimations()
-    {
-        // activate key animations
-        foreach (KeyController key in Keys)
-        {
-            // TODO: refactor that you don't have to access the animator and just wrap it into a property (also do this for coins etc.)
-            // REMEMBER: you shouldn't have to know how the internals work to use it!
-            key.Animator.SetBool(playing, true);
-            key.Animator.SetBool(pickedUp, key.PickedUp);
-        }
-    }
-
-    public void ResetStates()
-    {
-        foreach (KeyController key in Keys)
-        {
-            key.PickedUp = false;
-
-            key.Animator.SetBool(playing, false);
-            key.Animator.SetBool(pickedUp, false);
-        }
-    }
+    public void ActivateAnimations() => Keys.ForEach(key => key.ActivateAnimation());
 }

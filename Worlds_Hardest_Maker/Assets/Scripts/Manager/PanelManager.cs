@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
@@ -48,6 +49,37 @@ public class PanelManager : MonoBehaviour
     public void HideAllPanels()
     {
         foreach (PanelController panel in Panels) SetPanelHidden(panel, true);
+    }
+
+    private void OnSwitchToPlay()
+    {
+        // hide all panels
+        PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
+        SetPanelHidden(levelSettingsPanel, true);
+
+        PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
+        WasAnchorPanelOpen = anchorPanel.Open;
+        SetPanelHidden(anchorPanel, true);
+    }
+
+    private void OnSwitchToEdit()
+    {
+        // show level setting / anchor panel
+        bool isEditModeAnchorRelated = EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
+        PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
+        PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
+        if (isEditModeAnchorRelated)
+        {
+            if (WasAnchorPanelOpen) SetPanelOpen(anchorPanel, true);
+            else SetPanelHidden(anchorPanel, false);
+        }
+        else SetPanelHidden(levelSettingsPanel, false);
+    }
+
+    private void Start()
+    {
+        PlayManager.Instance.OnSwitchToPlay += OnSwitchToPlay;
+        PlayManager.Instance.OnSwitchToEdit += OnSwitchToEdit;
     }
 
     private void Awake()

@@ -72,24 +72,18 @@ public class EditModeManagerOther : MonoBehaviour
 
     #endregion
 
-    #region Events
-
-    public event Action OnPlay;
-    public event Action OnEdit;
-    private static readonly int editingString = Animator.StringToHash("Editing");
     public event Action OnEditModeChange;
-
-    #endregion
-
-    public void InvokeOnPlay() => OnPlay?.Invoke();
-
-    public void InvokeOnEdit() => OnEdit?.Invoke();
+    
+    private static readonly int editingString = Animator.StringToHash("Editing");
 
     private void Start()
     {
         if (!LevelSessionManager.Instance.IsEdit) return;
 
         CurrentEditMode = startEditMode;
+
+        PlayManager.Instance.OnSwitchToPlay += () => Playing = true;
+        PlayManager.Instance.OnSwitchToEdit += () => Editing = false;
     }
 
     private void Awake()

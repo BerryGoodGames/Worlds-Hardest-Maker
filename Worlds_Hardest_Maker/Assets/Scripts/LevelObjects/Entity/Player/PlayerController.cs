@@ -86,8 +86,8 @@ public class PlayerController : EntityController
 
     private void Start()
     {
-        EditModeManagerOther.Instance.OnEdit += OnEdit;
-        EditModeManagerOther.Instance.OnPlay += OnPlay;
+        PlayManager.Instance.OnSwitchToEdit += OnEdit;
+        PlayManager.Instance.OnSwitchToPlay += OnPlay;
 
         EdgeCollider.enabled = EditModeManagerOther.Instance.Playing;
 
@@ -98,6 +98,8 @@ public class PlayerController : EntityController
         if (LevelSessionManager.Instance.IsEdit) UpdateSpeedText();
 
         SyncToLevelSettings();
+        
+        PlayManager.Instance.OnLevelReset += ResetState;
     }
 
     private void Update() =>
@@ -115,8 +117,8 @@ public class PlayerController : EntityController
 
     private void OnDestroy()
     {
-        EditModeManagerOther.Instance.OnEdit -= OnEdit;
-        EditModeManagerOther.Instance.OnPlay -= OnPlay;
+        PlayManager.Instance.OnSwitchToEdit -= OnEdit;
+        PlayManager.Instance.OnSwitchToPlay -= OnPlay;
     }
 
     private void OnEdit()
@@ -133,6 +135,8 @@ public class PlayerController : EntityController
         EdgeCollider.enabled = true;
 
         if (KonamiManager.Instance.KonamiActive) Shotgun.gameObject.SetActive(true);
+        
+        Setup();
     }
 
     #region Physics, Movement
@@ -746,6 +750,13 @@ public class PlayerController : EntityController
 
             KeysCollected.Add(key);
         }
+    }
+
+    public void Setup()
+    {
+        CurrentFields.Clear();
+        CurrentGameState = null;
+        Deaths = 0;
     }
 
     public override Data GetData() => new PlayerData(this);

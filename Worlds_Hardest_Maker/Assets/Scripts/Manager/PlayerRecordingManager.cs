@@ -25,13 +25,13 @@ public class PlayerRecordingManager : MonoBehaviour
 
     private void Start()
     {
-        EditModeManagerOther.Instance.OnPlay += () =>
+        PlayManager.Instance.OnSwitchToPlay += () =>
         {
             ClearRecording();
             recording = StartCoroutine(RecordPlayer());
         };
 
-        EditModeManagerOther.Instance.OnEdit += () =>
+        PlayManager.Instance.OnSwitchToEdit += () =>
         {
             if (recording != null) StopCoroutine(recording);
 

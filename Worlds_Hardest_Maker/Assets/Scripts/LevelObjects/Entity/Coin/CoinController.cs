@@ -1,7 +1,7 @@
 using MyBox;
 using UnityEngine;
 
-public class CoinController : EntityController
+public class CoinController : EntityController, IResettable
 {
     [InitializationField] [MustBeAssigned] public Animator Animator;
 
@@ -9,6 +9,7 @@ public class CoinController : EntityController
 
     [HideInInspector] public bool PickedUp;
 
+    private static readonly int playingString = Animator.StringToHash("Playing");
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
 
 
@@ -19,6 +20,12 @@ public class CoinController : EntityController
         CoinPosition = transform.position;
 
         CoinManager.Instance.Coins.Add(this);
+    }
+
+    private void Start()
+    {
+        ((IResettable)this).Subscribe();
+        PlayManager.Instance.OnSwitchToPlay += ActivateAnimation;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -46,9 +53,11 @@ public class CoinController : EntityController
         }
     }
 
-    private void OnDestroy() =>
+    private void OnDestroy()
+    {
         // un-cache coin
         CoinManager.Instance.Coins.Remove(this);
+    }
 
     private void PickUp(GameObject player)
     {
@@ -56,10 +65,24 @@ public class CoinController : EntityController
         controller.CoinsCollected.Add(this);
 
         // coin counter, sfx, animation
-        AudioManager.Instance.Play("Coin");
+        AudioManager.Instance.Play("PlaceCoin");
 
         Animator.SetBool(pickedUpString, true);
         PickedUp = true;
+    }
+
+    public void ResetState()
+    {
+        PickedUp = false;
+
+        Animator.SetBool(playingString, false);
+        Animator.SetBool(pickedUpString, false);
+    }
+
+    public void ActivateAnimation()
+    {
+        Animator.SetBool(playingString, true);
+        Animator.SetBool(pickedUpString, PickedUp);
     }
 
     public override Data GetData() => new CoinData(this);

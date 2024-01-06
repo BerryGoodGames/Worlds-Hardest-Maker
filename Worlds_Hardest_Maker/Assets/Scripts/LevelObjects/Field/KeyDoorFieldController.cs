@@ -1,7 +1,8 @@
+using System;
 using MyBox;
 using UnityEngine;
 
-public class KeyDoorFieldController : MonoBehaviour
+public class KeyDoorFieldController : MonoBehaviour, IResettable
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private Animator animator;
 
@@ -20,4 +21,8 @@ public class KeyDoorFieldController : MonoBehaviour
 
         animator.SetBool(unlockedString, !locked);
     }
+
+    private void Start() => ((IResettable)this).Subscribe();
+
+    public void ResetState() => SetLocked(true);
 }

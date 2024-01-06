@@ -127,16 +127,4 @@ public class PlayerManager : MonoBehaviour
         // init singleton
         if (Instance == null) Instance = this;
     }
-
-    public void Setup()
-    {
-        foreach (Transform player in ReferenceManager.Instance.PlayerContainer.transform)
-        {
-            PlayerController controller = player.GetComponent<PlayerController>();
-
-            controller.CurrentFields.Clear();
-            controller.CurrentGameState = null;
-            controller.Deaths = 0;
-        }
-    }
 }

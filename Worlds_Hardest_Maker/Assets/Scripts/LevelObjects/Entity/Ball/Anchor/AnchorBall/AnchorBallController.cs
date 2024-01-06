@@ -21,7 +21,7 @@ public class AnchorBallController : EntityController
 
         StartPosition = transform.localPosition;
 
-        if (LevelSessionManager.Instance.IsEdit) EditModeManagerOther.Instance.OnEdit += ResetPosition;
+        if (LevelSessionManager.Instance.IsEdit) PlayManager.Instance.OnSwitchToEdit += ResetPosition;
     }
 
     public void ResetPosition()
@@ -53,6 +53,6 @@ public class AnchorBallController : EntityController
         Destroy(transform.parent.gameObject);
 
         // unsubscribe
-        if (LevelSessionManager.Instance.IsEdit) EditModeManagerOther.Instance.OnEdit -= ResetPosition;
+        if (LevelSessionManager.Instance.IsEdit) PlayManager.Instance.OnSwitchToEdit -= ResetPosition;
     }
 }

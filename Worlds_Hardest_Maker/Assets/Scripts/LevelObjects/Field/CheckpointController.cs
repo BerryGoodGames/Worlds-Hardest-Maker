@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckpointController : MonoBehaviour
+public class CheckpointController : MonoBehaviour, IResettable
 {
     public bool Activated;
     private static bool reusableCheckpoints = true;
@@ -71,7 +71,7 @@ public class CheckpointController : MonoBehaviour
 
         if (remove) activatedCheckpoints.Remove(this);
 
-        anim.Deactivate();
+        anim.DeactivateTween();
     }
 
     private static void ResetCheckpoints()
@@ -85,5 +85,12 @@ public class CheckpointController : MonoBehaviour
         activatedCheckpoints.Clear();
     }
 
-    private void Start() => anim = GetComponent<CheckpointTween>();
+    private void Start()
+    {
+        anim = GetComponent<CheckpointTween>();
+        
+        ((IResettable)this).Subscribe();
+    }
+    
+    public void ResetState() => Activated = false;
 }

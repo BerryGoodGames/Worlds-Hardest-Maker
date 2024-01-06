@@ -106,8 +106,8 @@ public class AnchorBallManager : MonoBehaviour
         AnchorBallListLayers = new();
         AnchorBallListGlobal = new();
 
-        EditModeManagerOther.Instance.OnPlay += ReferenceManager.Instance.AnchorBallContainer.BallFadeIn;
-        EditModeManagerOther.Instance.OnEdit += () =>
+        PlayManager.Instance.OnSwitchToPlay += ReferenceManager.Instance.AnchorBallContainer.BallFadeIn;
+        PlayManager.Instance.OnSwitchToEdit += () =>
         {
             if (AnchorManager.Instance.SelectedAnchor != null) ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
         };

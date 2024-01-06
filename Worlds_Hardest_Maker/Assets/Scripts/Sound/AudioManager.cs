@@ -15,13 +15,6 @@ public class AudioManager : MonoBehaviour
 
     [Space] [SerializeField] private Sound[] sounds;
 
-    private void Awake()
-    {
-        if (Instance == null) Instance = this;
-
-        sounds.ForEach(sound => sound.CreateSources(gameObject));
-    }
-
     public void Play(string name)
     {
         Sound sound = Array.Find(sounds, sound => sound.Name == name);
@@ -55,4 +48,27 @@ public class AudioManager : MonoBehaviour
     }
 
     public void MusicFiltered(bool filtered) => (filtered ? filteredState : defaultState).TransitionTo(transitionTime);
+    
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+
+        sounds.ForEach(sound => sound.CreateSources(gameObject));
+    }
+
+    private void Start()
+    {
+        PlayManager.Instance.OnSwitchToPlay += () =>
+        {
+            Play("Bell");
+            MusicFiltered(false);
+        };
+
+        PlayManager.Instance.OnSwitchToEdit += () =>
+        {
+            Play("Bell");
+            MusicFiltered(true);
+        };
+    }
 }

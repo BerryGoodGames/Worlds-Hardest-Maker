@@ -6,7 +6,7 @@ using MyBox;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
-public partial class AnchorController : EntityController
+public partial class AnchorController : EntityController, IResettable
 {
     [InitializationField] public Transform BallContainer;
     [InitializationField] public Animator Animator;
@@ -34,7 +34,8 @@ public partial class AnchorController : EntityController
     [HideInInspector] public Rigidbody2D Rb;
     private SpriteRenderer spriteRenderer;
     private EntityDragDrop entityDragDrop;
-    private static readonly int editing = Animator.StringToHash("Editing");
+    private static readonly int editingString = Animator.StringToHash("Editing");
+    private static readonly int playingString = Animator.StringToHash("Playing");
 
     public int LoopBlockIndex { get; set; } = -1;
 
@@ -48,7 +49,7 @@ public partial class AnchorController : EntityController
         spriteRenderer = GetComponent<SpriteRenderer>();
         entityDragDrop = GetComponent<EntityDragDrop>();
 
-        Animator.SetBool(editing, EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated);
+        Animator.SetBool(editingString, EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated);
     }
 
     private void Start()
@@ -61,6 +62,8 @@ public partial class AnchorController : EntityController
         Ease = Ease.Linear;
 
         if (LevelSessionManager.Instance.IsEdit) UpdateStartValues();
+
+        ((IResettable)this).Subscribe();
     }
 
     public void AppendBlock(AnchorBlock block) => Blocks.AddLast(block);
@@ -158,6 +161,15 @@ public partial class AnchorController : EntityController
 
     #endregion
 
+    public void ResetState()
+    {
+        ResetExecution();
+        Animator.SetBool(playingString, false);
+
+        if (AnchorManager.Instance.SelectedAnchor == this 
+            && EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated) SetLinesActive(true);
+    }
+    
     private void UpdateStartValues()
     {
         Transform t = transform;

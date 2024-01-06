@@ -19,8 +19,8 @@ public class ConveyorController : MonoBehaviour
 
         if (LevelSessionManager.Instance.IsEdit)
         {
-            EditModeManagerOther.Instance.OnPlay += SwitchAnimToRunning;
-            EditModeManagerOther.Instance.OnEdit += SwitchAnimToStaying;
+            PlayManager.Instance.OnSwitchToPlay += SwitchAnimToRunning;
+            PlayManager.Instance.OnSwitchToEdit += SwitchAnimToStaying;
         }
         else SwitchAnimToRunning();
     }
@@ -42,7 +42,7 @@ public class ConveyorController : MonoBehaviour
 
     private void OnDestroy()
     {
-        EditModeManagerOther.Instance.OnPlay -= SwitchAnimToRunning;
-        EditModeManagerOther.Instance.OnEdit -= SwitchAnimToStaying;
+        PlayManager.Instance.OnSwitchToPlay -= SwitchAnimToRunning;
+        PlayManager.Instance.OnSwitchToEdit -= SwitchAnimToStaying;
     }
 }

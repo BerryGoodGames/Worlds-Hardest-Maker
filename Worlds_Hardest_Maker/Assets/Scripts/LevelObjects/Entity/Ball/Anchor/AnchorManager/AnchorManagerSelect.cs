@@ -27,7 +27,7 @@ public partial class AnchorManager
         {
             UpdateBlockListInSelectedAnchor();
 
-            SelectedAnchor.Animator.SetBool(selected, false);
+            SelectedAnchor.Animator.SetBool(selectedString, false);
             SelectedAnchor.SetLinesActive(false);
         }
 
@@ -42,7 +42,7 @@ public partial class AnchorManager
         if (EditModeManagerOther.Instance.Playing) return;
 
         SelectedAnchor = anchor;
-        anchor.Animator.SetBool(selected, true);
+        anchor.Animator.SetBool(selectedString, true);
         anchor.SetLinesActive(true);
 
         ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
@@ -65,8 +65,8 @@ public partial class AnchorManager
 
         ReferenceManager.Instance.AnchorBallContainer.BallFadeIn();
 
-        SelectedAnchor.Animator.SetBool(selected, false);
-        SelectedAnchor.Animator.SetBool(playing, EditModeManagerOther.Instance.Playing);
+        SelectedAnchor.Animator.SetBool(selectedString, false);
+        SelectedAnchor.Animator.SetBool(playingString, EditModeManagerOther.Instance.Playing);
         SelectedAnchor.SetLinesActive(false);
         SelectedAnchor = null;
 

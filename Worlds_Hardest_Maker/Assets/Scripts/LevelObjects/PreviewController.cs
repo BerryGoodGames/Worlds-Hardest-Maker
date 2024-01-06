@@ -27,7 +27,7 @@ public class PreviewController : MonoBehaviour
     [Space] [SerializeField] private bool smoothRotation;
     [SerializeField] private float rotateDuration;
 
-    private FollowMouse followMouseComp;
+    protected FollowMouse FollowMouseComp;
     private bool hasFollowMouseComp;
 
     private bool ranAwake;
@@ -48,9 +48,9 @@ public class PreviewController : MonoBehaviour
         ranAwake = true;
     }
 
-    private void Start()
+    protected virtual void Start()
     {
-        hasFollowMouseComp = TryGetComponent(out followMouseComp);
+        hasFollowMouseComp = TryGetComponent(out FollowMouseComp);
 
         previousEditMode = EditModeManagerOther.Instance.CurrentEditMode;
     }
@@ -67,7 +67,7 @@ public class PreviewController : MonoBehaviour
 
         if (!SelectionManager.Instance.Selecting && hasFollowMouseComp)
         {
-            followMouseComp.WorldPosition = currentEditMode.Attributes.IsField || currentEditMode == EditModeManager.Delete
+            FollowMouseComp.WorldPosition = currentEditMode.Attributes.IsField || currentEditMode == EditModeManager.Delete
                 ? WorldPositionType.Matrix
                 : WorldPositionType.Grid;
         }
@@ -102,7 +102,7 @@ public class PreviewController : MonoBehaviour
             if (!mode.ShowFillPreview) return false;
         }
 
-        Vector2 mousePos = followMouseComp.WorldPosition switch
+        Vector2 mousePos = FollowMouseComp.WorldPosition switch
         {
             WorldPositionType.Any => MouseManager.Instance.MouseWorldPos,
             WorldPositionType.Grid => MouseManager.Instance.MouseWorldPosGrid,

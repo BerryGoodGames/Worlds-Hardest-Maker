@@ -9,8 +9,6 @@ public class ReferenceManager : MonoBehaviour
 
     #region Objects
 
-    [Foldout("Objects")] public GameObject Manager;
-
     [Foldout("Objects")] public JumpToEntity MainCameraJumper;
 
     [Foldout("Objects")] public Canvas Canvas;
@@ -19,12 +17,11 @@ public class ReferenceManager : MonoBehaviour
 
     [Foldout("Objects")] public GameObject Menu;
     [Foldout("Objects")] public AlphaTween MenuTween;
-    [Foldout("Objects")] public GameObject PlayButton;
 
     [Foldout("Objects")] public AlphaTween KeybindBlocker;
     [Foldout("Objects")] public TMP_Text KeybindBlockerText;
 
-    [Foldout("Objects")] public PreviewController PlacementPreview;
+    [Foldout("Objects")] public PlacementPreviewController PlacementPreview;
 
     [Foldout("Objects")] public BarTween ToolbarTween;
     [Foldout("Objects")] public BarTween InfobarEditTween;
@@ -32,8 +29,7 @@ public class ReferenceManager : MonoBehaviour
     [Foldout("Objects")] public BarTween PlayButtonTween;
 
     [Foldout("Objects")] public TimerController TimerController;
-
-
+    
     [Foldout("Objects")] public PanelController LevelSettingsPanelController;
     [Foldout("Objects")] public PanelController AnchorPanelController;
 

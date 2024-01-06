@@ -59,27 +59,7 @@ public class CoinManager : MonoBehaviour
         return coin;
     }
 
-    public void ResetStates()
-    {
-        // reset coins
-        foreach (CoinController coin in Coins)
-        {
-            coin.PickedUp = false;
-
-            coin.Animator.SetBool(playing, false);
-            coin.Animator.SetBool(pickedUp, false);
-        }
-    }
-
-    public void ActivateAnimations()
-    {
-        // activate coin animations
-        foreach (CoinController coin in Coins)
-        {
-            coin.Animator.SetBool(playing, true);
-            coin.Animator.SetBool(pickedUp, coin.PickedUp);
-        }
-    }
+    public void ActivateAnimations() => Coins.ForEach(coin => coin.ActivateAnimation());
 
     private void Awake()
     {

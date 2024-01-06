@@ -5,8 +5,8 @@ public partial class AnchorManager : MonoBehaviour
 {
     public static AnchorManager Instance { get; private set; }
 
-    private static readonly int selected = Animator.StringToHash("Selected");
-    private static readonly int playing = Animator.StringToHash("Playing");
+    private static readonly int selectedString = Animator.StringToHash("Selected");
+    private static readonly int playingString = Animator.StringToHash("Playing");
 
     private void Awake()
     {
@@ -15,11 +15,12 @@ public partial class AnchorManager : MonoBehaviour
 
     private void Start()
     {
-        EditModeManagerOther.Instance.OnPlay += GameManager.DeselectInputs;
-        EditModeManagerOther.Instance.OnPlay += UpdateBlockListInSelectedAnchor;
+        PlayManager.Instance.OnSwitchToPlay += GameManager.DeselectInputs;
+        PlayManager.Instance.OnSwitchToPlay += UpdateBlockListInSelectedAnchor;
+        PlayManager.Instance.OnSwitchToPlay += StartExecuting;
 
-        EditModeManagerOther.Instance.OnEdit += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(false);
-        EditModeManagerOther.Instance.OnPlay += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(true);
+        PlayManager.Instance.OnSwitchToEdit += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(false);
+        PlayManager.Instance.OnSwitchToPlay += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(true);
     }
 
     private void Update() => CheckAnchorSelection();
@@ -48,23 +49,7 @@ public partial class AnchorManager : MonoBehaviour
 
         selectedAnchor.RenderLines();
     }
-
-    public void ResetStates()
-    {
-        // reset anchors
-        foreach (Transform t in ReferenceManager.Instance.AnchorContainer)
-        {
-            AnchorParentController parent = t.GetComponent<AnchorParentController>();
-            AnchorController anchor = parent.Child;
-
-            anchor.ResetExecution();
-            anchor.Animator.SetBool(playing, false);
-
-            if (SelectedAnchor == anchor &&
-                EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated) anchor.SetLinesActive(true);
-        }
-    }
-
+    
     public void StartExecuting()
     {
         UpdateBlockListInSelectedAnchor();
@@ -82,7 +67,7 @@ public partial class AnchorManager : MonoBehaviour
             if (SelectedAnchor == anchor &&
                 EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated) continue;
 
-            anchor.Animator.SetBool(playing, true);
+            anchor.Animator.SetBool(playingString, true);
         }
     }
 }

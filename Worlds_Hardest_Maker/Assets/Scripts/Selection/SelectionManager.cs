@@ -67,7 +67,7 @@ public class SelectionManager : MonoBehaviour
 
     private void Start()
     {
-        EditModeManagerOther.Instance.OnPlay += CancelSelection;
+        PlayManager.Instance.OnSwitchToPlay += CancelSelection;
         EditModeManagerOther.Instance.OnEditModeChange += RemakePreview;
 
         fillMouseOver.OnHovered += SetPreviewVisible;
