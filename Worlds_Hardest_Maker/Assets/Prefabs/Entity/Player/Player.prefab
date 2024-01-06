@@ -161,12 +161,9 @@ GameObject:
   - component: {fileID: 7464887056985239506}
   - component: {fileID: 7464887056985239504}
   - component: {fileID: 4452671531424631131}
-  - component: {fileID: 2294741680619993642}
   - component: {fileID: 1347314094112749841}
   - component: {fileID: 1103030783182041800}
   - component: {fileID: 1961154637363439688}
-  - component: {fileID: 8166517329703902944}
-  - component: {fileID: -8367187434094895155}
   - component: {fileID: 7464887056985239508}
   - component: {fileID: 8885774084951150650}
   m_Layer: 9
@@ -291,21 +288,6 @@ MonoBehaviour:
   step: 0.5
   startValue: 3
   sliderPrefab: {fileID: 8017886087061505585, guid: 45b1da3dfa8855742b83afeef2e283e2, type: 3}
---- !u!114 &2294741680619993642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7464887056985239505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aaa92d82c197e24e9ef7a3b89f11c56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showOnlyWhenMultiplayer: 1
-  nameTagPrefab: {fileID: 2234591564639502710, guid: d0c11e5b0d41f2d4a8c287eccabe7cc0, type: 3}
-  NameTag: {fileID: 0}
 --- !u!95 &1347314094112749841
 Animator:
   serializedVersion: 5
@@ -387,62 +369,6 @@ MonoBehaviour:
   hoveringHitboxContainer: {fileID: 792445647476865653}
   roots:
   - {fileID: 7329739109397213296}
---- !u!114 &8166517329703902944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7464887056985239505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: -8367187434094895155}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &-8367187434094895155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7464887056985239505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PositionModel:
-    SynchronizeEnabled: 1
-    TeleportEnabled: 1
-    TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 2
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 1
-    ExtrapolateOption: 0
-    ExtrapolateSpeed: 1
-    ExtrapolateIncludingRoundTripTime: 1
-    ExtrapolateNumberOfStoredPositions: 1
-  m_RotationModel:
-    SynchronizeEnabled: 0
-    InterpolateOption: 1
-    InterpolateRotateTowardsSpeed: 180
-    InterpolateLerpSpeed: 5
-  m_ScaleModel:
-    SynchronizeEnabled: 0
-    InterpolateOption: 0
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 0
 --- !u!114 &7464887056985239508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,7 +391,6 @@ MonoBehaviour:
   Rb: {fileID: 0}
   Animator: {fileID: 0}
   EdgeCollider: {fileID: 0}
-  PhotonView: {fileID: 0}
   Deaths: 0
   CoinsCollected: []
   KeysCollected: []
