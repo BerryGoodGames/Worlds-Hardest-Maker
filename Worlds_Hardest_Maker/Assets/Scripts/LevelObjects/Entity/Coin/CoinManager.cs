@@ -20,7 +20,7 @@ public class CoinManager : MonoBehaviour
     {
         Destroy(GetCoin(position));
 
-        PlayerController currentPlayer = PlayerManager.GetPlayer();
+        PlayerController currentPlayer = PlayerManager.Instance.Player;
         if (currentPlayer != null) currentPlayer.UncollectCoinAtPos(position);
     }
 

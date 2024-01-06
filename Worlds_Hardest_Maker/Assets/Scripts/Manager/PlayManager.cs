@@ -124,7 +124,7 @@ public class PlayManager : MonoBehaviour
     /// </summary>
     public static void ResetLevel()
     {
-        PlayerManager.Instance.ResetStates();
+        if(PlayerManager.Instance.Player != null) PlayerManager.Instance.Player.ResetState();
 
         CoinManager.Instance.ResetStates();
 

@@ -284,7 +284,7 @@ public class SelectionManager : MonoBehaviour
         // remove player if at changed pos
         if (!mode.IsStartFieldForPlayer)
         {
-            PlayerController player = PlayerManager.GetPlayer();
+            PlayerController player = PlayerManager.Instance.Player;
 
             if (player != null && player.transform.position.IsBetween(lowest.ToVector2(), highest.ToVector2())) Destroy(player.gameObject);
         }
@@ -381,7 +381,7 @@ public class SelectionManager : MonoBehaviour
             DestroyImmediate(collider);
         }
 
-        PlayerController player = PlayerManager.GetPlayer();
+        PlayerController player = PlayerManager.Instance.Player;
 
         if (player != null && !PlayerManager.CanPlace(player.transform.position, false))
             PlayerManager.Instance.RemovePlayerAtPos(player.transform.position);

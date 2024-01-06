@@ -1,0 +1,16 @@
+{
+    "name": "DV.Example.Views",
+    "references": [
+        "GUID:8eb93c192c3ef7148b6139531700e067",
+        "GUID:0736ac369a779f94580b13b8b821b0d2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

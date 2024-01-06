@@ -162,7 +162,8 @@ public class GameManager : MonoBehaviour
 
     public void ClearLevel()
     {
-        PlayerManager.Instance.RemoveAllPlayers();
+        if(PlayerManager.Instance.Player != null) PlayerManager.Instance.Player.DestroySelf();
+        
         List<Transform> containers = new()
         {
             ReferenceManager.Instance.FieldContainer,

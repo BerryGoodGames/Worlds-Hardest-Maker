@@ -41,16 +41,16 @@ public class PlayerRecordingManager : MonoBehaviour
 
     private IEnumerator RecordPlayer()
     {
-        Transform player = PlayerManager.GetPlayer()?.transform;
+        PlayerController player = PlayerManager.Instance.Player;
+        
+        if(player == null) yield break;
 
         recordedPositions = new();
-
-        if (player is null) yield break;
 
         // save positions of player
         while (!EditModeManagerOther.Instance.Editing)
         {
-            recordedPositions.Add(player.position);
+            recordedPositions.Add(player.transform.position);
 
             yield return new WaitForSeconds(recordingFrequency);
         }

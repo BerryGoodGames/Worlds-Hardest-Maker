@@ -65,13 +65,13 @@ public class JumpToEntity : MonoBehaviour
 
     #region Target list manipulation
 
-    public void AddTarget(string key, GameObject target)
+    public void SetTarget(string key, GameObject target)
     {
         if (target == null) throw new Exception("Game object tried to add to target list is null");
 
         if (target.TryGetComponent(out Renderer objRenderer))
         {
-            AddTarget(key, target, objRenderer);
+            SetTarget(key, target, objRenderer);
             return;
         }
 
@@ -80,7 +80,7 @@ public class JumpToEntity : MonoBehaviour
         );
     }
 
-    public void AddTarget(string key, GameObject target, Renderer targetRenderer)
+    public void SetTarget(string key, GameObject target, Renderer targetRenderer)
     {
         if (targetList.ContainsKey(key))
         {

@@ -68,7 +68,7 @@ public class KeyEvents : MonoBehaviour
         if (!LevelSessionManager.Instance.IsEdit || !EditModeManagerOther.Instance.Playing ||
             !KeyBinds.GetKeyBindDown("Editor_TeleportPlayer")) return;
 
-        PlayerController player = PlayerManager.GetPlayer();
+        PlayerController player = PlayerManager.Instance.Player;
         if (player == null) return;
 
         player.Rb.position = MouseManager.Instance.MouseWorldPosGrid;

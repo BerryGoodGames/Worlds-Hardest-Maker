@@ -32,7 +32,7 @@ public class TextManager : MonoBehaviour
 
         try
         {
-            PlayerController currentPlayer = PlayerManager.GetPlayer().GetComponent<PlayerController>();
+            PlayerController currentPlayer = PlayerManager.Instance.Player;
             playerDeaths = currentPlayer.Deaths;
             playerCoinsCollected = currentPlayer.CoinsCollected.Count;
         }

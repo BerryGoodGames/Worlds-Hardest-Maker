@@ -50,7 +50,7 @@ public class KonamiManager : MonoBehaviour
         foreach (KeyController key in KeyManager.Instance.Keys) key.KonamiAnimation.enabled = active;
 
         // toggle shotgun (if player exists)
-        PlayerController player = PlayerManager.GetPlayer();
+        PlayerController player = PlayerManager.Instance.Player;
         if (player != null)
             player.Shotgun.gameObject.SetActive((!LevelSessionManager.Instance.IsEdit || EditModeManagerOther.Instance.Playing) && active);
 

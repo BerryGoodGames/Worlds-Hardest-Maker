@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -10,54 +10,60 @@ public class PlayerManager : MonoBehaviour
 
     public void InvokeOnWin() => OnWin?.Invoke();
 
+    [ReadOnly] public PlayerController Player;
+
     #region Set player
 
-    public PlayerController SetPlayer(Vector2 position, float speed, bool placeStartField = false)
+    public PlayerController SetPlayer(Vector2 position, float speed, bool surroundWithStartFields = false)
     {
         if (IsPlayerThere(position)) return null;
 
         // TODO: improve
         if (!CanPlace(position))
         {
-            if (!placeStartField) return null;
+            if (!surroundWithStartFields) return null;
 
-            Vector2Int[] checkPoses =
-            {
-                Vector2Int.FloorToInt(position),
-                new(Mathf.CeilToInt(position.x), Mathf.FloorToInt(position.y)),
-                new(Mathf.FloorToInt(position.x), Mathf.CeilToInt(position.y)),
-                Vector2Int.CeilToInt(position),
-            };
-
-            foreach (Vector2Int checkPosition in checkPoses) FieldManager.Instance.SetField(checkPosition, EditModeManager.Start);
+            SetSurroundingStartFields(position);
         }
 
         // clear area from coins and keys
         GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.CoinContainer);
         GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.KeyContainer);
 
-        // clear all players
-        RemoveAllPlayers();
+        // if player already exists, just move it
+        if (Player != null)
+        {
+            Player.transform.position = position;
+            return Player;
+        }
 
         // place player
         PlayerController newPlayer = InstantiatePlayer(position, speed);
 
         // set target of camera
-        ReferenceManager.Instance.MainCameraJumper.AddTarget("Player", newPlayer.gameObject);
+        ReferenceManager.Instance.MainCameraJumper.SetTarget("Player", newPlayer.gameObject);
+
+        Player = newPlayer;
 
         return newPlayer;
+    }
+
+    private static void SetSurroundingStartFields(Vector2 position)
+    {
+        Vector2Int[] checkPoses =
+        {
+            Vector2Int.FloorToInt(position),
+            new(Mathf.CeilToInt(position.x), Mathf.FloorToInt(position.y)),
+            new(Mathf.FloorToInt(position.x), Mathf.CeilToInt(position.y)),
+            Vector2Int.CeilToInt(position),
+        };
+
+        foreach (Vector2Int checkPosition in checkPoses) FieldManager.Instance.SetField(checkPosition, EditModeManager.Start);
     }
 
     public PlayerController SetPlayer(Vector2 position, bool placeStartField = false) => SetPlayer(position, 3f, placeStartField);
 
     #endregion
-
-    
-    public void RemoveAllPlayers()
-    {
-        foreach (Transform player in ReferenceManager.Instance.PlayerContainer) player.GetComponent<PlayerController>().DestroySelf();
-    }
-
     
     public void RemovePlayerAtPos(Vector2 position)
     {
@@ -85,49 +91,7 @@ public class PlayerManager : MonoBehaviour
         !(checkForPlayer && IsPlayerThere(position)) &&
         FieldManager.IsPosCoveredWithFieldType(position, EditModeManager.Instance.AllPlayerStartFieldModes.ToArray());
 
-    #region Get player
-
-    public static List<PlayerController> GetPlayers()
-    {
-        Transform container = ReferenceManager.Instance.PlayerContainer;
-        List<PlayerController> players = new();
-
-        foreach (Transform player in container)
-        {
-            if (player.TryGetComponent(out PlayerController controller)) players.Add(controller);
-            // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-            else Debug.LogWarning("Could not find PlayerController component in player");
-        }
-
-        return players;
-    }
-
-    public static PlayerController GetPlayer(Vector2 position)
-    {
-        List<PlayerController> players = GetPlayers();
-        foreach (PlayerController player in players)
-        {
-            if ((Vector2)player.transform.position == position) return player;
-        }
-
-        return null;
-    }
-
-    public static PlayerController GetPlayer()
-    {
-        // getting the one player in single player
-        List<PlayerController> players = GetPlayers();
-        if (players.Count > 1)
-        {
-            throw new Exception(
-                "There are multiple player objects within GameManager.PlayerContainer while trying to access the specific player in singleplayer"
-            );
-        }
-
-        return players.Count == 0 ? null : players[0];
-    }
-
-    public static bool IsPlayerThere(Vector2 position) => GetPlayer(position) != null;
+    public static bool IsPlayerThere(Vector2 position) => Instance.Player != null && (Vector2)Instance.Player.transform.position == position;
 
     public static bool IsPlayerThereIntersect(Vector2 position)
     {
@@ -146,8 +110,6 @@ public class PlayerManager : MonoBehaviour
         return false;
     }
 
-    #endregion
-
     public static PlayerController InstantiatePlayer(Vector2 position, float speed)
     {
         PlayerController newPlayer = Instantiate(
@@ -164,20 +126,6 @@ public class PlayerManager : MonoBehaviour
     {
         // init singleton
         if (Instance == null) Instance = this;
-    }
-
-    public void ResetStates()
-    {
-        List<PlayerController> players = GetPlayers();
-
-        // reset players
-        foreach (PlayerController player in players)
-        {
-            player.DieNormal();
-            player.CoinsCollected.Clear();
-            player.KeysCollected.Clear();
-            player.CurrentGameState = null;
-        }
     }
 
     public void Setup()

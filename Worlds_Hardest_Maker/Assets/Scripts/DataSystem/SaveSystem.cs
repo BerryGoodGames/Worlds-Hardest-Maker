@@ -59,8 +59,8 @@ public static class SaveSystem
         List<Data> levelData = new();
 
         // serialize players
-        List<PlayerController> players = PlayerManager.GetPlayers();
-        foreach (PlayerController player in players)
+        PlayerController player = PlayerManager.Instance.Player;
+        if (player != null)
         {
             PlayerData playerData = new(player);
             levelData.Add(playerData);

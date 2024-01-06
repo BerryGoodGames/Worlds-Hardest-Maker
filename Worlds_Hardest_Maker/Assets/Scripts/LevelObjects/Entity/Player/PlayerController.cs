@@ -405,8 +405,10 @@ public class PlayerController : EntityController
         }
 
         if (EditModeManagerOther.Instance.Playing)
+        {
             // sfx and death counter
             AudioManager.Instance.Play(soundEffect);
+        }
 
         Die();
     }
@@ -579,6 +581,13 @@ public class PlayerController : EntityController
         return res;
     }
 
+    public void ResetState()
+    {
+        DieNormal();
+        CoinsCollected.Clear();
+        KeysCollected.Clear();
+        CurrentGameState = null;
+    }
 
     private void ResetCoinsToCurrentGameState()
     {
@@ -657,7 +666,7 @@ public class PlayerController : EntityController
 
         if (Camera.main == null) return;
         JumpToEntity jumpToPlayer = Camera.main.GetComponent<JumpToEntity>();
-        if (jumpToPlayer.GetTarget("Player") == gameObject) jumpToPlayer.AddTarget("Player", player.gameObject);
+        if (jumpToPlayer.GetTarget("Player") == gameObject) jumpToPlayer.SetTarget("Player", player.gameObject);
     }
 
     public void SyncToLevelSettings()

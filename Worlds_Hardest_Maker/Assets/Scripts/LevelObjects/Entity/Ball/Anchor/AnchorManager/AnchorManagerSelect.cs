@@ -52,7 +52,7 @@ public partial class AnchorManager
 
         AnchorBlockManager.LoadAnchorBlocks(anchor);
 
-        ReferenceManager.Instance.MainCameraJumper.AddTarget("Anchor", anchor.gameObject);
+        ReferenceManager.Instance.MainCameraJumper.SetTarget("Anchor", anchor.gameObject);
         ReferenceManager.Instance.AnchorCameraJumping.CameraJumpToAnchor();
 
         // play sfx
