@@ -98,8 +98,9 @@ public class PreviewController : MonoBehaviour
 
         // check if preview of edit mode is not allowed during filling
         if (SelectionManager.Instance.Selecting)
-            if (!mode.ShowFillPreview)
-                return false;
+        {
+            if (!mode.ShowFillPreview) return false;
+        }
 
         Vector2 mousePos = followMouseComp.WorldPosition switch
         {

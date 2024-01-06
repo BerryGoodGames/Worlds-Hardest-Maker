@@ -37,7 +37,7 @@ public class AudioManager : MonoBehaviour
     public void Play(SoundEffect sfx)
     {
         Sound sound = Array.Find(sounds, sound => sound.Name == sfx.Sound);
-        
+
         if (sound == null)
         {
             Debug.LogWarning($"The sound called {sfx.Sound} was not found!");

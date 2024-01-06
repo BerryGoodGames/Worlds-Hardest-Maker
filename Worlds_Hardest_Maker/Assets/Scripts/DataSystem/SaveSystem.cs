@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using Photon.Pun;
 using SFB;
 using UnityEngine;
 
@@ -213,14 +212,6 @@ public static class SaveSystem
             return data;
         }
         finally { stream.Close(); }
-    }
-
-    public static void SendLevel(string path)
-    {
-        string content = File.ReadAllText(path);
-
-        // RPC file content to other clients while loading oneself
-        GameManager.Instance.photonView.RPC("ReceiveLevel", RpcTarget.Others, content);
     }
 }
 

@@ -58,19 +58,13 @@ public class Dbg : MonoBehaviour
         {
             if (!LevelSessionManager.IsSessionFromEditor) return;
 
-            try
-            {
-                GameManager.Instance.LoadLevel(LevelSessionManager.Instance.LevelSessionPath);
-            }
+            try { GameManager.Instance.LoadLevel(LevelSessionManager.Instance.LevelSessionPath); }
             catch
             {
                 // ignored
             }
         }
-        else if (autoPlacePlayer)
-        {
-            PlayerManager.Instance.SetPlayer(Vector2.zero, true);
-        }
+        else if (autoPlacePlayer) PlayerManager.Instance.SetPlayer(Vector2.zero, true);
 #endif
     }
 

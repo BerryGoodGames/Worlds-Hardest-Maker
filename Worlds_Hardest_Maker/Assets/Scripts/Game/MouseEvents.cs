@@ -1,5 +1,4 @@
 using System.Collections;
-using Photon.Pun;
 using UnityEngine;
 
 /// <summary>
@@ -28,8 +27,6 @@ public class MouseEvents : MonoBehaviour
 
     private static void CheckPlaceAndDelete()
     {
-        PhotonView photonView = GameManager.Instance.photonView;
-        bool multiplayer = MultiplayerManager.Instance.Multiplayer;
         EditMode editMode = EditModeManagerOther.Instance.CurrentEditMode;
 
         // place / delete stuff
@@ -49,7 +46,7 @@ public class MouseEvents : MonoBehaviour
             if (Input.GetMouseButtonDown(0)) CheckClickPlacement(editMode);
         }
 
-        CheckEntityDelete(photonView, multiplayer);
+        CheckEntityDelete();
     }
 
     private static IEnumerator StartCancelSelection()
@@ -94,37 +91,16 @@ public class MouseEvents : MonoBehaviour
         }
     }
 
-    private static void CheckEntityDelete(PhotonView photonView, bool multiplayer)
+    private static void CheckEntityDelete()
     {
         if (!KeyBinds.GetKeyBind("Editor_DeleteEntity")) return;
 
         if (!Input.GetMouseButton(0) && !Input.GetMouseButtonDown(0)) return;
 
         // delete entities
-        if (multiplayer)
-        {
-            // remove player (only own client)
-            PlayerManager.Instance.RemovePlayerAtPosIgnoreOtherClients(MouseManager.Instance.MouseWorldPosGrid);
-
-            // remove coins
-            photonView.RPC("RemoveCoin", RpcTarget.All, MouseManager.Instance.MouseWorldPosGrid);
-
-            // remove balls
-            photonView.RPC("RemoveAnchorBall", RpcTarget.All, MouseManager.Instance.MouseWorldPosGrid);
-
-            // remove anchors
-            photonView.RPC("RemoveAnchor", RpcTarget.All, MouseManager.Instance.MouseWorldPosGrid);
-
-            // remove keys
-            photonView.RPC("RemoveKey", RpcTarget.All, MouseManager.Instance.MouseWorldPosGrid);
-        }
-        else
-        {
-            // remove entity
-            PlaceManager.RemoveEntitiesAt(
-                MouseManager.Instance.MouseWorldPosGrid,
-                LayerManager.Instance.Layers.Entity
-            );
-        }
+        PlaceManager.RemoveEntitiesAt(
+            MouseManager.Instance.MouseWorldPosGrid,
+            LayerManager.Instance.Layers.Entity
+        );
     }
 }

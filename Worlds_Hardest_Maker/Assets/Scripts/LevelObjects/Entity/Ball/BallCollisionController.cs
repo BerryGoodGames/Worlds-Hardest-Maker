@@ -16,8 +16,6 @@ public class BallCollisionController : MonoBehaviour
 
         PlayerController controller = collider.GetComponent<PlayerController>();
 
-        if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) return;
-
         if (controller.InDeathAnim) return;
 
         if (!controller.IsOnSafeField()) controller.DieNormal();

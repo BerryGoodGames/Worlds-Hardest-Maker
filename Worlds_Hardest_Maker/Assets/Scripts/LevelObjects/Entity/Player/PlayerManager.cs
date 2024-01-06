@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Photon.Pun;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -30,7 +29,7 @@ public class PlayerManager : MonoBehaviour
                 Vector2Int.CeilToInt(position),
             };
 
-            foreach (Vector2Int checkPosition in checkPoses) { FieldManager.Instance.SetField(checkPosition, EditModeManager.Start); }
+            foreach (Vector2Int checkPosition in checkPoses) FieldManager.Instance.SetField(checkPosition, EditModeManager.Start);
         }
 
         // clear area from coins and keys
@@ -41,7 +40,7 @@ public class PlayerManager : MonoBehaviour
         RemoveAllPlayers();
 
         // place player
-        PlayerController newPlayer = InstantiatePlayer(position, speed, MultiplayerManager.Instance.Multiplayer);
+        PlayerController newPlayer = InstantiatePlayer(position, speed);
 
         // set target of camera
         ReferenceManager.Instance.MainCameraJumper.AddTarget("Player", newPlayer.gameObject);
@@ -53,35 +52,14 @@ public class PlayerManager : MonoBehaviour
 
     #endregion
 
-    [PunRPC]
+    
     public void RemoveAllPlayers()
     {
         foreach (Transform player in ReferenceManager.Instance.PlayerContainer) player.GetComponent<PlayerController>().DestroySelf();
     }
 
-    [PunRPC]
+    
     public void RemovePlayerAtPos(Vector2 position)
-    {
-        // remove player only if at pos
-        foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
-        {
-            if ((Vector2)player.position == position) player.GetComponent<PlayerController>().DestroySelf();
-        }
-    }
-
-    [PunRPC]
-    public void RemovePlayerAtPosOnlyOtherClients(Vector2 position)
-    {
-        // remove player only if at pos
-        foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
-        {
-            if (MultiplayerManager.Instance.Multiplayer && player.GetComponent<PhotonView>().IsMine) continue;
-            if ((Vector2)player.position == position) player.GetComponent<PlayerController>().DestroySelf();
-        }
-    }
-
-    [PunRPC]
-    public void RemovePlayerAtPosIgnoreOtherClients(Vector2 position)
     {
         // remove player only if at pos
         foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
@@ -109,19 +87,6 @@ public class PlayerManager : MonoBehaviour
 
     #region Get player
 
-    public static PlayerController GetClientPlayer()
-    {
-        if (!MultiplayerManager.Instance.Multiplayer) throw new Exception("Trying to access player of client while singleplayer");
-
-        List<PlayerController> players = GetPlayers();
-        foreach (PlayerController controller in players)
-        {
-            if (controller.PhotonView.IsMine) return controller;
-        }
-
-        return null;
-    }
-
     public static List<PlayerController> GetPlayers()
     {
         Transform container = ReferenceManager.Instance.PlayerContainer;
@@ -142,7 +107,6 @@ public class PlayerManager : MonoBehaviour
         List<PlayerController> players = GetPlayers();
         foreach (PlayerController player in players)
         {
-            if (MultiplayerManager.Instance.Multiplayer && !player.PhotonView.IsMine) continue;
             if ((Vector2)player.transform.position == position) return player;
         }
 
@@ -151,8 +115,6 @@ public class PlayerManager : MonoBehaviour
 
     public static PlayerController GetPlayer()
     {
-        if (MultiplayerManager.Instance.Multiplayer) return GetClientPlayer();
-
         // getting the one player in single player
         List<PlayerController> players = GetPlayers();
         if (players.Count > 1)
@@ -186,29 +148,14 @@ public class PlayerManager : MonoBehaviour
 
     #endregion
 
-    public static PlayerController InstantiatePlayer(Vector2 position, float speed, bool multiplayer)
+    public static PlayerController InstantiatePlayer(Vector2 position, float speed)
     {
-        PlayerController newPlayer;
-        if (multiplayer)
-        {
-            GameObject newPlayerObject = PhotonNetwork.Instantiate(
-                PrefabManager.Instance.Player.name, position,
-                Quaternion.identity
-            );
+        PlayerController newPlayer = Instantiate(
+            PrefabManager.Instance.Player, position, Quaternion.identity,
+            ReferenceManager.Instance.PlayerContainer
+        );
 
-            newPlayer = newPlayerObject.GetComponent<PlayerController>();
-
-            newPlayer.PhotonView.RPC("SetSpeed", RpcTarget.All, speed);
-        }
-        else
-        {
-            newPlayer = Instantiate(
-                PrefabManager.Instance.Player, position, Quaternion.identity,
-                ReferenceManager.Instance.PlayerContainer
-            );
-
-            newPlayer.SetSpeed(speed);
-        }
+        newPlayer.SetSpeed(speed);
 
         return newPlayer;
     }
@@ -226,7 +173,6 @@ public class PlayerManager : MonoBehaviour
         // reset players
         foreach (PlayerController player in players)
         {
-            if (MultiplayerManager.Instance.Multiplayer && !player.PhotonView.IsMine) continue;
             player.DieNormal();
             player.CoinsCollected.Clear();
             player.KeysCollected.Clear();
@@ -239,8 +185,6 @@ public class PlayerManager : MonoBehaviour
         foreach (Transform player in ReferenceManager.Instance.PlayerContainer.transform)
         {
             PlayerController controller = player.GetComponent<PlayerController>();
-
-            if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) continue;
 
             controller.CurrentFields.Clear();
             controller.CurrentGameState = null;

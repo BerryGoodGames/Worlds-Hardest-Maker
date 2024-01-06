@@ -32,12 +32,12 @@ public class AnchorBlockQuickMenuController : QuickMenuController
 
     public void Activate(AnchorBlockController anchorBlock)
     {
-        if(Tween == null) Tween = GetComponent<AlphaTween>();
-        
+        if (Tween == null) Tween = GetComponent<AlphaTween>();
+
         // open and position quick menu
         Vector2 mousePos = MouseManager.Instance.MouseCanvasPos;
         mousePos.y = MouseManager.Instance.MouseCanvasPos.y - GameManager.GetCanvasDimensions().y;
-        
+
         selectedAnchorBlock = anchorBlock;
         ((RectTransform)transform).anchoredPosition = mousePos;
         Tween.SetVisible(true);

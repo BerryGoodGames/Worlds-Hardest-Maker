@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using MyBox;
-using Photon.Pun;
 using UnityEngine;
 
 public class CoinManager : MonoBehaviour
@@ -16,7 +15,7 @@ public class CoinManager : MonoBehaviour
     private static readonly int playing = Animator.StringToHash("Playing");
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
 
-    [PunRPC]
+    
     public void RemoveCoin(Vector2 position)
     {
         Destroy(GetCoin(position));

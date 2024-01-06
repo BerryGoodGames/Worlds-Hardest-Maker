@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using MyBox;
-using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,10 +38,6 @@ public class PlayerController : EntityController
 
     private AppendSlider sliderController;
     private TMP_Text speedText;
-
-    private AppendNameTag nameTagController;
-
-    [HideInInspector] public PhotonView PhotonView;
 
     private SpriteRenderer spriteRenderer;
 
@@ -151,8 +146,6 @@ public class PlayerController : EntityController
         // movement (if player is yours in multiplayer mode)
         if (EditModeManagerOther.Instance.Playing)
         {
-            if (MultiplayerManager.Instance.Multiplayer && !PhotonView.IsMine) return;
-
             if (ice) IcePhysics();
             else UpdateMovement(ref totalMovement);
         }
@@ -284,7 +277,7 @@ public class PlayerController : EntityController
     /// <summary>
     ///     Always use SetSpeed instead of setting
     /// </summary>
-    [PunRPC]
+    
     public void SetSpeed(float speed)
     {
         Speed = speed;
@@ -296,19 +289,7 @@ public class PlayerController : EntityController
             if (!currentSliderValue.EqualsFloat(speed)) sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
         }
     }
-
-    [PunRPC]
-    public void SetNameTagActive(bool active)
-    {
-        if (!PhotonView.IsMine) print($"Set name tag {active}");
-
-        if (!MultiplayerManager.Instance.Multiplayer) throw new Exception("Trying to enable/disable name tag while in singleplayer");
-        nameTagController.NameTag.SetActive(active);
-    }
-
-    /// <returns>rounded position of player</returns>
-    public Vector2 GetMatrixPos() => transform.position.Floor();
-
+    
     #region Field detection
 
     public bool IsOnSafeField()
@@ -421,11 +402,7 @@ public class PlayerController : EntityController
         {
             // animation trigger and no movement
             DeathAnim();
-            if (MultiplayerManager.Instance.Multiplayer) PhotonView.RPC("DeathAnim", RpcTarget.Others);
         }
-
-        // avoid doing more if not own view in multiplayer
-        if (MultiplayerManager.Instance.Multiplayer && !PhotonView.IsMine) return;
 
         if (EditModeManagerOther.Instance.Playing)
             // sfx and death counter
@@ -458,17 +435,14 @@ public class PlayerController : EntityController
         Die();
     }
 
-    
+
     /// <summary>
-    /// general method when dying in any way
+    ///     general method when dying in any way
     /// </summary>
     private void Die()
     {
         Rb.simulated = false;
         InDeathAnim = true;
-
-        // avoid doing more if not own view in multiplayer
-        if (MultiplayerManager.Instance.Multiplayer && !PhotonView.IsMine) return;
 
         if (EditModeManagerOther.Instance.Playing)
         {
@@ -501,15 +475,13 @@ public class PlayerController : EntityController
         }
     }
 
-    [PunRPC]
+    
     public void DeathAnim() => Animator.SetTrigger(death);
 
 
     public void DeathAnimFinish()
     {
         DestroySelf(false);
-
-        if (MultiplayerManager.Instance.Multiplayer && !PhotonView.IsMine) return;
 
         // reset timer if no checkpoint activated
         bool hasCheckpointActivated = CurrentGameState != null;
@@ -571,8 +543,6 @@ public class PlayerController : EntityController
             ReferenceManager.Instance.MainCameraJumper.RemoveTarget("Player");
 
         if (LevelSessionManager.Instance.IsEdit) Destroy(sliderController.GetSliderObject());
-
-        if (nameTagController != null) Destroy(nameTagController.NameTag);
 
         Destroy(gameObject);
     }
@@ -679,7 +649,7 @@ public class PlayerController : EntityController
             ? StartPos
             : CurrentGameState.PlayerStartPos;
 
-        PlayerController player = PlayerManager.InstantiatePlayer(spawnPos, applySpeed, MultiplayerManager.Instance.Multiplayer);
+        PlayerController player = PlayerManager.InstantiatePlayer(spawnPos, applySpeed);
 
         player.Deaths = deaths;
         player.StartPos = StartPos;
@@ -709,20 +679,12 @@ public class PlayerController : EntityController
 
         EdgeCollider = GetComponent<EdgeCollider2D>();
 
-        PhotonView = GetComponent<PhotonView>();
-
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         if (isEdit)
         {
             sliderController = GetComponent<AppendSlider>();
             speedText = sliderController.GetSliderObject().transform.GetChild(1).GetComponent<TMP_Text>();
-        }
-
-        if (MultiplayerManager.Instance.Multiplayer)
-        {
-            nameTagController = GetComponent<AppendNameTag>();
-            nameTagController.SetNameTag(PhotonView.Controller.NickName);
         }
 
         Shotgun = GetComponentInChildren<ShotgunController>(true);
@@ -747,8 +709,6 @@ public class PlayerController : EntityController
                 Speed = newSpeed;
 
                 UpdateSpeedText();
-
-                if (MultiplayerManager.Instance.Multiplayer) PhotonView.RPC("SetSpeed", RpcTarget.Others, newSpeed);
             }
         );
 

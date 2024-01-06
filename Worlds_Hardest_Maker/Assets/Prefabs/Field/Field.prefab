@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2493401863573026996}
   - component: {fileID: 8451419770457997880}
   - component: {fileID: 5920690181114751317}
-  - component: {fileID: 6217730708425805913}
   - component: {fileID: -7633074681480853962}
   m_Layer: 11
   m_Name: Field
@@ -74,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2010378691
-  m_SortingLayer: -4
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -132,28 +131,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &6217730708425805913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7564049711476143102}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!114 &-7633074681480853962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,4 +143,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9018a686da21a0e4885a187ce99a2d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  editMode: 0
+  FieldMode: {fileID: 0}

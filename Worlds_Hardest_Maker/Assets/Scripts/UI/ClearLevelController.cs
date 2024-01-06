@@ -1,4 +1,3 @@
-using Photon.Pun;
 using UnityEngine;
 
 /// <summary>
@@ -13,8 +12,6 @@ public class ClearLevelController : MonoBehaviour
     public void ClearLevel()
     {
         ClosePrompt();
-
-        if (MultiplayerManager.Instance.Multiplayer) GameManager.Instance.photonView.RPC("ClearLevel", RpcTarget.All);
-        else GameManager.Instance.ClearLevel();
+        GameManager.Instance.ClearLevel();
     }
 }
