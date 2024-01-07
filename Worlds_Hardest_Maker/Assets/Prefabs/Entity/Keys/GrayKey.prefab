@@ -137,7 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Color: 0
   KeyPosition: {x: 0, y: 0}
-  PickedUp: 0
+  Collected: 0
   SpriteRenderer: {fileID: 5739846171579892088}
   Animator: {fileID: 1166249294215566298}
   KonamiAnimation: {fileID: 686737570691484559}

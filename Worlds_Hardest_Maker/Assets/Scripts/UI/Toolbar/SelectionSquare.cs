@@ -5,9 +5,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class SelectionSquare : MonoBehaviour
 {
-    [FormerlySerializedAs("SelectedSprite")] [SerializeField] private Sprite selectedSprite;
-    [FormerlySerializedAs("DeselectedSprite")] [SerializeField] private Sprite deselectedSprite;
-    [FormerlySerializedAs("SubSelectedSprite")] [SerializeField] private Sprite subSelectedSprite;
+    [SerializeField] private Sprite selectedSprite;
+    [SerializeField] private Sprite deselectedSprite;
+    [SerializeField] private Sprite subSelectedSprite;
 
     private Image image;
 

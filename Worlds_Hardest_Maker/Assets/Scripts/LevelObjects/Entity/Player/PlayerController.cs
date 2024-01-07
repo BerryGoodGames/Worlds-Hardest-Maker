@@ -24,7 +24,7 @@ public class PlayerController : EntityController
     [SerializeField] [PositiveValueOnly] private float maxIceSpeed;
 
     [Separator("Death settings")] [SerializeField] [PositiveValueOnly] private float defaultDeathFadeDuration;
-    [FormerlySerializedAs("deathFadeDuration")] [SerializeField] [PositiveValueOnly] private float voidFallDuration;
+    [SerializeField] [PositiveValueOnly] private float voidFallDuration;
 
     #endregion
 

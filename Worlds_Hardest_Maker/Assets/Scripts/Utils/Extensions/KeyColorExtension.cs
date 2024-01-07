@@ -16,18 +16,4 @@ public static class KeyColorExtension
 
         return prefabs[color];
     }
-
-    public static GameObject GetPrefabDoor(this KeyColor color)
-    {
-        Dictionary<KeyColor, GameObject> prefabs = new()
-        {
-            { KeyColor.Gray, PrefabManager.Instance.GrayKeyDoor },
-            { KeyColor.Red, PrefabManager.Instance.RedKeyDoor },
-            { KeyColor.Blue, PrefabManager.Instance.BlueKeyDoor },
-            { KeyColor.Green, PrefabManager.Instance.GreenKeyDoor },
-            { KeyColor.Yellow, PrefabManager.Instance.YellowKeyDoor },
-        };
-
-        return prefabs[color];
-    }
 }

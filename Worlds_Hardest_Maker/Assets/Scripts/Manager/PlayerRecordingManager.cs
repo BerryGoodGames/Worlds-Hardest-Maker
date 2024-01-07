@@ -10,9 +10,9 @@ public class PlayerRecordingManager : MonoBehaviour
     [Separator("Settings")] [SerializeField] private float recordingFrequency = 1f;
     [SerializeField] private float displayDelay = 0.25f;
     [SerializeField] private bool displayPathLine;
-    [FormerlySerializedAs("playerTrailFrequency")] [Header("Player")] [SerializeField] private uint trailFrequency = 4;
-    [FormerlySerializedAs("playerTrailMaxAlpha")] [SerializeField] [Range(0, 1)] private float trailMaxAlpha = 0.75f;
-    [FormerlySerializedAs("playerTrailAmount")] [SerializeField] private uint trailAmount = 5;
+    [Header("Player")] [SerializeField] private uint trailFrequency = 4;
+    [SerializeField] [Range(0, 1)] private float trailMaxAlpha = 0.75f;
+    [SerializeField] private uint trailAmount = 5;
 
     [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private Transform recordingContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer playerSprite;

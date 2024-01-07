@@ -7,28 +7,6 @@ public class PrefabManager : MonoBehaviour
 {
     public static PrefabManager Instance { get; private set; }
 
-    #region Fields
-
-    [FormerlySerializedAs("WallField")] [Foldout("Fields")] public GameObject Wall;
-
-    [FormerlySerializedAs("StartField")] [Foldout("Fields")] public GameObject Start;
-    [FormerlySerializedAs("GoalField")] [Foldout("Fields")] public GameObject Goal;
-    [FormerlySerializedAs("CheckpointField")] [Foldout("Fields")] public GameObject Checkpoint;
-
-    [FormerlySerializedAs("OneWayField")] [Foldout("Fields")] public GameObject OneWay;
-    [Foldout("Fields")] public GameObject Conveyor;
-    [Foldout("Fields")] public GameObject Water;
-    [Foldout("Fields")] public GameObject Ice;
-    [Foldout("Fields")] public GameObject Void;
-
-    [FormerlySerializedAs("GrayKeyDoorField")] [Foldout("Fields")] public GameObject GrayKeyDoor;
-    [FormerlySerializedAs("RedKeyDoorField")] [Foldout("Fields")] public GameObject RedKeyDoor;
-    [FormerlySerializedAs("GreenKeyDoorField")] [Foldout("Fields")] public GameObject GreenKeyDoor;
-    [FormerlySerializedAs("BlueKeyDoorField")] [Foldout("Fields")] public GameObject BlueKeyDoor;
-    [FormerlySerializedAs("YellowKeyDoorField")] [Foldout("Fields")] public GameObject YellowKeyDoor;
-
-    #endregion
-
     #region Entities
 
     [Foldout("Entities")] public PlayerController Player;

@@ -11,7 +11,7 @@ public class ToolOptionbar : MonoBehaviour
 
     [Separator] [SerializeField] private RectTransform toolPrefab;
 
-    [FormerlySerializedAs("HoveringHitbox")] [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform hoveringHitbox;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform hoveringHitbox;
     [SerializeField] [InitializationField] [MustBeAssigned] private VerticalLayoutGroup optionsLayoutGroup;
     [SerializeField] [InitializationField] [MustBeAssigned] private AlphaTween anim;
 
