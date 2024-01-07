@@ -42,7 +42,12 @@ public class KeyController : EntityController, IResettable, ICollectible
         PlayManager.Instance.OnSwitchToPlay += ActivateAnimation;
     }
 
-    private void OnDestroy() => KeyManager.Instance.Keys.Remove(this);
+    private void OnDestroy()
+    {
+        KeyManager.Instance.Keys.Remove(this);
+        
+        ((IResettable)this).Unsubscribe();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

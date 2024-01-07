@@ -34,7 +34,7 @@ public class TextManager : MonoBehaviour
         {
             PlayerController currentPlayer = PlayerManager.Instance.Player;
             playerDeaths = currentPlayer.Deaths;
-            playerCoinsCollected = currentPlayer.CoinsCollected.Count;
+            playerCoinsCollected = CoinManager.Instance.CollectedCoins.Count;
         }
         catch (Exception)
         {

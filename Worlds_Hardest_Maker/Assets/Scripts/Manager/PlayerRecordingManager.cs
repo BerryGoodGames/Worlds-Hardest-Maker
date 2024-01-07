@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using LuLib.Transform;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerRecordingManager : MonoBehaviour
 {
     [Separator("Settings")] [SerializeField] private float recordingFrequency = 1f;
     [SerializeField] private float displayDelay = 0.25f;
-    [Header("Player")] [SerializeField] private uint playerTrailFrequency = 4;
-    [SerializeField] [Range(0, 1)] private float playerTrailMaxAlpha = 0.75f;
-    [SerializeField] private uint playerTrailAmount = 5;
+    [SerializeField] private bool displayPathLine;
+    [FormerlySerializedAs("playerTrailFrequency")] [Header("Player")] [SerializeField] private uint trailFrequency = 4;
+    [FormerlySerializedAs("playerTrailMaxAlpha")] [SerializeField] [Range(0, 1)] private float trailMaxAlpha = 0.75f;
+    [FormerlySerializedAs("playerTrailAmount")] [SerializeField] private uint trailAmount = 5;
 
     [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private Transform recordingContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer playerSprite;
@@ -62,18 +64,21 @@ public class PlayerRecordingManager : MonoBehaviour
 
         for (int i = 0; i < recordedPositions.Count; i++)
         {
-            // display line
-            lineRenderer.positionCount++;
-            lineRenderer.SetPosition(i, recordedPositions[i]);
+            if (displayPathLine)
+            {
+                // display line
+                lineRenderer.positionCount++;
+                lineRenderer.SetPosition(i, recordedPositions[i]);
+            }
 
             // display player sprite
-            float playerTrailIndex = (i - (recordedPositions.Count - (float)(playerTrailAmount * playerTrailFrequency))) / playerTrailFrequency + 1;
+            float playerTrailIndex = (i - (recordedPositions.Count - (float)(trailAmount * trailFrequency))) / trailFrequency + 1;
 
-            if (playerTrailIndex > 0 && (recordedPositions.Count - 1 - i) % playerTrailFrequency == 0)
+            if (playerTrailIndex > 0 && (recordedPositions.Count - 1 - i) % trailFrequency == 0)
             {
                 SpriteRenderer playerTrail = Instantiate(playerSprite, recordedPositions[i], Quaternion.identity, recordingContainer);
 
-                playerTrail.SetAlpha(playerTrailIndex / playerTrailAmount * playerTrailMaxAlpha);
+                playerTrail.SetAlpha(playerTrailIndex / trailAmount * trailMaxAlpha);
             }
 
             // wait delay

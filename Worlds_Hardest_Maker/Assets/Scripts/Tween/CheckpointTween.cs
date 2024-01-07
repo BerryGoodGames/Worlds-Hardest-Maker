@@ -54,4 +54,6 @@ public class CheckpointTween : MonoBehaviour, IResettable
     }
 
     public void ResetState() => DeactivateTween();
+    
+    private void OnDestroy() => ((IResettable)this).Unsubscribe();
 }

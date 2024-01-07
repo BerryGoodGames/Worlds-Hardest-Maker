@@ -10,6 +10,8 @@ public class CoinManager : MonoBehaviour
     [UsedImplicitly] public static readonly List<FieldMode> CannotPlaceFields = new();
 
     [ReadOnly] public List<CoinController> Coins = new();
+    [ReadOnly] public List<CoinController> CollectedCoins = new();
+    
     public int TotalCoins => Coins.Count;
 
     private static readonly int playing = Animator.StringToHash("Playing");
@@ -21,7 +23,7 @@ public class CoinManager : MonoBehaviour
         Destroy(GetCoin(position));
 
         PlayerController currentPlayer = PlayerManager.Instance.Player;
-        if (currentPlayer != null) currentPlayer.UncollectCoinAtPos(position);
+        if (currentPlayer != null) UncollectCoinAtPos(position);
     }
 
     public static CoinController GetCoin(Vector2 position)
@@ -58,6 +60,17 @@ public class CoinManager : MonoBehaviour
 
         return coin;
     }
+    
+    public void UncollectCoinAtPos(Vector2 position)
+    {
+        for (int i = CollectedCoins.Count - 1; i >= 0; i--)
+        {
+            CoinController c = CollectedCoins[i];
+            if (c.CoinPosition == position) CollectedCoins.Remove(c);
+        }
+    }
+    
+    public bool AllCoinsCollected() => CollectedCoins.Count >= Coins.Count;
 
     public void ActivateAnimations() => Coins.ForEach(coin => coin.ActivateAnimation());
 

@@ -6,4 +6,9 @@ public interface IResettable
     {
         PlayManager.Instance.OnLevelReset += ResetState;
     }
+
+    public sealed void Unsubscribe()
+    {
+        PlayManager.Instance.OnLevelReset -= ResetState;
+    }
 }

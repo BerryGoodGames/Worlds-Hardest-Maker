@@ -11,19 +11,20 @@ public class PlayerController : EntityController
 {
     #region Editor variables
 
-    [Space] public float Speed;
+    [Space] [PositiveValueOnly] public float Speed;
 
     [Separator("Water settings")] [SerializeField] private Transform waterLevel;
 
     [SerializeField] [Range(0, 1)] private float waterDamping;
-    [SerializeField] private float drownDuration;
+    [SerializeField] [PositiveValueOnly] private float drownDuration;
     private float currentDrownDuration;
 
-    [Separator("Ice settings")] [SerializeField] private float iceFriction;
+    [Separator("Ice settings")] [SerializeField] [PositiveValueOnly] private float iceFriction;
 
-    [SerializeField] private float maxIceSpeed;
+    [SerializeField] [PositiveValueOnly] private float maxIceSpeed;
 
-    [FormerlySerializedAs("voidFallDuration")] [Separator("Void settings")] [SerializeField] private float deathFadeDuration;
+    [Separator("Death settings")] [SerializeField] [PositiveValueOnly] private float defaultDeathFadeDuration;
+    [FormerlySerializedAs("deathFadeDuration")] [SerializeField] [PositiveValueOnly] private float voidFallDuration;
 
     #endregion
 
@@ -45,8 +46,6 @@ public class PlayerController : EntityController
     #region Fields
 
     [ReadOnly] public int Deaths;
-
-    [HideInInspector] public List<CoinController> CoinsCollected;
 
     [HideInInspector] public List<FieldController> CurrentFields;
 
@@ -275,7 +274,6 @@ public class PlayerController : EntityController
     /// <summary>
     ///     Always use SetSpeed instead of setting
     /// </summary>
-    
     public void SetSpeed(float speed)
     {
         Speed = speed;
@@ -419,13 +417,13 @@ public class PlayerController : EntityController
 
         Vector2 fallPosition = currentVoid.transform.position;
 
-        spriteRenderer.DOFade(0, deathFadeDuration)
+        spriteRenderer.DOFade(0, voidFallDuration)
             .SetEase(Ease.Linear);
 
-        transform.DOMove(fallPosition, deathFadeDuration)
+        transform.DOMove(fallPosition, voidFallDuration)
             .SetEase(Ease.OutQuint);
 
-        transform.DOScale(Vector2.zero, deathFadeDuration)
+        transform.DOScale(Vector2.zero, voidFallDuration)
             .SetEase(Ease.OutQuad)
             .OnComplete(DeathAnimFinish);
 
@@ -436,7 +434,7 @@ public class PlayerController : EntityController
 
     private void DefaultDeathAnim()
     {
-        spriteRenderer.DOFade(0, deathFadeDuration)
+        spriteRenderer.DOFade(0, defaultDeathFadeDuration)
             .SetEase(Ease.Linear)
             .OnComplete(DeathAnimFinish);
     }
@@ -470,14 +468,14 @@ public class PlayerController : EntityController
     {
         // update coin counter
         bool hasCheckpointActivated = CurrentGameState != null;
-        CoinsCollected.Clear();
+        CoinManager.Instance.CollectedCoins.Clear();
 
         if (!hasCheckpointActivated) return;
 
         foreach (Vector2 coinPos in CurrentGameState.CollectedCoins)
         {
             CoinController coin = CoinManager.GetCoin(coinPos);
-            if (coin != null) CoinsCollected.Add(coin);
+            if (coin != null) CoinManager.Instance.CollectedCoins.Add(coin);
         }
     }
     
@@ -525,17 +523,6 @@ public class PlayerController : EntityController
 
     #endregion
 
-    public bool AllCoinsCollected() => CoinsCollected.Count >= ReferenceManager.Instance.CoinContainer.childCount;
-
-    public void UncollectCoinAtPos(Vector2 position)
-    {
-        for (int i = CoinsCollected.Count - 1; i >= 0; i--)
-        {
-            CoinController c = CoinsCollected[i];
-            if (c.CoinPosition == position) CoinsCollected.Remove(c);
-        }
-    }
-
     private void UpdateSpeedText() => speedText.text = Speed.ToString("0.0");
 
     public void ResetGame() => Rb.MovePosition(StartPos);
@@ -562,7 +549,7 @@ public class PlayerController : EntityController
 
     public GameState GetGameStateNow()
     {
-        CoinsCollected.RemoveAll(e => e == null);
+        CoinManager.Instance.CollectedCoins.RemoveAll(e => e == null);
         KeyManager.Instance.CollectedKeys.RemoveAll(e => e == null);
 
         // mx my coords of checkpoint field
@@ -572,7 +559,7 @@ public class PlayerController : EntityController
         // convert collectedCoins and collectedKeys to List<Vector2>
         List<Vector2> coinPositions = new();
 
-        foreach (CoinController c in CoinsCollected) coinPositions.Add(c.CoinPosition);
+        foreach (CoinController c in CoinManager.Instance.CollectedCoins) coinPositions.Add(c.CoinPosition);
 
         List<Vector2> keyPositions = new();
         foreach (KeyController key in KeyManager.Instance.CollectedKeys) keyPositions.Add(key.KeyPosition);
@@ -585,7 +572,7 @@ public class PlayerController : EntityController
     public void ResetState()
     {
         DieNormal();
-        CoinsCollected.Clear();
+        CoinManager.Instance.CollectedCoins.Clear();
         KeyManager.Instance.CollectedKeys.Clear();
         CurrentGameState = null;
     }
@@ -596,7 +583,7 @@ public class PlayerController : EntityController
         {
             if (!ShouldCoinRespawn(coin)) continue;
 
-            CoinsCollected.Remove(coin);
+            CoinManager.Instance.CollectedCoins.Remove(coin);
 
             coin.PickedUp = false;
 
@@ -662,7 +649,7 @@ public class PlayerController : EntityController
     {
         bool isEdit = LevelSessionManager.Instance.IsEdit;
 
-        CoinsCollected = new();
+        CoinManager.Instance.CollectedCoins = new();
 
         Rb = GetComponent<Rigidbody2D>();
 
@@ -716,7 +703,7 @@ public class PlayerController : EntityController
             CoinController coin = CoinManager.GetCoin(coinCollectedPos);
             if (coin == null) throw new Exception("Passed game state has null value for coin");
 
-            CoinsCollected.Add(coin);
+            CoinManager.Instance.CollectedCoins.Add(coin);
         }
 
         foreach (Vector2 keyCollectedPos in CurrentGameState.CollectedKeys)

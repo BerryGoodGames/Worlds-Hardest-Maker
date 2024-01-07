@@ -1,7 +1,7 @@
 using MyBox;
 using UnityEngine;
 
-public class CoinController : EntityController, IResettable
+public class CoinController : EntityController, IResettable, ICollectible
 {
     [InitializationField] [MustBeAssigned] public Animator Animator;
 
@@ -36,12 +36,12 @@ public class CoinController : EntityController, IResettable
         if (!collision.TryGetComponent(out PlayerController controller)) return;
 
         // check if that player hasn't picked coin up yet
-        if (controller.CoinsCollected.Contains(this)) return;
+        if (CoinManager.Instance.CollectedCoins.Contains(this)) return;
 
-        PickUp(collision.gameObject);
+        Collect();
 
         // check if player is in goal while collecting coin
-        if (!controller.AllCoinsCollected()) return;
+        if (!CoinManager.Instance.AllCoinsCollected()) return;
 
         foreach (FieldController field in controller.CurrentFields)
         {
@@ -57,12 +57,13 @@ public class CoinController : EntityController, IResettable
     {
         // un-cache coin
         CoinManager.Instance.Coins.Remove(this);
+        
+        ((IResettable)this).Unsubscribe();
     }
 
-    private void PickUp(GameObject player)
+    public void Collect()
     {
-        PlayerController controller = player.GetComponent<PlayerController>();
-        controller.CoinsCollected.Add(this);
+        CoinManager.Instance.CollectedCoins.Add(this);
 
         // coin counter, sfx, animation
         AudioManager.Instance.Play("PlaceCoin");

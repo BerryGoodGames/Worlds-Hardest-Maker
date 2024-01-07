@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core;
@@ -182,4 +183,6 @@ public partial class AnchorController : EntityController, IResettable
     public override void Delete() => AnchorManager.RemoveAnchor(this);
 
     public override Data GetData() => new AnchorData(this);
+
+    private void OnDestroy() => ((IResettable)this).Unsubscribe();
 }

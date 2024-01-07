@@ -93,4 +93,6 @@ public class CheckpointController : MonoBehaviour, IResettable
     }
     
     public void ResetState() => Activated = false;
+    
+    private void OnDestroy() => ((IResettable)this).Unsubscribe();
 }

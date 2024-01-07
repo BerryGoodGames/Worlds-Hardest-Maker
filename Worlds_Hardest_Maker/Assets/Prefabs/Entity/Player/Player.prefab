@@ -365,12 +365,11 @@ MonoBehaviour:
   drownDuration: 10
   iceFriction: 4
   maxIceSpeed: 5
+  defaultDeathFadeDuration: 0.4
   voidFallDuration: 0.8
   Rb: {fileID: 0}
-  Animator: {fileID: 0}
   EdgeCollider: {fileID: 0}
   Deaths: 0
-  CoinsCollected: []
   CurrentFields: []
   StartPos: {x: 0, y: 0}
   InDeathAnim: 0
