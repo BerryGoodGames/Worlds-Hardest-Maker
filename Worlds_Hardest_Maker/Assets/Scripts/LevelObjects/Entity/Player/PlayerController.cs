@@ -245,9 +245,9 @@ public class PlayerController : EntityController
         if (movementInput.x != 0) return;
 
         // calculate new position 
-        Vector2 posCheck = new(roundedPos.x, Mathf.Round(Rb.position.y + movementInput.y));
-        FieldController fieldAtPosition = FieldManager.GetField(Vector2Int.RoundToInt(posCheck));
-        if (fieldAtPosition.FieldMode != EditModeManager.Wall)
+        // Vector2 posCheck = new(roundedPos.x, Mathf.Round(Rb.position.y + movementInput.y));
+        // FieldController fieldAtPosition = FieldManager.GetField(Vector2Int.RoundToInt(posCheck));
+        // if (true || fieldAtPosition.FieldMode != EditModeManager.Wall)
             extraMovementInput = new(Mathf.Round(Rb.position.x) > Rb.position.x ? 1 : -1, movementInput.y);
     }
 
@@ -263,9 +263,9 @@ public class PlayerController : EntityController
         if (movementInput.y != 0) return;
 
         // calculate new position 
-        Vector2 posCheck = new(Mathf.Round(Rb.position.x + movementInput.x), roundedPos.y);
-        FieldController fieldAtPosition = FieldManager.GetField(Vector2Int.RoundToInt(posCheck));
-        if (fieldAtPosition.FieldMode != EditModeManager.Wall)
+        // Vector2 posCheck = new(Mathf.Round(Rb.position.x + movementInput.x), roundedPos.y);
+        // FieldController fieldAtPosition = FieldManager.GetField(Vector2Int.RoundToInt(posCheck));
+        // if (true || fieldAtPosition.FieldMode != EditModeManager.Wall) 
             extraMovementInput = new(movementInput.x, Mathf.Round(Rb.position.y) > Rb.position.y ? 1 : -1);
     }
 

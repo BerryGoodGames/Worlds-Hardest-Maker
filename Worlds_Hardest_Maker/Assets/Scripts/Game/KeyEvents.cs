@@ -50,6 +50,8 @@ public class KeyEvents : MonoBehaviour
 
     private static void CheckEditModeRotation()
     {
+        if (!LevelSessionManager.Instance.IsEdit) return;
+        
         // rotate if current edit mode is field and rotatable
         EditMode currentEditMode = EditModeManagerOther.Instance.CurrentEditMode;
 

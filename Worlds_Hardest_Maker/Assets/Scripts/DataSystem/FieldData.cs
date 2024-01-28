@@ -13,12 +13,13 @@ public class FieldData : Data
 
     public FieldData(FieldController field)
     {
-        Vector2 fieldPosition = field.transform.position;
+        Transform transform = field.transform;
+        Vector2 fieldPosition = transform.position;
 
         Position = new int[2];
         Position[0] = (int)fieldPosition.x;
         Position[1] = (int)fieldPosition.y;
-        Rotation = (int)field.transform.rotation.eulerAngles.z;
+        Rotation = (int)transform.rotation.eulerAngles.z;
 
         FieldMode = field.FieldMode.ToString();
     }
@@ -27,8 +28,6 @@ public class FieldData : Data
 
     public override void ImportToLevel(Vector2 pos)
     {
-        Debug.Log(FieldMode);
-
         FieldMode mode = EditModeManager.GetFieldMode(FieldMode);
 
         FieldManager.Instance.SetField(Vector2Int.RoundToInt(pos), mode, Rotation);
