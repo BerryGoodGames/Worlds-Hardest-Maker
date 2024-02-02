@@ -37,8 +37,6 @@ public class PlayerRecordingManager : MonoBehaviour
     {
         PlayManager.Instance.OnSwitchToPlay += () =>
         {
-            print(displayRecording == null);
-            
             if(displayRecording != null) StopCoroutine(displayRecording);
             
             ClearRecordingDisplay();
