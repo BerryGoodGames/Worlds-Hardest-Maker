@@ -21,7 +21,7 @@ public class ToolOptionbarHoveringHitbox : MonoBehaviour
         anim.SetVisible(
             (mo.Over || toolOptionbar.Root.MouseOverUIRect.Over)
             && (anim.IsVisible || toolOptionbar.Root.MouseOverUIRect.Over)
-            && !EditModeManagerOther.Instance.Playing
+            && !LevelSessionEditManager.Instance.Playing
             && !ReferenceManager.Instance.Menu.activeSelf
         );
 }

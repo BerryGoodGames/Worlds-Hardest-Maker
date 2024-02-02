@@ -50,7 +50,7 @@ public partial class AnchorController : EntityController, IResettable
         spriteRenderer = GetComponent<SpriteRenderer>();
         entityDragDrop = GetComponent<EntityDragDrop>();
 
-        Animator.SetBool(editingString, EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated);
+        Animator.SetBool(editingString, LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated);
     }
 
     private void Start()
@@ -168,7 +168,7 @@ public partial class AnchorController : EntityController, IResettable
         Animator.SetBool(playingString, false);
 
         if (AnchorManager.Instance.SelectedAnchor == this 
-            && EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated) SetLinesActive(true);
+            && LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated) SetLinesActive(true);
     }
     
     private void UpdateStartValues()

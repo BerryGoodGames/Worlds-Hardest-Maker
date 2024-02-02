@@ -32,16 +32,16 @@ public class SelectionManager : MonoBehaviour
     {
         if (!LevelSessionManager.Instance.IsEdit) return;
 
-        if (KeyBinds.GetKeyBind("Editor_Select") && !EditModeManagerOther.Instance.Playing &&
+        if (KeyBinds.GetKeyBind("Editor_Select") && !LevelSessionEditManager.Instance.Playing &&
             !EventSystem.current.IsPointerOverGameObject()) Selecting = true;
 
         // update selection markings
-        if (!EditModeManagerOther.Instance.Playing && MouseManager.Instance.MouseDragStart != null &&
+        if (!LevelSessionEditManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null &&
             MouseManager.Instance.MouseDragCurrent != null && Selecting)
         {
             // get drag positions and world position mode
             WorldPositionType worldPositionType =
-                EditModeManagerOther.Instance.CurrentEditMode.GetWorldPositionType();
+                LevelSessionEditManager.Instance.CurrentEditMode.GetWorldPositionType();
 
             (Vector2 start, Vector2 end) = MouseManager.GetDragPositions(worldPositionType);
 
@@ -68,7 +68,7 @@ public class SelectionManager : MonoBehaviour
     private void Start()
     {
         PlayManager.Instance.OnSwitchToPlay += CancelSelection;
-        EditModeManagerOther.Instance.OnEditModeChange += RemakePreview;
+        LevelSessionEditManager.Instance.OnEditModeChange += RemakePreview;
 
         fillMouseOver.OnHovered += SetPreviewVisible;
         fillMouseOver.OnUnhovered += SetPreviewInvisible;
@@ -153,7 +153,7 @@ public class SelectionManager : MonoBehaviour
     private static void InitPreview(List<Vector2> range)
     {
         // set new previews, only if edit mode not in NoFillPreviewModes
-        if (!EditModeManagerOther.Instance.CurrentEditMode.ShowFillPreview) return;
+        if (!LevelSessionEditManager.Instance.CurrentEditMode.ShowFillPreview) return;
 
         foreach (Vector2 pos in range)
         {
@@ -204,7 +204,7 @@ public class SelectionManager : MonoBehaviour
 
     public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2)
     {
-        bool inMatrix = EditModeManagerOther.Instance.CurrentEditMode.GetWorldPositionType() is WorldPositionType.Matrix;
+        bool inMatrix = LevelSessionEditManager.Instance.CurrentEditMode.GetWorldPositionType() is WorldPositionType.Matrix;
 
         // find bounds
         (Vector2 lowest, Vector2 highest) = inMatrix ? GetBoundsMatrix(p1, p2) : GetBounds(p1, p2);
@@ -230,7 +230,7 @@ public class SelectionManager : MonoBehaviour
     {
         if (!Selecting) return;
 
-        FillArea(CurrentSelectionRange, EditModeManagerOther.Instance.CurrentEditMode);
+        FillArea(CurrentSelectionRange, LevelSessionEditManager.Instance.CurrentEditMode);
         ResetPreview();
         Selecting = false;
         selectionOptions.gameObject.SetActive(false);
@@ -240,7 +240,7 @@ public class SelectionManager : MonoBehaviour
     {
         // set rotation
         int rotation = mode.IsRotatable
-            ? EditModeManagerOther.Instance.EditRotation
+            ? LevelSessionEditManager.Instance.EditRotation
             : 0;
 
         // find bounds
@@ -563,7 +563,7 @@ public class SelectionManager : MonoBehaviour
         DestroyPreview();
 
         // enable placement preview
-        if (!EditModeManagerOther.Instance.Playing) ReferenceManager.Instance.PlacementPreview.Activate();
+        if (!LevelSessionEditManager.Instance.Playing) ReferenceManager.Instance.PlacementPreview.Activate();
 
         // reset selection marking
         if (selectionOutline != null) Destroy(selectionOutline);

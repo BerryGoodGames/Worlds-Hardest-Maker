@@ -39,9 +39,9 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
         MenuManager.Instance.BlockMenu = false;
 
         // show panels
-        ReferenceManager.Instance.ToolbarTween.SetPlay(EditModeManagerOther.Instance.Playing);
-        ReferenceManager.Instance.InfobarEditTween.SetPlay(EditModeManagerOther.Instance.Playing);
-        ReferenceManager.Instance.PlayButtonTween.SetPlay(EditModeManagerOther.Instance.Playing);
+        ReferenceManager.Instance.ToolbarTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        ReferenceManager.Instance.InfobarEditTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        ReferenceManager.Instance.PlayButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
     }
 
     private IEnumerator EditCoroutine()
@@ -54,7 +54,7 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
         while (!Input.GetMouseButton(0) || !AnchorBlockManager.IsAnyBlockHovered(true))
         {
             // cancel if these things happen
-            if (Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || EditModeManagerOther.Instance.Playing)
+            if (Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || LevelSessionEditManager.Instance.Playing)
             {
                 OnEndIndexEdit();
                 yield break;

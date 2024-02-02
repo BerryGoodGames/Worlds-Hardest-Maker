@@ -49,7 +49,7 @@ public class TextManager : MonoBehaviour
         if (!LevelSessionManager.Instance.IsEdit) return;
         
         // set edit mode text ui
-        Instance.editModeText.text = $"Edit: {EditModeManagerOther.Instance.CurrentEditMode.UIString}";
+        Instance.editModeText.text = $"Edit: {LevelSessionEditManager.Instance.CurrentEditMode.UIString}";
         Instance.selectingText.text = $"Selecting: {SelectionManager.Instance.Selecting}";
     }
 }

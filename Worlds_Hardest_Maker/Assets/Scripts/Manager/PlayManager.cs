@@ -31,9 +31,9 @@ public class PlayManager : MonoBehaviour
     {
         if (ReferenceManager.Instance.Menu.activeSelf) return;
 
-        EditModeManagerOther.Instance.Playing = !EditModeManagerOther.Instance.Playing;
+        LevelSessionEditManager.Instance.Playing = !LevelSessionEditManager.Instance.Playing;
 
-        (EditModeManagerOther.Instance.Playing ? OnSwitchToPlay : OnSwitchToEdit)?.Invoke();
+        (LevelSessionEditManager.Instance.Playing ? OnSwitchToPlay : OnSwitchToEdit)?.Invoke();
 
         OnToggle.Invoke();
     }
@@ -61,7 +61,7 @@ public class PlayManager : MonoBehaviour
         [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
         IEnumerator SetupPlayScene()
         {
-            EditModeManagerOther.Instance.Playing = true;
+            LevelSessionEditManager.Instance.Playing = true;
 
             yield return new WaitForEndOfFrame();
 

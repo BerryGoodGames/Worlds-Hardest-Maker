@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AnchorBallController : EntityController
@@ -46,7 +47,10 @@ public class AnchorBallController : EntityController
         if (ParentAnchor != null)
         {
             ParentAnchor.Balls.Remove(transform.parent);
-            AnchorBallManager.Instance.AnchorBallListLayers[ParentAnchor].Remove(this);
+            
+            // remove anchor ball from parent anchor cache list
+            ref Dictionary<AnchorController, List<AnchorBallController>> ballList = ref AnchorBallManager.Instance.AnchorBallListLayers;
+            if (ballList.ContainsKey(ParentAnchor)) ballList[ParentAnchor].Remove(this);
         }
         else AnchorBallManager.Instance.AnchorBallListGlobal.Remove(this);
 

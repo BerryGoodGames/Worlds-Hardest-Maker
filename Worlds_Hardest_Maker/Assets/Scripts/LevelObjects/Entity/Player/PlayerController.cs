@@ -82,7 +82,7 @@ public class PlayerController : EntityController
         PlayManager.Instance.OnSwitchToEdit += OnEdit;
         PlayManager.Instance.OnSwitchToPlay += OnPlay;
 
-        EdgeCollider.enabled = EditModeManagerOther.Instance.Playing;
+        EdgeCollider.enabled = LevelSessionEditManager.Instance.Playing;
 
         if (transform.parent != ReferenceManager.Instance.PlayerContainer) transform.SetParent(ReferenceManager.Instance.PlayerContainer);
 
@@ -141,7 +141,7 @@ public class PlayerController : EntityController
 
         Vector2 totalMovement = Vector2.zero;
         // movement (if player is yours in multiplayer mode)
-        if (EditModeManagerOther.Instance.Playing)
+        if (LevelSessionEditManager.Instance.Playing)
         {
             if (ice) IcePhysics();
             else UpdateMovement(ref totalMovement);
@@ -399,7 +399,7 @@ public class PlayerController : EntityController
             DefaultDeathAnim();
         }
 
-        if (EditModeManagerOther.Instance.Playing)
+        if (LevelSessionEditManager.Instance.Playing)
         {
             // sfx and death counter
             AudioManager.Instance.Play(soundEffect);
@@ -445,10 +445,11 @@ public class PlayerController : EntityController
     /// </summary>
     private void Death()
     {
+        Rb.velocity = Vector2.zero;
         Rb.simulated = false;
         InDeathAnim = true;
 
-        if (EditModeManagerOther.Instance.Playing)
+        if (LevelSessionEditManager.Instance.Playing)
         {
             Deaths++;
             if (!LevelSessionManager.Instance.IsEdit) LevelSessionManager.Instance.Deaths++;
@@ -489,7 +490,7 @@ public class PlayerController : EntityController
         InDeathAnim = false;
         Rb.simulated = true;
 
-        Vector2 spawnPos = !EditModeManagerOther.Instance.Playing || CurrentGameState == null
+        Vector2 spawnPos = !LevelSessionEditManager.Instance.Playing || CurrentGameState == null
             ? StartPos
             : CurrentGameState.PlayerStartPos;
 
@@ -665,7 +666,7 @@ public class PlayerController : EntityController
 
         Shotgun = GetComponentInChildren<ShotgunController>(true);
         Shotgun.gameObject.SetActive(
-            isEdit ? EditModeManagerOther.Instance.Playing && KonamiManager.Instance.KonamiActive : KonamiManager.Instance.KonamiActive
+            isEdit ? LevelSessionEditManager.Instance.Playing && KonamiManager.Instance.KonamiActive : KonamiManager.Instance.KonamiActive
         );
     }
 

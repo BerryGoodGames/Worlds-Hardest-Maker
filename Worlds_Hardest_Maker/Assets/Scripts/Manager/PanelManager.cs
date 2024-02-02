@@ -65,7 +65,7 @@ public class PanelManager : MonoBehaviour
     private void OnSwitchToEdit()
     {
         // show level setting / anchor panel
-        bool isEditModeAnchorRelated = EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
+        bool isEditModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
         PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
         if (isEditModeAnchorRelated)

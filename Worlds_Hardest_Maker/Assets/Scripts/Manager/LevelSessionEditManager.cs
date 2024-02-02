@@ -3,9 +3,9 @@ using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 
-public class EditModeManagerOther : MonoBehaviour
+public class LevelSessionEditManager : MonoBehaviour
 {
-    public static EditModeManagerOther Instance { get; private set; }
+    public static LevelSessionEditManager Instance { get; private set; }
 
     #region Variables & properties
 

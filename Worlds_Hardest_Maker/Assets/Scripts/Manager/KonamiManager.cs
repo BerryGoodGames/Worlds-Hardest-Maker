@@ -52,7 +52,7 @@ public class KonamiManager : MonoBehaviour
         // toggle shotgun (if player exists)
         PlayerController player = PlayerManager.Instance.Player;
         if (player != null)
-            player.Shotgun.gameObject.SetActive((!LevelSessionManager.Instance.IsEdit || EditModeManagerOther.Instance.Playing) && active);
+            player.Shotgun.gameObject.SetActive((!LevelSessionManager.Instance.IsEdit || LevelSessionEditManager.Instance.Playing) && active);
 
         // mark play try as cheated if enabling
         if (active) PlayManager.Instance.Cheated = true;

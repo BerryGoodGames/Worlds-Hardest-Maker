@@ -27,11 +27,11 @@ public class MouseEvents : MonoBehaviour
 
     private static void CheckPlaceAndDelete()
     {
-        EditMode editMode = EditModeManagerOther.Instance.CurrentEditMode;
+        EditMode editMode = LevelSessionEditManager.Instance.CurrentEditMode;
 
         // place / delete stuff
         if (MouseManager.Instance.IsUIHovered
-            || EditModeManagerOther.Instance.Playing
+            || LevelSessionEditManager.Instance.Playing
             || SelectionManager.Instance.Selecting
             || CopyManager.Instance.Pasting
             || AnchorPositionInputEditManager.Instance.IsEditing) return;
@@ -66,7 +66,7 @@ public class MouseEvents : MonoBehaviour
     {
         if (editMode.IsDraggable) return;
 
-        PlaceManager.Instance.Place(editMode, MouseManager.Instance.MouseWorldPos, EditModeManagerOther.Instance.EditRotation, true);
+        PlaceManager.Instance.Place(editMode, MouseManager.Instance.MouseWorldPos, LevelSessionEditManager.Instance.EditRotation, true);
     }
 
     private static void CheckDragPlacement(EditMode editMode)
@@ -79,14 +79,14 @@ public class MouseEvents : MonoBehaviour
             PlaceManager.Instance.PlacePath(
                 editMode,
                 MouseManager.Instance.PrevMouseWorldPos, MouseManager.Instance.MouseWorldPos,
-                EditModeManagerOther.Instance.EditRotation, true
+                LevelSessionEditManager.Instance.EditRotation, true
             );
         }
         else
         {
             PlaceManager.Instance.Place(
                 editMode, MouseManager.Instance.MouseWorldPos,
-                EditModeManagerOther.Instance.EditRotation, true
+                LevelSessionEditManager.Instance.EditRotation, true
             );
         }
     }

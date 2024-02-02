@@ -17,9 +17,9 @@ public partial class AnchorManager
 
         bool switchedEditMode = false;
         // switch to edit mode to anchor if not already on anchor or anchor ball
-        if (!EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated)
+        if (!LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated)
         {
-            EditModeManagerOther.Instance.CurrentEditMode = EditModeManager.Anchor;
+            LevelSessionEditManager.Instance.CurrentEditMode = EditModeManager.Anchor;
             switchedEditMode = true;
         }
 
@@ -39,7 +39,7 @@ public partial class AnchorManager
         }
 
         // continue only if in edit mode
-        if (EditModeManagerOther.Instance.Playing) return;
+        if (LevelSessionEditManager.Instance.Playing) return;
 
         SelectedAnchor = anchor;
         anchor.Animator.SetBool(selectedString, true);
@@ -66,7 +66,7 @@ public partial class AnchorManager
         ReferenceManager.Instance.AnchorBallContainer.BallFadeIn();
 
         SelectedAnchor.Animator.SetBool(selectedString, false);
-        SelectedAnchor.Animator.SetBool(playingString, EditModeManagerOther.Instance.Playing);
+        SelectedAnchor.Animator.SetBool(playingString, LevelSessionEditManager.Instance.Playing);
         SelectedAnchor.SetLinesActive(false);
         SelectedAnchor = null;
 
@@ -77,7 +77,7 @@ public partial class AnchorManager
 
         ReferenceManager.Instance.MainCameraJumper.RemoveTarget("Anchor");
 
-        EditMode currentEditMode = EditModeManagerOther.Instance.CurrentEditMode;
+        EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
         if (currentEditMode != EditModeManager.Anchor && currentEditMode != EditModeManager.AnchorBall)
         {
             PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;

@@ -15,7 +15,7 @@ public class ConditionalObject : MonoBehaviour
 
     private void Start()
     {
-        if (EditModeManagerOther.Instance.Editing) whenEdit?.Invoke();
+        if (LevelSessionEditManager.Instance.Editing) whenEdit?.Invoke();
         else whenPlay?.Invoke();
     }
 }

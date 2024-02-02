@@ -68,10 +68,10 @@ public class BarTween : MonoBehaviour
     {
         rt = (RectTransform)transform;
 
-        if (EditModeManagerOther.Instance.Playing) rt.anchoredPosition = new(rt.anchoredPosition.x, isVisibleOnlyOnEdit ? invisibleY : visibleY);
+        if (LevelSessionEditManager.Instance.Playing) rt.anchoredPosition = new(rt.anchoredPosition.x, isVisibleOnlyOnEdit ? invisibleY : visibleY);
         else rt.anchoredPosition = new(rt.anchoredPosition.x, !isVisibleOnlyOnEdit ? invisibleY : visibleY);
         
-        PlayManager.Instance.OnToggle += () => SetPlay(EditModeManagerOther.Instance.Playing);
+        PlayManager.Instance.OnToggle += () => SetPlay(LevelSessionEditManager.Instance.Playing);
     }
 
     private void Awake() => TweenList.Add(this);

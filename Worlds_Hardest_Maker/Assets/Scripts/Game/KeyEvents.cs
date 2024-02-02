@@ -34,13 +34,13 @@ public class KeyEvents : MonoBehaviour
         CheckEditorKeyBinds();
 
         // check edit mode toggling if no ctrl and not playing
-        if (!KeyBinds.GetKeyBind("Editor_Modify") && !EditModeManagerOther.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
+        if (!KeyBinds.GetKeyBind("Editor_Modify") && !LevelSessionEditManager.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
     }
 
     private void CheckEditorKeyBinds()
     {
         // keyboard shortcuts with ctrl
-        if (EditModeManagerOther.Instance.Playing) return;
+        if (LevelSessionEditManager.Instance.Playing) return;
 
         if (KeyBinds.GetKeyBindDown("Editor_SaveLevel")) SaveSystem.SaveCurrentLevel();
 
@@ -53,13 +53,13 @@ public class KeyEvents : MonoBehaviour
         if (!LevelSessionManager.Instance.IsEdit) return;
         
         // rotate if current edit mode is field and rotatable
-        EditMode currentEditMode = EditModeManagerOther.Instance.CurrentEditMode;
+        EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
 
         if (!currentEditMode.Attributes.IsField
             || !((FieldMode)currentEditMode).IsRotatable
             || !KeyBinds.GetKeyBindDown("Editor_Rotate")) return;
 
-        EditModeManagerOther.Instance.EditRotation = (EditModeManagerOther.Instance.EditRotation - 90) % 360;
+        LevelSessionEditManager.Instance.EditRotation = (LevelSessionEditManager.Instance.EditRotation - 90) % 360;
 
         if (SelectionManager.Instance.Selecting) SelectionManager.UpdatePreviewRotation();
     }
@@ -67,7 +67,7 @@ public class KeyEvents : MonoBehaviour
     private static void CheckTeleportPlayer()
     {
         // teleport player to mouse pos
-        if (!LevelSessionManager.Instance.IsEdit || !EditModeManagerOther.Instance.Playing ||
+        if (!LevelSessionManager.Instance.IsEdit || !LevelSessionEditManager.Instance.Playing ||
             !KeyBinds.GetKeyBindDown("Editor_TeleportPlayer")) return;
 
         PlayerController player = PlayerManager.Instance.Player;
@@ -140,7 +140,7 @@ public class KeyEvents : MonoBehaviour
             // key doors do not have key binds hahahahhahahah
             if (editMode.Attributes.IsKeydoor) continue;
 
-            if (KeyBinds.GetKeyBindDown(editMode.KeyboardShortcut)) EditModeManagerOther.Instance.CurrentEditMode = editMode;
+            if (KeyBinds.GetKeyBindDown(editMode.KeyboardShortcut)) LevelSessionEditManager.Instance.CurrentEditMode = editMode;
         }
     }
 }

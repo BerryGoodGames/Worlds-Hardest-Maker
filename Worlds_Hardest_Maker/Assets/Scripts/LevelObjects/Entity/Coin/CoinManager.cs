@@ -56,7 +56,7 @@ public class CoinManager : MonoBehaviour
             ReferenceManager.Instance.CoinContainer
         );
 
-        coin.Animator.SetBool(playing, EditModeManagerOther.Instance.Playing);
+        coin.Animator.SetBool(playing, LevelSessionEditManager.Instance.Playing);
 
         return coin;
     }

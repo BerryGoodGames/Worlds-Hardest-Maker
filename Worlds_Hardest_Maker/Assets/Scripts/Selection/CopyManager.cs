@@ -78,7 +78,7 @@ public class CopyManager : MonoBehaviour
         while (!Input.GetMouseButton(0))
         {
             // cancel if these things happen
-            if (Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || EditModeManagerOther.Instance.Playing)
+            if (Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || LevelSessionEditManager.Instance.Playing)
             {
                 CancelPaste();
                 yield break;
@@ -122,9 +122,9 @@ public class CopyManager : MonoBehaviour
         Pasting = false;
 
         // show panels (if in edit mode)
-        ReferenceManager.Instance.ToolbarTween.SetPlay(EditModeManagerOther.Instance.Playing);
-        ReferenceManager.Instance.InfobarEditTween.SetPlay(EditModeManagerOther.Instance.Playing);
-        ReferenceManager.Instance.PlayButtonTween.SetPlay(EditModeManagerOther.Instance.Playing);
+        ReferenceManager.Instance.ToolbarTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        ReferenceManager.Instance.InfobarEditTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        ReferenceManager.Instance.PlayButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
     }
 
     private void Paste()

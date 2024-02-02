@@ -22,7 +22,7 @@ public class Tool : MonoBehaviour
     {
         ToolbarManager.DeselectAll();
         SetSelected(true);
-        if (setEditModeVariable) EditModeManagerOther.Instance.CurrentEditMode = ToolEditMode;
+        if (setEditModeVariable) LevelSessionEditManager.Instance.CurrentEditMode = ToolEditMode;
     }
 
     public void SwitchGameMode() => SwitchGameMode(true);

@@ -7,7 +7,7 @@ public class CheckWin : MonoBehaviour
 {
     private void OnTriggerStay2D(Collider2D collider)
     {
-        if (!EditModeManagerOther.Instance.Playing ||
+        if (!LevelSessionEditManager.Instance.Playing ||
             !collider.gameObject.TryGetComponent(out PlayerController controller)) return;
 
         // check if every coin is collected

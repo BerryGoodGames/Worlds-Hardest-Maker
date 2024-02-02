@@ -52,16 +52,16 @@ public class PreviewController : MonoBehaviour
     {
         hasFollowMouseComp = TryGetComponent(out FollowMouseComp);
 
-        previousEditMode = EditModeManagerOther.Instance.CurrentEditMode;
+        previousEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
     }
 
     private void Update()
     {
-        EditMode currentEditMode = EditModeManagerOther.Instance.CurrentEditMode;
+        EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
 
         // update sprite if necessary
         bool hasEditModeChanged = previousEditMode != currentEditMode;
-        bool hasPlayingChanged = previousPlaying != EditModeManagerOther.Instance.Playing;
+        bool hasPlayingChanged = previousPlaying != LevelSessionEditManager.Instance.Playing;
         if (CheckUpdateEveryFrame && (hasEditModeChanged || hasPlayingChanged)) UpdateSprite();
 
 
@@ -80,7 +80,7 @@ public class PreviewController : MonoBehaviour
     ///     Checks if preview should currently be visible with current edit mode
     /// </summary>
     /// <returns></returns>
-    private bool CheckVisibility() => CheckVisibility(EditModeManagerOther.Instance.CurrentEditMode);
+    private bool CheckVisibility() => CheckVisibility(LevelSessionEditManager.Instance.CurrentEditMode);
 
     /// <summary>
     ///     Checks if preview should currently be visible at the moment
@@ -123,10 +123,10 @@ public class PreviewController : MonoBehaviour
     /// </summary>
     public void UpdateSprite()
     {
-        SetSprite(EditModeManagerOther.Instance.CurrentEditMode);
+        SetSprite(LevelSessionEditManager.Instance.CurrentEditMode);
 
-        previousPlaying = EditModeManagerOther.Instance.Playing;
-        previousEditMode = EditModeManagerOther.Instance.CurrentEditMode;
+        previousPlaying = LevelSessionEditManager.Instance.Playing;
+        previousEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
     }
 
     public void SetSprite(EditMode editMode, bool updateRotation = false)
@@ -193,7 +193,7 @@ public class PreviewController : MonoBehaviour
 
         if (!RotateToEditRotation) return;
 
-        Quaternion rotation = Quaternion.Euler(0, 0, EditModeManagerOther.Instance.EditRotation);
+        Quaternion rotation = Quaternion.Euler(0, 0, LevelSessionEditManager.Instance.EditRotation);
         if (smoothRotation && smooth)
         {
             transform.DOKill();

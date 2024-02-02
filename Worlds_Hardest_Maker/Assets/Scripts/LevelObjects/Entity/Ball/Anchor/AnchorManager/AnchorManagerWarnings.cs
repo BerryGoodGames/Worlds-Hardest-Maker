@@ -14,7 +14,7 @@ public partial class AnchorManager
         CheckWarningsForEach(
             (_, currentNode) => CheckStackOverflowWarningsBlock(currentNode, ref loopingDetected, ref isStackOverflow, ref loopBlock)
         );
-
+        
         if (!loopingDetected) return;
 
         AnchorBlockController loopBlockController = loopBlock.Controller;

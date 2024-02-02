@@ -18,7 +18,6 @@ public class PlayerManager : MonoBehaviour
     {
         if (IsPlayerThere(position)) return null;
 
-        // TODO: improve
         if (!CanPlace(position))
         {
             if (!surroundWithStartFields) return null;
@@ -34,6 +33,7 @@ public class PlayerManager : MonoBehaviour
         if (Player != null)
         {
             Player.transform.position = position;
+            Player.StartPos = position;
             return Player;
         }
 

@@ -50,7 +50,7 @@ public class PlayerRecordingManager : MonoBehaviour
         recordedPositions = new();
 
         // save positions of player
-        while (!EditModeManagerOther.Instance.Editing)
+        while (!LevelSessionEditManager.Instance.Editing)
         {
             recordedPositions.Add(player.transform.position);
 

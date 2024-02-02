@@ -31,7 +31,7 @@ public class KeyManager : MonoBehaviour
         key.Color = color;
 
         // setup idle animation
-        key.Animator.SetBool(playing, EditModeManagerOther.Instance.Playing);
+        key.Animator.SetBool(playing, LevelSessionEditManager.Instance.Playing);
 
         // setup konami code animation
         key.KonamiAnimation.enabled = KonamiManager.Instance.KonamiActive;

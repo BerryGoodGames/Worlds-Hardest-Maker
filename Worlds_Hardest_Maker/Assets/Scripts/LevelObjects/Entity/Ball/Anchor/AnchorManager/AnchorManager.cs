@@ -65,7 +65,7 @@ public partial class AnchorManager : MonoBehaviour
             anchor.SetLinesActive(false);
 
             if (SelectedAnchor == anchor &&
-                EditModeManagerOther.Instance.CurrentEditMode.Attributes.IsAnchorRelated) continue;
+                LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated) continue;
 
             anchor.Animator.SetBool(playingString, true);
         }

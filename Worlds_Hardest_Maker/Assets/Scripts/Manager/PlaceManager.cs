@@ -30,8 +30,8 @@ public class PlaceManager : MonoBehaviour
         // check field placement
         if (editMode.Attributes.IsField)
         {
-            FieldMode type = (FieldMode)editMode;
-            FieldManager.Instance.PlaceField(type, rotation, playSound, matrixPosition);
+            FieldMode mode = (FieldMode)editMode;
+            FieldManager.Instance.PlaceField(mode, rotation, playSound, matrixPosition);
             return;
         }
 
