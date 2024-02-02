@@ -1,6 +1,5 @@
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [ExecuteAlways]
 public class PrefabManager : MonoBehaviour

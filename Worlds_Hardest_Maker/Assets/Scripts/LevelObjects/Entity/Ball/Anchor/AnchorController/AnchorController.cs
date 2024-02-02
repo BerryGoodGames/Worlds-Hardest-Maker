@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core;
@@ -167,10 +166,10 @@ public partial class AnchorController : EntityController, IResettable
         ResetExecution();
         Animator.SetBool(playingString, false);
 
-        if (AnchorManager.Instance.SelectedAnchor == this 
+        if (AnchorManager.Instance.SelectedAnchor == this
             && LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated) SetLinesActive(true);
     }
-    
+
     private void UpdateStartValues()
     {
         Transform t = transform;

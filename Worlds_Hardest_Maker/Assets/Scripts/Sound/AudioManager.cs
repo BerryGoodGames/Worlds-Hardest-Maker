@@ -48,7 +48,7 @@ public class AudioManager : MonoBehaviour
     }
 
     public void MusicFiltered(bool filtered) => (filtered ? filteredState : defaultState).TransitionTo(transitionTime);
-    
+
 
     private void Awake()
     {

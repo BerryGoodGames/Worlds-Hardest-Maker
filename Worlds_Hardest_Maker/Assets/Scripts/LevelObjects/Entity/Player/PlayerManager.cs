@@ -64,7 +64,7 @@ public class PlayerManager : MonoBehaviour
     public PlayerController SetPlayer(Vector2 position, bool placeStartField = false) => SetPlayer(position, 3f, placeStartField);
 
     #endregion
-    
+
     public void RemovePlayerAtPos(Vector2 position)
     {
         // remove player only if at pos

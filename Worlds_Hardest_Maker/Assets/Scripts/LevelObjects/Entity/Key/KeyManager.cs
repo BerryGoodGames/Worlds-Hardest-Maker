@@ -15,7 +15,7 @@ public class KeyManager : MonoBehaviour
     [ReadOnly] public List<KeyController> Keys = new();
     [ReadOnly] public List<KeyController> CollectedKeys = new();
 
-    
+
     public KeyController SetKey(Vector2 position, KeyColor color)
     {
         if (!CanPlace(position)) return null;
@@ -39,7 +39,7 @@ public class KeyManager : MonoBehaviour
         return key;
     }
 
-    
+
     public void RemoveKey(Vector2 position)
     {
         KeyController key = GetKey(position);
@@ -77,7 +77,7 @@ public class KeyManager : MonoBehaviour
     }
 
     public static bool IsKeyThere(Vector2 position) => GetKey(position) != null;
-    
+
     public bool AllKeysCollected(KeyColor color)
     {
         // check if every key of specific color is picked up

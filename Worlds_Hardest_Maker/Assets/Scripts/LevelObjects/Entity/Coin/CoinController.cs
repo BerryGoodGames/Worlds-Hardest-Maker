@@ -57,7 +57,7 @@ public class CoinController : EntityController, IResettable, ICollectible
     {
         // un-cache coin
         CoinManager.Instance.Coins.Remove(this);
-        
+
         ((IResettable)this).Unsubscribe();
     }
 

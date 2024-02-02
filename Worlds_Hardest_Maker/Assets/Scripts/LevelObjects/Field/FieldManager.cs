@@ -22,7 +22,7 @@ public class FieldManager : MonoBehaviour
         return null;
     }
 
-    
+
     public bool RemoveField(Vector2Int position, bool updateOutlines = false)
     {
         FieldController field = GetField(position);
@@ -46,7 +46,7 @@ public class FieldManager : MonoBehaviour
         return fieldDestroyed;
     }
 
-    
+
     public FieldController SetField(Vector2Int position, FieldMode mode, int rotation)
     {
         FieldController fieldAtPosition = GetField(position);
@@ -74,7 +74,7 @@ public class FieldManager : MonoBehaviour
         return field;
     }
 
-    
+
     public void SetField(Vector2Int position, FieldMode mode) => SetField(position, mode, 0);
 
     public void PlaceField(FieldMode mode, int rotation, bool playSound, Vector2Int matrixPosition)

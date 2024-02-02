@@ -29,7 +29,7 @@ public class ReferenceManager : MonoBehaviour
     [Foldout("Objects")] public BarTween PlayButtonTween;
 
     [Foldout("Objects")] public TimerController TimerController;
-    
+
     [Foldout("Objects")] public PanelController LevelSettingsPanelController;
     [Foldout("Objects")] public PanelController AnchorPanelController;
 

@@ -11,13 +11,13 @@ public class CoinManager : MonoBehaviour
 
     [ReadOnly] public List<CoinController> Coins = new();
     [ReadOnly] public List<CoinController> CollectedCoins = new();
-    
+
     public int TotalCoins => Coins.Count;
 
     private static readonly int playing = Animator.StringToHash("Playing");
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
 
-    
+
     public void RemoveCoin(Vector2 position)
     {
         Destroy(GetCoin(position));
@@ -60,7 +60,7 @@ public class CoinManager : MonoBehaviour
 
         return coin;
     }
-    
+
     public void UncollectCoinAtPos(Vector2 position)
     {
         for (int i = CollectedCoins.Count - 1; i >= 0; i--)
@@ -69,7 +69,7 @@ public class CoinManager : MonoBehaviour
             if (c.CoinPosition == position) CollectedCoins.Remove(c);
         }
     }
-    
+
     public bool AllCoinsCollected() => CollectedCoins.Count >= Coins.Count;
 
     public void ActivateAnimations() => Coins.ForEach(coin => coin.ActivateAnimation());

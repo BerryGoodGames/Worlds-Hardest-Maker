@@ -88,11 +88,11 @@ public class CheckpointController : MonoBehaviour, IResettable
     private void Start()
     {
         anim = GetComponent<CheckpointTween>();
-        
+
         ((IResettable)this).Subscribe();
     }
-    
+
     public void ResetState() => Activated = false;
-    
+
     private void OnDestroy() => ((IResettable)this).Unsubscribe();
 }

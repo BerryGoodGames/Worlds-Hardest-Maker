@@ -67,8 +67,8 @@ public class PlayManager : MonoBehaviour
 
             ReferenceManager.Instance.InfobarPlayTween.SetPlay(true);
 
-            if(PlayerManager.Instance.Player != null) PlayerManager.Instance.Player.Setup();
-            
+            if (PlayerManager.Instance.Player != null) PlayerManager.Instance.Player.Setup();
+
             AnchorManager.Instance.StartExecuting();
             CoinManager.Instance.ActivateAnimations();
             KeyManager.Instance.ActivateAnimations();
@@ -83,7 +83,7 @@ public class PlayManager : MonoBehaviour
         Instance.OnLevelReset.Invoke();
 
         // start again
-        if(PlayerManager.Instance.Player != null) PlayerManager.Instance.Player.Setup();
+        if (PlayerManager.Instance.Player != null) PlayerManager.Instance.Player.Setup();
         AnchorManager.Instance.StartExecuting();
         CoinManager.Instance.ActivateAnimations();
         KeyManager.Instance.ActivateAnimations();

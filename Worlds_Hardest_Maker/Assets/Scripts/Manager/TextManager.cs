@@ -45,9 +45,9 @@ public class TextManager : MonoBehaviour
 
         Instance.deathText.text = $"Deaths: {playerDeaths}";
         Instance.coinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.TotalCoins}";
-        
+
         if (!LevelSessionManager.Instance.IsEdit) return;
-        
+
         // set edit mode text ui
         Instance.editModeText.text = $"Edit: {LevelSessionEditManager.Instance.CurrentEditMode.UIString}";
         Instance.selectingText.text = $"Selecting: {SelectionManager.Instance.Selecting}";

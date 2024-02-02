@@ -4,7 +4,6 @@ using DG.Tweening;
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerController : EntityController
@@ -65,7 +64,7 @@ public class PlayerController : EntityController
     private Vector3 defaultScale;
 
     [HideInInspector] public bool HasTeleported;
-    
+
     #endregion
 
     private static readonly int death = Animator.StringToHash("Death");
@@ -464,7 +463,7 @@ public class PlayerController : EntityController
         if (KonamiManager.Instance.KonamiActive) return;
 
         // set timer color to "not cheated", unless when hit a checkpoint
-        if(!HasTeleported || CurrentGameState == null) PlayManager.Instance.Cheated = false;
+        if (!HasTeleported || CurrentGameState == null) PlayManager.Instance.Cheated = false;
 
         // reset balls to start position (if player launched them e.g. with shotgun)
         foreach (AnchorBallController ball in AnchorBallManager.Instance.AnchorBallList) ball.ResetPosition();

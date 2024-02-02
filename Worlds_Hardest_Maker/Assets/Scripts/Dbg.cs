@@ -64,10 +64,8 @@ public class Dbg : MonoBehaviour
             {
                 // create debug level if not existing
                 if (!File.Exists(LevelSessionManager.Instance.LevelSessionPath))
-                {
                     LevelCreationController.CreateLevel(LevelName, "This is the debugging level", "BerryGoodGames");
-                }
-                
+
                 // load debug level
                 GameManager.Instance.LoadLevel(LevelSessionManager.Instance.LevelSessionPath);
             }

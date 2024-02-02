@@ -34,7 +34,7 @@ public class FieldRotation : MonoBehaviour
         if (disableCollision) boxCollider.isTrigger = false;
     }
 
-    
+
     public void StartRotation()
     {
         if (rotating || EventSystem.current.IsPointerOverGameObject()) return;

@@ -86,7 +86,7 @@ public class EditModeManager : MonoBehaviour
             FieldMode fieldMode = Instance.AllFieldModes.First(e => e.name == fieldModeName);
 
             if (fieldMode == null) throw new();
-            
+
             return fieldMode;
         }
         catch (Exception)

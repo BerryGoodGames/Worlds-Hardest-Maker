@@ -1,7 +1,6 @@
 using System;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [ExecuteAlways]

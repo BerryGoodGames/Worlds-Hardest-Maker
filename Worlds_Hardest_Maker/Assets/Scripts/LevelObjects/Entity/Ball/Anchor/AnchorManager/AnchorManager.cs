@@ -49,7 +49,7 @@ public partial class AnchorManager : MonoBehaviour
 
         selectedAnchor.RenderLines();
     }
-    
+
     public void StartExecuting()
     {
         UpdateBlockListInSelectedAnchor();

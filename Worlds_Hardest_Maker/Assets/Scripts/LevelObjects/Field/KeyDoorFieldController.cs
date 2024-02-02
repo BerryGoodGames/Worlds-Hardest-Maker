@@ -1,4 +1,3 @@
-using System;
 using MyBox;
 using UnityEngine;
 
@@ -25,6 +24,6 @@ public class KeyDoorFieldController : MonoBehaviour, IResettable
     private void Start() => ((IResettable)this).Subscribe();
 
     public void ResetState() => SetLocked(true);
-    
+
     private void OnDestroy() => ((IResettable)this).Unsubscribe();
 }

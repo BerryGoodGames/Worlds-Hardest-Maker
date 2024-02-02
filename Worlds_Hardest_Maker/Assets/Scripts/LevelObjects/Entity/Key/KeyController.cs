@@ -45,7 +45,7 @@ public class KeyController : EntityController, IResettable, ICollectible
     private void OnDestroy()
     {
         KeyManager.Instance.Keys.Remove(this);
-        
+
         ((IResettable)this).Unsubscribe();
     }
 

@@ -70,7 +70,7 @@ public class BarTween : MonoBehaviour
 
         if (LevelSessionEditManager.Instance.Playing) rt.anchoredPosition = new(rt.anchoredPosition.x, isVisibleOnlyOnEdit ? invisibleY : visibleY);
         else rt.anchoredPosition = new(rt.anchoredPosition.x, !isVisibleOnlyOnEdit ? invisibleY : visibleY);
-        
+
         PlayManager.Instance.OnToggle += () => SetPlay(LevelSessionEditManager.Instance.Playing);
     }
 

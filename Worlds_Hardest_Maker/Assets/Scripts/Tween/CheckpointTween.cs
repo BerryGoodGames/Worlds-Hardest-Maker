@@ -18,7 +18,7 @@ public class CheckpointTween : MonoBehaviour, IResettable
         sprite.DOKill();
         sprite.DOColor(GetInactiveColor(), duration);
     }
-    
+
     private void TriggerTween()
     {
         sprite.DOKill();
@@ -54,6 +54,6 @@ public class CheckpointTween : MonoBehaviour, IResettable
     }
 
     public void ResetState() => DeactivateTween();
-    
+
     private void OnDestroy() => ((IResettable)this).Unsubscribe();
 }
