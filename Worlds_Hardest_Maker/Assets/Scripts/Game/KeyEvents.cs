@@ -74,6 +74,7 @@ public class KeyEvents : MonoBehaviour
         if (player == null) return;
 
         player.Rb.position = MouseManager.Instance.MouseWorldPosGrid;
+        player.HasTeleported = true;
         PlayManager.Instance.Cheated = true;
     }
 

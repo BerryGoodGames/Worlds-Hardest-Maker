@@ -36,7 +36,7 @@ public class LevelSessionManager : MonoBehaviour
         if (IsSessionFromEditor)
         {
             // load level from Dbg if session is from editor
-            if (Dbg.Instance.AutoLoadLevel) LevelSessionPath = SaveSystem.LevelSavePath + $"/{Dbg.Instance.LevelName}.lvl";
+            if (Dbg.Instance.AutoLoadLevel) LevelSessionPath = $"{SaveSystem.LevelSavePath}/{Dbg.Instance.LevelName}.lvl";
 
             LevelSessionMode = Dbg.Instance.EditorLevelSessionMode;
         }

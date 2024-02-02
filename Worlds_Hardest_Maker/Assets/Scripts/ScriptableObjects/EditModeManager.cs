@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MyBox;
@@ -12,16 +13,11 @@ public class EditModeManager : MonoBehaviour
     [InitializationField] [MustBeAssigned] public FieldMode StartMode;
     [InitializationField] [MustBeAssigned] public FieldMode GoalMode;
     [InitializationField] [MustBeAssigned] public FieldMode CheckpointMode;
+    [InitializationField] [MustBeAssigned] public FieldMode VoidMode;
     [InitializationField] [MustBeAssigned] public FieldMode OneWayMode;
     [InitializationField] [MustBeAssigned] public FieldMode ConveyorMode;
     [InitializationField] [MustBeAssigned] public FieldMode WaterMode;
     [InitializationField] [MustBeAssigned] public FieldMode IceMode;
-    [InitializationField] [MustBeAssigned] public FieldMode VoidMode;
-    [InitializationField] [MustBeAssigned] public KeydoorMode GrayKeyDoorMode;
-    [InitializationField] [MustBeAssigned] public KeydoorMode RedKeyDoorMode;
-    [InitializationField] [MustBeAssigned] public KeydoorMode GreenKeyDoorMode;
-    [InitializationField] [MustBeAssigned] public KeydoorMode BlueKeyDoorMode;
-    [InitializationField] [MustBeAssigned] public KeydoorMode YellowKeyDoorMode;
     [InitializationField] [MustBeAssigned] public EntityMode PlayerMode;
     [InitializationField] [MustBeAssigned] public EntityMode AnchorMode;
     [InitializationField] [MustBeAssigned] public EntityMode AnchorBallMode;
@@ -31,22 +27,22 @@ public class EditModeManager : MonoBehaviour
     [InitializationField] [MustBeAssigned] public KeyMode GreenKeyMode;
     [InitializationField] [MustBeAssigned] public KeyMode BlueKeyMode;
     [InitializationField] [MustBeAssigned] public KeyMode YellowKeyMode;
+    [InitializationField] [MustBeAssigned] public KeydoorMode GrayKeyDoorMode;
+    [InitializationField] [MustBeAssigned] public KeydoorMode RedKeyDoorMode;
+    [InitializationField] [MustBeAssigned] public KeydoorMode GreenKeyDoorMode;
+    [InitializationField] [MustBeAssigned] public KeydoorMode BlueKeyDoorMode;
+    [InitializationField] [MustBeAssigned] public KeydoorMode YellowKeyDoorMode;
 
     public static DeleteMode Delete => Instance.DeleteMode;
     public static FieldMode Wall => Instance.WallMode;
     public static FieldMode Start => Instance.StartMode;
     public static FieldMode Goal => Instance.GoalMode;
     public static FieldMode Checkpoint => Instance.CheckpointMode;
+    public static FieldMode Void => Instance.VoidMode;
     public static FieldMode OneWay => Instance.OneWayMode;
     public static FieldMode Conveyor => Instance.ConveyorMode;
     public static FieldMode Water => Instance.WaterMode;
     public static FieldMode Ice => Instance.IceMode;
-    public static FieldMode Void => Instance.VoidMode;
-    public static KeydoorMode GrayKeyDoor => Instance.GrayKeyDoorMode;
-    public static KeydoorMode RedKeyDoor => Instance.RedKeyDoorMode;
-    public static KeydoorMode GreenKeyDoor => Instance.GreenKeyDoorMode;
-    public static KeydoorMode BlueKeyDoor => Instance.BlueKeyDoorMode;
-    public static KeydoorMode YellowKeyDoor => Instance.YellowKeyDoorMode;
     public static EntityMode Player => Instance.PlayerMode;
     public static EntityMode Anchor => Instance.AnchorMode;
     public static EntityMode AnchorBall => Instance.AnchorBallMode;
@@ -56,6 +52,11 @@ public class EditModeManager : MonoBehaviour
     public static KeyMode GreenKey => Instance.GreenKeyMode;
     public static KeyMode BlueKey => Instance.BlueKeyMode;
     public static KeyMode YellowKey => Instance.YellowKeyMode;
+    public static KeydoorMode GrayKeyDoor => Instance.GrayKeyDoorMode;
+    public static KeydoorMode RedKeyDoor => Instance.RedKeyDoorMode;
+    public static KeydoorMode GreenKeyDoor => Instance.GreenKeyDoorMode;
+    public static KeydoorMode BlueKeyDoor => Instance.BlueKeyDoorMode;
+    public static KeydoorMode YellowKeyDoor => Instance.YellowKeyDoorMode;
 
     public List<EditMode> AllEditModes { get; private set; }
     public List<FieldMode> AllFieldModes { get; private set; }
@@ -63,20 +64,36 @@ public class EditModeManager : MonoBehaviour
 
     public static EditMode GetEditMode(string editModeName)
     {
-        EditMode editMode = Instance.AllEditModes.First(e => e.name == editModeName);
+        try
+        {
+            EditMode editMode = Instance.AllEditModes.First(e => e.name == editModeName);
 
-        if (editMode == null) throw new($"Edit mode with name \"{editModeName}\" was not found");
+            if (editMode == null) throw new();
 
-        return editMode;
+            return editMode;
+        }
+        catch (Exception)
+        {
+            Console.WriteLine($"Edit mode with name \"{editModeName}\" was not found");
+            throw;
+        }
     }
 
     public static FieldMode GetFieldMode(string fieldModeName)
     {
-        FieldMode fieldMode = Instance.AllFieldModes.First(e => e.name == fieldModeName);
+        try
+        {
+            FieldMode fieldMode = Instance.AllFieldModes.First(e => e.name == fieldModeName);
 
-        if (fieldMode == null) throw new($"Field mode with name \"{fieldModeName}\" was not found");
-
-        return fieldMode;
+            if (fieldMode == null) throw new();
+            
+            return fieldMode;
+        }
+        catch (Exception)
+        {
+            Console.WriteLine($"Field mode with name \"{fieldModeName}\" was not found");
+            throw;
+        }
     }
 
     private void Awake()
@@ -89,14 +106,15 @@ public class EditModeManager : MonoBehaviour
             Delete,
             Wall,
             Start, Goal, Checkpoint,
+            Void,
             OneWay,
             Conveyor,
             Water, Ice,
-            GrayKeyDoor, RedKeyDoor, GreenKeyDoor, BlueKeyDoor, YellowKeyDoor,
             Player,
             Anchor, AnchorBall,
             Coin,
             GrayKey, RedKey, GreenKey, BlueKey, YellowKey,
+            GrayKeyDoor, RedKeyDoor, GreenKeyDoor, BlueKeyDoor, YellowKeyDoor,
         };
 
         // cache AllFieldModes

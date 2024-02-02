@@ -3,6 +3,8 @@ using JetBrains.Annotations;
 using MyBox;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Windows;
+using Input = UnityEngine.Input;
 using Object = UnityEngine.Object;
 
 /// <summary>
@@ -58,7 +60,17 @@ public class Dbg : MonoBehaviour
         {
             if (!LevelSessionManager.IsSessionFromEditor) return;
 
-            try { GameManager.Instance.LoadLevel(LevelSessionManager.Instance.LevelSessionPath); }
+            try
+            {
+                // create debug level if not existing
+                if (!File.Exists(LevelSessionManager.Instance.LevelSessionPath))
+                {
+                    LevelCreationController.CreateLevel(LevelName, "This is the debugging level", "BerryGoodGames");
+                }
+                
+                // load debug level
+                GameManager.Instance.LoadLevel(LevelSessionManager.Instance.LevelSessionPath);
+            }
             catch
             {
                 // ignored

@@ -62,6 +62,10 @@ public class PlayerController : EntityController
 
     [HideInInspector] public bool Won;
 
+    private Vector3 defaultScale;
+
+    [HideInInspector] public bool HasTeleported;
+    
     #endregion
 
     private static readonly int death = Animator.StringToHash("Death");
@@ -74,7 +78,10 @@ public class PlayerController : EntityController
         InitComponents();
         if (LevelSessionManager.Instance.IsEdit) InitSlider();
 
-        StartPos = transform.position;
+        Transform t = transform;
+
+        StartPos = t.position;
+        defaultScale = t.localScale;
     }
 
     private void Start()
@@ -91,7 +98,7 @@ public class PlayerController : EntityController
         if (LevelSessionManager.Instance.IsEdit) UpdateSpeedText();
 
         SyncToLevelSettings();
-        
+
         PlayManager.Instance.OnLevelReset += ResetState;
     }
 
@@ -127,8 +134,10 @@ public class PlayerController : EntityController
     {
         EdgeCollider.enabled = true;
 
+        HasTeleported = false;
+
         if (KonamiManager.Instance.KonamiActive) Shotgun.gameObject.SetActive(true);
-        
+
         Setup();
     }
 
@@ -248,7 +257,7 @@ public class PlayerController : EntityController
         // Vector2 posCheck = new(roundedPos.x, Mathf.Round(Rb.position.y + movementInput.y));
         // FieldController fieldAtPosition = FieldManager.GetField(Vector2Int.RoundToInt(posCheck));
         // if (true || fieldAtPosition.FieldMode != EditModeManager.Wall)
-            extraMovementInput = new(Mathf.Round(Rb.position.x) > Rb.position.x ? 1 : -1, movementInput.y);
+        extraMovementInput = new(Mathf.Round(Rb.position.x) > Rb.position.x ? 1 : -1, movementInput.y);
     }
 
     private void CornerPushHorizontal(Collision2D collider, Vector2 roundedPos, float err)
@@ -266,7 +275,7 @@ public class PlayerController : EntityController
         // Vector2 posCheck = new(Mathf.Round(Rb.position.x + movementInput.x), roundedPos.y);
         // FieldController fieldAtPosition = FieldManager.GetField(Vector2Int.RoundToInt(posCheck));
         // if (true || fieldAtPosition.FieldMode != EditModeManager.Wall) 
-            extraMovementInput = new(movementInput.x, Mathf.Round(Rb.position.y) > Rb.position.y ? 1 : -1);
+        extraMovementInput = new(movementInput.x, Mathf.Round(Rb.position.y) > Rb.position.y ? 1 : -1);
     }
 
     #endregion
@@ -285,7 +294,7 @@ public class PlayerController : EntityController
             if (!currentSliderValue.EqualsFloat(speed)) sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
         }
     }
-    
+
     #region Field detection
 
     public bool IsOnSafeField()
@@ -394,10 +403,7 @@ public class PlayerController : EntityController
 
         // default dying
         // avoid dying while in animation
-        if (!InDeathAnim)
-        {
-            DefaultDeathAnim();
-        }
+        if (!InDeathAnim) DefaultDeathAnim();
 
         if (LevelSessionEditManager.Instance.Playing)
         {
@@ -432,12 +438,10 @@ public class PlayerController : EntityController
         Death();
     }
 
-    private void DefaultDeathAnim()
-    {
+    private void DefaultDeathAnim() =>
         spriteRenderer.DOFade(0, defaultDeathFadeDuration)
             .SetEase(Ease.Linear)
             .OnComplete(DeathAnimFinish);
-    }
 
 
     /// <summary>
@@ -459,10 +463,27 @@ public class PlayerController : EntityController
 
         if (KonamiManager.Instance.KonamiActive) return;
 
-        PlayManager.Instance.Cheated = false;
+        // set timer color to "not cheated", unless when hit a checkpoint
+        if(!HasTeleported || CurrentGameState == null) PlayManager.Instance.Cheated = false;
 
         // reset balls to start position (if player launched them e.g. with shotgun)
         foreach (AnchorBallController ball in AnchorBallManager.Instance.AnchorBallList) ball.ResetPosition();
+    }
+
+    private void ResetAnimation()
+    {
+        Transform t = transform;
+
+        // cancel potential animations
+        spriteRenderer.DOKill();
+        t.DOKill();
+
+        // reset color + scale
+        Color color = spriteRenderer.color;
+        color = new(color.r, color.g, color.b, 1);
+        spriteRenderer.color = color;
+
+        t.localScale = defaultScale;
     }
 
     private void UpdateCoinCounterDeath()
@@ -479,7 +500,7 @@ public class PlayerController : EntityController
             if (coin != null) CoinManager.Instance.CollectedCoins.Add(coin);
         }
     }
-    
+
     public void DeathAnimFinish()
     {
         // reset timer if no checkpoint activated
@@ -496,9 +517,7 @@ public class PlayerController : EntityController
 
         transform.position = spawnPos;
 
-        Color color = spriteRenderer.color;
-        color = new(color.r, color.g, color.b, 1);
-        spriteRenderer.color = color;
+        ResetAnimation();
 
         if (Camera.main != null)
         {
@@ -510,7 +529,7 @@ public class PlayerController : EntityController
         ResetKeysToCurrentGameState();
 
         string[] tags =
-            { "GrayKeyDoor", "RedKeyDoor", "GreenKeyDoor", "BlueKeyDoor", "YellowKeyDoor", };
+            { "GrayKeydoor", "RedKeydoor", "GreenKeydoor", "BlueKeydoor", "YellowKeydoor", };
 
         foreach (string tag in tags)
         {

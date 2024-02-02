@@ -23,7 +23,7 @@ public class LevelCreationController : MonoBehaviour
         MainMenuManager.Instance.OpenLevelScene();
     }
 
-    private static void CreateLevel(string name, string description, string creator)
+    public static void CreateLevel(string name, string description, string creator)
     {
         string levelPath = SaveSystem.LevelSavePath + name + ".lvl";
 
