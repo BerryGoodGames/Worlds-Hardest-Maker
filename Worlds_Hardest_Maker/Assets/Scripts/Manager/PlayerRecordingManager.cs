@@ -7,19 +7,27 @@ using UnityEngine.Serialization;
 
 public class PlayerRecordingManager : MonoBehaviour
 {
-    [Separator("Settings")] [SerializeField] private float recordingFrequency = 1f;
-    [SerializeField] private float displayDelay = 0.25f;
-    [SerializeField] private bool displayPathLine;
-    [Header("Player")] [SerializeField] private uint trailFrequency = 4;
-    [SerializeField] [Range(0, 1)] private float trailMaxAlpha = 0.75f;
-    [SerializeField] private uint trailAmount = 5;
+    [Separator("Settings")] 
+    
+    [Header("Line")]
+    [SerializeField] [OverrideLabel("Display")] private bool displayPathLine = true;
+    [SerializeField] [ConditionalField(nameof(displayPathLine))] private float recordingFrequency = 1;
+    [SerializeField] [ConditionalField(nameof(displayPathLine))] private float displaySpeed = 4;
+    
+    [Header("Sprite")] 
+    [SerializeField] [OverrideLabel("Frequency")] private uint spriteFrequency = 2;
+    [SerializeField] [OverrideLabel("Max Alpha")] [Range(0, 1)] private float spriteMaxAlpha = 0.5f;
+    [SerializeField] [OverrideLabel("Amount")] private uint spriteAmount = 9;
+    
 
-    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private Transform recordingContainer;
+    [Separator("References")] 
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform recordingContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer playerSprite;
 
     private LineRenderer lineRenderer;
 
     private Coroutine recording;
+    private Coroutine displayRecording;
 
     private List<Vector2> recordedPositions;
 
@@ -29,7 +37,11 @@ public class PlayerRecordingManager : MonoBehaviour
     {
         PlayManager.Instance.OnSwitchToPlay += () =>
         {
-            ClearRecording();
+            print(displayRecording == null);
+            
+            if(displayRecording != null) StopCoroutine(displayRecording);
+            
+            ClearRecordingDisplay();
             recording = StartCoroutine(RecordPlayer());
         };
 
@@ -37,7 +49,9 @@ public class PlayerRecordingManager : MonoBehaviour
         {
             if (recording != null) StopCoroutine(recording);
 
-            StartCoroutine(DisplayRecording(recordedPositions));
+            ClearRecordingDisplay();
+            
+            displayRecording = StartCoroutine(DisplayRecording(recordedPositions));
         };
     }
 
@@ -46,9 +60,12 @@ public class PlayerRecordingManager : MonoBehaviour
         PlayerController player = PlayerManager.Instance.Player;
         
         if(player == null) yield break;
-
+        
         recordedPositions = new();
 
+        // wait until player is out of the death animation
+        while(player.InDeathAnim) yield return null;
+        
         // save positions of player
         while (!LevelSessionEditManager.Instance.Editing)
         {
@@ -60,8 +77,10 @@ public class PlayerRecordingManager : MonoBehaviour
 
     private IEnumerator DisplayRecording(IReadOnlyList<Vector2> recordedPositions)
     {
-        if (recordedPositions == null) yield break;
+        if (recordedPositions.IsNullOrEmpty()) yield break;
 
+        float displayDelay = recordingFrequency / displaySpeed;
+        
         for (int i = 0; i < recordedPositions.Count; i++)
         {
             if (displayPathLine)
@@ -72,13 +91,13 @@ public class PlayerRecordingManager : MonoBehaviour
             }
 
             // display player sprite
-            float playerTrailIndex = (i - (recordedPositions.Count - (float)(trailAmount * trailFrequency))) / trailFrequency + 1;
+            float playerTrailIndex = (i - (recordedPositions.Count - (float)(spriteAmount * spriteFrequency))) / spriteFrequency + 1;
 
-            if (playerTrailIndex > 0 && (recordedPositions.Count - 1 - i) % trailFrequency == 0)
+            if (playerTrailIndex > 0 && (recordedPositions.Count - 1 - i) % spriteFrequency == 0)
             {
                 SpriteRenderer playerTrail = Instantiate(playerSprite, recordedPositions[i], Quaternion.identity, recordingContainer);
 
-                playerTrail.SetAlpha(playerTrailIndex / trailAmount * trailMaxAlpha);
+                playerTrail.SetAlpha(playerTrailIndex / spriteAmount * spriteMaxAlpha);
             }
 
             // wait delay
@@ -86,7 +105,7 @@ public class PlayerRecordingManager : MonoBehaviour
         }
     }
 
-    private void ClearRecording()
+    private void ClearRecordingDisplay()
     {
         recordingContainer.DestroyChildren();
 
