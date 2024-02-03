@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3893139711572200082}
   - component: {fileID: 5865789220577753341}
   m_Layer: 9
-  m_Name: RecordingPlayerSprite
+  m_Name: PlayerRecordingSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -70,6 +70,8 @@ public class PlayerController : EntityController
     private static readonly int death = Animator.StringToHash("Death");
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
 
+    public Action OnDeathEnter;
+
     public override EditMode EditMode => EditModeManager.Player;
 
     private void Awake()
@@ -451,7 +453,7 @@ public class PlayerController : EntityController
         Rb.velocity = Vector2.zero;
         Rb.simulated = false;
         InDeathAnim = true;
-
+        
         if (LevelSessionEditManager.Instance.Playing)
         {
             Deaths++;
@@ -459,6 +461,8 @@ public class PlayerController : EntityController
         }
 
         UpdateCoinCounterDeath();
+        
+        OnDeathEnter?.Invoke();
 
         if (KonamiManager.Instance.KonamiActive) return;
 
@@ -469,7 +473,7 @@ public class PlayerController : EntityController
         foreach (AnchorBallController ball in AnchorBallManager.Instance.AnchorBallList) ball.ResetPosition();
     }
 
-    private void ResetAnimation()
+    private void RevertDeathAnimation()
     {
         Transform t = transform;
 
@@ -516,7 +520,7 @@ public class PlayerController : EntityController
 
         transform.position = spawnPos;
 
-        ResetAnimation();
+        RevertDeathAnimation();
 
         if (Camera.main != null)
         {
@@ -543,8 +547,6 @@ public class PlayerController : EntityController
     #endregion
 
     private void UpdateSpeedText() => speedText.text = Speed.ToString("0.0");
-
-    public void ResetGame() => Rb.MovePosition(StartPos);
 
     public void DestroySelf(bool removeTargetFromCamera = true)
     {

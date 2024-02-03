@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using LuLib.Transform;
 using MyBox;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerRecordingManager : MonoBehaviour
 {
@@ -17,6 +19,8 @@ public class PlayerRecordingManager : MonoBehaviour
 
     [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private Transform recordingContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer playerSprite;
+    [SerializeField] [InitializationField] [MustBeAssigned] private LineRenderer recordingLinePrefab;
+    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject recordingDeathPrefab;
 
     private LineRenderer lineRenderer;
 
@@ -24,8 +28,7 @@ public class PlayerRecordingManager : MonoBehaviour
     private Coroutine displayRecording;
 
     private List<Vector2> recordedPositions;
-
-    private void Awake() => lineRenderer = recordingContainer.GetComponent<LineRenderer>();
+    private List<Vector2> recordedDeaths;
 
     private void Start()
     {
@@ -54,6 +57,13 @@ public class PlayerRecordingManager : MonoBehaviour
         if (player == null) yield break;
 
         recordedPositions = new();
+        recordedDeaths = new();
+
+        player.OnDeathEnter += () =>
+        {
+            if (LevelSessionEditManager.Instance.Editing) return;
+            recordedDeaths.Add(player.transform.position);
+        };
 
         // wait until player is out of the death animation
         while (player.InDeathAnim) yield return null;
@@ -61,7 +71,11 @@ public class PlayerRecordingManager : MonoBehaviour
         // save positions of player
         while (!LevelSessionEditManager.Instance.Editing)
         {
-            recordedPositions.Add(player.transform.position);
+            // only record if player has moved
+            if (recordedPositions.Count == 0 || (Vector2)player.transform.position != recordedPositions[^1])
+            {
+                recordedPositions.Add(player.transform.position);
+            }
 
             yield return new WaitForSeconds(recordingFrequency);
         }
@@ -73,13 +87,26 @@ public class PlayerRecordingManager : MonoBehaviour
 
         float displayDelay = recordingFrequency / displaySpeed;
 
-        for (int i = 0; i < recordedPositions.Count; i++)
+        BeginNewLine();
+
+        int lineIndex = 0;
+        for (int i = 0; i < recordedPositions.Count; i++, lineIndex++)
         {
             if (displayPathLine)
             {
                 // display line
                 lineRenderer.positionCount++;
-                lineRenderer.SetPosition(i, recordedPositions[i]);
+                lineRenderer.SetPosition(lineIndex, recordedPositions[i]);
+            }
+            
+            
+            // if player dies there, begin new line (to avoid awkward teleportation lines)
+            if (recordedDeaths.Contains(recordedPositions[i]))
+            {
+                Instantiate(recordingDeathPrefab, recordedPositions[i], Quaternion.identity, recordingContainer);
+                
+                BeginNewLine();
+                lineIndex = -1;
             }
 
             // display player sprite
@@ -97,11 +124,14 @@ public class PlayerRecordingManager : MonoBehaviour
         }
     }
 
+    private void BeginNewLine()
+    {
+        lineRenderer = Instantiate(recordingLinePrefab, recordingContainer);
+    }
+
     private void ClearRecordingDisplay()
     {
         recordingContainer.DestroyChildren();
-
-        lineRenderer.positionCount = 0;
     }
 
     public void ToggleVisibility() => recordingContainer.gameObject.SetActive(!recordingContainer.gameObject.activeSelf);
