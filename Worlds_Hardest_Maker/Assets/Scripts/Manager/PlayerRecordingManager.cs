@@ -40,8 +40,33 @@ public class PlayerRecordingManager : MonoBehaviour
     {
         recordingSpriteContainer.gameObject.SetActive(displaySprites);
         recordingPathContainer.gameObject.SetActive(displayPath);
-            
-        PlayManager.Instance.OnSwitchToPlay += () =>
+         
+        // on play: stop display coroutines, start recording
+        PlayManager.Instance.OnSwitchToPlay += SwitchToPlay;
+        PlayManager.Instance.OnPlaySceneSetup += SwitchToPlay;
+
+        // on edit: stop recording, render path & sprites
+        PlayManager.Instance.OnSwitchToEdit += () =>
+        {
+            if (recording != null) StopCoroutine(recording);
+
+            if(recordingSpriteContainer.gameObject.activeSelf) displaySpriteRecording = RenderSpriteRecording();
+            if(recordingPathContainer.gameObject.activeSelf) displayPathRecording = RenderPathRecording();
+        };
+
+        // when in play mode, display path recording when player wins
+        PlayerManager.Instance.OnWin += () =>
+        {
+            if (!LevelSessionManager.Instance.IsEdit)
+            {
+                recordingPathContainer.gameObject.SetActive(true);
+                RenderPathRecording();
+            }
+        };
+
+        return;
+        
+        void SwitchToPlay()
         {
             if (displaySpriteRecording != null) StopCoroutine(displaySpriteRecording);
             if (displayPathRecording != null) StopCoroutine(displayPathRecording);
@@ -50,15 +75,7 @@ public class PlayerRecordingManager : MonoBehaviour
             recordingPathContainer.DestroyChildren();
             
             recording = StartCoroutine(RecordPlayer());
-        };
-
-        PlayManager.Instance.OnSwitchToEdit += () =>
-        {
-            if (recording != null) StopCoroutine(recording);
-
-            if(recordingSpriteContainer.gameObject.activeSelf) displaySpriteRecording = RenderSpriteRecording();
-            if(recordingPathContainer.gameObject.activeSelf) displayPathRecording = RenderPathRecording();
-        };
+        }
     }
 
     private IEnumerator RecordPlayer()

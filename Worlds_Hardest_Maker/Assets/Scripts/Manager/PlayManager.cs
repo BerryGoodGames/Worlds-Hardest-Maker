@@ -11,6 +11,7 @@ public class PlayManager : MonoBehaviour
     public event Action OnSwitchToPlay = () => { };
     public event Action OnSwitchToEdit = () => { };
     public event Action OnToggle = () => { };
+    public event Action OnPlaySceneSetup = () => { };
 
     private bool cheated;
 
@@ -58,7 +59,6 @@ public class PlayManager : MonoBehaviour
 
         return;
 
-        [SuppressMessage("ReSharper", "Unity.PerformanceCriticalCodeInvocation")]
         IEnumerator SetupPlayScene()
         {
             LevelSessionEditManager.Instance.Playing = true;
@@ -74,13 +74,15 @@ public class PlayManager : MonoBehaviour
             KeyManager.Instance.ActivateAnimations();
 
             ReferenceManager.Instance.TimerController.StartTimer();
+            
+            OnPlaySceneSetup.Invoke();
         }
     }
 
     public void RestartLevel()
     {
         // reset game
-        Instance.OnLevelReset.Invoke();
+        OnLevelReset.Invoke();
 
         // start again
         if (PlayerManager.Instance.Player != null) PlayerManager.Instance.Player.Setup();

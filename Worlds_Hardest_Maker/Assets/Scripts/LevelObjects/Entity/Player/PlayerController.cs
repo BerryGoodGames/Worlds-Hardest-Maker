@@ -70,7 +70,7 @@ public class PlayerController : EntityController
     private static readonly int death = Animator.StringToHash("Death");
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
 
-    public Action OnDeathEnter;
+    public event Action OnDeathEnter;
 
     public override EditMode EditMode => EditModeManager.Player;
 
