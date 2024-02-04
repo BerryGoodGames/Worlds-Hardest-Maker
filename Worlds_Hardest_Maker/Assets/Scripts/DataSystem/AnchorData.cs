@@ -88,4 +88,21 @@ public class AnchorData : Data
     }
 
     public override EditMode GetEditMode() => EditModeManager.Anchor;
+    
+    public override bool Equals(Data d)
+    {
+        AnchorData other = (AnchorData)d;
+
+        if (position[0] != other.position[0] || position[1] != other.position[1]) return false;
+
+        if (other.balls.Length != balls.Length) return false;
+
+        for (int i = 0; i < balls.Length; i++)
+        {
+            if (!balls[i].Equals(other.balls[i])) return false;
+        }
+
+        // ignore anchor blocks for now
+        return true;
+    }
 }

@@ -224,4 +224,6 @@ public abstract class Data
         Debug.LogWarning("ImportToLevel(Vector2 pos) has been called, but there is no override defined");
 
     public abstract EditMode GetEditMode();
+
+    public abstract bool Equals(Data other);
 }

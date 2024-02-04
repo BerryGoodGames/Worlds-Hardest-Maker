@@ -34,4 +34,13 @@ public class FieldData : Data
     }
 
     public override EditMode GetEditMode() => (EditMode)Enum.Parse(typeof(EditMode), FieldMode);
+    
+    public override bool Equals(Data d)
+    {
+        FieldData other = (FieldData)d;
+        return other.Position[0] == Position[0]
+               && other.Position[1] == Position[1]
+               && other.FieldMode == FieldMode
+               && other.Rotation == Rotation;
+    }
 }

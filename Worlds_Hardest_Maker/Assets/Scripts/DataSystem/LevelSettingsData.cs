@@ -36,4 +36,14 @@ public class LevelSettingsData : Data
     }
 
     public override EditMode GetEditMode() => EditModeManager.Wall;
+    
+    public override bool Equals(Data d)
+    {
+        LevelSettingsData other = (LevelSettingsData)d;
+        return other.DrownDuration == DrownDuration
+               && other.IceFriction == IceFriction
+               && other.IceMaxSpeed == IceMaxSpeed
+               && other.WaterDamping == WaterDamping
+               && other.ReusableCheckpoints == ReusableCheckpoints;
+    }
 }
