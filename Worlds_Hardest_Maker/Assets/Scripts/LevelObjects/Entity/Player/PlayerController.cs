@@ -67,7 +67,6 @@ public class PlayerController : EntityController
 
     #endregion
 
-    private static readonly int death = Animator.StringToHash("Death");
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
 
     public event Action OnDeathEnter;

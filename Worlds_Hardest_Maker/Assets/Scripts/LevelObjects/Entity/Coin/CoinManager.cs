@@ -15,7 +15,6 @@ public class CoinManager : MonoBehaviour
     public int TotalCoins => Coins.Count;
 
     private static readonly int playing = Animator.StringToHash("Playing");
-    private static readonly int pickedUp = Animator.StringToHash("PickedUp");
 
 
     public void RemoveCoin(Vector2 position)

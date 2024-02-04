@@ -10,7 +10,6 @@ public class KeyManager : MonoBehaviour
     [UsedImplicitly] public static readonly List<FieldMode> CannotPlaceFields = new();
 
     private static readonly int playing = Animator.StringToHash("Playing");
-    private static readonly int pickedUp = Animator.StringToHash("PickedUp");
 
     [ReadOnly] public List<KeyController> Keys = new();
     [ReadOnly] public List<KeyController> CollectedKeys = new();
