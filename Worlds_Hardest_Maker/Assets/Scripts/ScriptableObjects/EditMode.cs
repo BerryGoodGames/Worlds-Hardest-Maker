@@ -1,6 +1,7 @@
 using System;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class EditMode : ScriptableObject
 {
@@ -20,7 +21,7 @@ public abstract class EditMode : ScriptableObject
 public struct EditModeAttributes
 {
     [ReadOnly] public bool IsField;
-    [ReadOnly] [ConditionalField(nameof(IsField))] public bool IsKeydoor;
+    [FormerlySerializedAs("IsKeydoor")] [ReadOnly] [ConditionalField(nameof(IsField))] public bool IsKeyDoor;
     [Space] [ReadOnly] public bool IsEntity;
     [ReadOnly] [ConditionalField(nameof(IsEntity))] public bool IsKey;
     [ConditionalField(nameof(IsEntity))] public bool IsAnchorRelated;

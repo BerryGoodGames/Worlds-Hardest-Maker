@@ -522,9 +522,10 @@ public class PlayerController : EntityController
 
         RevertDeathAnimation();
 
-        if (Camera.main != null)
+        Camera main = Camera.main;
+        if (main != null)
         {
-            JumpToEntity jumpToPlayer = Camera.main.GetComponent<JumpToEntity>();
+            JumpToEntity jumpToPlayer = main.GetComponent<JumpToEntity>();
             if (jumpToPlayer.GetTarget("Player") == gameObject) jumpToPlayer.SetTarget("Player", gameObject);
         }
 
@@ -532,7 +533,7 @@ public class PlayerController : EntityController
         ResetKeysToCurrentGameState();
 
         string[] tags =
-            { "GrayKeydoor", "RedKeydoor", "GreenKeydoor", "BlueKeydoor", "YellowKeydoor", };
+            { "GrayKeyDoor", "RedKeyDoor", "GreenKeyDoor", "BlueKeyDoor", "YellowKeyDoor", };
 
         foreach (string tag in tags)
         {

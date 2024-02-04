@@ -1,15 +1,15 @@
 using MyBox;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewKeydoorMode", menuName = "ScriptableObjects/KeydoorMode")]
-public sealed class KeydoorMode : FieldMode
+[CreateAssetMenu(fileName = "NewKeyDoorMode", menuName = "ScriptableObjects/KeyDoorMode")]
+public sealed class KeyDoorMode : FieldMode
 {
     [Separator] public KeyColor KeyColor;
 
     protected override void Reset()
     {
         base.Reset();
-        Attributes.IsKeydoor = true;
+        Attributes.IsKeyDoor = true;
         HasOutline = true;
         IsSolid = true;
     }

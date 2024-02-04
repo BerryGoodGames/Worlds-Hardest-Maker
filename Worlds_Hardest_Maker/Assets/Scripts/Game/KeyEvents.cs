@@ -139,7 +139,7 @@ public class KeyEvents : MonoBehaviour
         foreach (EditMode editMode in EditModeManager.Instance.AllEditModes)
         {
             // key doors do not have key binds hahahahhahahah
-            if (editMode.Attributes.IsKeydoor) continue;
+            if (editMode.Attributes.IsKeyDoor) continue;
 
             if (KeyBinds.GetKeyBindDown(editMode.KeyboardShortcut)) LevelSessionEditManager.Instance.CurrentEditMode = editMode;
         }

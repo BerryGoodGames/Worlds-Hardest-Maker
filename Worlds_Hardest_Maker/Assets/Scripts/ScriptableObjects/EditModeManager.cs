@@ -27,11 +27,11 @@ public class EditModeManager : MonoBehaviour
     [InitializationField] [MustBeAssigned] public KeyMode GreenKeyMode;
     [InitializationField] [MustBeAssigned] public KeyMode BlueKeyMode;
     [InitializationField] [MustBeAssigned] public KeyMode YellowKeyMode;
-    [InitializationField] [MustBeAssigned] public KeydoorMode GrayKeyDoorMode;
-    [InitializationField] [MustBeAssigned] public KeydoorMode RedKeyDoorMode;
-    [InitializationField] [MustBeAssigned] public KeydoorMode GreenKeyDoorMode;
-    [InitializationField] [MustBeAssigned] public KeydoorMode BlueKeyDoorMode;
-    [InitializationField] [MustBeAssigned] public KeydoorMode YellowKeyDoorMode;
+    [InitializationField] [MustBeAssigned] public KeyDoorMode GrayKeyDoorMode;
+    [InitializationField] [MustBeAssigned] public KeyDoorMode RedKeyDoorMode;
+    [InitializationField] [MustBeAssigned] public KeyDoorMode GreenKeyDoorMode;
+    [InitializationField] [MustBeAssigned] public KeyDoorMode BlueKeyDoorMode;
+    [InitializationField] [MustBeAssigned] public KeyDoorMode YellowKeyDoorMode;
 
     public static DeleteMode Delete => Instance.DeleteMode;
     public static FieldMode Wall => Instance.WallMode;
@@ -52,11 +52,11 @@ public class EditModeManager : MonoBehaviour
     public static KeyMode GreenKey => Instance.GreenKeyMode;
     public static KeyMode BlueKey => Instance.BlueKeyMode;
     public static KeyMode YellowKey => Instance.YellowKeyMode;
-    public static KeydoorMode GrayKeyDoor => Instance.GrayKeyDoorMode;
-    public static KeydoorMode RedKeyDoor => Instance.RedKeyDoorMode;
-    public static KeydoorMode GreenKeyDoor => Instance.GreenKeyDoorMode;
-    public static KeydoorMode BlueKeyDoor => Instance.BlueKeyDoorMode;
-    public static KeydoorMode YellowKeyDoor => Instance.YellowKeyDoorMode;
+    public static KeyDoorMode GrayKeyDoor => Instance.GrayKeyDoorMode;
+    public static KeyDoorMode RedKeyDoor => Instance.RedKeyDoorMode;
+    public static KeyDoorMode GreenKeyDoor => Instance.GreenKeyDoorMode;
+    public static KeyDoorMode BlueKeyDoor => Instance.BlueKeyDoorMode;
+    public static KeyDoorMode YellowKeyDoor => Instance.YellowKeyDoorMode;
 
     public List<EditMode> AllEditModes { get; private set; }
     public List<FieldMode> AllFieldModes { get; private set; }
