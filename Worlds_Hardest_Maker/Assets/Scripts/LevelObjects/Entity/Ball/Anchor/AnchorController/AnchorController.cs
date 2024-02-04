@@ -48,6 +48,10 @@ public partial class AnchorController : EntityController, IResettable
         Rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         entityDragDrop = GetComponent<EntityDragDrop>();
+        
+        SpeedInput = 7;
+        RotationInput = 360;
+        Ease = Ease.Linear;
 
         if (!LevelSessionManager.Instance.IsEdit) return;
         Animator.SetBool(editingString, LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated);
@@ -57,10 +61,6 @@ public partial class AnchorController : EntityController, IResettable
     {
         // update when moved by user
         entityDragDrop.OnMove += (_, _) => MoveAnchor();
-
-        SpeedInput = 7;
-        RotationInput = 360;
-        Ease = Ease.Linear;
 
         if (LevelSessionManager.Instance.IsEdit) UpdateStartValues();
 
