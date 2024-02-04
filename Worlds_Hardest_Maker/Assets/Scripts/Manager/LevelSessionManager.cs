@@ -25,7 +25,7 @@ public class LevelSessionManager : MonoBehaviour
     [ReadOnly] [OverrideLabel("Play Session Completions")] public uint Completions;
     public TimeSpan? BestCompletionTime;
 
-    public event Action OnLevelLoaded = () => { };
+    public Action OnLevelLoaded = () => { };
 
     private void Update()
     {

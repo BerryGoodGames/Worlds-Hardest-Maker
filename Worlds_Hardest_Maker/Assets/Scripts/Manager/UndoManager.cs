@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UndoManager : MonoBehaviour
 {
-    public static UndoManager Instance { get; private set; }
-
-    public Stack<List<Data>> GameDataStack;
+    private Stack<List<Data>> gameDataStack;
 
     private void Start()
     {
@@ -16,18 +13,22 @@ public class UndoManager : MonoBehaviour
 
     private void Undo()
     {
-        Stack<List<Data>> gameDataStack = new Stack<List<Data>>(new Stack<List<Data>>(GameDataStack));
-
+        if (gameDataStack.Count < 2)
+        {
+            print("Nothing left to undo");
+            return;
+        }
+        
         // remove current game data to get previous
         gameDataStack.Pop();
 
-        List<Data> targetData = gameDataStack.Pop();
+        List<Data> targetData = gameDataStack.Peek();
         GameManager.Instance.LoadLevelFromDataRaw(targetData);
     }
 
-    public void PushCurrentGameData()
+    private void PushCurrentGameData()
     {
-        GameDataStack.Push(SaveSystem.SerializeCurrentLevel());
+        gameDataStack.Push(SaveSystem.SerializeCurrentLevel());
     }
     
     private void Update()
@@ -37,8 +38,6 @@ public class UndoManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        
-        GameDataStack = new();
+        gameDataStack = new();
     }
 }

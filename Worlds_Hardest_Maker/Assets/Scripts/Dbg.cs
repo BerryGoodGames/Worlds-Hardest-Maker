@@ -70,7 +70,8 @@ public class Dbg : MonoBehaviour
                 }
 
                 // load debug level
-                GameManager.Instance.LoadLevel(LevelSessionManager.Instance.LevelSessionPath);
+                Coroutine loadLevelCoroutine = GameManager.Instance.LoadLevel(LevelSessionManager.Instance.LevelSessionPath);
+                loadLevelCoroutine.OnComplete(LevelSessionManager.Instance.OnLevelLoaded);
             }
             catch
             {
