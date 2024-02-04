@@ -47,6 +47,7 @@ public class KeyController : EntityController, IResettable, ICollectible
         KeyManager.Instance.Keys.Remove(this);
 
         ((IResettable)this).Unsubscribe();
+        PlayManager.Instance.OnSwitchToPlay -= ActivateAnimation;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

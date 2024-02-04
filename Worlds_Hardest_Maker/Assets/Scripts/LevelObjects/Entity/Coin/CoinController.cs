@@ -27,7 +27,16 @@ public class CoinController : EntityController, IResettable, ICollectible
         ((IResettable)this).Subscribe();
         PlayManager.Instance.OnSwitchToPlay += ActivateAnimation;
     }
+    
+    private void OnDestroy()
+    {
+        // un-cache coin
+        CoinManager.Instance.Coins.Remove(this);
 
+        ((IResettable)this).Unsubscribe();
+        PlayManager.Instance.OnSwitchToPlay -= ActivateAnimation;
+    }
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (PickedUp) return;
@@ -51,14 +60,6 @@ public class CoinController : EntityController, IResettable, ICollectible
             controller.Win();
             break;
         }
-    }
-
-    private void OnDestroy()
-    {
-        // un-cache coin
-        CoinManager.Instance.Coins.Remove(this);
-
-        ((IResettable)this).Unsubscribe();
     }
 
     public void Collect()
