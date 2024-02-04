@@ -19,6 +19,7 @@ public class ChildrenOpacity : MonoBehaviour
     {
         foreach (SpriteRenderer child in children)
         {
+            if (child == null) continue;
             Color newColor = child.color;
             newColor.a = opacity;
             child.color = newColor;

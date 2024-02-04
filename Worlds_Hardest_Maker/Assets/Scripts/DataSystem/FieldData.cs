@@ -19,7 +19,7 @@ public class FieldData : Data
         Position = new int[2];
         Position[0] = (int)fieldPosition.x;
         Position[1] = (int)fieldPosition.y;
-        Rotation = (int)transform.rotation.eulerAngles.z;
+        Rotation = 90 * Mathf.RoundToInt(transform.rotation.eulerAngles.z / 90);
 
         FieldMode = field.FieldMode.ToString();
     }
