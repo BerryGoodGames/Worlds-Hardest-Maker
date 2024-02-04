@@ -1,25 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using LuLib.Transform;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
-
 public class PlayerRecordingManager : MonoBehaviour
 {
-    [Separator("Settings")] [Header("Line")] [SerializeField] [OverrideLabel("Display")] private bool displayPathLine = true;
-    [SerializeField] [ConditionalField(nameof(displayPathLine))] private float recordingFrequency = 1;
-    
-    [Header("Display")]
-    [SerializeField] [ConditionalField(nameof(displayPathLine))] private bool fixedDisplayDuration;
-    [SerializeField] [ConditionalField( new[]{ nameof(displayPathLine), nameof(fixedDisplayDuration), }, new[]{ false, true, })] private float displaySpeed = 4;
-    [SerializeField] [ConditionalField( new[]{ nameof(displayPathLine), nameof(fixedDisplayDuration), }, new[]{ false, false, })] private float displayDuration = 2;
+    [Separator("Settings")]
+    [SerializeField] [PositiveValueOnly] private float recordingFrequency = 1; 
+    [Space]
+    [SerializeField] private bool fixedDisplayDuration;
+    [SerializeField] [ConditionalField(nameof(fixedDisplayDuration), true)] private float displaySpeed = 4;
+    [SerializeField] [ConditionalField(nameof(fixedDisplayDuration), false)] private float displayDuration = 2;
 
-    [Header("Sprite")] [SerializeField] [OverrideLabel("Frequency")] private uint spriteFrequency = 2;
+    [Header("Path")] [SerializeField] [InitializationField]  [OverrideLabel("Display at start")] private bool displayPath = true;
+    
+    [Header("Sprite")] [SerializeField] [InitializationField]  [OverrideLabel("Display at start")] private bool displaySprites = true;
+    [SerializeField] [OverrideLabel("Frequency")] private uint spriteFrequency = 2;
     [SerializeField] [OverrideLabel("Max Alpha")] [Range(0, 1)] private float spriteMaxAlpha = 0.5f;
     [SerializeField] [OverrideLabel("Amount")] private uint spriteAmount = 9;
 
     [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private Transform recordingContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform recordingSpriteContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform recordingPathContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer playerSprite;
     [SerializeField] [InitializationField] [MustBeAssigned] private LineRenderer recordingLinePrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private GameObject recordingDeathPrefab;
@@ -27,18 +30,25 @@ public class PlayerRecordingManager : MonoBehaviour
     private LineRenderer lineRenderer;
 
     private Coroutine recording;
-    private Coroutine displayRecording;
+    private Coroutine displaySpriteRecording;
+    private Coroutine displayPathRecording;
 
     private List<Vector2> recordedPositions;
     private List<Vector2> recordedDeaths;
 
     private void Start()
     {
+        recordingSpriteContainer.gameObject.SetActive(displaySprites);
+        recordingPathContainer.gameObject.SetActive(displayPath);
+            
         PlayManager.Instance.OnSwitchToPlay += () =>
         {
-            if (displayRecording != null) StopCoroutine(displayRecording);
+            if (displaySpriteRecording != null) StopCoroutine(displaySpriteRecording);
+            if (displayPathRecording != null) StopCoroutine(displayPathRecording);
 
-            ClearRecordingDisplay();
+            recordingSpriteContainer.DestroyChildren();
+            recordingPathContainer.DestroyChildren();
+            
             recording = StartCoroutine(RecordPlayer());
         };
 
@@ -46,9 +56,8 @@ public class PlayerRecordingManager : MonoBehaviour
         {
             if (recording != null) StopCoroutine(recording);
 
-            ClearRecordingDisplay();
-
-            displayRecording = StartCoroutine(DisplayRecording(recordedPositions));
+            if(recordingSpriteContainer.gameObject.activeSelf) displaySpriteRecording = RenderSpriteRecording();
+            if(recordingPathContainer.gameObject.activeSelf) displayPathRecording = RenderPathRecording();
         };
     }
 
@@ -83,61 +92,96 @@ public class PlayerRecordingManager : MonoBehaviour
         }
     }
 
-    private IEnumerator DisplayRecording(IReadOnlyList<Vector2> recordedPositions)
+    #region Display
+    
+    private Coroutine RenderSpriteRecording()
+    {
+        recordingSpriteContainer.DestroyChildren();
+        return StartCoroutine(RenderLoop(i =>
+        {
+            // display player sprite
+            float playerTrailIndex = (i - (recordedPositions.Count - (float)(spriteAmount * spriteFrequency))) / spriteFrequency + 1;
+
+            if (!(playerTrailIndex > 0) || (recordedPositions.Count - 1 - i) % spriteFrequency != 0) return;
+            
+            SpriteRenderer playerTrail = Instantiate(playerSprite, recordedPositions[i], Quaternion.identity, recordingSpriteContainer);
+            playerTrail.SetAlpha(playerTrailIndex / spriteAmount * spriteMaxAlpha);
+        }));
+    }
+
+    private Coroutine RenderPathRecording()
+    {
+        recordingPathContainer.DestroyChildren();
+        
+        BeginNewLine();
+
+        Quaternion rotation = Quaternion.Euler(0, 0, 45);
+        
+        int lineIndex = 0;
+
+        return StartCoroutine(RenderLoop(i => {
+            // display line
+            lineRenderer.positionCount++;
+            lineRenderer.SetPosition(lineIndex, recordedPositions[i]);
+
+            // if player dies there, begin new line (to avoid awkward teleportation lines)
+            if (recordedDeaths.Contains(recordedPositions[i]))
+            {
+                Instantiate(recordingDeathPrefab, recordedPositions[i], rotation, recordingPathContainer);
+
+                BeginNewLine();
+                lineIndex = -1;
+            }
+
+            lineIndex++;
+        }));
+    }
+
+    private IEnumerator RenderLoop(Action<int> action)
     {
         if (recordedPositions.IsNullOrEmpty()) yield break;
 
         float displayDelay = fixedDisplayDuration 
             ? displayDuration / recordedPositions.Count
             : recordingFrequency / displaySpeed;
-
-        BeginNewLine();
-
-        Quaternion rotation = Quaternion.Euler(0, 0, 45);
         
-        int lineIndex = 0;
-        for (int i = 0; i < recordedPositions.Count; i++, lineIndex++)
+        for (int i = 0; i < recordedPositions.Count; i++)
         {
-            if (displayPathLine)
-            {
-                // display line
-                lineRenderer.positionCount++;
-                lineRenderer.SetPosition(lineIndex, recordedPositions[i]);
-            }
-            
-            // if player dies there, begin new line (to avoid awkward teleportation lines)
-            if (recordedDeaths.Contains(recordedPositions[i]))
-            {
-                Instantiate(recordingDeathPrefab, recordedPositions[i], rotation, recordingContainer);
-                
-                BeginNewLine();
-                lineIndex = -1;
-            }
-
-            // display player sprite
-            float playerTrailIndex = (i - (recordedPositions.Count - (float)(spriteAmount * spriteFrequency))) / spriteFrequency + 1;
-
-            if (playerTrailIndex > 0 && (recordedPositions.Count - 1 - i) % spriteFrequency == 0)
-            {
-                SpriteRenderer playerTrail = Instantiate(playerSprite, recordedPositions[i], Quaternion.identity, recordingContainer);
-
-                playerTrail.SetAlpha(playerTrailIndex / spriteAmount * spriteMaxAlpha);
-            }
+            action.Invoke(i);
 
             // wait delay
             yield return new WaitForSeconds(displayDelay);
         }
     }
-
+    
     private void BeginNewLine()
     {
-        lineRenderer = Instantiate(recordingLinePrefab, recordingContainer);
+        lineRenderer = Instantiate(recordingLinePrefab, recordingPathContainer);
     }
+    
+    #endregion
 
-    private void ClearRecordingDisplay()
+    public void ToggleSpriteVisibility()
     {
-        recordingContainer.DestroyChildren();
+        recordingSpriteContainer.gameObject.SetActive(!recordingSpriteContainer.gameObject.activeSelf);
+
+        if (recordingSpriteContainer.gameObject.activeSelf) displaySpriteRecording = RenderSpriteRecording();
+        else
+        {
+            if(displaySpriteRecording != null) StopCoroutine(displaySpriteRecording);
+            recordingSpriteContainer.DestroyChildren();
+        }
     }
 
-    public void ToggleVisibility() => recordingContainer.gameObject.SetActive(!recordingContainer.gameObject.activeSelf);
+    public void TogglePathVisibility()
+    {
+        recordingPathContainer.gameObject.SetActive(!recordingPathContainer.gameObject.activeSelf);
+
+        if (recordingPathContainer.gameObject.activeSelf) displayPathRecording = RenderPathRecording();
+        else
+        {
+            if(displayPathRecording != null) StopCoroutine(displayPathRecording);
+            recordingPathContainer.DestroyChildren();
+        }
+    }
 }
