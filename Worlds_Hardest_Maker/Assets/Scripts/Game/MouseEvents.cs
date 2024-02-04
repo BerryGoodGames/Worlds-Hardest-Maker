@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -22,6 +23,8 @@ public class MouseEvents : MonoBehaviour
         MouseManager.Instance.MouseDragStart = null;
         MouseManager.Instance.MouseDragCurrent = null;
         MouseManager.Instance.MouseDragEnd = null;
+
+        LevelSessionEditManager.Instance.OnEditAction.Invoke();
     }
 
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using UnityEngine;
 
 public static class KeyBinds
@@ -18,6 +19,7 @@ public static class KeyBinds
         { "Editor_Select", new() { new[] { KeyCode.Mouse1, }, } },
         { "Editor_Copy", new() { new[] { KeyCode.LeftControl, KeyCode.C, }, } },
         { "Editor_Paste", new() { new[] { KeyCode.LeftControl, KeyCode.V, }, } },
+        { "Editor_Undo", new() { new[] { KeyCode.LeftControl, KeyCode.Z, }, } },
         { "Editor_Pick", new() { new[] { KeyCode.J, }, } },
         { "Editor_Menu", new() { new[] { KeyCode.M, }, } },
         { "Editor_Save", new() { new[] { KeyCode.LeftControl, KeyCode.S, }, } },
@@ -53,11 +55,67 @@ public static class KeyBinds
     };
 
     public static bool GetKeyBind(string keyBindName) => keyBindToKeyCode[keyBindName].Any(combination => combination.All(Input.GetKey));
+    
+    public static bool GetKeyBindDown(string keyBindName)
+    {
+        List<KeyCode[]> combinations = keyBindToKeyCode[keyBindName];
+        foreach (KeyCode[] combination in combinations)
+        {
+            for (int i = 0; i < combination.Length; i++)
+            {
+                KeyCode frameKey = combination[i];
+    
+                bool allOtherKeysHeld = true;
+                for (int j = 0; j < combination.Length; j++)
+                {
+                    if (i == j) continue;
+    
+                    if (!Input.GetKey(combination[j]))
+                    {
+                        allOtherKeysHeld = false;
+                        break;
+                    }
+                }
+    
+                if (allOtherKeysHeld && Input.GetKeyDown(frameKey))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-    public static bool GetKeyBindDown(string keyBindName) => keyBindToKeyCode[keyBindName].Any(combination => combination.All(Input.GetKeyDown));
-
-    public static bool GetKeyBindUp(string keyBindName) => keyBindToKeyCode[keyBindName].Any(combination => combination.All(Input.GetKeyUp));
-
+    public static bool GetKeyBindUp(string keyBindName)
+    {
+        List<KeyCode[]> combinations = keyBindToKeyCode[keyBindName];
+        foreach (KeyCode[] combination in combinations)
+        {
+            for (int i = 0; i < combination.Length; i++)
+            {
+                KeyCode frameKey = combination[i];
+    
+                bool allOtherKeysUnheld = true;
+                for (int j = 0; j < combination.Length; j++)
+                {
+                    if (i == j) continue;
+    
+                    if (Input.GetKey(combination[j]))
+                    {
+                        allOtherKeysUnheld = false;
+                        break;
+                    }
+                }
+    
+                if (allOtherKeysUnheld && Input.GetKeyUp(frameKey))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
     public static void ResetKeyBind(string keyBindName) => keyBindToKeyCode[keyBindName].Clear();
 
     public static void AddKeyCodesToKeyBind(string keyBindName, params KeyCode[][] keyCodes) => keyBindToKeyCode[keyBindName].AddRange(keyCodes);
