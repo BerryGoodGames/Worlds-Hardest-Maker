@@ -25,6 +25,8 @@ public class LevelSessionManager : MonoBehaviour
     [ReadOnly] [OverrideLabel("Play Session Completions")] public uint Completions;
     public TimeSpan? BestCompletionTime;
 
+    public event Action OnLevelLoaded = () => { };
+
     private void Update()
     {
         if (IsEdit) EditTime += TimeSpan.FromSeconds(Time.deltaTime);
@@ -47,7 +49,8 @@ public class LevelSessionManager : MonoBehaviour
             LevelSessionMode = TransitionManager.Instance.LevelSessionMode;
 
             // load user-selected level
-            GameManager.Instance.LoadLevel(LevelSessionPath);
+            Coroutine loadLevelCoroutine = GameManager.Instance.LoadLevel(LevelSessionPath);
+            loadLevelCoroutine.OnComplete(() => OnLevelLoaded.Invoke());
         }
 
         ConditionalObject[] conditionalObjects = FindObjectsOfType<ConditionalObject>(true);

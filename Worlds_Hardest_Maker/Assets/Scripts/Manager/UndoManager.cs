@@ -10,21 +10,26 @@ public class UndoManager : MonoBehaviour
 
     private void Start()
     {
-        LevelSessionEditManager.Instance.OnEditAction += () =>
-        {
-            GameDataStack.Push(SaveSystem.SerializeCurrentLevel());
-        };
+        LevelSessionEditManager.Instance.OnEditAction += PushCurrentGameData;
+        LevelSessionManager.Instance.OnLevelLoaded += PushCurrentGameData;
     }
 
     private void Undo()
     {
-        print("Hello");
-        Stack<List<Data>> gameDataStack = GameDataStack;
-        gameDataStack.Clear();
-        
-        print("");
+        Stack<List<Data>> gameDataStack = new Stack<List<Data>>(new Stack<List<Data>>(GameDataStack));
+
+        // remove current game data to get previous
+        gameDataStack.Pop();
+
+        List<Data> targetData = gameDataStack.Pop();
+        GameManager.Instance.LoadLevelFromDataRaw(targetData);
     }
 
+    public void PushCurrentGameData()
+    {
+        GameDataStack.Push(SaveSystem.SerializeCurrentLevel());
+    }
+    
     private void Update()
     {
         if (KeyBinds.GetKeyBindDown("Editor_Undo")) Undo();
