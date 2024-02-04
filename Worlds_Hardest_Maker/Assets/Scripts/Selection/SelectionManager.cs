@@ -260,13 +260,13 @@ public class SelectionManager : MonoBehaviour
         // get prefab
 
         // search if tag is in tags
-        string[] tags = { "Start", "Goal", "Checkpoint", };
-
-        foreach (string tag in tags)
-        {
-            if (!mode.Tag.Equals(tag)) continue;
-            break;
-        }
+        // string[] tags = { "Start", "Goal", "Checkpoint", };
+        //
+        // foreach (string tag in tags)
+        // {
+        //     if (!mode.Tag.Equals(tag)) continue;
+        //     break;
+        // }
 
         foreach (Vector2 pos in poses)
         {
@@ -275,6 +275,9 @@ public class SelectionManager : MonoBehaviour
                 mode.Prefab, pos, Quaternion.Euler(0, 0, rotation),
                 ReferenceManager.Instance.FieldContainer
             );
+            
+            FieldController fieldController = field.GetComponent<FieldController>();
+            fieldController.FieldMode = mode;
 
             FieldManager.ApplyStartGoalCheckpointFieldColor(field, null);
 

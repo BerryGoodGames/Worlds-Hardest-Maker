@@ -49,6 +49,7 @@ public partial class AnchorController : EntityController, IResettable
         spriteRenderer = GetComponent<SpriteRenderer>();
         entityDragDrop = GetComponent<EntityDragDrop>();
 
+        if (!LevelSessionManager.Instance.IsEdit) return;
         Animator.SetBool(editingString, LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated);
     }
 

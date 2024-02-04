@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using LuLib.Transform;
 using MyBox;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -10,12 +9,15 @@ public class PlayerRecordingManager : MonoBehaviour
 {
     [Separator("Settings")] [Header("Line")] [SerializeField] [OverrideLabel("Display")] private bool displayPathLine = true;
     [SerializeField] [ConditionalField(nameof(displayPathLine))] private float recordingFrequency = 1;
-    [SerializeField] [ConditionalField(nameof(displayPathLine))] private float displaySpeed = 4;
+    
+    [Header("Display")]
+    [SerializeField] [ConditionalField(nameof(displayPathLine))] private bool fixedDisplayDuration;
+    [SerializeField] [ConditionalField( new[]{ nameof(displayPathLine), nameof(fixedDisplayDuration), }, new[]{ false, true, })] private float displaySpeed = 4;
+    [SerializeField] [ConditionalField( new[]{ nameof(displayPathLine), nameof(fixedDisplayDuration), }, new[]{ false, false, })] private float displayDuration = 2;
 
     [Header("Sprite")] [SerializeField] [OverrideLabel("Frequency")] private uint spriteFrequency = 2;
     [SerializeField] [OverrideLabel("Max Alpha")] [Range(0, 1)] private float spriteMaxAlpha = 0.5f;
     [SerializeField] [OverrideLabel("Amount")] private uint spriteAmount = 9;
-
 
     [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private Transform recordingContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer playerSprite;
@@ -85,10 +87,14 @@ public class PlayerRecordingManager : MonoBehaviour
     {
         if (recordedPositions.IsNullOrEmpty()) yield break;
 
-        float displayDelay = recordingFrequency / displaySpeed;
+        float displayDelay = fixedDisplayDuration 
+            ? displayDuration / recordedPositions.Count
+            : recordingFrequency / displaySpeed;
 
         BeginNewLine();
 
+        Quaternion rotation = Quaternion.Euler(0, 0, 45);
+        
         int lineIndex = 0;
         for (int i = 0; i < recordedPositions.Count; i++, lineIndex++)
         {
@@ -99,11 +105,10 @@ public class PlayerRecordingManager : MonoBehaviour
                 lineRenderer.SetPosition(lineIndex, recordedPositions[i]);
             }
             
-            
             // if player dies there, begin new line (to avoid awkward teleportation lines)
             if (recordedDeaths.Contains(recordedPositions[i]))
             {
-                Instantiate(recordingDeathPrefab, recordedPositions[i], Quaternion.identity, recordingContainer);
+                Instantiate(recordingDeathPrefab, recordedPositions[i], rotation, recordingContainer);
                 
                 BeginNewLine();
                 lineIndex = -1;
