@@ -13,6 +13,13 @@ public class CoinManager : MonoBehaviour
     [ReadOnly] public List<CoinController> CollectedCoins = new();
     
     public int TotalCoins => Coins.Count;
+    private int? coinsNeeded;
+
+    public int CoinsNeeded
+    {
+        get => Mathf.Min(coinsNeeded ?? TotalCoins, TotalCoins);
+        set => coinsNeeded = value;
+    }
 
     private static readonly int playing = Animator.StringToHash("Playing");
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
@@ -70,7 +77,7 @@ public class CoinManager : MonoBehaviour
         }
     }
     
-    public bool AllCoinsCollected() => CollectedCoins.Count >= Coins.Count;
+    public bool AllCoinsCollected() => CollectedCoins.Count >= CoinsNeeded;
 
     public void ActivateAnimations() => Coins.ForEach(coin => coin.ActivateAnimation());
 

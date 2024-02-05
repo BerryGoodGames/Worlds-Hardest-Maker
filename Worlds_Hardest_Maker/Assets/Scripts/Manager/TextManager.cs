@@ -44,7 +44,7 @@ public class TextManager : MonoBehaviour
         }
 
         Instance.deathText.text = $"Deaths: {playerDeaths}";
-        Instance.coinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.TotalCoins}";
+        Instance.coinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.CoinsNeeded}";
         
         if (!LevelSessionManager.Instance.IsEdit) return;
         
