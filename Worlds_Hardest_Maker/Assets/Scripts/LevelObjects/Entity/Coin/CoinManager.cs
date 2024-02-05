@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using MyBox;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
