@@ -70,6 +70,9 @@ public class PlayerController : EntityController
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
 
     public event Action OnDeathEnter;
+    public event Action OnDeathEnd;
+
+    public event Action OnCheckpointHit;
 
     public override EditMode EditMode => EditModeManager.Player;
 
@@ -515,6 +518,8 @@ public class PlayerController : EntityController
             ? StartPos
             : CurrentGameState.PlayerStartPos;
 
+        OnDeathEnd?.Invoke();
+        
         transform.position = spawnPos;
 
         RevertDeathAnimation();
@@ -540,6 +545,7 @@ public class PlayerController : EntityController
                 if (!KeyManager.Instance.AllKeysCollected(comp.Color)) comp.SetLocked(true);
             }
         }
+        
     }
 
     #endregion
@@ -563,6 +569,8 @@ public class PlayerController : EntityController
 
         CurrentGameState = newState;
 
+        OnCheckpointHit?.Invoke();
+        
         print("Saved game state");
     }
 

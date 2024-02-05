@@ -5,6 +5,8 @@ using LuLib.Color;
 using LuLib.Transform;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 public class PlayerRecordingManager : MonoBehaviour
 {
     [Separator("Settings")]
@@ -16,6 +18,7 @@ public class PlayerRecordingManager : MonoBehaviour
 
     [Header("Path")] 
     [SerializeField] [InitializationField]  [OverrideLabel("Display at start")] private bool displayPath = true;
+    [SerializeField] private Color successColor = Color.green;
     [SerializeField] private Color deathColor = Color.red;
     [SerializeField] [OverrideLabel("Min Value")] [Range(0, 1)] private float minDeathColorValue;
     
@@ -38,8 +41,7 @@ public class PlayerRecordingManager : MonoBehaviour
     private Coroutine displaySpriteRecording;
     private Coroutine displayPathRecording;
 
-    private List<Vector2> recordedPositions;
-    private List<Vector2> recordedDeaths;
+    private List<Recording> recordedPositions;
 
     private void Start()
     {
@@ -51,13 +53,7 @@ public class PlayerRecordingManager : MonoBehaviour
         PlayManager.Instance.OnPlaySceneSetup += SwitchToPlay;
 
         // on edit: stop recording, render path & sprites
-        PlayManager.Instance.OnSwitchToEdit += () =>
-        {
-            if (recording != null) StopCoroutine(recording);
-
-            if(recordingSpriteContainer.gameObject.activeSelf) displaySpriteRecording = RenderSpriteRecording();
-            if(recordingPathContainer.gameObject.activeSelf) displayPathRecording = RenderPathRecording();
-        };
+        PlayManager.Instance.OnSwitchToEdit += RenderRecording;
 
         // when in play mode, display path recording when player wins
         PlayerManager.Instance.OnWin += () =>
@@ -83,6 +79,40 @@ public class PlayerRecordingManager : MonoBehaviour
         }
     }
 
+    private void RenderRecording()
+    {
+        if (recording != null) StopCoroutine(recording);
+
+        // mark successful runs
+        bool successful = true;
+        for (int i = recordedPositions.Count - 1; i >= 0; i--)
+        {
+            if (successful && recordedPositions[i].Died && i != recordedPositions.Count - 1)
+            {
+                recordedPositions[i + 1].StartSuccessfulLine = true;
+                successful = false;
+            }
+            
+            if (recordedPositions[i].CheckpointHit)
+            {
+                if (successful) recordedPositions[i].StartSuccessfulLine = true;
+                
+                successful = true;
+            }
+
+            if (i == 0 && successful) recordedPositions[i].StartSuccessfulLine = true;
+        }
+        
+        print(recordedPositions.Count);
+        foreach (Recording recordedPosition in recordedPositions)
+        {
+            print(recordedPosition);
+        }
+        
+        if (recordingSpriteContainer.gameObject.activeSelf) displaySpriteRecording = RenderSpriteRecording();
+        if (recordingPathContainer.gameObject.activeSelf) displayPathRecording = RenderPathRecording();
+    }
+
     private IEnumerator RecordPlayer()
     {
         PlayerController player = PlayerManager.Instance.Player;
@@ -90,13 +120,9 @@ public class PlayerRecordingManager : MonoBehaviour
         if (player == null) yield break;
 
         recordedPositions = new();
-        recordedDeaths = new();
 
-        player.OnDeathEnter += () =>
-        {
-            if (LevelSessionEditManager.Instance.Editing) return;
-            recordedDeaths.Add(player.transform.position);
-        };
+        player.OnDeathEnd += RecordDeath;
+        player.OnCheckpointHit += RecordCheckpoint;
 
         // wait until player is out of the death animation
         while (player.InDeathAnim) yield return null;
@@ -105,12 +131,28 @@ public class PlayerRecordingManager : MonoBehaviour
         while (!LevelSessionEditManager.Instance.Editing)
         {
             // only record if player has moved
-            if (recordedPositions.Count == 0 || (Vector2)player.transform.position != recordedPositions[^1])
+            if (recordedPositions.Count == 0 || (Vector2)player.transform.position != recordedPositions[^1].Position)
             {
-                recordedPositions.Add(player.transform.position);
+                recordedPositions.Add(new(player.transform.position));
             }
 
             yield return new WaitForSeconds(recordingFrequency);
+        }
+
+        player.OnDeathEnd -= RecordDeath;
+        player.OnCheckpointHit -= RecordCheckpoint;
+        yield break;
+
+        void RecordDeath()
+        {
+            if (LevelSessionEditManager.Instance.Editing) return;
+            recordedPositions.Add(new(player.transform.position, true));
+        }
+
+        void RecordCheckpoint()
+        {
+            if (LevelSessionEditManager.Instance.Editing) return;
+            recordedPositions.Add(new(player.transform.position, checkpointHit:true));
         }
     }
 
@@ -126,7 +168,7 @@ public class PlayerRecordingManager : MonoBehaviour
 
             if (!(playerTrailIndex > 0) || (recordedPositions.Count - 1 - i) % spriteFrequency != 0) return;
             
-            SpriteRenderer playerTrail = Instantiate(playerSprite, recordedPositions[i], Quaternion.identity, recordingSpriteContainer);
+            SpriteRenderer playerTrail = Instantiate(playerSprite, recordedPositions[i].Position, Quaternion.identity, recordingSpriteContainer);
             playerTrail.SetAlpha(playerTrailIndex / spriteAmount * spriteMaxAlpha);
         }));
     }
@@ -136,6 +178,9 @@ public class PlayerRecordingManager : MonoBehaviour
         recordingPathContainer.DestroyChildren();
         
         BeginNewLine();
+        
+        lineRenderer.startColor = deathColor;
+        lineRenderer.endColor = deathColor;
 
         Quaternion rotation = Quaternion.Euler(0, 0, 45);
         
@@ -144,12 +189,14 @@ public class PlayerRecordingManager : MonoBehaviour
         return StartCoroutine(RenderLoop(i => {
             // display line
             lineRenderer.positionCount++;
-            lineRenderer.SetPosition(lineIndex, recordedPositions[i]);
+            lineRenderer.SetPosition(lineIndex, recordedPositions[i].Position);
 
-            // if player dies there, begin new line (to avoid awkward teleportation lines)
-            if (recordedDeaths.Contains(recordedPositions[i]))
+            // if player dies or hits checkpoint and then will die, begin new red line 
+            if (recordedPositions[i].Died ||
+                (recordedPositions[i].CheckpointHit && !recordedPositions[i].StartSuccessfulLine))
             {
-                Instantiate(recordingDeathPrefab, recordedPositions[i], rotation, recordingPathContainer);
+                if(recordedPositions[i].Died)
+                    Instantiate(recordingDeathPrefab, recordedPositions[i].Position, rotation, recordingPathContainer);
 
                 // calculate new color
                 float value = 1;
@@ -164,12 +211,24 @@ public class PlayerRecordingManager : MonoBehaviour
                 }
                 
                 Color newColor = Color.red.SetValue(value);
+
+                newColor.a = deathColor.a;
                 
                 BeginNewLine();
                 lineIndex = -1;
 
                 lineRenderer.startColor = newColor;
                 lineRenderer.endColor = newColor;
+            }
+            
+            // change color to green when successful run starts
+            if (recordedPositions[i].StartSuccessfulLine)
+            {
+                BeginNewLine();
+                lineIndex = -1;
+
+                lineRenderer.startColor = successColor;
+                lineRenderer.endColor = successColor;
             }
 
             lineIndex++;
@@ -221,6 +280,26 @@ public class PlayerRecordingManager : MonoBehaviour
         {
             if(displayPathRecording != null) StopCoroutine(displayPathRecording);
             recordingPathContainer.DestroyChildren();
+        }
+    }
+
+    private class Recording
+    {
+        public readonly Vector2 Position;
+        public readonly bool Died;
+        public readonly bool CheckpointHit;
+        public bool StartSuccessfulLine = false;
+
+        public Recording(Vector2 position, bool died = false, bool checkpointHit = false)
+        {
+            Position = position;
+            Died = died;
+            CheckpointHit = checkpointHit;
+        }
+
+        public override string ToString()
+        {
+            return $"{{position: {Position}, died: {Died}, checkpoint hit: {CheckpointHit}, start successful line: {StartSuccessfulLine}}}";
         }
     }
 }
