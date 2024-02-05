@@ -1,5 +1,6 @@
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class LevelSettings : MonoBehaviour
@@ -7,7 +8,9 @@ public class LevelSettings : MonoBehaviour
     public static LevelSettings Instance { get; private set; }
 
     #region Setting UI element references
-
+    
+    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput coinsNeededInput;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Toggle isCoinsNeededLimitedInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput drownDurationInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private Slider waterDampingSlider;
     [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput iceFrictionInput;
@@ -17,10 +20,14 @@ public class LevelSettings : MonoBehaviour
     #endregion
 
     #region Setting variables
+    
+    [HideInInspector] public bool IsCoinsNeededLimited;
+    
+    [HideInInspector] public int CoinsNeeded;
 
     [HideInInspector] public float DrownDuration;
 
-    [HideInInspector] public float WaterDamping;
+    [HideInInspector] public float WaterDampingFactor;
 
     [HideInInspector] public float IceFriction;
 
@@ -36,87 +43,58 @@ public class LevelSettings : MonoBehaviour
 
 
     #region Level settings
-
-    public void SetDrownDuration(bool syncPlayers = true)
+    
+    public void SetCoinsNeeded() => CoinsNeeded = (int)coinsNeededInput.GetCurrentNumber();
+    public void SetCoinsNeeded(int value)
     {
-        Instance.DrownDuration = drownDurationInput.GetCurrentNumber();
-        if (syncPlayers) SyncPlayersToSettings();
+        CoinsNeeded = value;
+        coinsNeededInput.SetNumberText(value);
     }
 
-    public void SetDrownDuration(float drownDuration, bool syncPlayers = true)
+    public void SetIsNeededCoinsLimited() => IsCoinsNeededLimited = isCoinsNeededLimitedInput.isOn;
+    public void SetIsNeededCoinsLimited(bool value)
     {
-        Instance.DrownDuration = drownDuration;
+        IsCoinsNeededLimited = value;
+        isCoinsNeededLimitedInput.isOn = IsCoinsNeededLimited;
+    }
+
+    public void SetDrownDuration() => DrownDuration = drownDurationInput.GetCurrentNumber();
+
+    public void SetDrownDuration(float drownDuration)
+    {
+        DrownDuration = drownDuration;
         drownDurationInput.SetNumberText(drownDuration);
-        if (syncPlayers) SyncPlayersToSettings();
     }
 
-    public void SetWaterDamping(bool syncPlayers = true)
+    public void SetWaterDamping() => WaterDampingFactor = 1 - waterDampingSlider.value;
+    public void SetWaterDamping(float waterDamping)
     {
-        if (Instance == null) return;
-
-        Instance.WaterDamping = 1 - waterDampingSlider.value;
-        if (syncPlayers) SyncPlayersToSettings();
-    }
-
-    public void SetWaterDamping(float waterDamping, bool syncPlayers = true)
-    {
-        if (Instance == null) return;
-
-        Instance.WaterDamping = waterDamping;
+        WaterDampingFactor = waterDamping;
         waterDampingSlider.value = 1 - waterDamping;
-        if (syncPlayers) SyncPlayersToSettings();
     }
 
-    public void SetIceFriction(bool syncPlayers = true)
+    public void SetIceFriction() => IceFriction = iceFrictionInput.GetCurrentNumber();
+    public void SetIceFriction(float friction)
     {
-        Instance.IceFriction = iceFrictionInput.GetCurrentNumber();
-        if (syncPlayers) SyncPlayersToSettings();
-    }
-
-    public void SetIceFriction(float friction, bool syncPlayers = true)
-    {
-        Instance.IceFriction = friction;
+        IceFriction = friction;
         iceFrictionInput.SetNumberText(friction);
-        if (syncPlayers) SyncPlayersToSettings();
     }
 
-    public void SetIceMaxSpeed(bool syncPlayers = true)
+    public void SetIceMaxSpeed() => IceMaxSpeed = iceMaxSpeedInput.GetCurrentNumber();
+    public void SetIceMaxSpeed(float speed)
     {
-        Instance.IceMaxSpeed = iceMaxSpeedInput.GetCurrentNumber();
-        if (syncPlayers) SyncPlayersToSettings();
-    }
-
-    public void SetIceMaxSpeed(float speed, bool syncPlayers = true)
-    {
-        Instance.IceMaxSpeed = speed;
+        IceMaxSpeed = speed;
         iceMaxSpeedInput.SetNumberText(speed);
-        if (syncPlayers) SyncPlayersToSettings();
     }
 
-    public void SetReusableCheckpoints(bool reusableCheckpoint, bool syncPlayers = true)
+    public void SetReusableCheckpoints() => ReusableCheckpoints = reusableCheckpointCheckbox.isOn;
+    public void SetReusableCheckpoints(bool reusableCheckpoint)
     {
-        Instance.ReusableCheckpoints = reusableCheckpoint;
+        ReusableCheckpoints = reusableCheckpoint;
         reusableCheckpointCheckbox.isOn = reusableCheckpoint;
-        if (syncPlayers) SyncPlayersToSettings();
-    }
-
-    public void SetReusableCheckpoints()
-    {
-        Instance.ReusableCheckpoints = reusableCheckpointCheckbox.isOn;
-        reusableCheckpointCheckbox.isOn = reusableCheckpointCheckbox.isOn;
-        SyncPlayersToSettings();
     }
 
     #endregion
-
-    public void SyncPlayersToSettings()
-    {
-        foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
-        {
-            PlayerController p = player.GetComponent<PlayerController>();
-            p.SyncToLevelSettings();
-        }
-    }
 
     private void Awake()
     {
@@ -126,6 +104,8 @@ public class LevelSettings : MonoBehaviour
 
     private void Start()
     {
+        SetCoinsNeeded();
+        SetIsNeededCoinsLimited();
         SetDrownDuration();
         SetIceFriction();
         SetIceMaxSpeed();

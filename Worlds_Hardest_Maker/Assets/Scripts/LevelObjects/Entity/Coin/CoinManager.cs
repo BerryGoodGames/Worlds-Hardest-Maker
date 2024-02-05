@@ -1,27 +1,20 @@
-using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance { get; private set; }
 
     [UsedImplicitly] public static readonly List<FieldMode> CannotPlaceFields = new();
-
-    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput coinsNeededInput;
-    [SerializeField] [InitializationField] [MustBeAssigned] private Toggle isCoinsNeededLimitedInput;
-    [Separator]
+    
     [ReadOnly] public List<CoinController> Coins = new();
     [ReadOnly] public List<CoinController> CollectedCoins = new();
 
     private int TotalCoins => Coins.Count;
-    private int coinsNeeded;
-    private bool isCoinsNeededLimited;
 
-    public int CoinsNeededFinal => Mathf.Min(isCoinsNeededLimited ? coinsNeeded : TotalCoins, TotalCoins);
+    public int CoinsNeededFinal => Mathf.Min(LevelSettings.Instance.IsCoinsNeededLimited ? LevelSettings.Instance.CoinsNeeded : TotalCoins, TotalCoins);
 
     private static readonly int playing = Animator.StringToHash("Playing");
 
@@ -81,16 +74,6 @@ public class CoinManager : MonoBehaviour
     public bool AllCoinsCollected() => CollectedCoins.Count >= CoinsNeededFinal;
 
     public void ActivateAnimations() => Coins.ForEach(coin => coin.ActivateAnimation());
-
-    private void SetCoinsNeeded(int value) => coinsNeeded = value;
-    public void SetCoinsNeeded() => SetCoinsNeeded((int)coinsNeededInput.GetCurrentNumber());
-    public void SetIsNeededCoinsLimited() => isCoinsNeededLimited = isCoinsNeededLimitedInput.isOn;
-
-    private void Start()
-    {
-        SetCoinsNeeded();
-        SetIsNeededCoinsLimited();
-    }
 
     private void Awake()
     {

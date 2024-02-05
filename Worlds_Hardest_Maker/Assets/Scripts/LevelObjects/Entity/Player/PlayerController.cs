@@ -14,13 +14,13 @@ public class PlayerController : EntityController
 
     [Separator("Water settings")] [SerializeField] private Transform waterLevel;
 
-    [SerializeField] [Range(0, 1)] private float waterDamping;
-    [SerializeField] [PositiveValueOnly] private float drownDuration;
+    // [SerializeField] [Range(0, 1)] private float waterDamping;
+    // [SerializeField] [PositiveValueOnly] private float drownDuration;
     private float currentDrownDuration;
 
-    [Separator("Ice settings")] [SerializeField] [PositiveValueOnly] private float iceFriction;
+    // [Separator("Ice settings")] [SerializeField] [PositiveValueOnly] private float iceFriction;
 
-    [SerializeField] [PositiveValueOnly] private float maxIceSpeed;
+    // [SerializeField] [PositiveValueOnly] private float maxIceSpeed;
 
     [Separator("Death settings")] [SerializeField] [PositiveValueOnly] private float defaultDeathFadeDuration;
     [SerializeField] [PositiveValueOnly] private float voidFallDuration;
@@ -96,8 +96,6 @@ public class PlayerController : EntityController
         ApplyCurrentGameState();
 
         if (LevelSessionManager.Instance.IsEdit) UpdateSpeedText();
-
-        SyncToLevelSettings();
 
         PlayManager.Instance.OnLevelReset += ResetState;
     }
@@ -175,13 +173,13 @@ public class PlayerController : EntityController
         {
             currentDrownDuration += Time.fixedDeltaTime;
 
-            if (currentDrownDuration >= drownDuration) DieNormal("DeathDrown");
+            if (currentDrownDuration >= LevelSettings.Instance.DrownDuration) DieNormal("DeathDrown");
         }
         else if (!InDeathAnim && !onWater) currentDrownDuration = 0;
 
-        if (drownDuration == 0) return;
+        if (LevelSettings.Instance.DrownDuration == 0) return;
 
-        float drown = currentDrownDuration / drownDuration;
+        float drown = currentDrownDuration / LevelSettings.Instance.DrownDuration;
         waterLevel.localScale = new(waterLevel.localScale.x, drown);
     }
 
@@ -190,12 +188,12 @@ public class PlayerController : EntityController
         // transfer velocity to ice when entering
         if (Rb.velocity == Vector2.zero) Rb.velocity = GetCurrentSpeed() * movementInput;
 
-        Rb.drag = iceFriction;
+        Rb.drag = LevelSettings.Instance.IceFriction;
 
         // acceleration on ice
         // convert to units / second
-        float force = maxIceSpeed;
-        Rb.AddForce(force * iceFriction * movementInput, ForceMode2D.Force);
+        float force = LevelSettings.Instance.IceMaxSpeed;
+        Rb.AddForce(force * LevelSettings.Instance.IceFriction * movementInput, ForceMode2D.Force);
     }
 
     private void UpdateMovement(ref Vector2 totalMovement)
@@ -226,7 +224,7 @@ public class PlayerController : EntityController
         totalMovement += conveyorVector;
     }
 
-    private float GetCurrentSpeed() => onWater ? waterDamping * Speed : Speed;
+    private float GetCurrentSpeed() => onWater ? LevelSettings.Instance.WaterDampingFactor * Speed : Speed;
 
     private void CornerPush(Collision2D collider)
     {
@@ -656,14 +654,6 @@ public class PlayerController : EntityController
             key.Collected = false;
             key.Animator.SetBool(pickedUp, false);
         }
-    }
-
-    public void SyncToLevelSettings()
-    {
-        drownDuration = LevelSettings.Instance.DrownDuration;
-        waterDamping = LevelSettings.Instance.WaterDamping;
-        iceFriction = LevelSettings.Instance.IceFriction;
-        maxIceSpeed = LevelSettings.Instance.IceMaxSpeed;
     }
 
     private void InitComponents()

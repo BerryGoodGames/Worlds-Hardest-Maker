@@ -5,6 +5,9 @@ public class LevelSettingsData : Data
 {
     #region Setting variables
 
+    public bool IsCoinsNeededLimited;
+    public int CoinsNeeded;
+
     public float DrownDuration;
 
     public float WaterDamping;
@@ -18,8 +21,10 @@ public class LevelSettingsData : Data
     public LevelSettingsData(LevelSettings settings)
     {
         // fetch variables
+        IsCoinsNeededLimited = settings.IsCoinsNeededLimited;
+        CoinsNeeded = settings.CoinsNeeded;
         DrownDuration = settings.DrownDuration;
-        WaterDamping = settings.WaterDamping;
+        WaterDamping = settings.WaterDampingFactor;
         IceFriction = settings.IceFriction;
         IceMaxSpeed = settings.IceMaxSpeed;
         ReusableCheckpoints = settings.ReusableCheckpoints;
@@ -27,12 +32,13 @@ public class LevelSettingsData : Data
 
     public override void ImportToLevel()
     {
-        LevelSettings.Instance.SetDrownDuration(DrownDuration, false);
-        LevelSettings.Instance.SetIceFriction(IceFriction, false);
-        LevelSettings.Instance.SetIceMaxSpeed(IceMaxSpeed, false);
-        LevelSettings.Instance.SetWaterDamping(WaterDamping, false);
-        LevelSettings.Instance.SetReusableCheckpoints(ReusableCheckpoints, false);
-        LevelSettings.Instance.SyncPlayersToSettings();
+        LevelSettings.Instance.SetIsNeededCoinsLimited(IsCoinsNeededLimited);
+        LevelSettings.Instance.SetCoinsNeeded(CoinsNeeded);
+        LevelSettings.Instance.SetDrownDuration(DrownDuration);
+        LevelSettings.Instance.SetIceFriction(IceFriction);
+        LevelSettings.Instance.SetIceMaxSpeed(IceMaxSpeed);
+        LevelSettings.Instance.SetWaterDamping(WaterDamping);
+        LevelSettings.Instance.SetReusableCheckpoints(ReusableCheckpoints);
     }
 
     public override EditMode GetEditMode() => EditModeManager.Wall;
@@ -40,7 +46,9 @@ public class LevelSettingsData : Data
     public override bool Equals(Data d)
     {
         LevelSettingsData other = (LevelSettingsData)d;
-        return other.DrownDuration == DrownDuration
+        return other.IsCoinsNeededLimited == IsCoinsNeededLimited
+               && other.CoinsNeeded == CoinsNeeded 
+               && other.DrownDuration == DrownDuration
                && other.IceFriction == IceFriction
                && other.IceMaxSpeed == IceMaxSpeed
                && other.WaterDamping == WaterDamping
