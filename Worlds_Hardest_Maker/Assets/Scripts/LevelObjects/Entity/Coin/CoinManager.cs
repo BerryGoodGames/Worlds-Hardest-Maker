@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using MyBox;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CoinManager : MonoBehaviour
 {
@@ -9,17 +12,17 @@ public class CoinManager : MonoBehaviour
 
     [UsedImplicitly] public static readonly List<FieldMode> CannotPlaceFields = new();
 
+    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput coinsNeededInput;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Toggle isCoinsNeededLimitedInput;
+    [Separator]
     [ReadOnly] public List<CoinController> Coins = new();
     [ReadOnly] public List<CoinController> CollectedCoins = new();
-    
-    public int TotalCoins => Coins.Count;
-    private int? coinsNeeded;
 
-    public int CoinsNeeded
-    {
-        get => Mathf.Min(coinsNeeded ?? TotalCoins, TotalCoins);
-        set => coinsNeeded = value;
-    }
+    private int TotalCoins => Coins.Count;
+    private int coinsNeeded;
+    private bool isCoinsNeededLimited;
+
+    public int CoinsNeededFinal => Mathf.Min(isCoinsNeededLimited ? coinsNeeded : TotalCoins, TotalCoins);
 
     private static readonly int playing = Animator.StringToHash("Playing");
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
@@ -77,9 +80,19 @@ public class CoinManager : MonoBehaviour
         }
     }
     
-    public bool AllCoinsCollected() => CollectedCoins.Count >= CoinsNeeded;
+    public bool AllCoinsCollected() => CollectedCoins.Count >= CoinsNeededFinal;
 
     public void ActivateAnimations() => Coins.ForEach(coin => coin.ActivateAnimation());
+
+    private void SetCoinsNeeded(int value) => coinsNeeded = value;
+    public void SetCoinsNeeded() => SetCoinsNeeded((int)coinsNeededInput.GetCurrentNumber());
+    public void SetIsNeededCoinsLimited() => isCoinsNeededLimited = isCoinsNeededLimitedInput.isOn;
+
+    private void Start()
+    {
+        SetCoinsNeeded();
+        SetIsNeededCoinsLimited();
+    }
 
     private void Awake()
     {
