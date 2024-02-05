@@ -18898,6 +18898,8 @@ MonoBehaviour:
   displaySpeed: 4
   displayDuration: 1
   displayPath: 1
+  deathColor: {r: 1, g: 0, b: 0, a: 1}
+  minDeathColorValue: 0.5
   displaySprites: 1
   spriteFrequency: 2
   spriteMaxAlpha: 0.3

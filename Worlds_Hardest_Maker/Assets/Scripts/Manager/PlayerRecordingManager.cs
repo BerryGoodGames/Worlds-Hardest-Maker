@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using LuLib.Color;
 using LuLib.Transform;
 using MyBox;
 using UnityEngine;
@@ -13,7 +14,10 @@ public class PlayerRecordingManager : MonoBehaviour
     [SerializeField] [ConditionalField(nameof(fixedDisplayDuration), true)] private float displaySpeed = 4;
     [SerializeField] [ConditionalField(nameof(fixedDisplayDuration), false)] private float displayDuration = 2;
 
-    [Header("Path")] [SerializeField] [InitializationField]  [OverrideLabel("Display at start")] private bool displayPath = true;
+    [Header("Path")] 
+    [SerializeField] [InitializationField]  [OverrideLabel("Display at start")] private bool displayPath = true;
+    [SerializeField] private Color deathColor = Color.red;
+    [SerializeField] [OverrideLabel("Min Value")] [Range(0, 1)] private float minDeathColorValue;
     
     [Header("Sprite")] [SerializeField] [InitializationField]  [OverrideLabel("Display at start")] private bool displaySprites = true;
     [SerializeField] [OverrideLabel("Frequency")] private uint spriteFrequency = 2;
@@ -27,6 +31,8 @@ public class PlayerRecordingManager : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private GameObject recordingDeathPrefab;
 
     private LineRenderer lineRenderer;
+    private Color lineColor;
+    private const float valueShift = 0.3090169945f;
 
     private Coroutine recording;
     private Coroutine displaySpriteRecording;
@@ -145,8 +151,25 @@ public class PlayerRecordingManager : MonoBehaviour
             {
                 Instantiate(recordingDeathPrefab, recordedPositions[i], rotation, recordingPathContainer);
 
+                // calculate new color
+                float value = 1;
+
+                if (minDeathColorValue < 1)
+                {
+                    value = lineRenderer.startColor.GetHSV().z;
+                    
+                    value += valueShift;
+                    value %= 1 - minDeathColorValue;
+                    value += minDeathColorValue;
+                }
+                
+                Color newColor = Color.red.SetValue(value);
+                
                 BeginNewLine();
                 lineIndex = -1;
+
+                lineRenderer.startColor = newColor;
+                lineRenderer.endColor = newColor;
             }
 
             lineIndex++;
