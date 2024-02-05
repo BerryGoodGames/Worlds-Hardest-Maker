@@ -19,7 +19,7 @@ public class FieldData : Data
         Position = new int[2];
         Position[0] = (int)fieldPosition.x;
         Position[1] = (int)fieldPosition.y;
-        Rotation = (int)transform.rotation.eulerAngles.z;
+        Rotation = 90 * Mathf.RoundToInt(transform.rotation.eulerAngles.z / 90);
 
         FieldMode = field.FieldMode.ToString();
     }
@@ -34,4 +34,13 @@ public class FieldData : Data
     }
 
     public override EditMode GetEditMode() => (EditMode)Enum.Parse(typeof(EditMode), FieldMode);
+    
+    public override bool Equals(Data d)
+    {
+        FieldData other = (FieldData)d;
+        return other.Position[0] == Position[0]
+               && other.Position[1] == Position[1]
+               && other.FieldMode == FieldMode
+               && other.Rotation == Rotation;
+    }
 }

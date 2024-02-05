@@ -55,11 +55,11 @@ public class GameManager : MonoBehaviour
 
     #region Save system
 
-    public void LoadLevel(string path)
+    public Coroutine LoadLevel(string path)
     {
         LevelData levelData = SaveSystem.LoadLevel(path);
 
-        if (levelData != null) StartCoroutine(LoadLevelFromData(levelData, path));
+        return levelData != null ? StartCoroutine(LoadLevelFromData(levelData, path)) : null;
     }
 
     public void LoadLevel()
@@ -88,6 +88,11 @@ public class GameManager : MonoBehaviour
             yield break;
         }
 
+        LoadLevelFromDataRaw(levelObjects);
+    }
+
+    public void LoadLevelFromDataRaw(List<Data> levelObjects)
+    {
         ClearLevel();
 
         List<FieldData> fieldData = new();

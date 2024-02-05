@@ -73,6 +73,7 @@ public class LevelSessionEditManager : MonoBehaviour
     #endregion
 
     public event Action OnEditModeChange;
+    public Action OnEditAction;
 
     private static readonly int editingString = Animator.StringToHash("Editing");
 
