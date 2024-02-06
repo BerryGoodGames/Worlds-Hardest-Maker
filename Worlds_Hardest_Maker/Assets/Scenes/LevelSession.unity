@@ -7140,6 +7140,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anchorBlockPrefab: {fileID: 4088375560753239173, guid: 3b94a36061818f141940b9248b5bb80c, type: 3}
   active: 1
+--- !u!114 &690395592 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4875996625311869207, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+  m_PrefabInstance: {fileID: 671852344}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c95b8d72f1b8bb4abaa33aacf22d925, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &699609063
 GameObject:
   m_ObjectHideFlags: 0
@@ -9529,8 +9540,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25152e999dce60f48b70f42badc22517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinsNeededInput: {fileID: 0}
-  isCoinsNeededLimitedInput: {fileID: 0}
+  coinsNeededInput: {fileID: 690395592}
+  isCoinsNeededLimitedInput: {fileID: 2096865004}
   drownDurationInput: {fileID: 4875996625054523036}
   waterDampingSlider: {fileID: 6159430752566769529}
   iceFrictionInput: {fileID: 4875996625445637583}
@@ -21589,7 +21600,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 40.470703}
+  m_AnchoredPosition: {x: 0, y: 39.88922}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1786665322
@@ -25379,6 +25390,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1050284484960152481, guid: 80a3eecdb08a4b64bb6d33f010372a19, type: 3}
   m_PrefabInstance: {fileID: 1588508574}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2096865004 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1077918500115610559, guid: 80a3eecdb08a4b64bb6d33f010372a19, type: 3}
+  m_PrefabInstance: {fileID: 1588508574}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2102883124
 GameObject:
   m_ObjectHideFlags: 0
