@@ -22,9 +22,6 @@ public class PlayerController : EntityController
 
     [HideInInspector] public EdgeCollider2D EdgeCollider;
 
-    // private AppendSlider sliderController;
-    // private TMP_Text speedText;
-
     private SpriteRenderer spriteRenderer;
 
     public ShotgunController Shotgun { get; private set; }
@@ -70,7 +67,6 @@ public class PlayerController : EntityController
     private void Awake()
     {
         InitComponents();
-        if (LevelSessionManager.Instance.IsEdit) InitSlider();
 
         Transform t = transform;
 
@@ -88,8 +84,6 @@ public class PlayerController : EntityController
         if (transform.parent != ReferenceManager.Instance.PlayerContainer) transform.SetParent(ReferenceManager.Instance.PlayerContainer);
 
         ApplyCurrentGameState();
-
-        // if (LevelSessionManager.Instance.IsEdit) UpdateSpeedText();
 
         PlayManager.Instance.OnLevelReset += ResetState;
     }
@@ -246,9 +240,6 @@ public class PlayerController : EntityController
         if (movementInput.x != 0) return;
 
         // calculate new position 
-        // Vector2 posCheck = new(roundedPos.x, Mathf.Round(Rb.position.y + movementInput.y));
-        // FieldController fieldAtPosition = FieldManager.GetField(Vector2Int.RoundToInt(posCheck));
-        // if (true || fieldAtPosition.FieldMode != EditModeManager.Wall)
         extraMovementInput = new(Mathf.Round(Rb.position.x) > Rb.position.x ? 1 : -1, movementInput.y);
     }
 
@@ -263,29 +254,11 @@ public class PlayerController : EntityController
         // check if player counteracts
         if (movementInput.y != 0) return;
 
-        // calculate new position 
-        // Vector2 posCheck = new(Mathf.Round(Rb.position.x + movementInput.x), roundedPos.y);
-        // FieldController fieldAtPosition = FieldManager.GetField(Vector2Int.RoundToInt(posCheck));
-        // if (true || fieldAtPosition.FieldMode != EditModeManager.Wall) 
+        // calculate new position
         extraMovementInput = new(movementInput.x, Mathf.Round(Rb.position.y) > Rb.position.y ? 1 : -1);
     }
 
     #endregion
-
-    // /// <summary>
-    // ///     Always use SetSpeed instead of setting
-    // /// </summary>
-    // public void SetSpeed(float speed)
-    // {
-    //     Speed = speed;
-    //
-    //     if (LevelSessionManager.Instance.IsEdit)
-    //     {
-    //         // sync slider
-    //         float currentSliderValue = sliderController.GetValue() / sliderController.Step;
-    //         if (!currentSliderValue.EqualsFloat(speed)) sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
-    //     }
-    // }
 
     #region Field detection
 
@@ -541,14 +514,10 @@ public class PlayerController : EntityController
 
     #endregion
 
-    // private void UpdateSpeedText() => speedText.text = Speed.ToString("0.0");
-
     public void DestroySelf(bool removeTargetFromCamera = true)
     {
         if (removeTargetFromCamera && ReferenceManager.Instance.MainCameraJumper.GetTarget("Player") == gameObject)
             ReferenceManager.Instance.MainCameraJumper.RemoveTarget("Player");
-
-        // if (LevelSessionManager.Instance.IsEdit) Destroy(sliderController.GetSliderObject());
 
         Destroy(gameObject);
     }
@@ -667,40 +636,10 @@ public class PlayerController : EntityController
 
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        // if (isEdit)
-        // {
-        //     sliderController = GetComponent<AppendSlider>();
-        //     speedText = sliderController.GetSliderObject().transform.GetChild(1).GetComponent<TMP_Text>();
-        // }
-
         Shotgun = GetComponentInChildren<ShotgunController>(true);
         Shotgun.gameObject.SetActive(
             isEdit ? LevelSessionEditManager.Instance.Playing && KonamiManager.Instance.KonamiActive : KonamiManager.Instance.KonamiActive
         );
-    }
-
-    private void InitSlider()
-    {
-        // make slider follow player
-        // GameObject sliderObject = sliderController.GetSliderObject();
-        // sliderObject.GetComponent<UIFollowEntity>().Entity = gameObject;
-
-        // update speed every time changed
-        // Slider slider = sliderController.GetSlider();
-        // slider.onValueChanged.AddListener(
-        //     _ =>
-        //     {
-        //         float newSpeed = sliderController.GetValue();
-        //
-        //         Speed = newSpeed;
-        //
-        //         UpdateSpeedText();
-        //     }
-        // );
-
-        // UIFollowEntity follow = sliderController.GetSliderObject().GetComponent<UIFollowEntity>();
-        // follow.Entity = gameObject;
-        // follow.Offset = new(0, 0.5f);
     }
 
     private void ApplyCurrentGameState()

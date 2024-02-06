@@ -176,7 +176,6 @@ public static class KeyBinds
                 {
                     if (combinations[i] == old)
                     {
-                        Debug.Log(keyBind.Key);
                         combinations[i] = @new;
                     }
                 }
