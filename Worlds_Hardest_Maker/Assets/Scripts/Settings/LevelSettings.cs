@@ -16,6 +16,7 @@ public class LevelSettings : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private Slider waterDampingSlider;
     [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput iceFrictionInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput iceMaxSpeedInput;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Slider conveyorSpeedInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private Toggle reusableCheckpointCheckbox;
 
     #endregion
@@ -36,6 +37,8 @@ public class LevelSettings : MonoBehaviour
 
     [HideInInspector] public float IceMaxSpeed;
 
+    [HideInInspector] public float ConveyorSpeed;
+
     public bool ReusableCheckpoints
     {
         get => CheckpointController.ReusableCheckpoints;
@@ -46,7 +49,7 @@ public class LevelSettings : MonoBehaviour
 
 
     #region Level settings
-
+    
     public void SetPlayerSpeed() => PlayerSpeed = playerSpeedInput.value / 2;
     public void SetPlayerSpeed(float value)
     {
@@ -96,6 +99,13 @@ public class LevelSettings : MonoBehaviour
         IceMaxSpeed = speed;
         iceMaxSpeedInput.SetNumberText(speed);
     }
+    
+    public void SetConveyorSpeed() => ConveyorSpeed = conveyorSpeedInput.value / 2;
+    public void SetConveyorSpeed(float value)
+    {
+        ConveyorSpeed = value;
+        conveyorSpeedInput.value = (int)(value * 2);
+    }
 
     public void SetReusableCheckpoints() => ReusableCheckpoints = reusableCheckpointCheckbox.isOn;
     public void SetReusableCheckpoints(bool reusableCheckpoint)
@@ -120,6 +130,7 @@ public class LevelSettings : MonoBehaviour
         SetDrownDuration();
         SetIceFriction();
         SetIceMaxSpeed();
+        SetConveyorSpeed();
         SetWaterDamping();
     }
 }

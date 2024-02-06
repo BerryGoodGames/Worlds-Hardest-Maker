@@ -207,7 +207,7 @@ public class PlayerController : EntityController
 
         Quaternion forceRotation = Quaternion.Euler(0, 0, conveyor.Rotation);
 
-        Vector2 conveyorVector = conveyor.Strength * Time.fixedDeltaTime * (forceRotation * Vector2.up);
+        Vector2 conveyorVector = conveyor.Speed * Time.fixedDeltaTime * (forceRotation * Vector2.up);
 
         totalMovement += conveyorVector;
     }

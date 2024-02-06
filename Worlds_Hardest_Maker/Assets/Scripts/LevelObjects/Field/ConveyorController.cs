@@ -6,7 +6,7 @@ public class ConveyorController : MonoBehaviour
     private Animator anim;
     private static readonly int running = Animator.StringToHash("Running");
 
-    [field: SerializeField] public float Strength { get; set; }
+    public float Speed => LevelSettings.Instance.ConveyorSpeed;
 
     public float Rotation => transform.rotation.eulerAngles.z;
 
@@ -29,7 +29,7 @@ public class ConveyorController : MonoBehaviour
     {
         if (anim == null) GetComponent<Animator>();
 
-        anim.speed = Strength;
+        anim.speed = Speed;
         anim.SetBool(running, true);
     }
 
