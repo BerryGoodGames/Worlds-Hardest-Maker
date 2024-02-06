@@ -9,6 +9,7 @@ public class LevelSettings : MonoBehaviour
 
     #region Setting UI element references
     
+    [SerializeField] [InitializationField] [MustBeAssigned] private Slider playerSpeedInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput coinsNeededInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private Toggle isCoinsNeededLimitedInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput drownDurationInput;
@@ -20,6 +21,8 @@ public class LevelSettings : MonoBehaviour
     #endregion
 
     #region Setting variables
+
+    [HideInInspector] public float PlayerSpeed;
     
     [HideInInspector] public bool IsCoinsNeededLimited;
     
@@ -43,6 +46,13 @@ public class LevelSettings : MonoBehaviour
 
 
     #region Level settings
+
+    public void SetPlayerSpeed() => PlayerSpeed = playerSpeedInput.value / 2;
+    public void SetPlayerSpeed(float value)
+    {
+        PlayerSpeed = value;
+        playerSpeedInput.value = (int)(value * 2);
+    }
     
     public void SetCoinsNeeded() => CoinsNeeded = (int)coinsNeededInput.GetCurrentNumber();
     public void SetCoinsNeeded(int value)
@@ -104,6 +114,7 @@ public class LevelSettings : MonoBehaviour
 
     private void Start()
     {
+        SetPlayerSpeed();
         SetCoinsNeeded();
         SetIsNeededCoinsLimited();
         SetDrownDuration();

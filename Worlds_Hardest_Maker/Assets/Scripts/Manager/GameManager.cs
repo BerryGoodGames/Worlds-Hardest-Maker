@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     {
         canvasRT = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>();
 
-        PlayerManager.Instance.SetPlayer(Vector2.zero, 3f);
+        PlayerManager.Instance.SetPlayer(Vector2.zero);
 
         if (!LevelSessionManager.IsSessionFromEditor)
         {

@@ -14,7 +14,7 @@ public class PlayerManager : MonoBehaviour
 
     #region Set player
 
-    public PlayerController SetPlayer(Vector2 position, float speed, bool surroundWithStartFields = false)
+    public PlayerController SetPlayer(Vector2 position, bool surroundWithStartFields = false)
     {
         if (IsPlayerThere(position)) return null;
 
@@ -38,7 +38,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         // place player
-        PlayerController newPlayer = InstantiatePlayer(position, speed);
+        PlayerController newPlayer = InstantiatePlayer(position);
 
         // set target of camera
         ReferenceManager.Instance.MainCameraJumper.SetTarget("Player", newPlayer.gameObject);
@@ -60,8 +60,6 @@ public class PlayerManager : MonoBehaviour
 
         foreach (Vector2Int checkPosition in checkPoses) FieldManager.Instance.SetField(checkPosition, EditModeManager.Start);
     }
-
-    public PlayerController SetPlayer(Vector2 position, bool placeStartField = false) => SetPlayer(position, 3f, placeStartField);
 
     #endregion
 
@@ -110,14 +108,12 @@ public class PlayerManager : MonoBehaviour
         return false;
     }
 
-    public static PlayerController InstantiatePlayer(Vector2 position, float speed)
+    public static PlayerController InstantiatePlayer(Vector2 position)
     {
         PlayerController newPlayer = Instantiate(
             PrefabManager.Instance.Player, position, Quaternion.identity,
             ReferenceManager.Instance.PlayerContainer
         );
-
-        newPlayer.SetSpeed(speed);
 
         return newPlayer;
     }

@@ -2,26 +2,15 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using MyBox;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerController : EntityController
 {
     #region Editor variables
 
-    [Space] [PositiveValueOnly] public float Speed;
-
+    [Space]
     [Separator("Water settings")] [SerializeField] private Transform waterLevel;
-
-    // [SerializeField] [Range(0, 1)] private float waterDamping;
-    // [SerializeField] [PositiveValueOnly] private float drownDuration;
-    private float currentDrownDuration;
-
-    // [Separator("Ice settings")] [SerializeField] [PositiveValueOnly] private float iceFriction;
-
-    // [SerializeField] [PositiveValueOnly] private float maxIceSpeed;
-
+    
     [Separator("Death settings")] [SerializeField] [PositiveValueOnly] private float defaultDeathFadeDuration;
     [SerializeField] [PositiveValueOnly] private float voidFallDuration;
 
@@ -33,8 +22,8 @@ public class PlayerController : EntityController
 
     [HideInInspector] public EdgeCollider2D EdgeCollider;
 
-    private AppendSlider sliderController;
-    private TMP_Text speedText;
+    // private AppendSlider sliderController;
+    // private TMP_Text speedText;
 
     private SpriteRenderer spriteRenderer;
 
@@ -58,6 +47,7 @@ public class PlayerController : EntityController
     [HideInInspector] public bool InDeathAnim;
 
     private bool onWater;
+    private float currentDrownDuration;
 
     [HideInInspector] public bool Won;
 
@@ -65,14 +55,15 @@ public class PlayerController : EntityController
 
     [HideInInspector] public bool HasTeleported;
 
+    public float Speed => LevelSettings.Instance.PlayerSpeed;
+
     #endregion
 
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
 
     public event Action OnDeathEnter;
     public event Action OnDeathEnd;
-
-    public event Action OnCheckpointHit;
+    public event Action OnCheckpointEnter;
 
     public override EditMode EditMode => EditModeManager.Player;
 
@@ -98,7 +89,7 @@ public class PlayerController : EntityController
 
         ApplyCurrentGameState();
 
-        if (LevelSessionManager.Instance.IsEdit) UpdateSpeedText();
+        // if (LevelSessionManager.Instance.IsEdit) UpdateSpeedText();
 
         PlayManager.Instance.OnLevelReset += ResetState;
     }
@@ -189,7 +180,7 @@ public class PlayerController : EntityController
     private void IcePhysics()
     {
         // transfer velocity to ice when entering
-        if (Rb.velocity == Vector2.zero) Rb.velocity = GetCurrentSpeed() * movementInput;
+        if (Rb.velocity == Vector2.zero) Rb.velocity = GetPhysicsSpeed() * movementInput;
 
         Rb.drag = LevelSettings.Instance.IceFriction;
 
@@ -206,7 +197,7 @@ public class PlayerController : EntityController
         // snappy movement (when not on ice)
         if (!movementInput.Equals(Vector2.zero))
         {
-            totalMovement += GetCurrentSpeed() * Time.fixedDeltaTime * new Vector2(
+            totalMovement += GetPhysicsSpeed() * Time.fixedDeltaTime * new Vector2(
                 Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1),
                 Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1)
             );
@@ -227,7 +218,7 @@ public class PlayerController : EntityController
         totalMovement += conveyorVector;
     }
 
-    private float GetCurrentSpeed() => onWater ? LevelSettings.Instance.WaterDampingFactor * Speed : Speed;
+    private float GetPhysicsSpeed() => onWater ? LevelSettings.Instance.WaterDampingFactor * Speed : Speed;
 
     private void CornerPush(Collision2D collider)
     {
@@ -281,20 +272,20 @@ public class PlayerController : EntityController
 
     #endregion
 
-    /// <summary>
-    ///     Always use SetSpeed instead of setting
-    /// </summary>
-    public void SetSpeed(float speed)
-    {
-        Speed = speed;
-
-        if (LevelSessionManager.Instance.IsEdit)
-        {
-            // sync slider
-            float currentSliderValue = sliderController.GetValue() / sliderController.Step;
-            if (!currentSliderValue.EqualsFloat(speed)) sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
-        }
-    }
+    // /// <summary>
+    // ///     Always use SetSpeed instead of setting
+    // /// </summary>
+    // public void SetSpeed(float speed)
+    // {
+    //     Speed = speed;
+    //
+    //     if (LevelSessionManager.Instance.IsEdit)
+    //     {
+    //         // sync slider
+    //         float currentSliderValue = sliderController.GetValue() / sliderController.Step;
+    //         if (!currentSliderValue.EqualsFloat(speed)) sliderController.GetSlider().SetValueWithoutNotify(speed / sliderController.Step);
+    //     }
+    // }
 
     #region Field detection
 
@@ -550,14 +541,14 @@ public class PlayerController : EntityController
 
     #endregion
 
-    private void UpdateSpeedText() => speedText.text = Speed.ToString("0.0");
+    // private void UpdateSpeedText() => speedText.text = Speed.ToString("0.0");
 
     public void DestroySelf(bool removeTargetFromCamera = true)
     {
         if (removeTargetFromCamera && ReferenceManager.Instance.MainCameraJumper.GetTarget("Player") == gameObject)
             ReferenceManager.Instance.MainCameraJumper.RemoveTarget("Player");
 
-        if (LevelSessionManager.Instance.IsEdit) Destroy(sliderController.GetSliderObject());
+        // if (LevelSessionManager.Instance.IsEdit) Destroy(sliderController.GetSliderObject());
 
         Destroy(gameObject);
     }
@@ -569,7 +560,7 @@ public class PlayerController : EntityController
 
         CurrentGameState = newState;
 
-        OnCheckpointHit?.Invoke();
+        OnCheckpointEnter?.Invoke();
         
         print("Saved game state");
     }
@@ -676,11 +667,11 @@ public class PlayerController : EntityController
 
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        if (isEdit)
-        {
-            sliderController = GetComponent<AppendSlider>();
-            speedText = sliderController.GetSliderObject().transform.GetChild(1).GetComponent<TMP_Text>();
-        }
+        // if (isEdit)
+        // {
+        //     sliderController = GetComponent<AppendSlider>();
+        //     speedText = sliderController.GetSliderObject().transform.GetChild(1).GetComponent<TMP_Text>();
+        // }
 
         Shotgun = GetComponentInChildren<ShotgunController>(true);
         Shotgun.gameObject.SetActive(
@@ -691,25 +682,25 @@ public class PlayerController : EntityController
     private void InitSlider()
     {
         // make slider follow player
-        GameObject sliderObject = sliderController.GetSliderObject();
-        sliderObject.GetComponent<UIFollowEntity>().Entity = gameObject;
+        // GameObject sliderObject = sliderController.GetSliderObject();
+        // sliderObject.GetComponent<UIFollowEntity>().Entity = gameObject;
 
         // update speed every time changed
-        Slider slider = sliderController.GetSlider();
-        slider.onValueChanged.AddListener(
-            _ =>
-            {
-                float newSpeed = sliderController.GetValue();
+        // Slider slider = sliderController.GetSlider();
+        // slider.onValueChanged.AddListener(
+        //     _ =>
+        //     {
+        //         float newSpeed = sliderController.GetValue();
+        //
+        //         Speed = newSpeed;
+        //
+        //         UpdateSpeedText();
+        //     }
+        // );
 
-                Speed = newSpeed;
-
-                UpdateSpeedText();
-            }
-        );
-
-        UIFollowEntity follow = sliderController.GetSliderObject().GetComponent<UIFollowEntity>();
-        follow.Entity = gameObject;
-        follow.Offset = new(0, 0.5f);
+        // UIFollowEntity follow = sliderController.GetSliderObject().GetComponent<UIFollowEntity>();
+        // follow.Entity = gameObject;
+        // follow.Offset = new(0, 0.5f);
     }
 
     private void ApplyCurrentGameState()

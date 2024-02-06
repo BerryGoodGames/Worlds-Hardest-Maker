@@ -83,7 +83,7 @@ public class SettingGeneratorEditor : Editor
                 break;
 
             default:
-                Debug.LogWarning($"Customized settings for settings generator isn't set for {script.Version} yet!");
+                Debug.Log($"Customized settings for settings generator isn't set for {script.Version} yet!");
                 break;
         }
 

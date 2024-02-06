@@ -103,11 +103,11 @@ public class PlayerRecordingManager : MonoBehaviour
             if (i == 0 && successful) recordedPositions[i].StartSuccessfulLine = true;
         }
         
-        print(recordedPositions.Count);
-        foreach (Recording recordedPosition in recordedPositions)
-        {
-            print(recordedPosition);
-        }
+        // print(recordedPositions.Count);
+        // foreach (Recording recordedPosition in recordedPositions)
+        // {
+        //     print(recordedPosition);
+        // }
         
         if (recordingSpriteContainer.gameObject.activeSelf) displaySpriteRecording = RenderSpriteRecording();
         if (recordingPathContainer.gameObject.activeSelf) displayPathRecording = RenderPathRecording();
@@ -122,7 +122,7 @@ public class PlayerRecordingManager : MonoBehaviour
         recordedPositions = new();
 
         player.OnDeathEnd += RecordDeath;
-        player.OnCheckpointHit += RecordCheckpoint;
+        player.OnCheckpointEnter += RecordCheckpoint;
 
         // wait until player is out of the death animation
         while (player.InDeathAnim) yield return null;
@@ -140,7 +140,7 @@ public class PlayerRecordingManager : MonoBehaviour
         }
 
         player.OnDeathEnd -= RecordDeath;
-        player.OnCheckpointHit -= RecordCheckpoint;
+        player.OnCheckpointEnter -= RecordCheckpoint;
         yield break;
 
         void RecordDeath()

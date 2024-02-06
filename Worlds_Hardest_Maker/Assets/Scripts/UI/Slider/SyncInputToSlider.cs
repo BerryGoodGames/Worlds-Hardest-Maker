@@ -1,3 +1,4 @@
+using MyBox;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,31 +6,44 @@ using UnityEngine.UI;
 using UnityEditor.Events;
 #endif
 
+[RequireComponent(typeof(TMPDecimalInputAdjuster))]
 public class SyncInputToSlider : MonoBehaviour
 {
-    public Slider Slider;
-    [SerializeField] private float decimals = 2;
-    private TMP_InputField input;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMPDecimalInputAdjuster numberSettings;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_InputField input;
+    [Separator]
+    [InitializationField] [MustBeAssigned] public Slider Slider;
+    
+    [SerializeField] [InitializationField] private uint decimals = 2;
 
-    private void Start() => UpdateInput();
+    private void Start()
+    {
+        UpdateInput();
+    }
 
     public void UpdateSlider()
     {
         // try to read input text and set slider value
         if (!float.TryParse(input.text, out float value)) return;
 
-        float clampedValue = Mathf.Clamp(Rounded(value), Slider.minValue, Slider.maxValue);
-
+        float clampedValue = Mathf.Clamp(
+            Rounded(value), 
+            Slider.minValue * (!numberSettings.ForbidDecimals && numberSettings.RoundToStep ? numberSettings.StepValue : 1), 
+            Slider.maxValue * (!numberSettings.ForbidDecimals && numberSettings.RoundToStep ? numberSettings.StepValue : 1)
+        );
+        
         input.text = clampedValue.ToString();
-        Slider.value = clampedValue;
+        Slider.value = clampedValue / (!numberSettings.ForbidDecimals && numberSettings.RoundToStep ? numberSettings.StepValue : 1);
     }
 
     public void UpdateInput()
     {
         if (input == null) input = GetComponent<TMP_InputField>();
 
+        float value = Rounded(Slider.value) * (!numberSettings.ForbidDecimals && numberSettings.RoundToStep ? numberSettings.StepValue : 1);
+        
         // convert slider value to text and put in into the input
-        input.text = Rounded(Slider.value).ToString();
+        input.text = value.ToString();
     }
 
     /// <summary>
@@ -39,6 +53,7 @@ public class SyncInputToSlider : MonoBehaviour
     {
 #if UNITY_EDITOR
         input = GetComponent<TMP_InputField>();
+        numberSettings = GetComponent<TMPDecimalInputAdjuster>();
 
         // set stuff in input //
         UnityEventTools.AddPersistentListener(
