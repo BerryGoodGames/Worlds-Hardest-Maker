@@ -161,6 +161,9 @@ public class PlayerRecordingManager : MonoBehaviour
     private Coroutine RenderSpriteRecording()
     {
         recordingSpriteContainer.DestroyChildren();
+        
+        int startIndex = (int)Mathf.Max(recordedPositions.Count - spriteAmount * spriteFrequency, 0);
+        
         return StartCoroutine(RenderLoop(i =>
         {
             // display player sprite
@@ -170,7 +173,7 @@ public class PlayerRecordingManager : MonoBehaviour
             
             SpriteRenderer playerTrail = Instantiate(playerSprite, recordedPositions[i].Position, Quaternion.identity, recordingSpriteContainer);
             playerTrail.SetAlpha(playerTrailIndex / spriteAmount * spriteMaxAlpha);
-        }));
+        }, startIndex));
     }
 
     private Coroutine RenderPathRecording()
@@ -235,7 +238,7 @@ public class PlayerRecordingManager : MonoBehaviour
         }));
     }
 
-    private IEnumerator RenderLoop(Action<int> action)
+    private IEnumerator RenderLoop(Action<int> action, int startIndex = 0)
     {
         if (recordedPositions.IsNullOrEmpty()) yield break;
 
@@ -243,7 +246,7 @@ public class PlayerRecordingManager : MonoBehaviour
             ? displayDuration / recordedPositions.Count
             : recordingFrequency / displaySpeed;
         
-        for (int i = 0; i < recordedPositions.Count; i++)
+        for (int i = startIndex; i < recordedPositions.Count; i++)
         {
             action.Invoke(i);
 
