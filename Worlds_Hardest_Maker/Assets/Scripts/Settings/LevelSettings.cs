@@ -12,6 +12,7 @@ public class LevelSettings : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private Slider playerSpeedInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput coinsNeededInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private Toggle isCoinsNeededLimitedInput;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Toggle playerInvincibilityInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput drownDurationInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private Slider waterDampingSlider;
     [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput iceFrictionInput;
@@ -28,6 +29,8 @@ public class LevelSettings : MonoBehaviour
     [HideInInspector] public bool IsCoinsNeededLimited;
     
     [HideInInspector] public int CoinsNeeded;
+
+    [HideInInspector] public bool PlayerInvincibility;
 
     [HideInInspector] public float DrownDuration;
 
@@ -69,6 +72,13 @@ public class LevelSettings : MonoBehaviour
     {
         IsCoinsNeededLimited = value;
         isCoinsNeededLimitedInput.isOn = IsCoinsNeededLimited;
+    }
+     
+    public void SetPlayerInvincibility() => PlayerInvincibility = playerInvincibilityInput.isOn;
+    public void SetPlayerInvincibility(bool value)
+    {
+        PlayerInvincibility = value;
+        playerInvincibilityInput.isOn = value;
     }
 
     public void SetDrownDuration() => DrownDuration = drownDurationInput.GetCurrentNumber();
@@ -127,6 +137,7 @@ public class LevelSettings : MonoBehaviour
         SetPlayerSpeed();
         SetCoinsNeeded();
         SetIsNeededCoinsLimited();
+        SetPlayerInvincibility();
         SetDrownDuration();
         SetIceFriction();
         SetIceMaxSpeed();

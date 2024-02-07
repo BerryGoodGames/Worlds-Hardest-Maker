@@ -264,6 +264,8 @@ public class PlayerController : EntityController
 
     public bool IsOnSafeField()
     {
+        if (!LevelSettings.Instance.PlayerInvincibility) return false;
+        
         foreach (FieldController field in CurrentFields)
         {
             // check if current field is safe
