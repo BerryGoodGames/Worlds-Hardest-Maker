@@ -71,7 +71,7 @@ public class LevelListLoader : MonoBehaviour
 
         FileInfo[] levelInfo = levelDirectory.GetFiles("*.lvl");
 
-        bool levelsChanged = CheckIfLevelsChanged(forceUpdateList, ref levelInfo);
+        bool levelsChanged = CheckLevelsChanged(forceUpdateList, ref levelInfo);
 
         // sort level info
         levelInfo = SortSetting switch
@@ -83,17 +83,17 @@ public class LevelListLoader : MonoBehaviour
 
         if (IsDescending) Array.Reverse(levelInfo);
 
-        if (levelsChanged) UpdateLevelCards(levelInfo);
+        if (levelsChanged || forceUpdateList) UpdateLevelCards(levelInfo);
 
         prevLevelInfo = levelInfo;
     }
 
-    private bool CheckIfLevelsChanged(bool forceUpdateList, ref FileInfo[] levelInfo)
+    private bool CheckLevelsChanged(bool forceUpdateList, ref FileInfo[] levelInfo)
     {
-        bool levelsChanged = false;
-
         if (forceUpdateList) return false;
-
+        
+        bool levelsChanged = false;
+        
         if (prevLevelInfo == null || levelInfo.Length != prevLevelInfo.Length) levelsChanged = true;
         else
         {

@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
@@ -24,18 +25,25 @@ public class MoveRelativeTween : ChainableTween
         {
             if (animateAnchor)
             {
-                ((RectTransform)transform).DOAnchorMin(anchorMin, Duration).SetRelative().SetEase(Ease.InOutSine)
-                    .SetDelay(Delay);
+                ((RectTransform)transform).DOAnchorMin(anchorMin, Duration)
+                    .SetRelative()
+                    .SetEase(Ease.InOutSine)
+                    .SetDelay(Delay)
+                    .SetId(gameObject);
 
-                tween = ((RectTransform)transform).DOAnchorMax(anchorMax, Duration).SetRelative().SetEase(Ease.InOutSine)
-                    .SetDelay(Delay);
+                tween = ((RectTransform)transform).DOAnchorMax(anchorMax, Duration)
+                    .SetRelative()
+                    .SetEase(Ease.InOutSine)
+                    .SetDelay(Delay)
+                    .SetId(gameObject);
             }
             else
             {
                 tween = ((RectTransform)transform).DOAnchorPos(movement, Duration)
                     .SetRelative()
                     .SetEase(Ease.InOutSine)
-                    .SetDelay(Delay);
+                    .SetDelay(Delay)
+                    .SetId(gameObject);
             }
         }
         else
@@ -43,11 +51,14 @@ public class MoveRelativeTween : ChainableTween
             tween = transform.DOMove(movement, Duration)
                 .SetRelative()
                 .SetEase(Ease.InOutSine)
-                .SetDelay(Delay);
+                .SetDelay(Delay)
+                .SetId(gameObject);
         }
 
         StartCoroutine(StartDelay());
     }
 
     public override void StartChain() => Move();
+
+    private void OnDestroy() => DOTween.Kill(gameObject);
 }

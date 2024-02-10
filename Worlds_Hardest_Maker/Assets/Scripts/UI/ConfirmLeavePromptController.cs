@@ -10,6 +10,8 @@ public class ConfirmLeavePromptController : WarningConfirmPromptController
 
     private bool CheckOpenPrompt()
     {
+        if (!LevelSessionManager.Instance.IsEdit) return false;
+        
         if (PlayerManager.Instance.Player == null)
         {
             ConfirmationText.text = "Are you sure you want to quit?";
