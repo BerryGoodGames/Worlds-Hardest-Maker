@@ -81,6 +81,8 @@ public class PlayerRecordingManager : MonoBehaviour
 
     private void RenderRecording()
     {
+        if (recordedPositions == null) return;
+        
         if (recording != null) StopCoroutine(recording);
 
         // mark successful runs

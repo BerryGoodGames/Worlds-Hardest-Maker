@@ -90,11 +90,6 @@ public class PlaceManager : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapPointAll(position, entityLayer);
 
         foreach (Collider2D hit in hits) hit.GetComponent<EntityController>().Delete();
-
-        if (hits.Length > 0)
-        {
-            AudioManager.Instance.Play(Instance.GetSfx(EditModeManager.Delete));
-        }
     }
 
     private static void LineForEach(Vector2 start, Vector2 end, Action<Vector2> action)

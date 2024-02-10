@@ -52,6 +52,8 @@ public partial class AnchorManager
 
         // destroy anchor
         Destroy(anchor.transform.parent.gameObject);
+        
+        AudioManager.Instance.Play(PlaceManager.Instance.GetSfx(EditModeManager.Delete));
     }
 
     public static AnchorController GetAnchor(Vector2 position)
