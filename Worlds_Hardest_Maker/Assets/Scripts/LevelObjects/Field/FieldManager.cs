@@ -101,7 +101,6 @@ public class FieldManager : MonoBehaviour
         SpriteRenderer renderer = field.GetComponent<SpriteRenderer>();
         if (field.CompareTag("Checkpoint"))
         {
-            print("apply");
             CheckpointController checkpoint = field.GetComponent<CheckpointController>();
 
             Color checkpointUnactivated = colors[oneColor ? 4 : 2];

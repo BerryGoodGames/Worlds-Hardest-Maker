@@ -89,7 +89,7 @@ public class PlayerRecordingManager : MonoBehaviour
         {
             if (successful && recordedPositions[i].Died && i != recordedPositions.Count - 1)
             {
-                recordedPositions[i + 1].StartSuccessfulLine = true;
+                recordedPositions[i].StartSuccessfulLine = true;
                 successful = false;
             }
             
@@ -102,12 +102,6 @@ public class PlayerRecordingManager : MonoBehaviour
 
             if (i == 0 && successful) recordedPositions[i].StartSuccessfulLine = true;
         }
-        
-        // print(recordedPositions.Count);
-        // foreach (Recording recordedPosition in recordedPositions)
-        // {
-        //     print(recordedPosition);
-        // }
         
         if (recordingSpriteContainer.gameObject.activeSelf) displaySpriteRecording = RenderSpriteRecording();
         if (recordingPathContainer.gameObject.activeSelf) displayPathRecording = RenderPathRecording();
@@ -189,12 +183,9 @@ public class PlayerRecordingManager : MonoBehaviour
 
         Quaternion rotation = Quaternion.Euler(0, 0, 45);
         
-        int lineIndex = 0;
-
         return StartCoroutine(RenderLoop(i => {
             // display line
-            lineRenderer.positionCount++;
-            lineRenderer.SetPosition(lineIndex, recordedPositions[i].Position);
+            AddLinePosition(recordedPositions[i].Position);
 
             // if player dies or hits checkpoint and then will die, begin new red line 
             if (recordedPositions[i].Died ||
@@ -220,24 +211,29 @@ public class PlayerRecordingManager : MonoBehaviour
                 newColor.a = deathColor.a;
                 
                 BeginNewLine();
-                lineIndex = -1;
 
+                
                 lineRenderer.startColor = newColor;
                 lineRenderer.endColor = newColor;
+                
+                if(recordedPositions[i].CheckpointHit) AddLinePosition(recordedPositions[i].Position);
             }
             
             // change color to green when successful run starts
-            if (recordedPositions[i].StartSuccessfulLine)
+            if (recordedPositions[i].StartSuccessfulLine && !recordedPositions[i].CheckpointHit)
             {
                 BeginNewLine();
-                lineIndex = -1;
 
                 lineRenderer.startColor = successColor;
                 lineRenderer.endColor = successColor;
             }
-
-            lineIndex++;
         }));
+    }
+
+    private void AddLinePosition(Vector2 position)
+    {
+        lineRenderer.positionCount++;
+        lineRenderer.SetPosition(lineRenderer.positionCount - 1, position);
     }
 
     private IEnumerator RenderLoop(Action<int> action, int startIndex = 0)
