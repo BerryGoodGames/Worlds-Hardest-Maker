@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using MyBox;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GraphicsSettings : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class GraphicsSettings : MonoBehaviour
 
     public Resolution Resolution;
 
-    [HideInInspector] public bool OneColorStartGoalCheckpoint;
+    [FormerlySerializedAs("OneColorStartGoalCheckpoint")] [HideInInspector] public bool OneColorSafeFields;
 
     #endregion
 
@@ -56,20 +57,17 @@ public class GraphicsSettings : MonoBehaviour
     public void SetResolution(int index) => SetResolution(index, false);
 
 
-    public void SetOneColorStartGoal(bool oneColor, bool updateToggle)
+    public void SetOneColorSafeFieldsWhenPlaying(bool oneColor, bool updateToggle)
     {
-        foreach (Transform field in ReferenceManager.Instance.FieldContainer)
-        {
-            FieldManager.ApplyStartGoalCheckpointFieldColor(field.gameObject, oneColor);
-        }
+        OneColorSafeFields = oneColor;
 
-        Instance.OneColorStartGoalCheckpoint = oneColor;
+        FieldManager.ApplySafeFieldsColor(LevelSessionEditManager.Instance.Playing && oneColor);
 
         if (!updateToggle) return;
-        ReferenceManager.Instance.OneColorToggle.isOn = oneColor;
+        ReferenceManager.Instance.OneColorToggle.SetIsOnWithoutNotify(oneColor);
     }
 
-    public void SetOneColorStartGoal(bool oneColor) => SetOneColorStartGoal(oneColor, false);
+    public void SetOneColorSafeFieldsWhenPlaying(bool oneColor) => SetOneColorSafeFieldsWhenPlaying(oneColor, false);
 
     #endregion
 
@@ -99,9 +97,22 @@ public class GraphicsSettings : MonoBehaviour
     {
         UpdateResolutionOptions();
 
-        Instance.QualityLevel = QualitySettings.GetQualityLevel();
-        Instance.Resolution = resolutions[0];
-        Instance.OneColorStartGoalCheckpoint = false;
+        // QualityLevel = QualitySettings.GetQualityLevel();
+        // Resolution = resolutions[0];
+        // OneColorSafeFields = false;
+
+        PlayManager.Instance.OnSwitchToEdit += OnSwitchToEdit;
+        PlayManager.Instance.OnSwitchToPlay += OnSwitchToPlay;
+    }
+
+    private void OnSwitchToEdit()
+    {
+        FieldManager.ApplySafeFieldsColor(false);
+    }
+    
+    private void OnSwitchToPlay()
+    {
+        if(OneColorSafeFields) FieldManager.ApplySafeFieldsColor(true);
     }
 
     private void Awake()

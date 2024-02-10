@@ -39,7 +39,7 @@ public class SettingsManager : MonoBehaviour
 
         // graphics
         PlayerPrefs.SetInt("Fullscreen", Screen.fullScreen ? 1 : 0);
-        PlayerPrefs.SetInt("OneColorStartGoal", GraphicsSettings.Instance.OneColorStartGoalCheckpoint ? 1 : 0);
+        PlayerPrefs.SetInt("OneColorStartGoal", GraphicsSettings.Instance.OneColorSafeFields ? 1 : 0);
 
         // key binds
         foreach (KeyBind keyBind in KeyBinds.GetAllKeyBinds()) PlayerPrefs.SetString(keyBind.Name, keyBind.KeyCodesToString());
@@ -59,7 +59,7 @@ public class SettingsManager : MonoBehaviour
 
         // graphics
         GraphicsSettings.Instance.Fullscreen(PlayerPrefs.GetInt("Fullscreen") == 1, true);
-        GraphicsSettings.Instance.SetOneColorStartGoal(PlayerPrefs.GetInt("OneColorStartGoal") == 1, true);
+        GraphicsSettings.Instance.SetOneColorSafeFieldsWhenPlaying(PlayerPrefs.GetInt("OneColorStartGoal") == 1, true);
 
         // key binds
         foreach (KeyBind keyBind in KeyBinds.GetAllKeyBinds())

@@ -57,7 +57,7 @@ public class FieldManager : MonoBehaviour
         // place field according to edit mode
         FieldController field = InstantiateField(position, mode, rotation);
 
-        ApplyStartGoalCheckpointFieldColor(field.gameObject, null);
+        ApplySafeFieldsColor(field.gameObject, LevelSessionEditManager.Instance.Playing && GraphicsSettings.Instance.OneColorSafeFields);
 
         // remove player if at changed pos
         if (!mode.IsStartFieldForPlayer) PlayerManager.Instance.RemovePlayerAtPosIntersect(position);
@@ -69,11 +69,6 @@ public class FieldManager : MonoBehaviour
         if (KeyManager.CannotPlaceFields.Contains(mode))
             // remove key if wall is placed
             GameManager.RemoveObjectInContainerIntersect(position, ReferenceManager.Instance.KeyContainer);
-
-        if (mode == EditModeManager.Instance.GoalMode)
-        {
-            
-        }
 
         return field;
     }
@@ -90,23 +85,29 @@ public class FieldManager : MonoBehaviour
         if (SetField(matrixPosition, mode, rotation) is not null && playSound) AudioManager.Instance.Play(PlaceManager.Instance.GetSfx(mode));
     }
 
-    public static void ApplyStartGoalCheckpointFieldColor(GameObject field, bool? oneColor)
+    public static void ApplySafeFieldsColor(bool oneColor)
+    {
+        foreach (Transform field in ReferenceManager.Instance.FieldContainer)
+        {
+            ApplySafeFieldsColor(field.gameObject, oneColor);
+        }
+    }
+
+    public static void ApplySafeFieldsColor(GameObject field, bool oneColor)
     {
         List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").Colors;
-        oneColor ??= GraphicsSettings.Instance.OneColorStartGoalCheckpoint;
 
         // special case for checkpoint
         SpriteRenderer renderer = field.GetComponent<SpriteRenderer>();
         if (field.CompareTag("Checkpoint"))
         {
+            print("apply");
             CheckpointController checkpoint = field.GetComponent<CheckpointController>();
 
-            Color checkpointUnactivated = colors[(bool)oneColor ? 4 : 2];
-            Color checkpointActivated = colors[(bool)oneColor ? 5 : 3];
+            Color checkpointUnactivated = colors[oneColor ? 4 : 2];
+            Color checkpointActivated = colors[oneColor ? 5 : 3];
 
             renderer.color = checkpoint.Activated ? checkpointActivated : checkpointUnactivated;
-
-            if (field.TryGetComponent(out Animator anim)) anim.enabled = (bool)oneColor;
 
             return;
         }
@@ -118,7 +119,7 @@ public class FieldManager : MonoBehaviour
         {
             if (!field.CompareTag(tags[i])) continue;
 
-            renderer.color = colors[(bool)oneColor ? 4 : i];
+            renderer.color = colors[oneColor ? 4 : i];
 
             break;
         }

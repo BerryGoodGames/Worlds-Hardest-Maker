@@ -160,6 +160,8 @@ public class PlayerRecordingManager : MonoBehaviour
     
     private Coroutine RenderSpriteRecording()
     {
+        if (recordedPositions == null) return null;
+        
         recordingSpriteContainer.DestroyChildren();
         
         int startIndex = (int)Mathf.Max(recordedPositions.Count - spriteAmount * spriteFrequency, 0);

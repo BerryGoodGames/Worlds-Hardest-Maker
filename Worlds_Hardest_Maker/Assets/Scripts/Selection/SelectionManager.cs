@@ -256,18 +256,6 @@ public class SelectionManager : MonoBehaviour
 
         AdaptAreaToFieldType(lowest, highest, mode);
 
-        // REF
-        // get prefab
-
-        // search if tag is in tags
-        // string[] tags = { "Start", "Goal", "Checkpoint", };
-        //
-        // foreach (string tag in tags)
-        // {
-        //     if (!mode.Tag.Equals(tag)) continue;
-        //     break;
-        // }
-
         foreach (Vector2 pos in poses)
         {
             // set field at pos
@@ -279,7 +267,7 @@ public class SelectionManager : MonoBehaviour
             FieldController fieldController = field.GetComponent<FieldController>();
             fieldController.FieldMode = mode;
 
-            FieldManager.ApplyStartGoalCheckpointFieldColor(field, null);
+            FieldManager.ApplySafeFieldsColor(field, GraphicsSettings.Instance.OneColorSafeFields);
 
             if (field.TryGetComponent(out FieldOutline foComp)) foComp.UpdateOnStart = false;
         }
