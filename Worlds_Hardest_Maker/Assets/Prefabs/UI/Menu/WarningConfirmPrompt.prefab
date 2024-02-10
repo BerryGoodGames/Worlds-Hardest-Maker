@@ -354,7 +354,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ConfirmationText: {fileID: 1545064750896504827}
   WarningText: {fileID: 1545064749733352755}
-  Tween: {fileID: 3677330790218222796}
+  confirm:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3677330790218222796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -797,6 +799,34 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -5.416666
       objectReference: {fileID: 0}
+    - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 6356805068319431835}
+    - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: ClosePrompt
+      objectReference: {fileID: 0}
+    - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: WarningConfirmPromptController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8277756280765261865, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_SizeDelta.x
       value: 3
@@ -846,6 +876,34 @@ PrefabInstance:
     - target: {fileID: 804654443075811654, guid: 9ca7054ba1e79984183bb584b9ca4342, type: 3}
       propertyPath: m_SizeDelta.x
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376841867518902548, guid: 9ca7054ba1e79984183bb584b9ca4342, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376841867518902548, guid: 9ca7054ba1e79984183bb584b9ca4342, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376841867518902548, guid: 9ca7054ba1e79984183bb584b9ca4342, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 6356805068319431835}
+    - target: {fileID: 2376841867518902548, guid: 9ca7054ba1e79984183bb584b9ca4342, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376841867518902548, guid: 9ca7054ba1e79984183bb584b9ca4342, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: InvokeOnConfirm
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376841867518902548, guid: 9ca7054ba1e79984183bb584b9ca4342, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: WarningConfirmPromptController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2376841867518902548, guid: 9ca7054ba1e79984183bb584b9ca4342, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3246129397923514521, guid: 9ca7054ba1e79984183bb584b9ca4342, type: 3}
       propertyPath: m_SizeDelta.x

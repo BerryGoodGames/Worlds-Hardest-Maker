@@ -21,8 +21,7 @@ public class FieldManager : MonoBehaviour
 
         return null;
     }
-
-
+    
     public bool RemoveField(Vector2Int position, bool updateOutlines = false)
     {
         FieldController field = GetField(position);
@@ -70,6 +69,11 @@ public class FieldManager : MonoBehaviour
         if (KeyManager.CannotPlaceFields.Contains(mode))
             // remove key if wall is placed
             GameManager.RemoveObjectInContainerIntersect(position, ReferenceManager.Instance.KeyContainer);
+
+        if (mode == EditModeManager.Instance.GoalMode)
+        {
+            
+        }
 
         return field;
     }

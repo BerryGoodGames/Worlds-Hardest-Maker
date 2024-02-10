@@ -109,7 +109,7 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
     public void OpenDeleteWarning()
     {
         LevelHubManager.Instance.CurrentDeletingLevelCard = this;
-        LevelHubManager.Instance.DeleteWarningPrompt.Tween.SetVisible(true);
+        LevelHubManager.Instance.DeleteWarningPrompt.OpenPrompt();
         LevelHubManager.Instance.DeleteWarningBlockerTween.SetVisible(true);
 
         LevelHubManager.Instance.DeleteWarningPrompt.ConfirmationText.text =

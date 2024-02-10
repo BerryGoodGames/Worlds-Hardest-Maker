@@ -53,7 +53,7 @@ public class LevelHubManager : MonoBehaviour
 
     public void CancelDeletion()
     {
-        DeleteWarningPrompt.Tween.SetVisible(false);
+        DeleteWarningPrompt.ClosePrompt();
         DeleteWarningBlockerTween.SetVisible(false);
 
         CurrentDeletingLevelCard = null;
@@ -61,7 +61,7 @@ public class LevelHubManager : MonoBehaviour
 
     public void DeleteCard()
     {
-        DeleteWarningPrompt.Tween.SetVisible(false);
+        DeleteWarningPrompt.ClosePrompt();
         DeleteWarningBlockerTween.SetVisible(false);
 
         if (CurrentDeletingLevelCard != null) CurrentDeletingLevelCard.DeleteLevel();
