@@ -91,6 +91,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9104033039644398737}
+    - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1098638692153910793}
   m_SourcePrefab: {fileID: 100100000, guid: fc74f76601483e34d8343c228304c362, type: 3}
 --- !u!1 &4737524123569152281 stripped
 GameObject:
@@ -123,3 +126,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorPaletteName: Start Goal Checkpoint
   colorPaletteIndex: 0
+--- !u!114 &1098638692153910793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4737524123569152281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71c188385daf453ba0c5c70af880711a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseSprites: 0
+  sharingSprite: {fileID: 0}
+  uniqueSprite: {fileID: 0}
+  UseColorPalette: 1
+  ColorPaletteName: Start Goal Checkpoint
+  SharingColorIndex: 4
+  UniqueColorIndex: 0
+  sharingColor: {r: 0, g: 0, b: 0, a: 0}
+  uniqueColor: {r: 0, g: 0, b: 0, a: 0}

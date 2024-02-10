@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class GraphicsSettings : MonoBehaviour
 {
@@ -18,7 +17,7 @@ public class GraphicsSettings : MonoBehaviour
 
     public Resolution Resolution;
 
-    [FormerlySerializedAs("OneColorStartGoalCheckpoint")] [HideInInspector] public bool OneColorSafeFields;
+    [HideInInspector] public bool OneColorSafeFields;
 
     #endregion
 
@@ -28,11 +27,11 @@ public class GraphicsSettings : MonoBehaviour
     {
         QualitySettings.SetQualityLevel(index);
 
-        Instance.QualityLevel = index;
+        QualityLevel = index;
 
         if (!updateDropdown) return;
 
-        ReferenceManager.Instance.QualityDropdown.value = index;
+        ReferenceManager.Instance.QualityDropdown.SetValueWithoutNotify(index);
     }
 
     public void SetQuality(int index) => SetQuality(index, false);
@@ -51,7 +50,7 @@ public class GraphicsSettings : MonoBehaviour
         Resolution = res;
 
         if (!updateDropdown) return;
-        ReferenceManager.Instance.ResolutionDropdown.value = index;
+        ReferenceManager.Instance.ResolutionDropdown.SetValueWithoutNotify(index);
     }
 
     public void SetResolution(int index) => SetResolution(index, false);

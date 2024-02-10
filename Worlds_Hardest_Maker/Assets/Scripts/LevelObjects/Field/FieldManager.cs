@@ -57,8 +57,8 @@ public class FieldManager : MonoBehaviour
         // place field according to edit mode
         FieldController field = InstantiateField(position, mode, rotation);
 
-        ApplySafeFieldsColor(field.gameObject, LevelSessionEditManager.Instance.Playing && GraphicsSettings.Instance.OneColorSafeFields);
-
+        if(field.TryGetComponent(out ColorCalibration calibration)) calibration.Apply(LevelSessionEditManager.Instance.Playing && GraphicsSettings.Instance.OneColorSafeFields);
+        
         // remove player if at changed pos
         if (!mode.IsStartFieldForPlayer) PlayerManager.Instance.RemovePlayerAtPosIntersect(position);
 
@@ -87,40 +87,11 @@ public class FieldManager : MonoBehaviour
 
     public static void ApplySafeFieldsColor(bool oneColor)
     {
-        foreach (Transform field in ReferenceManager.Instance.FieldContainer)
+        ColorCalibration[] colorCalibrations = ReferenceManager.Instance.FieldContainer.GetComponentsInChildren<ColorCalibration>();
+        
+        foreach (ColorCalibration field in colorCalibrations)
         {
-            ApplySafeFieldsColor(field.gameObject, oneColor);
-        }
-    }
-
-    public static void ApplySafeFieldsColor(GameObject field, bool oneColor)
-    {
-        List<Color> colors = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").Colors;
-
-        // special case for checkpoint
-        SpriteRenderer renderer = field.GetComponent<SpriteRenderer>();
-        if (field.CompareTag("Checkpoint"))
-        {
-            CheckpointController checkpoint = field.GetComponent<CheckpointController>();
-
-            Color checkpointUnactivated = colors[oneColor ? 4 : 2];
-            Color checkpointActivated = colors[oneColor ? 5 : 3];
-
-            renderer.color = checkpoint.Activated ? checkpointActivated : checkpointUnactivated;
-
-            return;
-        }
-
-        // // every other case
-        string[] tags = { "Start", "Goal", };
-
-        for (int i = 0; i < tags.Length; i++)
-        {
-            if (!field.CompareTag(tags[i])) continue;
-
-            renderer.color = colors[oneColor ? 4 : i];
-
-            break;
+            field.Apply(oneColor);
         }
     }
 
