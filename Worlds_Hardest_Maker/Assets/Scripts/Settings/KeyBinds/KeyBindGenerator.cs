@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class KeyBindGenerator : MonoBehaviour
 {
-    [Separator("References")] [SerializeField] private TMP_Text categoryHeader;
-    [SerializeField] private KeyBindSetterController keyBindSetter;
+    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text categoryHeader;
+    [SerializeField] [InitializationField] [MustBeAssigned] private KeyBindSetterController keyBindSetter;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform tooltipContainer;
 
     private void Start()
     {
@@ -36,6 +37,7 @@ public class KeyBindGenerator : MonoBehaviour
             }
 
             KeyBindSetterController setterController = Instantiate(keyBindSetter, transform);
+            setterController.TooltipContainer = tooltipContainer;
             setterController.KeyBind = keyBind;
         }
     }

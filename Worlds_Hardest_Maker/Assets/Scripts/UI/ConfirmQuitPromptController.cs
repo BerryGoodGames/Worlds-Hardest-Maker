@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ConfirmLeavePromptController : WarningConfirmPromptController
+public class ConfirmQuitPromptController : WarningConfirmPromptController
 {
     public override void OpenPrompt()
     {

@@ -246,9 +246,10 @@ public class PlayerController : EntityController
     private void CornerPushHorizontal(Collision2D collider, Vector2 roundedPos, float err)
     {
         // early-out if it should not push 
-        if (movementInput.x == 0 || roundedPos.y.EqualsFloat(Mathf.Round(collider.transform.position.y)) ||
-            !(Mathf.Abs(Rb.position.y) % 1 > (1 - transform.lossyScale.y) * 0.5f + err) ||
-            !(Mathf.Abs(Rb.position.y) % 1 < 1 - ((1 - transform.lossyScale.y) * 0.5f + err))) return;
+        if (movementInput.x == 0 
+            || roundedPos.y.EqualsFloat(Mathf.Round(collider.transform.position.y))
+            || !(Mathf.Abs(Rb.position.y) % 1 > (1 - transform.lossyScale.y) * 0.5f + err) 
+            || !(Mathf.Abs(Rb.position.y) % 1 < 1 - ((1 - transform.lossyScale.y) * 0.5f + err))) return;
 
 
         // check if player counteracts

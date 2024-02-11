@@ -159,7 +159,12 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
 
     private void Awake()
     {
-        foreach (Tooltip tooltip in buttonTooltips) tooltip.Container = LevelHubManager.Instance.TooltipContainer;
+        foreach (Tooltip tooltip in buttonTooltips)
+        {
+            tooltip.CustomContainer = true;
+            tooltip.Container = LevelHubManager.Instance.TooltipContainer;
+            // tooltip.transform.SetParent(LevelHubManager.Instance.TooltipContainer);
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData) => levelCardTween.ToggleExpandCollapse();

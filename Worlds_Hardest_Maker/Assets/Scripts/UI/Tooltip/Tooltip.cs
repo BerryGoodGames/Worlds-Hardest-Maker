@@ -1,30 +1,20 @@
 using MyBox;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public class Tooltip : MonoBehaviour
 {
     [SerializeField] private GameObject tooltipPrefab;
 
-    [Space] [SerializeField] private bool customContainer;
+    [FormerlySerializedAs("customContainer")] [Space] public bool CustomContainer;
 
-    [SerializeField] [ConditionalField(nameof(customContainer))] private Transform container;
-
-    public Transform Container
-    {
-        get => container;
-        set
-        {
-            if (tooltip != null) tooltip.transform.SetParent(value);
-
-            container = value;
-        }
-    }
+    [FormerlySerializedAs("container")] [ConditionalField(nameof(CustomContainer))] public Transform Container;
 
     [Space] [SerializeField] private bool restrictInCanvas = true;
 
-    [SerializeField] [ConditionalField(nameof(restrictInCanvas))] private bool customRestrictContainer;
+    [FormerlySerializedAs("CustomRestrictContainer")] [SerializeField] [ConditionalField(nameof(restrictInCanvas))] private bool customRestrictContainer;
 
     [SerializeField] [ConditionalField(nameof(customRestrictContainer), nameof(restrictInCanvas))] private RectTransform restrictContainer;
 
@@ -58,7 +48,7 @@ public class Tooltip : MonoBehaviour
 
         tooltip = Instantiate(
             tooltipPrefab, Vector3.zero, Quaternion.identity,
-            customContainer ? Container : ReferenceManager.Instance.TooltipCanvas.transform
+            CustomContainer ? Container : ReferenceManager.Instance.TooltipCanvas.transform
         );
 
         UIRestrict restrict = tooltip.GetComponent<UIRestrict>();
@@ -99,6 +89,16 @@ public class Tooltip : MonoBehaviour
             fadeTween.SetVisible(false);
             hovered = 0;
         }
+    }
+
+    public void SetContainer(Transform container)
+    {
+        CustomContainer = true;
+        Container = container;
+        
+        if (tooltip == null) return;
+        
+        tooltip.transform.SetParent(container);
     }
 
     private void OnDisable()

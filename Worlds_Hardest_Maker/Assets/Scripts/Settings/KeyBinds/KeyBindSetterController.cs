@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using MyBox;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class KeyBindSetterController : MonoBehaviour
 {
     [HideInInspector] public KeyBind KeyBind;
 
-    [Separator("References")] [SerializeField] private TMP_Text keyBindName;
-    [SerializeField] private RectTransform displayContainer;
+    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text keyBindName;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform displayContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private KeyCodeDisplay keyCodeDisplayPrefab;
+    [Space] [SerializeField] private List<Tooltip> buttonTooltips;
 
+    [HideInInspector] public RectTransform TooltipContainer;
+    
     public void AddKeyCode(KeyCode[] keyCodes)
     {
         if (KeyBinds.HasKeyBindKeyCode(KeyBind, keyCodes)) return;
@@ -215,6 +220,13 @@ public class KeyBindSetterController : MonoBehaviour
         keyBindName.text = KeyBind.FormattedName;
 
         SetupInitKeyCodes();
+
+        foreach (Tooltip tooltip in buttonTooltips) { tooltip.SetContainer(TooltipContainer); }
+    }
+
+    private void Awake()
+    {
+        foreach (Tooltip tooltip in buttonTooltips) { tooltip.CustomContainer = true; }
     }
 
     private void SetupInitKeyCodes() => KeyBind.KeyCodes.ForEach(InstantiateKeyCodeDisplay);
@@ -222,7 +234,7 @@ public class KeyBindSetterController : MonoBehaviour
     private void InstantiateKeyCodeDisplay(KeyCode[] keyCode)
     {
         // instantiate key code display
-        KeyCodeDisplay keyCodeDisplay = Instantiate(PrefabManager.Instance.KeyCodeDisplay, displayContainer);
+        KeyCodeDisplay keyCodeDisplay = Instantiate(keyCodeDisplayPrefab, displayContainer);
         keyCodeDisplay.SetKeyCodeSprite(keyCode);
 
         // rebuild
