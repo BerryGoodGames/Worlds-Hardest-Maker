@@ -1,27 +1,42 @@
 using System;
+using System.Collections.Generic;
 using MyBox;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class SettingsManager : MonoBehaviour
 {
+    public static SettingsManager Instance { get; private set; }
+    
     [SerializeField] [InitializationField] [MustBeAssigned] private AudioMixer mainMixer;
     [SerializeField] [InitializationField] [MustBeAssigned] private SyncInputToSlider musicSlider;
     [SerializeField] [InitializationField] [MustBeAssigned] private SyncInputToSlider soundEffectSlider;
     [SerializeField] [InitializationField] [MustBeAssigned] private SyncInputToSlider toolbarSizeSlider;
     [SerializeField] [InitializationField] [MustBeAssigned] private SyncInputToSlider infobarSizeSlider;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Dropdown qualityDropdown;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Dropdown resolutionDropdown;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Toggle fullscreenToggle;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Toggle oneColorToggle;
+    
+    private Resolution[] resolutions;
+    [HideInInspector] public bool OneColorSafeFields;
 
     public event Action<float> OnSetToolbarSize = _ => { };
     public event Action<float> OnSetInfobarSize = _ => { };
+    public event Action<bool> OnSetOneColorSafeFieldsWhenPlaying = _ => { };
 
     private void Start()
     {
+        UpdateResolutionOptions();
+        
         LoadPrefs();
     }
 
     public void SavePrefs()
     {
-        print("Saving prefs...");
+        print("Settings: Saving prefs...");
         
         PlayerPrefs.SetFloat("MusicVolume", GetMusicVolume());
         PlayerPrefs.SetFloat("SoundEffectVolume", GetSoundEffectVolume());
@@ -29,9 +44,9 @@ public class SettingsManager : MonoBehaviour
         PlayerPrefs.SetFloat("InfobarSize", GetInfobarSize());
 
         // graphics
-        PlayerPrefs.SetInt("Fullscreen", Screen.fullScreen ? 1 : 0);
-        PlayerPrefs.SetInt("OneColorStartGoal", GraphicsSettings.Instance.OneColorSafeFields ? 1 : 0);
-
+        PlayerPrefs.SetInt("Fullscreen", fullscreenToggle.isOn ? 1 : 0);
+        PlayerPrefs.SetInt("OneColor", oneColorToggle.isOn ? 1 : 0);
+        
         // key binds
         foreach (KeyBind keyBind in KeyBinds.GetAllKeyBinds()) PlayerPrefs.SetString(keyBind.Name, keyBind.KeyCodesToString());
 
@@ -40,7 +55,7 @@ public class SettingsManager : MonoBehaviour
 
     public void LoadPrefs()
     {
-        print("Loading prefs...");
+        print("Settings: Loading prefs...");
         
         // check if preferences already exist, and if they don't then set the current (default) prefs
         if (!PlayerPrefs.HasKey("MusicVolume")) SavePrefs();
@@ -51,9 +66,9 @@ public class SettingsManager : MonoBehaviour
         SetInfobarSize(PlayerPrefs.GetFloat("InfobarSize"), true);
 
         // graphics
-        GraphicsSettings.Instance.Fullscreen(PlayerPrefs.GetInt("Fullscreen") == 1, true);
-        GraphicsSettings.Instance.SetOneColorSafeFieldsWhenPlaying(PlayerPrefs.GetInt("OneColorStartGoal") == 1, true);
-
+        SetFullscreen(PlayerPrefs.GetInt("Fullscreen") == 1, true);
+        SetOneColorSafeFieldsWhenPlaying(PlayerPrefs.GetInt("OneColor") == 1, true);
+        
         // key binds
         foreach (KeyBind keyBind in KeyBinds.GetAllKeyBinds())
         {
@@ -66,8 +81,79 @@ public class SettingsManager : MonoBehaviour
             KeyBinds.AddKeyCodesToKeyBind(keyBind.Name, keyCodes);
         }
     }
+
+
+    #region Graphics settings
+
+    public void SetQuality(int index, bool updateDropdown)
+    {
+        QualitySettings.SetQualityLevel(index);
+
+        if (!updateDropdown) return;
+
+        qualityDropdown.value = index;
+    }
+
+    public void SetQuality(int index) => SetQuality(index, false);
+
+    public void SetFullscreen(bool fullscreen, bool updateToggle)
+    {
+        Screen.fullScreen = fullscreen;
+
+        if (!updateToggle) return;
+        fullscreenToggle.isOn = fullscreen;
+    }
+
+    public void SetFullscreen(bool fullscreen) => SetFullscreen(fullscreen, false);
     
+    public void SetResolution(int index, bool updateDropdown)
+    {
+        if (index >= resolutions.Length) index = resolutions.Length - 1;
+        Resolution res = resolutions[index];
+        Screen.SetResolution(res.width, res.height, Screen.fullScreen);
+
+        if (!updateDropdown) return;
+        resolutionDropdown.value = index;
+    }
+
+    public void SetResolution(int index) => SetResolution(index, false);
+
+
+    public void SetOneColorSafeFieldsWhenPlaying(bool oneColor, bool updateToggle)
+    {
+        OnSetOneColorSafeFieldsWhenPlaying.Invoke(oneColor);
+        
+        OneColorSafeFields = oneColor;
+
+        if (!updateToggle) return;
+        oneColorToggle.isOn = oneColor;
+    }
+
+    public void SetOneColorSafeFieldsWhenPlaying(bool oneColor) => SetOneColorSafeFieldsWhenPlaying(oneColor, false);
+
+    private void UpdateResolutionOptions()
+    {
+        // dropdown for resolution: clear and fill in unity's resolutions options
+        resolutions = Screen.resolutions;
+
+        resolutionDropdown.ClearOptions();
+        List<string> options = new();
+
+        int currentResIndex = 0;
+        for (int i = 0; i < resolutions.Length; i++)
+        {
+            options.Add(resolutions[i].ToString().Replace(" ", string.Empty));
+
+            if (resolutions[i].width == Screen.currentResolution.width &&
+                resolutions[i].height == Screen.currentResolution.height) currentResIndex = i;
+        }
+
+        resolutionDropdown.AddOptions(options);
+        resolutionDropdown.value = currentResIndex;
+        resolutionDropdown.RefreshShownValue();
+    }
     
+    #endregion
 
     #region Sound settings
 
@@ -158,5 +244,15 @@ public class SettingsManager : MonoBehaviour
 
     #endregion
 
-    private void OnDestroy() => SavePrefs();
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else throw new Exception("There exist multiple instances of SettingsManager");
+    }
+
+    private void OnDestroy()
+    {
+        if(Instance == this) Instance = null;
+        SavePrefs();
+    }
 }

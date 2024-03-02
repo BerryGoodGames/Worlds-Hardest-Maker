@@ -1,7 +1,10 @@
-using System;
 using MyBox;
 using UnityEngine;
 
+/// <summary>
+/// This script handles every action/configuration of the settings in LevelSession scene,
+/// which enables SettingsManager to be scene-independent.
+/// </summary>
 public class LevelSessionSettingsSetup : MonoBehaviour
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private SettingsManager settingsManager;
@@ -18,9 +21,14 @@ public class LevelSessionSettingsSetup : MonoBehaviour
     private void SetInfobarSize(float size)
     {
         infobarPlayResize.InfobarHeight = size;
-        infobarEditResize.InfobarHeight = size;
         infobarPlayResize.UpdateSize();
+        infobarEditResize.InfobarHeight = size;
         infobarEditResize.UpdateSize();
+    }
+
+    private void SetOneColorSafeFieldsWhenPlaying(bool oneColor)
+    {
+        FieldManager.ApplySafeFieldsColor(LevelSessionEditManager.Instance.Playing && oneColor);
     }
 
     private void Start()
@@ -32,11 +40,13 @@ public class LevelSessionSettingsSetup : MonoBehaviour
     {
         settingsManager.OnSetToolbarSize += SetToolbarSize;
         settingsManager.OnSetInfobarSize += SetInfobarSize;
+        settingsManager.OnSetOneColorSafeFieldsWhenPlaying += SetOneColorSafeFieldsWhenPlaying;
     }
 
     private void OnDestroy()
     {
         settingsManager.OnSetInfobarSize -= SetToolbarSize;
         settingsManager.OnSetInfobarSize -= SetInfobarSize;
+        settingsManager.OnSetOneColorSafeFieldsWhenPlaying -= SetOneColorSafeFieldsWhenPlaying;
     }
 }

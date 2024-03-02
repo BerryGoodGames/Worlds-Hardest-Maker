@@ -44,13 +44,13 @@ public class CheckpointTween : MonoBehaviour, IResettable
     private static Color GetActiveColor()
     {
         List<Color> palette = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").Colors;
-        return LevelSessionEditManager.Instance.Playing && GraphicsSettings.Instance.OneColorSafeFields ? palette[5] : palette[3];
+        return LevelSessionEditManager.Instance.Playing && SettingsManager.Instance.OneColorSafeFields ? palette[5] : palette[3];
     }
 
     private static Color GetInactiveColor()
     {
         List<Color> palette = ColorPaletteManager.GetColorPalette("Start Goal Checkpoint").Colors;
-        return LevelSessionEditManager.Instance.Playing && GraphicsSettings.Instance.OneColorSafeFields ? palette[4] : palette[2];
+        return LevelSessionEditManager.Instance.Playing && SettingsManager.Instance.OneColorSafeFields ? palette[4] : palette[2];
     }
 
     public void ResetState() => DeactivateTween();

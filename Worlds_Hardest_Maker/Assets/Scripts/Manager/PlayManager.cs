@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using MyBox;
 using UnityEngine;
 
 public class PlayManager : MonoBehaviour
@@ -54,6 +55,12 @@ public class PlayManager : MonoBehaviour
         {
             Cheated = false;
             OnLevelReset.Invoke();
+            FieldManager.ApplySafeFieldsColor(false);
+        };
+
+        OnSwitchToPlay += () =>
+        {
+            if (SettingsManager.Instance.OneColorSafeFields) FieldManager.ApplySafeFieldsColor(true);
         };
 
         return;
