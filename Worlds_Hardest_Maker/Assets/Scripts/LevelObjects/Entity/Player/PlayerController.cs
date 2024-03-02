@@ -78,14 +78,13 @@ public class PlayerController : EntityController
     {
         PlayManager.Instance.OnSwitchToEdit += OnEdit;
         PlayManager.Instance.OnSwitchToPlay += OnPlay;
+        PlayManager.Instance.OnLevelReset += ResetState;
 
         EdgeCollider.enabled = LevelSessionEditManager.Instance.Playing;
 
         if (transform.parent != ReferenceManager.Instance.PlayerContainer) transform.SetParent(ReferenceManager.Instance.PlayerContainer);
 
         ApplyCurrentGameState();
-
-        PlayManager.Instance.OnLevelReset += ResetState;
     }
 
     private void Update() =>
@@ -105,6 +104,8 @@ public class PlayerController : EntityController
     {
         PlayManager.Instance.OnSwitchToEdit -= OnEdit;
         PlayManager.Instance.OnSwitchToPlay -= OnPlay;
+        
+        PlayManager.Instance.OnLevelReset -= ResetState;
     }
 
     private void OnEdit()

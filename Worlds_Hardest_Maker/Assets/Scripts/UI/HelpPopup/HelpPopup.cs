@@ -18,9 +18,11 @@ public class HelpPopup : MonoBehaviour
     private readonly Queue<RectTransform> movingLeft = new();
     private readonly Queue<RectTransform> movingRight = new();
 
-    public int ScreenCount => scrollContainer.childCount;
+    private int ScreenCount => scrollContainer.childCount;
 
-    private int markedIndex = 0;
+    private int markedIndex;
+    
+    #region Scrolling
     
     public void ScrollLeftButton()
     {
@@ -110,6 +112,8 @@ public class HelpPopup : MonoBehaviour
         SetDotFilled(markedIndex, true);
     }
     
+    #endregion
+    
     private void Awake()
     {
         Setup();
@@ -152,6 +156,11 @@ public class HelpPopup : MonoBehaviour
         Image dot = dotContainer.GetChild(index).GetComponent<Image>();
 
         dot.sprite = filled ? dotFilledSprite : dotOutlineSprite;
+    }
+
+    public void Close()
+    {
+        Destroy(gameObject);
     }
     
     private void OnDestroy() => DOTween.Kill(gameObject);
