@@ -37,12 +37,6 @@ public class ReferenceManager : MonoBehaviour
 
     #region Containers
 
-    [Foldout("Containers")] public Transform ToolbarContainer;
-
-    [Foldout("Containers")] public Transform SliderContainer;
-
-    [Foldout("Containers")] public Transform NameTagContainer;
-
     [Foldout("Containers")] public Transform DrawContainer;
 
     [Foldout("Containers")] public Transform SelectionOutlineContainer;
@@ -109,10 +103,6 @@ public class ReferenceManager : MonoBehaviour
     [Foldout("SettingInputs")] public TMP_Dropdown ResolutionDropdown;
     [Foldout("SettingInputs")] public Toggle FullscreenToggle;
     [Foldout("SettingInputs")] public Toggle OneColorToggle;
-    [Foldout("SettingInputs")] public SyncInputToSlider ToolbarSizeSlider;
-    [Foldout("SettingInputs")] public SyncInputToSlider InfobarSizeSlider;
-    [Foldout("SettingInputs")] public SyncInputToSlider MusicSlider;
-    [Foldout("SettingInputs")] public SyncInputToSlider SoundEffectSlider;
 
     #endregion
 

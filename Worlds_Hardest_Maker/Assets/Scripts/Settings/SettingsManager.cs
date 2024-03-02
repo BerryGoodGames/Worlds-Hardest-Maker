@@ -5,33 +5,24 @@ using UnityEngine.Audio;
 
 public class SettingsManager : MonoBehaviour
 {
-    public static SettingsManager Instance { get; private set; }
-
     [SerializeField] [InitializationField] [MustBeAssigned] private AudioMixer mainMixer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private SyncInputToSlider musicSlider;
+    [SerializeField] [InitializationField] [MustBeAssigned] private SyncInputToSlider soundEffectSlider;
+    [SerializeField] [InitializationField] [MustBeAssigned] private SyncInputToSlider toolbarSizeSlider;
+    [SerializeField] [InitializationField] [MustBeAssigned] private SyncInputToSlider infobarSizeSlider;
 
-    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject toolbarContainer;
+    public event Action<float> OnSetToolbarSize = _ => { };
+    public event Action<float> OnSetInfobarSize = _ => { };
 
-    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject infobarEdit;
-    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject infobarPlay;
-
-    private ToolbarSizing toolbarSpacing;
-    private InfobarResize infobarPlayResize;
-    private InfobarResize infobarEditResize;
-
-    private void Awake()
+    private void Start()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(this);
-
-        toolbarSpacing = toolbarContainer.GetComponent<ToolbarSizing>();
-        infobarPlayResize = infobarPlay.GetComponent<InfobarResize>();
-        infobarEditResize = infobarEdit.GetComponent<InfobarResize>();
+        LoadPrefs();
     }
-
-    private void Start() => Instance.LoadPrefs();
 
     public void SavePrefs()
     {
+        print("Saving prefs...");
+        
         PlayerPrefs.SetFloat("MusicVolume", GetMusicVolume());
         PlayerPrefs.SetFloat("SoundEffectVolume", GetSoundEffectVolume());
         PlayerPrefs.SetFloat("ToolbarSize", GetToolbarSize());
@@ -49,6 +40,8 @@ public class SettingsManager : MonoBehaviour
 
     public void LoadPrefs()
     {
+        print("Loading prefs...");
+        
         // check if preferences already exist, and if they don't then set the current (default) prefs
         if (!PlayerPrefs.HasKey("MusicVolume")) SavePrefs();
 
@@ -73,6 +66,8 @@ public class SettingsManager : MonoBehaviour
             KeyBinds.AddKeyCodesToKeyBind(keyBind.Name, keyCodes);
         }
     }
+    
+    
 
     #region Sound settings
 
@@ -85,12 +80,18 @@ public class SettingsManager : MonoBehaviour
 
         if (!updateSlider) return;
 
-        ReferenceManager.Instance.MusicSlider.Slider.value = vol;
-        ReferenceManager.Instance.MusicSlider.UpdateInput();
+        musicSlider.Slider.value = vol;
+        musicSlider.UpdateInput();
     }
 
     public void SetMusicVolume(float vol) => SetMusicVolume(vol, false);
+    
+    public float GetMusicVolume()
+    {
+        if (mainMixer.GetFloat("MusicVolume", out float value)) return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
 
+        throw new("Failed to access music volume");
+    }
 
     public void SetSoundEffectVolume(float vol, bool updateSlider)
     {
@@ -100,18 +101,11 @@ public class SettingsManager : MonoBehaviour
 
         if (!updateSlider) return;
 
-        ReferenceManager.Instance.SoundEffectSlider.Slider.value = vol;
-        ReferenceManager.Instance.SoundEffectSlider.UpdateInput();
+        soundEffectSlider.Slider.value = vol;
+        soundEffectSlider.UpdateInput();
     }
 
     public void SetSoundEffectVolume(float vol) => SetSoundEffectVolume(vol, false);
-
-    public float GetMusicVolume()
-    {
-        if (mainMixer.GetFloat("MusicVolume", out float value)) return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
-
-        throw new("Failed to access music volume");
-    }
 
     public float GetSoundEffectVolume()
     {
@@ -126,15 +120,12 @@ public class SettingsManager : MonoBehaviour
 
     public void SetToolbarSize(float size, bool updateSlider)
     {
-        if (toolbarSpacing == null) return;
-
-        toolbarSpacing.ToolbarHeight = size;
-        toolbarSpacing.UpdateSize();
-
+        OnSetToolbarSize.Invoke(size);
+        
         if (!updateSlider) return;
 
-        ReferenceManager.Instance.ToolbarSizeSlider.Slider.value = size;
-        ReferenceManager.Instance.ToolbarSizeSlider.UpdateInput();
+        toolbarSizeSlider.Slider.value = size;
+        toolbarSizeSlider.UpdateInput();
     }
 
     public void SetToolbarSize(float size) => SetToolbarSize(size, false);
@@ -144,21 +135,16 @@ public class SettingsManager : MonoBehaviour
         if (float.TryParse(size, out float conv)) SetToolbarSize(conv);
     }
 
-    public float GetToolbarSize() => toolbarSpacing.ToolbarHeight;
+    public float GetToolbarSize() => toolbarSizeSlider.GetCurrentSliderValue();
 
     public void SetInfobarSize(float size, bool updateSlider)
     {
-        if (infobarPlayResize == null || infobarEditResize == null) return;
-
-        infobarPlayResize.InfobarHeight = size;
-        infobarEditResize.InfobarHeight = size;
-        infobarPlayResize.UpdateSize();
-        infobarEditResize.UpdateSize();
+        OnSetInfobarSize.Invoke(size);
 
         if (!updateSlider) return;
 
-        ReferenceManager.Instance.InfobarSizeSlider.Slider.value = size;
-        ReferenceManager.Instance.InfobarSizeSlider.UpdateInput();
+        infobarSizeSlider.Slider.value = size;
+        infobarSizeSlider.UpdateInput();
     }
 
     public void SetInfobarSize(float size) => SetInfobarSize(size, false);
@@ -168,7 +154,7 @@ public class SettingsManager : MonoBehaviour
         if (float.TryParse(size, out float conv)) SetInfobarSize(conv);
     }
 
-    public float GetInfobarSize() => infobarPlayResize.InfobarHeight;
+    public float GetInfobarSize() => infobarSizeSlider.GetCurrentSliderValue();
 
     #endregion
 
