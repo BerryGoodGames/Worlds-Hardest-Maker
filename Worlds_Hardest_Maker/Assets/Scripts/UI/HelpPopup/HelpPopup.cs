@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using DG.Tweening;
 using JetBrains.Annotations;
 using MyBox;
@@ -21,6 +23,8 @@ public class HelpPopup : MonoBehaviour
     private int ScreenCount => scrollContainer.childCount;
 
     private int markedIndex;
+
+    private AlphaTween alphaTween;
     
     #region Scrolling
     
@@ -119,6 +123,13 @@ public class HelpPopup : MonoBehaviour
         Setup();
     }
 
+    private void Start()
+    {
+        alphaTween = GetComponent<AlphaTween>();
+        
+        alphaTween.SetVisible(true);
+    }
+
     [ButtonMethod] [UsedImplicitly]
     public void Setup()
     {
@@ -160,7 +171,8 @@ public class HelpPopup : MonoBehaviour
 
     public void Close()
     {
-        Destroy(gameObject);
+        alphaTween.SetVisible(false)
+            .OnComplete(() => Destroy(gameObject));
     }
     
     private void OnDestroy() => DOTween.Kill(gameObject);
