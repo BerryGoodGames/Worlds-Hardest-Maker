@@ -3,14 +3,24 @@ using DG.Tweening;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HelpPopup : MonoBehaviour
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform scrollContainer;
     [SerializeField] [PositiveValueOnly] private float scrollDuration;
+    [Space] 
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform dotContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Image dotPrefab;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Sprite dotFilledSprite;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Sprite dotOutlineSprite;
 
     private readonly Queue<RectTransform> movingLeft = new();
     private readonly Queue<RectTransform> movingRight = new();
+
+    public int ScreenCount => scrollContainer.childCount;
+
+    private int markedIndex = 0;
     
     public void ScrollLeftButton()
     {
@@ -46,6 +56,10 @@ public class HelpPopup : MonoBehaviour
             .OnComplete(() => movingRight.Dequeue());
         
         movingRight.Enqueue(lastScreen);
+        
+        SetDotFilled(markedIndex, false);
+        markedIndex = Mod(markedIndex - 1, ScreenCount);
+        SetDotFilled(markedIndex, true);
     }
 
     public void ScrollRightButton()
@@ -90,19 +104,40 @@ public class HelpPopup : MonoBehaviour
                 });
         
         movingLeft.Enqueue(firstScreen);
+        
+        SetDotFilled(markedIndex, false);
+        markedIndex = (markedIndex + 1) % ScreenCount;
+        SetDotFilled(markedIndex, true);
     }
     
     private void Awake()
     {
-        SetupScreens();
+        Setup();
     }
 
     [ButtonMethod] [UsedImplicitly]
-    public void SetupScreens()
+    public void Setup()
     {
         foreach (Transform screen in scrollContainer.transform)
         {
             NormalizeScreen((RectTransform)screen);
+        }
+
+#if UNITY_EDITOR
+        for (int i = dotContainer.childCount - 1; i >= 0; i--)
+        {
+            DestroyImmediate(dotContainer.GetChild(i).gameObject);
+        }
+#else
+        dotContainer.DestroyChildren();
+#endif
+        
+        for (int i = 0; i < scrollContainer.childCount; i++)
+        {
+            Sprite sprite = i == 0 ? dotFilledSprite : dotOutlineSprite;
+            Image dot = Instantiate(dotPrefab, dotContainer);
+
+            dot.sprite = sprite;
         }
     }
 
@@ -112,5 +147,17 @@ public class HelpPopup : MonoBehaviour
         rt.anchorMax = new(1, rt.anchorMax.y);
     }
 
+    private void SetDotFilled(int index, bool filled)
+    {
+        Image dot = dotContainer.GetChild(index).GetComponent<Image>();
+
+        dot.sprite = filled ? dotFilledSprite : dotOutlineSprite;
+    }
+    
     private void OnDestroy() => DOTween.Kill(gameObject);
+    
+    private static int Mod(int x, int m) 
+    {
+        return (x%m + m)%m;
+    }
 }
