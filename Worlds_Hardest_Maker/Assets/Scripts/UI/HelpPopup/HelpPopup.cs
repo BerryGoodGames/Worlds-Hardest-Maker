@@ -138,14 +138,14 @@ public class HelpPopup : MonoBehaviour
             NormalizeScreen((RectTransform)screen);
         }
 
-#if UNITY_EDITOR
         for (int i = dotContainer.childCount - 1; i >= 0; i--)
         {
+#if UNITY_EDITOR
             DestroyImmediate(dotContainer.GetChild(i).gameObject);
-        }
 #else
-        dotContainer.DestroyChildren();
+            Destroy(dotContainer.GetChild(i).gameObject);
 #endif
+        }
         
         for (int i = 0; i < scrollContainer.childCount; i++)
         {
