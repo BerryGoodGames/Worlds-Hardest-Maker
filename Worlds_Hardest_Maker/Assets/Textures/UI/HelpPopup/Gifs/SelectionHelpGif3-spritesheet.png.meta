@@ -1,0 +1,1196 @@
+fileFormatVersion: 2
+guid: 265552d1c21bdf441a826acd8ad89178
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3546
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b52bd13d3daf8243b91358a9104e47d
+      internalID: -1577509389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 3546
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87611fd3155af6142b8d33b9e647cfad
+      internalID: -787722443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 1456
+        y: 3546
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20845e3207ccc7345914e4ff28c6e01b
+      internalID: -522950263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 2184
+        y: 3546
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb782269dd4dca049801ef572f281516
+      internalID: -1727704991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 2912
+        y: 3546
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be7bf16e4930a7e489df49a145b5069a
+      internalID: 547986863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3152
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c6f45f98c74bf841ab87df553293992
+      internalID: 1089830321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 3152
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14a2552e94458f149abe159357e37c04
+      internalID: 1784650636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 1456
+        y: 3152
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bb8ab811e81b5b4db17a9b7ef64adea
+      internalID: 1701527139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 2184
+        y: 3152
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8125b2569c6e51f4eb255434a0504841
+      internalID: 1127348653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 2912
+        y: 3152
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c40c2ff5d57db4f4d91b24e70cc32194
+      internalID: 463178384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2758
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6e64e15bf0d6ef42a5f7ecf49e0632c
+      internalID: 638364603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 2758
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fa85ded73297b444b444f06e6dde2f5
+      internalID: 1394502736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 1456
+        y: 2758
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57f6dbe1b76e93043b1f65c80897dff1
+      internalID: -274774403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 2184
+        y: 2758
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f22346bf637a4d546b7c5531fe3f4542
+      internalID: -1524678188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 2912
+        y: 2758
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0e2b55f83e43024cbc0409696e30ea1
+      internalID: -1193687090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2364
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59914f60292de384baefaa56968b928a
+      internalID: -1891801995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 2364
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5742da8a2ad149741bd29b26792cfc58
+      internalID: -1223377063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 1456
+        y: 2364
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdfcfa6d4905ff544931e3f55858d6ef
+      internalID: -549828134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 2184
+        y: 2364
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 390d95e25cdf2bc4eae69387411aa7ef
+      internalID: 809525696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 2912
+        y: 2364
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 079febe7bdc2963498a7b043d96d4760
+      internalID: 1230409139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1970
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecf3f4059ae029d40852309ba320f06d
+      internalID: -1025539443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_21
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 1970
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8946d03da4c134f46a92176543a81874
+      internalID: 166777544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_22
+      rect:
+        serializedVersion: 2
+        x: 1456
+        y: 1970
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3265966f3c40f7944aa39d49bccf93db
+      internalID: -1261766117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_23
+      rect:
+        serializedVersion: 2
+        x: 2184
+        y: 1970
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 995ccfe8dcc88404eae9645633c70bce
+      internalID: 1565878973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_24
+      rect:
+        serializedVersion: 2
+        x: 2912
+        y: 1970
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f861fe1ce4cbb8c4c99f5668783788b5
+      internalID: -2078827082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_25
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1576
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2a558b7d007b0f488035d946ac90a97
+      internalID: 1154785440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_26
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 1576
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c384f3b6f11d8e44844c105b61ab128
+      internalID: 663669913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_27
+      rect:
+        serializedVersion: 2
+        x: 1456
+        y: 1576
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bd041b896bdb2345ac7ffd47450cb40
+      internalID: -275269891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_28
+      rect:
+        serializedVersion: 2
+        x: 2184
+        y: 1576
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e0cc27ad70a0db4793c79a03b71530d
+      internalID: 467000175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_29
+      rect:
+        serializedVersion: 2
+        x: 2912
+        y: 1576
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0d6d9f136c78564daec04bbbc220a61
+      internalID: -855823477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1182
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0a7b9b86edb24d4ea5a08089840ca6a
+      internalID: -1371903552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_31
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 1182
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5c499775253bf6499ad33049be3459b
+      internalID: -1751503725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_32
+      rect:
+        serializedVersion: 2
+        x: 1456
+        y: 1182
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1a8d83a05afaec45b4ac7b6d44732fc
+      internalID: -1643902797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_33
+      rect:
+        serializedVersion: 2
+        x: 2184
+        y: 1182
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5651ab2fc371b66408c06d6694677031
+      internalID: 1480171884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_34
+      rect:
+        serializedVersion: 2
+        x: 2912
+        y: 1182
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c82aa48aca2f0841ac45ae1426beb98
+      internalID: -880730181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 788
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60a33a9fddf9f204095be9f011b48e1c
+      internalID: 676246186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_36
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 788
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bad5db0f1d43c8147b36d05bdd2eb354
+      internalID: 1235940160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_37
+      rect:
+        serializedVersion: 2
+        x: 1456
+        y: 788
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6985871a8d7023d46a55ef6b3ed0dec8
+      internalID: 527107563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_38
+      rect:
+        serializedVersion: 2
+        x: 2184
+        y: 788
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 037842ebf219b92429f12ce4bbcc821f
+      internalID: -1009188874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_39
+      rect:
+        serializedVersion: 2
+        x: 2912
+        y: 788
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8222e4e5db3ad0049a301d3c74ba0959
+      internalID: -1277664641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 394
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e09b81d9eb30dd8419e88cba920d6126
+      internalID: -1766300404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_41
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 394
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc8b2d3f4c106184aa6fb40d1fd3db25
+      internalID: 457889808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_42
+      rect:
+        serializedVersion: 2
+        x: 1456
+        y: 394
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c7daf30903aa224eb864e7352c63264
+      internalID: 387152609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_43
+      rect:
+        serializedVersion: 2
+        x: 2184
+        y: 394
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31f9894c373c5d940a3c151b0036ff5a
+      internalID: 1986693252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_44
+      rect:
+        serializedVersion: 2
+        x: 2912
+        y: 394
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfc824973a3344f499d852cd05b807c0
+      internalID: 1079762722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_45
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fab6b8c41b3c6c641b8f0f49e9159e60
+      internalID: 413156929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_46
+      rect:
+        serializedVersion: 2
+        x: 728
+        y: 0
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 511e66775de4ad94c803243ca196bc3b
+      internalID: -814085758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SelectionHelpGif3-spritesheet_47
+      rect:
+        serializedVersion: 2
+        x: 1456
+        y: 0
+        width: 728
+        height: 394
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0dea1588f2e1e24d8a6d6f792ad83b1
+      internalID: 1460122394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      SelectionHelpGif3-spritesheet_0: -1577509389
+      SelectionHelpGif3-spritesheet_1: -787722443
+      SelectionHelpGif3-spritesheet_10: 638364603
+      SelectionHelpGif3-spritesheet_11: 1394502736
+      SelectionHelpGif3-spritesheet_12: -274774403
+      SelectionHelpGif3-spritesheet_13: -1524678188
+      SelectionHelpGif3-spritesheet_14: -1193687090
+      SelectionHelpGif3-spritesheet_15: -1891801995
+      SelectionHelpGif3-spritesheet_16: -1223377063
+      SelectionHelpGif3-spritesheet_17: -549828134
+      SelectionHelpGif3-spritesheet_18: 809525696
+      SelectionHelpGif3-spritesheet_19: 1230409139
+      SelectionHelpGif3-spritesheet_2: -522950263
+      SelectionHelpGif3-spritesheet_20: -1025539443
+      SelectionHelpGif3-spritesheet_21: 166777544
+      SelectionHelpGif3-spritesheet_22: -1261766117
+      SelectionHelpGif3-spritesheet_23: 1565878973
+      SelectionHelpGif3-spritesheet_24: -2078827082
+      SelectionHelpGif3-spritesheet_25: 1154785440
+      SelectionHelpGif3-spritesheet_26: 663669913
+      SelectionHelpGif3-spritesheet_27: -275269891
+      SelectionHelpGif3-spritesheet_28: 467000175
+      SelectionHelpGif3-spritesheet_29: -855823477
+      SelectionHelpGif3-spritesheet_3: -1727704991
+      SelectionHelpGif3-spritesheet_30: -1371903552
+      SelectionHelpGif3-spritesheet_31: -1751503725
+      SelectionHelpGif3-spritesheet_32: -1643902797
+      SelectionHelpGif3-spritesheet_33: 1480171884
+      SelectionHelpGif3-spritesheet_34: -880730181
+      SelectionHelpGif3-spritesheet_35: 676246186
+      SelectionHelpGif3-spritesheet_36: 1235940160
+      SelectionHelpGif3-spritesheet_37: 527107563
+      SelectionHelpGif3-spritesheet_38: -1009188874
+      SelectionHelpGif3-spritesheet_39: -1277664641
+      SelectionHelpGif3-spritesheet_4: 547986863
+      SelectionHelpGif3-spritesheet_40: -1766300404
+      SelectionHelpGif3-spritesheet_41: 457889808
+      SelectionHelpGif3-spritesheet_42: 387152609
+      SelectionHelpGif3-spritesheet_43: 1986693252
+      SelectionHelpGif3-spritesheet_44: 1079762722
+      SelectionHelpGif3-spritesheet_45: 413156929
+      SelectionHelpGif3-spritesheet_46: -814085758
+      SelectionHelpGif3-spritesheet_47: 1460122394
+      SelectionHelpGif3-spritesheet_5: 1089830321
+      SelectionHelpGif3-spritesheet_6: 1784650636
+      SelectionHelpGif3-spritesheet_7: 1701527139
+      SelectionHelpGif3-spritesheet_8: 1127348653
+      SelectionHelpGif3-spritesheet_9: 463178384
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
