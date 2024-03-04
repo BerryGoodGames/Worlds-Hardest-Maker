@@ -21,7 +21,7 @@ public class AlphaTween : MonoBehaviour
 
     public bool IsVisible { get; private set; }
 
-    private void TweenVis()
+    private Tween TweenVis()
     {
         if (disableObjectWhenInvisible)
         {
@@ -33,17 +33,19 @@ public class AlphaTween : MonoBehaviour
 
         OnSetVisible?.Invoke();
 
-        if (image != null) image.DOFade(alphaVisible, duration);
-        if (text != null) text.DOFade(alphaVisible, duration);
-        if (canvasGroup != null) canvasGroup.DOFade(alphaVisible, duration);
-        if (spriteRenderer != null) spriteRenderer.DOFade(alphaVisible, duration);
+        if (image != null) return image.DOFade(alphaVisible, duration);
+        if (text != null) return text.DOFade(alphaVisible, duration);
+        if (canvasGroup != null) return canvasGroup.DOFade(alphaVisible, duration);
+        if (spriteRenderer != null) return spriteRenderer.DOFade(alphaVisible, duration);
+
+        return null;
     }
 
-    private void TweenInvis()
+    private Tween TweenInvis()
     {
         if (image != null)
         {
-            image.DOFade(alphaInvisible, duration).OnComplete(
+            return image.DOFade(alphaInvisible, duration).OnComplete(
                 () =>
                 {
                     if (IsVisible) return;
@@ -55,7 +57,7 @@ public class AlphaTween : MonoBehaviour
 
         if (text != null)
         {
-            text.DOFade(alphaInvisible, duration).OnComplete(
+            return text.DOFade(alphaInvisible, duration).OnComplete(
                 () =>
                 {
                     if (IsVisible) return;
@@ -67,7 +69,7 @@ public class AlphaTween : MonoBehaviour
 
         if (canvasGroup != null)
         {
-            canvasGroup.DOFade(alphaInvisible, duration).OnComplete(
+            return canvasGroup.DOFade(alphaInvisible, duration).OnComplete(
                 () =>
                 {
                     if (IsVisible) return;
@@ -79,7 +81,7 @@ public class AlphaTween : MonoBehaviour
 
         if (spriteRenderer != null)
         {
-            spriteRenderer.DOFade(alphaInvisible, duration).OnComplete(
+            return spriteRenderer.DOFade(alphaInvisible, duration).OnComplete(
                 () =>
                 {
                     if (IsVisible) return;
@@ -88,20 +90,28 @@ public class AlphaTween : MonoBehaviour
                 }
             );
         }
+
+        return null;
     }
 
-    public void SetVisible(bool vis)
+    public Tween SetVisible(bool vis)
     {
+        Tween tween = null;
         if (IsVisible && !vis)
             // the frame setting to invisible
-            TweenInvis();
+            tween = TweenInvis();
 
         if (!IsVisible && vis)
             // the frame setting to visible
-            TweenVis();
+            tween = TweenVis();
 
         IsVisible = vis;
+
+        return tween;
     }
+
+    // method compatible with buttons
+    public void SetVisibleRaw(bool vis) => SetVisible(vis);
 
     private void Awake()
     {

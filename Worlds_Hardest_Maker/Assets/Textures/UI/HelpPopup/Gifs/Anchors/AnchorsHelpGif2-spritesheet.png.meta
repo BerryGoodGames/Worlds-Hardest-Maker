@@ -1,0 +1,1504 @@
+fileFormatVersion: 2
+guid: 546966c9ce88e7945a6dd98507bbff10
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 10932
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04145cdcc4b34c24cb6e50a57c64dd98
+      internalID: 930581095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 10932
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e75ca8fab1f76a4eabd496803044203
+      internalID: -405095399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 2106
+        y: 10932
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c6bd224962f1a64eaf1d47f4ea1926f
+      internalID: -31754141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 3159
+        y: 10932
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4e7f7e0ebd73cd4994bdfe113c9f104
+      internalID: 224616571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 4212
+        y: 10932
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5bb6a19fecdb2e43890b06512c96fae
+      internalID: 652498997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 10021
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c2338ed160bd2344be5471226b9e376
+      internalID: -1898897297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 10021
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c5e6fa45f55a3e4abe2b9e53a50dc54
+      internalID: 1772027295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 2106
+        y: 10021
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ecdb974a0bdb9a4cb8242f23225fb18
+      internalID: -1201233580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 3159
+        y: 10021
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18b51345532793f4f8f9d49f6d778730
+      internalID: 601909565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 4212
+        y: 10021
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d94acc8a224a284b8676b3ee1c9cb24
+      internalID: 893587414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 9110
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8953e9cb88bdf214d9a53ec724f2db09
+      internalID: -369390133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 9110
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d4550ffdbc623f4096a48f055fc1fbf
+      internalID: -483918427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 2106
+        y: 9110
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aaf604dcea571d342b1bac90610dc121
+      internalID: -2012816576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 3159
+        y: 9110
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ea94525add8b194e8c6c6fadada31ad
+      internalID: 156294118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 4212
+        y: 9110
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a65d095280d610a4da9f1d79aae8d16f
+      internalID: -321999703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 8199
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abe63969a1c168d4fa816ebd3b192d77
+      internalID: -850258808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 8199
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d806e442c91e1474db99bf66c30fd74e
+      internalID: -277786336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 2106
+        y: 8199
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9780bb5e1d5cb7249b559b3bebb7a9da
+      internalID: -820228217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 3159
+        y: 8199
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df21d642a1f4cee4d9b3adabf4a77113
+      internalID: -1878243715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 4212
+        y: 8199
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5ff0f2081d71cb44a622cb5ec3d7543
+      internalID: 627584692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7288
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbde4b2211f767a44a3d76950b41b548
+      internalID: -866977044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_21
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 7288
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 751c136531c654540bfb25378e123a11
+      internalID: 978451424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_22
+      rect:
+        serializedVersion: 2
+        x: 2106
+        y: 7288
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 657ba4e308b6be8488b419c3f116179c
+      internalID: 707676777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_23
+      rect:
+        serializedVersion: 2
+        x: 3159
+        y: 7288
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 253d0e84a9f23dd478d5961b7b5fe6dd
+      internalID: 1197659452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_24
+      rect:
+        serializedVersion: 2
+        x: 4212
+        y: 7288
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3007cbbf19d54c1469f15d17252d19a0
+      internalID: -1537811622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_25
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6377
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39df19ea0025aea4fae01c0f72fdc526
+      internalID: 658702963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_26
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 6377
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47119069482e3fb4a91fe7a67e9ed6cd
+      internalID: -1574680107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_27
+      rect:
+        serializedVersion: 2
+        x: 2106
+        y: 6377
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e3ef5a4739ee804787f45cb1cf5ef6a
+      internalID: -91716837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_28
+      rect:
+        serializedVersion: 2
+        x: 3159
+        y: 6377
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07f06fb2531e5404da97be9c19f6a2e6
+      internalID: -2132084627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_29
+      rect:
+        serializedVersion: 2
+        x: 4212
+        y: 6377
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6d69dda30fc62f4096d53f11343b393
+      internalID: -1040747045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5466
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 788b29621d878434095519385f4915c0
+      internalID: -1227930465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_31
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 5466
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5791b36a0d3bf984989db855ef8a4d30
+      internalID: 973236778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_32
+      rect:
+        serializedVersion: 2
+        x: 2106
+        y: 5466
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d752d1538d34d2f408d30100c439ed76
+      internalID: 1220696165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_33
+      rect:
+        serializedVersion: 2
+        x: 3159
+        y: 5466
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 788f76d60fac77c4b97453a40fd26d5a
+      internalID: 877031380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_34
+      rect:
+        serializedVersion: 2
+        x: 4212
+        y: 5466
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cc3723bbcfe01c46b361fb0b1609195
+      internalID: -1900637222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4555
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46f988d2a3f0361468a36ff7431a2063
+      internalID: 246258084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_36
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 4555
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a2b67da35bd97d40a8b2fcfd79f1ff0
+      internalID: 1750080194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_37
+      rect:
+        serializedVersion: 2
+        x: 2106
+        y: 4555
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3217c5d1e561b604f82e38750c785502
+      internalID: -1851173886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_38
+      rect:
+        serializedVersion: 2
+        x: 3159
+        y: 4555
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29a8c5da2186e7340a53db5642118853
+      internalID: 2014393724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_39
+      rect:
+        serializedVersion: 2
+        x: 4212
+        y: 4555
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ea11f1cd0950db4fa5fe66db0dbfc77
+      internalID: -1623554808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3644
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd48290dd7149e041a57a53a32470523
+      internalID: -675866321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_41
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 3644
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5aa590eed4be2b44ba316ded7d810333
+      internalID: -222290308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_42
+      rect:
+        serializedVersion: 2
+        x: 2106
+        y: 3644
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9dd0a36ab74f46418179e0b8d96ebcb
+      internalID: 1452607862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_43
+      rect:
+        serializedVersion: 2
+        x: 3159
+        y: 3644
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: addb7dcf38fc0c54b819a1a4e3196ed2
+      internalID: 36239200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_44
+      rect:
+        serializedVersion: 2
+        x: 4212
+        y: 3644
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e702827793ba21444a09cbbae09bdaf2
+      internalID: -1619814651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_45
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2733
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4435109936479647aadd87c0be1b47c
+      internalID: 2034855944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_46
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 2733
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d4847438546b16409a225d44aa29f64
+      internalID: -418804685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_47
+      rect:
+        serializedVersion: 2
+        x: 2106
+        y: 2733
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3bfd22504e56bb14a902a14c92f08ae8
+      internalID: -1271139392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_48
+      rect:
+        serializedVersion: 2
+        x: 3159
+        y: 2733
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f10d64f04fb64e64e802901a414ee686
+      internalID: -226873947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_49
+      rect:
+        serializedVersion: 2
+        x: 4212
+        y: 2733
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fda36e03bf93ac04b9c5f669c17fe8dc
+      internalID: 1518391531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_50
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1822
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ab4bdecc632010428aa2b48559364ed
+      internalID: 1683012729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_51
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 1822
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28b05204167c8ab4cb721b07560a56f6
+      internalID: 1528258114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_52
+      rect:
+        serializedVersion: 2
+        x: 2106
+        y: 1822
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8def14581d0daf647b2f715fbb9cf639
+      internalID: -702502911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_53
+      rect:
+        serializedVersion: 2
+        x: 3159
+        y: 1822
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d34af82d56dbe744b79293d6ae3e7f3
+      internalID: 1635944475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_54
+      rect:
+        serializedVersion: 2
+        x: 4212
+        y: 1822
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ee440cddd96c044fbeacb6de4ec6a6d
+      internalID: -174902707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_55
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 911
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b1e0ce4fc1bc9347bb5c9fcdaf7fa8c
+      internalID: -1890925430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_56
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 911
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ea7eec1abd97b94fb0345c4d81710f1
+      internalID: -664546579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_57
+      rect:
+        serializedVersion: 2
+        x: 2106
+        y: 911
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3296f4c9173dd224c9afc74b9ec7d583
+      internalID: -393097901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_58
+      rect:
+        serializedVersion: 2
+        x: 3159
+        y: 911
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 045c104cdb3ea22418c2932d49accec9
+      internalID: 964434796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_59
+      rect:
+        serializedVersion: 2
+        x: 4212
+        y: 911
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e96312c30baf55458ef7f3cdb6a6ed4
+      internalID: 1761237578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_60
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc18a1f86be7e154283ec470cd59e6e7
+      internalID: -1686200895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorsHelpGif2-spritesheet_61
+      rect:
+        serializedVersion: 2
+        x: 1053
+        y: 0
+        width: 1053
+        height: 911
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1676036a353ffe4e813810f1272a424
+      internalID: -1314636172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      AnchorsHelpGif2-spritesheet_0: 930581095
+      AnchorsHelpGif2-spritesheet_1: -405095399
+      AnchorsHelpGif2-spritesheet_10: -369390133
+      AnchorsHelpGif2-spritesheet_11: -483918427
+      AnchorsHelpGif2-spritesheet_12: -2012816576
+      AnchorsHelpGif2-spritesheet_13: 156294118
+      AnchorsHelpGif2-spritesheet_14: -321999703
+      AnchorsHelpGif2-spritesheet_15: -850258808
+      AnchorsHelpGif2-spritesheet_16: -277786336
+      AnchorsHelpGif2-spritesheet_17: -820228217
+      AnchorsHelpGif2-spritesheet_18: -1878243715
+      AnchorsHelpGif2-spritesheet_19: 627584692
+      AnchorsHelpGif2-spritesheet_2: -31754141
+      AnchorsHelpGif2-spritesheet_20: -866977044
+      AnchorsHelpGif2-spritesheet_21: 978451424
+      AnchorsHelpGif2-spritesheet_22: 707676777
+      AnchorsHelpGif2-spritesheet_23: 1197659452
+      AnchorsHelpGif2-spritesheet_24: -1537811622
+      AnchorsHelpGif2-spritesheet_25: 658702963
+      AnchorsHelpGif2-spritesheet_26: -1574680107
+      AnchorsHelpGif2-spritesheet_27: -91716837
+      AnchorsHelpGif2-spritesheet_28: -2132084627
+      AnchorsHelpGif2-spritesheet_29: -1040747045
+      AnchorsHelpGif2-spritesheet_3: 224616571
+      AnchorsHelpGif2-spritesheet_30: -1227930465
+      AnchorsHelpGif2-spritesheet_31: 973236778
+      AnchorsHelpGif2-spritesheet_32: 1220696165
+      AnchorsHelpGif2-spritesheet_33: 877031380
+      AnchorsHelpGif2-spritesheet_34: -1900637222
+      AnchorsHelpGif2-spritesheet_35: 246258084
+      AnchorsHelpGif2-spritesheet_36: 1750080194
+      AnchorsHelpGif2-spritesheet_37: -1851173886
+      AnchorsHelpGif2-spritesheet_38: 2014393724
+      AnchorsHelpGif2-spritesheet_39: -1623554808
+      AnchorsHelpGif2-spritesheet_4: 652498997
+      AnchorsHelpGif2-spritesheet_40: -675866321
+      AnchorsHelpGif2-spritesheet_41: -222290308
+      AnchorsHelpGif2-spritesheet_42: 1452607862
+      AnchorsHelpGif2-spritesheet_43: 36239200
+      AnchorsHelpGif2-spritesheet_44: -1619814651
+      AnchorsHelpGif2-spritesheet_45: 2034855944
+      AnchorsHelpGif2-spritesheet_46: -418804685
+      AnchorsHelpGif2-spritesheet_47: -1271139392
+      AnchorsHelpGif2-spritesheet_48: -226873947
+      AnchorsHelpGif2-spritesheet_49: 1518391531
+      AnchorsHelpGif2-spritesheet_5: -1898897297
+      AnchorsHelpGif2-spritesheet_50: 1683012729
+      AnchorsHelpGif2-spritesheet_51: 1528258114
+      AnchorsHelpGif2-spritesheet_52: -702502911
+      AnchorsHelpGif2-spritesheet_53: 1635944475
+      AnchorsHelpGif2-spritesheet_54: -174902707
+      AnchorsHelpGif2-spritesheet_55: -1890925430
+      AnchorsHelpGif2-spritesheet_56: -664546579
+      AnchorsHelpGif2-spritesheet_57: -393097901
+      AnchorsHelpGif2-spritesheet_58: 964434796
+      AnchorsHelpGif2-spritesheet_59: 1761237578
+      AnchorsHelpGif2-spritesheet_6: 1772027295
+      AnchorsHelpGif2-spritesheet_60: -1686200895
+      AnchorsHelpGif2-spritesheet_61: -1314636172
+      AnchorsHelpGif2-spritesheet_7: -1201233580
+      AnchorsHelpGif2-spritesheet_8: 601909565
+      AnchorsHelpGif2-spritesheet_9: 893587414
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

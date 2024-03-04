@@ -1,0 +1,2560 @@
+fileFormatVersion: 2
+guid: ea560c87b68d3b24abe606e703948360
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7770
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2fe29817ebf76d4f8d60089a09522ed
+      internalID: -1164517745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 7770
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5142c6d9b8cbdf442a2955cda19c9952
+      internalID: -1035073750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 7770
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a2611b2a68464343a08dc46a1597a23
+      internalID: -698293636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 7770
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c0d739f92cfcc54daaf7b145cb25719
+      internalID: 2117537125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 7770
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad49c74680bc1c44f9208dd262fee995
+      internalID: 1308453839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7400
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: beaec19eb1d10c140b716b0b887fec67
+      internalID: -1614041908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 7400
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4b5a9e772d8a2440bb1438120453122
+      internalID: -1395380543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 7400
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2efe1c6db861364a8b42d806f3ccc4f
+      internalID: -1668086688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 7400
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a8f37443e4047d4d97b3461716a0881
+      internalID: 37776888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 7400
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8b8caf1b3ff14240af49baddd89f742
+      internalID: -1323916129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7030
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 197234c0e6610ea41ad2f92e57fde945
+      internalID: 969332171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 7030
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 434924ba279df77479804eadbb6f6751
+      internalID: -1337242738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 7030
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b570e507c89e9e49a10602d8dfc2f73
+      internalID: -1166824273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 7030
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa937f50a87dcb949b342e3455840387
+      internalID: -1217646552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 7030
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68898312b9869b24faf9d713e34fe08e
+      internalID: 1158831192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6660
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e17582d48a353648b637a6f740f3e4e
+      internalID: 1800102273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 6660
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22b579204fe0daa4b8d0442969e76e40
+      internalID: -635227313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 6660
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f36925221b220554992cc0ddff6598d2
+      internalID: 1389979608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 6660
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3a9c2871ddc2a34ca14cfa76dfc41d1
+      internalID: 2054587065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 6660
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fed5ea1aa7c16c0408d92214d20f07e3
+      internalID: -1092147732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6290
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8285624ad4c07c468b9ff7659665092
+      internalID: 614059912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_21
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 6290
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 664dd921361b66945a8e827647f59f2c
+      internalID: -1107454680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_22
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 6290
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 691d652e803f5134cb2b7a7d48557e9a
+      internalID: -708793026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_23
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 6290
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77539a5e5c1f46d49bf80f95ec610f66
+      internalID: 1990081357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_24
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 6290
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11172247d9d59ec4190201e2fabc28f3
+      internalID: -1814378702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_25
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5920
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6d8d207ac81772459098fa1c0e16421
+      internalID: -1402413207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_26
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 5920
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11c81bc178eb9f14dbd223828c656244
+      internalID: -909906773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_27
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 5920
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b26f325aab2f3f43bca85273d5bab1d
+      internalID: -96282837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_28
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 5920
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9ff44e5f004ef1479b6c9942d2e4f3a
+      internalID: -619272851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_29
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 5920
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36f9d58334e4f254ebdda8338d0ed419
+      internalID: 505755162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5550
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71a6ced7deb3e6e4a9254434239c6c0d
+      internalID: -1641114058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_31
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 5550
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4b3f5fb13c9f854ba596b92c4e69273
+      internalID: 542636001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_32
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 5550
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81be6e338e162f740bd6c8156bc42143
+      internalID: -1907049706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_33
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 5550
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30f25413412196d4b906cab1b3c17c70
+      internalID: -774087513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_34
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 5550
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 809e53a0155d7a94989cc69dd5ab5d91
+      internalID: -644635487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5180
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffca8074d9ee4ea46a6c9ee90734654f
+      internalID: 1868305280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_36
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 5180
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca9d14fa1c950434893386f67f906a2d
+      internalID: -1566889670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_37
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 5180
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59f98749299de1b42bc9721bc9a6cd2c
+      internalID: 1966339981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_38
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 5180
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2739d602fdabe2f448afef6e7725d187
+      internalID: 266302950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_39
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 5180
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e256ef5fc622ba04f92421306ebd0ce5
+      internalID: -1128401425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4810
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc14cbd57ff88f8499b87a14e469c163
+      internalID: 151826967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_41
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 4810
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f20ac514a9b0b24c8e6cdd37bc6effe
+      internalID: 1316515761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_42
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 4810
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a51365414d55d34cae9a81b20c4d431
+      internalID: 495233272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_43
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 4810
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b2381b284ded4c4899a07db4471e86a
+      internalID: -285371184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_44
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 4810
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc39950eb8acc7d4e87319076c6333b6
+      internalID: 1295065204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_45
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4440
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 736c11b5cd0266143b6f76d6f2a4560d
+      internalID: -1255199593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_46
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 4440
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1bf3853561a6d145af2f72ffd8a807b
+      internalID: -1040647217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_47
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 4440
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbedc79a655dec6439fd2e8b4e76e3e5
+      internalID: -1227770582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_48
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 4440
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 471e41f33f2af7841891b222910a2251
+      internalID: 1263580475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_49
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 4440
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5b1bbe0a6e01d048bc62fdfa5fdb2cb
+      internalID: 1089642979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_50
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4070
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8e4f20a8542bdf46b816beff84ee980
+      internalID: -746888613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_51
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 4070
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef9345bc27d46134a9d6fbbf42bd0322
+      internalID: -1754095454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_52
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 4070
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1e0f13ecf2af1541b21dfa34e26a2ae
+      internalID: 572230751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_53
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 4070
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0cddcb5009b05b48a85e2487301cd90
+      internalID: -954371240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_54
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 4070
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b737a0172440c634cbc71f3d0ae8cc40
+      internalID: 952575617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_55
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3700
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2246bc22524df02479316cc02681132d
+      internalID: 1266146134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_56
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 3700
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cc96684fa04a6046872cc01d1cfc475
+      internalID: 1004830808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_57
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 3700
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6815b5dad66a4f64bbb38632952d4a20
+      internalID: 140989205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_58
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 3700
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34b15f6bf705e264fa9bf793acc8d751
+      internalID: -1413636255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_59
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 3700
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b6e1836bf832a441b0822588015e369
+      internalID: -1214720187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_60
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3330
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4dde3344010d62b46968a89b2eea3418
+      internalID: 2074187976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_61
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 3330
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8528ee9cfd07e2d499283649508f0928
+      internalID: -661678593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_62
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 3330
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c7f3b4ee0733154cbe7dd982532ddd7
+      internalID: -2142892639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_63
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 3330
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d72df00e0abeb845a9b2884995552c5
+      internalID: 1164924211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_64
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 3330
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f35d83b32c6fa164599c47444def0a7d
+      internalID: -762767268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_65
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2960
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebf04fd81b5b71d4b906e8b29c035748
+      internalID: -738320967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_66
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 2960
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44c92a41a20965343b71c6ebdb698091
+      internalID: -226959156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_67
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 2960
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e49d184d3738094cac59add616caf4a
+      internalID: -429808938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_68
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 2960
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55417b46cbfdcac498778442c49d35ea
+      internalID: -1920270900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_69
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 2960
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58831d42777fda2478c1648da2a29a41
+      internalID: -45384113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_70
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2590
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2dbea8ccd5393cb44a764b6cc875a020
+      internalID: 240639983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_71
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 2590
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14d2d71acebea8a49915e998fdb4226e
+      internalID: -200692485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_72
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 2590
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 389ad7b395501bf4a8a5e6551be0c531
+      internalID: -1676731059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_73
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 2590
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d83204dce96c20f47bf6bfa994f33882
+      internalID: -934558075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_74
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 2590
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ff7a507fb70223418dfaa8a3da0cc2f
+      internalID: 1576547937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_75
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2220
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5374559e4aca5ef438f510f89047a4c2
+      internalID: -468474525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_76
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 2220
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c59e18caff58b144abe0b882e594c8a
+      internalID: 663562137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_77
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 2220
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb091f6cf98679946acd8d04d795f488
+      internalID: -2142964493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_78
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 2220
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c9929af344b3c64fa17a26a43bb6f99
+      internalID: -731402273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_79
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 2220
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d52cdba697873a4fa58fa745346f722
+      internalID: -1785106227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_80
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1850
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85984842a9c58374c89dfca7aefbfc77
+      internalID: -841705324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_81
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 1850
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c74ae600f57a90645976f9495a0c8398
+      internalID: 930502111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_82
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 1850
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cfc2f046e7f0a64b8b58b312832c6cf
+      internalID: -183845413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_83
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 1850
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cef89f317f8e7d429a04afffe1af9c9
+      internalID: 1884974057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_84
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 1850
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b82aa548e0df1f49a7bfa7b8c6a63ab
+      internalID: 1664128372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_85
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1480
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3a67c3f9386c574f89cba0f058f4ce4
+      internalID: -1336989508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_86
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 1480
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64624b97ef9267a40b0a418931971663
+      internalID: 1271606547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_87
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 1480
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afa8e5f5d98dfb34a882c3431492f60c
+      internalID: 594255508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_88
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 1480
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f121fd539ccedcc40a1c41ca4dcd668b
+      internalID: -1271812642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_89
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 1480
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0881a8dca11a8048bedff4b3e55bfac
+      internalID: -736266763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_90
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1110
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d558086cf6243e94989ded0707a85f96
+      internalID: -2027052005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_91
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 1110
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abe3bf3ccc12f5848a23b2334cc0bee2
+      internalID: -1577828238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_92
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 1110
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 031072737323d3d4eba34eaeb2d30345
+      internalID: -135426614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_93
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 1110
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5e219b7ac5b2674ea7838d995a739ad
+      internalID: -1041886166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_94
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 1110
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe70391fb47769844849c2a812524b73
+      internalID: -1781892099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_95
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 740
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35392ba2b8fdbfa45b1de28c90a2dfbb
+      internalID: -1196562196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_96
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 740
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f65aa23314edd641916ca281b83c00e
+      internalID: 1548659509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_97
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 740
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 581aff7fa8d98c748bf22975eaa202e5
+      internalID: 165247269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_98
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 740
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9e209115b4d91a40bcdbcb4d58139ab
+      internalID: 1599680594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_99
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 740
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97993c3ec83d93949b1efbc74f45d890
+      internalID: -172278840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_100
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 370
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b374242b2fa45443916e32e6bd5cd80
+      internalID: 1860450602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_101
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 370
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc2bbb2996474ca42a550d63b21760e2
+      internalID: -1376245284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_102
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 370
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ef3c11d22473ae419e41b9ad955a342
+      internalID: 1920558388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_103
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 370
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 627c28a128f897442a6e4c7c6a657d2d
+      internalID: 1317371360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_104
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 370
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0be9f79b2f86d7549a749d9914233356
+      internalID: -1602397738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_105
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c4d684236e26d5458c060de8803b423
+      internalID: 1468722280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_106
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 0
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa0a5552c943ac642a56ab60d1972dec
+      internalID: -483918336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_107
+      rect:
+        serializedVersion: 2
+        x: 1844
+        y: 0
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c85c9f37a9776494b91408754ef5e7d0
+      internalID: -924428491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_108
+      rect:
+        serializedVersion: 2
+        x: 2766
+        y: 0
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f179de61cb101824a9114ab5c3580ae2
+      internalID: -1216547047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EntitiyDeleteHelpGif1-spritesheet_109
+      rect:
+        serializedVersion: 2
+        x: 3688
+        y: 0
+        width: 922
+        height: 370
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38afa942bbef6b7418ea2e2561a1dc41
+      internalID: 1230896415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      EntitiyDeleteHelpGif1-spritesheet_0: -1164517745
+      EntitiyDeleteHelpGif1-spritesheet_1: -1035073750
+      EntitiyDeleteHelpGif1-spritesheet_10: 969332171
+      EntitiyDeleteHelpGif1-spritesheet_100: 1860450602
+      EntitiyDeleteHelpGif1-spritesheet_101: -1376245284
+      EntitiyDeleteHelpGif1-spritesheet_102: 1920558388
+      EntitiyDeleteHelpGif1-spritesheet_103: 1317371360
+      EntitiyDeleteHelpGif1-spritesheet_104: -1602397738
+      EntitiyDeleteHelpGif1-spritesheet_105: 1468722280
+      EntitiyDeleteHelpGif1-spritesheet_106: -483918336
+      EntitiyDeleteHelpGif1-spritesheet_107: -924428491
+      EntitiyDeleteHelpGif1-spritesheet_108: -1216547047
+      EntitiyDeleteHelpGif1-spritesheet_109: 1230896415
+      EntitiyDeleteHelpGif1-spritesheet_11: -1337242738
+      EntitiyDeleteHelpGif1-spritesheet_12: -1166824273
+      EntitiyDeleteHelpGif1-spritesheet_13: -1217646552
+      EntitiyDeleteHelpGif1-spritesheet_14: 1158831192
+      EntitiyDeleteHelpGif1-spritesheet_15: 1800102273
+      EntitiyDeleteHelpGif1-spritesheet_16: -635227313
+      EntitiyDeleteHelpGif1-spritesheet_17: 1389979608
+      EntitiyDeleteHelpGif1-spritesheet_18: 2054587065
+      EntitiyDeleteHelpGif1-spritesheet_19: -1092147732
+      EntitiyDeleteHelpGif1-spritesheet_2: -698293636
+      EntitiyDeleteHelpGif1-spritesheet_20: 614059912
+      EntitiyDeleteHelpGif1-spritesheet_21: -1107454680
+      EntitiyDeleteHelpGif1-spritesheet_22: -708793026
+      EntitiyDeleteHelpGif1-spritesheet_23: 1990081357
+      EntitiyDeleteHelpGif1-spritesheet_24: -1814378702
+      EntitiyDeleteHelpGif1-spritesheet_25: -1402413207
+      EntitiyDeleteHelpGif1-spritesheet_26: -909906773
+      EntitiyDeleteHelpGif1-spritesheet_27: -96282837
+      EntitiyDeleteHelpGif1-spritesheet_28: -619272851
+      EntitiyDeleteHelpGif1-spritesheet_29: 505755162
+      EntitiyDeleteHelpGif1-spritesheet_3: 2117537125
+      EntitiyDeleteHelpGif1-spritesheet_30: -1641114058
+      EntitiyDeleteHelpGif1-spritesheet_31: 542636001
+      EntitiyDeleteHelpGif1-spritesheet_32: -1907049706
+      EntitiyDeleteHelpGif1-spritesheet_33: -774087513
+      EntitiyDeleteHelpGif1-spritesheet_34: -644635487
+      EntitiyDeleteHelpGif1-spritesheet_35: 1868305280
+      EntitiyDeleteHelpGif1-spritesheet_36: -1566889670
+      EntitiyDeleteHelpGif1-spritesheet_37: 1966339981
+      EntitiyDeleteHelpGif1-spritesheet_38: 266302950
+      EntitiyDeleteHelpGif1-spritesheet_39: -1128401425
+      EntitiyDeleteHelpGif1-spritesheet_4: 1308453839
+      EntitiyDeleteHelpGif1-spritesheet_40: 151826967
+      EntitiyDeleteHelpGif1-spritesheet_41: 1316515761
+      EntitiyDeleteHelpGif1-spritesheet_42: 495233272
+      EntitiyDeleteHelpGif1-spritesheet_43: -285371184
+      EntitiyDeleteHelpGif1-spritesheet_44: 1295065204
+      EntitiyDeleteHelpGif1-spritesheet_45: -1255199593
+      EntitiyDeleteHelpGif1-spritesheet_46: -1040647217
+      EntitiyDeleteHelpGif1-spritesheet_47: -1227770582
+      EntitiyDeleteHelpGif1-spritesheet_48: 1263580475
+      EntitiyDeleteHelpGif1-spritesheet_49: 1089642979
+      EntitiyDeleteHelpGif1-spritesheet_5: -1614041908
+      EntitiyDeleteHelpGif1-spritesheet_50: -746888613
+      EntitiyDeleteHelpGif1-spritesheet_51: -1754095454
+      EntitiyDeleteHelpGif1-spritesheet_52: 572230751
+      EntitiyDeleteHelpGif1-spritesheet_53: -954371240
+      EntitiyDeleteHelpGif1-spritesheet_54: 952575617
+      EntitiyDeleteHelpGif1-spritesheet_55: 1266146134
+      EntitiyDeleteHelpGif1-spritesheet_56: 1004830808
+      EntitiyDeleteHelpGif1-spritesheet_57: 140989205
+      EntitiyDeleteHelpGif1-spritesheet_58: -1413636255
+      EntitiyDeleteHelpGif1-spritesheet_59: -1214720187
+      EntitiyDeleteHelpGif1-spritesheet_6: -1395380543
+      EntitiyDeleteHelpGif1-spritesheet_60: 2074187976
+      EntitiyDeleteHelpGif1-spritesheet_61: -661678593
+      EntitiyDeleteHelpGif1-spritesheet_62: -2142892639
+      EntitiyDeleteHelpGif1-spritesheet_63: 1164924211
+      EntitiyDeleteHelpGif1-spritesheet_64: -762767268
+      EntitiyDeleteHelpGif1-spritesheet_65: -738320967
+      EntitiyDeleteHelpGif1-spritesheet_66: -226959156
+      EntitiyDeleteHelpGif1-spritesheet_67: -429808938
+      EntitiyDeleteHelpGif1-spritesheet_68: -1920270900
+      EntitiyDeleteHelpGif1-spritesheet_69: -45384113
+      EntitiyDeleteHelpGif1-spritesheet_7: -1668086688
+      EntitiyDeleteHelpGif1-spritesheet_70: 240639983
+      EntitiyDeleteHelpGif1-spritesheet_71: -200692485
+      EntitiyDeleteHelpGif1-spritesheet_72: -1676731059
+      EntitiyDeleteHelpGif1-spritesheet_73: -934558075
+      EntitiyDeleteHelpGif1-spritesheet_74: 1576547937
+      EntitiyDeleteHelpGif1-spritesheet_75: -468474525
+      EntitiyDeleteHelpGif1-spritesheet_76: 663562137
+      EntitiyDeleteHelpGif1-spritesheet_77: -2142964493
+      EntitiyDeleteHelpGif1-spritesheet_78: -731402273
+      EntitiyDeleteHelpGif1-spritesheet_79: -1785106227
+      EntitiyDeleteHelpGif1-spritesheet_8: 37776888
+      EntitiyDeleteHelpGif1-spritesheet_80: -841705324
+      EntitiyDeleteHelpGif1-spritesheet_81: 930502111
+      EntitiyDeleteHelpGif1-spritesheet_82: -183845413
+      EntitiyDeleteHelpGif1-spritesheet_83: 1884974057
+      EntitiyDeleteHelpGif1-spritesheet_84: 1664128372
+      EntitiyDeleteHelpGif1-spritesheet_85: -1336989508
+      EntitiyDeleteHelpGif1-spritesheet_86: 1271606547
+      EntitiyDeleteHelpGif1-spritesheet_87: 594255508
+      EntitiyDeleteHelpGif1-spritesheet_88: -1271812642
+      EntitiyDeleteHelpGif1-spritesheet_89: -736266763
+      EntitiyDeleteHelpGif1-spritesheet_9: -1323916129
+      EntitiyDeleteHelpGif1-spritesheet_90: -2027052005
+      EntitiyDeleteHelpGif1-spritesheet_91: -1577828238
+      EntitiyDeleteHelpGif1-spritesheet_92: -135426614
+      EntitiyDeleteHelpGif1-spritesheet_93: -1041886166
+      EntitiyDeleteHelpGif1-spritesheet_94: -1781892099
+      EntitiyDeleteHelpGif1-spritesheet_95: -1196562196
+      EntitiyDeleteHelpGif1-spritesheet_96: 1548659509
+      EntitiyDeleteHelpGif1-spritesheet_97: 165247269
+      EntitiyDeleteHelpGif1-spritesheet_98: 1599680594
+      EntitiyDeleteHelpGif1-spritesheet_99: -172278840
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
