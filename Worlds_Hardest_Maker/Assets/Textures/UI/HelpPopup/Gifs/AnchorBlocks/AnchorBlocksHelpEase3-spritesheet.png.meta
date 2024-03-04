@@ -1,0 +1,624 @@
+fileFormatVersion: 2
+guid: 0aaab3f8725f0eb4eaaccabbe2aa9923
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 380
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2bcca2c3a979af4b8371f4b9aefd162
+      internalID: 1346523644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 380
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbc910bd8809cdd40a7d1f9f0c804206
+      internalID: 690354287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 380
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86bfb274bc5236e44b35265b128bd461
+      internalID: -1016181034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 380
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed2efc13fd21bad4082d9a7d541615e9
+      internalID: -1768602172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 380
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 801bfff3708ecc44c99390c28cca534d
+      internalID: 1233544443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 285
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e808c8ac56dd734eb8db7974e16e6ff
+      internalID: 1641433076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 285
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fcac83c5516790e4fb2507ffc050f9c5
+      internalID: 1904984993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 285
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: edabe76c098b3fb40bf65daf5fc8cbeb
+      internalID: -1323806621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 285
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3aee7b7ade4e817418cc989046eb409c
+      internalID: -224727645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 285
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ccd1b4b49d111f409902aafe66fa20f
+      internalID: -966735870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 190
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c99e07f6b5fb7a14398775e8be3db869
+      internalID: -1532120173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 190
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a8a94de4f49bf04aa9204426914c9b1
+      internalID: -354508145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 190
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b298760d8df59c341990603c8900c74e
+      internalID: -1267163702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 190
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a7a3f2eb76107b4a931f124194fe0b0
+      internalID: 2111615973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 190
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a681da6e4b73c7744beae17b93ece0f1
+      internalID: -1587911077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 95
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35b5d1424c17de14787737ce3739e616
+      internalID: 1288627939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 95
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27dadcc3eede4984a83789e9c4b9f012
+      internalID: 1417388682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 95
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f68c262a9681f924e8784abf833b572b
+      internalID: -880469532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 405
+        y: 95
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3f4870aa8c790947a04f50fb3542cd9
+      internalID: -755391250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 95
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fee7a7fc17cf3f43ac762723a032a2c
+      internalID: 419313658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4498008894054c4499d61a5e4405f0a1
+      internalID: -1616612028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AnchorBlocksHelpEase3-spritesheet_21
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 0
+        width: 135
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e422d93de5da73d4a9768ff7f48aeb8c
+      internalID: -942218331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      AnchorBlocksHelpEase3-spritesheet_0: 1346523644
+      AnchorBlocksHelpEase3-spritesheet_1: 690354287
+      AnchorBlocksHelpEase3-spritesheet_10: -1532120173
+      AnchorBlocksHelpEase3-spritesheet_11: -354508145
+      AnchorBlocksHelpEase3-spritesheet_12: -1267163702
+      AnchorBlocksHelpEase3-spritesheet_13: 2111615973
+      AnchorBlocksHelpEase3-spritesheet_14: -1587911077
+      AnchorBlocksHelpEase3-spritesheet_15: 1288627939
+      AnchorBlocksHelpEase3-spritesheet_16: 1417388682
+      AnchorBlocksHelpEase3-spritesheet_17: -880469532
+      AnchorBlocksHelpEase3-spritesheet_18: -755391250
+      AnchorBlocksHelpEase3-spritesheet_19: 419313658
+      AnchorBlocksHelpEase3-spritesheet_2: -1016181034
+      AnchorBlocksHelpEase3-spritesheet_20: -1616612028
+      AnchorBlocksHelpEase3-spritesheet_21: -942218331
+      AnchorBlocksHelpEase3-spritesheet_3: -1768602172
+      AnchorBlocksHelpEase3-spritesheet_4: 1233544443
+      AnchorBlocksHelpEase3-spritesheet_5: 1641433076
+      AnchorBlocksHelpEase3-spritesheet_6: 1904984993
+      AnchorBlocksHelpEase3-spritesheet_7: -1323806621
+      AnchorBlocksHelpEase3-spritesheet_8: -224727645
+      AnchorBlocksHelpEase3-spritesheet_9: -966735870
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

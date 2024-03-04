@@ -2331,7 +2331,7 @@ PrefabInstance:
     - target: {fileID: 5786874087405903207, guid: e589867021c51004a96c4bc1971a33bd, type: 3}
       propertyPath: popup
       value: 
-      objectReference: {fileID: 6358241677701526424, guid: 679f08353b9f3e34da422f06fd81a4b7, type: 3}
+      objectReference: {fileID: 5212344717990427745, guid: 90f83036c3331cf4e9d047d9667fa100, type: 3}
     - target: {fileID: 5786874087405903207, guid: e589867021c51004a96c4bc1971a33bd, type: 3}
       propertyPath: popupContainer
       value: 
@@ -20999,7 +20999,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 40.20111}
+  m_AnchoredPosition: {x: 0, y: 39.371094}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1786665322
