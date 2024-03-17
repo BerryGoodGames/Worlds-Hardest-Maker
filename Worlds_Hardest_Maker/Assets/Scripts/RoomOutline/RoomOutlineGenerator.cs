@@ -20,8 +20,6 @@ public class RoomOutlineGenerator : MonoBehaviour
             return;
         }
 
-        // RoomOutline newOutline = Instantiate(roomOutlinePrefab, Vector2.zero, Quaternion.identity, transform);
-        // newOutline.SetDimensions(ROOM_WIDTH, ROOM_HEIGHT);
         float zoom = camera.GetComponent<MapController>().ZoomLimits.Max;
         CalcSize(zoom);
     }
