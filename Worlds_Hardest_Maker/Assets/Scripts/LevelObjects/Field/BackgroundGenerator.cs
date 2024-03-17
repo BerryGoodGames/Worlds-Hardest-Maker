@@ -4,7 +4,7 @@ using UnityEngine;
 ///     Consistent seamless background
 ///     <para>Attach to main camera</para>
 /// </summary>
-public class LevelBackground : MonoBehaviour
+public class BackgroundGenerator : MonoBehaviour
 {
     [SerializeField] private GameObject backgroundTile;
     [SerializeField] private Transform container;
@@ -12,14 +12,13 @@ public class LevelBackground : MonoBehaviour
     [SerializeField] private Vector2 tileSize = Vector2.one;
     private Camera cam;
     private Vector2 prevPosition;
-    private float height;
-    private float width;
 
     private void Start()
     {
         cam = GetComponent<Camera>();
 
-        CalcSize(TryGetComponent(out MapController mapController) ? mapController.ZoomLimits.Max : defaultMaxZoom);
+        float zoom = TryGetComponent(out MapController mapController) ? mapController.ZoomLimits.Max : defaultMaxZoom;
+        CalcSize(zoom);
     }
 
     private void Update()
@@ -37,8 +36,8 @@ public class LevelBackground : MonoBehaviour
 
         Vector2 containerPos = container.position;
 
-        height = zoom;
-        width = height * cam.aspect;
+        float height = zoom;
+        float width = height * cam.aspect;
         for (float i = Mathf.Floor(-width + 1); i < Mathf.Ceil(width + 2); i += tileSize.x)
         {
             for (float j = Mathf.Floor(-height + 1); j < Mathf.Ceil(height + 2); j += tileSize.y)
@@ -56,6 +55,4 @@ public class LevelBackground : MonoBehaviour
             }
         }
     }
-
-    public void CalcSize() => CalcSize(cam.orthographicSize);
 }
