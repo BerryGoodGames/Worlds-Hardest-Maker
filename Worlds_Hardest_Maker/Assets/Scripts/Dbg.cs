@@ -86,6 +86,7 @@ public class Dbg : MonoBehaviour
     {
         if (!Enabled) return;
 
+        GameSpeed = Math.Max(GameSpeed, 0.01f);
         Time.timeScale = GameSpeed;
 
         try

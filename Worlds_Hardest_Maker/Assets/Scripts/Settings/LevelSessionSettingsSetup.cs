@@ -14,12 +14,16 @@ public class LevelSessionSettingsSetup : MonoBehaviour
 
     private void SetToolbarSize(float size)
     {
+        if (toolbarSpacing == null) return;
+        
         toolbarSpacing.ToolbarHeight = size;
         toolbarSpacing.UpdateSize();
     }
 
     private void SetInfobarSize(float size)
     {
+        if (infobarPlayResize == null || infobarEditResize == null) return;
+        
         infobarPlayResize.InfobarHeight = size;
         infobarPlayResize.UpdateSize();
         infobarEditResize.InfobarHeight = size;
