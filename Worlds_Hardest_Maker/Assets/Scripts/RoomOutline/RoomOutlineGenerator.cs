@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RoomOutlineGenerator : MonoBehaviour
 {
-    private const int ROOM_WIDTH = 23;
-    private const int ROOM_HEIGHT = 13;
+    private const int ROOM_WIDTH = 13;
+    private const int ROOM_HEIGHT = 6;
 
     [SerializeField] [InitializationField] [MustBeAssigned] private RoomOutline roomOutlinePrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private Camera camera;
