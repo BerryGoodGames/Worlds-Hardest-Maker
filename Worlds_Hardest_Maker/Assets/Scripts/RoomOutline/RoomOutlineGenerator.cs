@@ -1,14 +1,14 @@
-using System;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class RoomOutlineGenerator : MonoBehaviour
 {
-    private const int ROOM_WIDTH = 13;
-    private const int ROOM_HEIGHT = 6;
+    public const int ROOM_WIDTH = 13;
+    public const int ROOM_HEIGHT = 13;
 
     [SerializeField] [InitializationField] [MustBeAssigned] private RoomOutline roomOutlinePrefab;
-    [SerializeField] [InitializationField] [MustBeAssigned] private Camera camera;
+    [FormerlySerializedAs("camera")] [SerializeField] [InitializationField] [MustBeAssigned] private Camera cam;
     
     private Vector2 prevPosition;
     
@@ -20,14 +20,14 @@ public class RoomOutlineGenerator : MonoBehaviour
             return;
         }
 
-        float zoom = camera.GetComponent<MapController>().ZoomLimits.Max;
+        float zoom = cam.GetComponent<MapController>().ZoomLimits.Max;
         CalcSize(zoom);
     }
 
     private void Update()
     {
-        Vector2 camPosition = camera.transform.position;
-        if (prevPosition != (Vector2)camera.transform.position)
+        Vector2 camPosition = cam.transform.position;
+        if (prevPosition != (Vector2)cam.transform.position)
         {
             transform.position = new(
                 Mathf.Round(camPosition.x / ROOM_WIDTH) * ROOM_WIDTH, 
@@ -44,7 +44,7 @@ public class RoomOutlineGenerator : MonoBehaviour
         foreach (Transform child in t) Destroy(child.gameObject);
 
         float height = zoom;
-        float width = height * camera.aspect;
+        float width = height * cam.aspect;
 
         float minX = (Mathf.Ceil(-width / ROOM_WIDTH) - 1) * ROOM_WIDTH;
         float maxX = (Mathf.Ceil(width / ROOM_WIDTH) + 1) * ROOM_WIDTH;

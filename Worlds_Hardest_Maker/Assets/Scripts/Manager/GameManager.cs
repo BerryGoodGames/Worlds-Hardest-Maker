@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    private static void SetCameraUnitWidth(float width)
+    public static void SetCameraUnitWidth(float width)
     {
         Camera cam = Camera.main;
         if (cam != null) cam.orthographicSize = width * 0.5f / cam.aspect;
