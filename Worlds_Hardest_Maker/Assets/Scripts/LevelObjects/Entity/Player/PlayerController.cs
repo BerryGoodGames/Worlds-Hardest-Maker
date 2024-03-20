@@ -140,10 +140,10 @@ public class PlayerController : EntityController
         if (LevelSessionEditManager.Instance.Playing)
         {
             if (ice) IcePhysics();
-            else UpdateMovement(ref totalMovement);
+            else AddMovement(ref totalMovement);
         }
 
-        UpdateConveyorMovement(ref totalMovement);
+        AddConveyorMovement(ref totalMovement);
 
         if (totalMovement != Vector2.zero) Rb.MovePosition(Rb.position + totalMovement);
     }
@@ -185,7 +185,7 @@ public class PlayerController : EntityController
         Rb.AddForce(force * LevelSettings.Instance.IceFriction * movementInput, ForceMode2D.Force);
     }
 
-    private void UpdateMovement(ref Vector2 totalMovement)
+    private void AddMovement(ref Vector2 totalMovement)
     {
         Rb.velocity = Vector2.zero;
 
@@ -201,7 +201,7 @@ public class PlayerController : EntityController
         extraMovementInput = Vector2.zero;
     }
 
-    private void UpdateConveyorMovement(ref Vector2 totalMovement)
+    private void AddConveyorMovement(ref Vector2 totalMovement)
     {
         ConveyorController conveyor = GetCurrentConveyor();
         if (conveyor == null) return;
@@ -626,6 +626,23 @@ public class PlayerController : EntityController
             key.Collected = false;
             key.Animator.SetBool(pickedUp, false);
         }
+    }
+
+    public Vector2Int GetCurrentRoom()
+    {
+        Vector2 position = transform.position;
+        return new(
+            Mathf.RoundToInt(position.x / RoomOutlineGenerator.ROOM_WIDTH),
+            Mathf.RoundToInt(position.y / RoomOutlineGenerator.ROOM_HEIGHT)
+        );
+    }
+    
+    public Vector2Int GetStartRoom()
+    {
+        return new(
+            Mathf.RoundToInt(StartPos.x / RoomOutlineGenerator.ROOM_WIDTH),
+            Mathf.RoundToInt(StartPos.y / RoomOutlineGenerator.ROOM_HEIGHT)
+        );
     }
 
     private void InitComponents()
