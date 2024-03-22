@@ -1,7 +1,7 @@
 using MyBox;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewKeyDoorMode", menuName = "ScriptableObjects/KeyDoorMode")]
+[CreateAssetMenu(fileName = "NewKeyDoorMode", menuName = "ScriptableObjects/EditMode/KeyDoorMode")]
 public sealed class KeyDoorMode : FieldMode
 {
     [Separator] public KeyColor KeyColor;

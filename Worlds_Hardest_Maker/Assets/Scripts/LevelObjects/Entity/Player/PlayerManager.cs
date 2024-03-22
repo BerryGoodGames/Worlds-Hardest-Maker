@@ -108,6 +108,9 @@ public class PlayerManager : MonoBehaviour
         return false;
     }
 
+    public static Vector2Int GetCurrentRoom() => Instance.Player != null ? Instance.Player.GetCurrentRoom() : Vector2Int.zero;
+    public static Vector2Int GetStartRoom() => Instance.Player != null ? Instance.Player.GetStartRoom() : Vector2Int.zero;
+
     public static PlayerController InstantiatePlayer(Vector2 position)
     {
         PlayerController newPlayer = Instantiate(

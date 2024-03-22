@@ -24,23 +24,23 @@ public class CameraPlayController : MonoBehaviour
     {
         if (LevelSessionEditManager.Instance.Editing) return;
         
-        Vector2Int playerRoomPos = PlayerManager.Instance.Player.GetCurrentRoom();
+        Vector2Int playerRoomPos = PlayerManager.GetCurrentRoom();
         if (currentRoom.x == playerRoomPos.x && currentRoom.y == playerRoomPos.y) return;
         
-        currentRoom = PlayerManager.Instance.Player.GetCurrentRoom();
+        currentRoom = PlayerManager.GetCurrentRoom();
         JumpToRoom(currentRoom);
     }
     
     private void JumpToStart()
     {
         // calculate zoom
-        JumpInfo jumpInfo = GetCurrentJumpInfo();
+        CameraPlayJumpInfo jumpInfo = CameraPlayJumpInfo.GetCurrentJumpInfo(cam);
         
         camOrthoSize = Mathf.Max(jumpInfo.WidthZoom, jumpInfo.HeightZoom);
         if (smoothMovement) cam.DOOrthoSize(camOrthoSize, movementDuration).SetEase(Ease.InOutCubic);
         else cam.orthographicSize = camOrthoSize;
         
-        currentRoom = PlayerManager.Instance.Player.GetStartRoom();
+        currentRoom = PlayerManager.GetStartRoom();
         JumpToRoom(currentRoom);
     }
 
@@ -49,11 +49,11 @@ public class CameraPlayController : MonoBehaviour
         const int roomWidth = RoomOutlineGenerator.ROOM_WIDTH;
         const int roomHeight = RoomOutlineGenerator.ROOM_HEIGHT;
         
-        JumpInfo jumpInfo = GetCurrentJumpInfo();
+        CameraPlayJumpInfo info = CameraPlayJumpInfo.GetCurrentJumpInfo(cam);
         
-        float yOffset = jumpInfo.HeightZoom > jumpInfo.WidthZoom
+        float yOffset = info.HeightZoom > info.WidthZoom
             ? roomHeight * 0.5f - camOrthoSize
-            : -JumpInfo.InfobarHeight * camOrthoSize / jumpInfo.ScreenHeight;
+            : -CameraPlayJumpInfo.InfobarHeight * camOrthoSize / info.ScreenHeight;
         
         Transform t = transform;
         Vector3 newPosition = new(
@@ -66,28 +66,32 @@ public class CameraPlayController : MonoBehaviour
         if (smoothMovement) t.DOMove(newPosition, movementDuration).SetEase(Ease.InOutCubic);
         else t.position = newPosition;
     }
-
-    private JumpInfo GetCurrentJumpInfo()
-    {
-        float screenHeight = ((RectTransform)ReferenceManager.Instance.Canvas.transform).rect.height;
-        return new JumpInfo
-        {
-            WidthZoom = RoomOutlineGenerator.ROOM_WIDTH * 0.5f / cam.aspect,
-            HeightZoom = RoomOutlineGenerator.ROOM_HEIGHT * 0.5f / (1 - JumpInfo.InfobarHeight / screenHeight),
-            ScreenHeight = screenHeight,
-        };
-    }
     
     private void OnDestroy()
     {
         PlayManager.Instance.OnSwitchToPlay -= JumpToStart;
     }
+}
 
-    private class JumpInfo
+public sealed class CameraPlayJumpInfo
+{
+    public const float InfobarHeight = 70;
+    public float WidthZoom;
+    public float HeightZoom;
+    public float ScreenWidth;
+    public float ScreenHeight;
+    
+    public static CameraPlayJumpInfo GetCurrentJumpInfo(Camera cam)
     {
-        public const float InfobarHeight = 70;
-        public float WidthZoom;
-        public float HeightZoom;
-        public float ScreenHeight;
+        Rect screen = ((RectTransform)ReferenceManager.Instance.Canvas.transform).rect;
+        float screenWidth = screen.width;
+        float screenHeight = screen.height;
+        return new CameraPlayJumpInfo
+        {
+            WidthZoom = RoomOutlineGenerator.ROOM_WIDTH * 0.5f / cam.aspect,
+            HeightZoom = RoomOutlineGenerator.ROOM_HEIGHT * 0.5f / (1 - InfobarHeight / screenHeight),
+            ScreenWidth = screenWidth,
+            ScreenHeight = screenHeight,
+        };
     }
 }

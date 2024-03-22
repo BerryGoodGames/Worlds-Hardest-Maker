@@ -1,7 +1,7 @@
 using MyBox;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewKeyMode", menuName = "ScriptableObjects/KeyMode")]
+[CreateAssetMenu(fileName = "NewKeyMode", menuName = "ScriptableObjects/EditMode/KeyMode")]
 public sealed class KeyMode : EntityMode
 {
     [Separator] public KeyColor KeyColor;

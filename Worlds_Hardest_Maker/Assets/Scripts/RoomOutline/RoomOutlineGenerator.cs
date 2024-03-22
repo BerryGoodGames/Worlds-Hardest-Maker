@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 public class RoomOutlineGenerator : MonoBehaviour
 {
     public const int ROOM_WIDTH = 13;
-    public const int ROOM_HEIGHT = 13;
+    public const int ROOM_HEIGHT = 11;
 
     [SerializeField] [InitializationField] [MustBeAssigned] private RoomOutline roomOutlinePrefab;
     [FormerlySerializedAs("camera")] [SerializeField] [InitializationField] [MustBeAssigned] private Camera cam;
@@ -14,11 +14,8 @@ public class RoomOutlineGenerator : MonoBehaviour
     
     private void Start()
     {
-        if (!LevelSessionManager.Instance.IsEdit)
-        {
-            Destroy(this);
-            return;
-        }
+        PlayManager.Instance.OnSwitchToPlay += Disable;
+        PlayManager.Instance.OnSwitchToEdit += Enable;
 
         float zoom = cam.GetComponent<MapController>().ZoomLimits.Max;
         CalcSize(zoom);
@@ -64,4 +61,15 @@ public class RoomOutlineGenerator : MonoBehaviour
             }
         }
     }
+    
+    
+
+    private void OnDestroy()
+    {
+        PlayManager.Instance.OnSwitchToPlay -= Disable;
+        PlayManager.Instance.OnSwitchToEdit -= Enable;
+    }
+    
+    private void Enable() => gameObject.SetActive(true);
+    private void Disable() => gameObject.SetActive(false);
 }

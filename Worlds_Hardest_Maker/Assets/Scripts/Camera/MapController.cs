@@ -20,30 +20,10 @@ public class MapController : MonoBehaviour
 
     private void Update()
     {
+        if (LevelSessionEditManager.Instance.Playing) return;
+        
         // right click drag to pan
-        if (KeyBinds.GetKeyBind("Camera_Pan"))
-        {
-            if (lastMousePos == null)
-            {
-                // save mouse pos in first frame
-                lastMousePos = Input.mousePosition;
-            }
-            else
-            {
-                // move camera the same amount as the mouse moved since the last frame
-                Vector2 lastPos = (Vector2)lastMousePos;
-                Vector2 currentMousePos = Input.mousePosition;
-
-                Vector2 movement = lastPos - currentMousePos;
-                movement = new(UnitPixelUtils.PixelToUnit(movement.x), UnitPixelUtils.PixelToUnit(movement.y));
-                if (EventSystem.current.IsPointerOverGameObject()) movement = Vector2.zero;
-
-                transform.position += (Vector3)movement;
-
-                lastMousePos = currentMousePos;
-            }
-        }
-
+        if (KeyBinds.GetKeyBind("Camera_Pan")) PanCamera();
         if (KeyBinds.GetKeyBindUp("Camera_Pan")) lastMousePos = null;
 
         float zoomInput = EventSystem.current.IsPointerOverGameObject() ? 0 : -Input.GetAxis("Mouse ScrollWheel");
@@ -75,6 +55,25 @@ public class MapController : MonoBehaviour
         cam.DOOrthoSize(newOrthoSize, zoomAnimDuration);
         t.DOKill();
         t.DOMove(new Vector3(newCamPos.x, newCamPos.y, t.position.z), zoomAnimDuration);
+    }
+
+    private void PanCamera()
+    {
+        if (lastMousePos != null)
+        {
+            // move camera the same amount as the mouse moved since the last frame
+            Vector2 lastPos = (Vector2)lastMousePos;
+            Vector2 currentMousePos = Input.mousePosition;
+
+            Vector2 movement = lastPos - currentMousePos;
+            movement = new(UnitPixelUtils.PixelToUnit(movement.x), UnitPixelUtils.PixelToUnit(movement.y));
+            if (EventSystem.current.IsPointerOverGameObject()) movement = Vector2.zero;
+
+            transform.position += (Vector3)movement;
+
+        }
+            
+        lastMousePos = Input.mousePosition;
     }
 
     private void Start() => cam = GetComponent<Camera>();

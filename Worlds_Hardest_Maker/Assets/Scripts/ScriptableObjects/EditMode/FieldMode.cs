@@ -1,7 +1,7 @@
 using MyBox;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewFieldMode", menuName = "ScriptableObjects/FieldMode")]
+[CreateAssetMenu(fileName = "NewFieldMode", menuName = "ScriptableObjects/EditMode/FieldMode")]
 public class FieldMode : EditMode
 {
     [Separator("Field settings")] public bool HasOutline;
