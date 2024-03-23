@@ -14,7 +14,7 @@ public class RoomOutlineGenerator : MonoBehaviour
     
     private void Start()
     {
-        PlayManager.Instance.OnSwitchToPlay += Disable;
+        PlayManager.Instance.OnPlaytest += Disable;
         PlayManager.Instance.OnSwitchToEdit += Enable;
 
         float zoom = cam.GetComponent<MapController>().ZoomLimits.Max;
@@ -62,11 +62,9 @@ public class RoomOutlineGenerator : MonoBehaviour
         }
     }
     
-    
-
     private void OnDestroy()
     {
-        PlayManager.Instance.OnSwitchToPlay -= Disable;
+        PlayManager.Instance.OnPlaytest -= Disable;
         PlayManager.Instance.OnSwitchToEdit -= Enable;
     }
     

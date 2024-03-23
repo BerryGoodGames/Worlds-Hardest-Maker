@@ -43,23 +43,29 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private void Update()
     {
-        if ((KeyBinds.GetKeyBindDown("Editor_PlayLevel") || mouseDown) && !isCharging)
+        if (!ReferenceManager.Instance.Menu.activeSelf)
         {
-            shouldTogglePlay = true;
-            
-            if (LevelSessionEditManager.Instance.Editing)
+            if ((KeyBinds.GetKeyBindDown("Editor_PlayLevel") || mouseDown) && !isCharging)
             {
-                OnStartCharge();
+                shouldTogglePlay = true;
+            
+                if (LevelSessionEditManager.Instance.Editing)
+                {
+                    OnStartCharge();
+                }
+            }
+        
+            if ((KeyBinds.GetKeyBindUp("Editor_PlayLevel") || mouseUp) && shouldTogglePlay)
+            {
+                OnPlay();
+                PlayManager.Instance.TogglePlay(false);
             }
         }
-        
-
-        if ((KeyBinds.GetKeyBindUp("Editor_PlayLevel") || mouseUp) && shouldTogglePlay)
+        else
         {
-            OnPlay();
-            PlayManager.Instance.TogglePlay();
+            shouldTogglePlay = false;
         }
-
+        
         mouseDown = false;
         mouseUp = false;
     }
@@ -99,7 +105,7 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             {
                 shouldTogglePlay = false;
                 OnPlayCharged();
-                PlayManager.Instance.TogglePlay();
+                PlayManager.Instance.TogglePlay(true);
             });
     }
 

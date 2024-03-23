@@ -18,11 +18,16 @@ public class CameraPlayController : MonoBehaviour
         camOrthoSize = cam.orthographicSize;
     }
 
-    private void Start() => PlayManager.Instance.OnSwitchToPlay += JumpToStart;
+    private void Start()
+    {
+        PlayManager.Instance.OnPlaytest += JumpToStartInstant;
+        PlayManager.Instance.OnPlaySceneSetup += JumpToStartInstant;
+        PlayManager.Instance.OnLevelReset += JumpToStartInstant;
+    }
 
     private void Update()
     {
-        if (LevelSessionEditManager.Instance.Editing) return;
+        if (!LevelSessionEditManager.Instance.InPlaytest) return;
         
         Vector2Int playerRoomPos = PlayerManager.GetCurrentRoom();
         if (currentRoom.x == playerRoomPos.x && currentRoom.y == playerRoomPos.y) return;
@@ -31,20 +36,22 @@ public class CameraPlayController : MonoBehaviour
         JumpToRoom(currentRoom);
     }
     
-    private void JumpToStart()
+    private void JumpToStart(bool instant = false)
     {
         // calculate zoom
         CameraPlayJumpInfo jumpInfo = CameraPlayJumpInfo.GetCurrentJumpInfo(cam);
         
         camOrthoSize = Mathf.Max(jumpInfo.WidthZoom, jumpInfo.HeightZoom);
-        if (smoothMovement) cam.DOOrthoSize(camOrthoSize, movementDuration).SetEase(Ease.InOutCubic);
+        if (smoothMovement && !instant) cam.DOOrthoSize(camOrthoSize, movementDuration).SetEase(Ease.InOutCubic);
         else cam.orthographicSize = camOrthoSize;
         
         currentRoom = PlayerManager.GetStartRoom();
-        JumpToRoom(currentRoom);
+        JumpToRoom(currentRoom, instant);
     }
 
-    private void JumpToRoom(Vector2Int cell)
+    private void JumpToStartInstant() => JumpToStart(true);
+
+    private void JumpToRoom(Vector2Int cell, bool instant = false)
     {
         const int roomWidth = RoomOutlineGenerator.ROOM_WIDTH;
         const int roomHeight = RoomOutlineGenerator.ROOM_HEIGHT;
@@ -63,13 +70,15 @@ public class CameraPlayController : MonoBehaviour
         );
         
         // move
-        if (smoothMovement) t.DOMove(newPosition, movementDuration).SetEase(Ease.InOutCubic);
+        if (smoothMovement && !instant) t.DOMove(newPosition, movementDuration).SetEase(Ease.InOutCubic);
         else t.position = newPosition;
     }
     
     private void OnDestroy()
     {
-        PlayManager.Instance.OnSwitchToPlay -= JumpToStart;
+        PlayManager.Instance.OnPlaytest -= JumpToStartInstant;
+        PlayManager.Instance.OnPlaySceneSetup -= JumpToStartInstant;
+        PlayManager.Instance.OnLevelReset -= JumpToStartInstant;
     }
 }
 

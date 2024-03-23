@@ -20,7 +20,7 @@ public class MapController : MonoBehaviour
 
     private void Update()
     {
-        if (LevelSessionEditManager.Instance.Playing) return;
+        if (LevelSessionEditManager.Instance.InPlaytest) return;
         
         // right click drag to pan
         if (KeyBinds.GetKeyBind("Camera_Pan")) PanCamera();

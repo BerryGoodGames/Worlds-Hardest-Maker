@@ -115,6 +115,8 @@ public class PlayerController : EntityController
         DefaultDeathAnim();
 
         Shotgun.gameObject.SetActive(false);
+        
+        ResetState();
     }
 
     private void OnPlay()

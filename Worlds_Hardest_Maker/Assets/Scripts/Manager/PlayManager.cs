@@ -10,6 +10,7 @@ public class PlayManager : MonoBehaviour
     public event Action OnLevelReset = () => { };
     public event Action OnSwitchToPlay = () => { };
     public event Action OnSwitchToEdit = () => { };
+    public event Action OnPlaytest = () => { };
     public event Action OnToggle = () => { };
     public event Action OnPlaySceneSetup = () => { };
 
@@ -28,13 +29,16 @@ public class PlayManager : MonoBehaviour
         }
     }
 
-    public void TogglePlay()
+    public void TogglePlay(bool playtest)
     {
         if (ReferenceManager.Instance.Menu.activeSelf) return;
 
         LevelSessionEditManager.Instance.Playing = !LevelSessionEditManager.Instance.Playing;
+        LevelSessionEditManager.Instance.InPlaytest = LevelSessionEditManager.Instance.Playing && playtest;
 
         (LevelSessionEditManager.Instance.Playing ? OnSwitchToPlay : OnSwitchToEdit)?.Invoke();
+        
+        if (LevelSessionEditManager.Instance.InPlaytest) OnPlaytest.Invoke();
 
         OnToggle.Invoke();
     }
@@ -54,7 +58,6 @@ public class PlayManager : MonoBehaviour
         OnSwitchToEdit += () =>
         {
             Cheated = false;
-            OnLevelReset.Invoke();
             FieldManager.ApplySafeFieldsColor(false);
         };
 
@@ -68,6 +71,7 @@ public class PlayManager : MonoBehaviour
         IEnumerator SetupPlayScene()
         {
             LevelSessionEditManager.Instance.Playing = true;
+            LevelSessionEditManager.Instance.InPlaytest = true;
 
             yield return new WaitForEndOfFrame();
 

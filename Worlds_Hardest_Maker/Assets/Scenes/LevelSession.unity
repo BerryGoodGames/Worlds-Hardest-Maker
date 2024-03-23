@@ -25611,6 +25611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startEditMode: {fileID: 11400000, guid: 7f6d1c38617e7104183dbd378764fe32, type: 2}
   <Editing>k__BackingField: 1
+  <InPlaytest>k__BackingField: 0
   editRotation: 270
 --- !u!1001 &2116444678
 PrefabInstance:

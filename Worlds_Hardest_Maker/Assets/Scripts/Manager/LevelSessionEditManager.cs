@@ -57,6 +57,8 @@ public class LevelSessionEditManager : MonoBehaviour
         get => !Editing;
         set => Editing = !value;
     }
+    [field: SerializeField] [field: ReadOnly] public bool InPlaytest { get; set; }
+
 
     [SerializeField] [ReadOnly] private int editRotation = 270;
 

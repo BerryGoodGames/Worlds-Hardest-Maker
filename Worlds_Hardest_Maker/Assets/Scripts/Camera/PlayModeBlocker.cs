@@ -10,7 +10,8 @@ public class PlayModeBlocker : MonoBehaviour
     {
         Disable();
         
-        PlayManager.Instance.OnSwitchToPlay += Enable;
+        PlayManager.Instance.OnPlaytest += Enable;
+        PlayManager.Instance.OnPlaySceneSetup += Enable;
         PlayManager.Instance.OnSwitchToEdit += Disable;
         
         SetupBlackScreenMask();
@@ -56,7 +57,8 @@ public class PlayModeBlocker : MonoBehaviour
 
     private void OnDestroy()
     {
-        PlayManager.Instance.OnSwitchToPlay -= Enable;
+        PlayManager.Instance.OnPlaytest -= Enable;
+        PlayManager.Instance.OnPlaySceneSetup -= Enable;
         PlayManager.Instance.OnSwitchToEdit -= Disable;
     }
     
