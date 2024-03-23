@@ -34,8 +34,12 @@ public class MapController : MonoBehaviour
     {
         if (zoomInput == 0f || !MouseManager.Instance.IsOnScreen) return; // zoom
 
-        if (!(cam.orthographicSize + zoomInput * zoomSpeed >= ZoomLimits.Min) ||
-            !(cam.orthographicSize + zoomInput * zoomSpeed <= ZoomLimits.Max)) return;
+        float minZoom = ZoomLimits.Min;
+        float maxZoom = ZoomLimits.Max;
+        float currentZoom = cam.orthographicSize;
+        float newZoom = currentZoom + zoomInput * zoomSpeed;
+        if ((newZoom < minZoom && currentZoom > minZoom) ||
+            (newZoom > maxZoom && currentZoom < maxZoom)) return;
 
         Transform t = transform;
 

@@ -20,9 +20,9 @@ public class CameraPlayController : MonoBehaviour
 
     private void Start()
     {
-        PlayManager.Instance.OnPlaytest += JumpToStartInstant;
+        PlayManager.Instance.OnPlaytest += JumpToStart;
         PlayManager.Instance.OnPlaySceneSetup += JumpToStartInstant;
-        PlayManager.Instance.OnLevelReset += JumpToStartInstant;
+        PlayManager.Instance.OnLevelReset += JumpToStart;
     }
 
     private void Update()
@@ -36,7 +36,7 @@ public class CameraPlayController : MonoBehaviour
         JumpToRoom(currentRoom);
     }
     
-    private void JumpToStart(bool instant = false)
+    private void JumpToStart(bool instant)
     {
         // calculate zoom
         CameraPlayJumpInfo jumpInfo = CameraPlayJumpInfo.GetCurrentJumpInfo(cam);
@@ -48,13 +48,13 @@ public class CameraPlayController : MonoBehaviour
         currentRoom = PlayerManager.GetStartRoom();
         JumpToRoom(currentRoom, instant);
     }
-
+    private void JumpToStart() => JumpToStart(false);
     private void JumpToStartInstant() => JumpToStart(true);
 
     private void JumpToRoom(Vector2Int cell, bool instant = false)
     {
-        const int roomWidth = RoomOutlineGenerator.ROOM_WIDTH;
-        const int roomHeight = RoomOutlineGenerator.ROOM_HEIGHT;
+        int roomWidth = LevelSettings.Instance.RoomWidth;
+        int roomHeight = LevelSettings.Instance.RoomHeight;
         
         CameraPlayJumpInfo info = CameraPlayJumpInfo.GetCurrentJumpInfo(cam);
         
@@ -76,9 +76,9 @@ public class CameraPlayController : MonoBehaviour
     
     private void OnDestroy()
     {
-        PlayManager.Instance.OnPlaytest -= JumpToStartInstant;
+        PlayManager.Instance.OnPlaytest -= JumpToStart;
         PlayManager.Instance.OnPlaySceneSetup -= JumpToStartInstant;
-        PlayManager.Instance.OnLevelReset -= JumpToStartInstant;
+        PlayManager.Instance.OnLevelReset -= JumpToStart;
     }
 }
 
@@ -97,8 +97,8 @@ public sealed class CameraPlayJumpInfo
         float screenHeight = screen.height;
         return new CameraPlayJumpInfo
         {
-            WidthZoom = RoomOutlineGenerator.ROOM_WIDTH * 0.5f / cam.aspect,
-            HeightZoom = RoomOutlineGenerator.ROOM_HEIGHT * 0.5f / (1 - InfobarHeight / screenHeight),
+            WidthZoom = LevelSettings.Instance.RoomWidth * 0.5f / cam.aspect,
+            HeightZoom = LevelSettings.Instance.RoomHeight * 0.5f / (1 - InfobarHeight / screenHeight),
             ScreenWidth = screenWidth,
             ScreenHeight = screenHeight,
         };

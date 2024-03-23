@@ -19,10 +19,3 @@ public class TransitionManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 }
-
-public class LevelDataInputs
-{
-    public string Name;
-    public string Description;
-    public string Creator;
-}

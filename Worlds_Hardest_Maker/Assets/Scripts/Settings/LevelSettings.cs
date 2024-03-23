@@ -1,14 +1,18 @@
+using System;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class LevelSettings : MonoBehaviour
 {
     public static LevelSettings Instance { get; private set; }
 
+    public event Action OnLevelSettingsImported = () => { };
+
     #region Setting UI element references
-    
+        
+    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput roomWidthInput;
+    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput roomHeightInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private Slider playerSpeedInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput coinsNeededInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private Toggle isCoinsNeededLimitedInput;
@@ -19,11 +23,15 @@ public class LevelSettings : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput iceMaxSpeedInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private Slider conveyorSpeedInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private Toggle reusableCheckpointCheckbox;
-
+    
     #endregion
 
     #region Setting variables
-
+    
+    [HideInInspector] public int RoomWidth;
+    
+    [HideInInspector] public int RoomHeight;
+    
     [HideInInspector] public float PlayerSpeed;
     
     [HideInInspector] public bool IsCoinsNeededLimited;
@@ -52,6 +60,20 @@ public class LevelSettings : MonoBehaviour
 
 
     #region Level settings
+
+    public void SetRoomWidth() => RoomWidth = (int)roomWidthInput.GetCurrentNumber();
+    public void SetRoomWidth(int value)
+    {
+        RoomWidth = value;
+        roomWidthInput.SetNumberText(value);
+    }
+    
+    public void SetRoomHeight() => RoomHeight = (int)roomHeightInput.GetCurrentNumber();
+    public void SetRoomHeight(int value)
+    {
+        RoomHeight = value;
+        roomHeightInput.SetNumberText(value);
+    }
     
     public void SetPlayerSpeed() => PlayerSpeed = playerSpeedInput.value / 2;
     public void SetPlayerSpeed(float value)
@@ -134,6 +156,8 @@ public class LevelSettings : MonoBehaviour
 
     private void Start()
     {
+        SetRoomWidth();
+        SetRoomHeight();
         SetPlayerSpeed();
         SetCoinsNeeded();
         SetIsNeededCoinsLimited();
@@ -144,4 +168,6 @@ public class LevelSettings : MonoBehaviour
         SetConveyorSpeed();
         SetWaterDamping();
     }
+
+    public void InvokeOnImported() => OnLevelSettingsImported.Invoke();
 }

@@ -14,10 +14,12 @@ public class PlayModeBlocker : MonoBehaviour
         PlayManager.Instance.OnPlaySceneSetup += Enable;
         PlayManager.Instance.OnSwitchToEdit += Disable;
         
+        LevelSettings.Instance.OnLevelSettingsImported += SetupBlackScreenMask;
+        
         SetupBlackScreenMask();
     }
 
-    private void SetupBlackScreenMask()
+    public void SetupBlackScreenMask()
     {
         Camera cam = Camera.main;
         if (cam == null) return;
@@ -44,12 +46,12 @@ public class PlayModeBlocker : MonoBehaviour
         if (jumpInfo.HeightZoom > jumpInfo.WidthZoom)
         {
             cutoutHeight = jumpInfo.ScreenHeight - infobarHeight;
-            cutoutWidth = cutoutHeight * RoomOutlineGenerator.ROOM_WIDTH / RoomOutlineGenerator.ROOM_HEIGHT;
+            cutoutWidth = cutoutHeight * LevelSettings.Instance.RoomWidth / LevelSettings.Instance.RoomHeight;
         }
         else
         {
             cutoutWidth = jumpInfo.ScreenWidth;
-            cutoutHeight = cutoutWidth * RoomOutlineGenerator.ROOM_HEIGHT / RoomOutlineGenerator.ROOM_WIDTH;
+            cutoutHeight = cutoutWidth * LevelSettings.Instance.RoomHeight / LevelSettings.Instance.RoomWidth;
         }
 
         return (cutoutWidth, cutoutHeight);
@@ -60,6 +62,7 @@ public class PlayModeBlocker : MonoBehaviour
         PlayManager.Instance.OnPlaytest -= Enable;
         PlayManager.Instance.OnPlaySceneSetup -= Enable;
         PlayManager.Instance.OnSwitchToEdit -= Disable;
+        LevelSettings.Instance.OnLevelSettingsImported -= SetupBlackScreenMask;
     }
     
     private void Enable() => cutout.gameObject.SetActive(true);

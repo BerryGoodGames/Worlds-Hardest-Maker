@@ -5,6 +5,9 @@ public class LevelSettingsData : Data
 {
     #region Setting variables
 
+    public int RoomWidth;
+    public int RoomHeight;
+    
     public float PlayerSpeed;
     
     public bool IsCoinsNeededLimited;
@@ -27,6 +30,8 @@ public class LevelSettingsData : Data
     public LevelSettingsData(LevelSettings settings)
     {
         // fetch variables
+        RoomWidth = settings.RoomWidth;
+        RoomHeight = settings.RoomHeight;
         PlayerSpeed = settings.PlayerSpeed;
         IsCoinsNeededLimited = settings.IsCoinsNeededLimited;
         CoinsNeeded = settings.CoinsNeeded;
@@ -41,6 +46,8 @@ public class LevelSettingsData : Data
 
     public override void ImportToLevel()
     {
+        LevelSettings.Instance.SetRoomWidth(RoomWidth);
+        LevelSettings.Instance.SetRoomHeight(RoomHeight);
         LevelSettings.Instance.SetPlayerSpeed(PlayerSpeed);
         LevelSettings.Instance.SetIsNeededCoinsLimited(IsCoinsNeededLimited);
         LevelSettings.Instance.SetCoinsNeeded(CoinsNeeded);
@@ -51,6 +58,8 @@ public class LevelSettingsData : Data
         LevelSettings.Instance.SetIceMaxSpeed(IceMaxSpeed);
         LevelSettings.Instance.SetConveyorSpeed(ConveyorSpeed);
         LevelSettings.Instance.SetReusableCheckpoints(ReusableCheckpoints);
+        
+        LevelSettings.Instance.InvokeOnImported();
     }
 
     public override EditMode GetEditMode() => EditModeManager.Wall;
@@ -58,7 +67,9 @@ public class LevelSettingsData : Data
     public override bool Equals(Data d)
     {
         LevelSettingsData other = (LevelSettingsData)d;
-        return other.PlayerSpeed == PlayerSpeed
+        return other.RoomWidth == RoomWidth
+               && other.RoomHeight == RoomHeight
+               && other.PlayerSpeed == PlayerSpeed
                && other.IsCoinsNeededLimited == IsCoinsNeededLimited
                && other.CoinsNeeded == CoinsNeeded 
                && other.PlayerInvincibility == PlayerInvincibility

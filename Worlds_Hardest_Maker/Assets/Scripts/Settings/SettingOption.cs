@@ -35,6 +35,6 @@ public class SettingOption : MonoBehaviour
     public virtual void Response()
     {
         UpdateHeight();
-        UpdateFontSize();
+        if(Label != null) UpdateFontSize();
     }
 }
