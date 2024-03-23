@@ -46,7 +46,7 @@ public class BarTween : MonoBehaviour
 
     public void TweenToY(float y, bool isResultVisibleState, bool nullPlayState = true)
     {
-        rt.DOKill();
+        // rt.DOKill();
 
         Ease ease = isResultVisibleState ? easeAppear : easeDisappear;
         AnimationCurve curve = isResultVisibleState ? easeAppearCurve : easeDisappearCurve;
