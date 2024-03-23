@@ -8,6 +8,8 @@ public class LevelSettings : MonoBehaviour
     public static LevelSettings Instance { get; private set; }
 
     public event Action OnLevelSettingsImported = () => { };
+    public event Action OnUpdateRoomSize = () => { };
+
 
     #region Setting UI element references
         
@@ -156,6 +158,8 @@ public class LevelSettings : MonoBehaviour
 
     private void Start()
     {
+        LevelSessionManager.Instance.OnLevelLoaded += ImportTransitionRoomSize;
+        
         SetRoomWidth();
         SetRoomHeight();
         SetPlayerSpeed();
@@ -169,5 +173,23 @@ public class LevelSettings : MonoBehaviour
         SetWaterDamping();
     }
 
+    private void ImportTransitionRoomSize()
+    {
+        if (LevelSessionManager.IsSessionFromEditor) return;
+        
+        Vector2Int transitionRoomSize = TransitionManager.Instance.RoomSize;
+        if (transitionRoomSize.x != 0) SetRoomWidth(transitionRoomSize.x);
+        if (transitionRoomSize.y != 0) SetRoomHeight(transitionRoomSize.y);
+
+        InvokeOnUpdateRoomSize();
+    }
+
+    private void OnDestroy()
+    {
+        LevelSessionManager.Instance.OnLevelLoaded -= ImportTransitionRoomSize;
+    }
+
     public void InvokeOnImported() => OnLevelSettingsImported.Invoke();
+    public void InvokeOnUpdateRoomSize() => OnUpdateRoomSize.Invoke();
+
 }

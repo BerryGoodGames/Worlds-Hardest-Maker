@@ -24,6 +24,7 @@ public class RoomOutlineGenerator : MonoBehaviour
         PlayManager.Instance.OnSwitchToEdit += Enable;
 
         LevelSettings.Instance.OnLevelSettingsImported += CalcSize;
+        LevelSettings.Instance.OnUpdateRoomSize += CalcSize;
         
         map = cam.GetComponent<MapController>();
     }
@@ -77,6 +78,7 @@ public class RoomOutlineGenerator : MonoBehaviour
         PlayManager.Instance.OnPlaytest -= Disable;
         PlayManager.Instance.OnSwitchToEdit -= Enable;
         LevelSettings.Instance.OnLevelSettingsImported -= CalcSize;
+        LevelSettings.Instance.OnUpdateRoomSize -= CalcSize;
     }
     
     private void Enable() => gameObject.SetActive(true);

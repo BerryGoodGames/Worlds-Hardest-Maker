@@ -94,6 +94,7 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
 
         TransitionManager.Instance.LoadLevelPath = LevelPath;
         TransitionManager.Instance.LevelSessionMode = LevelSessionMode.Edit;
+        TransitionManager.Instance.RoomSize = Vector2Int.zero;
         MainMenuManager.Instance.OpenLevelScene();
     }
 
@@ -103,6 +104,7 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
 
         TransitionManager.Instance.LoadLevelPath = LevelPath;
         TransitionManager.Instance.LevelSessionMode = LevelSessionMode.Play;
+        TransitionManager.Instance.RoomSize = Vector2Int.zero;
         MainMenuManager.Instance.OpenLevelScene();
     }
 

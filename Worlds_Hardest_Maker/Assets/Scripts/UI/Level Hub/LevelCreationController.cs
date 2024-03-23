@@ -7,9 +7,13 @@ public class LevelCreationController : MonoBehaviour
 {
     // private static readonly string defaultLevelPath = Application.dataPath + "/Resources/DefaultLevel.lvl";
 
-    [Separator("References")] [SerializeField] private TMP_InputField levelNameText;
-    [SerializeField] private TMP_InputField descriptionText;
-    [SerializeField] private TMP_InputField creatorText;
+    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_InputField levelNameText;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_InputField descriptionText;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_InputField creatorText;
+
+    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput roomWidthNumberInput;
+    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput roomHeightNumberInput;
+
 
     public void CreateLevel()
     {
@@ -19,6 +23,7 @@ public class LevelCreationController : MonoBehaviour
 
         TransitionManager.Instance.LoadLevelPath = SaveSystem.LevelSavePath + levelName + ".lvl";
         TransitionManager.Instance.LevelSessionMode = LevelSessionMode.Edit;
+        TransitionManager.Instance.RoomSize = new((int)roomWidthNumberInput.GetCurrentNumber(), (int)roomHeightNumberInput.GetCurrentNumber());
 
         MainMenuManager.Instance.OpenLevelScene();
     }

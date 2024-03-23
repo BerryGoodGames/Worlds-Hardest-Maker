@@ -10,6 +10,7 @@ public class TransitionManager : MonoBehaviour
     [ReadOnly] public bool HasMainMenuStartSwipe;
     [ReadOnly] public string LoadLevelPath = string.Empty;
     [ReadOnly] public LevelSessionMode LevelSessionMode;
+    [ReadOnly] public Vector2Int RoomSize;
 
     private void Awake()
     {

@@ -15,6 +15,7 @@ public class PlayModeBlocker : MonoBehaviour
         PlayManager.Instance.OnSwitchToEdit += Disable;
         
         LevelSettings.Instance.OnLevelSettingsImported += SetupBlackScreenMask;
+        LevelSettings.Instance.OnUpdateRoomSize += SetupBlackScreenMask;
         
         SetupBlackScreenMask();
     }
@@ -63,6 +64,7 @@ public class PlayModeBlocker : MonoBehaviour
         PlayManager.Instance.OnPlaySceneSetup -= Enable;
         PlayManager.Instance.OnSwitchToEdit -= Disable;
         LevelSettings.Instance.OnLevelSettingsImported -= SetupBlackScreenMask;
+        LevelSettings.Instance.OnUpdateRoomSize -= SetupBlackScreenMask;
     }
     
     private void Enable() => cutout.gameObject.SetActive(true);
