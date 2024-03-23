@@ -13,7 +13,6 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField] [PositiveValueOnly] private float topHoverRotation;
     [SerializeField] [PositiveValueOnly] private float hoverRotationDuration;
     [Space]
-    [SerializeField] [PositiveValueOnly] private float topChargeRotation;
     [SerializeField] [PositiveValueOnly] private float chargebarWidth;
     [SerializeField] [PositiveValueOnly] private float buttonChargeElevation;
     [SerializeField] [PositiveValueOnly] private float buttonChargeRotation;
@@ -21,8 +20,6 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [Space]
     [SerializeField] [PositiveValueOnly] private float topPlayRotation;
     [SerializeField] [PositiveValueOnly] private float playDuration;
-    [Space] 
-    [SerializeField] [PositiveValueOnly] private float playChargedDuration;
     
     private bool isCharging;
     private bool isPlaying;

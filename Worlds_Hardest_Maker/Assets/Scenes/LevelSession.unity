@@ -18628,7 +18628,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6256017551415211615, guid: 18d3a92829e7f19459d641511239e03b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 140.86491
+      value: 147.75491
       objectReference: {fileID: 0}
     - target: {fileID: 6256017551415211615, guid: 18d3a92829e7f19459d641511239e03b, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -26423,30 +26423,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4828731712205031975, guid: 5e47406772147a64aa16d7a8ef659ac2, type: 3}
-      propertyPath: easeDisappearCurve.m_Curve.Array.data[1].time
-      value: 0.69225883
-      objectReference: {fileID: 0}
-    - target: {fileID: 4828731712205031975, guid: 5e47406772147a64aa16d7a8ef659ac2, type: 3}
-      propertyPath: easeDisappearCurve.m_Curve.Array.data[1].value
-      value: 0.2374363
-      objectReference: {fileID: 0}
-    - target: {fileID: 4828731712205031975, guid: 5e47406772147a64aa16d7a8ef659ac2, type: 3}
-      propertyPath: easeDisappearCurve.m_Curve.Array.data[1].inSlope
-      value: 1.6775581
-      objectReference: {fileID: 0}
-    - target: {fileID: 4828731712205031975, guid: 5e47406772147a64aa16d7a8ef659ac2, type: 3}
-      propertyPath: easeDisappearCurve.m_Curve.Array.data[1].inWeight
-      value: 0.0791017
-      objectReference: {fileID: 0}
-    - target: {fileID: 4828731712205031975, guid: 5e47406772147a64aa16d7a8ef659ac2, type: 3}
-      propertyPath: easeDisappearCurve.m_Curve.Array.data[1].outSlope
-      value: 1.6775581
-      objectReference: {fileID: 0}
-    - target: {fileID: 4828731712205031975, guid: 5e47406772147a64aa16d7a8ef659ac2, type: 3}
-      propertyPath: easeDisappearCurve.m_Curve.Array.data[1].outWeight
-      value: 0.6894251
-      objectReference: {fileID: 0}
     - target: {fileID: 6209029037939235764, guid: 5e47406772147a64aa16d7a8ef659ac2, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
@@ -26466,6 +26442,10 @@ PrefabInstance:
     - target: {fileID: 6977027752273439767, guid: 5e47406772147a64aa16d7a8ef659ac2, type: 3}
       propertyPath: topHoverRotationDuration
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8296659636247063561, guid: 5e47406772147a64aa16d7a8ef659ac2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8296659636247063561, guid: 5e47406772147a64aa16d7a8ef659ac2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
