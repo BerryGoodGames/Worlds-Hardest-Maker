@@ -43,7 +43,7 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private void Update()
     {
-        if (KeyBinds.GetKeyBindDown("Editor_PlayLevel") || mouseDown)
+        if ((KeyBinds.GetKeyBindDown("Editor_PlayLevel") || mouseDown) && !isCharging)
         {
             shouldTogglePlay = true;
             

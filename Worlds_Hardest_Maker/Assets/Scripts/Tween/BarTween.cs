@@ -25,6 +25,8 @@ public class BarTween : MonoBehaviour
 
     private RectTransform rt;
 
+    private Tween tween;
+
     public void SetPlay(bool play)
     {
         if ((playing == null && !play) || (playing != null && (bool)playing && !play))
@@ -46,15 +48,15 @@ public class BarTween : MonoBehaviour
 
     public void TweenToY(float y, bool isResultVisibleState, bool nullPlayState = true)
     {
-        // rt.DOKill();
+        tween?.Kill();
 
         Ease ease = isResultVisibleState ? easeAppear : easeDisappear;
         AnimationCurve curve = isResultVisibleState ? easeAppearCurve : easeDisappearCurve;
         float duration = isResultVisibleState ? appearDuration : disappearDuration;
 
-        Tween t = rt.DOAnchorPosY(y, duration).SetId(gameObject);
-        if (curve.length > 1) t.SetEase(curve);
-        else t.SetEase(ease);
+        tween = rt.DOAnchorPosY(y, duration).SetId(gameObject);
+        if (curve.length > 1) tween.SetEase(curve);
+        else tween.SetEase(ease);
 
         if (nullPlayState) playing = null;
         else playing = !isResultVisibleState;
