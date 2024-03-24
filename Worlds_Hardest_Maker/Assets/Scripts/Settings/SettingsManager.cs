@@ -19,13 +19,16 @@ public class SettingsManager : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Dropdown resolutionDropdown;
     [SerializeField] [InitializationField] [MustBeAssigned] private Toggle fullscreenToggle;
     [SerializeField] [InitializationField] [MustBeAssigned] private Toggle oneColorToggle;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Toggle showRoomGridToggle;
     
     private Resolution[] resolutions;
     [HideInInspector] public bool OneColorSafeFields;
+    [HideInInspector] public bool ShowRoomGrid;
 
     public event Action<float> OnSetToolbarSize = _ => { };
     public event Action<float> OnSetInfobarSize = _ => { };
     public event Action<bool> OnSetOneColorSafeFieldsWhenPlaying = _ => { };
+    public event Action<bool> OnSetShowRoomGrid = _ => { };
 
     private void Start()
     {
@@ -46,6 +49,7 @@ public class SettingsManager : MonoBehaviour
         // graphics
         PlayerPrefs.SetInt("Fullscreen", fullscreenToggle.isOn ? 1 : 0);
         PlayerPrefs.SetInt("OneColor", oneColorToggle.isOn ? 1 : 0);
+        PlayerPrefs.SetInt("ShowRoomGrid", showRoomGridToggle.isOn ? 1 : 0);
         
         // key binds
         foreach (KeyBind keyBind in KeyBinds.GetAllKeyBinds()) PlayerPrefs.SetString(keyBind.Name, keyBind.KeyCodesToString());
@@ -68,6 +72,7 @@ public class SettingsManager : MonoBehaviour
         // graphics
         SetFullscreen(PlayerPrefs.GetInt("Fullscreen") == 1, true);
         SetOneColorSafeFieldsWhenPlaying(PlayerPrefs.GetInt("OneColor") == 1, true);
+        SetShowRoomGrid(PlayerPrefs.GetInt("ShowRoomGrid") == 1, true);
         
         // key binds
         foreach (KeyBind keyBind in KeyBinds.GetAllKeyBinds())
@@ -130,6 +135,18 @@ public class SettingsManager : MonoBehaviour
     }
 
     public void SetOneColorSafeFieldsWhenPlaying(bool oneColor) => SetOneColorSafeFieldsWhenPlaying(oneColor, false);
+    
+    public void SetShowRoomGrid(bool show, bool updateToggle)
+    {
+        OnSetShowRoomGrid.Invoke(show);
+        
+        ShowRoomGrid = show;
+
+        if (!updateToggle) return;
+        showRoomGridToggle.isOn = show;
+    }
+
+    public void SetShowRoomGrid(bool show) => SetShowRoomGrid(show, false);
 
     private void UpdateResolutionOptions()
     {

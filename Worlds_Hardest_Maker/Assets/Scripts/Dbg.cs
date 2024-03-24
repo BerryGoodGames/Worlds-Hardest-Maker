@@ -71,7 +71,11 @@ public class Dbg : MonoBehaviour
 
                 // load debug level
                 Coroutine loadLevelCoroutine = GameManager.Instance.LoadLevel(LevelSessionManager.Instance.LevelSessionPath);
-                loadLevelCoroutine.OnComplete(LevelSessionManager.Instance.OnLevelLoaded);
+                loadLevelCoroutine.OnComplete(() =>
+                {
+                    LevelSessionManager.Instance.OnLevelLoaded.Invoke();
+                    LevelSettings.Instance.InvokeOnUpdateRoomSize();
+                });
             }
             catch
             {

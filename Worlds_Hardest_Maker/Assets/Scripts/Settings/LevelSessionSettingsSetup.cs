@@ -11,6 +11,7 @@ public class LevelSessionSettingsSetup : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private ToolbarSizing toolbarSpacing;
     [SerializeField] [InitializationField] [MustBeAssigned] private InfobarResize infobarPlayResize;
     [SerializeField] [InitializationField] [MustBeAssigned] private InfobarResize infobarEditResize;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RoomOutlineGenerator roomOutlines;
 
     private void SetToolbarSize(float size)
     {
@@ -35,9 +36,16 @@ public class LevelSessionSettingsSetup : MonoBehaviour
         FieldManager.ApplySafeFieldsColor(LevelSessionEditManager.Instance.Playing && oneColor);
     }
 
+    private void SetShowRoomGrid(bool show)
+    {
+        roomOutlines.SetEnabledSetting(show);
+    }
+
     private void Start()
     {
         settingsManager.LoadPrefs();
+        
+        LevelSettings.Instance.OnLevelSettingsImported += roomOutlines.CalcSize;
     }
 
     private void Awake()
@@ -45,12 +53,15 @@ public class LevelSessionSettingsSetup : MonoBehaviour
         settingsManager.OnSetToolbarSize += SetToolbarSize;
         settingsManager.OnSetInfobarSize += SetInfobarSize;
         settingsManager.OnSetOneColorSafeFieldsWhenPlaying += SetOneColorSafeFieldsWhenPlaying;
+        settingsManager.OnSetShowRoomGrid += SetShowRoomGrid;
     }
 
     private void OnDestroy()
     {
+        LevelSettings.Instance.OnLevelSettingsImported -= roomOutlines.CalcSize;
         settingsManager.OnSetInfobarSize -= SetToolbarSize;
         settingsManager.OnSetInfobarSize -= SetInfobarSize;
         settingsManager.OnSetOneColorSafeFieldsWhenPlaying -= SetOneColorSafeFieldsWhenPlaying;
+        settingsManager.OnSetShowRoomGrid -= SetShowRoomGrid;
     }
 }

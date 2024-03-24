@@ -1,32 +1,25 @@
 using MyBox;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class RoomOutlineGenerator : MonoBehaviour
 {
-    public static RoomOutlineGenerator Instance { get; private set; }
-    
+    [SerializeField] [InitializationField] [MustBeAssigned] private MapController map;
     [SerializeField] [InitializationField] [MustBeAssigned] private RoomOutline roomOutlinePrefab;
     [FormerlySerializedAs("camera")] [SerializeField] [InitializationField] [MustBeAssigned] private Camera cam;
 
     private Vector2 prevPosition;
 
-    private MapController map;
+    private static bool EnabledInSettings => SettingsManager.Instance.ShowRoomGrid;
 
-    private void Awake()
-    {
-        if (Instance == null) Instance = this;
-    }
 
     private void Start()
     {
         PlayManager.Instance.OnPlaytest += Disable;
         PlayManager.Instance.OnSwitchToEdit += Enable;
 
-        LevelSettings.Instance.OnLevelSettingsImported += CalcSize;
         LevelSettings.Instance.OnUpdateRoomSize += CalcSize;
-        
-        map = cam.GetComponent<MapController>();
     }
 
     private void Update()
@@ -45,7 +38,6 @@ public class RoomOutlineGenerator : MonoBehaviour
 
     private void CalcSize(float zoom)
     {
-        
         Transform t = transform;
         foreach (Transform child in t) Destroy(child.gameObject);
 
@@ -77,10 +69,18 @@ public class RoomOutlineGenerator : MonoBehaviour
     {
         PlayManager.Instance.OnPlaytest -= Disable;
         PlayManager.Instance.OnSwitchToEdit -= Enable;
-        LevelSettings.Instance.OnLevelSettingsImported -= CalcSize;
         LevelSettings.Instance.OnUpdateRoomSize -= CalcSize;
     }
-    
-    private void Enable() => gameObject.SetActive(true);
+
+    private void Enable()
+    {
+        if (!EnabledInSettings) return;
+        gameObject.SetActive(true);
+    }
     private void Disable() => gameObject.SetActive(false);
+
+    public void SetEnabledSetting(bool enabled)
+    {
+        gameObject.SetActive(enabled && !(LevelSessionEditManager.Instance.Playing && LevelSessionEditManager.Instance.InPlaytest));
+    }
 }
