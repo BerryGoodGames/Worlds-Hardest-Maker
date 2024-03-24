@@ -8,6 +8,7 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform top;
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform button;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform bottom;
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform chargebar;
     [Separator] 
     [SerializeField] [PositiveValueOnly] private float topHoverRotation;
@@ -19,6 +20,7 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField] [PositiveValueOnly] private float chargeDuration;
     [Space]
     [SerializeField] [PositiveValueOnly] private float topPlayRotation;
+    [SerializeField] [PositiveValueOnly] private float bottomPlayRotation;
     [SerializeField] [PositiveValueOnly] private float playDuration;
     
     private bool isCharging;
@@ -112,23 +114,36 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private void PlayAnim()
     {
         top.DOKill();
+        bottom.DOKill();
         chargebar.DOKill();
         button.DOKill();
-        
-        top.DOLocalRotate(Vector3.forward * topPlayRotation, playDuration / 4)
-            .SetEase(Ease.OutQuint);
-        
-        top.DOLocalRotate(Vector3.zero, playDuration * 3 / 4)
-            .SetEase(Ease.OutBounce)
-            .SetDelay(playDuration / 4);
 
-        chargebar.DOSizeDelta(new(0, chargebar.rect.height), playDuration / 3)
+        float durationAnticipation = playDuration * 0.4f;
+        float restDuration = playDuration - durationAnticipation;
+        float fallDuration = playDuration / 3;
+        
+        top.DOLocalRotate(Vector3.forward * topPlayRotation, durationAnticipation)
+            .SetEase(Ease.OutQuint)
+            .OnComplete(() => AudioManager.Instance.Play("PlayButtonClack"));
+
+        top.DOLocalRotate(Vector3.zero, restDuration)
+            .SetEase(Ease.OutBounce)
+            .SetDelay(durationAnticipation);
+
+        bottom.DOLocalRotate(Vector3.back * bottomPlayRotation, durationAnticipation)
+            .SetEase(Ease.OutQuint);
+
+        bottom.DOLocalRotate(Vector3.zero, restDuration / 3)
+            .SetEase(Ease.OutCubic)
+            .SetDelay(durationAnticipation);
+
+        chargebar.DOSizeDelta(new(0, chargebar.rect.height), fallDuration)
             .SetEase(Ease.OutQuint);
         
-        button.DOLocalMoveY(idlePosition.y, playDuration / 3)
+        button.DOLocalMoveY(idlePosition.y, fallDuration)
             .SetEase(Ease.InQuint);
 
-        button.DOLocalRotate(Vector3.zero, playDuration / 3)
+        button.DOLocalRotate(Vector3.zero, fallDuration)
             .SetEase(Ease.InQuint)
             .OnComplete(() => isPlaying = false);
     }
@@ -136,23 +151,36 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private void PlayChargedAnim()
     {
         top.DOKill();
+        bottom.DOKill();
         chargebar.DOKill();
         button.DOKill();
         
-        top.DOLocalRotate(Vector3.forward * topPlayRotation, playDuration / 4)
-            .SetEase(Ease.OutQuint);
+        float durationAnticipation = playDuration * 0.4f;
+        float restDuration = playDuration - durationAnticipation;
+        float fallDuration = playDuration / 3;
         
-        top.DOLocalRotate(Vector3.zero, playDuration * 3 / 4)
+        top.DOLocalRotate(Vector3.forward * topPlayRotation, durationAnticipation)
+            .SetEase(Ease.OutQuint)
+            .OnComplete(() => AudioManager.Instance.Play("PlayButtonClack"));
+        
+        top.DOLocalRotate(Vector3.zero, restDuration)
             .SetEase(Ease.OutBounce)
             .SetDelay(playDuration / 4);
 
-        chargebar.DOSizeDelta(new(0, chargebar.rect.height), playDuration / 3)
+        bottom.DOLocalRotate(Vector3.back * bottomPlayRotation, durationAnticipation)
+            .SetEase(Ease.OutQuint);
+
+        bottom.DOLocalRotate(Vector3.zero, restDuration / 3)
+            .SetEase(Ease.OutCubic)
+            .SetDelay(durationAnticipation);
+
+        chargebar.DOSizeDelta(new(0, chargebar.rect.height), fallDuration)
             .SetEase(Ease.OutQuint);
         
-        button.DOLocalMoveY(idlePosition.y, playDuration / 3)
+        button.DOLocalMoveY(idlePosition.y, fallDuration)
             .SetEase(Ease.InQuint);
 
-        button.DOLocalRotate(Vector3.zero, playDuration / 3)
+        button.DOLocalRotate(Vector3.zero, fallDuration)
             .SetEase(Ease.InQuint)
             .OnComplete(() => isPlaying = false);
     }

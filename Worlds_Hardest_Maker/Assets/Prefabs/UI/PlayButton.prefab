@@ -125,9 +125,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0}
+  m_AnchoredPosition: {x: -0.0007324219, y: 92.72776}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0}
+  m_Pivot: {x: -0.000000053085387, y: 1.0000001}
 --- !u!222 &8185117144765402801
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -239,6 +239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   top: {fileID: 6209029037939235764}
   button: {fileID: 8920014666510045734}
+  bottom: {fileID: 6566141967671373468}
   chargebar: {fileID: 7533940571145267367}
   topHoverRotation: 20
   hoverRotationDuration: 0.2
@@ -246,7 +247,8 @@ MonoBehaviour:
   buttonChargeElevation: 20
   buttonChargeRotation: 4
   chargeDuration: 1.5
-  topPlayRotation: 30
+  topPlayRotation: 20
+  bottomPlayRotation: 10
   playDuration: 0.5
 --- !u!114 &4828731712205031975
 MonoBehaviour:
