@@ -247,7 +247,7 @@ MonoBehaviour:
   buttonChargeElevation: 20
   buttonChargeRotation: 4
   chargeDuration: 1.5
-  topPlayRotation: 20
+  topPlayRotation: 23
   bottomPlayRotation: 10
   playDuration: 0.5
 --- !u!114 &4828731712205031975

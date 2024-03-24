@@ -189,6 +189,12 @@ public class LevelSettings : MonoBehaviour
         LevelSessionManager.Instance.OnLevelLoaded -= ImportTransitionRoomSize;
     }
 
+    private void Update()
+    {
+        if (RoomWidth <= 0) SetRoomWidth(23);
+        if (RoomHeight <= 0) SetRoomHeight(15);
+    }
+
     public void InvokeOnImported() => OnLevelSettingsImported.Invoke();
     public void InvokeOnUpdateRoomSize() => OnUpdateRoomSize.Invoke();
 
