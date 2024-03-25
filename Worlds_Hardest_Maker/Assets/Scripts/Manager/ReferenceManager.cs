@@ -32,6 +32,7 @@ public class ReferenceManager : MonoBehaviour
 
     [Foldout("Objects")] public PanelController LevelSettingsPanelController;
     [Foldout("Objects")] public PanelController AnchorPanelController;
+    [Foldout("Objects")] public PanelController AnchorAttachButtonController;
 
     #endregion
 

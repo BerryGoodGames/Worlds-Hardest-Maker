@@ -1,13 +1,16 @@
+using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 
 [RequireComponent(typeof(PanelTween))]
 public class PanelController : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelTween panelTween;
-
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelTween buttonPanelTween;
-
+    [SerializeField] [InitializationField] [CanBeNull] private PanelTween panelTween;
+    private bool hasPanelTween;
+    
+    [SerializeField] [InitializationField] [CanBeNull] private PanelTween buttonPanelTween;
+    private bool hasButtonPanelTween;
+    
     [field: Separator("Initial settings")] [field: SerializeField] [field: InitializationField] public bool Open { get; private set; }
 
     [field: SerializeField] [field: InitializationField] public bool Hidden { get; private set; }
@@ -21,7 +24,7 @@ public class PanelController : MonoBehaviour
         // open/close panel
         Open = open;
 
-        panelTween.SetOpen(Open, noAnimation);
+        if (hasPanelTween) panelTween.SetOpen(Open, noAnimation);
 
         // un-hide panel if hidden
         if (Open & Hidden) SetHidden(false, noAnimation);
@@ -37,7 +40,7 @@ public class PanelController : MonoBehaviour
         // close panel if open
         if (Hidden && Open) SetOpen(false, noAnimation);
 
-        buttonPanelTween.SetOpen(!Hidden, noAnimation);
+        if (hasButtonPanelTween) buttonPanelTween.SetOpen(!Hidden, noAnimation);
     }
 
     private void Start()
@@ -45,18 +48,23 @@ public class PanelController : MonoBehaviour
         // track this in manager list
         PanelManager.Instance.Panels.Add(this);
 
-        panelTween.SetOpen(Open, true);
-        buttonPanelTween.SetOpen(!Hidden, true);
+        hasPanelTween = panelTween != null;
+        hasButtonPanelTween = buttonPanelTween != null;
+
+        if (hasPanelTween) panelTween.SetOpen(Open, true);
+        if (hasButtonPanelTween) buttonPanelTween.SetOpen(!Hidden, true);
     }
 
-    public void OnButtonToggle()
+    public void OnButtonToggle(bool hideOtherPanels = true)
     {
-        if (!buttonPanelTween.Open) return;
+        if (hasButtonPanelTween && !buttonPanelTween.Open) return;
 
-        PanelManager.Instance.SetPanelOpen(this, !Open);
+        PanelManager.Instance.SetPanelOpen(this, !Open, hideOtherPanels);
     }
 
-    private void OnDestroy() =>
+    private void OnDestroy()
+    {
         // track this in manager list
         PanelManager.Instance.Panels.Remove(this);
+    }
 }

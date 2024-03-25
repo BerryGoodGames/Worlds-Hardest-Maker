@@ -18,9 +18,10 @@ public class PanelTween : MonoBehaviour
 
     [field: SerializeField] [field: ReadOnly] public bool Open { get; private set; }
 
-    [SerializeField] private bool closesToRight;
-    private float closedX;
-    private float openedX;
+    [SerializeField] private bool customMovement;
+    [SerializeField] [ConditionalField(nameof(customMovement), true)] private bool closesToRight;
+    [SerializeField] [ConditionalField(nameof(customMovement))] private float closedX;
+    [SerializeField] [ConditionalField(nameof(customMovement))] private float openedX;
 
     public void SetOpen(bool open, bool noAnimation = false)
     {
@@ -45,6 +46,7 @@ public class PanelTween : MonoBehaviour
 
     private void Awake()
     {
+        if (customMovement) return;
         openedX = 0;
         closedX = (closesToRight ? 1 : -1) * panel.rect.width;
     }

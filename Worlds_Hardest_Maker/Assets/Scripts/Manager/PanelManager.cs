@@ -10,12 +10,14 @@ public class PanelManager : MonoBehaviour
 
     public bool WasAnchorPanelOpen { get; set; }
 
-    public void SetPanelOpen(PanelController panel, bool open)
+    public void SetPanelOpen(PanelController panel, bool open, bool hideOtherPanels = true)
     {
         panel.SetOpen(open);
 
         // if opening panel, hide every other panel
         if (!open) return;
+
+        if (!hideOtherPanels) return;
 
         foreach (PanelController panelController in Panels)
         {
@@ -25,12 +27,14 @@ public class PanelManager : MonoBehaviour
         }
     }
 
-    public void SetPanelHidden(PanelController panel, bool hidden)
+    public void SetPanelHidden(PanelController panel, bool hidden, bool hideOtherPanels = true)
     {
         panel.SetHidden(hidden);
 
         // if showing panel, hide every other panel
         if (hidden) return;
+
+        if (!hideOtherPanels) return;
 
         foreach (PanelController panelController in Panels)
         {
@@ -57,8 +61,10 @@ public class PanelManager : MonoBehaviour
         SetPanelHidden(levelSettingsPanel, true);
 
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
+        PanelController anchorAttachButton = ReferenceManager.Instance.AnchorAttachButtonController;
         WasAnchorPanelOpen = anchorPanel.Open;
         SetPanelHidden(anchorPanel, true);
+        SetPanelHidden(anchorAttachButton, true);
     }
 
     private void OnSwitchToEdit()
@@ -67,12 +73,16 @@ public class PanelManager : MonoBehaviour
         bool isEditModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
         PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
+        PanelController anchorAttachButton = ReferenceManager.Instance.AnchorAttachButtonController;
         if (isEditModeAnchorRelated)
         {
             if (WasAnchorPanelOpen) SetPanelOpen(anchorPanel, true);
             else SetPanelHidden(anchorPanel, false);
+            
+            if(AnchorManager.Instance.SelectedAnchor != null) SetPanelHidden(anchorAttachButton, false, false);
         }
         else SetPanelHidden(levelSettingsPanel, false);
+        
     }
 
     private void Start()

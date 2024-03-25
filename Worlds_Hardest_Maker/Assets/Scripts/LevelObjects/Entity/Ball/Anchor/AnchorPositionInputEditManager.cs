@@ -28,7 +28,9 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         ReferenceManager.Instance.PlayButtonTween.TweenToY(-125, false);
 
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
+        PanelController anchorAttachButton = ReferenceManager.Instance.AnchorAttachButtonController;
         PanelManager.Instance.SetPanelHidden(anchorPanel, true);
+        PanelManager.Instance.SetPanelHidden(anchorAttachButton, true);
     }
 
     public void OnEndPositionEdit()
@@ -44,7 +46,9 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         ReferenceManager.Instance.PlayButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
 
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
+        PanelController anchorAttachButton = ReferenceManager.Instance.AnchorAttachButtonController;
         PanelManager.Instance.SetPanelOpen(anchorPanel, LevelSessionEditManager.Instance.Editing);
+        PanelManager.Instance.SetPanelOpen(anchorAttachButton, LevelSessionEditManager.Instance.Editing, false);
 
         AnchorManager.Instance.SelectedAnchor.RenderLines();
     }

@@ -1,8 +1,10 @@
+using System.Windows.Forms;
+using MyBox;
 using UnityEngine;
 
 public partial class AnchorManager
 {
-    public AnchorController SelectedAnchor { get; private set; }
+    [field: SerializeField] [field: ReadOnly] public AnchorController SelectedAnchor { get; private set; }
 
     public void SelectAnchor(Vector2 pos)
     {
@@ -55,6 +57,8 @@ public partial class AnchorManager
         ReferenceManager.Instance.MainCameraJumper.SetTarget("Anchor", anchor.gameObject);
         ReferenceManager.Instance.AnchorCameraJumping.CameraJumpToAnchor();
 
+        PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, false, false);
+
         // play sfx
         AudioManager.Instance.Play("AnchorBlockButton");
     }
@@ -83,6 +87,8 @@ public partial class AnchorManager
             PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
             PanelManager.Instance.SetPanelOpen(levelSettingsPanel, true);
         }
+        
+        PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, true);
 
         // play sfx
         AudioManager.Instance.Play("AnchorDeselect");

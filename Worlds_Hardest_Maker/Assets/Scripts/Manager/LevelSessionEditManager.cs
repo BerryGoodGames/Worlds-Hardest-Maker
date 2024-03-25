@@ -43,7 +43,16 @@ public class LevelSessionEditManager : MonoBehaviour
             // open corresponding panel
             PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
             PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
-            PanelManager.Instance.SetPanelHidden(isAnchorRelated ? anchorPanel : levelSettingsPanel, false);
+            PanelController anchorAttachButton = ReferenceManager.Instance.AnchorAttachButtonController;
+            if (isAnchorRelated)
+            {
+                PanelManager.Instance.SetPanelHidden(anchorPanel, false);
+                if (AnchorManager.Instance.SelectedAnchor != null) PanelManager.Instance.SetPanelHidden(anchorAttachButton, false, false);
+            }
+            else
+            {
+                PanelManager.Instance.SetPanelHidden(levelSettingsPanel, false);
+            }
 
             // enable/disable anchor path
             if (AnchorManager.Instance.SelectedAnchor) AnchorManager.Instance.SelectedAnchor.SetLinesActive(isAnchorRelated);
