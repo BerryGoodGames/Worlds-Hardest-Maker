@@ -20129,7 +20129,7 @@ MonoBehaviour:
   displayDuration: 1
   displayPath: 1
   successColor: {r: 0, g: 1, b: 0, a: 1}
-  deathColor: {r: 1, g: 0, b: 0, a: 0.78431374}
+  deathColor: {r: 1, g: 0, b: 0, a: 0.7019608}
   minDeathColorValue: 0.5
   displaySprites: 1
   spriteFrequency: 2
