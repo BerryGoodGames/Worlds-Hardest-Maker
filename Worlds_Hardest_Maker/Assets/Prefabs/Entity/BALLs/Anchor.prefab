@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 3467334307650034706}
   - component: {fileID: 192380122639183852}
   m_Layer: 7
-  m_Name: AnchorBallContainer
+  m_Name: AttachmentContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
