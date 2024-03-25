@@ -20,8 +20,6 @@ public class AnchorAttachManager : MonoBehaviour
         PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachExitButtonController, false, false);
 
         InAttachMode = true;
-        
-        print("Enter");
     }
 
     public void ExitAttachMode()

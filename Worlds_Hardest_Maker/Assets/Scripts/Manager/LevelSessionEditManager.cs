@@ -31,10 +31,16 @@ public class LevelSessionEditManager : MonoBehaviour
 
             // enable/disable outlines and panel when switching to/away from anchors or anchor ball
             bool isAnchorRelated = currentEditMode.Attributes.IsAnchorRelated;
+            bool inAttachMode = AnchorAttachManager.Instance.InAttachMode;
             foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
             {
                 Animator anim = anchor.GetComponentInChildren<Animator>();
                 anim.SetBool(editingString, isAnchorRelated);
+            }
+            
+            if (AnchorManager.Instance.SelectedAnchor)
+            {
+                AnchorManager.Instance.SelectedAnchor.GetComponent<Animator>().SetBool(editingString, isAnchorRelated || inAttachMode);
             }
 
             if (isAnchorRelated && AnchorManager.Instance.SelectedAnchor) ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
@@ -52,9 +58,7 @@ public class LevelSessionEditManager : MonoBehaviour
                 {
                     PanelManager.Instance.SetPanelHidden(anchorPanel, false);
                 
-                    bool isAnchorSelected = AnchorManager.Instance.SelectedAnchor != null;
-                
-                    if (isAnchorSelected)
+                    if (AnchorManager.Instance.SelectedAnchor)
                     {
                         PanelManager.Instance.SetPanelHidden(AnchorAttachManager.Instance.InAttachMode ? anchorAttachExitButton : anchorAttachButton, false, false);
                     }
