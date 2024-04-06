@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(MouseOverUIRect))]
-public class PlayButton : BarTween, IPointerDownHandler, IPointerUpHandler
+public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform top;
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform button;

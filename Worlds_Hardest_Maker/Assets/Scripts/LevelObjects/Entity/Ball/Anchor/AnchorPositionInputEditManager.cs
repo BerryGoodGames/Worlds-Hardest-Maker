@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using MyBox;
 using UnityEngine;
@@ -53,13 +54,16 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         AnchorManager.Instance.SelectedAnchor.RenderLines();
     }
 
-    public IEnumerator EditCoroutine()
+    private IEnumerator EditCoroutine()
     {
         if (CurrentEditedPositionInput == null) yield break;
 
         OnStartPositionEdit();
 
         PositionAnchorBlockController anchorBlockController = CurrentEditedPositionInput.AnchorBlockController;
+
+        if (anchorBlockController == null) throw new Exception("Anchor block controller of position input controller is null. Failed to start position input coroutine.");
+        
         PositionAnchorBlockController nextAnchorBlockController = null;
 
         // get next position anchor block controller

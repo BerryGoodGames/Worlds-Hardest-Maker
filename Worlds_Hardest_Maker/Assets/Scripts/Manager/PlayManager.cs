@@ -37,7 +37,7 @@ public class PlayManager : MonoBehaviour
         LevelSessionEditManager.Instance.InPlaytest = LevelSessionEditManager.Instance.Playing && playtest;
 
         (LevelSessionEditManager.Instance.Playing ? OnSwitchToPlay : OnSwitchToEdit)?.Invoke();
-        
+
         if (LevelSessionEditManager.Instance.InPlaytest) OnPlaytest.Invoke();
 
         OnToggle.Invoke();

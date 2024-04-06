@@ -261,15 +261,7 @@ public class SettingsManager : MonoBehaviour
 
     #endregion
 
-    private void Awake()
-    {
-        if (Instance == null) Instance = this;
-        else throw new Exception("There exist multiple instances of SettingsManager");
-    }
+    private void Awake() => Instance = this;
 
-    private void OnDestroy()
-    {
-        if(Instance == this) Instance = null;
-        SavePrefs();
-    }
+    private void OnDestroy() => SavePrefs();
 }

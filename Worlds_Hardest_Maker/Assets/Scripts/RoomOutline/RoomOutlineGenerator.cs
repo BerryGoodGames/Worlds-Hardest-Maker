@@ -38,6 +38,8 @@ public class RoomOutlineGenerator : MonoBehaviour
 
     private void CalcSize(float zoom)
     {
+        if (!LevelSessionManager.Instance.IsEdit) return;
+        
         Transform t = transform;
         foreach (Transform child in t) Destroy(child.gameObject);
 
@@ -81,6 +83,7 @@ public class RoomOutlineGenerator : MonoBehaviour
 
     public void SetEnabledSetting(bool enabled)
     {
+        if (!LevelSessionManager.Instance.IsEdit) return;
         gameObject.SetActive(enabled && !(LevelSessionEditManager.Instance.Playing && LevelSessionEditManager.Instance.InPlaytest));
     }
 }

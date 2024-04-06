@@ -21,6 +21,8 @@ public partial class AnchorManager : MonoBehaviour
 
         PlayManager.Instance.OnSwitchToEdit += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(false);
         PlayManager.Instance.OnSwitchToPlay += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(true);
+
+        PlayManager.Instance.OnPlaytest += DeselectAnchor;
     }
 
     private void Update() => CheckAnchorSelection();

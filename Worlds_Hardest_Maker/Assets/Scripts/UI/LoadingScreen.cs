@@ -14,7 +14,7 @@ public class LoadingScreen : MonoBehaviour
 
     [SerializeField] [InitializationField] [MustBeAssigned] private ChainableTween tween;
 
-    public void SetProgress(float progress) => slider.value = progress;
+    private void SetProgress(float progress) => slider.value = progress;
 
     public void LoadScene(int sceneId)
     {
@@ -42,9 +42,7 @@ public class LoadingScreen : MonoBehaviour
         SetProgress(0);
 
         float elapsedTime = 0;
-
         float progressValue = 0;
-
         while (progressValue < 1 || elapsedTime < duration)
         {
             progressValue = Mathf.Clamp01(operation.progress / .9f);

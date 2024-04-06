@@ -8,7 +8,7 @@ public class AnchorBlockPositionInputController : MonoBehaviour
     [InitializationField] public TMP_InputField InputX;
     [InitializationField] public TMP_InputField InputY;
 
-    [field: SerializeField] public PositionAnchorBlockController AnchorBlockController { get; private set; }
+    [field: SerializeField] [field: InitializationField] [field: MustBeAssigned] public PositionAnchorBlockController AnchorBlockController { get; private set; }
 
     public void OnValueChanged() => AnchorManager.Instance.UpdateSelectedAnchorLines();
 
@@ -28,7 +28,4 @@ public class AnchorBlockPositionInputController : MonoBehaviour
             float.Parse(InputX.text, CultureInfo.InvariantCulture.NumberFormat),
             float.Parse(InputY.text, CultureInfo.InvariantCulture.NumberFormat)
         );
-
-
-    private void Start() => AnchorBlockController = GetComponentInParent<PositionAnchorBlockController>();
 }
