@@ -47,11 +47,9 @@ public class ToolOptionbar : MonoBehaviour
     private void Start()
     {
         if (!transform.parent.TryGetComponent(out Root))
-        {
             throw new Exception(
                 "This tool optionbar does not have a tool as root\ntool optionbar is expected to be direct child of a tool"
             );
-        }
 
         // teleport optionbar up when invisible (dont care)
         RectTransform rt = (RectTransform)transform;

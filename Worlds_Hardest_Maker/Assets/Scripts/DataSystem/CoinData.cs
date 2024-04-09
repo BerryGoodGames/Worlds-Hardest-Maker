@@ -23,7 +23,7 @@ public class CoinData : Data
     public override void ImportToLevel(Vector2 pos) => CoinManager.SetCoin(pos);
 
     public override EditMode GetEditMode() => EditModeManager.Coin;
-    
+
     public override bool Equals(Data d)
     {
         CoinData other = (CoinData)d;

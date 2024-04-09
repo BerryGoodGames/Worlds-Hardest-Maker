@@ -21,7 +21,7 @@ public class MapController : MonoBehaviour
     private void Update()
     {
         if (LevelSessionEditManager.Instance.InPlaytest) return;
-        
+
         // right click drag to pan
         if (KeyBinds.GetKeyBind("Camera_Pan")) PanCamera();
         if (KeyBinds.GetKeyBindUp("Camera_Pan")) lastMousePos = null;
@@ -74,9 +74,8 @@ public class MapController : MonoBehaviour
             if (EventSystem.current.IsPointerOverGameObject()) movement = Vector2.zero;
 
             transform.position += (Vector3)movement;
-
         }
-            
+
         lastMousePos = Input.mousePosition;
     }
 

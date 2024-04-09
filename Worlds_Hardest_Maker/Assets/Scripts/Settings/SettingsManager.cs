@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance { get; private set; }
-    
+
     [SerializeField] [InitializationField] [MustBeAssigned] private AudioMixer mainMixer;
     [SerializeField] [InitializationField] [MustBeAssigned] private SyncInputToSlider musicSlider;
     [SerializeField] [InitializationField] [MustBeAssigned] private SyncInputToSlider soundEffectSlider;
@@ -20,7 +20,7 @@ public class SettingsManager : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private Toggle fullscreenToggle;
     [SerializeField] [InitializationField] [MustBeAssigned] private Toggle oneColorToggle;
     [SerializeField] [InitializationField] [MustBeAssigned] private Toggle showRoomGridToggle;
-    
+
     private Resolution[] resolutions;
     [HideInInspector] public bool OneColorSafeFields;
     [HideInInspector] public bool ShowRoomGrid;
@@ -33,14 +33,14 @@ public class SettingsManager : MonoBehaviour
     private void Start()
     {
         UpdateResolutionOptions();
-        
+
         LoadPrefs();
     }
 
     public void SavePrefs()
     {
         print("Settings: Saving prefs...");
-        
+
         PlayerPrefs.SetFloat("MusicVolume", GetMusicVolume());
         PlayerPrefs.SetFloat("SoundEffectVolume", GetSoundEffectVolume());
         PlayerPrefs.SetFloat("ToolbarSize", GetToolbarSize());
@@ -50,7 +50,7 @@ public class SettingsManager : MonoBehaviour
         PlayerPrefs.SetInt("Fullscreen", fullscreenToggle.isOn ? 1 : 0);
         PlayerPrefs.SetInt("OneColor", oneColorToggle.isOn ? 1 : 0);
         PlayerPrefs.SetInt("ShowRoomGrid", showRoomGridToggle.isOn ? 1 : 0);
-        
+
         // key binds
         foreach (KeyBind keyBind in KeyBinds.GetAllKeyBinds()) PlayerPrefs.SetString(keyBind.Name, keyBind.KeyCodesToString());
 
@@ -60,7 +60,7 @@ public class SettingsManager : MonoBehaviour
     public void LoadPrefs()
     {
         print("Settings: Loading prefs...");
-        
+
         // check if preferences already exist, and if they don't then set the current (default) prefs
         if (!PlayerPrefs.HasKey("MusicVolume")) SavePrefs();
 
@@ -73,7 +73,7 @@ public class SettingsManager : MonoBehaviour
         SetFullscreen(PlayerPrefs.GetInt("Fullscreen") == 1, true);
         SetOneColorSafeFieldsWhenPlaying(PlayerPrefs.GetInt("OneColor") == 1, true);
         SetShowRoomGrid(PlayerPrefs.GetInt("ShowRoomGrid") == 1, true);
-        
+
         // key binds
         foreach (KeyBind keyBind in KeyBinds.GetAllKeyBinds())
         {
@@ -110,7 +110,7 @@ public class SettingsManager : MonoBehaviour
     }
 
     public void SetFullscreen(bool fullscreen) => SetFullscreen(fullscreen, false);
-    
+
     public void SetResolution(int index, bool updateDropdown)
     {
         if (index >= resolutions.Length) index = resolutions.Length - 1;
@@ -127,7 +127,7 @@ public class SettingsManager : MonoBehaviour
     public void SetOneColorSafeFieldsWhenPlaying(bool oneColor, bool updateToggle)
     {
         OnSetOneColorSafeFieldsWhenPlaying.Invoke(oneColor);
-        
+
         OneColorSafeFields = oneColor;
 
         if (!updateToggle) return;
@@ -135,11 +135,11 @@ public class SettingsManager : MonoBehaviour
     }
 
     public void SetOneColorSafeFieldsWhenPlaying(bool oneColor) => SetOneColorSafeFieldsWhenPlaying(oneColor, false);
-    
+
     public void SetShowRoomGrid(bool show, bool updateToggle)
     {
         OnSetShowRoomGrid.Invoke(show);
-        
+
         ShowRoomGrid = show;
 
         if (!updateToggle) return;
@@ -169,7 +169,7 @@ public class SettingsManager : MonoBehaviour
         resolutionDropdown.value = currentResIndex;
         resolutionDropdown.RefreshShownValue();
     }
-    
+
     #endregion
 
     #region Sound settings
@@ -188,7 +188,7 @@ public class SettingsManager : MonoBehaviour
     }
 
     public void SetMusicVolume(float vol) => SetMusicVolume(vol, false);
-    
+
     public float GetMusicVolume()
     {
         if (mainMixer.GetFloat("MusicVolume", out float value)) return MathF.Pow(10, value / 20).Map(0.0001f, 3, 0, 100);
@@ -224,7 +224,7 @@ public class SettingsManager : MonoBehaviour
     public void SetToolbarSize(float size, bool updateSlider)
     {
         OnSetToolbarSize.Invoke(size);
-        
+
         if (!updateSlider) return;
 
         toolbarSizeSlider.Slider.value = size;

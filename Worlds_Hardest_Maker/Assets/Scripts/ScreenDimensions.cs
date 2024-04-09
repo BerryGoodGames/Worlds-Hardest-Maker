@@ -34,7 +34,7 @@ public class ScreenDimensions : MonoBehaviour
                 MapController map = cam.GetComponent<MapController>();
                 zoom = map.ZoomLimits.Max;
             }
-            else zoom = maxZoom;
+            else { zoom = maxZoom; }
 
             float height = 2 * zoom;
             float width = cam.aspect * height;

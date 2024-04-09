@@ -7,9 +7,9 @@ public class LevelSettingsData : Data
 
     public int RoomWidth;
     public int RoomHeight;
-    
+
     public float PlayerSpeed;
-    
+
     public bool IsCoinsNeededLimited;
     public int CoinsNeeded;
 
@@ -58,12 +58,12 @@ public class LevelSettingsData : Data
         LevelSettings.Instance.SetIceMaxSpeed(IceMaxSpeed);
         LevelSettings.Instance.SetConveyorSpeed(ConveyorSpeed);
         LevelSettings.Instance.SetReusableCheckpoints(ReusableCheckpoints);
-        
+
         LevelSettings.Instance.InvokeOnImported();
     }
 
     public override EditMode GetEditMode() => EditModeManager.Wall;
-    
+
     public override bool Equals(Data d)
     {
         LevelSettingsData other = (LevelSettingsData)d;
@@ -71,7 +71,7 @@ public class LevelSettingsData : Data
                && other.RoomHeight == RoomHeight
                && other.PlayerSpeed == PlayerSpeed
                && other.IsCoinsNeededLimited == IsCoinsNeededLimited
-               && other.CoinsNeeded == CoinsNeeded 
+               && other.CoinsNeeded == CoinsNeeded
                && other.PlayerInvincibility == PlayerInvincibility
                && other.DrownDuration == DrownDuration
                && other.WaterDamping == WaterDamping

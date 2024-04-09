@@ -38,7 +38,7 @@ public class DiscordManager : MonoBehaviour
     private void Awake()
     {
         // init singleton
-        if (Instance == null) Instance = this;
+        if (Instance == null) { Instance = this; }
         else if (Application.isPlaying)
         {
             if (Instance == this) DontDestroyOnLoad(gameObject);
@@ -72,14 +72,14 @@ public class DiscordManager : MonoBehaviour
         // Update Status every frame
         try
         {
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             details = "Developing editor!";
             // state = "Currently " + (Application.isPlaying ? "testing" : "coding") + "!";
             state = "";
-#else
+            #else
             details = "Building level!";
             state = "";
-#endif
+            #endif
 
             Activity activity = new()
             {

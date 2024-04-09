@@ -263,10 +263,10 @@ public class SelectionManager : MonoBehaviour
                 mode.Prefab, pos, Quaternion.Euler(0, 0, rotation),
                 ReferenceManager.Instance.FieldContainer
             );
-            
+
             FieldController fieldController = field.GetComponent<FieldController>();
             fieldController.FieldMode = mode;
-            
+
             if (field.TryGetComponent(out ColorCalibration calibrator)) calibrator.Apply(SettingsManager.Instance.OneColorSafeFields);
 
             if (field.TryGetComponent(out FieldOutline foComp)) foComp.UpdateOnStart = false;

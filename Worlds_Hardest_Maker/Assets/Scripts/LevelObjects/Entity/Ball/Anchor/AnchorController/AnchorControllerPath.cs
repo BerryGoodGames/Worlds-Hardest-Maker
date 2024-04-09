@@ -73,10 +73,8 @@ public partial class AnchorController
 
         // track loop index if LoopBlock
         else if (anchorBlock.ImplementedBlockType is AnchorBlock.Type.Loop)
-        {
             // track loop index
             loopIndex = index;
-        }
     }
 
     private void ParsePositionBlockForPath(

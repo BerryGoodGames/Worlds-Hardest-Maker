@@ -34,7 +34,7 @@ public class KeyData : Data
             KeyColor.Yellow => EditModeManager.YellowKey,
             _ => EditModeManager.GrayKey,
         };
-    
+
     public override bool Equals(Data d)
     {
         KeyData other = (KeyData)d;

@@ -44,7 +44,6 @@ public class AlphaTween : MonoBehaviour
     private Tween TweenInvis()
     {
         if (image != null)
-        {
             return image.DOFade(alphaInvisible, duration).OnComplete(
                 () =>
                 {
@@ -53,10 +52,8 @@ public class AlphaTween : MonoBehaviour
                     OnIsInvisible?.Invoke();
                 }
             );
-        }
 
         if (text != null)
-        {
             return text.DOFade(alphaInvisible, duration).OnComplete(
                 () =>
                 {
@@ -65,10 +62,8 @@ public class AlphaTween : MonoBehaviour
                     OnIsInvisible?.Invoke();
                 }
             );
-        }
 
         if (canvasGroup != null)
-        {
             return canvasGroup.DOFade(alphaInvisible, duration).OnComplete(
                 () =>
                 {
@@ -77,10 +72,8 @@ public class AlphaTween : MonoBehaviour
                     OnIsInvisible?.Invoke();
                 }
             );
-        }
 
         if (spriteRenderer != null)
-        {
             return spriteRenderer.DOFade(alphaInvisible, duration).OnComplete(
                 () =>
                 {
@@ -89,7 +82,6 @@ public class AlphaTween : MonoBehaviour
                     OnIsInvisible?.Invoke();
                 }
             );
-        }
 
         return null;
     }

@@ -8,9 +8,8 @@ public class PlayerController : EntityController
 {
     #region Editor variables
 
-    [Space]
-    [Separator("Water settings")] [SerializeField] private Transform waterLevel;
-    
+    [Space] [Separator("Water settings")] [SerializeField] private Transform waterLevel;
+
     [Separator("Death settings")] [SerializeField] [PositiveValueOnly] private float defaultDeathFadeDuration;
     [SerializeField] [PositiveValueOnly] private float voidFallDuration;
 
@@ -104,7 +103,7 @@ public class PlayerController : EntityController
     {
         PlayManager.Instance.OnSwitchToEdit -= OnEdit;
         PlayManager.Instance.OnSwitchToPlay -= OnPlay;
-        
+
         PlayManager.Instance.OnLevelReset -= ResetState;
     }
 
@@ -115,7 +114,7 @@ public class PlayerController : EntityController
         DefaultDeathAnim();
 
         Shotgun.gameObject.SetActive(false);
-        
+
         ResetState();
     }
 
@@ -166,7 +165,7 @@ public class PlayerController : EntityController
 
             if (currentDrownDuration >= LevelSettings.Instance.DrownDuration) DieNormal("DeathDrown");
         }
-        else if (!InDeathAnim && !onWater) currentDrownDuration = 0;
+        else if (!InDeathAnim && !onWater) { currentDrownDuration = 0; }
 
         if (LevelSettings.Instance.DrownDuration == 0) return;
 
@@ -193,12 +192,10 @@ public class PlayerController : EntityController
 
         // snappy movement (when not on ice)
         if (!movementInput.Equals(Vector2.zero))
-        {
             totalMovement += GetPhysicsSpeed() * Time.fixedDeltaTime * new Vector2(
                 Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1),
                 Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1)
             );
-        }
 
         extraMovementInput = Vector2.zero;
     }
@@ -249,9 +246,9 @@ public class PlayerController : EntityController
     private void CornerPushHorizontal(Collision2D collider, Vector2 roundedPos, float err)
     {
         // early-out if it should not push 
-        if (movementInput.x == 0 
+        if (movementInput.x == 0
             || roundedPos.y.EqualsFloat(Mathf.Round(collider.transform.position.y))
-            || !(Mathf.Abs(Rb.position.y) % 1 > (1 - transform.lossyScale.y) * 0.5f + err) 
+            || !(Mathf.Abs(Rb.position.y) % 1 > (1 - transform.lossyScale.y) * 0.5f + err)
             || !(Mathf.Abs(Rb.position.y) % 1 < 1 - ((1 - transform.lossyScale.y) * 0.5f + err))) return;
 
 
@@ -269,7 +266,7 @@ public class PlayerController : EntityController
     public bool IsOnSafeField()
     {
         if (!LevelSettings.Instance.PlayerInvincibility) return false;
-        
+
         foreach (FieldController field in CurrentFields)
         {
             // check if current field is safe
@@ -377,10 +374,8 @@ public class PlayerController : EntityController
         if (!InDeathAnim) DefaultDeathAnim();
 
         if (LevelSessionEditManager.Instance.Playing)
-        {
             // sfx and death counter
             AudioManager.Instance.Play(soundEffect);
-        }
 
         Death();
     }
@@ -423,7 +418,7 @@ public class PlayerController : EntityController
         Rb.velocity = Vector2.zero;
         Rb.simulated = false;
         InDeathAnim = true;
-        
+
         if (LevelSessionEditManager.Instance.Playing)
         {
             Deaths++;
@@ -431,7 +426,7 @@ public class PlayerController : EntityController
         }
 
         UpdateCoinCounterDeath();
-        
+
         OnDeathEnter?.Invoke();
 
         if (KonamiManager.Instance.KonamiActive) return;
@@ -489,7 +484,7 @@ public class PlayerController : EntityController
             : CurrentGameState.PlayerStartPos;
 
         OnDeathEnd?.Invoke();
-        
+
         transform.position = spawnPos;
 
         RevertDeathAnimation();
@@ -515,7 +510,6 @@ public class PlayerController : EntityController
                 if (!KeyManager.Instance.AllKeysCollected(comp.Color)) comp.SetLocked(true);
             }
         }
-        
     }
 
     #endregion
@@ -536,7 +530,7 @@ public class PlayerController : EntityController
         CurrentGameState = newState;
 
         OnCheckpointEnter?.Invoke();
-        
+
         print("Saved game state");
     }
 
@@ -609,7 +603,6 @@ public class PlayerController : EntityController
         {
             bool isRespawning = true;
             if (CurrentGameState != null)
-            {
                 foreach (Vector2 collected in CurrentGameState.CollectedKeys)
                 {
                     if (!collected.x.EqualsFloat(key.KeyPosition.x) ||
@@ -619,7 +612,6 @@ public class PlayerController : EntityController
                     isRespawning = false;
                     break;
                 }
-            }
 
             if (!isRespawning) continue;
 
@@ -638,14 +630,12 @@ public class PlayerController : EntityController
             Mathf.RoundToInt(position.y / LevelSettings.Instance.RoomHeight)
         );
     }
-    
-    public Vector2Int GetStartRoom()
-    {
-        return new(
+
+    public Vector2Int GetStartRoom() =>
+        new(
             Mathf.RoundToInt(StartPos.x / LevelSettings.Instance.RoomWidth),
             Mathf.RoundToInt(StartPos.y / LevelSettings.Instance.RoomHeight)
         );
-    }
 
     private void InitComponents()
     {

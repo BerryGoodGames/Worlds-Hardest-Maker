@@ -27,7 +27,7 @@ public class CoinController : EntityController, IResettable, ICollectible
         ((IResettable)this).Subscribe();
         PlayManager.Instance.OnSwitchToPlay += ActivateAnimation;
     }
-    
+
     private void OnDestroy()
     {
         // un-cache coin
@@ -36,7 +36,7 @@ public class CoinController : EntityController, IResettable, ICollectible
         ((IResettable)this).Unsubscribe();
         PlayManager.Instance.OnSwitchToPlay -= ActivateAnimation;
     }
-    
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (PickedUp) return;

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using MyBox;
 using UnityEngine;
 
 public class PlayManager : MonoBehaviour
@@ -84,7 +83,7 @@ public class PlayManager : MonoBehaviour
             KeyManager.Instance.ActivateAnimations();
 
             ReferenceManager.Instance.TimerController.StartTimer();
-            
+
             OnPlaySceneSetup.Invoke();
         }
     }

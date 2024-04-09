@@ -20,7 +20,7 @@ public class AnchorBallData : Data
     public void ImportToLevel(AnchorController anchor) => AnchorBallManager.SetAnchorBall(new(position[0], position[1]), anchor);
 
     public override EditMode GetEditMode() => EditModeManager.AnchorBall;
-    
+
     public override bool Equals(Data d)
     {
         AnchorBallData other = (AnchorBallData)d;

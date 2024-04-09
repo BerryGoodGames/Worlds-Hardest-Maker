@@ -30,8 +30,8 @@ public abstract class AnchorBlockColorController : MonoBehaviour
     {
         UpdateColor();
 
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         EditorApplication.QueuePlayerLoopUpdate();
-#endif
+        #endif
     }
 }

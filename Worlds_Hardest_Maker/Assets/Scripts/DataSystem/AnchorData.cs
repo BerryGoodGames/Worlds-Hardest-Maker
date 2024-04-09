@@ -88,7 +88,7 @@ public class AnchorData : Data
     }
 
     public override EditMode GetEditMode() => EditModeManager.Anchor;
-    
+
     public override bool Equals(Data d)
     {
         AnchorData other = (AnchorData)d;

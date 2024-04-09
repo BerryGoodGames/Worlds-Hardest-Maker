@@ -13,7 +13,7 @@ public class AnchorBallDragDrop : EntityDragDrop
         {
             if (AnchorManager.Instance.SelectedAnchor == null) base.OnMouseDrag();
         }
-        else if (anchorBallController.ParentAnchor.Selected) base.OnMouseDrag();
+        else if (anchorBallController.ParentAnchor.Selected) { base.OnMouseDrag(); }
 
         anchorBallController.StartPosition = transform.localPosition;
     }

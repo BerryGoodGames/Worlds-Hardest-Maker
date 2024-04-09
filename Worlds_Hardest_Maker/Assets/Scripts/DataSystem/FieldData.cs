@@ -34,7 +34,7 @@ public class FieldData : Data
     }
 
     public override EditMode GetEditMode() => (EditMode)Enum.Parse(typeof(EditMode), FieldMode);
-    
+
     public override bool Equals(Data d)
     {
         FieldData other = (FieldData)d;

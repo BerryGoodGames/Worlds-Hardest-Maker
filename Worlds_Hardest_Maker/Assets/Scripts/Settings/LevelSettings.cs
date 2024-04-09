@@ -12,7 +12,7 @@ public class LevelSettings : MonoBehaviour
 
 
     #region Setting UI element references
-        
+
     [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput roomWidthInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput roomHeightInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private Slider playerSpeedInput;
@@ -25,19 +25,19 @@ public class LevelSettings : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput iceMaxSpeedInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private Slider conveyorSpeedInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private Toggle reusableCheckpointCheckbox;
-    
+
     #endregion
 
     #region Setting variables
-    
+
     [HideInInspector] public int RoomWidth;
-    
+
     [HideInInspector] public int RoomHeight;
-    
+
     [HideInInspector] public float PlayerSpeed;
-    
+
     [HideInInspector] public bool IsCoinsNeededLimited;
-    
+
     [HideInInspector] public int CoinsNeeded;
 
     [HideInInspector] public bool PlayerInvincibility;
@@ -64,27 +64,31 @@ public class LevelSettings : MonoBehaviour
     #region Level settings
 
     public void SetRoomWidth() => RoomWidth = (int)roomWidthInput.GetCurrentNumber();
+
     public void SetRoomWidth(int value)
     {
         RoomWidth = value;
         roomWidthInput.SetNumberText(value);
     }
-    
+
     public void SetRoomHeight() => RoomHeight = (int)roomHeightInput.GetCurrentNumber();
+
     public void SetRoomHeight(int value)
     {
         RoomHeight = value;
         roomHeightInput.SetNumberText(value);
     }
-    
+
     public void SetPlayerSpeed() => PlayerSpeed = playerSpeedInput.value / 2;
+
     public void SetPlayerSpeed(float value)
     {
         PlayerSpeed = value;
         playerSpeedInput.value = (int)(value * 2);
     }
-    
+
     public void SetCoinsNeeded() => CoinsNeeded = (int)coinsNeededInput.GetCurrentNumber();
+
     public void SetCoinsNeeded(int value)
     {
         CoinsNeeded = value;
@@ -92,13 +96,15 @@ public class LevelSettings : MonoBehaviour
     }
 
     public void SetIsNeededCoinsLimited() => IsCoinsNeededLimited = isCoinsNeededLimitedInput.isOn;
+
     public void SetIsNeededCoinsLimited(bool value)
     {
         IsCoinsNeededLimited = value;
         isCoinsNeededLimitedInput.isOn = IsCoinsNeededLimited;
     }
-     
+
     public void SetPlayerInvincibility() => PlayerInvincibility = playerInvincibilityInput.isOn;
+
     public void SetPlayerInvincibility(bool value)
     {
         PlayerInvincibility = value;
@@ -114,6 +120,7 @@ public class LevelSettings : MonoBehaviour
     }
 
     public void SetWaterDamping() => WaterDampingFactor = 1 - waterDampingSlider.value;
+
     public void SetWaterDamping(float waterDamping)
     {
         WaterDampingFactor = waterDamping;
@@ -121,6 +128,7 @@ public class LevelSettings : MonoBehaviour
     }
 
     public void SetIceFriction() => IceFriction = iceFrictionInput.GetCurrentNumber();
+
     public void SetIceFriction(float friction)
     {
         IceFriction = friction;
@@ -128,13 +136,15 @@ public class LevelSettings : MonoBehaviour
     }
 
     public void SetIceMaxSpeed() => IceMaxSpeed = iceMaxSpeedInput.GetCurrentNumber();
+
     public void SetIceMaxSpeed(float speed)
     {
         IceMaxSpeed = speed;
         iceMaxSpeedInput.SetNumberText(speed);
     }
-    
+
     public void SetConveyorSpeed() => ConveyorSpeed = conveyorSpeedInput.value / 2;
+
     public void SetConveyorSpeed(float value)
     {
         ConveyorSpeed = value;
@@ -142,6 +152,7 @@ public class LevelSettings : MonoBehaviour
     }
 
     public void SetReusableCheckpoints() => ReusableCheckpoints = reusableCheckpointCheckbox.isOn;
+
     public void SetReusableCheckpoints(bool reusableCheckpoint)
     {
         ReusableCheckpoints = reusableCheckpoint;
@@ -159,7 +170,7 @@ public class LevelSettings : MonoBehaviour
     private void Start()
     {
         LevelSessionManager.Instance.OnLevelLoaded += ImportTransitionRoomSize;
-        
+
         SetRoomWidth();
         SetRoomHeight();
         SetPlayerSpeed();
@@ -176,7 +187,7 @@ public class LevelSettings : MonoBehaviour
     private void ImportTransitionRoomSize()
     {
         if (LevelSessionManager.IsSessionFromEditor) return;
-        
+
         Vector2Int transitionRoomSize = TransitionManager.Instance.RoomSize;
         if (transitionRoomSize.x != 0) SetRoomWidth(transitionRoomSize.x);
         if (transitionRoomSize.y != 0) SetRoomHeight(transitionRoomSize.y);
@@ -184,10 +195,7 @@ public class LevelSettings : MonoBehaviour
         InvokeOnUpdateRoomSize();
     }
 
-    private void OnDestroy()
-    {
-        LevelSessionManager.Instance.OnLevelLoaded -= ImportTransitionRoomSize;
-    }
+    private void OnDestroy() => LevelSessionManager.Instance.OnLevelLoaded -= ImportTransitionRoomSize;
 
     private void Update()
     {
@@ -197,5 +205,4 @@ public class LevelSettings : MonoBehaviour
 
     public void InvokeOnImported() => OnLevelSettingsImported.Invoke();
     public void InvokeOnUpdateRoomSize() => OnUpdateRoomSize.Invoke();
-
 }

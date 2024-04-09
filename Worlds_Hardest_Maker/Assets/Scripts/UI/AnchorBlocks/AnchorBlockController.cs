@@ -136,10 +136,8 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         warningIconContainer.SetActive(enable);
 
         if (enable)
-        {
             // play warning sfx
             AudioManager.Instance.Play("AnchorBlockWarning");
-        }
     }
 
     private void Start()

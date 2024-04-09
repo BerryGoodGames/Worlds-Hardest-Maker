@@ -21,7 +21,7 @@ public class FieldManager : MonoBehaviour
 
         return null;
     }
-    
+
     public bool RemoveField(Vector2Int position, bool updateOutlines = false)
     {
         FieldController field = GetField(position);
@@ -57,8 +57,9 @@ public class FieldManager : MonoBehaviour
         // place field according to edit mode
         FieldController field = InstantiateField(position, mode, rotation);
 
-        if(field.TryGetComponent(out ColorCalibration calibration)) calibration.Apply(LevelSessionEditManager.Instance.Playing && SettingsManager.Instance.OneColorSafeFields);
-        
+        if (field.TryGetComponent(out ColorCalibration calibration))
+            calibration.Apply(LevelSessionEditManager.Instance.Playing && SettingsManager.Instance.OneColorSafeFields);
+
         // remove player if at changed pos
         if (!mode.IsStartFieldForPlayer) PlayerManager.Instance.RemovePlayerAtPosIntersect(position);
 
@@ -88,11 +89,8 @@ public class FieldManager : MonoBehaviour
     public static void ApplySafeFieldsColor(bool oneColor)
     {
         ColorCalibration[] colorCalibrations = ReferenceManager.Instance.FieldContainer.GetComponentsInChildren<ColorCalibration>();
-        
-        foreach (ColorCalibration field in colorCalibrations)
-        {
-            field.Apply(oneColor);
-        }
+
+        foreach (ColorCalibration field in colorCalibrations) { field.Apply(oneColor); }
     }
 
     private static FieldController InstantiateField(Vector2 pos, FieldMode mode, int rotation)

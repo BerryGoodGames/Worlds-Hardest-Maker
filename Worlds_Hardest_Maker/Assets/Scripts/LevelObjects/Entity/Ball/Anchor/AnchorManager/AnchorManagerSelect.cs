@@ -1,4 +1,3 @@
-using System.Windows.Forms;
 using MyBox;
 using UnityEngine;
 
@@ -31,7 +30,7 @@ public partial class AnchorManager
 
             SelectedAnchor.Animator.SetBool(selectedString, false);
             SelectedAnchor.SetLinesActive(false);
-            
+
             PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachExitButtonController, true);
             AnchorAttachManager.Instance.InAttachMode = false;
         }
@@ -61,9 +60,7 @@ public partial class AnchorManager
         ReferenceManager.Instance.AnchorCameraJumping.CameraJumpToAnchor();
 
         if (!AnchorAttachManager.Instance.InAttachMode)
-        {
             PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, false, false);
-        }
 
         // play sfx
         AudioManager.Instance.Play("AnchorBlockButton");
@@ -88,12 +85,9 @@ public partial class AnchorManager
         ReferenceManager.Instance.MainCameraJumper.RemoveTarget("Anchor");
 
         EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
-        if (currentEditMode != EditModeManager.Anchor && currentEditMode != EditModeManager.AnchorBall)
-        {
-            PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
-            PanelManager.Instance.SetPanelOpen(levelSettingsPanel, true);
-        }
-        
+        if (!currentEditMode.Attributes.IsAnchorRelated)
+            PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.LevelSettingsPanelController, false);
+
         PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, true);
         PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachExitButtonController, true);
         AnchorAttachManager.Instance.InAttachMode = false;

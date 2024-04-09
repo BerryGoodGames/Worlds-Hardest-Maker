@@ -21,7 +21,7 @@ public class TMPDecimalInputAdjusterEditor : Editor
         EditorGUILayout.PropertyField(roundToStep);
 
         if (!script.ForbidDecimals && script.RoundToStep) EditorGUILayout.PropertyField(stepValue);
-        
+
         EditorGUILayout.PropertyField(maxLimit);
         EditorGUILayout.PropertyField(minLimit);
         EditorGUILayout.PropertyField(max);

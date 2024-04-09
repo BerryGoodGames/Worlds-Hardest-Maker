@@ -54,7 +54,7 @@ public static class KeyBinds
     };
 
     public static bool GetKeyBind(string keyBindName) => keyBindToKeyCode[keyBindName].Any(combination => combination.All(Input.GetKey));
-    
+
     public static bool GetKeyBindDown(string keyBindName)
     {
         // TODO
@@ -64,25 +64,23 @@ public static class KeyBinds
             for (int i = 0; i < combination.Length; i++)
             {
                 KeyCode frameKey = combination[i];
-    
+
                 bool allOtherKeysHeld = true;
                 for (int j = 0; j < combination.Length; j++)
                 {
                     if (i == j) continue;
-    
+
                     if (!Input.GetKey(combination[j]))
                     {
                         allOtherKeysHeld = false;
                         break;
                     }
                 }
-    
-                if (allOtherKeysHeld && Input.GetKeyDown(frameKey))
-                {
-                    return true;
-                }
+
+                if (allOtherKeysHeld && Input.GetKeyDown(frameKey)) return true;
             }
         }
+
         return false;
     }
 
@@ -94,28 +92,26 @@ public static class KeyBinds
             for (int i = 0; i < combination.Length; i++)
             {
                 KeyCode frameKey = combination[i];
-    
+
                 bool allOtherKeysUnheld = true;
                 for (int j = 0; j < combination.Length; j++)
                 {
                     if (i == j) continue;
-    
+
                     if (Input.GetKey(combination[j]))
                     {
                         allOtherKeysUnheld = false;
                         break;
                     }
                 }
-    
-                if (allOtherKeysUnheld && Input.GetKeyUp(frameKey))
-                {
-                    return true;
-                }
+
+                if (allOtherKeysUnheld && Input.GetKeyUp(frameKey)) return true;
             }
         }
+
         return false;
     }
-    
+
     public static void ResetKeyBind(string keyBindName) => keyBindToKeyCode[keyBindName].Clear();
 
     public static void AddKeyCodesToKeyBind(string keyBindName, params KeyCode[][] keyCodes) => keyBindToKeyCode[keyBindName].AddRange(keyCodes);
@@ -173,10 +169,7 @@ public static class KeyBinds
             {
                 for (int i = 0; i < combinations.Length; i++)
                 {
-                    if (combinations[i] == old)
-                    {
-                        combinations[i] = @new;
-                    }
+                    if (combinations[i] == old) combinations[i] = @new;
                 }
             }
         }

@@ -31,7 +31,7 @@ public class LevelCreationController : MonoBehaviour
     public static void CreateLevel(string name, string description, string creator)
     {
         string levelPath = SaveSystem.LevelSavePath + name + ".lvl";
-        
+
         LevelData levelData = new()
         {
             Info = new()
@@ -39,9 +39,9 @@ public class LevelCreationController : MonoBehaviour
                 Description = description,
                 Creator = creator,
             },
-            Objects = new(), 
+            Objects = new(),
         };
-        
+
         SaveSystem.SerializeLevelData(levelPath, levelData);
     }
 

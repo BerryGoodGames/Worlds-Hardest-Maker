@@ -17,7 +17,7 @@ public class SettingGenerator : MonoBehaviour
 
     #region Options
 
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
     [Header("Options")] [SerializeField] private string label;
     public SettingVersion Version;
     [SerializeField] private int amount = 1;
@@ -36,7 +36,7 @@ public class SettingGenerator : MonoBehaviour
 
     // numberinput: input width
     [SerializeField] private float numberInputWidth = 250;
-#endif
+    #endif
 
     #endregion
 
@@ -44,7 +44,7 @@ public class SettingGenerator : MonoBehaviour
 
     #endregion
 
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
     public void GenerateSetting()
     {
         if (label.Length == 0)
@@ -114,5 +114,5 @@ public class SettingGenerator : MonoBehaviour
             case SettingVersion.Space: break;
         }
     }
-#endif
+    #endif
 }

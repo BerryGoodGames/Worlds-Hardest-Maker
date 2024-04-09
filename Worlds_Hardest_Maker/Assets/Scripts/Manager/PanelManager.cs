@@ -78,11 +78,10 @@ public class PanelManager : MonoBehaviour
         {
             if (WasAnchorPanelOpen) SetPanelOpen(anchorPanel, true);
             else SetPanelHidden(anchorPanel, false);
-            
-            if(AnchorManager.Instance.SelectedAnchor != null) SetPanelHidden(anchorAttachButton, false, false);
+
+            if (AnchorManager.Instance.SelectedAnchor != null) SetPanelHidden(anchorAttachButton, false, false);
         }
-        else SetPanelHidden(levelSettingsPanel, false);
-        
+        else { SetPanelHidden(levelSettingsPanel, false); }
     }
 
     private void Start()

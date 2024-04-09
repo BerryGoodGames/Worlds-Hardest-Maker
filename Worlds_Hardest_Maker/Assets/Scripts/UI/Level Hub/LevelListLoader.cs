@@ -91,10 +91,10 @@ public class LevelListLoader : MonoBehaviour
     private bool CheckLevelsChanged(bool forceUpdateList, ref FileInfo[] levelInfo)
     {
         if (forceUpdateList) return false;
-        
+
         bool levelsChanged = false;
-        
-        if (prevLevelInfo == null || levelInfo.Length != prevLevelInfo.Length) levelsChanged = true;
+
+        if (prevLevelInfo == null || levelInfo.Length != prevLevelInfo.Length) { levelsChanged = true; }
         else
         {
             levelInfo = levelInfo.OrderBy(x => x.Name).ToArray();
@@ -116,13 +116,13 @@ public class LevelListLoader : MonoBehaviour
         // destroy all level cards
         foreach (Transform t in levelCardContainer)
         {
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             if (!Application.isPlaying)
             {
                 DestroyImmediate(t.gameObject);
                 continue;
             }
-#endif
+            #endif
 
             Destroy(t.gameObject);
         }

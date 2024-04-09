@@ -18,7 +18,7 @@ public class UndoManager : MonoBehaviour
             print("Nothing left to undo");
             return;
         }
-        
+
         // remove current game data to get previous
         gameDataStack.Pop();
 
@@ -31,16 +31,16 @@ public class UndoManager : MonoBehaviour
         List<Data> newData = SaveSystem.SerializeCurrentLevel();
 
         List<Data> currentData = gameDataStack.Count > 0 ? gameDataStack.Peek() : null;
-        
+
         if (gameDataStack.Count > 0 && CompareData(currentData, newData)) return;
-        
+
         gameDataStack.Push(newData);
     }
 
     private static bool CompareData(List<Data> list1, List<Data> list2)
     {
         if (list1.Count != list2.Count) return false;
-        
+
         for (int i = 0; i < list1.Count; i++)
         {
             Data l1 = list1[i];
@@ -62,7 +62,7 @@ public class UndoManager : MonoBehaviour
     // {
     //     return list1.SequenceEqual(list2);
     // }
-    
+
     // private static bool CompareData(List<Data> list1, List<Data> list2)
     // {
     //     IEnumerable<Data> inListButNotInList2 = list1.Except(list2);
@@ -70,14 +70,11 @@ public class UndoManager : MonoBehaviour
     //
     //     IEnumerable<Data> first10 = inListButNotInList2.Take(10);
     // }
-    
+
     private void Update()
     {
         if (KeyBinds.GetKeyBindDown("Editor_Undo")) Undo();
     }
 
-    private void Awake()
-    {
-        gameDataStack = new();
-    }
+    private void Awake() => gameDataStack = new();
 }

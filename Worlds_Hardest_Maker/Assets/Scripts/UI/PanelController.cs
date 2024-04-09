@@ -7,10 +7,10 @@ public class PanelController : MonoBehaviour
 {
     [SerializeField] [InitializationField] [CanBeNull] private PanelTween panelTween;
     private bool hasPanelTween;
-    
+
     [SerializeField] [InitializationField] [CanBeNull] private PanelTween buttonPanelTween;
     private bool hasButtonPanelTween;
-    
+
     [field: Separator("Initial settings")] [field: SerializeField] [field: InitializationField] public bool Open { get; private set; }
 
     [field: SerializeField] [field: InitializationField] public bool Hidden { get; private set; }
@@ -62,9 +62,7 @@ public class PanelController : MonoBehaviour
         PanelManager.Instance.SetPanelOpen(this, !Open, hideOtherPanels);
     }
 
-    private void OnDestroy()
-    {
+    private void OnDestroy() =>
         // track this in manager list
         PanelManager.Instance.Panels.Remove(this);
-    }
 }

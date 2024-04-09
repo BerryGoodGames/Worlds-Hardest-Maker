@@ -8,13 +8,14 @@ public class CoinManager : MonoBehaviour
     public static CoinManager Instance { get; private set; }
 
     [UsedImplicitly] public static readonly List<FieldMode> CannotPlaceFields = new();
-    
+
     [ReadOnly] public List<CoinController> Coins = new();
     [ReadOnly] public List<CoinController> CollectedCoins = new();
 
     private int TotalCoins => Coins.Count;
 
-    public int CoinsNeededFinal => Mathf.Min(LevelSettings.Instance.IsCoinsNeededLimited ? LevelSettings.Instance.CoinsNeeded : TotalCoins, TotalCoins);
+    public int CoinsNeededFinal =>
+        Mathf.Min(LevelSettings.Instance.IsCoinsNeededLimited ? LevelSettings.Instance.CoinsNeeded : TotalCoins, TotalCoins);
 
     private static readonly int playing = Animator.StringToHash("Playing");
 
@@ -70,7 +71,7 @@ public class CoinManager : MonoBehaviour
             if (c.CoinPosition == position) CollectedCoins.Remove(c);
         }
     }
-    
+
     public bool AllCoinsCollected() => CollectedCoins.Count >= CoinsNeededFinal;
 
     public void ActivateAnimations() => Coins.ForEach(coin => coin.ActivateAnimation());

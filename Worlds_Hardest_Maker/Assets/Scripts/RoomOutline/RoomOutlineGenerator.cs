@@ -1,5 +1,4 @@
 using MyBox;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -26,12 +25,10 @@ public class RoomOutlineGenerator : MonoBehaviour
     {
         Vector2 camPosition = cam.transform.position;
         if (prevPosition != (Vector2)cam.transform.position)
-        {
             transform.position = new(
-                Mathf.Round(camPosition.x / LevelSettings.Instance.RoomWidth) * LevelSettings.Instance.RoomWidth, 
+                Mathf.Round(camPosition.x / LevelSettings.Instance.RoomWidth) * LevelSettings.Instance.RoomWidth,
                 Mathf.Round(camPosition.y / LevelSettings.Instance.RoomHeight) * LevelSettings.Instance.RoomHeight
             );
-        }
 
         prevPosition = camPosition;
     }
@@ -39,7 +36,7 @@ public class RoomOutlineGenerator : MonoBehaviour
     private void CalcSize(float zoom)
     {
         if (!LevelSessionManager.Instance.IsEdit) return;
-        
+
         Transform t = transform;
         foreach (Transform child in t) Destroy(child.gameObject);
 
@@ -50,7 +47,7 @@ public class RoomOutlineGenerator : MonoBehaviour
         float maxX = (Mathf.Ceil(width / LevelSettings.Instance.RoomWidth) + 1) * LevelSettings.Instance.RoomWidth;
         float minY = (Mathf.Ceil(-height / LevelSettings.Instance.RoomHeight) - 1) * LevelSettings.Instance.RoomHeight;
         float maxY = (Mathf.Ceil(height / LevelSettings.Instance.RoomHeight) + 1) * LevelSettings.Instance.RoomHeight;
-        
+
         for (float i = minX; i < maxX; i += LevelSettings.Instance.RoomWidth)
         {
             for (float j = minY; j < maxY; j += LevelSettings.Instance.RoomHeight)
@@ -66,7 +63,7 @@ public class RoomOutlineGenerator : MonoBehaviour
     }
 
     public void CalcSize() => CalcSize(map.ZoomLimits.Max);
-    
+
     private void OnDestroy()
     {
         PlayManager.Instance.OnPlaytest -= Disable;
@@ -79,6 +76,7 @@ public class RoomOutlineGenerator : MonoBehaviour
         if (!EnabledInSettings) return;
         gameObject.SetActive(true);
     }
+
     private void Disable() => gameObject.SetActive(false);
 
     public void SetEnabledSetting(bool enabled)

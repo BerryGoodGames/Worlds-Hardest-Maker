@@ -48,7 +48,7 @@ public partial class AnchorController : EntityController, IResettable
         Rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         entityDragDrop = GetComponent<EntityDragDrop>();
-        
+
         SpeedInput = 7;
         RotationInput = 360;
         Ease = Ease.Linear;

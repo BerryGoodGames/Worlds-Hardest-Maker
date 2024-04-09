@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class DeletePlayerPrefs : MonoBehaviour
 {
-    [ButtonMethod] [UsedImplicitly]
+    [ButtonMethod]
+    [UsedImplicitly]
     public void DeleteAllPlayerPrefs()
     {
         PlayerPrefs.DeleteAll();

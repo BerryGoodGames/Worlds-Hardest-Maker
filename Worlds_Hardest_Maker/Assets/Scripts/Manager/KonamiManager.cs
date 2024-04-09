@@ -41,7 +41,7 @@ public class KonamiManager : MonoBehaviour
             print($"Konami {(KonamiActive ? "en" : "dis")}abled");
             keyIndex = 0;
         }
-        else keyIndex = 0;
+        else { keyIndex = 0; }
     }
 
     private static void SetKonamiActive(bool active)

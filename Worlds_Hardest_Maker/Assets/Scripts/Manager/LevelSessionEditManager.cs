@@ -37,11 +37,9 @@ public class LevelSessionEditManager : MonoBehaviour
                 Animator anim = anchor.GetComponentInChildren<Animator>();
                 anim.SetBool(editingString, isAnchorRelated);
             }
-            
+
             if (AnchorManager.Instance.SelectedAnchor)
-            {
                 AnchorManager.Instance.SelectedAnchor.GetComponent<Animator>().SetBool(editingString, isAnchorRelated || inAttachMode);
-            }
 
             if (isAnchorRelated && AnchorManager.Instance.SelectedAnchor) ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
             else ReferenceManager.Instance.AnchorBallContainer.BallFadeIn();
@@ -57,16 +55,13 @@ public class LevelSessionEditManager : MonoBehaviour
                 if (isAnchorRelated)
                 {
                     PanelManager.Instance.SetPanelHidden(anchorPanel, false);
-                
+
                     if (AnchorManager.Instance.SelectedAnchor)
-                    {
-                        PanelManager.Instance.SetPanelHidden(AnchorAttachManager.Instance.InAttachMode ? anchorAttachExitButton : anchorAttachButton, false, false);
-                    }
+                        PanelManager.Instance.SetPanelHidden(
+                            AnchorAttachManager.Instance.InAttachMode ? anchorAttachExitButton : anchorAttachButton, false, false
+                        );
                 }
-                else
-                {
-                    PanelManager.Instance.SetPanelHidden(levelSettingsPanel, false);
-                }
+                else { PanelManager.Instance.SetPanelHidden(levelSettingsPanel, false); }
             }
 
             // enable/disable anchor path
@@ -81,6 +76,7 @@ public class LevelSessionEditManager : MonoBehaviour
         get => !Editing;
         set => Editing = !value;
     }
+
     [field: SerializeField] [field: ReadOnly] public bool InPlaytest { get; set; }
 
 

@@ -11,10 +11,10 @@ public class KeyBindGenerator : MonoBehaviour
 
     private void Start()
     {
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         // change ctrl to shift in unity editor because of conflicts with the uniteh editor
         KeyBinds.ReplaceKeyCode(KeyCode.LeftControl, KeyCode.Tab);
-#endif
+        #endif
         GenerateKeyBindSetters();
     }
 

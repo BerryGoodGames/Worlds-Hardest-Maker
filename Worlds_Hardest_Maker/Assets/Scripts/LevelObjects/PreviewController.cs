@@ -66,11 +66,9 @@ public class PreviewController : MonoBehaviour
 
 
         if (!SelectionManager.Instance.Selecting && hasFollowMouseComp)
-        {
             FollowMouseComp.WorldPosition = currentEditMode.Attributes.IsField || currentEditMode == EditModeManager.Delete
                 ? WorldPositionType.Matrix
                 : WorldPositionType.Grid;
-        }
 
         // check visibility of preview
         if (TryGetComponent(out Animator anim)) anim.SetBool(visible, CheckVisibility());
@@ -161,7 +159,6 @@ public class PreviewController : MonoBehaviour
         // get sprite and scale
         if (currentPrefab.TryGetComponent(out SpriteRenderer prefabRenderer)) scale = currentPrefab.transform.localScale;
         else
-        {
             foreach (Transform child in currentPrefab.transform)
             {
                 if (!child.TryGetComponent(out prefabRenderer)) continue;
@@ -169,7 +166,6 @@ public class PreviewController : MonoBehaviour
                 scale = child.localScale;
                 break;
             }
-        }
 
         // apply
         Color prefabColor = prefabRenderer.color;
@@ -199,7 +195,7 @@ public class PreviewController : MonoBehaviour
             transform.DORotateQuaternion(rotation, rotateDuration)
                 .SetEase(Ease.OutCubic);
         }
-        else transform.localRotation = rotation;
+        else { transform.localRotation = rotation; }
     }
 
     private void ApplyDefaultSprite()

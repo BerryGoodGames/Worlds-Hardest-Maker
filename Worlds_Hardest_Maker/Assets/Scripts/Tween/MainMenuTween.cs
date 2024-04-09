@@ -27,7 +27,7 @@ public class MainMenuTween : MonoBehaviour
             startSwipeTween.gameObject.SetActive(true);
             startSwipeTween.Move();
         }
-        else startSwipeTween.gameObject.SetActive(false);
+        else { startSwipeTween.gameObject.SetActive(false); }
 
         player.rectTransform.anchoredPosition = new(playerStartX, player.rectTransform.anchoredPosition.y);
         player.rectTransform.DOAnchorPosX(playerEndX, playerDuration)

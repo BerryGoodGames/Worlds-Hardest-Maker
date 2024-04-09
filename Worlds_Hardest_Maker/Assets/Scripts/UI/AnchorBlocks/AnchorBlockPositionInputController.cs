@@ -8,7 +8,10 @@ public class AnchorBlockPositionInputController : MonoBehaviour
     [InitializationField] public TMP_InputField InputX;
     [InitializationField] public TMP_InputField InputY;
 
-    [field: SerializeField] [field: InitializationField] [field: MustBeAssigned] public PositionAnchorBlockController AnchorBlockController { get; private set; }
+    [field: SerializeField]
+    [field: InitializationField]
+    [field: MustBeAssigned]
+    public PositionAnchorBlockController AnchorBlockController { get; private set; }
 
     public void OnValueChanged() => AnchorManager.Instance.UpdateSelectedAnchorLines();
 

@@ -62,8 +62,9 @@ public class AnchorPositionInputEditManager : MonoBehaviour
 
         PositionAnchorBlockController anchorBlockController = CurrentEditedPositionInput.AnchorBlockController;
 
-        if (anchorBlockController == null) throw new Exception("Anchor block controller of position input controller is null. Failed to start position input coroutine.");
-        
+        if (anchorBlockController == null)
+            throw new Exception("Anchor block controller of position input controller is null. Failed to start position input coroutine.");
+
         PositionAnchorBlockController nextAnchorBlockController = null;
 
         // get next position anchor block controller
@@ -90,10 +91,8 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         }
 
         if (!gotNextController)
-        {
             // check if loop block is present
             if (AnchorManager.Instance.SelectedAnchor.LoopBlockIndex != -1)
-            {
                 // get first position block after loop block
                 for (int i = AnchorManager.Instance.SelectedAnchor.LoopBlockIndex;
                      i < ReferenceManager.Instance.MainChainController.Children.Count;
@@ -108,8 +107,6 @@ public class AnchorPositionInputEditManager : MonoBehaviour
                     onlyMoveSecondArrow = true;
                     break;
                 }
-            }
-        }
 
         Vector2? previousMousePos = null;
         // wait until clicked, cancel if esc is pressed

@@ -9,14 +9,14 @@ public class PlayModeBlocker : MonoBehaviour
     private void Start()
     {
         Disable();
-        
+
         PlayManager.Instance.OnPlaytest += Enable;
         PlayManager.Instance.OnPlaySceneSetup += Enable;
         PlayManager.Instance.OnSwitchToEdit += Disable;
-        
+
         LevelSettings.Instance.OnLevelSettingsImported += SetupBlackScreenMask;
         LevelSettings.Instance.OnUpdateRoomSize += SetupBlackScreenMask;
-        
+
         SetupBlackScreenMask();
     }
 
@@ -24,7 +24,7 @@ public class PlayModeBlocker : MonoBehaviour
     {
         Camera cam = Camera.main;
         if (cam == null) return;
-        
+
         CameraPlayJumpInfo jumpInfo = CameraPlayJumpInfo.GetCurrentJumpInfo(cam);
 
         const float infobarHeight = CameraPlayJumpInfo.InfobarHeight;
@@ -41,7 +41,7 @@ public class PlayModeBlocker : MonoBehaviour
     private static (float width, float height) GetCutoutSize(CameraPlayJumpInfo jumpInfo)
     {
         const float infobarHeight = CameraPlayJumpInfo.InfobarHeight;
-        
+
         float cutoutWidth, cutoutHeight;
 
         if (jumpInfo.HeightZoom > jumpInfo.WidthZoom)
@@ -66,7 +66,7 @@ public class PlayModeBlocker : MonoBehaviour
         LevelSettings.Instance.OnLevelSettingsImported -= SetupBlackScreenMask;
         LevelSettings.Instance.OnUpdateRoomSize -= SetupBlackScreenMask;
     }
-    
+
     private void Enable() => cutout.gameObject.SetActive(true);
     private void Disable() => cutout.gameObject.SetActive(false);
 }

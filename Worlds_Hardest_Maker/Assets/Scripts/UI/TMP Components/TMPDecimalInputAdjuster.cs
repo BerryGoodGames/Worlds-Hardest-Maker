@@ -28,7 +28,7 @@ public class TMPDecimalInputAdjuster : MonoBehaviour
 
         if (forbidNegative) inputFloat = MathF.Abs(inputFloat);
 
-        if (ForbidDecimals) inputFloat = MathF.Round(inputFloat);
+        if (ForbidDecimals) { inputFloat = MathF.Round(inputFloat); }
         else
         {
             if (RoundToStep) inputFloat = MathF.Round(inputFloat / StepValue) * StepValue;
@@ -36,7 +36,7 @@ public class TMPDecimalInputAdjuster : MonoBehaviour
 
         if (maxLimit) inputFloat = Mathf.Min(inputFloat, max);
         if (minLimit) inputFloat = Mathf.Max(inputFloat, min);
-    
+
         inputField.text = inputFloat.ToString();
     }
 }

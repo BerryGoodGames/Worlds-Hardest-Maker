@@ -55,7 +55,7 @@ public class Dbg : MonoBehaviour
 
     private void Start()
     {
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         if (AutoLoadLevel)
         {
             if (!LevelSessionManager.IsSessionFromEditor) return;
@@ -71,19 +71,21 @@ public class Dbg : MonoBehaviour
 
                 // load debug level
                 Coroutine loadLevelCoroutine = GameManager.Instance.LoadLevel(LevelSessionManager.Instance.LevelSessionPath);
-                loadLevelCoroutine.OnComplete(() =>
-                {
-                    LevelSessionManager.Instance.OnLevelLoaded.Invoke();
-                    LevelSettings.Instance.InvokeOnUpdateRoomSize();
-                });
+                loadLevelCoroutine.OnComplete(
+                    () =>
+                    {
+                        LevelSessionManager.Instance.OnLevelLoaded.Invoke();
+                        LevelSettings.Instance.InvokeOnUpdateRoomSize();
+                    }
+                );
             }
             catch
             {
                 // ignored
             }
         }
-        else if (autoPlacePlayer) PlayerManager.Instance.SetPlayer(Vector2.zero, true);
-#endif
+        else if (autoPlacePlayer) { PlayerManager.Instance.SetPlayer(Vector2.zero, true); }
+        #endif
     }
 
     private void Update()

@@ -66,10 +66,8 @@ public class AnchorBlockPreviewController : MonoBehaviour
     private void Update()
     {
         if (AnchorBlockManager.IsPreviewHovered && AnchorBlockManager.Instance.HoveredBlockIndex == -1)
-        {
             // correct mistake of overriding index to -1
             AnchorBlockManager.Instance.HoveredBlockIndex = GetChainIndex();
-        }
     }
 
     private void LateUpdate()

@@ -15,7 +15,7 @@ public class KeyBindSetterController : MonoBehaviour
     [Space] [SerializeField] private List<Tooltip> buttonTooltips;
 
     [HideInInspector] public RectTransform TooltipContainer;
-    
+
     public void AddKeyCode(KeyCode[] keyCodes)
     {
         if (KeyBinds.HasKeyBindKeyCode(KeyBind, keyCodes)) return;
@@ -220,12 +220,12 @@ public class KeyBindSetterController : MonoBehaviour
 
         SetupInitKeyCodes();
 
-        foreach (Tooltip tooltip in buttonTooltips) { tooltip.SetContainer(TooltipContainer); }
+        foreach (Tooltip tooltip in buttonTooltips) tooltip.SetContainer(TooltipContainer);
     }
 
     private void Awake()
     {
-        foreach (Tooltip tooltip in buttonTooltips) { tooltip.CustomContainer = true; }
+        foreach (Tooltip tooltip in buttonTooltips) tooltip.CustomContainer = true;
     }
 
     private void SetupInitKeyCodes() => KeyBind.KeyCodes.ForEach(InstantiateKeyCodeDisplay);

@@ -23,10 +23,8 @@ public class ToolbarManager : MonoBehaviour
         {
             Tool t = tool.GetComponent<Tool>();
             if (t.ToolEditMode == editMode)
-            {
                 // avoid recursion
                 t.SwitchGameMode(false);
-            }
         }
     }
 }

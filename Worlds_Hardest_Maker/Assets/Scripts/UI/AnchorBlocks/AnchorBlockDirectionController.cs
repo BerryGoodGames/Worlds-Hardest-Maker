@@ -30,15 +30,11 @@ public class AnchorBlockDirectionController : MonoBehaviour
         Vector3 currentRotation = directionImage.rectTransform.rotation.eulerAngles;
 
         if (animation)
-        {
             directionImage.rectTransform.DORotate(
                 new Vector3(currentRotation.x, isClockwise ? 360 : 180, currentRotation.z), animationDuration
             );
-        }
         else
-        {
             directionImage.rectTransform.rotation =
                 Quaternion.Euler(currentRotation.x, isClockwise ? 0 : 180, currentRotation.z);
-        }
     }
 }

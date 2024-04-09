@@ -14,7 +14,8 @@ public class Tooltip : MonoBehaviour
 
     [Space] [SerializeField] private bool restrictInCanvas = true;
 
-    [FormerlySerializedAs("CustomRestrictContainer")] [SerializeField] [ConditionalField(nameof(restrictInCanvas))] private bool customRestrictContainer;
+    [FormerlySerializedAs("CustomRestrictContainer")] [SerializeField] [ConditionalField(nameof(restrictInCanvas))]
+    private bool customRestrictContainer;
 
     [SerializeField] [ConditionalField(nameof(customRestrictContainer), nameof(restrictInCanvas))] private RectTransform restrictContainer;
 
@@ -60,7 +61,7 @@ public class Tooltip : MonoBehaviour
                 restrict.RestrictContainer = restrictContainer;
             }
         }
-        else Destroy(restrict);
+        else { Destroy(restrict); }
 
         fadeTween = tooltip.GetComponent<AlphaTween>();
 
@@ -95,9 +96,9 @@ public class Tooltip : MonoBehaviour
     {
         CustomContainer = true;
         Container = container;
-        
+
         if (tooltip == null) return;
-        
+
         tooltip.transform.SetParent(container);
     }
 
