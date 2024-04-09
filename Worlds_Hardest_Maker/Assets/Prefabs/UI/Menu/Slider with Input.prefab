@@ -422,7 +422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberSettings: {fileID: 8380219374709374259}
-  input: {fileID: 6752199555207768471}
+  Input: {fileID: 6752199555207768471}
   Slider: {fileID: 5590605081825563027}
   decimals: 2
 --- !u!114 &8380219374709374259
@@ -441,6 +441,10 @@ MonoBehaviour:
   ForbidDecimals: 0
   RoundToStep: 0
   StepValue: 0
+  maxLimit: 0
+  minLimit: 0
+  max: 0
+  min: 0
 --- !u!114 &6752199555207768471 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8517377387916714591, guid: 045a388c58f64f845b15f694aad3499b, type: 3}

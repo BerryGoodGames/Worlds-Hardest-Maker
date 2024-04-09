@@ -9,20 +9,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f041760253b70d7499053ed8ce865ebe, type: 3}
-  m_Name: CoinMode
+  m_Script: {fileID: 11500000, guid: e4d22bdb2497c3f44a556b2f13b74c1c, type: 3}
+  m_Name: AnchorFloorMode
   m_EditorClassIdentifier: 
   Attributes:
-    IsField: 0
+    IsField: 1
     IsKeyDoor: 0
-    IsEntity: 1
+    IsEntity: 0
     IsKey: 0
     IsAnchorRelated: 0
-  Tag: Coin
-  UIString: Coin
-  KeyboardShortcut: EditMode_Coin
-  Prefab: {fileID: 8839871402222588891, guid: 5e13d2eae759f3643b04b6e7dc5cefe2, type: 3}
-  WorldPositionType: 1
+  Tag: 
+  UIString: 
+  KeyboardShortcut: 
+  Prefab: {fileID: 0}
+  WorldPositionType: 2
   IsDraggable: 1
   ShowFillPreview: 1
   AnchorAttachable: 1
+  HasOutline: 0
+  IsRotatable: 0
+  IsSolid: 0
+  IsStartFieldForPlayer: 0
+  IsSafeForPlayer: 0

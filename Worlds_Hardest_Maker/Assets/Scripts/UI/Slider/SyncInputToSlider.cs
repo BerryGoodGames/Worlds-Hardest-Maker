@@ -11,7 +11,7 @@ using UnityEditor.Events;
 public class SyncInputToSlider : MonoBehaviour
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private TMPDecimalInputAdjuster numberSettings;
-    [FormerlySerializedAs("input")] [InitializationField] [MustBeAssigned] public TMP_InputField Input;
+    [InitializationField] [MustBeAssigned] public TMP_InputField Input;
     [Separator] [InitializationField] [MustBeAssigned] public Slider Slider;
 
     [SerializeField] [InitializationField] private uint decimals = 2;

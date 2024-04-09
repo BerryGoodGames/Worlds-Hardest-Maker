@@ -25,6 +25,7 @@ MonoBehaviour:
   WorldPositionType: 2
   IsDraggable: 1
   ShowFillPreview: 1
+  AnchorAttachable: 1
   HasOutline: 0
   IsRotatable: 0
   IsSolid: 0

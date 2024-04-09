@@ -8,13 +8,13 @@ public class Tooltip : MonoBehaviour
 {
     [SerializeField] private GameObject tooltipPrefab;
 
-    [FormerlySerializedAs("customContainer")] [Space] public bool CustomContainer;
+    [Space] public bool CustomContainer;
 
-    [FormerlySerializedAs("container")] [ConditionalField(nameof(CustomContainer))] public Transform Container;
+    [ConditionalField(nameof(CustomContainer))] public Transform Container;
 
     [Space] [SerializeField] private bool restrictInCanvas = true;
 
-    [FormerlySerializedAs("CustomRestrictContainer")] [SerializeField] [ConditionalField(nameof(restrictInCanvas))]
+    [SerializeField] [ConditionalField(nameof(restrictInCanvas))]
     private bool customRestrictContainer;
 
     [SerializeField] [ConditionalField(nameof(customRestrictContainer), nameof(restrictInCanvas))] private RectTransform restrictContainer;

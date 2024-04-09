@@ -6,7 +6,7 @@ public class RoomOutlineGenerator : MonoBehaviour
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private MapController map;
     [SerializeField] [InitializationField] [MustBeAssigned] private RoomOutline roomOutlinePrefab;
-    [FormerlySerializedAs("camera")] [SerializeField] [InitializationField] [MustBeAssigned] private Camera cam;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Camera cam;
 
     private Vector2 prevPosition;
 

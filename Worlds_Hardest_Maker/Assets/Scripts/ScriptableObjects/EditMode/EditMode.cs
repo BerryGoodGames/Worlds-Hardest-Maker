@@ -13,6 +13,7 @@ public abstract class EditMode : ScriptableObject
     public WorldPositionType WorldPositionType = WorldPositionType.Grid;
     public bool IsDraggable;
     public bool ShowFillPreview = true;
+    [OverrideLabel("Can use in anchor attach mode")] public bool AnchorAttachable = true;
 
     public override string ToString() => name;
 }
@@ -21,7 +22,7 @@ public abstract class EditMode : ScriptableObject
 public struct EditModeAttributes
 {
     [ReadOnly] public bool IsField;
-    [FormerlySerializedAs("IsKeydoor")] [ReadOnly] [ConditionalField(nameof(IsField))] public bool IsKeyDoor;
+    [ReadOnly] [ConditionalField(nameof(IsField))] public bool IsKeyDoor;
     [Space] [ReadOnly] public bool IsEntity;
     [ReadOnly] [ConditionalField(nameof(IsEntity))] public bool IsKey;
     [ConditionalField(nameof(IsEntity))] public bool IsAnchorRelated;
