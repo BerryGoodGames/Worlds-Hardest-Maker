@@ -18,6 +18,8 @@ public class AnchorAttachManager : MonoBehaviour
         PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, true);
         PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachExitButtonController, false, false);
 
+        PanelManager.Instance.SetPanelOpen(ReferenceManager.Instance.AnchorPanelController, false, false);
+
         InAttachMode = true;
     }
 
