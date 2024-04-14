@@ -95,10 +95,14 @@ public class FieldManager : MonoBehaviour
 
     private static FieldController InstantiateField(Vector2 pos, FieldMode mode, int rotation)
     {
+        Transform container = AnchorAttachManager.Instance.InAttachMode
+            ? AnchorAttachManager.GetCurrentAnchorContainer()
+            : ReferenceManager.Instance.FieldContainer;
+        
         GameObject prefab = mode.Prefab;
         GameObject res = Instantiate(
             prefab, pos, Quaternion.Euler(0, 0, rotation),
-            ReferenceManager.Instance.FieldContainer
+            container
         );
 
         FieldController fieldController = res.GetComponent<FieldController>();

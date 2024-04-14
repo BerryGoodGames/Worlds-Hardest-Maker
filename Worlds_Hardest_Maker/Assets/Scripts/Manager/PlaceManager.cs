@@ -35,7 +35,6 @@ public class PlaceManager : MonoBehaviour
             return;
         }
 
-        // TODO: fix complexity by putting set methods in abstract class and make a general method to get the abstract classes
         if (editMode ==
             // check field deletion
             EditModeManager.Delete)

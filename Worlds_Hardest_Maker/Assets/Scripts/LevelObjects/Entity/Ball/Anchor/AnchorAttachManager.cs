@@ -1,3 +1,4 @@
+using System;
 using MyBox;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ public class AnchorAttachManager : MonoBehaviour
     [ReadOnly] public bool InAttachMode;
     private static readonly int editingString = Animator.StringToHash("Editing");
 
+    public static event Action OnEnterAttachMode = () => { };
+    public static event Action OnExitAttachMode = () => { };
+    
     public void EnterAttachMode()
     {
         if (LevelSessionEditManager.Instance.Playing
@@ -21,13 +25,15 @@ public class AnchorAttachManager : MonoBehaviour
         PanelManager.Instance.SetPanelOpen(ReferenceManager.Instance.AnchorPanelController, false, false);
 
         InAttachMode = true;
+        
+        OnEnterAttachMode.Invoke();
     }
 
     public void ExitAttachMode()
     {
         bool isModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
 
-        PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, false, false);
+        if (LevelSessionEditManager.Instance.Editing) PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, false, false);
         PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachExitButtonController, true);
         if (!isModeAnchorRelated) PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.LevelSettingsPanelController, false);
 
@@ -44,16 +50,18 @@ public class AnchorAttachManager : MonoBehaviour
 
         if (isModeAnchorRelated && AnchorManager.Instance.SelectedAnchor) ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
         else ReferenceManager.Instance.AnchorBallContainer.BallFadeIn();
+        
+        OnExitAttachMode.Invoke();
     }
+
+    public static Transform GetCurrentAnchorContainer() => Instance.InAttachMode ? AnchorManager.Instance.SelectedAnchor.AttachmentContainer : null;
 
     private void Start() =>
         PlayManager.Instance.OnSwitchToPlay += () =>
         {
             if (!InAttachMode) return;
 
-            PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachExitButtonController, true);
-
-            InAttachMode = false;
+            ExitAttachMode();
         };
 
     private void Awake()

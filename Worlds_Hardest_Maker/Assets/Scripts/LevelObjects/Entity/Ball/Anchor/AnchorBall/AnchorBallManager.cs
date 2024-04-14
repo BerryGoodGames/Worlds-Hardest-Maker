@@ -20,7 +20,7 @@ public class AnchorBallManager : MonoBehaviour
         bool hasParent = parentAnchor != null;
 
         // assign container
-        Transform container = hasParent ? parentAnchor.BallContainer : ReferenceManager.Instance.AnchorBallContainer.transform;
+        Transform container = hasParent ? parentAnchor.AttachmentContainer : ReferenceManager.Instance.AnchorBallContainer.transform;
 
         // instantiate
         GameObject ball = Instantiate(PrefabManager.Instance.AnchorBall, container.position, Quaternion.identity, container);

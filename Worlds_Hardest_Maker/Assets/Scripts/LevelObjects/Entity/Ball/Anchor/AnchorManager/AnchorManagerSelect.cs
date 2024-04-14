@@ -30,9 +30,8 @@ public partial class AnchorManager
 
             SelectedAnchor.Animator.SetBool(selectedString, false);
             SelectedAnchor.SetLinesActive(false);
-
-            PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachExitButtonController, true);
-            AnchorAttachManager.Instance.InAttachMode = false;
+            
+            if(AnchorAttachManager.Instance.InAttachMode) AnchorAttachManager.Instance.ExitAttachMode();
         }
 
         // deselect anchor if "selected" again by the user (but only if edit mode before was anchor or anchor ball, not sth else)
@@ -59,8 +58,7 @@ public partial class AnchorManager
         ReferenceManager.Instance.MainCameraJumper.SetTarget("Anchor", anchor.gameObject);
         ReferenceManager.Instance.AnchorCameraJumping.CameraJumpToAnchor();
 
-        if (!AnchorAttachManager.Instance.InAttachMode)
-            PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, false, false);
+        if (!AnchorAttachManager.Instance.InAttachMode) PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, false, false);
 
         // play sfx
         AudioManager.Instance.Play("AnchorBlockButton");

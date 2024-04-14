@@ -1,9 +1,10 @@
+using System;
 using MyBox;
 using UnityEngine;
 
 public class Tool : MonoBehaviour
 {
-    [InitializationField] [MustBeAssigned] public EditMode ToolEditMode;
+    [DisplayInspector] [InitializationField] [MustBeAssigned] public EditMode ToolEditMode;
 
     [Separator] [OverrideLabel("Fade Tween")] [SerializeField] private AlphaTween anim;
     [SerializeField] private SelectionSquare selectionSquare;
@@ -16,7 +17,15 @@ public class Tool : MonoBehaviour
 
     private void Awake() => InOptionbar = transform.parent.CompareTag("OptionContainer");
 
-    private void Start() => MouseOverUIRect = GetComponent<MouseOverUIRect>();
+    private void Start()
+    {
+        MouseOverUIRect = GetComponent<MouseOverUIRect>();
+
+        OnExitAnchorAttach();
+        
+        AnchorAttachManager.OnEnterAttachMode += OnEnterAnchorAttach;
+        AnchorAttachManager.OnExitAttachMode += OnExitAnchorAttach;
+    }
 
     public void SwitchGameMode(bool setEditModeVariable)
     {
@@ -44,4 +53,15 @@ public class Tool : MonoBehaviour
     public void SubSelected(bool subselected) => selectionSquare.SetSubSelected(subselected);
 
     private void Update() => anim.SetVisible(IsSelected || (MouseOverUIRect.Over && !ReferenceManager.Instance.Menu.activeSelf));
+
+    private void SetVisible(bool visible) => gameObject.SetActive(visible);
+
+    private void OnEnterAnchorAttach() => SetVisible(ToolEditMode.AnchorAvailable);
+    private void OnExitAnchorAttach() => SetVisible(ToolEditMode.DefaultAvailable);
+    
+    private void OnDestroy()
+    {
+        AnchorAttachManager.OnEnterAttachMode -= OnEnterAnchorAttach;
+        AnchorAttachManager.OnExitAttachMode -= OnExitAnchorAttach;
+    }
 }
