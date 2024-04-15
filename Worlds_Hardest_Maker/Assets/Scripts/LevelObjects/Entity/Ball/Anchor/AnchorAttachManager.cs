@@ -25,6 +25,8 @@ public class AnchorAttachManager : MonoBehaviour
         PanelManager.Instance.SetPanelOpen(ReferenceManager.Instance.AnchorPanelController, false, false);
 
         InAttachMode = true;
+
+        LevelSessionEditManager.Instance.CurrentEditMode = EditModeManager.AnchorBall;
         
         OnEnterAttachMode.Invoke();
     }

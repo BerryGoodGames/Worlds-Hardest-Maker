@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 686737570691484559}
   m_Layer: 7
   m_Name: GrayKey
-  m_TagString: Untagged
+  m_TagString: Key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

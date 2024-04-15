@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 
 // class for global functions
@@ -22,9 +23,40 @@ public class FieldManager : MonoBehaviour
         return null;
     }
 
-    public bool RemoveField(Vector2Int position, bool updateOutlines = false)
+    public static FieldController GetFieldInSheet(Vector2Int position, [CanBeNull] AnchorController sheet)
     {
-        FieldController field = GetField(position);
+        // get all collisions from layers Field and Void
+        Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Field)
+            .Concat(Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Void)).ToArray();
+        
+        foreach (Collider2D c in collidedGameObjects)
+        {
+            // check if field
+            if (!c.TryGetComponent(out FieldController f)) continue;
+            
+            if (IsFieldInSheet(c, sheet)) return f;
+        }
+
+        return null;
+    }
+
+    public static bool IsFieldInSheet(Component field, [CanBeNull] AnchorController sheet)
+    {
+        bool hasAttachment = field.TryGetComponent(out AnchorAttachment attachment);
+        
+        // shorthand to:
+        bool globalSheet = sheet == null;
+        // if (hasAttachment && globalSheet) return false;
+        // if (hasAttachment && attachment.Anchor != sheet) return false;
+        // if (!hasAttachment && !globalSheet) return false;
+        // return true;
+
+        return (globalSheet && !hasAttachment) || (hasAttachment && !globalSheet && attachment.Anchor == sheet);
+    }
+    
+    public static bool RemoveField(Vector2Int position, bool updateOutlines = false, [CanBeNull] AnchorController sheet = null)
+    {
+        FieldController field = GetFieldInSheet(position, sheet);
 
         bool fieldDestroyed = false;
 
@@ -35,25 +67,28 @@ public class FieldManager : MonoBehaviour
         }
 
         if (!updateOutlines) return fieldDestroyed;
-
-        // update outlines beside removed field
+        
+        // Update outlines beside removed field
         foreach (FieldController neighbor in GetNeighbors(position))
         {
-            if (neighbor.TryGetComponent(out FieldOutline comp)) comp.UpdateOutline();
+            if (neighbor.TryGetComponent(out FieldOutline comp))
+            {
+                comp.UpdateOutline();
+            }
         }
 
         return fieldDestroyed;
     }
 
-
     public FieldController SetField(Vector2Int position, FieldMode mode, int rotation)
     {
-        FieldController fieldAtPosition = GetField(position);
+        AnchorController sheet = PlaceManager.GetCurrentSheet();
+        FieldController fieldAtPosition = GetFieldInSheet(position, sheet);
         if (fieldAtPosition is not null && fieldAtPosition.FieldMode == mode) return null;
 
         // remove any field at pos
-        RemoveField(position, true);
-
+        RemoveField(position, true, sheet);
+        
         // place field according to edit mode
         FieldController field = InstantiateField(position, mode, rotation);
 
@@ -107,6 +142,8 @@ public class FieldManager : MonoBehaviour
 
         FieldController fieldController = res.GetComponent<FieldController>();
         fieldController.FieldMode = mode;
+
+        PlaceManager.AttachToSheet(res, PlaceManager.GetCurrentSheet());
 
         return fieldController;
     }

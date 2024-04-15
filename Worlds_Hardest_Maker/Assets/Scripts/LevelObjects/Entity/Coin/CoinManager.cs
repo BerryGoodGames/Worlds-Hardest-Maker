@@ -38,30 +38,69 @@ public class CoinManager : MonoBehaviour
 
         return null;
     }
+    
+    public static CoinController GetCoinInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Entity);
+        foreach (Collider2D hit in hits)
+        {
+            if (!hit.CompareTag("Coin")) continue;
+            if (!hit.TryGetComponent(out CoinController coin)) continue;
+            if (IsCoinInSheet(coin, sheet)) return coin;
+        }
+
+        return null;
+    }
+
+    public static bool IsCoinInSheet(CoinController coin, [CanBeNull] AnchorController sheet)
+    {
+        bool hasAttachment = coin.TryGetComponent(out AnchorAttachment attachment);
+        
+        // shorthand to:
+        bool globalSheet = sheet == null;
+        if (hasAttachment && globalSheet) return false;
+        if (hasAttachment && attachment.Anchor != sheet) return false;
+        if (!hasAttachment && !globalSheet) return false;
+        return true;
+
+        // return (globalSheet && !hasAttachment) || (hasAttachment && !globalSheet && attachment.Anchor == sheet);
+    }
 
     public static bool IsCoinThere(Vector2 position) => GetCoin(position) != null;
+    public static bool IsCoinThereInSheet(Vector2 position, [CanBeNull] AnchorController sheet) => GetCoinInSheet(position, sheet) != null;
 
-    public static bool CanPlace(Vector2 position) =>
+    public static bool CanPlace(Vector2 position) => CanPlace(position, PlaceManager.GetCurrentSheet());
+
+    public static bool CanPlace(Vector2 position, [CanBeNull] AnchorController sheet) =>
         // conditions: no coin there, doesn't intersect with any walls etc, no player there
-        !IsCoinThere(position)
+        !IsCoinThereInSheet(position, sheet)
         && !FieldManager.IntersectingAnyFieldsAtPos(position, CannotPlaceFields.ToArray())
         && !PlayerManager.IsPlayerThere(position);
 
-    public static CoinController SetCoin(Vector2 worldPosition)
+    public static CoinController SetCoinInSheet(Vector2 worldPosition, [CanBeNull] AnchorController sheet)
     {
+        Transform container = AnchorAttachManager.Instance.InAttachMode
+            ? AnchorAttachManager.GetCurrentAnchorContainer()
+            : ReferenceManager.Instance.CoinContainer;
+        
         Vector2 matrixPosition = worldPosition.ConvertToGrid();
 
-        if (!CanPlace(matrixPosition)) return null;
+        if (!CanPlace(matrixPosition, sheet)) return null;
 
         CoinController coin = Instantiate(
-            PrefabManager.Instance.Coin, matrixPosition, Quaternion.identity,
-            ReferenceManager.Instance.CoinContainer
+            PrefabManager.Instance.Coin, 
+            matrixPosition, Quaternion.identity,
+            container
         );
 
         coin.Animator.SetBool(playing, LevelSessionEditManager.Instance.Playing);
+        
+        PlaceManager.AttachToSheet(coin.gameObject, sheet);
 
         return coin;
     }
+
+    public static CoinController SetCoin(Vector2 worldPosition) => SetCoinInSheet(worldPosition, PlaceManager.GetCurrentSheet());
 
     public void UncollectCoinAtPos(Vector2 position)
     {

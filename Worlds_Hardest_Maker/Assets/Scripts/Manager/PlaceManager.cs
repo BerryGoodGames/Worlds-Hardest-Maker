@@ -1,5 +1,6 @@
 using System;
 using Cinemachine.Utility;
+using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 
@@ -35,12 +36,16 @@ public class PlaceManager : MonoBehaviour
             return;
         }
 
+        AnchorController sheet = GetCurrentSheet();
+
         if (editMode ==
             // check field deletion
             EditModeManager.Delete)
         {
+            bool deletedField = FieldManager.RemoveField(matrixPosition, true, sheet);
+            
             // delete field
-            if (FieldManager.Instance.RemoveField(matrixPosition, true) && playSound) AudioManager.Instance.Play(GetSfx(editMode));
+            if (deletedField && playSound) AudioManager.Instance.Play(GetSfx(editMode));
 
             // remove player if at deleted pos
             PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixPosition);
@@ -83,7 +88,18 @@ public class PlaceManager : MonoBehaviour
 
         LineForEach(start, end, pos => Place(editMode, pos, rotation));
     }
+    
+    [CanBeNull]
+    public static AnchorController GetCurrentSheet() => AnchorAttachManager.Instance.InAttachMode ? AnchorManager.Instance.SelectedAnchor : null;
 
+    public static void AttachToSheet(GameObject obj, [CanBeNull] AnchorController sheet)
+    {
+        if (sheet == null) return;
+        
+        AnchorAttachment attach = obj.AddComponent<AnchorAttachment>();
+        attach.Anchor = sheet;
+    }
+    
     public static void RemoveEntitiesAt(Vector2 position, LayerMask entityLayer)
     {
         Collider2D[] hits = Physics2D.OverlapPointAll(position, entityLayer);

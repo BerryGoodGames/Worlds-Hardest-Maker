@@ -49,7 +49,7 @@ public class AnchorBallController : EntityController
             ParentAnchor.Balls.Remove(transform.parent);
 
             // remove anchor ball from parent anchor cache list
-            ref Dictionary<AnchorController, List<AnchorBallController>> ballList = ref AnchorBallManager.Instance.AnchorBallListLayers;
+            ref Dictionary<AnchorController, List<AnchorBallController>> ballList = ref AnchorBallManager.Instance.AnchorBallListSheets;
             if (ballList.ContainsKey(ParentAnchor)) ballList[ParentAnchor].Remove(this);
         }
         else { AnchorBallManager.Instance.AnchorBallListGlobal.Remove(this); }

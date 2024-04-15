@@ -21,7 +21,7 @@ public partial class AnchorManager
         child.AppendBlock(new SetDirectionBlock(child, true, true));
         child.AppendBlock(new SetEaseBlock(child, true, Ease.Linear));
 
-        AnchorBallManager.Instance.AnchorBallListLayers.Add(child, new());
+        AnchorBallManager.Instance.AnchorBallListSheets.Add(child, new());
 
         return child;
     }
@@ -47,7 +47,7 @@ public partial class AnchorManager
             if (Instance.SelectedAnchor == anchor)
                 Instance.DeselectAnchor();
 
-        AnchorBallManager.Instance.AnchorBallListLayers.Remove(anchor);
+        AnchorBallManager.Instance.AnchorBallListSheets.Remove(anchor);
 
         // destroy anchor
         Destroy(anchor.transform.parent.gameObject);

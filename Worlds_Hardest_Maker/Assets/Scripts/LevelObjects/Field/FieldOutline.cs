@@ -26,12 +26,18 @@ public class FieldOutline : MonoBehaviour
 
     private LineRenderer[] lineRenderers;
 
+    private AnchorController sheet;
+
     private void Awake()
     {
         // create line container which has this transform as parent
         lineContainer = new("LineContainer")
         {
-            transform = { parent = transform, },
+            transform =
+            {
+                parent = transform,
+                localPosition = Vector2.zero,
+            },
         };
 
         if (connectToOwnTag) connectorTags.Add(transform.tag);
@@ -44,6 +50,8 @@ public class FieldOutline : MonoBehaviour
         // get components if not already cached
         lineRenderers ??= GetComponentsInChildren<LineRenderer>();
 
+        sheet = TryGetComponent(out AnchorAttachment attach) ? attach.Anchor : null;
+        
         UpdateAlpha();
 
         if (UpdateOnStart) UpdateOutline(true);
@@ -87,7 +95,7 @@ public class FieldOutline : MonoBehaviour
         DrawManager.SetRoundedCorners(false);
 
         Transform t = transform;
-        Vector2 localPosition = t.localPosition;
+        Vector2 position = t.position;
         Vector2 localScale = t.localScale;
         float halfWidth = localScale.x / 2;
         float halfHeight = localScale.y / 2;
@@ -99,23 +107,27 @@ public class FieldOutline : MonoBehaviour
             bool left = IsConnectorInDirection(Vector2.left);
             bool right = IsConnectorInDirection(Vector2.right);
 
-            DrawManager.DrawLine(
-                localPosition.x - halfWidth - (left ? weight : 0),
-                localPosition.y + dir.y * 0.5f - dir.y * halfWeight,
-                localPosition.x + halfWidth + (right ? weight : 0),
-                localPosition.y + dir.y * 0.5f - dir.y * halfWeight,
+            LineRenderer line = DrawManager.DrawLine(
+                position.x - halfWidth - (left ? weight : 0),
+                position.y + dir.y * 0.5f - dir.y * halfWeight,
+                position.x + halfWidth + (right ? weight : 0),
+                position.y + dir.y * 0.5f - dir.y * halfWeight,
                 lineContainer.transform
             );
+
+            line.useWorldSpace = false;
         }
         else if (dir.Equals(Vector2.left) || dir.Equals(Vector2.right))
         {
-            DrawManager.DrawLine(
-                localPosition.x + dir.x * 0.5f - dir.x * halfWeight,
-                localPosition.y + halfHeight,
-                localPosition.x + dir.x * 0.5f - dir.x * halfWeight,
-                localPosition.y - halfHeight,
+            LineRenderer line = DrawManager.DrawLine(
+                position.x + dir.x * 0.5f - dir.x * halfWeight,
+                position.y + halfHeight,
+                position.x + dir.x * 0.5f - dir.x * halfWeight,
+                position.y - halfHeight,
                 lineContainer.transform
             );
+
+            line.useWorldSpace = false;
         }
 
         lineRenderers = GetComponentsInChildren<LineRenderer>();
@@ -129,10 +141,11 @@ public class FieldOutline : MonoBehaviour
 
         foreach (RaycastHit2D r in hits)
         {
-            FieldOutline outlineNeighbor = r.collider.gameObject.GetComponent<FieldOutline>();
-            if (updateNeighbor && outlineNeighbor != null) outlineNeighbor.UpdateOutline();
+            if (updateNeighbor && r.collider.TryGetComponent(out FieldOutline outlineNeighbor)) outlineNeighbor.UpdateOutline();
 
             if (!connectorTags.Contains(r.collider.tag)) continue;
+
+            if (!FieldManager.IsFieldInSheet(r.collider, sheet)) continue;
 
             return true;
         }

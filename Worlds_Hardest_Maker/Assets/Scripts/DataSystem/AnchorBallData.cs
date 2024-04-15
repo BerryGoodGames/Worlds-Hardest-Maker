@@ -17,7 +17,7 @@ public class AnchorBallData : Data
 
     public override void ImportToLevel() => AnchorBallManager.SetAnchorBall(new(position[0], position[1]));
 
-    public void ImportToLevel(AnchorController anchor) => AnchorBallManager.SetAnchorBall(new(position[0], position[1]), anchor);
+    public void ImportToLevel(AnchorController anchor) => AnchorBallManager.SetAnchorBallInSheet(new(position[0], position[1]), anchor);
 
     public override EditMode GetEditMode() => EditModeManager.AnchorBall;
 
