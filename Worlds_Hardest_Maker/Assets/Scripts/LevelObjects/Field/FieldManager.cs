@@ -169,6 +169,27 @@ public class FieldManager : MonoBehaviour
         return neighbors;
     }
 
+    public static List<FieldController> GetNeighborsInSheet(GameObject field, [CanBeNull] AnchorController sheet)
+    {
+        Vector2Int position = Vector2Int.RoundToInt(field.transform.position);
+        return GetNeighborsInSheet(position, sheet);
+    }
+
+    public static List<FieldController> GetNeighborsInSheet(Vector2Int position, [CanBeNull] AnchorController sheet)
+    {
+        Vector2Int[] deltas = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left, };
+
+        List<FieldController> neighbors = new();
+
+        foreach (Vector2Int d in deltas)
+        {
+            FieldController neighbor = GetFieldInSheet(position + d, sheet);
+            if (neighbor != null) neighbors.Add(neighbor);
+        }
+
+        return neighbors;
+    }
+
     public static List<FieldController> GetFieldsAtPos(Vector2 position)
     {
         Vector2Int[] checkPoses =

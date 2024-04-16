@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 
@@ -37,8 +38,10 @@ public class PlayerManager : MonoBehaviour
             return Player;
         }
 
+        AnchorController sheet = PlaceManager.GetCurrentSheet();
+
         // place player
-        PlayerController newPlayer = InstantiatePlayer(position);
+        PlayerController newPlayer = InstantiatePlayer(position, sheet);
 
         // set target of camera
         ReferenceManager.Instance.MainCameraJumper.SetTarget("Player", newPlayer.gameObject);
@@ -111,13 +114,17 @@ public class PlayerManager : MonoBehaviour
     public static Vector2Int GetCurrentRoom() => Instance.Player != null ? Instance.Player.GetCurrentRoom() : Vector2Int.zero;
     public static Vector2Int GetStartRoom() => Instance.Player != null ? Instance.Player.GetStartRoom() : Vector2Int.zero;
 
-    public static PlayerController InstantiatePlayer(Vector2 position)
+    public static PlayerController InstantiatePlayer(Vector2 position, [CanBeNull] AnchorController sheet)
     {
         PlayerController newPlayer = Instantiate(
-            PrefabManager.Instance.Player, position, Quaternion.identity,
+            PrefabManager.Instance.Player, 
+            position, Quaternion.identity,
             ReferenceManager.Instance.PlayerContainer
         );
-
+        
+        PlaceManager.AttachToSheet(newPlayer.gameObject, sheet);
+        newPlayer.Sheet = sheet;
+        
         return newPlayer;
     }
 

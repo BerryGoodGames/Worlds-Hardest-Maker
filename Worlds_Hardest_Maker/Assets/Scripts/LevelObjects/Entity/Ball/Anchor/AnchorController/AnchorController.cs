@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core;
@@ -43,6 +44,8 @@ public partial class AnchorController : EntityController, IResettable
     public bool Selected => AnchorManager.Instance.SelectedAnchor == this;
 
     public override EditMode EditMode => EditModeManager.Anchor;
+
+    public Action OnMove = () => { };
 
     private void Awake()
     {

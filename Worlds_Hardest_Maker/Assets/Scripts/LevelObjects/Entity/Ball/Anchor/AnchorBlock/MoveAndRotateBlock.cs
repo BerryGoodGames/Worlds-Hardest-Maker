@@ -57,6 +57,7 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
 
         Anchor.transform.DOMove(TargetAbsolute, moveDuration)
             .SetEase(Anchor.Ease)
+            .OnUpdate(Anchor.OnMove.Invoke)
             .OnComplete(
                 () =>
                 {
