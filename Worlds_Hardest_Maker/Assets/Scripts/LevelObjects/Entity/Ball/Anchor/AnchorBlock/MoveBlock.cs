@@ -23,7 +23,6 @@ public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock
         Anchor.DOKill();
         Anchor.transform.DOMove(TargetAbsolute, duration)
             .SetEase(Anchor.Ease)
-            .OnUpdate(Anchor.OnMove.Invoke)
             .OnComplete(Anchor.FinishCurrentExecution);
     }
 

@@ -45,8 +45,6 @@ public partial class AnchorController : EntityController, IResettable
 
     public override EditMode EditMode => EditModeManager.Anchor;
 
-    public Action OnMove = () => { };
-
     private void Awake()
     {
         Rb = GetComponent<Rigidbody2D>();

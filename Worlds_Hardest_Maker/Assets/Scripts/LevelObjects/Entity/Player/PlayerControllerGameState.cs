@@ -41,8 +41,10 @@ public partial class PlayerController
         List<Vector2> keyPositions = new();
         foreach (KeyController key in KeyManager.Instance.CollectedKeys) keyPositions.Add(key.KeyPosition);
 
-        GameState res = new(CurrentRunStartPos, coinPositions, keyPositions)
+        GameState res = new()
         {
+            CollectedCoins = coinPositions,
+            CollectedKeys = keyPositions,
             Checkpoint = currentRunCheckpoint,
         };
 
