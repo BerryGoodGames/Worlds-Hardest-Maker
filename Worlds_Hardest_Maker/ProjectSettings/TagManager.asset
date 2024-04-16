@@ -34,6 +34,7 @@ TagManager:
   - GreenKeyDoor
   - BlueKeyDoor
   - YellowKeyDoor
+  - AnchorFloor
   layers:
   - Default
   - TransparentFX

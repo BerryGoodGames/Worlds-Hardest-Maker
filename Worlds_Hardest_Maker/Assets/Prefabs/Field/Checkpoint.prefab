@@ -124,6 +124,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Activated: 0
+  IsAttached: 0
+  Sheet: {fileID: 0}
 --- !u!114 &4934654818104878259
 MonoBehaviour:
   m_ObjectHideFlags: 0

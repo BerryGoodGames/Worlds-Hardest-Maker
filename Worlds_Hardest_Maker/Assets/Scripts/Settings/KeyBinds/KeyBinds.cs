@@ -32,6 +32,7 @@ public static class KeyBinds
         { "Editor_TeleportPlayer", new() { new[] { KeyCode.T, }, } },
 
         { "EditMode_Delete", new() { new[] { KeyCode.D, }, } },
+        { "EditMode_AnchorFloor", new() { new[] { KeyCode.A, KeyCode.F, }, } },
         { "EditMode_Wall", new() { new[] { KeyCode.W, }, } },
         { "EditMode_Start", new() { new[] { KeyCode.S, }, } },
         { "EditMode_Goal", new() { new[] { KeyCode.G, }, } },

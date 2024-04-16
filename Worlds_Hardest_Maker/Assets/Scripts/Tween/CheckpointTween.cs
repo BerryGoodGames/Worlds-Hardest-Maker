@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using MyBox;
 using UnityEngine;
 
 public class CheckpointTween : MonoBehaviour, IResettable
 {
-    [SerializeField] private float duration;
+    [SerializeField] [PositiveValueOnly] private float duration;
     private SpriteRenderer sprite;
 
     private void ActivateTween()

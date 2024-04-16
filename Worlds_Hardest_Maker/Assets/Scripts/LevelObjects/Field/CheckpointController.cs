@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CheckpointController : MonoBehaviour, IResettable
 {
