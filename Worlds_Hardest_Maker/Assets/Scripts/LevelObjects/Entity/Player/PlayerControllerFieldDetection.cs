@@ -45,7 +45,7 @@ public partial class PlayerController
     public List<FieldController> GetFullyOnFields()
     {
         // finds every field the player is at least half way on
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.011f);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.012f);
         List<FieldController> res = new();
         foreach (Collider2D hit in hits)
         {

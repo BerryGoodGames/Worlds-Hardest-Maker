@@ -95,6 +95,8 @@ public partial class PlayerController : EntityController
     {
         UpdateWaterState();
 
+        ApplyForcesFromFloor();
+
         Move();
     }
 
@@ -136,6 +138,20 @@ public partial class PlayerController : EntityController
         Won = true;
     
         PlayerManager.Instance.InvokeOnWin();
+    }
+    
+    public bool IsInSheet([CanBeNull] AnchorController sheet)
+    {
+        bool hasAttachment = TryGetComponent(out AnchorAttachment attachment);
+        
+        // shorthand to:
+        bool globalSheet = sheet == null;
+        // if (hasAttachment && globalSheet) return false;
+        // if (hasAttachment && attachment.Anchor != sheet) return false;
+        // if (!hasAttachment && !globalSheet) return false;
+        // return true;
+
+        return (globalSheet && !hasAttachment) || (hasAttachment && !globalSheet && attachment.Anchor == sheet);
     }
 
     public void DestroySelf(bool removeTargetFromCamera = true)

@@ -92,12 +92,14 @@ public class PlaceManager : MonoBehaviour
     [CanBeNull]
     public static AnchorController GetCurrentSheet() => AnchorAttachManager.Instance.InAttachMode ? AnchorManager.Instance.SelectedAnchor : null;
 
-    public static void AttachToSheet(GameObject obj, [CanBeNull] AnchorController sheet)
+    public static void AttachToSheet(GameObject obj, [CanBeNull] AnchorController sheet, bool forceParent = true)
     {
         if (sheet == null) return;
         
         AnchorAttachment attach = obj.AddComponent<AnchorAttachment>();
         attach.Anchor = sheet;
+        
+        if(forceParent && obj.transform.parent != sheet.AttachmentContainer) obj.transform.SetParent(sheet.AttachmentContainer);
     }
     
     public static void RemoveEntitiesAt(Vector2 position, LayerMask entityLayer)

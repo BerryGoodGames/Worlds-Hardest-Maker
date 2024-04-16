@@ -74,6 +74,19 @@ public class PlayerManager : MonoBehaviour
             if ((Vector2)player.position == position) player.GetComponent<PlayerController>().DestroySelf();
         }
     }
+    
+    public void RemovePlayerAtPosInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
+    {
+        // remove player only if at pos
+        foreach (Transform p in ReferenceManager.Instance.PlayerContainer)
+        {
+            if ((Vector2)p.position != position) continue;
+            
+            PlayerController player = p.GetComponent<PlayerController>();
+                
+            if(player.IsInSheet(sheet)) player.DestroySelf();
+        }
+    }
 
     public void RemovePlayerAtPosIntersect(Vector2 position)
     {
@@ -85,6 +98,18 @@ public class PlayerManager : MonoBehaviour
         };
 
         foreach (Vector2 d in deltas) RemovePlayerAtPos(position + d);
+    }
+    
+    public void RemovePlayerAtPosIntersectInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
+    {
+        Vector2[] deltas =
+        {
+            new(-0.5f, -0.5f), new(0, -0.5f), new(0.5f, -0.5f),
+            new(-0.5f, 0), new(0, 0), new(0.5f, 0),
+            new(-0.5f, 0.5f), new(0, 0.5f), new(0.5f, 0.5f),
+        };
+
+        foreach (Vector2 d in deltas) RemovePlayerAtPosInSheet(position + d, sheet);
     }
 
     public static bool CanPlace(Vector2 position, bool checkForPlayer = true) =>
@@ -122,7 +147,7 @@ public class PlayerManager : MonoBehaviour
             ReferenceManager.Instance.PlayerContainer
         );
         
-        PlaceManager.AttachToSheet(newPlayer.gameObject, sheet);
+        PlaceManager.AttachToSheet(newPlayer.gameObject, sheet, false);
         newPlayer.Sheet = sheet;
         
         return newPlayer;

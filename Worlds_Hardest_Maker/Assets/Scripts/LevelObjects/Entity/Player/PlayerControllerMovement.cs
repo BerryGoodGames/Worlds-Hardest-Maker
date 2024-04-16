@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public partial class PlayerController
@@ -18,6 +19,29 @@ public partial class PlayerController
         AddConveyorMovement(ref totalMovement);
 
         if (totalMovement != Vector2.zero) Rb.MovePosition(Rb.position + totalMovement);
+    }
+
+    private void ApplyForcesFromFloor()
+    {
+        List<FieldController> floors = GetFullyOnFields();
+        
+        if (floors.Count == 0) return;
+        
+        List<Vector2> forces = new();
+        Vector2 finalForce = new();
+        int count = 0;
+        foreach (FieldController field in floors)
+        {
+            Vector2 force = field.DeltaPosition;
+            
+            if (forces.Contains(force)) continue;
+            
+            finalForce += force;
+            forces.Add(force);
+            count++;
+        }
+
+        Rb.position += finalForce / count;
     }
 
     private void UpdateWaterState()

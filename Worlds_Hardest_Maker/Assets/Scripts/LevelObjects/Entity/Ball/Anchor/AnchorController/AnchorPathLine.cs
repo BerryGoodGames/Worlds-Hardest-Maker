@@ -14,6 +14,12 @@ public class AnchorPathLine : MonoBehaviour
 
     public void AnimateEnd(Vector2 end)
     {
+        if (LineRenderer == null)
+        {
+            Debug.LogWarning("LineRenderer is null when trying to render anchor lines");
+            return;
+        }
+        
         LineAnimator.AnimatePoint(1, end, 0.05f, Ease.Linear);
 
         (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) =
@@ -55,6 +61,12 @@ public class AnchorPathLine : MonoBehaviour
 
     public void CreateBlur()
     {
+        if (LineRenderer == null)
+        {
+            Debug.LogWarning("LineRenderer is null when trying to render anchor line blur");
+            return;
+        }
+        
         // calculate position etc.
         Vector2 delta = LineRenderer.GetPosition(1) - LineRenderer.GetPosition(0);
         Vector2 glowStart = LineRenderer.GetPosition(0) + (Vector3)delta / 2;
