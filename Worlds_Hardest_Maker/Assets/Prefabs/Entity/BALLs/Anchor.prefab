@@ -311,8 +311,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4d9f08cc6d09d24aa52973475e52907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BallContainer: {fileID: 3516165864050137394}
+  AttachmentContainer: {fileID: 3516165864050137394}
   Animator: {fileID: 2695958956081501589}
+  AttachFade: {fileID: 4634633626038657293}
+  SortingLayerID: 0
+  OrderInLayer: 0
   Balls: []
   SpeedUnit: 0
   RotationSpeedUnit: 0
@@ -320,6 +323,7 @@ MonoBehaviour:
   RotationInput: 0
   IsClockwise: 0
   Ease: 0
+  Attachments: []
   Rb: {fileID: 0}
   lineContainer: {fileID: 6016487082984928425}
   lineColor: {r: 0.9843138, g: 0.54509807, b: 0.14117648, a: 1}
@@ -339,7 +343,7 @@ MonoBehaviour:
   container: {fileID: 3467334307650034706}
   fadeDuration: 0.2
   fadeInOpacity: 1
-  fadeOutOpacity: 0.3
+  fadeOutOpacity: 0.45
 --- !u!95 &2695958956081501589
 Animator:
   serializedVersion: 5

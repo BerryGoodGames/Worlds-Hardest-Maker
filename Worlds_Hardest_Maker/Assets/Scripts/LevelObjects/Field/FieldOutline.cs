@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     Attach to every field prefab variant which has outlines (see TypesWithOutlines)
@@ -24,9 +26,11 @@ public class FieldOutline : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private bool hasSpriteRenderer;
 
-    private LineRenderer[] lineRenderers;
+    [HideInInspector] public LineRenderer[] LineRenderers;
 
     private AnchorController sheet;
+
+    public event Action OnUpdateOutline = () => { };
 
     private void Awake()
     {
@@ -48,7 +52,7 @@ public class FieldOutline : MonoBehaviour
     private void Start()
     {
         // get components if not already cached
-        lineRenderers ??= GetComponentsInChildren<LineRenderer>();
+        LineRenderers ??= GetComponentsInChildren<LineRenderer>();
 
         sheet = TryGetComponent(out AnchorAttachment attach) ? attach.Anchor : null;
         
@@ -72,6 +76,8 @@ public class FieldOutline : MonoBehaviour
 
             DrawLine(dir);
         }
+        
+        OnUpdateOutline.Invoke();
     }
 
     public void UpdateOutline(Vector2 dir, bool updateNeighbor = false)
@@ -81,9 +87,9 @@ public class FieldOutline : MonoBehaviour
 
         ClearLineInDirection(dir);
 
-        if (IsConnectorInDirection(dir, updateNeighbor, true)) return;
-
-        DrawLine(dir);
+        if (!IsConnectorInDirection(dir, updateNeighbor, true)) DrawLine(dir);
+        
+        OnUpdateOutline.Invoke();
     }
 
     private void DrawLine(Vector2 dir)
@@ -130,7 +136,7 @@ public class FieldOutline : MonoBehaviour
             line.useWorldSpace = false;
         }
 
-        lineRenderers = GetComponentsInChildren<LineRenderer>();
+        LineRenderers = GetComponentsInChildren<LineRenderer>();
     }
 
     private bool IsConnectorInDirection(Vector2 direction, bool updateNeighbor = false, bool drawRay = false)
@@ -176,7 +182,7 @@ public class FieldOutline : MonoBehaviour
         if (!imitateAlpha || !hasSpriteRenderer || color.a.EqualsFloat(spriteRenderer.color.a)) return;
 
         color = new(color.r, color.g, color.b, spriteRenderer.color.a);
-        foreach (LineRenderer line in lineRenderers)
+        foreach (LineRenderer line in LineRenderers)
         {
             if (line == null) continue;
 

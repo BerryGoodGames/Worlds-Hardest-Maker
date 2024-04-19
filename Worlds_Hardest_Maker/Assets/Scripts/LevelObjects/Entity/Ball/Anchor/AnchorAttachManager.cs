@@ -2,7 +2,7 @@ using System;
 using MyBox;
 using UnityEngine;
 
-public class AnchorAttachManager : MonoBehaviour
+public partial class AnchorAttachManager : MonoBehaviour
 {
     public static AnchorAttachManager Instance { get; private set; }
 
@@ -28,6 +28,8 @@ public class AnchorAttachManager : MonoBehaviour
 
         LevelSessionEditManager.Instance.CurrentEditMode = EditModeManager.AnchorBall;
         
+        HighlightAnchor(AnchorManager.Instance.SelectedAnchor);
+        
         OnEnterAttachMode.Invoke();
     }
 
@@ -49,9 +51,8 @@ public class AnchorAttachManager : MonoBehaviour
 
         if (AnchorManager.Instance.SelectedAnchor)
             AnchorManager.Instance.SelectedAnchor.GetComponent<Animator>().SetBool(editingString, isModeAnchorRelated);
-
-        if (isModeAnchorRelated && AnchorManager.Instance.SelectedAnchor) ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
-        else ReferenceManager.Instance.AnchorBallContainer.BallFadeIn();
+        
+        Dehighlight(AnchorManager.Instance.SelectedAnchor);
         
         OnExitAttachMode.Invoke();
     }

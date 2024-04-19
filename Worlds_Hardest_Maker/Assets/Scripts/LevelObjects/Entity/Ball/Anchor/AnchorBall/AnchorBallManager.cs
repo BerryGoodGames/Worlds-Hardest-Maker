@@ -118,12 +118,6 @@ public class AnchorBallManager : MonoBehaviour
     {
         AnchorBallListSheets = new();
         AnchorBallListGlobal = new();
-
-        PlayManager.Instance.OnSwitchToPlay += ReferenceManager.Instance.AnchorBallContainer.BallFadeIn;
-        PlayManager.Instance.OnSwitchToEdit += () =>
-        {
-            if (AnchorManager.Instance.SelectedAnchor != null) ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
-        };
     }
 
     private void Awake()

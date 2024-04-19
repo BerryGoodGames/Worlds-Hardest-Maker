@@ -17,13 +17,13 @@ public class ChildrenOpacity : MonoBehaviour
 
     public void UpdateOpacity()
     {
-        // foreach (SpriteRenderer child in children)
-        // {
-        //     if (child == null) continue;
-        //     Color newColor = child.color;
-        //     newColor.a = opacity;
-        //     child.color = newColor;
-        // }
+        foreach (SpriteRenderer child in children)
+        {
+            if (child == null) continue;
+            Color newColor = child.color;
+            newColor.a = opacity;
+            child.color = newColor;
+        }
     }
 
     public void SetOpacity(float newOpacity)

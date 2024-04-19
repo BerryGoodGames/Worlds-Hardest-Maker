@@ -48,7 +48,7 @@ public partial class AnchorManager
         anchor.Animator.SetBool(selectedString, true);
         anchor.SetLinesActive(true);
 
-        ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
+        // SelectedAnchor.AttachFade.FadeOut();
 
         // disable "no anchor selected" screen
         ReferenceManager.Instance.AnchorNoAnchorSelectedScreen.SetVisible(false);
@@ -68,7 +68,7 @@ public partial class AnchorManager
     {
         if (SelectedAnchor == null) return;
 
-        ReferenceManager.Instance.AnchorBallContainer.BallFadeIn();
+        // SelectedAnchor.AttachFade.FadeIn();
 
         SelectedAnchor.Animator.SetBool(selectedString, false);
         SelectedAnchor.Animator.SetBool(playingString, LevelSessionEditManager.Instance.Playing);

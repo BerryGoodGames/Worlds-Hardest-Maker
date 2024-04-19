@@ -72,6 +72,9 @@ TagManager:
   - name: Background
     uniqueID: 3482082403
     locked: 0
+  - name: AnchorBelow
+    uniqueID: 2084701215
+    locked: 0
   - name: Field
     uniqueID: 2010378691
     locked: 0
@@ -95,6 +98,9 @@ TagManager:
     locked: 0
   - name: Ball
     uniqueID: 1700820465
+    locked: 0
+  - name: AnchorAbove
+    uniqueID: 40911097
     locked: 0
   - name: FillPreview
     uniqueID: 195234503

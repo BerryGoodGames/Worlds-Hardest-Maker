@@ -38,9 +38,12 @@ public class ScreenDimensions : MonoBehaviour
 
             float height = 2 * zoom;
             float width = cam.aspect * height;
-            transform.localScale = new(
-                setScreenWidth ? width : transform.localScale.x,
-                setScreenHeight ? height : transform.localScale.y
+            
+            Vector3 currentScale = transform.localScale;
+            transform.localScale = new Vector3(
+                setScreenWidth ? width : currentScale.x,
+                setScreenHeight ? height : currentScale.y,
+                currentScale.z
             );
         }
     }

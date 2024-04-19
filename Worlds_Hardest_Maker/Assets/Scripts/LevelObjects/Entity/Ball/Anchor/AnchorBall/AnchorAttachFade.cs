@@ -1,7 +1,7 @@
 using MyBox;
 using UnityEngine;
 
-public class AnchorBallFade : MonoBehaviour
+public class AnchorAttachFade : MonoBehaviour
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private ChildrenOpacity container;
 
@@ -11,7 +11,7 @@ public class AnchorBallFade : MonoBehaviour
 
     [SerializeField] [InitializationField] private float fadeOutOpacity = 0.3f;
 
-    public void BallFadeOut() => container.FadeTo(fadeOutOpacity, fadeDuration);
+    public void FadeOut() => container.FadeTo(fadeOutOpacity, fadeDuration);
 
-    public void BallFadeIn() => container.FadeTo(fadeInOpacity, fadeDuration);
+    public void FadeIn() => container.FadeTo(fadeInOpacity, fadeDuration);
 }

@@ -30,8 +30,10 @@ public class AnchorPositionInputEditManager : MonoBehaviour
 
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
         PanelController anchorAttachButton = ReferenceManager.Instance.AnchorAttachButtonController;
+        PanelController anchorExitAttachButton = ReferenceManager.Instance.AnchorAttachExitButtonController;
         PanelManager.Instance.SetPanelHidden(anchorPanel, true);
         PanelManager.Instance.SetPanelHidden(anchorAttachButton, true);
+        PanelManager.Instance.SetPanelHidden(anchorExitAttachButton, true);
     }
 
     public void OnEndPositionEdit()
@@ -48,8 +50,10 @@ public class AnchorPositionInputEditManager : MonoBehaviour
 
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
         PanelController anchorAttachButton = ReferenceManager.Instance.AnchorAttachButtonController;
+        PanelController anchorExitAttachButton = ReferenceManager.Instance.AnchorAttachExitButtonController;
         PanelManager.Instance.SetPanelOpen(anchorPanel, LevelSessionEditManager.Instance.Editing);
-        PanelManager.Instance.SetPanelOpen(anchorAttachButton, LevelSessionEditManager.Instance.Editing, false);
+        PanelManager.Instance.SetPanelOpen(anchorAttachButton, LevelSessionEditManager.Instance.Editing && !AnchorAttachManager.Instance.InAttachMode, false);
+        PanelManager.Instance.SetPanelOpen(anchorExitAttachButton, LevelSessionEditManager.Instance.Editing && AnchorAttachManager.Instance.InAttachMode, false);
 
         AnchorManager.Instance.SelectedAnchor.RenderLines();
     }

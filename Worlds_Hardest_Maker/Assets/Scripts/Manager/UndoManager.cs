@@ -51,26 +51,6 @@ public class UndoManager : MonoBehaviour
         return true;
     }
 
-    // private static bool CompareData(List<Data> list1, List<Data> list2)
-    // {
-    //     List<Data> firstNotSecond = list1.Except(list2).ToList();
-    //     List<Data> secondNotFirst = list2.Except(list1).ToList();
-    //     return !firstNotSecond.Any() && !secondNotFirst.Any();
-    // }
-
-    // private static bool CompareData(List<Data> list1, List<Data> list2)
-    // {
-    //     return list1.SequenceEqual(list2);
-    // }
-
-    // private static bool CompareData(List<Data> list1, List<Data> list2)
-    // {
-    //     IEnumerable<Data> inListButNotInList2 = list1.Except(list2);
-    //     IEnumerable<Data> inList2ButNotInList = list2.Except(list1);
-    //
-    //     IEnumerable<Data> first10 = inListButNotInList2.Take(10);
-    // }
-
     private void Update()
     {
         if (KeyBinds.GetKeyBindDown("Editor_Undo")) Undo();

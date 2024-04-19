@@ -10,8 +10,12 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public partial class AnchorController : EntityController, IResettable
 {
-    [FormerlySerializedAs("BallContainer")] [InitializationField] public Transform AttachmentContainer;
-    [InitializationField] public Animator Animator;
+    [FormerlySerializedAs("BallContainer")] [InitializationField] [MustBeAssigned] public Transform AttachmentContainer;
+    [InitializationField] [MustBeAssigned] public Animator Animator;
+    [InitializationField] [MustBeAssigned] public AnchorAttachFade AttachFade;
+    
+    [ReadOnly] public int SortingLayerID;
+    [ReadOnly] public int OrderInLayer;
 
     [HideInInspector] public List<Transform> Balls = new();
     public LinkedList<AnchorBlock> Blocks = new();
@@ -32,6 +36,8 @@ public partial class AnchorController : EntityController, IResettable
     public LinkedListNode<AnchorBlock> CurrentExecutingNode;
 
     public Coroutine WaitCoroutine;
+
+    public List<AnchorAttachment> Attachments;
 
     [HideInInspector] public Rigidbody2D Rb;
     private SpriteRenderer spriteRenderer;
@@ -65,7 +71,10 @@ public partial class AnchorController : EntityController, IResettable
         entityDragDrop.OnMove += (_, _) => MoveAnchor();
 
         if (LevelSessionManager.Instance.IsEdit) UpdateStartValues();
-
+        
+        SortingLayerID = spriteRenderer.sortingLayerID;
+        OrderInLayer = spriteRenderer.sortingOrder;
+        
         ((IResettable)this).Subscribe();
     }
 
@@ -164,6 +173,24 @@ public partial class AnchorController : EntityController, IResettable
 
     #endregion
 
+    public void MergeToLayer()
+    {
+        const int LAYER_OFFSET = AnchorAttachment.INTERNAL_LAYER_OFFSET;
+        
+        int orderInLayer = Math.Min(OrderInLayer, LAYER_OFFSET - 1);
+
+        int mergedOrder = Array.IndexOf(LayerManager.Instance.AllSortingLayerIDs, SortingLayerID) * LAYER_OFFSET + orderInLayer;
+
+        spriteRenderer.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorAbove;
+        spriteRenderer.sortingOrder = mergedOrder;
+    }
+
+    public void ResetLayer()
+    {
+        spriteRenderer.sortingLayerID = SortingLayerID;
+        spriteRenderer.sortingOrder = OrderInLayer;
+    }
+    
     public void ResetState()
     {
         ResetExecution();

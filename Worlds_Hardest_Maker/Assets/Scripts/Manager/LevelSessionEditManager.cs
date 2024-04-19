@@ -41,9 +41,6 @@ public class LevelSessionEditManager : MonoBehaviour
             if (AnchorManager.Instance.SelectedAnchor)
                 AnchorManager.Instance.SelectedAnchor.GetComponent<Animator>().SetBool(editingString, isAnchorRelated || inAttachMode);
 
-            if (isAnchorRelated && AnchorManager.Instance.SelectedAnchor) ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
-            else ReferenceManager.Instance.AnchorBallContainer.BallFadeIn();
-
             // open corresponding panel
             PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
             PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;

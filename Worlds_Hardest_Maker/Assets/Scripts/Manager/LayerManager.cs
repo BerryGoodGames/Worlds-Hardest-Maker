@@ -1,5 +1,7 @@
 using System;
+using System.Reflection;
 using MyBox;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class LayerManager : MonoBehaviour
@@ -9,9 +11,27 @@ public class LayerManager : MonoBehaviour
     public LayerVariables Layers;
     public SortingLayerVariables SortingLayers;
 
+    public string[] AllSortingLayerNames { get; private set; }
+    public int[] AllSortingLayerIDs { get; private set; }
+    
+    private static string[] GetSortingLayerNames() {
+        Type internalEditorUtilityType = typeof(InternalEditorUtility);
+        PropertyInfo sortingLayersProperty = internalEditorUtilityType.GetProperty("sortingLayerNames", BindingFlags.Static | BindingFlags.NonPublic);
+        return (string[])sortingLayersProperty.GetValue(null, Array.Empty<object>());
+    }
+    
+    private static int[] GetSortingLayerUniqueIDs() {
+        Type internalEditorUtilityType = typeof(InternalEditorUtility);
+        PropertyInfo sortingLayerUniqueIDsProperty = internalEditorUtilityType.GetProperty("sortingLayerUniqueIDs", BindingFlags.Static | BindingFlags.NonPublic);
+        return (int[])sortingLayerUniqueIDsProperty.GetValue(null, new object[0]);
+    }
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
+
+        AllSortingLayerNames = GetSortingLayerNames();
+        AllSortingLayerIDs = GetSortingLayerUniqueIDs();
     }
 }
 
@@ -35,6 +55,7 @@ public class LayerVariables
 public class SortingLayerVariables
 {
     [InitializationField] [MustBeAssigned] public string Background;
+    [InitializationField] [MustBeAssigned] public string AnchorBelow;
     [InitializationField] [MustBeAssigned] public string Field;
     [InitializationField] [MustBeAssigned] public string Coin;
     [InitializationField] [MustBeAssigned] public string Key;
@@ -43,6 +64,7 @@ public class SortingLayerVariables
     [InitializationField] [MustBeAssigned] public string Outline;
     [InitializationField] [MustBeAssigned] public string Anchor;
     [InitializationField] [MustBeAssigned] public string Ball;
+    [InitializationField] [MustBeAssigned] public string AnchorAbove;
     [InitializationField] [MustBeAssigned] public string FillPreview;
     [InitializationField] [MustBeAssigned] public string PlacementPreview;
     [InitializationField] [MustBeAssigned] public string Line;

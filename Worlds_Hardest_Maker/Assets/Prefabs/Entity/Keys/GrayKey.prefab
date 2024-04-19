@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 6801432650372408425}
   - component: {fileID: 724551881837701564}
   - component: {fileID: 686737570691484559}
+  - component: {fileID: 8131512251323995280}
   m_Layer: 7
   m_Name: GrayKey
   m_TagString: Key
@@ -5108,3 +5109,16 @@ MonoBehaviour:
     Sound: KeySneeze
     PitchRandomization: 1
     PitchDeviation: 0.08
+--- !u!114 &8131512251323995280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8839871402222588891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25b4ce380abbb954e8e1f849dec0f75e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainSprite: {fileID: 5739846171579892088}
