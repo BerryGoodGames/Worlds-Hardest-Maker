@@ -75,8 +75,16 @@ public partial class AnchorController : EntityController, IResettable
         SortingLayerID = spriteRenderer.sortingLayerID;
         OrderInLayer = spriteRenderer.sortingOrder;
         
-        PlayManager.Instance.OnSwitchToPlay += AttachFade.FadeIn;
-        PlayManager.Instance.OnSwitchToEdit += AttachFade.FadeOut;
+        PlayManager.Instance.OnSwitchToPlay += () =>
+        {
+            AttachFade.FadeIn();
+            // Attachments.ForEach(a => a.MergeToLayer());
+        };
+        PlayManager.Instance.OnSwitchToEdit += () =>
+        {
+            AttachFade.FadeOut();
+            // Attachments.ForEach(a => a.ResetLayer());
+        };
         
         ((IResettable)this).Subscribe();
     }

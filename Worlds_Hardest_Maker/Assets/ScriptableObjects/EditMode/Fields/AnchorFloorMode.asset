@@ -32,3 +32,4 @@ MonoBehaviour:
   IsSolid: 0
   IsStartFieldForPlayer: 0
   IsSafeForPlayer: 0
+  CarryPlayer: 1

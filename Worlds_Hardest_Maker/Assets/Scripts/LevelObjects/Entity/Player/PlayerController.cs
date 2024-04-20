@@ -4,6 +4,7 @@ using DG.Tweening;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public partial class PlayerController : EntityController
 {
@@ -17,6 +18,7 @@ public partial class PlayerController : EntityController
     [HideInInspector] public EdgeCollider2D EdgeCollider;
 
     private SpriteRenderer spriteRenderer;
+    private SortingGroup sortingGroup;
 
     public ShotgunController Shotgun { get; private set; }
 
@@ -49,6 +51,8 @@ public partial class PlayerController : EntityController
     public static float Speed => LevelSettings.Instance.PlayerSpeed;
 
     [ReadOnly] [CanBeNull] public AnchorController Sheet;
+
+    [HideInInspector] public FieldController CurrentFloor;
 
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
 
@@ -95,7 +99,7 @@ public partial class PlayerController : EntityController
     {
         UpdateWaterState();
 
-        ApplyForcesFromFloor();
+        // ApplyForcesFromFloor();
 
         Move();
     }
@@ -115,6 +119,8 @@ public partial class PlayerController : EntityController
         DefaultDeathAnim();
 
         Shotgun.gameObject.SetActive(false);
+        
+        sortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.Player;
 
         ResetState();
     }
@@ -126,6 +132,8 @@ public partial class PlayerController : EntityController
         HasTeleported = false;
 
         if (KonamiManager.Instance.KonamiActive) Shotgun.gameObject.SetActive(true);
+
+        sortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.PlayerPlayMode;
 
         Setup();
     }
@@ -188,6 +196,8 @@ public partial class PlayerController : EntityController
         EdgeCollider = GetComponent<EdgeCollider2D>();
 
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        sortingGroup = GetComponent<SortingGroup>();
 
         Shotgun = GetComponentInChildren<ShotgunController>(true);
         Shotgun.gameObject.SetActive(
