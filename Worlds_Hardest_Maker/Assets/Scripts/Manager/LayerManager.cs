@@ -65,6 +65,7 @@ public class SortingLayerVariables
     [InitializationField] [MustBeAssigned] public string Anchor;
     [InitializationField] [MustBeAssigned] public string Ball;
     [InitializationField] [MustBeAssigned] public string AnchorAbove;
+    [InitializationField] [MustBeAssigned] public string PlayerPlayMode;
     [InitializationField] [MustBeAssigned] public string FillPreview;
     [InitializationField] [MustBeAssigned] public string PlacementPreview;
     [InitializationField] [MustBeAssigned] public string Line;

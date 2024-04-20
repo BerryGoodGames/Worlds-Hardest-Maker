@@ -102,6 +102,9 @@ TagManager:
   - name: AnchorAbove
     uniqueID: 40911097
     locked: 0
+  - name: PlayerPlayMode
+    uniqueID: 3475210841
+    locked: 0
   - name: FillPreview
     uniqueID: 195234503
     locked: 0
