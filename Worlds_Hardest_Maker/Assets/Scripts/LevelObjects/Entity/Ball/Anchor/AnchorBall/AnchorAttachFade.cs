@@ -1,17 +1,46 @@
+using DG.Tweening;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class AnchorAttachFade : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [MustBeAssigned] private ChildrenOpacity container;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform container;
+    [Separator] [SerializeField] private float fadeDuration = 0.2f;
+    [FormerlySerializedAs("fadeInOpacity")] [SerializeField] private float fadeInScalar = 1;
+    [FormerlySerializedAs("fadeOutOpacity")] [SerializeField] private float fadeOutScalar = 0.3f;
 
-    [Separator] [SerializeField] [InitializationField] private float fadeDuration = 0.2f;
+    private AnchorAttachment[] children;
+    private float scalar;
 
-    [SerializeField] [InitializationField] private float fadeInOpacity = 1;
+    private void Start() => UpdateChildren();
 
-    [SerializeField] [InitializationField] private float fadeOutOpacity = 0.3f;
+    public void UpdateChildren() => children = container.GetComponentsInChildren<AnchorAttachment>();
 
-    public void FadeOut() => container.FadeTo(fadeOutOpacity, fadeDuration);
+    public void FadeOut() => FadeTo(fadeOutScalar, fadeDuration);
 
-    public void FadeIn() => container.FadeTo(fadeInOpacity, fadeDuration);
+    public void FadeIn() => FadeTo(fadeInScalar, fadeDuration);
+
+    private void UpdateOpacity()
+    {
+        foreach (AnchorAttachment child in children)
+        {
+            if (child == null) continue;
+            Color newColor = child.AnchorAttachable.MainSprite.color;
+            newColor.a = scalar * child.Opacity;
+            child.AnchorAttachable.MainSprite.color = newColor;
+        }
+    }
+    
+    private void SetOpacity(float scalar)
+    {
+        this.scalar = scalar;
+        UpdateOpacity();
+    }
+    
+    private void FadeTo(float scalar, float time)
+    {
+        UpdateChildren();
+        DOTween.To(() => this.scalar, SetOpacity, scalar, time);
+    }
 }

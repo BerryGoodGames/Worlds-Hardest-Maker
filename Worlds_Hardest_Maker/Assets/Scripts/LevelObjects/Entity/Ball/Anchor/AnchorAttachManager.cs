@@ -59,13 +59,13 @@ public partial class AnchorAttachManager : MonoBehaviour
 
     public static Transform GetCurrentAnchorContainer() => Instance.InAttachMode ? AnchorManager.Instance.SelectedAnchor.AttachmentContainer : null;
 
-    private void Start() =>
+    private void Start()
+    {
         PlayManager.Instance.OnSwitchToPlay += () =>
         {
-            if (!InAttachMode) return;
-
-            ExitAttachMode();
+            if (InAttachMode) ExitAttachMode();
         };
+    }
 
     private void Awake()
     {

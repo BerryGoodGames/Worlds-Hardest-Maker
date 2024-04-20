@@ -4927,10 +4927,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 158a5aa8bb2c6f246be2beaa19f4fb89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 473813364}
+  container: {fileID: 473813362}
   fadeDuration: 0.2
-  fadeInOpacity: 1
-  fadeOutOpacity: 0.3
+  fadeInScalar: 1
+  fadeOutScalar: 0.3
 --- !u!114 &473813364
 MonoBehaviour:
   m_ObjectHideFlags: 0

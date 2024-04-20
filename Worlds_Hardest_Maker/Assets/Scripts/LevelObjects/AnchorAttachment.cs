@@ -10,6 +10,7 @@ public class AnchorAttachment : MonoBehaviour
     [Space]
     [ReadOnly] public int SortingLayerID;
     [ReadOnly] public int OrderInLayer;
+    [ReadOnly] public float Opacity;
 
     [HideInInspector] public AnchorAttachable AnchorAttachable;
 
@@ -43,6 +44,7 @@ public class AnchorAttachment : MonoBehaviour
 
         SortingLayerID = AnchorAttachable.MainSprite.sortingLayerID;
         OrderInLayer = AnchorAttachable.MainSprite.sortingOrder;
+        Opacity = AnchorAttachable.MainSprite.color.a;
 
         int sortingOrder = Array.IndexOf(LayerManager.Instance.AllSortingLayerIDs, SortingLayerID) * INTERNAL_LAYER_OFFSET
                            + Math.Min(OrderInLayer, INTERNAL_LAYER_OFFSET - 1);
