@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using DG.Tweening;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
@@ -79,13 +78,10 @@ public partial class PlayerController : EntityController
         PlayManager.Instance.OnLevelReset += ResetState;
 
         isAttached = Sheet != null;
-        if (isAttached)
-        {
-            sheetStartPosOffset = transform.position - Sheet.transform.position;
-        }
+        if (isAttached) sheetStartPosOffset = transform.position - Sheet.transform.position;
 
         EdgeCollider.enabled = LevelSessionEditManager.Instance.Playing;
-        
+
         ApplyCurrentGameState();
     }
 
@@ -119,7 +115,7 @@ public partial class PlayerController : EntityController
         DefaultDeathAnim();
 
         Shotgun.gameObject.SetActive(false);
-        
+
         sortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.Player;
 
         ResetState();
@@ -144,7 +140,7 @@ public partial class PlayerController : EntityController
         // animation and play mode and that's it really
         AudioManager.Instance.Play("Win");
         Won = true;
-    
+
         PlayerManager.Instance.InvokeOnWin();
     }
 

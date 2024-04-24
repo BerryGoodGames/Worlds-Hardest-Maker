@@ -11,7 +11,7 @@ public partial class AnchorAttachManager : MonoBehaviour
 
     public static event Action OnEnterAttachMode = () => { };
     public static event Action OnExitAttachMode = () => { };
-    
+
     public void EnterAttachMode()
     {
         if (LevelSessionEditManager.Instance.Playing
@@ -27,9 +27,9 @@ public partial class AnchorAttachManager : MonoBehaviour
         InAttachMode = true;
 
         LevelSessionEditManager.Instance.CurrentEditMode = EditModeManager.AnchorBall;
-        
+
         HighlightAnchor(AnchorManager.Instance.SelectedAnchor);
-        
+
         OnEnterAttachMode.Invoke();
     }
 
@@ -37,7 +37,9 @@ public partial class AnchorAttachManager : MonoBehaviour
     {
         bool isModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
 
-        if (LevelSessionEditManager.Instance.Editing) PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, false, false);
+        if (LevelSessionEditManager.Instance.Editing)
+            PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, false, false);
+
         PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachExitButtonController, true);
         if (!isModeAnchorRelated) PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.LevelSettingsPanelController, false);
 
@@ -51,21 +53,19 @@ public partial class AnchorAttachManager : MonoBehaviour
 
         if (AnchorManager.Instance.SelectedAnchor)
             AnchorManager.Instance.SelectedAnchor.GetComponent<Animator>().SetBool(editingString, isModeAnchorRelated);
-        
+
         Dehighlight(AnchorManager.Instance.SelectedAnchor);
-        
+
         OnExitAttachMode.Invoke();
     }
 
     public static Transform GetCurrentAnchorContainer() => Instance.InAttachMode ? AnchorManager.Instance.SelectedAnchor.AttachmentContainer : null;
 
-    private void Start()
-    {
+    private void Start() =>
         PlayManager.Instance.OnSwitchToPlay += () =>
         {
             if (InAttachMode) ExitAttachMode();
         };
-    }
 
     private void Awake()
     {

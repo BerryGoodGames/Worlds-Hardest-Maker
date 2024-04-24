@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 /// <summary>
 ///     Attach to every field prefab variant which has outlines (see TypesWithOutlines)
@@ -55,7 +54,7 @@ public class FieldOutline : MonoBehaviour
         LineRenderers ??= GetComponentsInChildren<LineRenderer>();
 
         sheet = TryGetComponent(out AnchorAttachment attach) ? attach.Anchor : null;
-        
+
         UpdateAlpha();
 
         if (UpdateOnStart) UpdateOutline(true);
@@ -76,7 +75,7 @@ public class FieldOutline : MonoBehaviour
 
             DrawLine(dir);
         }
-        
+
         OnUpdateOutline.Invoke();
     }
 
@@ -88,7 +87,7 @@ public class FieldOutline : MonoBehaviour
         ClearLineInDirection(dir);
 
         if (!IsConnectorInDirection(dir, updateNeighbor, true)) DrawLine(dir);
-        
+
         OnUpdateOutline.Invoke();
     }
 

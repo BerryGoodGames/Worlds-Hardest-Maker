@@ -1,7 +1,6 @@
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public class Tooltip : MonoBehaviour
@@ -14,8 +13,7 @@ public class Tooltip : MonoBehaviour
 
     [Space] [SerializeField] private bool restrictInCanvas = true;
 
-    [SerializeField] [ConditionalField(nameof(restrictInCanvas))]
-    private bool customRestrictContainer;
+    [SerializeField] [ConditionalField(nameof(restrictInCanvas))] private bool customRestrictContainer;
 
     [SerializeField] [ConditionalField(nameof(customRestrictContainer), nameof(restrictInCanvas))] private RectTransform restrictContainer;
 

@@ -20,11 +20,11 @@ public partial class PlayerController
     public void ActivateCheckpoint(CheckpointController checkpoint)
     {
         currentRunCheckpoint = checkpoint;
-        
+
         CurrentGameState = GetGameStateNow();
-        
+
         OnCheckpointEnter.Invoke();
-    
+
         print("Saved game state");
     }
 
@@ -73,7 +73,7 @@ public partial class PlayerController
             coin.Animator.SetBool(pickedUp, false);
         }
     }
-    
+
     private void ApplyCurrentGameState()
     {
         // set progress from current state
@@ -95,7 +95,7 @@ public partial class PlayerController
             KeyManager.Instance.CollectedKeys.Add(key);
         }
     }
-    
+
     private bool ShouldCoinRespawn(CoinController coin)
     {
         // check if coin should respawn

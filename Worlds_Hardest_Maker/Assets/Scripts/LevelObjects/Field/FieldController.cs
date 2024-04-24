@@ -1,11 +1,10 @@
-using System;
 using UnityEngine;
 
 public class FieldController : LevelObjectController
 {
     [HideInInspector] public FieldMode FieldMode;
     private bool isAttached;
-    
+
     public Vector2 DeltaPosition { get; private set; }
     private Vector2 previousPosition;
 
@@ -13,7 +12,7 @@ public class FieldController : LevelObjectController
     {
         Vector2 currentPosition = transform.position;
         if (previousPosition == default) previousPosition = transform.position;
-        
+
         DeltaPosition = currentPosition - previousPosition;
         previousPosition = currentPosition;
     }
@@ -41,10 +40,7 @@ public class FieldController : LevelObjectController
         PlayerManager.Instance.Player.transform.SetParent(ReferenceManager.Instance.PlayerContainer);
     }
 
-    private void Start()
-    {
-        isAttached = TryGetComponent(out AnchorAttachment _);
-    }
+    private void Start() => isAttached = TryGetComponent(out AnchorAttachment _);
 
     public override EditMode EditMode => FieldMode;
     public override Data GetData() => new FieldData(this);

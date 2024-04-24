@@ -4,11 +4,11 @@ using UnityEngine;
 public partial class AnchorManager : IManager<AnchorController>
 {
     public Transform DefaultContainer => ReferenceManager.Instance.AnchorContainer;
-    
+
     public AnchorController SetInSheet(ManagerParameters args)
     {
         if (GetInSheet(args.Position, args.Sheet) != null) return null;
-        
+
         AnchorController anchor = InstantiateInSheet(args);
         anchor.transform.position = args.Position;
 
@@ -64,12 +64,11 @@ public partial class AnchorManager : IManager<AnchorController>
         AudioManager.Instance.Play(PlaceManager.Instance.GetSfx(EditModeManager.Delete));
     }
 
-    public AnchorController InstantiateInSheet(ManagerParameters args)
-    {
-        return Instantiate(
+    public AnchorController InstantiateInSheet(ManagerParameters args) =>
+        Instantiate(
             PrefabManager.Instance.Anchor, Vector2.zero, Quaternion.identity,
             DefaultContainer
         ).Child;
-    }
+
     public bool CorrespondsToEditMode(EditMode compare) => compare == EditModeManager.Anchor;
 }

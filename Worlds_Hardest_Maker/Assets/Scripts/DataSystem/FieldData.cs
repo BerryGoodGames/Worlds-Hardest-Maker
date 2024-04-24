@@ -34,7 +34,7 @@ public class FieldData : Data
             FieldMode = EditModeManager.GetFieldMode(FieldMode),
             Rotation = Rotation,
         };
-        
+
         ((IManager<FieldController>)FieldManager.Instance).Set(args);
     }
 

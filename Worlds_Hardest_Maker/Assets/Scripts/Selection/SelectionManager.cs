@@ -257,7 +257,7 @@ public class SelectionManager : MonoBehaviour
                     FieldMode = mode,
                     Rotation = rotation,
                 };
-                
+
                 ((IManager<FieldController>)FieldManager.Instance).Set(args);
             }
 

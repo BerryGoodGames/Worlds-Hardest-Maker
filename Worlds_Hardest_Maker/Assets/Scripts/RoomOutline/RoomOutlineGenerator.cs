@@ -1,6 +1,5 @@
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class RoomOutlineGenerator : MonoBehaviour
 {

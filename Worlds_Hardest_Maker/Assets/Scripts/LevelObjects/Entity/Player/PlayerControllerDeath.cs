@@ -122,9 +122,9 @@ public partial class PlayerController
         if (LevelSessionEditManager.Instance.Editing) spawnPos = StartPos;
 
         OnDeathEnd.Invoke();
-        
+
         transform.position = spawnPos;
-        
+
         RevertDeathAnimation();
 
         Camera main = Camera.main;

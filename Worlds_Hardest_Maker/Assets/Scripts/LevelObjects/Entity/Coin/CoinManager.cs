@@ -13,7 +13,7 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
     [ReadOnly] public List<CoinController> CollectedCoins = new();
 
     public Transform DefaultContainer => ReferenceManager.Instance.CoinContainer;
-    
+
     private int TotalCoins => Coins.Count;
 
     public int CoinsNeededFinal =>
@@ -22,12 +22,13 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
     private static readonly int playing = Animator.StringToHash("Playing");
 
     public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
-    public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) => 
+
+    public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>
         // conditions: no coin there, doesn't intersect with any walls etc, no player there
         !((IManager<CoinController>)this).IsThereInSheet(position, sheet)
         && !FieldManager.Instance.IntersectingAnyFieldsAtPos(position, CannotPlaceFields.ToArray())
         && !PlayerManager.Instance.IsThere(position);
-    
+
     public CoinController SetInSheet(ManagerParameters args)
     {
         Vector2 matrixPosition = args.Position.ConvertToGrid();
@@ -37,7 +38,7 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
         CoinController coin = InstantiateInSheet(args);
 
         coin.Animator.SetBool(playing, LevelSessionEditManager.Instance.Playing);
-        
+
         PlaceManager.AttachToSheet(coin.gameObject, args.Sheet);
 
         return coin;
@@ -67,14 +68,12 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
         return null;
     }
 
-    public CoinController InstantiateInSheet(ManagerParameters args)
-    {
-        return Instantiate(
+    public CoinController InstantiateInSheet(ManagerParameters args) =>
+        Instantiate(
             PrefabManager.Instance.Coin,
             args.Position, Quaternion.identity,
             args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
         );
-    }
 
     public void UncollectCoinAtPos(Vector2 position)
     {

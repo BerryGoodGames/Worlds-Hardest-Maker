@@ -18,18 +18,15 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     public PlayerController SetInSheet(ManagerParameters args)
     {
         Vector2 position = args.Position;
-        
+
         if (IsThereInSheet(position, args.Sheet)) return null;
 
-        if (args.SurroundWithStartFields && !CanPlaceInSheet(position, args.Sheet))
-        {
-            SetSurroundingStartFieldsInSheet(position, args.Sheet);
-        }
+        if (args.SurroundWithStartFields && !CanPlaceInSheet(position, args.Sheet)) SetSurroundingStartFieldsInSheet(position, args.Sheet);
 
         // clear area from coins and keys
         GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.CoinContainer);
         GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.KeyContainer);
-        
+
         // if player already exists, just move it
         if (Player != null)
         {
@@ -46,7 +43,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
 
             Player = newPlayer;
         }
-        
+
         PlaceManager.AttachToSheet(Player.gameObject, args.Sheet, false);
         Player.Sheet = args.Sheet;
 
@@ -99,30 +96,31 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
         ManagerParameters args = new() { Position = position, };
         return ((IManager<PlayerController>)this).Set(args);
     }
-    
+
     public PlayerController GetInSheet(Vector2 position, AnchorController sheet) => throw new NotImplementedException();
 
     public PlayerController InstantiateInSheet(ManagerParameters args)
     {
         PlayerController newPlayer = Instantiate(
-            PrefabManager.Instance.Player, 
+            PrefabManager.Instance.Player,
             args.Position, Quaternion.identity,
             DefaultContainer
         );
-        
+
         PlaceManager.AttachToSheet(newPlayer.gameObject, args.Sheet, false);
         newPlayer.Sheet = args.Sheet;
-        
+
         return newPlayer;
     }
-    
+
     public bool IsThere(Vector2 position) => Instance.Player != null && (Vector2)Instance.Player.transform.position == position;
     public bool IsThereInSheet(Vector2 position, AnchorController sheet) => IsThere(position) && Instance.Player.Sheet == sheet;
-    
+
     public bool CanPlace(Vector2 position) =>
         // conditions: no player there, position is covered with possible start fields
         !IsThere(position) &&
         FieldManager.Instance.IsPosCoveredWithFieldType(position, EditModeManager.Instance.AllPlayerStartFieldModes.ToArray());
+
     public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>
         // conditions: no player there, position is covered with possible start fields
         !IsThereInSheet(position, sheet) &&
@@ -145,7 +143,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
                 Position = checkPosition,
                 FieldMode = EditModeManager.Start,
             };
-            
+
             ((IManager<FieldController>)FieldManager.Instance).Set(args);
         }
     }
@@ -180,17 +178,17 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
             if ((Vector2)player.position == position) player.GetComponent<PlayerController>().DestroySelf();
         }
     }
-    
+
     public void RemoveAtPosInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
         // remove player only if at pos
         foreach (Transform p in DefaultContainer)
         {
             if ((Vector2)p.position != position) continue;
-            
+
             PlayerController player = p.GetComponent<PlayerController>();
-                
-            if(IManager.IsInSheet(player, sheet)) player.DestroySelf();
+
+            if (IManager.IsInSheet(player, sheet)) player.DestroySelf();
         }
     }
 
@@ -205,7 +203,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
 
         foreach (Vector2 d in deltas) RemoveAtPos(position + d);
     }
-    
+
     public void RemovePlayerAtPosIntersectInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
         Vector2[] deltas =
@@ -217,6 +215,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
 
         foreach (Vector2 d in deltas) RemoveAtPosInSheet(position + d, sheet);
     }
+
     public bool IsThereIntersect(Vector2 position)
     {
         Vector2[] deltas =

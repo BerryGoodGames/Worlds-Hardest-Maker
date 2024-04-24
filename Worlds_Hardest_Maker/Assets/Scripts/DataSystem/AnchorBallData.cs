@@ -24,7 +24,7 @@ public class AnchorBallData : Data
         ManagerParameters args = new() { Position = new(position[0], position[1]), };
         AnchorBallManager.Instance.SetInSheet(args);
     }
-    
+
     public override EditMode GetEditMode() => EditModeManager.AnchorBall;
 
     public override bool Equals(Data d)

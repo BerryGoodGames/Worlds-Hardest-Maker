@@ -1,4 +1,3 @@
-using System;
 using MyBox;
 using UnityEngine;
 
@@ -22,7 +21,7 @@ public class Tool : MonoBehaviour
         MouseOverUIRect = GetComponent<MouseOverUIRect>();
 
         OnExitAnchorAttach();
-        
+
         AnchorAttachManager.OnEnterAttachMode += OnEnterAnchorAttach;
         AnchorAttachManager.OnExitAttachMode += OnExitAnchorAttach;
     }
@@ -58,7 +57,7 @@ public class Tool : MonoBehaviour
 
     private void OnEnterAnchorAttach() => SetVisible(ToolEditMode.AnchorAvailable);
     private void OnExitAnchorAttach() => SetVisible(ToolEditMode.DefaultAvailable);
-    
+
     private void OnDestroy()
     {
         AnchorAttachManager.OnEnterAttachMode -= OnEnterAnchorAttach;

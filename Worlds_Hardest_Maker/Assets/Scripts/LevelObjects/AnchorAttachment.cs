@@ -5,11 +5,10 @@ using UnityEngine;
 public class AnchorAttachment : MonoBehaviour
 {
     public const int INTERNAL_LAYER_OFFSET = 3000;
-    
+
     [ReadOnly] public AnchorController Anchor;
     [ReadOnly] public LevelObjectController Controller;
-    [Space]
-    [ReadOnly] public int SortingLayerID;
+    [Space] [ReadOnly] public int SortingLayerID;
     [ReadOnly] public int OrderInLayer;
     [ReadOnly] public float Opacity;
 
@@ -18,25 +17,31 @@ public class AnchorAttachment : MonoBehaviour
     public void MergeToLayer()
     {
         AnchorAttachable.MainSprite.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorAbove;
-        if(AnchorAttachable.HasOutline) AnchorAttachable.OutlineComp.LineRenderers.ForEach(line =>
-            {
-                if (line != null) line.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorAbove;
-            });
+        if (AnchorAttachable.HasOutline)
+            AnchorAttachable.OutlineComp.LineRenderers.ForEach(
+                line =>
+                {
+                    if (line != null) line.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorAbove;
+                }
+            );
     }
 
     public void ResetLayer()
     {
         AnchorAttachable.MainSprite.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorBelow;
-        if(AnchorAttachable.HasOutline) AnchorAttachable.OutlineComp.LineRenderers.ForEach(line =>
-            {
-                if (line != null) line.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorBelow;
-            });
+        if (AnchorAttachable.HasOutline)
+            AnchorAttachable.OutlineComp.LineRenderers.ForEach(
+                line =>
+                {
+                    if (line != null) line.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorBelow;
+                }
+            );
     }
 
     private void Start()
     {
         Anchor.Attachments.Add(this);
-        
+
         if (!TryGetComponent(out AnchorAttachable))
         {
             Debug.LogError("Object with anchor attachment is not anchor attachable");
@@ -51,8 +56,9 @@ public class AnchorAttachment : MonoBehaviour
 
         int sortingOrder = Array.IndexOf(LayerManager.Instance.AllSortingLayerIDs, SortingLayerID) * INTERNAL_LAYER_OFFSET
                            + Math.Min(OrderInLayer, INTERNAL_LAYER_OFFSET - 1);
+
         string sortingLayerName = LayerManager.Instance.SortingLayers.AnchorAbove;
-        
+
         AnchorAttachable.MainSprite.sortingOrder = sortingOrder;
         AnchorAttachable.MainSprite.sortingLayerName = sortingLayerName;
         if (AnchorAttachable.HasOutline)
@@ -64,8 +70,7 @@ public class AnchorAttachment : MonoBehaviour
 
         return;
 
-        void UpdateOutlineLayers()
-        {
+        void UpdateOutlineLayers() =>
             AnchorAttachable.OutlineComp.LineRenderers.ForEach(
                 line =>
                 {
@@ -75,7 +80,6 @@ public class AnchorAttachment : MonoBehaviour
                         : LayerManager.Instance.SortingLayers.AnchorBelow;
                 }
             );
-        }
     }
 
     private void OnDestroy() => Anchor.Attachments.Remove(this);

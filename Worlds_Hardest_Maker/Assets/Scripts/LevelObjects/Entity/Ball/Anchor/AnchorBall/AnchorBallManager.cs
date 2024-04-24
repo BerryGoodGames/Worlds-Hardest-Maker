@@ -13,7 +13,7 @@ public class AnchorBallManager : MonoBehaviour, IManager<AnchorBallController>, 
     #region Set, Get
 
     public Transform DefaultContainer => ReferenceManager.Instance.AnchorBallContainer;
-    
+
     public AnchorBallController SetInSheet(ManagerParameters args)
     {
         if (GetInSheet(args.Position, args.Sheet) != null) return null;
@@ -56,13 +56,13 @@ public class AnchorBallManager : MonoBehaviour, IManager<AnchorBallController>, 
     public AnchorBallController InstantiateInSheet(ManagerParameters args)
     {
         Transform container = args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer;
-        
+
         GameObject ball = Instantiate(
-            PrefabManager.Instance.AnchorBall, 
-            args.Position, Quaternion.identity, 
+            PrefabManager.Instance.AnchorBall,
+            args.Position, Quaternion.identity,
             container
         );
-        
+
         return ball.GetComponentInChildren<AnchorBallController>();
     }
 

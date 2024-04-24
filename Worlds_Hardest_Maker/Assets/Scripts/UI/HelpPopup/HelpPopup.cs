@@ -131,7 +131,7 @@ public class HelpPopup : MonoBehaviour
     [UsedImplicitly]
     public void Setup()
     {
-        foreach (Transform screen in scrollContainer.transform) { NormalizeScreen((RectTransform)screen); }
+        foreach (Transform screen in scrollContainer.transform) NormalizeScreen((RectTransform)screen);
 
         for (int i = dotContainer.childCount - 1; i >= 0; i--)
         {

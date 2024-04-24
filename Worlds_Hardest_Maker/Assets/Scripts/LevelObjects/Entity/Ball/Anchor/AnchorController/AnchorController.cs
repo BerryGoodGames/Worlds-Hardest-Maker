@@ -13,7 +13,7 @@ public partial class AnchorController : EntityController, IResettable
     [FormerlySerializedAs("BallContainer")] [InitializationField] [MustBeAssigned] public Transform AttachmentContainer;
     [InitializationField] [MustBeAssigned] public Animator Animator;
     [InitializationField] [MustBeAssigned] public AnchorAttachFade AttachFade;
-    
+
     [ReadOnly] public int SortingLayerID;
     [ReadOnly] public int OrderInLayer;
 
@@ -71,13 +71,13 @@ public partial class AnchorController : EntityController, IResettable
         entityDragDrop.OnMove += (_, _) => MoveAnchor();
 
         if (LevelSessionManager.Instance.IsEdit) UpdateStartValues();
-        
+
         SortingLayerID = spriteRenderer.sortingLayerID;
         OrderInLayer = spriteRenderer.sortingOrder;
-        
+
         PlayManager.Instance.OnSwitchToPlay += AttachFade.FadeIn;
         PlayManager.Instance.OnSwitchToEdit += AttachFade.FadeOut;
-        
+
         ((IResettable)this).Subscribe();
     }
 
@@ -179,7 +179,7 @@ public partial class AnchorController : EntityController, IResettable
     public void MergeToLayer()
     {
         const int LAYER_OFFSET = AnchorAttachment.INTERNAL_LAYER_OFFSET;
-        
+
         int orderInLayer = Math.Min(OrderInLayer, LAYER_OFFSET - 1);
 
         int mergedOrder = Array.IndexOf(LayerManager.Instance.AllSortingLayerIDs, SortingLayerID) * LAYER_OFFSET + orderInLayer;
@@ -193,7 +193,7 @@ public partial class AnchorController : EntityController, IResettable
         spriteRenderer.sortingLayerID = SortingLayerID;
         spriteRenderer.sortingOrder = OrderInLayer;
     }
-    
+
     public void ResetState()
     {
         ResetExecution();

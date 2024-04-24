@@ -45,7 +45,7 @@ public class PlaceManager : MonoBehaviour
             EditModeManager.Delete)
         {
             bool deletedField = FieldManager.Instance.Remove(matrixPosition, true, sheet);
-            
+
             // delete field
             if (deletedField && playSound) AudioManager.Instance.Play(GetSfx(editMode));
 
@@ -57,13 +57,13 @@ public class PlaceManager : MonoBehaviour
 
         List<IManager> managers = new()
         {
-            PlayerManager.Instance, 
-            AnchorBallManager.Instance, 
-            CoinManager.Instance, 
-            AnchorManager.Instance, 
+            PlayerManager.Instance,
+            AnchorBallManager.Instance,
+            CoinManager.Instance,
+            AnchorManager.Instance,
             KeyManager.Instance,
         };
-        
+
         foreach (IManager manager in managers)
         {
             if (CheckManagerPlacement(editMode, playSound, manager, gridPosition)) break;
@@ -73,7 +73,7 @@ public class PlaceManager : MonoBehaviour
     private bool CheckManagerPlacement(EditMode editMode, bool playSound, IManager manager, Vector2 gridPosition)
     {
         if (!manager.CorrespondsToEditMode(editMode)) return false;
-        
+
         ManagerParameters args = new() { Position = gridPosition, };
         if (editMode.Attributes.IsKey) args.KeyColor = ((KeyMode)editMode).KeyColor;
         if (editMode == EditModeManager.Player) args.SurroundWithStartFields = true;
@@ -82,7 +82,7 @@ public class PlaceManager : MonoBehaviour
         object result = setInSheetMethod.Invoke(manager, new object[] { args, });
 
         if (result is null || !playSound) return true;
-        
+
         AudioManager.Instance.Play(GetSfx(editMode));
 
         if (editMode == EditModeManager.Anchor) AnchorManager.Instance.Select((AnchorController)result);
@@ -96,20 +96,20 @@ public class PlaceManager : MonoBehaviour
 
         LineForEach(start, end, pos => Place(editMode, pos, rotation));
     }
-    
+
     [CanBeNull]
     public static AnchorController GetCurrentSheet() => AnchorAttachManager.Instance.InAttachMode ? AnchorManager.Instance.SelectedAnchor : null;
 
     public static void AttachToSheet(GameObject obj, [CanBeNull] AnchorController sheet, bool forceParent = true)
     {
         if (sheet == null) return;
-        
+
         AnchorAttachment attach = obj.AddComponent<AnchorAttachment>();
         attach.Anchor = sheet;
-        
-        if(forceParent && obj.transform.parent != sheet.AttachmentContainer) obj.transform.SetParent(sheet.AttachmentContainer);
+
+        if (forceParent && obj.transform.parent != sheet.AttachmentContainer) obj.transform.SetParent(sheet.AttachmentContainer);
     }
-    
+
     public static void RemoveEntitiesAt(Vector2 position, LayerMask entityLayer)
     {
         Collider2D[] hits = Physics2D.OverlapPointAll(position, entityLayer);

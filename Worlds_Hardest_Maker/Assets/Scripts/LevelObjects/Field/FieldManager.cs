@@ -16,7 +16,7 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
 
         // remove any field at pos
         Remove(args.Position, true, args.Sheet);
-        
+
         // place field according to edit mode
         FieldController field = ((IManager<FieldController>)this).Instantiate(args);
 
@@ -47,12 +47,12 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
         // get all collisions from layers Field and Void
         Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Field)
             .Concat(Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Void)).ToArray();
-        
+
         foreach (Collider2D c in collidedGameObjects)
         {
             // check if field
             if (!c.TryGetComponent(out FieldController f)) continue;
-            
+
             if (IManager.IsInSheet(f, sheet)) return f;
         }
 
@@ -88,7 +88,7 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
 
         return fieldController;
     }
-    
+
     public bool Remove(Vector2 position, bool updateOutlines = false, [CanBeNull] AnchorController sheet = null)
     {
         FieldController field = GetInSheet(position, sheet);
@@ -102,14 +102,11 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
         }
 
         if (!updateOutlines) return fieldDestroyed;
-        
+
         // Update outlines beside removed field
         foreach (FieldController neighbor in GetNeighbors(position))
         {
-            if (neighbor.TryGetComponent(out FieldOutline comp))
-            {
-                comp.UpdateOutline();
-            }
+            if (neighbor.TryGetComponent(out FieldOutline comp)) comp.UpdateOutline();
         }
 
         return fieldDestroyed;
@@ -133,7 +130,7 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
     {
         ColorCalibration[] colorCalibrations = ReferenceManager.Instance.FieldContainer.GetComponentsInChildren<ColorCalibration>();
 
-        foreach (ColorCalibration field in colorCalibrations) { field.Apply(oneColor); }
+        foreach (ColorCalibration field in colorCalibrations) field.Apply(oneColor);
     }
 
     public List<FieldController> GetNeighbors(GameObject field)

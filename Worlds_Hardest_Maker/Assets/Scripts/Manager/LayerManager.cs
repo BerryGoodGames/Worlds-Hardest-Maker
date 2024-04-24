@@ -13,16 +13,21 @@ public class LayerManager : MonoBehaviour
 
     public string[] AllSortingLayerNames { get; private set; }
     public int[] AllSortingLayerIDs { get; private set; }
-    
-    private static string[] GetSortingLayerNames() {
+
+    private static string[] GetSortingLayerNames()
+    {
         Type internalEditorUtilityType = typeof(InternalEditorUtility);
         PropertyInfo sortingLayersProperty = internalEditorUtilityType.GetProperty("sortingLayerNames", BindingFlags.Static | BindingFlags.NonPublic);
         return (string[])sortingLayersProperty.GetValue(null, Array.Empty<object>());
     }
-    
-    private static int[] GetSortingLayerUniqueIDs() {
+
+    private static int[] GetSortingLayerUniqueIDs()
+    {
         Type internalEditorUtilityType = typeof(InternalEditorUtility);
-        PropertyInfo sortingLayerUniqueIDsProperty = internalEditorUtilityType.GetProperty("sortingLayerUniqueIDs", BindingFlags.Static | BindingFlags.NonPublic);
+        PropertyInfo sortingLayerUniqueIDsProperty = internalEditorUtilityType.GetProperty(
+            "sortingLayerUniqueIDs", BindingFlags.Static | BindingFlags.NonPublic
+        );
+
         return (int[])sortingLayerUniqueIDsProperty.GetValue(null, new object[0]);
     }
 

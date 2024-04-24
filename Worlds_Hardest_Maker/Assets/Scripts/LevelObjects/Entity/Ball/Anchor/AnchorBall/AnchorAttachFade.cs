@@ -31,13 +31,13 @@ public class AnchorAttachFade : MonoBehaviour
             child.AnchorAttachable.MainSprite.color = newColor;
         }
     }
-    
+
     private void SetOpacity(float scalar)
     {
         this.scalar = scalar;
         UpdateOpacity();
     }
-    
+
     private void FadeTo(float scalar, float time)
     {
         UpdateChildren();

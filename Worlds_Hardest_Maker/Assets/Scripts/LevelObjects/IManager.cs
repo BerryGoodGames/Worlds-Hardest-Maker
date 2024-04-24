@@ -4,7 +4,7 @@ using UnityEngine;
 public interface IManager
 {
     public bool CorrespondsToEditMode(EditMode compare);
-    
+
     public static bool IsInSheet(Component controller, AnchorController sheet)
     {
         bool hasAttachment = controller.TryGetComponent(out AnchorAttachment attachment);
@@ -16,10 +16,10 @@ public interface IManager
 public interface IManager<T> : IManager where T : LevelObjectController
 {
     public Transform DefaultContainer { get; }
-    
+
     public T Set(ManagerParameters args) => SetInSheet(ManagerParameters.GetCurrentSheetParams(args));
     public T SetInSheet(ManagerParameters args);
-    
+
     public T Get(Vector2 position) => GetInSheet(position, PlaceManager.GetCurrentSheet());
     public T GetInSheet(Vector2 position, [CanBeNull] AnchorController sheet);
 

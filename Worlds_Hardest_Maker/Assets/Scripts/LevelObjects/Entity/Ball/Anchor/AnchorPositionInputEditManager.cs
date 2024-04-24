@@ -52,8 +52,13 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         PanelController anchorAttachButton = ReferenceManager.Instance.AnchorAttachButtonController;
         PanelController anchorExitAttachButton = ReferenceManager.Instance.AnchorAttachExitButtonController;
         PanelManager.Instance.SetPanelOpen(anchorPanel, LevelSessionEditManager.Instance.Editing);
-        PanelManager.Instance.SetPanelOpen(anchorAttachButton, LevelSessionEditManager.Instance.Editing && !AnchorAttachManager.Instance.InAttachMode, false);
-        PanelManager.Instance.SetPanelOpen(anchorExitAttachButton, LevelSessionEditManager.Instance.Editing && AnchorAttachManager.Instance.InAttachMode, false);
+        PanelManager.Instance.SetPanelOpen(
+            anchorAttachButton, LevelSessionEditManager.Instance.Editing && !AnchorAttachManager.Instance.InAttachMode, false
+        );
+
+        PanelManager.Instance.SetPanelOpen(
+            anchorExitAttachButton, LevelSessionEditManager.Instance.Editing && AnchorAttachManager.Instance.InAttachMode, false
+        );
 
         AnchorManager.Instance.SelectedAnchor.RenderLines();
     }

@@ -29,7 +29,7 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
         DestroyImmediate(key.transform.gameObject);
     }
 
-    
+
     public KeyController SetInSheet(ManagerParameters args)
     {
         if (!CanPlaceInSheet(args.Position, args.Sheet)) return null;
@@ -46,7 +46,7 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
 
         // setup konami code animation
         key.KonamiAnimation.enabled = KonamiManager.Instance.KonamiActive;
-        
+
         PlaceManager.AttachToSheet(key.gameObject, args.Sheet);
 
         return key;
@@ -55,7 +55,7 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
     public KeyController GetInSheet(Vector2 position, AnchorController sheet)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f, LayerManager.Instance.Layers.Entity);
-        
+
         foreach (Collider2D hit in hits)
         {
             if (!hit.CompareTag("Key")) continue;
@@ -76,26 +76,24 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
 
         return null;
     }
-    
-    public KeyController InstantiateInSheet(ManagerParameters args)
-    {
-        return Instantiate(
+
+    public KeyController InstantiateInSheet(ManagerParameters args) =>
+        Instantiate(
             args.KeyColor.GetPrefabKey(),
             args.Position, Quaternion.identity,
             args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
         );
-    }
-    
+
     public bool IsThereInSheet(Vector2 position, AnchorController sheet) => GetInSheet(position, sheet) != null;
 
     public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
-    
+
     public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>
         // conditions: no key there, covered by canplacefield or default, no player there
         !PlayerManager.Instance.IsThere(position)
         && !IsThereInSheet(position, sheet)
         && !FieldManager.Instance.IntersectingAnyFieldsAtPos(position, CannotPlaceFields.ToArray());
-    
+
     public bool AllKeysCollected(KeyColor color)
     {
         // check if every key of specific color is picked up

@@ -27,6 +27,7 @@ public class KeyData : Data
             Position = pos,
             KeyColor = Color,
         };
+
         KeyManager.Instance.SetInSheet(args);
     }
 

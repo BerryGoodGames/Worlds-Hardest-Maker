@@ -18,28 +18,25 @@ public partial class PlayerController
 
         AddConveyorMovement(ref totalMovement);
 
-        if (totalMovement != Vector2.zero)
-        {
-            transform.position += (Vector3)totalMovement;
-            // Rb.MovePosition(Rb.position + totalMovement);
-        }
+        if (totalMovement != Vector2.zero) transform.position += (Vector3)totalMovement;
+        // Rb.MovePosition(Rb.position + totalMovement);
     }
 
     private void ApplyForcesFromFloor()
     {
         List<FieldController> floors = GetFullyOnFields();
-        
+
         if (floors.Count == 0) return;
-        
+
         List<Vector2> forces = new();
         Vector2 finalForce = new();
         int count = 0;
         foreach (FieldController field in floors)
         {
             Vector2 force = field.DeltaPosition;
-            
+
             if (force.magnitude == 0 || forces.Contains(force)) continue;
-            
+
             finalForce += force;
             forces.Add(force);
             count++;

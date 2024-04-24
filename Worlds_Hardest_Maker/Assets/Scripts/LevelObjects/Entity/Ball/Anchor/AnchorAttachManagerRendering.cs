@@ -8,10 +8,10 @@ public partial class AnchorAttachManager
     private static void HighlightAnchor(AnchorController anchor)
     {
         Instance.anchorAttachBlocker.SetActive(true);
-        
+
         AnchorManager.Instance.SelectedAnchor.MergeToLayer();
         anchor.Attachments.ForEach(attachment => attachment.MergeToLayer());
-        
+
         anchor.AttachFade.FadeIn();
     }
 
@@ -21,7 +21,7 @@ public partial class AnchorAttachManager
 
         AnchorManager.Instance.SelectedAnchor.ResetLayer();
         anchor.Attachments.ForEach(attachment => attachment.ResetLayer());
-            
+
         anchor.AttachFade.FadeOut();
     }
 }
