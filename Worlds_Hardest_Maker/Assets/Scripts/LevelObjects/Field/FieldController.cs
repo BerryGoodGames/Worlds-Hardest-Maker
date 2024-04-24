@@ -24,8 +24,18 @@ public class FieldController : LevelObjectController
             || !other.CompareTag("PlayerCenterCollider")
             || (PlayerManager.Instance.Player.CurrentFloor != null && PlayerManager.Instance.Player.CurrentFloor.isAttached)) return;
 
-        PlayerManager.Instance.Player.CurrentFloor = this;
-        PlayerManager.Instance.Player.transform.SetParent(transform);
+        PlayerController player = PlayerManager.Instance.Player;
+        
+        player.CurrentFloor = this;
+        player.transform.SetParent(transform);
+        
+        // fade out again
+        if (player.IsAttached && LevelSessionEditManager.Instance.Editing && !AnchorAttachManager.Instance.InAttachMode)
+        {
+            AnchorAttachment attachment = GetComponent<AnchorAttachment>();
+            AnchorAttachFade fade = attachment.Anchor.AttachFade;
+            fade.FadeOut();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)

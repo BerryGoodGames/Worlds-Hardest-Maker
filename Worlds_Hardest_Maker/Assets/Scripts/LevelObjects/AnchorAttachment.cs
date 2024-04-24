@@ -9,15 +9,15 @@ public class AnchorAttachment : MonoBehaviour
     [ReadOnly] public AnchorController Anchor;
     [ReadOnly] public LevelObjectController Controller;
     [ReadOnly] public AnchorAttachable AnchorAttachable;
-    [ReadOnly] public bool HasAnimator;
-    [SerializeField] [ReadOnly] private Animator animator;
     [Space] [ReadOnly] public int SortingLayerID;
     [ReadOnly] public int OrderInLayer;
     [ReadOnly] public float Opacity;
 
     public void MergeToLayer()
     {
+        if(AnchorAttachable.HasSortingGroup) AnchorAttachable.SortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorAbove;
         AnchorAttachable.MainSprite.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorAbove;
+        
         if (AnchorAttachable.HasOutline)
             AnchorAttachable.OutlineComp.LineRenderers.ForEach(
                 line =>
@@ -29,7 +29,9 @@ public class AnchorAttachment : MonoBehaviour
 
     public void ResetLayer()
     {
+        if(AnchorAttachable.HasSortingGroup) AnchorAttachable.SortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorBelow;
         AnchorAttachable.MainSprite.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorBelow;
+        
         if (AnchorAttachable.HasOutline)
             AnchorAttachable.OutlineComp.LineRenderers.ForEach(
                 line =>
@@ -57,10 +59,8 @@ public class AnchorAttachment : MonoBehaviour
         
         if (Controller == null) Debug.LogWarning("Could not assign level object controller because none was found");
 
-        HasAnimator = TryGetComponent(out animator);
-        
-        SortingLayerID = AnchorAttachable.MainSprite.sortingLayerID;
-        OrderInLayer = AnchorAttachable.MainSprite.sortingOrder;
+        SortingLayerID = AnchorAttachable.HasSortingGroup ? AnchorAttachable.SortingGroup.sortingLayerID : AnchorAttachable.MainSprite.sortingLayerID;
+        OrderInLayer = AnchorAttachable.HasSortingGroup ? AnchorAttachable.SortingGroup.sortingOrder : AnchorAttachable.MainSprite.sortingOrder;
         Opacity = AnchorAttachable.MainSprite.color.a;
 
         int sortingOrder = Array.IndexOf(LayerManager.Instance.AllSortingLayerIDs, SortingLayerID) * INTERNAL_LAYER_OFFSET
@@ -70,6 +70,13 @@ public class AnchorAttachment : MonoBehaviour
 
         AnchorAttachable.MainSprite.sortingOrder = sortingOrder;
         AnchorAttachable.MainSprite.sortingLayerName = sortingLayerName;
+
+        if (AnchorAttachable.HasSortingGroup)
+        {
+            AnchorAttachable.SortingGroup.sortingOrder = sortingOrder;
+            AnchorAttachable.SortingGroup.sortingLayerName = sortingLayerName;
+        }
+        
         if (AnchorAttachable.HasOutline)
         {
             UpdateOutlineLayers();

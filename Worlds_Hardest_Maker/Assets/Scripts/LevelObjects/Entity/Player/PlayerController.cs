@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 
 public partial class PlayerController : EntityController
 {
@@ -31,7 +32,7 @@ public partial class PlayerController : EntityController
     private Vector2 sheetStartPosOffset;
     private CheckpointController currentRunCheckpoint;
 
-    private bool isAttached;
+    [ReadOnly] public bool IsAttached;
 
     private Vector2 movementInput;
     private Vector2 extraMovementInput;
@@ -77,8 +78,8 @@ public partial class PlayerController : EntityController
         PlayManager.Instance.OnSwitchToPlay += OnPlay;
         PlayManager.Instance.OnLevelReset += ResetState;
 
-        isAttached = Sheet != null;
-        if (isAttached) sheetStartPosOffset = transform.position - Sheet.transform.position;
+        IsAttached = Sheet != null;
+        if (IsAttached) sheetStartPosOffset = transform.position - Sheet.transform.position;
 
         EdgeCollider.enabled = LevelSessionEditManager.Instance.Playing;
 

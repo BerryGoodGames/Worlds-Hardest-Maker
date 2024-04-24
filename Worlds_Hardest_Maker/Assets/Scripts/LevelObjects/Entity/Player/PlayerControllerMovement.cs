@@ -18,8 +18,7 @@ public partial class PlayerController
 
         AddConveyorMovement(ref totalMovement);
 
-        // if (totalMovement != Vector2.zero) transform.position += (Vector3)totalMovement;
-        if (totalMovement != Vector2.zero) Rb.MovePosition(Rb.position + totalMovement);
+        if (totalMovement != Vector2.zero) transform.position += (Vector3)totalMovement;
     }
 
     private void ApplyForcesFromFloor()

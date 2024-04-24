@@ -104,8 +104,12 @@ public class PlaceManager : MonoBehaviour
     {
         if (sheet == null) return;
 
-        AnchorAttachment attach = obj.AddComponent<AnchorAttachment>();
-        attach.Anchor = sheet;
+        if (!obj.TryGetComponent(out AnchorAttachment attachment))
+        {
+            attachment = obj.AddComponent<AnchorAttachment>();
+        }
+        
+        attachment.Anchor = sheet;
 
         if (forceParent && obj.transform.parent != sheet.AttachmentContainer) obj.transform.SetParent(sheet.AttachmentContainer);
     }

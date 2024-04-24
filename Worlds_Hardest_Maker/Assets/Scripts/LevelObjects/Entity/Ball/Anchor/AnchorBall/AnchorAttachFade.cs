@@ -29,7 +29,7 @@ public class AnchorAttachFade : MonoBehaviour
 
             SpriteRenderer sprite = child.AnchorAttachable.MainSprite;
 
-            sprite.DOKill();
+            if(!child.CompareTag("Player")) sprite.DOKill();
             
             Color newColor = child.AnchorAttachable.MainSprite.color;
             newColor.a = scalar * child.Opacity;

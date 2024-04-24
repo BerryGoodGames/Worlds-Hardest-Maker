@@ -89,6 +89,14 @@ public partial class PlayerController
         color = new(color.r, color.g, color.b, 1);
         spriteRenderer.color = color;
 
+        // fade out again
+        if (IsAttached && LevelSessionEditManager.Instance.Editing)
+        {
+            AnchorAttachment attachment = GetComponent<AnchorAttachment>();
+            AnchorAttachFade fade = attachment.Anchor.AttachFade;
+            fade.FadeOut();
+        }
+
         t.localScale = defaultScale;
     }
 

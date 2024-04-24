@@ -32,6 +32,9 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
         {
             Player.transform.position = position;
             Player.StartPos = position;
+
+            PlaceManager.AttachToSheet(Player.gameObject, args.Sheet, false);
+            Player.Sheet = args.Sheet;
         }
         else
         {
@@ -44,53 +47,9 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
             Player = newPlayer;
         }
 
-        PlaceManager.AttachToSheet(Player.gameObject, args.Sheet, false);
-        Player.Sheet = args.Sheet;
-
         return Player;
     }
-
-    // public PlayerController Set(ManagerParameters args)
-    // {
-    //     Vector2 position = args.Position;
-    //     
-    //     if (IsThere(position)) return null;
-    //
-    //     if (!CanPlace(position))
-    //     {
-    //         if (!args.SurroundWithStartFields) return null;
-    //
-    //         SetSurroundingStartFields(position);
-    //     }
-    //
-    //     // clear area from coins and keys
-    //     GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.CoinContainer);
-    //     GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.KeyContainer);
-    //     
-    //     AnchorController sheet = PlaceManager.GetCurrentSheet();
-    //     
-    //     // if player already exists, just move it
-    //     if (Player != null)
-    //     {
-    //         Player.transform.position = position;
-    //         Player.StartPos = position;
-    //     }
-    //     else
-    //     {
-    //         // place player
-    //         PlayerController newPlayer = ((IManager<PlayerController>)this).Instantiate(args);
-    //
-    //         // set target of camera
-    //         ReferenceManager.Instance.MainCameraJumper.SetTarget("Player", newPlayer.gameObject);
-    //
-    //         Player = newPlayer;
-    //     }
-    //     
-    //     PlaceManager.AttachToSheet(Player.gameObject, sheet, false);
-    //     Player.Sheet = sheet;
-    //
-    //     return Player;
-    // }
+    
     public PlayerController Set(Vector2 position)
     {
         ManagerParameters args = new() { Position = position, SurroundWithStartFields = true, };
