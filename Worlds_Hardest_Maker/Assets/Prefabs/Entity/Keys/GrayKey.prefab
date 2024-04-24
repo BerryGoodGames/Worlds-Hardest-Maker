@@ -5122,3 +5122,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainSprite: {fileID: 5739846171579892088}
+  HasOutline: 0
+  OutlineComp: {fileID: 0}

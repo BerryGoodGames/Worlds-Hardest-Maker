@@ -8,11 +8,12 @@ public class AnchorAttachment : MonoBehaviour
 
     [ReadOnly] public AnchorController Anchor;
     [ReadOnly] public LevelObjectController Controller;
+    [ReadOnly] public AnchorAttachable AnchorAttachable;
+    [ReadOnly] public bool HasAnimator;
+    [SerializeField] [ReadOnly] private Animator animator;
     [Space] [ReadOnly] public int SortingLayerID;
     [ReadOnly] public int OrderInLayer;
     [ReadOnly] public float Opacity;
-
-    [HideInInspector] public AnchorAttachable AnchorAttachable;
 
     public void MergeToLayer()
     {
@@ -48,8 +49,16 @@ public class AnchorAttachment : MonoBehaviour
             return;
         }
 
-        TryGetComponent(out Controller);
+        Controller = GetComponent<LevelObjectController>();
+        if (Controller == null)
+        {
+            Controller = GetComponentInChildren<LevelObjectController>();
+        }
+        
+        if (Controller == null) Debug.LogWarning("Could not assign level object controller because none was found");
 
+        HasAnimator = TryGetComponent(out animator);
+        
         SortingLayerID = AnchorAttachable.MainSprite.sortingLayerID;
         OrderInLayer = AnchorAttachable.MainSprite.sortingOrder;
         Opacity = AnchorAttachable.MainSprite.color.a;
@@ -82,5 +91,8 @@ public class AnchorAttachment : MonoBehaviour
             );
     }
 
-    private void OnDestroy() => Anchor.Attachments.Remove(this);
+    private void OnDestroy()
+    {
+        Anchor.Attachments.Remove(this);
+    }
 }

@@ -1,9 +1,12 @@
+using System.Collections;
+using DG.Tweening;
 using MyBox;
 using UnityEngine;
 
 public class KeyController : EntityController, IResettable, ICollectible
 {
-    [ReadOnly] public KeyColor Color;
+    [SerializeField] [PositiveValueOnly] private float fadeDuration = 0.5f;
+    [Separator] [ReadOnly] public KeyColor Color;
     [ReadOnly] public Vector2 KeyPosition;
     [ReadOnly] public bool Collected;
 
@@ -114,9 +117,25 @@ public class KeyController : EntityController, IResettable, ICollectible
 
     public void ActivateAnimation()
     {
-        Animator.SetBool(playingString, true);
-        Animator.SetBool(pickedUpString, Collected);
+        StartCoroutine(Delay());
+
+        return;
+        
+        IEnumerator Delay()
+        {
+            yield return new WaitForEndOfFrame();
+
+            Animator.enabled = true;
+            
+            Animator.SetBool(playingString, true);
+            Animator.SetBool(pickedUpString, Collected);
+            
+            print("Starting anim");
+        }
     }
+
+    public void FadeIn() => SpriteRenderer.DOFade(1, fadeDuration);
+    public void FadeOut() => SpriteRenderer.DOFade(0, fadeDuration);
 
     public override Data GetData() => new KeyData(this);
 }

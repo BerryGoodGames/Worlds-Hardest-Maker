@@ -269,3 +269,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainSprite: {fileID: 2491659069462593980}
+  HasOutline: 0
+  OutlineComp: {fileID: 0}

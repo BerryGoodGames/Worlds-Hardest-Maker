@@ -32,7 +32,7 @@ public class ScreenDimensions : MonoBehaviour
             if (ApplyMaxZoomFromMapController)
             {
                 MapController map = cam.GetComponent<MapController>();
-                zoom = map.ZoomLimits.Max;
+                zoom = map.ZoomLimits.Max + 5;
             }
             else { zoom = maxZoom; }
 

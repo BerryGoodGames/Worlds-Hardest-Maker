@@ -1,7 +1,10 @@
 using System;
 using System.Reflection;
+using JetBrains.Annotations;
 using MyBox;
+#if UNITY_EDITOR
 using UnityEditorInternal;
+#endif
 using UnityEngine;
 
 public class LayerManager : MonoBehaviour
@@ -11,9 +14,24 @@ public class LayerManager : MonoBehaviour
     public LayerVariables Layers;
     public SortingLayerVariables SortingLayers;
 
-    public string[] AllSortingLayerNames { get; private set; }
-    public int[] AllSortingLayerIDs { get; private set; }
+    [field: SerializeField] [field: ReadOnly] public string[] AllSortingLayerNames { get; private set; }
+    [field: SerializeField] [field: ReadOnly] public int[] AllSortingLayerIDs { get; private set; }
 
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
+
+    #if UNITY_EDITOR
+    
+    [ButtonMethod] [UsedImplicitly]
+    public void UpdateSortingLayerLists()
+    {
+        AllSortingLayerNames = GetSortingLayerNames();
+        AllSortingLayerIDs = GetSortingLayerUniqueIDs();
+        print("Successfully updated sorting layer lists");
+    }
+    
     private static string[] GetSortingLayerNames()
     {
         Type internalEditorUtilityType = typeof(InternalEditorUtility);
@@ -30,14 +48,8 @@ public class LayerManager : MonoBehaviour
 
         return (int[])sortingLayerUniqueIDsProperty.GetValue(null, new object[0]);
     }
-
-    private void Awake()
-    {
-        if (Instance == null) Instance = this;
-
-        AllSortingLayerNames = GetSortingLayerNames();
-        AllSortingLayerIDs = GetSortingLayerUniqueIDs();
-    }
+    
+    #endif
 }
 
 [Serializable]

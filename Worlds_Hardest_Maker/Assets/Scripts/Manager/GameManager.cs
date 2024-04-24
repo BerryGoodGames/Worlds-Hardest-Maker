@@ -35,8 +35,6 @@ public class GameManager : MonoBehaviour
     {
         canvasRT = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>();
 
-        PlayerManager.Instance.Set(Vector2.zero);
-
         if (!LevelSessionManager.IsSessionFromEditor)
         {
             // user loaded editor scene from main menu

@@ -93,7 +93,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     // }
     public PlayerController Set(Vector2 position)
     {
-        ManagerParameters args = new() { Position = position, };
+        ManagerParameters args = new() { Position = position, SurroundWithStartFields = true, };
         return ((IManager<PlayerController>)this).Set(args);
     }
 

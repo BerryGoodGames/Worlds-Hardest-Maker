@@ -74,12 +74,12 @@ public class PlaceManager : MonoBehaviour
     {
         if (!manager.CorrespondsToEditMode(editMode)) return false;
 
-        ManagerParameters args = new() { Position = gridPosition, };
+        ManagerParameters args = ManagerParameters.GetCurrentSheetParams(new() { Position = gridPosition, });
         if (editMode.Attributes.IsKey) args.KeyColor = ((KeyMode)editMode).KeyColor;
         if (editMode == EditModeManager.Player) args.SurroundWithStartFields = true;
 
-        MethodInfo setInSheetMethod = manager.GetType().GetMethod(nameof(IManager<LevelObjectController>.SetInSheet));
-        object result = setInSheetMethod.Invoke(manager, new object[] { args, });
+        MethodInfo setMethod = manager.GetType().GetMethod(nameof(IManager<LevelObjectController>.SetInSheet));
+        object result = setMethod.Invoke(manager, new object[] { args, });
 
         if (result is null || !playSound) return true;
 

@@ -1,9 +1,12 @@
+using DG.Tweening;
 using MyBox;
 using UnityEngine;
 
 public class CoinController : EntityController, IResettable, ICollectible
 {
-    [InitializationField] [MustBeAssigned] public Animator Animator;
+    [SerializeField] [PositiveValueOnly] private float fadeDuration = 0.5f;
+    [Separator] [InitializationField] [MustBeAssigned] public Animator Animator;
+    [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer spriteRenderer;
 
     [HideInInspector] public Vector2 CoinPosition;
 
@@ -11,8 +14,7 @@ public class CoinController : EntityController, IResettable, ICollectible
 
     private static readonly int playingString = Animator.StringToHash("Playing");
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
-
-
+    
     public override EditMode EditMode => EditModeManager.Coin;
 
     private void Awake()
@@ -72,6 +74,9 @@ public class CoinController : EntityController, IResettable, ICollectible
         Animator.SetBool(pickedUpString, true);
         PickedUp = true;
     }
+
+    public void FadeIn() => spriteRenderer.DOFade(1, fadeDuration);
+    public void FadeOut() => spriteRenderer.DOFade(0, fadeDuration);
 
     public void ResetState()
     {

@@ -216,5 +216,11 @@ public partial class AnchorController : EntityController, IResettable
 
     public override Data GetData() => new AnchorData(this);
 
-    private void OnDestroy() => ((IResettable)this).Unsubscribe();
+    private void OnDestroy()
+    {
+        PlayManager.Instance.OnSwitchToPlay -= AttachFade.FadeIn;
+        PlayManager.Instance.OnSwitchToEdit -= AttachFade.FadeOut;
+        
+        ((IResettable)this).Unsubscribe();
+    }
 }

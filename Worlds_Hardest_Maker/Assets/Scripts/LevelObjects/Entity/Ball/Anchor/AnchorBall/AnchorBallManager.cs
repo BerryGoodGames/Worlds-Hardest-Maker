@@ -47,7 +47,7 @@ public class AnchorBallManager : MonoBehaviour, IManager<AnchorBallController>, 
         {
             if (!hit.CompareTag("AnchorBallObject")) continue;
             if (!hit.TryGetComponent(out AnchorBallController ball)) continue;
-            if (IManager.IsInSheet(ball, sheet)) return ball;
+            if (IManager.IsInSheet(ball.transform.parent, sheet)) return ball;
         }
 
         return null;
