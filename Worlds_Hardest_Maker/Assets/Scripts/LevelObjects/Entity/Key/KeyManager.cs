@@ -3,9 +3,11 @@ using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 
-public class KeyManager : MonoBehaviour
+public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceRestrictable
 {
     public static KeyManager Instance { get; private set; }
+
+    public Transform DefaultContainer => ReferenceManager.Instance.KeyContainer;
 
     [UsedImplicitly] public static readonly List<FieldMode> CannotPlaceFields = new();
 
@@ -14,25 +16,30 @@ public class KeyManager : MonoBehaviour
     [ReadOnly] public List<KeyController> Keys = new();
     [ReadOnly] public List<KeyController> CollectedKeys = new();
 
-
-    public KeyController SetKeyInSheet(Vector2 position, KeyColor color, [CanBeNull] AnchorController sheet)
+    private void RemoveKeyInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
-        Transform container = AnchorAttachManager.Instance.InAttachMode
-            ? AnchorAttachManager.GetCurrentAnchorContainer()
-            : ReferenceManager.Instance.KeyContainer;
-        
-        if (!CanPlace(position, sheet)) return null;
+        KeyController key = GetInSheet(position, sheet);
+
+        if (key == null) return;
+
+        // un-cache
+        Keys.Remove(key);
+
+        // destroy
+        DestroyImmediate(key.transform.gameObject);
+    }
+
+    
+    public KeyController SetInSheet(ManagerParameters args)
+    {
+        if (!CanPlaceInSheet(args.Position, args.Sheet)) return null;
 
         // remove other key (which has mby other color)
-        RemoveKeyInSheet(position, sheet);
+        RemoveKeyInSheet(args.Position, args.Sheet);
 
-        KeyController key = Instantiate(
-            color.GetPrefabKey(), 
-            position, Quaternion.identity,
-            container
-        );
+        KeyController key = InstantiateInSheet(args);
 
-        key.Color = color;
+        key.Color = args.KeyColor;
 
         // setup idle animation
         key.Animator.SetBool(playing, LevelSessionEditManager.Instance.Playing);
@@ -40,48 +47,26 @@ public class KeyManager : MonoBehaviour
         // setup konami code animation
         key.KonamiAnimation.enabled = KonamiManager.Instance.KonamiActive;
         
-        PlaceManager.AttachToSheet(key.gameObject, sheet);
+        PlaceManager.AttachToSheet(key.gameObject, args.Sheet);
 
         return key;
     }
 
-    public KeyController SetKey(Vector2 position, KeyColor color) => SetKeyInSheet(position, color, PlaceManager.GetCurrentSheet());
-
-    public void RemoveKey(Vector2 position)
+    public KeyController GetInSheet(Vector2 position, AnchorController sheet)
     {
-        KeyController key = GetKey(position);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f, LayerManager.Instance.Layers.Entity);
+        
+        foreach (Collider2D hit in hits)
+        {
+            if (!hit.CompareTag("Key")) continue;
+            if (!hit.TryGetComponent(out KeyController key)) continue;
+            if (IManager.IsInSheet(key, sheet)) return key;
+        }
 
-        if (key == null) return;
-
-        // un-cache
-        Keys.Remove(key);
-
-        // destroy
-        DestroyImmediate(key.transform.gameObject);
-    }
-    
-    public void RemoveKeyInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
-    {
-        KeyController key = GetKeyInSheet(position, sheet);
-
-        if (key == null) return;
-
-        // un-cache
-        Keys.Remove(key);
-
-        // destroy
-        DestroyImmediate(key.transform.gameObject);
+        return null;
     }
 
-    public static bool CanPlace(Vector2 position) => CanPlace(position, PlaceManager.GetCurrentSheet());
-    
-    public static bool CanPlace(Vector2 position, [CanBeNull] AnchorController sheet) =>
-        // conditions: no key there, covered by canplacefield or default, no player there
-        !PlayerManager.IsPlayerThere(position)
-        && !IsKeyThereInSheet(position, sheet)
-        && !FieldManager.IntersectingAnyFieldsAtPos(position, CannotPlaceFields.ToArray());
-
-    public static KeyController GetKey(Vector2 position)
+    public KeyController Get(Vector2 position)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f, LayerManager.Instance.Layers.Entity);
         foreach (Collider2D hit in hits)
@@ -91,49 +76,25 @@ public class KeyManager : MonoBehaviour
 
         return null;
     }
-
-    public static KeyController GetKeyInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
+    
+    public KeyController InstantiateInSheet(ManagerParameters args)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f, LayerManager.Instance.Layers.Entity);
-        foreach (Collider2D hit in hits)
-        {
-            if (!hit.CompareTag("Key")) continue;
-            if (!hit.TryGetComponent(out KeyController key)) continue;
-            if (IsKeyInSheet(key, sheet)) return key;
-        }
-
-        return null;
-    }
-
-    public static bool IsKeyInSheet(KeyController coin, [CanBeNull] AnchorController sheet)
-    {
-        bool hasAttachment = coin.TryGetComponent(out AnchorAttachment attachment);
-        
-        // shorthand to:
-        bool globalSheet = sheet == null;
-        if (hasAttachment && globalSheet) return false;
-        if (hasAttachment && attachment.Anchor != sheet) return false;
-        if (!hasAttachment && !globalSheet) return false;
-        return true;
-
-        // return (globalSheet && !hasAttachment) || (hasAttachment && !globalSheet && attachment.Anchor == sheet);
+        return Instantiate(
+            args.KeyColor.GetPrefabKey(),
+            args.Position, Quaternion.identity,
+            args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
+        );
     }
     
-    public static bool IsKeyThere(Vector2 position, KeyColor color)
-    {
-        KeyController key = GetKey(position);
-        return key != null && key.Color == color;
-    }
+    public bool IsThereInSheet(Vector2 position, AnchorController sheet) => GetInSheet(position, sheet) != null;
 
-    public static bool IsKeyThere(Vector2 position) => GetKey(position) != null;
-
-    public static bool IsKeyThereInSheet(Vector2 position, KeyColor color, [CanBeNull] AnchorController sheet)
-    {
-        KeyController key = GetKeyInSheet(position, sheet);
-        return key != null && key.Color == color;
-    }
-
-    public static bool IsKeyThereInSheet(Vector2 position, [CanBeNull] AnchorController sheet) => GetKeyInSheet(position, sheet) != null;
+    public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
+    
+    public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>
+        // conditions: no key there, covered by canplacefield or default, no player there
+        !PlayerManager.Instance.IsThere(position)
+        && !IsThereInSheet(position, sheet)
+        && !FieldManager.Instance.IntersectingAnyFieldsAtPos(position, CannotPlaceFields.ToArray());
     
     public bool AllKeysCollected(KeyColor color)
     {
@@ -153,4 +114,5 @@ public class KeyManager : MonoBehaviour
     }
 
     public void ActivateAnimations() => Keys.ForEach(key => key.ActivateAnimation());
+    public bool CorrespondsToEditMode(EditMode compare) => compare.Attributes.IsKey;
 }

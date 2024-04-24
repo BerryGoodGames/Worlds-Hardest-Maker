@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 
-public class AnchorBallManager : MonoBehaviour
+public class AnchorBallManager : MonoBehaviour, IManager<AnchorBallController>, IManagerSelectable
 {
     public static AnchorBallManager Instance { get; private set; }
 
@@ -13,32 +12,22 @@ public class AnchorBallManager : MonoBehaviour
 
     #region Set, Get
 
-    public static AnchorBallController SetAnchorBall(Vector2 position) => SetAnchorBallInSheet(position, PlaceManager.GetCurrentSheet());
-
-    public static AnchorBallController SetAnchorBallInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
+    public Transform DefaultContainer => ReferenceManager.Instance.AnchorBallContainer;
+    
+    public AnchorBallController SetInSheet(ManagerParameters args)
     {
-        if (GetAnchorBallInSheet(position, sheet) != null) return null;
+        if (GetInSheet(args.Position, args.Sheet) != null) return null;
 
-        Transform container = AnchorAttachManager.Instance.InAttachMode 
-            ? AnchorAttachManager.GetCurrentAnchorContainer() 
-            : ReferenceManager.Instance.AnchorBallContainer.transform;
-        
-        // instantiate
-        GameObject ball = Instantiate(
-            PrefabManager.Instance.AnchorBall, 
-            container.position, Quaternion.identity, 
-            container
-        );
-        AnchorBallController ballController = ball.GetComponentInChildren<AnchorBallController>();
+        AnchorBallController ballController = InstantiateInSheet(args);
 
         // setup parent
         if (AnchorAttachManager.Instance.InAttachMode)
         {
-            ballController.ParentAnchor = sheet;
-            sheet.Balls.Add(ball.transform);
+            ballController.ParentAnchor = args.Sheet;
+            args.Sheet.Balls.Add(ballController.LevelObject.transform);
         }
 
-        ballController.transform.position = position;
+        ballController.transform.position = args.Position;
 
         // track ball positions in all the layers
         Instance.AnchorBallList.Add(ballController);
@@ -46,12 +35,38 @@ public class AnchorBallManager : MonoBehaviour
         if (AnchorAttachManager.Instance.InAttachMode) Instance.AnchorBallListSheets[AnchorManager.Instance.SelectedAnchor].Add(ballController);
         else Instance.AnchorBallListGlobal.Add(ballController);
 
-        PlaceManager.AttachToSheet(ball, sheet);
+        PlaceManager.AttachToSheet(ballController.LevelObject, args.Sheet);
 
         return ballController;
     }
 
-    public static List<AnchorBallController> GetAnchorBalls(Vector2 pos)
+    public AnchorBallController GetInSheet(Vector2 position, AnchorController sheet)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f, LayerManager.Instance.Layers.Entity);
+        foreach (Collider2D hit in hits)
+        {
+            if (!hit.CompareTag("AnchorBallObject")) continue;
+            if (!hit.TryGetComponent(out AnchorBallController ball)) continue;
+            if (IManager.IsInSheet(ball, sheet)) return ball;
+        }
+
+        return null;
+    }
+
+    public AnchorBallController InstantiateInSheet(ManagerParameters args)
+    {
+        Transform container = args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer;
+        
+        GameObject ball = Instantiate(
+            PrefabManager.Instance.AnchorBall, 
+            args.Position, Quaternion.identity, 
+            container
+        );
+        
+        return ball.GetComponentInChildren<AnchorBallController>();
+    }
+
+    private static List<AnchorBallController> GetAnchorBalls(Vector2 pos)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.01f, LayerManager.Instance.Layers.Entity);
         List<AnchorBallController> res = new();
@@ -66,36 +81,9 @@ public class AnchorBallManager : MonoBehaviour
         return res;
     }
 
-    public static AnchorBallController GetAnchorBallInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
-    {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f, LayerManager.Instance.Layers.Entity);
-        foreach (Collider2D hit in hits)
-        {
-            if (!hit.CompareTag("AnchorBallObject")) continue;
-            if (!hit.TryGetComponent(out AnchorBallController ball)) continue;
-            if (IsAnchorBallInSheet(ball, sheet)) return ball;
-        }
-
-        return null;
-    }
-    
-    public static bool IsAnchorBallInSheet(AnchorBallController anchorBall, [CanBeNull] AnchorController sheet)
-    {
-        bool hasAttachment = anchorBall.transform.parent.TryGetComponent(out AnchorAttachment attachment);
-        
-        // shorthand to:
-        bool globalSheet = sheet == null;
-        if (hasAttachment && globalSheet) return false;
-        if (hasAttachment && attachment.Anchor != sheet) return false;
-        if (!hasAttachment && !globalSheet) return false;
-        return true;
-
-        // return (globalSheet && !hasAttachment) || (hasAttachment && !globalSheet && attachment.Anchor == sheet);
-    }
-
     #endregion
 
-    public static void SelectAnchorBall(Vector2 position)
+    public void Select(Vector2 position)
     {
         // check if anchor ball there
         List<AnchorBallController> ballsAtPos = GetAnchorBalls(position);
@@ -108,7 +96,7 @@ public class AnchorBallManager : MonoBehaviour
             if (!ball.IsParentAnchorNull && ball.ParentAnchor.transform.position == ball.transform.position) continue;
 
             if (ball.IsParentAnchorNull || AnchorManager.Instance.SelectedAnchor == ball.ParentAnchor) AnchorManager.Instance.DeselectAnchor();
-            else AnchorManager.Instance.SelectAnchor(ball.ParentAnchor, false);
+            else AnchorManager.Instance.Select(ball.ParentAnchor, false);
 
             break;
         }
@@ -125,4 +113,6 @@ public class AnchorBallManager : MonoBehaviour
         // init singleton
         if (Instance == null) Instance = this;
     }
+
+    public bool CorrespondsToEditMode(EditMode compare) => compare == EditModeManager.AnchorBall;
 }

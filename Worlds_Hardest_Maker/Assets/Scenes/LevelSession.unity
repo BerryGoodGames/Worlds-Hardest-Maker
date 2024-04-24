@@ -4776,7 +4776,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 7464887056985239508, guid: 8b35e9f8e793281489f59c83ce103156, type: 3}
-  Anchor: {fileID: 877708834729050389, guid: d8a4218bce541fe4c928de7a522407dd, type: 3}
+  Anchor: {fileID: 5924628306729880733, guid: d8a4218bce541fe4c928de7a522407dd, type: 3}
   AnchorBall: {fileID: 6481791030330069436, guid: 1ecb51dd2ee9f29488eaa421ed43b3d6, type: 3}
   Coin: {fileID: 2938817021750922450, guid: 5e13d2eae759f3643b04b6e7dc5cefe2, type: 3}
   GrayKey: {fileID: 1590087564945206395, guid: f216fe92c2f2b2d47a292fc4bb779cdd, type: 3}
@@ -5802,12 +5802,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!114 &519420037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22119,7 +22119,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 711.39, y: -857.5405}
-  m_SizeDelta: {x: 51.75, y: 39.5306}
+  m_SizeDelta: {x: 0, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755699354
 MonoBehaviour:

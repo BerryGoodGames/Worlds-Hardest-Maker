@@ -28,9 +28,14 @@ public class FieldData : Data
 
     public override void ImportToLevel(Vector2 pos)
     {
-        FieldMode mode = EditModeManager.GetFieldMode(FieldMode);
-
-        FieldManager.Instance.SetField(Vector2Int.RoundToInt(pos), mode, Rotation);
+        ManagerParameters args = new()
+        {
+            Position = Vector2Int.RoundToInt(pos),
+            FieldMode = EditModeManager.GetFieldMode(FieldMode),
+            Rotation = Rotation,
+        };
+        
+        ((IManager<FieldController>)FieldManager.Instance).Set(args);
     }
 
     public override EditMode GetEditMode() => (EditMode)Enum.Parse(typeof(EditMode), FieldMode);

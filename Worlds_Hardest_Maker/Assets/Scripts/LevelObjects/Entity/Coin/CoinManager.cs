@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 
-public class CoinManager : MonoBehaviour
+public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlaceRestrictable
 {
     public static CoinManager Instance { get; private set; }
 
@@ -12,6 +12,8 @@ public class CoinManager : MonoBehaviour
     [ReadOnly] public List<CoinController> Coins = new();
     [ReadOnly] public List<CoinController> CollectedCoins = new();
 
+    public Transform DefaultContainer => ReferenceManager.Instance.CoinContainer;
+    
     private int TotalCoins => Coins.Count;
 
     public int CoinsNeededFinal =>
@@ -19,16 +21,42 @@ public class CoinManager : MonoBehaviour
 
     private static readonly int playing = Animator.StringToHash("Playing");
 
-
-    public void RemoveCoin(Vector2 position)
+    public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
+    public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) => 
+        // conditions: no coin there, doesn't intersect with any walls etc, no player there
+        !((IManager<CoinController>)this).IsThereInSheet(position, sheet)
+        && !FieldManager.Instance.IntersectingAnyFieldsAtPos(position, CannotPlaceFields.ToArray())
+        && !PlayerManager.Instance.IsThere(position);
+    
+    public CoinController SetInSheet(ManagerParameters args)
     {
-        Destroy(GetCoin(position));
+        Vector2 matrixPosition = args.Position.ConvertToGrid();
 
-        PlayerController currentPlayer = PlayerManager.Instance.Player;
-        if (currentPlayer != null) UncollectCoinAtPos(position);
+        if (!CanPlaceInSheet(matrixPosition, args.Sheet)) return null;
+
+        CoinController coin = InstantiateInSheet(args);
+
+        coin.Animator.SetBool(playing, LevelSessionEditManager.Instance.Playing);
+        
+        PlaceManager.AttachToSheet(coin.gameObject, args.Sheet);
+
+        return coin;
     }
 
-    public static CoinController GetCoin(Vector2 position)
+    public CoinController GetInSheet(Vector2 position, AnchorController sheet)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Entity);
+        foreach (Collider2D hit in hits)
+        {
+            if (!hit.CompareTag("Coin")) continue;
+            if (!hit.TryGetComponent(out CoinController coin)) continue;
+            if (IManager.IsInSheet(coin, sheet)) return coin;
+        }
+
+        return null;
+    }
+
+    public CoinController Get(Vector2 position)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Entity);
         foreach (Collider2D hit in hits)
@@ -38,69 +66,15 @@ public class CoinManager : MonoBehaviour
 
         return null;
     }
-    
-    public static CoinController GetCoinInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
+
+    public CoinController InstantiateInSheet(ManagerParameters args)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Entity);
-        foreach (Collider2D hit in hits)
-        {
-            if (!hit.CompareTag("Coin")) continue;
-            if (!hit.TryGetComponent(out CoinController coin)) continue;
-            if (IsCoinInSheet(coin, sheet)) return coin;
-        }
-
-        return null;
-    }
-
-    public static bool IsCoinInSheet(CoinController coin, [CanBeNull] AnchorController sheet)
-    {
-        bool hasAttachment = coin.TryGetComponent(out AnchorAttachment attachment);
-        
-        // shorthand to:
-        bool globalSheet = sheet == null;
-        if (hasAttachment && globalSheet) return false;
-        if (hasAttachment && attachment.Anchor != sheet) return false;
-        if (!hasAttachment && !globalSheet) return false;
-        return true;
-
-        // return (globalSheet && !hasAttachment) || (hasAttachment && !globalSheet && attachment.Anchor == sheet);
-    }
-
-    public static bool IsCoinThere(Vector2 position) => GetCoin(position) != null;
-    public static bool IsCoinThereInSheet(Vector2 position, [CanBeNull] AnchorController sheet) => GetCoinInSheet(position, sheet) != null;
-
-    public static bool CanPlace(Vector2 position) => CanPlace(position, PlaceManager.GetCurrentSheet());
-
-    public static bool CanPlace(Vector2 position, [CanBeNull] AnchorController sheet) =>
-        // conditions: no coin there, doesn't intersect with any walls etc, no player there
-        !IsCoinThereInSheet(position, sheet)
-        && !FieldManager.IntersectingAnyFieldsAtPos(position, CannotPlaceFields.ToArray())
-        && !PlayerManager.IsPlayerThere(position);
-
-    public static CoinController SetCoinInSheet(Vector2 worldPosition, [CanBeNull] AnchorController sheet)
-    {
-        Transform container = AnchorAttachManager.Instance.InAttachMode
-            ? AnchorAttachManager.GetCurrentAnchorContainer()
-            : ReferenceManager.Instance.CoinContainer;
-        
-        Vector2 matrixPosition = worldPosition.ConvertToGrid();
-
-        if (!CanPlace(matrixPosition, sheet)) return null;
-
-        CoinController coin = Instantiate(
-            PrefabManager.Instance.Coin, 
-            matrixPosition, Quaternion.identity,
-            container
+        return Instantiate(
+            PrefabManager.Instance.Coin,
+            args.Position, Quaternion.identity,
+            args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
         );
-
-        coin.Animator.SetBool(playing, LevelSessionEditManager.Instance.Playing);
-        
-        PlaceManager.AttachToSheet(coin.gameObject, sheet);
-
-        return coin;
     }
-
-    public static CoinController SetCoin(Vector2 worldPosition) => SetCoinInSheet(worldPosition, PlaceManager.GetCurrentSheet());
 
     public void UncollectCoinAtPos(Vector2 position)
     {
@@ -120,4 +94,6 @@ public class CoinManager : MonoBehaviour
         // init singleton
         if (Instance == null) Instance = this;
     }
+
+    public bool CorrespondsToEditMode(EditMode compare) => compare == EditModeManager.Coin;
 }

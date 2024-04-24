@@ -151,7 +151,7 @@ public class FieldOutline : MonoBehaviour
 
             if (!connectorTags.Contains(r.collider.tag)) continue;
 
-            if (!FieldManager.IsFieldInSheet(r.collider, sheet)) continue;
+            if (!IManager.IsInSheet(r.collider, sheet)) continue;
 
             return true;
         }

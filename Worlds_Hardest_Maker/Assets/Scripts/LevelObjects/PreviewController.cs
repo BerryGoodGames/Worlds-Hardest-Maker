@@ -107,10 +107,10 @@ public class PreviewController : MonoBehaviour
         };
 
         // check coin placement
-        if (mode == EditModeManager.Coin) return CoinManager.CanPlace(mousePos);
+        if (mode == EditModeManager.Coin) return CoinManager.Instance.CanPlace(mousePos);
 
         // check key placement
-        if (mode.Attributes.IsKey) return KeyManager.CanPlace(mousePos);
+        if (mode.Attributes.IsKey) return KeyManager.Instance.CanPlace(mousePos);
 
         return true;
     }

@@ -249,7 +249,17 @@ public class SelectionManager : MonoBehaviour
         // check if its 1 wide
         if (lowest.x == highest.x || lowest.y == highest.y)
         {
-            foreach (Vector2 pos in poses) FieldManager.Instance.SetField(pos.ConvertToMatrix(), mode, rotation);
+            foreach (Vector2 pos in poses)
+            {
+                ManagerParameters args = new()
+                {
+                    Position = pos.ConvertToMatrix(),
+                    FieldMode = mode,
+                    Rotation = rotation,
+                };
+                
+                ((IManager<FieldController>)FieldManager.Instance).Set(args);
+            }
 
             return;
         }
@@ -374,8 +384,8 @@ public class SelectionManager : MonoBehaviour
 
         PlayerController player = PlayerManager.Instance.Player;
 
-        if (player != null && !PlayerManager.CanPlace(player.transform.position, false))
-            PlayerManager.Instance.RemovePlayerAtPos(player.transform.position);
+        if (player != null && !PlayerManager.Instance.CanPlace(player.transform.position))
+            PlayerManager.Instance.RemoveAtPos(player.transform.position);
 
         UpdateOutlinesInArea(false, lowestPos, highestPos);
     }
@@ -472,14 +482,14 @@ public class SelectionManager : MonoBehaviour
         if (hasOutline)
         {
             // update lowest and highest field separately cause ray casting
-            FieldController lowestField = FieldManager.GetField(Vector2Int.RoundToInt(lowest));
+            FieldController lowestField = FieldManager.Instance.Get(Vector2Int.RoundToInt(lowest));
             if (lowestField.TryGetComponent(out FieldOutline foComp))
             {
                 foComp.UpdateOutline(Vector2.left, true);
                 foComp.UpdateOutline(Vector2.down, true);
             }
 
-            FieldController highestField = FieldManager.GetField(Vector2Int.RoundToInt(highest));
+            FieldController highestField = FieldManager.Instance.Get(Vector2Int.RoundToInt(highest));
             if (highestField.TryGetComponent(out foComp))
             {
                 foComp.UpdateOutline(Vector2.right, true);

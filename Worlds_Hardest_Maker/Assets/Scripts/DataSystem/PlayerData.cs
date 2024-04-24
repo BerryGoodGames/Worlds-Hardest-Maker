@@ -18,7 +18,7 @@ public class PlayerData : Data
 
     public override void ImportToLevel() => ImportToLevel(new Vector2(StartPosition[0], StartPosition[1]));
 
-    public override void ImportToLevel(Vector2 pos) => PlayerManager.Instance.SetPlayer(pos);
+    public override void ImportToLevel(Vector2 pos) => PlayerManager.Instance.Set(pos);
 
     public override EditMode GetEditMode() => EditModeManager.Player;
 

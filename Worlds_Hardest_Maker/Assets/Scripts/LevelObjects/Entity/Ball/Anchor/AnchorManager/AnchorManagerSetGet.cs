@@ -1,32 +1,41 @@
 using DG.Tweening;
 using UnityEngine;
 
-public partial class AnchorManager
+public partial class AnchorManager : IManager<AnchorController>
 {
-    public AnchorController SetAnchor(Vector2 position)
+    public Transform DefaultContainer => ReferenceManager.Instance.AnchorContainer;
+    
+    public AnchorController SetInSheet(ManagerParameters args)
     {
-        if (GetAnchor(position) != null) return null;
-
-        GameObject anchor = Instantiate(
-            PrefabManager.Instance.Anchor, Vector2.zero, Quaternion.identity,
-            ReferenceManager.Instance.AnchorContainer
-        );
-
-        AnchorController child = anchor.GetComponent<AnchorParentController>().Child;
-        child.transform.position = position;
+        if (GetInSheet(args.Position, args.Sheet) != null) return null;
+        
+        AnchorController anchor = InstantiateInSheet(args);
+        anchor.transform.position = args.Position;
 
         // default blocks
-        child.AppendBlock(new SetSpeedBlock(child, true, 5, SetSpeedBlock.Unit.Speed));
-        child.AppendBlock(new SetRotationBlock(child, true, 1, SetRotationBlock.Unit.Iterations));
-        child.AppendBlock(new SetDirectionBlock(child, true, true));
-        child.AppendBlock(new SetEaseBlock(child, true, Ease.Linear));
+        anchor.AppendBlock(new SetSpeedBlock(anchor, true, 5, SetSpeedBlock.Unit.Speed));
+        anchor.AppendBlock(new SetRotationBlock(anchor, true, 1, SetRotationBlock.Unit.Iterations));
+        anchor.AppendBlock(new SetDirectionBlock(anchor, true, true));
+        anchor.AppendBlock(new SetEaseBlock(anchor, true, Ease.Linear));
 
-        AnchorBallManager.Instance.AnchorBallListSheets.Add(child, new());
+        AnchorBallManager.Instance.AnchorBallListSheets.Add(anchor, new());
 
-        return child;
+        return anchor;
     }
 
-    public static void RemoveAnchor(Vector2 position)
+    public AnchorController GetInSheet(Vector2 position, AnchorController sheet)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f);
+
+        foreach (Collider2D hit in hits)
+        {
+            if (hit.transform.parent.CompareTag("Anchor")) return hit.gameObject.GetComponent<AnchorController>();
+        }
+
+        return null;
+    }
+
+    public static void Remove(Vector2 position)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f, 128);
 
@@ -35,12 +44,12 @@ public partial class AnchorManager
             // check tag
             if (!hit.transform.parent.CompareTag("Anchor")) continue;
 
-            RemoveAnchor(hit.GetComponent<AnchorController>());
+            Remove(hit.GetComponent<AnchorController>());
             break;
         }
     }
 
-    public static void RemoveAnchor(AnchorController anchor)
+    public static void Remove(AnchorController anchor)
     {
         // deselect anchor first, if selected
         if (Instance.SelectedAnchor != null)
@@ -55,15 +64,12 @@ public partial class AnchorManager
         AudioManager.Instance.Play(PlaceManager.Instance.GetSfx(EditModeManager.Delete));
     }
 
-    public static AnchorController GetAnchor(Vector2 position)
+    public AnchorController InstantiateInSheet(ManagerParameters args)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f);
-
-        foreach (Collider2D hit in hits)
-        {
-            if (hit.transform.parent.CompareTag("Anchor")) return hit.gameObject.GetComponent<AnchorController>();
-        }
-
-        return null;
+        return Instantiate(
+            PrefabManager.Instance.Anchor, Vector2.zero, Quaternion.identity,
+            DefaultContainer
+        ).Child;
     }
+    public bool CorrespondsToEditMode(EditMode compare) => compare == EditModeManager.Anchor;
 }

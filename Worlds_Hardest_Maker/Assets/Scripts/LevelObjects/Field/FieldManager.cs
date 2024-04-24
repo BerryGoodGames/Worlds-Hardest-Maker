@@ -1,14 +1,65 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
-using MyBox;
 using UnityEngine;
 
-public class FieldManager : MonoBehaviour
+public class FieldManager : MonoBehaviour, IManager<FieldController>
 {
     public static FieldManager Instance { get; private set; }
 
-    public static FieldController GetField(Vector2Int position)
+    public Transform DefaultContainer => ReferenceManager.Instance.FieldContainer;
+
+    public FieldController SetInSheet(ManagerParameters args)
+    {
+        FieldController fieldAtPosition = GetInSheet(args.Position, args.Sheet);
+        if (fieldAtPosition is not null && fieldAtPosition.FieldMode == args.FieldMode) return null;
+
+        // remove any field at pos
+        Remove(args.Position, true, args.Sheet);
+        
+        // place field according to edit mode
+        FieldController field = ((IManager<FieldController>)this).Instantiate(args);
+
+        if (field.TryGetComponent(out ColorCalibration calibration))
+            calibration.Apply(LevelSessionEditManager.Instance.Playing && SettingsManager.Instance.OneColorSafeFields);
+
+        // remove player if at changed pos
+        if (!args.FieldMode.IsStartFieldForPlayer) PlayerManager.Instance.RemoveAtPosIntersect(args.Position);
+
+        if (CoinManager.CannotPlaceFields.Contains(args.FieldMode))
+            // remove coin if wall is placed
+            GameManager.RemoveObjectInContainerIntersect(args.Position, ReferenceManager.Instance.CoinContainer);
+
+        if (KeyManager.CannotPlaceFields.Contains(args.FieldMode))
+            // remove key if wall is placed
+            GameManager.RemoveObjectInContainerIntersect(args.Position, ReferenceManager.Instance.KeyContainer);
+
+        return field;
+    }
+
+    // public FieldController Set(ManagerParameters args)
+    // {
+    //     
+    // }
+
+    public FieldController GetInSheet(Vector2 position, AnchorController sheet)
+    {
+        // get all collisions from layers Field and Void
+        Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Field)
+            .Concat(Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Void)).ToArray();
+        
+        foreach (Collider2D c in collidedGameObjects)
+        {
+            // check if field
+            if (!c.TryGetComponent(out FieldController f)) continue;
+            
+            if (IManager.IsInSheet(f, sheet)) return f;
+        }
+
+        return null;
+    }
+
+    public FieldController Get(Vector2 position)
     {
         // get all collisions from layers Field and Void
         Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Field)
@@ -22,40 +73,25 @@ public class FieldManager : MonoBehaviour
         return null;
     }
 
-    public static FieldController GetFieldInSheet(Vector2Int position, [CanBeNull] AnchorController sheet)
+    public FieldController InstantiateInSheet(ManagerParameters args)
     {
-        // get all collisions from layers Field and Void
-        Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Field)
-            .Concat(Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Void)).ToArray();
-        
-        foreach (Collider2D c in collidedGameObjects)
-        {
-            // check if field
-            if (!c.TryGetComponent(out FieldController f)) continue;
-            
-            if (IsFieldInSheet(c, sheet)) return f;
-        }
+        GameObject prefab = args.FieldMode.Prefab;
+        GameObject res = Instantiate(
+            prefab, args.Position, Quaternion.Euler(0, 0, args.Rotation),
+            args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
+        );
 
-        return null;
-    }
+        FieldController fieldController = res.GetComponent<FieldController>();
+        fieldController.FieldMode = args.FieldMode;
 
-    public static bool IsFieldInSheet(Component field, [CanBeNull] AnchorController sheet)
-    {
-        bool hasAttachment = field.TryGetComponent(out AnchorAttachment attachment);
-        
-        // shorthand to:
-        bool globalSheet = sheet == null;
-        // if (hasAttachment && globalSheet) return false;
-        // if (hasAttachment && attachment.Anchor != sheet) return false;
-        // if (!hasAttachment && !globalSheet) return false;
-        // return true;
+        PlaceManager.AttachToSheet(res, PlaceManager.GetCurrentSheet());
 
-        return (globalSheet && !hasAttachment) || (hasAttachment && !globalSheet && attachment.Anchor == sheet);
+        return fieldController;
     }
     
-    public static bool RemoveField(Vector2Int position, bool updateOutlines = false, [CanBeNull] AnchorController sheet = null)
+    public bool Remove(Vector2 position, bool updateOutlines = false, [CanBeNull] AnchorController sheet = null)
     {
-        FieldController field = GetFieldInSheet(position, sheet);
+        FieldController field = GetInSheet(position, sheet);
 
         bool fieldDestroyed = false;
 
@@ -79,45 +115,18 @@ public class FieldManager : MonoBehaviour
         return fieldDestroyed;
     }
 
-    public FieldController SetField(Vector2Int position, FieldMode mode, int rotation)
-    {
-        AnchorController sheet = PlaceManager.GetCurrentSheet();
-        FieldController fieldAtPosition = GetFieldInSheet(position, sheet);
-        if (fieldAtPosition is not null && fieldAtPosition.FieldMode == mode) return null;
-
-        // remove any field at pos
-        RemoveField(position, true, sheet);
-        
-        // place field according to edit mode
-        FieldController field = InstantiateField(position, mode, rotation);
-
-        if (field.TryGetComponent(out ColorCalibration calibration))
-            calibration.Apply(LevelSessionEditManager.Instance.Playing && SettingsManager.Instance.OneColorSafeFields);
-
-        // remove player if at changed pos
-        if (!mode.IsStartFieldForPlayer) PlayerManager.Instance.RemovePlayerAtPosIntersect(position);
-
-        if (CoinManager.CannotPlaceFields.Contains(mode))
-            // remove coin if wall is placed
-            GameManager.RemoveObjectInContainerIntersect(position, ReferenceManager.Instance.CoinContainer);
-
-        if (KeyManager.CannotPlaceFields.Contains(mode))
-            // remove key if wall is placed
-            GameManager.RemoveObjectInContainerIntersect(position, ReferenceManager.Instance.KeyContainer);
-
-        return field;
-    }
-
-
-    public void SetField(Vector2Int position, FieldMode mode) => SetField(position, mode, 0);
-
     public void PlaceField(FieldMode mode, int rotation, bool playSound, Vector2Int matrixPosition)
     {
-        // TODO: PlaceField vs. SetField??
-
         if (!mode.IsRotatable) rotation = 0;
 
-        if (SetField(matrixPosition, mode, rotation) is not null && playSound) AudioManager.Instance.Play(PlaceManager.Instance.GetSfx(mode));
+        ManagerParameters args = new()
+        {
+            Position = matrixPosition,
+            FieldMode = mode,
+            Rotation = rotation,
+        };
+
+        if (((IManager<FieldController>)this).Set(args) is not null && playSound) AudioManager.Instance.Play(PlaceManager.Instance.GetSfx(mode));
     }
 
     public static void ApplySafeFieldsColor(bool oneColor)
@@ -127,33 +136,13 @@ public class FieldManager : MonoBehaviour
         foreach (ColorCalibration field in colorCalibrations) { field.Apply(oneColor); }
     }
 
-    private static FieldController InstantiateField(Vector2 pos, FieldMode mode, int rotation)
-    {
-        Transform container = AnchorAttachManager.Instance.InAttachMode
-            ? AnchorAttachManager.GetCurrentAnchorContainer()
-            : ReferenceManager.Instance.FieldContainer;
-        
-        GameObject prefab = mode.Prefab;
-        GameObject res = Instantiate(
-            prefab, pos, Quaternion.Euler(0, 0, rotation),
-            container
-        );
-
-        FieldController fieldController = res.GetComponent<FieldController>();
-        fieldController.FieldMode = mode;
-
-        PlaceManager.AttachToSheet(res, PlaceManager.GetCurrentSheet());
-
-        return fieldController;
-    }
-
-    public static List<FieldController> GetNeighbors(GameObject field)
+    public List<FieldController> GetNeighbors(GameObject field)
     {
         Vector2Int position = Vector2Int.RoundToInt(field.transform.position);
         return GetNeighbors(position);
     }
 
-    public static List<FieldController> GetNeighbors(Vector2Int position)
+    public List<FieldController> GetNeighbors(Vector2 position)
     {
         Vector2Int[] deltas = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left, };
 
@@ -161,20 +150,20 @@ public class FieldManager : MonoBehaviour
 
         foreach (Vector2Int d in deltas)
         {
-            FieldController neighbor = GetField(position + d);
+            FieldController neighbor = Get(position + d);
             if (neighbor != null) neighbors.Add(neighbor);
         }
 
         return neighbors;
     }
 
-    public static List<FieldController> GetNeighborsInSheet(GameObject field, [CanBeNull] AnchorController sheet)
+    public List<FieldController> GetNeighborsInSheet(GameObject field, [CanBeNull] AnchorController sheet)
     {
         Vector2Int position = Vector2Int.RoundToInt(field.transform.position);
         return GetNeighborsInSheet(position, sheet);
     }
 
-    public static List<FieldController> GetNeighborsInSheet(Vector2Int position, [CanBeNull] AnchorController sheet)
+    public List<FieldController> GetNeighborsInSheet(Vector2Int position, [CanBeNull] AnchorController sheet)
     {
         Vector2Int[] deltas = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left, };
 
@@ -182,14 +171,14 @@ public class FieldManager : MonoBehaviour
 
         foreach (Vector2Int d in deltas)
         {
-            FieldController neighbor = GetFieldInSheet(position + d, sheet);
+            FieldController neighbor = GetInSheet(position + d, sheet);
             if (neighbor != null) neighbors.Add(neighbor);
         }
 
         return neighbors;
     }
 
-    public static List<FieldController> GetFieldsAtPos(Vector2 position)
+    public List<FieldController> GetFieldsAtPos(Vector2 position)
     {
         Vector2Int[] checkPoses =
         {
@@ -204,7 +193,7 @@ public class FieldManager : MonoBehaviour
         List<FieldController> res = new();
         foreach (Vector2Int checkPosition in checkPoses)
         {
-            FieldController field = GetField(checkPosition);
+            FieldController field = Get(checkPosition);
             if (field != null) res.Add(field);
         }
 
@@ -213,7 +202,7 @@ public class FieldManager : MonoBehaviour
 
     #region Field intersection
 
-    public static bool IntersectingAnyFieldsAtPos(Vector2 position, params FieldMode[] t)
+    public bool IntersectingAnyFieldsAtPos(Vector2 position, params FieldMode[] t)
     {
         List<FieldMode> modes = t.ToList();
 
@@ -226,7 +215,7 @@ public class FieldManager : MonoBehaviour
         return false;
     }
 
-    public static bool IntersectingEveryFieldAtPos(Vector2 position, params FieldMode[] t)
+    public bool IntersectingEveryFieldAtPos(Vector2 position, params FieldMode[] t)
     {
         List<FieldMode> types = t.ToList();
         List<FieldController> intersectingFields = GetFieldsAtPos(position);
@@ -238,7 +227,7 @@ public class FieldManager : MonoBehaviour
         return true;
     }
 
-    public static bool IsPosCoveredWithFieldType(Vector2 position, params FieldMode[] t)
+    public bool IsPosCoveredWithFieldType(Vector2 position, params FieldMode[] t)
     {
         List<FieldMode> types = t.ToList();
         List<FieldController> intersectingFields = GetFieldsAtPos(position);
@@ -274,4 +263,6 @@ public class FieldManager : MonoBehaviour
         // init singleton
         if (Instance == null) Instance = this;
     }
+
+    public bool CorrespondsToEditMode(EditMode compare) => compare.Attributes.IsField;
 }

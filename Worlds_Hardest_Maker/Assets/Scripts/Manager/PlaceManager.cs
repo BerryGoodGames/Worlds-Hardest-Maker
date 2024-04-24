@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Cinemachine.Utility;
 using JetBrains.Annotations;
 using MyBox;
@@ -42,44 +44,50 @@ public class PlaceManager : MonoBehaviour
             // check field deletion
             EditModeManager.Delete)
         {
-            bool deletedField = FieldManager.RemoveField(matrixPosition, true, sheet);
+            bool deletedField = FieldManager.Instance.Remove(matrixPosition, true, sheet);
             
             // delete field
             if (deletedField && playSound) AudioManager.Instance.Play(GetSfx(editMode));
 
             // remove player if at deleted pos
-            PlayerManager.Instance.RemovePlayerAtPosIntersect(matrixPosition);
-        }
-        else if (editMode == EditModeManager.Player)
-        {
-            if (PlayerManager.Instance.SetPlayer(gridPosition, true) is not null && playSound) AudioManager.Instance.Play(GetSfx(editMode));
-        }
-        else if (editMode == EditModeManager.AnchorBall)
-        {
-            if (AnchorBallManager.SetAnchorBall(gridPosition) is not null && playSound) AudioManager.Instance.Play(GetSfx(editMode));
-        }
-        else if (editMode == EditModeManager.Coin)
-        {
-            if (CoinManager.SetCoin(gridPosition) is not null && playSound) AudioManager.Instance.Play(GetSfx(editMode));
-        }
-        else if (editMode == EditModeManager.Anchor)
-        {
-            // place new anchor + select
-            AnchorController anchor = AnchorManager.Instance.SetAnchor(gridPosition);
-            if (anchor is not null && playSound)
-            {
-                AudioManager.Instance.Play(GetSfx(editMode));
-                AnchorManager.Instance.SelectAnchor(anchor);
-            }
-        }
-        else if (editMode.Attributes.IsKey)
-        {
-            // get key color
-            KeyColor keyColor = ((KeyMode)editMode).KeyColor;
+            PlayerManager.Instance.RemoveAtPosIntersect(matrixPosition);
 
-            // place key
-            if (KeyManager.Instance.SetKey(gridPosition, keyColor) is not null && playSound) AudioManager.Instance.Play(GetSfx(editMode));
+            return;
         }
+
+        List<IManager> managers = new()
+        {
+            PlayerManager.Instance, 
+            AnchorBallManager.Instance, 
+            CoinManager.Instance, 
+            AnchorManager.Instance, 
+            KeyManager.Instance,
+        };
+        
+        foreach (IManager manager in managers)
+        {
+            if (CheckManagerPlacement(editMode, playSound, manager, gridPosition)) break;
+        }
+    }
+
+    private bool CheckManagerPlacement(EditMode editMode, bool playSound, IManager manager, Vector2 gridPosition)
+    {
+        if (!manager.CorrespondsToEditMode(editMode)) return false;
+        
+        ManagerParameters args = new() { Position = gridPosition, };
+        if (editMode.Attributes.IsKey) args.KeyColor = ((KeyMode)editMode).KeyColor;
+        if (editMode == EditModeManager.Player) args.SurroundWithStartFields = true;
+
+        MethodInfo setInSheetMethod = manager.GetType().GetMethod(nameof(IManager<LevelObjectController>.SetInSheet));
+        object result = setInSheetMethod.Invoke(manager, new object[] { args, });
+
+        if (result is null || !playSound) return true;
+        
+        AudioManager.Instance.Play(GetSfx(editMode));
+
+        if (editMode == EditModeManager.Anchor) AnchorManager.Instance.Select((AnchorController)result);
+
+        return true;
     }
 
     public void PlacePath(EditMode editMode, Vector2 start, Vector2 end, int rotation = 0, bool playSound = false)

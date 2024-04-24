@@ -84,7 +84,7 @@ public class Dbg : MonoBehaviour
                 // ignored
             }
         }
-        else if (autoPlacePlayer) { PlayerManager.Instance.SetPlayer(Vector2.zero, true); }
+        else if (autoPlacePlayer) PlayerManager.Instance.Set(Vector2.zero);
         #endif
     }
 

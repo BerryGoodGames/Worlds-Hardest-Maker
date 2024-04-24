@@ -20,7 +20,11 @@ public class CoinData : Data
 
     public override void ImportToLevel() => ImportToLevel(new(Position[0], Position[1]));
 
-    public override void ImportToLevel(Vector2 pos) => CoinManager.SetCoin(pos);
+    public override void ImportToLevel(Vector2 pos)
+    {
+        ManagerParameters args = new() { Position = pos, };
+        ((IManager<CoinController>)CoinManager.Instance).Set(args);
+    }
 
     public override EditMode GetEditMode() => EditModeManager.Coin;
 

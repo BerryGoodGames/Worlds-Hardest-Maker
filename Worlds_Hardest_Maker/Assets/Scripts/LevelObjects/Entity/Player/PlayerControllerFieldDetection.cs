@@ -36,7 +36,7 @@ public partial class PlayerController
         {
             // check if current field is type
             FieldMode currentFieldType = field.FieldMode;
-            if (currentFieldType == mode && FieldManager.IsFieldInSheet(field, sheet)) return true;
+            if (currentFieldType == mode && IManager.IsInSheet(field, sheet)) return true;
         }
 
         return false;
@@ -102,5 +102,5 @@ public partial class PlayerController
         // we don't need that, its just there lol
         IsFullyOnField(EditModeManager.Void);
 
-    public FieldController GetCurrentField() => FieldManager.GetField(Vector2Int.RoundToInt(transform.position));
+    public FieldController GetCurrentField() => FieldManager.Instance.Get(Vector2Int.RoundToInt(transform.position));
 }

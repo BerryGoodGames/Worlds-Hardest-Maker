@@ -1,18 +1,18 @@
 using MyBox;
 using UnityEngine;
 
-public partial class AnchorManager
+public partial class AnchorManager : IManagerSelectable
 {
     [field: SerializeField] [field: ReadOnly] public AnchorController SelectedAnchor { get; private set; }
 
-    public void SelectAnchor(Vector2 pos)
+    public void Select(Vector2 pos)
     {
-        AnchorController anchor = GetAnchor(pos);
+        AnchorController anchor = ((IManager<AnchorController>)this).Get(pos);
 
-        Instance.SelectAnchor(anchor);
+        Instance.Select(anchor);
     }
 
-    public void SelectAnchor(AnchorController anchor, bool toggleDeselect = true)
+    public void Select(AnchorController anchor, bool toggleDeselect = true)
     {
         if (anchor == null) return;
 
@@ -99,7 +99,7 @@ public partial class AnchorManager
         // select anchor
         if (!Input.GetMouseButtonDown(0) || !KeyBinds.GetKeyBind("Editor_Modify")) return;
 
-        Instance.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
-        AnchorBallManager.SelectAnchorBall(MouseManager.Instance.MouseWorldPosGrid);
+        Instance.Select(MouseManager.Instance.MouseWorldPosGrid);
+        AnchorBallManager.Instance.Select(MouseManager.Instance.MouseWorldPosGrid);
     }
 }

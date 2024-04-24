@@ -10,7 +10,7 @@ public class PrefabManager : MonoBehaviour
 
     [Foldout("Entities")] public PlayerController Player;
 
-    [Foldout("Entities")] public GameObject Anchor;
+    [Foldout("Entities")] public AnchorParentController Anchor;
     [Foldout("Entities")] public GameObject AnchorBall;
 
     [Foldout("Entities")] public CoinController Coin;

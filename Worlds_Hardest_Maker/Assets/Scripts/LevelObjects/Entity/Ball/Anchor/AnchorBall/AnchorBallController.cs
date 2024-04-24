@@ -6,6 +6,8 @@ public class AnchorBallController : EntityController
     [HideInInspector] public AnchorController ParentAnchor;
     public bool IsParentAnchorNull { get; private set; }
 
+    public GameObject LevelObject => transform.parent.gameObject;
+
     public override EditMode EditMode => EditModeManager.AnchorBall;
 
     public override Data GetData() => new AnchorBallData(StartPosition);

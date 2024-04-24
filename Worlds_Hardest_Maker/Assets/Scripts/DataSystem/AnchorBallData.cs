@@ -13,12 +13,18 @@ public class AnchorBallData : Data
             ballPosition.y,
         };
 
-    public override void ImportToLevel(Vector2 pos) => AnchorBallManager.SetAnchorBall(pos);
+    public override void ImportToLevel(Vector2 pos)
+    {
+        ManagerParameters args = new() { Position = pos, };
+        AnchorBallManager.Instance.SetInSheet(args);
+    }
 
-    public override void ImportToLevel() => AnchorBallManager.SetAnchorBall(new(position[0], position[1]));
-
-    public void ImportToLevel(AnchorController anchor) => AnchorBallManager.SetAnchorBallInSheet(new(position[0], position[1]), anchor);
-
+    public override void ImportToLevel()
+    {
+        ManagerParameters args = new() { Position = new(position[0], position[1]), };
+        AnchorBallManager.Instance.SetInSheet(args);
+    }
+    
     public override EditMode GetEditMode() => EditModeManager.AnchorBall;
 
     public override bool Equals(Data d)

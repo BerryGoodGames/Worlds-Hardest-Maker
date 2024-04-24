@@ -20,26 +20,25 @@ public class FieldController : LevelObjectController
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!FieldMode.IsSolid 
-            && FieldMode.CarryPlayer
-            && other.CompareTag("PlayerCenterCollider") 
-            && (PlayerManager.Instance.Player.CurrentFloor == null || !PlayerManager.Instance.Player.CurrentFloor.isAttached))
-        {
-            PlayerManager.Instance.Player.CurrentFloor = this;
-            PlayerManager.Instance.Player.transform.SetParent(transform);
-        }
+        if (FieldMode.IsSolid
+            || !FieldMode.CarryPlayer
+            || !other.CompareTag("PlayerCenterCollider")
+            || (PlayerManager.Instance.Player.CurrentFloor != null && PlayerManager.Instance.Player.CurrentFloor.isAttached)) return;
+
+        PlayerManager.Instance.Player.CurrentFloor = this;
+        PlayerManager.Instance.Player.transform.SetParent(transform);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (!FieldMode.IsSolid 
-            && FieldMode.CarryPlayer 
-            && other.CompareTag("PlayerCenterCollider") 
-            && PlayerManager.Instance.Player.CurrentFloor == this)
-        {
-            PlayerManager.Instance.Player.CurrentFloor = null;
-            PlayerManager.Instance.Player.transform.SetParent(ReferenceManager.Instance.PlayerContainer);
-        }
+        if (FieldMode.IsSolid
+            || !FieldMode.CarryPlayer
+            || !other.CompareTag("PlayerCenterCollider")
+            || PlayerManager.Instance.Player.CurrentFloor != this
+            || LevelSessionEditManager.Instance.Editing) return;
+
+        PlayerManager.Instance.Player.CurrentFloor = null;
+        PlayerManager.Instance.Player.transform.SetParent(ReferenceManager.Instance.PlayerContainer);
     }
 
     private void Start()

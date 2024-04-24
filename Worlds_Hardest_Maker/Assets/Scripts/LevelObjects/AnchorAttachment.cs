@@ -6,7 +6,8 @@ public class AnchorAttachment : MonoBehaviour
 {
     public const int INTERNAL_LAYER_OFFSET = 3000;
     
-    public AnchorController Anchor;
+    [ReadOnly] public AnchorController Anchor;
+    [ReadOnly] public LevelObjectController Controller;
     [Space]
     [ReadOnly] public int SortingLayerID;
     [ReadOnly] public int OrderInLayer;
@@ -41,6 +42,8 @@ public class AnchorAttachment : MonoBehaviour
             Debug.LogError("Object with anchor attachment is not anchor attachable");
             return;
         }
+
+        TryGetComponent(out Controller);
 
         SortingLayerID = AnchorAttachable.MainSprite.sortingLayerID;
         OrderInLayer = AnchorAttachable.MainSprite.sortingOrder;

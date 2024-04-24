@@ -9,7 +9,7 @@ using UnityEngine;
 public class AnchorData : Data
 {
     // (list of coordinates)
-    private AnchorBallData[] balls;
+    private Data[] attachments;
 
     private AnchorBlockData[] blocks;
 
@@ -18,7 +18,7 @@ public class AnchorData : Data
     public AnchorData(AnchorController controller)
     {
         // init balls and blocks
-        SaveBalls(controller);
+        SaveAttachments(controller);
         SaveBlocks(controller);
 
         Vector2 controllerPosition = controller.StartPosition;
@@ -33,12 +33,11 @@ public class AnchorData : Data
 
     #region Saving / loading properties
 
-    private void SaveBalls(AnchorController controller)
+    private void SaveAttachments(AnchorController controller)
     {
-        // init balls
-        List<AnchorBallController> anchorBalls = AnchorBallManager.Instance.AnchorBallListSheets[controller];
-        balls = new AnchorBallData[anchorBalls.Count];
-        for (int i = 0; i < balls.Length; i++) balls[i] = (AnchorBallData)anchorBalls[i].GetData();
+        List<AnchorAttachment> attachments = controller.Attachments;
+        this.attachments = new Data[attachments.Count];
+        for (int i = 0; i < attachments.Count; i++) this.attachments[i] = attachments[i].Controller.GetData();
     }
 
     private void SaveBlocks(AnchorController controller)
@@ -74,15 +73,15 @@ public class AnchorData : Data
     }
 
     #endregion
-
-
+    
     public override void ImportToLevel() => ImportToLevel(new(position[0], position[1]));
 
     public override void ImportToLevel(Vector2 pos)
     {
-        AnchorController anchor = AnchorManager.Instance.SetAnchor(pos);
+        ManagerParameters args = new() { Position = pos, };
+        AnchorController anchor = ((IManager<AnchorController>)AnchorManager.Instance).Set(args);
 
-        foreach (AnchorBallData ball in balls) ball.ImportToLevel(anchor);
+        foreach (Data data in attachments) data.ImportToLevel();
 
         anchor.Blocks = LoadBlocks(anchor);
     }
@@ -95,11 +94,11 @@ public class AnchorData : Data
 
         if (position[0] != other.position[0] || position[1] != other.position[1]) return false;
 
-        if (other.balls.Length != balls.Length) return false;
+        if (other.attachments.Length != attachments.Length) return false;
 
-        for (int i = 0; i < balls.Length; i++)
+        for (int i = 0; i < attachments.Length; i++)
         {
-            if (!balls[i].Equals(other.balls[i])) return false;
+            if (!attachments[i].Equals(other.attachments[i])) return false;
         }
 
         // ignore anchor blocks for now

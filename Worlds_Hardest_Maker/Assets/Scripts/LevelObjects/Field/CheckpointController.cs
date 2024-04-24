@@ -51,7 +51,7 @@ public class CheckpointController : MonoBehaviour, IResettable
     {
         Activate();
 
-        List<FieldController> neighbors = FieldManager.GetNeighborsInSheet(gameObject, Sheet);
+        List<FieldController> neighbors = FieldManager.Instance.GetNeighborsInSheet(gameObject, Sheet);
         foreach (FieldController n in neighbors)
         {
             if (!n.TryGetComponent(out CheckpointController checkpoint) || checkpoint.Activated) continue;
