@@ -174,13 +174,9 @@ public partial class PlayerController : EntityController
         CoinManager.Instance.CollectedCoins = new();
 
         Rb = GetComponent<Rigidbody2D>();
-
         EdgeCollider = GetComponent<EdgeCollider2D>();
-
         spriteRenderer = GetComponent<SpriteRenderer>();
-
         sortingGroup = GetComponent<SortingGroup>();
-
         Shotgun = GetComponentInChildren<ShotgunController>(true);
         Shotgun.gameObject.SetActive(
             isEdit ? LevelSessionEditManager.Instance.Playing && KonamiManager.Instance.KonamiActive : KonamiManager.Instance.KonamiActive
