@@ -129,8 +129,6 @@ public class KeyController : EntityController, IResettable, ICollectible
             
             Animator.SetBool(playingString, true);
             Animator.SetBool(pickedUpString, Collected);
-            
-            print("Starting anim");
         }
     }
 
