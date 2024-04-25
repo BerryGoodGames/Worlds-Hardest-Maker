@@ -130,7 +130,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.95, y: 0.95}
+  m_Size: {x: 0.98, y: 0.98}
   m_EdgeRadius: 0
 --- !u!114 &-7633074681480853962
 MonoBehaviour:
@@ -158,5 +158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainSprite: {fileID: 8451419770457997880}
+  HasSortingGroup: 0
+  SortingGroup: {fileID: 0}
   HasOutline: 0
   OutlineComp: {fileID: 0}

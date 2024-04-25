@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class FieldController : LevelObjectController
@@ -19,14 +20,27 @@ public class FieldController : LevelObjectController
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (FieldMode.IsSolid
-            || !FieldMode.CarryPlayer
-            || !other.CompareTag("PlayerCenterCollider")
-            || (PlayerManager.Instance.Player.CurrentFloor != null && PlayerManager.Instance.Player.CurrentFloor.isAttached)) return;
+        if (!other.CompareTag("PlayerCenterCollider")) return;
 
+        OnPlayerEntered();
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (!other.CompareTag("PlayerCenterCollider")
+            || !PlayerManager.Instance.Player.CurrentFloors.Contains(this)
+            || LevelSessionEditManager.Instance.Editing) return;
+
+        OnPlayerExited();
+    }
+
+    private void OnPlayerEntered()
+    {
+        if (FieldMode.IsSolid || !isAttached || !FieldMode.CarryPlayer) return;
+        
         PlayerController player = PlayerManager.Instance.Player;
         
-        player.CurrentFloor = this;
+        if (!player.CurrentFloors.Contains(this)) player.CurrentFloors.Add(this);
         player.transform.SetParent(transform);
         
         // fade out again
@@ -38,16 +52,12 @@ public class FieldController : LevelObjectController
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    private void OnPlayerExited()
     {
-        if (FieldMode.IsSolid
-            || !FieldMode.CarryPlayer
-            || !other.CompareTag("PlayerCenterCollider")
-            || PlayerManager.Instance.Player.CurrentFloor != this
-            || LevelSessionEditManager.Instance.Editing) return;
-
-        PlayerManager.Instance.Player.CurrentFloor = null;
-        PlayerManager.Instance.Player.transform.SetParent(ReferenceManager.Instance.PlayerContainer);
+        PlayerController player = PlayerManager.Instance.Player;
+        
+        player.CurrentFloors.Remove(this);
+        if (player.CurrentFloors.Count == 0) player.transform.SetParent(ReferenceManager.Instance.PlayerContainer);
     }
 
     private void Start() => isAttached = TryGetComponent(out AnchorAttachment _);

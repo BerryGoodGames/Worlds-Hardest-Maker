@@ -52,7 +52,7 @@ public partial class PlayerController : EntityController
 
     [ReadOnly] [CanBeNull] public AnchorController Sheet;
 
-    [HideInInspector] public FieldController CurrentFloor;
+    [ReadOnly] public List<FieldController> CurrentFloors;
 
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
 
