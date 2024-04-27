@@ -74,9 +74,8 @@ public class PlaceManager : MonoBehaviour
     {
         if (!manager.CorrespondsToEditMode(editMode)) return false;
 
-        ManagerParameters args = ManagerParameters.GetCurrentSheetParams(new() { Position = gridPosition, });
+        ManagerParameters args = ManagerParameters.GetCurrentSheetParams(new() { Position = gridPosition, SurroundWithStartFields = true, });
         if (editMode.Attributes.IsKey) args.KeyColor = ((KeyMode)editMode).KeyColor;
-        if (editMode == EditModeManager.Player) args.SurroundWithStartFields = true;
 
         MethodInfo setMethod = manager.GetType().GetMethod(nameof(IManager<LevelObjectController>.SetInSheet));
         object result = setMethod.Invoke(manager, new object[] { args, });

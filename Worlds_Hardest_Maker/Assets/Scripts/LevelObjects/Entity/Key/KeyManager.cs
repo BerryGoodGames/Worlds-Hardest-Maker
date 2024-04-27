@@ -92,7 +92,7 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
         // conditions: no key there, covered by canplacefield or default, no player there
         !PlayerManager.Instance.IsThere(position)
         && !IsThereInSheet(position, sheet)
-        && !FieldManager.Instance.IntersectingAnyFieldsAtPos(position, CannotPlaceFields.ToArray());
+        && !FieldManager.Instance.IntersectingAnyFieldsAtPos(position, sheet, CannotPlaceFields.ToArray());
 
     public bool AllKeysCollected(KeyColor color)
     {

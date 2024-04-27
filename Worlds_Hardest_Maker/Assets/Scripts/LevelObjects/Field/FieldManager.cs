@@ -175,7 +175,7 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
         return neighbors;
     }
 
-    public List<FieldController> GetFieldsAtPos(Vector2 position)
+    public List<FieldController> GetFieldsAtGridPosInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
         Vector2Int[] checkPoses =
         {
@@ -190,7 +190,7 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
         List<FieldController> res = new();
         foreach (Vector2Int checkPosition in checkPoses)
         {
-            FieldController field = Get(checkPosition);
+            FieldController field = GetInSheet(checkPosition, sheet);
             if (field != null) res.Add(field);
         }
 
@@ -199,11 +199,11 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
 
     #region Field intersection
 
-    public bool IntersectingAnyFieldsAtPos(Vector2 position, params FieldMode[] t)
+    public bool IntersectingAnyFieldsAtPos(Vector2 position, [CanBeNull] AnchorController sheet, params FieldMode[] t)
     {
         List<FieldMode> modes = t.ToList();
 
-        List<FieldController> intersectingFields = GetFieldsAtPos(position);
+        List<FieldController> intersectingFields = GetFieldsAtGridPosInSheet(position, sheet);
         foreach (FieldController field in intersectingFields)
         {
             if (modes.Contains(field.FieldMode)) return true;
@@ -212,22 +212,22 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
         return false;
     }
 
-    public bool IntersectingEveryFieldAtPos(Vector2 position, params FieldMode[] t)
+    public bool IntersectingEveryFieldAtPos(Vector2 position, [CanBeNull] AnchorController sheet, params FieldMode[] t)
     {
         List<FieldMode> types = t.ToList();
-        List<FieldController> intersectingFields = GetFieldsAtPos(position);
+        List<FieldController> intersectingFields = GetFieldsAtGridPosInSheet(position, sheet);
         foreach (FieldController field in intersectingFields)
         {
             if (!types.Contains(field.FieldMode)) return false;
         }
-
+    
         return true;
     }
 
-    public bool IsPosCoveredWithFieldType(Vector2 position, params FieldMode[] t)
+    public bool IsPosCoveredWithFieldTypeInSheet(Vector2 position, [CanBeNull] AnchorController sheet, params FieldMode[] t)
     {
         List<FieldMode> types = t.ToList();
-        List<FieldController> intersectingFields = GetFieldsAtPos(position);
+        List<FieldController> intersectingFields = GetFieldsAtGridPosInSheet(position, sheet);
         if (intersectingFields.Count == 0) return false;
 
         int expectedCount = IntersectionCountAtPos(position);

@@ -8,6 +8,7 @@ using UnityEngine.Serialization;
 
 public partial class PlayerController : EntityController
 {
+    [SerializeField] [InitializationField] [MustBeAssigned] private BoxCollider2D centerCollider;
     [Space] [Separator("Water settings")] [SerializeField] private Transform waterLevel;
 
     [Separator("Death settings")] [SerializeField] [PositiveValueOnly] private float defaultDeathFadeDuration;
@@ -96,9 +97,9 @@ public partial class PlayerController : EntityController
     {
         UpdateWaterState();
 
-        // ApplyForcesFromFloor();
-
         Move();
+
+        VoidDetection();
     }
 
     private void OnDestroy()

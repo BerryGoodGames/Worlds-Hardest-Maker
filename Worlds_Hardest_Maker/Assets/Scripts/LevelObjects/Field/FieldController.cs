@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class FieldController : LevelObjectController
@@ -34,7 +33,7 @@ public class FieldController : LevelObjectController
         OnPlayerExited();
     }
 
-    private void OnPlayerEntered()
+    public void OnPlayerEntered()
     {
         if (FieldMode.IsSolid || !isAttached || !FieldMode.CarryPlayer) return;
         

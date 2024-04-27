@@ -26,7 +26,7 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
     public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>
         // conditions: no coin there, doesn't intersect with any walls etc, no player there
         !((IManager<CoinController>)this).IsThereInSheet(position, sheet)
-        && !FieldManager.Instance.IntersectingAnyFieldsAtPos(position, CannotPlaceFields.ToArray())
+        && !FieldManager.Instance.IntersectingAnyFieldsAtPos(position, sheet, CannotPlaceFields.ToArray())
         && !PlayerManager.Instance.IsThere(position);
 
     public CoinController SetInSheet(ManagerParameters args)

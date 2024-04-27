@@ -18,14 +18,9 @@ public partial class PlayerController
         Death();
     }
 
-    public void DieVoid()
+    public void DieVoid(Vector2 fallPosition)
     {
         if (Won) return;
-
-        // dying through void
-        FieldController currentVoid = GetCurrentVoid();
-
-        Vector2 fallPosition = currentVoid.transform.position;
 
         spriteRenderer.DOFade(0, voidFallDuration)
             .SetEase(Ease.Linear);
@@ -130,7 +125,7 @@ public partial class PlayerController
         if (LevelSessionEditManager.Instance.Editing) spawnPos = StartPos;
 
         OnDeathEnd.Invoke();
-
+        
         transform.position = spawnPos;
 
         RevertDeathAnimation();

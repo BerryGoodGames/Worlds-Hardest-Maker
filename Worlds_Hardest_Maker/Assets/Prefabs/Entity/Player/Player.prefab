@@ -129,7 +129,6 @@ GameObject:
   - component: {fileID: 7464887056985239504}
   - component: {fileID: 1103030783182041800}
   - component: {fileID: 7464887056985239508}
-  - component: {fileID: 8885774084951150650}
   - component: {fileID: 7897731037161401016}
   - component: {fileID: 5041118888993053513}
   m_Layer: 9
@@ -293,6 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bfa1f800246e80438c975735f3ad75f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerCollider: {fileID: 6838131622663222226}
   waterLevel: {fileID: 2970012482437784707}
   defaultDeathFadeDuration: 0.4
   voidFallDuration: 0.8
@@ -306,19 +306,7 @@ MonoBehaviour:
   Won: 0
   HasTeleported: 0
   Sheet: {fileID: 0}
-  CurrentFloor: {fileID: 0}
---- !u!114 &8885774084951150650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7464887056985239505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ffefb48453e671419490a7b41934892, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  CurrentFloors: []
 --- !u!114 &7897731037161401016
 MonoBehaviour:
   m_ObjectHideFlags: 0

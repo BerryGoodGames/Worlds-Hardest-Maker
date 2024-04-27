@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
@@ -21,7 +22,13 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
 
         if (IsThereInSheet(position, args.Sheet)) return null;
 
-        if (args.SurroundWithStartFields && !CanPlaceInSheet(position, args.Sheet)) SetSurroundingStartFieldsInSheet(position, args.Sheet);
+        bool canPlaceInSheet = CanPlaceInSheet(position, args.Sheet);
+
+        List<FieldController> respawnFields;
+        if (args.SurroundWithStartFields && !canPlaceInSheet)
+        {
+            respawnFields = SetSurroundingStartFieldsInSheet(position, args.Sheet);
+        }
 
         // clear area from coins and keys
         GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.CoinContainer);
@@ -78,15 +85,17 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     public bool CanPlace(Vector2 position) =>
         // conditions: no player there, position is covered with possible start fields
         !IsThere(position) &&
-        FieldManager.Instance.IsPosCoveredWithFieldType(position, EditModeManager.Instance.AllPlayerStartFieldModes.ToArray());
+        FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(position, PlaceManager.GetCurrentSheet(), EditModeManager.Instance.AllPlayerStartFieldModes.ToArray());
 
     public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>
         // conditions: no player there, position is covered with possible start fields
         !IsThereInSheet(position, sheet) &&
-        FieldManager.Instance.IsPosCoveredWithFieldType(position, EditModeManager.Instance.AllPlayerStartFieldModes.ToArray());
+        FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(position, sheet, EditModeManager.Instance.AllPlayerStartFieldModes.ToArray());
 
-    private static void SetSurroundingStartFields(Vector2 position)
+    private static List<FieldController> SetSurroundingStartFieldsInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
+        List<FieldController> result = new();
+        
         Vector2Int[] checkPoses =
         {
             Vector2Int.FloorToInt(position),
@@ -101,32 +110,13 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
             {
                 Position = checkPosition,
                 FieldMode = EditModeManager.Start,
+                Sheet = sheet,
             };
 
-            ((IManager<FieldController>)FieldManager.Instance).Set(args);
+            result.Add(((IManager<FieldController>)FieldManager.Instance).SetInSheet(args));
         }
-    }
 
-    private static void SetSurroundingStartFieldsInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
-    {
-        Vector2Int[] checkPoses =
-        {
-            Vector2Int.FloorToInt(position),
-            new(Mathf.CeilToInt(position.x), Mathf.FloorToInt(position.y)),
-            new(Mathf.FloorToInt(position.x), Mathf.CeilToInt(position.y)),
-            Vector2Int.CeilToInt(position),
-        };
-
-        foreach (Vector2Int checkPosition in checkPoses)
-        {
-            ManagerParameters args = new()
-            {
-                Position = checkPosition,
-                FieldMode = EditModeManager.Start,
-            };
-
-            ((IManager<FieldController>)FieldManager.Instance).Set(args);
-        }
+        return result;
     }
 
     public void RemoveAtPos(Vector2 position)

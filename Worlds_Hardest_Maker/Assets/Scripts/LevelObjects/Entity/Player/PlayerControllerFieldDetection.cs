@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using MyBox;
 using UnityEngine;
 
 public partial class PlayerController
@@ -85,22 +86,20 @@ public partial class PlayerController
         return null;
     }
 
-    public FieldController GetCurrentVoid()
-    {
-        // returns the void the player falls into (null if none)
-        List<FieldController> fullyOnFields = GetFullyOnFields();
-        foreach (FieldController field in fullyOnFields)
-        {
-            FieldMode currentFieldType = field.FieldMode;
-            if (currentFieldType == EditModeManager.Void) return field;
-        }
-
-        return null;
-    }
-
-    public bool IsOnVoid() =>
-        // we don't need that, its just there lol
-        IsFullyOnField(EditModeManager.Void);
-
+    // public void UpdateFloorManual()
+    // {
+    //     print("Updating floor");
+    //
+    //     Collider2D[] hits = Physics2D.OverlapBoxAll(centerCollider.transform.position, centerCollider.size, 0, LayerManager.Instance.Layers.Field);
+    //
+    //     foreach (Collider2D hit in hits)
+    //     {
+    //         if (hit.TryGetComponent(out FieldController fieldController))
+    //         {
+    //             
+    //         }
+    //     }
+    // }
+    
     public FieldController GetCurrentField() => FieldManager.Instance.Get(Vector2Int.RoundToInt(transform.position));
 }
