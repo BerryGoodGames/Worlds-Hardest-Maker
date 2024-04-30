@@ -4,7 +4,6 @@ using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 
 public partial class PlayerController : EntityController
 {

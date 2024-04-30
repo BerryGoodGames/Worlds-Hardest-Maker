@@ -113,7 +113,7 @@ public class KeyEvents : MonoBehaviour
             prevHeldDownKeys = Array.Empty<KeyCode>();
             KeyBindSetterController.CancelAddingKeyBind();
         }
-        else { prevHeldDownKeys = keysDown; }
+        else prevHeldDownKeys = keysDown;
 
         return true;
     }

@@ -121,6 +121,7 @@ public partial class PlayerController
         {
             bool isRespawning = true;
             if (CurrentGameState != null)
+            {
                 foreach (Vector2 collected in CurrentGameState.CollectedKeys)
                 {
                     if (!collected.x.EqualsFloat(key.KeyPosition.x) ||
@@ -130,6 +131,7 @@ public partial class PlayerController
                     isRespawning = false;
                     break;
                 }
+            }
 
             if (!isRespawning) continue;
 

@@ -5,12 +5,11 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public partial class AnchorController : EntityController, IResettable
 {
-    [FormerlySerializedAs("BallContainer")] [InitializationField] [MustBeAssigned] public Transform AttachmentContainer;
+    [InitializationField] [MustBeAssigned] public Transform AttachmentContainer;
     [InitializationField] [MustBeAssigned] public Animator Animator;
     [InitializationField] [MustBeAssigned] public AnchorAttachFade AttachFade;
 
@@ -220,7 +219,7 @@ public partial class AnchorController : EntityController, IResettable
     {
         PlayManager.Instance.OnSwitchToPlay -= AttachFade.FadeIn;
         PlayManager.Instance.OnSwitchToEdit -= AttachFade.FadeOut;
-        
+
         ((IResettable)this).Unsubscribe();
     }
 }

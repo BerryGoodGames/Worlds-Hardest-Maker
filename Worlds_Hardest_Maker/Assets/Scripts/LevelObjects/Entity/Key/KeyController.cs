@@ -120,13 +120,13 @@ public class KeyController : EntityController, IResettable, ICollectible
         StartCoroutine(Delay());
 
         return;
-        
+
         IEnumerator Delay()
         {
             yield return new WaitForEndOfFrame();
 
             Animator.enabled = true;
-            
+
             Animator.SetBool(playingString, true);
             Animator.SetBool(pickedUpString, Collected);
         }

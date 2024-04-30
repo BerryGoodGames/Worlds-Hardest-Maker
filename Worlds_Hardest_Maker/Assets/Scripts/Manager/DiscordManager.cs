@@ -38,7 +38,7 @@ public class DiscordManager : MonoBehaviour
     private void Awake()
     {
         // init singleton
-        if (Instance == null) { Instance = this; }
+        if (Instance == null) Instance = this;
         else if (Application.isPlaying)
         {
             if (Instance == this) DontDestroyOnLoad(gameObject);

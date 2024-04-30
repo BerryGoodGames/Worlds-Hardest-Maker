@@ -24,10 +24,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
 
         bool canPlaceInSheet = CanPlaceInSheet(position, args.Sheet);
 
-        if (args.SurroundWithStartFields && !canPlaceInSheet) 
-        {
-            SetSurroundingStartFieldsInSheet(position, args.Sheet);
-        }
+        if (args.SurroundWithStartFields && !canPlaceInSheet) SetSurroundingStartFieldsInSheet(position, args.Sheet);
 
         // clear area from coins and keys
         GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.CoinContainer);
@@ -55,7 +52,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
 
         return Player;
     }
-    
+
     public PlayerController Set(Vector2 position)
     {
         ManagerParameters args = new() { Position = position, SurroundWithStartFields = true, };
@@ -84,7 +81,9 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     public bool CanPlace(Vector2 position) =>
         // conditions: no player there, position is covered with possible start fields
         !IsThere(position) &&
-        FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(position, PlaceManager.GetCurrentSheet(), EditModeManager.Instance.AllPlayerStartFieldModes.ToArray());
+        FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(
+            position, PlaceManager.GetCurrentSheet(), EditModeManager.Instance.AllPlayerStartFieldModes.ToArray()
+        );
 
     public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>
         // conditions: no player there, position is covered with possible start fields
@@ -94,7 +93,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     private static List<FieldController> SetSurroundingStartFieldsInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
         List<FieldController> result = new();
-        
+
         Vector2Int[] checkPoses =
         {
             Vector2Int.FloorToInt(position),

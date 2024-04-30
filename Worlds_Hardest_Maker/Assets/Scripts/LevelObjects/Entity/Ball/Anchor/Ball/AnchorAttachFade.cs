@@ -1,14 +1,13 @@
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class AnchorAttachFade : MonoBehaviour
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform container;
     [Separator] [SerializeField] private float fadeDuration = 0.2f;
-    [FormerlySerializedAs("fadeInOpacity")] [SerializeField] private float fadeInScalar = 1;
-    [FormerlySerializedAs("fadeOutOpacity")] [SerializeField] private float fadeOutScalar = 0.3f;
+    [SerializeField] private float fadeInScalar = 1;
+    [SerializeField] private float fadeOutScalar = 0.3f;
 
     private AnchorAttachment[] children;
     private float scalar;
@@ -29,8 +28,8 @@ public class AnchorAttachFade : MonoBehaviour
 
             SpriteRenderer sprite = child.AnchorAttachable.MainSprite;
 
-            if(!child.CompareTag("Player")) sprite.DOKill();
-            
+            if (!child.CompareTag("Player")) sprite.DOKill();
+
             Color newColor = child.AnchorAttachable.MainSprite.color;
             newColor.a = scalar * child.Opacity;
             child.AnchorAttachable.MainSprite.color = newColor;

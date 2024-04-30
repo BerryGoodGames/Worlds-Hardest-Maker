@@ -24,10 +24,12 @@ public class RoomOutlineGenerator : MonoBehaviour
     {
         Vector2 camPosition = cam.transform.position;
         if (prevPosition != (Vector2)cam.transform.position)
+        {
             transform.position = new(
                 Mathf.Round(camPosition.x / LevelSettings.Instance.RoomWidth) * LevelSettings.Instance.RoomWidth,
                 Mathf.Round(camPosition.y / LevelSettings.Instance.RoomHeight) * LevelSettings.Instance.RoomHeight
             );
+        }
 
         prevPosition = camPosition;
     }
@@ -73,6 +75,7 @@ public class RoomOutlineGenerator : MonoBehaviour
     private void Enable()
     {
         if (!EnabledInSettings) return;
+
         gameObject.SetActive(true);
     }
 
@@ -81,6 +84,7 @@ public class RoomOutlineGenerator : MonoBehaviour
     public void SetEnabledSetting(bool enabled)
     {
         if (!LevelSessionManager.Instance.IsEdit) return;
+
         gameObject.SetActive(enabled && !(LevelSessionEditManager.Instance.Playing && LevelSessionEditManager.Instance.InPlaytest));
     }
 }

@@ -73,7 +73,9 @@ public class AnchorBlockConnectorController : MonoBehaviour
     private void LateUpdate()
     {
         if (MouseOverUIRect.Over && AnchorBlockManager.Instance.HoveredBlockIndex == -1)
+        {
             AnchorBlockManager.Instance.HoveredBlockIndex =
                 ReferenceManager.Instance.MainChainController.transform.childCount - 2;
+        }
     }
 }

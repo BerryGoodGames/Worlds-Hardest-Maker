@@ -25,10 +25,12 @@ MonoBehaviour:
   WorldPositionType: 2
   IsDraggable: 1
   ShowFillPreview: 1
-  AnchorAttachable: 1
+  DefaultAvailable: 1
+  AnchorAvailable: 1
   HasOutline: 1
   IsRotatable: 0
   IsSolid: 1
   IsStartFieldForPlayer: 0
   IsSafeForPlayer: 0
+  CarryPlayer: 1
   KeyColor: 4

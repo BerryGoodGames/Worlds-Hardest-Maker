@@ -59,7 +59,7 @@ public class Tooltip : MonoBehaviour
                 restrict.RestrictContainer = restrictContainer;
             }
         }
-        else { Destroy(restrict); }
+        else Destroy(restrict);
 
         fadeTween = tooltip.GetComponent<AlphaTween>();
 

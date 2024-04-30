@@ -1,7 +1,6 @@
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ReferenceManager : MonoBehaviour
@@ -52,7 +51,7 @@ public class ReferenceManager : MonoBehaviour
 
     [Foldout("Containers")] public Transform AnchorContainer;
 
-    [FormerlySerializedAs("AnchorBallContainer")] [FormerlySerializedAs("AnchorAttachContainer")] [Foldout("Containers")] public Transform BallContainer;
+    [Foldout("Containers")] public Transform BallContainer;
 
     [Foldout("Containers")] public Transform CoinContainer;
 

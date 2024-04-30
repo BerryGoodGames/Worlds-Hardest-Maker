@@ -269,7 +269,7 @@ public class PlayerRecordingManager : MonoBehaviour
     {
         recordingSpriteContainer.gameObject.SetActive(!recordingSpriteContainer.gameObject.activeSelf);
 
-        if (recordingSpriteContainer.gameObject.activeSelf) { displaySpriteRecording = RenderSpriteRecording(); }
+        if (recordingSpriteContainer.gameObject.activeSelf) displaySpriteRecording = RenderSpriteRecording();
         else
         {
             if (displaySpriteRecording != null) StopCoroutine(displaySpriteRecording);
@@ -281,7 +281,7 @@ public class PlayerRecordingManager : MonoBehaviour
     {
         recordingPathContainer.gameObject.SetActive(!recordingPathContainer.gameObject.activeSelf);
 
-        if (recordingPathContainer.gameObject.activeSelf) { displayPathRecording = RenderPathRecording(); }
+        if (recordingPathContainer.gameObject.activeSelf) displayPathRecording = RenderPathRecording();
         else
         {
             if (displayPathRecording != null) StopCoroutine(displayPathRecording);

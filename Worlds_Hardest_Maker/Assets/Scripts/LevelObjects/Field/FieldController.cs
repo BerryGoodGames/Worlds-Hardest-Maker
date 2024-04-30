@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class FieldController : LevelObjectController
@@ -36,12 +35,13 @@ public class FieldController : LevelObjectController
     public void OnPlayerEntered()
     {
         if (FieldMode.IsSolid || !isAttached || !FieldMode.CarryPlayer) return;
-        
+
         PlayerController player = PlayerManager.Instance.Player;
-        
+
         if (!player.CurrentFloors.Contains(this)) player.CurrentFloors.Add(this);
+
         player.transform.SetParent(transform);
-        
+
         // fade out again
         if (player.IsAttached && LevelSessionEditManager.Instance.Editing && !AnchorAttachManager.Instance.InAttachMode)
         {

@@ -31,11 +31,15 @@ public class ButtonVerticalArrowTween : MonoBehaviour
 
         if (animation)
             // this alternates the arrow even though it shouldn't, i have no idea wtf it's 3am just let me sleep unity
+        {
             directionImage.rectTransform.DORotate(
                 new Vector3(180, currentRotation.y, currentRotation.z), animationDuration
             );
+        }
         else
+        {
             directionImage.rectTransform.rotation =
                 Quaternion.Euler(isUp ? 0 : 180, currentRotation.y, currentRotation.z);
+        }
     }
 }

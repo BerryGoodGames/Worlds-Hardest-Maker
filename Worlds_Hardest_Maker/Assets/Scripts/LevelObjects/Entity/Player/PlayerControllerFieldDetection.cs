@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using MyBox;
 using UnityEngine;
 
 public partial class PlayerController
@@ -86,20 +85,5 @@ public partial class PlayerController
         return null;
     }
 
-    // public void UpdateFloorManual()
-    // {
-    //     print("Updating floor");
-    //
-    //     Collider2D[] hits = Physics2D.OverlapBoxAll(centerCollider.transform.position, centerCollider.size, 0, LayerManager.Instance.Layers.Field);
-    //
-    //     foreach (Collider2D hit in hits)
-    //     {
-    //         if (hit.TryGetComponent(out FieldController fieldController))
-    //         {
-    //             
-    //         }
-    //     }
-    // }
-    
     public FieldController GetCurrentField() => FieldManager.Instance.Get(Vector2Int.RoundToInt(transform.position));
 }

@@ -75,10 +75,12 @@ public class AnchorPathLine : MonoBehaviour
 
         // create blur
         if (Blur == null)
+        {
             Blur = Instantiate(
                 PrefabManager.Instance.GlowPrefab, glowStart, Quaternion.Euler(0, 0, glowRotation),
                 transform
             );
+        }
 
         // configure sprite renderer settings
         SpriteRenderer spriteRenderer = Blur.GetComponent<SpriteRenderer>();

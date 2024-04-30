@@ -1,10 +1,9 @@
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BallDragDrop : EntityDragDrop
 {
-    [FormerlySerializedAs("anchorBallController")] [AutoProperty] [SerializeField] private BallController ballController;
+    [AutoProperty] [SerializeField] private BallController ballController;
 
     protected override void OnMouseDrag()
     {
@@ -14,7 +13,7 @@ public class BallDragDrop : EntityDragDrop
         {
             if (AnchorManager.Instance.SelectedAnchor == null) base.OnMouseDrag();
         }
-        else if (ballController.ParentAnchor.Selected) { base.OnMouseDrag(); }
+        else if (ballController.ParentAnchor.Selected) base.OnMouseDrag();
 
         ballController.StartPosition = transform.localPosition;
     }

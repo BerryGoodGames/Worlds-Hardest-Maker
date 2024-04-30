@@ -1,6 +1,5 @@
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [ExecuteAlways]
 public class PrefabManager : MonoBehaviour
@@ -12,7 +11,7 @@ public class PrefabManager : MonoBehaviour
     [Foldout("Entities")] public PlayerController Player;
 
     [Foldout("Entities")] public AnchorParentController Anchor;
-    [FormerlySerializedAs("AnchorBall")] [Foldout("Entities")] public GameObject Ball;
+    [Foldout("Entities")] public GameObject Ball;
 
     [Foldout("Entities")] public CoinController Coin;
 

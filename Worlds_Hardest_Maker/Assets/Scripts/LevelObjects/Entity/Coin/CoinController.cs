@@ -14,7 +14,7 @@ public class CoinController : EntityController, IResettable, ICollectible
 
     private static readonly int playingString = Animator.StringToHash("Playing");
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
-    
+
     public override EditMode EditMode => EditModeManager.Coin;
 
     private void Awake()

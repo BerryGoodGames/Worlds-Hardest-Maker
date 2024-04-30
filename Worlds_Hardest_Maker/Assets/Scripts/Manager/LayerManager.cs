@@ -2,10 +2,10 @@ using System;
 using System.Reflection;
 using JetBrains.Annotations;
 using MyBox;
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditorInternal;
 #endif
-using UnityEngine;
 
 public class LayerManager : MonoBehaviour
 {
@@ -23,15 +23,16 @@ public class LayerManager : MonoBehaviour
     }
 
     #if UNITY_EDITOR
-    
-    [ButtonMethod] [UsedImplicitly]
+
+    [ButtonMethod]
+    [UsedImplicitly]
     public void UpdateSortingLayerLists()
     {
         AllSortingLayerNames = GetSortingLayerNames();
         AllSortingLayerIDs = GetSortingLayerUniqueIDs();
         print("Successfully updated sorting layer lists");
     }
-    
+
     private static string[] GetSortingLayerNames()
     {
         Type internalEditorUtilityType = typeof(InternalEditorUtility);
@@ -48,7 +49,7 @@ public class LayerManager : MonoBehaviour
 
         return (int[])sortingLayerUniqueIDsProperty.GetValue(null, new object[0]);
     }
-    
+
     #endif
 }
 

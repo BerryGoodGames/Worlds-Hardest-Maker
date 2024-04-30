@@ -15,30 +15,36 @@ public class AnchorAttachment : MonoBehaviour
 
     public void MergeToLayer()
     {
-        if(AnchorAttachable.HasSortingGroup) AnchorAttachable.SortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorAbove;
+        if (AnchorAttachable.HasSortingGroup) AnchorAttachable.SortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorAbove;
+
         AnchorAttachable.MainSprite.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorAbove;
-        
+
         if (AnchorAttachable.HasOutline)
+        {
             AnchorAttachable.OutlineComp.LineRenderers.ForEach(
                 line =>
                 {
                     if (line != null) line.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorAbove;
                 }
             );
+        }
     }
 
     public void ResetLayer()
     {
-        if(AnchorAttachable.HasSortingGroup) AnchorAttachable.SortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorBelow;
+        if (AnchorAttachable.HasSortingGroup) AnchorAttachable.SortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorBelow;
+
         AnchorAttachable.MainSprite.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorBelow;
-        
+
         if (AnchorAttachable.HasOutline)
+        {
             AnchorAttachable.OutlineComp.LineRenderers.ForEach(
                 line =>
                 {
                     if (line != null) line.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorBelow;
                 }
             );
+        }
     }
 
     private void Start()
@@ -52,11 +58,8 @@ public class AnchorAttachment : MonoBehaviour
         }
 
         Controller = GetComponent<LevelObjectController>();
-        if (Controller == null)
-        {
-            Controller = GetComponentInChildren<LevelObjectController>();
-        }
-        
+        if (Controller == null) Controller = GetComponentInChildren<LevelObjectController>();
+
         if (Controller == null) Debug.LogWarning("Could not assign level object controller because none was found");
 
         SortingLayerID = AnchorAttachable.HasSortingGroup ? AnchorAttachable.SortingGroup.sortingLayerID : AnchorAttachable.MainSprite.sortingLayerID;
@@ -76,7 +79,7 @@ public class AnchorAttachment : MonoBehaviour
             AnchorAttachable.SortingGroup.sortingOrder = sortingOrder;
             AnchorAttachable.SortingGroup.sortingLayerName = sortingLayerName;
         }
-        
+
         if (AnchorAttachable.HasOutline)
         {
             UpdateOutlineLayers();
@@ -98,8 +101,5 @@ public class AnchorAttachment : MonoBehaviour
             );
     }
 
-    private void OnDestroy()
-    {
-        Anchor.Attachments.Remove(this);
-    }
+    private void OnDestroy() => Anchor.Attachments.Remove(this);
 }

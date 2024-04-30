@@ -33,9 +33,11 @@ public class PanelTween : MonoBehaviour
         // opened state -> x = closedX + width = openedX
         if (noAnimation) panel.anchoredPosition = new(open ? openedX : closedX, panel.anchoredPosition.y);
         else
+        {
             panel.DOAnchorPosX(open ? openedX : closedX, duration)
                 .SetEase(Open ? closeEase : openEase)
                 .SetId(gameObject);
+        }
 
         Open = open;
     }

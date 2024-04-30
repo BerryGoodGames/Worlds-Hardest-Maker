@@ -23,10 +23,7 @@ public partial class PlayerController
             }
         }
 
-        if (CollisionCount() >= 2 && collisionId != 3)
-        {
-            DieVoid(FindClosestFallPosition(fallPositions));
-        }
+        if (CollisionCount() >= 2 && collisionId != 3) DieVoid(FindClosestFallPosition(fallPositions));
 
         return;
 
@@ -35,26 +32,24 @@ public partial class PlayerController
 
     /// <param name="position">position where to check</param>
     /// <returns>if there is a void at the position</returns>
-    private static bool CheckVoidCollision(Vector2 position)
-    {
+    private static bool CheckVoidCollision(Vector2 position) =>
         // return Physics2D.OverlapPoint(position, LayerManager.Instance.Layers.Void) != null;
-        return Physics2D.OverlapCircle(position, 0.05f, LayerManager.Instance.Layers.Void);
-    }
+        Physics2D.OverlapCircle(position, 0.05f, LayerManager.Instance.Layers.Void);
 
     private void ParseCollisionLoop(int x, int y, ref int collisionId, ref List<Vector2> fallPositions)
     {
         Transform t = transform;
         Vector3 playerScale = t.lossyScale;
-        
-        Vector2 checkRelativePosition = new Vector2(playerScale.x * x * 0.5f, playerScale.y * y * 0.5f);
+
+        Vector2 checkRelativePosition = new(playerScale.x * x * 0.5f, playerScale.y * y * 0.5f);
         Vector2 position = checkRelativePosition + (Vector2)t.position;
-                
+
         if (!CheckVoidCollision(position)) return;
 
         collisionId += (int)(Mathf.Clamp01(x) + Mathf.Clamp01(y) * 2);
         fallPositions.Add(position.ConvertToMatrix());
     }
-    
+
     private Vector2 FindClosestFallPosition(List<Vector2> positions)
     {
         Vector2 fallPosition = positions[0];
@@ -63,9 +58,9 @@ public partial class PlayerController
         for (int i = 1; i < positions.Count; i++)
         {
             float dist = Vector2.Distance(transform.position, positions[i]);
-                
+
             if (!(dist < currentMinDist)) continue;
-                
+
             currentMinDist = dist;
             fallPosition = positions[i];
         }

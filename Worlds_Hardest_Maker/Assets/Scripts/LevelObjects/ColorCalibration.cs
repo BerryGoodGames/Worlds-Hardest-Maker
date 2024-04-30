@@ -31,7 +31,7 @@ public class ColorCalibration : MonoBehaviour
 
     public virtual void Apply(bool sharing)
     {
-        if (UseSprites) { SpriteRenderer.sprite = sharing ? sharingSprite : uniqueSprite; }
+        if (UseSprites) SpriteRenderer.sprite = sharing ? sharingSprite : uniqueSprite;
         else
         {
             if (UseColorPalette)
@@ -40,7 +40,7 @@ public class ColorCalibration : MonoBehaviour
 
                 SpriteRenderer.color = colors[(int)(sharing ? SharingColorIndex : UniqueColorIndex)];
             }
-            else { SpriteRenderer.color = sharing ? sharingColor : uniqueColor; }
+            else SpriteRenderer.color = sharing ? sharingColor : uniqueColor;
         }
     }
 

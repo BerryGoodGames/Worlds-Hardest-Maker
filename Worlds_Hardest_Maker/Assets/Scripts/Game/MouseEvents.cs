@@ -77,16 +77,20 @@ public class MouseEvents : MonoBehaviour
         if (!editMode.IsDraggable) return;
 
         if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) > 1.414f)
+        {
             PlaceManager.Instance.PlacePath(
                 editMode,
                 MouseManager.Instance.PrevMouseWorldPos, MouseManager.Instance.MouseWorldPos,
                 LevelSessionEditManager.Instance.EditRotation, true
             );
+        }
         else
+        {
             PlaceManager.Instance.Place(
                 editMode, MouseManager.Instance.MouseWorldPos,
                 LevelSessionEditManager.Instance.EditRotation, true
             );
+        }
     }
 
     private static void CheckEntityDelete()

@@ -101,8 +101,10 @@ public class AnchorPositionInputEditManager : MonoBehaviour
 
         if (!gotNextController)
             // check if loop block is present
+        {
             if (AnchorManager.Instance.SelectedAnchor.LoopBlockIndex != -1)
                 // get first position block after loop block
+            {
                 for (int i = AnchorManager.Instance.SelectedAnchor.LoopBlockIndex;
                      i < ReferenceManager.Instance.MainChainController.Children.Count;
                      i++)
@@ -116,6 +118,8 @@ public class AnchorPositionInputEditManager : MonoBehaviour
                     onlyMoveSecondArrow = true;
                     break;
                 }
+            }
+        }
 
         Vector2? previousMousePos = null;
         // wait until clicked, cancel if esc is pressed

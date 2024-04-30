@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public partial class PlayerController
@@ -37,7 +36,7 @@ public partial class PlayerController
 
             if (currentDrownDuration >= LevelSettings.Instance.DrownDuration) DieNormal("DeathDrown");
         }
-        else if (!InDeathAnim && !onWater) { currentDrownDuration = 0; }
+        else if (!InDeathAnim && !onWater) currentDrownDuration = 0;
 
         if (LevelSettings.Instance.DrownDuration == 0) return;
 
@@ -64,10 +63,12 @@ public partial class PlayerController
 
         // snappy movement (when not on ice)
         if (!movementInput.Equals(Vector2.zero))
+        {
             totalMovement += GetPhysicsSpeed() * Time.fixedDeltaTime * new Vector2(
                 Mathf.Clamp(movementInput.x + extraMovementInput.x, -1, 1),
                 Mathf.Clamp(movementInput.y + extraMovementInput.y, -1, 1)
             );
+        }
 
         extraMovementInput = Vector2.zero;
     }

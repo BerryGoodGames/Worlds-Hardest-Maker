@@ -206,5 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainSprite: {fileID: 3019678824868607795}
+  HasSortingGroup: 0
+  SortingGroup: {fileID: 0}
   HasOutline: 0
   OutlineComp: {fileID: 0}

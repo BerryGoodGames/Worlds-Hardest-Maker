@@ -57,7 +57,7 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 PlayManager.Instance.TogglePlay(false);
             }
         }
-        else { shouldTogglePlay = false; }
+        else shouldTogglePlay = false;
 
         mouseDown = false;
         mouseUp = false;

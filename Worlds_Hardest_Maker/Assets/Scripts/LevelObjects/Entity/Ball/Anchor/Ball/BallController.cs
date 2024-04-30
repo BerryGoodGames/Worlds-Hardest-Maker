@@ -39,7 +39,7 @@ public class BallController : EntityController
         {
             if (AnchorManager.Instance.SelectedAnchor == null) base.Delete();
         }
-        else if (ParentAnchor.Selected) { base.Delete(); }
+        else if (ParentAnchor.Selected) base.Delete();
     }
 
     private void OnDestroy()
@@ -54,7 +54,7 @@ public class BallController : EntityController
             ref Dictionary<AnchorController, List<BallController>> ballList = ref BallManager.Instance.BallListSheets;
             if (ballList.ContainsKey(ParentAnchor)) ballList[ParentAnchor].Remove(this);
         }
-        else { BallManager.Instance.BallListGlobal.Remove(this); }
+        else BallManager.Instance.BallListGlobal.Remove(this);
 
         Destroy(transform.parent.gameObject);
 

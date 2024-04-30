@@ -1,15 +1,14 @@
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BallManager : MonoBehaviour, IManager<BallController>, IManagerSelectable
 {
     public static BallManager Instance { get; private set; }
 
-    [FormerlySerializedAs("AnchorBallList")] [ReadOnly] public List<BallController> BallList;
+    [ReadOnly] public List<BallController> BallList;
     [ReadOnly] public Dictionary<AnchorController, List<BallController>> BallListSheets;
-    [FormerlySerializedAs("AnchorBallListGlobal")] [ReadOnly] public List<BallController> BallListGlobal;
+    [ReadOnly] public List<BallController> BallListGlobal;
 
     #region Set, Get
 

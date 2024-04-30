@@ -25,5 +25,6 @@ MonoBehaviour:
   WorldPositionType: 1
   IsDraggable: 1
   ShowFillPreview: 0
-  AnchorAttachable: 1
+  DefaultAvailable: 1
+  AnchorAvailable: 1
   KeyColor: 3

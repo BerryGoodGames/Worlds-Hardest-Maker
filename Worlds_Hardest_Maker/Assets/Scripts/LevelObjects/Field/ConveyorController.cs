@@ -22,7 +22,7 @@ public class ConveyorController : MonoBehaviour
             PlayManager.Instance.OnSwitchToPlay += SwitchAnimToRunning;
             PlayManager.Instance.OnSwitchToEdit += SwitchAnimToStaying;
         }
-        else { SwitchAnimToRunning(); }
+        else SwitchAnimToRunning();
     }
 
     public void SwitchAnimToRunning()

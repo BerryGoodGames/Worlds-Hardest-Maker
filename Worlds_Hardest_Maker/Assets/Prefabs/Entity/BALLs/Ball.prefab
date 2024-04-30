@@ -205,7 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldType: 1
-  anchorBallController: {fileID: 2957006135882436380}
+  ballController: {fileID: 2957006135882436380}
 --- !u!1 &6481791030330069436
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class EditModeManager : MonoBehaviour
 {
@@ -22,7 +21,7 @@ public class EditModeManager : MonoBehaviour
     [InitializationField] [MustBeAssigned] public FieldMode IceMode;
     [InitializationField] [MustBeAssigned] public EntityMode PlayerMode;
     [InitializationField] [MustBeAssigned] public EntityMode AnchorMode;
-    [FormerlySerializedAs("AnchorBallMode")] [InitializationField] [MustBeAssigned] public EntityMode BallMode;
+    [InitializationField] [MustBeAssigned] public EntityMode BallMode;
     [InitializationField] [MustBeAssigned] public EntityMode CoinMode;
     [InitializationField] [MustBeAssigned] public KeyMode GrayKeyMode;
     [InitializationField] [MustBeAssigned] public KeyMode RedKeyMode;
