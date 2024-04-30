@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 
-public class BallManager : MonoBehaviour, IManager<BallController>, IManagerSelectable
+public class BallManager : MonoBehaviour, IManager<BallController>
 {
     public static BallManager Instance { get; private set; }
 
@@ -82,25 +82,6 @@ public class BallManager : MonoBehaviour, IManager<BallController>, IManagerSele
     }
 
     #endregion
-
-    public void Select(Vector2 position)
-    {
-        // check if ball there
-        List<BallController> ballsAtPos = GetBalls(position);
-
-        if (ballsAtPos.Count == 0) return;
-
-        // get first ball at position and (de)select corresponding anchor
-        foreach (BallController ball in ballsAtPos)
-        {
-            if (!ball.IsParentAnchorNull && ball.ParentAnchor.transform.position == ball.transform.position) continue;
-
-            if (ball.IsParentAnchorNull || AnchorManager.Instance.SelectedAnchor == ball.ParentAnchor) AnchorManager.Instance.DeselectAnchor();
-            else AnchorManager.Instance.Select(ball.ParentAnchor, false);
-
-            break;
-        }
-    }
 
     private void Start()
     {

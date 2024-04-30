@@ -11,7 +11,7 @@ public partial class AnchorManager : IManager<AnchorController>
 
         AnchorController anchor = InstantiateInSheet(args);
         anchor.transform.position = args.Position;
-
+        
         // default blocks
         anchor.AppendBlock(new SetSpeedBlock(anchor, true, 5, SetSpeedBlock.Unit.Speed));
         anchor.AppendBlock(new SetRotationBlock(anchor, true, 1, SetRotationBlock.Unit.Iterations));

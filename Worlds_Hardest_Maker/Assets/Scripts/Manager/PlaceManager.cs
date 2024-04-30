@@ -84,7 +84,11 @@ public class PlaceManager : MonoBehaviour
 
         AudioManager.Instance.Play(GetSfx(editMode));
 
-        if (editMode == EditModeManager.Anchor) AnchorManager.Instance.Select((AnchorController)result);
+        if (editMode == EditModeManager.Anchor)
+        {
+            AnchorManager.Instance.Select((AnchorController)result);
+            AnchorManager.Instance.LastSelectClick = Time.time;
+        }
 
         return true;
     }

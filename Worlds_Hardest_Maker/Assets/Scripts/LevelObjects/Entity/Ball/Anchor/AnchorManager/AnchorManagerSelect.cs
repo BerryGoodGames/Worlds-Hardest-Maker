@@ -1,9 +1,14 @@
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public partial class AnchorManager : IManagerSelectable
 {
+    private const float DOUBLE_CLICK_THRESHOLD = 0.4f;
+    
     [field: SerializeField] [field: ReadOnly] public AnchorController SelectedAnchor { get; private set; }
+
+    [HideInInspector] public float LastSelectClick = -1;
 
     public void Select(Vector2 pos)
     {
@@ -101,8 +106,20 @@ public partial class AnchorManager : IManagerSelectable
     {
         // select anchor
         if (!Input.GetMouseButtonDown(0) || !KeyBinds.GetKeyBind("Editor_Modify")) return;
+        
+        // check double click
+        float currentTime = Time.time;
+        float deltaClickTime = Instance.LastSelectClick < 0 ? 0 : currentTime - Instance.LastSelectClick;
+        if (deltaClickTime < DOUBLE_CLICK_THRESHOLD && Instance.SelectedAnchor != null)
+        {
+            AnchorAttachManager.Instance.EnterAttachMode();
+            AudioManager.Instance.Play("ButtonClick");
+        }
+        else
+        {
+            Instance.Select(MouseManager.Instance.MouseWorldPosGrid);
 
-        Instance.Select(MouseManager.Instance.MouseWorldPosGrid);
-        BallManager.Instance.Select(MouseManager.Instance.MouseWorldPosGrid);
+            Instance.LastSelectClick = currentTime;
+        }
     }
 }

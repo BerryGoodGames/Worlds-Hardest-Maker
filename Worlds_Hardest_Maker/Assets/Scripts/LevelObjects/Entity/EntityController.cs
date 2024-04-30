@@ -1,9 +1,10 @@
+using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 
 public abstract class EntityController : LevelObjectController
 {
-    [SerializeField] [InitializationField] private bool isAttachable = true;
+    [SerializeField] [InitializationField] [UsedImplicitly] private bool isAttachable = true;
     [ConditionalField(nameof(isAttachable))] [InitializationField] public Transform AttachmentHolder;
     
     private bool isAttached;
@@ -11,8 +12,8 @@ public abstract class EntityController : LevelObjectController
     
     public override void Delete()
     {
-        if (isAttached && sheet.IsAttaching) base.Delete();
-        if (!isAttached && !AnchorAttachManager.Instance.InAttachMode) base.Delete();
+        if ((isAttached && sheet.IsAttaching)
+            || (!isAttached && !AnchorAttachManager.Instance.InAttachMode)) base.Delete();
     }
 
     protected virtual void Start()
