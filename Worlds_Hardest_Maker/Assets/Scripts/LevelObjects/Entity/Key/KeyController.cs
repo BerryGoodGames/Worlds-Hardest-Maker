@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class KeyController : EntityController, IResettable, ICollectible
 {
+    [Separator]
     [SerializeField] [PositiveValueOnly] private float fadeDuration = 0.5f;
     [Separator] [ReadOnly] public KeyColor Color;
     [ReadOnly] public Vector2 KeyPosition;
@@ -39,8 +40,10 @@ public class KeyController : EntityController, IResettable, ICollectible
         SetOrderInLayer();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         ((IResettable)this).Subscribe();
         PlayManager.Instance.OnSwitchToPlay += ActivateAnimation;
     }
@@ -51,6 +54,8 @@ public class KeyController : EntityController, IResettable, ICollectible
 
         ((IResettable)this).Unsubscribe();
         PlayManager.Instance.OnSwitchToPlay -= ActivateAnimation;
+
+        DOTween.Kill(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -132,8 +137,8 @@ public class KeyController : EntityController, IResettable, ICollectible
         }
     }
 
-    public void FadeIn() => SpriteRenderer.DOFade(1, fadeDuration);
-    public void FadeOut() => SpriteRenderer.DOFade(0, fadeDuration);
+    public void FadeIn() => SpriteRenderer.DOFade(1, fadeDuration).SetId(gameObject);
+    public void FadeOut() => SpriteRenderer.DOFade(0, fadeDuration).SetId(gameObject);
 
     public override Data GetData() => new KeyData(this);
 }

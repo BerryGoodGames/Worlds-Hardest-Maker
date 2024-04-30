@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 
 public class BallController : EntityController
 {
+    [Separator]
     [HideInInspector] public AnchorController ParentAnchor;
     public bool IsParentAnchorNull { get; private set; }
 
@@ -16,8 +18,10 @@ public class BallController : EntityController
 
     private Rigidbody2D rb;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         rb = GetComponent<Rigidbody2D>();
 
         if (ParentAnchor == null) IsParentAnchorNull = true;
@@ -31,15 +35,6 @@ public class BallController : EntityController
     {
         transform.localPosition = StartPosition;
         rb.velocity = Vector2.zero;
-    }
-
-    public override void Delete()
-    {
-        if (IsParentAnchorNull)
-        {
-            if (AnchorManager.Instance.SelectedAnchor == null) base.Delete();
-        }
-        else if (ParentAnchor.Selected) base.Delete();
     }
 
     private void OnDestroy()

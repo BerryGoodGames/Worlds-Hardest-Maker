@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2ec441717e7fb144a590635ff1f2a18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttachmentHolder: {fileID: 8839871402222588886}
   fadeDuration: 0.5
   Color: 0
   KeyPosition: {x: 0, y: 0}

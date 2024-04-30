@@ -7,6 +7,7 @@ using UnityEngine.Rendering;
 
 public partial class PlayerController : EntityController
 {
+    [Separator]
     [SerializeField] [InitializationField] [MustBeAssigned] private BoxCollider2D centerCollider;
     [Space] [Separator("Water settings")] [SerializeField] private Transform waterLevel;
 
@@ -72,8 +73,10 @@ public partial class PlayerController : EntityController
         defaultScale = t.localScale;
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         PlayManager.Instance.OnSwitchToEdit += OnEdit;
         PlayManager.Instance.OnSwitchToPlay += OnPlay;
         PlayManager.Instance.OnLevelReset += ResetState;

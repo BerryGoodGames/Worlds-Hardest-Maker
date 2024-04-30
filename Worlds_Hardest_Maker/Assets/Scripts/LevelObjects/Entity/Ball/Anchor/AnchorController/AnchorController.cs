@@ -9,6 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public partial class AnchorController : EntityController, IResettable
 {
+    [Separator]
     [InitializationField] [MustBeAssigned] public Transform AttachmentContainer;
     [InitializationField] [MustBeAssigned] public Animator Animator;
     [InitializationField] [MustBeAssigned] public AnchorAttachFade AttachFade;
@@ -46,7 +47,8 @@ public partial class AnchorController : EntityController, IResettable
 
     public int LoopBlockIndex { get; set; } = -1;
 
-    public bool Selected => AnchorManager.Instance.SelectedAnchor == this;
+    public bool IsSelected => AnchorManager.Instance.SelectedAnchor == this;
+    public bool IsAttaching => AnchorAttachManager.Instance.InAttachMode && IsSelected;
 
     public override EditMode EditMode => EditModeManager.Anchor;
 
@@ -64,8 +66,10 @@ public partial class AnchorController : EntityController, IResettable
         Animator.SetBool(editingString, LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated);
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         // update when moved by user
         entityDragDrop.OnMove += (_, _) => MoveAnchor();
 
@@ -88,7 +92,7 @@ public partial class AnchorController : EntityController, IResettable
 
         StartPosition = transform.position;
 
-        if (Selected) RenderLines();
+        if (IsSelected) RenderLines();
     }
 
     #region Execution

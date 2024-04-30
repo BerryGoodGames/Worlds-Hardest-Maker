@@ -17,7 +17,7 @@ MonoBehaviour:
     IsKeyDoor: 0
     IsEntity: 1
     IsKey: 0
-    IsAnchorRelated: 1
+    IsAnchorRelated: 0
   Tag: Ball
   UIString: Ball
   KeyboardShortcut: EditMode_Ball

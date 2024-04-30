@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CoinController : EntityController, IResettable, ICollectible
 {
+    [Separator]
     [SerializeField] [PositiveValueOnly] private float fadeDuration = 0.5f;
     [Separator] [InitializationField] [MustBeAssigned] public Animator Animator;
     [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer spriteRenderer;
@@ -24,8 +25,10 @@ public class CoinController : EntityController, IResettable, ICollectible
         CoinManager.Instance.Coins.Add(this);
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         ((IResettable)this).Subscribe();
         PlayManager.Instance.OnSwitchToPlay += ActivateAnimation;
     }
@@ -37,6 +40,8 @@ public class CoinController : EntityController, IResettable, ICollectible
 
         ((IResettable)this).Unsubscribe();
         PlayManager.Instance.OnSwitchToPlay -= ActivateAnimation;
+
+        DOTween.Kill(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -75,8 +80,8 @@ public class CoinController : EntityController, IResettable, ICollectible
         PickedUp = true;
     }
 
-    public void FadeIn() => spriteRenderer.DOFade(1, fadeDuration);
-    public void FadeOut() => spriteRenderer.DOFade(0, fadeDuration);
+    public void FadeIn() => spriteRenderer.DOFade(1, fadeDuration).SetId(gameObject);
+    public void FadeOut() => spriteRenderer.DOFade(0, fadeDuration).SetId(gameObject);
 
     public void ResetState()
     {
