@@ -13,35 +13,23 @@ public class AnchorAttachment : MonoBehaviour
     [ReadOnly] public int OrderInLayer;
     [ReadOnly] public float Opacity;
 
-    public void MergeToLayer()
-    {
-        if (AnchorAttachable.HasSortingGroup) AnchorAttachable.SortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorAbove;
+    
+    public void MergeToLayer() => MoveToLayer(LayerManager.Instance.SortingLayers.AnchorAbove);
 
-        AnchorAttachable.MainSprite.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorAbove;
+    public void ResetLayer() => MoveToLayer(LayerManager.Instance.SortingLayers.AnchorBelow);
+
+    private void MoveToLayer(string layer)
+    {
+        if (AnchorAttachable.HasSortingGroup) AnchorAttachable.SortingGroup.sortingLayerName = layer;
+
+        AnchorAttachable.MainSprite.sortingLayerName = layer;
 
         if (AnchorAttachable.HasOutline)
         {
             AnchorAttachable.OutlineComp.LineRenderers.ForEach(
                 line =>
                 {
-                    if (line != null) line.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorAbove;
-                }
-            );
-        }
-    }
-
-    public void ResetLayer()
-    {
-        if (AnchorAttachable.HasSortingGroup) AnchorAttachable.SortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorBelow;
-
-        AnchorAttachable.MainSprite.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorBelow;
-
-        if (AnchorAttachable.HasOutline)
-        {
-            AnchorAttachable.OutlineComp.LineRenderers.ForEach(
-                line =>
-                {
-                    if (line != null) line.sortingLayerName = LayerManager.Instance.SortingLayers.AnchorBelow;
+                    if (line != null) line.sortingLayerName = layer;
                 }
             );
         }
@@ -87,6 +75,9 @@ public class AnchorAttachment : MonoBehaviour
             AnchorAttachable.OutlineComp.OnUpdateOutline += UpdateOutlineLayers;
         }
 
+        PlayManager.Instance.OnSwitchToPlay += MergeToLayer;
+        PlayManager.Instance.OnSwitchToEdit += ResetLayer;
+
         return;
 
         void UpdateOutlineLayers() =>
@@ -101,5 +92,11 @@ public class AnchorAttachment : MonoBehaviour
             );
     }
 
-    private void OnDestroy() => Anchor.Attachments.Remove(this);
+    private void OnDestroy()
+    {
+        Anchor.Attachments.Remove(this);
+        
+        PlayManager.Instance.OnSwitchToPlay -= MergeToLayer;
+        PlayManager.Instance.OnSwitchToEdit -= ResetLayer;
+    }
 }
