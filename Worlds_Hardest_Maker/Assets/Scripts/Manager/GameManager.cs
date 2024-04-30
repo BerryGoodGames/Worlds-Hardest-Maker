@@ -165,6 +165,8 @@ public class GameManager : MonoBehaviour
 
     public void ClearLevel()
     {
+        if (AnchorAttachManager.Instance.InAttachMode) AnchorAttachManager.Instance.ExitAttachMode();
+        
         if (PlayerManager.Instance.Player != null) PlayerManager.Instance.Player.DestroySelf();
 
         List<Transform> containers = new()

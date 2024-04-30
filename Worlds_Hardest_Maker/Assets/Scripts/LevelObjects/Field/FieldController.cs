@@ -54,7 +54,7 @@ public class FieldController : LevelObjectController
     public void OnPlayerExited()
     {
         PlayerController player = PlayerManager.Instance.Player;
-        print("Removing");
+        
         player.CurrentFloors.Remove(this);
         if (player.CurrentFloors.Count == 0) player.transform.SetParent(ReferenceManager.Instance.PlayerContainer);
     }
