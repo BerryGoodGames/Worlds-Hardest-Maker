@@ -73,11 +73,11 @@ public static class SaveSystem
             levelData.Add(anchorData);
         }
 
-        // serialize loose anchor balls
-        foreach (AnchorBallController anchorBall in AnchorBallManager.Instance.AnchorBallListGlobal)
+        // serialize loose balls
+        foreach (BallController ball in BallManager.Instance.BallListGlobal)
         {
-            AnchorBallData anchorBallData = (AnchorBallData)anchorBall.GetData();
-            levelData.Add(anchorBallData);
+            BallData ballData = (BallData)ball.GetData();
+            levelData.Add(ballData);
         }
 
         // serialize coins

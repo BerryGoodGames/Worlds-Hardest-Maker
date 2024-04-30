@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6819338268466665832}
   m_Layer: 7
   m_Name: BallObject
-  m_TagString: AnchorBallObject
+  m_TagString: BallObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -218,8 +218,8 @@ GameObject:
   - component: {fileID: 105589263788141184}
   - component: {fileID: 9025261584093450044}
   m_Layer: 7
-  m_Name: AnchorBall
-  m_TagString: AnchorBall
+  m_Name: Ball
+  m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -269,5 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainSprite: {fileID: 2491659069462593980}
+  HasSortingGroup: 0
+  SortingGroup: {fileID: 0}
   HasOutline: 0
   OutlineComp: {fileID: 0}

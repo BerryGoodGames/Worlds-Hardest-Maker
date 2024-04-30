@@ -17,7 +17,7 @@ public partial class AnchorManager : IManagerSelectable
         if (anchor == null) return;
 
         bool switchedEditMode = false;
-        // switch to edit mode to anchor if not already on anchor or anchor ball
+        // switch to edit mode to anchor if not already on anchor or ball
         if (!LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated)
         {
             LevelSessionEditManager.Instance.CurrentEditMode = EditModeManager.Anchor;
@@ -34,7 +34,7 @@ public partial class AnchorManager : IManagerSelectable
             if (AnchorAttachManager.Instance.InAttachMode) AnchorAttachManager.Instance.ExitAttachMode();
         }
 
-        // deselect anchor if "selected" again by the user (but only if edit mode before was anchor or anchor ball, not sth else)
+        // deselect anchor if "selected" again by the user (but only if edit mode before was anchor or ball, not sth else)
         if (toggleDeselect && SelectedAnchor == anchor && !switchedEditMode)
         {
             DeselectAnchor();
@@ -101,6 +101,6 @@ public partial class AnchorManager : IManagerSelectable
         if (!Input.GetMouseButtonDown(0) || !KeyBinds.GetKeyBind("Editor_Modify")) return;
 
         Instance.Select(MouseManager.Instance.MouseWorldPosGrid);
-        AnchorBallManager.Instance.Select(MouseManager.Instance.MouseWorldPosGrid);
+        BallManager.Instance.Select(MouseManager.Instance.MouseWorldPosGrid);
     }
 }

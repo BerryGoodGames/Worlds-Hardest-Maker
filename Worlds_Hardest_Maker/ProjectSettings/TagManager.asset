@@ -18,8 +18,6 @@ TagManager:
   - Coin
   - Key
   - Bullet
-  - AnchorBall
-  - AnchorBallObject
   - AnchorBlockPreview
   - StartBlock
   - AnchorObject
@@ -27,7 +25,6 @@ TagManager:
   - Start
   - Goal
   - Checkpoint
-  - Oneway
   - OneWay
   - GrayKeyDoor
   - RedKeyDoor
@@ -36,6 +33,7 @@ TagManager:
   - YellowKeyDoor
   - AnchorFloor
   - PlayerCenterCollider
+  - Ball
   layers:
   - Default
   - TransparentFX

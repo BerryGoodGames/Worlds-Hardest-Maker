@@ -52,7 +52,7 @@ public class ReferenceManager : MonoBehaviour
 
     [Foldout("Containers")] public Transform AnchorContainer;
 
-    [FormerlySerializedAs("AnchorAttachContainer")] [Foldout("Containers")] public Transform AnchorBallContainer;
+    [FormerlySerializedAs("AnchorBallContainer")] [FormerlySerializedAs("AnchorAttachContainer")] [Foldout("Containers")] public Transform BallContainer;
 
     [Foldout("Containers")] public Transform CoinContainer;
 

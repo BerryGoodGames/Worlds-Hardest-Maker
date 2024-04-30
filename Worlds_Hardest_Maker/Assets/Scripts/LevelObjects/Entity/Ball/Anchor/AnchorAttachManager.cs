@@ -26,7 +26,7 @@ public partial class AnchorAttachManager : MonoBehaviour
 
         InAttachMode = true;
 
-        LevelSessionEditManager.Instance.CurrentEditMode = EditModeManager.AnchorBall;
+        LevelSessionEditManager.Instance.CurrentEditMode = EditModeManager.Ball;
 
         HighlightAnchor(AnchorManager.Instance.SelectedAnchor);
 

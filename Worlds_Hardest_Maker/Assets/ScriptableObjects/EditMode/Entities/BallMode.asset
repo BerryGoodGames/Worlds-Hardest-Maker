@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f041760253b70d7499053ed8ce865ebe, type: 3}
-  m_Name: AnchorBallMode
+  m_Name: BallMode
   m_EditorClassIdentifier: 
   Attributes:
     IsField: 0
@@ -18,11 +18,12 @@ MonoBehaviour:
     IsEntity: 1
     IsKey: 0
     IsAnchorRelated: 1
-  Tag: AnchorBall
-  UIString: Anchor Ball
-  KeyboardShortcut: EditMode_AnchorBall
+  Tag: Ball
+  UIString: Ball
+  KeyboardShortcut: EditMode_Ball
   Prefab: {fileID: 6481791030330069436, guid: 1ecb51dd2ee9f29488eaa421ed43b3d6, type: 3}
   WorldPositionType: 1
   IsDraggable: 1
   ShowFillPreview: 1
-  AnchorAttachable: 1
+  DefaultAvailable: 1
+  AnchorAvailable: 1

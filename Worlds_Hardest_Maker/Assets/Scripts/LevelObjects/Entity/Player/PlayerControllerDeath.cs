@@ -68,7 +68,7 @@ public partial class PlayerController
         if (!HasTeleported || CurrentGameState == null) PlayManager.Instance.Cheated = false;
 
         // reset balls to start position (if player launched them e.g. with shotgun)
-        foreach (AnchorBallController ball in AnchorBallManager.Instance.AnchorBallList) ball.ResetPosition();
+        foreach (BallController ball in BallManager.Instance.BallList) ball.ResetPosition();
     }
 
     private void RevertDeathAnimation()

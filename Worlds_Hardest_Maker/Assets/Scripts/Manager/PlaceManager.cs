@@ -58,7 +58,7 @@ public class PlaceManager : MonoBehaviour
         List<IManager> managers = new()
         {
             PlayerManager.Instance,
-            AnchorBallManager.Instance,
+            BallManager.Instance,
             CoinManager.Instance,
             AnchorManager.Instance,
             KeyManager.Instance,

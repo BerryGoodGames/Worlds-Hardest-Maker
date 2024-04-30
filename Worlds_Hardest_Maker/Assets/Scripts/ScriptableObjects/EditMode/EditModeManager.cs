@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EditModeManager : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class EditModeManager : MonoBehaviour
     [InitializationField] [MustBeAssigned] public FieldMode IceMode;
     [InitializationField] [MustBeAssigned] public EntityMode PlayerMode;
     [InitializationField] [MustBeAssigned] public EntityMode AnchorMode;
-    [InitializationField] [MustBeAssigned] public EntityMode AnchorBallMode;
+    [FormerlySerializedAs("AnchorBallMode")] [InitializationField] [MustBeAssigned] public EntityMode BallMode;
     [InitializationField] [MustBeAssigned] public EntityMode CoinMode;
     [InitializationField] [MustBeAssigned] public KeyMode GrayKeyMode;
     [InitializationField] [MustBeAssigned] public KeyMode RedKeyMode;
@@ -47,7 +48,7 @@ public class EditModeManager : MonoBehaviour
     public static FieldMode Ice => Instance.IceMode;
     public static EntityMode Player => Instance.PlayerMode;
     public static EntityMode Anchor => Instance.AnchorMode;
-    public static EntityMode AnchorBall => Instance.AnchorBallMode;
+    public static EntityMode Ball => Instance.BallMode;
     public static EntityMode Coin => Instance.CoinMode;
     public static KeyMode GrayKey => Instance.GrayKeyMode;
     public static KeyMode RedKey => Instance.RedKeyMode;
@@ -114,7 +115,7 @@ public class EditModeManager : MonoBehaviour
             Conveyor,
             Water, Ice,
             Player,
-            Anchor, AnchorBall,
+            Anchor, Ball,
             Coin,
             GrayKey, RedKey, GreenKey, BlueKey, YellowKey,
             GrayKeyDoor, RedKeyDoor, GreenKeyDoor, BlueKeyDoor, YellowKeyDoor,

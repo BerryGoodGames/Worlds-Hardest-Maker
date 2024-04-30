@@ -39,10 +39,10 @@ public class ShotgunController : MonoBehaviour
         main.startRotationZ = currentAngle / 180 * Mathf.PI;
 
         // load colliders for bullet to check
-        for (int i = 0; i < AnchorBallManager.Instance.AnchorBallList.Count; i++)
+        for (int i = 0; i < BallManager.Instance.BallList.Count; i++)
         {
-            AnchorBallController anchorBall = AnchorBallManager.Instance.AnchorBallList[i];
-            bulletParticle.trigger.SetCollider(i, anchorBall.GetComponent<CircleCollider2D>());
+            BallController ball = BallManager.Instance.BallList[i];
+            bulletParticle.trigger.SetCollider(i, ball.GetComponent<CircleCollider2D>());
         }
 
         bulletParticle.Play();
@@ -61,11 +61,11 @@ public class ShotgunController : MonoBehaviour
         {
             ParticleSystem.Particle p = enter[i];
 
-            // get anchor ball colliding with bullet
+            // get ball colliding with bullet
             Collider2D[] hits = Physics2D.OverlapCircleAll(p.position, 0.1f, LayerManager.Instance.Layers.Entity);
             foreach (Collider2D hit in hits)
             {
-                if (!hit.CompareTag("AnchorBallObject")) continue;
+                if (!hit.CompareTag("BallObject")) continue;
 
                 // launch ball
                 hit.GetComponent<Rigidbody2D>().AddForce(ballLaunchStrength * p.velocity.normalized, ForceMode2D.Impulse);

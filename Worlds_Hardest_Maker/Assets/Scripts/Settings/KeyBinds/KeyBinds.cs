@@ -44,7 +44,6 @@ public static class KeyBinds
         { "EditMode_Ice", new() { new[] { KeyCode.I, }, } },
         { "EditMode_Player", new() { new[] { KeyCode.P, }, } },
         { "EditMode_Anchor", new() { new[] { KeyCode.A, }, } },
-        { "EditMode_AnchorBall", new() { new[] { KeyCode.A, KeyCode.B, }, } },
         { "EditMode_Ball", new() { new[] { KeyCode.B, }, } },
         { "EditMode_Coin", new() { new[] { KeyCode.C, }, } },
         { "EditMode_GrayKey", new() { new[] { KeyCode.K, }, } },

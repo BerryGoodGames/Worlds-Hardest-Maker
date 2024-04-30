@@ -40,7 +40,7 @@ public class CopyManager : MonoBehaviour
 
             // try to get controllers and save the object in clipboard
             if (!hit.TryGetComponent(out EntityController controller)) continue;
-            if (controller is AnchorBallController { IsParentAnchorNull: false, }) continue;
+            if (controller is BallController { IsParentAnchorNull: false, }) continue;
 
             Data data = controller.GetData();
 

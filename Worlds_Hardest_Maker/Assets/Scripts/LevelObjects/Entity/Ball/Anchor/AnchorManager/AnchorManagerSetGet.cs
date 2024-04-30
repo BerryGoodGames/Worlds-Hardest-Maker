@@ -18,7 +18,7 @@ public partial class AnchorManager : IManager<AnchorController>
         anchor.AppendBlock(new SetDirectionBlock(anchor, true, true));
         anchor.AppendBlock(new SetEaseBlock(anchor, true, Ease.Linear));
 
-        AnchorBallManager.Instance.AnchorBallListSheets.Add(anchor, new());
+        BallManager.Instance.BallListSheets.Add(anchor, new());
 
         return anchor;
     }
@@ -56,7 +56,7 @@ public partial class AnchorManager : IManager<AnchorController>
             if (Instance.SelectedAnchor == anchor)
                 Instance.DeselectAnchor();
 
-        AnchorBallManager.Instance.AnchorBallListSheets.Remove(anchor);
+        BallManager.Instance.BallListSheets.Remove(anchor);
 
         // destroy anchor
         Destroy(anchor.transform.parent.gameObject);

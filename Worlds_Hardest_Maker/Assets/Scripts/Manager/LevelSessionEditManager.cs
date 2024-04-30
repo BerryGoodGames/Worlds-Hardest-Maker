@@ -29,7 +29,7 @@ public class LevelSessionEditManager : MonoBehaviour
             // select edit mode in toolbar
             ToolbarManager.SelectEditMode(value);
 
-            // enable/disable outlines and panel when switching to/away from anchors or anchor ball
+            // enable/disable outlines and panel when switching to/away from anchors or ball
             bool isAnchorRelated = currentEditMode.Attributes.IsAnchorRelated;
             bool inAttachMode = AnchorAttachManager.Instance.InAttachMode;
             foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))

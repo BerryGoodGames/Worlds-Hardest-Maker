@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnchorBallController : EntityController
+public class BallController : EntityController
 {
     [HideInInspector] public AnchorController ParentAnchor;
     public bool IsParentAnchorNull { get; private set; }
 
     public GameObject LevelObject => transform.parent.gameObject;
 
-    public override EditMode EditMode => EditModeManager.AnchorBall;
+    public override EditMode EditMode => EditModeManager.Ball;
 
-    public override Data GetData() => new AnchorBallData(StartPosition);
+    public override Data GetData() => new BallData(StartPosition);
 
     [HideInInspector] public Vector2 StartPosition;
 
@@ -44,17 +44,17 @@ public class AnchorBallController : EntityController
 
     private void OnDestroy()
     {
-        AnchorBallManager.Instance.AnchorBallList.Remove(this);
+        BallManager.Instance.BallList.Remove(this);
 
         if (ParentAnchor != null)
         {
             ParentAnchor.Balls.Remove(transform.parent);
 
-            // remove anchor ball from parent anchor cache list
-            ref Dictionary<AnchorController, List<AnchorBallController>> ballList = ref AnchorBallManager.Instance.AnchorBallListSheets;
+            // remove ball from parent anchor cache list
+            ref Dictionary<AnchorController, List<BallController>> ballList = ref BallManager.Instance.BallListSheets;
             if (ballList.ContainsKey(ParentAnchor)) ballList[ParentAnchor].Remove(this);
         }
-        else { AnchorBallManager.Instance.AnchorBallListGlobal.Remove(this); }
+        else { BallManager.Instance.BallListGlobal.Remove(this); }
 
         Destroy(transform.parent.gameObject);
 
