@@ -15,9 +15,12 @@ public partial class AnchorManager : IManagerSelectable
     public void Select(AnchorController anchor, bool toggleDeselect = true)
     {
         if (anchor == null) return;
+        
+        // stop if attaching to other anchor
+        if (AnchorAttachManager.Instance.InAttachMode && !anchor.IsAttaching) return;
 
         bool switchedEditMode = false;
-        // switch to edit mode to anchor if not already on anchor or ball
+        // switch to edit mode to anchor if not already
         if (!LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated)
         {
             LevelSessionEditManager.Instance.CurrentEditMode = EditModeManager.Anchor;
@@ -30,12 +33,10 @@ public partial class AnchorManager : IManagerSelectable
 
             SelectedAnchor.Animator.SetBool(selectedString, false);
             SelectedAnchor.SetLinesActive(false);
-
-            if (AnchorAttachManager.Instance.InAttachMode) AnchorAttachManager.Instance.ExitAttachMode();
         }
-
-        // deselect anchor if "selected" again by the user (but only if edit mode before was anchor or ball, not sth else)
-        if (toggleDeselect && SelectedAnchor == anchor && !switchedEditMode)
+        
+        // deselect anchor if "selected" again by the user (but only if edit mode before was anchor or currently attaching)
+        if (toggleDeselect && SelectedAnchor == anchor && (!switchedEditMode || anchor.IsAttaching))
         {
             DeselectAnchor();
             return;
@@ -70,6 +71,7 @@ public partial class AnchorManager : IManagerSelectable
         if (SelectedAnchor == null) return;
 
         // SelectedAnchor.AttachFade.FadeIn();
+        if (AnchorAttachManager.Instance.InAttachMode) AnchorAttachManager.Instance.ExitAttachMode();
 
         SelectedAnchor.Animator.SetBool(selectedString, false);
         SelectedAnchor.Animator.SetBool(playingString, LevelSessionEditManager.Instance.Playing);
