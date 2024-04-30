@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class FieldController : LevelObjectController
@@ -27,8 +28,7 @@ public class FieldController : LevelObjectController
     private void OnTriggerExit2D(Collider2D other)
     {
         if (!other.CompareTag("PlayerCenterCollider")
-            || !PlayerManager.Instance.Player.CurrentFloors.Contains(this)
-            || LevelSessionEditManager.Instance.Editing) return;
+            || !PlayerManager.Instance.Player.CurrentFloors.Contains(this)) return;
 
         OnPlayerExited();
     }
@@ -51,10 +51,10 @@ public class FieldController : LevelObjectController
         }
     }
 
-    private void OnPlayerExited()
+    public void OnPlayerExited()
     {
         PlayerController player = PlayerManager.Instance.Player;
-        
+        print("Removing");
         player.CurrentFloors.Remove(this);
         if (player.CurrentFloors.Count == 0) player.transform.SetParent(ReferenceManager.Instance.PlayerContainer);
     }

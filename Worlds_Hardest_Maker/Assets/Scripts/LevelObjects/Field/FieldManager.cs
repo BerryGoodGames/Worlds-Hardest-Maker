@@ -93,6 +93,12 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
     {
         FieldController field = GetInSheet(position, sheet);
 
+        PlayerController player = PlayerManager.Instance.Player;
+        if (player != null && player.CurrentFields.Contains(field))
+        {
+            field.OnPlayerExited();
+        }
+
         bool fieldDestroyed = false;
 
         if (field != null)

@@ -5,8 +5,6 @@ public partial class PlayerController
 {
     private void VoidDetection()
     {
-        print("Checking void collision");
-        
         if (LevelSessionEditManager.Instance.Editing
             || InDeathAnim
             || CurrentFloors.Count > 0

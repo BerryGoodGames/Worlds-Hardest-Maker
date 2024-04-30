@@ -24,10 +24,9 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
 
         bool canPlaceInSheet = CanPlaceInSheet(position, args.Sheet);
 
-        List<FieldController> respawnFields;
-        if (args.SurroundWithStartFields && !canPlaceInSheet)
+        if (args.SurroundWithStartFields && !canPlaceInSheet) 
         {
-            respawnFields = SetSurroundingStartFieldsInSheet(position, args.Sheet);
+            SetSurroundingStartFieldsInSheet(position, args.Sheet);
         }
 
         // clear area from coins and keys
