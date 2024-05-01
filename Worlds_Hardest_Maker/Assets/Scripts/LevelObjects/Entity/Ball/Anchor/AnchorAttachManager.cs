@@ -45,14 +45,11 @@ public partial class AnchorAttachManager : MonoBehaviour
         
         InAttachMode = false;
         
-        foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
-        {
-            Animator anim = anchor.GetComponentInChildren<Animator>();
-            anim.SetBool(editingString, isModeAnchorRelated);
-        }
-        
         if (AnchorManager.Instance.SelectedAnchor)
+        {
             AnchorManager.Instance.SelectedAnchor.GetComponent<Animator>().SetBool(editingString, isModeAnchorRelated);
+            AnchorManager.Instance.SelectedAnchor.SetLinesActive(isModeAnchorRelated);
+        }
         
         Dehighlight(AnchorManager.Instance.SelectedAnchor);
         

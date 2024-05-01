@@ -111,8 +111,7 @@ public partial class AnchorController
         line.CreateArrowHead(previousVertex, currentVertex);
         line.CreateArrowLine(
             previousVertex, currentVertex,
-            positionAnchorBlock.ImplementedBlockType is AnchorBlock.Type.Move
-                or AnchorBlock.Type.MoveAndRotate
+            positionAnchorBlock.ImplementedBlockType is not AnchorBlock.Type.Teleport
         );
         
         line.CreateBlur();

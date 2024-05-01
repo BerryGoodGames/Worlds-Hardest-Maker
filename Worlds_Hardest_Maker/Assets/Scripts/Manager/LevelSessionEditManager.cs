@@ -64,7 +64,7 @@ public class LevelSessionEditManager : MonoBehaviour
             }
             
             // enable/disable anchor path
-            if (AnchorManager.Instance.SelectedAnchor) AnchorManager.Instance.SelectedAnchor.SetLinesActive(isAnchorRelated);
+            if (AnchorManager.Instance.SelectedAnchor && !AnchorAttachManager.Instance.InAttachMode) AnchorManager.Instance.SelectedAnchor.SetLinesActive(isAnchorRelated);
         }
     }
     
