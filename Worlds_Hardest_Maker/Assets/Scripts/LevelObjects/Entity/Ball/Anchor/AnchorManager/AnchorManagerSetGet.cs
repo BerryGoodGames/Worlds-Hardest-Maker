@@ -8,7 +8,7 @@ public partial class AnchorManager : IManager<AnchorController>
     
     public AnchorController SetInSheet(ManagerParameters args)
     {
-        if (GetInSheet(args.Position, args.Sheet) != null) return null;
+        // if (GetInSheet(args.Position, args.Sheet) != null) return null;
         
         AnchorController anchor = InstantiateInSheet(args);
         anchor.transform.position = args.Position;
