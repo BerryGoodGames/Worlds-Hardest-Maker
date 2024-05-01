@@ -8,13 +8,13 @@ public class UITextCornersGradient : BaseMeshEffect
     public Color m_topRightColor = Color.white;
     public Color m_bottomRightColor = Color.white;
     public Color m_bottomLeftColor = Color.white;
-
+    
     public override void ModifyMesh(VertexHelper vh)
     {
         if (enabled)
         {
             Rect rect = graphic.rectTransform.rect;
-
+            
             UIVertex vertex = default;
             for (int i = 0; i < vh.currentVertCount; i++)
             {
@@ -24,7 +24,7 @@ public class UITextCornersGradient : BaseMeshEffect
                     m_bottomLeftColor, m_bottomRightColor, m_topLeftColor,
                     m_topRightColor, normalizedPosition
                 );
-
+                
                 vh.SetUIVertex(vertex, i);
             }
         }

@@ -4,29 +4,29 @@ using System;
 public class LevelSettingsData : Data
 {
     #region Setting variables
-
+    
     public int RoomWidth;
     public int RoomHeight;
-
+    
     public float PlayerSpeed;
-
+    
     public bool IsCoinsNeededLimited;
     public int CoinsNeeded;
-
+    
     public bool PlayerInvincibility;
-
+    
     public float DrownDuration;
-
+    
     public float WaterDamping;
     public float IceFriction;
     public float IceMaxSpeed;
-
+    
     public float ConveyorSpeed;
-
+    
     public bool ReusableCheckpoints;
-
+    
     #endregion
-
+    
     public LevelSettingsData(LevelSettings settings)
     {
         // fetch variables
@@ -43,7 +43,7 @@ public class LevelSettingsData : Data
         ConveyorSpeed = settings.ConveyorSpeed;
         ReusableCheckpoints = settings.ReusableCheckpoints;
     }
-
+    
     public override void ImportToLevel()
     {
         LevelSettings.Instance.SetRoomWidth(RoomWidth);
@@ -58,12 +58,12 @@ public class LevelSettingsData : Data
         LevelSettings.Instance.SetIceMaxSpeed(IceMaxSpeed);
         LevelSettings.Instance.SetConveyorSpeed(ConveyorSpeed);
         LevelSettings.Instance.SetReusableCheckpoints(ReusableCheckpoints);
-
+        
         LevelSettings.Instance.InvokeOnImported();
     }
-
+    
     public override EditMode GetEditMode() => EditModeManager.Wall;
-
+    
     public override bool Equals(Data d)
     {
         LevelSettingsData other = (LevelSettingsData)d;

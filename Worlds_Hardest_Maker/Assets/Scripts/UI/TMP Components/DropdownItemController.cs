@@ -9,17 +9,17 @@ public class ItemController : MonoBehaviour
     [SerializeField] private Color selectedColor = Color.white;
     private Toggle toggle;
     private bool prevIsOn;
-
+    
     private void Awake() => toggle = GetComponent<Toggle>();
-
+    
     private void Start() => label.color = toggle.isOn ? selectedColor : deselectedColor;
-
+    
     private void Update()
     {
         if (toggle.isOn == prevIsOn) return;
-
+        
         label.color = toggle.isOn ? selectedColor : deselectedColor;
     }
-
+    
     private void LateUpdate() => prevIsOn = toggle.isOn;
 }

@@ -9,29 +9,29 @@ public class SetRotationBlock : AnchorBlock, IPassiveAnchorBlock
         Degrees,
         Time,
     }
-
+    
     public const Type BlockType = Type.SetRotation;
     public override Type ImplementedBlockType => BlockType;
     protected override GameObject Prefab => PrefabManager.Instance.SetRotationSpeedBlockPrefab;
-
+    
     private readonly float input;
     private readonly Unit unit;
-
+    
     public SetRotationBlock(AnchorController anchor, bool isLocked, float input, Unit unit) : base(anchor, isLocked)
     {
         this.input = input;
         this.unit = unit;
     }
-
+    
     public override void Execute()
     {
         Anchor.RotationSpeedUnit = unit;
         Anchor.RotationInput = input;
         Anchor.FinishCurrentExecution();
     }
-
+    
     public Unit GetUnit() => unit;
-
+    
     protected override void SetControllerValues(AnchorBlockController c)
     {
         SetRotationBlockController controller = (SetRotationBlockController)c;
@@ -39,10 +39,10 @@ public class SetRotationBlock : AnchorBlock, IPassiveAnchorBlock
         controller.UnitInput.value =
             GameManager.GetDropdownValue(SetRotationBlockController.GetOption(unit), controller.UnitInput);
     }
-
+    
     public override AnchorBlockData GetData() => new SetRotationBlockData(IsLocked, input, unit);
-
-
+    
+    
     public static float GetSpeed(float input, Unit unit) =>
         unit switch
         {

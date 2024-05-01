@@ -3,9 +3,9 @@ using UnityEngine;
 public class ToolbarManager : MonoBehaviour
 {
     public static GameObject[] Tools;
-
+    
     private void Start() => Tools = GameObject.FindGameObjectsWithTag("Tool");
-
+    
     public static void DeselectAll()
     {
         foreach (GameObject t in Tools)
@@ -14,7 +14,7 @@ public class ToolbarManager : MonoBehaviour
             tool.SetSelected(false);
         }
     }
-
+    
     public static void SelectEditMode(EditMode editMode)
     {
         // update toolbarContainer

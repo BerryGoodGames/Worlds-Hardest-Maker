@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class CutoutMaskUI : Image
 {
     private static readonly int stencilComp = Shader.PropertyToID("_StencilComp");
-
+    
     public override Material materialForRendering
     {
         get

@@ -7,7 +7,7 @@ public class SyncInputToSliderEditor : Editor
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
-
+        
         SyncInputToSlider script = (SyncInputToSlider)target;
         if (GUILayout.Button("Synchronise"))
         {

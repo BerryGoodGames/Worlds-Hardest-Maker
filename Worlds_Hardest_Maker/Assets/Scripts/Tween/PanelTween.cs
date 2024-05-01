@@ -8,27 +8,27 @@ public class PanelTween : MonoBehaviour
     // DO NOT USE ANY METHODS IN CODE //
     // USE PANEL MANAGER INSTEAD      //
     ////////////////////////////////////
-
+    
     [SerializeField] private RectTransform panel;
-
+    
     [Space] [SerializeField] private AnimationCurve openEase;
     [SerializeField] private AnimationCurve closeEase;
-
+    
     [Space] [SerializeField] private float duration;
-
+    
     [field: SerializeField] [field: ReadOnly] public bool Open { get; private set; }
-
+    
     [SerializeField] private bool customMovement;
     [SerializeField] [ConditionalField(nameof(customMovement), true)] private bool closesToRight;
     [SerializeField] [ConditionalField(nameof(customMovement))] private float closedX;
     [SerializeField] [ConditionalField(nameof(customMovement))] private float openedX;
-
+    
     public void SetOpen(bool open, bool noAnimation = false)
     {
         // if (Open == open) return;
-
+        
         panel.DOKill();
-
+        
         // closed state -> x = closedX
         // opened state -> x = closedX + width = openedX
         if (noAnimation) panel.anchoredPosition = new(open ? openedX : closedX, panel.anchoredPosition.y);
@@ -38,18 +38,18 @@ public class PanelTween : MonoBehaviour
                 .SetEase(Open ? closeEase : openEase)
                 .SetId(gameObject);
         }
-
+        
         Open = open;
     }
-
+    
     public void ToggleOpen(bool noAnimation = false) => SetOpen(!Open, noAnimation);
-
+    
     private void Awake()
     {
         if (customMovement) return;
         openedX = 0;
         closedX = (closesToRight ? 1 : -1) * panel.rect.width;
     }
-
+    
     private void OnDestroy() => DOTween.Kill(gameObject);
 }

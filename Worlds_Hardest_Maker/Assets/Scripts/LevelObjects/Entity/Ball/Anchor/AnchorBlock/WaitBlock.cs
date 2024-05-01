@@ -11,7 +11,7 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
         Hours,
         Days,
     }
-
+    
     private static readonly Dictionary<Unit, float> factors = new()
     {
         { Unit.Seconds, 1 },
@@ -19,32 +19,32 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
         { Unit.Hours, 3600 },
         { Unit.Days, 86400 },
     };
-
+    
     public const Type BlockType = Type.Wait;
     public override Type ImplementedBlockType => BlockType;
     protected override GameObject Prefab => PrefabManager.Instance.WaitBlockPrefab;
-
+    
     private readonly float input;
-
+    
     private readonly Unit unit;
-
+    
     public bool HasCurrentlyDuration => input > 0;
-
+    
     public WaitBlock(AnchorController anchor, bool isLocked, float input, Unit unit) : base(anchor, isLocked)
     {
         this.input = input;
         this.unit = unit;
     }
-
+    
     public override void Execute() => Anchor.WaitCoroutine = Anchor.StartCoroutine(WaitCoroutine());
-
+    
     private IEnumerator WaitCoroutine()
     {
         yield return new WaitForSeconds(input * factors[unit]);
-
+        
         Anchor.FinishCurrentExecution();
     }
-
+    
     protected override void SetControllerValues(AnchorBlockController c)
     {
         WaitBlockController controller = (WaitBlockController)c;
@@ -52,6 +52,6 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
         controller.UnitInput.value =
             GameManager.GetDropdownValue(WaitBlockController.GetOption(unit), controller.UnitInput);
     }
-
+    
     public override AnchorBlockData GetData() => new WaitBlockData(IsLocked, input, unit);
 }

@@ -15,12 +15,12 @@ public class AlphaTween : MonoBehaviour
     [SerializeField] private bool disableObjectWhenInvisible;
     [Range(0, 1)] [SerializeField] private float alphaVisible = 1;
     [Range(0, 1)] [SerializeField] private float alphaInvisible;
-
+    
     public event Action OnSetVisible;
     public event Action OnIsInvisible;
-
+    
     public bool IsVisible { get; private set; }
-
+    
     private Tween TweenVis()
     {
         if (disableObjectWhenInvisible)
@@ -30,17 +30,17 @@ public class AlphaTween : MonoBehaviour
             if (canvasGroup != null) canvasGroup.gameObject.SetActive(true);
             if (spriteRenderer != null) spriteRenderer.gameObject.SetActive(true);
         }
-
+        
         OnSetVisible?.Invoke();
-
+        
         if (image != null) return image.DOFade(alphaVisible, duration);
         if (text != null) return text.DOFade(alphaVisible, duration);
         if (canvasGroup != null) return canvasGroup.DOFade(alphaVisible, duration);
         if (spriteRenderer != null) return spriteRenderer.DOFade(alphaVisible, duration);
-
+        
         return null;
     }
-
+    
     private Tween TweenInvis()
     {
         if (image != null)
@@ -54,7 +54,7 @@ public class AlphaTween : MonoBehaviour
                 }
             );
         }
-
+        
         if (text != null)
         {
             return text.DOFade(alphaInvisible, duration).OnComplete(
@@ -66,7 +66,7 @@ public class AlphaTween : MonoBehaviour
                 }
             );
         }
-
+        
         if (canvasGroup != null)
         {
             return canvasGroup.DOFade(alphaInvisible, duration).OnComplete(
@@ -78,7 +78,7 @@ public class AlphaTween : MonoBehaviour
                 }
             );
         }
-
+        
         if (spriteRenderer != null)
         {
             return spriteRenderer.DOFade(alphaInvisible, duration).OnComplete(
@@ -90,33 +90,33 @@ public class AlphaTween : MonoBehaviour
                 }
             );
         }
-
+        
         return null;
     }
-
+    
     public Tween SetVisible(bool vis)
     {
         Tween tween = null;
         if (IsVisible && !vis)
             // the frame setting to invisible
             tween = TweenInvis();
-
+        
         if (!IsVisible && vis)
             // the frame setting to visible
             tween = TweenVis();
-
+        
         IsVisible = vis;
-
+        
         return tween;
     }
-
+    
     // method compatible with buttons
     public void SetVisibleRaw(bool vis) => SetVisible(vis);
-
+    
     private void Awake()
     {
         IsVisible = startVisible;
-
+        
         if (image != null)
         {
             if (disableObjectWhenInvisible) image.gameObject.SetActive(startVisible);
@@ -125,19 +125,19 @@ public class AlphaTween : MonoBehaviour
                 startVisible ? alphaVisible : alphaInvisible
             );
         }
-
+        
         if (text != null)
         {
             if (disableObjectWhenInvisible) text.gameObject.SetActive(startVisible);
             text.color = new(text.color.r, text.color.g, text.color.b, startVisible ? alphaVisible : alphaInvisible);
         }
-
+        
         if (canvasGroup != null)
         {
             if (disableObjectWhenInvisible) canvasGroup.gameObject.SetActive(startVisible);
             canvasGroup.alpha = startVisible ? alphaVisible : alphaInvisible;
         }
-
+        
         if (spriteRenderer != null)
         {
             if (disableObjectWhenInvisible) spriteRenderer.gameObject.SetActive(startVisible);
@@ -145,12 +145,12 @@ public class AlphaTween : MonoBehaviour
             spriteRenderer.color = new(color.r, color.g, color.b, startVisible ? alphaVisible : alphaInvisible);
         }
     }
-
+    
     private void Start()
     {
         if (!startVisible) OnIsInvisible?.Invoke();
     }
-
+    
     private void OnDestroy()
     {
         image.DOKill();

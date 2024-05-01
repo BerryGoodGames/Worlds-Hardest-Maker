@@ -6,13 +6,13 @@ public class ConditionalObject : MonoBehaviour
 {
     public bool EditOnly = true;
     public bool PlayOnly;
-
+    
     [ReadOnly] public bool IsActiveInEdit = true;
     [ReadOnly] public bool IsActiveInPlay = true;
-
+    
     [SerializeField] private UnityEvent whenPlay;
     [SerializeField] private UnityEvent whenEdit;
-
+    
     private void Start()
     {
         if (LevelSessionEditManager.Instance.Editing) whenEdit?.Invoke();

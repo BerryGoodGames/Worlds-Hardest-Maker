@@ -8,36 +8,36 @@ using UnityEngine;
 public class MouseEvents : MonoBehaviour
 {
     private const float selectionCancelMaxTime = 0.15f;
-
+    
     private void Update()
     {
         // selection
         if (KeyBinds.GetKeyBindDown("Editor_Select")) StartCoroutine(StartCancelSelection());
-
+        
         CheckPlaceAndDelete();
-
+        
         // track drag positions
         if (!Input.GetMouseButtonUp(0)) return;
-
+        
         MouseManager.Instance.MouseDragStart = null;
         MouseManager.Instance.MouseDragCurrent = null;
         MouseManager.Instance.MouseDragEnd = null;
-
+        
         LevelSessionEditManager.Instance.OnEditAction.Invoke();
     }
-
-
+    
+    
     private static void CheckPlaceAndDelete()
     {
         EditMode editMode = LevelSessionEditManager.Instance.CurrentEditMode;
-
+        
         // place / delete stuff
         if (MouseManager.Instance.IsUIHovered
             || LevelSessionEditManager.Instance.Playing
             || SelectionManager.Instance.Selecting
             || CopyManager.Instance.Pasting
             || AnchorPositionInputEditManager.Instance.IsEditing) return;
-
+        
         // if none of the relevant keys is held, check field placement + entity placement
         if (!KeyBinds.GetKeyBind("Editor_MoveEntity")
             && !KeyBinds.GetKeyBind("Editor_Modify")
@@ -47,10 +47,10 @@ public class MouseEvents : MonoBehaviour
             if (Input.GetMouseButton(0)) CheckDragPlacement(editMode);
             if (Input.GetMouseButtonDown(0)) CheckClickPlacement(editMode);
         }
-
+        
         CheckEntityDelete();
     }
-
+    
     private static IEnumerator StartCancelSelection()
     {
         float passedTime = 0;
@@ -60,22 +60,22 @@ public class MouseEvents : MonoBehaviour
             passedTime += Time.deltaTime;
             yield return null;
         }
-
+        
         SelectionManager.Instance.CancelSelection();
     }
-
+    
     private static void CheckClickPlacement(EditMode editMode)
     {
         if (editMode.IsDraggable) return;
-
+        
         PlaceManager.Instance.Place(editMode, MouseManager.Instance.MouseWorldPos, LevelSessionEditManager.Instance.EditRotation, true);
     }
-
+    
     private static void CheckDragPlacement(EditMode editMode)
     {
         // check placement
         if (!editMode.IsDraggable) return;
-
+        
         if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) > 1.414f)
         {
             PlaceManager.Instance.PlacePath(
@@ -92,13 +92,13 @@ public class MouseEvents : MonoBehaviour
             );
         }
     }
-
+    
     private static void CheckEntityDelete()
     {
         if (!KeyBinds.GetKeyBind("Editor_DeleteEntity")) return;
-
+        
         if (!Input.GetMouseButton(0) && !Input.GetMouseButtonDown(0)) return;
-
+        
         // delete entities
         PlaceManager.RemoveEntitiesAt(
             MouseManager.Instance.MouseWorldPosGrid,

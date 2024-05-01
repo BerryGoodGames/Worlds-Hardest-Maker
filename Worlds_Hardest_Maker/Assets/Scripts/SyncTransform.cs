@@ -4,12 +4,12 @@ using UnityEngine;
 public class SyncTransform : MonoBehaviour
 {
     [InitializationField] public Transform Source;
-
+    
     [Separator] [SerializeField] [InitializationField] private bool syncPosition = true;
-
+    
     [SerializeField] [InitializationField] private bool syncRotation = true;
     [SerializeField] [InitializationField] private bool syncScale = true;
-
+    
     private void Update()
     {
         // Synchronize the target transform with the source transform

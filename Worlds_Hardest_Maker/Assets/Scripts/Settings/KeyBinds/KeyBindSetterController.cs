@@ -8,38 +8,38 @@ using UnityEngine.UI;
 public class KeyBindSetterController : MonoBehaviour
 {
     [HideInInspector] public KeyBind KeyBind;
-
+    
     [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text keyBindName;
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform displayContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private KeyCodeDisplay keyCodeDisplayPrefab;
     [Space] [SerializeField] private List<Tooltip> buttonTooltips;
-
+    
     [HideInInspector] public RectTransform TooltipContainer;
-
+    
     public void AddKeyCode(KeyCode[] keyCodes)
     {
         if (KeyBinds.HasKeyBindKeyCode(KeyBind, keyCodes)) return;
-
+        
         KeyBinds.AddKeyCodesToKeyBind(KeyBind, keyCodes);
-
+        
         InstantiateKeyCodeDisplay(keyCodes);
     }
-
+    
     public void AddKeyCode(string keyCodeName)
     {
         #region charToKeycode
-
+        
         //NOTE: This is only a DICTIONARY with MOST character to keycode bindings... it is NOT a working cs file
         //ITS USEFUL: when you are reading in your control scheme from a file
-
+        
         //NOTE: some characters SHOULD map to multiple keycodes (but this is impossible)
         //since this is a dictionary, only 1 character is bound to 1 keycode
         //EX: * from the keyboard will be read the same as * from the keypad... because they produce the same character in a text file
-
+        
         Dictionary<char, KeyCode> charToKeycode = new()
         {
             //-------------------------LOGICAL mappings-------------------------
-
+            
             //Lower Case Letters
             { 'a', KeyCode.A },
             { 'b', KeyCode.B },
@@ -67,7 +67,7 @@ public class KeyBindSetterController : MonoBehaviour
             { 'x', KeyCode.X },
             { 'y', KeyCode.Y },
             { 'z', KeyCode.Z },
-
+            
             //KeyPad Numbers
             { '1', KeyCode.Keypad1 },
             { '2', KeyCode.Keypad2 },
@@ -79,7 +79,7 @@ public class KeyBindSetterController : MonoBehaviour
             { '8', KeyCode.Keypad8 },
             { '9', KeyCode.Keypad9 },
             { '0', KeyCode.Keypad0 },
-
+            
             //Other Symbols
             { '!', KeyCode.Exclaim }, //1
             { '"', KeyCode.DoubleQuote },
@@ -108,13 +108,13 @@ public class KeyBindSetterController : MonoBehaviour
             { '^', KeyCode.Caret }, //6
             { '_', KeyCode.Underscore },
             { '`', KeyCode.BackQuote },
-
+            
             //-------------------------NON-LOGICAL mappings-------------------------
-
+            
             //NOTE: all of these can easily be remapped to something that perhaps you find more useful
-
+            
             //---Mappings where the logical keycode was taken up by its counter part in either (the regular keybaord) or the (keypad)
-
+            
             //Alpha Numbers
             //NOTE: we are using the UPPER CASE LETTERS Q -> P because they are nearest to the Alpha Numbers
             { 'Q', KeyCode.Alpha1 },
@@ -127,7 +127,7 @@ public class KeyBindSetterController : MonoBehaviour
             { 'I', KeyCode.Alpha8 },
             { 'O', KeyCode.Alpha9 },
             { 'P', KeyCode.Alpha0 },
-
+            
             //INACTIVE since I am using these characters else where
             { 'A', KeyCode.KeypadPeriod },
             { 'B', KeyCode.KeypadDivide },
@@ -135,11 +135,11 @@ public class KeyBindSetterController : MonoBehaviour
             { 'D', KeyCode.KeypadMinus },
             { 'F', KeyCode.KeypadPlus },
             { 'G', KeyCode.KeypadEquals },
-
+            
             //-------------------------CHARACTER KEYS with NO KEYCODE-------------------------
-
+            
             //NOTE: you can map these to any of the OPEN KEYCODES below
-
+            
             /*
             //Upper Case Letters (16)
             {'H', -},
@@ -153,16 +153,16 @@ public class KeyBindSetterController : MonoBehaviour
             {'X', -},
             {'Z', -}
             */
-
+            
             //-------------------------KEYCODES with NO CHARACER KEY-------------------------
-
+            
             //-----KeyCodes without Logical Mappings
             //-Anything above "KeyCode.Space" in Unity's Documentation (9 KeyCodes)
             //-Anything between "KeyCode.UpArrow" and "KeyCode.F15" in Unity's Documentation (24 KeyCodes)
             //-Anything Below "KeyCode.Numlock" in Unity's Documentation [(28 KeyCodes) + (9 * 20 = 180 JoyStickCodes) = 208 KeyCodes]
-
+            
             //-------------------------other-------------------------
-
+            
             //-----KeyCodes that are inaccesible for some reason
             //{'~', KeyCode.tilde},
             //{'{', KeyCode.LeftCurlyBrace}, 
@@ -170,72 +170,72 @@ public class KeyBindSetterController : MonoBehaviour
             //{'|', KeyCode.Line},   
             //{'%', KeyCode.percent},
         };
-
+        
         #endregion
-
+        
         if (keyCodeName.Length > 1)
         {
             Debug.LogWarning("This keyCode has a name which is longer than 1 character huh weird whatever we just ignored it");
             return;
         }
-
+        
         try
         {
             KeyCode[] keyCodes = new KeyCode[keyCodeName.Length];
-
+            
             for (int i = 0; i < keyCodeName.Length; i++) keyCodes[i] = charToKeycode[keyCodeName[i]];
-
+            
             AddKeyCode(keyCodes);
         }
         catch { print($"Couldn't parse {keyCodeName} into KeyCodes, ignored"); }
     }
-
+    
     public void OnAddButtonClick()
     {
         MenuManager.Instance.IsAddingKeyBind = true;
         MenuManager.Instance.AddingKeyBindSetter = this;
-
+        
         ReferenceManager.Instance.KeybindBlocker.SetVisible(true);
         ReferenceManager.Instance.KeybindBlockerText.text = keyBindName.text;
     }
-
+    
     public void OnClearButtonClick()
     {
         KeyBind.KeyCodes = Array.Empty<KeyCode[]>();
         KeyBinds.ResetKeyBind(KeyBind);
-
+        
         foreach (RectTransform keyCodeDisplay in displayContainer) Destroy(keyCodeDisplay.gameObject);
     }
-
+    
     public static void CancelAddingKeyBind()
     {
         MenuManager.Instance.IsAddingKeyBind = false;
         MenuManager.Instance.AddingKeyBindSetter = default;
         ReferenceManager.Instance.KeybindBlocker.SetVisible(false);
     }
-
+    
     private void Start()
     {
         keyBindName.text = KeyBind.FormattedName;
-
+        
         SetupInitKeyCodes();
-
+        
         foreach (Tooltip tooltip in buttonTooltips) tooltip.SetContainer(TooltipContainer);
     }
-
+    
     private void Awake()
     {
         foreach (Tooltip tooltip in buttonTooltips) tooltip.CustomContainer = true;
     }
-
+    
     private void SetupInitKeyCodes() => KeyBind.KeyCodes.ForEach(InstantiateKeyCodeDisplay);
-
+    
     private void InstantiateKeyCodeDisplay(KeyCode[] keyCode)
     {
         // instantiate key code display
         KeyCodeDisplay keyCodeDisplay = Instantiate(keyCodeDisplayPrefab, displayContainer);
         keyCodeDisplay.SetKeyCodeSprite(keyCode);
-
+        
         // rebuild
         LayoutRebuilder.ForceRebuildLayoutImmediate(displayContainer);
         LayoutRebuilder.ForceRebuildLayoutImmediate(displayContainer);

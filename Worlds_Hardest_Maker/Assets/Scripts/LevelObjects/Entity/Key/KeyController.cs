@@ -5,20 +5,19 @@ using UnityEngine;
 
 public class KeyController : EntityController, IResettable, ICollectible
 {
-    [Separator]
-    [SerializeField] [PositiveValueOnly] private float fadeDuration = 0.5f;
+    [Separator] [SerializeField] [PositiveValueOnly] private float fadeDuration = 0.5f;
     [Separator] [ReadOnly] public KeyColor Color;
     [ReadOnly] public Vector2 KeyPosition;
     [ReadOnly] public bool Collected;
-
+    
     [Separator] [InitializationField] [MustBeAssigned] public SpriteRenderer SpriteRenderer;
-
+    
     [InitializationField] [MustBeAssigned] public Animator Animator;
     [InitializationField] [MustBeAssigned] public IntervalRandomAnimation KonamiAnimation;
-
+    
     private static readonly int playingString = Animator.StringToHash("Playing");
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
-
+    
     public override EditMode EditMode =>
         Color switch
         {
@@ -29,17 +28,17 @@ public class KeyController : EntityController, IResettable, ICollectible
             KeyColor.Yellow => EditModeManager.YellowKey,
             _ => throw new("There is no edit mode assigned for color " + Color),
         };
-
+    
     private void Awake()
     {
         KeyPosition = transform.position;
-
+        
         // cache key controller
         KeyManager.Instance.Keys.Add(this);
-
+        
         SetOrderInLayer();
     }
-
+    
     protected override void Start()
     {
         base.Start();
@@ -47,23 +46,23 @@ public class KeyController : EntityController, IResettable, ICollectible
         ((IResettable)this).Subscribe();
         PlayManager.Instance.OnSwitchToPlay += ActivateAnimation;
     }
-
+    
     private void OnDestroy()
     {
         KeyManager.Instance.Keys.Remove(this);
-
+        
         ((IResettable)this).Unsubscribe();
         PlayManager.Instance.OnSwitchToPlay -= ActivateAnimation;
-
+        
         DOTween.Kill(gameObject);
     }
-
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // check key collection: collider is player, key is not yet collected
         if (collision.CompareTag("Player") && !Collected) Collect();
     }
-
+    
     /// <summary>
     ///     Set order in layer to be on top of every other
     /// </summary>
@@ -75,27 +74,27 @@ public class KeyController : EntityController, IResettable, ICollectible
             int order = key.SpriteRenderer.sortingOrder;
             if (order > highestOrder) highestOrder = order;
         }
-
+        
         SpriteRenderer.sortingOrder = highestOrder + 1;
     }
-
+    
     public void Collect()
     {
         KeyManager.Instance.CollectedKeys.Add(this);
-
+        
         // pickup animation and sound
         Animator.SetBool(pickedUpString, true);
         AudioManager.Instance.Play("PlaceKey");
-
+        
         Collected = true;
-
+        
         UnlockKeyDoors();
     }
-
+    
     public void UnlockKeyDoors()
     {
         if (!KeyManager.Instance.AllKeysCollected(Color)) return;
-
+        
         string tagColor = Color switch
         {
             KeyColor.Red => "Red",
@@ -104,41 +103,41 @@ public class KeyController : EntityController, IResettable, ICollectible
             KeyColor.Yellow => "Yellow",
             _ => "Gray",
         };
-
+        
         foreach (GameObject door in GameObject.FindGameObjectsWithTag(tagColor + "KeyDoor"))
         {
             KeyDoorFieldController controller = door.GetComponent<KeyDoorFieldController>();
             controller.SetLocked(false);
         }
     }
-
+    
     public void ResetState()
     {
         Collected = false;
-
+        
         Animator.SetBool(playingString, false);
         Animator.SetBool(pickedUpString, false);
     }
-
+    
     public void ActivateAnimation()
     {
         StartCoroutine(Delay());
-
+        
         return;
-
+        
         IEnumerator Delay()
         {
             yield return new WaitForEndOfFrame();
-
+            
             Animator.enabled = true;
-
+            
             Animator.SetBool(playingString, true);
             Animator.SetBool(pickedUpString, Collected);
         }
     }
-
+    
     public void FadeIn() => SpriteRenderer.DOFade(1, fadeDuration).SetId(gameObject);
     public void FadeOut() => SpriteRenderer.DOFade(0, fadeDuration).SetId(gameObject);
-
+    
     public override Data GetData() => new KeyData(this);
 }

@@ -10,16 +10,16 @@ using UnityEngine;
 public class JumpToEntity : MonoBehaviour
 {
     private readonly Dictionary<string, (GameObject target, Renderer targetRenderer)> targetList = new();
-
+    
     [Space] public bool Smooth;
-
+    
     [ConditionalField(nameof(Smooth))] [MinValue(0.001f)] public float Time;
-
+    
     [Space] [SerializeField] private bool cancelByRightClick = true;
-
+    
     private Vector3 currentTarget;
     private Tween jumpTween;
-
+    
     /// <summary>
     ///     Jumps to target with specified key
     /// </summary>
@@ -29,18 +29,18 @@ public class JumpToEntity : MonoBehaviour
     public void Jump(string key, Vector2? offset = null, bool onlyIfTargetOffScreen = false)
     {
         if (!targetList.ContainsKey(key)) throw new Exception($"Couldn't find target with key {key}");
-
+        
         // find target
         (GameObject target, Renderer targetRenderer) = targetList[key];
-
+        
         if (onlyIfTargetOffScreen && targetRenderer.isVisible) return;
-
+        
         // get target position (preserve z value of camera)
         Vector2 targetPosition = target.transform.position;
         Vector2 targetOffset = offset ?? Vector2.zero;
-
+        
         currentTarget = new(targetPosition.x - targetOffset.x, targetPosition.y - targetOffset.y, transform.position.z);
-
+        
         if (Smooth)
         {
             jumpTween?.Kill();
@@ -53,7 +53,7 @@ public class JumpToEntity : MonoBehaviour
             t.position = new(currentTarget.x, currentTarget.y, t.position.z);
         }
     }
-
+    
     private void Update()
     {
         if (cancelByRightClick && Input.GetMouseButtonDown(1) && jumpTween != null)
@@ -62,24 +62,24 @@ public class JumpToEntity : MonoBehaviour
             jumpTween = null;
         }
     }
-
+    
     #region Target list manipulation
-
+    
     public void SetTarget(string key, GameObject target)
     {
         if (target == null) throw new Exception("Game object tried to add to target list is null");
-
+        
         if (target.TryGetComponent(out Renderer objRenderer))
         {
             SetTarget(key, target, objRenderer);
             return;
         }
-
+        
         Debug.LogWarning(
             $"Couldn't find Renderer component on game object {target}, which was added to the target list"
         );
     }
-
+    
     public void SetTarget(string key, GameObject target, Renderer targetRenderer)
     {
         if (targetList.ContainsKey(key))
@@ -87,15 +87,15 @@ public class JumpToEntity : MonoBehaviour
             targetList[key] = (target, targetRenderer);
             return;
         }
-
+        
         targetList.Add(key, (target, targetRenderer));
     }
-
+    
     public bool RemoveTarget(string key) => targetList.Remove(key);
-
+    
     public GameObject GetTarget(string key) => HasKey(key) ? targetList[key].target : null;
-
+    
     public bool HasKey(string key) => targetList.ContainsKey(key);
-
+    
     #endregion
 }

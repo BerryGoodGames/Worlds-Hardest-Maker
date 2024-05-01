@@ -14,7 +14,7 @@ public abstract class EditMode : ScriptableObject
     public bool ShowFillPreview = true;
     [OverrideLabel("Can use in default/non anchor attach mode")] public bool DefaultAvailable = true;
     [OverrideLabel("Can use in anchor attach mode")] public bool AnchorAvailable = true;
-
+    
     public override string ToString() => name;
 }
 

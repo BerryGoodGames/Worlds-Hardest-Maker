@@ -6,35 +6,35 @@ using UnityEngine;
 public class DiscordManager : MonoBehaviour
 {
     public static DiscordManager Instance { get; private set; }
-
+    
     [SerializeField] private long applicationID;
     [Space] [SerializeField] [ReadOnly] private string details;
-
+    
     public string Details
     {
         get => details;
         set => SetActivity(value, CurrentActivity.State);
     }
-
+    
     [SerializeField] [ReadOnly] private string state;
-
+    
     public string State
     {
         get => state;
         set => SetActivity(CurrentActivity.Details, value);
     }
-
+    
     [Space] [SerializeField] private string largeImage = "dc_logo";
     [SerializeField] private string largeText = "World's Hardest Maker";
     [Space] [SerializeField] private bool printWarnings;
-
+    
     private long time;
-
+    
     private Discord.Discord discord;
-
+    
     private ActivityManager activityManager;
     public Activity CurrentActivity { get; private set; }
-
+    
     private void Awake()
     {
         // init singleton
@@ -44,12 +44,12 @@ public class DiscordManager : MonoBehaviour
             if (Instance == this) DontDestroyOnLoad(gameObject);
             else DestroyImmediate(this);
         }
-
+        
         if (!Application.isPlaying && FindObjectsOfType(GetType()).Length > 1) Destroy(gameObject);
     }
-
+    
     private void Start() => Setup();
-
+    
     private void Update()
     {
         // Destroy the GameObject if Discord isn't running
@@ -58,15 +58,15 @@ public class DiscordManager : MonoBehaviour
         {
             if (Application.isPlaying) Destroy(gameObject);
         }
-
+        
         if (!Application.isPlaying) UpdateStatus();
     }
-
+    
     private void LateUpdate()
     {
         if (Application.isPlaying) UpdateStatus();
     }
-
+    
     private void UpdateStatus()
     {
         // Update Status every frame
@@ -80,7 +80,7 @@ public class DiscordManager : MonoBehaviour
             details = "Building level!";
             state = "";
             #endif
-
+            
             Activity activity = new()
             {
                 Details = details,
@@ -95,7 +95,7 @@ public class DiscordManager : MonoBehaviour
                     Start = time,
                 },
             };
-
+            
             activityManager.UpdateActivity(
                 activity, res =>
                 {
@@ -110,7 +110,7 @@ public class DiscordManager : MonoBehaviour
             else if (printWarnings) Debug.LogWarning("Updating status failed!");
         }
     }
-
+    
     public void ClearActivity() =>
         activityManager.ClearActivity(
             res =>
@@ -119,7 +119,7 @@ public class DiscordManager : MonoBehaviour
                 else CurrentActivity = new Activity();
             }
         );
-
+    
     public void SetActivity(string details = "", string state = "")
     {
         CurrentActivity = new Activity { Details = details, State = state, };
@@ -130,21 +130,21 @@ public class DiscordManager : MonoBehaviour
             }
         );
     }
-
+    
     [ButtonMethod]
     public void Setup()
     {
         // Log in with the Application ID
         discord = new(applicationID, (ulong)CreateFlags.NoRequireDiscord);
-
+        
         time = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-
+        
         activityManager = discord.GetActivityManager();
-
+        
         ClearActivity();
-
+        
         UpdateStatus();
     }
-
+    
     private void OnDestroy() => ClearActivity();
 }

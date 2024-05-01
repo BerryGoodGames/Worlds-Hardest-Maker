@@ -11,16 +11,16 @@ public class SearchForComponents : EditorWindow
         window.Show();
         window.position = new Rect(20, 80, 400, 300);
     }
-
-
+    
+    
     private readonly string[] modes = { "Search for component usage", "Search for missing components", };
-
+    
     private List<string> listResult;
     private int editorMode, editorModeOld;
     private MonoScript targetComponent, lastChecked;
     private string componentName = "";
     private Vector2 scroll;
-
+    
     private void OnGUI()
     {
         GUILayout.Space(3);
@@ -31,7 +31,7 @@ public class SearchForComponents : EditorWindow
         windowRect.width -= 7;
         editorMode = GUI.SelectionGrid(windowRect, editorMode, modes, 2, "Window");
         GUI.skin.window.padding.bottom = oldValue;
-
+        
         if (editorModeOld != editorMode)
         {
             editorModeOld = editorMode;
@@ -39,12 +39,12 @@ public class SearchForComponents : EditorWindow
             componentName = targetComponent == null ? "" : targetComponent.name;
             lastChecked = null;
         }
-
+        
         switch (editorMode)
         {
             case 0:
                 targetComponent = (MonoScript)EditorGUILayout.ObjectField(targetComponent, typeof(MonoScript), false);
-
+                
                 if (targetComponent != lastChecked)
                 {
                     lastChecked = targetComponent;
@@ -63,7 +63,7 @@ public class SearchForComponents : EditorWindow
                         }
                     }
                 }
-
+                
                 break;
             case 1:
                 if (GUILayout.Button("Search!"))
@@ -85,12 +85,12 @@ public class SearchForComponents : EditorWindow
                         catch { Debug.Log("For some reason, prefab " + prefab + " won't cast to GameObject"); }
                     }
                 }
-
+                
                 break;
         }
-
+        
         if (listResult == null) return;
-
+        
         if (listResult.Count == 0)
         {
             GUILayout.Label(
@@ -106,7 +106,7 @@ public class SearchForComponents : EditorWindow
                     ? "The following prefabs use component " + componentName + ":"
                     : "The following prefabs have missing components:"
             );
-
+            
             scroll = GUILayout.BeginScrollView(scroll);
             foreach (string s in listResult)
             {
@@ -114,14 +114,14 @@ public class SearchForComponents : EditorWindow
                 GUILayout.Label(s, GUILayout.Width(position.width / 2));
                 if (GUILayout.Button("Select", GUILayout.Width(position.width / 2 - 10)))
                     Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(s);
-
+                
                 GUILayout.EndHorizontal();
             }
-
+            
             GUILayout.EndScrollView();
         }
     }
-
+    
     public static string[] GetAllPrefabs()
     {
         string[] temp = AssetDatabase.GetAllAssetPaths();
@@ -130,7 +130,7 @@ public class SearchForComponents : EditorWindow
         {
             if (s.Contains(".prefab")) result.Add(s);
         }
-
+        
         return result.ToArray();
     }
 }

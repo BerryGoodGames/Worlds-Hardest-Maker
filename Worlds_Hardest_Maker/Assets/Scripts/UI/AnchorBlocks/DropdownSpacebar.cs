@@ -8,9 +8,9 @@ using UnityEngine;
 public class DropdownSpacebar : MonoBehaviour
 {
     [SerializeField] [InitializationField] [OverrideLabel("Open on spacebar press")] private bool open = true;
-
+    
     [Separator] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Dropdown dropdown;
-
+    
     private void Update()
     {
         // prevent dropdown from opening when user presses space

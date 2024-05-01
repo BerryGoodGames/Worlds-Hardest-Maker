@@ -7,7 +7,7 @@ public class ColorPaletteManagerEditor : Editor
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
-
+        
         ColorPaletteManager script = (ColorPaletteManager)target;
         if (GUILayout.Button("Update Color Palettes"))
         {

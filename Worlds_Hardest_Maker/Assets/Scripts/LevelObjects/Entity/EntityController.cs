@@ -15,7 +15,7 @@ public abstract class EntityController : LevelObjectController
         if ((isAttached && sheet.IsAttaching)
             || (!isAttached && !AnchorAttachManager.Instance.InAttachMode)) base.Delete();
     }
-
+    
     protected virtual void Start()
     {
         if (!EditMode.AnchorAvailable) return;
@@ -23,9 +23,6 @@ public abstract class EntityController : LevelObjectController
         AnchorAttachment attachment = AttachmentHolder.GetComponent<AnchorAttachment>();
         isAttached = attachment != null;
         
-        if (isAttached)
-        {
-            sheet = attachment.Anchor;
-        }
+        if (isAttached) sheet = attachment.Anchor;
     }
 }

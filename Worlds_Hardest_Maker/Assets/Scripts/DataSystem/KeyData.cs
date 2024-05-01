@@ -9,17 +9,17 @@ public class KeyData : Data
 {
     public float[] Position;
     public KeyColor Color;
-
+    
     public KeyData(KeyController controller)
     {
         Vector2 keyPosition = controller.transform.position;
-
+        
         Position = new float[2];
         Position[0] = keyPosition.x;
         Position[1] = keyPosition.y;
         Color = controller.Color;
     }
-
+    
     public override void ImportToLevel(Vector2 pos)
     {
         ManagerParameters args = new()
@@ -27,12 +27,12 @@ public class KeyData : Data
             Position = pos,
             KeyColor = Color,
         };
-
+        
         KeyManager.Instance.SetInSheet(args);
     }
-
+    
     public override void ImportToLevel() => ImportToLevel(new(Position[0], Position[1]));
-
+    
     public override EditMode GetEditMode() =>
         Color switch
         {
@@ -43,7 +43,7 @@ public class KeyData : Data
             KeyColor.Yellow => EditModeManager.YellowKey,
             _ => EditModeManager.GrayKey,
         };
-
+    
     public override bool Equals(Data d)
     {
         KeyData other = (KeyData)d;

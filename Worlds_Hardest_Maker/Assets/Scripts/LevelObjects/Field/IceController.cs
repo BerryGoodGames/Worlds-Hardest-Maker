@@ -6,9 +6,9 @@ public class IceController : MonoBehaviour
     {
         GameObject collider = collision.gameObject;
         if (!collider.CompareTag("Player")) return;
-
+        
         PlayerController controller = collider.GetComponent<PlayerController>();
-
+        
         if (!controller.IsOnIce())
             // frame player entered ice
             // transition between normal ground and ice

@@ -6,108 +6,108 @@ using UnityEngine.UI;
 public class ReferenceManager : MonoBehaviour
 {
     public static ReferenceManager Instance { get; private set; }
-
+    
     #region Objects
-
+    
     [Foldout("Objects")] public JumpToEntity MainCameraJumper;
-
+    
     [Foldout("Objects")] public Canvas Canvas;
-
+    
     [Foldout("Objects")] public GameObject TooltipCanvas;
-
+    
     [Foldout("Objects")] public GameObject Menu;
     [Foldout("Objects")] public AlphaTween MenuTween;
-
+    
     [Foldout("Objects")] public AlphaTween KeybindBlocker;
     [Foldout("Objects")] public TMP_Text KeybindBlockerText;
-
+    
     [Foldout("Objects")] public PlacementPreviewController PlacementPreview;
-
+    
     [Foldout("Objects")] public BarTween ToolbarTween;
     [Foldout("Objects")] public BarTween InfobarEditTween;
     [Foldout("Objects")] public BarTween InfobarPlayTween;
     [Foldout("Objects")] public BarTween PlayButtonTween;
-
+    
     [Foldout("Objects")] public TimerController TimerController;
-
+    
     [Foldout("Objects")] public PanelController LevelSettingsPanelController;
     [Foldout("Objects")] public PanelController AnchorPanelController;
     [Foldout("Objects")] public PanelController AnchorAttachButtonController;
     [Foldout("Objects")] public PanelController AnchorAttachExitButtonController;
-
+    
     #endregion
-
+    
     #region Containers
-
+    
     [Foldout("Containers")] public Transform DrawContainer;
-
+    
     [Foldout("Containers")] public Transform SelectionOutlineContainer;
-
+    
     [Foldout("Containers")] public Transform FillPreviewContainer;
-
+    
     [Foldout("Containers")] public Transform EntityContainer;
-
+    
     [Foldout("Containers")] public Transform PlayerContainer;
-
+    
     [Foldout("Containers")] public Transform AnchorContainer;
-
+    
     [Foldout("Containers")] public Transform BallContainer;
-
+    
     [Foldout("Containers")] public Transform CoinContainer;
-
+    
     [Foldout("Containers")] public Transform KeyContainer;
-
+    
     [Foldout("Containers")] public Transform FieldContainer;
-
+    
     #endregion
-
+    
     #region Anchor
-
+    
     [Foldout("Anchor")] public PanelTween AnchorEditorButtonPanelTween;
-
+    
     [Foldout("Anchor")] public PanelTween AnchorEditorPanelTween;
-
+    
     [Foldout("Anchor")] public RectTransform AnchorBlockContainer;
-
+    
     [Foldout("Anchor")] public RectTransform AnchorBlockChainContainer;
-
+    
     [Foldout("Anchor")] public RectTransform AnchorBlockSourceContainer;
-
+    
     [Foldout("Anchor")] public AnchorBlockQuickMenuController AnchorBlockQuickMenu;
-
+    
     [Foldout("Anchor")] public ChainController MainChainController;
-
+    
     [Foldout("Anchor")] public CustomFitter CustomFitter;
-
+    
     [Foldout("Anchor")] public AnchorBlockConnectorController AnchorBlockConnectorController;
-
+    
     [Foldout("Anchor")] public AnchorBlockPreviewController AnchorBlockPreview;
-
+    
     [Foldout("Anchor")] public AnchorBlockPeriblockerController AnchorBlockPeriblocker;
-
+    
     [Foldout("Anchor")] public AnchorCameraJumping AnchorCameraJumping;
-
+    
     [Foldout("Anchor")] public AlphaTween AnchorNoAnchorSelectedScreen;
-
+    
     [Foldout("Anchor")] public AlphaTween AnchorInPlayModeScreen;
-
+    
     #endregion
-
+    
     #region Materials
-
+    
     [Foldout("Material")] public Material DashedLineMaterial;
-
+    
     #endregion
-
+    
     #region SettingInputs
-
+    
     [Foldout("SettingInputs")] public TMP_Dropdown QualityDropdown;
     [Foldout("SettingInputs")] public TMP_Dropdown ResolutionDropdown;
     [Foldout("SettingInputs")] public Toggle FullscreenToggle;
     [Foldout("SettingInputs")] public Toggle OneColorToggle;
-
+    
     #endregion
-
+    
     private void Awake()
     {
         if (Instance == null) Instance = this;

@@ -10,19 +10,19 @@ public class AnchorData : Data
 {
     // (list of coordinates)
     private Data[] attachments;
-
+    
     private AnchorBlockData[] blocks;
-
+    
     private readonly float[] position;
-
+    
     public AnchorData(AnchorController controller)
     {
         // init balls and blocks
         SaveAttachments(controller);
         SaveBlocks(controller);
-
+        
         Vector2 controllerPosition = controller.StartPosition;
-
+        
         // init start position
         position = new[]
         {
@@ -30,16 +30,16 @@ public class AnchorData : Data
             controllerPosition.y,
         };
     }
-
+    
     #region Saving / loading properties
-
+    
     private void SaveAttachments(AnchorController controller)
     {
         List<AnchorAttachment> attachments = controller.Attachments;
         this.attachments = new Data[attachments.Count];
         for (int i = 0; i < attachments.Count; i++) this.attachments[i] = attachments[i].Controller.GetData();
     }
-
+    
     private void SaveBlocks(AnchorController controller)
     {
         // init blocks
@@ -51,56 +51,56 @@ public class AnchorData : Data
              currentBlockNode = currentBlockNode.Next)
         {
             AnchorBlock currentBlock = currentBlockNode.Value;
-
+            
             // assign data
             blocks[j] = currentBlock.GetData();
-
+            
             j++;
         }
     }
-
+    
     private LinkedList<AnchorBlock> LoadBlocks(AnchorController anchor)
     {
         LinkedList<AnchorBlock> blockArr = new();
-
+        
         foreach (AnchorBlockData blockData in blocks)
         {
             AnchorBlock anchorBlock = blockData.GetBlock(anchor);
             blockArr.AddLast(anchorBlock);
         }
-
+        
         return blockArr;
     }
-
+    
     #endregion
-
+    
     public override void ImportToLevel() => ImportToLevel(new(position[0], position[1]));
-
+    
     public override void ImportToLevel(Vector2 pos)
     {
         ManagerParameters args = new() { Position = pos, };
         AnchorController anchor = ((IManager<AnchorController>)AnchorManager.Instance).Set(args);
-
+        
         foreach (Data data in attachments) data.ImportToLevel();
-
+        
         anchor.Blocks = LoadBlocks(anchor);
     }
-
+    
     public override EditMode GetEditMode() => EditModeManager.Anchor;
-
+    
     public override bool Equals(Data d)
     {
         AnchorData other = (AnchorData)d;
-
+        
         if (position[0] != other.position[0] || position[1] != other.position[1]) return false;
-
+        
         if (other.attachments.Length != attachments.Length) return false;
-
+        
         for (int i = 0; i < attachments.Length; i++)
         {
             if (!attachments[i].Equals(other.attachments[i])) return false;
         }
-
+        
         // ignore anchor blocks for now
         return true;
     }

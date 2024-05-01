@@ -7,16 +7,16 @@ using UnityEngine;
 public class ToolOptionbarHoveringHitbox : MonoBehaviour
 {
     [SerializeField] private ToolOptionbar toolOptionbar;
-
+    
     private AlphaTween anim;
     private MouseOverUIRect mo;
-
+    
     private void Start()
     {
         mo = GetComponent<MouseOverUIRect>();
         anim = toolOptionbar.GetComponent<AlphaTween>();
     }
-
+    
     private void Update() =>
         anim.SetVisible(
             (mo.Over || toolOptionbar.Root.MouseOverUIRect.Over)
