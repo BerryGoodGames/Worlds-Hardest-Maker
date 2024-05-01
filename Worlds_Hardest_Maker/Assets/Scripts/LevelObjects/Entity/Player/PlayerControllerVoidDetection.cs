@@ -7,7 +7,7 @@ public partial class PlayerController
     {
         if (LevelSessionEditManager.Instance.Editing
             || InDeathAnim
-            || CurrentFloors.Count > 0
+            || CurrentPlatforms.Count > 0
             || !CheckVoidCollision(transform.position)) return;
         
         // check corners

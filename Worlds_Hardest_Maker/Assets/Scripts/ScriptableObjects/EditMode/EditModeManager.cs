@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EditModeManager : MonoBehaviour
 {
     public static EditModeManager Instance { get; private set; }
     
     [InitializationField] [MustBeAssigned] public DeleteMode DeleteMode;
-    [InitializationField] [MustBeAssigned] public FieldMode AnchorFloorMode;
+    [FormerlySerializedAs("AnchorFloorMode")] [InitializationField] [MustBeAssigned] public FieldMode AnchorPlatformMode;
     [InitializationField] [MustBeAssigned] public FieldMode WallMode;
     [InitializationField] [MustBeAssigned] public FieldMode StartMode;
     [InitializationField] [MustBeAssigned] public FieldMode GoalMode;
@@ -35,7 +36,7 @@ public class EditModeManager : MonoBehaviour
     [InitializationField] [MustBeAssigned] public KeyDoorMode YellowKeyDoorMode;
     
     public static DeleteMode Delete => Instance.DeleteMode;
-    public static FieldMode AnchorFloor => Instance.AnchorFloorMode;
+    public static FieldMode AnchorFloor => Instance.AnchorPlatformMode;
     public static FieldMode Wall => Instance.WallMode;
     public static FieldMode Start => Instance.StartMode;
     public static FieldMode Goal => Instance.GoalMode;

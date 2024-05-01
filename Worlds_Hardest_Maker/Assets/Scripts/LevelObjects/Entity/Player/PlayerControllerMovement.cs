@@ -2,22 +2,22 @@ using UnityEngine;
 
 public partial class PlayerController
 {
-    public bool IsStandingOnFloor => CurrentFloors.Count > 0;
+    public bool IsStandingOnPlatform => CurrentPlatforms.Count > 0;
     
     private void Move()
     {
         if (Won) return;
-        bool ice = IsOnIce();
+        bool onIce = IsOnIce();
         
         Vector2 totalMovement = Vector2.zero;
         // movement (if player is yours in multiplayer mode)
         if (LevelSessionEditManager.Instance.Playing)
         {
-            if (ice && !IsStandingOnFloor) IcePhysics();
+            if (onIce && !IsStandingOnPlatform) IcePhysics();
             else AddMovement(ref totalMovement);
         }
         
-        if (!IsStandingOnFloor) AddConveyorMovement(ref totalMovement);
+        if (!IsStandingOnPlatform) AddConveyorMovement(ref totalMovement);
         
         if (totalMovement != Vector2.zero && !InDeathAnim) transform.position += (Vector3)totalMovement;
     }
@@ -25,7 +25,7 @@ public partial class PlayerController
     private void UpdateWaterState()
     {
         // check water and update drown level
-        bool onWaterNow = !IsStandingOnFloor && IsOnWater();
+        bool onWaterNow = !IsStandingOnPlatform && IsOnWater();
         if (!onWater && onWaterNow)
             // frame player enters water
             AudioManager.Instance.Play("WaterEnter");

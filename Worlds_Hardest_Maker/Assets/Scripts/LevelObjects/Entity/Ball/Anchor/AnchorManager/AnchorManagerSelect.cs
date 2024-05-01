@@ -109,7 +109,7 @@ public partial class AnchorManager : IManagerSelectable
         // check double click
         float currentTime = Time.time;
         float deltaClickTime = Instance.LastSelectClick < 0 ? 0 : currentTime - Instance.LastSelectClick;
-        if (deltaClickTime < DOUBLE_CLICK_THRESHOLD && Instance.SelectedAnchor != null)
+        if (deltaClickTime < DOUBLE_CLICK_THRESHOLD && Instance.SelectedAnchor != null && !AnchorAttachManager.Instance.InAttachMode)
         {
             AnchorAttachManager.Instance.EnterAttachMode();
             AudioManager.Instance.Play("ButtonClick");

@@ -45,7 +45,7 @@ public class UndoManager : MonoBehaviour
         {
             Data l1 = list1[i];
             Data l2 = list2[i];
-            if (!l1.Equals(l2)) return false;
+            if (!(l1.GetType().IsInstanceOfType(l2) || l2.GetType().IsInstanceOfType(l1)) || !l1.Equals(l2)) return false;
         }
         
         return true;

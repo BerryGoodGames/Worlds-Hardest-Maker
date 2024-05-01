@@ -15,7 +15,7 @@ public class FieldController : LevelObjectController
     private void OnTriggerExit2D(Collider2D other)
     {
         if (!other.CompareTag("PlayerCenterCollider")
-            || !PlayerManager.Instance.Player.CurrentFloors.Contains(this)) return;
+            || !PlayerManager.Instance.Player.CurrentPlatforms.Contains(this)) return;
         
         OnPlayerExited();
     }
@@ -26,7 +26,7 @@ public class FieldController : LevelObjectController
         
         PlayerController player = PlayerManager.Instance.Player;
         
-        if (!player.CurrentFloors.Contains(this)) player.CurrentFloors.Add(this);
+        if (!player.CurrentPlatforms.Contains(this)) player.CurrentPlatforms.Add(this);
         
         player.transform.SetParent(transform);
         
@@ -43,12 +43,8 @@ public class FieldController : LevelObjectController
     {
         PlayerController player = PlayerManager.Instance.Player;
         
-        player.CurrentFloors.Remove(this);
-        if (player.CurrentFloors.Count == 0)
-        {
-            print("set the parent");
-            player.transform.SetParent(ReferenceManager.Instance.PlayerContainer);
-        }
+        player.CurrentPlatforms.Remove(this);
+        if (player.CurrentPlatforms.Count == 0) player.transform.SetParent(ReferenceManager.Instance.PlayerContainer);
     }
     
     private void Start() => isAttached = TryGetComponent(out AnchorAttachment _);

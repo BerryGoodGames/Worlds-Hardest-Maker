@@ -1,7 +1,7 @@
 using MyBox;
 using UnityEngine;
 
-public class AnchorFloorController : MonoBehaviour
+public class AnchorPlatformController : MonoBehaviour
 {
     [SerializeField] [InitializationField] private Color color1;
     [SerializeField] [InitializationField] private Color color2;

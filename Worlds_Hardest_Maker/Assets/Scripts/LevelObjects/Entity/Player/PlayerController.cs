@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 
 public partial class PlayerController : EntityController
 {
@@ -52,7 +53,7 @@ public partial class PlayerController : EntityController
     
     [ReadOnly] [CanBeNull] public AnchorController Sheet;
     
-    [ReadOnly] public List<FieldController> CurrentFloors;
+    [ReadOnly] public List<FieldController> CurrentPlatforms;
     
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
     
@@ -147,7 +148,11 @@ public partial class PlayerController : EntityController
         Sheet = args.Sheet;
         
         IsAttached = Sheet != null;
-        if (IsAttached) SheetStartPosOffset = transform.position - Sheet.transform.position;
+        if (IsAttached)
+        {
+            SheetStartPosOffset = transform.position - Sheet.transform.position;
+            
+        }
     }
     
     public void Win()

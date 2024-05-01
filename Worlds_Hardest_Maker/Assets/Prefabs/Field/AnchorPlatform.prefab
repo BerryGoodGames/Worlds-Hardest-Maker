@@ -50,11 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Name
-      value: AnchorFloor
+      value: AnchorPlatform
       objectReference: {fileID: 0}
     - target: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_TagString
-      value: AnchorFloor
+      value: AnchorPlatform
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
