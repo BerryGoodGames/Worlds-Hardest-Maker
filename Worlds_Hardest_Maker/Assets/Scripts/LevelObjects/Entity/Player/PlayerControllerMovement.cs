@@ -7,17 +7,16 @@ public partial class PlayerController
     private void Move()
     {
         if (Won) return;
-        bool onIce = IsOnIce();
         
         Vector2 totalMovement = Vector2.zero;
-        // movement (if player is yours in multiplayer mode)
+        
         if (LevelSessionEditManager.Instance.Playing)
         {
-            if (onIce && !IsStandingOnPlatform) IcePhysics();
+            if (IsOnMode(EditModeManager.Ice)) IcePhysics();
             else AddMovement(ref totalMovement);
         }
         
-        if (!IsStandingOnPlatform) AddConveyorMovement(ref totalMovement);
+        if (IsOnMode(EditModeManager.Conveyor)) AddConveyorMovement(ref totalMovement);
         
         if (totalMovement != Vector2.zero && !InDeathAnim) transform.position += (Vector3)totalMovement;
     }
@@ -25,7 +24,7 @@ public partial class PlayerController
     private void UpdateWaterState()
     {
         // check water and update drown level
-        bool onWaterNow = !IsStandingOnPlatform && IsOnWater();
+        bool onWaterNow = IsOnMode(EditModeManager.Water);
         if (!onWater && onWaterNow)
             // frame player enters water
             AudioManager.Instance.Play("WaterEnter");

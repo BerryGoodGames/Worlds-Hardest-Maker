@@ -303,12 +303,13 @@ MonoBehaviour:
   Deaths: 0
   CurrentFields: []
   StartPos: {x: 0, y: 0}
+  SheetStartPosOffset: {x: 0, y: 0}
   IsAttached: 0
   InDeathAnim: 0
   Won: 0
   HasTeleported: 0
   Sheet: {fileID: 0}
-  CurrentFloors: []
+  CurrentPlatforms: []
 --- !u!114 &7897731037161401016
 MonoBehaviour:
   m_ObjectHideFlags: 0

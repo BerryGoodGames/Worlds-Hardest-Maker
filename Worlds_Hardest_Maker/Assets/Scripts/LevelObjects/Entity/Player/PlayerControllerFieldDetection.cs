@@ -45,7 +45,7 @@ public partial class PlayerController
     public List<FieldController> GetFullyOnFields()
     {
         // finds every field the player is at least half way on
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.012f);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.08f);
         List<FieldController> res = new();
         foreach (Collider2D hit in hits)
         {
@@ -54,6 +54,8 @@ public partial class PlayerController
         
         return res;
     }
+    
+    private bool IsStandingOnPlatformMode(FieldMode mode) => CurrentPlatforms.FindIndex(field => field.FieldMode == mode) != -1;
     
     public bool IsFullyOnField(FieldMode mode)
     {
@@ -66,10 +68,8 @@ public partial class PlayerController
         
         return false;
     }
-    
-    public bool IsOnWater() => IsFullyOnField(EditModeManager.Water);
-    
-    public bool IsOnIce() => IsFullyOnField(EditModeManager.Ice);
+    public bool IsOnMode(FieldMode mode) => (!IsStandingOnPlatform && IsFullyOnField(mode)) || IsStandingOnPlatformMode(mode);
+
     
     public ConveyorController GetCurrentConveyor()
     {

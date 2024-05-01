@@ -9,7 +9,7 @@ public class IceController : MonoBehaviour
         
         PlayerController controller = collider.GetComponent<PlayerController>();
         
-        if (!controller.IsOnIce())
+        if (!controller.IsOnMode(EditModeManager.Ice))
             // frame player entered ice
             // transition between normal ground and ice
             // transfer velocity to player
