@@ -15,6 +15,7 @@ public class BallDragDrop : EntityDragDrop
         }
         else if (ballController.ParentAnchor.IsSelected) base.OnMouseDrag();
         
-        ballController.StartPosition = transform.parent.localPosition;
+        ballController.StartLocalPosition = transform.parent.localPosition;
+        ballController.StartWorldPosition = transform.parent.position;
     }
 }

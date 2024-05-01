@@ -11,10 +11,11 @@ public class BallController : EntityController
     
     public override EditMode EditMode => EditModeManager.Ball;
     
-    public override Data GetData() => new BallData(StartPosition);
+    public override Data GetData() => new BallData(StartWorldPosition);
     
-    [HideInInspector] public Vector2 StartPosition;
-    
+    [HideInInspector] public Vector2 StartLocalPosition;
+    [HideInInspector] public Vector2 StartWorldPosition;
+
     private Rigidbody2D rb;
     
     protected override void Start()
@@ -25,14 +26,15 @@ public class BallController : EntityController
         
         if (ParentAnchor == null) IsParentAnchorNull = true;
         
-        StartPosition = transform.parent.localPosition;
+        StartLocalPosition = transform.parent.localPosition;
+        StartWorldPosition = transform.parent.position;
         
         if (LevelSessionManager.Instance.IsEdit) PlayManager.Instance.OnSwitchToEdit += ResetPosition;
     }
     
     public void ResetPosition()
     {
-        transform.parent.localPosition = StartPosition;
+        transform.parent.localPosition = StartLocalPosition;
         rb.velocity = Vector2.zero;
     }
     
