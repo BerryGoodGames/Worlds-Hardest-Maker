@@ -86,6 +86,8 @@ public class AnchorData : NonAttachableData
         
         foreach (AttachableData data in attachments) data.ImportToLevel(anchor);
         
+        AnchorAttachManager.Dehighlight(anchor);
+        
         anchor.Blocks = LoadBlocks(anchor);
     }
     

@@ -58,6 +58,9 @@ public partial class AnchorController : EntityController, IResettable
         spriteRenderer = GetComponent<SpriteRenderer>();
         entityDragDrop = GetComponent<EntityDragDrop>();
         
+        SortingLayerID = spriteRenderer.sortingLayerID;
+        OrderInLayer = spriteRenderer.sortingOrder;
+        
         SpeedInput = 7;
         RotationInput = 360;
         Ease = Ease.Linear;
@@ -74,9 +77,6 @@ public partial class AnchorController : EntityController, IResettable
         entityDragDrop.OnMove += (_, _) => MoveAnchor();
         
         if (LevelSessionManager.Instance.IsEdit) UpdateStartValues();
-        
-        SortingLayerID = spriteRenderer.sortingLayerID;
-        OrderInLayer = spriteRenderer.sortingOrder;
         
         PlayManager.Instance.OnSwitchToPlay += AttachFade.FadeIn;
         PlayManager.Instance.OnSwitchToEdit += AttachFade.FadeOut;
