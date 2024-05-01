@@ -12,7 +12,7 @@ public partial class PlayerController
             if (Sheet == null) return StartPos;
             
             Transform sheetTransform = Sheet.transform;
-            Vector2 offsetPos = sheetTransform.position + Quaternion.Euler(0, 0, sheetTransform.eulerAngles.z) * sheetStartPosOffset;
+            Vector2 offsetPos = sheetTransform.position + Quaternion.Euler(0, 0, sheetTransform.eulerAngles.z) * SheetStartPosOffset;
             return offsetPos;
         }
     }

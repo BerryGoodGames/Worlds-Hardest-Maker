@@ -29,7 +29,7 @@ public partial class PlayerController : EntityController
     public GameState CurrentGameState;
     
     [HideInInspector] public Vector2 StartPos;
-    private Vector2 sheetStartPosOffset;
+    [HideInInspector] public Vector2 SheetStartPosOffset;
     private CheckpointController currentRunCheckpoint;
     
     [ReadOnly] public bool IsAttached;
@@ -81,7 +81,7 @@ public partial class PlayerController : EntityController
         PlayManager.Instance.OnLevelReset += ResetState;
         
         IsAttached = Sheet != null;
-        if (IsAttached) sheetStartPosOffset = transform.position - Sheet.transform.position;
+        if (IsAttached) SheetStartPosOffset = transform.position - Sheet.transform.position;
         
         EdgeCollider.enabled = LevelSessionEditManager.Instance.Playing;
         
@@ -135,6 +135,19 @@ public partial class PlayerController : EntityController
         sortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.PlayerPlayMode;
         
         Setup();
+    }
+    
+    public void ReSet(ManagerParameters args)
+    {
+        // calls when the player is placed, when there was already one existing, hence re-setting it
+        transform.position = args.Position;
+        StartPos = args.Position;
+        
+        PlaceManager.AttachToSheet(gameObject, args.Sheet, false);
+        Sheet = args.Sheet;
+        
+        IsAttached = Sheet != null;
+        if (IsAttached) SheetStartPosOffset = transform.position - Sheet.transform.position;
     }
     
     public void Win()

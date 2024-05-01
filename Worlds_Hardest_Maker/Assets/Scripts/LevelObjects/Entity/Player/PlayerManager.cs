@@ -31,14 +31,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
         GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.KeyContainer);
         
         // if player already exists, just move it
-        if (Player != null)
-        {
-            Player.transform.position = position;
-            Player.StartPos = position;
-            
-            PlaceManager.AttachToSheet(Player.gameObject, args.Sheet, false);
-            Player.Sheet = args.Sheet;
-        }
+        if (Player != null) Player.ReSet(args);
         else
         {
             // place player
