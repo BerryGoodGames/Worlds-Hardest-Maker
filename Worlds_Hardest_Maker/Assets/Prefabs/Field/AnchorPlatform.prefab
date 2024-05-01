@@ -56,10 +56,33 @@ PrefabInstance:
       propertyPath: m_TagString
       value: AnchorPlatform
       objectReference: {fileID: 0}
+    - target: {fileID: 7930690470329569276, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: HasOutline
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930690470329569276, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: OutlineComp
+      value: 
+      objectReference: {fileID: 7850175682563448768}
+    - target: {fileID: 8451419770457997880, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: m_Color.b
+      value: 0.99215686
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451419770457997880, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: m_Color.g
+      value: 0.85882354
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451419770457997880, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: m_Color.r
+      value: 0.8784314
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7850175682563448768}
     - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
       insertIndex: -1
       addedObject: {fileID: 33573354962732874}
@@ -72,6 +95,26 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
   m_PrefabInstance: {fileID: 1234031070589970453}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7850175682563448768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8779995736166177771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e5d9c3e8a4b7664f948f59a7a45f8af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 0, b: 0, a: 1}
+  imitateAlpha: 1
+  weight: 0.05
+  connectorTags: []
+  connectToOwnTag: 1
+  rayLength: 1
+  UpdateOnStart: 1
+  LineRenderers: []
 --- !u!114 &33573354962732874
 MonoBehaviour:
   m_ObjectHideFlags: 0

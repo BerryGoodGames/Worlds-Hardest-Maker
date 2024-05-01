@@ -13,7 +13,6 @@ public class AnchorAttachment : MonoBehaviour
     [ReadOnly] public int OrderInLayer;
     [ReadOnly] public float Opacity;
     
-    
     public void MergeToLayer() => MoveToLayer(LayerManager.Instance.SortingLayers.AnchorAbove);
     
     public void ResetLayer() => MoveToLayer(LayerManager.Instance.SortingLayers.AnchorBelow);
@@ -80,7 +79,8 @@ public class AnchorAttachment : MonoBehaviour
         
         return;
         
-        void UpdateOutlineLayers() =>
+        void UpdateOutlineLayers()
+        {
             AnchorAttachable.OutlineComp.LineRenderers.ForEach(
                 line =>
                 {
@@ -90,6 +90,7 @@ public class AnchorAttachment : MonoBehaviour
                         : LayerManager.Instance.SortingLayers.AnchorBelow;
                 }
             );
+        }
     }
     
     private void OnDestroy()
