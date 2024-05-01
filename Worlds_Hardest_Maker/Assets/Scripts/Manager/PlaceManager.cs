@@ -44,13 +44,13 @@ public class PlaceManager : MonoBehaviour
             // check field deletion
             EditModeManager.Delete)
         {
-            bool deletedField = FieldManager.Instance.Remove(matrixPosition, true, sheet);
+            // remove player if at deleted pos
+            PlayerManager.Instance.RemoveAtPosIntersectInSheet(matrixPosition, sheet);
             
             // delete field
-            if (deletedField && playSound) AudioManager.Instance.Play(GetSfx(editMode));
+            bool deletedField = FieldManager.Instance.Remove(matrixPosition, true, sheet);
             
-            // remove player if at deleted pos
-            PlayerManager.Instance.RemoveAtPosIntersect(matrixPosition);
+            if (deletedField && playSound) AudioManager.Instance.Play(GetSfx(editMode));
             
             return;
         }

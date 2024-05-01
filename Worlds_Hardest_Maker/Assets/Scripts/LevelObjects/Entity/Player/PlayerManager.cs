@@ -128,14 +128,14 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     
     public void RemoveAtPosInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
-        // remove player only if at pos
-        foreach (Transform p in DefaultContainer)
+        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Player);
+        foreach (Collider2D hit in hits)
         {
-            if ((Vector2)p.position != position) continue;
+            if (!hit.CompareTag("PlayerCenterCollider")) continue;
+            if (!hit.transform.parent.TryGetComponent(out PlayerController player)) continue;
+            if (!IManager.IsInSheet(player, sheet)) continue;
             
-            PlayerController player = p.GetComponent<PlayerController>();
-            
-            if (IManager.IsInSheet(player, sheet)) player.DestroySelf();
+            player.DestroySelf();
         }
     }
     
@@ -151,7 +151,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
         foreach (Vector2 d in deltas) RemoveAtPos(position + d);
     }
     
-    public void RemovePlayerAtPosIntersectInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
+    public void RemoveAtPosIntersectInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
         Vector2[] deltas =
         {

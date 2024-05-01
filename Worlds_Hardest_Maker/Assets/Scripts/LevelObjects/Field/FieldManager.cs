@@ -94,12 +94,17 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
         FieldController field = GetInSheet(position, sheet);
         
         PlayerController player = PlayerManager.Instance.Player;
-        if (player != null && player.CurrentFields.Contains(field)) field.OnPlayerExited();
+        if (player != null && player.CurrentFloors.Contains(field))
+        {
+            print("Calling from remove");
+            field.OnPlayerExited();
+        }
         
         bool fieldDestroyed = false;
         
         if (field != null)
         {
+            print("destroying");
             DestroyImmediate(field.gameObject);
             fieldDestroyed = true;
         }

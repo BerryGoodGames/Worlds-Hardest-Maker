@@ -5,18 +5,6 @@ public class FieldController : LevelObjectController
     [HideInInspector] public FieldMode FieldMode;
     private bool isAttached;
     
-    public Vector2 DeltaPosition { get; private set; }
-    private Vector2 previousPosition;
-    
-    private void FixedUpdate()
-    {
-        Vector2 currentPosition = transform.position;
-        if (previousPosition == default) previousPosition = transform.position;
-        
-        DeltaPosition = currentPosition - previousPosition;
-        previousPosition = currentPosition;
-    }
-    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("PlayerCenterCollider")) return;
@@ -56,7 +44,11 @@ public class FieldController : LevelObjectController
         PlayerController player = PlayerManager.Instance.Player;
         
         player.CurrentFloors.Remove(this);
-        if (player.CurrentFloors.Count == 0) player.transform.SetParent(ReferenceManager.Instance.PlayerContainer);
+        if (player.CurrentFloors.Count == 0)
+        {
+            print("set the parent");
+            player.transform.SetParent(ReferenceManager.Instance.PlayerContainer);
+        }
     }
     
     private void Start() => isAttached = TryGetComponent(out AnchorAttachment _);
