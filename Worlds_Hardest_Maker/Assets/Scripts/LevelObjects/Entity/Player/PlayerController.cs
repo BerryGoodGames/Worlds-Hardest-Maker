@@ -144,7 +144,16 @@ public partial class PlayerController : EntityController
         transform.position = args.Position;
         StartPos = args.Position;
         
-        PlaceManager.AttachToSheet(gameObject, args.Sheet, false);
+        bool willBeAttached = args.Sheet != null;
+        
+        if (willBeAttached)
+        {
+            PlaceManager.AttachToSheet(gameObject, args.Sheet, false);
+        }
+        else
+        {
+            PlaceManager.Detach(gameObject, PlayerManager.Instance.DefaultContainer);
+        }
         Sheet = args.Sheet;
         
         IsAttached = Sheet != null;

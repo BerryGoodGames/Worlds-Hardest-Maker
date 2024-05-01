@@ -107,11 +107,18 @@ public class PlaceManager : MonoBehaviour
     {
         if (sheet == null) return;
         
-        if (!obj.TryGetComponent(out AnchorAttachment attachment)) attachment = obj.AddComponent<AnchorAttachment>();
+        AnchorAttachment attachment = obj.GetOrAddComponent<AnchorAttachment>();
         
         attachment.Anchor = sheet;
         
         if (forceParent && obj.transform.parent != sheet.AttachmentContainer) obj.transform.SetParent(sheet.AttachmentContainer);
+    }
+    
+    public static void Detach(GameObject obj, Transform container)
+    {
+        if (obj.TryGetComponent(out AnchorAttachment attachment)) Destroy(attachment);
+        
+        obj.transform.SetParent(container);
     }
     
     public static void RemoveEntitiesAt(Vector2 position, LayerMask entityLayer)

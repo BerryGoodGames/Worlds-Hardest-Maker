@@ -34,6 +34,33 @@ public class AnchorAttachment : MonoBehaviour
         }
     }
     
+    private void ReturnToOriginalLayer()
+    {
+        if (AnchorAttachable.HasSortingGroup)
+        {
+            AnchorAttachable.SortingGroup.sortingLayerID = SortingLayerID;
+            AnchorAttachable.SortingGroup.sortingOrder = OrderInLayer;
+        }
+        
+        AnchorAttachable.MainSprite.sortingLayerID = SortingLayerID;
+        AnchorAttachable.MainSprite.sortingOrder = OrderInLayer;
+        
+        Color color = AnchorAttachable.MainSprite.color;
+        color.a = Opacity;
+        AnchorAttachable.MainSprite.color = color;
+        
+        if (AnchorAttachable.HasOutline)
+        {
+            AnchorAttachable.OutlineComp.LineRenderers.ForEach(line =>
+                {
+                    if (line == null) return;
+                    line.sortingLayerID = SortingLayerID;
+                    line.sortingOrder = OrderInLayer;
+                }
+            );
+        }
+    }
+    
     private void Start()
     {
         Anchor.Attachments.Add(this);
@@ -95,6 +122,8 @@ public class AnchorAttachment : MonoBehaviour
     
     private void OnDestroy()
     {
+        ReturnToOriginalLayer();
+        
         Anchor.Attachments.Remove(this);
         
         PlayManager.Instance.OnSwitchToPlay -= MergeToLayer;
