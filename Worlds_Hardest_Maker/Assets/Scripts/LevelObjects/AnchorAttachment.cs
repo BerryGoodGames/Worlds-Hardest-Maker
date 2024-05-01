@@ -34,7 +34,7 @@ public class AnchorAttachment : MonoBehaviour
         }
     }
     
-    private void ReturnToOriginalLayer()
+    public void ReturnToOriginalLayer()
     {
         if (AnchorAttachable.HasSortingGroup)
         {
@@ -122,8 +122,6 @@ public class AnchorAttachment : MonoBehaviour
     
     private void OnDestroy()
     {
-        ReturnToOriginalLayer();
-        
         Anchor.Attachments.Remove(this);
         
         PlayManager.Instance.OnSwitchToPlay -= MergeToLayer;

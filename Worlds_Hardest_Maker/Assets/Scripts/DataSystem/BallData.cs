@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class BallData : Data
+public class BallData : AttachableData
 {
     private readonly float[] position;
     
@@ -19,9 +19,14 @@ public class BallData : Data
         BallManager.Instance.SetInSheet(args);
     }
     
-    public override void ImportToLevel()
+    public override void ImportToLevel(AnchorController sheet)
     {
-        ManagerParameters args = new() { Position = new(position[0], position[1]), };
+        ManagerParameters args = new()
+        {
+            Position = new(position[0], position[1]),
+            Sheet = sheet,
+        };
+        
         BallManager.Instance.SetInSheet(args);
     }
     

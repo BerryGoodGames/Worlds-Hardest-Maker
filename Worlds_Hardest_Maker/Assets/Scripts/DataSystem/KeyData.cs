@@ -1,11 +1,12 @@
 using System;
+using JetBrains.Annotations;
 using UnityEngine;
 
 /// <summary>
 ///     Key attributes: position, color
 /// </summary>
 [Serializable]
-public class KeyData : Data
+public class KeyData : AttachableData
 {
     public float[] Position;
     public KeyColor Color;
@@ -31,7 +32,16 @@ public class KeyData : Data
         KeyManager.Instance.SetInSheet(args);
     }
     
-    public override void ImportToLevel() => ImportToLevel(new(Position[0], Position[1]));
+    public override void ImportToLevel(AnchorController sheet) {
+        ManagerParameters args = new()
+        {
+            Position = new(Position[0], Position[1]),
+            KeyColor = Color,
+            Sheet = sheet,
+        };
+        
+        KeyManager.Instance.SetInSheet(args);
+    }
     
     public override EditMode GetEditMode() =>
         Color switch

@@ -297,9 +297,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4d9f08cc6d09d24aa52973475e52907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsAttached: 0
   isAttachable: 0
   AttachmentHolder: {fileID: 0}
   AttachmentContainer: {fileID: 3516165864050137394}
+  AttachmentContainerSyncTransform: {fileID: 192380122639183852}
   Animator: {fileID: 2695958956081501589}
   AttachFade: {fileID: 4634633626038657293}
   SortingLayerID: 0

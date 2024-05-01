@@ -6,10 +6,10 @@ using UnityEngine;
 ///     Anchor attributes: balls (positions), blocks, position
 /// </summary>
 [Serializable]
-public class AnchorData : Data
+public class AnchorData : NonAttachableData
 {
     // (list of coordinates)
-    private Data[] attachments;
+    private AttachableData[] attachments;
     
     private AnchorBlockData[] blocks;
     
@@ -36,8 +36,11 @@ public class AnchorData : Data
     private void SaveAttachments(AnchorController controller)
     {
         List<AnchorAttachment> attachments = controller.Attachments;
-        this.attachments = new Data[attachments.Count];
-        for (int i = 0; i < attachments.Count; i++) this.attachments[i] = attachments[i].Controller.GetData();
+        this.attachments = new AttachableData[attachments.Count];
+        for (int i = 0; i < attachments.Count; i++)
+        {
+            this.attachments[i] = (AttachableData)attachments[i].Controller.GetData();
+        }
     }
     
     private void SaveBlocks(AnchorController controller)
@@ -81,7 +84,7 @@ public class AnchorData : Data
         ManagerParameters args = new() { Position = pos, };
         AnchorController anchor = ((IManager<AnchorController>)AnchorManager.Instance).Set(args);
         
-        foreach (Data data in attachments) data.ImportToLevel();
+        foreach (AttachableData data in attachments) data.ImportToLevel(anchor);
         
         anchor.Blocks = LoadBlocks(anchor);
     }

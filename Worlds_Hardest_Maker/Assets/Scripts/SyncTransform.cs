@@ -10,7 +10,9 @@ public class SyncTransform : MonoBehaviour
     [SerializeField] [InitializationField] private bool syncRotation = true;
     [SerializeField] [InitializationField] private bool syncScale = true;
     
-    private void Update()
+    private void Update() => Sync();
+    
+    public void Sync()
     {
         // Synchronize the target transform with the source transform
         if (syncPosition) transform.position = Source.position;

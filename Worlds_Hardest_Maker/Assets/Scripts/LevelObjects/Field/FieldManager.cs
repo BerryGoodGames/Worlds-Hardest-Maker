@@ -18,13 +18,13 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
         Remove(args.Position, true, args.Sheet);
         
         // place field according to edit mode
-        FieldController field = ((IManager<FieldController>)this).Instantiate(args);
+        FieldController field = ((IManager<FieldController>)this).InstantiateInSheet(args);
         
         if (field.TryGetComponent(out ColorCalibration calibration))
             calibration.Apply(LevelSessionEditManager.Instance.Playing && SettingsManager.Instance.OneColorSafeFields);
         
         // remove player if at changed pos
-        if (!args.FieldMode.IsStartFieldForPlayer) PlayerManager.Instance.RemoveAtPosIntersect(args.Position);
+        if (!args.FieldMode.IsStartFieldForPlayer) PlayerManager.Instance.RemoveAtPosIntersectInSheet(args.Position, args.Sheet);
         
         if (CoinManager.CannotPlaceFields.Contains(args.FieldMode))
             // remove coin if wall is placed
@@ -36,11 +36,6 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
         
         return field;
     }
-    
-    // public FieldController Set(ManagerParameters args)
-    // {
-    //     
-    // }
     
     public FieldController GetInSheet(Vector2 position, AnchorController sheet)
     {
@@ -84,7 +79,7 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
         FieldController fieldController = res.GetComponent<FieldController>();
         fieldController.FieldMode = args.FieldMode;
         
-        PlaceManager.AttachToSheet(res, PlaceManager.GetCurrentSheet());
+        PlaceManager.AttachToSheet(res, args.Sheet);
         
         return fieldController;
     }

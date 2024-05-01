@@ -5,7 +5,7 @@ using UnityEngine;
 ///     Coin attributes: position
 /// </summary>
 [Serializable]
-public class CoinData : Data
+public class CoinData : AttachableData
 {
     public float[] Position;
     
@@ -18,7 +18,15 @@ public class CoinData : Data
         Position[1] = controllerPosition.y;
     }
     
-    public override void ImportToLevel() => ImportToLevel(new(Position[0], Position[1]));
+    public override void ImportToLevel(AnchorController sheet)
+    {
+        ManagerParameters args = new()
+        {
+            Position = new(Position[0], Position[1]),
+            Sheet = sheet,
+        };
+        ((IManager<CoinController>)CoinManager.Instance).SetInSheet(args);
+    }
     
     public override void ImportToLevel(Vector2 pos)
     {

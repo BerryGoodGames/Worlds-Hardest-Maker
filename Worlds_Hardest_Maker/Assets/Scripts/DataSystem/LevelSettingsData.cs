@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-public class LevelSettingsData : Data
+public class LevelSettingsData : NonAttachableData
 {
     #region Setting variables
     

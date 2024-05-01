@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using JetBrains.Annotations;
 using SFB;
 using UnityEngine;
 
@@ -195,12 +196,22 @@ public static class SaveSystem
 [Serializable]
 public abstract class Data
 {
-    public abstract void ImportToLevel();
-    
     public virtual void ImportToLevel(Vector2 pos) =>
         Debug.LogWarning("ImportToLevel(Vector2 pos) has been called, but there is no override defined");
     
     public abstract EditMode GetEditMode();
     
     public abstract bool Equals(Data other);
+}
+
+[Serializable]
+public abstract class AttachableData : Data
+{
+    public abstract void ImportToLevel([CanBeNull] AnchorController sheet);
+}
+
+[Serializable]
+public abstract class NonAttachableData : Data
+{
+    public abstract void ImportToLevel();
 }

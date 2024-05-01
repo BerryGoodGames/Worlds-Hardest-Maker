@@ -1,11 +1,12 @@
 using System;
+using System.Windows.Forms;
 using UnityEngine;
 
 /// <summary>
 ///     Field attributes: position, type
 /// </summary>
 [Serializable]
-public class FieldData : Data
+public class FieldData : AttachableData
 {
     public int[] Position;
     public string FieldMode;
@@ -24,7 +25,18 @@ public class FieldData : Data
         FieldMode = field.FieldMode.ToString();
     }
     
-    public override void ImportToLevel() => ImportToLevel(new(Position[0], Position[1]));
+    public override void ImportToLevel(AnchorController sheet)
+    {
+        ManagerParameters args = new()
+        {
+            Position = new(Position[0], Position[1]),
+            FieldMode = EditModeManager.GetFieldMode(FieldMode),
+            Rotation = Rotation,
+            Sheet = sheet,
+        };
+        
+        ((IManager<FieldController>)FieldManager.Instance).SetInSheet(args);
+    }
     
     public override void ImportToLevel(Vector2 pos)
     {

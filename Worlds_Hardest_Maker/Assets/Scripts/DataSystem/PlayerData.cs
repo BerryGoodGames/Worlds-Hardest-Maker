@@ -5,7 +5,7 @@ using UnityEngine;
 ///     Player attributes: speed, start pos
 /// </summary>
 [Serializable]
-public class PlayerData : Data
+public class PlayerData : AttachableData
 {
     public float[] StartPosition;
     
@@ -16,7 +16,16 @@ public class PlayerData : Data
         StartPosition[1] = controller.StartPos.y;
     }
     
-    public override void ImportToLevel() => ImportToLevel(new Vector2(StartPosition[0], StartPosition[1]));
+    public override void ImportToLevel(AnchorController sheet)
+    {
+        ManagerParameters args = new()
+        {
+            Position = new(StartPosition[0], StartPosition[1]),
+            Sheet = sheet,
+        };
+        
+        PlayerManager.Instance.SetInSheet(args);
+    }
     
     public override void ImportToLevel(Vector2 pos) => PlayerManager.Instance.Set(pos);
     

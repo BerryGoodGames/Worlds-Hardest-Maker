@@ -116,7 +116,11 @@ public class PlaceManager : MonoBehaviour
     
     public static void Detach(GameObject obj, Transform container)
     {
-        if (obj.TryGetComponent(out AnchorAttachment attachment)) Destroy(attachment);
+        if (obj.TryGetComponent(out AnchorAttachment attachment))
+        {
+            attachment.ReturnToOriginalLayer();
+            Destroy(attachment);
+        }
         
         obj.transform.SetParent(container);
     }

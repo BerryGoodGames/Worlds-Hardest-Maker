@@ -11,11 +11,7 @@ public class BallController : EntityController
     
     public override EditMode EditMode => EditModeManager.Ball;
     
-    public override Data GetData()
-    {
-        print(StartPosition);
-        return new BallData(StartPosition);
-    }
+    public override Data GetData() => new BallData(StartPosition);
     
     [HideInInspector] public Vector2 StartPosition;
     

@@ -10,6 +10,7 @@ using UnityEngine;
 public partial class AnchorController : EntityController, IResettable
 {
     [Separator] [InitializationField] [MustBeAssigned] public Transform AttachmentContainer;
+    [InitializationField] [MustBeAssigned] public SyncTransform AttachmentContainerSyncTransform;
     [InitializationField] [MustBeAssigned] public Animator Animator;
     [InitializationField] [MustBeAssigned] public AnchorAttachFade AttachFade;
     
