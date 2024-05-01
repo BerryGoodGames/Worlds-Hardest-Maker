@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
@@ -70,6 +71,17 @@ public partial class AnchorManager : IManager<AnchorController>
             PrefabManager.Instance.Anchor, Vector2.zero, Quaternion.identity,
             DefaultContainer
         ).Child;
+    
+    public List<Data> Serialize(List<Data> levelData)
+    {
+        foreach (Transform anchor in ReferenceManager.Instance.AnchorContainer)
+        {
+            AnchorData anchorData = new(anchor.GetComponent<AnchorParentController>().Child);
+            levelData.Add(anchorData);
+        }
+        
+        return levelData;
+    }
     
     public bool CorrespondsToEditMode(EditMode compare) => compare == EditModeManager.Anchor;
 }

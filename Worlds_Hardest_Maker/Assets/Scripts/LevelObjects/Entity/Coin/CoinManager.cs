@@ -75,6 +75,19 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
             args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
         );
     
+    public List<Data> Serialize(List<Data> levelData)
+    {
+        foreach (CoinController coin in Coins)
+        {
+            if (coin.IsAttached) continue;
+        
+            CoinData coinData = new(coin);
+            levelData.Add(coinData);
+        }
+        
+        return levelData;
+    }
+    
     public void UncollectCoinAtPos(Vector2 position)
     {
         for (int i = CollectedCoins.Count - 1; i >= 0; i--)

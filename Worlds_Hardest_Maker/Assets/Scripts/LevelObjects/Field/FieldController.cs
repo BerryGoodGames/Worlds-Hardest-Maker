@@ -1,9 +1,9 @@
+using MyBox;
 using UnityEngine;
 
 public class FieldController : LevelObjectController
 {
     [HideInInspector] public FieldMode FieldMode;
-    private bool isAttached;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -22,7 +22,7 @@ public class FieldController : LevelObjectController
     
     public void OnPlayerEntered()
     {
-        if (FieldMode.IsSolid || !isAttached || !FieldMode.CarryPlayer) return;
+        if (FieldMode.IsSolid || !IsAttached || !FieldMode.CarryPlayer) return;
         
         PlayerController player = PlayerManager.Instance.Player;
         
@@ -47,7 +47,7 @@ public class FieldController : LevelObjectController
         if (player.CurrentPlatforms.Count == 0) player.transform.SetParent(ReferenceManager.Instance.PlayerContainer);
     }
     
-    private void Start() => isAttached = TryGetComponent(out AnchorAttachment _);
+    private void Start() => IsAttached = TryGetComponent(out AnchorAttachment _);
     
     public override EditMode EditMode => FieldMode;
     public override Data GetData() => new FieldData(this);

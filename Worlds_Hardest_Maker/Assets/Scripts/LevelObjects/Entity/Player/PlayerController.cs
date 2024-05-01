@@ -33,8 +33,6 @@ public partial class PlayerController : EntityController
     [HideInInspector] public Vector2 SheetStartPosOffset;
     private CheckpointController currentRunCheckpoint;
     
-    [ReadOnly] public bool IsAttached;
-    
     private Vector2 movementInput;
     private Vector2 extraMovementInput;
     

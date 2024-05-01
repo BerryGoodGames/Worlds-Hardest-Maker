@@ -86,6 +86,19 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
     
     public bool IsThereInSheet(Vector2 position, AnchorController sheet) => GetInSheet(position, sheet) != null;
     
+    public List<Data> Serialize(List<Data> levelData)
+    {
+        foreach (KeyController key in Keys)
+        {
+            if (key.IsAttached) continue;
+        
+            KeyData keyData = new(key);
+            levelData.Add(keyData);
+        }
+        
+        return levelData;
+    }
+    
     public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
     
     public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -15,8 +16,6 @@ public interface IManager
 
 public interface IManager<T> : IManager where T : LevelObjectController
 {
-    public Transform DefaultContainer { get; }
-    
     public T Set(ManagerParameters args) => SetInSheet(ManagerParameters.GetCurrentSheetParams(args));
     public T SetInSheet(ManagerParameters args);
     
@@ -28,6 +27,8 @@ public interface IManager<T> : IManager where T : LevelObjectController
     
     public bool IsThere(Vector2 position) => Get(position) != null;
     public bool IsThereInSheet(Vector2 position, [CanBeNull] AnchorController sheet) => GetInSheet(position, sheet) != null;
+    
+    public List<Data> Serialize(List<Data> levelData);
 }
 
 public struct ManagerParameters

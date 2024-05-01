@@ -66,6 +66,20 @@ public class BallManager : MonoBehaviour, IManager<BallController>
         return ball.GetComponentInChildren<BallController>();
     }
     
+    public List<Data> Serialize(List<Data> levelData)
+    {
+        if (BallListGlobal == null) return levelData;
+        foreach (BallController ball in BallListGlobal)
+        {
+            if (ball.IsAttached) continue;
+            
+            BallData ballData = (BallData)ball.GetData();
+            levelData.Add(ballData);
+        }
+        
+        return levelData;
+    }
+    
     private static List<BallController> GetBalls(Vector2 pos)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.01f, LayerManager.Instance.Layers.Entity);

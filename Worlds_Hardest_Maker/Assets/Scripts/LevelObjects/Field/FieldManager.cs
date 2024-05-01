@@ -89,6 +89,21 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
         return fieldController;
     }
     
+    public List<Data> Serialize(List<Data> levelData)
+    {
+        foreach (Transform field in ReferenceManager.Instance.FieldContainer)
+        {
+            FieldController controller = field.GetComponent<FieldController>();
+            
+            if (controller.IsAttached) continue;
+            
+            FieldData fieldData = new(controller);
+            levelData.Add(fieldData);
+        }
+        
+        return levelData;
+    }
+    
     public bool Remove(Vector2 position, bool updateOutlines = false, [CanBeNull] AnchorController sheet = null)
     {
         FieldController field = GetInSheet(position, sheet);

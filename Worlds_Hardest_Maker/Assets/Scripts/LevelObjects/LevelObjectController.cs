@@ -1,7 +1,10 @@
+using MyBox;
 using UnityEngine;
 
 public abstract class LevelObjectController : MonoBehaviour
 {
+    [ReadOnly] public bool IsAttached;
+    
     public abstract EditMode EditMode { get; }
     
     public abstract Data GetData();

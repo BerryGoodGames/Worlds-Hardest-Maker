@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using SFB;
 using UnityEngine;
@@ -58,47 +59,23 @@ public static class SaveSystem
     {
         List<Data> levelData = new();
         
-        // serialize players
-        PlayerController player = PlayerManager.Instance.Player;
-        if (player != null)
+        List<IManager> managers = new()
         {
-            PlayerData playerData = new(player);
-            levelData.Add(playerData);
-        }
+            PlayerManager.Instance,
+            BallManager.Instance,
+            CoinManager.Instance,
+            AnchorManager.Instance,
+            KeyManager.Instance,
+            FieldManager.Instance,
+        };
         
-        // serialize anchors
-        foreach (Transform anchor in ReferenceManager.Instance.AnchorContainer)
+        foreach (IManager manager in managers)
         {
-            AnchorData anchorData = new(anchor.GetComponent<AnchorParentController>().Child);
-            levelData.Add(anchorData);
-        }
-        
-        // serialize loose balls
-        foreach (BallController ball in BallManager.Instance.BallListGlobal)
-        {
-            BallData ballData = (BallData)ball.GetData();
-            levelData.Add(ballData);
-        }
-        
-        // serialize coins
-        foreach (CoinController coin in CoinManager.Instance.Coins)
-        {
-            CoinData coinData = new(coin);
-            levelData.Add(coinData);
-        }
-        
-        // serialize keys
-        foreach (KeyController key in KeyManager.Instance.Keys)
-        {
-            KeyData keyData = new(key);
-            levelData.Add(keyData);
-        }
-        
-        // serialize fields
-        foreach (Transform field in ReferenceManager.Instance.FieldContainer)
-        {
-            FieldData fieldData = new(field.GetComponent<FieldController>());
-            levelData.Add(fieldData);
+            Type type = manager.GetType();
+            
+            MethodInfo methodInfo = type.GetMethod(nameof(IManager<LevelObjectController>.Serialize));
+            
+            levelData = (List<Data>)methodInfo!.Invoke(manager, new object[] { levelData, });
         }
         
         // serialize current level settings

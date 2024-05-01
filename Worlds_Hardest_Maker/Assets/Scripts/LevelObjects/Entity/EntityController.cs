@@ -1,19 +1,19 @@
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class EntityController : LevelObjectController
 {
     [SerializeField] [InitializationField] [UsedImplicitly] private bool isAttachable = true;
     [ConditionalField(nameof(isAttachable))] [InitializationField] public Transform AttachmentHolder;
     
-    private bool isAttached;
     private AnchorController sheet;
     
     public override void Delete()
     {
-        if ((isAttached && sheet.IsAttaching)
-            || (!isAttached && !AnchorAttachManager.Instance.InAttachMode)) base.Delete();
+        if ((IsAttached && sheet.IsAttaching)
+            || (!IsAttached && !AnchorAttachManager.Instance.InAttachMode)) base.Delete();
     }
     
     protected virtual void Start()
@@ -21,8 +21,8 @@ public abstract class EntityController : LevelObjectController
         if (!EditMode.AnchorAvailable) return;
         
         AnchorAttachment attachment = AttachmentHolder.GetComponent<AnchorAttachment>();
-        isAttached = attachment != null;
+        IsAttached = attachment != null;
         
-        if (isAttached) sheet = attachment.Anchor;
+        if (IsAttached) sheet = attachment.Anchor;
     }
 }
