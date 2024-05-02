@@ -333,7 +333,7 @@ MonoBehaviour:
   container: {fileID: 3516165864050137394}
   fadeDuration: 0.2
   fadeInScalar: 1
-  fadeOutScalar: 0.45
+  fadeOutScalar: 0.5
 --- !u!95 &2695958956081501589
 Animator:
   serializedVersion: 5

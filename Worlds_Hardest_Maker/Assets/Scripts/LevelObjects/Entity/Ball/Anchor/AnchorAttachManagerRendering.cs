@@ -7,7 +7,7 @@ public partial class AnchorAttachManager
     
     public static void HighlightAnchor(AnchorController anchor)
     {
-        Instance.anchorAttachBlocker.SetActive(true);
+        if (Instance != null) Instance.anchorAttachBlocker.SetActive(true);
         
         anchor.MergeToLayer();
         anchor.Attachments.ForEach(attachment => attachment.MergeToLayer());
@@ -17,7 +17,7 @@ public partial class AnchorAttachManager
     
     public static void Dehighlight(AnchorController anchor)
     {
-        if(Instance != null) Instance.anchorAttachBlocker.SetActive(false);
+        if (Instance != null) Instance.anchorAttachBlocker.SetActive(false);
         
         anchor.ResetLayer();
         anchor.Attachments.ForEach(attachment => attachment.ResetLayer());
