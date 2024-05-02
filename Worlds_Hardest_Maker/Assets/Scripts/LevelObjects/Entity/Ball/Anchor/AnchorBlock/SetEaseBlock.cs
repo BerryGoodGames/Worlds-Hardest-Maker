@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class SetEaseBlock : AnchorBlock, IPassiveAnchorBlock
 {
-    public const Type BlockType = Type.Ease;
-    public override Type ImplementedBlockType => BlockType;
+    public const Type BLOCK_TYPE = Type.Ease;
+    public override Type ImplementedBlockType => BLOCK_TYPE;
     protected override GameObject Prefab => PrefabManager.Instance.SetEaseBlockPrefab;
     
     private readonly Ease ease;

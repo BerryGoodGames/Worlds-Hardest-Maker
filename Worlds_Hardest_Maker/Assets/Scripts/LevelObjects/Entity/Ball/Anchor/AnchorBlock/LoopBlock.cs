@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class LoopBlock : AnchorBlock, IPassiveAnchorBlock
 {
-    public const Type BlockType = Type.Loop;
-    public override Type ImplementedBlockType => BlockType;
+    public const Type BLOCK_TYPE = Type.Loop;
+    public override Type ImplementedBlockType => BLOCK_TYPE;
     protected override GameObject Prefab => PrefabManager.Instance.GoToBlockPrefab;
     
     public LoopBlock(AnchorController anchor, bool isLocked) : base(anchor, isLocked) { }

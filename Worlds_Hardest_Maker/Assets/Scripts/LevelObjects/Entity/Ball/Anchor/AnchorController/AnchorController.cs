@@ -26,7 +26,7 @@ public partial class AnchorController : EntityController, IResettable
     [HideInInspector] public float RotationInput;
     [HideInInspector] public bool IsClockwise;
     public LinkedListNode<AnchorBlock> LoopBlockNode;
-    public TweenerCore<float, float, FloatOptions> RotationTween;
+    public TweenerCore<Quaternion, Vector3, QuaternionOptions> RotationTween;
     [HideInInspector] public Ease Ease;
     
     public Vector2 StartPosition { get; private set; }

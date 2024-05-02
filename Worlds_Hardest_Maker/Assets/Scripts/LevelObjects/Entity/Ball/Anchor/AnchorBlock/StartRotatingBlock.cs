@@ -5,8 +5,8 @@ public class StartRotatingBlock : AnchorBlock, IActiveAnchorBlock
 {
     public StartRotatingBlock(AnchorController anchor, bool isLocked) : base(anchor, isLocked) { }
     
-    public const Type BlockType = Type.StartRotating;
-    public override Type ImplementedBlockType => BlockType;
+    public const Type BLOCK_TYPE = Type.StartRotating;
+    public override Type ImplementedBlockType => BLOCK_TYPE;
     protected override GameObject Prefab => PrefabManager.Instance.StartRotatingBlockPrefab;
     
     public override void Execute()
@@ -23,7 +23,7 @@ public class StartRotatingBlock : AnchorBlock, IActiveAnchorBlock
             int direction = Anchor.IsClockwise ? -1 : 1;
             
             Anchor.RotationTween.Kill();
-            Anchor.RotationTween = Anchor.Rb.DORotate(360 * direction, duration)
+            Anchor.RotationTween = Anchor.transform.DORotate(360 * direction * Vector3.forward, duration, RotateMode.FastBeyond360)
                 .SetRelative()
                 .SetLoops(-1)
                 .SetEase(Ease.Linear);

@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class RotateBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
 {
-    public const Type BlockType = Type.Rotate;
-    public override Type ImplementedBlockType => BlockType;
+    public const Type BLOCK_TYPE = Type.Rotate;
+    public override Type ImplementedBlockType => BLOCK_TYPE;
     protected override GameObject Prefab => PrefabManager.Instance.RotateBlockPrefab;
     
     private readonly float iterations;
@@ -33,7 +33,8 @@ public class RotateBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
         int direction = Anchor.IsClockwise ? -1 : 1;
         
         Anchor.RotationTween.Kill();
-        Anchor.RotationTween = Anchor.Rb.DORotate(iterations * 360 * direction, duration)
+        Anchor.RotationTween.Kill();
+        Anchor.RotationTween = Anchor.transform.DORotate(iterations * 360 * direction * Vector3.forward, duration, RotateMode.FastBeyond360)
             .SetRelative()
             .SetEase(Anchor.Ease)
             .OnComplete(Anchor.FinishCurrentExecution);

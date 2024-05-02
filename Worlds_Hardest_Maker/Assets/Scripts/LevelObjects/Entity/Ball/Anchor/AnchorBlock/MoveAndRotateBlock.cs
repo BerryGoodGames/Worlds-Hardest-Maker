@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
 {
-    public const Type BlockType = Type.MoveAndRotate;
+    public const Type BLOCK_TYPE = Type.MoveAndRotate;
     public override Type ImplementedBlockType => Type.MoveAndRotate;
     protected override GameObject Prefab => PrefabManager.Instance.MoveAndRotateBlockPrefab;
     
@@ -68,7 +68,8 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
         int direction = Anchor.IsClockwise ? -1 : 1;
         
         Anchor.RotationTween.Kill();
-        Anchor.RotationTween = Anchor.Rb.DORotate(iterations * 360 * direction, rotateDuration)
+        Anchor.RotationTween = Anchor.transform
+            .DORotate(iterations * 360 * direction * Vector3.forward, rotateDuration, RotateMode.FastBeyond360)
             .SetRelative()
             .SetEase(Anchor.Ease)
             .OnComplete(

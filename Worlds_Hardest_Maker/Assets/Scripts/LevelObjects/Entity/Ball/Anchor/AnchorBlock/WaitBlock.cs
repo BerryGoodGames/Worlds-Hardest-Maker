@@ -20,8 +20,8 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
         { Unit.Days, 86400 },
     };
     
-    public const Type BlockType = Type.Wait;
-    public override Type ImplementedBlockType => BlockType;
+    public const Type BLOCK_TYPE = Type.Wait;
+    public override Type ImplementedBlockType => BLOCK_TYPE;
     protected override GameObject Prefab => PrefabManager.Instance.WaitBlockPrefab;
     
     private readonly float input;
