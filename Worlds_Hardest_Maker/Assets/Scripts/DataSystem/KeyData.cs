@@ -13,7 +13,7 @@ public class KeyData : AttachableData
     
     public KeyData(KeyController controller)
     {
-        Vector2 keyPosition = controller.transform.position;
+        Vector2 keyPosition = controller.InitialPosition;
         
         Position = new float[2];
         Position[0] = keyPosition.x;

@@ -1,9 +1,13 @@
+using System;
+using System.Collections;
 using MyBox;
 using UnityEngine;
 
 public class FieldController : LevelObjectController
 {
     [HideInInspector] public FieldMode FieldMode;
+    
+    [HideInInspector] public Vector2 InitialPosition;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -43,11 +47,29 @@ public class FieldController : LevelObjectController
     {
         PlayerController player = PlayerManager.Instance.Player;
         
+        if (player == null) return;
+        
         player.CurrentPlatforms.Remove(this);
-        if (player.CurrentPlatforms.Count == 0) player.transform.SetParent(ReferenceManager.Instance.PlayerContainer);
+        if (player.CurrentPlatforms.Count == 0 && gameObject.activeInHierarchy)
+        {
+            StartCoroutine(SetParentPlayer());
+        }
+        
+        return;
+        
+        IEnumerator SetParentPlayer()
+        {
+            yield return new WaitForEndOfFrame();
+            
+            player.transform.SetParent(ReferenceManager.Instance.PlayerContainer);
+        }
     }
     
-    private void Start() => IsAttached = TryGetComponent(out AnchorAttachment _);
+    private void Start()
+    {
+        IsAttached = TryGetComponent(out AnchorAttachment _);
+        InitialPosition = transform.position;
+    }
     
     public override EditMode EditMode => FieldMode;
     public override Data GetData() => new FieldData(this);

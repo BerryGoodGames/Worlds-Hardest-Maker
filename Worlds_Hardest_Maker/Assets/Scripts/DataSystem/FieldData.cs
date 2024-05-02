@@ -1,5 +1,4 @@
 using System;
-using System.Windows.Forms;
 using UnityEngine;
 
 /// <summary>
@@ -14,13 +13,12 @@ public class FieldData : AttachableData
     
     public FieldData(FieldController field)
     {
-        Transform transform = field.transform;
-        Vector2 fieldPosition = transform.position;
+        Vector2 fieldPosition = field.InitialPosition;
         
         Position = new int[2];
         Position[0] = (int)fieldPosition.x;
         Position[1] = (int)fieldPosition.y;
-        Rotation = 90 * Mathf.RoundToInt(transform.rotation.eulerAngles.z / 90);
+        Rotation = 90 * Mathf.RoundToInt(field.transform.localRotation.eulerAngles.z / 90);
         
         FieldMode = field.FieldMode.ToString();
     }

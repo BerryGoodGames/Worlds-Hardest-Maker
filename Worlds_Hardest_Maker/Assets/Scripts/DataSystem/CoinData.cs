@@ -11,7 +11,7 @@ public class CoinData : AttachableData
     
     public CoinData(CoinController controller)
     {
-        Vector2 controllerPosition = controller.transform.position;
+        Vector2 controllerPosition = controller.InitialPosition;
         
         Position = new float[2];
         Position[0] = controllerPosition.x;
