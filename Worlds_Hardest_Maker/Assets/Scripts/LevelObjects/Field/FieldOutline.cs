@@ -146,11 +146,11 @@ public class FieldOutline : MonoBehaviour
         
         foreach (RaycastHit2D r in hits)
         {
-            if (updateNeighbor && r.collider.TryGetComponent(out FieldOutline outlineNeighbor)) outlineNeighbor.UpdateOutline();
-            
             if (!connectorTags.Contains(r.collider.tag)) continue;
             
-            if (!IManager.IsInSheet(r.collider, sheet)) continue;
+            if (!IManager.IsInSheet(r.collider, sheet)) continue;     
+            
+            if (updateNeighbor && r.collider.TryGetComponent(out FieldOutline outlineNeighbor)) outlineNeighbor.UpdateOutline();
             
             return true;
         }

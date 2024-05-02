@@ -85,11 +85,22 @@ public partial class PlayerController : EntityController
         EdgeCollider.enabled = LevelSessionEditManager.Instance.Playing;
         
         ApplyCurrentGameState();
+        
+        if (!LevelSessionManager.Instance.IsEdit) OnPlay();
     }
     
-    private void Update() =>
+    private void Update()
+    {
         // get movement input
         movementInput = KeyBinds.GetMovementInput();
+        
+        VoidDetection();
+    }
+    
+    private void LateUpdate()
+    {
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
     
     private void OnCollisionStay2D(Collision2D collider) => CornerPush(collider);
     
@@ -98,8 +109,6 @@ public partial class PlayerController : EntityController
         UpdateWaterState();
         
         Move();
-        
-        VoidDetection();
     }
     
     private void OnDestroy()
