@@ -106,17 +106,21 @@ public partial class AnchorManager : IManagerSelectable
         // select anchor
         if (!Input.GetMouseButtonDown(0) || !KeyBinds.GetKeyBind("Editor_Modify")) return;
         
+        AnchorController clickedAnchor = ((IManager<AnchorController>)Instance).Get(MouseManager.Instance.MouseWorldPosGrid);
+        
+        if (clickedAnchor == null) return;
+        
         // check double click
         float currentTime = Time.time;
         float deltaClickTime = Instance.LastSelectClick < 0 ? 0 : currentTime - Instance.LastSelectClick;
-        if (deltaClickTime < DOUBLE_CLICK_THRESHOLD && Instance.SelectedAnchor != null && !AnchorAttachManager.Instance.InAttachMode)
+        if (deltaClickTime < DOUBLE_CLICK_THRESHOLD && Instance.SelectedAnchor == clickedAnchor && !AnchorAttachManager.Instance.InAttachMode)
         {
             AnchorAttachManager.Instance.EnterAttachMode();
             AudioManager.Instance.Play("ButtonClick");
         }
         else
         {
-            Instance.Select(MouseManager.Instance.MouseWorldPosGrid);
+            Instance.Select(clickedAnchor);
             
             Instance.LastSelectClick = currentTime;
         }
