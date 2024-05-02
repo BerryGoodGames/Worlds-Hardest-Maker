@@ -93,7 +93,7 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
         for (int i = CollectedCoins.Count - 1; i >= 0; i--)
         {
             CoinController c = CollectedCoins[i];
-            if (c.CoinPosition == position) CollectedCoins.Remove(c);
+            if (c.InitialPosition == position) CollectedCoins.Remove(c);
         }
     }
     

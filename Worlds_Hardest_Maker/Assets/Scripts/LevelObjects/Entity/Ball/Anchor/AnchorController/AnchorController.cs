@@ -221,6 +221,11 @@ public partial class AnchorController : EntityController, IResettable
     
     private void OnDestroy()
     {
+        transform.DOKill();
+        this.DOKill();
+        spriteRenderer.DOKill();
+        Rb.DOKill();
+        
         PlayManager.Instance.OnSwitchToPlay -= AttachFade.FadeIn;
         PlayManager.Instance.OnSwitchToEdit -= AttachFade.FadeOut;
         

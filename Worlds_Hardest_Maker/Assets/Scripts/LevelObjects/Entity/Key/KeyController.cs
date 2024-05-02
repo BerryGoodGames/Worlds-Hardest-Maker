@@ -2,12 +2,13 @@ using System.Collections;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class KeyController : EntityController, IResettable, ICollectible
 {
     [Separator] [SerializeField] [PositiveValueOnly] private float fadeDuration = 0.5f;
     [Separator] [ReadOnly] public KeyColor Color;
-    [ReadOnly] public Vector2 KeyPosition;
+    [FormerlySerializedAs("KeyPosition")] [ReadOnly] public Vector2 InitialPosition;
     [ReadOnly] public bool Collected;
     
     [Separator] [InitializationField] [MustBeAssigned] public SpriteRenderer SpriteRenderer;
@@ -31,7 +32,7 @@ public class KeyController : EntityController, IResettable, ICollectible
     
     private void Awake()
     {
-        KeyPosition = transform.position;
+        InitialPosition = transform.position;
         
         // cache key controller
         KeyManager.Instance.Keys.Add(this);
@@ -109,6 +110,31 @@ public class KeyController : EntityController, IResettable, ICollectible
             KeyDoorFieldController controller = door.GetComponent<KeyDoorFieldController>();
             controller.SetLocked(false);
         }
+    }
+    
+    public bool ShouldRespawn()
+    {
+        PlayerController player = PlayerManager.Instance.Player;
+        if (player == null)
+        {
+            Debug.LogWarning("Could not find player");
+            return false;
+        }
+        
+        if (player.CurrentGameState == null) return true;
+        
+        bool isRespawning = true;
+        foreach (Vector2 collected in player.CurrentGameState.CollectedKeys)
+        {
+            if (!collected.x.EqualsFloat(InitialPosition.x) ||
+                !collected.y.EqualsFloat(InitialPosition.y)) continue;
+            
+            // if key is collected or no state exists it doesn't respawn
+            isRespawning = false;
+            break;
+        }
+        
+        return isRespawning;
     }
     
     public void ResetState()

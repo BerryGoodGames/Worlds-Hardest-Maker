@@ -1,6 +1,7 @@
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CoinController : EntityController, IResettable, ICollectible
 {
@@ -8,7 +9,7 @@ public class CoinController : EntityController, IResettable, ICollectible
     [Separator] [InitializationField] [MustBeAssigned] public Animator Animator;
     [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer spriteRenderer;
     
-    [HideInInspector] public Vector2 CoinPosition;
+    [FormerlySerializedAs("CoinPosition")] [HideInInspector] public Vector2 InitialPosition;
     
     [HideInInspector] public bool PickedUp;
     
@@ -19,7 +20,7 @@ public class CoinController : EntityController, IResettable, ICollectible
     
     private void Awake()
     {
-        CoinPosition = transform.position;
+        InitialPosition = transform.position;
         
         CoinManager.Instance.Coins.Add(this);
     }
@@ -77,6 +78,32 @@ public class CoinController : EntityController, IResettable, ICollectible
         
         Animator.SetBool(pickedUpString, true);
         PickedUp = true;
+    }
+    
+    public bool ShouldRespawn()
+    {
+        PlayerController player = PlayerManager.Instance.Player;
+        if (player == null)
+        {
+            Debug.LogWarning("Could not find player");
+            return false;
+        } 
+        
+        // check if coin should respawn
+        bool respawns = true;
+        if (player.CurrentGameState == null) return true;
+        
+        foreach (Vector2 collected in player.CurrentGameState.CollectedCoins)
+        {
+            if (!collected.x.EqualsFloat(InitialPosition.x) ||
+                !collected.y.EqualsFloat(InitialPosition.y)) continue;
+            
+            // if coin is collected or no state exists it doesn't respawn
+            respawns = false;
+            break;
+        }
+        
+        return respawns;
     }
     
     public void FadeIn() => spriteRenderer.DOFade(1, fadeDuration).SetId(gameObject);

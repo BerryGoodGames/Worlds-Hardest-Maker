@@ -17,7 +17,7 @@ public partial class AnchorAttachManager
     
     public static void Dehighlight(AnchorController anchor)
     {
-        Instance.anchorAttachBlocker.SetActive(false);
+        if(Instance != null) Instance.anchorAttachBlocker.SetActive(false);
         
         anchor.ResetLayer();
         anchor.Attachments.ForEach(attachment => attachment.ResetLayer());

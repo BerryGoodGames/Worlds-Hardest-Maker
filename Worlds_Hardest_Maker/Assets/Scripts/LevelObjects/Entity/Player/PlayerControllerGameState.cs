@@ -37,10 +37,10 @@ public partial class PlayerController
         // convert collectedCoins and collectedKeys to List<Vector2>
         List<Vector2> coinPositions = new();
         
-        foreach (CoinController c in CoinManager.Instance.CollectedCoins) coinPositions.Add(c.CoinPosition);
+        foreach (CoinController c in CoinManager.Instance.CollectedCoins) coinPositions.Add(c.InitialPosition);
         
         List<Vector2> keyPositions = new();
-        foreach (KeyController key in KeyManager.Instance.CollectedKeys) keyPositions.Add(key.KeyPosition);
+        foreach (KeyController key in KeyManager.Instance.CollectedKeys) keyPositions.Add(key.InitialPosition);
         
         GameState res = new()
         {
@@ -64,7 +64,7 @@ public partial class PlayerController
     {
         foreach (CoinController coin in CoinManager.Instance.Coins)
         {
-            if (!ShouldCoinRespawn(coin)) continue;
+            if (!coin.ShouldRespawn()) continue;
             
             CoinManager.Instance.CollectedCoins.Remove(coin);
             
@@ -96,44 +96,11 @@ public partial class PlayerController
         }
     }
     
-    private bool ShouldCoinRespawn(CoinController coin)
-    {
-        // check if coin should respawn
-        bool respawns = true;
-        if (CurrentGameState == null) return true;
-        
-        foreach (Vector2 collected in CurrentGameState.CollectedCoins)
-        {
-            if (!collected.x.EqualsFloat(coin.CoinPosition.x) ||
-                !collected.y.EqualsFloat(coin.CoinPosition.y)) continue;
-            
-            // if coin is collected or no state exists it doesn't respawn
-            respawns = false;
-            break;
-        }
-        
-        return respawns;
-    }
-    
     private void ResetKeysToCurrentGameState()
     {
         foreach (KeyController key in KeyManager.Instance.Keys)
         {
-            bool isRespawning = true;
-            if (CurrentGameState != null)
-            {
-                foreach (Vector2 collected in CurrentGameState.CollectedKeys)
-                {
-                    if (!collected.x.EqualsFloat(key.KeyPosition.x) ||
-                        !collected.y.EqualsFloat(key.KeyPosition.y)) continue;
-                    
-                    // if key is collected or no state exists it doesn't respawn
-                    isRespawning = false;
-                    break;
-                }
-            }
-            
-            if (!isRespawning) continue;
+            if (!key.ShouldRespawn()) continue;
             
             KeyManager.Instance.CollectedKeys.Remove(key);
             
