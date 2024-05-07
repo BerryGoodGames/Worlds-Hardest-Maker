@@ -25,6 +25,7 @@ public class CoinData : AttachableData
             Position = new(Position[0], Position[1]),
             Sheet = sheet,
         };
+        
         ((IManager<CoinController>)CoinManager.Instance).SetInSheet(args);
     }
     

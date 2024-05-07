@@ -4,7 +4,6 @@ using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 
 public partial class PlayerController : EntityController
 {
@@ -97,10 +96,7 @@ public partial class PlayerController : EntityController
         VoidDetection();
     }
     
-    private void LateUpdate()
-    {
-        transform.rotation = Quaternion.Euler(0, 0, 0);
-    }
+    private void LateUpdate() => transform.rotation = Quaternion.Euler(0, 0, 0);
     
     private void OnCollisionStay2D(Collision2D collider) => CornerPush(collider);
     
@@ -153,22 +149,13 @@ public partial class PlayerController : EntityController
         
         bool willBeAttached = args.Sheet != null;
         
-        if (willBeAttached)
-        {
-            PlaceManager.AttachToSheet(gameObject, args.Sheet, false);
-        }
-        else
-        {
-            PlaceManager.Detach(gameObject, PlayerManager.Instance.DefaultContainer);
-        }
+        if (willBeAttached) PlaceManager.AttachToSheet(gameObject, args.Sheet, false);
+        else PlaceManager.Detach(gameObject, PlayerManager.Instance.DefaultContainer);
+        
         Sheet = args.Sheet;
         
         IsAttached = Sheet != null;
-        if (IsAttached)
-        {
-            SheetStartPosOffset = transform.position - Sheet.transform.position;
-            
-        }
+        if (IsAttached) SheetStartPosOffset = transform.position - Sheet.transform.position;
     }
     
     public void Win()

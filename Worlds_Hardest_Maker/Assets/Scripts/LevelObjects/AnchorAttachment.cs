@@ -51,7 +51,8 @@ public class AnchorAttachment : MonoBehaviour
         
         if (AnchorAttachable.HasOutline)
         {
-            AnchorAttachable.OutlineComp.LineRenderers.ForEach(line =>
+            AnchorAttachable.OutlineComp.LineRenderers.ForEach(
+                line =>
                 {
                     if (line == null) return;
                     line.sortingLayerID = SortingLayerID;
@@ -106,8 +107,7 @@ public class AnchorAttachment : MonoBehaviour
         
         return;
         
-        void UpdateOutlineLayers()
-        {
+        void UpdateOutlineLayers() =>
             AnchorAttachable.OutlineComp.LineRenderers.ForEach(
                 line =>
                 {
@@ -117,7 +117,6 @@ public class AnchorAttachment : MonoBehaviour
                         : LayerManager.Instance.SortingLayers.AnchorBelow;
                 }
             );
-        }
     }
     
     private void OnDestroy()

@@ -1,5 +1,4 @@
 using System;
-using JetBrains.Annotations;
 using UnityEngine;
 
 /// <summary>
@@ -32,7 +31,8 @@ public class KeyData : AttachableData
         KeyManager.Instance.SetInSheet(args);
     }
     
-    public override void ImportToLevel(AnchorController sheet) {
+    public override void ImportToLevel(AnchorController sheet)
+    {
         ManagerParameters args = new()
         {
             Position = new(Position[0], Position[1]),

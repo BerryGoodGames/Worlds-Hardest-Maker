@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using MyBox;
 using UnityEngine;
 
 public class FieldController : LevelObjectController
@@ -50,10 +48,7 @@ public class FieldController : LevelObjectController
         if (player == null) return;
         
         player.CurrentPlatforms.Remove(this);
-        if (player.CurrentPlatforms.Count == 0 && gameObject.activeInHierarchy)
-        {
-            StartCoroutine(SetParentPlayer());
-        }
+        if (player.CurrentPlatforms.Count == 0 && gameObject.activeInHierarchy) StartCoroutine(SetParentPlayer());
         
         return;
         

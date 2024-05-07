@@ -8,7 +8,7 @@ public class KeyController : EntityController, IResettable, ICollectible
 {
     [Separator] [SerializeField] [PositiveValueOnly] private float fadeDuration = 0.5f;
     [Separator] [ReadOnly] public KeyColor Color;
-    [FormerlySerializedAs("KeyPosition")] [ReadOnly] public Vector2 InitialPosition;
+    [ReadOnly] public Vector2 InitialPosition;
     [ReadOnly] public bool Collected;
     
     [Separator] [InitializationField] [MustBeAssigned] public SpriteRenderer SpriteRenderer;

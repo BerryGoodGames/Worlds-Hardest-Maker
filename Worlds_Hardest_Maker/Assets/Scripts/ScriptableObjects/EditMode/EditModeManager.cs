@@ -10,7 +10,7 @@ public class EditModeManager : MonoBehaviour
     public static EditModeManager Instance { get; private set; }
     
     [InitializationField] [MustBeAssigned] public DeleteMode DeleteMode;
-    [FormerlySerializedAs("AnchorFloorMode")] [InitializationField] [MustBeAssigned] public FieldMode AnchorPlatformMode;
+    [InitializationField] [MustBeAssigned] public FieldMode AnchorPlatformMode;
     [InitializationField] [MustBeAssigned] public FieldMode WallMode;
     [InitializationField] [MustBeAssigned] public FieldMode StartMode;
     [InitializationField] [MustBeAssigned] public FieldMode GoalMode;

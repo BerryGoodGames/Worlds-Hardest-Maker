@@ -9,7 +9,7 @@ public class CoinController : EntityController, IResettable, ICollectible
     [Separator] [InitializationField] [MustBeAssigned] public Animator Animator;
     [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer spriteRenderer;
     
-    [FormerlySerializedAs("CoinPosition")] [HideInInspector] public Vector2 InitialPosition;
+    [HideInInspector] public Vector2 InitialPosition;
     
     [HideInInspector] public bool PickedUp;
     
@@ -87,7 +87,7 @@ public class CoinController : EntityController, IResettable, ICollectible
         {
             Debug.LogWarning("Could not find player");
             return false;
-        } 
+        }
         
         // check if coin should respawn
         bool respawns = true;

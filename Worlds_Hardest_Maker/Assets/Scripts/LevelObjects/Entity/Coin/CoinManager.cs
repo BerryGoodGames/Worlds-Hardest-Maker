@@ -80,7 +80,7 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
         foreach (CoinController coin in Coins)
         {
             if (coin.IsAttached) continue;
-        
+            
             CoinData coinData = new(coin);
             levelData.Add(coinData);
         }

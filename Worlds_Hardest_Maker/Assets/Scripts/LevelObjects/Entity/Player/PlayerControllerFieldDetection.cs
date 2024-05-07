@@ -68,8 +68,9 @@ public partial class PlayerController
         
         return false;
     }
+    
     public bool IsOnMode(FieldMode mode) => (!IsStandingOnPlatform && IsFullyOnField(mode)) || IsStandingOnPlatformMode(mode);
-
+    
     
     public ConveyorController GetCurrentConveyor()
     {

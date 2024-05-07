@@ -190,9 +190,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f57c272036ebf4abcd8263ecee6a1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsAttached: 0
+  isAttachable: 1
   AttachmentHolder: {fileID: 2385285795945899156}
   ParentAnchor: {fileID: 0}
-  StartPosition: {x: 0, y: 0}
+  StartLocalPosition: {x: 0, y: 0}
+  StartWorldPosition: {x: 0, y: 0}
 --- !u!114 &6819338268466665832
 MonoBehaviour:
   m_ObjectHideFlags: 0

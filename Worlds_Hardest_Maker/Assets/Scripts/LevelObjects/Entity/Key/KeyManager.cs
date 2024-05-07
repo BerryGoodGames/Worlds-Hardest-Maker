@@ -91,7 +91,7 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
         foreach (KeyController key in Keys)
         {
             if (key.IsAttached) continue;
-        
+            
             KeyData keyData = new(key);
             levelData.Add(keyData);
         }

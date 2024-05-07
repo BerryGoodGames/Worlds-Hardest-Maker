@@ -15,7 +15,7 @@ public class BallController : EntityController
     
     [HideInInspector] public Vector2 StartLocalPosition;
     [HideInInspector] public Vector2 StartWorldPosition;
-
+    
     private Rigidbody2D rb;
     
     protected override void Start()

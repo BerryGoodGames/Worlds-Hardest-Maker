@@ -144,7 +144,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9018a686da21a0e4885a187ce99a2d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsAttached: 0
   FieldMode: {fileID: 0}
+  InitialPosition: {x: 0, y: 0}
 --- !u!114 &7930690470329569276
 MonoBehaviour:
   m_ObjectHideFlags: 0
