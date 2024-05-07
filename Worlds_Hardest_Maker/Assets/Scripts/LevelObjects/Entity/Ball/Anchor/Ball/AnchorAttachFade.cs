@@ -25,6 +25,7 @@ public class AnchorAttachFade : MonoBehaviour
         foreach (AnchorAttachment child in children)
         {
             if (child == null) continue;
+            if (child.AnchorAttachable == null) continue;
             
             SpriteRenderer sprite = child.AnchorAttachable.MainSprite;
             

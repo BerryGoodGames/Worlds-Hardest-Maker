@@ -166,7 +166,17 @@ public class GameManager : MonoBehaviour
     
     public void ClearLevel()
     {
-        if (AnchorAttachManager.Instance.InAttachMode) AnchorAttachManager.Instance.ExitAttachMode();
+        if (AnchorManager.Instance.SelectedAnchor != null)
+        {
+            if (AnchorAttachManager.Instance.InAttachMode)
+            {
+                AnchorAttachManager.Instance.ExitAttachMode();
+            }
+            
+            AnchorManager.Instance.DeselectAnchor();
+        }
+        
+        
         
         if (PlayerManager.Instance.Player != null) PlayerManager.Instance.Player.DestroySelf();
         
