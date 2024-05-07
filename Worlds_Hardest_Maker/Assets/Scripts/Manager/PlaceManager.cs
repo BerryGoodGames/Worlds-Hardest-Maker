@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Cinemachine.Utility;
@@ -95,6 +96,8 @@ public class PlaceManager : MonoBehaviour
     
     public void PlacePath(EditMode editMode, Vector2 start, Vector2 end, int rotation = 0, bool playSound = false)
     {
+        
+        
         if (playSound) AudioManager.Instance.Play(GetSfx(editMode));
         
         LineForEach(start, end, pos => Place(editMode, pos, rotation));

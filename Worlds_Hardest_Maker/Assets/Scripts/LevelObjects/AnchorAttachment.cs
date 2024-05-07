@@ -112,7 +112,7 @@ public class AnchorAttachment : MonoBehaviour
                 line =>
                 {
                     line.sortingOrder = sortingOrder;
-                    line.sortingLayerName = AnchorAttachManager.Instance.InAttachMode
+                    line.sortingLayerName = AnchorAttachManager.Instance.InAttachMode || !LevelSessionManager.Instance.IsEdit
                         ? LayerManager.Instance.SortingLayers.AnchorAbove
                         : LayerManager.Instance.SortingLayers.AnchorBelow;
                 }

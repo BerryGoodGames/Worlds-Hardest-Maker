@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class LockToCamera : MonoBehaviour
@@ -11,12 +12,19 @@ public class LockToCamera : MonoBehaviour
     private void Awake()
     {
         cam = Camera.main;
-        if (cam != null) offset = transform.position - cam.transform.position;
+        if (cam != null)
+        {
+            // offset = transform.position - cam.transform.position;
+            offset = cam.WorldToScreenPoint(transform.position);
+        }
     }
     
-    private void LateUpdate() =>
+    private void LateUpdate()
+    {
+        Vector3 screenPosition = cam.ScreenToWorldPoint(offset);
         transform.position = new(
-            lockX ? cam.transform.position.x + offset.x : transform.position.x,
-            lockY ? cam.transform.position.y + offset.y : transform.position.y
+            lockX ? screenPosition.x : transform.position.x,
+            lockY ? screenPosition.y : transform.position.y
         );
+    }
 }

@@ -9,6 +9,8 @@ public class MouseEvents : MonoBehaviour
 {
     private const float selectionCancelMaxTime = 0.15f;
     
+    private bool isFullyFocused = true;
+    
     private void Update()
     {
         // selection
@@ -27,7 +29,7 @@ public class MouseEvents : MonoBehaviour
     }
     
     
-    private static void CheckPlaceAndDelete()
+    private void CheckPlaceAndDelete()
     {
         EditMode editMode = LevelSessionEditManager.Instance.CurrentEditMode;
         
@@ -71,10 +73,12 @@ public class MouseEvents : MonoBehaviour
         PlaceManager.Instance.Place(editMode, MouseManager.Instance.MouseWorldPos, LevelSessionEditManager.Instance.EditRotation, true);
     }
     
-    private static void CheckDragPlacement(EditMode editMode)
+    private void CheckDragPlacement(EditMode editMode)
     {
         // check placement
         if (!editMode.IsDraggable) return;
+        
+        if (!isFullyFocused) return;
         
         if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) > 1.414f)
         {
@@ -104,5 +108,20 @@ public class MouseEvents : MonoBehaviour
             MouseManager.Instance.MouseWorldPosGrid,
             LayerManager.Instance.Layers.Entity
         );
+    }
+    
+    
+    
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        StartCoroutine(Assign());
+        
+        return;
+        
+        IEnumerator Assign()
+        {
+            yield return new WaitForEndOfFrame();
+            isFullyFocused = hasFocus;
+        }
     }
 }
