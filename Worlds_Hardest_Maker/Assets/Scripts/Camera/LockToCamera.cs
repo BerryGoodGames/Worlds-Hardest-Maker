@@ -1,9 +1,11 @@
+using MyBox;
 using UnityEngine;
 
 public class LockToCamera : MonoBehaviour
 {
-    [SerializeField] private bool lockX;
-    [SerializeField] private bool lockY;
+    [SerializeField] [InitializationField] private bool lockX;
+    [SerializeField] [InitializationField] private bool lockY;
+    [SerializeField] [InitializationField] private bool deactivate;
     
     private Vector2 offset;
     private Camera cam;
@@ -16,6 +18,8 @@ public class LockToCamera : MonoBehaviour
             // offset = transform.position - cam.transform.position;
             offset = cam.WorldToScreenPoint(transform.position);
         }
+        
+        if (deactivate) gameObject.SetActive(false);
     }
     
     private void LateUpdate()
