@@ -84,6 +84,18 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Wall
       objectReference: {fileID: 0}
+    - target: {fileID: 7930690470329569276, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: HasOutline
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930690470329569276, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: hasOutline
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930690470329569276, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: OutlineComp
+      value: 
+      objectReference: {fileID: 2582280037455629774}
     - target: {fileID: 8451419770457997880, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Color.a
       value: 1
@@ -136,6 +148,7 @@ MonoBehaviour:
   connectToOwnTag: 1
   rayLength: 1
   UpdateOnStart: 1
+  LineRenderers: []
 --- !u!114 &4904720906306939237
 MonoBehaviour:
   m_ObjectHideFlags: 0

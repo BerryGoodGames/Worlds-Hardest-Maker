@@ -80,6 +80,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: GrayKeyDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 7930690470329569276, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: HasOutline
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7930690470329569276, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: OutlineComp
+      value: 
+      objectReference: {fileID: 6053181342507690478}
     - target: {fileID: 8451419770457997880, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Color.b
       value: 0.627451
@@ -110,9 +118,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7104312350107099902}
-    - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8040030197767907272}
   m_SourcePrefab: {fileID: 100100000, guid: fc74f76601483e34d8343c228304c362, type: 3}
 --- !u!61 &1500799656295931634 stripped
 BoxCollider2D:
@@ -159,6 +164,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 3032094411550446596}
   boxCollider: {fileID: 1500799656295931634}
+  spriteRenderer: {fileID: 3724499486436504991}
+  fieldOutline: {fileID: 6053181342507690478}
+  fadeDuration: 0.25
   Unlocked: 0
   Color: 0
 --- !u!114 &6053181342507690478
@@ -180,6 +188,7 @@ MonoBehaviour:
   connectToOwnTag: 1
   rayLength: 1
   UpdateOnStart: 1
+  LineRenderers: []
 --- !u!114 &7104312350107099902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,15 +205,8 @@ MonoBehaviour:
   Color: {r: 0.40000004, g: 0.40000004, b: 0.40000004, a: 1}
   Scale: {x: 1, y: 1}
   Rotate: 0
---- !u!114 &8040030197767907272
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+--- !u!212 &3724499486436504991 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8451419770457997880, guid: fc74f76601483e34d8343c228304c362, type: 3}
+  m_PrefabInstance: {fileID: 5114238751353141159}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3315082733933200473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54c9fee77861c8e408e4ce586d25b826, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

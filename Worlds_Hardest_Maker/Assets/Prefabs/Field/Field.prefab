@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8451419770457997880}
   - component: {fileID: 5920690181114751317}
   - component: {fileID: -7633074681480853962}
+  - component: {fileID: 7930690470329569276}
   m_Layer: 11
   m_Name: Field
   m_TagString: Untagged
@@ -129,7 +130,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.98, y: 0.98}
   m_EdgeRadius: 0
 --- !u!114 &-7633074681480853962
 MonoBehaviour:
@@ -144,3 +145,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FieldMode: {fileID: 0}
+--- !u!114 &7930690470329569276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7564049711476143102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25b4ce380abbb954e8e1f849dec0f75e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainSprite: {fileID: 8451419770457997880}
+  HasSortingGroup: 0
+  SortingGroup: {fileID: 0}
+  HasOutline: 0
+  OutlineComp: {fileID: 0}

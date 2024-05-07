@@ -7,12 +7,12 @@ public class KeyCodeDisplay : MonoBehaviour
 {
     [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyCodeImageContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private Image keyCodeImage;
-
+    
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform separator;
-
-
+    
+    
     #region Key Code Sprites
-
+    
     [Foldout("Key Code Spites")] [SerializeField] private Sprite key0;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite key1;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite key2;
@@ -101,17 +101,17 @@ public class KeyCodeDisplay : MonoBehaviour
     [Foldout("Key Code Spites")] [SerializeField] private Sprite keyX;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite keyY;
     [Foldout("Key Code Spites")] [SerializeField] private Sprite keyZ;
-
+    
     #endregion
-
+    
     private Dictionary<KeyCode, Sprite> keyCodeToSprite;
-
+    
     private void Awake()
     {
         keyCodeToSprite = new()
         {
             #region Key Code to Sprite
-
+            
             { KeyCode.Alpha0, key0 },
             { KeyCode.Alpha1, key1 },
             { KeyCode.Alpha2, key2 },
@@ -204,34 +204,34 @@ public class KeyCodeDisplay : MonoBehaviour
             { KeyCode.X, keyX },
             { KeyCode.Y, keyY },
             { KeyCode.Z, keyZ },
-
+            
             #endregion
         };
     }
-
+    
     public void SetKeyCodeSprite(KeyCode[] keyCodes)
     {
         if (keyCodes.Length <= 0) throw new("There has to be at least one key code");
-
+        
         // destroy the children MUGUHUAHAHAHAGAAGAGGAGAAGAGAGAGGAGAGAGAHAHAHAHAHAHAHHASJHHAHASHYHHAHHAJHHAHAHA
         foreach (Transform child in keyCodeImageContainer) Destroy(child.gameObject);
-
+        
         // create first image
         CreateKeyCodeImage(keyCodes[0]);
-
+        
         // create other images with separator
         for (int i = 1; i < keyCodes.Length; i++)
         {
             Instantiate(separator, keyCodeImageContainer);
             CreateKeyCodeImage(keyCodes[i]);
         }
-
+        
         return;
-
+        
         void CreateKeyCodeImage(KeyCode keyCode)
         {
             Image image = Instantiate(keyCodeImage, keyCodeImageContainer);
-
+            
             if (keyCodeToSprite.TryGetValue(keyCode, out Sprite sprite)) image.sprite = sprite;
             else Debug.LogWarning($"There is no sprite for the key code \"{keyCode}\"");
         }

@@ -14,7 +14,7 @@ using Object = UnityEngine.Object;
 public class Dbg : MonoBehaviour
 {
     public static Dbg Instance { get; private set; }
-
+    
     public enum DbgTextMode
     {
         Disabled,
@@ -25,41 +25,41 @@ public class Dbg : MonoBehaviour
         MousePositionUnits,
         MousePositionPixels,
     }
-
+    
     [field: Foldout("Settings")] [field: SerializeField] public bool Enabled { get; set; } = true;
     [field: Foldout("Settings")] [field: SerializeField] [field: PositiveValueOnly] public float GameSpeed { get; set; } = 1;
-
+    
     [Foldout("Debug Text")] public DbgTextMode TextMode;
     [Foldout("Debug Text")] public uint Count;
-
+    
     [Foldout("Level")] public bool AutoLoadLevel;
     [Foldout("Level")] [ConditionalField(nameof(AutoLoadLevel), true)] [SerializeField] private bool autoPlacePlayer;
     [Foldout("Level")] [ConditionalField(nameof(AutoLoadLevel))] public string LevelName = "DebugLevel";
-
+    
     [Foldout("Wall Outlines")] public bool WallOutlines = true;
     [Foldout("Wall Outlines")] public bool DrawRays;
-
+    
     [Foldout("Other")] public LevelSessionMode EditorLevelSessionMode;
-
+    
     [Foldout("References")] [SerializeField] [MustBeAssigned] private TMP_Text debugText;
-
+    
     private Camera cam;
-
+    
     private void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(this);
-
+        
         cam = Camera.main;
     }
-
+    
     private void Start()
     {
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         if (AutoLoadLevel)
         {
             if (!LevelSessionManager.IsSessionFromEditor) return;
-
+            
             try
             {
                 // create debug level if not existing
@@ -68,31 +68,33 @@ public class Dbg : MonoBehaviour
                     Debug.LogWarning("Could not find debug auto load level - Creating new...");
                     LevelCreationController.CreateLevel(LevelName, "This is the debugging level", "BerryGoodGames");
                 }
-
+                
                 // load debug level
                 Coroutine loadLevelCoroutine = GameManager.Instance.LoadLevel(LevelSessionManager.Instance.LevelSessionPath);
-                loadLevelCoroutine.OnComplete(() =>
-                {
-                    LevelSessionManager.Instance.OnLevelLoaded.Invoke();
-                    LevelSettings.Instance.InvokeOnUpdateRoomSize();
-                });
+                loadLevelCoroutine.OnComplete(
+                    () =>
+                    {
+                        LevelSessionManager.Instance.OnLevelLoaded.Invoke();
+                        LevelSettings.Instance.InvokeOnUpdateRoomSize();
+                    }
+                );
             }
             catch
             {
                 // ignored
             }
         }
-        else if (autoPlacePlayer) PlayerManager.Instance.SetPlayer(Vector2.zero, true);
-#endif
+        else if (autoPlacePlayer) PlayerManager.Instance.Set(Vector2.zero);
+        #endif
     }
-
+    
     private void Update()
     {
         if (!Enabled) return;
-
+        
         GameSpeed = Math.Max(GameSpeed, 0.01f);
         Time.timeScale = GameSpeed;
-
+        
         try
         {
             object message = TextMode switch
@@ -106,29 +108,29 @@ public class Dbg : MonoBehaviour
                 DbgTextMode.MousePositionPixels => (Vector2)Input.mousePosition,
                 _ => throw new ArgumentOutOfRangeException(),
             };
-
+            
             Text(message);
         }
         catch (Exception) { Text("-"); }
     }
-
+    
     [UsedImplicitly]
     public static void Text(object obj)
     {
         try { Instance.debugText.text = obj.ToString(); }
         catch { Instance.debugText.text = "failed"; }
     }
-
+    
     [UsedImplicitly]
     public static void PrintScriptAttachments<T>() where T : MonoBehaviour
     {
         Object[] list = FindObjectsOfType(typeof(T), true);
         string scriptName = typeof(T).Name;
-
+        
         print($"Debug - Count of script {scriptName}: {list.Length}");
         foreach (Object o in list) print($"Debug - {o.name}");
     }
-
+    
     [ButtonMethod]
     // ReSharper disable once UnusedMember.Local
     private static void DeletePlayerPrefs()

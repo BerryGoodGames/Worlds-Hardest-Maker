@@ -5,51 +5,51 @@ using UnityEngine;
 public class AnchorBlockIndexInputEditManager : MonoBehaviour
 {
     public static AnchorBlockIndexInputEditManager Instance { get; private set; }
-
+    
     [SerializeField] [ReadOnly] private bool isEditing;
     [SerializeField] [ReadOnly] private AnchorBlockIndexInputController currentEditedIndexInput;
-
+    
     public void StartIndexInputEdit(AnchorBlockIndexInputController indexInput)
     {
         currentEditedIndexInput = indexInput;
         StartCoroutine(EditCoroutine());
     }
-
+    
     private void OnStartIndexEdit()
     {
         isEditing = true;
-
+        
         // block menu from opening
         MenuManager.Instance.BlockMenu = true;
-
+        
         // disable panels
         ReferenceManager.Instance.ToolbarTween.SetPlay(true);
         ReferenceManager.Instance.InfobarEditTween.SetPlay(true);
         ReferenceManager.Instance.PlayButtonTween.TweenToY(-125, false);
     }
-
+    
     private void OnEndIndexEdit()
     {
         if (!isEditing) return;
-
+        
         isEditing = false;
         currentEditedIndexInput = null;
-
+        
         // release menu
         MenuManager.Instance.BlockMenu = false;
-
+        
         // show panels
         ReferenceManager.Instance.ToolbarTween.SetPlay(LevelSessionEditManager.Instance.Playing);
         ReferenceManager.Instance.InfobarEditTween.SetPlay(LevelSessionEditManager.Instance.Playing);
         ReferenceManager.Instance.PlayButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
     }
-
+    
     private IEnumerator EditCoroutine()
     {
         if (currentEditedIndexInput == null) yield break;
-
+        
         OnStartIndexEdit();
-
+        
         // wait until clicked, cancel if esc is pressed
         while (!Input.GetMouseButton(0) || !AnchorBlockManager.IsAnyBlockHovered(true))
         {
@@ -59,20 +59,20 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
                 OnEndIndexEdit();
                 yield break;
             }
-
+            
             yield return null;
         }
-
+        
         // apply index to index input
         Instance.currentEditedIndexInput.SetIndexValue(AnchorBlockManager.Instance.HoveredBlockIndex);
-
+        
         Instance.OnEndIndexEdit();
-
+        
         // make sure that the player can't place directly after pasting
         while (!Input.GetMouseButtonUp(0)) yield return null;
     }
-
-
+    
+    
     private void Awake()
     {
         if (Instance == null) Instance = this;

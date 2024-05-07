@@ -11,12 +11,12 @@ public static class ListExtension
         {
             mark = mark.Next;
             if (mark == null) return null;
-
+            
             i++;
         }
-
+        
         return mark;
     }
-
+    
     public static void Print<T>(this List<T> list) => Debug.Log($"[{string.Join(", ", list)}] --- Length: {list.Count}");
 }

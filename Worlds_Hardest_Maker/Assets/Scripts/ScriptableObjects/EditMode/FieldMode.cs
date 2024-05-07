@@ -9,7 +9,8 @@ public class FieldMode : EditMode
     public bool IsSolid;
     [Space] [ConditionalField(nameof(IsSolid), true)] public bool IsStartFieldForPlayer;
     [ConditionalField(nameof(IsSolid), true)] public bool IsSafeForPlayer;
-
+    [ConditionalField(nameof(IsSolid), true)] public bool CarryPlayer = true;
+    
     protected virtual void Reset()
     {
         Attributes.IsField = true;

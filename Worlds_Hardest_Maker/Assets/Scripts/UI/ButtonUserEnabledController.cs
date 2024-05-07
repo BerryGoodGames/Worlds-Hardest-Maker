@@ -16,17 +16,17 @@ public class ButtonUserEnabledController : MonoBehaviour
     [SerializeField] private Color enabledTextColor;
     [SerializeField] private Color disabledTextColor;
     [Separator] [SerializeField] private bool userEnabled = true;
-
+    
     [ButtonMethod]
     [UsedImplicitly]
     private void SetUserEnabled()
     {
         foreach (Image image in imageList) image.color = userEnabled ? enabledColor : disabledColor;
-
+        
         buttonText.color = userEnabled ? enabledTextColor : disabledTextColor;
-
+        
         button.interactable = userEnabled;
-
+        
         buttonTween.enabled = userEnabled;
     }
 }

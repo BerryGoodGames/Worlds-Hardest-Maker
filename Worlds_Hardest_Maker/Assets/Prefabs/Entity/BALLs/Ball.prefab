@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6819338268466665832}
   m_Layer: 7
   m_Name: BallObject
-  m_TagString: AnchorBallObject
+  m_TagString: BallObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -190,6 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f57c272036ebf4abcd8263ecee6a1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttachmentHolder: {fileID: 2385285795945899156}
   ParentAnchor: {fileID: 0}
   StartPosition: {x: 0, y: 0}
 --- !u!114 &6819338268466665832
@@ -205,7 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldType: 1
-  anchorBallController: {fileID: 2957006135882436380}
+  ballController: {fileID: 2957006135882436380}
 --- !u!1 &6481791030330069436
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,9 +217,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2385285795945899156}
   - component: {fileID: 105589263788141184}
+  - component: {fileID: 9025261584093450044}
   m_Layer: 7
-  m_Name: AnchorBall
-  m_TagString: AnchorBall
+  m_Name: Ball
+  m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -255,3 +257,20 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 1, a: 1}
   Scale: {x: 0.5, y: 0.5}
   Rotate: 0
+--- !u!114 &9025261584093450044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6481791030330069436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25b4ce380abbb954e8e1f849dec0f75e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainSprite: {fileID: 2491659069462593980}
+  HasSortingGroup: 0
+  SortingGroup: {fileID: 0}
+  HasOutline: 0
+  OutlineComp: {fileID: 0}

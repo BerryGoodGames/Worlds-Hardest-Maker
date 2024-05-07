@@ -9,12 +9,12 @@ public static class KeyBinds
     private static readonly Dictionary<string, List<KeyCode[]>> keyBindToKeyCode = new()
     {
         { "Camera_Pan", new() { new[] { KeyCode.Mouse2, }, } },
-
+        
         { "Movement_Up", new() { new[] { KeyCode.W, }, new[] { KeyCode.UpArrow, }, } },
         { "Movement_Right", new() { new[] { KeyCode.D, }, new[] { KeyCode.RightArrow, }, } },
         { "Movement_Down", new() { new[] { KeyCode.S, }, new[] { KeyCode.DownArrow, }, } },
         { "Movement_Left", new() { new[] { KeyCode.A, }, new[] { KeyCode.LeftArrow, }, } },
-
+        
         { "Editor_Select", new() { new[] { KeyCode.Mouse1, }, } },
         { "Editor_Copy", new() { new[] { KeyCode.LeftControl, KeyCode.C, }, } },
         { "Editor_Paste", new() { new[] { KeyCode.LeftControl, KeyCode.V, }, } },
@@ -30,8 +30,9 @@ public static class KeyBinds
         { "Editor_PlayLevel", new() { new[] { KeyCode.Space, }, } },
         { "Editor_SaveLevel", new() { new[] { KeyCode.LeftControl, KeyCode.S, }, } },
         { "Editor_TeleportPlayer", new() { new[] { KeyCode.T, }, } },
-
+        
         { "EditMode_Delete", new() { new[] { KeyCode.D, }, } },
+        { "EditMode_AnchorPlatform", new() { new[] { KeyCode.A, KeyCode.F, }, } },
         { "EditMode_Wall", new() { new[] { KeyCode.W, }, } },
         { "EditMode_Start", new() { new[] { KeyCode.S, }, } },
         { "EditMode_Goal", new() { new[] { KeyCode.G, }, } },
@@ -43,7 +44,6 @@ public static class KeyBinds
         { "EditMode_Ice", new() { new[] { KeyCode.I, }, } },
         { "EditMode_Player", new() { new[] { KeyCode.P, }, } },
         { "EditMode_Anchor", new() { new[] { KeyCode.A, }, } },
-        { "EditMode_AnchorBall", new() { new[] { KeyCode.A, KeyCode.B, }, } },
         { "EditMode_Ball", new() { new[] { KeyCode.B, }, } },
         { "EditMode_Coin", new() { new[] { KeyCode.C, }, } },
         { "EditMode_GrayKey", new() { new[] { KeyCode.K, }, } },
@@ -52,7 +52,7 @@ public static class KeyBinds
         { "EditMode_BlueKey", new() { new[] { KeyCode.K, KeyCode.B, }, } },
         { "EditMode_YellowKey", new() { new[] { KeyCode.K, KeyCode.Y, }, } },
     };
-
+    
     public static bool GetKeyBind(string keyBindName) => keyBindToKeyCode[keyBindName].Any(combination => combination.All(Input.GetKey));
     
     public static bool GetKeyBindDown(string keyBindName)
@@ -64,28 +64,26 @@ public static class KeyBinds
             for (int i = 0; i < combination.Length; i++)
             {
                 KeyCode frameKey = combination[i];
-    
+                
                 bool allOtherKeysHeld = true;
                 for (int j = 0; j < combination.Length; j++)
                 {
                     if (i == j) continue;
-    
+                    
                     if (!Input.GetKey(combination[j]))
                     {
                         allOtherKeysHeld = false;
                         break;
                     }
                 }
-    
-                if (allOtherKeysHeld && Input.GetKeyDown(frameKey))
-                {
-                    return true;
-                }
+                
+                if (allOtherKeysHeld && Input.GetKeyDown(frameKey)) return true;
             }
         }
+        
         return false;
     }
-
+    
     public static bool GetKeyBindUp(string keyBindName)
     {
         List<KeyCode[]> combinations = keyBindToKeyCode[keyBindName];
@@ -94,48 +92,46 @@ public static class KeyBinds
             for (int i = 0; i < combination.Length; i++)
             {
                 KeyCode frameKey = combination[i];
-    
+                
                 bool allOtherKeysUnheld = true;
                 for (int j = 0; j < combination.Length; j++)
                 {
                     if (i == j) continue;
-    
+                    
                     if (Input.GetKey(combination[j]))
                     {
                         allOtherKeysUnheld = false;
                         break;
                     }
                 }
-    
-                if (allOtherKeysUnheld && Input.GetKeyUp(frameKey))
-                {
-                    return true;
-                }
+                
+                if (allOtherKeysUnheld && Input.GetKeyUp(frameKey)) return true;
             }
         }
+        
         return false;
     }
     
     public static void ResetKeyBind(string keyBindName) => keyBindToKeyCode[keyBindName].Clear();
-
+    
     public static void AddKeyCodesToKeyBind(string keyBindName, params KeyCode[][] keyCodes) => keyBindToKeyCode[keyBindName].AddRange(keyCodes);
-
+    
     public static bool HasKeyBindKeyCode(string keyBindName, KeyCode[] keyCode) => keyBindToKeyCode[keyBindName].Contains(keyCode);
-
+    
     public static List<KeyBind> GetAllKeyBinds()
     {
         List<KeyBind> keyBinds = new();
-
+        
         foreach (KeyValuePair<string, List<KeyCode[]>> keyBindPair in keyBindToKeyCode)
         {
             KeyBind keyBind = new(keyBindPair.Key, keyBindPair.Value.ToArray());
-
+            
             keyBinds.Add(keyBind);
         }
-
+        
         return keyBinds;
     }
-
+    
     public static Vector2 GetMovementInput()
     {
         Vector2 movementInput = Vector2.zero;
@@ -143,28 +139,28 @@ public static class KeyBinds
         if (GetKeyBind("Movement_Left")) movementInput += Vector2.left;
         if (GetKeyBind("Movement_Down")) movementInput += Vector2.down;
         if (GetKeyBind("Movement_Right")) movementInput += Vector2.right;
-
+        
         return movementInput;
     }
-
+    
     public static KeyCode[][] KeyCodesFromString(string serializedKeyCodes)
     {
         string[] combinations = serializedKeyCodes.Split(';', StringSplitOptions.RemoveEmptyEntries);
-
+        
         List<KeyCode[]> keyCodes = new();
-
+        
         for (int i = 0; i < combinations.Length; i++)
         {
             string[] keyCodesString = combinations[i].Split(',', StringSplitOptions.RemoveEmptyEntries);
-
+            
             keyCodes.Add(new KeyCode[keyCodesString.Length]);
-
+            
             for (int j = 0; j < keyCodesString.Length; j++) keyCodes[i][j] = (KeyCode)int.Parse(keyCodesString[j]);
         }
-
+        
         return keyCodes.ToArray();
     }
-
+    
     public static void ReplaceKeyCode(KeyCode old, KeyCode @new)
     {
         foreach (KeyValuePair<string, List<KeyCode[]>> keyBind in keyBindToKeyCode)
@@ -173,10 +169,7 @@ public static class KeyBinds
             {
                 for (int i = 0; i < combinations.Length; i++)
                 {
-                    if (combinations[i] == old)
-                    {
-                        combinations[i] = @new;
-                    }
+                    if (combinations[i] == old) combinations[i] = @new;
                 }
             }
         }
@@ -190,78 +183,78 @@ public struct KeyBind
         Name = name;
         KeyCodes = keyCodes;
     }
-
+    
     public string Name;
     public KeyCode[][] KeyCodes;
-
+    
     public string Category
     {
         get
         {
             // check if there is a category
             if (!Name.Contains('_')) throw new($"There was no category in key bind {Name}");
-
+            
             // get everything before the underscore
             string category = Name.Split('_')[0];
-
+            
             // add space before capital letters
             for (int i = category.Length - 1; i >= 1; i--)
             {
                 if (!char.IsUpper(category[i])) continue;
-
+                
                 category = category.Insert(i, " ");
             }
-
+            
             return category;
         }
     }
-
+    
     public string FormattedName
     {
         get
         {
             // check if there is a category
             if (!Name.Contains('_')) throw new($"There was no category in key bind {Name}");
-
+            
             // remove category
             string formattedName = Name.Split('_')[1];
-
+            
             // add spaces before capital letters
             for (int i = formattedName.Length - 1; i >= 1; i--)
             {
                 if (!char.IsUpper(formattedName[i])) continue;
-
+                
                 formattedName = formattedName.Insert(i, " ");
             }
-
+            
             return formattedName;
         }
     }
-
+    
     public static implicit operator string(KeyBind keyBind) => keyBind.Name;
-
+    
     public string KeyCodesToString()
     {
         string converted = string.Empty;
-
+        
         foreach (KeyCode[] combination in KeyCodes)
         {
             if (combination.Length <= 0) continue;
-
+            
             // add first key code
             converted += (int)combination[0];
-
+            
             // add other key codes required for combination
             for (int i = 1; i < combination.Length; i++)
             {
                 converted += ',';
                 converted += (int)combination[1];
             }
-
+            
             // end the combination
             converted += ';';
         }
-
+        
         return converted;
     }
 }

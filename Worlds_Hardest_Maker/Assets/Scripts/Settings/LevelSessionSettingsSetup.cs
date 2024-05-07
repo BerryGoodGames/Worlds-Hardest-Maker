@@ -2,8 +2,8 @@ using MyBox;
 using UnityEngine;
 
 /// <summary>
-/// This script handles every action/configuration of the settings in LevelSession scene,
-/// which enables SettingsManager to be scene-independent.
+///     This script handles every action/configuration of the settings in LevelSession scene,
+///     which enables SettingsManager to be scene-independent.
 /// </summary>
 public class LevelSessionSettingsSetup : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class LevelSessionSettingsSetup : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private InfobarResize infobarPlayResize;
     [SerializeField] [InitializationField] [MustBeAssigned] private InfobarResize infobarEditResize;
     [SerializeField] [InitializationField] [MustBeAssigned] private RoomOutlineGenerator roomOutlines;
-
+    
     private void SetToolbarSize(float size)
     {
         if (toolbarSpacing == null) return;
@@ -20,7 +20,7 @@ public class LevelSessionSettingsSetup : MonoBehaviour
         toolbarSpacing.ToolbarHeight = size;
         toolbarSpacing.UpdateSize();
     }
-
+    
     private void SetInfobarSize(float size)
     {
         if (infobarPlayResize == null || infobarEditResize == null) return;
@@ -30,24 +30,19 @@ public class LevelSessionSettingsSetup : MonoBehaviour
         infobarEditResize.InfobarHeight = size;
         infobarEditResize.UpdateSize();
     }
-
-    private void SetOneColorSafeFieldsWhenPlaying(bool oneColor)
-    {
+    
+    private void SetOneColorSafeFieldsWhenPlaying(bool oneColor) =>
         FieldManager.ApplySafeFieldsColor(LevelSessionEditManager.Instance.Playing && oneColor);
-    }
-
-    private void SetShowRoomGrid(bool show)
-    {
-        roomOutlines.SetEnabledSetting(show);
-    }
-
+    
+    private void SetShowRoomGrid(bool show) => roomOutlines.SetEnabledSetting(show);
+    
     private void Start()
     {
         settingsManager.LoadPrefs();
         
         LevelSettings.Instance.OnLevelSettingsImported += roomOutlines.CalcSize;
     }
-
+    
     private void Awake()
     {
         settingsManager.OnSetToolbarSize += SetToolbarSize;
@@ -55,7 +50,7 @@ public class LevelSessionSettingsSetup : MonoBehaviour
         settingsManager.OnSetOneColorSafeFieldsWhenPlaying += SetOneColorSafeFieldsWhenPlaying;
         settingsManager.OnSetShowRoomGrid += SetShowRoomGrid;
     }
-
+    
     private void OnDestroy()
     {
         LevelSettings.Instance.OnLevelSettingsImported -= roomOutlines.CalcSize;

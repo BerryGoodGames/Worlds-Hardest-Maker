@@ -5,7 +5,7 @@ public class PlayModeBlocker : MonoBehaviour
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform cutout;
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform blackScreen;
-
+    
     private void Start()
     {
         Disable();
@@ -19,31 +19,31 @@ public class PlayModeBlocker : MonoBehaviour
         
         SetupBlackScreenMask();
     }
-
+    
     public void SetupBlackScreenMask()
     {
         Camera cam = Camera.main;
         if (cam == null) return;
         
         CameraPlayJumpInfo jumpInfo = CameraPlayJumpInfo.GetCurrentJumpInfo(cam);
-
+        
         const float infobarHeight = CameraPlayJumpInfo.InfobarHeight;
-
+        
         (float cutoutWidth, float cutoutHeight) = GetCutoutSize(jumpInfo);
-
+        
         cutout.sizeDelta = new(cutoutWidth, cutoutHeight);
         cutout.anchoredPosition = new(0, infobarHeight / 2);
-
+        
         blackScreen.sizeDelta = new(jumpInfo.ScreenWidth, jumpInfo.ScreenHeight);
         blackScreen.anchoredPosition = new(0, -infobarHeight / 2);
     }
-
+    
     private static (float width, float height) GetCutoutSize(CameraPlayJumpInfo jumpInfo)
     {
         const float infobarHeight = CameraPlayJumpInfo.InfobarHeight;
         
         float cutoutWidth, cutoutHeight;
-
+        
         if (jumpInfo.HeightZoom > jumpInfo.WidthZoom)
         {
             cutoutHeight = jumpInfo.ScreenHeight - infobarHeight;
@@ -54,10 +54,10 @@ public class PlayModeBlocker : MonoBehaviour
             cutoutWidth = jumpInfo.ScreenWidth;
             cutoutHeight = cutoutWidth * LevelSettings.Instance.RoomHeight / LevelSettings.Instance.RoomWidth;
         }
-
+        
         return (cutoutWidth, cutoutHeight);
     }
-
+    
     private void OnDestroy()
     {
         PlayManager.Instance.OnPlaytest -= Enable;

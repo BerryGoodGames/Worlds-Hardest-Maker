@@ -30,7 +30,7 @@ public static class SettingVersionExtension
                 prefab = PrefabManager.Instance.DropdownOptionPrefab;
                 break;
         }
-
+        
         return prefab;
     }
 }

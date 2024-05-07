@@ -12,9 +12,9 @@ public class WarningConfirmPromptController : MonoBehaviour
     
     protected WarningConfirmPromptTween Tween;
     private void Start() => Tween = GetComponent<WarningConfirmPromptTween>();
-
+    
     public virtual void OpenPrompt() => Tween.SetVisible(true);
-
+    
     public void ClosePrompt() => Tween.SetVisible(false);
     
     protected virtual void OnConfirm()
@@ -22,7 +22,7 @@ public class WarningConfirmPromptController : MonoBehaviour
         ClosePrompt();
         confirm.Invoke();
     }
-
+    
     // method for unity inspector
     public void InvokeOnConfirm() => OnConfirm();
 }

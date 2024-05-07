@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Attributes:
     IsField: 1
-    IsKeydoor: 1
+    IsKeyDoor: 1
     IsEntity: 0
     IsKey: 0
     IsAnchorRelated: 0
@@ -25,9 +25,12 @@ MonoBehaviour:
   WorldPositionType: 2
   IsDraggable: 1
   ShowFillPreview: 1
+  DefaultAvailable: 1
+  AnchorAvailable: 1
   HasOutline: 1
   IsRotatable: 0
   IsSolid: 1
   IsStartFieldForPlayer: 0
   IsSafeForPlayer: 0
+  CarryPlayer: 1
   KeyColor: 2

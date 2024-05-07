@@ -11,22 +11,22 @@ public class SetRotationBlockController : AnchorBlockController
         { "it / s", SetRotationBlock.Unit.Iterations },
         { "s", SetRotationBlock.Unit.Time },
     };
-
+    
     [Separator("Specifics")] [InitializationField] [AutoProperty] public TMP_InputField SpeedInput;
-
+    
     [InitializationField] public TMP_Dropdown UnitInput;
-
+    
     private SetRotationBlock.Unit GetUnit()
     {
         string selectedUnitString = UnitInput.options[UnitInput.value].text;
         return unitOptions[selectedUnitString];
     }
-
+    
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController) =>
         new SetRotationBlock(anchorController, IsLocked, SpeedInput.GetFloatInput(), GetUnit());
-
+    
     public static string GetOption(SetRotationBlock.Unit unit) => unitOptions.FirstOrDefault(x => x.Value == unit).Key;
-
+    
     public void UpdateWarnings()
     {
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();

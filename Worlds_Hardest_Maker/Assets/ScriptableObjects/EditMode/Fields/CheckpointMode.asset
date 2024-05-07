@@ -25,8 +25,11 @@ MonoBehaviour:
   WorldPositionType: 2
   IsDraggable: 1
   ShowFillPreview: 1
+  DefaultAvailable: 1
+  AnchorAvailable: 1
   HasOutline: 0
   IsRotatable: 0
   IsSolid: 0
   IsStartFieldForPlayer: 0
   IsSafeForPlayer: 1
+  CarryPlayer: 1

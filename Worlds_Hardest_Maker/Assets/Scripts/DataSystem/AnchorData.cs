@@ -6,23 +6,23 @@ using UnityEngine;
 ///     Anchor attributes: balls (positions), blocks, position
 /// </summary>
 [Serializable]
-public class AnchorData : Data
+public class AnchorData : NonAttachableData
 {
     // (list of coordinates)
-    private AnchorBallData[] balls;
-
+    private AttachableData[] attachments;
+    
     private AnchorBlockData[] blocks;
-
+    
     private readonly float[] position;
-
+    
     public AnchorData(AnchorController controller)
     {
         // init balls and blocks
-        SaveBalls(controller);
+        SaveAttachments(controller);
         SaveBlocks(controller);
-
+        
         Vector2 controllerPosition = controller.StartPosition;
-
+        
         // init start position
         position = new[]
         {
@@ -30,17 +30,19 @@ public class AnchorData : Data
             controllerPosition.y,
         };
     }
-
+    
     #region Saving / loading properties
-
-    private void SaveBalls(AnchorController controller)
+    
+    private void SaveAttachments(AnchorController controller)
     {
-        // init balls
-        List<AnchorBallController> anchorBalls = AnchorBallManager.Instance.AnchorBallListLayers[controller];
-        balls = new AnchorBallData[anchorBalls.Count];
-        for (int i = 0; i < balls.Length; i++) balls[i] = (AnchorBallData)anchorBalls[i].GetData();
+        List<AnchorAttachment> attachments = controller.Attachments;
+        this.attachments = new AttachableData[attachments.Count];
+        for (int i = 0; i < attachments.Count; i++)
+        {
+            this.attachments[i] = (AttachableData)attachments[i].Controller.GetData();
+        }
     }
-
+    
     private void SaveBlocks(AnchorController controller)
     {
         // init blocks
@@ -52,56 +54,58 @@ public class AnchorData : Data
              currentBlockNode = currentBlockNode.Next)
         {
             AnchorBlock currentBlock = currentBlockNode.Value;
-
+            
             // assign data
             blocks[j] = currentBlock.GetData();
-
+            
             j++;
         }
     }
-
+    
     private LinkedList<AnchorBlock> LoadBlocks(AnchorController anchor)
     {
         LinkedList<AnchorBlock> blockArr = new();
-
+        
         foreach (AnchorBlockData blockData in blocks)
         {
             AnchorBlock anchorBlock = blockData.GetBlock(anchor);
             blockArr.AddLast(anchorBlock);
         }
-
+        
         return blockArr;
     }
-
+    
     #endregion
-
-
+    
     public override void ImportToLevel() => ImportToLevel(new(position[0], position[1]));
-
+    
     public override void ImportToLevel(Vector2 pos)
     {
-        AnchorController anchor = AnchorManager.Instance.SetAnchor(pos);
-
-        foreach (AnchorBallData ball in balls) ball.ImportToLevel(anchor);
-
+        ManagerParameters args = new() { Position = pos, };
+        AnchorController anchor = ((IManager<AnchorController>)AnchorManager.Instance).Set(args);
+        
+        foreach (AttachableData data in attachments) data.ImportToLevel(anchor);
+        
+        if (LevelSessionManager.Instance.IsEdit) AnchorAttachManager.Dehighlight(anchor);
+        
         anchor.Blocks = LoadBlocks(anchor);
     }
-
+    
     public override EditMode GetEditMode() => EditModeManager.Anchor;
     
     public override bool Equals(Data d)
     {
         AnchorData other = (AnchorData)d;
-
+        
         if (position[0] != other.position[0] || position[1] != other.position[1]) return false;
-
-        if (other.balls.Length != balls.Length) return false;
-
-        for (int i = 0; i < balls.Length; i++)
+        
+        if (other.attachments.Length != attachments.Length) return false;
+        
+        for (int i = 0; i < attachments.Length; i++)
         {
-            if (!balls[i].Equals(other.balls[i])) return false;
+            if (!attachments[i].Equals(other.attachments[i])) return false;
         }
-
+        
         // ignore anchor blocks for now
         return true;
     }

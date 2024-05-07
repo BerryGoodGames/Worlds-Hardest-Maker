@@ -59,8 +59,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltipPrefab: {fileID: 0}
-  customContainer: 0
-  container: {fileID: 0}
+  CustomContainer: 0
+  Container: {fileID: 0}
   restrictInCanvas: 1
   customRestrictContainer: 0
   restrictContainer: {fileID: 0}

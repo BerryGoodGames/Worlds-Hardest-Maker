@@ -8,14 +8,14 @@ public class UICornersGradient : BaseMeshEffect
     public Color m_topRightColor = Color.white;
     public Color m_bottomRightColor = Color.white;
     public Color m_bottomLeftColor = Color.white;
-
+    
     public override void ModifyMesh(VertexHelper vh)
     {
         if (enabled)
         {
             Rect rect = graphic.rectTransform.rect;
             UIGradientUtils.Matrix2x3 localPositionMatrix = UIGradientUtils.LocalPositionMatrix(rect, Vector2.right);
-
+            
             UIVertex vertex = default;
             for (int i = 0; i < vh.currentVertCount; i++)
             {
@@ -25,7 +25,7 @@ public class UICornersGradient : BaseMeshEffect
                     m_bottomLeftColor, m_bottomRightColor, m_topLeftColor,
                     m_topRightColor, normalizedPosition
                 );
-
+                
                 vh.SetUIVertex(vertex, i);
             }
         }

@@ -9,22 +9,22 @@ public class CameraPlayController : MonoBehaviour
     
     private Camera cam;
     private float camOrthoSize;
-
+    
     private Vector2Int currentRoom;
-
+    
     private void Awake()
     {
         cam = GetComponent<Camera>();
         camOrthoSize = cam.orthographicSize;
     }
-
+    
     private void Start()
     {
         PlayManager.Instance.OnPlaytest += JumpToStart;
         PlayManager.Instance.OnPlaySceneSetup += JumpToStartInstant;
         PlayManager.Instance.OnLevelReset += JumpToStart;
     }
-
+    
     private void Update()
     {
         if (!LevelSessionEditManager.Instance.InPlaytest) return;
@@ -48,9 +48,10 @@ public class CameraPlayController : MonoBehaviour
         currentRoom = PlayerManager.GetStartRoom();
         JumpToRoom(currentRoom, instant);
     }
+    
     private void JumpToStart() => JumpToStart(false);
     private void JumpToStartInstant() => JumpToStart(true);
-
+    
     private void JumpToRoom(Vector2Int cell, bool instant = false)
     {
         int roomWidth = LevelSettings.Instance.RoomWidth;

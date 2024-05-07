@@ -70,10 +70,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3516165864050137394}
-  - component: {fileID: 3467334307650034706}
   - component: {fileID: 192380122639183852}
   m_Layer: 7
-  m_Name: AnchorBallContainer
+  m_Name: AttachmentContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,19 +93,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 74421912579104664}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3467334307650034706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1405856060974149455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ed01e8a90c00a84a9862ee4f2f98030, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  opacity: 1
 --- !u!114 &192380122639183852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,8 +297,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4d9f08cc6d09d24aa52973475e52907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BallContainer: {fileID: 3516165864050137394}
+  IsAttached: 0
+  isAttachable: 0
+  AttachmentHolder: {fileID: 0}
+  AttachmentContainer: {fileID: 3516165864050137394}
+  AttachmentContainerSyncTransform: {fileID: 192380122639183852}
   Animator: {fileID: 2695958956081501589}
+  AttachFade: {fileID: 4634633626038657293}
+  SortingLayerID: 0
+  OrderInLayer: 0
   Balls: []
   SpeedUnit: 0
   RotationSpeedUnit: 0
@@ -320,6 +313,7 @@ MonoBehaviour:
   RotationInput: 0
   IsClockwise: 0
   Ease: 0
+  Attachments: []
   Rb: {fileID: 0}
   lineContainer: {fileID: 6016487082984928425}
   lineColor: {r: 0.9843138, g: 0.54509807, b: 0.14117648, a: 1}
@@ -336,10 +330,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 158a5aa8bb2c6f246be2beaa19f4fb89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 3467334307650034706}
+  container: {fileID: 3516165864050137394}
   fadeDuration: 0.2
-  fadeInOpacity: 1
-  fadeOutOpacity: 0.3
+  fadeInScalar: 1
+  fadeOutScalar: 0.5
 --- !u!95 &2695958956081501589
 Animator:
   serializedVersion: 5

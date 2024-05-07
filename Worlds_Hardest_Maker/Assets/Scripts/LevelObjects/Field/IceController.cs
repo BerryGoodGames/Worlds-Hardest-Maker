@@ -6,16 +6,13 @@ public class IceController : MonoBehaviour
     {
         GameObject collider = collision.gameObject;
         if (!collider.CompareTag("Player")) return;
-
+        
         PlayerController controller = collider.GetComponent<PlayerController>();
-
-        if (!controller.IsOnIce())
+        
+        if (!controller.IsOnMode(EditModeManager.Ice))
             // frame player entered ice
             // transition between normal ground and ice
             // transfer velocity to player
-        {
-            controller.Rb.velocity = KeyBinds.GetMovementInput() *
-                                     controller.Speed;
-        }
+            controller.Rb.velocity = KeyBinds.GetMovementInput() * PlayerController.Speed;
     }
 }

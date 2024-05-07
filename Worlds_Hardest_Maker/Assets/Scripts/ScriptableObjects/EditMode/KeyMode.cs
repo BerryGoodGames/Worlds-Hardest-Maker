@@ -5,7 +5,7 @@ using UnityEngine;
 public sealed class KeyMode : EntityMode
 {
     [Separator] public KeyColor KeyColor;
-
+    
     protected override void Reset()
     {
         base.Reset();

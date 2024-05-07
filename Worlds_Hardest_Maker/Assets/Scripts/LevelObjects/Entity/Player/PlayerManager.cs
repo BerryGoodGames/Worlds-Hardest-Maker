@@ -1,55 +1,103 @@
 using System;
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManagerPlaceRestrictable
 {
     public static PlayerManager Instance { get; private set; }
-
+    
     public event Action OnWin;
-
+    
     public void InvokeOnWin() => OnWin?.Invoke();
-
+    
     [ReadOnly] public PlayerController Player;
-
-    #region Set player
-
-    public PlayerController SetPlayer(Vector2 position, bool surroundWithStartFields = false)
+    
+    public Transform DefaultContainer => ReferenceManager.Instance.PlayerContainer;
+    
+    public PlayerController SetInSheet(ManagerParameters args)
     {
-        if (IsPlayerThere(position)) return null;
-
-        if (!CanPlace(position))
-        {
-            if (!surroundWithStartFields) return null;
-
-            SetSurroundingStartFields(position);
-        }
-
+        Vector2 position = args.Position;
+        
+        if (IsThereInSheet(position, args.Sheet)) return null;
+        
+        bool canPlaceInSheet = CanPlaceInSheet(position, args.Sheet);
+        
+        if (args.SurroundWithStartFields && !canPlaceInSheet) SetSurroundingStartFieldsInSheet(position, args.Sheet);
+        
         // clear area from coins and keys
         GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.CoinContainer);
         GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.KeyContainer);
-
+        
         // if player already exists, just move it
-        if (Player != null)
+        if (Player != null) Player.ReSet(args);
+        else
         {
-            Player.transform.position = position;
-            Player.StartPos = position;
-            return Player;
+            // place player
+            PlayerController newPlayer = ((IManager<PlayerController>)this).InstantiateInSheet(args);
+            
+            // set target of camera
+            ReferenceManager.Instance.MainCameraJumper.SetTarget("Player", newPlayer.gameObject);
+            
+            Player = newPlayer;
         }
-
-        // place player
-        PlayerController newPlayer = InstantiatePlayer(position);
-
-        // set target of camera
-        ReferenceManager.Instance.MainCameraJumper.SetTarget("Player", newPlayer.gameObject);
-
-        Player = newPlayer;
-
+        
+        return Player;
+    }
+    
+    public PlayerController Set(Vector2 position)
+    {
+        ManagerParameters args = new() { Position = position, SurroundWithStartFields = true, };
+        return ((IManager<PlayerController>)this).Set(args);
+    }
+    
+    public PlayerController GetInSheet(Vector2 position, AnchorController sheet) => throw new NotImplementedException();
+    
+    public PlayerController InstantiateInSheet(ManagerParameters args)
+    {
+        PlayerController newPlayer = Instantiate(
+            PrefabManager.Instance.Player,
+            args.Position, Quaternion.identity,
+            DefaultContainer
+        );
+        
+        PlaceManager.AttachToSheet(newPlayer.gameObject, args.Sheet, false);
+        newPlayer.Sheet = args.Sheet;
+        
         return newPlayer;
     }
-
-    private static void SetSurroundingStartFields(Vector2 position)
+    
+    public bool IsThere(Vector2 position) => Instance.Player != null && (Vector2)Instance.Player.transform.position == position;
+    public bool IsThereInSheet(Vector2 position, AnchorController sheet) => IsThere(position) && Instance.Player.Sheet == sheet;
+    
+    public List<Data> Serialize(List<Data> levelData)
     {
+        if (Player != null && !Player.IsAttached)
+        {
+            PlayerData playerData = new(Player);
+            levelData.Add(playerData);
+        }
+        
+        return levelData;
+    }
+    
+    public bool CanPlace(Vector2 position) =>
+        // conditions: no player there, position is covered with possible start fields
+        !IsThere(position) &&
+        FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(
+            position, PlaceManager.GetCurrentSheet(), EditModeManager.Instance.AllPlayerStartFieldModes.ToArray()
+        );
+    
+    public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>
+        // conditions: no player there, position is covered with possible start fields
+        !IsThereInSheet(position, sheet) &&
+        FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(position, sheet, EditModeManager.Instance.AllPlayerStartFieldModes.ToArray());
+    
+    private static List<FieldController> SetSurroundingStartFieldsInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
+    {
+        List<FieldController> result = new();
+        
         Vector2Int[] checkPoses =
         {
             Vector2Int.FloorToInt(position),
@@ -57,41 +105,45 @@ public class PlayerManager : MonoBehaviour
             new(Mathf.FloorToInt(position.x), Mathf.CeilToInt(position.y)),
             Vector2Int.CeilToInt(position),
         };
-
-        foreach (Vector2Int checkPosition in checkPoses) FieldManager.Instance.SetField(checkPosition, EditModeManager.Start);
+        
+        foreach (Vector2Int checkPosition in checkPoses)
+        {
+            ManagerParameters args = new()
+            {
+                Position = checkPosition,
+                FieldMode = EditModeManager.Start,
+                Sheet = sheet,
+            };
+            
+            result.Add(((IManager<FieldController>)FieldManager.Instance).SetInSheet(args));
+        }
+        
+        return result;
     }
-
-    #endregion
-
-    public void RemovePlayerAtPos(Vector2 position)
+    
+    public void RemoveAtPos(Vector2 position)
     {
         // remove player only if at pos
-        foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
+        foreach (Transform player in DefaultContainer)
         {
             if ((Vector2)player.position == position) player.GetComponent<PlayerController>().DestroySelf();
         }
     }
-
-    public void RemovePlayerAtPosIntersect(Vector2 position)
+    
+    public void RemoveAtPosInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
-        Vector2[] deltas =
+        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Player);
+        foreach (Collider2D hit in hits)
         {
-            new(-0.5f, -0.5f), new(0, -0.5f), new(0.5f, -0.5f),
-            new(-0.5f, 0), new(0, 0), new(0.5f, 0),
-            new(-0.5f, 0.5f), new(0, 0.5f), new(0.5f, 0.5f),
-        };
-
-        foreach (Vector2 d in deltas) RemovePlayerAtPos(position + d);
+            if (!hit.CompareTag("PlayerCenterCollider")) continue;
+            if (!hit.transform.parent.TryGetComponent(out PlayerController player)) continue;
+            if (!IManager.IsInSheet(player, sheet)) continue;
+            
+            player.DestroySelf();
+        }
     }
-
-    public static bool CanPlace(Vector2 position, bool checkForPlayer = true) =>
-        // conditions: no player there, position is covered with possible start fields
-        !(checkForPlayer && IsPlayerThere(position)) &&
-        FieldManager.IsPosCoveredWithFieldType(position, EditModeManager.Instance.AllPlayerStartFieldModes.ToArray());
-
-    public static bool IsPlayerThere(Vector2 position) => Instance.Player != null && (Vector2)Instance.Player.transform.position == position;
-
-    public static bool IsPlayerThereIntersect(Vector2 position)
+    
+    public void RemoveAtPosIntersect(Vector2 position)
     {
         Vector2[] deltas =
         {
@@ -99,31 +151,47 @@ public class PlayerManager : MonoBehaviour
             new(-0.5f, 0), new(0, 0), new(0.5f, 0),
             new(-0.5f, 0.5f), new(0, 0.5f), new(0.5f, 0.5f),
         };
-
+        
+        foreach (Vector2 d in deltas) RemoveAtPos(position + d);
+    }
+    
+    public void RemoveAtPosIntersectInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
+    {
+        Vector2[] deltas =
+        {
+            new(-0.5f, -0.5f), new(0, -0.5f), new(0.5f, -0.5f),
+            new(-0.5f, 0), new(0, 0), new(0.5f, 0),
+            new(-0.5f, 0.5f), new(0, 0.5f), new(0.5f, 0.5f),
+        };
+        
+        foreach (Vector2 d in deltas) RemoveAtPosInSheet(position + d, sheet);
+    }
+    
+    public bool IsThereIntersect(Vector2 position)
+    {
+        Vector2[] deltas =
+        {
+            new(-0.5f, -0.5f), new(0, -0.5f), new(0.5f, -0.5f),
+            new(-0.5f, 0), new(0, 0), new(0.5f, 0),
+            new(-0.5f, 0.5f), new(0, 0.5f), new(0.5f, 0.5f),
+        };
+        
         foreach (Vector2 d in deltas)
         {
-            if (IsPlayerThere(position + d)) return true;
+            if (IsThere(position + d)) return true;
         }
-
+        
         return false;
     }
-
+    
     public static Vector2Int GetCurrentRoom() => Instance.Player != null ? Instance.Player.GetCurrentRoom() : Vector2Int.zero;
     public static Vector2Int GetStartRoom() => Instance.Player != null ? Instance.Player.GetStartRoom() : Vector2Int.zero;
-
-    public static PlayerController InstantiatePlayer(Vector2 position)
-    {
-        PlayerController newPlayer = Instantiate(
-            PrefabManager.Instance.Player, position, Quaternion.identity,
-            ReferenceManager.Instance.PlayerContainer
-        );
-
-        return newPlayer;
-    }
-
+    
     private void Awake()
     {
         // init singleton
         if (Instance == null) Instance = this;
     }
+    
+    public bool CorrespondsToEditMode(EditMode compare) => compare == EditModeManager.Player;
 }

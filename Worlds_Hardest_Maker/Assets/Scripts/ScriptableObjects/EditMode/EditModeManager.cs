@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EditModeManager : MonoBehaviour
 {
     public static EditModeManager Instance { get; private set; }
-
+    
     [InitializationField] [MustBeAssigned] public DeleteMode DeleteMode;
+    [FormerlySerializedAs("AnchorFloorMode")] [InitializationField] [MustBeAssigned] public FieldMode AnchorPlatformMode;
     [InitializationField] [MustBeAssigned] public FieldMode WallMode;
     [InitializationField] [MustBeAssigned] public FieldMode StartMode;
     [InitializationField] [MustBeAssigned] public FieldMode GoalMode;
@@ -20,7 +22,7 @@ public class EditModeManager : MonoBehaviour
     [InitializationField] [MustBeAssigned] public FieldMode IceMode;
     [InitializationField] [MustBeAssigned] public EntityMode PlayerMode;
     [InitializationField] [MustBeAssigned] public EntityMode AnchorMode;
-    [InitializationField] [MustBeAssigned] public EntityMode AnchorBallMode;
+    [InitializationField] [MustBeAssigned] public EntityMode BallMode;
     [InitializationField] [MustBeAssigned] public EntityMode CoinMode;
     [InitializationField] [MustBeAssigned] public KeyMode GrayKeyMode;
     [InitializationField] [MustBeAssigned] public KeyMode RedKeyMode;
@@ -32,8 +34,9 @@ public class EditModeManager : MonoBehaviour
     [InitializationField] [MustBeAssigned] public KeyDoorMode GreenKeyDoorMode;
     [InitializationField] [MustBeAssigned] public KeyDoorMode BlueKeyDoorMode;
     [InitializationField] [MustBeAssigned] public KeyDoorMode YellowKeyDoorMode;
-
+    
     public static DeleteMode Delete => Instance.DeleteMode;
+    public static FieldMode AnchorFloor => Instance.AnchorPlatformMode;
     public static FieldMode Wall => Instance.WallMode;
     public static FieldMode Start => Instance.StartMode;
     public static FieldMode Goal => Instance.GoalMode;
@@ -45,7 +48,7 @@ public class EditModeManager : MonoBehaviour
     public static FieldMode Ice => Instance.IceMode;
     public static EntityMode Player => Instance.PlayerMode;
     public static EntityMode Anchor => Instance.AnchorMode;
-    public static EntityMode AnchorBall => Instance.AnchorBallMode;
+    public static EntityMode Ball => Instance.BallMode;
     public static EntityMode Coin => Instance.CoinMode;
     public static KeyMode GrayKey => Instance.GrayKeyMode;
     public static KeyMode RedKey => Instance.RedKeyMode;
@@ -57,19 +60,19 @@ public class EditModeManager : MonoBehaviour
     public static KeyDoorMode GreenKeyDoor => Instance.GreenKeyDoorMode;
     public static KeyDoorMode BlueKeyDoor => Instance.BlueKeyDoorMode;
     public static KeyDoorMode YellowKeyDoor => Instance.YellowKeyDoorMode;
-
+    
     public List<EditMode> AllEditModes { get; private set; }
     public List<FieldMode> AllFieldModes { get; private set; }
     public List<FieldMode> AllPlayerStartFieldModes { get; private set; }
-
+    
     public static EditMode GetEditMode(string editModeName)
     {
         try
         {
             EditMode editMode = Instance.AllEditModes.First(e => e.name == editModeName);
-
+            
             if (editMode == null) throw new();
-
+            
             return editMode;
         }
         catch (Exception)
@@ -78,15 +81,15 @@ public class EditModeManager : MonoBehaviour
             throw;
         }
     }
-
+    
     public static FieldMode GetFieldMode(string fieldModeName)
     {
         try
         {
             FieldMode fieldMode = Instance.AllFieldModes.First(e => e.name == fieldModeName);
-
+            
             if (fieldMode == null) throw new();
-
+            
             return fieldMode;
         }
         catch (Exception)
@@ -95,15 +98,16 @@ public class EditModeManager : MonoBehaviour
             throw;
         }
     }
-
+    
     private void Awake()
     {
         if (Instance != null) return;
-
+        
         Instance = this;
         AllEditModes = new()
         {
             Delete,
+            AnchorFloor,
             Wall,
             Start, Goal, Checkpoint,
             Void,
@@ -111,18 +115,18 @@ public class EditModeManager : MonoBehaviour
             Conveyor,
             Water, Ice,
             Player,
-            Anchor, AnchorBall,
+            Anchor, Ball,
             Coin,
             GrayKey, RedKey, GreenKey, BlueKey, YellowKey,
             GrayKeyDoor, RedKeyDoor, GreenKeyDoor, BlueKeyDoor, YellowKeyDoor,
         };
-
+        
         // cache AllFieldModes
         AllFieldModes = AllEditModes
             .Where(editMode => editMode.Attributes.IsField)
             .OfType<FieldMode>()
             .ToList();
-
+        
         // cache AllPlayerStartFieldModes
         AllPlayerStartFieldModes = AllFieldModes
             .Where(fieldMode => fieldMode.IsStartFieldForPlayer)

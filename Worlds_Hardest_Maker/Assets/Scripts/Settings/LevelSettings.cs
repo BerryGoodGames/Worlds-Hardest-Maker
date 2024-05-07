@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class LevelSettings : MonoBehaviour
 {
     public static LevelSettings Instance { get; private set; }
-
+    
     public event Action OnLevelSettingsImported = () => { };
     public event Action OnUpdateRoomSize = () => { };
-
-
+    
+    
     #region Setting UI element references
-        
+    
     [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput roomWidthInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput roomHeightInput;
     [SerializeField] [InitializationField] [MustBeAssigned] private Slider playerSpeedInput;
@@ -27,7 +27,7 @@ public class LevelSettings : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private Toggle reusableCheckpointCheckbox;
     
     #endregion
-
+    
     #region Setting variables
     
     [HideInInspector] public int RoomWidth;
@@ -39,31 +39,32 @@ public class LevelSettings : MonoBehaviour
     [HideInInspector] public bool IsCoinsNeededLimited;
     
     [HideInInspector] public int CoinsNeeded;
-
+    
     [HideInInspector] public bool PlayerInvincibility;
-
+    
     [HideInInspector] public float DrownDuration;
-
+    
     [HideInInspector] public float WaterDampingFactor;
-
+    
     [HideInInspector] public float IceFriction;
-
+    
     [HideInInspector] public float IceMaxSpeed;
-
+    
     [HideInInspector] public float ConveyorSpeed;
-
+    
     public bool ReusableCheckpoints
     {
         get => CheckpointController.ReusableCheckpoints;
         set => CheckpointController.ReusableCheckpoints = value;
     }
-
+    
     #endregion
-
-
+    
+    
     #region Level settings
-
+    
     public void SetRoomWidth() => RoomWidth = (int)roomWidthInput.GetCurrentNumber();
+    
     public void SetRoomWidth(int value)
     {
         RoomWidth = value;
@@ -71,6 +72,7 @@ public class LevelSettings : MonoBehaviour
     }
     
     public void SetRoomHeight() => RoomHeight = (int)roomHeightInput.GetCurrentNumber();
+    
     public void SetRoomHeight(int value)
     {
         RoomHeight = value;
@@ -78,6 +80,7 @@ public class LevelSettings : MonoBehaviour
     }
     
     public void SetPlayerSpeed() => PlayerSpeed = playerSpeedInput.value / 2;
+    
     public void SetPlayerSpeed(float value)
     {
         PlayerSpeed = value;
@@ -85,49 +88,55 @@ public class LevelSettings : MonoBehaviour
     }
     
     public void SetCoinsNeeded() => CoinsNeeded = (int)coinsNeededInput.GetCurrentNumber();
+    
     public void SetCoinsNeeded(int value)
     {
         CoinsNeeded = value;
         coinsNeededInput.SetNumberText(value);
     }
-
+    
     public void SetIsNeededCoinsLimited() => IsCoinsNeededLimited = isCoinsNeededLimitedInput.isOn;
+    
     public void SetIsNeededCoinsLimited(bool value)
     {
         IsCoinsNeededLimited = value;
         isCoinsNeededLimitedInput.isOn = IsCoinsNeededLimited;
     }
-     
+    
     public void SetPlayerInvincibility() => PlayerInvincibility = playerInvincibilityInput.isOn;
+    
     public void SetPlayerInvincibility(bool value)
     {
         PlayerInvincibility = value;
         playerInvincibilityInput.isOn = value;
     }
-
+    
     public void SetDrownDuration() => DrownDuration = drownDurationInput.GetCurrentNumber();
-
+    
     public void SetDrownDuration(float drownDuration)
     {
         DrownDuration = drownDuration;
         drownDurationInput.SetNumberText(drownDuration);
     }
-
+    
     public void SetWaterDamping() => WaterDampingFactor = 1 - waterDampingSlider.value;
+    
     public void SetWaterDamping(float waterDamping)
     {
         WaterDampingFactor = waterDamping;
         waterDampingSlider.value = 1 - waterDamping;
     }
-
+    
     public void SetIceFriction() => IceFriction = iceFrictionInput.GetCurrentNumber();
+    
     public void SetIceFriction(float friction)
     {
         IceFriction = friction;
         iceFrictionInput.SetNumberText(friction);
     }
-
+    
     public void SetIceMaxSpeed() => IceMaxSpeed = iceMaxSpeedInput.GetCurrentNumber();
+    
     public void SetIceMaxSpeed(float speed)
     {
         IceMaxSpeed = speed;
@@ -135,27 +144,29 @@ public class LevelSettings : MonoBehaviour
     }
     
     public void SetConveyorSpeed() => ConveyorSpeed = conveyorSpeedInput.value / 2;
+    
     public void SetConveyorSpeed(float value)
     {
         ConveyorSpeed = value;
         conveyorSpeedInput.value = (int)(value * 2);
     }
-
+    
     public void SetReusableCheckpoints() => ReusableCheckpoints = reusableCheckpointCheckbox.isOn;
+    
     public void SetReusableCheckpoints(bool reusableCheckpoint)
     {
         ReusableCheckpoints = reusableCheckpoint;
         reusableCheckpointCheckbox.isOn = reusableCheckpoint;
     }
-
+    
     #endregion
-
+    
     private void Awake()
     {
         // init singleton
         if (Instance == null) Instance = this;
     }
-
+    
     private void Start()
     {
         LevelSessionManager.Instance.OnLevelLoaded += ImportTransitionRoomSize;
@@ -172,7 +183,7 @@ public class LevelSettings : MonoBehaviour
         SetConveyorSpeed();
         SetWaterDamping();
     }
-
+    
     private void ImportTransitionRoomSize()
     {
         if (LevelSessionManager.IsSessionFromEditor) return;
@@ -180,22 +191,18 @@ public class LevelSettings : MonoBehaviour
         Vector2Int transitionRoomSize = TransitionManager.Instance.RoomSize;
         if (transitionRoomSize.x != 0) SetRoomWidth(transitionRoomSize.x);
         if (transitionRoomSize.y != 0) SetRoomHeight(transitionRoomSize.y);
-
+        
         InvokeOnUpdateRoomSize();
     }
-
-    private void OnDestroy()
-    {
-        LevelSessionManager.Instance.OnLevelLoaded -= ImportTransitionRoomSize;
-    }
-
+    
+    private void OnDestroy() => LevelSessionManager.Instance.OnLevelLoaded -= ImportTransitionRoomSize;
+    
     private void Update()
     {
         if (RoomWidth <= 0) SetRoomWidth(23);
         if (RoomHeight <= 0) SetRoomHeight(15);
     }
-
+    
     public void InvokeOnImported() => OnLevelSettingsImported.Invoke();
     public void InvokeOnUpdateRoomSize() => OnUpdateRoomSize.Invoke();
-
 }

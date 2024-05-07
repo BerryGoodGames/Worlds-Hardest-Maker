@@ -6,7 +6,7 @@ public class SettingOptionEditor : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-
+        
         SettingOption script = (SettingOption)target;
         script.Response();
     }

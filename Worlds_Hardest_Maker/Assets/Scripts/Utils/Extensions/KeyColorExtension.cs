@@ -12,7 +12,7 @@ public static class KeyColorExtension
             { KeyColor.Green, PrefabManager.Instance.GreenKey },
             { KeyColor.Yellow, PrefabManager.Instance.YellowKey },
         };
-
+        
         return prefabs[color];
     }
 }

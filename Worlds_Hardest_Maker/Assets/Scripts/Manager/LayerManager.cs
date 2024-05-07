@@ -1,18 +1,56 @@
 using System;
+using System.Reflection;
+using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditorInternal;
+#endif
 
 public class LayerManager : MonoBehaviour
 {
     public static LayerManager Instance { get; private set; }
-
+    
     public LayerVariables Layers;
     public SortingLayerVariables SortingLayers;
-
+    
+    [field: SerializeField] [field: ReadOnly] public string[] AllSortingLayerNames { get; private set; }
+    [field: SerializeField] [field: ReadOnly] public int[] AllSortingLayerIDs { get; private set; }
+    
     private void Awake()
     {
         if (Instance == null) Instance = this;
     }
+    
+    #if UNITY_EDITOR
+    
+    [ButtonMethod]
+    [UsedImplicitly]
+    public void UpdateSortingLayerLists()
+    {
+        AllSortingLayerNames = GetSortingLayerNames();
+        AllSortingLayerIDs = GetSortingLayerUniqueIDs();
+        print("Successfully updated sorting layer lists");
+    }
+    
+    private static string[] GetSortingLayerNames()
+    {
+        Type internalEditorUtilityType = typeof(InternalEditorUtility);
+        PropertyInfo sortingLayersProperty = internalEditorUtilityType.GetProperty("sortingLayerNames", BindingFlags.Static | BindingFlags.NonPublic);
+        return (string[])sortingLayersProperty.GetValue(null, Array.Empty<object>());
+    }
+    
+    private static int[] GetSortingLayerUniqueIDs()
+    {
+        Type internalEditorUtilityType = typeof(InternalEditorUtility);
+        PropertyInfo sortingLayerUniqueIDsProperty = internalEditorUtilityType.GetProperty(
+            "sortingLayerUniqueIDs", BindingFlags.Static | BindingFlags.NonPublic
+        );
+        
+        return (int[])sortingLayerUniqueIDsProperty.GetValue(null, new object[0]);
+    }
+    
+    #endif
 }
 
 [Serializable]
@@ -35,6 +73,7 @@ public class LayerVariables
 public class SortingLayerVariables
 {
     [InitializationField] [MustBeAssigned] public string Background;
+    [InitializationField] [MustBeAssigned] public string AnchorBelow;
     [InitializationField] [MustBeAssigned] public string Field;
     [InitializationField] [MustBeAssigned] public string Coin;
     [InitializationField] [MustBeAssigned] public string Key;
@@ -43,6 +82,8 @@ public class SortingLayerVariables
     [InitializationField] [MustBeAssigned] public string Outline;
     [InitializationField] [MustBeAssigned] public string Anchor;
     [InitializationField] [MustBeAssigned] public string Ball;
+    [InitializationField] [MustBeAssigned] public string AnchorAbove;
+    [InitializationField] [MustBeAssigned] public string PlayerPlayMode;
     [InitializationField] [MustBeAssigned] public string FillPreview;
     [InitializationField] [MustBeAssigned] public string PlacementPreview;
     [InitializationField] [MustBeAssigned] public string Line;

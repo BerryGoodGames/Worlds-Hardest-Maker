@@ -1,4 +1,7 @@
 public interface ICollectible
 {
-    void Collect();
+    public void Collect();
+    
+    public void FadeIn();
+    public void FadeOut();
 }

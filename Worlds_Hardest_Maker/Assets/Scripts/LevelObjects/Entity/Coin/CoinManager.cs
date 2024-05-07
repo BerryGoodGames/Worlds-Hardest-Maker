@@ -3,81 +3,109 @@ using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 
-public class CoinManager : MonoBehaviour
+public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlaceRestrictable
 {
     public static CoinManager Instance { get; private set; }
-
+    
     [UsedImplicitly] public static readonly List<FieldMode> CannotPlaceFields = new();
     
     [ReadOnly] public List<CoinController> Coins = new();
     [ReadOnly] public List<CoinController> CollectedCoins = new();
-
+    
+    public Transform DefaultContainer => ReferenceManager.Instance.CoinContainer;
+    
     private int TotalCoins => Coins.Count;
-
-    public int CoinsNeededFinal => Mathf.Min(LevelSettings.Instance.IsCoinsNeededLimited ? LevelSettings.Instance.CoinsNeeded : TotalCoins, TotalCoins);
-
+    
+    public int CoinsNeededFinal =>
+        Mathf.Min(LevelSettings.Instance.IsCoinsNeededLimited ? LevelSettings.Instance.CoinsNeeded : TotalCoins, TotalCoins);
+    
     private static readonly int playing = Animator.StringToHash("Playing");
-
-
-    public void RemoveCoin(Vector2 position)
+    
+    public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
+    
+    public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>
+        // conditions: no coin there, doesn't intersect with any walls etc, no player there
+        !((IManager<CoinController>)this).IsThereInSheet(position, sheet)
+        && !FieldManager.Instance.IntersectingAnyFieldsAtPos(position, sheet, CannotPlaceFields.ToArray())
+        && !PlayerManager.Instance.IsThere(position);
+    
+    public CoinController SetInSheet(ManagerParameters args)
     {
-        Destroy(GetCoin(position));
-
-        PlayerController currentPlayer = PlayerManager.Instance.Player;
-        if (currentPlayer != null) UncollectCoinAtPos(position);
+        Vector2 matrixPosition = args.Position.ConvertToGrid();
+        
+        if (!CanPlaceInSheet(matrixPosition, args.Sheet)) return null;
+        
+        CoinController coin = InstantiateInSheet(args);
+        
+        coin.Animator.SetBool(playing, LevelSessionEditManager.Instance.Playing);
+        
+        PlaceManager.AttachToSheet(coin.gameObject, args.Sheet);
+        
+        return coin;
     }
-
-    public static CoinController GetCoin(Vector2 position)
+    
+    public CoinController GetInSheet(Vector2 position, AnchorController sheet)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Entity);
+        foreach (Collider2D hit in hits)
+        {
+            if (!hit.CompareTag("Coin")) continue;
+            if (!hit.TryGetComponent(out CoinController coin)) continue;
+            if (IManager.IsInSheet(coin, sheet)) return coin;
+        }
+        
+        return null;
+    }
+    
+    public CoinController Get(Vector2 position)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Entity);
         foreach (Collider2D hit in hits)
         {
             if (hit.TryGetComponent(out CoinController c)) return c;
         }
-
+        
         return null;
     }
-
-    public static bool IsCoinThere(Vector2 position) => GetCoin(position) != null;
-
-    public static bool CanPlace(Vector2 position) =>
-        // conditions: no coin there, doesn't intersect with any walls etc, no player there
-        !IsCoinThere(position)
-        && !FieldManager.IntersectingAnyFieldsAtPos(position, CannotPlaceFields.ToArray())
-        && !PlayerManager.IsPlayerThere(position);
-
-    public static CoinController SetCoin(Vector2 worldPosition)
-    {
-        Vector2 matrixPosition = worldPosition.ConvertToGrid();
-
-        if (!CanPlace(matrixPosition)) return null;
-
-        CoinController coin = Instantiate(
-            PrefabManager.Instance.Coin, matrixPosition, Quaternion.identity,
-            ReferenceManager.Instance.CoinContainer
+    
+    public CoinController InstantiateInSheet(ManagerParameters args) =>
+        Instantiate(
+            PrefabManager.Instance.Coin,
+            args.Position, Quaternion.identity,
+            args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
         );
-
-        coin.Animator.SetBool(playing, LevelSessionEditManager.Instance.Playing);
-
-        return coin;
+    
+    public List<Data> Serialize(List<Data> levelData)
+    {
+        foreach (CoinController coin in Coins)
+        {
+            if (coin.IsAttached) continue;
+        
+            CoinData coinData = new(coin);
+            levelData.Add(coinData);
+        }
+        
+        return levelData;
     }
-
+    
     public void UncollectCoinAtPos(Vector2 position)
     {
         for (int i = CollectedCoins.Count - 1; i >= 0; i--)
         {
             CoinController c = CollectedCoins[i];
-            if (c.CoinPosition == position) CollectedCoins.Remove(c);
+            if (c.InitialPosition == position) CollectedCoins.Remove(c);
         }
     }
     
     public bool AllCoinsCollected() => CollectedCoins.Count >= CoinsNeededFinal;
-
+    
     public void ActivateAnimations() => Coins.ForEach(coin => coin.ActivateAnimation());
-
+    
     private void Awake()
     {
         // init singleton
         if (Instance == null) Instance = this;
     }
+    
+    public bool CorrespondsToEditMode(EditMode compare) => compare == EditModeManager.Coin;
 }

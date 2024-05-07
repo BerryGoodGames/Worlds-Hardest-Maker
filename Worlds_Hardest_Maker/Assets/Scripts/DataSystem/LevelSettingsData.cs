@@ -1,10 +1,10 @@
 using System;
 
 [Serializable]
-public class LevelSettingsData : Data
+public class LevelSettingsData : NonAttachableData
 {
     #region Setting variables
-
+    
     public int RoomWidth;
     public int RoomHeight;
     
@@ -12,21 +12,21 @@ public class LevelSettingsData : Data
     
     public bool IsCoinsNeededLimited;
     public int CoinsNeeded;
-
+    
     public bool PlayerInvincibility;
-
+    
     public float DrownDuration;
-
+    
     public float WaterDamping;
     public float IceFriction;
     public float IceMaxSpeed;
-
+    
     public float ConveyorSpeed;
-
+    
     public bool ReusableCheckpoints;
-
+    
     #endregion
-
+    
     public LevelSettingsData(LevelSettings settings)
     {
         // fetch variables
@@ -43,7 +43,7 @@ public class LevelSettingsData : Data
         ConveyorSpeed = settings.ConveyorSpeed;
         ReusableCheckpoints = settings.ReusableCheckpoints;
     }
-
+    
     public override void ImportToLevel()
     {
         LevelSettings.Instance.SetRoomWidth(RoomWidth);
@@ -61,7 +61,7 @@ public class LevelSettingsData : Data
         
         LevelSettings.Instance.InvokeOnImported();
     }
-
+    
     public override EditMode GetEditMode() => EditModeManager.Wall;
     
     public override bool Equals(Data d)
@@ -71,7 +71,7 @@ public class LevelSettingsData : Data
                && other.RoomHeight == RoomHeight
                && other.PlayerSpeed == PlayerSpeed
                && other.IsCoinsNeededLimited == IsCoinsNeededLimited
-               && other.CoinsNeeded == CoinsNeeded 
+               && other.CoinsNeeded == CoinsNeeded
                && other.PlayerInvincibility == PlayerInvincibility
                && other.DrownDuration == DrownDuration
                && other.WaterDamping == WaterDamping

@@ -11,27 +11,27 @@ public class TMPDecimalInputAdjusterEditor : Editor
     private SerializedProperty minLimit;
     private SerializedProperty max;
     private SerializedProperty min;
-
+    
     public override void OnInspectorGUI()
     {
         TMPDecimalInputAdjuster script = (TMPDecimalInputAdjuster)target;
-
+        
         EditorGUILayout.PropertyField(forbidNegative);
         EditorGUILayout.PropertyField(forbidDecimals);
         EditorGUILayout.PropertyField(roundToStep);
-
+        
         if (!script.ForbidDecimals && script.RoundToStep) EditorGUILayout.PropertyField(stepValue);
         
         EditorGUILayout.PropertyField(maxLimit);
         EditorGUILayout.PropertyField(minLimit);
         EditorGUILayout.PropertyField(max);
         EditorGUILayout.PropertyField(min);
-
+        
         if (script.StepValue == 0) script.StepValue = 1;
-
+        
         serializedObject.ApplyModifiedProperties();
     }
-
+    
     private void OnEnable()
     {
         forbidNegative = serializedObject.FindProperty("forbidNegative");

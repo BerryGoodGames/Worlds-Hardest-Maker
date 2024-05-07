@@ -4,10 +4,10 @@ public class ConfirmQuitPromptController : WarningConfirmPromptController
 {
     public override void OpenPrompt()
     {
-        if(CheckOpenPrompt()) base.OpenPrompt();
+        if (CheckOpenPrompt()) base.OpenPrompt();
         else OnConfirm();
     }
-
+    
     private bool CheckOpenPrompt()
     {
         if (!LevelSessionManager.Instance.IsEdit) return false;
@@ -25,17 +25,17 @@ public class ConfirmQuitPromptController : WarningConfirmPromptController
             WarningText.text = "The level does not contain a goal!";
             return true;
         }
-
+        
         return false;
     }
-
+    
     private static bool DoesGoalExist()
     {
         foreach (Transform field in ReferenceManager.Instance.FieldContainer)
         {
             if (field.CompareTag("Goal")) return true;
         }
-
+        
         return false;
     }
 }
