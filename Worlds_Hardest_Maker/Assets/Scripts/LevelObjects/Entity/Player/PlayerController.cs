@@ -48,7 +48,7 @@ public partial class PlayerController : EntityController
     
     public static float Speed => LevelSettings.Instance.PlayerSpeed;
     
-    [ReadOnly] [CanBeNull] public AnchorController Sheet;
+    // [ReadOnly] [CanBeNull] public AnchorController Sheet;
     
     [ReadOnly] public List<FieldController> CurrentPlatforms;
     

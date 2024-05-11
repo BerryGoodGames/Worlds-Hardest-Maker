@@ -34,6 +34,8 @@ public class CopyManager : MonoBehaviour
         // center and size of actual controllers user selected
         Vector2 castCenter = (.5f * (lowest + highest)).Floor();
         
+        AnchorController sheet = PlaceManager.GetCurrentSheet();
+        
         foreach (Collider2D hit in hits)
         {
             if (hit == null) continue;
@@ -41,13 +43,19 @@ public class CopyManager : MonoBehaviour
             // try to get controllers and save the object in clipboard
             if (!hit.TryGetComponent(out EntityController controller)) continue;
             if (controller is BallController { IsParentAnchorNull: false, }) continue;
-            if (!IManager.IsInSheet(controller, PlaceManager.GetCurrentSheet())) continue;
+            if (!IManager.IsInSheet(controller, sheet)) continue;
             
             Data data = controller.GetData();
             
             Vector2 pos = controller.transform.position;
+            Vector2 relativePos = pos - castCenter;
             
-            CopyData copyData = new(data, pos - castCenter);
+            CopyData copyData = data.GetCopyData(new CopyData.Args
+            {
+                Data = data,
+                RelativePosition = relativePos,
+                Sheet = sheet,
+            });
             clipBoard.Add(copyData);
         }
     }
