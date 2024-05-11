@@ -1,5 +1,6 @@
 using System;
 using MyBox;
+using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 
@@ -9,12 +10,12 @@ public class TextManager : MonoBehaviour
     
     #region Text References
     
-    [Header("Text References")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text editModeText;
+    [Header("Text References")] [SerializeField] [InitializationField] [Required] private TMP_Text editModeText;
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text selectingText;
+    [SerializeField] [InitializationField] [Required] private TMP_Text selectingText;
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text deathText;
-    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text coinText;
+    [SerializeField] [InitializationField] [Required] private TMP_Text deathText;
+    [SerializeField] [InitializationField] [Required] private TMP_Text coinText;
     
     #endregion
     

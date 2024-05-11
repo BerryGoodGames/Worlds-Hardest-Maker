@@ -1,4 +1,5 @@
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
 /// <summary>
@@ -7,11 +8,11 @@ using UnityEngine;
 /// </summary>
 public class LevelSessionSettingsSetup : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [MustBeAssigned] private SettingsManager settingsManager;
-    [SerializeField] [InitializationField] [MustBeAssigned] private ToolbarSizing toolbarSpacing;
-    [SerializeField] [InitializationField] [MustBeAssigned] private InfobarResize infobarPlayResize;
-    [SerializeField] [InitializationField] [MustBeAssigned] private InfobarResize infobarEditResize;
-    [SerializeField] [InitializationField] [MustBeAssigned] private RoomOutlineGenerator roomOutlines;
+    [SerializeField] [InitializationField] [Required] private SettingsManager settingsManager;
+    [SerializeField] [InitializationField] [Required] private ToolbarSizing toolbarSpacing;
+    [SerializeField] [InitializationField] [Required] private InfobarResize infobarPlayResize;
+    [SerializeField] [InitializationField] [Required] private InfobarResize infobarEditResize;
+    [SerializeField] [InitializationField] [Required] private RoomOutlineGenerator roomOutlines;
     
     private void SetToolbarSize(float size)
     {

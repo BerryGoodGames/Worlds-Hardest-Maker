@@ -2,38 +2,38 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class EditModeManager : MonoBehaviour
 {
     public static EditModeManager Instance { get; private set; }
     
-    [InitializationField] [MustBeAssigned] public DeleteMode DeleteMode;
-    [InitializationField] [MustBeAssigned] public FieldMode AnchorPlatformMode;
-    [InitializationField] [MustBeAssigned] public FieldMode WallMode;
-    [InitializationField] [MustBeAssigned] public FieldMode StartMode;
-    [InitializationField] [MustBeAssigned] public FieldMode GoalMode;
-    [InitializationField] [MustBeAssigned] public FieldMode CheckpointMode;
-    [InitializationField] [MustBeAssigned] public FieldMode VoidMode;
-    [InitializationField] [MustBeAssigned] public FieldMode OneWayMode;
-    [InitializationField] [MustBeAssigned] public FieldMode ConveyorMode;
-    [InitializationField] [MustBeAssigned] public FieldMode WaterMode;
-    [InitializationField] [MustBeAssigned] public FieldMode IceMode;
-    [InitializationField] [MustBeAssigned] public EntityMode PlayerMode;
-    [InitializationField] [MustBeAssigned] public EntityMode AnchorMode;
-    [InitializationField] [MustBeAssigned] public EntityMode BallMode;
-    [InitializationField] [MustBeAssigned] public EntityMode CoinMode;
-    [InitializationField] [MustBeAssigned] public KeyMode GrayKeyMode;
-    [InitializationField] [MustBeAssigned] public KeyMode RedKeyMode;
-    [InitializationField] [MustBeAssigned] public KeyMode GreenKeyMode;
-    [InitializationField] [MustBeAssigned] public KeyMode BlueKeyMode;
-    [InitializationField] [MustBeAssigned] public KeyMode YellowKeyMode;
-    [InitializationField] [MustBeAssigned] public KeyDoorMode GrayKeyDoorMode;
-    [InitializationField] [MustBeAssigned] public KeyDoorMode RedKeyDoorMode;
-    [InitializationField] [MustBeAssigned] public KeyDoorMode GreenKeyDoorMode;
-    [InitializationField] [MustBeAssigned] public KeyDoorMode BlueKeyDoorMode;
-    [InitializationField] [MustBeAssigned] public KeyDoorMode YellowKeyDoorMode;
+    [InitializationField] [Required] public DeleteMode DeleteMode;
+    [InitializationField] [Required] public FieldMode AnchorPlatformMode;
+    [InitializationField] [Required] public FieldMode WallMode;
+    [InitializationField] [Required] public FieldMode StartMode;
+    [InitializationField] [Required] public FieldMode GoalMode;
+    [InitializationField] [Required] public FieldMode CheckpointMode;
+    [InitializationField] [Required] public FieldMode VoidMode;
+    [InitializationField] [Required] public FieldMode OneWayMode;
+    [InitializationField] [Required] public FieldMode ConveyorMode;
+    [InitializationField] [Required] public FieldMode WaterMode;
+    [InitializationField] [Required] public FieldMode IceMode;
+    [InitializationField] [Required] public EntityMode PlayerMode;
+    [InitializationField] [Required] public EntityMode AnchorMode;
+    [InitializationField] [Required] public EntityMode BallMode;
+    [InitializationField] [Required] public EntityMode CoinMode;
+    [InitializationField] [Required] public KeyMode GrayKeyMode;
+    [InitializationField] [Required] public KeyMode RedKeyMode;
+    [InitializationField] [Required] public KeyMode GreenKeyMode;
+    [InitializationField] [Required] public KeyMode BlueKeyMode;
+    [InitializationField] [Required] public KeyMode YellowKeyMode;
+    [InitializationField] [Required] public KeyDoorMode GrayKeyDoorMode;
+    [InitializationField] [Required] public KeyDoorMode RedKeyDoorMode;
+    [InitializationField] [Required] public KeyDoorMode GreenKeyDoorMode;
+    [InitializationField] [Required] public KeyDoorMode BlueKeyDoorMode;
+    [InitializationField] [Required] public KeyDoorMode YellowKeyDoorMode;
     
     public static DeleteMode Delete => Instance.DeleteMode;
     public static FieldMode AnchorFloor => Instance.AnchorPlatformMode;

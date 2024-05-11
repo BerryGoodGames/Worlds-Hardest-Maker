@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
-using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
 /// <summary>
@@ -13,7 +13,7 @@ public class JumpToEntity : MonoBehaviour
     
     [Space] public bool Smooth;
     
-    [ConditionalField(nameof(Smooth))] [MinValue(0.001f)] public float Time;
+    [EnableIf(nameof(Smooth))] [MinValue(0.001f)] public float Time;
     
     [Space] [SerializeField] private bool cancelByRightClick = true;
     

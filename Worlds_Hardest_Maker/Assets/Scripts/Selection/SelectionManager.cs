@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,8 +12,8 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class SelectionManager : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform selectionOptions;
-    [SerializeField] [InitializationField] [MustBeAssigned] private MouseOverUIRect fillMouseOver;
+    [SerializeField] [InitializationField] [Required] private RectTransform selectionOptions;
+    [SerializeField] [InitializationField] [Required] private MouseOverUIRect fillMouseOver;
     
     private GameObject selectionOutline;
     private LineAnimator selectionOutlineAnim;

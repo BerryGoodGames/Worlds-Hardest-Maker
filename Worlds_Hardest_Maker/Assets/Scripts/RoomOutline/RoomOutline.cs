@@ -1,9 +1,10 @@
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class RoomOutline : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [MustBeAssigned] private Transform top, left, bottom, right;
+    [SerializeField] [InitializationField] [Required] private Transform top, left, bottom, right;
     
     public void SetDimensions(int width, int height)
     {

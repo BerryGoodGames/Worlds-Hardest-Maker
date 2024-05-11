@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -7,10 +8,10 @@ public class ColorCalibration : MonoBehaviour
 {
     [SerializeField] protected bool UseSprites;
     
-    [SerializeField] [ConditionalField(nameof(UseSprites))] private Sprite sharingSprite;
-    [SerializeField] [ConditionalField(nameof(UseSprites))] private Sprite uniqueSprite;
+    [SerializeField] [EnableIf(nameof(UseSprites))] private Sprite sharingSprite;
+    [SerializeField] [EnableIf(nameof(UseSprites))] private Sprite uniqueSprite;
     
-    [SerializeField] [ConditionalField(nameof(UseSprites), true)] protected bool UseColorPalette;
+    [SerializeField] [DisableIf(nameof(UseSprites))] protected bool UseColorPalette;
     
     [SerializeField] [ConditionalField(new[] { nameof(UseSprites), nameof(UseColorPalette), }, new[] { true, false, })]
     protected string ColorPaletteName;

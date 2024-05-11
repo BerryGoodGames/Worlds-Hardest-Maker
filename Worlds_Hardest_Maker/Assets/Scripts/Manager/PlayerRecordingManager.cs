@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using LuLib.Color;
 using LuLib.Transform;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class PlayerRecordingManager : MonoBehaviour
@@ -23,11 +24,11 @@ public class PlayerRecordingManager : MonoBehaviour
     [SerializeField] [OverrideLabel("Max Alpha")] [Range(0, 1)] private float spriteMaxAlpha = 0.5f;
     [SerializeField] [OverrideLabel("Amount")] private uint spriteAmount = 9;
     
-    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private Transform recordingSpriteContainer;
-    [SerializeField] [InitializationField] [MustBeAssigned] private Transform recordingPathContainer;
-    [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer playerSprite;
-    [SerializeField] [InitializationField] [MustBeAssigned] private LineRenderer recordingLinePrefab;
-    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject recordingDeathPrefab;
+    [Separator("References")] [SerializeField] [InitializationField] [Required] private Transform recordingSpriteContainer;
+    [SerializeField] [InitializationField] [Required] private Transform recordingPathContainer;
+    [SerializeField] [InitializationField] [Required] private SpriteRenderer playerSprite;
+    [SerializeField] [InitializationField] [Required] private LineRenderer recordingLinePrefab;
+    [SerializeField] [InitializationField] [Required] private GameObject recordingDeathPrefab;
     
     private LineRenderer lineRenderer;
     private Color lineColor;

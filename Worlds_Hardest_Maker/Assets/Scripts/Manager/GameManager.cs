@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using MyBox;
+using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,8 +12,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private LoadingScreen loadingScreen;
-    [SerializeField] [InitializationField] [MustBeAssigned] private ChainableTween swipeTween;
+    [SerializeField] [InitializationField] [Required] private LoadingScreen loadingScreen;
+    [SerializeField] [InitializationField] [Required] private ChainableTween swipeTween;
     
     [Separator("Save")] [SerializeField] [PositiveValueOnly] private float autoSaveInterval = 300;
     
@@ -168,14 +169,10 @@ public class GameManager : MonoBehaviour
     {
         if (AnchorManager.Instance.SelectedAnchor != null)
         {
-            if (AnchorAttachManager.Instance.InAttachMode)
-            {
-                AnchorAttachManager.Instance.ExitAttachMode();
-            }
+            if (AnchorAttachManager.Instance.InAttachMode) AnchorAttachManager.Instance.ExitAttachMode();
             
             AnchorManager.Instance.DeselectAnchor();
         }
-        
         
         
         if (PlayerManager.Instance.Player != null) PlayerManager.Instance.Player.DestroySelf();

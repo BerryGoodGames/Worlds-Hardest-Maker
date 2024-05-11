@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using MyBox;
+using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 
 public class KeyBindGenerator : MonoBehaviour
 {
-    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text categoryHeader;
-    [SerializeField] [InitializationField] [MustBeAssigned] private KeyBindSetterController keyBindSetter;
-    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform tooltipContainer;
+    [Separator("References")] [SerializeField] [InitializationField] [Required] private TMP_Text categoryHeader;
+    [SerializeField] [InitializationField] [Required] private KeyBindSetterController keyBindSetter;
+    [SerializeField] [InitializationField] [Required] private RectTransform tooltipContainer;
     
     private void Start()
     {

@@ -1,6 +1,7 @@
 using System;
 using JetBrains.Annotations;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class LevelSessionEditManager : MonoBehaviour
@@ -9,7 +10,7 @@ public class LevelSessionEditManager : MonoBehaviour
     
     #region Variables & properties
     
-    [SerializeField] [MustBeAssigned] [InitializationField] private EditMode startEditMode;
+    [SerializeField] [Required] [InitializationField] private EditMode startEditMode;
     private EditMode currentEditMode;
     [CanBeNull] private EditMode prevEditMode;
     
@@ -69,7 +70,7 @@ public class LevelSessionEditManager : MonoBehaviour
         }
     }
     
-    [field: SerializeField] [field: ReadOnly] public bool Editing { get; set; }
+    [field: SerializeField] [field: MyBox.ReadOnly] public bool Editing { get; set; }
     
     public bool Playing
     {
@@ -77,10 +78,10 @@ public class LevelSessionEditManager : MonoBehaviour
         set => Editing = !value;
     }
     
-    [field: SerializeField] [field: ReadOnly] public bool InPlaytest { get; set; }
+    [field: SerializeField] [field: MyBox.ReadOnly] public bool InPlaytest { get; set; }
     
     
-    [SerializeField] [ReadOnly] private int editRotation = 270;
+    [SerializeField] [MyBox.ReadOnly] private int editRotation = 270;
     
     public int EditRotation
     {

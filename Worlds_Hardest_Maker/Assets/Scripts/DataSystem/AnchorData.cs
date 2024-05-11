@@ -37,7 +37,7 @@ public class AnchorData : NonAttachableData
     {
         List<AnchorAttachment> attachments = controller.Attachments;
         this.attachments = new AttachableData[attachments.Count];
-        for (int i = 0; i < attachments.Count; i++) { this.attachments[i] = (AttachableData)attachments[i].Controller.GetData(); }
+        for (int i = 0; i < attachments.Count; i++) this.attachments[i] = (AttachableData)attachments[i].Controller.GetData();
     }
     
     private void SaveBlocks(AnchorController controller)

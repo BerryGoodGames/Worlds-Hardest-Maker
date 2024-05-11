@@ -1,5 +1,6 @@
 using System;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,18 +14,18 @@ public class LevelSettings : MonoBehaviour
     
     #region Setting UI element references
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput roomWidthInput;
-    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput roomHeightInput;
-    [SerializeField] [InitializationField] [MustBeAssigned] private Slider playerSpeedInput;
-    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput coinsNeededInput;
-    [SerializeField] [InitializationField] [MustBeAssigned] private Toggle isCoinsNeededLimitedInput;
-    [SerializeField] [InitializationField] [MustBeAssigned] private Toggle playerInvincibilityInput;
-    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput drownDurationInput;
-    [SerializeField] [InitializationField] [MustBeAssigned] private Slider waterDampingSlider;
-    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput iceFrictionInput;
-    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput iceMaxSpeedInput;
-    [SerializeField] [InitializationField] [MustBeAssigned] private Slider conveyorSpeedInput;
-    [SerializeField] [InitializationField] [MustBeAssigned] private Toggle reusableCheckpointCheckbox;
+    [SerializeField] [InitializationField] [Required] private NumberInput roomWidthInput;
+    [SerializeField] [InitializationField] [Required] private NumberInput roomHeightInput;
+    [SerializeField] [InitializationField] [Required] private Slider playerSpeedInput;
+    [SerializeField] [InitializationField] [Required] private NumberInput coinsNeededInput;
+    [SerializeField] [InitializationField] [Required] private Toggle isCoinsNeededLimitedInput;
+    [SerializeField] [InitializationField] [Required] private Toggle playerInvincibilityInput;
+    [SerializeField] [InitializationField] [Required] private NumberInput drownDurationInput;
+    [SerializeField] [InitializationField] [Required] private Slider waterDampingSlider;
+    [SerializeField] [InitializationField] [Required] private NumberInput iceFrictionInput;
+    [SerializeField] [InitializationField] [Required] private NumberInput iceMaxSpeedInput;
+    [SerializeField] [InitializationField] [Required] private Slider conveyorSpeedInput;
+    [SerializeField] [InitializationField] [Required] private Toggle reusableCheckpointCheckbox;
     
     #endregion
     

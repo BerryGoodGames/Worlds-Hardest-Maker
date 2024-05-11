@@ -1,5 +1,6 @@
 using System.Collections;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,7 +11,7 @@ public class FieldRotation : MonoBehaviour
     public Vector3 RotateAngle = new(0, 0, -90);
     private bool rotating;
     [SerializeField] private bool disableCollision;
-    [SerializeField] [ConditionalField(nameof(disableCollision))] [MustBeAssigned] private BoxCollider2D boxCollider;
+    [SerializeField] [ConditionalField(nameof(disableCollision))] [Required] private BoxCollider2D boxCollider;
     
     private FieldController controller;
     

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.dbrizov.naughtyattributes": "https://github.com/dbrizov/NaughtyAttributes.git#upm",
     "com.domybest.mybox": "https://github.com/Deadcows/MyBox.git",
     "com.lexderi.lulib": "https://github.com/Lexderi/LuLib.git",
     "com.unity.2d.animation": "9.1.0",

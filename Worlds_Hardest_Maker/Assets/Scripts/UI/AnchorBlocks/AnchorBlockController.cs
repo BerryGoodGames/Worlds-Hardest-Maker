@@ -1,4 +1,5 @@
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
 [RequireComponent(typeof(MouseOverUIRect))]
@@ -9,9 +10,9 @@ public abstract partial class AnchorBlockController : MonoBehaviour
     [Separator("General")] public bool IsLocked;
     public bool IsSource;
     
-    [Space] [MustBeAssigned] [SerializeField] private GameObject lockIconContainer;
+    [Space] [Required] [SerializeField] private GameObject lockIconContainer;
     
-    [Space] [MustBeAssigned] [SerializeField] private GameObject warningIconContainer;
+    [Space] [Required] [SerializeField] private GameObject warningIconContainer;
     
     public AnchorBlockDragDrop DragDrop { get; private set; }
     private UIRestrictInRectTransform restrict;

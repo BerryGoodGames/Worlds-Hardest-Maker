@@ -1,5 +1,6 @@
 using System.IO;
 using MyBox;
+using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 
@@ -7,12 +8,12 @@ public class LevelCreationController : MonoBehaviour
 {
     // private static readonly string defaultLevelPath = Application.dataPath + "/Resources/DefaultLevel.lvl";
     
-    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_InputField levelNameText;
-    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_InputField descriptionText;
-    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_InputField creatorText;
+    [Separator("References")] [SerializeField] [InitializationField] [Required] private TMP_InputField levelNameText;
+    [SerializeField] [InitializationField] [Required] private TMP_InputField descriptionText;
+    [SerializeField] [InitializationField] [Required] private TMP_InputField creatorText;
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput roomWidthNumberInput;
-    [SerializeField] [InitializationField] [MustBeAssigned] private NumberInput roomHeightNumberInput;
+    [SerializeField] [InitializationField] [Required] private NumberInput roomWidthNumberInput;
+    [SerializeField] [InitializationField] [Required] private NumberInput roomHeightNumberInput;
     
     
     public void CreateLevel()

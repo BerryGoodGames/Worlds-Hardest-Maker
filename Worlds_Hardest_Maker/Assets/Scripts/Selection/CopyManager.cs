@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class CopyManager : MonoBehaviour
@@ -9,9 +10,9 @@ public class CopyManager : MonoBehaviour
     
     private readonly List<CopyData> clipBoard = new();
     
-    [field: SerializeField] [field: ReadOnly] public bool Pasting { get; private set; }
+    [field: SerializeField] [field: MyBox.ReadOnly] public bool Pasting { get; private set; }
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private Transform previewContainer;
+    [SerializeField] [InitializationField] [Required] private Transform previewContainer;
     
     public void Copy(Vector2 lowestPos, Vector2 highestPos)
     {
@@ -50,12 +51,15 @@ public class CopyManager : MonoBehaviour
             Vector2 pos = controller.transform.position;
             Vector2 relativePos = pos - castCenter;
             
-            CopyData copyData = data.GetCopyData(new CopyData.Args
-            {
-                Data = data,
-                RelativePosition = relativePos,
-                Sheet = sheet,
-            });
+            CopyData copyData = data.GetCopyData(
+                new CopyData.Args
+                {
+                    Data = data,
+                    RelativePosition = relativePos,
+                    Sheet = sheet,
+                }
+            );
+            
             clipBoard.Add(copyData);
         }
     }
