@@ -1,9 +1,10 @@
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class AnchorBlockDropdown : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [MustBeAssigned] private PlaySoundEffect soundEffect;
+    [SerializeField] [InitializationField] [Required] private PlaySoundEffect soundEffect;
     
     private bool hasInitialized;
     

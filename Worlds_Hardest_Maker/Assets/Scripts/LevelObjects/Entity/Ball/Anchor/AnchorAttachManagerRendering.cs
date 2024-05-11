@@ -1,9 +1,10 @@
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
 public partial class AnchorAttachManager
 {
-    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject anchorAttachBlocker;
+    [SerializeField] [InitializationField] [Required] private GameObject anchorAttachBlocker;
     
     public static void HighlightAnchor(AnchorController anchor)
     {

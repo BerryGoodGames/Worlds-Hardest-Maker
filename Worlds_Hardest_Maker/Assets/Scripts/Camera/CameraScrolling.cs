@@ -1,4 +1,4 @@
-using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
 /// <summary>
@@ -10,7 +10,7 @@ public class CameraScrolling : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private bool randomDirection;
     
-    [SerializeField] [ConditionalField(nameof(randomDirection), true)] private float scrollDirAngle;
+    [SerializeField] [DisableIf(nameof(randomDirection))] private float scrollDirAngle;
     
     private Vector2 dir;
     

@@ -1,11 +1,11 @@
 using DG.Tweening;
-using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class CameraPlayController : MonoBehaviour
 {
     [SerializeField] private bool smoothMovement;
-    [SerializeField] [PositiveValueOnly] [ConditionalField(nameof(smoothMovement))] private float movementDuration;
+    [SerializeField] [MinValue(0)] [EnableIf(nameof(smoothMovement))] private float movementDuration;
     
     private Camera cam;
     private float camOrthoSize;

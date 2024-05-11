@@ -1,16 +1,18 @@
 using DG.Tweening;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform levelCard;
+    [SerializeField] [InitializationField] [
+        Required] private RectTransform levelCard;
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform card;
+    [SerializeField] [InitializationField] [Required] private RectTransform card;
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private ContentSizeFitter extendedArea;
+    [SerializeField] [InitializationField] [Required] private ContentSizeFitter extendedArea;
     
     [Separator] [SerializeField] [PositiveValueOnly] private float hoverScale;
     

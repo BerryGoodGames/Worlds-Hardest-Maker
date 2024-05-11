@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using MyBox;
+using NaughtyAttributes;
 using SFB;
 using UnityEngine;
 
@@ -8,12 +9,12 @@ public class LevelHubManager : MonoBehaviour
 {
     public static LevelHubManager Instance { get; private set; }
     
-    [InitializationField] [MustBeAssigned] public WarningConfirmPromptController DeleteWarningPrompt;
-    [InitializationField] [MustBeAssigned] public AlphaTween DeleteWarningBlockerTween;
+    [InitializationField] [Required] public WarningConfirmPromptController DeleteWarningPrompt;
+    [InitializationField] [Required] public AlphaTween DeleteWarningBlockerTween;
     
-    [InitializationField] [MustBeAssigned] public Transform TooltipContainer;
+    [InitializationField] [Required] public Transform TooltipContainer;
     
-    [InitializationField] [MustBeAssigned] public SmoothScrollRect LevelListScrollRect;
+    [InitializationField] [Required] public SmoothScrollRect LevelListScrollRect;
     
     [HideInInspector] public LevelCardController CurrentDeletingLevelCard;
     

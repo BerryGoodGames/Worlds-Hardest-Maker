@@ -1,15 +1,16 @@
 using DG.Tweening;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform top;
-    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform button;
-    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform bottom;
-    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform chargebar;
+    [SerializeField] [InitializationField] [Required] private RectTransform top;
+    [SerializeField] [InitializationField] [Required] private RectTransform button;
+    [SerializeField] [InitializationField] [Required] private RectTransform bottom;
+    [SerializeField] [InitializationField] [Required] private RectTransform chargebar;
     [Separator] [SerializeField] [PositiveValueOnly] private float topHoverRotation;
     [SerializeField] [PositiveValueOnly] private float hoverRotationDuration;
     [Space] [SerializeField] [PositiveValueOnly] private float chargebarWidth;

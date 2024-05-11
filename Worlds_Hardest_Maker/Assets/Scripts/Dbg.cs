@@ -1,6 +1,7 @@
 using System;
 using JetBrains.Annotations;
 using MyBox;
+using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Windows;
@@ -26,22 +27,22 @@ public class Dbg : MonoBehaviour
         MousePositionPixels,
     }
     
-    [field: Foldout("Settings")] [field: SerializeField] public bool Enabled { get; set; } = true;
-    [field: Foldout("Settings")] [field: SerializeField] [field: PositiveValueOnly] public float GameSpeed { get; set; } = 1;
+    [field: MyBox.Foldout("Settings")] [field: SerializeField] public bool Enabled { get; set; } = true;
+    [field: MyBox.Foldout("Settings")] [field: SerializeField] [field: MyBox.MinValue(0)] public float GameSpeed { get; set; } = 1;
     
-    [Foldout("Debug Text")] public DbgTextMode TextMode;
-    [Foldout("Debug Text")] public uint Count;
+    [MyBox.Foldout("Debug Text")] public DbgTextMode TextMode;
+    [MyBox.Foldout("Debug Text")] public uint Count;
     
-    [Foldout("Level")] public bool AutoLoadLevel;
-    [Foldout("Level")] [ConditionalField(nameof(AutoLoadLevel), true)] [SerializeField] private bool autoPlacePlayer;
-    [Foldout("Level")] [ConditionalField(nameof(AutoLoadLevel))] public string LevelName = "DebugLevel";
+    [MyBox.Foldout("Level")] public bool AutoLoadLevel;
+    [MyBox.Foldout("Level")] [DisableIf(nameof(AutoLoadLevel))] [SerializeField] private bool autoPlacePlayer;
+    [MyBox.Foldout("Level")] [EnableIf(nameof(AutoLoadLevel))] public string LevelName = "DebugLevel";
     
-    [Foldout("Wall Outlines")] public bool WallOutlines = true;
-    [Foldout("Wall Outlines")] public bool DrawRays;
+    [MyBox.Foldout("Wall Outlines")] public bool WallOutlines = true;
+    [MyBox.Foldout("Wall Outlines")] public bool DrawRays;
     
-    [Foldout("Other")] public LevelSessionMode EditorLevelSessionMode;
+    [MyBox.Foldout("Other")] public LevelSessionMode EditorLevelSessionMode;
     
-    [Foldout("References")] [SerializeField] [MustBeAssigned] private TMP_Text debugText;
+    [MyBox.Foldout("References")] [SerializeField] [Required] private TMP_Text debugText;
     
     private Camera cam;
     
@@ -131,7 +132,7 @@ public class Dbg : MonoBehaviour
         foreach (Object o in list) print($"Debug - {o.name}");
     }
     
-    [ButtonMethod]
+    [Button]
     // ReSharper disable once UnusedMember.Local
     private static void DeletePlayerPrefs()
     {

@@ -1,13 +1,13 @@
 using DG.Tweening;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CoinController : EntityController, IResettable, ICollectible
 {
-    [Separator] [SerializeField] [PositiveValueOnly] private float fadeDuration = 0.5f;
-    [Separator] [InitializationField] [MustBeAssigned] public Animator Animator;
-    [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer spriteRenderer;
+    [Separator] [SerializeField] [MyBox.MinValue(0)] private float fadeDuration = 0.5f;
+    [Separator] [InitializationField] [Required] public Animator Animator;
+    [SerializeField] [InitializationField] [Required] private SpriteRenderer spriteRenderer;
     
     [HideInInspector] public Vector2 InitialPosition;
     

@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 public partial class PlayerController : EntityController
 {
-    [Separator] [SerializeField] [InitializationField] [MustBeAssigned] private BoxCollider2D centerCollider;
+    [Separator] [SerializeField] [InitializationField] [Required] private BoxCollider2D centerCollider;
     [Space] [Separator("Water settings")] [SerializeField] private Transform waterLevel;
     
     [Separator("Death settings")] [SerializeField] [PositiveValueOnly] private float defaultDeathFadeDuration;
@@ -22,7 +22,7 @@ public partial class PlayerController : EntityController
     
     public ShotgunController Shotgun { get; private set; }
     
-    [ReadOnly] public int Deaths;
+    [MyBox.ReadOnly] public int Deaths;
     
     [HideInInspector] public List<FieldController> CurrentFields;
     
@@ -50,7 +50,7 @@ public partial class PlayerController : EntityController
     
     // [ReadOnly] [CanBeNull] public AnchorController Sheet;
     
-    [ReadOnly] public List<FieldController> CurrentPlatforms;
+    [MyBox.ReadOnly] public List<FieldController> CurrentPlatforms;
     
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
     

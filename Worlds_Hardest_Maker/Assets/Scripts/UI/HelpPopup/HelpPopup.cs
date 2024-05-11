@@ -2,17 +2,18 @@ using System.Collections.Generic;
 using DG.Tweening;
 using JetBrains.Annotations;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HelpPopup : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform scrollContainer;
+    [SerializeField] [InitializationField] [Required] private RectTransform scrollContainer;
     [SerializeField] [PositiveValueOnly] private float scrollDuration;
-    [Space] [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform dotContainer;
-    [SerializeField] [InitializationField] [MustBeAssigned] private Image dotPrefab;
-    [SerializeField] [InitializationField] [MustBeAssigned] private Sprite dotFilledSprite;
-    [SerializeField] [InitializationField] [MustBeAssigned] private Sprite dotOutlineSprite;
+    [Space] [SerializeField] [InitializationField] [Required] private RectTransform dotContainer;
+    [SerializeField] [InitializationField] [Required] private Image dotPrefab;
+    [SerializeField] [InitializationField] [Required] private Sprite dotFilledSprite;
+    [SerializeField] [InitializationField] [Required] private Sprite dotOutlineSprite;
     
     private readonly Queue<RectTransform> movingLeft = new();
     private readonly Queue<RectTransform> movingRight = new();

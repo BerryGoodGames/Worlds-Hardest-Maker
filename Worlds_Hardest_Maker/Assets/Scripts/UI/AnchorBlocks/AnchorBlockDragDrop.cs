@@ -1,5 +1,6 @@
 using System.Collections;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,7 +8,7 @@ public class AnchorBlockDragDrop : MonoBehaviour
 {
     [SerializeField] private bool active = true;
     
-    [Separator("References")] [SerializeField] [MustBeAssigned] private LockHighlightTween lockHighlightTween;
+    [Separator("References")] [SerializeField] [Required] private LockHighlightTween lockHighlightTween;
     
     public Vector2 Offset { get; private set; }
     private AnchorBlockController anchorBlockController;

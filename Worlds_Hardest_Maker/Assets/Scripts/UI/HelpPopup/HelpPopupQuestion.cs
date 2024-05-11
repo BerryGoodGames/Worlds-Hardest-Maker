@@ -1,11 +1,12 @@
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class HelpPopupQuestion : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [MustBeAssigned] private HelpPopup popup;
+    [SerializeField] [InitializationField] [Required] private HelpPopup popup;
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform popupContainer;
+    [SerializeField] [InitializationField] [Required] private RectTransform popupContainer;
     
     public void OnButtonClick() => Instantiate(popup, popupContainer);
 }

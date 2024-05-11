@@ -1,20 +1,20 @@
 using System.Collections;
 using DG.Tweening;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class KeyController : EntityController, IResettable, ICollectible
 {
     [Separator] [SerializeField] [PositiveValueOnly] private float fadeDuration = 0.5f;
-    [Separator] [ReadOnly] public KeyColor Color;
-    [ReadOnly] public Vector2 InitialPosition;
-    [ReadOnly] public bool Collected;
+    [Separator] [MyBox.ReadOnly] public KeyColor Color;
+    [MyBox.ReadOnly] public Vector2 InitialPosition;
+    [MyBox.ReadOnly] public bool Collected;
     
-    [Separator] [InitializationField] [MustBeAssigned] public SpriteRenderer SpriteRenderer;
+    [Separator] [InitializationField] [Required] public SpriteRenderer SpriteRenderer;
     
-    [InitializationField] [MustBeAssigned] public Animator Animator;
-    [InitializationField] [MustBeAssigned] public IntervalRandomAnimation KonamiAnimation;
+    [InitializationField] [Required] public Animator Animator;
+    [InitializationField] [Required] public IntervalRandomAnimation KonamiAnimation;
     
     private static readonly int playingString = Animator.StringToHash("Playing");
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MyBox;
+using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,15 +17,15 @@ public class LevelListLoader : MonoBehaviour
     
     [SerializeField] [ConditionalField(nameof(refresh))] private float refreshInterval = 5;
     
-    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private GameObject levelCardPrefab;
+    [Separator("References")] [SerializeField] [InitializationField] [Required] private GameObject levelCardPrefab;
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Dropdown sortInput;
+    [SerializeField] [InitializationField] [Required] private TMP_Dropdown sortInput;
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private ButtonVerticalArrowTween sortOrderButton;
+    [SerializeField] [InitializationField] [Required] private ButtonVerticalArrowTween sortOrderButton;
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private Transform levelCardContainer;
+    [SerializeField] [InitializationField] [Required] private Transform levelCardContainer;
     
-    [InitializationField] [MustBeAssigned] public ContentSizeFitter LevelCardContentSizeFitter;
+    [InitializationField] [Required] public ContentSizeFitter LevelCardContentSizeFitter;
     
     private FileInfo[] prevLevelInfo;
     

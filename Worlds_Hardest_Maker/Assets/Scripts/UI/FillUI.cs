@@ -1,11 +1,12 @@
 using System;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class FillUI : MonoBehaviour
 {
-    [MustBeAssigned] [InitializationField] [SerializeField] private RectTransform content;
-    [MustBeAssigned] [InitializationField] [SerializeField] private RectTransform fill;
+    [Required] [InitializationField] [SerializeField] private RectTransform content;
+    [Required] [InitializationField] [SerializeField] private RectTransform fill;
     
     private float prevOffsetMin;
     

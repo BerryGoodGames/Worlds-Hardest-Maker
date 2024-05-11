@@ -1,10 +1,10 @@
 using JetBrains.Annotations;
-using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class DeletePlayerPrefs : MonoBehaviour
 {
-    [ButtonMethod]
+    [Button]
     [UsedImplicitly]
     public void DeleteAllPlayerPrefs()
     {

@@ -28,15 +28,9 @@ public class CopyDataAttachable : CopyData
 {
     [CanBeNull] public AnchorController Sheet;
     
-    public CopyDataAttachable(Data data, Vector2 relativePos, [CanBeNull] AnchorController sheet) : base(data, relativePos)
-    {
-        Sheet = sheet;
-    }
+    public CopyDataAttachable(Data data, Vector2 relativePos, [CanBeNull] AnchorController sheet) : base(data, relativePos) => Sheet = sheet;
     
-    public CopyDataAttachable(Args args) : base(args.Data, args.RelativePosition)
-    {
-        Sheet = args.Sheet;
-    }
+    public CopyDataAttachable(Args args) : base(args.Data, args.RelativePosition) => Sheet = args.Sheet;
     
     public override void Paste(Vector2 pos) => ((AttachableData)Data).ImportToLevel(Sheet);
 }
