@@ -10,7 +10,9 @@ public interface IManager
     {
         bool globalSheet = sheet == null;
         
-        if (!controller.TryGetComponent(out EntityController entityController))
+        if (!controller.TryGetComponent(out EntityController entityController)
+            && (entityController = controller.GetComponentInChildren<EntityController>()) == null
+            && (entityController = controller.GetComponentInParent<EntityController>()) == null)
         {
             Debug.LogWarning("Could not find entity controller when trying to check if entity is in sheet");
             return false;
