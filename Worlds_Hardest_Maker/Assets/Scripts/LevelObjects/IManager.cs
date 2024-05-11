@@ -8,13 +8,20 @@ public interface IManager
     
     public static bool IsInSheet(Component controller, AnchorController sheet)
     {
-        bool hasAttachment = controller.TryGetComponent(out AnchorAttachment attachment);
         bool globalSheet = sheet == null;
+        
+        if (!controller.TryGetComponent(out EntityController entityController))
+        {
+            Debug.LogWarning("Could not find entity controller when trying to check if entity is in sheet");
+            return false;
+        }
+        
+        bool hasAttachment = entityController.AttachmentHolder.TryGetComponent(out AnchorAttachment attachment);
         return (globalSheet && !hasAttachment) || (hasAttachment && !globalSheet && attachment.Anchor == sheet);
     }
 }
 
-public interface IManager<T> : IManager where T : LevelObjectController
+public interface IManager<out T> : IManager where T : LevelObjectController
 {
     public T Set(ManagerParameters args) => SetInSheet(ManagerParameters.GetCurrentSheetParams(args));
     public T SetInSheet(ManagerParameters args);

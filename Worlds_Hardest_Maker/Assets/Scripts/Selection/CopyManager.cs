@@ -41,6 +41,7 @@ public class CopyManager : MonoBehaviour
             // try to get controllers and save the object in clipboard
             if (!hit.TryGetComponent(out EntityController controller)) continue;
             if (controller is BallController { IsParentAnchorNull: false, }) continue;
+            if (!IManager.IsInSheet(controller, PlaceManager.GetCurrentSheet())) continue;
             
             Data data = controller.GetData();
             
@@ -60,6 +61,8 @@ public class CopyManager : MonoBehaviour
             
             // try to get controllers and save the object in clipboard
             if (!hit.TryGetComponent(out EntityController controller)) continue;
+            
+            if (!IManager.IsInSheet(controller, PlaceManager.GetCurrentSheet())) continue;
             
             points.Add(controller.transform.position);
         }
