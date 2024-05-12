@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -10,15 +11,13 @@ public interface IManager
     {
         bool globalSheet = sheet == null;
         
-        if (!controller.TryGetComponent(out EntityController entityController)
-            && (entityController = controller.GetComponentInChildren<EntityController>()) == null
-            && (entityController = controller.GetComponentInParent<EntityController>()) == null)
-        {
-            Debug.LogWarning("Could not find entity controller when trying to check if entity is in sheet");
-            return false;
-        }
+        bool hasEntityController = controller.TryGetComponent(out EntityController entityController)
+                                   || (entityController = controller.GetComponentInChildren<EntityController>()) != null
+                                   || (entityController = controller.GetComponentInParent<EntityController>()) != null;
         
-        bool hasAttachment = entityController.AttachmentHolder.TryGetComponent(out AnchorAttachment attachment);
+        if (hasEntityController && !entityController.IsAttachable) return globalSheet;
+        
+        bool hasAttachment = (hasEntityController ? entityController.AttachmentHolder : controller).TryGetComponent(out AnchorAttachment attachment);
         return (globalSheet && !hasAttachment) || (hasAttachment && !globalSheet && attachment.Anchor == sheet);
     }
 }

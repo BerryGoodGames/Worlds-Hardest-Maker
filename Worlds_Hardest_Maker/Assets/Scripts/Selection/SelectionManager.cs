@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
@@ -31,14 +32,18 @@ public class SelectionManager : MonoBehaviour
     
     private void Update()
     {
-        if (!LevelSessionManager.Instance.IsEdit) return;
+        if (!LevelSessionManager.Instance.IsEdit
+            || AnchorAttachManager.Instance.InAttachMode) return;
         
-        if (KeyBinds.GetKeyBind("Editor_Select") && !LevelSessionEditManager.Instance.Playing &&
-            !EventSystem.current.IsPointerOverGameObject()) Selecting = true;
+        if (KeyBinds.GetKeyBind("Editor_Select") 
+            && !LevelSessionEditManager.Instance.Playing 
+            && !EventSystem.current.IsPointerOverGameObject()) Selecting = true;
         
         // update selection markings
-        if (!LevelSessionEditManager.Instance.Playing && MouseManager.Instance.MouseDragStart != null &&
-            MouseManager.Instance.MouseDragCurrent != null && Selecting)
+        if (!LevelSessionEditManager.Instance.Playing
+            && Selecting
+            && MouseManager.Instance.MouseDragStart != null
+            && MouseManager.Instance.MouseDragCurrent != null)
         {
             // get drag positions and world position mode
             WorldPositionType worldPositionType =
@@ -70,6 +75,7 @@ public class SelectionManager : MonoBehaviour
     {
         PlayManager.Instance.OnSwitchToPlay += CancelSelection;
         LevelSessionEditManager.Instance.OnEditModeChange += RemakePreview;
+        AnchorAttachManager.OnEnterAttachMode += CancelSelection;
         
         fillMouseOver.OnHovered += SetPreviewVisible;
         fillMouseOver.OnUnhovered += SetPreviewInvisible;
@@ -581,6 +587,13 @@ public class SelectionManager : MonoBehaviour
         Selecting = false;
         
         MenuManager.Instance.BlockMenu = false;
+    }
+    
+    private void OnDestroy()
+    {
+        PlayManager.Instance.OnSwitchToPlay -= CancelSelection;
+        LevelSessionEditManager.Instance.OnEditModeChange -= RemakePreview;
+        AnchorAttachManager.OnEnterAttachMode -= CancelSelection;
     }
     
     private void Awake()

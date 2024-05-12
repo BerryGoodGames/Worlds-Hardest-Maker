@@ -2,11 +2,12 @@ using JetBrains.Annotations;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class EntityController : LevelObjectController
 {
-    [SerializeField] [InitializationField] [UsedImplicitly] private bool isAttachable = true;
-    [EnableIf(nameof(isAttachable))] [InitializationField] public Transform AttachmentHolder;
+    [FormerlySerializedAs("isAttachable")] [InitializationField] public bool IsAttachable = true;
+    [EnableIf(nameof(IsAttachable))] [InitializationField] public Transform AttachmentHolder;
     
     [MyBox.ReadOnly] public AnchorController Sheet;
     

@@ -16,6 +16,12 @@ public class CopyManager : MonoBehaviour
     
     public void Copy(Vector2 lowestPos, Vector2 highestPos)
     {
+        if (AnchorAttachManager.Instance.InAttachMode)
+        {
+            Debug.Log("Cannot copy in attach mode");
+            return;
+        }
+        
         clipBoard.Clear();
         
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
@@ -33,9 +39,7 @@ public class CopyManager : MonoBehaviour
         (Vector2 lowest, Vector2 highest) = SelectionManager.GetBoundsMatrix(points);
         
         // center and size of actual controllers user selected
-        Vector2 castCenter = (.5f * (lowest + highest)).Floor();
-        
-        AnchorController sheet = PlaceManager.GetCurrentSheet();
+        Vector2 castCenter = ((lowest + highest) / 2).Floor();
         
         foreach (Collider2D hit in hits)
         {
@@ -44,21 +48,14 @@ public class CopyManager : MonoBehaviour
             // try to get controllers and save the object in clipboard
             if (!hit.TryGetComponent(out EntityController controller)) continue;
             if (controller is BallController { IsParentAnchorNull: false, }) continue;
-            if (!IManager.IsInSheet(controller, sheet)) continue;
+            if (!IManager.IsInSheet(controller, null)) continue;
             
             Data data = controller.GetData();
             
             Vector2 pos = controller.transform.position;
             Vector2 relativePos = pos - castCenter;
             
-            CopyData copyData = data.GetCopyData(
-                new CopyData.Args
-                {
-                    Data = data,
-                    RelativePosition = relativePos,
-                    Sheet = sheet,
-                }
-            );
+            CopyData copyData = new(data, relativePos);
             
             clipBoard.Add(copyData);
         }
@@ -84,6 +81,12 @@ public class CopyManager : MonoBehaviour
     
     public IEnumerator PasteCoroutine()
     {
+        if (AnchorAttachManager.Instance.InAttachMode)
+        {
+            Debug.Log("Cannot paste in attach mode");
+            yield break;
+        }
+        
         // check if there smth. in clipboard
         if (clipBoard.Count == 0) yield break;
         

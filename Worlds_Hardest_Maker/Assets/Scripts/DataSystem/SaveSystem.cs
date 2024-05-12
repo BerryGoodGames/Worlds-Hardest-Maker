@@ -201,8 +201,6 @@ public abstract class Data
     
     public abstract EditMode GetEditMode();
     
-    public abstract CopyData GetCopyData(CopyData.Args args);
-    
     public abstract bool Equals(Data other);
 }
 
@@ -210,14 +208,10 @@ public abstract class Data
 public abstract class AttachableData : Data
 {
     public abstract void ImportToLevel([CanBeNull] AnchorController sheet);
-    
-    public override CopyData GetCopyData(CopyData.Args args) => new CopyDataAttachable(args.Data, args.RelativePosition, args.Sheet);
 }
 
 [Serializable]
 public abstract class NonAttachableData : Data
 {
     public abstract void ImportToLevel();
-    
-    public override CopyData GetCopyData(CopyData.Args args) => new CopyDataNonAttachable(args.Data, args.RelativePosition);
 }
