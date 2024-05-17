@@ -73,16 +73,20 @@ PrefabInstance:
       value: Void
       objectReference: {fileID: 0}
     - target: {fileID: 8451419770457997880, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451419770457997880, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 0.07450981
       objectReference: {fileID: 0}
     - target: {fileID: 8451419770457997880, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 0.07450981
       objectReference: {fileID: 0}
     - target: {fileID: 8451419770457997880, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 0.07450981
       objectReference: {fileID: 0}
     - target: {fileID: 8451419770457997880, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_SortingOrder

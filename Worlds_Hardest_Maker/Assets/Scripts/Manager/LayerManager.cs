@@ -68,6 +68,8 @@ public class LayerVariables
     [InitializationField] [Required] public LayerMask Field;
     [InitializationField] [Required] public LayerMask Background;
     [InitializationField] [Required] public LayerMask DoNotCollide;
+    
+    public LayerMask LevelObjectMask => Entity | Player | Void | Field;
 }
 
 [Serializable]
