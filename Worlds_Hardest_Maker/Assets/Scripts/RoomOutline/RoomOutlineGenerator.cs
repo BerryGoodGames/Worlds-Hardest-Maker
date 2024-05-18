@@ -12,7 +12,6 @@ public class RoomOutlineGenerator : MonoBehaviour
     
     private static bool EnabledInSettings => SettingsManager.Instance.ShowRoomGrid;
     
-    
     private void Start()
     {
         PlayManager.Instance.OnPlaytest += Disable;

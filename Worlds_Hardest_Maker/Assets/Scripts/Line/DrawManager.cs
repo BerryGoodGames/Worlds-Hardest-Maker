@@ -10,39 +10,35 @@ public class DrawManager : MonoBehaviour
 {
     private static DrawManager instance;
     
-    public static int DefaultLayerID;
-    public static int OutlineLayerID;
-    public static int BallLayerID;
-    
     private void Awake()
     {
-        DefaultLayerID = SortingLayer.NameToID(LayerManager.Instance.SortingLayers.Default);
-        OutlineLayerID = SortingLayer.NameToID(LayerManager.Instance.SortingLayers.Outline);
-        BallLayerID = SortingLayer.NameToID(LayerManager.Instance.SortingLayers.Ball);
-        
         instance ??= this;
+        
+        LayerID = SortingLayer.NameToID(LayerManager.Instance.SortingLayers.Default);
     }
     
     // Settings for drawing
-    public static float Weight { get; private set; } = 0.11f;
-    public static Color Fill { get; private set; } = new(0, 0, 0);
-    public static bool RoundedCorners { get; private set; } = true;
-    public static int LayerID { get; private set; } = DefaultLayerID;
-    public static int OrderInLayer { get; private set; }
+    public float Weight { get; private set; } = 0.11f;
+    public Color Fill { get; private set; } = new(0, 0, 0);
+    public bool RoundedCorners { get; private set; } = true;
+    public int LayerID { get; private set; }
+    public int OrderInLayer { get; private set; }
     
     /// <summary>
     ///     Generates object containing a LineRenderer forming a rectangle
     /// </summary>
     public static LineRenderer DrawRect(
-        float x, float y, float width, float height, bool alignCenter = false,
+        float x, float y, 
+        float width, float height, 
+        bool alignCenter = false,
         Transform parent = null
     )
     {
         // generate object
         LineRenderer rect = NewDrawObject("DrawRect", parent);
         rect.positionCount = 5;
-        rect.sortingOrder = OrderInLayer;
-        rect.sortingLayerID = LayerID;
+        rect.sortingOrder = instance.OrderInLayer;
+        rect.sortingLayerID = instance.LayerID;
         
         // get positions
         Vector2[] positions =
@@ -76,8 +72,8 @@ public class DrawManager : MonoBehaviour
     {
         // generate object
         LineRenderer circle = NewDrawObject("DrawCircle", parent);
-        circle.sortingOrder = OrderInLayer;
-        circle.sortingLayerID = LayerID;
+        circle.sortingOrder = instance.OrderInLayer;
+        circle.sortingLayerID = instance.LayerID;
         
         // get points of circle
         const int steps = 100;
@@ -111,8 +107,8 @@ public class DrawManager : MonoBehaviour
         
         // generate object
         LineRenderer line = NewDrawObject("DrawLine", parent);
-        line.sortingOrder = OrderInLayer;
-        line.sortingLayerID = LayerID;
+        line.sortingOrder = instance.OrderInLayer;
+        line.sortingLayerID = instance.LayerID;
         line.positionCount = 2;
         
         line.SetPosition(0, point1);
@@ -174,13 +170,13 @@ public class DrawManager : MonoBehaviour
         LineRenderer line = stroke.AddComponent<LineRenderer>();
         line.material = MaterialManager.Instance.LineMaterial;
         
-        line.startWidth = Weight;
-        line.endWidth = Weight;
+        line.startWidth = instance.Weight;
+        line.endWidth = instance.Weight;
         
-        line.startColor = Fill;
-        line.endColor = Fill;
+        line.startColor = instance.Fill;
+        line.endColor = instance.Fill;
         
-        line.numCapVertices = RoundedCorners ? 5 : 0;
+        line.numCapVertices = instance.RoundedCorners ? 5 : 0;
         return line;
     }
     
@@ -204,15 +200,16 @@ public class DrawManager : MonoBehaviour
         return points;
     }
     
-    public static void SetFill(float r, float g, float b) => Fill = new(r, g, b);
+    public static void SetFill(float r, float g, float b) => instance.Fill = new(r, g, b);
     
-    public static void SetFill(Color color) => Fill = color;
+    public static void SetFill(Color color) => instance.Fill = color;
     
-    public static void SetWeight(float setWeight) => Weight = setWeight;
+    public static void SetWeight(float setWeight) => instance.Weight = setWeight;
     
-    public static void SetRoundedCorners(bool set) => RoundedCorners = set;
+    public static void SetRoundedCorners(bool set) => instance.RoundedCorners = set;
     
-    public static void SetLayerID(int id) => LayerID = id;
+    public static void SetLayerID(int id) => instance.LayerID = id;
+    public static void SetLayerName(string name) => instance.LayerID = SortingLayer.NameToID(name);
     
-    public static void SetOrderInLayer(int order) => OrderInLayer = order;
+    public static void SetOrderInLayer(int order) => instance.OrderInLayer = order;
 }

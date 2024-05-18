@@ -17,7 +17,7 @@ public partial class SelectionManager
         DrawManager.SetWeight(0.1f);
         DrawManager.SetFill(Color.black);
         
-        DrawManager.SetLayerID(DrawManager.DefaultLayerID);
+        DrawManager.SetLayerName(LayerManager.Instance.SortingLayers.Line);
         DrawManager.SetOrderInLayer(0);
         selectionOutline = DrawManager.DrawRect(
             start.x + 0.5f,

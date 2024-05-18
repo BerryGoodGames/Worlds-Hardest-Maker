@@ -10871,6 +10871,7 @@ MonoBehaviour:
     PlacementPreview: PlacementPreview
     Line: Line
   <AllSortingLayerNames>k__BackingField:
+  - Line
   - Background
   - Field
   - Player
@@ -10885,8 +10886,7 @@ MonoBehaviour:
   - PlayerPlayMode
   - FillPreview
   - PlacementPreview
-  - Line
-  <AllSortingLayerIDs>k__BackingField: 635c8ccfc3f1d3770db5bc8f00000000e3e1329bcdf683dd6fd1348df17560651f04427c17d9ddcaf9407002598223cfc70aa30b33110fc5a566ecb8
+  <AllSortingLayerIDs>k__BackingField: a566ecb8635c8ccfc3f1d3770db5bc8f00000000e3e1329bcdf683dd6fd1348df17560651f04427c17d9ddcaf9407002598223cfc70aa30b33110fc5
 --- !u!1 &940078019
 GameObject:
   m_ObjectHideFlags: 0
@@ -22155,7 +22155,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 711.39, y: -857.3365}
-  m_SizeDelta: {x: 0, y: 39.5306}
+  m_SizeDelta: {x: 51.75, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755699354
 MonoBehaviour:

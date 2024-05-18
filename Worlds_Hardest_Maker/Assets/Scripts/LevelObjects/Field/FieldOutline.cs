@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MyBox;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 /// <summary>
@@ -97,7 +98,7 @@ public class FieldOutline : MonoBehaviour
         // draw settings
         DrawManager.SetWeight(weight);
         DrawManager.SetFill(color);
-        DrawManager.SetLayerID(DrawManager.OutlineLayerID);
+        DrawManager.SetLayerName(LayerManager.Instance.SortingLayers.Outline);
         DrawManager.SetRoundedCorners(false);
         
         Transform t = transform;
