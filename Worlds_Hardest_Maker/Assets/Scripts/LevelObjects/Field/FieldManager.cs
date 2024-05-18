@@ -181,53 +181,18 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
         if (hasOutline)
         {
             // update lowest and highest field separately cause ray casting
-            FieldController lowestField = Instance.Get(Vector2Int.RoundToInt(lowest));
-            if (lowestField.TryGetComponent(out FieldOutline foComp))
-            {
-                foComp.UpdateOutline(Vector2.left, true);
-                foComp.UpdateOutline(Vector2.down, true);
-            }
-            
-            FieldController highestField = Instance.Get(Vector2Int.RoundToInt(highest));
-            if (highestField.TryGetComponent(out foComp))
-            {
-                foComp.UpdateOutline(Vector2.right, true);
-                foComp.UpdateOutline(Vector2.up, true);
-            }
+            UpdateOutlinesSingle(lowest, Vector2.left, Vector2.down);
+            UpdateOutlinesSingle(highest, Vector2.right, Vector2.up);
             
             // // horizontal
-            RaycastHit2D[] hits = new RaycastHit2D[width];
-            
-            // bottom fields
-            _ = Physics2D.RaycastNonAlloc(lowest, Vector2.right, hits, width);
-            foreach (RaycastHit2D hit in hits)
-            {
-                if (hit.transform.TryGetComponent(out foComp)) foComp.UpdateOutline(Vector2.down, true);
-            }
-            
-            // top fields
-            _ = Physics2D.RaycastNonAlloc(highest, Vector2.left, hits, width);
-            foreach (RaycastHit2D hit in hits)
-            {
-                if (hit.transform.TryGetComponent(out foComp)) foComp.UpdateOutline(Vector2.up, true);
-            }
+            // cast rays to get all bottom and all top fields of the filling, then update their and their neighbors' outlines
+            UpdateOutlinesRayLineWithNeighbors(lowest, Vector2.right, Vector2.down, width);
+            UpdateOutlinesRayLineWithNeighbors(highest, Vector2.left, Vector2.up, width);
             
             // // vertical
-            hits = new RaycastHit2D[height];
-            
-            // left Fields
-            _ = Physics2D.RaycastNonAlloc(lowest, Vector2.up, hits, height);
-            foreach (RaycastHit2D hit in hits)
-            {
-                if (hit.transform.TryGetComponent(out foComp)) foComp.UpdateOutline(Vector2.left, true);
-            }
-            
-            // right Fields
-            _ = Physics2D.RaycastNonAlloc(highest, Vector2.down, hits, height);
-            foreach (RaycastHit2D hit in hits)
-            {
-                if (hit.transform.TryGetComponent(out foComp)) foComp.UpdateOutline(Vector2.right, true);
-            }
+            // cast rays to get all left and all right fields of the filling, then update their and their neighbors' outlines
+            UpdateOutlinesRayLineWithNeighbors(lowest, Vector2.up, Vector2.left, height);
+            UpdateOutlinesRayLineWithNeighbors(highest, Vector2.down, Vector2.right, height);
             
             return;
         }
@@ -243,17 +208,44 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
         
         foreach ((Vector2 origin, Vector2 direction, int length) in rays)
         {
-            RaycastHit2D[] currentHits = new RaycastHit2D[length];
-            _ = Physics2D.RaycastNonAlloc(origin, direction, currentHits, length);
+            UpdateOutlinesRayLine(origin, direction, length);
+        }
+    }
+    
+    private static void UpdateOutlinesRayLineWithNeighbors(Vector2 origin, Vector2 rayDirection, Vector2 neighborDirection, int length)
+    {
+        RaycastHit2D[] hits = new RaycastHit2D[length];
+        Physics2D.RaycastNonAlloc(origin, rayDirection, hits, length);
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.transform.TryGetComponent(out FieldOutline foComp)) foComp.UpdateOutline(neighborDirection, true);
+        }
+    }
+    
+    private static void UpdateOutlinesSingle(Vector2 origin, params Vector2[] directions)
+    {
+        FieldController lowestField = Instance.Get(Vector2Int.RoundToInt(origin));
+        
+        if (!lowestField.TryGetComponent(out FieldOutline foComp)) return;
+        
+        foreach (Vector2 direction in directions)
+        {
+            foComp.UpdateOutline(direction, true);
+        }
+    }
+    
+    private static void UpdateOutlinesRayLine(Vector2 origin, Vector2 direction, int length)
+    {
+        RaycastHit2D[] currentHits = new RaycastHit2D[length];
+        _ = Physics2D.RaycastNonAlloc(origin, direction, currentHits, length);
+        
+        foreach (RaycastHit2D r in currentHits)
+        {
+            if (r.collider == null) continue;
             
-            foreach (RaycastHit2D r in currentHits)
-            {
-                if (r.collider == null) continue;
-                
-                GameObject collider = r.collider.gameObject;
-                
-                if (collider.TryGetComponent(out FieldOutline outline)) outline.UpdateOutline();
-            }
+            GameObject collider = r.collider.gameObject;
+            
+            if (collider.TryGetComponent(out FieldOutline outline)) outline.UpdateOutline();
         }
     }
     
