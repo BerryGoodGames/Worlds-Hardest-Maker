@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 public static class VectorExtension
@@ -74,5 +75,18 @@ public static class VectorExtension
         Vector3 screenPoint = worldPoint ? Camera.main.WorldToViewportPoint(point) : point;
         bool onScreen = screenPoint.x is > 0 and < 1 && screenPoint.y is > 0 and < 1;
         return onScreen;
+    }
+    
+    public static int GetIntersectionCount(this Vector2 position)
+    {
+        Vector2Int[] checkPoses =
+        {
+            Vector2Int.FloorToInt(position),
+            new(Mathf.CeilToInt(position.x), Mathf.FloorToInt(position.y)),
+            new(Mathf.FloorToInt(position.x), Mathf.CeilToInt(position.y)),
+            Vector2Int.CeilToInt(position),
+        };
+        
+        return checkPoses.Distinct().ToArray().Length;
     }
 }

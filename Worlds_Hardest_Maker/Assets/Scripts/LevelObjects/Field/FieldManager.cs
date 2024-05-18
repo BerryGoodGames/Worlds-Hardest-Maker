@@ -3,7 +3,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class FieldManager : MonoBehaviour, IManager<FieldController>
+public partial class FieldManager : MonoBehaviour, IManager<FieldController>
 {
     public static FieldManager Instance { get; private set; }
     
@@ -129,7 +129,7 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
         return fieldDestroyed;
     }
     
-    public void PlaceField(FieldMode mode, int rotation, bool playSound, Vector2Int matrixPosition)
+    public void Place(FieldMode mode, int rotation, bool playSound, Vector2Int matrixPosition)
     {
         if (!mode.IsRotatable) rotation = 0;
         
@@ -148,48 +148,6 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
         ColorCalibration[] colorCalibrations = ReferenceManager.Instance.FieldContainer.GetComponentsInChildren<ColorCalibration>();
         
         foreach (ColorCalibration field in colorCalibrations) field.Apply(oneColor);
-    }
-    
-    public List<FieldController> GetNeighbors(GameObject field)
-    {
-        Vector2Int position = Vector2Int.RoundToInt(field.transform.position);
-        return GetNeighbors(position);
-    }
-    
-    public List<FieldController> GetNeighbors(Vector2 position)
-    {
-        Vector2Int[] deltas = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left, };
-        
-        List<FieldController> neighbors = new();
-        
-        foreach (Vector2Int d in deltas)
-        {
-            FieldController neighbor = Get(position + d);
-            if (neighbor != null) neighbors.Add(neighbor);
-        }
-        
-        return neighbors;
-    }
-    
-    public List<FieldController> GetNeighborsInSheet(GameObject field, [CanBeNull] AnchorController sheet)
-    {
-        Vector2Int position = Vector2Int.RoundToInt(field.transform.position);
-        return GetNeighborsInSheet(position, sheet);
-    }
-    
-    public List<FieldController> GetNeighborsInSheet(Vector2Int position, [CanBeNull] AnchorController sheet)
-    {
-        Vector2Int[] deltas = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left, };
-        
-        List<FieldController> neighbors = new();
-        
-        foreach (Vector2Int d in deltas)
-        {
-            FieldController neighbor = GetInSheet(position + d, sheet);
-            if (neighbor != null) neighbors.Add(neighbor);
-        }
-        
-        return neighbors;
     }
     
     public List<FieldController> GetFieldsAtGridPosInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
@@ -214,63 +172,90 @@ public class FieldManager : MonoBehaviour, IManager<FieldController>
         return res;
     }
     
-    #region Field intersection
-    
-    public bool IntersectingAnyFieldsAtPos(Vector2 position, [CanBeNull] AnchorController sheet, params FieldMode[] t)
+    public static void UpdateOutlinesInArea(bool hasOutline, Vector2 lowest, Vector2 highest)
     {
-        List<FieldMode> modes = t.ToList();
+        int width = (int)highest.x - (int)lowest.x;
+        int height = (int)highest.y - (int)lowest.y;
         
-        List<FieldController> intersectingFields = GetFieldsAtGridPosInSheet(position, sheet);
-        foreach (FieldController field in intersectingFields)
+        // update outlines
+        if (hasOutline)
         {
-            if (modes.Contains(field.FieldMode)) return true;
+            // update lowest and highest field separately cause ray casting
+            FieldController lowestField = Instance.Get(Vector2Int.RoundToInt(lowest));
+            if (lowestField.TryGetComponent(out FieldOutline foComp))
+            {
+                foComp.UpdateOutline(Vector2.left, true);
+                foComp.UpdateOutline(Vector2.down, true);
+            }
+            
+            FieldController highestField = Instance.Get(Vector2Int.RoundToInt(highest));
+            if (highestField.TryGetComponent(out foComp))
+            {
+                foComp.UpdateOutline(Vector2.right, true);
+                foComp.UpdateOutline(Vector2.up, true);
+            }
+            
+            // // horizontal
+            RaycastHit2D[] hits = new RaycastHit2D[width];
+            
+            // bottom fields
+            _ = Physics2D.RaycastNonAlloc(lowest, Vector2.right, hits, width);
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.transform.TryGetComponent(out foComp)) foComp.UpdateOutline(Vector2.down, true);
+            }
+            
+            // top fields
+            _ = Physics2D.RaycastNonAlloc(highest, Vector2.left, hits, width);
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.transform.TryGetComponent(out foComp)) foComp.UpdateOutline(Vector2.up, true);
+            }
+            
+            // // vertical
+            hits = new RaycastHit2D[height];
+            
+            // left Fields
+            _ = Physics2D.RaycastNonAlloc(lowest, Vector2.up, hits, height);
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.transform.TryGetComponent(out foComp)) foComp.UpdateOutline(Vector2.left, true);
+            }
+            
+            // right Fields
+            _ = Physics2D.RaycastNonAlloc(highest, Vector2.down, hits, height);
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.transform.TryGetComponent(out foComp)) foComp.UpdateOutline(Vector2.right, true);
+            }
+            
+            return;
         }
         
-        return false;
-    }
-    
-    public bool IntersectingEveryFieldAtPos(Vector2 position, [CanBeNull] AnchorController sheet, params FieldMode[] t)
-    {
-        List<FieldMode> types = t.ToList();
-        List<FieldController> intersectingFields = GetFieldsAtGridPosInSheet(position, sheet);
-        foreach (FieldController field in intersectingFields)
+        // update fields around fill area
+        (Vector2, Vector2, int)[] rays =
         {
-            if (!types.Contains(field.FieldMode)) return false;
-        }
-        
-        return true;
-    }
-    
-    public bool IsPosCoveredWithFieldTypeInSheet(Vector2 position, [CanBeNull] AnchorController sheet, params FieldMode[] t)
-    {
-        List<FieldMode> types = t.ToList();
-        List<FieldController> intersectingFields = GetFieldsAtGridPosInSheet(position, sheet);
-        if (intersectingFields.Count == 0) return false;
-        
-        int expectedCount = IntersectionCountAtPos(position);
-        
-        foreach (FieldController field in intersectingFields)
-        {
-            if (expectedCount != intersectingFields.Count || !types.Contains(field.FieldMode)) return false;
-        }
-        
-        return true;
-    }
-    
-    public static int IntersectionCountAtPos(Vector2 position)
-    {
-        Vector2Int[] checkPoses =
-        {
-            Vector2Int.FloorToInt(position),
-            new(Mathf.CeilToInt(position.x), Mathf.FloorToInt(position.y)),
-            new(Mathf.FloorToInt(position.x), Mathf.CeilToInt(position.y)),
-            Vector2Int.CeilToInt(position),
+            (new(lowest.x - 1, lowest.y - 1), Vector2.right, width + 2),
+            (new(lowest.x - 1, lowest.y - 1), Vector2.up, height + 2),
+            (new(highest.x + 1, highest.y + 1), Vector2.left, width + 2),
+            (new(highest.x + 1, highest.y + 1), Vector2.down, height + 2),
         };
         
-        return checkPoses.Distinct().ToArray().Length;
+        foreach ((Vector2 origin, Vector2 direction, int length) in rays)
+        {
+            RaycastHit2D[] currentHits = new RaycastHit2D[length];
+            _ = Physics2D.RaycastNonAlloc(origin, direction, currentHits, length);
+            
+            foreach (RaycastHit2D r in currentHits)
+            {
+                if (r.collider == null) continue;
+                
+                GameObject collider = r.collider.gameObject;
+                
+                if (collider.TryGetComponent(out FieldOutline outline)) outline.UpdateOutline();
+            }
+        }
     }
-    
-    #endregion
     
     private void Awake()
     {

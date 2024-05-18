@@ -63,7 +63,7 @@ public class MouseEvents : MonoBehaviour
             yield return null;
         }
         
-        SelectionManager.Instance.CancelSelection();
+        SelectionManager.Instance.OnCancelClicked();
     }
     
     private static void CheckClickPlacement(EditMode editMode)

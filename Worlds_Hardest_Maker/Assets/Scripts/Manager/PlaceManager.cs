@@ -34,7 +34,7 @@ public class PlaceManager : MonoBehaviour
         if (editMode.Attributes.IsField)
         {
             FieldMode mode = (FieldMode)editMode;
-            FieldManager.Instance.PlaceField(mode, rotation, playSound, matrixPosition);
+            FieldManager.Instance.Place(mode, rotation, playSound, matrixPosition);
             return;
         }
         

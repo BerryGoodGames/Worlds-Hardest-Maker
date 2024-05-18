@@ -3933,7 +3933,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1609298897}
         m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
-        m_MethodName: CutSelection
+        m_MethodName: OnCutClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21881,7 +21881,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1609298897}
         m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
-        m_MethodName: CancelSelection
+        m_MethodName: OnCancelClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24714,7 +24714,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1609298897}
         m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
-        m_MethodName: DeleteSelectedArea
+        m_MethodName: OnDeleteClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -26309,7 +26309,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1609298897}
         m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
-        m_MethodName: CopySelection
+        m_MethodName: OnCopyClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
