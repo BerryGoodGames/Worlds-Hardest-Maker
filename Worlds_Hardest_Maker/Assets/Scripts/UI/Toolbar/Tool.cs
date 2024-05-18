@@ -1,13 +1,14 @@
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Tool : MonoBehaviour
 {
     [DisplayInspector] [InitializationField] [Required] public EditMode ToolEditMode;
     
     [Separator] [OverrideLabel("Fade Tween")] [SerializeField] private AlphaTween anim;
-    [SerializeField] private SelectionSquare selectionSquare;
+    [FormerlySerializedAs("selectionSquare")] [SerializeField] private ToolSelectionSquare toolSelectionSquare;
     
     [HideInInspector] public bool IsSelected;
     
@@ -38,9 +39,9 @@ public class Tool : MonoBehaviour
     
     public void SetSelected(bool selected)
     {
-        if (selectionSquare == null) return;
+        if (toolSelectionSquare == null) return;
         
-        selectionSquare.SetSelected(selected);
+        toolSelectionSquare.SetSelected(selected);
         
         IsSelected = selected;
         
@@ -50,7 +51,7 @@ public class Tool : MonoBehaviour
         parentTool.SubSelected(true);
     }
     
-    public void SubSelected(bool subselected) => selectionSquare.SetSubSelected(subselected);
+    public void SubSelected(bool subselected) => toolSelectionSquare.SetSubSelected(subselected);
     
     private void Update() => anim.SetVisible(IsSelected || (MouseOverUIRect.Over && !ReferenceManager.Instance.Menu.activeSelf));
     
