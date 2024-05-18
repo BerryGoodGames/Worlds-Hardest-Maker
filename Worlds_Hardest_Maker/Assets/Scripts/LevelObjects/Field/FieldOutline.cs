@@ -15,8 +15,6 @@ public class FieldOutline : MonoBehaviour
     [Separator] [SerializeField] private List<string> connectorTags;
     [SerializeField] private bool connectToOwnTag = true;
     
-    [Separator] [SerializeField] private float rayLength = 1f;
-    
     private readonly Vector2[] directions = { Vector2.up, Vector2.down, Vector2.left, Vector2.right, };
     
     [HideInInspector] public bool UpdateOnStart = true;
@@ -86,7 +84,10 @@ public class FieldOutline : MonoBehaviour
         
         ClearLineInDirection(dir);
         
-        if (!IsConnectorInDirection(dir, updateNeighbor, true)) DrawLine(dir);
+        if (!IsConnectorInDirection(dir, updateNeighbor, true))
+        {
+            DrawLine(dir);
+        }
         
         OnUpdateOutline.Invoke();
     }
@@ -140,17 +141,19 @@ public class FieldOutline : MonoBehaviour
     
     private bool IsConnectorInDirection(Vector2 direction, bool updateNeighbor = false, bool drawRay = false)
     {
-        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, rayLength);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, 1);
         
         if (drawRay && Dbg.Instance.DrawRays) Debug.DrawRay(transform.position, direction, Color.red, 20);
         
         foreach (RaycastHit2D r in hits)
         {
-            if (!connectorTags.Contains(r.collider.tag)) continue;
+            if (updateNeighbor && r.transform.TryGetComponent(out FieldOutline outlineNeighbor))
+            {
+                outlineNeighbor.UpdateOutline();
+            }
             
-            if (!IManager.IsInSheet(r.collider, sheet)) continue;
-            
-            if (updateNeighbor && r.collider.TryGetComponent(out FieldOutline outlineNeighbor)) outlineNeighbor.UpdateOutline();
+            if (!connectorTags.Contains(r.collider.tag)
+                || !IManager.IsInSheet(r.collider, sheet)) continue;
             
             return true;
         }

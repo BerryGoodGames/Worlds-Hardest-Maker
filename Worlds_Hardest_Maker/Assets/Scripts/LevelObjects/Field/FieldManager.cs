@@ -218,7 +218,12 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
         Physics2D.RaycastNonAlloc(origin, rayDirection, hits, length);
         foreach (RaycastHit2D hit in hits)
         {
-            if (hit.transform.TryGetComponent(out FieldOutline foComp)) foComp.UpdateOutline(neighborDirection, true);
+            if (hit.collider == null) continue;
+            
+            if (hit.transform.TryGetComponent(out FieldOutline foComp))
+            {
+                foComp.UpdateOutline(neighborDirection, true);
+            }
         }
     }
     
