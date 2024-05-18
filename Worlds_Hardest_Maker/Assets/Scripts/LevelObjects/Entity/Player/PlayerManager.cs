@@ -82,12 +82,19 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
         return levelData;
     }
     
-    public bool CanPlace(Vector2 position) =>
-        // conditions: no player there, position is covered with possible start fields
-        !IsThere(position) &&
-        FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(
+    public bool CanPlace(Vector2 position)
+    {
+        print(IsThere(position));
+        print(FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(
             position, PlaceManager.GetCurrentSheet(), EditModeManager.Instance.AllPlayerStartFieldModes.ToArray()
-        );
+        ));
+        
+        // conditions: no player there, position is covered with possible start fields
+        return !IsThere(position) &&
+               FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(
+                   position, PlaceManager.GetCurrentSheet(), EditModeManager.Instance.AllPlayerStartFieldModes.ToArray()
+               );
+    }
     
     public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>
         // conditions: no player there, position is covered with possible start fields

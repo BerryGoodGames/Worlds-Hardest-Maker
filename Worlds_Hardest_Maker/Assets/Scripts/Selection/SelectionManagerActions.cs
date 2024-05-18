@@ -16,10 +16,10 @@ public partial class SelectionManager
         if (poses.Count == 0) return;
         Vector2 lowestPos = poses[0];
         Vector2 highestPos = poses.Last();
-        Vector2 castPos = Vector2.Lerp(lowestPos, highestPos, 0.5f);
+        Vector2 castPos = (lowestPos + highestPos) * 0.5f;
         Vector2 castSize = highestPos - lowestPos;
         
-        Collider2D[] hits = Physics2D.OverlapBoxAll(castPos, castSize, 0, 3712);
+        Collider2D[] hits = Physics2D.OverlapBoxAll(castPos, castSize, 0, LayerManager.Instance.Layers.LevelObjectMask);
         
         // DESTROY IT MUHAHAHAHAHAHHAHAHAHAHAHAHAHAHA
         foreach (Collider2D collider in hits)
@@ -36,8 +36,11 @@ public partial class SelectionManager
         
         PlayerController player = PlayerManager.Instance.Player;
         
-        if (player != null && !PlayerManager.Instance.CanPlace(player.transform.position))
+        if (player != null 
+            && !FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(player.transform.position, PlaceManager.GetCurrentSheet(), EditModeManager.Instance.AllPlayerStartFieldModes.ToArray()))
+        {
             PlayerManager.Instance.RemoveAtPos(player.transform.position);
+        }
         
         FieldManager.UpdateOutlinesInArea(false, lowestPos, highestPos);
     }
