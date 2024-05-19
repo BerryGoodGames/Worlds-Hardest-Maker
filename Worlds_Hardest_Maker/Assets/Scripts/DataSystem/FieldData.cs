@@ -7,7 +7,7 @@ using UnityEngine;
 [Serializable]
 public class FieldData : AttachableData
 {
-    public int[] Position;
+    public float[] Position;
     public string FieldMode;
     public int Rotation;
     
@@ -15,9 +15,9 @@ public class FieldData : AttachableData
     {
         Vector2 fieldPosition = field.InitialPosition;
         
-        Position = new int[2];
-        Position[0] = (int)fieldPosition.x;
-        Position[1] = (int)fieldPosition.y;
+        Position = new float[2];
+        Position[0] = fieldPosition.x;
+        Position[1] = fieldPosition.y;
         Rotation = 90 * Mathf.RoundToInt(field.transform.localRotation.eulerAngles.z / 90);
         
         FieldMode = field.FieldMode.ToString();
@@ -40,7 +40,7 @@ public class FieldData : AttachableData
     {
         ManagerParameters args = new()
         {
-            Position = Vector2Int.RoundToInt(pos),
+            Position = pos,
             FieldMode = EditModeManager.GetFieldMode(FieldMode),
             Rotation = Rotation,
         };

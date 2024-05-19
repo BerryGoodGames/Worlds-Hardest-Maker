@@ -215,4 +215,11 @@ public partial class PlayerController : EntityController
     }
     
     public override Data GetData() => new PlayerData(this);
+    
+    public override void OnAnchorMove(Vector2 oldPos, Vector2 newPos)
+    {
+        StartPos = transform.position;
+        
+        if (IsAttached) SheetStartPosOffset = transform.position - Sheet.transform.position;
+    }
 }

@@ -124,4 +124,9 @@ public class CoinController : EntityController, IResettable, ICollectible
     }
     
     public override Data GetData() => new CoinData(this);
+    
+    public override void OnAnchorMove(Vector2 oldPos, Vector2 newPos)
+    {
+        InitialPosition = transform.position;
+    }
 }

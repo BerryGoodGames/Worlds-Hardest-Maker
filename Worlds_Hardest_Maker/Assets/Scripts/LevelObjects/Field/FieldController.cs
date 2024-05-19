@@ -60,7 +60,7 @@ public class FieldController : LevelObjectController
         }
     }
     
-    private void Start()
+    protected virtual void Start()
     {
         IsAttached = TryGetComponent(out AnchorAttachment _);
         InitialPosition = transform.position;
@@ -68,4 +68,9 @@ public class FieldController : LevelObjectController
     
     public override EditMode EditMode => FieldMode;
     public override Data GetData() => new FieldData(this);
+    
+    public override void OnAnchorMove(Vector2 oldPos, Vector2 newPos)
+    {
+        InitialPosition = transform.position;
+    }
 }

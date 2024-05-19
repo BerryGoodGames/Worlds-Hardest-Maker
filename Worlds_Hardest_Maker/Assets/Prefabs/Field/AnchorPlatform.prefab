@@ -76,7 +76,8 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.8784314
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -7633074681480853962, guid: fc74f76601483e34d8343c228304c362, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -107,6 +108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcec58cc1c5d9a840ae0850535bf468c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsAttached: 0
+  FieldMode: {fileID: 0}
+  InitialPosition: {x: 0, y: 0}
   color1: {r: 0.9725491, g: 0.9686275, b: 0.9921569, a: 1}
   color2: {r: 0.87843144, g: 0.8588236, b: 0.9921569, a: 1}
 --- !u!114 &9117034083070398756
@@ -138,6 +142,5 @@ MonoBehaviour:
   weight: 0.05
   connectorTags: []
   connectToOwnTag: 1
-  rayLength: 1
   UpdateOnStart: 1
   LineRenderers: []

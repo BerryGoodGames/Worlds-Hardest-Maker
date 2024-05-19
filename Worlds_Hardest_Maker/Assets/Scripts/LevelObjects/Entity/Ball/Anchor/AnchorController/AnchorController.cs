@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core;
@@ -75,7 +76,19 @@ public partial class AnchorController : EntityController, IResettable
         base.Start();
         
         // update when moved by user
-        entityDragDrop.OnMove += (_, _) => MoveAnchor();
+        entityDragDrop.OnMove += (oldPos, newPos) =>
+        {
+            MoveAnchor();
+            StartCoroutine(Delayed());
+            return;
+            
+            IEnumerator Delayed()
+            {
+                yield return new WaitForEndOfFrame();
+                
+                Attachments.ForEach(e => e.Controller.OnAnchorMove(oldPos, newPos));
+            }
+        };
         
         if (LevelSessionManager.Instance.IsEdit) UpdateStartValues();
         

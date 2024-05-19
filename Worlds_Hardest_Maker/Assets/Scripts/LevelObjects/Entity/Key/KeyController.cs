@@ -166,4 +166,9 @@ public class KeyController : EntityController, IResettable, ICollectible
     public void FadeOut() => SpriteRenderer.DOFade(0, fadeDuration).SetId(gameObject);
     
     public override Data GetData() => new KeyData(this);
+    
+    public override void OnAnchorMove(Vector2 oldPos, Vector2 newPos)
+    {
+        InitialPosition = transform.position;
+    }
 }

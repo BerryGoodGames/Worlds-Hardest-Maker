@@ -1,14 +1,16 @@
 using MyBox;
 using UnityEngine;
 
-public class AnchorPlatformController : MonoBehaviour
+public class AnchorPlatformController : FieldController
 {
     [SerializeField] [InitializationField] private Color color1;
     [SerializeField] [InitializationField] private Color color2;
     
-    private void Start()
+    protected override void Start()
     {
-        Vector2 matrixPosition = ((Vector2)transform.position).ConvertToMatrix();
+        base.Start();
+        
+        Vector2 matrixPosition = ((Vector2)transform.position).Floor();
         
         Color color = (matrixPosition.x + matrixPosition.y) % 2 == 0 ? color1 : color2;
         

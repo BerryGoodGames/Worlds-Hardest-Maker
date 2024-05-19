@@ -84,7 +84,9 @@ public class AnchorAttachment : MonoBehaviour
         int sortingOrder = Array.IndexOf(LayerManager.Instance.AllSortingLayerIDs, SortingLayerID) * INTERNAL_LAYER_OFFSET
                            + Math.Min(OrderInLayer, INTERNAL_LAYER_OFFSET - 1);
         
-        string sortingLayerName = LayerManager.Instance.SortingLayers.AnchorBelow;
+        string sortingLayerName = AnchorAttachManager.Instance.InAttachMode || !LevelSessionManager.Instance.IsEdit
+            ? LayerManager.Instance.SortingLayers.AnchorAbove
+            : LayerManager.Instance.SortingLayers.AnchorBelow;
         
         AnchorAttachable.MainSprite.sortingOrder = sortingOrder;
         AnchorAttachable.MainSprite.sortingLayerName = sortingLayerName;
@@ -112,9 +114,7 @@ public class AnchorAttachment : MonoBehaviour
                 line =>
                 {
                     line.sortingOrder = sortingOrder;
-                    line.sortingLayerName = AnchorAttachManager.Instance.InAttachMode || !LevelSessionManager.Instance.IsEdit
-                        ? LayerManager.Instance.SortingLayers.AnchorAbove
-                        : LayerManager.Instance.SortingLayers.AnchorBelow;
+                    line.sortingLayerName = sortingLayerName;
                 }
             );
     }

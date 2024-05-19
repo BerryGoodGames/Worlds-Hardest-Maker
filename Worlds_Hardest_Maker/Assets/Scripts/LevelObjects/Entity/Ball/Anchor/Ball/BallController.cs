@@ -57,4 +57,10 @@ public class BallController : EntityController
         // unsubscribe
         if (LevelSessionManager.Instance.IsEdit) PlayManager.Instance.OnSwitchToEdit -= ResetPosition;
     }
+    
+    public override void OnAnchorMove(Vector2 oldPos, Vector2 newPos)
+    {
+        StartLocalPosition = transform.parent.localPosition;
+        StartWorldPosition = transform.parent.position;
+    }
 }

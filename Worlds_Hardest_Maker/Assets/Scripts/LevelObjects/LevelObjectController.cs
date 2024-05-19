@@ -9,6 +9,8 @@ public abstract class LevelObjectController : MonoBehaviour
     
     public abstract Data GetData();
     
+    public virtual void OnAnchorMove(Vector2 oldPos, Vector2 newPos) { }
+    
     public virtual void Delete()
     {
         AudioManager.Instance.Play(PlaceManager.Instance.GetSfx(EditModeManager.Delete));
