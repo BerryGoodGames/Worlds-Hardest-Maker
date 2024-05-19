@@ -48,7 +48,7 @@ public class FieldData : AttachableData
         ((IManager<FieldController>)FieldManager.Instance).Set(args);
     }
     
-    public override EditMode GetEditMode() => (EditMode)Enum.Parse(typeof(EditMode), FieldMode);
+    public override EditMode GetEditMode() => EditModeManager.GetFieldMode(FieldMode);
     
     public override bool Equals(Data d)
     {

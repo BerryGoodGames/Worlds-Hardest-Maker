@@ -27,6 +27,7 @@ MonoBehaviour:
   ShowFillPreview: 1
   DefaultAvailable: 0
   AnchorAvailable: 1
+  Copyable: 0
   HasOutline: 0
   IsRotatable: 0
   IsSolid: 0

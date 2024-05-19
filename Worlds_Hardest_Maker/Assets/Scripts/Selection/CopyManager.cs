@@ -16,6 +16,8 @@ public class CopyManager : MonoBehaviour
     
     public void Copy(Vector2 lowestPos, Vector2 highestPos)
     {
+        print("Calling");
+        
         if (AnchorAttachManager.Instance.InAttachMode)
         {
             Debug.Log("Cannot copy in attach mode");
@@ -30,11 +32,15 @@ public class CopyManager : MonoBehaviour
         Vector2 selectionCenter = (lowestPos + highestPos) * .5f;
         Vector2 selectionSize = highestPos - lowestPos + Vector2.one * .5f;
         
-        Collider2D[] hits = Physics2D.OverlapBoxAll(selectionCenter, selectionSize, 0, 3200); // get objects
+        Collider2D[] hits = Physics2D.OverlapBoxAll(selectionCenter, selectionSize, 0, LayerManager.Instance.Layers.LevelObjectMask); // get objects
         
         List<Vector2> points = HitsToPoints(hits);
         
-        if (points.Count == 0) return;
+        if (points.Count == 0)
+        {
+            print("Nothing found to copy");
+            return;
+        }
         
         (Vector2 lowest, Vector2 highest) = SelectionManager.GetBoundsMatrix(points);
         
@@ -45,14 +51,19 @@ public class CopyManager : MonoBehaviour
         {
             if (hit == null) continue;
             
-            // try to get controllers and save the object in clipboard
-            if (!hit.TryGetComponent(out EntityController controller)) continue;
-            if (controller is BallController { IsParentAnchorNull: false, }) continue;
-            if (!IManager.IsInSheet(controller, null)) continue;
+            if (!hit.TryGetComponent(out LevelObjectController levelObjectController))
+            {
+                Debug.LogWarning($"Could not find level object controller on hit while copying: {hit.name}");
+                continue;
+            }
             
-            Data data = controller.GetData();
+            if (!levelObjectController.EditMode.Copyable) continue;
+            if (levelObjectController.EditMode.Attributes.IsEntity && levelObjectController is BallController { IsParentAnchorNull: false, }) continue;
+            if (!IManager.IsInSheet(levelObjectController, null)) continue;
             
-            Vector2 pos = controller.transform.position;
+            Data data = levelObjectController.GetData();
+            
+            Vector2 pos = levelObjectController.transform.position;
             Vector2 relativePos = pos - castCenter;
             
             CopyData copyData = new(data, relativePos);
@@ -68,12 +79,7 @@ public class CopyManager : MonoBehaviour
         {
             if (hit == null) continue;
             
-            // try to get controllers and save the object in clipboard
-            if (!hit.TryGetComponent(out EntityController controller)) continue;
-            
-            if (!IManager.IsInSheet(controller, PlaceManager.GetCurrentSheet())) continue;
-            
-            points.Add(controller.transform.position);
+            points.Add(hit.transform.position);
         }
         
         return points;
