@@ -1,3 +1,4 @@
+using System;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class RoomOutlineGenerator : MonoBehaviour
     [SerializeField] [InitializationField] [Required] private Camera cam;
     
     private Vector2 prevPosition;
+    
+    private bool hasInitiallyCalculated;
     
     private static bool EnabledInSettings => SettingsManager.Instance.ShowRoomGrid;
     
@@ -61,6 +64,8 @@ public class RoomOutlineGenerator : MonoBehaviour
                 outline.SetDimensions(LevelSettings.Instance.RoomWidth, LevelSettings.Instance.RoomHeight);
             }
         }
+        
+        hasInitiallyCalculated = true;
     }
     
     public void CalcSize() => CalcSize(map.ZoomLimits.Max);
@@ -76,15 +81,25 @@ public class RoomOutlineGenerator : MonoBehaviour
     {
         if (!EnabledInSettings) return;
         
-        gameObject.SetActive(true);
+        SetActive(true);
     }
     
-    private void Disable() => gameObject.SetActive(false);
+    private void Disable() => SetActive(false);
     
     public void SetEnabledSetting(bool enabled)
     {
         if (!LevelSessionManager.Instance.IsEdit) return;
         
-        gameObject.SetActive(enabled && !(LevelSessionEditManager.Instance.Playing && LevelSessionEditManager.Instance.InPlaytest));
+        SetActive(enabled && !(LevelSessionEditManager.Instance.Playing && LevelSessionEditManager.Instance.InPlaytest));
+    }
+    
+    private void SetActive(bool active)
+    {
+        gameObject.SetActive(active);
+    }
+    
+    private void OnEnable()
+    {
+        if (!hasInitiallyCalculated) CalcSize();
     }
 }
