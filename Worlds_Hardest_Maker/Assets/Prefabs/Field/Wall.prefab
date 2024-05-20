@@ -62,19 +62,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Size.x
-      value: 0.97
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Size.y
-      value: 0.97
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 6200000, guid: 88face5bfde0aba43a3bbd9678a95eab, type: 2}
     - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: m_Offset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_IsTrigger
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
+      propertyPath: m_EdgeRadius
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Name
@@ -113,7 +125,7 @@ PrefabInstance:
       value: 0.7137255
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 6217730708425805913, guid: fc74f76601483e34d8343c228304c362, type: 3}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -146,7 +158,6 @@ MonoBehaviour:
   weight: 0.1
   connectorTags: []
   connectToOwnTag: 1
-  rayLength: 1
   UpdateOnStart: 1
   LineRenderers: []
 --- !u!114 &4904720906306939237
