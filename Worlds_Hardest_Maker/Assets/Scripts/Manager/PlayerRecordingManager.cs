@@ -55,11 +55,10 @@ public class PlayerRecordingManager : MonoBehaviour
         // when in play mode, display path recording when player wins
         PlayerManager.Instance.OnWin += () =>
         {
-            if (!LevelSessionManager.Instance.IsEdit)
-            {
-                recordingPathContainer.gameObject.SetActive(true);
-                RenderPathRecording();
-            }
+            if (LevelSessionManager.Instance.IsEdit) return;
+            
+            recordingPathContainer.gameObject.SetActive(true);
+            RenderPathRecording();
         };
         
         return;
@@ -164,7 +163,7 @@ public class PlayerRecordingManager : MonoBehaviour
                     // display player sprite
                     float playerTrailIndex = (i - (recordedPositions.Count - (float)(spriteAmount * spriteFrequency))) / spriteFrequency + 1;
                     
-                    if (!(playerTrailIndex > 0) || (recordedPositions.Count - 1 - i) % spriteFrequency != 0) return;
+                    if (playerTrailIndex <= 0 || (recordedPositions.Count - 1 - i) % spriteFrequency != 0) return;
                     
                     SpriteRenderer playerTrail = Instantiate(
                         playerSprite, recordedPositions[i].Position, Quaternion.identity, recordingSpriteContainer
@@ -206,11 +205,7 @@ public class PlayerRecordingManager : MonoBehaviour
                         
                         if (minDeathColorValue < 1)
                         {
-                            value = lineRenderer.startColor.GetHSV().z;
-                            
-                            value += valueShift;
-                            value %= 1 - minDeathColorValue;
-                            value += minDeathColorValue;
+                            value = (lineRenderer.startColor.GetHSV().z + valueShift) % (1 - minDeathColorValue) + minDeathColorValue;
                         }
                         
                         Color newColor = Color.red.SetValue(value);
@@ -219,7 +214,6 @@ public class PlayerRecordingManager : MonoBehaviour
                         
                         BeginNewLine();
                         
-                        
                         lineRenderer.startColor = newColor;
                         lineRenderer.endColor = newColor;
                         
@@ -227,13 +221,12 @@ public class PlayerRecordingManager : MonoBehaviour
                     }
                     
                     // change color to green when successful run starts
-                    if (recordedPositions[i].StartSuccessfulLine && !recordedPositions[i].CheckpointHit)
-                    {
-                        BeginNewLine();
-                        
-                        lineRenderer.startColor = successColor;
-                        lineRenderer.endColor = successColor;
-                    }
+                    if (!recordedPositions[i].StartSuccessfulLine || recordedPositions[i].CheckpointHit) return;
+                    
+                    BeginNewLine();
+                    
+                    lineRenderer.startColor = successColor;
+                    lineRenderer.endColor = successColor;
                 }
             )
         );
