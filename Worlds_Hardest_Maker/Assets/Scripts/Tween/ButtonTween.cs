@@ -42,9 +42,9 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         {
             // add shake
             Sequence shakeSeq = DOTween.Sequence();
-            shakeSeq.Append(content.DORotate(new(0, 0, shake1), singleShakeDuration))
-                .Append(content.DORotate(new(0, 0, -shake2), singleShakeDuration))
-                .Append(content.DORotate(new(0, 0, 0), singleShakeDuration))
+            shakeSeq.Append(content.DORotate(Vector3.forward * shake1, singleShakeDuration))
+                .Append(content.DORotate(Vector3.back * shake2, singleShakeDuration))
+                .Append(content.DORotate(Vector3.zero, singleShakeDuration))
                 .SetId(gameObject);
         }
         

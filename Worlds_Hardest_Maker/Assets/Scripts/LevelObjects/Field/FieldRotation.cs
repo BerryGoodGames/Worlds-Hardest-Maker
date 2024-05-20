@@ -1,4 +1,4 @@
-using System.Collections;
+using DG.Tweening;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
@@ -6,46 +6,35 @@ using UnityEngine.EventSystems;
 
 public class FieldRotation : MonoBehaviour
 {
-    // hippety hoppety
-    public float Duration;
-    public Vector3 RotateAngle = new(0, 0, -90);
-    private bool rotating;
+    [SerializeField] [PositiveValueOnly] private float duration;
+    [SerializeField] private Vector3 rotateAngle = new(0, 0, -90);
+    [SerializeField] private float animationScale = 1.2f;
     [SerializeField] private bool disableCollision;
     [SerializeField] [ConditionalField(nameof(disableCollision))] [Required] private BoxCollider2D boxCollider;
     
     private FieldController controller;
     
-    private static readonly int rotateString = Animator.StringToHash("Rotate");
+    private Sequence scaleSequence;
     
-    private IEnumerator Rotate(Vector3 angles, float d)
+    private void Rotate()
     {
-        rotating = true;
-        Quaternion startRotation = transform.rotation;
-        Quaternion endRotation = Quaternion.Euler(angles) * startRotation;
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         
-        for (float t = 0; t < d; t += Time.deltaTime)
-        {
-            transform.rotation = Quaternion.Lerp(startRotation, endRotation, t / d);
-            yield return null;
-        }
+        if (disableCollision) boxCollider.enabled = false;
         
-        transform.rotation = endRotation;
-        rotating = false;
+        transform.DOComplete();
+        scaleSequence?.Complete();
         
-        if (disableCollision) boxCollider.isTrigger = false;
-    }
-    
-    
-    public void StartRotation()
-    {
-        if (rotating || EventSystem.current.IsPointerOverGameObject()) return;
+        transform.DORotate(rotateAngle, duration)
+            .SetRelative()
+            .SetEase(Ease.OutQuart)
+            .OnComplete(() => { if (disableCollision) boxCollider.enabled = true; });
         
-        if (disableCollision) boxCollider.isTrigger = true;
+        Vector3 originalScale = transform.localScale;
         
-        Animator anim = GetComponent<Animator>();
-        anim.SetTrigger(rotateString);
-        
-        StartCoroutine(Rotate(RotateAngle, Duration));
+        scaleSequence = DOTween.Sequence();
+        scaleSequence.Append(transform.DOScale(Vector3.one * animationScale, duration / 2).SetEase(Ease.OutCubic))
+            .Append(transform.DOScale(originalScale, duration / 2).SetEase(Ease.InCubic));
     }
     
     private void OnMouseUpAsButton()
@@ -54,7 +43,7 @@ public class FieldRotation : MonoBehaviour
         
         if (LevelSessionEditManager.Instance.CurrentEditMode != controller.FieldMode) return;
         
-        StartRotation();
+        Rotate();
     }
     
     private void Awake() => controller = GetComponent<FieldController>();

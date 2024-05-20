@@ -62,11 +62,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1.007752
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1.007752
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
       propertyPath: m_Name
@@ -121,6 +121,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5773534488034781539}
   m_SourcePrefab: {fileID: 100100000, guid: fc74f76601483e34d8343c228304c362, type: 3}
+--- !u!61 &260908591309918334 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 5920690181114751317, guid: fc74f76601483e34d8343c228304c362, type: 3}
+  m_PrefabInstance: {fileID: 5887447859071875371}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4128830541207341781 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
@@ -187,10 +192,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efd9520a54fa14645a6f1d37683a62f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Duration: 0.2
-  RotateAngle: {x: 0, y: 0, z: -90}
+  duration: 0.2
+  rotateAngle: {x: 0, y: 0, z: -90}
+  animationScale: 1.2
   disableCollision: 0
-  boxCollider: {fileID: 0}
+  boxCollider: {fileID: 260908591309918334}
 --- !u!114 &5773534488034781539
 MonoBehaviour:
   m_ObjectHideFlags: 0

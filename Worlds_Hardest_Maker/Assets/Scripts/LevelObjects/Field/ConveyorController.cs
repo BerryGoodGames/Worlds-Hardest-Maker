@@ -10,8 +10,6 @@ public class ConveyorController : MonoBehaviour
     
     public float Rotation => transform.rotation.eulerAngles.z;
     
-    public void Rotate() => rotationController.StartRotation();
-    
     private void Start()
     {
         rotationController = GetComponent<FieldRotation>();

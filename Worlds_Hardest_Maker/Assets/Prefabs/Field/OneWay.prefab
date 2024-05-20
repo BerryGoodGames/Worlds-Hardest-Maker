@@ -89,7 +89,7 @@ PlatformEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 512
   m_RotationalOffset: 0
   m_UseOneWay: 1
   m_UseOneWayGrouping: 1
@@ -195,9 +195,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8001846666386192132}
-    - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
-      insertIndex: -1
       addedObject: {fileID: -3886967381602947206}
     - targetCorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
       insertIndex: -1
@@ -211,27 +208,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7564049711476143102, guid: fc74f76601483e34d8343c228304c362, type: 3}
   m_PrefabInstance: {fileID: 7533510249162737050}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &8001846666386192132
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 32792430628730468}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: af3ad3e307edc68409b972e826ba13a7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &-3886967381602947206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,9 +220,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efd9520a54fa14645a6f1d37683a62f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Duration: 0.2
-  RotateAngle: {x: 0, y: 0, z: -90}
-  disableCollision: 1
+  duration: 0.2
+  rotateAngle: {x: 0, y: 0, z: -90}
+  animationScale: 1.2
+  disableCollision: 0
   boxCollider: {fileID: 4226315928710737103}
 --- !u!114 &-3016554834474145244
 MonoBehaviour:
