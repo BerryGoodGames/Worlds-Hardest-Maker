@@ -48,8 +48,6 @@ public partial class PlayerController : EntityController
     
     public static float Speed => LevelSettings.Instance.PlayerSpeed;
     
-    // [ReadOnly] [CanBeNull] public AnchorController Sheet;
-    
     [MyBox.ReadOnly] public List<FieldController> CurrentPlatforms;
     
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");

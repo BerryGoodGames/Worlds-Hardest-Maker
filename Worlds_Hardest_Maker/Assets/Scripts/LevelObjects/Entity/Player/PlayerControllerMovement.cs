@@ -18,7 +18,15 @@ public partial class PlayerController
         
         if (IsOnMode(EditModeManager.Conveyor)) AddConveyorMovement(ref totalMovement);
         
-        if (totalMovement != Vector2.zero && !InDeathAnim) transform.position += (Vector3)totalMovement;
+        if (totalMovement != Vector2.zero && !InDeathAnim)
+        {
+            if (IsStandingOnPlatform) transform.position += (Vector3)totalMovement;
+            else Rb.MovePosition(Rb.position + totalMovement);
+            // print(totalMovement);
+            // transform.position += (Vector3)totalMovement;
+            // Rb.position += totalMovement;
+            // Rb.MovePosition(Rb.position + totalMovement);
+        }
     }
     
     private void UpdateWaterState()

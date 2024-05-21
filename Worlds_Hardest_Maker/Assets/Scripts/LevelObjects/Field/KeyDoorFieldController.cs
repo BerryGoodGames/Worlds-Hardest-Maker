@@ -6,13 +6,13 @@ using UnityEngine;
 public class KeyDoorFieldController : MonoBehaviour, IResettable
 {
     [SerializeField] [InitializationField] [Required] private Animator animator;
-    [SerializeField] [InitializationField] [Required] private BoxCollider2D boxCollider;
+    [SerializeField] [InitializationField] [Required] private Collider2D keyDoorCollider;
     [SerializeField] [InitializationField] [Required] private SpriteRenderer spriteRenderer;
     [SerializeField] [InitializationField] [Required] private FieldOutline fieldOutline;
     [SerializeField] [InitializationField] [PositiveValueOnly] private float fadeDuration;
     
     [Separator] [MyBox.ReadOnly] public bool Unlocked;
-    [MyBox.ReadOnly] public KeyColor Color;
+    public KeyColor Color;
     
     private static readonly int unlockedString = Animator.StringToHash("Unlocked");
     
@@ -20,7 +20,7 @@ public class KeyDoorFieldController : MonoBehaviour, IResettable
     {
         Unlocked = !locked;
         
-        boxCollider.enabled = locked;
+        keyDoorCollider.enabled = locked;
         
         animator.SetBool(unlockedString, !locked);
     }

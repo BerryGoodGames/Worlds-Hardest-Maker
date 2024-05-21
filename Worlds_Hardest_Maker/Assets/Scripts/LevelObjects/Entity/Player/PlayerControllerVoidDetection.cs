@@ -28,7 +28,7 @@ public partial class PlayerController
     private bool CheckVoidDetection() =>
         LevelSessionEditManager.Instance.Editing
         || InDeathAnim
-        || CurrentPlatforms.Count > 0
+        || IsStandingOnPlatform
         || !IsCollidingWithVoid(transform.position);
     
     private static bool[][] InitGroundedMatrix()

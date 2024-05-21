@@ -21,12 +21,13 @@ MonoBehaviour:
   Tag: BlueKeyDoor
   UIString: Blue Key Door
   KeyboardShortcut: 
-  Prefab: {fileID: 6303020789245932182, guid: 87b327e9081a0fa41b6ba04562a6734b, type: 3}
+  Prefab: {fileID: 4693519352787020234, guid: e81a62e791b550b41a71f5512438700e, type: 3}
   WorldPositionType: 2
   IsDraggable: 1
   ShowFillPreview: 1
   DefaultAvailable: 1
   AnchorAvailable: 1
+  Copyable: 1
   HasOutline: 1
   IsRotatable: 0
   IsSolid: 1
