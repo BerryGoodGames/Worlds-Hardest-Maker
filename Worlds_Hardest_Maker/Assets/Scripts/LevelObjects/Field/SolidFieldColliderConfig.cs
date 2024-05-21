@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
@@ -6,13 +5,11 @@ using UnityEngine;
 public class SolidFieldColliderConfig : MonoBehaviour
 {
     [SerializeField] [Required] private PolygonCollider2D polygonCollider;
-    [Space]
-    [SerializeField] [PositiveValueOnly] private float size;
+    [Space] [SerializeField] [PositiveValueOnly] private float size;
     [SerializeField] [PositiveValueOnly] private float cornerCut;
     
     [ButtonMethod]
-    public void Apply()
-    {
+    public void Apply() =>
         polygonCollider.points = new Vector2[]
         {
             new(-size / 2, size / 2 - cornerCut),
@@ -24,5 +21,4 @@ public class SolidFieldColliderConfig : MonoBehaviour
             new(size / 2 - cornerCut, size / 2),
             new(-size / 2 + cornerCut, size / 2),
         };
-    }
 }

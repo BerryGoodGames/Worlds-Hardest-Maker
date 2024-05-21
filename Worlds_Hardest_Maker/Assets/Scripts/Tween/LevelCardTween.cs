@@ -7,8 +7,11 @@ using UnityEngine.UI;
 
 public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] [InitializationField] [
-        Required] private RectTransform levelCard;
+    [SerializeField]
+    [InitializationField]
+    [
+        Required]
+    private RectTransform levelCard;
     
     [SerializeField] [InitializationField] [Required] private RectTransform card;
     

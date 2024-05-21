@@ -13,16 +13,13 @@ public partial class PlayerController
         
         for (int y = 0; y < 3; y++)
         {
-            for (int x = 0; x < 3; x++) { ParseMatrixPosition(x, y, ref groundedMatrix, ref fallPositions); }
+            for (int x = 0; x < 3; x++) ParseMatrixPosition(x, y, ref groundedMatrix, ref fallPositions);
         }
         
         bool compensatingCorners = (groundedMatrix[0][0] && groundedMatrix[2][2]) || (groundedMatrix[2][0] && groundedMatrix[0][2]);
         bool compensatingEdges = (groundedMatrix[0][1] && groundedMatrix[2][1]) || (groundedMatrix[1][0] && groundedMatrix[1][2]);
         
-        if (!compensatingEdges && !compensatingCorners)
-        {
-            DieVoid(FindClosestFallPosition(fallPositions));
-        }
+        if (!compensatingEdges && !compensatingCorners) DieVoid(FindClosestFallPosition(fallPositions));
     }
     
     private bool CheckVoidDetection() =>
@@ -34,7 +31,7 @@ public partial class PlayerController
     private static bool[][] InitGroundedMatrix()
     {
         bool[][] result = new bool[3][];
-        for (int i = 0; i < 3; i++) { result[i] = new bool[3]; }
+        for (int i = 0; i < 3; i++) result[i] = new bool[3];
         
         return result;
     }

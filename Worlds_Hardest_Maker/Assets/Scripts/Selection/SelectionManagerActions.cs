@@ -36,11 +36,10 @@ public partial class SelectionManager
         
         PlayerController player = PlayerManager.Instance.Player;
         
-        if (player != null 
-            && !FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(player.transform.position, PlaceManager.GetCurrentSheet(), EditModeManager.Instance.AllPlayerStartFieldModes.ToArray()))
-        {
-            PlayerManager.Instance.RemoveAtPos(player.transform.position);
-        }
+        if (player != null
+            && !FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(
+                player.transform.position, PlaceManager.GetCurrentSheet(), EditModeManager.Instance.AllPlayerStartFieldModes.ToArray()
+            )) PlayerManager.Instance.RemoveAtPos(player.transform.position);
         
         FieldManager.UpdateOutlinesInArea(false, lowestPos, highestPos);
     }

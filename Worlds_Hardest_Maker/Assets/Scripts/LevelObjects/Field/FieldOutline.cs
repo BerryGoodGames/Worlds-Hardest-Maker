@@ -84,10 +84,7 @@ public class FieldOutline : MonoBehaviour
         
         ClearLineInDirection(dir);
         
-        if (!IsConnectorInDirection(dir, updateNeighbor, true))
-        {
-            DrawLine(dir);
-        }
+        if (!IsConnectorInDirection(dir, updateNeighbor, true)) DrawLine(dir);
         
         OnUpdateOutline.Invoke();
     }
@@ -147,10 +144,7 @@ public class FieldOutline : MonoBehaviour
         
         foreach (RaycastHit2D r in hits)
         {
-            if (updateNeighbor && r.transform.TryGetComponent(out FieldOutline outlineNeighbor))
-            {
-                outlineNeighbor.UpdateOutline();
-            }
+            if (updateNeighbor && r.transform.TryGetComponent(out FieldOutline outlineNeighbor)) outlineNeighbor.UpdateOutline();
             
             if (!connectorTags.Contains(r.collider.tag)
                 || !IManager.IsInSheet(r.collider, sheet)) continue;

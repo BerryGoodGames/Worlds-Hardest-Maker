@@ -69,8 +69,5 @@ public class FieldController : LevelObjectController
     public override EditMode EditMode => FieldMode;
     public override Data GetData() => new FieldData(this);
     
-    public override void OnAnchorMove(Vector2 oldPos, Vector2 newPos)
-    {
-        InitialPosition = transform.position;
-    }
+    public override void OnAnchorMove(Vector2 oldPos, Vector2 newPos) => InitialPosition = transform.position;
 }

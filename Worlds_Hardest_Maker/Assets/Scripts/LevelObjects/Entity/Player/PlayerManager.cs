@@ -85,9 +85,11 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     public bool CanPlace(Vector2 position)
     {
         print(IsThere(position));
-        print(FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(
-            position, PlaceManager.GetCurrentSheet(), EditModeManager.Instance.AllPlayerStartFieldModes.ToArray()
-        ));
+        print(
+            FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(
+                position, PlaceManager.GetCurrentSheet(), EditModeManager.Instance.AllPlayerStartFieldModes.ToArray()
+            )
+        );
         
         // conditions: no player there, position is covered with possible start fields
         return !IsThere(position) &&

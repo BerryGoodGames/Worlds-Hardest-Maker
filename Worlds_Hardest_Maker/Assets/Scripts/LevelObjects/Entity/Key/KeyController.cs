@@ -167,8 +167,5 @@ public class KeyController : EntityController, IResettable, ICollectible
     
     public override Data GetData() => new KeyData(this);
     
-    public override void OnAnchorMove(Vector2 oldPos, Vector2 newPos)
-    {
-        InitialPosition = transform.position;
-    }
+    public override void OnAnchorMove(Vector2 oldPos, Vector2 newPos) => InitialPosition = transform.position;
 }

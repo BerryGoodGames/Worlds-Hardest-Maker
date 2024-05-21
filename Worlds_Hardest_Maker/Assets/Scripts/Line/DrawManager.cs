@@ -28,8 +28,8 @@ public class DrawManager : MonoBehaviour
     ///     Generates object containing a LineRenderer forming a rectangle
     /// </summary>
     public static LineRenderer DrawRect(
-        float x, float y, 
-        float width, float height, 
+        float x, float y,
+        float width, float height,
         bool alignCenter = false,
         Transform parent = null
     )

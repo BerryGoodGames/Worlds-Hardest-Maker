@@ -32,8 +32,8 @@ public partial class SelectionManager : MonoBehaviour
         if (!LevelSessionManager.Instance.IsEdit
             || AnchorAttachManager.Instance.InAttachMode) return;
         
-        if (KeyBinds.GetKeyBind("Editor_Select") 
-            && !LevelSessionEditManager.Instance.Playing 
+        if (KeyBinds.GetKeyBind("Editor_Select")
+            && !LevelSessionEditManager.Instance.Playing
             && !EventSystem.current.IsPointerOverGameObject()) Selecting = true;
         
         // update selection markings

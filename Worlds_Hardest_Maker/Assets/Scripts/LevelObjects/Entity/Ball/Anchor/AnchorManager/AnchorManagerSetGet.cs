@@ -55,9 +55,8 @@ public partial class AnchorManager : IManager<AnchorController>
     {
         // deselect anchor first, if selected
         if (Instance.SelectedAnchor != null)
-        {
-            if (Instance.SelectedAnchor == anchor) Instance.DeselectAnchor();
-        }
+            if (Instance.SelectedAnchor == anchor)
+                Instance.DeselectAnchor();
         
         BallManager.Instance.BallListSheets.Remove(anchor);
         

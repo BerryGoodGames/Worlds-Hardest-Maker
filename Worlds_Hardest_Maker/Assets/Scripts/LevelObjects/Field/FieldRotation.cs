@@ -28,7 +28,12 @@ public class FieldRotation : MonoBehaviour
         transform.DORotate(rotateAngle, duration)
             .SetRelative()
             .SetEase(Ease.OutQuart)
-            .OnComplete(() => { if (disableCollision) boxCollider.enabled = true; });
+            .OnComplete(
+                () =>
+                {
+                    if (disableCollision) boxCollider.enabled = true;
+                }
+            );
         
         Vector3 originalScale = transform.localScale;
         

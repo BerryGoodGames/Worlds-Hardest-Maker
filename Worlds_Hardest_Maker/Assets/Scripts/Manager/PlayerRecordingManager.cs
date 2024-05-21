@@ -204,9 +204,7 @@ public class PlayerRecordingManager : MonoBehaviour
                         float value = 1;
                         
                         if (minDeathColorValue < 1)
-                        {
                             value = (lineRenderer.startColor.GetHSV().z + valueShift) % (1 - minDeathColorValue) + minDeathColorValue;
-                        }
                         
                         Color newColor = Color.red.SetValue(value);
                         

@@ -58,7 +58,9 @@ public class CopyManager : MonoBehaviour
             }
             
             if (!levelObjectController.EditMode.Copyable) continue;
-            if (levelObjectController.EditMode.Attributes.IsEntity && levelObjectController is BallController { IsParentAnchorNull: false, }) continue;
+            if (levelObjectController.EditMode.Attributes.IsEntity &&
+                levelObjectController is BallController { IsParentAnchorNull: false, }) continue;
+            
             if (!IManager.IsInSheet(levelObjectController, null)) continue;
             
             Data data = levelObjectController.GetData();

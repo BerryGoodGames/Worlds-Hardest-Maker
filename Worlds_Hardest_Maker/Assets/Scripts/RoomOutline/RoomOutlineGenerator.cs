@@ -1,4 +1,3 @@
-using System;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
@@ -93,10 +92,7 @@ public class RoomOutlineGenerator : MonoBehaviour
         SetActive(enabled && !(LevelSessionEditManager.Instance.Playing && LevelSessionEditManager.Instance.InPlaytest));
     }
     
-    private void SetActive(bool active)
-    {
-        gameObject.SetActive(active);
-    }
+    private void SetActive(bool active) => gameObject.SetActive(active);
     
     private void OnEnable()
     {
