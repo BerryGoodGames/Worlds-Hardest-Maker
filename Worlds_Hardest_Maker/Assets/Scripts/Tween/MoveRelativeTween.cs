@@ -16,9 +16,9 @@ public class MoveRelativeTween : ChainableTween
     
     private Tween tween;
     
-    public void Move()
+    public Tween Move()
     {
-        if (tween != null && tween.IsPlaying()) return;
+        if (tween != null && tween.IsActive() && tween.IsPlaying()) return null;
         
         if (isRectTransform)
         {
@@ -55,6 +55,8 @@ public class MoveRelativeTween : ChainableTween
         }
         
         StartCoroutine(StartDelay());
+        
+        return tween;
     }
     
     public override void StartChain() => Move();
