@@ -13,6 +13,10 @@ public partial class PlayerController : EntityController
     [Separator("Death settings")] [SerializeField] [PositiveValueOnly] private float defaultDeathFadeDuration;
     [SerializeField] [PositiveValueOnly] private float voidFallDuration;
     
+    [Separator] [SerializeField] [Required] private ParticleSystem confetti1;
+    [SerializeField] [Required] private ParticleSystem confetti2;
+
+    
     [HideInInspector] public Rigidbody2D Rb;
     
     [HideInInspector] public EdgeCollider2D EdgeCollider;
@@ -159,11 +163,32 @@ public partial class PlayerController : EntityController
     public void Win()
     {
         if (InDeathAnim || Won) return;
-        // animation and play mode and that's it really
-        AudioManager.Instance.Play("Win");
+        
+        PlayWinSfx();
+        
         Won = true;
         
         PlayerManager.Instance.InvokeOnWin();
+    }
+    
+    private void PlayWinSfx()
+    {
+        AudioManager.Instance.Play("Win");
+        
+        const int PARTY_HORN_COUNT = 9;
+        string[] partyHorns = new string[PARTY_HORN_COUNT];
+        for (int i = 0; i < PARTY_HORN_COUNT; i++)
+        {
+            partyHorns[i] = $"PartyHorn{i + 1}";
+        }
+        
+        string selectedPartyHorn = partyHorns.GetRandom();
+        AudioManager.Instance.Play(selectedPartyHorn);
+        
+        AudioManager.Instance.Play("PartyPopper");
+        
+        confetti1.Play();
+        confetti2.Play();
     }
     
     public void DestroySelf(bool removeTargetFromCamera = true)
