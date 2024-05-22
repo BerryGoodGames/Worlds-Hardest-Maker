@@ -33,7 +33,7 @@ public class MainMenuManager : MonoBehaviour
         
         isCreditsOpen = !isCreditsOpen;
         
-        creditsTween = (isCreditsOpen ? creditsEnterTween : creditsExitTween).Move();
+        creditsTween = (isCreditsOpen ? creditsEnterTween : creditsExitTween).MoveAndReturn();
         
         if (isCreditsOpen)
         {

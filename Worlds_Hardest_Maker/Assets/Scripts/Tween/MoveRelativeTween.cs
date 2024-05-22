@@ -16,7 +16,9 @@ public class MoveRelativeTween : ChainableTween
     
     private Tween tween;
     
-    public Tween Move()
+    public void Move() => MoveAndReturn();
+    
+    public Tween MoveAndReturn()
     {
         if (tween != null && tween.IsActive() && tween.IsPlaying()) return null;
         
