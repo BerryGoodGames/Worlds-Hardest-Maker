@@ -234,7 +234,7 @@ public partial class PlayerController : EntityController
     {
         CurrentFields.Clear();
         CurrentGameState = null;
-        Deaths = 0;
+        // Deaths = 0;
     }
     
     public override Data GetData() => new PlayerData(this);

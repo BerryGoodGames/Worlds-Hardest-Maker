@@ -37,8 +37,8 @@ public partial class PlayerController
         Death();
     }
     
-    private void DefaultDeathAnim() =>
-        spriteRenderer.DOFade(0, defaultDeathFadeDuration)
+    public void DefaultDeathAnim(float? duration = null) =>
+        spriteRenderer.DOFade(0, duration ?? defaultDeathFadeDuration)
             .SetEase(Ease.Linear)
             .OnComplete(DeathAnimFinish);
     

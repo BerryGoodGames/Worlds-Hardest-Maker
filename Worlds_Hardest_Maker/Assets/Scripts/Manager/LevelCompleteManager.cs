@@ -13,6 +13,8 @@ public class LevelCompleteManager : MonoBehaviour
     [SerializeField] [Required] private TMP_Text pbLabel;
     [SerializeField] [Required] private TMP_Text pbText;
     [SerializeField] [Required] private TMP_Text newPBText;
+    
+    [SerializeField] [Required] private TimerController timerController;
 
     private void Start()
     {
@@ -23,6 +25,9 @@ public class LevelCompleteManager : MonoBehaviour
     {
         if (LevelSessionManager.Instance.IsEdit) return;
         
+        PlayerRecordingManager.Instance.SetSpriteVisible(true);
+        PlayerRecordingManager.Instance.SetPathVisible(true);
+        
         levelCompleteCanvas.gameObject.SetActive(true);
         FillStats();
     }
@@ -31,7 +36,7 @@ public class LevelCompleteManager : MonoBehaviour
     {
         string levelName = LevelSessionManager.IsSessionFromEditor ? "Could not find level name because of no transition" : TransitionManager.Instance.LoadLevelPath;
         uint deathCount = LevelSessionManager.Instance.Deaths;
-        TimeSpan time = LevelSessionManager.Instance.PlayTime;
+        TimeSpan time = LevelSessionManager.Instance.PlayRunTime;
         TimeSpan? personalBest = LevelSessionManager.Instance.BestCompletionTime;
         
         levelNameText.text = levelName;
@@ -46,13 +51,37 @@ public class LevelCompleteManager : MonoBehaviour
         }
         else
         {
+            pbLabel.gameObject.SetActive(true);
+            pbText.gameObject.SetActive(true);
+            newPBText.gameObject.SetActive(false);
             pbText.text = Utils.GetTimerString((TimeSpan)personalBest);
         }
     }
     
+    public void OnPlayAgainClicked()
+    {
+        PlayManager.Instance.RestartLevel();
+        CoinManager.Instance.CollectedCoins.Clear();
+        KeyManager.Instance.CollectedKeys.Clear();
+        
+        if (PlayerManager.Instance.Player)
+        {
+            PlayerManager.Instance.Player.CurrentGameState = null;
+            PlayerManager.Instance.Player.DefaultDeathAnim(0);
+            PlayerManager.Instance.Player.Deaths = 0;
+        }
+        
+        timerController.StartTimer();
+        
+        levelCompleteCanvas.gameObject.SetActive(false);
+        
+        PlayerRecordingManager.Instance.SetSpriteVisible(false);
+        PlayerRecordingManager.Instance.SetPathVisible(false);
+    }
+    
     public void OnReplayClicked()
     {
-        
+        print("Watch replay");
     }
     
     private void OnDestroy()

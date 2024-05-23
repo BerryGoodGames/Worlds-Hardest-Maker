@@ -52,7 +52,7 @@ public partial class PlayerController
         return res;
     }
     
-    private void ResetState()
+    public void ResetState()
     {
         DieNormal();
         CoinManager.Instance.CollectedCoins.Clear();

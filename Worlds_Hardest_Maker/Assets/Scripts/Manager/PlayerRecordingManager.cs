@@ -9,6 +9,8 @@ using UnityEngine;
 
 public class PlayerRecordingManager : MonoBehaviour
 {
+    public static PlayerRecordingManager Instance { get; private set; }
+    
     [Separator("Settings")] [SerializeField] [PositiveValueOnly] private float recordingFrequency = 1;
     [Space] [SerializeField] private bool fixedDisplayDuration;
     [SerializeField] [ConditionalField(nameof(fixedDisplayDuration), true)] private float displaySpeed = 4;
@@ -257,11 +259,13 @@ public class PlayerRecordingManager : MonoBehaviour
     
     #endregion
     
-    public void ToggleSpriteVisibility()
+    public void ToggleSpriteVisibility() => SetSpriteVisible(!recordingSpriteContainer.gameObject.activeSelf);
+    
+    public void SetSpriteVisible(bool visible)
     {
-        recordingSpriteContainer.gameObject.SetActive(!recordingSpriteContainer.gameObject.activeSelf);
+        recordingSpriteContainer.gameObject.SetActive(visible);
         
-        if (recordingSpriteContainer.gameObject.activeSelf) displaySpriteRecording = RenderSpriteRecording();
+        if (visible) displaySpriteRecording = RenderSpriteRecording();
         else
         {
             if (displaySpriteRecording != null) StopCoroutine(displaySpriteRecording);
@@ -269,16 +273,23 @@ public class PlayerRecordingManager : MonoBehaviour
         }
     }
     
-    public void TogglePathVisibility()
+    public void TogglePathVisibility() => SetPathVisible(!recordingPathContainer.gameObject.activeSelf);
+    
+    public void SetPathVisible(bool visible)
     {
-        recordingPathContainer.gameObject.SetActive(!recordingPathContainer.gameObject.activeSelf);
+        recordingPathContainer.gameObject.SetActive(visible);
         
-        if (recordingPathContainer.gameObject.activeSelf) displayPathRecording = RenderPathRecording();
+        if (visible) displayPathRecording = RenderPathRecording();
         else
         {
             if (displayPathRecording != null) StopCoroutine(displayPathRecording);
             recordingPathContainer.DestroyChildren();
         }
+    }
+    
+    private void Awake()
+    {
+        if(Instance == null) Instance = this;
     }
     
     private class Recording

@@ -21,6 +21,7 @@ public class LevelSessionManager : MonoBehaviour
     
     public TimeSpan EditTime = TimeSpan.Zero;
     public TimeSpan PlayTime = TimeSpan.Zero;
+    public TimeSpan PlayRunTime = TimeSpan.Zero;
     [Space] [ReadOnly] [OverrideLabel("Play Session Deaths")] public uint Deaths;
     [ReadOnly] [OverrideLabel("Play Session Completions")] public uint Completions;
     public TimeSpan? BestCompletionTime;
@@ -33,7 +34,11 @@ public class LevelSessionManager : MonoBehaviour
     private void Update()
     {
         if (IsEdit) EditTime += TimeSpan.FromSeconds(Time.deltaTime);
-        else PlayTime += TimeSpan.FromSeconds(Time.deltaTime);
+        else
+        {
+            PlayTime += TimeSpan.FromSeconds(Time.deltaTime);
+            PlayRunTime += TimeSpan.FromSeconds(Time.deltaTime);
+        }
     }
     
     private void Start()

@@ -37,6 +37,7 @@ public class TimerController : MonoBehaviour
     public void ResetTimer()
     {
         TimerSeconds = 0;
+        LevelSessionManager.Instance.PlayRunTime = TimeSpan.Zero;
         Text.text = GetTimerTime();
     }
     
