@@ -37,6 +37,7 @@ public class LevelCreationController : MonoBehaviour
         {
             Info = new()
             {
+                Name = name,
                 Description = description,
                 Creator = creator,
             },

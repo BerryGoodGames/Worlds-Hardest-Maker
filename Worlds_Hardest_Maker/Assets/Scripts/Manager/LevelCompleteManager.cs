@@ -34,7 +34,7 @@ public class LevelCompleteManager : MonoBehaviour
     
     private void FillStats()
     {
-        string levelName = LevelSessionManager.IsSessionFromEditor ? "Could not find level name because of no transition" : TransitionManager.Instance.LoadLevelPath;
+        string levelName = LevelSessionManager.IsSessionFromEditor ? "Could not find level name because of no transition" : LevelSessionManager.Instance.LoadedLevelData.Info.Name;
         uint deathCount = LevelSessionManager.Instance.Deaths;
         TimeSpan time = LevelSessionManager.Instance.PlayRunTime;
         TimeSpan? personalBest = LevelSessionManager.Instance.BestCompletionTime;
@@ -43,7 +43,7 @@ public class LevelCompleteManager : MonoBehaviour
         deathCountText.text = deathCount.ToString();
         timeText.text = Utils.GetTimerString(time);
         
-        if (personalBest == null || (TimeSpan)personalBest > time)
+        if (personalBest == null || (TimeSpan)personalBest >= time)
         {
             pbLabel.gameObject.SetActive(false);
             pbText.gameObject.SetActive(false);

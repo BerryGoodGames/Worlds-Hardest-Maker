@@ -43,6 +43,7 @@ public class LevelModifyController : MonoBehaviour
         File.Move(oldPath, newPath);
         
         LevelData levelData = SaveSystem.LoadLevel(newPath);
+        levelData.Info.Name = newName;
         levelData.Info.Description = newDescription;
         levelData.Info.Creator = newCreator;
         
