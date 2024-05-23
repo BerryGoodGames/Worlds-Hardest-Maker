@@ -199,20 +199,9 @@ public partial class PlayerController : EntityController
         Destroy(gameObject);
     }
     
-    public Vector2Int GetCurrentRoom()
-    {
-        Vector2 position = transform.position;
-        return new(
-            Mathf.RoundToInt(position.x / LevelSettings.Instance.RoomWidth),
-            Mathf.RoundToInt(position.y / LevelSettings.Instance.RoomHeight)
-        );
-    }
+    public Vector2Int GetCurrentRoom() => transform.position.GetRoom();
     
-    public Vector2Int GetStartRoom() =>
-        new(
-            Mathf.RoundToInt(StartPos.x / LevelSettings.Instance.RoomWidth),
-            Mathf.RoundToInt(StartPos.y / LevelSettings.Instance.RoomHeight)
-        );
+    public Vector2Int GetStartRoom() => StartPos.GetRoom();
     
     private void InitComponents()
     {

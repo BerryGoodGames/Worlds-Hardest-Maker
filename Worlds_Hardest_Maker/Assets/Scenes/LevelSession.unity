@@ -2078,11 +2078,11 @@ Transform:
   - {fileID: 1741605977}
   - {fileID: 1054767411}
   - {fileID: 1709400181}
-  - {fileID: 2112649816}
   - {fileID: 483670037}
   - {fileID: 261002466}
   - {fileID: 930056954}
   - {fileID: 1891358465}
+  - {fileID: 2112649816}
   - {fileID: 961560553}
   - {fileID: 591220726}
   - {fileID: 10335410}
@@ -15349,6 +15349,7 @@ MonoBehaviour:
   LevelSessionPath: 
   LoadedLevelData:
     Info:
+      Name: MyLevel
       Description: Default description
       Creator: Default creator name
       Deaths: 0
@@ -29635,7 +29636,7 @@ GameObject:
   - component: {fileID: 2112649816}
   - component: {fileID: 2112649817}
   m_Layer: 0
-  m_Name: _EditModeOther
+  m_Name: _LevelSessionEdit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

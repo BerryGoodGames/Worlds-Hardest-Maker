@@ -23,16 +23,29 @@ public class CameraPlayController : MonoBehaviour
         PlayManager.Instance.OnPlaytest += JumpToStart;
         PlayManager.Instance.OnPlaySceneSetup += JumpToStartInstant;
         PlayManager.Instance.OnLevelReset += JumpToStart;
+        
+        PlayerRecordingManager.Instance.OnPathRenderUpdate += position =>
+        {
+            if (PlayerRecordingManager.Instance.IsReplaying)
+            {
+                TrackPosition(position.GetRoom());
+            }
+        };
     }
     
     private void Update()
     {
-        if (!LevelSessionEditManager.Instance.InPlaytest) return;
+        if (!LevelSessionEditManager.Instance.InPlaytest || PlayerRecordingManager.Instance.IsReplaying) return;
         
         Vector2Int playerRoomPos = PlayerManager.GetCurrentRoom();
-        if (currentRoom.x == playerRoomPos.x && currentRoom.y == playerRoomPos.y) return;
+        TrackPosition(playerRoomPos);
+    }
+    
+    private void TrackPosition(Vector2Int room)
+    {
+        if (currentRoom.x == room.x && currentRoom.y == room.y) return;
         
-        currentRoom = PlayerManager.GetCurrentRoom();
+        currentRoom = room;
         JumpToRoom(currentRoom);
     }
     

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
@@ -19,6 +20,8 @@ public class LevelCompleteManager : MonoBehaviour
     private void Start()
     {
         PlayerManager.Instance.OnWin += OnWin;
+        
+        PlayerRecordingManager.Instance.OnFinishReplay += OnFinishReplay;
     }
     
     private void OnWin()
@@ -77,11 +80,36 @@ public class LevelCompleteManager : MonoBehaviour
         
         PlayerRecordingManager.Instance.SetSpriteVisible(false);
         PlayerRecordingManager.Instance.SetPathVisible(false);
+        
+        PlayerRecordingManager.Instance.StartPlayerRecording();
+        
+        PlayerRecordingManager.Instance.IsReplaying = false;
     }
     
     public void OnReplayClicked()
     {
-        print("Watch replay");
+        PlayerRecordingManager.Instance.IsReplaying = true;
+        
+        levelCompleteCanvas.gameObject.SetActive(false);
+        
+        PlayerRecordingManager.Instance.SetSpriteVisible(false);
+        PlayerRecordingManager.Instance.SetPathVisible(true);
+    }
+    
+    private void OnFinishReplay()
+    {
+        StartCoroutine(Wait(0.7f));
+        
+        return;
+        
+        IEnumerator Wait(float duration)
+        {
+            yield return new WaitForSeconds(duration);
+            
+            levelCompleteCanvas.gameObject.SetActive(true);
+            
+            PlayerRecordingManager.Instance.IsReplaying = false;
+        }
     }
     
     private void OnDestroy()

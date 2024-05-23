@@ -32,6 +32,11 @@ public class PlayerRecordingManager : MonoBehaviour
     [SerializeField] [InitializationField] [Required] private LineRenderer recordingLinePrefab;
     [SerializeField] [InitializationField] [Required] private GameObject recordingDeathPrefab;
     
+    public event Action<Vector2> OnPathRenderUpdate = _ => { };
+    public event Action OnFinishReplay = () => { };
+    
+    [HideInInspector] public bool IsReplaying;
+    
     private LineRenderer lineRenderer;
     private Color lineColor;
     private const float valueShift = 0.3090169945f;
@@ -53,15 +58,6 @@ public class PlayerRecordingManager : MonoBehaviour
         
         // on edit: stop recording, render path & sprites
         PlayManager.Instance.OnSwitchToEdit += RenderRecording;
-        
-        // when in play mode, display path recording when player wins
-        PlayerManager.Instance.OnWin += () =>
-        {
-            if (LevelSessionManager.Instance.IsEdit) return;
-            
-            recordingPathContainer.gameObject.SetActive(true);
-            RenderPathRecording();
-        };
         
         return;
         
@@ -107,11 +103,19 @@ public class PlayerRecordingManager : MonoBehaviour
         if (recordingPathContainer.gameObject.activeSelf) displayPathRecording = RenderPathRecording();
     }
     
-    private IEnumerator RecordPlayer()
+    public void StartPlayerRecording()
     {
-        PlayerController player = PlayerManager.Instance.Player;
+        if(recording != null) StopCoroutine(recording);
         
-        if (player == null) yield break;
+        recording = StartCoroutine(RecordPlayer());
+    }
+    
+    public IEnumerator RecordPlayer()
+    {
+        if (PlayerManager.Instance.Player == null) yield return new WaitForEndOfFrame();
+        if (PlayerManager.Instance.Player == null) yield break;
+        
+        PlayerController player = PlayerManager.Instance.Player;
         
         recordedPositions = new();
         
@@ -221,12 +225,17 @@ public class PlayerRecordingManager : MonoBehaviour
                     }
                     
                     // change color to green when successful run starts
-                    if (!recordedPositions[i].StartSuccessfulLine || recordedPositions[i].CheckpointHit) return;
+                    if (recordedPositions[i].StartSuccessfulLine && !recordedPositions[i].CheckpointHit)
+                    {
+                        BeginNewLine();
+                        
+                        lineRenderer.startColor = successColor;
+                        lineRenderer.endColor = successColor;
+                    }
                     
-                    BeginNewLine();
+                    OnPathRenderUpdate.Invoke(recordedPositions[i].Position);
                     
-                    lineRenderer.startColor = successColor;
-                    lineRenderer.endColor = successColor;
+                    if (IsReplaying && i == recordedPositions.Count - 1) OnFinishReplay.Invoke();
                 }
             )
         );
@@ -279,11 +288,13 @@ public class PlayerRecordingManager : MonoBehaviour
     {
         recordingPathContainer.gameObject.SetActive(visible);
         
-        if (visible) displayPathRecording = RenderPathRecording();
-        else
+        if(displayPathRecording != null) StopCoroutine(displayPathRecording);
+        
+        recordingPathContainer.DestroyChildren();
+        
+        if (visible)
         {
-            if (displayPathRecording != null) StopCoroutine(displayPathRecording);
-            recordingPathContainer.DestroyChildren();
+            displayPathRecording = RenderPathRecording();
         }
     }
     
