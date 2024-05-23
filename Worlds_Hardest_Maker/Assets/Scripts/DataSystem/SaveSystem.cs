@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows.Forms;
 using JetBrains.Annotations;
 using SFB;
 using UnityEngine;
+using Application = UnityEngine.Application;
 
 public static class SaveSystem
 {
@@ -43,7 +45,10 @@ public static class SaveSystem
         levelInfo.Deaths += LevelSessionManager.Instance.Deaths;
         levelInfo.Completions += LevelSessionManager.Instance.Completions;
         if (LevelSessionManager.Instance.BestCompletionTime != null && LevelSessionManager.Instance.BestCompletionTime < levelInfo.BestCompletionTime)
+        {
+            Debug.Log(LevelSessionManager.Instance.BestCompletionTime);
             levelInfo.BestCompletionTime = (TimeSpan)LevelSessionManager.Instance.BestCompletionTime;
+        }
         
         List<Data> levelObjects = SerializeCurrentLevel();
         

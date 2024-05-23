@@ -65,9 +65,5 @@ public class TimerController : MonoBehaviour
         // ReSharper disable once IteratorNeverReturns
     }
     
-    private string GetTimerTime()
-    {
-        TimeSpan t = TimeSpan.FromSeconds(TimerSeconds);
-        return $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}.{t.Milliseconds:D3}";
-    }
+    private string GetTimerTime() => Utils.GetTimerString(TimerSeconds);
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using System.Threading;
 using UnityEngine;
@@ -23,4 +24,12 @@ public static class Utils
         float width = cam.aspect * height;
         return new(width, height);
     }
+    
+    public static string GetTimerString(float seconds)
+    {
+        TimeSpan t = TimeSpan.FromSeconds(seconds);
+        return $"{t.Hours:D2}:{t.Minutes:D2}:{t.Seconds:D2}.{t.Milliseconds:D3}";
+    }
+    
+    public static string GetTimerString(TimeSpan timeSpan) => GetTimerString((float)timeSpan.TotalSeconds);
 }
