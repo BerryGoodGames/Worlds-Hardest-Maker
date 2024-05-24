@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
@@ -8,7 +9,7 @@ public partial class LevelCompleteManager : MonoBehaviour
 {
     public static LevelCompleteManager Instance { get; private set; }
     
-    [SerializeField] [Required] private Canvas levelCompleteCanvas;
+    [SerializeField] [Required] private AlphaTween levelCompleteCanvasTween;
     [SerializeField] [Required] private TMP_Text levelNameText;
     [SerializeField] [Required] private TMP_Text deathCountText;
     [SerializeField] [Required] private TMP_Text timeText;
@@ -36,26 +37,22 @@ public partial class LevelCompleteManager : MonoBehaviour
         PlayerRecordingManager.Instance.SetSpriteVisible(true);
         PlayerRecordingManager.Instance.SetPathVisible(true);
         
-        levelCompleteCanvas.gameObject.SetActive(true);
+        levelCompleteCanvasTween.SetVisible(true);
+        
         FillStats();
+        
+        StartAnimation();
     }
     
     private void FillStats()
     {
         string levelName = LevelSessionManager.IsSessionFromEditor ? "Could not find level name because of no transition" : LevelSessionManager.Instance.LoadedLevelData.Info.Name;
-        uint deathCount = LevelSessionManager.Instance.Deaths;
         TimeSpan time = LevelSessionManager.Instance.PlayRunTime;
         TimeSpan? personalBest = LevelSessionManager.Instance.BestCompletionTime;
         
         levelNameText.text = levelName;
-        deathCountText.text = deathCount.ToString();
-        timeText.text = Utils.GetTimerString(time);
         
         bool hasNewPB = personalBest == null || (TimeSpan)personalBest >= time;
-        
-        pbLabel.gameObject.SetActive(!hasNewPB);
-        pbText.gameObject.SetActive(!hasNewPB);
-        newPBText.gameObject.SetActive(hasNewPB);
         
         if (!hasNewPB)
         {
@@ -65,14 +62,14 @@ public partial class LevelCompleteManager : MonoBehaviour
     
     public void OnPlayAgainClicked()
     {
-        levelCompleteCanvas.gameObject.SetActive(false);
+        levelCompleteCanvasTween.SetVisible(false);
         
         OnPlayAgain.Invoke();
     }
     
     public void OnReplayClicked()
     {
-        levelCompleteCanvas.gameObject.SetActive(false);
+        levelCompleteCanvasTween.SetVisible(false);
         
         OnReplay.Invoke();
     }
@@ -87,7 +84,7 @@ public partial class LevelCompleteManager : MonoBehaviour
         {
             yield return new WaitForSeconds(duration);
             
-            levelCompleteCanvas.gameObject.SetActive(true);
+            levelCompleteCanvasTween.SetVisible(true);
             
             PlayerRecordingManager.Instance.IsReplaying = false;
         }
@@ -96,6 +93,8 @@ public partial class LevelCompleteManager : MonoBehaviour
     private void OnDestroy()
     {
         PlayerManager.Instance.OnWin -= OnWin;
+        
+        DOTween.Kill(gameObject);
     }
     
     private void Awake()

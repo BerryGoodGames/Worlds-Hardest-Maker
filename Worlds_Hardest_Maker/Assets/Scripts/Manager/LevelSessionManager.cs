@@ -37,7 +37,7 @@ public class LevelSessionManager : MonoBehaviour
         else
         {
             PlayTime += TimeSpan.FromSeconds(Time.deltaTime);
-            PlayRunTime += TimeSpan.FromSeconds(Time.deltaTime);
+            if (PlayerManager.Instance.Player != null && !PlayerManager.Instance.Player.Won) PlayRunTime += TimeSpan.FromSeconds(Time.deltaTime);
         }
     }
     
