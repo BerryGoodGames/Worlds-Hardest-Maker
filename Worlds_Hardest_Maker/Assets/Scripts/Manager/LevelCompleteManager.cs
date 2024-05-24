@@ -4,8 +4,10 @@ using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 
-public class LevelCompleteManager : MonoBehaviour
+public partial class LevelCompleteManager : MonoBehaviour
 {
+    public static LevelCompleteManager Instance { get; private set; }
+    
     [SerializeField] [Required] private Canvas levelCompleteCanvas;
     [SerializeField] [Required] private TMP_Text levelNameText;
     [SerializeField] [Required] private TMP_Text deathCountText;
@@ -16,6 +18,9 @@ public class LevelCompleteManager : MonoBehaviour
     [SerializeField] [Required] private TMP_Text newPBText;
     
     [SerializeField] [Required] private TimerController timerController;
+    
+    public event Action OnPlayAgain = () => { };
+    public event Action OnReplay = () => { };
 
     private void Start()
     {
@@ -46,54 +51,30 @@ public class LevelCompleteManager : MonoBehaviour
         deathCountText.text = deathCount.ToString();
         timeText.text = Utils.GetTimerString(time);
         
-        if (personalBest == null || (TimeSpan)personalBest >= time)
+        bool hasNewPB = personalBest == null || (TimeSpan)personalBest >= time;
+        
+        pbLabel.gameObject.SetActive(!hasNewPB);
+        pbText.gameObject.SetActive(!hasNewPB);
+        newPBText.gameObject.SetActive(hasNewPB);
+        
+        if (!hasNewPB)
         {
-            pbLabel.gameObject.SetActive(false);
-            pbText.gameObject.SetActive(false);
-            newPBText.gameObject.SetActive(true);
-        }
-        else
-        {
-            pbLabel.gameObject.SetActive(true);
-            pbText.gameObject.SetActive(true);
-            newPBText.gameObject.SetActive(false);
             pbText.text = Utils.GetTimerString((TimeSpan)personalBest);
         }
     }
     
     public void OnPlayAgainClicked()
     {
-        PlayManager.Instance.RestartLevel();
-        CoinManager.Instance.CollectedCoins.Clear();
-        KeyManager.Instance.CollectedKeys.Clear();
-        
-        if (PlayerManager.Instance.Player)
-        {
-            PlayerManager.Instance.Player.CurrentGameState = null;
-            PlayerManager.Instance.Player.DefaultDeathAnim(0);
-            PlayerManager.Instance.Player.Deaths = 0;
-        }
-        
-        timerController.StartTimer();
-        
         levelCompleteCanvas.gameObject.SetActive(false);
         
-        PlayerRecordingManager.Instance.SetSpriteVisible(false);
-        PlayerRecordingManager.Instance.SetPathVisible(false);
-        
-        PlayerRecordingManager.Instance.StartPlayerRecording();
-        
-        PlayerRecordingManager.Instance.IsReplaying = false;
+        OnPlayAgain.Invoke();
     }
     
     public void OnReplayClicked()
     {
-        PlayerRecordingManager.Instance.IsReplaying = true;
-        
         levelCompleteCanvas.gameObject.SetActive(false);
         
-        PlayerRecordingManager.Instance.SetSpriteVisible(false);
-        PlayerRecordingManager.Instance.SetPathVisible(true);
+        OnReplay.Invoke();
     }
     
     private void OnFinishReplay()
@@ -115,5 +96,10 @@ public class LevelCompleteManager : MonoBehaviour
     private void OnDestroy()
     {
         PlayerManager.Instance.OnWin -= OnWin;
+    }
+    
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
     }
 }

@@ -65,6 +65,8 @@ public class PlayManager : MonoBehaviour
             if (SettingsManager.Instance.OneColorSafeFields) FieldManager.ApplySafeFieldsColor(true);
         };
         
+        LevelCompleteManager.Instance.OnPlayAgain += RestartLevel;
+        
         return;
         
         IEnumerator SetupPlayScene()
@@ -101,5 +103,10 @@ public class PlayManager : MonoBehaviour
         
         // close menu
         ReferenceManager.Instance.MenuTween.SetVisible(false);
+    }
+    
+    private void OnDestroy()
+    {
+        LevelCompleteManager.Instance.OnPlayAgain -= RestartLevel;
     }
 }

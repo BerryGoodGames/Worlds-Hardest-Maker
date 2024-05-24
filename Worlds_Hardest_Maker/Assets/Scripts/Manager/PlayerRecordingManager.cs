@@ -59,18 +59,19 @@ public class PlayerRecordingManager : MonoBehaviour
         // on edit: stop recording, render path & sprites
         PlayManager.Instance.OnSwitchToEdit += RenderRecording;
         
-        return;
+        LevelCompleteManager.Instance.OnPlayAgain += OnPlayAgain;
+        LevelCompleteManager.Instance.OnReplay += OnReplay;
+    }
+    
+    private void SwitchToPlay()
+    {
+        if (displaySpriteRecording != null) StopCoroutine(displaySpriteRecording);
+        if (displayPathRecording != null) StopCoroutine(displayPathRecording);
         
-        void SwitchToPlay()
-        {
-            if (displaySpriteRecording != null) StopCoroutine(displaySpriteRecording);
-            if (displayPathRecording != null) StopCoroutine(displayPathRecording);
-            
-            recordingSpriteContainer.DestroyChildren();
-            recordingPathContainer.DestroyChildren();
-            
-            recording = StartCoroutine(RecordPlayer());
-        }
+        recordingSpriteContainer.DestroyChildren();
+        recordingPathContainer.DestroyChildren();
+        
+        recording = StartCoroutine(RecordPlayer());
     }
     
     private void RenderRecording()
@@ -296,6 +297,33 @@ public class PlayerRecordingManager : MonoBehaviour
         {
             displayPathRecording = RenderPathRecording();
         }
+    }
+    
+    private void OnPlayAgain()
+    {
+        SetSpriteVisible(false);
+        SetPathVisible(false);
+        
+        StartPlayerRecording();
+        
+        IsReplaying = false;
+    }
+    
+    private void OnReplay()
+    {
+        IsReplaying = true;
+        
+        SetSpriteVisible(false);
+        SetPathVisible(true);
+    }
+    
+    private void OnDestroy()
+    {
+        PlayManager.Instance.OnSwitchToPlay -= SwitchToPlay;
+        PlayManager.Instance.OnPlaySceneSetup -= SwitchToPlay;
+        PlayManager.Instance.OnSwitchToEdit -= RenderRecording;
+        LevelCompleteManager.Instance.OnPlayAgain -= OnPlayAgain;
+        LevelCompleteManager.Instance.OnReplay -= OnReplay;
     }
     
     private void Awake()

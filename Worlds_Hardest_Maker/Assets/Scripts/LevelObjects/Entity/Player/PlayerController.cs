@@ -80,6 +80,8 @@ public partial class PlayerController : EntityController
         PlayManager.Instance.OnSwitchToPlay += OnPlay;
         PlayManager.Instance.OnLevelReset += ResetState;
         
+        LevelCompleteManager.Instance.OnPlayAgain += OnPlayAgain;
+        
         IsAttached = Sheet != null;
         if (IsAttached) SheetStartPosOffset = transform.position - Sheet.transform.position;
         
@@ -115,6 +117,8 @@ public partial class PlayerController : EntityController
         PlayManager.Instance.OnSwitchToPlay -= OnPlay;
         
         PlayManager.Instance.OnLevelReset -= ResetState;
+        
+        LevelCompleteManager.Instance.OnPlayAgain -= OnPlayAgain;
     }
     
     private void OnEdit()
@@ -141,6 +145,13 @@ public partial class PlayerController : EntityController
         sortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.PlayerPlayMode;
         
         Setup();
+    }
+    
+    private void OnPlayAgain()
+    {
+        CurrentGameState = null;
+        DefaultDeathAnim(0);
+        Deaths = 0;
     }
     
     public void ReSet(ManagerParameters args)

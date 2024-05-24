@@ -19,6 +19,8 @@ public class TimerController : MonoBehaviour
     {
         PlayManager.Instance.OnSwitchToPlay += StartTimer;
         PlayerManager.Instance.OnWin += FinishTimer;
+        
+        LevelCompleteManager.Instance.OnPlayAgain += StartTimer;
     }
     
     public void StartTimer()
@@ -71,4 +73,9 @@ public class TimerController : MonoBehaviour
     }
     
     private string GetTimerTime() => Utils.GetTimerString(TimerSeconds);
+    
+    private void OnDestroy()
+    {
+        LevelCompleteManager.Instance.OnPlayAgain -= StartTimer;
+    }
 }
