@@ -87,7 +87,7 @@ public class AnchorPathLine : MonoBehaviour
         
         spriteRenderer.color = LineRenderer.startColor.WithAlphaSetTo(0);
         
-        const float glowWidth = 0.5f;
-        spriteRenderer.size = new(glowWidth, glowLength + glowWidth);
+        const float GLOW_WIDTH = 0.5f;
+        spriteRenderer.size = new(GLOW_WIDTH, glowLength + GLOW_WIDTH);
     }
 }

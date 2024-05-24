@@ -27,7 +27,7 @@ public class Tooltip : MonoBehaviour
     
     [ConditionalField(nameof(customTweenDelay))] [SerializeField] private float tweenDelay = 1.5f;
     
-    private const float defaultTweenDelay = 1;
+    private const float DEFAULT_TWEEN_DELAY = 1;
     private MouseOverUIRect mouseOver;
     private AlphaTween fadeTween;
     private GameObject tooltip;
@@ -38,7 +38,7 @@ public class Tooltip : MonoBehaviour
     
     private void Awake()
     {
-        if (!customTweenDelay) tweenDelay = defaultTweenDelay;
+        if (!customTweenDelay) tweenDelay = DEFAULT_TWEEN_DELAY;
     }
     
     private void Start()

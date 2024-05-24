@@ -18,15 +18,10 @@ public partial class PlayerController
         
         if (IsOnMode(EditModeManager.Conveyor)) AddConveyorMovement(ref totalMovement);
         
-        if (totalMovement != Vector2.zero && !InDeathAnim)
-        {
-            if (IsStandingOnPlatform) transform.position += (Vector3)totalMovement;
-            else Rb.MovePosition(Rb.position + totalMovement);
-            // print(totalMovement);
-            // transform.position += (Vector3)totalMovement;
-            // Rb.position += totalMovement;
-            // Rb.MovePosition(Rb.position + totalMovement);
-        }
+        if (totalMovement == Vector2.zero || InDeathAnim) return;
+        
+        if (IsStandingOnPlatform) transform.position += (Vector3)totalMovement;
+        else Rb.MovePosition(Rb.position + totalMovement);
     }
     
     private void UpdateWaterState()
@@ -100,15 +95,15 @@ public partial class PlayerController
     {
         Vector2 roundedPos = new(Mathf.Round(Rb.position.x), Mathf.Round(Rb.position.y));
         
-        const float err = 0.00001f;
+        const float ERR = 0.00001f;
         
         // do wall corner pushy thingy
         if (!collider.transform.tag.IsSolidFieldTag() ||
             (!collider.transform.position.x.EqualsFloat(roundedPos.x + movementInput.x) &&
              !collider.transform.position.y.EqualsFloat(roundedPos.y + movementInput.y))) return;
         
-        CornerPushHorizontal(collider, roundedPos, err);
-        CornerPushVertical(collider, roundedPos, err);
+        CornerPushHorizontal(collider, roundedPos, ERR);
+        CornerPushVertical(collider, roundedPos, ERR);
     }
     
     private void CornerPushVertical(Collision2D collider, Vector2 roundedPos, float err)

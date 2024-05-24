@@ -14,5 +14,4 @@ public enum LevelSessionMode
 {
     Play,
     Edit,
-    Multiplayer,
 }

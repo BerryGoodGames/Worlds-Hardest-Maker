@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class MouseEvents : MonoBehaviour
 {
-    private const float selectionCancelMaxTime = 0.15f;
+    private const float SELECTION_CANCEL_MAX_TIME = 0.15f;
     
     private bool isFullyFocused = true;
     
@@ -58,7 +58,7 @@ public class MouseEvents : MonoBehaviour
         float passedTime = 0;
         while (KeyBinds.GetKeyBind("Editor_Select"))
         {
-            if (passedTime > selectionCancelMaxTime || MouseManager.Instance.MousePosDelta.magnitude > 10) yield break;
+            if (passedTime > SELECTION_CANCEL_MAX_TIME || MouseManager.Instance.MousePosDelta.magnitude > 10) yield break;
             passedTime += Time.deltaTime;
             yield return null;
         }

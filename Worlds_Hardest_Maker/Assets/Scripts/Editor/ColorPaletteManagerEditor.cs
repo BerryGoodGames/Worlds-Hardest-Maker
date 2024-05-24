@@ -9,11 +9,11 @@ public class ColorPaletteManagerEditor : Editor
         DrawDefaultInspector();
         
         ColorPaletteManager script = (ColorPaletteManager)target;
-        if (GUILayout.Button("Update Color Palettes"))
-        {
-            script.UpdateInstance();
-            script.UpdateColorPalettes();
-            EditorApplication.QueuePlayerLoopUpdate();
-        }
+        
+        if (!GUILayout.Button("Update Color Palettes")) return;
+        
+        script.UpdateInstance();
+        script.UpdateColorPalettes();
+        EditorApplication.QueuePlayerLoopUpdate();
     }
 }

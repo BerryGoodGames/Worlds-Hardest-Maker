@@ -19,14 +19,11 @@ public class ConfirmQuitPromptController : WarningConfirmPromptController
             return true;
         }
         
-        if (!DoesGoalExist())
-        {
-            ConfirmationText.text = "Are you sure you want to quit?";
-            WarningText.text = "The level does not contain a goal!";
-            return true;
-        }
+        if (DoesGoalExist()) return false;
         
-        return false;
+        ConfirmationText.text = "Are you sure you want to quit?";
+        WarningText.text = "The level does not contain a goal!";
+        return true;
     }
     
     private static bool DoesGoalExist()

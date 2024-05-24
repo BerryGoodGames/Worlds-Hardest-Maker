@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class AnchorBlockColorController : MonoBehaviour
 {
-    protected const float Darkening = 0.3f;
+    protected const float DARKENING = 0.3f;
     // protected const float DarkerDarkening = 0.75f;
     
     [SerializeField] protected Color Color;

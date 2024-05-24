@@ -51,11 +51,10 @@ public class TimerController : MonoBehaviour
         
         Text.color = FinishedTimerColor;
         
-        if (!LevelSessionManager.Instance.IsEdit)
-        {
-            LevelSessionManager.Instance.PlayRunTime = TimeSpan.FromSeconds(TimerSeconds);
-            LevelSessionManager.Instance.TrySetBestTime(TimeSpan.FromSeconds(TimerSeconds));
-        }
+        if (LevelSessionManager.Instance.IsEdit) return;
+        
+        LevelSessionManager.Instance.PlayRunTime = TimeSpan.FromSeconds(TimerSeconds);
+        LevelSessionManager.Instance.TrySetBestTime(TimeSpan.FromSeconds(TimerSeconds));
     }
     
     private IEnumerator DoTimer()

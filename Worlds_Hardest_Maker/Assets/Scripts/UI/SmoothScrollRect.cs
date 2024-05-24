@@ -11,7 +11,7 @@ public class SmoothScrollRect : ScrollRect, IPointerEnterHandler, IPointerExitHa
     public bool SmoothScrolling { get; set; } = true;
     public float SmoothScrollTime { get; set; } = 0.12f;
     
-    private const string mouseScrollWheelAxis = "Mouse ScrollWheel";
+    private const string MOUSE_SCROLL_WHEEL_AXIS = "Mouse ScrollWheel";
     private bool swallowMouseWheelScrolls = true;
     private bool isMouseOver;
     
@@ -45,7 +45,7 @@ public class SmoothScrollRect : ScrollRect, IPointerEnterHandler, IPointerExitHa
         // from receiving any mouse wheel messages if the mouse is over a raycast target (such as a button).
         if (!isMouseOver || !IsMouseWheelRolling()) return;
         
-        float delta = Input.GetAxis(mouseScrollWheelAxis);
+        float delta = Input.GetAxis(MOUSE_SCROLL_WHEEL_AXIS);
         
         PointerEventData pointerData = new(EventSystem.current)
         {
@@ -57,7 +57,7 @@ public class SmoothScrollRect : ScrollRect, IPointerEnterHandler, IPointerExitHa
         swallowMouseWheelScrolls = true;
     }
     
-    private static bool IsMouseWheelRolling() => Input.GetAxis(mouseScrollWheelAxis) != 0;
+    private static bool IsMouseWheelRolling() => Input.GetAxis(MOUSE_SCROLL_WHEEL_AXIS) != 0;
     
     public void OnPointerEnter(PointerEventData eventData) => isMouseOver = true;
     

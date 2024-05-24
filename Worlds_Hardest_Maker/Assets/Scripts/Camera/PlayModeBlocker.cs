@@ -28,26 +28,26 @@ public class PlayModeBlocker : MonoBehaviour
         
         CameraPlayJumpInfo jumpInfo = CameraPlayJumpInfo.GetCurrentJumpInfo(cam);
         
-        const float infobarHeight = CameraPlayJumpInfo.InfobarHeight;
+        const float INFOBAR_HEIGHT = CameraPlayJumpInfo.INFOBAR_HEIGHT;
         
         (float cutoutWidth, float cutoutHeight) = GetCutoutSize(jumpInfo);
         
         cutout.sizeDelta = new(cutoutWidth, cutoutHeight);
-        cutout.anchoredPosition = new(0, infobarHeight / 2);
+        cutout.anchoredPosition = new(0, INFOBAR_HEIGHT / 2);
         
         blackScreen.sizeDelta = new(jumpInfo.ScreenWidth, jumpInfo.ScreenHeight);
-        blackScreen.anchoredPosition = new(0, -infobarHeight / 2);
+        blackScreen.anchoredPosition = new(0, -INFOBAR_HEIGHT / 2);
     }
     
     private static (float width, float height) GetCutoutSize(CameraPlayJumpInfo jumpInfo)
     {
-        const float infobarHeight = CameraPlayJumpInfo.InfobarHeight;
+        const float INFOBAR_HEIGHT = CameraPlayJumpInfo.INFOBAR_HEIGHT;
         
         float cutoutWidth, cutoutHeight;
         
         if (jumpInfo.HeightZoom > jumpInfo.WidthZoom)
         {
-            cutoutHeight = jumpInfo.ScreenHeight - infobarHeight;
+            cutoutHeight = jumpInfo.ScreenHeight - INFOBAR_HEIGHT;
             cutoutWidth = cutoutHeight * LevelSettings.Instance.RoomWidth / LevelSettings.Instance.RoomHeight;
         }
         else

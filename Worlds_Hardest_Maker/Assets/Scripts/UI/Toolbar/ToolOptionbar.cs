@@ -36,8 +36,8 @@ public class ToolOptionbar : MonoBehaviour
         rt.sizeDelta = size;
         
         // set hovering hitbox width and height
-        const float arrowHeight = 35;
-        hoveringHitbox.offsetMax = new Vector2(hoveringHitbox.offsetMax.x, arrowHeight);
+        const float ARROW_HEIGHT = 35;
+        hoveringHitbox.offsetMax = new Vector2(hoveringHitbox.offsetMax.x, ARROW_HEIGHT);
         
         // set top offset in vertical layout group
         optionsLayoutGroup.padding.top = (int)toolMargin;

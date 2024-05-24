@@ -8,8 +8,6 @@ public partial class AnchorManager : IManager<AnchorController>
     
     public AnchorController SetInSheet(ManagerParameters args)
     {
-        // if (GetInSheet(args.Position, args.Sheet) != null) return null;
-        
         AnchorController anchor = InstantiateInSheet(args);
         anchor.transform.position = args.Position;
         anchor.AttachmentContainerSyncTransform.Sync();
@@ -55,9 +53,8 @@ public partial class AnchorManager : IManager<AnchorController>
     {
         // deselect anchor first, if selected
         if (Instance.SelectedAnchor != null)
-        {
-            if (Instance.SelectedAnchor == anchor) Instance.DeselectAnchor();
-        }
+            if (Instance.SelectedAnchor == anchor)
+                Instance.DeselectAnchor();
         
         BallManager.Instance.BallListSheets.Remove(anchor);
         

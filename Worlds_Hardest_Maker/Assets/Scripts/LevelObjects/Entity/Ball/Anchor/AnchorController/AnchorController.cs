@@ -164,12 +164,11 @@ public partial class AnchorController : EntityController, IResettable
             currentNode = currentNode.Next;
         }
         
-        if (hasActiveBlockAfter)
-        {
-            CurrentExecutingBlock = CurrentExecutingNode!.Value;
-            
-            CurrentExecutingBlock.Execute();
-        }
+        if (!hasActiveBlockAfter) return;
+        
+        CurrentExecutingBlock = CurrentExecutingNode!.Value;
+        
+        CurrentExecutingBlock.Execute();
     }
     
     

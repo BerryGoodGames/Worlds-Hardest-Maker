@@ -194,31 +194,28 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     
     private void OnStartCharge()
     {
-        if (!isPlaying)
-        {
-            StartChargeAnim();
-            isCharging = true;
-        }
+        if (isPlaying) return;
+        
+        StartChargeAnim();
+        isCharging = true;
     }
     
     private void OnPlay()
     {
-        if (isCharging || LevelSessionEditManager.Instance.Playing)
-        {
-            PlayAnim();
-            isPlaying = true;
-            isCharging = false;
-        }
+        if (!isCharging && !LevelSessionEditManager.Instance.Playing) return;
+        
+        PlayAnim();
+        isPlaying = true;
+        isCharging = false;
     }
     
     private void OnPlayCharged()
     {
-        if (isCharging)
-        {
-            PlayChargedAnim();
-            isPlaying = true;
-            isCharging = false;
-        }
+        if (!isCharging) return;
+        
+        PlayChargedAnim();
+        isPlaying = true;
+        isCharging = false;
     }
     
     #endregion

@@ -53,8 +53,6 @@ public partial class AnchorManager : IManagerSelectable
         anchor.Animator.SetBool(selectedString, true);
         anchor.SetLinesActive(true);
         
-        // SelectedAnchor.AttachFade.FadeOut();
-        
         // disable "no anchor selected" screen
         ReferenceManager.Instance.AnchorNoAnchorSelectedScreen.SetVisible(false);
         
@@ -74,7 +72,6 @@ public partial class AnchorManager : IManagerSelectable
     {
         if (SelectedAnchor == null) return;
         
-        // SelectedAnchor.AttachFade.FadeIn();
         if (AnchorAttachManager.Instance.InAttachMode) AnchorAttachManager.Instance.ExitAttachMode();
         
         SelectedAnchor.Animator.SetBool(selectedString, false);

@@ -70,11 +70,10 @@ public static class KeyBinds
                 {
                     if (i == j) continue;
                     
-                    if (!Input.GetKey(combination[j]))
-                    {
-                        allOtherKeysHeld = false;
-                        break;
-                    }
+                    if (Input.GetKey(combination[j])) continue;
+                    
+                    allOtherKeysHeld = false;
+                    break;
                 }
                 
                 if (allOtherKeysHeld && Input.GetKeyDown(frameKey)) return true;
@@ -98,11 +97,10 @@ public static class KeyBinds
                 {
                     if (i == j) continue;
                     
-                    if (Input.GetKey(combination[j]))
-                    {
-                        allOtherKeysUnheld = false;
-                        break;
-                    }
+                    if (!Input.GetKey(combination[j])) continue;
+                    
+                    allOtherKeysUnheld = false;
+                    break;
                 }
                 
                 if (allOtherKeysUnheld && Input.GetKeyUp(frameKey)) return true;

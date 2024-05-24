@@ -48,10 +48,9 @@ public partial class AnchorBlockManager
             ExecuteBlockOnHover = null;
         }
         
-        if (ExecuteConnectorOnHover)
-        {
-            ReferenceManager.Instance.AnchorBlockConnectorController.OnHover();
-            ExecuteConnectorOnHover = false;
-        }
+        if (!ExecuteConnectorOnHover) return;
+        
+        ReferenceManager.Instance.AnchorBlockConnectorController.OnHover();
+        ExecuteConnectorOnHover = false;
     }
 }

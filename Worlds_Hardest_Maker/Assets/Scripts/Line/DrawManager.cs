@@ -76,11 +76,11 @@ public class DrawManager : MonoBehaviour
         circle.sortingLayerID = instance.LayerID;
         
         // get points of circle
-        const int steps = 100;
-        List<Vector2> points = GetCirclePoints(origin, radius, steps);
+        const int STEPS = 100;
+        List<Vector2> points = GetCirclePoints(origin, radius, STEPS);
         
         // set points
-        circle.positionCount = steps + 1;
+        circle.positionCount = STEPS + 1;
         for (int i = 0; i < points.Count; i++) circle.SetPosition(i, points[i]);
         
         return circle;
@@ -140,12 +140,12 @@ public class DrawManager : MonoBehaviour
         Vector2 end
     )
     {
-        const float headLineLength = 0.15f;
+        const float HEAD_LINE_LENGTH = 0.15f;
         Vector2 delta = end - start;
         Vector2 halfPoint = start + delta / 2;
-        Vector2 offset = delta.normalized * (headLineLength / 2);
+        Vector2 offset = delta.normalized * (HEAD_LINE_LENGTH / 2);
         Vector2 startPoint = halfPoint + offset;
-        Vector2 endSideOffset = delta.normalized * Mathf.Sin(headLineLength);
+        Vector2 endSideOffset = delta.normalized * Mathf.Sin(HEAD_LINE_LENGTH);
         endSideOffset.Rotate(90);
         Vector2 endPoint = halfPoint - offset;
         

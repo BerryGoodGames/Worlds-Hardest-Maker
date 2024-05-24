@@ -71,7 +71,7 @@ public class CameraPlayController : MonoBehaviour
         
         float yOffset = info.HeightZoom > info.WidthZoom
             ? roomHeight * 0.5f - camOrthoSize
-            : -CameraPlayJumpInfo.InfobarHeight * camOrthoSize / info.ScreenHeight;
+            : -CameraPlayJumpInfo.INFOBAR_HEIGHT * camOrthoSize / info.ScreenHeight;
         
         Transform t = transform;
         Vector3 newPosition = new(
@@ -95,7 +95,7 @@ public class CameraPlayController : MonoBehaviour
 
 public sealed class CameraPlayJumpInfo
 {
-    public const float InfobarHeight = 70;
+    public const float INFOBAR_HEIGHT = 70;
     public float WidthZoom;
     public float HeightZoom;
     public float ScreenWidth;
@@ -109,7 +109,7 @@ public sealed class CameraPlayJumpInfo
         return new CameraPlayJumpInfo
         {
             WidthZoom = LevelSettings.Instance.RoomWidth * 0.5f / cam.aspect,
-            HeightZoom = LevelSettings.Instance.RoomHeight * 0.5f / (1 - InfobarHeight / screenHeight),
+            HeightZoom = LevelSettings.Instance.RoomHeight * 0.5f / (1 - INFOBAR_HEIGHT / screenHeight),
             ScreenWidth = screenWidth,
             ScreenHeight = screenHeight,
         };

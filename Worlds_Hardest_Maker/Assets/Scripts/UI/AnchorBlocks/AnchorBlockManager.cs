@@ -231,7 +231,4 @@ public partial class AnchorBlockManager : MonoBehaviour
     }
     
     private void LateUpdate() => HoveringLateUpdate();
-    // Dbg.Text(HoveredBlockIndex);
-    
-    public void OnMainChainUpdate() { }
 }

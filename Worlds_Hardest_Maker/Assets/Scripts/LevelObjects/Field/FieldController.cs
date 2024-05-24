@@ -33,12 +33,11 @@ public class FieldController : LevelObjectController
         player.transform.SetParent(transform);
         
         // fade out again
-        if (player.IsAttached && LevelSessionEditManager.Instance.Editing && !AnchorAttachManager.Instance.InAttachMode)
-        {
-            AnchorAttachment attachment = GetComponent<AnchorAttachment>();
-            AnchorAttachFade fade = attachment.Anchor.AttachFade;
-            fade.FadeOut();
-        }
+        if (!player.IsAttached || !LevelSessionEditManager.Instance.Editing || AnchorAttachManager.Instance.InAttachMode) return;
+        
+        AnchorAttachment attachment = GetComponent<AnchorAttachment>();
+        AnchorAttachFade fade = attachment.Anchor.AttachFade;
+        fade.FadeOut();
     }
     
     public void OnPlayerExited()

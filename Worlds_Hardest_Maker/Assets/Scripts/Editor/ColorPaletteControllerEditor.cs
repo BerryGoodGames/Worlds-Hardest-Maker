@@ -9,10 +9,10 @@ public class ColorPaletteControllerEditor : Editor
         DrawDefaultInspector();
         
         ColorPaletteController script = (ColorPaletteController)target;
-        if (GUILayout.Button("Update Color"))
-        {
-            script.UpdateColor();
-            EditorApplication.QueuePlayerLoopUpdate();
-        }
+        
+        if (!GUILayout.Button("Update Color")) return;
+        
+        script.UpdateColor();
+        EditorApplication.QueuePlayerLoopUpdate();
     }
 }

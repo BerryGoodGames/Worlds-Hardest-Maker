@@ -39,7 +39,7 @@ public class PlayerRecordingManager : MonoBehaviour
     
     private LineRenderer lineRenderer;
     private Color lineColor;
-    private const float valueShift = 0.3090169945f;
+    private const float VALUE_SHIFT = 0.3090169945f;
     
     private Coroutine recording;
     private Coroutine displaySpriteRecording;
@@ -211,7 +211,7 @@ public class PlayerRecordingManager : MonoBehaviour
                         float value = 1;
                         
                         if (minDeathColorValue < 1)
-                            value = (lineRenderer.startColor.GetHSV().z + valueShift) % (1 - minDeathColorValue) + minDeathColorValue;
+                            value = (lineRenderer.startColor.GetHSV().z + VALUE_SHIFT) % (1 - minDeathColorValue) + minDeathColorValue;
                         
                         Color newColor = Color.red.SetValue(value);
                         

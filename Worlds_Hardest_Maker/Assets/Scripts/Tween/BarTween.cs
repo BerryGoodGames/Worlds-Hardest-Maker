@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class BarTween : MonoBehaviour
 {
-    public static List<BarTween> TweenList = new();
+    public static readonly List<BarTween> TweenList = new();
     
     [SerializeField] private float visibleY;
     [SerializeField] private float invisibleY;

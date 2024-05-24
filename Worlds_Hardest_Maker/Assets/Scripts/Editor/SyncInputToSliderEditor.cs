@@ -9,10 +9,10 @@ public class SyncInputToSliderEditor : Editor
         DrawDefaultInspector();
         
         SyncInputToSlider script = (SyncInputToSlider)target;
-        if (GUILayout.Button("Synchronise"))
-        {
-            script.Synchronise();
-            script.UpdateInput();
-        }
+        
+        if (!GUILayout.Button("Synchronise")) return;
+        
+        script.Synchronise();
+        script.UpdateInput();
     }
 }

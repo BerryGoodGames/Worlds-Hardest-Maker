@@ -9,7 +9,7 @@ public class AnchorBlockDirectionColor : AnchorBlockColorController
     
     public override void UpdateColor()
     {
-        Color dark = GetDarkenedColor(Color, Darkening);
+        Color dark = GetDarkenedColor(Color, DARKENING);
         
         backgroundImage.color = KeepA(dark, backgroundImage.color);
     }

@@ -1,4 +1,5 @@
 using DG.Tweening;
+using JetBrains.Annotations;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
@@ -11,7 +12,7 @@ public class KeyDoorFieldController : MonoBehaviour, IResettable
     [SerializeField] [InitializationField] [Required] private FieldOutline fieldOutline;
     [SerializeField] [InitializationField] [PositiveValueOnly] private float fadeDuration;
     
-    [Separator] [MyBox.ReadOnly] public bool Unlocked;
+    [Separator] [MyBox.ReadOnly] [UsedImplicitly] public bool Unlocked;
     public KeyColor Color;
     
     private static readonly int unlockedString = Animator.StringToHash("Unlocked");

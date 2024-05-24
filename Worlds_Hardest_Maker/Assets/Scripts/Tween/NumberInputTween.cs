@@ -14,8 +14,8 @@ public class NumberInputTween : MonoBehaviour
     private readonly Vector2 unhoveredScl = Vector2.one;
     private Vector2 hoveredScl;
     
-    private const Ease wiggleStartEase = Ease.OutCubic;
-    private const Ease wiggleReturnEase = Ease.InOutSine;
+    private const Ease WIGGLE_START_EASE = Ease.OutCubic;
+    private const Ease WIGGLE_RETURN_EASE = Ease.InOutSine;
     
     private Sequence wiggleSeqLeft;
     private Sequence wiggleSeqRight;
@@ -27,9 +27,9 @@ public class NumberInputTween : MonoBehaviour
         wiggleSeqRight = DOTween.Sequence();
         wiggleSeqRight.Append(
                 rightArrow.DOLocalMoveX(rightArrowX + wiggle, wiggleDuration * 0.5f)
-                    .SetEase(wiggleStartEase)
+                    .SetEase(WIGGLE_START_EASE)
             )
-            .Append(rightArrow.DOLocalMoveX(rightArrowX, wiggleDuration * 0.5f).SetEase(wiggleReturnEase));
+            .Append(rightArrow.DOLocalMoveX(rightArrowX, wiggleDuration * 0.5f).SetEase(WIGGLE_RETURN_EASE));
     }
     
     public void DecreaseTween()
@@ -38,8 +38,8 @@ public class NumberInputTween : MonoBehaviour
         
         wiggleSeqLeft = DOTween.Sequence();
         wiggleSeqLeft
-            .Append(leftArrow.DOLocalMoveX(leftArrowX - wiggle, wiggleDuration * 0.5f).SetEase(wiggleStartEase))
-            .Append(leftArrow.DOLocalMoveX(leftArrowX, wiggleDuration * 0.5f).SetEase(wiggleReturnEase));
+            .Append(leftArrow.DOLocalMoveX(leftArrowX - wiggle, wiggleDuration * 0.5f).SetEase(WIGGLE_START_EASE))
+            .Append(leftArrow.DOLocalMoveX(leftArrowX, wiggleDuration * 0.5f).SetEase(WIGGLE_RETURN_EASE));
     }
     
     public void HoverEventArrowLeft(bool enter) =>

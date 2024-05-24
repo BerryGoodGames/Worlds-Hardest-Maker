@@ -11,7 +11,7 @@ public class AnchorBlockIndexInputColor : AnchorBlockColorController
     
     public override void UpdateColor()
     {
-        Color dark = GetDarkenedColor(Color, Darkening);
+        Color dark = GetDarkenedColor(Color, DARKENING);
         
         // color container
         container.color = KeepA(dark, container.color);

@@ -67,11 +67,10 @@ public partial class PlayerController
                 continue;
             }
             
-            if (controller.FieldMode.CarryPlayer)
-            {
-                isPlatformThere = true;
-                break;
-            }
+            if (!controller.FieldMode.CarryPlayer) continue;
+            
+            isPlatformThere = true;
+            break;
         }
         
         return isPlatformThere;

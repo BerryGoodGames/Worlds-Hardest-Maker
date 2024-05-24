@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class ConveyorController : MonoBehaviour
 {
-    private FieldRotation rotationController;
     private Animator anim;
     private static readonly int running = Animator.StringToHash("Running");
     
@@ -12,7 +11,7 @@ public class ConveyorController : MonoBehaviour
     
     private void Start()
     {
-        rotationController = GetComponent<FieldRotation>();
+        GetComponent<FieldRotation>();
         anim = GetComponent<Animator>();
         
         if (LevelSessionManager.Instance.IsEdit)

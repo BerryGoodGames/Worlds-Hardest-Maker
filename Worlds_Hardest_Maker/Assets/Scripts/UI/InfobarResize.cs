@@ -22,7 +22,6 @@ public class InfobarResize : MonoBehaviour
         
         foreach (GameObject t in InfoTexts)
         {
-            // text.transform.localScale = new(height / 100, height / 100);
             TMP_Text text = t.GetComponent<TMP_Text>();
             
             text.fontSize = InfobarHeight * 0.514f;

@@ -11,7 +11,7 @@ public class PlaySceneToggle : MonoBehaviour
     
     [ReadOnly] [OverrideLabel("Is Scene currently edit scene")] public bool IsEditPrev;
     
-    // [ButtonMethod]
+    [ButtonMethod]
     public void UpdateStates()
     {
         ConditionalObject[] objArr = FindObjectsOfType<ConditionalObject>(true);

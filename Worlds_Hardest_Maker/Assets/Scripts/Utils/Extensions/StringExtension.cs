@@ -13,9 +13,9 @@ public static class StringExtension
     public static string GetCopyName(this string fileName)
     {
         int copyNumber = 0;
-        const string pattern = " (";
+        const string PATTERN = " (";
         
-        int indexOfPattern = fileName.LastIndexOf(pattern, StringComparison.Ordinal);
+        int indexOfPattern = fileName.LastIndexOf(PATTERN, StringComparison.Ordinal);
         
         if (indexOfPattern != -1)
         {
@@ -23,8 +23,8 @@ public static class StringExtension
             if (endIndex != -1 && endIndex > indexOfPattern)
             {
                 string numberString = fileName.Substring(
-                    indexOfPattern + pattern.Length,
-                    endIndex - indexOfPattern - pattern.Length
+                    indexOfPattern + PATTERN.Length,
+                    endIndex - indexOfPattern - PATTERN.Length
                 );
                 
                 if (int.TryParse(numberString, out copyNumber)) fileName = fileName.Remove(indexOfPattern);

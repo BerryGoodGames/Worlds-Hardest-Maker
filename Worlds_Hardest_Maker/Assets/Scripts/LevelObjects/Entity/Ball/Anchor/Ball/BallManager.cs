@@ -80,21 +80,6 @@ public class BallManager : MonoBehaviour, IManager<BallController>
         return levelData;
     }
     
-    private static List<BallController> GetBalls(Vector2 pos)
-    {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, 0.01f, LayerManager.Instance.Layers.Entity);
-        List<BallController> res = new();
-        
-        foreach (Collider2D hit in hits)
-        {
-            if (!hit.CompareTag("BallObject")) continue;
-            
-            res.Add(hit.GetComponent<BallController>());
-        }
-        
-        return res;
-    }
-    
     #endregion
     
     private void Start()

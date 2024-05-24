@@ -16,7 +16,6 @@ public partial class PlayerController : EntityController
     [Separator] [SerializeField] [Required] private ParticleSystem confetti1;
     [SerializeField] [Required] private ParticleSystem confetti2;
     
-    
     [HideInInspector] public Rigidbody2D Rb;
     
     [HideInInspector] public EdgeCollider2D EdgeCollider;
@@ -188,7 +187,7 @@ public partial class PlayerController : EntityController
         
         const int PARTY_HORN_COUNT = 9;
         string[] partyHorns = new string[PARTY_HORN_COUNT];
-        for (int i = 0; i < PARTY_HORN_COUNT; i++) { partyHorns[i] = $"PartyHorn{i + 1}"; }
+        for (int i = 0; i < PARTY_HORN_COUNT; i++) partyHorns[i] = $"PartyHorn{i + 1}";
         
         string selectedPartyHorn = partyHorns.GetRandom();
         AudioManager.Instance.Play(selectedPartyHorn);
@@ -231,7 +230,6 @@ public partial class PlayerController : EntityController
     {
         CurrentFields.Clear();
         CurrentGameState = null;
-        // Deaths = 0;
     }
     
     public override Data GetData() => new PlayerData(this);

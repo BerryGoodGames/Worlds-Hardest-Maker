@@ -73,11 +73,10 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     
     public List<Data> Serialize(List<Data> levelData)
     {
-        if (Player != null && !Player.IsAttached)
-        {
-            PlayerData playerData = new(Player);
-            levelData.Add(playerData);
-        }
+        if (Player == null || Player.IsAttached) return levelData;
+        
+        PlayerData playerData = new(Player);
+        levelData.Add(playerData);
         
         return levelData;
     }

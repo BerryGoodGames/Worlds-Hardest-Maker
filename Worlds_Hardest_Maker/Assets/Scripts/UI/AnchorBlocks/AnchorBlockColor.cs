@@ -10,7 +10,7 @@ public class AnchorBlockColor : AnchorBlockColorController
     {
         // update bigger background color of anchorblock
         Image imageComp = GetComponent<Image>();
-        Color darkened = GetDarkenedColor(Color, Darkening);
+        Color darkened = GetDarkenedColor(Color, DARKENING);
         imageComp.color = KeepA(darkened, imageComp.color);
         
         // update smaller background color of anchorblock

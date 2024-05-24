@@ -165,7 +165,6 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
         {
             tooltip.CustomContainer = true;
             tooltip.Container = LevelHubManager.Instance.TooltipContainer;
-            // tooltip.transform.SetParent(LevelHubManager.Instance.TooltipContainer);
         }
     }
     

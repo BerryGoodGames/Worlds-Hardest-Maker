@@ -28,10 +28,11 @@ public class JumpToEntity : MonoBehaviour
     /// <param name="onlyIfTargetOffScreen">Only jump if the target is offscreen</param>
     public void Jump(string key, Vector2? offset = null, bool onlyIfTargetOffScreen = false)
     {
-        if (!targetList.ContainsKey(key)) throw new Exception($"Couldn't find target with key {key}");
+        if (!targetList.TryGetValue(key, out (GameObject target, Renderer targetRenderer) value))
+            throw new Exception($"Couldn't find target with key {key}");
         
         // find target
-        (GameObject target, Renderer targetRenderer) = targetList[key];
+        (GameObject target, Renderer targetRenderer) = value;
         
         if (onlyIfTargetOffScreen && targetRenderer.isVisible) return;
         
@@ -56,11 +57,10 @@ public class JumpToEntity : MonoBehaviour
     
     private void Update()
     {
-        if (cancelByRightClick && Input.GetMouseButtonDown(1) && jumpTween != null)
-        {
-            jumpTween.Kill();
-            jumpTween = null;
-        }
+        if (!cancelByRightClick || !Input.GetMouseButtonDown(1) || jumpTween == null) return;
+        
+        jumpTween.Kill();
+        jumpTween = null;
     }
     
     #region Target list manipulation

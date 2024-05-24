@@ -10,7 +10,7 @@ public class AnchorBlockDropdownColor : AnchorBlockColorController
     
     public override void UpdateColor()
     {
-        Color darker = GetDarkenedColor(Color, Darkening);
+        Color darker = GetDarkenedColor(Color, DARKENING);
         
         imageComp.color = KeepA(darker, imageComp.color);
         
