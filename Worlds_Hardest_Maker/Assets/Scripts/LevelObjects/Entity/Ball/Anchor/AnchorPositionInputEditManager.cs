@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using MyBox;
 using UnityEngine;
@@ -5,64 +6,81 @@ using UnityEngine;
 public class AnchorPositionInputEditManager : MonoBehaviour
 {
     public static AnchorPositionInputEditManager Instance { get; private set; }
-
+    
     [ReadOnly] public bool IsEditing;
     [ReadOnly] public AnchorBlockPositionInputController CurrentEditedPositionInput;
-
+    
     public void StartPositionInputEdit(AnchorBlockPositionInputController positionInput)
     {
         CurrentEditedPositionInput = positionInput;
         StartCoroutine(EditCoroutine());
     }
-
+    
     public void OnStartPositionEdit()
     {
         IsEditing = true;
-
+        
         // block menu from opening
         MenuManager.Instance.BlockMenu = true;
-
+        
         // disable panels
         ReferenceManager.Instance.ToolbarTween.SetPlay(true);
         ReferenceManager.Instance.InfobarEditTween.SetPlay(true);
         ReferenceManager.Instance.PlayButtonTween.TweenToY(-125, false);
-
+        
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
+        PanelController anchorAttachButton = ReferenceManager.Instance.AnchorAttachButtonController;
+        PanelController anchorExitAttachButton = ReferenceManager.Instance.AnchorAttachExitButtonController;
         PanelManager.Instance.SetPanelHidden(anchorPanel, true);
+        PanelManager.Instance.SetPanelHidden(anchorAttachButton, true);
+        PanelManager.Instance.SetPanelHidden(anchorExitAttachButton, true);
     }
-
+    
     public void OnEndPositionEdit()
     {
         if (!IsEditing) return;
-
+        
         IsEditing = false;
         CurrentEditedPositionInput = null;
-
+        
         // show panels
-        ReferenceManager.Instance.ToolbarTween.SetPlay(EditModeManager.Instance.Playing);
-        ReferenceManager.Instance.InfobarEditTween.SetPlay(EditModeManager.Instance.Playing);
-        ReferenceManager.Instance.PlayButtonTween.SetPlay(EditModeManager.Instance.Playing);
-
+        ReferenceManager.Instance.ToolbarTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        ReferenceManager.Instance.InfobarEditTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        ReferenceManager.Instance.PlayButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
-        PanelManager.Instance.SetPanelOpen(anchorPanel, EditModeManager.Instance.Editing);
-
+        PanelController anchorAttachButton = ReferenceManager.Instance.AnchorAttachButtonController;
+        PanelController anchorExitAttachButton = ReferenceManager.Instance.AnchorAttachExitButtonController;
+        PanelManager.Instance.SetPanelOpen(anchorPanel, LevelSessionEditManager.Instance.Editing);
+        PanelManager.Instance.SetPanelOpen(
+            anchorAttachButton, LevelSessionEditManager.Instance.Editing && !AnchorAttachManager.Instance.InAttachMode, false
+        );
+        
+        PanelManager.Instance.SetPanelOpen(
+            anchorExitAttachButton, LevelSessionEditManager.Instance.Editing && AnchorAttachManager.Instance.InAttachMode, false
+        );
+        
         AnchorManager.Instance.SelectedAnchor.RenderLines();
     }
-
-    public IEnumerator EditCoroutine()
+    
+    private IEnumerator EditCoroutine()
     {
         if (CurrentEditedPositionInput == null) yield break;
-
+        
         OnStartPositionEdit();
-
+        
         PositionAnchorBlockController anchorBlockController = CurrentEditedPositionInput.AnchorBlockController;
+        
+        if (anchorBlockController == null)
+            throw new Exception("Anchor block controller of position input controller is null. Failed to start position input coroutine.");
+        
         PositionAnchorBlockController nextAnchorBlockController = null;
-
+        
         // get next position anchor block controller
         bool getNext = false;
         bool gotNextController = false;
         bool onlyMoveSecondArrow = false;
-
+        
         foreach (AnchorBlockController currentAnchorBlock in ReferenceManager.Instance.MainChainController.Children)
         {
             // skip anchor blocks before this anchor blocks
@@ -71,30 +89,30 @@ public class AnchorPositionInputEditManager : MonoBehaviour
                 getNext = true;
                 continue;
             }
-
+            
             if (!getNext) continue;
-
+            
             if (currentAnchorBlock is not PositionAnchorBlockController controller) continue;
-
+            
             nextAnchorBlockController = controller;
             gotNextController = true;
             break;
         }
-
+        
         if (!gotNextController)
-        {
             // check if loop block is present
+        {
             if (AnchorManager.Instance.SelectedAnchor.LoopBlockIndex != -1)
-            {
                 // get first position block after loop block
+            {
                 for (int i = AnchorManager.Instance.SelectedAnchor.LoopBlockIndex;
                      i < ReferenceManager.Instance.MainChainController.Children.Count;
                      i++)
                 {
                     AnchorBlockController anchorBlock = ReferenceManager.Instance.MainChainController.Children[i];
-
+                    
                     if (anchorBlock is not PositionAnchorBlockController controller) continue;
-
+                    
                     nextAnchorBlockController = controller;
                     gotNextController = true;
                     onlyMoveSecondArrow = true;
@@ -102,21 +120,21 @@ public class AnchorPositionInputEditManager : MonoBehaviour
                 }
             }
         }
-
+        
         Vector2? previousMousePos = null;
         // wait until clicked, cancel if esc is pressed
         while (!Input.GetMouseButton(0))
         {
             // cancel if these things happen
-            if (Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || EditModeManager.Instance.Playing)
+            if (Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || LevelSessionEditManager.Instance.Playing)
             {
                 OnEndPositionEdit();
                 yield break;
             }
-
+            
             // animate current & next line (only if mouse position changed)
             Vector2 mousePos = MouseManager.Instance.MouseWorldPosGrid;
-
+            
             if (previousMousePos == null || mousePos != previousMousePos)
             {
                 anchorBlockController.Lines.ForEach(line => line.AnimateEnd(mousePos));
@@ -126,21 +144,24 @@ public class AnchorPositionInputEditManager : MonoBehaviour
                     else nextAnchorBlockController.Lines[0].AnimateStart(mousePos);
                 }
             }
-
+            
             previousMousePos = mousePos;
             yield return null;
         }
-
+        
         // apply position to position input
         Instance.CurrentEditedPositionInput.SetPositionValues(MouseManager.Instance.MouseWorldPosGrid);
-
+        
         // make sure that the player can't place directly after pasting
         while (!Input.GetMouseButtonUp(0)) yield return null;
-
+        
         Instance.OnEndPositionEdit();
+        
+        // play sfx
+        AudioManager.Instance.Play(PlaceManager.Instance.DefaultPlaceSfx);
     }
-
-
+    
+    
     private void Awake()
     {
         if (Instance == null) Instance = this;

@@ -8,43 +8,43 @@ using UnityEngine;
 public class IntervalRandomAnimation : MonoBehaviour
 {
     public float IntervalSeconds;
-
+    
     public string AnimTriggerString;
-
+    
     // value between 0 - 1, next trigger has to be in range of deviation
     [Range(0, 1)] public float LimitDeviation;
-
+    
     public bool TriggerOnlyAtPlayMode;
-
-    public string SoundEffect;
-
+    
+    public SoundEffect SoundEffect;
+    
     private int lastTrigger;
-
+    
     private Animator anim;
-
+    
     private void Awake() => anim = GetComponent<Animator>();
-
+    
     private void FixedUpdate()
     {
-        if (TriggerOnlyAtPlayMode && !EditModeManager.Instance.Playing) return;
-
+        if (TriggerOnlyAtPlayMode && !LevelSessionEditManager.Instance.Playing) return;
+        
         if (lastTrigger >= IntervalSeconds / Time.fixedDeltaTime * LimitDeviation) CheckAnimationTrigger();
-
+        
         lastTrigger++;
     }
-
+    
     private void CheckAnimationTrigger()
     {
         // check animation trigger
         float p = Time.fixedDeltaTime / IntervalSeconds;
-
+        
         if (Random.Range(0, 0.999f) >= p &&
             lastTrigger < IntervalSeconds / Time.fixedDeltaTime * (LimitDeviation + 1)) return;
-
+        
         anim.SetTrigger(AnimTriggerString);
-
-        if (!SoundEffect.Equals("")) AudioManager.Instance.Play(SoundEffect);
-
+        
+        AudioManager.Instance.Play(SoundEffect);
+        
         lastTrigger = 0;
     }
 }

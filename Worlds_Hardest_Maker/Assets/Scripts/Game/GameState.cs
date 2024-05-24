@@ -6,19 +6,7 @@ using UnityEngine;
 /// </summary>
 public class GameState
 {
-    public Vector2 PlayerStartPos;
+    public CheckpointController Checkpoint;
     public List<Vector2> CollectedCoins;
     public List<Vector2> CollectedKeys;
-
-    public GameState(Vector2 playerStartPos, List<Vector2> collectedCoins, List<Vector2> collectedKeys)
-    {
-        PlayerStartPos = playerStartPos;
-        CollectedCoins = collectedCoins;
-        CollectedKeys = collectedKeys;
-    }
-
-    public bool Equals(GameState other) =>
-        PlayerStartPos == other.PlayerStartPos &&
-        CollectedCoins.Equals(other.CollectedCoins) &&
-        CollectedKeys.Equals(other.CollectedKeys);
 }

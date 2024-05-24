@@ -1,51 +1,74 @@
 using System;
+using MyBox;
 using UnityEngine;
 using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
-
-    public float TransitionTime = 1;
-
-    public AudioMixerSnapshot DefaultState;
-
-    public AudioMixerSnapshot FilteredState;
-
-    [Space] public Sound[] Sounds;
-
+    
+    [SerializeField] [PositiveValueOnly] [InitializationField] private float transitionTime = 0.5f;
+    
+    [SerializeField] [InitializationField] private AudioMixerSnapshot defaultState;
+    
+    [SerializeField] [InitializationField] private AudioMixerSnapshot filteredState;
+    
+    [Space] [SerializeField] private Sound[] sounds;
+    
+    public void Play(string name)
+    {
+        Sound sound = Array.Find(sounds, sound => sound.Name == name);
+        if (sound == null)
+        {
+            Debug.LogWarning($"The sound called {name} was not found!");
+            return;
+        }
+        
+        sound.Play();
+    }
+    
+    public void Play(SoundEffect sfx)
+    {
+        Sound sound = Array.Find(sounds, sound => sound.Name == sfx.Sound);
+        
+        if (sound == null)
+        {
+            Debug.LogWarning($"The sound called {sfx.Sound} was not found!");
+            return;
+        }
+        
+        // randomize pitch
+        if (sfx.PitchRandomization)
+        {
+            sound.Play(sfx.PitchDeviation);
+            return;
+        }
+        
+        sound.Play();
+    }
+    
+    public void MusicFiltered(bool filtered) => (filtered ? filteredState : defaultState).TransitionTo(transitionTime);
+    
+    
     private void Awake()
     {
         if (Instance == null) Instance = this;
-
-        foreach (Sound s in Sounds)
-        {
-            s.Source = gameObject.AddComponent<AudioSource>();
-            s.Source.clip = s.AudioClip;
-            s.Source.outputAudioMixerGroup = s.Output;
-            s.Source.mute = s.Mute;
-            s.Source.loop = s.Loop;
-            s.Source.volume = s.Volume;
-            s.Source.pitch = s.Pitch;
-            if (s.PlayOnAwake) s.Source.Play();
-        }
+        
+        sounds.ForEach(sound => sound.CreateSources(gameObject));
     }
-
-    public void Play(string name)
+    
+    private void Start()
     {
-        Sound s = Array.Find(Sounds, sound => sound.Name == name);
-        if (s == null)
+        PlayManager.Instance.OnSwitchToPlay += () =>
         {
-            Debug.LogWarning($"The sound name {name} was not found!");
-            return;
-        }
-
-        s.Source.Play();
-    }
-
-    public void MusicFiltered(bool filtered)
-    {
-        if (filtered) FilteredState.TransitionTo(TransitionTime);
-        else DefaultState.TransitionTo(TransitionTime);
+            Play("Bell");
+            MusicFiltered(false);
+        };
+        
+        PlayManager.Instance.OnSwitchToEdit += () =>
+        {
+            Play("Bell");
+            MusicFiltered(true);
+        };
     }
 }

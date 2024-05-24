@@ -1,81 +1,83 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
+using MyBox;
 using UnityEngine;
 
-public class CheckpointController : MonoBehaviour
+public class CheckpointController : MonoBehaviour, IResettable
 {
     public bool Activated;
     private static bool reusableCheckpoints = true;
-
+    
+    [ReadOnly] public bool IsAttached;
+    [ReadOnly] [CanBeNull] public AnchorController Sheet;
+    
     public static bool ReusableCheckpoints
     {
         get => reusableCheckpoints;
         set
         {
             if (value) ResetCheckpoints();
-
+            
             reusableCheckpoints = value;
         }
     }
-
+    
     private static readonly List<CheckpointController> activatedCheckpoints = new();
-
+    
     private CheckpointTween anim;
-
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject player = collision.gameObject;
         if (!player.CompareTag("Player")) return;
-
+        
         // check if player wasn't on checkpoint before
         PlayerController controller = player.GetComponent<PlayerController>();
-
-        bool alreadyOnField = controller.IsOnField(FieldType.CheckpointField);
-
+        
+        bool alreadyOnField = controller.IsOnFieldInSheet(EditModeManager.Checkpoint, Sheet);
+        
         if ((Activated && !reusableCheckpoints) || alreadyOnField) return;
-
+        
         if (reusableCheckpoints) ResetCheckpoints();
-
+        
         ChainActivate();
-
-        Vector2 pos = transform.position;
-        controller.ActivateCheckpoint(pos);
-
-        AudioManager.Instance.Play("Checkpoint");
+        
+        controller.ActivateCheckpoint(this);
+        
+        AudioManager.Instance.Play("ActivateCheckpoint");
     }
-
+    
     public void ChainActivate()
     {
         Activate();
-
-        List<GameObject> neighbors = FieldManager.GetNeighbors(gameObject);
-        foreach (GameObject n in neighbors)
+        
+        List<FieldController> neighbors = FieldManager.Instance.GetNeighborsInSheet(gameObject, Sheet);
+        foreach (FieldController n in neighbors)
         {
-            CheckpointController checkpoint = n.GetComponent<CheckpointController>();
-
-            if (checkpoint == null || checkpoint.Activated) continue;
-
+            if (!n.TryGetComponent(out CheckpointController checkpoint) || checkpoint.Activated) continue;
+            
             checkpoint.ChainActivate();
         }
     }
-
+    
     public void Activate()
     {
         Activated = true;
-
+        
         activatedCheckpoints.Add(this);
-
+        
         anim.Activate(reusableCheckpoints);
     }
-
+    
     public void Deactivate(bool remove = true)
     {
         Activated = false;
-
+        
         if (remove) activatedCheckpoints.Remove(this);
-
-        anim.Deactivate();
+        
+        anim.DeactivateTween();
     }
-
+    
     private static void ResetCheckpoints()
     {
         // deactivate every checkpoint
@@ -83,9 +85,21 @@ public class CheckpointController : MonoBehaviour
         {
             if (controller != null) controller.Deactivate(false);
         }
-
+        
         activatedCheckpoints.Clear();
     }
-
-    private void Start() => anim = GetComponent<CheckpointTween>();
+    
+    private void Start()
+    {
+        anim = GetComponent<CheckpointTween>();
+        
+        IsAttached = TryGetComponent(out AnchorAttachment attachment);
+        if (IsAttached) Sheet = attachment.Anchor;
+        
+        ((IResettable)this).Subscribe();
+    }
+    
+    public void ResetState() => Activated = false;
+    
+    private void OnDestroy() => ((IResettable)this).Unsubscribe();
 }

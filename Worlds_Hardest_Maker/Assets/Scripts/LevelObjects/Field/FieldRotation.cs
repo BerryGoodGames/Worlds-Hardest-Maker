@@ -1,63 +1,55 @@
-using System.Collections;
+using DG.Tweening;
 using MyBox;
-using Photon.Pun;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class FieldRotation : MonoBehaviour
 {
-    // hippety hoppety
-    public float Duration;
-    public Vector3 RotateAngle;
-    private bool rotating;
+    [SerializeField] [PositiveValueOnly] private float duration;
+    [SerializeField] private Vector3 rotateAngle = new(0, 0, -90);
+    [SerializeField] private float animationScale = 1.2f;
     [SerializeField] private bool disableCollision;
-
-    [SerializeField] [ConditionalField(nameof(disableCollision))] [MustBeAssigned] private BoxCollider2D boxCollider;
-
-    private static readonly int rotateString = Animator.StringToHash("Rotate");
-
-    private IEnumerator Rotate(Vector3 angles, float d)
+    [SerializeField] [ConditionalField(nameof(disableCollision))] [Required] private BoxCollider2D boxCollider;
+    
+    private FieldController controller;
+    
+    private Sequence scaleSequence;
+    
+    private void Rotate()
     {
-        rotating = true;
-        Quaternion startRotation = transform.rotation;
-        Quaternion endRotation = Quaternion.Euler(angles) * startRotation;
-
-        for (float t = 0; t < d; t += Time.deltaTime)
-        {
-            transform.rotation = Quaternion.Lerp(startRotation, endRotation, t / d);
-            yield return null;
-        }
-
-        transform.rotation = endRotation;
-        rotating = false;
-
-        if (disableCollision) boxCollider.isTrigger = false;
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+        
+        if (disableCollision) boxCollider.enabled = false;
+        
+        transform.DOComplete();
+        scaleSequence?.Complete();
+        
+        transform.DORotate(rotateAngle, duration)
+            .SetRelative()
+            .SetEase(Ease.OutQuart)
+            .OnComplete(
+                () =>
+                {
+                    if (disableCollision) boxCollider.enabled = true;
+                }
+            );
+        
+        Vector3 originalScale = transform.localScale;
+        
+        scaleSequence = DOTween.Sequence();
+        scaleSequence.Append(transform.DOScale(Vector3.one * animationScale, duration / 2).SetEase(Ease.OutCubic))
+            .Append(transform.DOScale(originalScale, duration / 2).SetEase(Ease.InCubic));
     }
-
-    [PunRPC]
-    public void StartRotation()
-    {
-        if (rotating || EventSystem.current.IsPointerOverGameObject()) return;
-
-        if (disableCollision) boxCollider.isTrigger = true;
-
-        Animator anim = GetComponent<Animator>();
-        anim.SetTrigger(rotateString);
-
-        StartCoroutine(Rotate(RotateAngle, Duration));
-    }
-
+    
     private void OnMouseUpAsButton()
     {
-        if (SelectionManager.Instance.Selecting || CopyManager.Instance.Pasting || EditModeManager.Instance.Playing ||
-            EditModeManager.Instance.CurrentEditMode !=
-            EnumUtils.ConvertEnum<FieldType, EditMode>((FieldType)FieldManager.GetFieldType(gameObject))) return;
-
-        if (MultiplayerManager.Instance.Multiplayer)
-        {
-            PhotonView view = PhotonView.Get(this);
-            view.RPC("StartRotation", RpcTarget.All);
-        }
-        else StartRotation();
+        if (SelectionManager.Instance.Selecting || CopyManager.Instance.Pasting || LevelSessionEditManager.Instance.Playing) return;
+        
+        if (LevelSessionEditManager.Instance.CurrentEditMode != controller.FieldMode) return;
+        
+        Rotate();
     }
+    
+    private void Awake() => controller = GetComponent<FieldController>();
 }

@@ -8,16 +8,16 @@ public class DestroyingOurProject : MonoBehaviour
 {
     // ReSharper disable once InconsistentNaming
     public int INTENSITY;
-
+    
     private void Start()
     {
         print($"We're about to fill {Mathf.Pow(INTENSITY * 2 + 1, 2)} fields! (gotta go)");
-
+        
         SelectionManager.Instance.FillArea(
             new(-INTENSITY, -INTENSITY), new(INTENSITY, INTENSITY),
-            EditMode.WallField
+            EditModeManager.Wall
         );
-
+        
         SaveSystem.SaveCurrentLevel();
     }
 }

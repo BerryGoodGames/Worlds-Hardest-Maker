@@ -5,33 +5,58 @@ using UnityEngine;
 ///     Key attributes: position, color
 /// </summary>
 [Serializable]
-public class KeyData : Data
+public class KeyData : AttachableData
 {
     public float[] Position;
-    public KeyManager.KeyColor Color;
-
+    public KeyColor Color;
+    
     public KeyData(KeyController controller)
     {
-        Vector2 keyPosition = controller.transform.position;
-
+        Vector2 keyPosition = controller.InitialPosition;
+        
         Position = new float[2];
         Position[0] = keyPosition.x;
         Position[1] = keyPosition.y;
         Color = controller.Color;
     }
-
-    public override void ImportToLevel(Vector2 pos) => KeyManager.Instance.SetKey(pos, Color);
-
-    public override void ImportToLevel() => ImportToLevel(new(Position[0], Position[1]));
-
+    
+    public override void ImportToLevel(Vector2 pos)
+    {
+        ManagerParameters args = new()
+        {
+            Position = pos,
+            KeyColor = Color,
+        };
+        
+        KeyManager.Instance.SetInSheet(args);
+    }
+    
+    public override void ImportToLevel(AnchorController sheet)
+    {
+        ManagerParameters args = new()
+        {
+            Position = new(Position[0], Position[1]),
+            KeyColor = Color,
+            Sheet = sheet,
+        };
+        
+        KeyManager.Instance.SetInSheet(args);
+    }
+    
     public override EditMode GetEditMode() =>
         Color switch
         {
-            KeyManager.KeyColor.Gray => EditMode.GrayKey,
-            KeyManager.KeyColor.Red => EditMode.RedKey,
-            KeyManager.KeyColor.Green => EditMode.GreenKey,
-            KeyManager.KeyColor.Blue => EditMode.BlueKey,
-            KeyManager.KeyColor.Yellow => EditMode.YellowKey,
-            _ => EditMode.GrayKey,
+            KeyColor.Gray => EditModeManager.GrayKey,
+            KeyColor.Red => EditModeManager.RedKey,
+            KeyColor.Green => EditModeManager.GreenKey,
+            KeyColor.Blue => EditModeManager.BlueKey,
+            KeyColor.Yellow => EditModeManager.YellowKey,
+            _ => EditModeManager.GrayKey,
         };
+    
+    public override bool Equals(Data d)
+    {
+        KeyData other = (KeyData)d;
+        return other.Position[0] == Position[0] && other.Position[1] == Position[1] && other.Color == Color;
+    }
 }

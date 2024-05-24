@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class AnchorBlockDirectionController : MonoBehaviour
 {
     [SerializeField] [InitializationField] private Image directionImage;
-
+    
     [SerializeField] [InitializationField] [PositiveValueOnly] private float animationDuration;
-
+    
     private bool isClockwise = true;
-
+    
     public bool IsClockwise
     {
         get => isClockwise;
@@ -19,16 +19,16 @@ public class AnchorBlockDirectionController : MonoBehaviour
             if (value != isClockwise) Toggle(false);
         }
     }
-
+    
     [ButtonMethod]
     public void Toggle(bool animation = true)
     {
         isClockwise = !isClockwise;
-
+        
         directionImage.rectTransform.DOKill();
-
+        
         Vector3 currentRotation = directionImage.rectTransform.rotation.eulerAngles;
-
+        
         if (animation)
         {
             directionImage.rectTransform.DORotate(

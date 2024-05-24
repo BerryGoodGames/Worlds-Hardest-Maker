@@ -5,22 +5,41 @@ using UnityEngine;
 ///     Coin attributes: position
 /// </summary>
 [Serializable]
-public class CoinData : Data
+public class CoinData : AttachableData
 {
     public float[] Position;
-
+    
     public CoinData(CoinController controller)
     {
-        Vector2 controllerPosition = controller.transform.position;
-
+        Vector2 controllerPosition = controller.InitialPosition;
+        
         Position = new float[2];
         Position[0] = controllerPosition.x;
         Position[1] = controllerPosition.y;
     }
-
-    public override void ImportToLevel() => ImportToLevel(new(Position[0], Position[1]));
-
-    public override void ImportToLevel(Vector2 pos) => CoinManager.Instance.SetCoin(pos);
-
-    public override EditMode GetEditMode() => EditMode.Coin;
+    
+    public override void ImportToLevel(AnchorController sheet)
+    {
+        ManagerParameters args = new()
+        {
+            Position = new(Position[0], Position[1]),
+            Sheet = sheet,
+        };
+        
+        ((IManager<CoinController>)CoinManager.Instance).SetInSheet(args);
+    }
+    
+    public override void ImportToLevel(Vector2 pos)
+    {
+        ManagerParameters args = new() { Position = pos, };
+        ((IManager<CoinController>)CoinManager.Instance).Set(args);
+    }
+    
+    public override EditMode GetEditMode() => EditModeManager.Coin;
+    
+    public override bool Equals(Data d)
+    {
+        CoinData other = (CoinData)d;
+        return other.Position[0] == Position[0] && other.Position[1] == Position[1];
+    }
 }

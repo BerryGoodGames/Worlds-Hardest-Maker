@@ -1,58 +1,68 @@
-using System;
+using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Tool : MonoBehaviour
 {
-    [HideInInspector] public EditMode ToolName;
-
-    [SerializeField] private string toolType;
-
-    [HideInInspector] public bool Selected;
-
+    [DisplayInspector] [InitializationField] [Required] public EditMode ToolEditMode;
+    
+    [Separator] [OverrideLabel("Fade Tween")] [SerializeField] private AlphaTween anim;
+    [FormerlySerializedAs("selectionSquare")] [SerializeField] private ToolSelectionSquare toolSelectionSquare;
+    
+    [HideInInspector] public bool IsSelected;
+    
     [HideInInspector] public bool InOptionbar;
-
-    private SelectionSquare selectionSquare;
-    private AlphaTween anim;
-    private MouseOverUIRect mouseOverUIRect;
-
-    private void Awake()
-    {
-        if (!Enum.TryParse(toolType, out ToolName)) Debug.LogError($"{toolType} was not a valid type");
-
-        InOptionbar = transform.parent.CompareTag("OptionContainer");
-    }
-
+    
+    public MouseOverUIRect MouseOverUIRect { get; private set; }
+    
+    private void Awake() => InOptionbar = transform.parent.CompareTag("OptionContainer");
+    
     private void Start()
     {
-        anim = GetComponent<AlphaTween>();
-        mouseOverUIRect = GetComponent<MouseOverUIRect>();
-        selectionSquare = transform.GetChild(1).GetComponent<SelectionSquare>();
+        MouseOverUIRect = GetComponent<MouseOverUIRect>();
+        
+        OnExitAnchorAttach();
+        
+        AnchorAttachManager.OnEnterAttachMode += OnEnterAnchorAttach;
+        AnchorAttachManager.OnExitAttachMode += OnExitAnchorAttach;
     }
-
+    
     public void SwitchGameMode(bool setEditModeVariable)
     {
         ToolbarManager.DeselectAll();
-        IsSelected(true);
-        if (setEditModeVariable) EditModeManager.Instance.CurrentEditMode = ToolName;
+        SetSelected(true);
+        if (setEditModeVariable) LevelSessionEditManager.Instance.CurrentEditMode = ToolEditMode;
     }
-
+    
     public void SwitchGameMode() => SwitchGameMode(true);
-
-    public void IsSelected(bool selected)
+    
+    public void SetSelected(bool selected)
     {
-        if (selectionSquare == null) return;
-
-        selectionSquare.Selected(selected);
-
-        Selected = selected;
-
-        if (!InOptionbar || !selected) return;
-
+        if (toolSelectionSquare == null) return;
+        
+        toolSelectionSquare.SetSelected(selected);
+        
+        IsSelected = selected;
+        
+        if (!InOptionbar || !IsSelected) return;
+        
         Tool parentTool = transform.parent.parent.parent.GetComponent<Tool>();
         parentTool.SubSelected(true);
     }
-
-    public void SubSelected(bool subselected) => selectionSquare.SubSelected(subselected);
-
-    private void Update() => anim.SetVisible(Selected || (mouseOverUIRect.Over && !ReferenceManager.Instance.Menu.activeSelf));
+    
+    public void SubSelected(bool subselected) => toolSelectionSquare.SetSubSelected(subselected);
+    
+    private void Update() => anim.SetVisible(IsSelected || (MouseOverUIRect.Over && !ReferenceManager.Instance.Menu.activeSelf));
+    
+    private void SetVisible(bool visible) => gameObject.SetActive(visible);
+    
+    private void OnEnterAnchorAttach() => SetVisible(ToolEditMode.AnchorAvailable);
+    private void OnExitAnchorAttach() => SetVisible(ToolEditMode.DefaultAvailable);
+    
+    private void OnDestroy()
+    {
+        AnchorAttachManager.OnEnterAttachMode -= OnEnterAnchorAttach;
+        AnchorAttachManager.OnExitAttachMode -= OnExitAnchorAttach;
+    }
 }

@@ -225,7 +225,6 @@ MonoBehaviour:
   keyDel: {fileID: 21300000, guid: 4d27becfc6f0bf24990c4adf9a6424e5, type: 3}
   keyE: {fileID: 21300000, guid: 5d037f7b93d54ac43811c5e4ed4c6be4, type: 3}
   keyEnd: {fileID: 21300000, guid: fa8e61ec33649a54eb47aa1e02e651e3, type: 3}
-  keyEnter: {fileID: 21300000, guid: 88aff80043025a348bc18ad58b19aee2, type: 3}
   keyEnterTall: {fileID: 21300000, guid: fe850be86eaa7684d9ba1a46a53a0ab5, type: 3}
   keyEsc: {fileID: 21300000, guid: 3892d47d0482ef74dab2f3710af8677c, type: 3}
   keyF1: {fileID: 21300000, guid: 632127281de0f544b83986f9727d2506, type: 3}

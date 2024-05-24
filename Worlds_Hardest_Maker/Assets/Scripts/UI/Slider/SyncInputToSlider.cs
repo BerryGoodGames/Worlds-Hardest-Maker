@@ -1,3 +1,5 @@
+using MyBox;
+using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,47 +7,65 @@ using UnityEngine.UI;
 using UnityEditor.Events;
 #endif
 
+[RequireComponent(typeof(TMPDecimalInputAdjuster))]
 public class SyncInputToSlider : MonoBehaviour
 {
-    public Slider Slider;
-    [SerializeField] private float decimals = 2;
-    private TMP_InputField input;
-
+    [SerializeField] [InitializationField] [Required] private TMPDecimalInputAdjuster numberSettings;
+    [InitializationField] [Required] public TMP_InputField Input;
+    [Separator] [InitializationField] [Required] public Slider Slider;
+    
+    [SerializeField] [InitializationField] private uint decimals = 2;
+    
     private void Start() => UpdateInput();
-
+    
     public void UpdateSlider()
     {
         // try to read input text and set slider value
-        if (float.TryParse(input.text, out float value)) Slider.value = Rounded(value);
+        if (!float.TryParse(Input.text, out float value)) return;
+        
+        float clampedValue = Mathf.Clamp(
+            Rounded(value),
+            Slider.minValue * (!numberSettings.ForbidDecimals && numberSettings.RoundToStep ? numberSettings.StepValue : 1),
+            Slider.maxValue * (!numberSettings.ForbidDecimals && numberSettings.RoundToStep ? numberSettings.StepValue : 1)
+        );
+        
+        Input.text = clampedValue.ToString();
+        Slider.value = clampedValue / (!numberSettings.ForbidDecimals && numberSettings.RoundToStep ? numberSettings.StepValue : 1);
     }
-
+    
     public void UpdateInput()
     {
-        if (input == null) input = GetComponent<TMP_InputField>();
-
+        if (Input == null) Input = GetComponent<TMP_InputField>();
+        
+        float value = GetCurrentSliderValue();
+        
         // convert slider value to text and put in into the input
-        input.text = Rounded(Slider.value).ToString();
+        Input.text = value.ToString();
     }
-
+    
+    public float GetCurrentSliderValue() =>
+        Rounded(Slider.value) * (!numberSettings.ForbidDecimals && numberSettings.RoundToStep ? numberSettings.StepValue : 1);
+    
     /// <summary>
     ///     Setup for synchronisation (add event listeners etc.)
     /// </summary>
     public void Synchronise()
     {
-#if UNITY_EDITOR
-        input = GetComponent<TMP_InputField>();
-
+        #if UNITY_EDITOR
+        Input = GetComponent<TMP_InputField>();
+        numberSettings = GetComponent<TMPDecimalInputAdjuster>();
+        
         // set stuff in input //
         UnityEventTools.AddPersistentListener(
-            input.onValueChanged,
+            Input.onValueChanged,
             _ => { UpdateSlider(); }
         ); // add Update Slider to persistent event listener
-
+        
         // set stuff in slider //
         UnityEventTools.AddPersistentListener(Slider.onValueChanged, _ => { UpdateInput(); });
         // add Update Input to persistent event listener
-#endif
+        #endif
     }
-
+    
     private float Rounded(float value) => Mathf.Round(value * Mathf.Pow(10, decimals)) * Mathf.Pow(10, -decimals);
 }

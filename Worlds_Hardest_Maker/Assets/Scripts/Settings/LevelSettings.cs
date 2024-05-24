@@ -1,133 +1,209 @@
+using System;
+using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelSettings : MonoBehaviour
 {
     public static LevelSettings Instance { get; private set; }
-
+    
+    public event Action OnLevelSettingsImported = () => { };
+    public event Action OnUpdateRoomSize = () => { };
+    
+    
     #region Setting UI element references
-
-    [SerializeField] private NumberInput drownDurationInput;
-    [SerializeField] private Slider waterDampingSlider;
-    [SerializeField] private NumberInput iceFrictionInput;
-    [SerializeField] private NumberInput iceMaxSpeedInput;
-    [SerializeField] private Toggle reusableCheckpointCheckbox;
-
+    
+    [SerializeField] [InitializationField] [Required] private NumberInput roomWidthInput;
+    [SerializeField] [InitializationField] [Required] private NumberInput roomHeightInput;
+    [SerializeField] [InitializationField] [Required] private Slider playerSpeedInput;
+    [SerializeField] [InitializationField] [Required] private NumberInput coinsNeededInput;
+    [SerializeField] [InitializationField] [Required] private Toggle isCoinsNeededLimitedInput;
+    [SerializeField] [InitializationField] [Required] private Toggle playerInvincibilityInput;
+    [SerializeField] [InitializationField] [Required] private NumberInput drownDurationInput;
+    [SerializeField] [InitializationField] [Required] private Slider waterDampingSlider;
+    [SerializeField] [InitializationField] [Required] private NumberInput iceFrictionInput;
+    [SerializeField] [InitializationField] [Required] private NumberInput iceMaxSpeedInput;
+    [SerializeField] [InitializationField] [Required] private Slider conveyorSpeedInput;
+    [SerializeField] [InitializationField] [Required] private Toggle reusableCheckpointCheckbox;
+    
     #endregion
-
+    
     #region Setting variables
-
+    
+    [HideInInspector] public int RoomWidth;
+    
+    [HideInInspector] public int RoomHeight;
+    
+    [HideInInspector] public float PlayerSpeed;
+    
+    [HideInInspector] public bool IsCoinsNeededLimited;
+    
+    [HideInInspector] public int CoinsNeeded;
+    
+    [HideInInspector] public bool PlayerInvincibility;
+    
     [HideInInspector] public float DrownDuration;
-
-    [HideInInspector] public float WaterDamping;
-
+    
+    [HideInInspector] public float WaterDampingFactor;
+    
     [HideInInspector] public float IceFriction;
-
+    
     [HideInInspector] public float IceMaxSpeed;
-
+    
+    [HideInInspector] public float ConveyorSpeed;
+    
     public bool ReusableCheckpoints
     {
         get => CheckpointController.ReusableCheckpoints;
         set => CheckpointController.ReusableCheckpoints = value;
     }
-
+    
     #endregion
-
-
+    
+    
     #region Level settings
-
-    public void SetDrownDuration(bool syncPlayers = true)
+    
+    public void SetRoomWidth() => RoomWidth = (int)roomWidthInput.GetCurrentNumber();
+    
+    public void SetRoomWidth(int value)
     {
-        Instance.DrownDuration = drownDurationInput.GetCurrentNumber();
-        if (syncPlayers) SyncPlayersToSettings();
+        RoomWidth = value;
+        roomWidthInput.SetNumberText(value);
     }
-
-    public void SetDrownDuration(float drownDuration, bool syncPlayers = true)
+    
+    public void SetRoomHeight() => RoomHeight = (int)roomHeightInput.GetCurrentNumber();
+    
+    public void SetRoomHeight(int value)
     {
-        Instance.DrownDuration = drownDuration;
+        RoomHeight = value;
+        roomHeightInput.SetNumberText(value);
+    }
+    
+    public void SetPlayerSpeed() => PlayerSpeed = playerSpeedInput.value / 2;
+    
+    public void SetPlayerSpeed(float value)
+    {
+        PlayerSpeed = value;
+        playerSpeedInput.value = (int)(value * 2);
+    }
+    
+    public void SetCoinsNeeded() => CoinsNeeded = (int)coinsNeededInput.GetCurrentNumber();
+    
+    public void SetCoinsNeeded(int value)
+    {
+        CoinsNeeded = value;
+        coinsNeededInput.SetNumberText(value);
+    }
+    
+    public void SetIsNeededCoinsLimited() => IsCoinsNeededLimited = isCoinsNeededLimitedInput.isOn;
+    
+    public void SetIsNeededCoinsLimited(bool value)
+    {
+        IsCoinsNeededLimited = value;
+        isCoinsNeededLimitedInput.isOn = IsCoinsNeededLimited;
+    }
+    
+    public void SetPlayerInvincibility() => PlayerInvincibility = playerInvincibilityInput.isOn;
+    
+    public void SetPlayerInvincibility(bool value)
+    {
+        PlayerInvincibility = value;
+        playerInvincibilityInput.isOn = value;
+    }
+    
+    public void SetDrownDuration() => DrownDuration = drownDurationInput.GetCurrentNumber();
+    
+    public void SetDrownDuration(float drownDuration)
+    {
+        DrownDuration = drownDuration;
         drownDurationInput.SetNumberText(drownDuration);
-        if (syncPlayers) SyncPlayersToSettings();
     }
-
-    public void SetWaterDamping(bool syncPlayers = true)
+    
+    public void SetWaterDamping() => WaterDampingFactor = 1 - waterDampingSlider.value;
+    
+    public void SetWaterDamping(float waterDamping)
     {
-        if (Instance == null) return;
-
-        Instance.WaterDamping = 1 - waterDampingSlider.value;
-        if (syncPlayers) SyncPlayersToSettings();
-    }
-
-    public void SetWaterDamping(float waterDamping, bool syncPlayers = true)
-    {
-        if (Instance == null) return;
-
-        Instance.WaterDamping = waterDamping;
+        WaterDampingFactor = waterDamping;
         waterDampingSlider.value = 1 - waterDamping;
-        if (syncPlayers) SyncPlayersToSettings();
     }
-
-    public void SetIceFriction(bool syncPlayers = true)
+    
+    public void SetIceFriction() => IceFriction = iceFrictionInput.GetCurrentNumber();
+    
+    public void SetIceFriction(float friction)
     {
-        Instance.IceFriction = iceFrictionInput.GetCurrentNumber();
-        if (syncPlayers) SyncPlayersToSettings();
-    }
-
-    public void SetIceFriction(float friction, bool syncPlayers = true)
-    {
-        Instance.IceFriction = friction;
+        IceFriction = friction;
         iceFrictionInput.SetNumberText(friction);
-        if (syncPlayers) SyncPlayersToSettings();
     }
-
-    public void SetIceMaxSpeed(bool syncPlayers = true)
+    
+    public void SetIceMaxSpeed() => IceMaxSpeed = iceMaxSpeedInput.GetCurrentNumber();
+    
+    public void SetIceMaxSpeed(float speed)
     {
-        Instance.IceMaxSpeed = iceMaxSpeedInput.GetCurrentNumber();
-        if (syncPlayers) SyncPlayersToSettings();
-    }
-
-    public void SetIceMaxSpeed(float speed, bool syncPlayers = true)
-    {
-        Instance.IceMaxSpeed = speed;
+        IceMaxSpeed = speed;
         iceMaxSpeedInput.SetNumberText(speed);
-        if (syncPlayers) SyncPlayersToSettings();
     }
-
-    public void SetReusableCheckpoints(bool reusableCheckpoint, bool syncPlayers = true)
+    
+    public void SetConveyorSpeed() => ConveyorSpeed = conveyorSpeedInput.value / 2;
+    
+    public void SetConveyorSpeed(float value)
     {
-        Instance.ReusableCheckpoints = reusableCheckpoint;
+        ConveyorSpeed = value;
+        conveyorSpeedInput.value = (int)(value * 2);
+    }
+    
+    public void SetReusableCheckpoints() => ReusableCheckpoints = reusableCheckpointCheckbox.isOn;
+    
+    public void SetReusableCheckpoints(bool reusableCheckpoint)
+    {
+        ReusableCheckpoints = reusableCheckpoint;
         reusableCheckpointCheckbox.isOn = reusableCheckpoint;
-        if (syncPlayers) SyncPlayersToSettings();
     }
-
-    public void SetReusableCheckpoints(bool syncPlayers = true)
-    {
-        Instance.ReusableCheckpoints = reusableCheckpointCheckbox.isOn;
-        reusableCheckpointCheckbox.isOn = reusableCheckpointCheckbox.isOn;
-        if (syncPlayers) SyncPlayersToSettings();
-    }
-
+    
     #endregion
-
-    public void SyncPlayersToSettings()
-    {
-        foreach (Transform player in ReferenceManager.Instance.PlayerContainer)
-        {
-            PlayerController p = player.GetComponent<PlayerController>();
-            p.SyncToLevelSettings();
-        }
-    }
-
+    
     private void Awake()
     {
         // init singleton
         if (Instance == null) Instance = this;
     }
-
+    
     private void Start()
     {
+        LevelSessionManager.Instance.OnLevelLoaded += ImportTransitionRoomSize;
+        
+        SetRoomWidth();
+        SetRoomHeight();
+        SetPlayerSpeed();
+        SetCoinsNeeded();
+        SetIsNeededCoinsLimited();
+        SetPlayerInvincibility();
         SetDrownDuration();
         SetIceFriction();
         SetIceMaxSpeed();
+        SetConveyorSpeed();
         SetWaterDamping();
     }
+    
+    private void ImportTransitionRoomSize()
+    {
+        if (LevelSessionManager.IsSessionFromEditor) return;
+        
+        Vector2Int transitionRoomSize = TransitionManager.Instance.RoomSize;
+        if (transitionRoomSize.x != 0) SetRoomWidth(transitionRoomSize.x);
+        if (transitionRoomSize.y != 0) SetRoomHeight(transitionRoomSize.y);
+        
+        InvokeOnUpdateRoomSize();
+    }
+    
+    private void OnDestroy() => LevelSessionManager.Instance.OnLevelLoaded -= ImportTransitionRoomSize;
+    
+    private void Update()
+    {
+        if (RoomWidth <= 0) SetRoomWidth(23);
+        if (RoomHeight <= 0) SetRoomHeight(15);
+    }
+    
+    public void InvokeOnImported() => OnLevelSettingsImported.Invoke();
+    public void InvokeOnUpdateRoomSize() => OnUpdateRoomSize.Invoke();
 }

@@ -1,0 +1,15 @@
+{
+    "name": "DV.Example.UI",
+    "references": [
+        "GUID:08b6196bfc505e54d9db2188816ae8dd"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

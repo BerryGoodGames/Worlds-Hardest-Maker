@@ -4,20 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - WallField
-  - StartField
-  - GoalField
   - DefaultField
-  - CheckpointField
   - Tool
-  - OneWayField
-  - KeyDoorField
   - OptionContainer
   - ToolOptionbar
-  - RedKeyDoorField
-  - GreenKeyDoorField
-  - BlueKeyDoorField
-  - YellowKeyDoorField
   - Anchor
   - BallObject
   - DontDestroy
@@ -27,14 +17,24 @@ TagManager:
   - Conveyor
   - Coin
   - Key
-  - BallCircleOrigin
-  - BallDefaultObject
   - Bullet
-  - AnchorBall
-  - AnchorBallObject
   - AnchorBlockPreview
   - StartBlock
   - AnchorObject
+  - Wall
+  - Start
+  - Goal
+  - Checkpoint
+  - OneWay
+  - GrayKeyDoor
+  - RedKeyDoor
+  - GreenKeyDoor
+  - BlueKeyDoor
+  - YellowKeyDoor
+  - AnchorFloor
+  - PlayerCenterCollider
+  - Ball
+  - AnchorPlatform
   layers:
   - Default
   - TransparentFX
@@ -75,12 +75,6 @@ TagManager:
   - name: Field
     uniqueID: 2010378691
     locked: 0
-  - name: Coin
-    uniqueID: 2369048943
-    locked: 0
-  - name: Key
-    uniqueID: 3716413133
-    locked: 0
   - name: Player
     uniqueID: 2411509005
     locked: 0
@@ -90,18 +84,33 @@ TagManager:
   - name: Outline
     uniqueID: 2603803107
     locked: 0
-  - name: Anchor
-    uniqueID: 3403536663
+  - name: Key
+    uniqueID: 3716413133
+    locked: 0
+  - name: Coin
+    uniqueID: 2369048943
     locked: 0
   - name: Ball
     uniqueID: 1700820465
+    locked: 0
+  - name: AnchorBelow
+    uniqueID: 2084701215
+    locked: 0
+  - name: Anchor
+    uniqueID: 3403536663
+    locked: 0
+  - name: Line
+    uniqueID: 3102500517
+    locked: 0
+  - name: AnchorAbove
+    uniqueID: 40911097
+    locked: 0
+  - name: PlayerPlayMode
+    uniqueID: 3475210841
     locked: 0
   - name: FillPreview
     uniqueID: 195234503
     locked: 0
   - name: PlacementPreview
     uniqueID: 3306098995
-    locked: 0
-  - name: Line
-    uniqueID: 3102500517
     locked: 0

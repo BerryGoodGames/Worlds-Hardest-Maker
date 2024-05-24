@@ -1,0 +1,30 @@
+using System;
+using MyBox;
+using UnityEngine;
+
+public abstract class EditMode : ScriptableObject
+{
+    [OverrideLabel("Class attributes")] public EditModeAttributes Attributes;
+    [Separator("General settings")] public string Tag;
+    public string UIString;
+    public string KeyboardShortcut;
+    public GameObject Prefab;
+    public WorldPositionType WorldPositionType = WorldPositionType.Grid;
+    public bool IsDraggable;
+    public bool ShowFillPreview = true;
+    [OverrideLabel("Can use in default/non anchor attach mode")] public bool DefaultAvailable = true;
+    [OverrideLabel("Can use in anchor attach mode")] public bool AnchorAvailable = true;
+    public bool Copyable = true;
+    
+    public override string ToString() => name;
+}
+
+[Serializable]
+public struct EditModeAttributes
+{
+    [ReadOnly] public bool IsField;
+    [ReadOnly] [ConditionalField(nameof(IsField))] public bool IsKeyDoor;
+    [Space] [ReadOnly] public bool IsEntity;
+    [ReadOnly] [ConditionalField(nameof(IsEntity))] public bool IsKey;
+    [ConditionalField(nameof(IsEntity))] public bool IsAnchorRelated;
+}

@@ -1,66 +1,129 @@
+using DG.Tweening;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
-public class CoinController : EntityController
+public class CoinController : EntityController, IResettable, ICollectible
 {
-    [InitializationField] [MustBeAssigned] public Animator Animator;
-
-    [HideInInspector] public Vector2 CoinPosition;
-
+    [Separator] [SerializeField] [MyBox.MinValue(0)] private float fadeDuration = 0.5f;
+    [Separator] [InitializationField] [Required] public Animator Animator;
+    [SerializeField] [InitializationField] [Required] private SpriteRenderer spriteRenderer;
+    
+    [HideInInspector] public Vector2 InitialPosition;
+    
     [HideInInspector] public bool PickedUp;
-
+    
+    private static readonly int playingString = Animator.StringToHash("Playing");
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
-
+    
+    public override EditMode EditMode => EditModeManager.Coin;
+    
     private void Awake()
     {
-        CoinPosition = transform.position;
-
+        InitialPosition = transform.position;
+        
         CoinManager.Instance.Coins.Add(this);
     }
-
+    
+    protected override void Start()
+    {
+        base.Start();
+        
+        ((IResettable)this).Subscribe();
+        PlayManager.Instance.OnSwitchToPlay += ActivateAnimation;
+    }
+    
+    private void OnDestroy()
+    {
+        // un-cache coin
+        CoinManager.Instance.Coins.Remove(this);
+        
+        ((IResettable)this).Unsubscribe();
+        PlayManager.Instance.OnSwitchToPlay -= ActivateAnimation;
+        
+        DOTween.Kill(gameObject);
+    }
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (PickedUp) return;
-
+        
         // check if edgeCollider is player
         if (!collision.TryGetComponent(out PlayerController controller)) return;
-
-        // check if player is of own client
-        if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) return;
-
+        
         // check if that player hasn't picked coin up yet
-        if (controller.CoinsCollected.Contains(gameObject)) return;
-
-        PickUp(collision.gameObject);
-
+        if (CoinManager.Instance.CollectedCoins.Contains(this)) return;
+        
+        Collect();
+        
         // check if player is in goal while collecting coin
-        if (!controller.AllCoinsCollected()) return;
-
-        foreach (GameObject field in controller.CurrentFields)
+        if (!CoinManager.Instance.AllCoinsCollected()) return;
+        
+        foreach (FieldController field in controller.CurrentFields)
         {
-            FieldType fieldType = (FieldType)FieldManager.GetFieldType(field);
-            if (fieldType != FieldType.GoalField) continue;
-
+            FieldMode fieldMode = field.FieldMode;
+            if (fieldMode != EditModeManager.Goal) continue;
+            
             controller.Win();
             break;
         }
     }
-
-    private void OnDestroy() =>
-        // un-cache coin
-        CoinManager.Instance.Coins.Remove(this);
-
-    private void PickUp(GameObject player)
+    
+    public void Collect()
     {
-        PlayerController controller = player.GetComponent<PlayerController>();
-        controller.CoinsCollected.Add(gameObject);
-
+        CoinManager.Instance.CollectedCoins.Add(this);
+        
         // coin counter, sfx, animation
-        AudioManager.Instance.Play("Coin");
-
+        AudioManager.Instance.Play("PlaceCoin");
+        
         Animator.SetBool(pickedUpString, true);
         PickedUp = true;
     }
-
+    
+    public bool ShouldRespawn()
+    {
+        PlayerController player = PlayerManager.Instance.Player;
+        if (player == null)
+        {
+            Debug.LogWarning("Could not find player");
+            return false;
+        }
+        
+        // check if coin should respawn
+        bool respawns = true;
+        if (player.CurrentGameState == null) return true;
+        
+        foreach (Vector2 collected in player.CurrentGameState.CollectedCoins)
+        {
+            if (!collected.x.EqualsFloat(InitialPosition.x) ||
+                !collected.y.EqualsFloat(InitialPosition.y)) continue;
+            
+            // if coin is collected or no state exists it doesn't respawn
+            respawns = false;
+            break;
+        }
+        
+        return respawns;
+    }
+    
+    public void FadeIn() => spriteRenderer.DOFade(1, fadeDuration).SetId(gameObject);
+    public void FadeOut() => spriteRenderer.DOFade(0, fadeDuration).SetId(gameObject);
+    
+    public void ResetState()
+    {
+        PickedUp = false;
+        
+        Animator.SetBool(playingString, false);
+        Animator.SetBool(pickedUpString, false);
+    }
+    
+    public void ActivateAnimation()
+    {
+        Animator.SetBool(playingString, true);
+        Animator.SetBool(pickedUpString, PickedUp);
+    }
+    
     public override Data GetData() => new CoinData(this);
+    
+    public override void OnAnchorMove(Vector2 oldPos, Vector2 newPos) => InitialPosition = transform.position;
 }

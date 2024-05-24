@@ -168,9 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ce751ed13a38445b05b448b3d47559, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RectTransform: {fileID: 2525209195818855928}
-  Tween: {fileID: 5918806618074354191}
-  SelectedAnchorBlock: {fileID: 0}
+  selectedAnchorBlock: {fileID: 0}
 --- !u!114 &5877653441506176397
 MonoBehaviour:
   m_ObjectHideFlags: 0

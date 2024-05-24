@@ -11,7 +11,7 @@ public class SelectGameObjectsWithMissingScripts : Editor
         // Get the current scene and all top-level GameObjects in the scene hierarchy
         Scene currentScene = SceneManager.GetActiveScene();
         GameObject[] rootObjects = currentScene.GetRootGameObjects();
-
+        
         List<Object> objectsWithDeadLinks = new();
         foreach (GameObject g in rootObjects)
         {
@@ -21,7 +21,7 @@ public class SelectGameObjectsWithMissingScripts : Editor
             {
                 // If the component is null, that means it's a missing script!
                 if (currentComponent != null) continue;
-
+                
                 // Add the sinner to our naughty-list
                 objectsWithDeadLinks.Add(g);
                 Selection.activeGameObject = g;
@@ -29,12 +29,10 @@ public class SelectGameObjectsWithMissingScripts : Editor
                 break;
             }
         }
-
+        
         if (objectsWithDeadLinks.Count > 0)
-        {
             //Set the selection in the editor
             Selection.objects = objectsWithDeadLinks.ToArray();
-        }
         else Debug.Log("No GameObjects in '" + currentScene.name + "' have missing scripts! Yay!");
     }
 }

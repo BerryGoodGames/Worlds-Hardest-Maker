@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8887659398336936486}
   - component: {fileID: 6836411414667517389}
   - component: {fileID: 3533188389046572135}
+  - component: {fileID: 3237388344663636659}
   m_Layer: 5
   m_Name: AnchorBlockComponentButton
   m_TagString: Untagged
@@ -133,6 +134,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3237388344663636659}
+        m_TargetAssemblyTypeName: PlaySoundEffect, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3237388344663636659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 732351539226695589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d68a8045ec984f439fbc636dd2260b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundEffect:
+    Sound: AnchorBlockButton
+    PitchRandomization: 0
+    PitchDeviation: 0
 --- !u!1 &2028149253975044700
 GameObject:
   m_ObjectHideFlags: 0

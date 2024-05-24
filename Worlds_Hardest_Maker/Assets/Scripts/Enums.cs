@@ -1,49 +1,7 @@
-public enum EditMode
+public enum KeyColor
 {
-    DeleteField,
-    WallField,
-    StartField,
-    GoalField,
-    CheckpointField,
-    OneWayField,
-    Conveyor,
-    Water,
-    Ice,
-    Void,
-    GrayKeyDoorField,
-    RedKeyDoorField,
-    GreenKeyDoorField,
-    BlueKeyDoorField,
-    YellowKeyDoorField,
-    Player,
-    Anchor,
-    AnchorBall,
-    Coin,
-    GrayKey,
-    RedKey,
-    GreenKey,
-    BlueKey,
-    YellowKey,
+    Gray, Red, Green, Blue, Yellow,
 }
-
-public enum FieldType
-{
-    WallField,
-    StartField,
-    GoalField,
-    CheckpointField,
-    OneWayField,
-    Conveyor,
-    Water,
-    Ice,
-    Void,
-    GrayKeyDoorField,
-    RedKeyDoorField,
-    GreenKeyDoorField,
-    BlueKeyDoorField,
-    YellowKeyDoorField,
-}
-
 
 public enum WorldPositionType
 {
@@ -56,5 +14,4 @@ public enum LevelSessionMode
 {
     Play,
     Edit,
-    Multiplayer,
 }

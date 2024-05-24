@@ -8,29 +8,30 @@ using UnityEngine;
 public class ChildrenOpacity : MonoBehaviour
 {
     [SerializeField] [Range(0, 1)] private float opacity = 1;
-
+    
     private SpriteRenderer[] children;
-
+    
     private void Start() => UpdateChildren();
-
+    
     public void UpdateChildren() => children = GetComponentsInChildren<SpriteRenderer>();
-
+    
     public void UpdateOpacity()
     {
         foreach (SpriteRenderer child in children)
         {
+            if (child == null) continue;
             Color newColor = child.color;
             newColor.a = opacity;
             child.color = newColor;
         }
     }
-
+    
     public void SetOpacity(float newOpacity)
     {
         opacity = newOpacity;
         UpdateOpacity();
     }
-
+    
     public void FadeTo(float endOpacity, float time)
     {
         UpdateChildren();

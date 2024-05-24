@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Photon.Pun;
 using UnityEngine;
 
 /// <summary>
@@ -9,129 +7,120 @@ using UnityEngine;
 /// </summary>
 public class MouseEvents : MonoBehaviour
 {
-    private const float SelectionCancelMaxTime = 0.15f;
-
+    private const float SELECTION_CANCEL_MAX_TIME = 0.15f;
+    
+    private bool isFullyFocused = true;
+    
     private void Update()
     {
-        PhotonView photonView = GameManager.Instance.photonView;
-        bool multiplayer = MultiplayerManager.Instance.Multiplayer;
-
-        EditMode editMode = EditModeManager.Instance.CurrentEditMode;
-
         // selection
         if (KeyBinds.GetKeyBindDown("Editor_Select")) StartCoroutine(StartCancelSelection());
-
-        // select anchor
-        if (Input.GetMouseButtonDown(0) && KeyBinds.GetKeyBind("Editor_Modify"))
-        {
-            AnchorManager.Instance.SelectAnchor(MouseManager.Instance.MouseWorldPosGrid);
-            AnchorBallManager.SelectAnchorBall(MouseManager.Instance.MouseWorldPosGrid);
-        }
-            
-
-        // place / delete stuff
-        if (!MouseManager.Instance.IsUIHovered && !EditModeManager.Instance.Playing &&
-            !SelectionManager.Instance.Selecting &&
-            !CopyManager.Instance.Pasting &&
-            !AnchorPositionInputEditManager.Instance.IsEditing)
-        {
-            // if none of the relevant keys is held, check field placement + entity placement
-            if (!KeyBinds.GetKeyBind("Editor_MoveEntity") &&
-                !KeyBinds.GetKeyBind("Editor_Modify") &&
-                !KeyBinds.GetKeyBind("Editor_DeleteEntity") &&
-                !SelectionManager.Instance.Selecting)
-            {
-                if (Input.GetMouseButton(0)) CheckDragPlacement(editMode);
-                if (Input.GetMouseButtonDown(0)) CheckClickPlacement(editMode);
-            }
-
-            CheckEntityDelete(photonView, multiplayer);
-        }
-
+        
+        CheckPlaceAndDelete();
+        
         // track drag positions
         if (!Input.GetMouseButtonUp(0)) return;
-
+        
         MouseManager.Instance.MouseDragStart = null;
         MouseManager.Instance.MouseDragCurrent = null;
         MouseManager.Instance.MouseDragEnd = null;
+        
+        LevelSessionEditManager.Instance.OnEditAction.Invoke();
     }
-
+    
+    
+    private void CheckPlaceAndDelete()
+    {
+        EditMode editMode = LevelSessionEditManager.Instance.CurrentEditMode;
+        
+        // place / delete stuff
+        if (MouseManager.Instance.IsUIHovered
+            || LevelSessionEditManager.Instance.Playing
+            || SelectionManager.Instance.Selecting
+            || CopyManager.Instance.Pasting
+            || AnchorPositionInputEditManager.Instance.IsEditing) return;
+        
+        // if none of the relevant keys is held, check field placement + entity placement
+        if (!KeyBinds.GetKeyBind("Editor_MoveEntity")
+            && !KeyBinds.GetKeyBind("Editor_Modify")
+            && !KeyBinds.GetKeyBind("Editor_DeleteEntity")
+            && !SelectionManager.Instance.Selecting)
+        {
+            if (Input.GetMouseButton(0)) CheckDragPlacement(editMode);
+            if (Input.GetMouseButtonDown(0)) CheckClickPlacement(editMode);
+        }
+        
+        CheckEntityDelete();
+    }
+    
     private static IEnumerator StartCancelSelection()
     {
         float passedTime = 0;
         while (KeyBinds.GetKeyBind("Editor_Select"))
         {
-            if (passedTime > SelectionCancelMaxTime || MouseManager.Instance.MousePosDelta.magnitude > 10) yield break;
+            if (passedTime > SELECTION_CANCEL_MAX_TIME || MouseManager.Instance.MousePosDelta.magnitude > 10) yield break;
             passedTime += Time.deltaTime;
             yield return null;
         }
-
-        SelectionManager.Instance.CancelSelection();
+        
+        SelectionManager.Instance.OnCancelClicked();
     }
-
+    
     private static void CheckClickPlacement(EditMode editMode)
     {
-        // place anchor
-        if (editMode is EditMode.Anchor)
-        {
-            // place new anchor + select
-            AnchorController anchor = AnchorManager.Instance.SetAnchor(MouseManager.Instance.MouseWorldPosGrid);
-            if (anchor != null) AnchorManager.Instance.SelectAnchor(anchor);
-        }
+        if (editMode.IsDraggable) return;
+        
+        PlaceManager.Instance.Place(editMode, MouseManager.Instance.MouseWorldPos, LevelSessionEditManager.Instance.EditRotation, true);
     }
-
-    private static void CheckDragPlacement(EditMode editMode)
+    
+    private void CheckDragPlacement(EditMode editMode)
     {
-        List<EditMode> dragPlaceEditModes = new()
-        {
-            EditMode.DeleteField, EditMode.Player, EditMode.Coin, EditMode.AnchorBall,
-        };
-
         // check placement
-        if (dragPlaceEditModes.Contains(editMode) || editMode.IsKey() || editMode.IsFieldType())
-            GameManager.PlaceEditModeAtPosition(editMode, MouseManager.Instance.MouseWorldPos);
-
-        // if user dragged to fast, fill path between two mouse pos for smoother placing on low framerate
-        if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) > 1.414f &&
-            editMode.IsFieldType())
+        if (!editMode.IsDraggable) return;
+        
+        if (!isFullyFocused) return;
+        
+        if (Vector2.Distance(MouseManager.Instance.MouseWorldPos, MouseManager.Instance.PrevMouseWorldPos) > 1.414f)
         {
-            FieldType type = EnumUtils.ConvertEnum<EditMode, FieldType>(editMode);
-            int rotation = type.IsRotatable() ? EditModeManager.Instance.EditRotation : 0;
-            FieldManager.FillPathWithFields(type, rotation);
-        }
-    }
-
-    private static void CheckEntityDelete(PhotonView photonView, bool multiplayer)
-    {
-        if (!KeyBinds.GetKeyBind("Editor_DeleteEntity")) return;
-
-        if (!Input.GetMouseButton(0) && !Input.GetMouseButtonDown(0)) return;
-
-        // delete entities
-        if (multiplayer)
-        {
-            // remove player (only own client)
-            PlayerManager.Instance.RemovePlayerAtPosIgnoreOtherClients(MouseManager.Instance.MouseWorldPosGrid);
-
-            // remove coins
-            photonView.RPC("RemoveCoin", RpcTarget.All, MouseManager.Instance.MouseWorldPosGrid);
-
-            // remove balls
-            photonView.RPC("RemoveAnchorBall", RpcTarget.All, MouseManager.Instance.MouseWorldPosGrid);
-
-            // remove anchors
-            photonView.RPC("RemoveAnchor", RpcTarget.All, MouseManager.Instance.MouseWorldPosGrid);
-
-            // remove keys
-            photonView.RPC("RemoveKey", RpcTarget.All, MouseManager.Instance.MouseWorldPosGrid);
+            PlaceManager.Instance.PlacePath(
+                editMode,
+                MouseManager.Instance.PrevMouseWorldPos, MouseManager.Instance.MouseWorldPos,
+                LevelSessionEditManager.Instance.EditRotation, true
+            );
         }
         else
         {
-            // remove entity
-            GameEntityManager.RemoveEntitiesAt(
-                MouseManager.Instance.MouseWorldPosGrid,
-                LayerManager.Instance.Layers.Entity
+            PlaceManager.Instance.Place(
+                editMode, MouseManager.Instance.MouseWorldPos,
+                LevelSessionEditManager.Instance.EditRotation, true
             );
+        }
+    }
+    
+    private static void CheckEntityDelete()
+    {
+        if (!KeyBinds.GetKeyBind("Editor_DeleteEntity")) return;
+        
+        if (!Input.GetMouseButton(0) && !Input.GetMouseButtonDown(0)) return;
+        
+        // delete entities
+        PlaceManager.RemoveEntitiesAt(
+            MouseManager.Instance.MouseWorldPosGrid,
+            LayerManager.Instance.Layers.Entity
+        );
+    }
+    
+    
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        StartCoroutine(Assign());
+        
+        return;
+        
+        IEnumerator Assign()
+        {
+            yield return new WaitForEndOfFrame();
+            isFullyFocused = hasFocus;
         }
     }
 }

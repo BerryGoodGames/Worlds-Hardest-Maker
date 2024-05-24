@@ -1,80 +1,65 @@
+using System;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 
 [ExecuteAlways]
 public class ToolOptionbar : MonoBehaviour
 {
-    public GameObject Background;
-
-    public GameObject HoveringHitbox;
-
-    public GameObject Options;
-    public float Size;
-    private RectTransform hh;
-    private RectTransform rtThis;
-    private GridLayoutGroup gridLayout;
-    private AlphaTween anim;
-    private int toolCount;
-    private float width;
-    private float height;
-
-    private void Awake()
-    {
-        // REF
-        rtThis = GetComponent<RectTransform>();
-        anim = GetComponent<AlphaTween>();
-
-        anim.OnSetVisible += EnableOptionbar;
-        anim.OnIsInvisible += DisableOptionbar;
-
-        hh = HoveringHitbox.GetComponent(typeof(RectTransform)) as RectTransform;
-        gridLayout = Options.GetComponent<GridLayoutGroup>();
-        toolCount = Options.transform.childCount;
-
-        UpdateHeight();
-        ScaleOptions();
-
-        DisableOptionbar();
-    }
-
-    public void EnableOptionbar()
-    {
-        hh.sizeDelta = new(width, height + gridLayout.cellSize.y + gridLayout.spacing.y);
-        hh.localPosition = new(0, (2 - toolCount) * (gridLayout.cellSize.y + gridLayout.spacing.y) * 0.5f);
-        rtThis.localPosition = new(0, -95);
-    }
-
-    public void DisableOptionbar()
-    {
-        if (anim.IsVisible) return;
-
-        hh.sizeDelta = new(gridLayout.cellSize.x, gridLayout.cellSize.y);
-        hh.localPosition = new(0, -1250);
-        rtThis.localPosition = new(0, 1000);
-    }
-
-    [ButtonMethod]
-    public void ScaleOptions()
-    {
-        foreach (Transform tool in Options.transform) tool.localScale = new(0.7f, 0.7f);
-    }
-
+    [MyBox.ReadOnly] public Tool Root;
+    
+    [Separator] [SerializeField] private RectTransform toolPrefab;
+    
+    [SerializeField] [InitializationField] [Required] private RectTransform hoveringHitbox;
+    [SerializeField] [InitializationField] [Required] private VerticalLayoutGroup optionsLayoutGroup;
+    [SerializeField] [InitializationField] [Required] private AlphaTween anim;
+    
+    [Separator] [PositiveValueOnly] [SerializeField] private float width;
+    
+    private int ToolCount => optionsLayoutGroup.transform.childCount;
+    
     [ButtonMethod]
     public void UpdateHeight()
     {
-        RectTransform rt = Background.GetComponent(typeof(RectTransform)) as RectTransform;
-
-        if (rt == null) return;
-
-        if (toolCount == 0) rt.sizeDelta = new(100, 100);
-        else
+        RectTransform rt = (RectTransform)transform;
+        
+        // set (width and) height of tool optionbar to fit every option
+        Rect toolRect = toolPrefab.rect;
+        
+        float toolMargin = (width - toolRect.width) / 2;
+        
+        Vector2 size = ToolCount == 0
+            ? width * Vector2.one
+            : new(width, toolRect.height * ToolCount + 2 * toolMargin);
+        
+        rt.sizeDelta = size;
+        
+        // set hovering hitbox width and height
+        const float ARROW_HEIGHT = 35;
+        hoveringHitbox.offsetMax = new Vector2(hoveringHitbox.offsetMax.x, ARROW_HEIGHT);
+        
+        // set top offset in vertical layout group
+        optionsLayoutGroup.padding.top = (int)toolMargin;
+    }
+    
+    private void Awake() => UpdateHeight();
+    
+    private void Start()
+    {
+        if (!transform.parent.TryGetComponent(out Root))
         {
-            width = gridLayout.cellSize.x * Size;
-            height = (gridLayout.cellSize.y + gridLayout.spacing.y) * toolCount - gridLayout.spacing.y +
-                     gridLayout.cellSize.y * (Size - 1);
-
-            rt.sizeDelta = new(width, height);
+            throw new Exception(
+                "This tool optionbar does not have a tool as root\ntool optionbar is expected to be direct child of a tool"
+            );
         }
+        
+        // teleport optionbar up when invisible (dont care)
+        RectTransform rt = (RectTransform)transform;
+        Vector2 visiblePosition = rt.anchoredPosition;
+        Vector2 invisiblePosition = visiblePosition + Vector2.up * 1000;
+        
+        anim.OnIsInvisible += () => rt.anchoredPosition = invisiblePosition;
+        anim.OnSetVisible += () => rt.anchoredPosition = visiblePosition;
     }
 }

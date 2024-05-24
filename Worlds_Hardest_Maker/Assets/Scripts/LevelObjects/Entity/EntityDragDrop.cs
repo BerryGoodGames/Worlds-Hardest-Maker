@@ -8,20 +8,20 @@ public class EntityDragDrop : MonoBehaviour
 {
     [SerializeField] private WorldPositionType worldType;
     public event Action<Vector2, Vector2> OnMove;
-
+    
     protected virtual void OnMouseDrag()
     {
-        if (EditModeManager.Instance.Playing || !KeyBinds.GetKeyBind("Editor_MoveEntity")) return;
-
+        if (LevelSessionEditManager.Instance.Playing || !KeyBinds.GetKeyBind("Editor_MoveEntity")) return;
+        
         Vector2 newPos = FollowMouse.GetCurrentMouseWorldPos(worldType);
-
+        
         if (newPos == (Vector2)transform.position) return;
-
+        
         Transform t = transform;
         Vector2 oldPos = t.position;
-
+        
         t.position = newPos;
-
+        
         OnMove?.Invoke(oldPos, newPos);
     }
 }

@@ -90,9 +90,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e95810538088714a8f88aaf8d1895f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delay: 0
   duration: 0.5
   slider: {fileID: 5242652787613824604}
-  loadingScreen: {fileID: 4213852477529088731}
   tween: {fileID: 5004579452097809054}
 --- !u!114 &5004579452097809054
 MonoBehaviour:

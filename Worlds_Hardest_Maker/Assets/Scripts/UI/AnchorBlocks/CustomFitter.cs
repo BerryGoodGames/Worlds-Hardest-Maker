@@ -13,24 +13,24 @@ public class CustomFitter : MonoBehaviour
     [SerializeField] private float bottomPadding;
     [SerializeField] private float minimumHeight;
     [SerializeField] private bool updateEachFrame;
-
+    
     private int lastChildCount;
     private RectTransform rt;
     private LayoutElement layoutElement;
     private bool hasLayoutElement;
-
+    
     private void Awake()
     {
         rt = GetComponent<RectTransform>();
         if (TryGetComponent(out layoutElement)) hasLayoutElement = true;
     }
-
+    
     private void Update()
     {
         if (!updateEachFrame) return;
         UpdateSize();
     }
-
+    
     private bool ChildrenChanged()
     {
         // check for new child / one child less
@@ -39,7 +39,7 @@ public class CustomFitter : MonoBehaviour
             lastChildCount = transform.childCount;
             return true;
         }
-
+        
         // check if their scale/positions have changed
         foreach (RectTransform child in transform)
         {
@@ -47,10 +47,10 @@ public class CustomFitter : MonoBehaviour
             child.hasChanged = false;
             return true;
         }
-
+        
         return false;
     }
-
+    
     /// <summary>
     ///     Checks for any changes within the anchor blocks and updates size to fit the anchor blocks on the y-axis
     /// </summary>
@@ -59,47 +59,30 @@ public class CustomFitter : MonoBehaviour
     {
         if (rt == null) return;
         if (checkChanged && !ChildrenChanged()) return;
-
-        float y;
-
-        if (top)
+        
+        float y = (top ? 1 : -1) * minimumHeight - bottomPadding;
+        
+        // get maximum / minimum y of all children
+        foreach (RectTransform child in transform)
         {
-            y = minimumHeight - bottomPadding;
-
-            // get maximum y of all children
-            foreach (RectTransform child in transform)
-            {
-                Vector2 scale = child.sizeDelta;
-
-                Vector2 position = child.anchoredPosition;
-                float thisMaxY = position.y + scale.y;
-
-                if (thisMaxY > y) y = thisMaxY;
-            }
+            Vector2 scale = child.sizeDelta;
+            
+            Vector2 position = child.anchoredPosition;
+            float thisMaxMinY = position.y + scale.y * (top ? 1 : -1);
+            
+            if ((top && thisMaxMinY > y)
+                || (!top && thisMaxMinY < y)) y = thisMaxMinY;
         }
-        else
-        {
-            y = -minimumHeight + bottomPadding;
-
-            // get minimum y of all children
-            foreach (RectTransform child in transform)
-            {
-                Vector2 scale = child.sizeDelta;
-
-                Vector2 position = child.anchoredPosition;
-                float thisMinY = position.y - scale.y;
-
-                if (thisMinY < y) y = thisMinY;
-            }
-        }
-
+        
         y -= bottomPadding;
-
+        
         if (hasLayoutElement)
         {
             layoutElement.minHeight = Mathf.Abs(y);
             LayoutRebuilder.MarkLayoutForRebuild((RectTransform)rt.parent);
+            return;
         }
-        else rt.sizeDelta = new(rt.sizeDelta.x, -y);
+        
+        rt.sizeDelta = new(rt.sizeDelta.x, -y);
     }
 }

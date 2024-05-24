@@ -1,0 +1,2 @@
+git tag archive/[branch-name] [branch-name]
+git branch -d [branch-name]

@@ -1,154 +1,135 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using MyBox;
-using Photon.Pun;
 using UnityEngine;
 
-public class KeyManager : MonoBehaviour
+public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceRestrictable
 {
     public static KeyManager Instance { get; private set; }
-
-    public enum KeyColor
-    {
-        Gray,
-        Red,
-        Green,
-        Blue,
-        Yellow,
-    }
-
-    public static readonly List<EditMode> KeyModes = new()
-    {
-        EditMode.GrayKey,
-        EditMode.RedKey,
-        EditMode.BlueKey,
-        EditMode.GreenKey,
-        EditMode.YellowKey,
-    };
-
-    public static readonly List<EditMode> KeyDoorModes = new()
-    {
-        EditMode.GrayKeyDoorField,
-        EditMode.RedKeyDoorField,
-        EditMode.BlueKeyDoorField,
-        EditMode.GreenKeyDoorField,
-        EditMode.YellowKeyDoorField,
-    };
-
-    public static readonly List<FieldType> KeyDoorTypes = new()
-    {
-        FieldType.GrayKeyDoorField,
-        FieldType.RedKeyDoorField,
-        FieldType.BlueKeyDoorField,
-        FieldType.GreenKeyDoorField,
-        FieldType.YellowKeyDoorField,
-    };
-
-    public static readonly List<FieldType> CannotPlaceFields = new()
-    {
-        FieldType.WallField,
-        FieldType.GrayKeyDoorField,
-        FieldType.RedKeyDoorField,
-        FieldType.BlueKeyDoorField,
-        FieldType.GreenKeyDoorField,
-        FieldType.YellowKeyDoorField,
-    };
-
+    
+    public Transform DefaultContainer => ReferenceManager.Instance.KeyContainer;
+    
+    [UsedImplicitly] public static readonly List<FieldMode> CannotPlaceFields = new();
+    
     private static readonly int playing = Animator.StringToHash("Playing");
-    private static readonly int pickedUp = Animator.StringToHash("PickedUp");
-
+    
     [ReadOnly] public List<KeyController> Keys = new();
-
-    [PunRPC]
-    public void SetKey(Vector2 position, KeyColor color)
+    [ReadOnly] public List<KeyController> CollectedKeys = new();
+    
+    private void RemoveKeyInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
-        if (!CanPlace(position)) return;
-
-        // remove other key (which has mby other color)
-        RemoveKey(position);
-
-        KeyController key = Instantiate(
-            color.GetPrefabKey(), position, Quaternion.identity,
-            ReferenceManager.Instance.KeyContainer
-        );
-
-        key.Color = color;
-
-        // setup idle animation
-        key.Animator.SetBool(playing, EditModeManager.Instance.Playing);
-
-        // setup konami code animation
-        key.KonamiAnimation.enabled = KonamiManager.Instance.KonamiActive;
-    }
-
-    [PunRPC]
-    public void RemoveKey(Vector2 position)
-    {
-        KeyController key = GetKey(position);
-
+        KeyController key = GetInSheet(position, sheet);
+        
         if (key == null) return;
-
+        
         // un-cache
         Keys.Remove(key);
-
+        
         // destroy
         DestroyImmediate(key.transform.gameObject);
     }
-
-    public static bool CanPlace(Vector2 position) =>
-        // conditions: no key there, covered by canplacefield or default, no player there
-        !PlayerManager.IsPlayerThere(position) &&
-        !IsKeyThere(position) &&
-        !FieldManager.IntersectingAnyFieldsAtPos(position, CannotPlaceFields.ToArray());
-
-    public static KeyController GetKey(Vector2 position)
+    
+    
+    public KeyController SetInSheet(ManagerParameters args)
+    {
+        if (!CanPlaceInSheet(args.Position, args.Sheet)) return null;
+        
+        // remove other key (which has mby other color)
+        RemoveKeyInSheet(args.Position, args.Sheet);
+        
+        KeyController key = InstantiateInSheet(args);
+        
+        key.Color = args.KeyColor;
+        
+        // setup idle animation
+        key.Animator.SetBool(playing, LevelSessionEditManager.Instance.Playing);
+        
+        // setup konami code animation
+        key.KonamiAnimation.enabled = KonamiManager.Instance.KonamiActive;
+        
+        PlaceManager.AttachToSheet(key.gameObject, args.Sheet);
+        
+        return key;
+    }
+    
+    public KeyController GetInSheet(Vector2 position, AnchorController sheet)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f, LayerManager.Instance.Layers.Entity);
+        
+        foreach (Collider2D hit in hits)
+        {
+            if (!hit.CompareTag("Key")) continue;
+            if (!hit.TryGetComponent(out KeyController key)) continue;
+            if (IManager.IsInSheet(key, sheet)) return key;
+        }
+        
+        return null;
+    }
+    
+    public KeyController Get(Vector2 position)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f, LayerManager.Instance.Layers.Entity);
         foreach (Collider2D hit in hits)
         {
             if (hit.TryGetComponent(out KeyController controller)) return controller;
         }
-
+        
         return null;
     }
-
-    public static bool IsKeyThere(Vector2 position, KeyColor color)
+    
+    public KeyController InstantiateInSheet(ManagerParameters args) =>
+        Instantiate(
+            args.KeyColor.GetPrefabKey(),
+            args.Position, Quaternion.identity,
+            args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
+        );
+    
+    public bool IsThereInSheet(Vector2 position, AnchorController sheet) => GetInSheet(position, sheet) != null;
+    
+    public List<Data> Serialize(List<Data> levelData)
     {
-        KeyController key = GetKey(position);
-        return key != null && key.Color == color;
+        foreach (KeyController key in Keys)
+        {
+            if (key.IsAttached) continue;
+            
+            KeyData keyData = new(key);
+            levelData.Add(keyData);
+        }
+        
+        return levelData;
     }
-
-    public static bool IsKeyThere(Vector2 position) => GetKey(position) != null;
-
-    public static bool IsKeyDoorEditMode(EditMode mode) => KeyDoorModes.Contains(mode);
-
-    public static bool IsKeyEditMode(EditMode mode) => KeyModes.Contains(mode);
-
+    
+    public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
+    
+    public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>
+        // conditions: no key there, covered by canplacefield or default, no player there
+        !PlayerManager.Instance.IsThere(position)
+        && !IsThereInSheet(position, sheet)
+        && !FieldManager.Instance.IntersectingAnyFieldsAtPos(position, sheet, CannotPlaceFields.ToArray());
+    
+    public bool AllKeysCollected(KeyColor color)
+    {
+        // check if every key of specific color is picked up
+        foreach (KeyController key in Keys)
+        {
+            if (!key.Collected && key.Color == color) return false;
+        }
+        
+        return true;
+    }
+    
+    private void OnPlayAgain() => CollectedKeys.Clear();
+    
+    private void Start() => LevelCompleteManager.Instance.OnPlayAgain += OnPlayAgain;
+    
+    private void OnDestroy() => LevelCompleteManager.Instance.OnPlayAgain -= OnPlayAgain;
+    
     private void Awake()
     {
         // init singleton
         if (Instance == null) Instance = this;
     }
-
-    public void ActivateAnimations()
-    {
-        // activate key animations
-        foreach (KeyController key in Keys)
-        {
-            // TODO: refactor that you don't have to access the animator and just wrap it into a property (also do this for coins etc.)
-            // REMEMBER: you shouldn't have to know how the internals work to use it!
-            key.Animator.SetBool(playing, true);
-            key.Animator.SetBool(pickedUp, key.PickedUp);
-        }
-    }
-
-    public void ResetStates()
-    {
-        foreach (KeyController key in Keys)
-        {
-            key.PickedUp = false;
-
-            key.Animator.SetBool(playing, false);
-            key.Animator.SetBool(pickedUp, false);
-        }
-    }
+    
+    public void ActivateAnimations() => Keys.ForEach(key => key.ActivateAnimation());
+    public bool CorrespondsToEditMode(EditMode compare) => compare.Attributes.IsKey;
 }

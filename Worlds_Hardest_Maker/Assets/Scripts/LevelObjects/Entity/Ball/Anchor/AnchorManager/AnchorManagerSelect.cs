@@ -1,83 +1,125 @@
+using MyBox;
 using UnityEngine;
 
-public partial class AnchorManager
+public partial class AnchorManager : IManagerSelectable
 {
-    public AnchorController SelectedAnchor { get; private set; }
-
-    public void SelectAnchor(Vector2 pos)
+    private const float DOUBLE_CLICK_THRESHOLD = 0.4f;
+    
+    [field: SerializeField] [field: ReadOnly] public AnchorController SelectedAnchor { get; private set; }
+    
+    [HideInInspector] public float LastSelectClick = -1;
+    
+    public void Select(Vector2 pos)
     {
-        AnchorController anchor = GetAnchor(pos);
-
-        Instance.SelectAnchor(anchor);
+        AnchorController anchor = ((IManager<AnchorController>)this).Get(pos);
+        
+        Instance.Select(anchor);
     }
-
-    public void SelectAnchor(AnchorController anchor, bool toggleDeselect = true)
+    
+    public void Select(AnchorController anchor, bool toggleDeselect = true)
     {
         if (anchor == null) return;
-
+        
+        // stop if attaching to other anchor
+        if (AnchorAttachManager.Instance.InAttachMode && !anchor.IsAttaching) return;
+        
         bool switchedEditMode = false;
-        // switch to edit mode to anchor if not already on anchor or anchor ball
-        if (!EditModeManager.Instance.CurrentEditMode.IsAnchorRelated())
+        // switch to edit mode to anchor if not already
+        if (!LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated)
         {
-            EditModeManager.Instance.SetEditMode(EditMode.Anchor);
+            LevelSessionEditManager.Instance.CurrentEditMode = EditModeManager.Anchor;
             switchedEditMode = true;
         }
-
+        
         if (SelectedAnchor != null)
         {
             UpdateBlockListInSelectedAnchor();
-
-            SelectedAnchor.Animator.SetBool(selected, false);
+            
+            SelectedAnchor.Animator.SetBool(selectedString, false);
             SelectedAnchor.SetLinesActive(false);
         }
-
-        // deselect anchor if "selected" again by the user (but only if edit mode before was anchor or anchor ball, not sth else)
-        if (toggleDeselect && SelectedAnchor == anchor && !switchedEditMode)
+        
+        // deselect anchor if "selected" again by the user (but only if edit mode before was anchor or currently attaching)
+        if (toggleDeselect && SelectedAnchor == anchor && (!switchedEditMode || anchor.IsAttaching))
         {
             DeselectAnchor();
             return;
         }
-
+        
         // continue only if in edit mode
-        if (EditModeManager.Instance.Playing) return;
-
+        if (LevelSessionEditManager.Instance.Playing) return;
+        
         SelectedAnchor = anchor;
-        anchor.Animator.SetBool(selected, true);
+        anchor.Animator.SetBool(selectedString, true);
         anchor.SetLinesActive(true);
-
-        ReferenceManager.Instance.AnchorBallContainer.BallFadeOut();
-
+        
         // disable "no anchor selected" screen
         ReferenceManager.Instance.AnchorNoAnchorSelectedScreen.SetVisible(false);
-
+        
         AnchorBlockManager.LoadAnchorBlocks(anchor);
-
-        ReferenceManager.Instance.MainCameraJumper.AddTarget("Anchor", anchor.gameObject);
+        
+        ReferenceManager.Instance.MainCameraJumper.SetTarget("Anchor", anchor.gameObject);
         ReferenceManager.Instance.AnchorCameraJumping.CameraJumpToAnchor();
+        
+        if (!AnchorAttachManager.Instance.InAttachMode)
+            PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, false, false);
+        
+        // play sfx
+        AudioManager.Instance.Play("AnchorBlockButton");
     }
-
+    
     public void DeselectAnchor()
     {
         if (SelectedAnchor == null) return;
-
-        ReferenceManager.Instance.AnchorBallContainer.BallFadeIn();
-
-        SelectedAnchor.Animator.SetBool(selected, false);
-        SelectedAnchor.Animator.SetBool(playing, EditModeManager.Instance.Playing);
+        
+        if (AnchorAttachManager.Instance.InAttachMode) AnchorAttachManager.Instance.ExitAttachMode();
+        
+        SelectedAnchor.Animator.SetBool(selectedString, false);
+        SelectedAnchor.Animator.SetBool(playingString, LevelSessionEditManager.Instance.Playing);
         SelectedAnchor.SetLinesActive(false);
         SelectedAnchor = null;
-
+        
         AnchorBlockManager.EmptyAnchorChains();
-
+        
         // enable "no anchor selected" screen
         ReferenceManager.Instance.AnchorNoAnchorSelectedScreen.SetVisible(true);
-
+        
         ReferenceManager.Instance.MainCameraJumper.RemoveTarget("Anchor");
-
-        if (EditModeManager.Instance.CurrentEditMode is not (EditMode.Anchor or EditMode.AnchorBall))
+        
+        EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
+        if (!currentEditMode.Attributes.IsAnchorRelated)
+            PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.LevelSettingsPanelController, false);
+        
+        PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, true);
+        PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachExitButtonController, true);
+        AnchorAttachManager.Instance.InAttachMode = false;
+        
+        // play sfx
+        AudioManager.Instance.Play("AnchorDeselect");
+    }
+    
+    private static void CheckAnchorSelection()
+    {
+        // select anchor
+        if (!Input.GetMouseButtonDown(0) || !KeyBinds.GetKeyBind("Editor_Modify")) return;
+        
+        AnchorController clickedAnchor = ((IManager<AnchorController>)Instance).Get(MouseManager.Instance.MouseWorldPosGrid);
+        
+        if (clickedAnchor == null) return;
+        
+        // check double click
+        float currentTime = Time.time;
+        float deltaClickTime = Instance.LastSelectClick < 0 ? 0 : currentTime - Instance.LastSelectClick;
+        if (deltaClickTime < DOUBLE_CLICK_THRESHOLD && Instance.SelectedAnchor == clickedAnchor && !AnchorAttachManager.Instance.InAttachMode)
         {
-            PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
-            PanelManager.Instance.SetPanelOpen(levelSettingsPanel, true);
+            AnchorAttachManager.Instance.EnterAttachMode();
+            AudioManager.Instance.Play("ButtonClick");
+        }
+        else
+        {
+            Instance.Select(clickedAnchor);
+            
+            Instance.LastSelectClick = currentTime;
         }
     }
 }

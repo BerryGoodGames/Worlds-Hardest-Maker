@@ -356,6 +356,10 @@ MonoBehaviour:
   ForbidDecimals: 0
   RoundToStep: 0
   StepValue: 1
+  maxLimit: 0
+  minLimit: 0
+  max: 0
+  min: 0
 --- !u!114 &572905368734707714
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff996cab3b807a438d0dce0ab4e4aa2, type: 3}
+  m_Name: GrayKeyDoorMode
+  m_EditorClassIdentifier: 
+  Attributes:
+    IsField: 1
+    IsKeyDoor: 1
+    IsEntity: 0
+    IsKey: 0
+    IsAnchorRelated: 0
+  Tag: GrayKeyDoor
+  UIString: Gray Key Door
+  KeyboardShortcut: 
+  Prefab: {fileID: 2509279668055500219, guid: 9fb00ec26aef868448d1ca3117d4f3b6, type: 3}
+  WorldPositionType: 2
+  IsDraggable: 1
+  ShowFillPreview: 1
+  DefaultAvailable: 1
+  AnchorAvailable: 1
+  Copyable: 1
+  HasOutline: 1
+  IsRotatable: 0
+  IsSolid: 1
+  IsStartFieldForPlayer: 0
+  IsSafeForPlayer: 0
+  CarryPlayer: 1
+  KeyColor: 0

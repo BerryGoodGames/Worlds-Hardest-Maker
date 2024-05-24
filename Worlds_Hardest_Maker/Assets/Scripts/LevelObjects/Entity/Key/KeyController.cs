@@ -1,45 +1,69 @@
+using System.Collections;
+using DG.Tweening;
 using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 
-public class KeyController : EntityController
+public class KeyController : EntityController, IResettable, ICollectible
 {
-    [ReadOnly] public KeyManager.KeyColor Color;
-    [ReadOnly] public Vector2 KeyPosition;
-    [ReadOnly] public bool PickedUp;
-
-    [Separator] [InitializationField] [MustBeAssigned] public SpriteRenderer SpriteRenderer;
-
-    [InitializationField] [MustBeAssigned] public Animator Animator;
-    [InitializationField] [MustBeAssigned] public IntervalRandomAnimation KonamiAnimation;
-
+    [Separator] [SerializeField] [PositiveValueOnly] private float fadeDuration = 0.5f;
+    [Separator] [MyBox.ReadOnly] public KeyColor Color;
+    [MyBox.ReadOnly] public Vector2 InitialPosition;
+    [MyBox.ReadOnly] public bool Collected;
+    
+    [Separator] [InitializationField] [Required] public SpriteRenderer SpriteRenderer;
+    
+    [InitializationField] [Required] public Animator Animator;
+    [InitializationField] [Required] public IntervalRandomAnimation KonamiAnimation;
+    
+    private static readonly int playingString = Animator.StringToHash("Playing");
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");
-
+    
+    public override EditMode EditMode =>
+        Color switch
+        {
+            KeyColor.Gray => EditModeManager.GrayKey,
+            KeyColor.Red => EditModeManager.RedKey,
+            KeyColor.Green => EditModeManager.GreenKey,
+            KeyColor.Blue => EditModeManager.BlueKey,
+            KeyColor.Yellow => EditModeManager.YellowKey,
+            _ => throw new("There is no edit mode assigned for color " + Color),
+        };
+    
     private void Awake()
     {
-        KeyPosition = transform.position;
-
+        InitialPosition = transform.position;
+        
         // cache key controller
         KeyManager.Instance.Keys.Add(this);
-
+        
         SetOrderInLayer();
     }
-
-    private void OnDestroy() => KeyManager.Instance.Keys.Remove(this);
-
+    
+    protected override void Start()
+    {
+        base.Start();
+        
+        ((IResettable)this).Subscribe();
+        PlayManager.Instance.OnSwitchToPlay += ActivateAnimation;
+    }
+    
+    private void OnDestroy()
+    {
+        KeyManager.Instance.Keys.Remove(this);
+        
+        ((IResettable)this).Unsubscribe();
+        PlayManager.Instance.OnSwitchToPlay -= ActivateAnimation;
+        
+        DOTween.Kill(gameObject);
+    }
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // check key collection
-        // check if edgeCollider is player
-        if (!collision.TryGetComponent(out PlayerController controller)) return;
-
-        // check if player is of own client
-        if (MultiplayerManager.Instance.Multiplayer && !controller.PhotonView.IsMine) return;
-
-        // check if that player hasn't collected key yet
-        PlayerController player = collision.GetComponent<PlayerController>();
-        if (!controller.KeysCollected.Contains(this)) PickUp(player);
+        // check key collection: collider is player, key is not yet collected
+        if (collision.CompareTag("Player") && !Collected) Collect();
     }
-
+    
     /// <summary>
     ///     Set order in layer to be on top of every other
     /// </summary>
@@ -51,42 +75,97 @@ public class KeyController : EntityController
             int order = key.SpriteRenderer.sortingOrder;
             if (order > highestOrder) highestOrder = order;
         }
-
+        
         SpriteRenderer.sortingOrder = highestOrder + 1;
     }
-
-    private void PickUp(PlayerController player)
+    
+    public void Collect()
     {
-        player.KeysCollected.Add(this);
-
+        KeyManager.Instance.CollectedKeys.Add(this);
+        
         // pickup animation and sound
         Animator.SetBool(pickedUpString, true);
-        AudioManager.Instance.Play("Key");
-
-        PickedUp = true;
-
-        UnlockKeyDoors(player);
+        AudioManager.Instance.Play("PlaceKey");
+        
+        Collected = true;
+        
+        UnlockKeyDoors();
     }
-
-    public void UnlockKeyDoors(PlayerController player)
+    
+    public void UnlockKeyDoors()
     {
-        if (!player.AllKeysCollected(Color)) return;
-
+        if (!KeyManager.Instance.AllKeysCollected(Color)) return;
+        
         string tagColor = Color switch
         {
-            KeyManager.KeyColor.Red => "Red",
-            KeyManager.KeyColor.Green => "Green",
-            KeyManager.KeyColor.Blue => "Blue",
-            KeyManager.KeyColor.Yellow => "Yellow",
-            _ => "",
+            KeyColor.Red => "Red",
+            KeyColor.Green => "Green",
+            KeyColor.Blue => "Blue",
+            KeyColor.Yellow => "Yellow",
+            _ => "Gray",
         };
-
-        foreach (GameObject door in GameObject.FindGameObjectsWithTag(tagColor + "KeyDoorField"))
+        
+        foreach (GameObject door in GameObject.FindGameObjectsWithTag(tagColor + "KeyDoor"))
         {
             KeyDoorFieldController controller = door.GetComponent<KeyDoorFieldController>();
             controller.SetLocked(false);
         }
     }
-
+    
+    public bool ShouldRespawn()
+    {
+        PlayerController player = PlayerManager.Instance.Player;
+        if (player == null)
+        {
+            Debug.LogWarning("Could not find player");
+            return false;
+        }
+        
+        if (player.CurrentGameState == null) return true;
+        
+        bool isRespawning = true;
+        foreach (Vector2 collected in player.CurrentGameState.CollectedKeys)
+        {
+            if (!collected.x.EqualsFloat(InitialPosition.x) ||
+                !collected.y.EqualsFloat(InitialPosition.y)) continue;
+            
+            // if key is collected or no state exists it doesn't respawn
+            isRespawning = false;
+            break;
+        }
+        
+        return isRespawning;
+    }
+    
+    public void ResetState()
+    {
+        Collected = false;
+        
+        Animator.SetBool(playingString, false);
+        Animator.SetBool(pickedUpString, false);
+    }
+    
+    public void ActivateAnimation()
+    {
+        StartCoroutine(Delay());
+        
+        return;
+        
+        IEnumerator Delay()
+        {
+            yield return new WaitForEndOfFrame();
+            
+            Animator.enabled = true;
+            
+            Animator.SetBool(playingString, true);
+            Animator.SetBool(pickedUpString, Collected);
+        }
+    }
+    
+    public void FadeIn() => SpriteRenderer.DOFade(1, fadeDuration).SetId(gameObject);
+    public void FadeOut() => SpriteRenderer.DOFade(0, fadeDuration).SetId(gameObject);
+    
     public override Data GetData() => new KeyData(this);
+    
+    public override void OnAnchorMove(Vector2 oldPos, Vector2 newPos) => InitialPosition = transform.position;
 }

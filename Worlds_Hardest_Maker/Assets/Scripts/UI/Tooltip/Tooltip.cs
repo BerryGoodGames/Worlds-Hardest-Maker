@@ -6,61 +6,50 @@ using UnityEngine;
 public class Tooltip : MonoBehaviour
 {
     [SerializeField] private GameObject tooltipPrefab;
-
-    [Space] [SerializeField] private bool customContainer;
-
-    [SerializeField] [ConditionalField(nameof(customContainer))] private Transform container;
-
-    public Transform Container
-    {
-        get => container;
-        set
-        {
-            if (tooltip != null) tooltip.transform.SetParent(value);
-
-            container = value;
-        }
-    }
-
+    
+    [Space] public bool CustomContainer;
+    
+    [ConditionalField(nameof(CustomContainer))] public Transform Container;
+    
     [Space] [SerializeField] private bool restrictInCanvas = true;
-
+    
     [SerializeField] [ConditionalField(nameof(restrictInCanvas))] private bool customRestrictContainer;
-
+    
     [SerializeField] [ConditionalField(nameof(customRestrictContainer), nameof(restrictInCanvas))] private RectTransform restrictContainer;
-
+    
     [Separator] [SerializeField] private string text;
-
+    
     [SerializeField] private int fontSize = 20;
-
+    
     [SerializeField] private int offset = 10;
-
+    
     [SerializeField] private bool customTweenDelay;
-
+    
     [ConditionalField(nameof(customTweenDelay))] [SerializeField] private float tweenDelay = 1.5f;
-
-    private const float DefaultTweenDelay = 1;
+    
+    private const float DEFAULT_TWEEN_DELAY = 1;
     private MouseOverUIRect mouseOver;
     private AlphaTween fadeTween;
     private GameObject tooltip;
     private RectTransform tooltipRectTransform;
     private TMP_Text tooltipText;
-
+    
     private float hovered;
-
+    
     private void Awake()
     {
-        if (!customTweenDelay) tweenDelay = DefaultTweenDelay;
+        if (!customTweenDelay) tweenDelay = DEFAULT_TWEEN_DELAY;
     }
-
+    
     private void Start()
     {
         mouseOver = GetComponent<MouseOverUIRect>();
-
+        
         tooltip = Instantiate(
             tooltipPrefab, Vector3.zero, Quaternion.identity,
-            customContainer ? Container : ReferenceManager.Instance.TooltipCanvas.transform
+            CustomContainer ? Container : ReferenceManager.Instance.TooltipCanvas.transform
         );
-
+        
         UIRestrict restrict = tooltip.GetComponent<UIRestrict>();
         if (restrictInCanvas)
         {
@@ -71,16 +60,16 @@ public class Tooltip : MonoBehaviour
             }
         }
         else Destroy(restrict);
-
+        
         fadeTween = tooltip.GetComponent<AlphaTween>();
-
+        
         tooltipRectTransform = tooltip.GetComponent<RectTransform>();
         tooltipText = tooltip.GetComponent<TooltipController>().Text;
         tooltipText.text = text.Replace("\\n", "\n");
         tooltipText.fontSize = fontSize;
         fadeTween.SetVisible(false);
     }
-
+    
     private void Update()
     {
         if (mouseOver.Over)
@@ -88,10 +77,10 @@ public class Tooltip : MonoBehaviour
             if (hovered > tweenDelay)
             {
                 fadeTween.SetVisible(true);
-
+                
                 tooltipRectTransform.position = Input.mousePosition + new Vector3(offset, -offset);
             }
-
+            
             hovered += Time.deltaTime;
         }
         else
@@ -100,11 +89,21 @@ public class Tooltip : MonoBehaviour
             hovered = 0;
         }
     }
-
+    
+    public void SetContainer(Transform container)
+    {
+        CustomContainer = true;
+        Container = container;
+        
+        if (tooltip == null) return;
+        
+        tooltip.transform.SetParent(container);
+    }
+    
     private void OnDisable()
     {
         if (fadeTween != null) fadeTween.SetVisible(false);
     }
-
+    
     private void OnDestroy() => Destroy(tooltip);
 }
