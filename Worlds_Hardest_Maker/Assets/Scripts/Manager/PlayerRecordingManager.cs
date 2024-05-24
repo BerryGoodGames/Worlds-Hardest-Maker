@@ -106,7 +106,7 @@ public class PlayerRecordingManager : MonoBehaviour
     
     public void StartPlayerRecording()
     {
-        if(recording != null) StopCoroutine(recording);
+        if (recording != null) StopCoroutine(recording);
         
         recording = StartCoroutine(RecordPlayer());
     }
@@ -289,14 +289,11 @@ public class PlayerRecordingManager : MonoBehaviour
     {
         recordingPathContainer.gameObject.SetActive(visible);
         
-        if(displayPathRecording != null) StopCoroutine(displayPathRecording);
+        if (displayPathRecording != null) StopCoroutine(displayPathRecording);
         
         recordingPathContainer.DestroyChildren();
         
-        if (visible)
-        {
-            displayPathRecording = RenderPathRecording();
-        }
+        if (visible) displayPathRecording = RenderPathRecording();
     }
     
     private void OnPlayAgain()
@@ -328,7 +325,7 @@ public class PlayerRecordingManager : MonoBehaviour
     
     private void Awake()
     {
-        if(Instance == null) Instance = this;
+        if (Instance == null) Instance = this;
     }
     
     private class Recording

@@ -206,7 +206,7 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
             (new(highest.x + 1, highest.y + 1), Vector2.down, height + 2),
         };
         
-        foreach ((Vector2 origin, Vector2 direction, int length) in rays) { UpdateOutlinesRayLine(origin, direction, length); }
+        foreach ((Vector2 origin, Vector2 direction, int length) in rays) UpdateOutlinesRayLine(origin, direction, length);
     }
     
     private static void UpdateOutlinesRayLineWithNeighbors(Vector2 origin, Vector2 rayDirection, Vector2 neighborDirection, int length)
@@ -227,7 +227,7 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
         
         if (!lowestField.TryGetComponent(out FieldOutline foComp)) return;
         
-        foreach (Vector2 direction in directions) { foComp.UpdateOutline(direction, true); }
+        foreach (Vector2 direction in directions) foComp.UpdateOutline(direction, true);
     }
     
     private static void UpdateOutlinesRayLine(Vector2 origin, Vector2 direction, int length)

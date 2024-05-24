@@ -10,8 +10,7 @@ public partial class LevelCompleteManager
     [Separator("Animation settings")] [SerializeField] [Required] private TMP_Text levelNameLabel;
     [SerializeField] [Required] private TMP_Text deathCountLabel;
     [SerializeField] [Required] private TMP_Text timeLabel;
-    [Space]
-    [SerializeField] [PositiveValueOnly] private float startDelay = 0.8f;
+    [Space] [SerializeField] [PositiveValueOnly] private float startDelay = 0.8f;
     [SerializeField] private Ease appearEase = Ease.OutCirc;
     [SerializeField] [PositiveValueOnly] private float appearDuration = 0.8f;
     [SerializeField] [PositiveValueOnly] private float highlightDuration = 0.4f;
@@ -23,15 +22,15 @@ public partial class LevelCompleteManager
     
     private void StartAnimation()
     {
-        TMP_Text[] texts = 
+        TMP_Text[] texts =
         {
-            levelNameLabel, 
-            levelNameText, 
-            deathCountLabel, 
-            deathCountText, 
-            timeLabel, 
-            timeText, 
-            pbLabel, 
+            levelNameLabel,
+            levelNameText,
+            deathCountLabel,
+            deathCountText,
+            timeLabel,
+            timeText,
+            pbLabel,
             pbText,
             newPBText,
         };
@@ -45,13 +44,15 @@ public partial class LevelCompleteManager
         animationSequence?.Kill();
         animationSequence = DOTween.Sequence();
         
-        foreach (TMP_Text text in texts) { text.transform.localScale = Vector3.zero; }
+        foreach (TMP_Text text in texts) text.transform.localScale = Vector3.zero;
         
         timeText.text = Utils.GetTimerString(0);
         
-        animationSequence.Append(levelNameLabel.transform.DOScale(Vector3.one, appearDuration)
-                .SetEase(appearEase)
-                .SetDelay(startDelay))
+        animationSequence.Append(
+                levelNameLabel.transform.DOScale(Vector3.one, appearDuration)
+                    .SetEase(appearEase)
+                    .SetDelay(startDelay)
+            )
             .Append(levelNameText.transform.DOScale(Vector3.one, appearDuration).SetEase(appearEase))
             .Append(deathCountLabel.transform.DOScale(Vector3.one, appearDuration).SetEase(appearEase))
             .Append(
@@ -81,10 +82,7 @@ public partial class LevelCompleteManager
         
         bool newPB = personalBest == null || (TimeSpan)personalBest >= time;
         
-        if (newPB)
-        {
-            animationSequence.Append(newPBText.transform.DOScale(Vector3.one, appearDuration).SetEase(appearEase));
-        }
+        if (newPB) animationSequence.Append(newPBText.transform.DOScale(Vector3.one, appearDuration).SetEase(appearEase));
         else
         {
             animationSequence.Append(pbLabel.transform.DOScale(Vector3.one, appearDuration).SetEase(appearEase))
@@ -92,21 +90,19 @@ public partial class LevelCompleteManager
         }
     }
     
-    private void AnimateDeathCounter(int deaths, float duration)
-    {
+    private void AnimateDeathCounter(int deaths, float duration) =>
         DOTween.To(GetCurrentDeathCountText, SetDeathCountText, deaths, duration)
             .SetEase(Ease.OutSine)
             .SetId(gameObject);
-    }
+    
     private int GetCurrentDeathCountText() => int.Parse(deathCountText.text);
     private void SetDeathCountText(int value) => deathCountText.text = value.ToString();
     
-    private void AnimateTime(float timeSeconds, float duration)
-    {
+    private void AnimateTime(float timeSeconds, float duration) =>
         DOTween.To(GetCurrentTimeText, SetTimeText, timeSeconds, duration)
             .SetEase(Ease.OutSine)
             .SetId(gameObject);
-    }
+    
     private float GetCurrentTimeText() => (float)TimeSpan.Parse(timeText.text).TotalSeconds;
     private void SetTimeText(float value) => timeText.text = Utils.GetTimerString(value);
 }

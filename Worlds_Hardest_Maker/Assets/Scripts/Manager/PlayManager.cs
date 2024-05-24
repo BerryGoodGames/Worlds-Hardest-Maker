@@ -105,8 +105,5 @@ public class PlayManager : MonoBehaviour
         ReferenceManager.Instance.MenuTween.SetVisible(false);
     }
     
-    private void OnDestroy()
-    {
-        LevelCompleteManager.Instance.OnPlayAgain -= RestartLevel;
-    }
+    private void OnDestroy() => LevelCompleteManager.Instance.OnPlayAgain -= RestartLevel;
 }

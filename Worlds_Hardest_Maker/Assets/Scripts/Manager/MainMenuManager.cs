@@ -35,10 +35,7 @@ public class MainMenuManager : MonoBehaviour
         
         creditsTween = (isCreditsOpen ? creditsEnterTween : creditsExitTween).MoveAndReturn();
         
-        if (isCreditsOpen)
-        {
-            levelHubButtonExitTween.Move();
-        }
+        if (isCreditsOpen) levelHubButtonExitTween.Move();
         
         creditsButtonText.text = isCreditsOpen ? "Back" : "Credits";
     }

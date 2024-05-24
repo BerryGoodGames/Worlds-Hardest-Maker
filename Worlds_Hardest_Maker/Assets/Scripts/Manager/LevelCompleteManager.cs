@@ -22,7 +22,7 @@ public partial class LevelCompleteManager : MonoBehaviour
     
     public event Action OnPlayAgain = () => { };
     public event Action OnReplay = () => { };
-
+    
     private void Start()
     {
         PlayerManager.Instance.OnWin += OnWin;
@@ -46,7 +46,10 @@ public partial class LevelCompleteManager : MonoBehaviour
     
     private void FillStats()
     {
-        string levelName = LevelSessionManager.IsSessionFromEditor ? "Could not find level name because of no transition" : LevelSessionManager.Instance.LoadedLevelData.Info.Name;
+        string levelName = LevelSessionManager.IsSessionFromEditor
+            ? "Could not find level name because of no transition"
+            : LevelSessionManager.Instance.LoadedLevelData.Info.Name;
+        
         TimeSpan time = LevelSessionManager.Instance.PlayRunTime;
         TimeSpan? personalBest = LevelSessionManager.Instance.BestCompletionTime;
         
@@ -54,10 +57,7 @@ public partial class LevelCompleteManager : MonoBehaviour
         
         bool hasNewPB = personalBest == null || (TimeSpan)personalBest >= time;
         
-        if (!hasNewPB)
-        {
-            pbText.text = Utils.GetTimerString((TimeSpan)personalBest);
-        }
+        if (!hasNewPB) pbText.text = Utils.GetTimerString((TimeSpan)personalBest);
     }
     
     public void OnPlayAgainClicked()

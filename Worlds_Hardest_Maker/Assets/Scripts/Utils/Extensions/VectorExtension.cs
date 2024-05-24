@@ -90,19 +90,15 @@ public static class VectorExtension
         return checkPoses.Distinct().ToArray().Length;
     }
     
-    public static Vector2Int GetRoom(this Vector3 position)
-    {
-        return new(
+    public static Vector2Int GetRoom(this Vector3 position) =>
+        new(
             Mathf.RoundToInt(position.x / LevelSettings.Instance.RoomWidth),
             Mathf.RoundToInt(position.y / LevelSettings.Instance.RoomHeight)
         );
-    }
     
-    public static Vector2Int GetRoom(this Vector2 position)
-    {
-        return new(
+    public static Vector2Int GetRoom(this Vector2 position) =>
+        new(
             Mathf.RoundToInt(position.x / LevelSettings.Instance.RoomWidth),
             Mathf.RoundToInt(position.y / LevelSettings.Instance.RoomHeight)
         );
-    }
 }

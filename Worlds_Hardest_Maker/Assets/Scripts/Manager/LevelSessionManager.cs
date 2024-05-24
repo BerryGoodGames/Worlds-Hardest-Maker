@@ -26,10 +26,7 @@ public class LevelSessionManager : MonoBehaviour
     [ReadOnly] [OverrideLabel("Play Session Completions")] public uint Completions;
     public TimeSpan? BestCompletionTime;
     
-    public Action OnLevelLoaded = () =>
-    {
-        Instance.BestCompletionTime = Instance.LoadedLevelData.Info.BestCompletionTime;
-    };
+    public Action OnLevelLoaded = () => { Instance.BestCompletionTime = Instance.LoadedLevelData.Info.BestCompletionTime; };
     
     private void Update()
     {
@@ -81,9 +78,6 @@ public class LevelSessionManager : MonoBehaviour
     
     public void TrySetBestTime(TimeSpan time)
     {
-        if (BestCompletionTime == null || time < BestCompletionTime)
-        {
-            BestCompletionTime = time;
-        }
+        if (BestCompletionTime == null || time < BestCompletionTime) BestCompletionTime = time;
     }
 }

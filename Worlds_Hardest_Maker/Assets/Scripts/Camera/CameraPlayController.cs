@@ -26,10 +26,7 @@ public class CameraPlayController : MonoBehaviour
         
         PlayerRecordingManager.Instance.OnPathRenderUpdate += position =>
         {
-            if (PlayerRecordingManager.Instance.IsReplaying)
-            {
-                TrackPosition(position.GetRoom());
-            }
+            if (PlayerRecordingManager.Instance.IsReplaying) TrackPosition(position.GetRoom());
         };
     }
     

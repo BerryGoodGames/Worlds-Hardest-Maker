@@ -24,10 +24,7 @@ public abstract class TextEffect : MonoBehaviour
             
             Vector3 offset = AnimationOffset(speed * Time.time + i);
             
-            for (int j = 0; j < 4; j++)
-            {
-                vertices[index + j] += offset;
-            }
+            for (int j = 0; j < 4; j++) { vertices[index + j] += offset; }
         }
         
         mesh.vertices = vertices;

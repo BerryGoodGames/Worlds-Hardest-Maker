@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using MyBox;
@@ -104,15 +103,9 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
     
     private void OnPlayAgain() => CollectedCoins.Clear();
     
-    private void Start()
-    {
-        LevelCompleteManager.Instance.OnPlayAgain += OnPlayAgain;
-    }
+    private void Start() => LevelCompleteManager.Instance.OnPlayAgain += OnPlayAgain;
     
-    private void OnDestroy()
-    {
-        LevelCompleteManager.Instance.OnPlayAgain -= OnPlayAgain;
-    }
+    private void OnDestroy() => LevelCompleteManager.Instance.OnPlayAgain -= OnPlayAgain;
     
     private void Awake()
     {
