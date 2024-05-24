@@ -1036,6 +1036,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   startVisible: 1
   duration: 0
+  delayAppear: 0
+  delayDisappear: 0
   disableObjectWhenInvisible: 0
   alphaVisible: 1
   alphaInvisible: 0
@@ -1438,6 +1440,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   startVisible: 0
   duration: 0.1
+  delayAppear: 0
+  delayDisappear: 0
   disableObjectWhenInvisible: 1
   alphaVisible: 1
   alphaInvisible: 0
@@ -4093,6 +4097,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   startVisible: 1
   duration: 0
+  delayAppear: 0
+  delayDisappear: 0
   disableObjectWhenInvisible: 0
   alphaVisible: 1
   alphaInvisible: 0
@@ -5971,6 +5977,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   startVisible: 0
   duration: 0.1
+  delayAppear: 0
+  delayDisappear: 0
   disableObjectWhenInvisible: 1
   alphaVisible: 1
   alphaInvisible: 0
@@ -7070,6 +7078,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   startVisible: 1
   duration: 0.2
+  delayAppear: 0
+  delayDisappear: 0
   disableObjectWhenInvisible: 1
   alphaVisible: 1
   alphaInvisible: 0
@@ -13476,6 +13486,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   startVisible: 0
   duration: 0.2
+  delayAppear: 0
+  delayDisappear: 0
   disableObjectWhenInvisible: 1
   alphaVisible: 1
   alphaInvisible: 0
@@ -24094,6 +24106,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   startVisible: 1
   duration: 0
+  delayAppear: 0
+  delayDisappear: 0
   disableObjectWhenInvisible: 0
   alphaVisible: 1
   alphaInvisible: 0
@@ -24271,6 +24285,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   startVisible: 0
   duration: 0.4
+  delayAppear: 0.75
+  delayDisappear: 0
   disableObjectWhenInvisible: 1
   alphaVisible: 1
   alphaInvisible: 0
@@ -25991,7 +26007,7 @@ MonoBehaviour:
   levelNameLabel: {fileID: 908100348}
   deathCountLabel: {fileID: 2113693785}
   timeLabel: {fileID: 1562401145}
-  startDelay: 0.8
+  startDelay: 1.5
   appearEase: 21
   appearDuration: 0.8
   highlightDuration: 0.4
@@ -27346,6 +27362,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   startVisible: 1
   duration: 0
+  delayAppear: 0
+  delayDisappear: 0
   disableObjectWhenInvisible: 0
   alphaVisible: 1
   alphaInvisible: 0
@@ -29075,6 +29093,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   startVisible: 1
   duration: 0
+  delayAppear: 0
+  delayDisappear: 0
   disableObjectWhenInvisible: 0
   alphaVisible: 1
   alphaInvisible: 0

@@ -12,13 +12,13 @@ public partial class LevelCompleteManager
     [SerializeField] [Required] private TMP_Text timeLabel;
     [Space]
     [SerializeField] [PositiveValueOnly] private float startDelay = 0.8f;
-    [SerializeField] [PositiveValueOnly] private Ease appearEase = Ease.OutCirc;
+    [SerializeField] private Ease appearEase = Ease.OutCirc;
     [SerializeField] [PositiveValueOnly] private float appearDuration = 0.8f;
     [SerializeField] [PositiveValueOnly] private float highlightDuration = 0.4f;
     [SerializeField] [PositiveValueOnly] private float highlightScale = 1.2f;
     [SerializeField] [PositiveValueOnly] private float numberAnimateDurationShort = 1f;
     [SerializeField] [PositiveValueOnly] private float numberAnimateDurationLong = 2.5f;
-
+    
     private Sequence animationSequence;
     
     private void StartAnimation()

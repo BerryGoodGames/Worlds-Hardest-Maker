@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using MyBox;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +12,9 @@ public class AlphaTween : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [Space] [SerializeField] private bool startVisible = true;
-    [SerializeField] private float duration;
+    [SerializeField] [PositiveValueOnly] private float duration;
+    [SerializeField] [PositiveValueOnly] private float delayAppear;
+    [SerializeField] [PositiveValueOnly] private float delayDisappear;
     [SerializeField] private bool disableObjectWhenInvisible;
     [Range(0, 1)] [SerializeField] private float alphaVisible = 1;
     [Range(0, 1)] [SerializeField] private float alphaInvisible;
@@ -33,10 +36,10 @@ public class AlphaTween : MonoBehaviour
         
         OnSetVisible?.Invoke();
         
-        if (image != null) return image.DOFade(alphaVisible, duration);
-        if (text != null) return text.DOFade(alphaVisible, duration);
-        if (canvasGroup != null) return canvasGroup.DOFade(alphaVisible, duration);
-        if (spriteRenderer != null) return spriteRenderer.DOFade(alphaVisible, duration);
+        if (image != null) return image.DOFade(alphaVisible, duration).SetDelay(delayAppear);
+        if (text != null) return text.DOFade(alphaVisible, duration).SetDelay(delayAppear);
+        if (canvasGroup != null) return canvasGroup.DOFade(alphaVisible, duration).SetDelay(delayAppear);
+        if (spriteRenderer != null) return spriteRenderer.DOFade(alphaVisible, duration).SetDelay(delayAppear);
         
         return null;
     }
@@ -52,7 +55,7 @@ public class AlphaTween : MonoBehaviour
                     if (disableObjectWhenInvisible) image.gameObject.SetActive(false);
                     OnIsInvisible?.Invoke();
                 }
-            );
+            ).SetDelay(delayDisappear);
         }
         
         if (text != null)
@@ -64,7 +67,7 @@ public class AlphaTween : MonoBehaviour
                     if (disableObjectWhenInvisible) text.gameObject.SetActive(false);
                     OnIsInvisible?.Invoke();
                 }
-            );
+            ).SetDelay(delayDisappear);
         }
         
         if (canvasGroup != null)
@@ -76,7 +79,7 @@ public class AlphaTween : MonoBehaviour
                     if (disableObjectWhenInvisible) canvasGroup.gameObject.SetActive(false);
                     OnIsInvisible?.Invoke();
                 }
-            );
+            ).SetDelay(delayDisappear);
         }
         
         if (spriteRenderer != null)
@@ -88,7 +91,7 @@ public class AlphaTween : MonoBehaviour
                     if (disableObjectWhenInvisible) spriteRenderer.gameObject.SetActive(false);
                     OnIsInvisible?.Invoke();
                 }
-            );
+            ).SetDelay(delayDisappear);
         }
         
         return null;
