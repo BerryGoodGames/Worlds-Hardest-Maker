@@ -20,9 +20,9 @@ public class KeyEvents : MonoBehaviour
         bool closingPanel = CheckClosingPanel();
         
         // toggle menu
-        if (!closingPanel && !MenuManager.Instance.BlockMenu &&
-            (Input.GetKeyDown(KeyCode.Escape) || KeyBinds.GetKeyBindDown("Editor_Menu")))
-            ReferenceManager.Instance.MenuTween.SetVisible(!ReferenceManager.Instance.MenuTween.IsVisible);
+        if (!closingPanel
+            && !MenuManager.Instance.BlockMenu
+            && (Input.GetKeyDown(KeyCode.Escape) || KeyBinds.GetKeyBindDown("Editor_Menu"))) MenuManager.Instance.ToggleMenu();
         
         CheckTeleportPlayer();
         

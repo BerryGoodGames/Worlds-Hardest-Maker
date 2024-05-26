@@ -10,9 +10,7 @@ public interface IManager
     {
         bool globalSheet = sheet == null;
         
-        bool hasEntityController = controller.TryGetComponent(out EntityController entityController)
-                                   || (entityController = controller.GetComponentInChildren<EntityController>()) != null
-                                   || (entityController = controller.GetComponentInParent<EntityController>()) != null;
+        bool hasEntityController = EntityController.TryGetController(controller, out EntityController entityController);
         
         if (hasEntityController && !entityController.IsAttachable) return globalSheet;
         

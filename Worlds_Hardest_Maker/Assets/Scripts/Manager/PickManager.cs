@@ -4,8 +4,6 @@ public class PickManager : MonoBehaviour
 {
     public static PickManager Instance { get; private set; }
     
-    private static int levelObjectMask = LayerMask.GetMask("Entity", "Field", "Player", "Void", "Water");
-    
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -14,12 +12,16 @@ public class PickManager : MonoBehaviour
     
     public static void PickObject(Vector2 position)
     {
-        Collider2D[] hits = Physics2D.OverlapPointAll(position, levelObjectMask);
+        Collider2D[] hits = Physics2D.OverlapPointAll(position, LayerManager.Instance.Layers.LevelObjectMask);
         
-        if (hits.Length <= 0) return;
+        if (hits.Length == 0) return;
         
-        if (!hits[0].TryGetComponent(out EntityController entity)) throw new("Object that was tried to pick from is not an entity");
+        if (!LevelObjectController.TryGetController(hits[0], out LevelObjectController levelObject))
+        {
+            Debug.Log("Object that was tried to pick from is not an entity");
+            return;
+        }
         
-        LevelSessionEditManager.Instance.CurrentEditMode = entity.EditMode;
+        LevelSessionEditManager.Instance.CurrentEditMode = levelObject.EditMode;
     }
 }

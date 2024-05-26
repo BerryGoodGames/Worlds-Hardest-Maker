@@ -18,7 +18,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] [InitializationField] [Required] private MoveRelativeTween levelHubButtonExitTween;
     [SerializeField] [InitializationField] [Required] private Button levelHubButton;
     [SerializeField] [InitializationField] [Required] private Button optionsButton;
-
+    
     
     private bool isCreditsOpen;
     private Tween creditsTween;

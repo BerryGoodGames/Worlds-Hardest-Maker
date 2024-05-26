@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     
     [SerializeField] private float clickDuration;
     [SerializeField] private float highlightElevation;
+    [SerializeField] [DefinedValues(-1, 1)] private int highlightXDirection = -1;
     [SerializeField] private float highlightFloating;
     [SerializeField] private float highlightElevateDuration;
     [SerializeField] private float highlightFloatingDuration;
@@ -31,9 +33,11 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         hovered = true;
         
+        int floatXDirection = Math.Sign(highlightXDirection);
+        
         // elevate
         contentRT.DOAnchorPos(
-                new(-highlightElevation, highlightElevation + highlightFloating),
+                new(floatXDirection * highlightElevation, highlightElevation + highlightFloating),
                 highlightElevateDuration
             )
             .SetId(gameObject);
@@ -49,7 +53,7 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
         
         // loop floating
-        contentRT.DOAnchorPos(new(-highlightElevation, highlightElevation), highlightFloatingDuration * 0.5f)
+        contentRT.DOAnchorPos(new(floatXDirection * highlightElevation, highlightElevation), highlightFloatingDuration * 0.5f)
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo)
             .SetDelay(highlightElevateDuration)

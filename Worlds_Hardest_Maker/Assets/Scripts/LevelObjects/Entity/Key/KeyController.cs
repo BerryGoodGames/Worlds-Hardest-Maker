@@ -110,6 +110,8 @@ public class KeyController : EntityController, IResettable, ICollectible
             KeyDoorFieldController controller = door.GetComponent<KeyDoorFieldController>();
             controller.SetLocked(false);
         }
+        
+        AudioManager.Instance.Play("KeyDoorUnlock");
     }
     
     public bool ShouldRespawn()
