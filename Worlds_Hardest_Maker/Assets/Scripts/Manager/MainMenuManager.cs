@@ -3,6 +3,7 @@ using MyBox;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] [InitializationField] [Required] private MoveRelativeTween creditsExitTween;
     [SerializeField] [InitializationField] [Required] private TMP_Text creditsButtonText;
     [SerializeField] [InitializationField] [Required] private MoveRelativeTween levelHubButtonExitTween;
+    [SerializeField] [InitializationField] [Required] private Button levelHubButton;
+    [SerializeField] [InitializationField] [Required] private Button optionsButton;
+    
     
     private bool isCreditsOpen;
     private Tween creditsTween;
@@ -38,6 +42,9 @@ public class MainMenuManager : MonoBehaviour
         if (isCreditsOpen) levelHubButtonExitTween.Move();
         
         creditsButtonText.text = isCreditsOpen ? "Back" : "Credits";
+        
+        levelHubButton.interactable = !isCreditsOpen;
+        optionsButton.interactable = !isCreditsOpen;
     }
     
     public void QuitGame() => Application.Quit();

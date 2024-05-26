@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 
 /// <Summary>
@@ -8,6 +9,9 @@ public class KonamiManager : MonoBehaviour
     public static KonamiManager Instance { get; private set; }
     
     public bool KonamiActive { get; private set; }
+    
+    [SerializeField] [Required] private KonamiCodeActivationAnimation activationAlert;
+    [SerializeField] [Required] private KonamiCodeDeactivationAnimation deactivationAlert;
     
     private int keyIndex;
     
@@ -26,7 +30,7 @@ public class KonamiManager : MonoBehaviour
         if (!Input.anyKeyDown || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) ||
             Input.GetMouseButtonDown(2)) return;
         
-        if (Input.GetKeyDown(konamiKeys[keyIndex]))
+        if (Input.GetKeyDown(konamiKeys[keyIndex]) && !activationAlert.IsAnimationOnScreen)
         {
             keyIndex++;
             
@@ -44,10 +48,14 @@ public class KonamiManager : MonoBehaviour
         else keyIndex = 0;
     }
     
-    private static void SetKonamiActive(bool active)
+    private void SetKonamiActive(bool active)
     {
         // toggle key sneezing
-        foreach (KeyController key in KeyManager.Instance.Keys) key.KonamiAnimation.enabled = active;
+        foreach (KeyController key in KeyManager.Instance.Keys)
+        {
+            key.KonamiAnimation.enabled = active;
+            key.KonamiAnimation.Randomize();
+        }
         
         // toggle shotgun (if player exists)
         PlayerController player = PlayerManager.Instance.Player;
@@ -55,7 +63,12 @@ public class KonamiManager : MonoBehaviour
             player.Shotgun.gameObject.SetActive((!LevelSessionManager.Instance.IsEdit || LevelSessionEditManager.Instance.Playing) && active);
         
         // mark play try as cheated if enabling
-        if (active) PlayManager.Instance.Cheated = true;
+        if (active)
+        {
+            PlayManager.Instance.Cheated = true;
+            activationAlert.StartAnimation();
+        }
+        else deactivationAlert.StartAnimation();
     }
     
     private void Awake()

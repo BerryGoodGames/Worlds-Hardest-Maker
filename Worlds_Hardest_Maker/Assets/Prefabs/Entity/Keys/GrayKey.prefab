@@ -5094,6 +5094,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1fba9e73951dce4f9ca6fe93b553372, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particles: {fileID: 7452267282298607137}
+  audioSource: {fileID: 0}
 --- !u!114 &686737570691484559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5101,16 +5103,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8839871402222588891}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af0eb57aebfa06740a6029c93b4514a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IntervalSeconds: 0
-  AnimTriggerString: Sneeze
-  LimitDeviation: 0.8
-  TriggerOnlyAtPlayMode: 0
-  SoundEffect:
+  intervalSeconds: 5
+  animTriggerString: Sneeze
+  limitDeviation: 0.8
+  triggerOnlyAtPlayMode: 0
+  soundEffect:
     Sound: KeySneeze
     PitchRandomization: 1
     PitchDeviation: 0.08

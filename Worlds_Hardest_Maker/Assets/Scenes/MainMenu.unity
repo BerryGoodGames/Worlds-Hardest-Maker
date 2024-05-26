@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -762,7 +761,7 @@ GameObject:
   - component: {fileID: 116697468}
   - component: {fileID: 116697467}
   m_Layer: 5
-  m_Name: abho (1)
+  m_Name: abho 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -807,7 +806,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: for some textures,
+  m_text: for some textures
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b919d1c2676edaf4cb00a7a91440b033, type: 2}
   m_sharedMaterial: {fileID: 5159760981295103350, guid: b919d1c2676edaf4cb00a7a91440b033, type: 2}
@@ -5573,7 +5572,7 @@ GameObject:
   - component: {fileID: 711071954}
   - component: {fileID: 711071953}
   m_Layer: 5
-  m_Name: abho
+  m_Name: abho 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8618,6 +8617,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   startVisible: 0
   duration: 0.25
+  delayAppear: 0
+  delayDisappear: 0
   disableObjectWhenInvisible: 1
   alphaVisible: 0.282
   alphaInvisible: 0
@@ -8749,6 +8750,8 @@ MonoBehaviour:
   creditsExitTween: {fileID: 1928932800}
   creditsButtonText: {fileID: 1143427450}
   levelHubButtonExitTween: {fileID: 1926198128}
+  levelHubButton: {fileID: 1926198144}
+  optionsButton: {fileID: 1863118027}
 --- !u!114 &1283149860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8786,6 +8789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11e5cfac91a020c4b976fbc17160d6df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  preventInWebGL: 1
 --- !u!114 &1283149862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11701,6 +11705,17 @@ MonoBehaviour:
   movement: {x: 550, y: 0}
   anchorMin: {x: 0.65, y: 0}
   anchorMax: {x: 0.65, y: 0}
+--- !u!114 &1863118027 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+  m_PrefabInstance: {fileID: 237543854}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873435600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1864740345
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12268,6 +12283,17 @@ MonoBehaviour:
   movement: {x: 550, y: 0}
   anchorMin: {x: 0.65, y: 0}
   anchorMax: {x: 0.65, y: 0}
+--- !u!114 &1926198144 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+  m_PrefabInstance: {fileID: 1775242606}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926198122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1928126013
 GameObject:
   m_ObjectHideFlags: 0
@@ -12387,6 +12413,63 @@ MonoBehaviour:
   movement: {x: 0, y: 0}
   anchorMin: {x: 0, y: 1}
   anchorMax: {x: 0, y: 1}
+--- !u!1001 &1934880634
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2345346699322556064, guid: a83944a685899094592b234bbc12b115, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345346699322556064, guid: a83944a685899094592b234bbc12b115, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345346699322556064, guid: a83944a685899094592b234bbc12b115, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345346699322556064, guid: a83944a685899094592b234bbc12b115, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345346699322556064, guid: a83944a685899094592b234bbc12b115, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345346699322556064, guid: a83944a685899094592b234bbc12b115, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345346699322556064, guid: a83944a685899094592b234bbc12b115, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345346699322556064, guid: a83944a685899094592b234bbc12b115, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345346699322556064, guid: a83944a685899094592b234bbc12b115, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2345346699322556064, guid: a83944a685899094592b234bbc12b115, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2687731391735498222, guid: a83944a685899094592b234bbc12b115, type: 3}
+      propertyPath: m_Name
+      value: _AudioManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a83944a685899094592b234bbc12b115, type: 3}
 --- !u!1 &1946135338
 GameObject:
   m_ObjectHideFlags: 0
@@ -13740,7 +13823,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -210.58255
+      value: -210.41025
       objectReference: {fileID: 0}
     - target: {fileID: 2955345560999892006, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_Pivot.x
@@ -14432,6 +14515,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 426660806}
+  - {fileID: 1934880634}
   - {fileID: 1283149857}
   - {fileID: 1612039536}
   - {fileID: 478226114}

@@ -308,18 +308,18 @@ PrefabInstance:
     - target: {fileID: 778978906522735832, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 341b2d94eeaae5b40bedaf12ef53222e, type: 3}
+      objectReference: {fileID: 21300000, guid: 677ce7dcbd3cd904286e0f5e7a52d7e1, type: 3}
     - target: {fileID: 778978906522735832, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_Color.b
-      value: 1
+      value: 0.8313726
       objectReference: {fileID: 0}
     - target: {fileID: 778978906522735832, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0.32941177
       objectReference: {fileID: 0}
     - target: {fileID: 778978906522735832, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0.39607847
       objectReference: {fileID: 0}
     - target: {fileID: 778978906522735832, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_PreserveAspect
@@ -578,7 +578,7 @@ MonoBehaviour:
   restrictInCanvas: 0
   customRestrictContainer: 1
   restrictContainer: {fileID: 0}
-  text: Clear keybinds
+  text: Clear key binds
   fontSize: 22
   offset: 10
   customTweenDelay: 0
@@ -859,7 +859,7 @@ MonoBehaviour:
   restrictInCanvas: 0
   customRestrictContainer: 1
   restrictContainer: {fileID: 0}
-  text: Add keybind
+  text: Add key bind
   fontSize: 22
   offset: 10
   customTweenDelay: 0

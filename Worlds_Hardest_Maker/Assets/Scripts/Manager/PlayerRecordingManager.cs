@@ -191,8 +191,6 @@ public class PlayerRecordingManager : MonoBehaviour
         lineRenderer.startColor = deathColor;
         lineRenderer.endColor = deathColor;
         
-        Quaternion rotation = Quaternion.Euler(0, 0, 45);
-        
         return StartCoroutine(
             RenderLoop(
                 i =>
@@ -205,7 +203,7 @@ public class PlayerRecordingManager : MonoBehaviour
                         (recordedPositions[i].CheckpointHit && !recordedPositions[i].StartSuccessfulLine))
                     {
                         if (recordedPositions[i].Died)
-                            Instantiate(recordingDeathPrefab, recordedPositions[i].Position, rotation, recordingPathContainer);
+                            Instantiate(recordingDeathPrefab, recordedPositions[i].Position, Quaternion.identity, recordingPathContainer);
                         
                         // calculate new color
                         float value = 1;

@@ -301,6 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22c1c03e17f667e4983361725c8664a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menuTween: {fileID: 7583559274317986737}
   graphicSettingsUI: {fileID: 380566005017012632}
   uiSettingsUI: {fileID: 2477616580359292584}
   soundSettingsUI: {fileID: 5114590912886021533}
@@ -353,6 +354,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   startVisible: 0
   duration: 0.15
+  delayAppear: 0
+  delayDisappear: 0
   disableObjectWhenInvisible: 1
   alphaVisible: 1
   alphaInvisible: 0
@@ -1701,7 +1704,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2482777314814029965, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_text
-      value: Key Binds
+      value: Key binds
       objectReference: {fileID: 0}
     - target: {fileID: 2482777314814029965, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_fontSize

@@ -955,9 +955,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 55817798003221759, guid: 89ad545d553821a4bbef0f9577e4fe8c, type: 3}
       propertyPath: m_Name
-      value: AnchorAttachHelpGif2
+      value: Gif2
       objectReference: {fileID: 0}
     - target: {fileID: 1985276601335568763, guid: 89ad545d553821a4bbef0f9577e4fe8c, type: 3}
+      propertyPath: m_Texture
+      value: 
+      objectReference: {fileID: 8400000, guid: d093e038165087546b158319528dbff5, type: 2}
+    - target: {fileID: 2380792816427800145, guid: 89ad545d553821a4bbef0f9577e4fe8c, type: 3}
       propertyPath: m_Texture
       value: 
       objectReference: {fileID: 8400000, guid: d093e038165087546b158319528dbff5, type: 2}
@@ -1069,9 +1073,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 55817798003221759, guid: 89ad545d553821a4bbef0f9577e4fe8c, type: 3}
       propertyPath: m_Name
-      value: AnchorAttachHelpGif1
+      value: Gif1
       objectReference: {fileID: 0}
     - target: {fileID: 1985276601335568763, guid: 89ad545d553821a4bbef0f9577e4fe8c, type: 3}
+      propertyPath: m_Texture
+      value: 
+      objectReference: {fileID: 8400000, guid: 2ccf335b53baf434f925bc1d7a7d8300, type: 2}
+    - target: {fileID: 2380792816427800145, guid: 89ad545d553821a4bbef0f9577e4fe8c, type: 3}
       propertyPath: m_Texture
       value: 
       objectReference: {fileID: 8400000, guid: 2ccf335b53baf434f925bc1d7a7d8300, type: 2}
