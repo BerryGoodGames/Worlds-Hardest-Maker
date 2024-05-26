@@ -25,4 +25,11 @@ public abstract class EntityController : LevelObjectController
         
         if (IsAttached) Sheet = attachment.Anchor;
     }
+    
+    public static bool TryGetController(Component component, out EntityController entityController)
+    {
+        return component.TryGetComponent(out entityController)
+            || (entityController = component.GetComponentInChildren<EntityController>()) != null
+            || (entityController = component.GetComponentInParent<EntityController>()) != null;
+    }
 }
