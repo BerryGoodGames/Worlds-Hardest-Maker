@@ -353,6 +353,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   startVisible: 0
   duration: 0.15
+  delayAppear: 0
+  delayDisappear: 0
   disableObjectWhenInvisible: 1
   alphaVisible: 1
   alphaInvisible: 0
@@ -1701,7 +1703,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2482777314814029965, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_text
-      value: Key Binds
+      value: Key binds
       objectReference: {fileID: 0}
     - target: {fileID: 2482777314814029965, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_fontSize
