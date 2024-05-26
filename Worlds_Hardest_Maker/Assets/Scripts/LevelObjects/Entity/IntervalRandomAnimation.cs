@@ -1,4 +1,7 @@
+using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     Triggers animation at random intervals
@@ -7,16 +10,16 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class IntervalRandomAnimation : MonoBehaviour
 {
-    public float IntervalSeconds;
+    [FormerlySerializedAs("IntervalSeconds")] [SerializeField] [PositiveValueOnly] private float intervalSeconds;
     
-    public string AnimTriggerString;
+    [FormerlySerializedAs("AnimTriggerString")] [SerializeField] private string animTriggerString;
     
     // value between 0 - 1, next trigger has to be in range of deviation
-    [Range(0, 1)] public float LimitDeviation;
+    [FormerlySerializedAs("LimitDeviation")] [Range(0, 1)] [SerializeField] private float limitDeviation;
     
-    public bool TriggerOnlyAtPlayMode;
+    [FormerlySerializedAs("TriggerOnlyAtPlayMode")] [SerializeField] private bool triggerOnlyAtPlayMode;
     
-    public SoundEffect SoundEffect;
+    [FormerlySerializedAs("SoundEffect")] [SerializeField] [Required] private SoundEffect soundEffect;
     
     private int lastTrigger;
     
@@ -26,9 +29,9 @@ public class IntervalRandomAnimation : MonoBehaviour
     
     private void FixedUpdate()
     {
-        if (TriggerOnlyAtPlayMode && !LevelSessionEditManager.Instance.Playing) return;
+        if (triggerOnlyAtPlayMode && !LevelSessionEditManager.Instance.Playing) return;
         
-        if (lastTrigger >= IntervalSeconds / Time.fixedDeltaTime * LimitDeviation) CheckAnimationTrigger();
+        if (lastTrigger >= intervalSeconds / Time.fixedDeltaTime * limitDeviation) CheckAnimationTrigger();
         
         lastTrigger++;
     }
@@ -36,15 +39,20 @@ public class IntervalRandomAnimation : MonoBehaviour
     private void CheckAnimationTrigger()
     {
         // check animation trigger
-        float p = Time.fixedDeltaTime / IntervalSeconds;
+        float p = Time.fixedDeltaTime / intervalSeconds;
         
         if (Random.Range(0, 0.999f) >= p &&
-            lastTrigger < IntervalSeconds / Time.fixedDeltaTime * (LimitDeviation + 1)) return;
+            lastTrigger < intervalSeconds / Time.fixedDeltaTime * (limitDeviation + 1)) return;
         
-        anim.SetTrigger(AnimTriggerString);
+        anim.SetTrigger(animTriggerString);
         
-        AudioManager.Instance.Play(SoundEffect);
+        AudioManager.Instance.Play(soundEffect);
         
         lastTrigger = 0;
+    }
+    
+    public void Randomize()
+    {
+        lastTrigger = -(int)(Random.Range(0, intervalSeconds) / Time.fixedDeltaTime);
     }
 }
