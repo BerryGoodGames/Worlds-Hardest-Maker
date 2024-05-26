@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class MenuManager : MonoBehaviour
@@ -14,11 +15,12 @@ public class MenuManager : MonoBehaviour
         KeyBinds = 3,
     }
     
-    [Header("Constants & References")] [SerializeField] private GameObject graphicSettingsUI;
-    [SerializeField] private GameObject uiSettingsUI;
-    [SerializeField] private GameObject soundSettingsUI;
-    [SerializeField] private GameObject keyBindSettingsUI;
-    
+    [Header("Constants & References")]
+    [SerializeField] [Required] private AlphaTween menuTween;
+    [SerializeField] [Required] private GameObject graphicSettingsUI;
+    [SerializeField] [Required] private GameObject uiSettingsUI;
+    [SerializeField] [Required] private GameObject soundSettingsUI;
+    [SerializeField] [Required] private GameObject keyBindSettingsUI;
     
     [Space] [Header("Variables")] public MenuTab CurrentMenuTab;
     
@@ -37,7 +39,9 @@ public class MenuManager : MonoBehaviour
     
     private void Start() => ChangeMenuTab(CurrentMenuTab);
     
-    public static void ExitGame() => PlayManager.QuitGame();
+    public void ToggleMenu() => SetMenuVisible(!menuTween.IsVisible);
+    
+    public void SetMenuVisible(bool visible) => menuTween.SetVisible(visible);
     
     #region Menu Tab
     
