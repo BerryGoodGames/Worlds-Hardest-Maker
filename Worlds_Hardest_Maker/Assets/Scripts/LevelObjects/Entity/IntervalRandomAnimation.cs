@@ -51,8 +51,5 @@ public class IntervalRandomAnimation : MonoBehaviour
         lastTrigger = 0;
     }
     
-    public void Randomize()
-    {
-        lastTrigger = -(int)(Random.Range(0, intervalSeconds) / Time.fixedDeltaTime);
-    }
+    public void Randomize() => lastTrigger = -(int)(Random.Range(0, intervalSeconds) / Time.fixedDeltaTime);
 }

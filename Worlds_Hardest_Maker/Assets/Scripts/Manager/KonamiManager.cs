@@ -68,10 +68,7 @@ public class KonamiManager : MonoBehaviour
             PlayManager.Instance.Cheated = true;
             activationAlert.StartAnimation();
         }
-        else
-        {
-            deactivationAlert.StartAnimation();
-        }
+        else deactivationAlert.StartAnimation();
     }
     
     private void Awake()

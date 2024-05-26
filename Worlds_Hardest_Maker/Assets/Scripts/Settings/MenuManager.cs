@@ -15,8 +15,7 @@ public class MenuManager : MonoBehaviour
         KeyBinds = 3,
     }
     
-    [Header("Constants & References")]
-    [SerializeField] [Required] private AlphaTween menuTween;
+    [Header("Constants & References")] [SerializeField] [Required] private AlphaTween menuTween;
     [SerializeField] [Required] private GameObject graphicSettingsUI;
     [SerializeField] [Required] private GameObject uiSettingsUI;
     [SerializeField] [Required] private GameObject soundSettingsUI;

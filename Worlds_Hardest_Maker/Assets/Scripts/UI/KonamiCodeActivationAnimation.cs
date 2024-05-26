@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using DG.Tweening;
 using JetBrains.Annotations;
@@ -12,9 +11,7 @@ public class KonamiCodeActivationAnimation : MonoBehaviour
     [SerializeField] [Required] private AlphaTween blockerTween;
     [SerializeField] [Required] private AlphaTween alertTween;
     [SerializeField] [Required] private AlphaTween continueButtonTween;
-    [FormerlySerializedAs("delay")]
-    [Separator]
-    [SerializeField] [PositiveValueOnly] private float soundDelay = 0.3f;
+    [FormerlySerializedAs("delay")] [Separator] [SerializeField] [PositiveValueOnly] private float soundDelay = 0.3f;
     [SerializeField] [PositiveValueOnly] private float alertDuration = 1f;
     [SerializeField] [PositiveValueOnly] private float alertStartScale = 4f;
     [SerializeField] [PositiveValueOnly] private float alertTargetScale = 1.5f;
@@ -53,6 +50,7 @@ public class KonamiCodeActivationAnimation : MonoBehaviour
         {
             alertTween.SetVisible(true)
                 .SetEase(Ease.InCirc);
+            
             alertTween.transform.DOScale(Vector3.one * alertTargetScale, alertDuration)
                 .SetEase(Ease.InCirc);
             
