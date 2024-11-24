@@ -45,7 +45,7 @@ public class DiscordManager : MonoBehaviour
             else DestroyImmediate(this);
         }
         
-        if (!Application.isPlaying && FindObjectsOfType(GetType()).Length > 1) Destroy(gameObject);
+        if (!Application.isPlaying && FindObjectsByType(GetType(), FindObjectsSortMode.None).Length > 1) Destroy(gameObject);
     }
     
     private void Start() => Setup();

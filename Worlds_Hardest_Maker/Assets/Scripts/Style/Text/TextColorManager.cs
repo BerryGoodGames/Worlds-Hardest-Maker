@@ -11,7 +11,7 @@ public class TextColorManager : MonoBehaviour
     [ButtonMethod]
     public void ApplyDefaultColor()
     {
-        TMP_Text[] texts = FindObjectsOfType<TMP_Text>();
+        TMP_Text[] texts = FindObjectsByType<TMP_Text>(FindObjectsSortMode.None);
         
         foreach (TMP_Text text in texts)
         {

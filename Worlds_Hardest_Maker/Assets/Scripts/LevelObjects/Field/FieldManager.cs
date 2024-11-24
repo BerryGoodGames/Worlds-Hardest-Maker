@@ -211,8 +211,7 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
     
     private static void UpdateOutlinesRayLineWithNeighbors(Vector2 origin, Vector2 rayDirection, Vector2 neighborDirection, int length)
     {
-        RaycastHit2D[] hits = new RaycastHit2D[length];
-        Physics2D.RaycastNonAlloc(origin, rayDirection, hits, length);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(origin, rayDirection, length);
         foreach (RaycastHit2D hit in hits)
         {
             if (hit.collider == null) continue;
@@ -232,8 +231,7 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
     
     private static void UpdateOutlinesRayLine(Vector2 origin, Vector2 direction, int length)
     {
-        RaycastHit2D[] currentHits = new RaycastHit2D[length];
-        _ = Physics2D.RaycastNonAlloc(origin, direction, currentHits, length);
+        RaycastHit2D[] currentHits = Physics2D.RaycastAll(origin, direction, length);
         
         foreach (RaycastHit2D r in currentHits)
         {

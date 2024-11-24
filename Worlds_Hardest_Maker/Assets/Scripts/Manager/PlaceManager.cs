@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Cinemachine.Utility;
 using JetBrains.Annotations;
 using MyBox;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class PlaceManager : MonoBehaviour

@@ -51,9 +51,9 @@ public partial class PlayerController
     private void IcePhysics()
     {
         // transfer velocity to ice when entering
-        if (Rb.velocity == Vector2.zero) Rb.velocity = GetPhysicsSpeed() * movementInput;
+        if (Rb.linearVelocity == Vector2.zero) Rb.linearVelocity = GetPhysicsSpeed() * movementInput;
         
-        Rb.drag = LevelSettings.Instance.IceFriction;
+        Rb.linearDamping = LevelSettings.Instance.IceFriction;
         
         // acceleration on ice
         // convert to units / second
@@ -63,7 +63,7 @@ public partial class PlayerController
     
     private void AddMovement(ref Vector2 totalMovement)
     {
-        Rb.velocity = Vector2.zero;
+        Rb.linearVelocity = Vector2.zero;
         
         // snappy movement (when not on ice)
         if (!movementInput.Equals(Vector2.zero))

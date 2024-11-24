@@ -120,8 +120,7 @@ public partial class SelectionManager
         // clear fields in area
         int fieldLayer = LayerManager.Instance.Layers.Field;
         int fieldCount = ReferenceManager.Instance.FieldContainer.childCount;
-        Collider2D[] fieldHits = new Collider2D[fieldCount];
-        _ = Physics2D.OverlapAreaNonAlloc(lowestPos, highestPos, fieldHits, fieldLayer);
+        Collider2D[] fieldHits = Physics2D.OverlapAreaAll(lowestPos, highestPos, fieldLayer);
         
         foreach (Collider2D fieldHit in fieldHits)
         {

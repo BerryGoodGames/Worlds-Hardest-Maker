@@ -48,7 +48,7 @@ public partial class PlayerController
     /// </summary>
     private void Death()
     {
-        Rb.velocity = Vector2.zero;
+        Rb.linearVelocity = Vector2.zero;
         Rb.simulated = false;
         InDeathAnim = true;
         

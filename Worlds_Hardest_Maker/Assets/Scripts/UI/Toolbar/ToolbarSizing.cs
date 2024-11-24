@@ -29,7 +29,7 @@ public class ToolbarSizing : MonoBehaviour
     [UsedImplicitly]
     public void UpdateEveryOptionbarHeight()
     {
-        ToolOptionbar[] optionbars = FindObjectsOfType<ToolOptionbar>();
+        ToolOptionbar[] optionbars = FindObjectsByType<ToolOptionbar>(FindObjectsSortMode.None);
         foreach (ToolOptionbar optionbar in optionbars) optionbar.UpdateHeight();
     }
 }

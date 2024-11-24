@@ -125,7 +125,7 @@ public class Dbg : MonoBehaviour
     [UsedImplicitly]
     public static void PrintScriptAttachments<T>() where T : MonoBehaviour
     {
-        Object[] list = FindObjectsOfType(typeof(T), true);
+        Object[] list = FindObjectsByType(typeof(T), FindObjectsInactive.Include, FindObjectsSortMode.None);
         string scriptName = typeof(T).Name;
         
         print($"Debug - Count of script {scriptName}: {list.Length}");

@@ -14,7 +14,7 @@ public class PlaySceneToggle : MonoBehaviour
     [ButtonMethod]
     public void UpdateStates()
     {
-        ConditionalObject[] objArr = FindObjectsOfType<ConditionalObject>(true);
+        ConditionalObject[] objArr = FindObjectsByType<ConditionalObject>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         
         foreach (ConditionalObject obj in objArr)
         {
@@ -27,7 +27,7 @@ public class PlaySceneToggle : MonoBehaviour
     [UsedImplicitly]
     public void Apply()
     {
-        ConditionalObject[] objArr = FindObjectsOfType<ConditionalObject>(true);
+        ConditionalObject[] objArr = FindObjectsByType<ConditionalObject>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         
         foreach (ConditionalObject obj in objArr)
         {

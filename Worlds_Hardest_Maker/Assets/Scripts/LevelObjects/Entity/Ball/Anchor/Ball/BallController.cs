@@ -35,7 +35,7 @@ public class BallController : EntityController
     public void ResetPosition()
     {
         transform.parent.localPosition = StartLocalPosition;
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
     }
     
     private void OnDestroy()

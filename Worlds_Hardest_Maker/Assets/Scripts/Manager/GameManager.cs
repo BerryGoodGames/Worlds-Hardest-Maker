@@ -192,8 +192,7 @@ public class GameManager : MonoBehaviour
     
     public static void RemoveObjectInContainer(Vector2 position, Transform container)
     {
-        Collider2D[] hits = new Collider2D[container.childCount];
-        _ = Physics2D.OverlapCircleNonAlloc(position, 0.005f, hits, 128);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.005f, 128);
         
         foreach (Collider2D hit in hits)
         {

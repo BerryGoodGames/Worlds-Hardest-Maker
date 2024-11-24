@@ -58,7 +58,7 @@ public class LevelSessionManager : MonoBehaviour
             loadLevelCoroutine.OnComplete(() => OnLevelLoaded.Invoke());
         }
         
-        ConditionalObject[] conditionalObjects = FindObjectsOfType<ConditionalObject>(true);
+        ConditionalObject[] conditionalObjects = FindObjectsByType<ConditionalObject>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (ConditionalObject obj in conditionalObjects)
         {
             if (obj.EditOnly && !IsEdit) Destroy(obj.gameObject);
