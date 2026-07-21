@@ -204,16 +204,16 @@ public partial class PlayerController : EntityController
     
     private void PlayWinSfx()
     {
-        AudioManager.Instance.Play("Win");
+        audioService.Play("Win");
         
         const int PARTY_HORN_COUNT = 9;
         string[] partyHorns = new string[PARTY_HORN_COUNT];
         for (int i = 0; i < PARTY_HORN_COUNT; i++) partyHorns[i] = $"PartyHorn{i + 1}";
         
         string selectedPartyHorn = partyHorns.GetRandom();
-        AudioManager.Instance.Play(selectedPartyHorn);
+        audioService.Play(selectedPartyHorn);
         
-        AudioManager.Instance.Play("PartyPopper");
+        audioService.Play("PartyPopper");
         
         confetti1.Play();
         confetti2.Play();

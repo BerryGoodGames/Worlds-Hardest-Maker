@@ -2,12 +2,24 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
+using Zenject;
 
 public partial class FieldManager : MonoBehaviour, IManager<FieldController>
 {
     public static FieldManager Instance { get; private set; }
     
     public Transform DefaultContainer => ReferenceManager.Instance.FieldContainer;
+    
+    private DiContainer diContainer;
+    
+    private IAudioService audioService;
+    
+    [Inject]
+    private void Construct(DiContainer diContainer, IAudioService audioService)
+    {
+        this.diContainer = diContainer;
+        this.audioService = audioService;
+    }
     
     public FieldController SetInSheet(ManagerParameters args)
     {
@@ -76,6 +88,8 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
             args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
         );
         
+        diContainer.InjectGameObject(res);
+        
         FieldController fieldController = res.GetComponent<FieldController>();
         fieldController.FieldMode = args.FieldMode;
         
@@ -140,7 +154,7 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
             Rotation = rotation,
         };
         
-        if (((IManager<FieldController>)this).Set(args) is not null && playSound) AudioManager.Instance.Play(PlaceManager.Instance.GetSfx(mode));
+        if (((IManager<FieldController>)this).Set(args) is not null && playSound) audioService.Play(PlaceManager.Instance.GetSfx(mode));
     }
     
     public static void ApplySafeFieldsColor(bool oneColor)

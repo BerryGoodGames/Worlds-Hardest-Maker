@@ -37,7 +37,7 @@ public partial class AnchorManager : IManager<AnchorController>
         return null;
     }
     
-    public static void Remove(Vector2 position)
+    public void Remove(Vector2 position)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f, 128);
         
@@ -51,7 +51,7 @@ public partial class AnchorManager : IManager<AnchorController>
         }
     }
     
-    public static void Remove(AnchorController anchor)
+    public void Remove(AnchorController anchor)
     {
         // deselect anchor first, if selected
         if (Instance.SelectedAnchor != null)
@@ -64,14 +64,20 @@ public partial class AnchorManager : IManager<AnchorController>
         // destroy anchor
         Destroy(anchor.transform.parent.gameObject);
         
-        AudioManager.Instance.Play(PlaceManager.Instance.GetSfx(EditModeManager.Delete));
+        audioService.Play(PlaceManager.Instance.GetSfx(EditModeManager.Delete));
     }
     
-    public AnchorController InstantiateInSheet(ManagerParameters args) =>
-        Instantiate(
+    public AnchorController InstantiateInSheet(ManagerParameters args)
+    {
+        AnchorController anchor = Instantiate(
             PrefabManager.Instance.Anchor, Vector2.zero, Quaternion.identity,
             DefaultContainer
         ).Child;
+        
+        diContainer.InjectGameObject(anchor.gameObject);
+        
+        return anchor;
+    }
     
     public List<Data> Serialize(List<Data> levelData)
     {

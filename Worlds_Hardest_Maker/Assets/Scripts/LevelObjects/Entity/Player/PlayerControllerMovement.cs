@@ -29,8 +29,10 @@ public partial class PlayerController
         // check water and update drown level
         bool onWaterNow = IsOnMode(EditModeManager.Water);
         if (!onWater && onWaterNow)
+        {
             // frame player enters water
-            AudioManager.Instance.Play("WaterEnter");
+            audioService.Play("WaterEnter");
+        }
         
         onWater = onWaterNow;
         

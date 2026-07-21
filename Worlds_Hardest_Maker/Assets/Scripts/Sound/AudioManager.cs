@@ -3,10 +3,8 @@ using MyBox;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : MonoBehaviour, IAudioService
 {
-    public static AudioManager Instance { get; private set; }
-    
     [SerializeField] [PositiveValueOnly] [InitializationField] private float transitionTime = 0.5f;
     
     [SerializeField] [InitializationField] private AudioMixerSnapshot defaultState;
@@ -51,12 +49,7 @@ public class AudioManager : MonoBehaviour
     
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else Destroy(this);
+        DontDestroyOnLoad(gameObject);
         
         sounds.ForEach(sound => sound.CreateSources(gameObject));
     }

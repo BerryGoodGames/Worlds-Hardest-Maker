@@ -1,5 +1,6 @@
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 public abstract class LevelObjectController : MonoBehaviour
 {
@@ -7,13 +8,21 @@ public abstract class LevelObjectController : MonoBehaviour
     
     public abstract EditMode EditMode { get; }
     
+    protected IAudioService audioService;
+    
+    [Inject]
+    public void Construct(IAudioService audioService)
+    {
+        this.audioService = audioService;
+    }
+    
     public abstract Data GetData();
     
     public virtual void OnAnchorMove(Vector2 oldPos, Vector2 newPos) { }
     
     public virtual void Delete()
     {
-        AudioManager.Instance.Play(PlaceManager.Instance.GetSfx(EditModeManager.Delete));
+        audioService.Play(PlaceManager.Instance.GetSfx(EditModeManager.Delete));
         Destroy(gameObject);
     }
     

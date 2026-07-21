@@ -203,7 +203,9 @@ public class PlayerRecordingManager : MonoBehaviour
                         (recordedPositions[i].CheckpointHit && !recordedPositions[i].StartSuccessfulLine))
                     {
                         if (recordedPositions[i].Died)
+                        {
                             Instantiate(recordingDeathPrefab, recordedPositions[i].Position, Quaternion.identity, recordingPathContainer);
+                        }
                         
                         // calculate new color
                         float value = 1;

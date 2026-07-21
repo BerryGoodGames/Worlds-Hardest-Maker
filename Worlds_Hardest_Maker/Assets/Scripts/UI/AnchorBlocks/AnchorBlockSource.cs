@@ -3,12 +3,24 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Zenject;
 
 public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private GameObject anchorBlockPrefab;
     [SerializeField] private bool active = true;
     
+    private DiContainer diContainer;
+    
+    private IAudioService audioService;
+    
+    [Inject]
+    private void Construct(DiContainer diContainer, IAudioService audioService)
+    {
+        this.diContainer = diContainer;
+        this.audioService = audioService;
+    }
+
     public void CreateNew()
     {
         Vector2 position = transform.position;
@@ -19,6 +31,8 @@ public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
             Quaternion.identity,
             ReferenceManager.Instance.AnchorBlockChainContainer
         );
+        
+        diContainer.InjectGameObject(anchorBlock);
         
         // activate restriction
         UIRestrictInRectTransform restrict = anchorBlock.GetComponent<UIRestrictInRectTransform>();
@@ -32,7 +46,7 @@ public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
         anchorBlock.GetComponent<AnchorBlockDragDrop>().BeginDrag();
         
         // play sfx
-        AudioManager.Instance.Play("AnchorBlockPickUp");
+        audioService.Play("AnchorBlockPickUp");
     }
     
     public void OnPointerDown(PointerEventData eventData)

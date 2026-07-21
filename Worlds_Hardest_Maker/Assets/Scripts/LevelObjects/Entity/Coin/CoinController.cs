@@ -2,6 +2,7 @@ using DG.Tweening;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 public class CoinController : EntityController, IResettable, ICollectible
 {
@@ -74,7 +75,7 @@ public class CoinController : EntityController, IResettable, ICollectible
         CoinManager.Instance.CollectedCoins.Add(this);
         
         // coin counter, sfx, animation
-        AudioManager.Instance.Play("PlaceCoin");
+        audioService.Play("PlaceCoin");
         
         Animator.SetBool(pickedUpString, true);
         PickedUp = true;

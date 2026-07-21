@@ -77,6 +77,8 @@ public partial class SelectionManager
                 ReferenceManager.Instance.FieldContainer
             );
             
+            diContainer.InjectGameObject(field);
+            
             FieldController fieldController = field.GetComponent<FieldController>();
             fieldController.FieldMode = mode;
             

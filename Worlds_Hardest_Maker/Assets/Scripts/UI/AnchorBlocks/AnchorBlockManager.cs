@@ -3,6 +3,7 @@ using System.Linq;
 using MyBox;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public partial class AnchorBlockManager : MonoBehaviour
 {
@@ -15,6 +16,14 @@ public partial class AnchorBlockManager : MonoBehaviour
     public static bool IsPreviewHovered => ReferenceManager.Instance.AnchorBlockPreview.MouseOverUIRect.Over;
     public static bool IsPeriblockerHovered => ReferenceManager.Instance.AnchorBlockPreview.Periblocker.MouseOverUIRect.Over;
     
+    private IAudioService audioService;
+    
+    [Inject]
+    private void Construct(IAudioService audioService)
+    {
+        this.audioService = audioService;
+    }
+
     #region Block insertion
     
     /// <summary>
@@ -32,7 +41,7 @@ public partial class AnchorBlockManager : MonoBehaviour
     ///     The sibling index the anchor block gets inserted at, if nothing passed then anchor block
     ///     gets inserted at the end
     /// </param>
-    private static void InsertAnchorBlockIntoChain(
+    private void InsertAnchorBlockIntoChain(
         AnchorBlockController anchorBlock = null,
         ChainController paramChain = null, int siblingIndex = -1
     )
@@ -76,13 +85,13 @@ public partial class AnchorBlockManager : MonoBehaviour
         if (anchorBlock is PositionAnchorBlockController controller) controller.SetBlurVisible(true);
         
         // play sfx
-        AudioManager.Instance.Play("AnchorBlockDrop");
+        audioService.Play("AnchorBlockDrop");
     }
     
     /// <summary>
     ///     Checks if dragged block is over any block in main string and inserts if so
     /// </summary>
-    public static void CheckBlockInsert()
+    public void CheckBlockInsert()
     {
         if (!IsAnyBlockHovered() && !IsPreviewHovered && !IsPeriblockerHovered) return;
         
@@ -127,7 +136,7 @@ public partial class AnchorBlockManager : MonoBehaviour
     /// <summary>
     ///     Checks if dragged block is over connector and inserts if so
     /// </summary>
-    public static void CheckConnectorInsert()
+    public void CheckConnectorInsert()
     {
         if (!IsConnectorHovered) return;
         

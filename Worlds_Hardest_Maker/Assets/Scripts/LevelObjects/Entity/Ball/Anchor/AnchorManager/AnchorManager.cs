@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public partial class AnchorManager : MonoBehaviour
 {
@@ -7,6 +8,17 @@ public partial class AnchorManager : MonoBehaviour
     
     private static readonly int selectedString = Animator.StringToHash("Selected");
     private static readonly int playingString = Animator.StringToHash("Playing");
+    
+    private DiContainer diContainer;
+    
+    private IAudioService audioService;
+    
+    [Inject]
+    private void Construct(DiContainer diContainer, IAudioService audioService)
+    {
+        this.diContainer = diContainer;
+        this.audioService = audioService;
+    }
     
     private void Awake()
     {

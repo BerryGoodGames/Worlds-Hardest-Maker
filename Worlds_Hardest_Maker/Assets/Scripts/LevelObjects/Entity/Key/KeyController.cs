@@ -97,7 +97,7 @@ public class KeyController : EntityController, IResettable, ICollectible
         
         // pickup animation and sound
         Animator.SetBool(pickedUpString, true);
-        AudioManager.Instance.Play("PlaceKey");
+        audioService.Play("PlaceKey");
         
         Collected = true;
         
@@ -123,7 +123,7 @@ public class KeyController : EntityController, IResettable, ICollectible
             controller.SetLocked(false);
         }
         
-        AudioManager.Instance.Play("KeyDoorUnlock");
+        audioService.Play("KeyDoorUnlock");
     }
     
     public bool ShouldRespawn()

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 public class CheckpointController : MonoBehaviour, IResettable
 {
@@ -26,6 +27,14 @@ public class CheckpointController : MonoBehaviour, IResettable
     
     private CheckpointTween anim;
     
+    private IAudioService audioService;
+    
+    [Inject]
+    private void Construct(IAudioService audioService)
+    {
+        this.audioService = audioService;
+    }
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject player = collision.gameObject;
@@ -44,7 +53,7 @@ public class CheckpointController : MonoBehaviour, IResettable
         
         controller.ActivateCheckpoint(this);
         
-        AudioManager.Instance.Play("ActivateCheckpoint");
+        audioService.Play("ActivateCheckpoint");
     }
     
     public void ChainActivate()

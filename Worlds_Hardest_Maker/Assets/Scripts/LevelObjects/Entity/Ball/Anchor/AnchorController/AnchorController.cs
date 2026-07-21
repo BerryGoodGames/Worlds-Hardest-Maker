@@ -228,7 +228,7 @@ public partial class AnchorController : EntityController, IResettable
         LoopBlockNode = null;
     }
     
-    public override void Delete() => AnchorManager.Remove(this);
+    public override void Delete() => AnchorManager.Instance.Remove(this);
     
     public override Data GetData() => new AnchorData(this);
     

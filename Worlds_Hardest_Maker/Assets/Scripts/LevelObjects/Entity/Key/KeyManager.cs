@@ -96,7 +96,7 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
             args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
         );
         
-        diContainer.Inject(key);
+        diContainer.InjectGameObject(key.gameObject);
         
         return key;
     }

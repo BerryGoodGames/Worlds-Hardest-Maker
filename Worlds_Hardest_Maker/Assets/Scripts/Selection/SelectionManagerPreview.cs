@@ -3,14 +3,14 @@ using UnityEngine;
 
 public partial class SelectionManager
 {
-    private static void RemakePreview()
+    private void RemakePreview()
     {
         if (ReferenceManager.Instance.FillPreviewContainer.childCount == 0) return;
         DestroyPreview();
         InitSelectedPreview();
     }
     
-    private static void InitPreview(List<Vector2> range)
+    private void InitPreview(List<Vector2> range)
     {
         // set new previews, only if edit mode not in NoFillPreviewModes
         if (!LevelSessionEditManager.Instance.CurrentEditMode.ShowFillPreview) return;
@@ -21,6 +21,8 @@ public partial class SelectionManager
                 PrefabManager.Instance.FillPreview, pos, Quaternion.identity,
                 ReferenceManager.Instance.FillPreviewContainer
             );
+            
+            diContainer.InjectGameObject(preview);
             
             PreviewController c = preview.GetComponent<PreviewController>();
             c.Awake_();
@@ -37,7 +39,7 @@ public partial class SelectionManager
         foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) Destroy(preview.gameObject);
     }
     
-    private static void InitSelectedPreview() => InitPreview(GetCurrentFillRange());
+    private void InitSelectedPreview() => InitPreview(GetCurrentFillRange());
     
     public static void UpdatePreviewRotation()
     {
@@ -49,7 +51,7 @@ public partial class SelectionManager
         foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) preview.GetComponent<PreviewController>().UpdateSprite();
     }
     
-    private static void SetPreviewVisible()
+    private void SetPreviewVisible()
     {
         if (ReferenceManager.Instance.FillPreviewContainer.childCount == 0) InitSelectedPreview();
         

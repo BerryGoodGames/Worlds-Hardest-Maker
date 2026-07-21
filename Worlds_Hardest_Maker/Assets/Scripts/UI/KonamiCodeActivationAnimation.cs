@@ -19,9 +19,12 @@ public class KonamiCodeActivationAnimation : MonoBehaviour
     [SerializeField] [PositiveValueOnly] private float alertRise = 300f;
     [SerializeField] [PositiveValueOnly] private float waitTime = 3;
     
+    private IAudioService audioService;
+    
     [Inject]
-    private void Construct(EventBus eventBus)
+    private void Construct(IAudioService audioService, EventBus eventBus)
     {
+        this.audioService = audioService;
         eventBus.Subscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
     }
     
@@ -72,7 +75,7 @@ public class KonamiCodeActivationAnimation : MonoBehaviour
             
             yield return new WaitForSeconds(soundDelay);
             
-            AudioManager.Instance.Play("ActivateKonamiCode");
+            audioService.Play("ActivateKonamiCode");
             
             yield return new WaitForSeconds(waitTime);
             
