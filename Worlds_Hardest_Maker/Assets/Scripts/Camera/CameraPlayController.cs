@@ -1,6 +1,7 @@
 using DG.Tweening;
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 public class CameraPlayController : MonoBehaviour
 {
@@ -12,6 +13,18 @@ public class CameraPlayController : MonoBehaviour
     
     private Vector2Int currentRoom;
     
+    private EventBus eventBus;
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        
+        eventBus.Subscribe<StartPlaytestEvent>(_ => JumpToStart());
+        eventBus.Subscribe<SetupPlaySceneEvent>(_ => JumpToStartInstant());
+        eventBus.Subscribe<ResetLevelEvent>(_ => JumpToStart());
+    }
+    
     private void Awake()
     {
         cam = GetComponent<Camera>();
@@ -20,10 +33,6 @@ public class CameraPlayController : MonoBehaviour
     
     private void Start()
     {
-        PlayManager.Instance.OnPlaytest += JumpToStart;
-        PlayManager.Instance.OnPlaySceneSetup += JumpToStartInstant;
-        PlayManager.Instance.OnLevelReset += JumpToStart;
-        
         PlayerRecordingManager.Instance.OnPathRenderUpdate += position =>
         {
             if (PlayerRecordingManager.Instance.IsReplaying) TrackPosition(position.GetRoom());
@@ -87,9 +96,9 @@ public class CameraPlayController : MonoBehaviour
     
     private void OnDestroy()
     {
-        PlayManager.Instance.OnPlaytest -= JumpToStart;
-        PlayManager.Instance.OnPlaySceneSetup -= JumpToStartInstant;
-        PlayManager.Instance.OnLevelReset -= JumpToStart;
+        eventBus.Unsubscribe<StartPlaytestEvent>(_ => JumpToStart());
+        eventBus.Unsubscribe<SetupPlaySceneEvent>(_ => JumpToStartInstant());
+        eventBus.Unsubscribe<ResetLevelEvent>(_ => JumpToStart());
     }
 }
 

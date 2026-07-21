@@ -7,6 +7,7 @@ using DG.Tweening.Plugins.Options;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public partial class AnchorController : EntityController, IResettable
@@ -46,6 +47,17 @@ public partial class AnchorController : EntityController, IResettable
     private EntityDragDrop entityDragDrop;
     private static readonly int editingString = Animator.StringToHash("Editing");
     private static readonly int playingString = Animator.StringToHash("Playing");
+    
+    private EventBus eventBus;
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        
+        eventBus.Subscribe<SwitchToPlayEvent>(_ => AttachFade.FadeIn());
+        eventBus.Subscribe<SwitchToEditEvent>(_ => AttachFade.FadeOut());
+    }
     
     public int LoopBlockIndex { get; set; } = -1;
     
@@ -92,10 +104,7 @@ public partial class AnchorController : EntityController, IResettable
         
         if (LevelSessionManager.Instance.IsEdit) UpdateStartValues();
         
-        PlayManager.Instance.OnSwitchToPlay += AttachFade.FadeIn;
-        PlayManager.Instance.OnSwitchToEdit += AttachFade.FadeOut;
-        
-        ((IResettable)this).Subscribe();
+        ((IResettable)this).Subscribe(eventBus);
     }
     
     public void AppendBlock(AnchorBlock block) => Blocks.AddLast(block);
@@ -239,9 +248,9 @@ public partial class AnchorController : EntityController, IResettable
         spriteRenderer.DOKill();
         Rb.DOKill();
         
-        PlayManager.Instance.OnSwitchToPlay -= AttachFade.FadeIn;
-        PlayManager.Instance.OnSwitchToEdit -= AttachFade.FadeOut;
+        eventBus.Unsubscribe<SwitchToPlayEvent>(_ => AttachFade.FadeIn());
+        eventBus.Unsubscribe<SwitchToEditEvent>(_ => AttachFade.FadeOut());
         
-        ((IResettable)this).Unsubscribe();
+        ((IResettable)this).Unsubscribe(eventBus);
     }
 }

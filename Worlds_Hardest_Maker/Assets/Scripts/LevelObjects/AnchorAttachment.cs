@@ -1,6 +1,7 @@
 using System;
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 public class AnchorAttachment : MonoBehaviour
 {
@@ -12,6 +13,20 @@ public class AnchorAttachment : MonoBehaviour
     [Space] [ReadOnly] public int SortingLayerID;
     [ReadOnly] public int OrderInLayer;
     [ReadOnly] public float Opacity;
+    
+    private EventBus eventBus;
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        
+        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
+    }
+    
+    private void OnSwitchToPlay(SwitchToPlayEvent evt) => MergeToLayer();
+    private void OnSwitchToEdit(SwitchToEditEvent evt) => ResetLayer();
     
     public void MergeToLayer() => MoveToLayer(LayerManager.Instance.SortingLayers.AnchorAbove);
     
@@ -93,7 +108,7 @@ public class AnchorAttachment : MonoBehaviour
         
         if (AnchorAttachable.HasSortingGroup)
         {
-            AnchorAttachable.SortingGroup.sortingOrder = sortingOrder;
+            AnchorAttachable.SortingGroup!.sortingOrder = sortingOrder;
             AnchorAttachable.SortingGroup.sortingLayerName = sortingLayerName;
         }
         
@@ -103,9 +118,6 @@ public class AnchorAttachment : MonoBehaviour
             
             AnchorAttachable.OutlineComp.OnUpdateOutline += UpdateOutlineLayers;
         }
-        
-        PlayManager.Instance.OnSwitchToPlay += MergeToLayer;
-        PlayManager.Instance.OnSwitchToEdit += ResetLayer;
         
         return;
         
@@ -123,7 +135,7 @@ public class AnchorAttachment : MonoBehaviour
     {
         Anchor.Attachments.Remove(this);
         
-        PlayManager.Instance.OnSwitchToPlay -= MergeToLayer;
-        PlayManager.Instance.OnSwitchToEdit -= ResetLayer;
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
     }
 }

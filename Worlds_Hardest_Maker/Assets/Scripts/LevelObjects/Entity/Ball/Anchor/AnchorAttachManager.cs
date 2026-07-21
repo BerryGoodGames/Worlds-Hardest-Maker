@@ -1,6 +1,7 @@
 using System;
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 public partial class AnchorAttachManager : MonoBehaviour
 {
@@ -11,6 +12,16 @@ public partial class AnchorAttachManager : MonoBehaviour
     
     public static event Action OnEnterAttachMode = () => { };
     public static event Action OnExitAttachMode = () => { };
+    
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        eventBus.Subscribe<SwitchToPlayEvent>(_ =>
+        {
+            if (InAttachMode) ExitAttachMode();
+        });
+    }
     
     public void EnterAttachMode()
     {
@@ -57,12 +68,6 @@ public partial class AnchorAttachManager : MonoBehaviour
     }
     
     public static Transform GetCurrentAnchorContainer() => Instance.InAttachMode ? AnchorManager.Instance.SelectedAnchor.AttachmentContainer : null;
-    
-    private void Start() =>
-        PlayManager.Instance.OnSwitchToPlay += () =>
-        {
-            if (InAttachMode) ExitAttachMode();
-        };
     
     private void Awake()
     {

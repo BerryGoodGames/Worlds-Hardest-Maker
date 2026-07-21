@@ -73,6 +73,10 @@ public partial class PlayerController : EntityController
         this.konamiService = konamiService;
         
         eventBus.Subscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
+        
+        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
+        eventBus.Subscribe<ResetLevelEvent>(OnResetLevel);
     }
     
     private void Awake()
@@ -89,10 +93,6 @@ public partial class PlayerController : EntityController
     {
         base.Start();
         
-        PlayManager.Instance.OnSwitchToEdit += OnEdit;
-        PlayManager.Instance.OnSwitchToPlay += OnPlay;
-        PlayManager.Instance.OnLevelReset += ResetState;
-        
         LevelCompleteManager.Instance.OnPlayAgain += OnPlayAgain;
         
         IsAttached = Sheet != null;
@@ -102,7 +102,7 @@ public partial class PlayerController : EntityController
         
         ApplyCurrentGameState();
         
-        if (!LevelSessionManager.Instance.IsEdit) OnPlay();
+        if (!LevelSessionManager.Instance.IsEdit) OnSwitchToPlay(new SwitchToPlayEvent());
     }
     
     private void Update()
@@ -128,15 +128,14 @@ public partial class PlayerController : EntityController
     {
         eventBus.Unsubscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
         
-        PlayManager.Instance.OnSwitchToEdit -= OnEdit;
-        PlayManager.Instance.OnSwitchToPlay -= OnPlay;
-        
-        PlayManager.Instance.OnLevelReset -= ResetState;
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
+        eventBus.Unsubscribe<ResetLevelEvent>(OnResetLevel);
         
         LevelCompleteManager.Instance.OnPlayAgain -= OnPlayAgain;
     }
     
-    private void OnEdit()
+    private void OnSwitchToEdit(SwitchToEditEvent evt)
     {
         EdgeCollider.enabled = false;
         
@@ -146,10 +145,10 @@ public partial class PlayerController : EntityController
         
         sortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.Player;
         
-        ResetState();
+        OnResetLevel(new ResetLevelEvent());
     }
     
-    private void OnPlay()
+    private void OnSwitchToPlay(SwitchToPlayEvent evt)
     {
         EdgeCollider.enabled = true;
         

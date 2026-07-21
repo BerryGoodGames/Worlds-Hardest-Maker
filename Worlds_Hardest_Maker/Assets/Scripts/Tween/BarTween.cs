@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using Zenject;
 
 /// <summary>
 ///     General tweening script for UI at the top or bottom of the screen
@@ -27,6 +28,12 @@ public class BarTween : MonoBehaviour
     
     private Tween tween;
     
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        eventBus.Subscribe<TogglePlayEditEvent>(_ => SetPlay(LevelSessionEditManager.Instance.Playing));
+    }
+
     public void SetPlay(bool play)
     {
         if ((playing == null && !play) || (playing != null && (bool)playing && !play))
@@ -72,8 +79,6 @@ public class BarTween : MonoBehaviour
         
         if (LevelSessionEditManager.Instance.Playing) rt.anchoredPosition = new(rt.anchoredPosition.x, isVisibleOnlyOnEdit ? invisibleY : visibleY);
         else rt.anchoredPosition = new(rt.anchoredPosition.x, !isVisibleOnlyOnEdit ? invisibleY : visibleY);
-        
-        PlayManager.Instance.OnToggle += () => SetPlay(LevelSessionEditManager.Instance.Playing);
     }
     
     private void Awake() => TweenList.Add(this);

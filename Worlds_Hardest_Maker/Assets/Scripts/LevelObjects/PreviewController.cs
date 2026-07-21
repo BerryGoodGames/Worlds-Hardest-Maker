@@ -1,6 +1,7 @@
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 /// <summary>
 ///     Controls placement, visibility and display of preview
@@ -32,6 +33,14 @@ public class PreviewController : MonoBehaviour
     
     private bool ranAwake;
     private static readonly int visible = Animator.StringToHash("Visible");
+    
+    protected EventBus EventBus;
+    
+    [Inject]
+    protected void Construct(EventBus eventBus)
+    {
+        EventBus = eventBus;
+    }
     
     private void Awake() => Awake_();
     

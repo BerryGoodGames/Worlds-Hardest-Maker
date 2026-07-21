@@ -30,10 +30,15 @@ public partial class SelectionManager : MonoBehaviour
     
     private DiContainer diContainer;
     
+    private EventBus eventBus;
+    
     [Inject]
-    private void Construct(DiContainer diContainer)
+    private void Construct(DiContainer diContainer, EventBus eventBus)
     {
         this.diContainer = diContainer;
+        this.eventBus = eventBus;
+        
+        eventBus.Subscribe<SwitchToPlayEvent>(_ => OnCancelClicked());
     }
     
     private void Update()
@@ -79,7 +84,6 @@ public partial class SelectionManager : MonoBehaviour
     
     private void Start()
     {
-        PlayManager.Instance.OnSwitchToPlay += OnCancelClicked;
         LevelSessionEditManager.Instance.OnEditModeChange += RemakePreview;
         AnchorAttachManager.OnEnterAttachMode += OnCancelClicked;
         
@@ -152,7 +156,7 @@ public partial class SelectionManager : MonoBehaviour
     
     private void OnDestroy()
     {
-        PlayManager.Instance.OnSwitchToPlay -= OnCancelClicked;
+        eventBus.Unsubscribe<SwitchToPlayEvent>(_ => OnCancelClicked());
         LevelSessionEditManager.Instance.OnEditModeChange -= RemakePreview;
         AnchorAttachManager.OnEnterAttachMode -= OnCancelClicked;
     }

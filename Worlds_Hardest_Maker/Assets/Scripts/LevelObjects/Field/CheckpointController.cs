@@ -27,11 +27,14 @@ public class CheckpointController : MonoBehaviour, IResettable
     
     private CheckpointTween anim;
     
+    private EventBus eventBus;
+    
     private IAudioService audioService;
     
     [Inject]
-    private void Construct(IAudioService audioService)
+    private void Construct(EventBus eventBus, IAudioService audioService)
     {
+        this.eventBus = eventBus;
         this.audioService = audioService;
     }
     
@@ -105,10 +108,10 @@ public class CheckpointController : MonoBehaviour, IResettable
         IsAttached = TryGetComponent(out AnchorAttachment attachment);
         if (IsAttached) Sheet = attachment.Anchor;
         
-        ((IResettable)this).Subscribe();
+        ((IResettable)this).Subscribe(eventBus);
     }
     
     public void ResetState() => Activated = false;
     
-    private void OnDestroy() => ((IResettable)this).Unsubscribe();
+    private void OnDestroy() => ((IResettable)this).Unsubscribe(eventBus);
 }

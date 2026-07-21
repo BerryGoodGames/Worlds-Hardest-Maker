@@ -1,19 +1,28 @@
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 public class PlayModeBlocker : MonoBehaviour
 {
     [SerializeField] [InitializationField] [Required] private RectTransform cutout;
     [SerializeField] [InitializationField] [Required] private RectTransform blackScreen;
     
+    private EventBus eventBus;
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        
+        eventBus.Subscribe<StartPlaytestEvent>(_ => Enable());
+        eventBus.Subscribe<SetupPlaySceneEvent>(_ => Enable());
+        eventBus.Subscribe<SwitchToEditEvent>(_ => Disable());
+    }
+
     private void Start()
     {
         Disable();
-        
-        PlayManager.Instance.OnPlaytest += Enable;
-        PlayManager.Instance.OnPlaySceneSetup += Enable;
-        PlayManager.Instance.OnSwitchToEdit += Disable;
         
         LevelSettings.Instance.OnLevelSettingsImported += SetupBlackScreenMask;
         LevelSettings.Instance.OnUpdateRoomSize += SetupBlackScreenMask;
@@ -61,9 +70,9 @@ public class PlayModeBlocker : MonoBehaviour
     
     private void OnDestroy()
     {
-        PlayManager.Instance.OnPlaytest -= Enable;
-        PlayManager.Instance.OnPlaySceneSetup -= Enable;
-        PlayManager.Instance.OnSwitchToEdit -= Disable;
+        eventBus.Unsubscribe<StartPlaytestEvent>(_ => Enable());
+        eventBus.Unsubscribe<SetupPlaySceneEvent>(_ => Enable());
+        eventBus.Unsubscribe<SwitchToEditEvent>(_ => Disable());
         LevelSettings.Instance.OnLevelSettingsImported -= SetupBlackScreenMask;
         LevelSettings.Instance.OnUpdateRoomSize -= SetupBlackScreenMask;
     }

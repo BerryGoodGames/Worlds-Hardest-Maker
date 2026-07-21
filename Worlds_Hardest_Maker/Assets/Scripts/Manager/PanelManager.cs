@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 public class PanelManager : MonoBehaviour
 {
@@ -9,6 +10,17 @@ public class PanelManager : MonoBehaviour
     [ReadOnly] public List<PanelController> Panels;
     
     public bool WasAnchorPanelOpen { get; set; }
+    
+    private EventBus eventBus;
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        
+        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
+    }
     
     public void SetPanelOpen(PanelController panel, bool open, bool hideOtherPanels = true)
     {
@@ -54,7 +66,7 @@ public class PanelManager : MonoBehaviour
         foreach (PanelController panel in Panels) SetPanelHidden(panel, true);
     }
     
-    private void OnSwitchToPlay()
+    private void OnSwitchToPlay(SwitchToPlayEvent evt)
     {
         // hide all panels
         PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
@@ -67,7 +79,7 @@ public class PanelManager : MonoBehaviour
         SetPanelHidden(anchorAttachButton, true);
     }
     
-    private void OnSwitchToEdit()
+    private void OnSwitchToEdit(SwitchToEditEvent evt)
     {
         // show level setting / anchor panel
         bool isEditModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
@@ -82,12 +94,6 @@ public class PanelManager : MonoBehaviour
             if (AnchorManager.Instance.SelectedAnchor != null) SetPanelHidden(anchorAttachButton, false, false);
         }
         else SetPanelHidden(levelSettingsPanel, false);
-    }
-    
-    private void Start()
-    {
-        PlayManager.Instance.OnSwitchToPlay += OnSwitchToPlay;
-        PlayManager.Instance.OnSwitchToEdit += OnSwitchToEdit;
     }
     
     private void Awake()

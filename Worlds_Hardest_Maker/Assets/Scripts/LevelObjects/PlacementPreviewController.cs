@@ -4,8 +4,8 @@ public class PlacementPreviewController : PreviewController
     {
         base.Start();
         
-        PlayManager.Instance.OnSwitchToPlay += () => gameObject.SetActive(false);
-        PlayManager.Instance.OnSwitchToEdit += Activate;
+        EventBus.Subscribe<SwitchToPlayEvent>(_ => gameObject.SetActive(false));
+        EventBus.Subscribe<SwitchToEditEvent>(_ => Activate());
     }
     
     public void Activate()

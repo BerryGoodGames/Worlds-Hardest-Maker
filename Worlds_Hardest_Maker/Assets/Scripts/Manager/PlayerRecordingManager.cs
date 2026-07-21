@@ -6,6 +6,7 @@ using LuLib.Transform;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 public class PlayerRecordingManager : MonoBehaviour
 {
@@ -47,23 +48,31 @@ public class PlayerRecordingManager : MonoBehaviour
     
     private List<Recording> recordedPositions;
     
+    private EventBus eventBus;
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        
+        // on play: stop display coroutines, start recording
+        eventBus.Subscribe<SwitchToPlayEvent>(_ => OnSwitchToPlay());
+        eventBus.Subscribe<SetupPlaySceneEvent>(_ => OnSwitchToPlay());
+        
+        // on edit: stop recording, render path & sprites
+        eventBus.Subscribe<SwitchToEditEvent>(_ => RenderRecording());
+    }
+
     private void Start()
     {
         recordingSpriteContainer.gameObject.SetActive(displaySprites);
         recordingPathContainer.gameObject.SetActive(displayPath);
         
-        // on play: stop display coroutines, start recording
-        PlayManager.Instance.OnSwitchToPlay += SwitchToPlay;
-        PlayManager.Instance.OnPlaySceneSetup += SwitchToPlay;
-        
-        // on edit: stop recording, render path & sprites
-        PlayManager.Instance.OnSwitchToEdit += RenderRecording;
-        
         LevelCompleteManager.Instance.OnPlayAgain += OnPlayAgain;
         LevelCompleteManager.Instance.OnReplay += OnReplay;
     }
     
-    private void SwitchToPlay()
+    private void OnSwitchToPlay()
     {
         if (displaySpriteRecording != null) StopCoroutine(displaySpriteRecording);
         if (displayPathRecording != null) StopCoroutine(displayPathRecording);
@@ -316,9 +325,9 @@ public class PlayerRecordingManager : MonoBehaviour
     
     private void OnDestroy()
     {
-        PlayManager.Instance.OnSwitchToPlay -= SwitchToPlay;
-        PlayManager.Instance.OnPlaySceneSetup -= SwitchToPlay;
-        PlayManager.Instance.OnSwitchToEdit -= RenderRecording;
+        eventBus.Unsubscribe<SwitchToPlayEvent>(_ => OnSwitchToPlay());
+        eventBus.Unsubscribe<SetupPlaySceneEvent>(_ => OnSwitchToPlay());
+        eventBus.Unsubscribe<SwitchToEditEvent>(_ => RenderRecording());
         LevelCompleteManager.Instance.OnPlayAgain -= OnPlayAgain;
         LevelCompleteManager.Instance.OnReplay -= OnReplay;
     }

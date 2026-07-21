@@ -11,30 +11,43 @@ public partial class AnchorManager : MonoBehaviour
     
     private DiContainer diContainer;
     
+    private EventBus eventBus;
+    
     private IAudioService audioService;
     
     [Inject]
-    private void Construct(DiContainer diContainer, IAudioService audioService)
+    private void Construct(DiContainer diContainer, EventBus eventBus, IAudioService audioService)
     {
         this.diContainer = diContainer;
+        this.eventBus = eventBus;
         this.audioService = audioService;
+        
+        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
+        eventBus.Subscribe<StartPlaytestEvent>(OnPlaytest);
+    }
+    
+    private void OnSwitchToPlay(SwitchToPlayEvent evt)
+    {
+        GameManager.DeselectInputs();
+        UpdateBlockListInSelectedAnchor();
+        StartExecuting();
+        ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(true);
+    }
+    
+    private void OnSwitchToEdit(SwitchToEditEvent evt)
+    {
+        ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(false);
+    }
+    
+    private void OnPlaytest(StartPlaytestEvent evt)
+    {
+        DeselectAnchor();
     }
     
     private void Awake()
     {
         if (Instance == null) Instance = this;
-    }
-    
-    private void Start()
-    {
-        PlayManager.Instance.OnSwitchToPlay += GameManager.DeselectInputs;
-        PlayManager.Instance.OnSwitchToPlay += UpdateBlockListInSelectedAnchor;
-        PlayManager.Instance.OnSwitchToPlay += StartExecuting;
-        
-        PlayManager.Instance.OnSwitchToEdit += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(false);
-        PlayManager.Instance.OnSwitchToPlay += () => ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(true);
-        
-        PlayManager.Instance.OnPlaytest += DeselectAnchor;
     }
     
     private void Update() => CheckAnchorSelection();

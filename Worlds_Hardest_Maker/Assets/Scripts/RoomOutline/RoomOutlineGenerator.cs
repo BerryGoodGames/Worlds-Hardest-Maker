@@ -1,6 +1,7 @@
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 public class RoomOutlineGenerator : MonoBehaviour
 {
@@ -14,11 +15,19 @@ public class RoomOutlineGenerator : MonoBehaviour
     
     private static bool EnabledInSettings => SettingsManager.Instance.ShowRoomGrid;
     
+    private EventBus eventBus;
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        
+        eventBus.Subscribe<StartPlaytestEvent>(OnPlaytest);
+        eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
+    }
+    
     private void Start()
     {
-        PlayManager.Instance.OnPlaytest += Disable;
-        PlayManager.Instance.OnSwitchToEdit += Enable;
-        
         LevelSettings.Instance.OnUpdateRoomSize += CalcSize;
     }
     
@@ -71,19 +80,19 @@ public class RoomOutlineGenerator : MonoBehaviour
     
     private void OnDestroy()
     {
-        PlayManager.Instance.OnPlaytest -= Disable;
-        PlayManager.Instance.OnSwitchToEdit -= Enable;
+        eventBus.Unsubscribe<StartPlaytestEvent>(OnPlaytest);
+        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
         LevelSettings.Instance.OnUpdateRoomSize -= CalcSize;
     }
     
-    private void Enable()
+    private void OnSwitchToEdit(SwitchToEditEvent evt)
     {
         if (!EnabledInSettings) return;
         
         SetActive(true);
     }
     
-    private void Disable() => SetActive(false);
+    private void OnPlaytest(StartPlaytestEvent evt) => SetActive(false);
     
     public void SetEnabledSetting(bool enabled)
     {

@@ -19,6 +19,16 @@ public class CoinController : EntityController, IResettable, ICollectible
     
     public override EditMode EditMode => EditModeManager.Coin;
     
+    private EventBus eventBus;
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        
+        eventBus.Subscribe<SwitchToPlayEvent>(_ => ActivateAnimation());
+    }
+
     private void Awake()
     {
         InitialPosition = transform.position;
@@ -30,8 +40,7 @@ public class CoinController : EntityController, IResettable, ICollectible
     {
         base.Start();
         
-        ((IResettable)this).Subscribe();
-        PlayManager.Instance.OnSwitchToPlay += ActivateAnimation;
+        ((IResettable)this).Subscribe(eventBus);
     }
     
     private void OnDestroy()
@@ -39,8 +48,8 @@ public class CoinController : EntityController, IResettable, ICollectible
         // un-cache coin
         CoinManager.Instance.Coins.Remove(this);
         
-        ((IResettable)this).Unsubscribe();
-        PlayManager.Instance.OnSwitchToPlay -= ActivateAnimation;
+        ((IResettable)this).Unsubscribe(eventBus);
+        eventBus.Unsubscribe<SwitchToPlayEvent>(_ => ActivateAnimation());
         
         DOTween.Kill(gameObject);
     }
