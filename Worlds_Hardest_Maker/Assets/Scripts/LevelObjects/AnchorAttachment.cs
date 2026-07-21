@@ -134,7 +134,7 @@ public class AnchorAttachment : MonoBehaviour
     private void OnDestroy()
     {
         Anchor.Attachments.Remove(this);
-        
+
         eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
     }

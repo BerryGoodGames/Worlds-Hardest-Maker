@@ -58,7 +58,7 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
         // setup konami code animation
         key.KonamiAnimation.enabled = konamiService.IsKonamiActive;
         
-        PlaceManager.AttachToSheet(key.gameObject, args.Sheet);
+        PlaceManager.Instance.AttachToSheet(key.gameObject, args.Sheet);
         
         return key;
     }

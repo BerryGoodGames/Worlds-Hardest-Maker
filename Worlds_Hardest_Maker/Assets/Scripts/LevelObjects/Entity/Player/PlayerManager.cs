@@ -73,7 +73,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
         
         diContainer.InjectGameObject(newPlayer.gameObject);
         
-        PlaceManager.AttachToSheet(newPlayer.gameObject, args.Sheet, false);
+        PlaceManager.Instance.AttachToSheet(newPlayer.gameObject, args.Sheet, false);
         newPlayer.Sheet = args.Sheet;
         
         return newPlayer;

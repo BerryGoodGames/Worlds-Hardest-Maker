@@ -10,13 +10,13 @@ public partial class AnchorAttachManager : MonoBehaviour
     [ReadOnly] public bool InAttachMode;
     private static readonly int editingString = Animator.StringToHash("Editing");
     
-    public static event Action OnEnterAttachMode = () => { };
-    public static event Action OnExitAttachMode = () => { };
-    
+    private EventBus eventBus;
     
     [Inject]
     private void Construct(EventBus eventBus)
     {
+        this.eventBus = eventBus;
+        
         eventBus.Subscribe<SwitchToPlayEvent>(_ =>
         {
             if (InAttachMode) ExitAttachMode();
@@ -41,7 +41,7 @@ public partial class AnchorAttachManager : MonoBehaviour
         
         HighlightAnchor(AnchorManager.Instance.SelectedAnchor);
         
-        OnEnterAttachMode.Invoke();
+        eventBus.Fire(new EnterAnchorAttachEvent());
     }
     
     public void ExitAttachMode()
@@ -64,7 +64,7 @@ public partial class AnchorAttachManager : MonoBehaviour
         
         Dehighlight(AnchorManager.Instance.SelectedAnchor);
         
-        OnExitAttachMode.Invoke();
+        eventBus.Fire(new ExitAnchorAttachEvent());
     }
     
     public static Transform GetCurrentAnchorContainer() => Instance.InAttachMode ? AnchorManager.Instance.SelectedAnchor.AttachmentContainer : null;

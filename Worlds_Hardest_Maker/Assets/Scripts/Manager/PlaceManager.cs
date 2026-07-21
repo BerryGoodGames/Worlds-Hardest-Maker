@@ -17,13 +17,16 @@ public class PlaceManager : MonoBehaviour
     [Separator("Konami sfx")] [SerializeField] private SoundEffect konamiPlaceSfx;
     [SerializeField] private PlaceSoundEffect[] customKonamiPlaceSfx;
     
+    private DiContainer diContainer;
+    
     private IAudioService audioService;
     
     private IKonamiService konamiService;
     
     [Inject]
-    private void Construct(IAudioService audioService, IKonamiService konamiService)
+    private void Construct(DiContainer diContainer, IAudioService audioService, IKonamiService konamiService)
     {
+        this.diContainer = diContainer;
         this.audioService = audioService;
         this.konamiService = konamiService;
     }
@@ -114,11 +117,13 @@ public class PlaceManager : MonoBehaviour
     [CanBeNull]
     public static AnchorController GetCurrentSheet() => AnchorAttachManager.Instance.InAttachMode ? AnchorManager.Instance.SelectedAnchor : null;
     
-    public static void AttachToSheet(GameObject obj, [CanBeNull] AnchorController sheet, bool forceParent = true)
+    public void AttachToSheet(GameObject obj, [CanBeNull] AnchorController sheet, bool forceParent = true)
     {
         if (sheet == null) return;
         
         AnchorAttachment attachment = obj.GetOrAddComponent<AnchorAttachment>();
+        
+        diContainer.Inject(attachment);
         
         attachment.Anchor = sheet;
         

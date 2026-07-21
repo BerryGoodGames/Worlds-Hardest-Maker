@@ -181,7 +181,7 @@ public partial class PlayerController : EntityController
         
         bool willBeAttached = args.Sheet != null;
         
-        if (willBeAttached) PlaceManager.AttachToSheet(gameObject, args.Sheet, false);
+        if (willBeAttached) PlaceManager.Instance.AttachToSheet(gameObject, args.Sheet, false);
         else PlaceManager.Detach(gameObject, PlayerManager.Instance.DefaultContainer);
         
         Sheet = args.Sheet;

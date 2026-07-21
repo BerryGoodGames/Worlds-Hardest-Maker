@@ -93,7 +93,7 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
         FieldController fieldController = res.GetComponent<FieldController>();
         fieldController.FieldMode = args.FieldMode;
         
-        PlaceManager.AttachToSheet(res, args.Sheet);
+        PlaceManager.Instance.AttachToSheet(res, args.Sheet);
         
         return fieldController;
     }

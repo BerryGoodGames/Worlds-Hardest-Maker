@@ -9,7 +9,7 @@ public class ProjectInstaller : MonoInstaller
     
     public override void InstallBindings()
     {
-        Container.Bind<EventBus>().AsSingle();
+        Container.Bind<EventBus>().AsSingle().NonLazy();
         
         Container.Bind<IAudioService>()
             .To<AudioManager>()

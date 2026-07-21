@@ -2,6 +2,7 @@ using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Zenject;
 
 public class Tool : MonoBehaviour
 {
@@ -16,16 +17,24 @@ public class Tool : MonoBehaviour
     
     public MouseOverUIRect MouseOverUIRect { get; private set; }
     
+    private EventBus eventBus;
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+    }
+
     private void Awake() => InOptionbar = transform.parent.CompareTag("OptionContainer");
     
     private void Start()
     {
         MouseOverUIRect = GetComponent<MouseOverUIRect>();
         
-        OnExitAnchorAttach();
+        OnExitAnchorAttach(new ExitAnchorAttachEvent());
         
-        AnchorAttachManager.OnEnterAttachMode += OnEnterAnchorAttach;
-        AnchorAttachManager.OnExitAttachMode += OnExitAnchorAttach;
+        eventBus.Subscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
+        eventBus.Subscribe<ExitAnchorAttachEvent>(OnExitAnchorAttach);
     }
     
     public void SwitchGameMode(bool setEditModeVariable)
@@ -57,12 +66,12 @@ public class Tool : MonoBehaviour
     
     private void SetVisible(bool visible) => gameObject.SetActive(visible);
     
-    private void OnEnterAnchorAttach() => SetVisible(ToolEditMode.AnchorAvailable);
-    private void OnExitAnchorAttach() => SetVisible(ToolEditMode.DefaultAvailable);
+    private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt) => SetVisible(ToolEditMode.AnchorAvailable);
+    private void OnExitAnchorAttach(ExitAnchorAttachEvent evt) => SetVisible(ToolEditMode.DefaultAvailable);
     
     private void OnDestroy()
     {
-        AnchorAttachManager.OnEnterAttachMode -= OnEnterAnchorAttach;
-        AnchorAttachManager.OnExitAttachMode -= OnExitAnchorAttach;
+        eventBus.Unsubscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
+        eventBus.Unsubscribe<ExitAnchorAttachEvent>(OnExitAnchorAttach);
     }
 }

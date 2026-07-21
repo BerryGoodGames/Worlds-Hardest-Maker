@@ -48,7 +48,7 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
         
         coin.Animator.SetBool(PLAYING, LevelSessionEditManager.Instance.Playing);
         
-        PlaceManager.AttachToSheet(coin.gameObject, args.Sheet);
+        PlaceManager.Instance.AttachToSheet(coin.gameObject, args.Sheet);
         
         return coin;
     }

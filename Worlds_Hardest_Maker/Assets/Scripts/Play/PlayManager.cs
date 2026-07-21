@@ -7,13 +7,6 @@ public class PlayManager : MonoBehaviour
 {
     public static PlayManager Instance { get; private set; }
     
-    // public event Action OnLevelReset = () => { };
-    // public event Action OnSwitchToPlay = () => { };
-    // public event Action OnSwitchToEdit = () => { };
-    // public event Action OnPlaytest = () => { };
-    // public event Action OnToggle = () => { };
-    // public event Action OnPlaySceneSetup = () => { };
-    
     private EventBus eventBus;
     
     private bool cheated;

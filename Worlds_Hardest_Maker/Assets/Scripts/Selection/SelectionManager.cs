@@ -39,6 +39,7 @@ public partial class SelectionManager : MonoBehaviour
         this.eventBus = eventBus;
         
         eventBus.Subscribe<SwitchToPlayEvent>(_ => OnCancelClicked());
+        eventBus.Subscribe<EnterAnchorAttachEvent>(_ => OnCancelClicked());
     }
     
     private void Update()
@@ -85,7 +86,6 @@ public partial class SelectionManager : MonoBehaviour
     private void Start()
     {
         LevelSessionEditManager.Instance.OnEditModeChange += RemakePreview;
-        AnchorAttachManager.OnEnterAttachMode += OnCancelClicked;
         
         fillMouseOver.OnHovered += SetPreviewVisible;
         fillMouseOver.OnUnhovered += SetPreviewInvisible;
@@ -158,7 +158,7 @@ public partial class SelectionManager : MonoBehaviour
     {
         eventBus.Unsubscribe<SwitchToPlayEvent>(_ => OnCancelClicked());
         LevelSessionEditManager.Instance.OnEditModeChange -= RemakePreview;
-        AnchorAttachManager.OnEnterAttachMode -= OnCancelClicked;
+        eventBus.Unsubscribe<EnterAnchorAttachEvent>(_ => OnCancelClicked());
     }
     
     private void Awake()
