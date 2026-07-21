@@ -5,6 +5,7 @@ using Cinemachine.Utility;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 public class PlaceManager : MonoBehaviour
 {
@@ -16,6 +17,14 @@ public class PlaceManager : MonoBehaviour
     [Separator("Konami sfx")] [SerializeField] private SoundEffect konamiPlaceSfx;
     [SerializeField] private PlaceSoundEffect[] customKonamiPlaceSfx;
     
+    private IKonamiService konamiService;
+    
+    [Inject]
+    private void Construct(IKonamiService konamiService)
+    {
+        this.konamiService = konamiService;
+    }
+
     /// <summary>
     ///     Places edit mode at position
     /// </summary>
@@ -162,9 +171,9 @@ public class PlaceManager : MonoBehaviour
     
     public SoundEffect GetSfx(EditMode editMode)
     {
-        SoundEffect sfx = KonamiManager.Instance.KonamiActive ? konamiPlaceSfx : DefaultPlaceSfx;
+        SoundEffect sfx = konamiService.IsKonamiActive ? konamiPlaceSfx : DefaultPlaceSfx;
         
-        PlaceSoundEffect[] soundCollection = KonamiManager.Instance.KonamiActive ? customKonamiPlaceSfx : customPlaceSfx;
+        PlaceSoundEffect[] soundCollection = konamiService.IsKonamiActive ? customKonamiPlaceSfx : customPlaceSfx;
         
         foreach (PlaceSoundEffect placeSfx in soundCollection)
         {

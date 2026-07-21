@@ -5,6 +5,7 @@ using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Zenject;
 
 public class KonamiCodeActivationAnimation : MonoBehaviour
 {
@@ -18,7 +19,18 @@ public class KonamiCodeActivationAnimation : MonoBehaviour
     [SerializeField] [PositiveValueOnly] private float alertRise = 300f;
     [SerializeField] [PositiveValueOnly] private float waitTime = 3;
     
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        eventBus.Subscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
+    }
+    
     public bool IsAnimationOnScreen { get; private set; }
+    
+    private void OnKonamiStateChanged(KonamiStateChangedEvent evt)
+    {
+        if(evt.Active) StartAnimation();
+    }
     
     public void StartAnimation()
     {

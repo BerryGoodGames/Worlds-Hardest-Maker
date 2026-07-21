@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Zenject;
 
 public class PlayManager : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class PlayManager : MonoBehaviour
     public event Action OnPlaytest = () => { };
     public event Action OnToggle = () => { };
     public event Action OnPlaySceneSetup = () => { };
+    
+    private EventBus eventBus;
     
     private bool cheated;
     
@@ -26,6 +29,19 @@ public class PlayManager : MonoBehaviour
                     ? ReferenceManager.Instance.TimerController.CheatedTimerColor
                     : ReferenceManager.Instance.TimerController.TimerDefaultColor;
         }
+    }
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        
+        eventBus.Subscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
+    }
+    
+    private void OnKonamiStateChanged(KonamiStateChangedEvent evt)
+    {
+        Cheated = true;
     }
     
     public void TogglePlay(bool playtest)
@@ -105,5 +121,9 @@ public class PlayManager : MonoBehaviour
         ReferenceManager.Instance.MenuTween.SetVisible(false);
     }
     
-    private void OnDestroy() => LevelCompleteManager.Instance.OnPlayAgain -= RestartLevel;
+    private void OnDestroy()
+    {
+        LevelCompleteManager.Instance.OnPlayAgain -= RestartLevel;
+        eventBus.Unsubscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
+    }
 }

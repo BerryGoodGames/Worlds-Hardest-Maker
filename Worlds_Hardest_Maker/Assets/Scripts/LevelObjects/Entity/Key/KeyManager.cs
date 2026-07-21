@@ -2,10 +2,13 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceRestrictable
 {
     public static KeyManager Instance { get; private set; }
+    
+    private DiContainer diContainer;
     
     public Transform DefaultContainer => ReferenceManager.Instance.KeyContainer;
     
@@ -15,6 +18,15 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
     
     [ReadOnly] public List<KeyController> Keys = new();
     [ReadOnly] public List<KeyController> CollectedKeys = new();
+    
+    private IKonamiService konamiService;
+    
+    [Inject]
+    private void Construct(DiContainer diContainer, IKonamiService konamiService)
+    {
+        this.diContainer = diContainer;
+        this.konamiService = konamiService;
+    }
     
     private void RemoveKeyInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
@@ -28,7 +40,6 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
         // destroy
         DestroyImmediate(key.transform.gameObject);
     }
-    
     
     public KeyController SetInSheet(ManagerParameters args)
     {
@@ -45,7 +56,7 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
         key.Animator.SetBool(playing, LevelSessionEditManager.Instance.Playing);
         
         // setup konami code animation
-        key.KonamiAnimation.enabled = KonamiManager.Instance.KonamiActive;
+        key.KonamiAnimation.enabled = konamiService.IsKonamiActive;
         
         PlaceManager.AttachToSheet(key.gameObject, args.Sheet);
         
@@ -77,12 +88,18 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
         return null;
     }
     
-    public KeyController InstantiateInSheet(ManagerParameters args) =>
-        Instantiate(
+    public KeyController InstantiateInSheet(ManagerParameters args)
+    {
+        KeyController key = Instantiate(
             args.KeyColor.GetPrefabKey(),
             args.Position, Quaternion.identity,
             args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
         );
+        
+        diContainer.Inject(key);
+        
+        return key;
+    }
     
     public bool IsThereInSheet(Vector2 position, AnchorController sheet) => GetInSheet(position, sheet) != null;
     

@@ -3,9 +3,12 @@ using DG.Tweening;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 public class KeyController : EntityController, IResettable, ICollectible
 {
+    private EventBus eventBus;
+    
     [Separator] [SerializeField] [PositiveValueOnly] private float fadeDuration = 0.5f;
     [Separator] [MyBox.ReadOnly] public KeyColor Color;
     [MyBox.ReadOnly] public Vector2 InitialPosition;
@@ -29,6 +32,13 @@ public class KeyController : EntityController, IResettable, ICollectible
             KeyColor.Yellow => EditModeManager.YellowKey,
             _ => throw new("There is no edit mode assigned for color " + Color),
         };
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        eventBus.Subscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
+    }
     
     private void Awake()
     {
@@ -54,6 +64,8 @@ public class KeyController : EntityController, IResettable, ICollectible
         
         ((IResettable)this).Unsubscribe();
         PlayManager.Instance.OnSwitchToPlay -= ActivateAnimation;
+        
+        eventBus.Unsubscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
         
         DOTween.Kill(gameObject);
     }
@@ -137,6 +149,12 @@ public class KeyController : EntityController, IResettable, ICollectible
         }
         
         return isRespawning;
+    }
+    
+    private void OnKonamiStateChanged(KonamiStateChangedEvent evt)
+    {
+        KonamiAnimation.enabled = evt.Active;
+        KonamiAnimation.Randomize();
     }
     
     public void ResetState()

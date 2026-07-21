@@ -4,6 +4,7 @@ using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Zenject;
 
 public partial class PlayerController : EntityController
 {
@@ -49,6 +50,10 @@ public partial class PlayerController : EntityController
     
     [HideInInspector] public bool HasTeleported;
     
+    private EventBus eventBus;
+    
+    private IKonamiService konamiService;
+    
     public static float Speed => LevelSettings.Instance.PlayerSpeed;
     
     [MyBox.ReadOnly] public List<FieldController> CurrentPlatforms;
@@ -60,6 +65,15 @@ public partial class PlayerController : EntityController
     public event Action OnCheckpointEnter = () => { };
     
     public override EditMode EditMode => EditModeManager.Player;
+    
+    [Inject]
+    private void Construct(EventBus eventBus, IKonamiService konamiService)
+    {
+        this.eventBus = eventBus;
+        this.konamiService = konamiService;
+        
+        eventBus.Subscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
+    }
     
     private void Awake()
     {
@@ -112,6 +126,8 @@ public partial class PlayerController : EntityController
     
     private void OnDestroy()
     {
+        eventBus.Unsubscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
+        
         PlayManager.Instance.OnSwitchToEdit -= OnEdit;
         PlayManager.Instance.OnSwitchToPlay -= OnPlay;
         
@@ -139,7 +155,7 @@ public partial class PlayerController : EntityController
         
         HasTeleported = false;
         
-        if (KonamiManager.Instance.KonamiActive) Shotgun.gameObject.SetActive(true);
+        if (konamiService.IsKonamiActive) Shotgun.gameObject.SetActive(true);
         
         sortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.PlayerPlayMode;
         
@@ -151,6 +167,11 @@ public partial class PlayerController : EntityController
         CurrentGameState = null;
         DefaultDeathAnim(0);
         Deaths = 0;
+    }
+    
+    private void OnKonamiStateChanged(KonamiStateChangedEvent evt)
+    {
+        Shotgun.gameObject.SetActive((!LevelSessionManager.Instance.IsEdit || LevelSessionEditManager.Instance.Playing) && evt.Active);
     }
     
     public void ReSet(ManagerParameters args)
@@ -222,7 +243,7 @@ public partial class PlayerController : EntityController
         sortingGroup = GetComponent<SortingGroup>();
         Shotgun = GetComponentInChildren<ShotgunController>(true);
         Shotgun.gameObject.SetActive(
-            isEdit ? LevelSessionEditManager.Instance.Playing && KonamiManager.Instance.KonamiActive : KonamiManager.Instance.KonamiActive
+            isEdit ? LevelSessionEditManager.Instance.Playing && konamiService.IsKonamiActive : konamiService.IsKonamiActive
         );
     }
     

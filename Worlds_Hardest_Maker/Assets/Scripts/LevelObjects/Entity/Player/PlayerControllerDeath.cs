@@ -62,7 +62,7 @@ public partial class PlayerController
         
         OnDeathEnter.Invoke();
         
-        if (KonamiManager.Instance.KonamiActive) return;
+        if (konamiService.IsKonamiActive) return;
         
         // set timer color to "not cheated", unless when hit a checkpoint
         if (!HasTeleported || CurrentGameState == null) PlayManager.Instance.Cheated = false;
