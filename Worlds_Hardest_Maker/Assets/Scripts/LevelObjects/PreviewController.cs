@@ -187,7 +187,7 @@ public class PreviewController : MonoBehaviour
         SpriteRenderer.sprite = prefabRenderer.sprite;
         SpriteRenderer.color = new(prefabColor.r, prefabColor.g, prefabColor.b, alpha / 255f);
         transform.localScale = scale;
-        print("test");
+        
         UpdateRotation(true); // Idk why this does not reset rotations for one ways and conveyors
         
         // for filling preview go to FillManager.cs
