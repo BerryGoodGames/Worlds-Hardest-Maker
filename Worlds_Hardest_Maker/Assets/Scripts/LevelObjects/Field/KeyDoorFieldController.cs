@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 public class KeyDoorFieldController : MonoBehaviour, IResettable
 {
@@ -17,6 +18,14 @@ public class KeyDoorFieldController : MonoBehaviour, IResettable
     
     private static readonly int unlockedString = Animator.StringToHash("Unlocked");
     
+    private EventBus eventBus;
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+    }
+    
     public void SetLocked(bool locked)
     {
         Unlocked = !locked;
@@ -26,7 +35,7 @@ public class KeyDoorFieldController : MonoBehaviour, IResettable
         animator.SetBool(unlockedString, !locked);
     }
     
-    private void Start() => ((IResettable)this).Subscribe();
+    private void Start() => ((IResettable)this).Subscribe(eventBus);
     
     public void ResetState() => SetLocked(true);
     
@@ -37,6 +46,6 @@ public class KeyDoorFieldController : MonoBehaviour, IResettable
     private void OnDestroy()
     {
         DOTween.Kill(gameObject);
-        ((IResettable)this).Unsubscribe();
+        ((IResettable)this).Unsubscribe(eventBus);
     }
 }

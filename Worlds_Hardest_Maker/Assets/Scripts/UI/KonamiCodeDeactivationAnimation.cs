@@ -1,6 +1,7 @@
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 public class KonamiCodeDeactivationAnimation : MonoBehaviour
 {
@@ -8,6 +9,17 @@ public class KonamiCodeDeactivationAnimation : MonoBehaviour
     [SerializeField] [PositiveValueOnly] private float duration;
     [SerializeField] [PositiveValueOnly] private float waitTime;
     
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        eventBus.Subscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
+    }
+
+    private void OnKonamiStateChanged(KonamiStateChangedEvent evt)
+    {
+        if (!evt.Active) StartAnimation();
+    }
+
     public void StartAnimation()
     {
         Sequence sequence = DOTween.Sequence();

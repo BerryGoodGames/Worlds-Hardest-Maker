@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 public class BallManager : MonoBehaviour, IManager<BallController>
 {
@@ -10,6 +11,14 @@ public class BallManager : MonoBehaviour, IManager<BallController>
     [ReadOnly] public Dictionary<AnchorController, List<BallController>> BallListSheets;
     [ReadOnly] public List<BallController> BallListGlobal;
     
+    private DiContainer diContainer;
+    
+    [Inject]
+    private void Construct(DiContainer diContainer)
+    {
+        this.diContainer = diContainer;
+    }
+
     #region Set, Get
     
     public Transform DefaultContainer => ReferenceManager.Instance.BallContainer;
@@ -30,12 +39,12 @@ public class BallManager : MonoBehaviour, IManager<BallController>
         ballController.transform.position = args.Position;
         
         // track ball positions in all the layers
-        Instance.BallList.Add(ballController);
+        BallList.Add(ballController);
         
-        if (AnchorAttachManager.Instance.InAttachMode) Instance.BallListSheets[AnchorManager.Instance.SelectedAnchor].Add(ballController);
-        else Instance.BallListGlobal.Add(ballController);
+        if (AnchorAttachManager.Instance.InAttachMode) BallListSheets[AnchorManager.Instance.SelectedAnchor].Add(ballController);
+        else BallListGlobal.Add(ballController);
         
-        PlaceManager.AttachToSheet(ballController.LevelObject, args.Sheet);
+        PlaceManager.Instance.AttachToSheet(ballController.LevelObject, args.Sheet);
         
         return ballController;
     }
@@ -62,6 +71,8 @@ public class BallManager : MonoBehaviour, IManager<BallController>
             args.Position, Quaternion.identity,
             container
         );
+        
+        diContainer.InjectGameObject(ball);
         
         return ball.GetComponentInChildren<BallController>();
     }

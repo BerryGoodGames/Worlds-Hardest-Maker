@@ -4,6 +4,7 @@ using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 /// <summary>
 ///     Methods for filling: GetFillRange, FillArea, GetBounds, GetBoundsMatrix
@@ -26,6 +27,20 @@ public partial class SelectionManager : MonoBehaviour
     private Vector2 prevEnd;
     public static Vector2? SelectionStart;
     public static Vector2? SelectionEnd;
+    
+    private DiContainer diContainer;
+    
+    private EventBus eventBus;
+    
+    [Inject]
+    private void Construct(DiContainer diContainer, EventBus eventBus)
+    {
+        this.diContainer = diContainer;
+        this.eventBus = eventBus;
+        
+        eventBus.Subscribe<SwitchToPlayEvent>(_ => OnCancelClicked());
+        eventBus.Subscribe<EnterAnchorAttachEvent>(_ => OnCancelClicked());
+    }
     
     private void Update()
     {
@@ -70,9 +85,7 @@ public partial class SelectionManager : MonoBehaviour
     
     private void Start()
     {
-        PlayManager.Instance.OnSwitchToPlay += OnCancelClicked;
         LevelSessionEditManager.Instance.OnEditModeChange += RemakePreview;
-        AnchorAttachManager.OnEnterAttachMode += OnCancelClicked;
         
         fillMouseOver.OnHovered += SetPreviewVisible;
         fillMouseOver.OnUnhovered += SetPreviewInvisible;
@@ -143,9 +156,9 @@ public partial class SelectionManager : MonoBehaviour
     
     private void OnDestroy()
     {
-        PlayManager.Instance.OnSwitchToPlay -= OnCancelClicked;
+        eventBus.Unsubscribe<SwitchToPlayEvent>(_ => OnCancelClicked());
         LevelSessionEditManager.Instance.OnEditModeChange -= RemakePreview;
-        AnchorAttachManager.OnEnterAttachMode -= OnCancelClicked;
+        eventBus.Unsubscribe<EnterAnchorAttachEvent>(_ => OnCancelClicked());
     }
     
     private void Awake()

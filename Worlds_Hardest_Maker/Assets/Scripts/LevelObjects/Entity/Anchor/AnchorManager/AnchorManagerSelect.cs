@@ -1,5 +1,6 @@
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 public partial class AnchorManager : IManagerSelectable
 {
@@ -65,7 +66,7 @@ public partial class AnchorManager : IManagerSelectable
             PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, false, false);
         
         // play sfx
-        AudioManager.Instance.Play("AnchorBlockButton");
+        audioService.Play("AnchorBlockButton");
     }
     
     public void DeselectAnchor()
@@ -95,10 +96,10 @@ public partial class AnchorManager : IManagerSelectable
         AnchorAttachManager.Instance.InAttachMode = false;
         
         // play sfx
-        AudioManager.Instance.Play("AnchorDeselect");
+        audioService.Play("AnchorDeselect");
     }
     
-    private static void CheckAnchorSelection()
+    private void CheckAnchorSelection()
     {
         // select anchor
         if (!Input.GetMouseButtonDown(0) || !KeyBinds.GetKeyBind("Editor_Modify")) return;
@@ -113,7 +114,7 @@ public partial class AnchorManager : IManagerSelectable
         if (deltaClickTime < DOUBLE_CLICK_THRESHOLD && Instance.SelectedAnchor == clickedAnchor && !AnchorAttachManager.Instance.InAttachMode)
         {
             AnchorAttachManager.Instance.EnterAttachMode();
-            AudioManager.Instance.Play("ButtonClick");
+            audioService.Play("ButtonClick");
         }
         else
         {

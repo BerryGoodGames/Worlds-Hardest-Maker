@@ -1,6 +1,7 @@
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public abstract partial class AnchorBlockController : MonoBehaviour
@@ -19,6 +20,14 @@ public abstract partial class AnchorBlockController : MonoBehaviour
     
     public AnchorBlock Block { get; set; }
     
+    private IAudioService audioService;
+    
+    [Inject]
+    private void Construct(IAudioService audioService)
+    {
+        this.audioService = audioService;
+    }
+
     public abstract AnchorBlock GetAnchorBlock(AnchorController anchorController);
     
     private void MainStart()
@@ -137,8 +146,10 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         warningIconContainer.SetActive(enable);
         
         if (enable)
+        {
             // play warning sfx
-            AudioManager.Instance.Play("AnchorBlockWarning");
+            audioService.Play("AnchorBlockWarning");
+        }
     }
     
     private void Start()

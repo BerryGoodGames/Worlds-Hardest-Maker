@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 public class AnchorPositionInputEditManager : MonoBehaviour
 {
@@ -10,6 +11,14 @@ public class AnchorPositionInputEditManager : MonoBehaviour
     [ReadOnly] public bool IsEditing;
     [ReadOnly] public AnchorBlockPositionInputController CurrentEditedPositionInput;
     
+    private IAudioService audioService;
+    
+    [Inject]
+    private void Construct(IAudioService audioService)
+    {
+        this.audioService = audioService;
+    }
+
     public void StartPositionInputEdit(AnchorBlockPositionInputController positionInput)
     {
         CurrentEditedPositionInput = positionInput;
@@ -158,7 +167,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         Instance.OnEndPositionEdit();
         
         // play sfx
-        AudioManager.Instance.Play(PlaceManager.Instance.DefaultPlaceSfx);
+        audioService.Play(PlaceManager.Instance.DefaultPlaceSfx);
     }
     
     

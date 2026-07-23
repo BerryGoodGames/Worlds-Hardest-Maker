@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 public class BallController : EntityController
 {
@@ -18,6 +19,16 @@ public class BallController : EntityController
     
     private Rigidbody2D rb;
     
+    private EventBus eventBus;
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        
+        if (LevelSessionManager.Instance.IsEdit) eventBus.Subscribe<SwitchToEditEvent>(_ => ResetPosition());
+    }
+    
     protected override void Start()
     {
         base.Start();
@@ -28,8 +39,6 @@ public class BallController : EntityController
         
         StartLocalPosition = transform.parent.localPosition;
         StartWorldPosition = transform.parent.position;
-        
-        if (LevelSessionManager.Instance.IsEdit) PlayManager.Instance.OnSwitchToEdit += ResetPosition;
     }
     
     public void ResetPosition()
@@ -55,7 +64,7 @@ public class BallController : EntityController
         Destroy(transform.parent.gameObject);
         
         // unsubscribe
-        if (LevelSessionManager.Instance.IsEdit) PlayManager.Instance.OnSwitchToEdit -= ResetPosition;
+        if (LevelSessionManager.Instance.IsEdit) eventBus.Unsubscribe<SwitchToEditEvent>(_ => ResetPosition());
     }
     
     public override void OnAnchorMove(Vector2 oldPos, Vector2 newPos)

@@ -5,6 +5,7 @@ using Cinemachine.Utility;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 public class PlaceManager : MonoBehaviour
 {
@@ -16,6 +17,20 @@ public class PlaceManager : MonoBehaviour
     [Separator("Konami sfx")] [SerializeField] private SoundEffect konamiPlaceSfx;
     [SerializeField] private PlaceSoundEffect[] customKonamiPlaceSfx;
     
+    private DiContainer diContainer;
+    
+    private IAudioService audioService;
+    
+    private IKonamiService konamiService;
+    
+    [Inject]
+    private void Construct(DiContainer diContainer, IAudioService audioService, IKonamiService konamiService)
+    {
+        this.diContainer = diContainer;
+        this.audioService = audioService;
+        this.konamiService = konamiService;
+    }
+
     /// <summary>
     ///     Places edit mode at position
     /// </summary>
@@ -50,7 +65,7 @@ public class PlaceManager : MonoBehaviour
             // delete field
             bool deletedField = FieldManager.Instance.Remove(matrixPosition, true, sheet);
             
-            if (deletedField && playSound) AudioManager.Instance.Play(GetSfx(editMode));
+            if (deletedField && playSound) audioService.Play(GetSfx(editMode));
             
             return;
         }
@@ -82,7 +97,7 @@ public class PlaceManager : MonoBehaviour
         
         if (result is null || !playSound) return true;
         
-        AudioManager.Instance.Play(GetSfx(editMode));
+        audioService.Play(GetSfx(editMode));
         
         if (editMode != EditModeManager.Anchor) return true;
         
@@ -94,7 +109,7 @@ public class PlaceManager : MonoBehaviour
     
     public void PlacePath(EditMode editMode, Vector2 start, Vector2 end, int rotation = 0, bool playSound = false)
     {
-        if (playSound) AudioManager.Instance.Play(GetSfx(editMode));
+        if (playSound) audioService.Play(GetSfx(editMode));
         
         LineForEach(start, end, pos => Place(editMode, pos, rotation));
     }
@@ -102,11 +117,13 @@ public class PlaceManager : MonoBehaviour
     [CanBeNull]
     public static AnchorController GetCurrentSheet() => AnchorAttachManager.Instance.InAttachMode ? AnchorManager.Instance.SelectedAnchor : null;
     
-    public static void AttachToSheet(GameObject obj, [CanBeNull] AnchorController sheet, bool forceParent = true)
+    public void AttachToSheet(GameObject obj, [CanBeNull] AnchorController sheet, bool forceParent = true)
     {
         if (sheet == null) return;
         
         AnchorAttachment attachment = obj.GetOrAddComponent<AnchorAttachment>();
+        
+        diContainer.Inject(attachment);
         
         attachment.Anchor = sheet;
         
@@ -162,9 +179,9 @@ public class PlaceManager : MonoBehaviour
     
     public SoundEffect GetSfx(EditMode editMode)
     {
-        SoundEffect sfx = KonamiManager.Instance.KonamiActive ? konamiPlaceSfx : DefaultPlaceSfx;
+        SoundEffect sfx = konamiService.IsKonamiActive ? konamiPlaceSfx : DefaultPlaceSfx;
         
-        PlaceSoundEffect[] soundCollection = KonamiManager.Instance.KonamiActive ? customKonamiPlaceSfx : customPlaceSfx;
+        PlaceSoundEffect[] soundCollection = konamiService.IsKonamiActive ? customKonamiPlaceSfx : customPlaceSfx;
         
         foreach (PlaceSoundEffect placeSfx in soundCollection)
         {

@@ -2,6 +2,7 @@ using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Zenject;
 
 /// <summary>
 ///     Triggers animation at random intervals
@@ -25,6 +26,14 @@ public class IntervalRandomAnimation : MonoBehaviour
     
     private Animator anim;
     
+    private IAudioService audioService;
+    
+    [Inject]
+    private void Construct(IAudioService audioService)
+    {
+        this.audioService = audioService;
+    }
+
     private void Awake() => anim = GetComponent<Animator>();
     
     private void FixedUpdate()
@@ -46,7 +55,7 @@ public class IntervalRandomAnimation : MonoBehaviour
         
         anim.SetTrigger(animTriggerString);
         
-        AudioManager.Instance.Play(soundEffect);
+        audioService.Play(soundEffect);
         
         lastTrigger = 0;
     }

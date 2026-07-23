@@ -1,6 +1,7 @@
 using MyBox;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 public class ButtonController : MonoBehaviour
 {
@@ -8,9 +9,17 @@ public class ButtonController : MonoBehaviour
     public RectTransform BackgroundPanel;
     public bool DoPlaySound;
     
+    private IAudioService audioService;
+    
+    [Inject]
+    private void Construct(IAudioService audioService)
+    {
+        this.audioService = audioService;
+    }
+
     public void PlaySound()
     {
-        if (AudioManager.Instance != null && DoPlaySound) AudioManager.Instance.Play("ButtonClick");
+        if (DoPlaySound) audioService.Play("ButtonClick");
     }
     
     public void Deselect()

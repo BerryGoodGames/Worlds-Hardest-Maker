@@ -2,11 +2,20 @@ using System.Collections.Generic;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 public class CheckpointTween : MonoBehaviour, IResettable
 {
     [SerializeField] [PositiveValueOnly] private float duration;
     private SpriteRenderer sprite;
+    
+    private EventBus eventBus;
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+    }
     
     private void ActivateTween()
     {
@@ -39,7 +48,7 @@ public class CheckpointTween : MonoBehaviour, IResettable
     {
         sprite = GetComponent<SpriteRenderer>();
         
-        ((IResettable)this).Subscribe();
+        ((IResettable)this).Subscribe(eventBus);
     }
     
     private static Color GetActiveColor()
@@ -56,5 +65,5 @@ public class CheckpointTween : MonoBehaviour, IResettable
     
     public void ResetState() => DeactivateTween();
     
-    private void OnDestroy() => ((IResettable)this).Unsubscribe();
+    private void OnDestroy() => ((IResettable)this).Unsubscribe(eventBus);
 }

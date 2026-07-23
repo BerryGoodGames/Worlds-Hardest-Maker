@@ -3,9 +3,12 @@ using DG.Tweening;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
+using Zenject;
 
 public class KeyController : EntityController, IResettable, ICollectible
 {
+    private EventBus eventBus;
+    
     [Separator] [SerializeField] [PositiveValueOnly] private float fadeDuration = 0.5f;
     [Separator] [MyBox.ReadOnly] public KeyColor Color;
     [MyBox.ReadOnly] public Vector2 InitialPosition;
@@ -30,6 +33,14 @@ public class KeyController : EntityController, IResettable, ICollectible
             _ => throw new("There is no edit mode assigned for color " + Color),
         };
     
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        eventBus.Subscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
+        eventBus.Subscribe<SwitchToPlayEvent>(_ => ActivateAnimation());
+    }
+    
     private void Awake()
     {
         InitialPosition = transform.position;
@@ -44,16 +55,17 @@ public class KeyController : EntityController, IResettable, ICollectible
     {
         base.Start();
         
-        ((IResettable)this).Subscribe();
-        PlayManager.Instance.OnSwitchToPlay += ActivateAnimation;
+        ((IResettable)this).Subscribe(eventBus);
     }
     
     private void OnDestroy()
     {
         KeyManager.Instance.Keys.Remove(this);
         
-        ((IResettable)this).Unsubscribe();
-        PlayManager.Instance.OnSwitchToPlay -= ActivateAnimation;
+        ((IResettable)this).Unsubscribe(eventBus);
+        
+        eventBus.Unsubscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
+        eventBus.Unsubscribe<SwitchToPlayEvent>(_ => ActivateAnimation());
         
         DOTween.Kill(gameObject);
     }
@@ -85,7 +97,7 @@ public class KeyController : EntityController, IResettable, ICollectible
         
         // pickup animation and sound
         Animator.SetBool(pickedUpString, true);
-        AudioManager.Instance.Play("PlaceKey");
+        audioService.Play("PlaceKey");
         
         Collected = true;
         
@@ -111,7 +123,7 @@ public class KeyController : EntityController, IResettable, ICollectible
             controller.SetLocked(false);
         }
         
-        AudioManager.Instance.Play("KeyDoorUnlock");
+        audioService.Play("KeyDoorUnlock");
     }
     
     public bool ShouldRespawn()
@@ -137,6 +149,12 @@ public class KeyController : EntityController, IResettable, ICollectible
         }
         
         return isRespawning;
+    }
+    
+    private void OnKonamiStateChanged(KonamiStateChangedEvent evt)
+    {
+        KonamiAnimation.enabled = evt.Active;
+        KonamiAnimation.Randomize();
     }
     
     public void ResetState()

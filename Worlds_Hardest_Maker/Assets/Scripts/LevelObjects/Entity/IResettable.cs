@@ -2,15 +2,15 @@ public interface IResettable
 {
     void ResetState();
     
-    public sealed void Subscribe()
+    public sealed void Subscribe(EventBus eventBus)
     {
-        PlayManager.Instance.OnLevelReset += ResetState;
-        PlayManager.Instance.OnSwitchToEdit += ResetState;
+        eventBus.Subscribe<ResetLevelEvent>(_ => ResetState());
+        eventBus.Subscribe<SwitchToEditEvent>(_ => ResetState());
     }
     
-    public sealed void Unsubscribe()
+    public sealed void Unsubscribe(EventBus eventBus)
     {
-        PlayManager.Instance.OnLevelReset -= ResetState;
-        PlayManager.Instance.OnSwitchToEdit -= ResetState;
+        eventBus.Unsubscribe<ResetLevelEvent>(_ => ResetState());
+        eventBus.Unsubscribe<SwitchToEditEvent>(_ => ResetState());
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlaceRestrictable
 {
@@ -19,7 +20,15 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
     public int CoinsNeededFinal =>
         Mathf.Min(LevelSettings.Instance.IsCoinsNeededLimited ? LevelSettings.Instance.CoinsNeeded : TotalCoins, TotalCoins);
     
-    private static readonly int playing = Animator.StringToHash("Playing");
+    private static readonly int PLAYING = Animator.StringToHash("Playing");
+    
+    private DiContainer diContainer;
+    
+    [Inject]
+    private void Construct(DiContainer diContainer)
+    {
+        this.diContainer = diContainer;
+    }
     
     public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
     
@@ -37,9 +46,9 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
         
         CoinController coin = InstantiateInSheet(args);
         
-        coin.Animator.SetBool(playing, LevelSessionEditManager.Instance.Playing);
+        coin.Animator.SetBool(PLAYING, LevelSessionEditManager.Instance.Playing);
         
-        PlaceManager.AttachToSheet(coin.gameObject, args.Sheet);
+        PlaceManager.Instance.AttachToSheet(coin.gameObject, args.Sheet);
         
         return coin;
     }
@@ -68,12 +77,18 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
         return null;
     }
     
-    public CoinController InstantiateInSheet(ManagerParameters args) =>
-        Instantiate(
+    public CoinController InstantiateInSheet(ManagerParameters args)
+    {
+        CoinController coin = Instantiate(
             PrefabManager.Instance.Coin,
             args.Position, Quaternion.identity,
             args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
         );
+        
+        diContainer.InjectGameObject(coin.gameObject);
+        
+        return coin;
+    }
     
     public List<Data> Serialize(List<Data> levelData)
     {

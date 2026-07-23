@@ -4,6 +4,7 @@ using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Zenject;
 
 public partial class PlayerController : EntityController
 {
@@ -49,6 +50,10 @@ public partial class PlayerController : EntityController
     
     [HideInInspector] public bool HasTeleported;
     
+    private EventBus eventBus;
+    
+    private IKonamiService konamiService;
+    
     public static float Speed => LevelSettings.Instance.PlayerSpeed;
     
     [MyBox.ReadOnly] public List<FieldController> CurrentPlatforms;
@@ -60,6 +65,19 @@ public partial class PlayerController : EntityController
     public event Action OnCheckpointEnter = () => { };
     
     public override EditMode EditMode => EditModeManager.Player;
+    
+    [Inject]
+    private void Construct(EventBus eventBus, IKonamiService konamiService)
+    {
+        this.eventBus = eventBus;
+        this.konamiService = konamiService;
+        
+        eventBus.Subscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
+        
+        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
+        eventBus.Subscribe<ResetLevelEvent>(OnResetLevel);
+    }
     
     private void Awake()
     {
@@ -75,10 +93,6 @@ public partial class PlayerController : EntityController
     {
         base.Start();
         
-        PlayManager.Instance.OnSwitchToEdit += OnEdit;
-        PlayManager.Instance.OnSwitchToPlay += OnPlay;
-        PlayManager.Instance.OnLevelReset += ResetState;
-        
         LevelCompleteManager.Instance.OnPlayAgain += OnPlayAgain;
         
         IsAttached = Sheet != null;
@@ -88,7 +102,7 @@ public partial class PlayerController : EntityController
         
         ApplyCurrentGameState();
         
-        if (!LevelSessionManager.Instance.IsEdit) OnPlay();
+        if (!LevelSessionManager.Instance.IsEdit) OnSwitchToPlay(new SwitchToPlayEvent());
     }
     
     private void Update()
@@ -112,15 +126,16 @@ public partial class PlayerController : EntityController
     
     private void OnDestroy()
     {
-        PlayManager.Instance.OnSwitchToEdit -= OnEdit;
-        PlayManager.Instance.OnSwitchToPlay -= OnPlay;
+        eventBus.Unsubscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
         
-        PlayManager.Instance.OnLevelReset -= ResetState;
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
+        eventBus.Unsubscribe<ResetLevelEvent>(OnResetLevel);
         
         LevelCompleteManager.Instance.OnPlayAgain -= OnPlayAgain;
     }
     
-    private void OnEdit()
+    private void OnSwitchToEdit(SwitchToEditEvent evt)
     {
         EdgeCollider.enabled = false;
         
@@ -130,16 +145,16 @@ public partial class PlayerController : EntityController
         
         sortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.Player;
         
-        ResetState();
+        OnResetLevel(new ResetLevelEvent());
     }
     
-    private void OnPlay()
+    private void OnSwitchToPlay(SwitchToPlayEvent evt)
     {
         EdgeCollider.enabled = true;
         
         HasTeleported = false;
         
-        if (KonamiManager.Instance.KonamiActive) Shotgun.gameObject.SetActive(true);
+        if (konamiService.IsKonamiActive) Shotgun.gameObject.SetActive(true);
         
         sortingGroup.sortingLayerName = LayerManager.Instance.SortingLayers.PlayerPlayMode;
         
@@ -153,6 +168,11 @@ public partial class PlayerController : EntityController
         Deaths = 0;
     }
     
+    private void OnKonamiStateChanged(KonamiStateChangedEvent evt)
+    {
+        Shotgun.gameObject.SetActive((!LevelSessionManager.Instance.IsEdit || LevelSessionEditManager.Instance.Playing) && evt.Active);
+    }
+    
     public void ReSet(ManagerParameters args)
     {
         // calls when the player is placed, when there was already one existing, hence re-setting it
@@ -161,7 +181,7 @@ public partial class PlayerController : EntityController
         
         bool willBeAttached = args.Sheet != null;
         
-        if (willBeAttached) PlaceManager.AttachToSheet(gameObject, args.Sheet, false);
+        if (willBeAttached) PlaceManager.Instance.AttachToSheet(gameObject, args.Sheet, false);
         else PlaceManager.Detach(gameObject, PlayerManager.Instance.DefaultContainer);
         
         Sheet = args.Sheet;
@@ -183,16 +203,16 @@ public partial class PlayerController : EntityController
     
     private void PlayWinSfx()
     {
-        AudioManager.Instance.Play("Win");
+        audioService.Play("Win");
         
         const int PARTY_HORN_COUNT = 9;
         string[] partyHorns = new string[PARTY_HORN_COUNT];
         for (int i = 0; i < PARTY_HORN_COUNT; i++) partyHorns[i] = $"PartyHorn{i + 1}";
         
         string selectedPartyHorn = partyHorns.GetRandom();
-        AudioManager.Instance.Play(selectedPartyHorn);
+        audioService.Play(selectedPartyHorn);
         
-        AudioManager.Instance.Play("PartyPopper");
+        audioService.Play("PartyPopper");
         
         confetti1.Play();
         confetti2.Play();
@@ -222,7 +242,7 @@ public partial class PlayerController : EntityController
         sortingGroup = GetComponent<SortingGroup>();
         Shotgun = GetComponentInChildren<ShotgunController>(true);
         Shotgun.gameObject.SetActive(
-            isEdit ? LevelSessionEditManager.Instance.Playing && KonamiManager.Instance.KonamiActive : KonamiManager.Instance.KonamiActive
+            isEdit ? LevelSessionEditManager.Instance.Playing && konamiService.IsKonamiActive : konamiService.IsKonamiActive
         );
     }
     

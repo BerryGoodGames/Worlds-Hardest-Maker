@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 7167980638486943301}
   - component: {fileID: 8126097775504965166}
   - component: {fileID: 1286802941605572768}
-  - component: {fileID: 4634633626038657293}
+  - component: {fileID: 3789915255164817463}
   - component: {fileID: 2695958956081501589}
   m_Layer: 7
   m_Name: AnchorObject
@@ -187,7 +187,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -891430633
-  m_SortingLayer: 4
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: bba02c7ad9c49f142b23c112e784b72e, type: 3}
   m_Color: {r: 0.9843137, g: 0.54509807, b: 0.14117648, a: 1}
@@ -298,13 +298,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsAttached: 0
-  isAttachable: 0
+  IsAttachable: 0
   AttachmentHolder: {fileID: 0}
   Sheet: {fileID: 0}
   AttachmentContainer: {fileID: 3516165864050137394}
   AttachmentContainerSyncTransform: {fileID: 192380122639183852}
   Animator: {fileID: 2695958956081501589}
-  AttachFade: {fileID: 4634633626038657293}
+  AttachFade: {fileID: 3789915255164817463}
   SortingLayerID: 0
   OrderInLayer: 0
   Balls: []
@@ -319,7 +319,7 @@ MonoBehaviour:
   lineContainer: {fileID: 6016487082984928425}
   lineColor: {r: 0.9843138, g: 0.54509807, b: 0.14117648, a: 1}
   lineWeight: 0.1
---- !u!114 &4634633626038657293
+--- !u!114 &3789915255164817463
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -328,13 +328,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5607907451453093492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 158a5aa8bb2c6f246be2beaa19f4fb89, type: 3}
+  m_Script: {fileID: 11500000, guid: e38d5f94921e7414e8efbce5855e6978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   container: {fileID: 3516165864050137394}
   fadeDuration: 0.2
   fadeInScalar: 1
-  fadeOutScalar: 0.5
+  fadeOutScalar: 0.3
 --- !u!95 &2695958956081501589
 Animator:
   serializedVersion: 5
@@ -458,7 +458,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -891430633
-  m_SortingLayer: 4
+  m_SortingLayer: 6
   m_SortingOrder: -1
   m_Sprite: {fileID: -5177388603050735206, guid: 71ebafeef3c03457483266a33ab2b270, type: 3}
   m_Color: {r: 0.4532307, g: 0.73770237, b: 0.990566, a: 0}

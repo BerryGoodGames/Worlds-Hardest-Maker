@@ -12,8 +12,10 @@ public partial class PlayerController
         if (!InDeathAnim) DefaultDeathAnim();
         
         if (LevelSessionEditManager.Instance.Playing)
+        {
             // sfx and death counter
-            AudioManager.Instance.Play(soundEffect);
+            audioService.Play(soundEffect);
+        }
         
         Death();
     }
@@ -32,7 +34,7 @@ public partial class PlayerController
             .SetEase(Ease.OutQuad)
             .OnComplete(DeathAnimFinish);
         
-        AudioManager.Instance.Play("DeathFall");
+        audioService.Play("DeathFall");
         
         Death();
     }
@@ -62,7 +64,7 @@ public partial class PlayerController
         
         OnDeathEnter.Invoke();
         
-        if (KonamiManager.Instance.KonamiActive) return;
+        if (konamiService.IsKonamiActive) return;
         
         // set timer color to "not cheated", unless when hit a checkpoint
         if (!HasTeleported || CurrentGameState == null) PlayManager.Instance.Cheated = false;

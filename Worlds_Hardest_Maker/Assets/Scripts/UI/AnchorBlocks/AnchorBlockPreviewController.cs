@@ -1,5 +1,6 @@
 using MyBox;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public class AnchorBlockPreviewController : MonoBehaviour
@@ -10,6 +11,14 @@ public class AnchorBlockPreviewController : MonoBehaviour
     
     private bool activated;
     
+    private IAudioService audioService;
+    
+    [Inject]
+    public void Construct(IAudioService audioService)
+    {
+        this.audioService = audioService;
+    }
+
     public void Activate()
     {
         if (!AnchorBlockManager.Instance.DraggingBlock) return;
@@ -48,7 +57,7 @@ public class AnchorBlockPreviewController : MonoBehaviour
     public void UpdateSiblingIndex()
     {
         transform.SetSiblingIndex(AnchorBlockManager.Instance.HoveredBlockIndex + 1);
-        AudioManager.Instance.Play("AnchorBlockBrowse");
+        audioService.Play("AnchorBlockBrowse");
     }
     
     public void OnUnhover()

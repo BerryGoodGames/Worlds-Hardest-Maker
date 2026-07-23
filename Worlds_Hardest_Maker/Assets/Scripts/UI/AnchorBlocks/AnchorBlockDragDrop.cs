@@ -3,6 +3,7 @@ using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 public class AnchorBlockDragDrop : MonoBehaviour
 {
@@ -14,8 +15,16 @@ public class AnchorBlockDragDrop : MonoBehaviour
     private AnchorBlockController anchorBlockController;
     private UIRestrictInRectTransform restrict;
     
+    private IAudioService audioService;
+    
     public bool IsLocked;
     
+    [Inject]
+    private void Construct(IAudioService audioService)
+    {
+        this.audioService = audioService;
+    }
+
     private void Awake()
     {
         anchorBlockController = GetComponent<AnchorBlockController>();
@@ -58,15 +67,15 @@ public class AnchorBlockDragDrop : MonoBehaviour
         ReferenceManager.Instance.AnchorBlockConnectorController.UpdateHeight(Offset);
         
         // play sfx
-        if (wasInChain) AudioManager.Instance.Play("AnchorBlockPickUp");
+        if (wasInChain) audioService.Play("AnchorBlockPickUp");
     }
     
     private void OnEndDrag()
     {
         if (!active || !gameObject.activeInHierarchy || IsLocked) return;
         
-        AnchorBlockManager.CheckConnectorInsert();
-        AnchorBlockManager.CheckBlockInsert();
+        AnchorBlockManager.Instance.CheckConnectorInsert();
+        AnchorBlockManager.Instance.CheckBlockInsert();
         
         MouseOverUIPointer mouseOverUI =
             ReferenceManager.Instance.AnchorBlockChainContainer.GetComponent<MouseOverUIPointer>();
@@ -80,7 +89,7 @@ public class AnchorBlockDragDrop : MonoBehaviour
         {
             // discard anchor block
             anchorBlockController.Delete();
-            AudioManager.Instance.Play("AnchorBlockDiscard");
+            audioService.Play("AnchorBlockDiscard");
         }
         
         ReferenceManager.Instance.CustomFitter.UpdateSize();

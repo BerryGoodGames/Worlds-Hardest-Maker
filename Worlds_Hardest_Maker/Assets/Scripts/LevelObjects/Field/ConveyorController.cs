@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 public class ConveyorController : MonoBehaviour
 {
@@ -9,6 +10,14 @@ public class ConveyorController : MonoBehaviour
     
     public float Rotation => transform.rotation.eulerAngles.z;
     
+    private EventBus eventBus;
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+    }
+
     private void Start()
     {
         GetComponent<FieldRotation>();
@@ -16,8 +25,8 @@ public class ConveyorController : MonoBehaviour
         
         if (LevelSessionManager.Instance.IsEdit)
         {
-            PlayManager.Instance.OnSwitchToPlay += SwitchAnimToRunning;
-            PlayManager.Instance.OnSwitchToEdit += SwitchAnimToStaying;
+            eventBus.Subscribe<SwitchToPlayEvent>(_ => SwitchAnimToRunning());
+            eventBus.Subscribe<SwitchToEditEvent>(_ => SwitchAnimToStaying());
         }
         else SwitchAnimToRunning();
     }
@@ -39,7 +48,7 @@ public class ConveyorController : MonoBehaviour
     
     private void OnDestroy()
     {
-        PlayManager.Instance.OnSwitchToPlay -= SwitchAnimToRunning;
-        PlayManager.Instance.OnSwitchToEdit -= SwitchAnimToStaying;
+        eventBus.Unsubscribe<SwitchToPlayEvent>(_ => SwitchAnimToRunning());
+        eventBus.Unsubscribe<SwitchToEditEvent>(_ => SwitchAnimToStaying());
     }
 }

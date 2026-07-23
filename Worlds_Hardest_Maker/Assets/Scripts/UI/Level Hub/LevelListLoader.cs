@@ -8,6 +8,7 @@ using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class LevelListLoader : MonoBehaviour
 {
@@ -37,6 +38,8 @@ public class LevelListLoader : MonoBehaviour
         { "Latest", SortSettings.Latest },
         { "Name", SortSettings.Name },
     };
+    
+    [Inject] private DiContainer diContainer;
     
     private void Awake()
     {
@@ -153,6 +156,8 @@ public class LevelListLoader : MonoBehaviour
             // create new level cards
             LevelCardController levelCard =
                 Instantiate(levelCardPrefab, levelCardContainer).GetComponent<LevelCardController>();
+            
+            diContainer.InjectGameObject(levelCard.gameObject);
             
             // level card settings
             levelCard.Name = info.Name;

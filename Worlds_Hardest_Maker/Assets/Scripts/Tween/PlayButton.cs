@@ -3,6 +3,7 @@ using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
@@ -32,6 +33,14 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private bool mouseDown;
     private bool mouseUp;
     
+    private IAudioService audioService;
+    
+    [Inject]
+    private void Construct(IAudioService audioService)
+    {
+        this.audioService = audioService;
+    }
+
     private void Start()
     {
         mo = GetComponent<MouseOverUIRect>();
@@ -117,7 +126,7 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         
         top.DOLocalRotate(Vector3.forward * topPlayRotation, durationAnticipation)
             .SetEase(Ease.OutQuint)
-            .OnComplete(() => AudioManager.Instance.Play("PlayButtonClack"));
+            .OnComplete(() => audioService.Play("PlayButtonClack"));
         
         top.DOLocalRotate(Vector3.zero, restDuration)
             .SetEase(Ease.OutBounce)
@@ -154,7 +163,7 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         
         top.DOLocalRotate(Vector3.forward * topPlayRotation, durationAnticipation)
             .SetEase(Ease.OutQuint)
-            .OnComplete(() => AudioManager.Instance.Play("PlayButtonClack"));
+            .OnComplete(() => audioService.Play("PlayButtonClack"));
         
         top.DOLocalRotate(Vector3.zero, restDuration)
             .SetEase(Ease.OutBounce)
