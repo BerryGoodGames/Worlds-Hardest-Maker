@@ -1,11 +1,14 @@
+using MyBox;
+using UnityEngine;
 using Zenject;
 
+/// <summary>
+/// Installs bindings in Zenject that last for the entire game, e.g. audio manager.
+/// Should be assigned to the ProjectContext prefab in Assets/Resources.
+/// </summary>
 public class ProjectInstaller : MonoInstaller
 {
-    private void Awake()
-    {
-        DontDestroyOnLoad(this);
-    }
+    [SerializeField] [MustBeAssigned] private AudioManager audioManagerPrefab;
     
     public override void InstallBindings()
     {
@@ -13,7 +16,7 @@ public class ProjectInstaller : MonoInstaller
         
         Container.Bind<IAudioService>()
             .To<AudioManager>()
-            .FromComponentInHierarchy()
+            .FromComponentInNewPrefab(audioManagerPrefab)
             .AsSingle();
     }
 }

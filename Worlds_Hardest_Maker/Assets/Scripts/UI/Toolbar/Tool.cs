@@ -23,7 +23,6 @@ public class Tool : MonoBehaviour
     private void Construct(EventBus eventBus)
     {
         this.eventBus = eventBus;
-        print(eventBus);
     }
 
     private void Awake() => InOptionbar = transform.parent.CompareTag("OptionContainer");
