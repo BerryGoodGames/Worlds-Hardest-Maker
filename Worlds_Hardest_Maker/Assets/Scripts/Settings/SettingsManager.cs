@@ -40,7 +40,7 @@ public class SettingsManager : MonoBehaviour
     
     public void SavePrefs()
     {
-        print("Settings: Saving prefs...");
+        // print("Settings: Saving prefs...");
         
         PlayerPrefs.SetFloat("MusicVolume", GetMusicVolume());
         PlayerPrefs.SetFloat("SoundEffectVolume", GetSoundEffectVolume());
