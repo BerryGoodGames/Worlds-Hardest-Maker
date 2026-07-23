@@ -57,8 +57,6 @@ public class AudioManager : MonoBehaviour, IAudioService
     
     private void Awake()
     {
-        DontDestroyOnLoad(this);
-        
         sounds.ForEach(sound => sound.CreateSources(gameObject));
     }
     
