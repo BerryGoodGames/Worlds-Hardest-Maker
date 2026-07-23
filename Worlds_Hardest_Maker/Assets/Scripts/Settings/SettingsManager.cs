@@ -60,7 +60,7 @@ public class SettingsManager : MonoBehaviour
     
     public void LoadPrefs()
     {
-        print("Settings: Loading prefs...");
+        // print("Settings: Loading prefs...");
         
         // check if preferences already exist, and if they don't then set the current (default) prefs
         if (!PlayerPrefs.HasKey("MusicVolume")) SavePrefs();
