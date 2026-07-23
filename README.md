@@ -1,6 +1,6 @@
 # Worlds Hardest Maker
 
-Has to be opened in Unity v2022.3.X
+Has to be opened in Unity v6000.5.X
 
 Play / Download build [here](https://berrygoodgamez.itch.io/worlds-hardest-maker)
 

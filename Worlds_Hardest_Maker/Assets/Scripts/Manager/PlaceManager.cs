@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Cinemachine.Utility;
+using Unity.Cinemachine;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
