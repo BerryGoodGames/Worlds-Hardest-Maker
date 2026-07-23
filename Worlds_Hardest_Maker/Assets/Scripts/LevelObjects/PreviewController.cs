@@ -129,7 +129,7 @@ public class PreviewController : MonoBehaviour
         previousEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
     }
     
-    public void SetSprite(EditMode editMode, bool updateRotation = false)
+    public void SetSprite(EditMode editMode)
     {
         if (editMode == EditModeManager.Delete)
         {
@@ -178,7 +178,8 @@ public class PreviewController : MonoBehaviour
         SpriteRenderer.sprite = prefabRenderer.sprite;
         SpriteRenderer.color = new(prefabColor.r, prefabColor.g, prefabColor.b, alpha / 255f);
         transform.localScale = scale;
-        if (updateRotation) UpdateRotation(true);
+        print("test");
+        UpdateRotation(true); // Idk why this does not reset rotations for one ways and conveyors
         
         // for filling preview go to FillManager.cs
     }
