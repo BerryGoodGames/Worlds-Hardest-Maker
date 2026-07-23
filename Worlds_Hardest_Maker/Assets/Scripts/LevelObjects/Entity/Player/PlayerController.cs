@@ -79,7 +79,7 @@ public partial class PlayerController : EntityController
         eventBus.Subscribe<ResetLevelEvent>(OnResetLevel);
     }
     
-    private void Awake()
+    protected override void Start()
     {
         InitComponents();
         
@@ -87,10 +87,7 @@ public partial class PlayerController : EntityController
         
         StartPos = t.position;
         defaultScale = t.localScale;
-    }
-    
-    protected override void Start()
-    {
+        
         base.Start();
         
         LevelCompleteManager.Instance.OnPlayAgain += OnPlayAgain;
