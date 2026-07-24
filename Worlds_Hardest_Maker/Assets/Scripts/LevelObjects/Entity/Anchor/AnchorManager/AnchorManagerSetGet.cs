@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using VContainer.Unity;
 
 public partial class AnchorManager : IManager<AnchorController>
 {
@@ -74,7 +75,7 @@ public partial class AnchorManager : IManager<AnchorController>
             DefaultContainer
         ).Child;
         
-        diContainer.InjectGameObject(anchor.gameObject);
+        IObjectResolver.InjectGameObject(anchor.gameObject);
         
         return anchor;
     }

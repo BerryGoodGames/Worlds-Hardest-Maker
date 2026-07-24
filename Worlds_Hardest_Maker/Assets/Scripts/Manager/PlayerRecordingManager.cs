@@ -6,7 +6,7 @@ using LuLib.Transform;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 public class PlayerRecordingManager : MonoBehaviour
 {

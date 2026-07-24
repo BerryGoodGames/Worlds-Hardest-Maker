@@ -4,7 +4,7 @@ using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Zenject;
+using VContainer;
 
 public class LoadingScreen : MonoBehaviour
 {

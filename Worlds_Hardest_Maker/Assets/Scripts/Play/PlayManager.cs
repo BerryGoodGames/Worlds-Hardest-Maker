@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 public class PlayManager : MonoBehaviour
 {

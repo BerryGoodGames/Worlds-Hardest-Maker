@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using VContainer.Unity;
 
 public partial class SelectionManager
 {
@@ -22,7 +23,7 @@ public partial class SelectionManager
                 ReferenceManager.Instance.FillPreviewContainer
             );
             
-            diContainer.InjectGameObject(preview);
+            IObjectResolver.InjectGameObject(preview);
             
             PreviewController c = preview.GetComponent<PreviewController>();
             c.Awake_();

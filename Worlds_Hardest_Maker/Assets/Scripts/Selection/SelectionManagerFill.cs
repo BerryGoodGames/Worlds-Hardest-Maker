@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MyBox;
 using UnityEngine;
+using VContainer.Unity;
 
 public partial class SelectionManager
 {
@@ -77,7 +78,7 @@ public partial class SelectionManager
                 ReferenceManager.Instance.FieldContainer
             );
             
-            diContainer.InjectGameObject(field);
+            IObjectResolver.InjectGameObject(field);
             
             FieldController fieldController = field.GetComponent<FieldController>();
             fieldController.FieldMode = mode;

@@ -3,7 +3,8 @@ using MyBox;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
-using Zenject;
+using VContainer;
+using VContainer.Unity;
 
 public class KeyBindGenerator : MonoBehaviour
 {
@@ -11,12 +12,12 @@ public class KeyBindGenerator : MonoBehaviour
     [SerializeField] [InitializationField] [Required] private KeyBindSetterController keyBindSetter;
     [SerializeField] [InitializationField] [Required] private RectTransform tooltipContainer;
     
-    private DiContainer diContainer;
+    private IObjectResolver IObjectResolver;
     
     [Inject]
-    private void Construct(DiContainer diContainer)
+    private void Construct(IObjectResolver IObjectResolver)
     {
-        this.diContainer = diContainer;
+        this.IObjectResolver = IObjectResolver;
     }
     
     private void Start()
@@ -48,7 +49,7 @@ public class KeyBindGenerator : MonoBehaviour
             
             KeyBindSetterController setterController = Instantiate(keyBindSetter, transform);
             
-            diContainer.InjectGameObject(setterController.gameObject);
+            IObjectResolver.InjectGameObject(setterController.gameObject);
             
             setterController.TooltipContainer = tooltipContainer;
             setterController.KeyBind = keyBind;

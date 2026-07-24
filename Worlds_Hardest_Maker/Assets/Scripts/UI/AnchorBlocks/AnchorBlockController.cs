@@ -1,7 +1,7 @@
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public abstract partial class AnchorBlockController : MonoBehaviour

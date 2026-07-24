@@ -1,7 +1,7 @@
 using DG.Tweening;
 using NaughtyAttributes;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 public class CameraPlayController : MonoBehaviour
 {

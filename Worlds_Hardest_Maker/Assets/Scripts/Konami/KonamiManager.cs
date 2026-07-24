@@ -1,6 +1,6 @@
 using NaughtyAttributes;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 /// <Summary>
 ///     Checks inputted key if it's the konami Code

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 public class TimerController : MonoBehaviour
 {

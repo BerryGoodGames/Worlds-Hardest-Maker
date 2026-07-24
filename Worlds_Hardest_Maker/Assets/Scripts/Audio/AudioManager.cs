@@ -2,7 +2,7 @@ using System;
 using MyBox;
 using UnityEngine;
 using UnityEngine.Audio;
-using Zenject;
+using VContainer;
 
 public class AudioManager : MonoBehaviour, IAudioService
 {
@@ -14,9 +14,13 @@ public class AudioManager : MonoBehaviour, IAudioService
     
     [Space] [SerializeField] private Sound[] sounds;
     
+    private EventBus eventBus;
+    
     [Inject]
     private void Construct(EventBus eventBus)
     {
+        this.eventBus = eventBus;
+        
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
     }
@@ -70,5 +74,11 @@ public class AudioManager : MonoBehaviour, IAudioService
     {
         Play("Bell");
         MusicFiltered(true);
+    }
+    
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
     }
 }

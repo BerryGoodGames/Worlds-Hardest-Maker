@@ -3,7 +3,7 @@ using System.Linq;
 using MyBox;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
+using VContainer;
 
 public partial class AnchorBlockManager : MonoBehaviour
 {

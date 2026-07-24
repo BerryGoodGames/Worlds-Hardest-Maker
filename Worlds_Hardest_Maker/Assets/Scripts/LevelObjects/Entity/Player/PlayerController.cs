@@ -4,7 +4,7 @@ using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Rendering;
-using Zenject;
+using VContainer;
 
 public partial class PlayerController : EntityController
 {

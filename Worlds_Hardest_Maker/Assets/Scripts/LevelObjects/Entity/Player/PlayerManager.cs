@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
-using Zenject;
+using VContainer;
+using VContainer.Unity;
 
 public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManagerPlaceRestrictable
 {
@@ -17,12 +18,12 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     
     public Transform DefaultContainer => ReferenceManager.Instance.PlayerContainer;
     
-    private DiContainer diContainer;
+    private IObjectResolver IObjectResolver;
     
     [Inject]
-    private void Construct(DiContainer diContainer)
+    private void Construct(IObjectResolver IObjectResolver)
     {
-        this.diContainer = diContainer;
+        this.IObjectResolver = IObjectResolver;
     }
     
     public PlayerController SetInSheet(ManagerParameters args)
@@ -71,7 +72,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
             DefaultContainer
         );
         
-        diContainer.InjectGameObject(newPlayer.gameObject);
+        IObjectResolver.InjectGameObject(newPlayer.gameObject);
         
         PlaceManager.Instance.AttachToSheet(newPlayer.gameObject, args.Sheet, false);
         newPlayer.Sheet = args.Sheet;

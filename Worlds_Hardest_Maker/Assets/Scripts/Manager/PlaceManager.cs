@@ -5,7 +5,7 @@ using Unity.Cinemachine;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 public class PlaceManager : MonoBehaviour
 {
@@ -17,16 +17,16 @@ public class PlaceManager : MonoBehaviour
     [Separator("Konami sfx")] [SerializeField] private SoundEffect konamiPlaceSfx;
     [SerializeField] private PlaceSoundEffect[] customKonamiPlaceSfx;
     
-    private DiContainer diContainer;
+    private IObjectResolver IObjectResolver;
     
     private IAudioService audioService;
     
     private IKonamiService konamiService;
     
     [Inject]
-    private void Construct(DiContainer diContainer, IAudioService audioService, IKonamiService konamiService)
+    private void Construct(IObjectResolver IObjectResolver, IAudioService audioService, IKonamiService konamiService)
     {
-        this.diContainer = diContainer;
+        this.IObjectResolver = IObjectResolver;
         this.audioService = audioService;
         this.konamiService = konamiService;
     }
@@ -123,7 +123,7 @@ public class PlaceManager : MonoBehaviour
         
         AnchorAttachment attachment = obj.GetOrAddComponent<AnchorAttachment>();
         
-        diContainer.Inject(attachment);
+        IObjectResolver.Inject(attachment);
         
         attachment.Anchor = sheet;
         

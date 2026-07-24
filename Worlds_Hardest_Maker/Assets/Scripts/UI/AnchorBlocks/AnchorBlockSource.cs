@@ -3,21 +3,22 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Zenject;
+using VContainer;
+using VContainer.Unity;
 
 public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private GameObject anchorBlockPrefab;
     [SerializeField] private bool active = true;
     
-    private DiContainer diContainer;
+    private IObjectResolver IObjectResolver;
     
     private IAudioService audioService;
     
     [Inject]
-    private void Construct(DiContainer diContainer, IAudioService audioService)
+    private void Construct(IObjectResolver IObjectResolver, IAudioService audioService)
     {
-        this.diContainer = diContainer;
+        this.IObjectResolver = IObjectResolver;
         this.audioService = audioService;
     }
 
@@ -32,7 +33,7 @@ public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
             ReferenceManager.Instance.AnchorBlockChainContainer
         );
         
-        diContainer.InjectGameObject(anchorBlock);
+        IObjectResolver.InjectGameObject(anchorBlock);
         
         // activate restriction
         UIRestrictInRectTransform restrict = anchorBlock.GetComponent<UIRestrictInRectTransform>();

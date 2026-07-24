@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
-using Zenject;
+using VContainer;
+using VContainer.Unity;
 
 public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceRestrictable
 {
     public static KeyManager Instance { get; private set; }
     
-    private DiContainer diContainer;
+    private IObjectResolver IObjectResolver;
     
     public Transform DefaultContainer => ReferenceManager.Instance.KeyContainer;
     
@@ -22,9 +23,9 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
     private IKonamiService konamiService;
     
     [Inject]
-    private void Construct(DiContainer diContainer, IKonamiService konamiService)
+    private void Construct(IObjectResolver IObjectResolver, IKonamiService konamiService)
     {
-        this.diContainer = diContainer;
+        this.IObjectResolver = IObjectResolver;
         this.konamiService = konamiService;
     }
     
@@ -96,7 +97,7 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
             args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
         );
         
-        diContainer.InjectGameObject(key.gameObject);
+        IObjectResolver.InjectGameObject(key.gameObject);
         
         return key;
     }

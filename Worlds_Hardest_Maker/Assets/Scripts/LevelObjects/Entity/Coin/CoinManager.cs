@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
-using Zenject;
+using VContainer;
+using VContainer.Unity;
 
 public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlaceRestrictable
 {
@@ -22,12 +23,12 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
     
     private static readonly int PLAYING = Animator.StringToHash("Playing");
     
-    private DiContainer diContainer;
+    private IObjectResolver IObjectResolver;
     
     [Inject]
-    private void Construct(DiContainer diContainer)
+    private void Construct(IObjectResolver IObjectResolver)
     {
-        this.diContainer = diContainer;
+        this.IObjectResolver = IObjectResolver;
     }
     
     public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
@@ -85,7 +86,7 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
             args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
         );
         
-        diContainer.InjectGameObject(coin.gameObject);
+        IObjectResolver.InjectGameObject(coin.gameObject);
         
         return coin;
     }

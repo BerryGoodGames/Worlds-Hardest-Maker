@@ -4,7 +4,7 @@ using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Zenject;
+using VContainer;
 
 /// <summary>
 ///     Methods for filling: GetFillRange, FillArea, GetBounds, GetBoundsMatrix
@@ -28,14 +28,14 @@ public partial class SelectionManager : MonoBehaviour
     public static Vector2? SelectionStart;
     public static Vector2? SelectionEnd;
     
-    private DiContainer diContainer;
+    private IObjectResolver IObjectResolver;
     
     private EventBus eventBus;
     
     [Inject]
-    private void Construct(DiContainer diContainer, EventBus eventBus)
+    private void Construct(IObjectResolver IObjectResolver, EventBus eventBus)
     {
-        this.diContainer = diContainer;
+        this.IObjectResolver = IObjectResolver;
         this.eventBus = eventBus;
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);

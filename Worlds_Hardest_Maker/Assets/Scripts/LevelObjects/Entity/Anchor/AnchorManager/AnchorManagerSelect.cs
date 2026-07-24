@@ -1,6 +1,5 @@
 using MyBox;
 using UnityEngine;
-using Zenject;
 
 public partial class AnchorManager : IManagerSelectable
 {

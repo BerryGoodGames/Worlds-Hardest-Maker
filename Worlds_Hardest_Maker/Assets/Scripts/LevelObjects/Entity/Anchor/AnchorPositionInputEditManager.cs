@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using MyBox;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 public class AnchorPositionInputEditManager : MonoBehaviour
 {
