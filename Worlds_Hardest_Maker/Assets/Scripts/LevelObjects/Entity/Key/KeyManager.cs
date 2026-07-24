@@ -9,7 +9,7 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
 {
     public static KeyManager Instance { get; private set; }
     
-    private IObjectResolver IObjectResolver;
+    private IObjectResolver diContainer;
     
     public Transform DefaultContainer => ReferenceManager.Instance.KeyContainer;
     
@@ -23,9 +23,9 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
     private IKonamiService konamiService;
     
     [Inject]
-    private void Construct(IObjectResolver IObjectResolver, IKonamiService konamiService)
+    private void Construct(IObjectResolver diContainer, IKonamiService konamiService)
     {
-        this.IObjectResolver = IObjectResolver;
+        this.diContainer = diContainer;
         this.konamiService = konamiService;
     }
     
@@ -97,7 +97,7 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
             args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
         );
         
-        IObjectResolver.InjectGameObject(key.gameObject);
+        diContainer.InjectGameObject(key.gameObject);
         
         return key;
     }

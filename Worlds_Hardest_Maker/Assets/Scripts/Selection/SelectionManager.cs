@@ -28,14 +28,14 @@ public partial class SelectionManager : MonoBehaviour
     public static Vector2? SelectionStart;
     public static Vector2? SelectionEnd;
     
-    private IObjectResolver IObjectResolver;
+    private IObjectResolver diContainer;
     
     private EventBus eventBus;
     
     [Inject]
-    private void Construct(IObjectResolver IObjectResolver, EventBus eventBus)
+    private void Construct(IObjectResolver diContainer, EventBus eventBus)
     {
-        this.IObjectResolver = IObjectResolver;
+        this.diContainer = diContainer;
         this.eventBus = eventBus;
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);

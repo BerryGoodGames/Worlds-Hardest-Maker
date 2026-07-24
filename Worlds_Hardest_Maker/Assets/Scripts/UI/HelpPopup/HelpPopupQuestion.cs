@@ -10,12 +10,12 @@ public class HelpPopupQuestion : MonoBehaviour
     
     [SerializeField] [InitializationField] [Required] private RectTransform popupContainer;
     
-    [Inject] private IObjectResolver IObjectResolver;
+    [Inject] private IObjectResolver diContainer;
     
     public void OnButtonClick()
     {
         HelpPopup instance = Instantiate(popup, popupContainer);
         
-        IObjectResolver.InjectGameObject(instance.gameObject);
+        diContainer.InjectGameObject(instance.gameObject);
     }
 }

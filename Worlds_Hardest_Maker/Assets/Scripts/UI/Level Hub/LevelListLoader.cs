@@ -40,7 +40,7 @@ public class LevelListLoader : MonoBehaviour
         { "Name", SortSettings.Name },
     };
     
-    [Inject] private IObjectResolver IObjectResolver;
+    [Inject] private IObjectResolver diContainer;
     
     private void Awake()
     {
@@ -158,7 +158,7 @@ public class LevelListLoader : MonoBehaviour
             LevelCardController levelCard =
                 Instantiate(levelCardPrefab, levelCardContainer).GetComponent<LevelCardController>();
             
-            IObjectResolver.InjectGameObject(levelCard.gameObject);
+            diContainer.InjectGameObject(levelCard.gameObject);
             
             // level card settings
             levelCard.Name = info.Name;

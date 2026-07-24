@@ -23,12 +23,12 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
     
     private static readonly int PLAYING = Animator.StringToHash("Playing");
     
-    private IObjectResolver IObjectResolver;
+    private IObjectResolver diContainer;
     
     [Inject]
-    private void Construct(IObjectResolver IObjectResolver)
+    private void Construct(IObjectResolver diContainer)
     {
-        this.IObjectResolver = IObjectResolver;
+        this.diContainer = diContainer;
     }
     
     public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
@@ -86,7 +86,7 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
             args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
         );
         
-        IObjectResolver.InjectGameObject(coin.gameObject);
+        diContainer.InjectGameObject(coin.gameObject);
         
         return coin;
     }

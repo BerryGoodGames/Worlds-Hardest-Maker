@@ -23,7 +23,7 @@ public partial class SelectionManager
                 ReferenceManager.Instance.FillPreviewContainer
             );
             
-            IObjectResolver.InjectGameObject(preview);
+            diContainer.InjectGameObject(preview);
             
             PreviewController c = preview.GetComponent<PreviewController>();
             c.Awake_();

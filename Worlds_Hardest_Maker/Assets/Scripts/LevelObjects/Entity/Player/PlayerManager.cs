@@ -18,12 +18,12 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     
     public Transform DefaultContainer => ReferenceManager.Instance.PlayerContainer;
     
-    private IObjectResolver IObjectResolver;
+    private IObjectResolver diContainer;
     
     [Inject]
-    private void Construct(IObjectResolver IObjectResolver)
+    private void Construct(IObjectResolver diContainer)
     {
-        this.IObjectResolver = IObjectResolver;
+        this.diContainer = diContainer;
     }
     
     public PlayerController SetInSheet(ManagerParameters args)
@@ -72,7 +72,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
             DefaultContainer
         );
         
-        IObjectResolver.InjectGameObject(newPlayer.gameObject);
+        diContainer.InjectGameObject(newPlayer.gameObject);
         
         PlaceManager.Instance.AttachToSheet(newPlayer.gameObject, args.Sheet, false);
         newPlayer.Sheet = args.Sheet;

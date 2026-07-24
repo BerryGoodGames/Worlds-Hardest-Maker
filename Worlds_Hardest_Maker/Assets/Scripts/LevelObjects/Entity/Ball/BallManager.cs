@@ -12,12 +12,12 @@ public class BallManager : MonoBehaviour, IManager<BallController>
     [ReadOnly] public Dictionary<AnchorController, List<BallController>> BallListSheets;
     [ReadOnly] public List<BallController> BallListGlobal;
     
-    private IObjectResolver IObjectResolver;
+    private IObjectResolver diContainer;
     
     [Inject]
-    private void Construct(IObjectResolver IObjectResolver)
+    private void Construct(IObjectResolver diContainer)
     {
-        this.IObjectResolver = IObjectResolver;
+        this.diContainer = diContainer;
     }
 
     #region Set, Get
@@ -73,7 +73,7 @@ public class BallManager : MonoBehaviour, IManager<BallController>
             container
         );
         
-        IObjectResolver.InjectGameObject(ball);
+        diContainer.InjectGameObject(ball);
         
         return ball.GetComponentInChildren<BallController>();
     }

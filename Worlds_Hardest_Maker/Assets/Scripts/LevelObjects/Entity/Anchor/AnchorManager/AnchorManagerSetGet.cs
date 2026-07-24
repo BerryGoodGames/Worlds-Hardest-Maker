@@ -75,7 +75,7 @@ public partial class AnchorManager : IManager<AnchorController>
             DefaultContainer
         ).Child;
         
-        IObjectResolver.InjectGameObject(anchor.gameObject);
+        diContainer.InjectGameObject(anchor.gameObject);
         
         return anchor;
     }

@@ -11,14 +11,14 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
     
     public Transform DefaultContainer => ReferenceManager.Instance.FieldContainer;
     
-    private IObjectResolver IObjectResolver;
+    private IObjectResolver diContainer;
     
     private IAudioService audioService;
     
     [Inject]
-    private void Construct(IObjectResolver IObjectResolver, IAudioService audioService)
+    private void Construct(IObjectResolver diContainer, IAudioService audioService)
     {
-        this.IObjectResolver = IObjectResolver;
+        this.diContainer = diContainer;
         this.audioService = audioService;
     }
     
@@ -89,7 +89,7 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
             args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
         );
         
-        IObjectResolver.InjectGameObject(res);
+        diContainer.InjectGameObject(res);
         
         FieldController fieldController = res.GetComponent<FieldController>();
         fieldController.FieldMode = args.FieldMode;

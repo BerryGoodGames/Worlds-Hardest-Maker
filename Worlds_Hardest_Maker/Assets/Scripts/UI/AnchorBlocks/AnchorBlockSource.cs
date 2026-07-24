@@ -11,14 +11,14 @@ public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
     [SerializeField] private GameObject anchorBlockPrefab;
     [SerializeField] private bool active = true;
     
-    private IObjectResolver IObjectResolver;
+    private IObjectResolver diContainer;
     
     private IAudioService audioService;
     
     [Inject]
-    private void Construct(IObjectResolver IObjectResolver, IAudioService audioService)
+    private void Construct(IObjectResolver diContainer, IAudioService audioService)
     {
-        this.IObjectResolver = IObjectResolver;
+        this.diContainer = diContainer;
         this.audioService = audioService;
     }
 
@@ -33,7 +33,7 @@ public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
             ReferenceManager.Instance.AnchorBlockChainContainer
         );
         
-        IObjectResolver.InjectGameObject(anchorBlock);
+        diContainer.InjectGameObject(anchorBlock);
         
         // activate restriction
         UIRestrictInRectTransform restrict = anchorBlock.GetComponent<UIRestrictInRectTransform>();

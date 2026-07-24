@@ -17,16 +17,16 @@ public class PlaceManager : MonoBehaviour
     [Separator("Konami sfx")] [SerializeField] private SoundEffect konamiPlaceSfx;
     [SerializeField] private PlaceSoundEffect[] customKonamiPlaceSfx;
     
-    private IObjectResolver IObjectResolver;
+    private IObjectResolver diContainer;
     
     private IAudioService audioService;
     
     private IKonamiService konamiService;
     
     [Inject]
-    private void Construct(IObjectResolver IObjectResolver, IAudioService audioService, IKonamiService konamiService)
+    private void Construct(IObjectResolver diContainer, IAudioService audioService, IKonamiService konamiService)
     {
-        this.IObjectResolver = IObjectResolver;
+        this.diContainer = diContainer;
         this.audioService = audioService;
         this.konamiService = konamiService;
     }
@@ -123,7 +123,7 @@ public class PlaceManager : MonoBehaviour
         
         AnchorAttachment attachment = obj.GetOrAddComponent<AnchorAttachment>();
         
-        IObjectResolver.Inject(attachment);
+        diContainer.Inject(attachment);
         
         attachment.Anchor = sheet;
         

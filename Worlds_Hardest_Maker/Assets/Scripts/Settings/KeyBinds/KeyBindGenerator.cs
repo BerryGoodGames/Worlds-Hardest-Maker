@@ -12,12 +12,12 @@ public class KeyBindGenerator : MonoBehaviour
     [SerializeField] [InitializationField] [Required] private KeyBindSetterController keyBindSetter;
     [SerializeField] [InitializationField] [Required] private RectTransform tooltipContainer;
     
-    private IObjectResolver IObjectResolver;
+    private IObjectResolver diContainer;
     
     [Inject]
-    private void Construct(IObjectResolver IObjectResolver)
+    private void Construct(IObjectResolver diContainer)
     {
-        this.IObjectResolver = IObjectResolver;
+        this.diContainer = diContainer;
     }
     
     private void Start()
@@ -49,7 +49,7 @@ public class KeyBindGenerator : MonoBehaviour
             
             KeyBindSetterController setterController = Instantiate(keyBindSetter, transform);
             
-            IObjectResolver.InjectGameObject(setterController.gameObject);
+            diContainer.InjectGameObject(setterController.gameObject);
             
             setterController.TooltipContainer = tooltipContainer;
             setterController.KeyBind = keyBind;
