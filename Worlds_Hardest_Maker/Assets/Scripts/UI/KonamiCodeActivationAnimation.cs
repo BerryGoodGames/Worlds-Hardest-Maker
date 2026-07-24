@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using JetBrains.Annotations;
@@ -21,10 +22,14 @@ public class KonamiCodeActivationAnimation : MonoBehaviour
     
     private IAudioService audioService;
     
+    private EventBus eventBus;
+    
     [Inject]
     private void Construct(IAudioService audioService, EventBus eventBus)
     {
         this.audioService = audioService;
+        this.eventBus = eventBus;
+        
         eventBus.Subscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
     }
     
@@ -93,5 +98,10 @@ public class KonamiCodeActivationAnimation : MonoBehaviour
         continueButtonTween.SetVisible(false);
         
         IsAnimationOnScreen = false;
+    }
+    
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
     }
 }

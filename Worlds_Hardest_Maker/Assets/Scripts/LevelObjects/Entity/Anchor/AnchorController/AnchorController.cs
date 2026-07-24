@@ -50,21 +50,24 @@ public partial class AnchorController : EntityController, IResettable
     
     private EventBus eventBus;
     
-    [Inject]
-    private void Construct(EventBus eventBus)
-    {
-        this.eventBus = eventBus;
-        
-        eventBus.Subscribe<SwitchToPlayEvent>(_ => AttachFade.FadeIn());
-        eventBus.Subscribe<SwitchToEditEvent>(_ => AttachFade.FadeOut());
-    }
-    
     public int LoopBlockIndex { get; set; } = -1;
     
     public bool IsSelected => AnchorManager.Instance.SelectedAnchor == this;
     public bool IsAttaching => AnchorAttachManager.Instance.InAttachMode && IsSelected;
     
     public override EditMode EditMode => EditModeManager.Anchor;
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        
+        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
+    }
+    
+    private void OnSwitchToPlay(SwitchToPlayEvent evt) => AttachFade.FadeIn();
+    private void OnSwitchToEdit(SwitchToEditEvent evt) => AttachFade.FadeIn();
     
     private void Awake()
     {
@@ -248,8 +251,8 @@ public partial class AnchorController : EntityController, IResettable
         spriteRenderer.DOKill();
         Rb.DOKill();
         
-        eventBus.Unsubscribe<SwitchToPlayEvent>(_ => AttachFade.FadeIn());
-        eventBus.Unsubscribe<SwitchToEditEvent>(_ => AttachFade.FadeOut());
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
         
         ((IResettable)this).Unsubscribe(eventBus);
     }

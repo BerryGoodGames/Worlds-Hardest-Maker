@@ -26,8 +26,13 @@ public class BallController : EntityController
     {
         this.eventBus = eventBus;
         
-        if (LevelSessionManager.Instance.IsEdit) eventBus.Subscribe<SwitchToEditEvent>(_ => ResetPosition());
+        if (LevelSessionManager.Instance.IsEdit)
+        {
+            eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
+        }
     }
+    
+    private void OnSwitchToEdit(SwitchToEditEvent evt) => ResetPosition();
     
     protected override void Start()
     {
@@ -64,7 +69,10 @@ public class BallController : EntityController
         Destroy(transform.parent.gameObject);
         
         // unsubscribe
-        if (LevelSessionManager.Instance.IsEdit) eventBus.Unsubscribe<SwitchToEditEvent>(_ => ResetPosition());
+        if (LevelSessionManager.Instance.IsEdit)
+        {
+            eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
+        }
     }
     
     public override void OnAnchorMove(Vector2 oldPos, Vector2 newPos)

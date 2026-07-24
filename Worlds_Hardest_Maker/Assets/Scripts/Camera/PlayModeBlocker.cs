@@ -15,10 +15,14 @@ public class PlayModeBlocker : MonoBehaviour
     {
         this.eventBus = eventBus;
         
-        eventBus.Subscribe<StartPlaytestEvent>(_ => Enable());
-        eventBus.Subscribe<SetupPlaySceneEvent>(_ => Enable());
-        eventBus.Subscribe<SwitchToEditEvent>(_ => Disable());
+        eventBus.Subscribe<StartPlaytestEvent>(OnStartPlaytest);
+        eventBus.Subscribe<SetupPlaySceneEvent>(OnSetupPlayScene);
+        eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
     }
+    
+    private void OnStartPlaytest(StartPlaytestEvent evt) => Enable();
+    private void OnSetupPlayScene(SetupPlaySceneEvent evt) => Enable();
+    private void OnSwitchToEdit(SwitchToEditEvent evt) => Disable();
 
     private void Start()
     {
@@ -70,9 +74,9 @@ public class PlayModeBlocker : MonoBehaviour
     
     private void OnDestroy()
     {
-        eventBus.Unsubscribe<StartPlaytestEvent>(_ => Enable());
-        eventBus.Unsubscribe<SetupPlaySceneEvent>(_ => Enable());
-        eventBus.Unsubscribe<SwitchToEditEvent>(_ => Disable());
+        eventBus.Unsubscribe<StartPlaytestEvent>(OnStartPlaytest);
+        eventBus.Unsubscribe<SetupPlaySceneEvent>(OnSetupPlayScene);
+        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
         LevelSettings.Instance.OnLevelSettingsImported -= SetupBlackScreenMask;
         LevelSettings.Instance.OnUpdateRoomSize -= SetupBlackScreenMask;
     }

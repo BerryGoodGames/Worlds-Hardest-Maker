@@ -17,10 +17,12 @@ public partial class AnchorAttachManager : MonoBehaviour
     {
         this.eventBus = eventBus;
         
-        eventBus.Subscribe<SwitchToPlayEvent>(_ =>
-        {
-            if (InAttachMode) ExitAttachMode();
-        });
+        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+    }
+    
+    private void OnSwitchToPlay(SwitchToPlayEvent evt)
+    {
+        if (InAttachMode) ExitAttachMode();
     }
     
     public void EnterAttachMode()
@@ -72,5 +74,10 @@ public partial class AnchorAttachManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
+    }
+    
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
     }
 }

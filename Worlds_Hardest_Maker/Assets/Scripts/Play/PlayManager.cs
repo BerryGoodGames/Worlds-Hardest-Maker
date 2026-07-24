@@ -32,11 +32,6 @@ public class PlayManager : MonoBehaviour
         eventBus.Subscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
     }
     
-    private void OnKonamiStateChanged(KonamiStateChangedEvent evt)
-    {
-        Cheated = true;
-    }
-    
     public void TogglePlay(bool playtest)
     {
         if (ReferenceManager.Instance.Menu.activeSelf) return;
@@ -70,16 +65,8 @@ public class PlayManager : MonoBehaviour
         // setup play scene mode
         if (!LevelSessionManager.Instance.IsEdit) StartCoroutine(SetupPlayScene());
         
-        eventBus.Subscribe<SwitchToEditEvent>(_ =>
-        {
-            Cheated = false;
-            FieldManager.ApplySafeFieldsColor(false);
-        });
-        
-        eventBus.Subscribe<SwitchToPlayEvent>(_ =>
-        {
-            if (SettingsManager.Instance.OneColorSafeFields) FieldManager.ApplySafeFieldsColor(true);
-        });
+        eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
+        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         
         LevelCompleteManager.Instance.OnPlayAgain += RestartLevel;
         
@@ -106,6 +93,25 @@ public class PlayManager : MonoBehaviour
         }
     }
     
+    private void OnKonamiStateChanged(KonamiStateChangedEvent evt)
+    {
+        Cheated = true;
+    }
+    
+    private void OnSwitchToEdit(SwitchToEditEvent evt)
+    {
+        Cheated = false;
+        FieldManager.ApplySafeFieldsColor(false);
+    }
+    
+    private void OnSwitchToPlay(SwitchToPlayEvent evt)
+    {
+        if (SettingsManager.Instance.OneColorSafeFields)
+        {
+            FieldManager.ApplySafeFieldsColor(true);
+        }
+    }
+    
     public void RestartLevel()
     {
         // reset game
@@ -124,6 +130,9 @@ public class PlayManager : MonoBehaviour
     private void OnDestroy()
     {
         LevelCompleteManager.Instance.OnPlayAgain -= RestartLevel;
+        
         eventBus.Unsubscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
+        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
     }
 }

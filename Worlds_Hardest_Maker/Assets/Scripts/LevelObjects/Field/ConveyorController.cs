@@ -25,11 +25,14 @@ public class ConveyorController : MonoBehaviour
         
         if (LevelSessionManager.Instance.IsEdit)
         {
-            eventBus.Subscribe<SwitchToPlayEvent>(_ => SwitchAnimToRunning());
-            eventBus.Subscribe<SwitchToEditEvent>(_ => SwitchAnimToStaying());
+            eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+            eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
         }
         else SwitchAnimToRunning();
     }
+    
+    private void OnSwitchToPlay(SwitchToPlayEvent evt) => SwitchAnimToRunning();
+    private void OnSwitchToEdit(SwitchToEditEvent evt) => SwitchAnimToStaying();
     
     public void SwitchAnimToRunning()
     {
@@ -48,7 +51,7 @@ public class ConveyorController : MonoBehaviour
     
     private void OnDestroy()
     {
-        eventBus.Unsubscribe<SwitchToPlayEvent>(_ => SwitchAnimToRunning());
-        eventBus.Unsubscribe<SwitchToEditEvent>(_ => SwitchAnimToStaying());
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
     }
 }

@@ -26,8 +26,10 @@ public class CoinController : EntityController, IResettable, ICollectible
     {
         this.eventBus = eventBus;
         
-        eventBus.Subscribe<SwitchToPlayEvent>(_ => ActivateAnimation());
+        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
     }
+    
+    private void OnSwitchToPlay(SwitchToPlayEvent evt) => ActivateAnimation();
 
     private void Awake()
     {
@@ -49,7 +51,7 @@ public class CoinController : EntityController, IResettable, ICollectible
         CoinManager.Instance.Coins.Remove(this);
         
         ((IResettable)this).Unsubscribe(eventBus);
-        eventBus.Unsubscribe<SwitchToPlayEvent>(_ => ActivateAnimation());
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         
         DOTween.Kill(gameObject);
     }

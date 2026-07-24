@@ -4,13 +4,16 @@ public interface IResettable
     
     public sealed void Subscribe(EventBus eventBus)
     {
-        eventBus.Subscribe<ResetLevelEvent>(_ => ResetState());
-        eventBus.Subscribe<SwitchToEditEvent>(_ => ResetState());
+        eventBus.Subscribe<ResetLevelEvent>(OnResetLevel);
+        eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
     }
     
     public sealed void Unsubscribe(EventBus eventBus)
     {
-        eventBus.Unsubscribe<ResetLevelEvent>(_ => ResetState());
-        eventBus.Unsubscribe<SwitchToEditEvent>(_ => ResetState());
+        eventBus.Unsubscribe<ResetLevelEvent>(OnResetLevel);
+        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
     }
+    
+    private void OnResetLevel(ResetLevelEvent evt) => ResetState();
+    private void OnSwitchToEdit(SwitchToEditEvent evt) => ResetState();
 }

@@ -23,8 +23,10 @@ public class TimerController : MonoBehaviour
     {
         this.eventBus = eventBus;
         
-        eventBus.Subscribe<SwitchToPlayEvent>(_ => StartTimer());
+        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
     }
+    
+    private void OnSwitchToPlay(SwitchToPlayEvent evt) => StartTimer();
 
     private void Start()
     {
@@ -85,7 +87,7 @@ public class TimerController : MonoBehaviour
     
     private void OnDestroy()
     {
-        eventBus.Unsubscribe<SwitchToPlayEvent>(_ => StartTimer());
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         
         LevelCompleteManager.Instance.OnPlayAgain -= StartTimer;
     }

@@ -38,9 +38,12 @@ public partial class SelectionManager : MonoBehaviour
         this.diContainer = diContainer;
         this.eventBus = eventBus;
         
-        eventBus.Subscribe<SwitchToPlayEvent>(_ => OnCancelClicked());
-        eventBus.Subscribe<EnterAnchorAttachEvent>(_ => OnCancelClicked());
+        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Subscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
     }
+    
+    private void OnSwitchToPlay(SwitchToPlayEvent evt) => OnCancelClicked();
+    private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt) => OnCancelClicked();
     
     private void Update()
     {
@@ -156,9 +159,9 @@ public partial class SelectionManager : MonoBehaviour
     
     private void OnDestroy()
     {
-        eventBus.Unsubscribe<SwitchToPlayEvent>(_ => OnCancelClicked());
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         LevelSessionEditManager.Instance.OnEditModeChange -= RemakePreview;
-        eventBus.Unsubscribe<EnterAnchorAttachEvent>(_ => OnCancelClicked());
+        eventBus.Unsubscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
     }
     
     private void Awake()

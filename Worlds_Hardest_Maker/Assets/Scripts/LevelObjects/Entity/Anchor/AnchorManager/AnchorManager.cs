@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -96,5 +97,12 @@ public partial class AnchorManager : MonoBehaviour
             
             anchor.Animator.SetBool(playingString, true);
         }
+    }
+    
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
+        eventBus.Unsubscribe<StartPlaytestEvent>(OnPlaytest);
     }
 }

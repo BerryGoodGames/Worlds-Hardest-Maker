@@ -1,4 +1,5 @@
 using System;
+using System.Reflection.Metadata.Ecma335;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
@@ -85,6 +86,8 @@ public class LevelSettings : MonoBehaviour
     public void SetPlayerSpeed(float value)
     {
         PlayerSpeed = value;
+        
+        if (playerSpeedInput == null) return;
         playerSpeedInput.value = (int)(value * 2);
     }
     
@@ -93,6 +96,8 @@ public class LevelSettings : MonoBehaviour
     public void SetCoinsNeeded(int value)
     {
         CoinsNeeded = value;
+        
+        if (coinsNeededInput == null) return;
         coinsNeededInput.SetNumberText(value);
     }
     
@@ -101,6 +106,8 @@ public class LevelSettings : MonoBehaviour
     public void SetIsNeededCoinsLimited(bool value)
     {
         IsCoinsNeededLimited = value;
+        
+        if (isCoinsNeededLimitedInput == null) return;
         isCoinsNeededLimitedInput.isOn = IsCoinsNeededLimited;
     }
     
@@ -109,6 +116,8 @@ public class LevelSettings : MonoBehaviour
     public void SetPlayerInvincibility(bool value)
     {
         PlayerInvincibility = value;
+        
+        if (playerInvincibilityInput == null) return;
         playerInvincibilityInput.isOn = value;
     }
     
@@ -117,6 +126,8 @@ public class LevelSettings : MonoBehaviour
     public void SetDrownDuration(float drownDuration)
     {
         DrownDuration = drownDuration;
+        
+        if (drownDurationInput == null) return;
         drownDurationInput.SetNumberText(drownDuration);
     }
     
@@ -125,6 +136,8 @@ public class LevelSettings : MonoBehaviour
     public void SetWaterDamping(float waterDamping)
     {
         WaterDampingFactor = waterDamping;
+        
+        if (waterDampingSlider == null) return;
         waterDampingSlider.value = 1 - waterDamping;
     }
     
@@ -133,6 +146,8 @@ public class LevelSettings : MonoBehaviour
     public void SetIceFriction(float friction)
     {
         IceFriction = friction;
+        
+        if (iceFrictionInput == null) return;
         iceFrictionInput.SetNumberText(friction);
     }
     
@@ -141,6 +156,8 @@ public class LevelSettings : MonoBehaviour
     public void SetIceMaxSpeed(float speed)
     {
         IceMaxSpeed = speed;
+        
+        if (iceMaxSpeedInput == null) return;
         iceMaxSpeedInput.SetNumberText(speed);
     }
     
@@ -149,6 +166,8 @@ public class LevelSettings : MonoBehaviour
     public void SetConveyorSpeed(float value)
     {
         ConveyorSpeed = value;
+        
+        if (conveyorSpeedInput == null) return;
         conveyorSpeedInput.value = (int)(value * 2);
     }
     
@@ -157,6 +176,8 @@ public class LevelSettings : MonoBehaviour
     public void SetReusableCheckpoints(bool reusableCheckpoint)
     {
         ReusableCheckpoints = reusableCheckpoint;
+        
+        if (reusableCheckpointCheckbox == null) return;
         reusableCheckpointCheckbox.isOn = reusableCheckpoint;
     }
     

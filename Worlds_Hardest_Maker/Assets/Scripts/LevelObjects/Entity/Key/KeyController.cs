@@ -38,8 +38,10 @@ public class KeyController : EntityController, IResettable, ICollectible
     {
         this.eventBus = eventBus;
         eventBus.Subscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
-        eventBus.Subscribe<SwitchToPlayEvent>(_ => ActivateAnimation());
+        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
     }
+    
+    private void OnSwitchToPlay(SwitchToPlayEvent evt) => ActivateAnimation();
     
     private void Awake()
     {
@@ -65,7 +67,7 @@ public class KeyController : EntityController, IResettable, ICollectible
         ((IResettable)this).Unsubscribe(eventBus);
         
         eventBus.Unsubscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
-        eventBus.Unsubscribe<SwitchToPlayEvent>(_ => ActivateAnimation());
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         
         DOTween.Kill(gameObject);
     }

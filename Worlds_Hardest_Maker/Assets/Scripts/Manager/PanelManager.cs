@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
@@ -99,5 +100,11 @@ public class PanelManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
+    }
+    
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
     }
 }

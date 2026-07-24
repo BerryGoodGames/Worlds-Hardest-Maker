@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
@@ -9,9 +10,13 @@ public class KonamiCodeDeactivationAnimation : MonoBehaviour
     [SerializeField] [PositiveValueOnly] private float duration;
     [SerializeField] [PositiveValueOnly] private float waitTime;
     
+    private EventBus eventBus;
+    
     [Inject]
     private void Construct(EventBus eventBus)
     {
+        this.eventBus = eventBus;
+        
         eventBus.Subscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
     }
 
@@ -37,5 +42,10 @@ public class KonamiCodeDeactivationAnimation : MonoBehaviour
                     .SetDelay(waitTime)
                     .SetEase(Ease.InQuart)
             );
+    }
+    
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
     }
 }

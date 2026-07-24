@@ -28,11 +28,17 @@ public class BarTween : MonoBehaviour
     
     private Tween tween;
     
+    private EventBus eventBus;
+    
     [Inject]
     private void Construct(EventBus eventBus)
     {
-        eventBus.Subscribe<TogglePlayEditEvent>(_ => SetPlay(LevelSessionEditManager.Instance.Playing));
+        this.eventBus = eventBus;
+        
+        eventBus.Subscribe<TogglePlayEditEvent>(OnTogglePlayEdit);
     }
+    
+    private void OnTogglePlayEdit(TogglePlayEditEvent evt) => SetPlay(LevelSessionEditManager.Instance.Playing);
 
     public void SetPlay(bool play)
     {
@@ -87,5 +93,6 @@ public class BarTween : MonoBehaviour
     {
         TweenList.Remove(this);
         DOTween.Kill(gameObject);
+        eventBus.Subscribe<TogglePlayEditEvent>(OnTogglePlayEdit);
     }
 }

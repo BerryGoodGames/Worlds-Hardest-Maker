@@ -20,10 +20,14 @@ public class CameraPlayController : MonoBehaviour
     {
         this.eventBus = eventBus;
         
-        eventBus.Subscribe<StartPlaytestEvent>(_ => JumpToStart());
-        eventBus.Subscribe<SetupPlaySceneEvent>(_ => JumpToStartInstant());
-        eventBus.Subscribe<ResetLevelEvent>(_ => JumpToStart());
+        eventBus.Subscribe<StartPlaytestEvent>(OnStartPlaytest);
+        eventBus.Subscribe<SetupPlaySceneEvent>(OnSetupPlayScene);
+        eventBus.Subscribe<ResetLevelEvent>(OnResetLevel);
     }
+    
+    private void OnStartPlaytest(StartPlaytestEvent evt) => JumpToStart();
+    private void OnSetupPlayScene(SetupPlaySceneEvent evt) => JumpToStartInstant();
+    private void OnResetLevel(ResetLevelEvent evt) => JumpToStart();
     
     private void Awake()
     {
@@ -96,9 +100,9 @@ public class CameraPlayController : MonoBehaviour
     
     private void OnDestroy()
     {
-        eventBus.Unsubscribe<StartPlaytestEvent>(_ => JumpToStart());
-        eventBus.Unsubscribe<SetupPlaySceneEvent>(_ => JumpToStartInstant());
-        eventBus.Unsubscribe<ResetLevelEvent>(_ => JumpToStart());
+        eventBus.Unsubscribe<StartPlaytestEvent>(OnStartPlaytest);
+        eventBus.Unsubscribe<SetupPlaySceneEvent>(OnSetupPlayScene);
+        eventBus.Unsubscribe<ResetLevelEvent>(OnResetLevel);
     }
 }
 

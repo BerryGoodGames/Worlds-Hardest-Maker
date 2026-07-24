@@ -56,15 +56,16 @@ public class PlayerRecordingManager : MonoBehaviour
         this.eventBus = eventBus;
         
         // on play: stop display coroutines, start recording
-        eventBus.Subscribe<SwitchToPlayEvent>(_ => OnSwitchToPlay());
-        eventBus.Subscribe<SetupPlaySceneEvent>(_ => OnSwitchToPlay());
+        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Subscribe<SetupPlaySceneEvent>(OnSwitchToPlay);
         
         // on edit: stop recording, render path & sprites
-        eventBus.Subscribe<SwitchToEditEvent>(_ => RenderRecording());
+        eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
     }
 
     private void Start()
     {
+        // print("init");
         recordingSpriteContainer.gameObject.SetActive(displaySprites);
         recordingPathContainer.gameObject.SetActive(displayPath);
         
@@ -72,16 +73,26 @@ public class PlayerRecordingManager : MonoBehaviour
         LevelCompleteManager.Instance.OnReplay += OnReplay;
     }
     
+    private void OnSwitchToPlay(SwitchToPlayEvent evt) => OnSwitchToPlay();
+    private void OnSwitchToPlay(SetupPlaySceneEvent evt) => OnSwitchToPlay();
     private void OnSwitchToPlay()
     {
         if (displaySpriteRecording != null) StopCoroutine(displaySpriteRecording);
         if (displayPathRecording != null) StopCoroutine(displayPathRecording);
         
-        recordingSpriteContainer.DestroyChildren();
-        recordingPathContainer.DestroyChildren();
+        if (recordingSpriteContainer != null) recordingSpriteContainer.DestroyChildren();
+        if (recordingPathContainer != null) recordingPathContainer.DestroyChildren();
+        
+        // var routine = RecordPlayer();
+        // Debug.Log("Iterator created");
+        
+        // recording = StartCoroutine(routine);
+        // Debug.Log("Coroutine started");
         
         recording = StartCoroutine(RecordPlayer());
     }
+    
+    private void OnSwitchToEdit(SwitchToEditEvent evt) => RenderRecording();
     
     private void RenderRecording()
     {
@@ -325,9 +336,10 @@ public class PlayerRecordingManager : MonoBehaviour
     
     private void OnDestroy()
     {
-        eventBus.Unsubscribe<SwitchToPlayEvent>(_ => OnSwitchToPlay());
-        eventBus.Unsubscribe<SetupPlaySceneEvent>(_ => OnSwitchToPlay());
-        eventBus.Unsubscribe<SwitchToEditEvent>(_ => RenderRecording());
+        // print("destroyed");
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Unsubscribe<SetupPlaySceneEvent>(OnSwitchToPlay);
+        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
         LevelCompleteManager.Instance.OnPlayAgain -= OnPlayAgain;
         LevelCompleteManager.Instance.OnReplay -= OnReplay;
     }
