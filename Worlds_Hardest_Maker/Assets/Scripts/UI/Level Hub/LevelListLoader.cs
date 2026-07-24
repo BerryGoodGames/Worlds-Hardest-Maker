@@ -8,7 +8,8 @@ using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
+using VContainer;
+using VContainer.Unity;
 
 public class LevelListLoader : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class LevelListLoader : MonoBehaviour
         { "Name", SortSettings.Name },
     };
     
-    [Inject] private DiContainer diContainer;
+    [Inject] private IObjectResolver diContainer;
     
     private void Awake()
     {
