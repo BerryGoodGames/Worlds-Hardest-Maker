@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using Zenject;
@@ -9,8 +8,6 @@ using Zenject;
 /// </summary>
 public class BarTween : MonoBehaviour
 {
-    public static readonly List<BarTween> TweenList = new();
-    
     [SerializeField] private float visibleY;
     [SerializeField] private float invisibleY;
     [SerializeField] private bool isVisibleOnlyOnEdit = true;
@@ -87,12 +84,9 @@ public class BarTween : MonoBehaviour
         else rt.anchoredPosition = new(rt.anchoredPosition.x, !isVisibleOnlyOnEdit ? invisibleY : visibleY);
     }
     
-    private void Awake() => TweenList.Add(this);
-    
     private void OnDestroy()
     {
-        TweenList.Remove(this);
         DOTween.Kill(gameObject);
-        eventBus.Subscribe<TogglePlayEditEvent>(OnTogglePlayEdit);
+        eventBus.Unsubscribe<TogglePlayEditEvent>(OnTogglePlayEdit);
     }
 }
