@@ -17020,12 +17020,12 @@ GameObject:
   - component: {fileID: 1183487563}
   - component: {fileID: 1183487567}
   - component: {fileID: 1183487566}
-  - component: {fileID: 1183487561}
   - component: {fileID: 1183487562}
   - component: {fileID: 1183487557}
   - component: {fileID: 1183487560}
   - component: {fileID: 1183487569}
   - component: {fileID: 1183487577}
+  - component: {fileID: 1183487578}
   m_Layer: 0
   m_Name: _NoParameters
   m_TagString: Untagged
@@ -17086,18 +17086,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Panels: []
---- !u!114 &1183487561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183487555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4637a6fdecd80324bae20c613d3e8f9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1183487562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17279,6 +17267,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e500b32bc023e44ca8cc84d73789ead, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1183487578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183487555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30d4ec6edf8a1574db31fb1b30bdd9be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MouseEventManager
 --- !u!224 &1196408014 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4653093268516543856, guid: 2cf07100149b6a945a6198e047bafb65, type: 3}
