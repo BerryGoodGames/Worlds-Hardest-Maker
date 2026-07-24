@@ -127,24 +127,24 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         button.DOKill();
         
         float durationAnticipation = playDuration * 0.4f;
-        float restDuration = playDuration - durationAnticipation;
+        float restDuration = (playDuration - durationAnticipation) / 3;
         float fallDuration = playDuration / 3;
         
         top.DOLocalRotate(Vector3.forward * topPlayRotation, durationAnticipation)
-            .SetEase(Ease.OutQuint)
+            .SetEase(Ease.OutSine)
             .OnComplete(() => audioService.Play("PlayButtonClack"))
             .SetUpdate(true);
         
         top.DOLocalRotate(Vector3.zero, restDuration)
-            .SetEase(Ease.OutBounce)
+            .SetEase(Ease.InCubic)
             .SetDelay(durationAnticipation)
             .SetUpdate(true);
         
         bottom.DOLocalRotate(Vector3.back * bottomPlayRotation, durationAnticipation)
-            .SetEase(Ease.OutQuint)
+            .SetEase(Ease.OutSine)
             .SetUpdate(true);
         
-        bottom.DOLocalRotate(Vector3.zero, restDuration / 3)
+        bottom.DOLocalRotate(Vector3.zero, restDuration * 1.1f)
             .SetEase(Ease.OutCubic)
             .SetDelay(durationAnticipation)
             .SetUpdate(true);
@@ -171,24 +171,24 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         button.DOKill();
         
         float durationAnticipation = playDuration * 0.4f;
-        float restDuration = playDuration - durationAnticipation;
+        float restDuration = (playDuration - durationAnticipation) / 3;
         float fallDuration = playDuration / 3;
         
         top.DOLocalRotate(Vector3.forward * topPlayRotation, durationAnticipation)
-            .SetEase(Ease.OutQuint)
+            .SetEase(Ease.OutSine)
             .OnComplete(() => audioService.Play("PlayButtonClack"))
             .SetUpdate(true);
         
         top.DOLocalRotate(Vector3.zero, restDuration)
-            .SetEase(Ease.OutBounce)
+            .SetEase(Ease.InCubic)
             .SetDelay(playDuration / 4)
             .SetUpdate(true);
         
         bottom.DOLocalRotate(Vector3.back * bottomPlayRotation, durationAnticipation)
-            .SetEase(Ease.OutQuint)
+            .SetEase(Ease.OutSine)
             .SetUpdate(true);
         
-        bottom.DOLocalRotate(Vector3.zero, restDuration / 3)
+        bottom.DOLocalRotate(Vector3.zero, restDuration * 1.1f)
             .SetEase(Ease.OutCubic)
             .SetDelay(durationAnticipation)
             .SetUpdate(true);
