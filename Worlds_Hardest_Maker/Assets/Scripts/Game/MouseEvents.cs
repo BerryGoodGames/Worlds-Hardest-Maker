@@ -59,7 +59,7 @@ public class MouseEvents : MonoBehaviour
         while (KeyBinds.GetKeyBind("Editor_Select"))
         {
             if (passedTime > SELECTION_CANCEL_MAX_TIME || MouseManager.Instance.MousePosDelta.magnitude > 10) yield break;
-            passedTime += Time.deltaTime;
+            passedTime += Time.unscaledDeltaTime;
             yield return null;
         }
         

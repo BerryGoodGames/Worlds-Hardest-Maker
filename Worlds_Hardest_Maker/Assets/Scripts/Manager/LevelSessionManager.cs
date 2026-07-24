@@ -30,10 +30,10 @@ public class LevelSessionManager : MonoBehaviour
     
     private void Update()
     {
-        if (IsEdit) EditTime += TimeSpan.FromSeconds(Time.deltaTime);
+        if (IsEdit) EditTime += TimeSpan.FromSeconds(Time.unscaledDeltaTime);
         else
         {
-            PlayTime += TimeSpan.FromSeconds(Time.deltaTime);
+            PlayTime += TimeSpan.FromSeconds(Time.unscaledDeltaTime);
             if (PlayerManager.Instance.Player != null && !PlayerManager.Instance.Player.Won) PlayRunTime += TimeSpan.FromSeconds(Time.deltaTime);
         }
     }

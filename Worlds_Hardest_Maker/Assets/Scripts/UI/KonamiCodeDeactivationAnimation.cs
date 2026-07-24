@@ -41,7 +41,8 @@ public class KonamiCodeDeactivationAnimation : MonoBehaviour
                     .SetRelative()
                     .SetDelay(waitTime)
                     .SetEase(Ease.InQuart)
-            );
+            )
+            .SetUpdate(true);
     }
     
     private void OnDestroy()

@@ -65,7 +65,7 @@ public class CameraPlayController : MonoBehaviour
         CameraPlayJumpInfo jumpInfo = CameraPlayJumpInfo.GetCurrentJumpInfo(cam);
         
         camOrthoSize = Mathf.Max(jumpInfo.WidthZoom, jumpInfo.HeightZoom);
-        if (smoothMovement && !instant) cam.DOOrthoSize(camOrthoSize, movementDuration).SetEase(Ease.InOutCubic);
+        if (smoothMovement && !instant) cam.DOOrthoSize(camOrthoSize, movementDuration).SetEase(Ease.InOutCubic).SetUpdate(true);
         else cam.orthographicSize = camOrthoSize;
         
         currentRoom = PlayerManager.GetStartRoom();
@@ -94,7 +94,7 @@ public class CameraPlayController : MonoBehaviour
         );
         
         // move
-        if (smoothMovement && !instant) t.DOMove(newPosition, movementDuration).SetEase(Ease.InOutCubic);
+        if (smoothMovement && !instant) t.DOMove(newPosition, movementDuration).SetEase(Ease.InOutCubic).SetUpdate(true);
         else t.position = newPosition;
     }
     

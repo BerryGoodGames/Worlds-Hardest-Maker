@@ -36,7 +36,8 @@ public class PanelTween : MonoBehaviour
         {
             panel.DOAnchorPosX(open ? openedX : closedX, duration)
                 .SetEase(Open ? closeEase : openEase)
-                .SetId(gameObject);
+                .SetId(gameObject)
+                .SetUpdate(true);
         }
         
         Open = open;

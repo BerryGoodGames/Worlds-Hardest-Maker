@@ -28,8 +28,9 @@ public class NumberInputTween : MonoBehaviour
         wiggleSeqRight.Append(
                 rightArrow.DOLocalMoveX(rightArrowX + wiggle, wiggleDuration * 0.5f)
                     .SetEase(WIGGLE_START_EASE)
+                    .SetUpdate(true)
             )
-            .Append(rightArrow.DOLocalMoveX(rightArrowX, wiggleDuration * 0.5f).SetEase(WIGGLE_RETURN_EASE));
+            .Append(rightArrow.DOLocalMoveX(rightArrowX, wiggleDuration * 0.5f).SetEase(WIGGLE_RETURN_EASE).SetUpdate(true));
     }
     
     public void DecreaseTween()
@@ -39,16 +40,17 @@ public class NumberInputTween : MonoBehaviour
         wiggleSeqLeft = DOTween.Sequence();
         wiggleSeqLeft
             .Append(leftArrow.DOLocalMoveX(leftArrowX - wiggle, wiggleDuration * 0.5f).SetEase(WIGGLE_START_EASE))
-            .Append(leftArrow.DOLocalMoveX(leftArrowX, wiggleDuration * 0.5f).SetEase(WIGGLE_RETURN_EASE));
+            .Append(leftArrow.DOLocalMoveX(leftArrowX, wiggleDuration * 0.5f).SetEase(WIGGLE_RETURN_EASE))
+            .SetUpdate(true);
     }
     
     public void HoverEventArrowLeft(bool enter) =>
         // boolean enter: did the mouse enter or leave the arrow
-        leftArrow.DOScale(enter ? hoveredScl : unhoveredScl, hoverDuration);
+        leftArrow.DOScale(enter ? hoveredScl : unhoveredScl, hoverDuration).SetUpdate(true);
     
     public void HoverEventArrowRight(bool enter) =>
         // boolean enter: did the mouse enter or leave the arrow
-        rightArrow.DOScale(enter ? hoveredScl : unhoveredScl, hoverDuration);
+        rightArrow.DOScale(enter ? hoveredScl : unhoveredScl, hoverDuration).SetUpdate(true);
     
     
     private void Start()

@@ -34,7 +34,7 @@ public class ButtonVerticalArrowTween : MonoBehaviour
         {
             directionImage.rectTransform.DORotate(
                 new Vector3(180, currentRotation.y, currentRotation.z), animationDuration
-            );
+            ).SetUpdate(true);
         }
         else
         {

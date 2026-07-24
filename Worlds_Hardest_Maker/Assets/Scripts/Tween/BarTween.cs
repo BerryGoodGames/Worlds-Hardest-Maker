@@ -64,7 +64,7 @@ public class BarTween : MonoBehaviour
         AnimationCurve curve = isResultVisibleState ? easeAppearCurve : easeDisappearCurve;
         float duration = isResultVisibleState ? appearDuration : disappearDuration;
         
-        tween = rt.DOAnchorPosY(y, duration).SetId(gameObject);
+        tween = rt.DOAnchorPosY(y, duration).SetId(gameObject).SetUpdate(true);
         if (curve.length > 1) tween.SetEase(curve);
         else tween.SetEase(ease);
         

@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             // wait for next auto save
-            yield return new WaitForSeconds(autoSaveInterval);
+            yield return new WaitForSecondsRealtime(autoSaveInterval);
             
             SaveSystem.SaveCurrentLevel();
         }

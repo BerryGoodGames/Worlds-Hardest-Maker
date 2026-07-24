@@ -51,13 +51,15 @@ public class HelpPopup : MonoBehaviour
         lastScreen.DOAnchorMin(Vector2.right, scrollDuration)
             .SetEase(Ease.InOutSine)
             .SetRelative()
-            .SetId(gameObject);
+            .SetId(gameObject)
+            .SetUpdate(true);
         
         lastScreen.DOAnchorMax(Vector2.right, scrollDuration)
             .SetEase(Ease.InOutSine)
             .SetRelative()
             .SetId(gameObject)
-            .OnComplete(() => movingRight.Dequeue());
+            .OnComplete(() => movingRight.Dequeue())
+            .SetUpdate(true);
         
         movingRight.Enqueue(lastScreen);
         
@@ -94,7 +96,8 @@ public class HelpPopup : MonoBehaviour
                     firstScreen.SetAsFirstSibling();
                     firstScreen.anchorMin = new(0, firstScreen.anchorMin.y);
                 }
-            );
+            )
+            .SetUpdate(true);
         
         firstScreen.DOAnchorMax(Vector2.left, scrollDuration)
             .SetEase(Ease.InOutSine)
@@ -108,7 +111,8 @@ public class HelpPopup : MonoBehaviour
                     
                     movingLeft.Dequeue();
                 }
-            );
+            )
+            .SetUpdate(true);
         
         movingLeft.Enqueue(firstScreen);
         

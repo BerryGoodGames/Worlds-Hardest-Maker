@@ -103,7 +103,7 @@ public class Dbg : MonoBehaviour
                 DbgTextMode.Disabled => string.Empty,
                 DbgTextMode.Custom => string.Empty,
                 DbgTextMode.Count => Count,
-                DbgTextMode.FPS => Mathf.Round(1 / Time.deltaTime),
+                DbgTextMode.FPS => Mathf.Round(1 / Time.unscaledDeltaTime),
                 DbgTextMode.PlayerPosition => (Vector2)PlayerManager.Instance.Player.transform.position,
                 DbgTextMode.MousePositionUnits => (Vector2)cam.ScreenToWorldPoint(Input.mousePosition),
                 DbgTextMode.MousePositionPixels => (Vector2)Input.mousePosition,

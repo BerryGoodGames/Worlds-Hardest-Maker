@@ -82,7 +82,7 @@ public partial class LevelCompleteManager : MonoBehaviour
         
         IEnumerator Wait(float duration)
         {
-            yield return new WaitForSeconds(duration);
+            yield return new WaitForSecondsRealtime(duration);
             
             levelCompleteCanvasTween.SetVisible(true);
             

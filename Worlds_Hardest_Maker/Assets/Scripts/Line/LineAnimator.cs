@@ -23,6 +23,7 @@ public class LineAnimator : MonoBehaviour
                 }, pos, duration
             )
             .SetEase(ease)
+            .SetUpdate(true)
             .Play();
     
     public void AnimateAllPoints(List<Vector2> poses, float duration, Ease ease = Ease.InOutSine)

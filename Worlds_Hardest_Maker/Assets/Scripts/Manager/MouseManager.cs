@@ -38,13 +38,15 @@ public class MouseManager : MonoBehaviour
     #endregion
     
     #region Static methods
-    
+
+    private static Camera cam;
     private static Vector2 GetMouseWorldPos()
     {
         Vector2 mousePos = Input.mousePosition;
-        
-        if (Camera.main != null) return Camera.main.ScreenToWorldPoint(mousePos);
-        throw new Exception("Couldn't get mouse world position because main camera is null");
+
+        return cam.ScreenToWorldPoint(mousePos);
+        // if (cam != null) return cam.ScreenToWorldPoint(mousePos);
+        // throw new Exception("Couldn't get mouse world position because main camera is null");
     }
     
     /// <summary>
@@ -80,13 +82,8 @@ public class MouseManager : MonoBehaviour
         if (KeyBinds.GetKeyBind("Editor_Select")) Instance.MouseDragCurrent = Instance.MouseWorldPos;
         if (KeyBinds.GetKeyBindUp("Editor_Select")) Instance.MouseDragEnd = Instance.MouseWorldPos;
         
-        // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
-        Camera cam = Camera.main;
-        if (cam != null)
-        {
-            Vector2 view = cam.ScreenToViewportPoint(Input.mousePosition);
-            IsOnScreen = view.x is > 0 and < 1 && view.y is > 0 and < 1;
-        }
+        Vector2 view = cam.ScreenToViewportPoint(Input.mousePosition);
+        IsOnScreen = view.x is > 0 and < 1 && view.y is > 0 and < 1;
         
         MousePosDelta = (Vector2)Input.mousePosition - PrevMousePos;
     }
@@ -103,5 +100,10 @@ public class MouseManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
+    }
+
+    private void Start()
+    {
+        if (cam == null) cam = Camera.main;
     }
 }

@@ -208,7 +208,8 @@ public class PreviewController : MonoBehaviour
         {
             transform.DOKill();
             transform.DORotateQuaternion(rotation, rotateDuration)
-                .SetEase(Ease.OutCubic);
+                .SetEase(Ease.OutCubic)
+                .SetUpdate(true);
         }
         else transform.localRotation = rotation;
     }

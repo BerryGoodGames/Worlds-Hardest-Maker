@@ -30,13 +30,15 @@ public class MoveRelativeTween : ChainableTween
                     .SetRelative()
                     .SetEase(Ease.InOutSine)
                     .SetDelay(Delay)
-                    .SetId(gameObject);
+                    .SetId(gameObject)
+                    .SetUpdate(true);
                 
                 tween = ((RectTransform)transform).DOAnchorMax(anchorMax, Duration)
                     .SetRelative()
                     .SetEase(Ease.InOutSine)
                     .SetDelay(Delay)
-                    .SetId(gameObject);
+                    .SetId(gameObject)
+                    .SetUpdate(true);
             }
             else
             {
@@ -44,7 +46,8 @@ public class MoveRelativeTween : ChainableTween
                     .SetRelative()
                     .SetEase(Ease.InOutSine)
                     .SetDelay(Delay)
-                    .SetId(gameObject);
+                    .SetId(gameObject)
+                    .SetUpdate(true);
             }
         }
         else
@@ -53,7 +56,8 @@ public class MoveRelativeTween : ChainableTween
                 .SetRelative()
                 .SetEase(Ease.InOutSine)
                 .SetDelay(Delay)
-                .SetId(gameObject);
+                .SetId(gameObject)
+                .SetUpdate(true);
         }
         
         StartCoroutine(StartDelay());

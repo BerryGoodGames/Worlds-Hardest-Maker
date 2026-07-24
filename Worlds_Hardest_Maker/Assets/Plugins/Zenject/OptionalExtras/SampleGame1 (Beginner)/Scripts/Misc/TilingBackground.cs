@@ -19,7 +19,7 @@ namespace Zenject.Asteroids
 
         void Update()
         {
-            _offset.y += _speed * Time.deltaTime;
+            _offset.y += _speed * Time.unscaledDeltaTime;
             _renderer.material.mainTextureOffset = _offset;
         }
     }

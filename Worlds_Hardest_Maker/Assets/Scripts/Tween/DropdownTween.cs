@@ -11,6 +11,6 @@ public class DropdownTween : MonoBehaviour
         RectTransform list = transform.GetChild(transform.childCount - 1).GetComponent<RectTransform>();
         
         list.localScale = new(1, 0);
-        list.DOScaleY(1, duration).SetEase(expandEase);
+        list.DOScaleY(1, duration).SetEase(expandEase).SetUpdate(true);
     }
 }

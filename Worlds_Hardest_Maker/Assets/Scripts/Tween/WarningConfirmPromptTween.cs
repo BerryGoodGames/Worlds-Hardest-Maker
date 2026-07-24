@@ -17,14 +17,14 @@ public class WarningConfirmPromptTween : MonoBehaviour
         {
             case true when !vis:
                 // the frame not visible
-                transform.DOScaleX(0, deactivateDuration).SetEase(easeDeactivate);
-                transform.DOScaleY(0, deactivateDuration).SetEase(easeDeactivate);
+                transform.DOScaleX(0, deactivateDuration).SetEase(easeDeactivate).SetUpdate(true);
+                transform.DOScaleY(0, deactivateDuration).SetEase(easeDeactivate).SetUpdate(true);
                 break;
             
             case false when vis:
                 // the frame visible
-                transform.DOScaleX(1, activateDuration).SetEase(easeScaleXActivate);
-                transform.DOScaleY(1, activateDuration).SetEase(easeScaleYActivate);
+                transform.DOScaleX(1, activateDuration).SetEase(easeScaleXActivate).SetUpdate(true);
+                transform.DOScaleY(1, activateDuration).SetEase(easeScaleYActivate).SetUpdate(true);
                 break;
         }
         

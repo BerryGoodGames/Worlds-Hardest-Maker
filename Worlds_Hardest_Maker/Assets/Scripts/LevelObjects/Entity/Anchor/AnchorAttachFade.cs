@@ -47,6 +47,6 @@ public class AnchorAttachFade : MonoBehaviour
     private void FadeTo(float scalar, float time)
     {
         UpdateChildren();
-        DOTween.To(() => this.scalar, SetOpacity, scalar, time);
+        DOTween.To(() => this.scalar, SetOpacity, scalar, time).SetUpdate(true);
     }
 }

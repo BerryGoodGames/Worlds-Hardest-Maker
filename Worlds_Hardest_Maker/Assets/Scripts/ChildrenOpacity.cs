@@ -35,6 +35,6 @@ public class ChildrenOpacity : MonoBehaviour
     public void FadeTo(float endOpacity, float time)
     {
         UpdateChildren();
-        DOTween.To(() => opacity, SetOpacity, endOpacity, time);
+        DOTween.To(() => opacity, SetOpacity, endOpacity, time).SetUpdate(true);
     }
 }

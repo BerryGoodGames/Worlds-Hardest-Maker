@@ -30,7 +30,8 @@ public class PanelButtonTween : MonoBehaviour
         // opened state -> x = closedX + width
         button.DOAnchorPosX(Open ? closedX : openedX, duration)
             .SetEase(Open ? closeEase : openEase)
-            .SetId(gameObject);
+            .SetId(gameObject)
+            .SetUpdate(true);
         
         Open = !Open;
     }

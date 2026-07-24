@@ -56,9 +56,9 @@ public class MapController : MonoBehaviour
         
         // apply
         cam.DOKill();
-        cam.DOOrthoSize(newOrthoSize, zoomAnimDuration);
+        cam.DOOrthoSize(newOrthoSize, zoomAnimDuration).SetUpdate(true);
         t.DOKill();
-        t.DOMove(new Vector3(newCamPos.x, newCamPos.y, t.position.z), zoomAnimDuration);
+        t.DOMove(new Vector3(newCamPos.x, newCamPos.y, t.position.z), zoomAnimDuration).SetUpdate(true);
     }
     
     private void PanCamera()

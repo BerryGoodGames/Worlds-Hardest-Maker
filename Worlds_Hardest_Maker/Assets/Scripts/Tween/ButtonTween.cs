@@ -40,7 +40,8 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 new(floatXDirection * highlightElevation, highlightElevation + highlightFloating),
                 highlightElevateDuration
             )
-            .SetId(gameObject);
+            .SetId(gameObject)
+            .SetUpdate(true);
         
         if (IsWarningButton)
         {
@@ -49,7 +50,8 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             shakeSeq.Append(content.DORotate(Vector3.forward * shake1, singleShakeDuration))
                 .Append(content.DORotate(Vector3.back * shake2, singleShakeDuration))
                 .Append(content.DORotate(Vector3.zero, singleShakeDuration))
-                .SetId(gameObject);
+                .SetId(gameObject)
+                .SetUpdate(true);
         }
         
         // loop floating
@@ -57,7 +59,8 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             .SetEase(Ease.InOutSine)
             .SetLoops(-1, LoopType.Yoyo)
             .SetDelay(highlightElevateDuration)
-            .SetId(gameObject);
+            .SetId(gameObject)
+            .SetUpdate(true);
     }
     
     public void OnPointerExit(PointerEventData eventData)
@@ -67,7 +70,8 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         // idle anim move to original position
         contentRT.DOKill();
         contentRT.DOAnchorPos(Vector2.zero, highlightElevateDuration)
-            .SetId(gameObject);
+            .SetId(gameObject)
+            .SetUpdate(true);
     }
     
     public void OnPointerDown(PointerEventData eventData)
@@ -75,7 +79,8 @@ public class ButtonTween : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         // click (& hold) animation
         contentRT.DOKill();
         contentRT.DOAnchorPos(((RectTransform)backgroundPanel).anchoredPosition, clickDuration)
-            .SetId(gameObject);
+            .SetId(gameObject)
+            .SetUpdate(true);
     }
     
     public void OnPointerUp(PointerEventData eventData)

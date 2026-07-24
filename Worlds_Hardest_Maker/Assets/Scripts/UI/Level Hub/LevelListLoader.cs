@@ -61,7 +61,7 @@ public class LevelListLoader : MonoBehaviour
             if (refresh) Refresh();
             
             // wait until trying to load levels again
-            yield return new WaitForSeconds(refreshInterval);
+            yield return new WaitForSecondsRealtime(refreshInterval);
         }
         // ReSharper disable once IteratorNeverReturns
     }

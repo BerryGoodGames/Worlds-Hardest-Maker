@@ -81,7 +81,7 @@ public class Tooltip : MonoBehaviour
                 tooltipRectTransform.position = Input.mousePosition + new Vector3(offset, -offset);
             }
             
-            hovered += Time.deltaTime;
+            hovered += Time.unscaledDeltaTime;
         }
         else
         {

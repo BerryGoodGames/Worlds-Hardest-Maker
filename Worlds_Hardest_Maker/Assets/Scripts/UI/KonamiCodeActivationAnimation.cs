@@ -50,8 +50,8 @@ public class KonamiCodeActivationAnimation : MonoBehaviour
     {
         Time.timeScale = 0;
         
-        alertTween.transform.DOScale(Vector3.one * alertStartScale, 0);
-        ((RectTransform)alertTween.transform).DOAnchorPosY(-alertRise, 0);
+        alertTween.transform.DOScale(Vector3.one * alertStartScale, 0).SetUpdate(true);
+        ((RectTransform)alertTween.transform).DOAnchorPosY(-alertRise, 0).SetUpdate(true);
         
         IsAnimationOnScreen = false;
     }
@@ -69,20 +69,21 @@ public class KonamiCodeActivationAnimation : MonoBehaviour
         IEnumerator BlockerAppearComplete()
         {
             alertTween.SetVisible(true)
-                .SetEase(Ease.InCirc);
+                .SetEase(Ease.InCirc).SetUpdate(true);
             
             alertTween.transform.DOScale(Vector3.one * alertTargetScale, alertDuration)
-                .SetEase(Ease.InCirc);
+                .SetEase(Ease.InCirc).SetUpdate(true);
             
             ((RectTransform)alertTween.transform).DOAnchorPosY(300, alertDuration)
                 .SetRelative()
-                .SetEase(Ease.InCirc);
+                .SetEase(Ease.InCirc).SetUpdate(true)
+                .SetUpdate(true);
             
-            yield return new WaitForSeconds(soundDelay);
+            yield return new WaitForSecondsRealtime(soundDelay);
             
             audioService.Play("ActivateKonamiCode");
             
-            yield return new WaitForSeconds(waitTime);
+            yield return new WaitForSecondsRealtime(waitTime);
             
             continueButtonTween.SetVisible(true);
         }

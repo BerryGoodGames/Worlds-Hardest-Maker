@@ -281,7 +281,7 @@ public class PlayerRecordingManager : MonoBehaviour
             action.Invoke(i);
             
             // wait delay
-            yield return new WaitForSeconds(displayDelay);
+            yield return new WaitForSecondsRealtime(displayDelay);
         }
     }
     

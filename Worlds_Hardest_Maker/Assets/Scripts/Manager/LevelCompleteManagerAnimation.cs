@@ -77,8 +77,9 @@ public partial class LevelCompleteManager
                     .SetEase(Ease.InOutCubic)
                     .SetDelay(numberAnimateDurationLong)
             )
-            .Append(timeText.transform.DOScale(Vector3.one, highlightDuration / 2).SetEase(Ease.InOutCubic))
-            .SetId(gameObject);
+            .Append(timeText.transform.DOScale(Vector3.one, highlightDuration / 2).SetEase(Ease.InOutCubic).SetUpdate(true))
+            .SetId(gameObject)
+            .SetUpdate(true);
         
         bool newPB = personalBest == null || (TimeSpan)personalBest >= time;
         
@@ -93,7 +94,8 @@ public partial class LevelCompleteManager
     private void AnimateDeathCounter(int deaths, float duration) =>
         DOTween.To(GetCurrentDeathCountText, SetDeathCountText, deaths, duration)
             .SetEase(Ease.OutSine)
-            .SetId(gameObject);
+            .SetId(gameObject)
+            .SetUpdate(true);
     
     private int GetCurrentDeathCountText() => int.Parse(deathCountText.text);
     private void SetDeathCountText(int value) => deathCountText.text = value.ToString();
@@ -101,7 +103,8 @@ public partial class LevelCompleteManager
     private void AnimateTime(float timeSeconds, float duration) =>
         DOTween.To(GetCurrentTimeText, SetTimeText, timeSeconds, duration)
             .SetEase(Ease.OutSine)
-            .SetId(gameObject);
+            .SetId(gameObject)
+            .SetUpdate(true);
     
     private float GetCurrentTimeText() => (float)TimeSpan.Parse(timeText.text).TotalSeconds;
     private void SetTimeText(float value) => timeText.text = Utils.GetTimerString(value);

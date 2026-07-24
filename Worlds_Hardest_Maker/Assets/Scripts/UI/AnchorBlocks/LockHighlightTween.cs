@@ -24,7 +24,8 @@ public class LockHighlightTween : MonoBehaviour
             // scale up
             .Append(transform.DOScale(Vector3.one * scale, duration / 2).SetEase(Ease.OutCubic))
             // scale back down
-            .Append(transform.DOScale(Vector3.one, duration / 2).SetEase(Ease.InOutSine));
+            .Append(transform.DOScale(Vector3.one, duration / 2).SetEase(Ease.InOutSine))
+            .SetUpdate(true);
         
         // shake
         Sequence shakeSequence = DOTween.Sequence();
@@ -55,6 +56,7 @@ public class LockHighlightTween : MonoBehaviour
         shakeSequence
             // return to normal position
             .Append(transform.DORotate(Vector3.zero, singleShakeDuration).SetEase(Ease.InOutSine))
-            .OnComplete(() => scaleSequence = null);
+            .OnComplete(() => scaleSequence = null)
+            .SetUpdate(true);
     }
 }

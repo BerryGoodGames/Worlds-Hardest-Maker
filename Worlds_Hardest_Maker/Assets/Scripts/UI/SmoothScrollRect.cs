@@ -34,7 +34,7 @@ public class SmoothScrollRect : ScrollRect, IPointerEnterHandler, IPointerExitHa
             Vector2 positionAfter = normalizedPosition;
             
             normalizedPosition = positionBefore;
-            this.DONormalizedPos(positionAfter, SmoothScrollTime);
+            this.DONormalizedPos(positionAfter, SmoothScrollTime).SetUpdate(true);
         }
         else base.OnScroll(data);
     }

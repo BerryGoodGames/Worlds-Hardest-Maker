@@ -45,7 +45,7 @@ public class JumpToEntity : MonoBehaviour
         if (Smooth)
         {
             jumpTween?.Kill();
-            jumpTween = transform.DOMove(currentTarget, Time).SetEase(Ease.OutCubic);
+            jumpTween = transform.DOMove(currentTarget, Time).SetEase(Ease.OutCubic).SetUpdate(true);
         }
         else
         {

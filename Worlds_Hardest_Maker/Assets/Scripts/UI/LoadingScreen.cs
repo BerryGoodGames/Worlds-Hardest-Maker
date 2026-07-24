@@ -53,7 +53,7 @@ public class LoadingScreen : MonoBehaviour
             
             SetProgress(progressValue);
             
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.unscaledDeltaTime;
             
             yield return null;
         }
