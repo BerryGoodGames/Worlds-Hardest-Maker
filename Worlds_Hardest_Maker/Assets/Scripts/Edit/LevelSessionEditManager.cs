@@ -1,8 +1,8 @@
-using System;
 using JetBrains.Annotations;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
+using VContainer;
 
 public class LevelSessionEditManager : MonoBehaviour
 {
@@ -24,7 +24,10 @@ public class LevelSessionEditManager : MonoBehaviour
             currentEditMode = value;
             
             // invoke OnEditModeChanged
-            if (prevEditMode != null && prevEditMode != currentEditMode) OnEditModeChange?.Invoke();
+            if (prevEditMode != null && prevEditMode != currentEditMode)
+            {
+                eventBus.Fire(new EditModeChangeEvent(currentEditMode));
+            }
             prevEditMode = currentEditMode;
             
             // select edit mode in toolbar
@@ -95,10 +98,9 @@ public class LevelSessionEditManager : MonoBehaviour
     
     #endregion
     
-    public event Action OnEditModeChange;
-    public Action OnEditAction;
-    
     private static readonly int editingString = Animator.StringToHash("Editing");
+    
+    [Inject] private EventBus eventBus;
     
     private void Start()
     {

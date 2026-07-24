@@ -67,7 +67,7 @@ public class PlayManager : MonoBehaviour
         eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         
-        LevelCompleteManager.Instance.OnPlayAgain += RestartLevel;
+        eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
         
         return;
         
@@ -111,6 +111,8 @@ public class PlayManager : MonoBehaviour
         }
     }
     
+    private void OnPlayAgain(PlayAgainEvent evt) => RestartLevel();
+    
     public void RestartLevel()
     {
         // reset game
@@ -128,10 +130,10 @@ public class PlayManager : MonoBehaviour
     
     private void OnDestroy()
     {
-        LevelCompleteManager.Instance.OnPlayAgain -= RestartLevel;
-        
         eventBus.Unsubscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
         eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
         eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        
+        eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
     }
 }

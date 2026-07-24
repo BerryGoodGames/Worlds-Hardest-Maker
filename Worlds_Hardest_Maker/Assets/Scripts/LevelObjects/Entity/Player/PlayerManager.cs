@@ -10,10 +10,6 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
 {
     public static PlayerManager Instance { get; private set; }
     
-    public event Action OnWin;
-    
-    public void InvokeOnWin() => OnWin?.Invoke();
-    
     [ReadOnly] public PlayerController Player;
     
     public Transform DefaultContainer => ReferenceManager.Instance.PlayerContainer;

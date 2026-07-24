@@ -40,10 +40,12 @@ public partial class SelectionManager : MonoBehaviour
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
+        eventBus.Subscribe<EditModeChangeEvent>(OnEditModeChange);
     }
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt) => OnCancelClicked();
     private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt) => OnCancelClicked();
+    private void OnEditModeChange(EditModeChangeEvent evt) => RemakePreview();
     
     private void Update()
     {
@@ -88,16 +90,16 @@ public partial class SelectionManager : MonoBehaviour
     
     private void Start()
     {
-        LevelSessionEditManager.Instance.OnEditModeChange += RemakePreview;
-        
         fillMouseOver.OnHovered += SetPreviewVisible;
         fillMouseOver.OnUnhovered += SetPreviewInvisible;
     }
     
-    private void OnAreaSelectionChanged(Vector2 start, Vector2 end) =>
+    private void OnAreaSelectionChanged(Vector2 start, Vector2 end)
+    {
         // called when area selection changed (lol)
         // set selection outline (if u didn't already see)
         AnimSelectionOutline(start, end);
+    }
     
     private void OnAreaSelected(Vector2 start, Vector2 end)
     {
@@ -160,7 +162,7 @@ public partial class SelectionManager : MonoBehaviour
     private void OnDestroy()
     {
         eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
-        LevelSessionEditManager.Instance.OnEditModeChange -= RemakePreview;
+        eventBus.Unsubscribe<EditModeChangeEvent>(OnEditModeChange);
         eventBus.Unsubscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
     }
     

@@ -77,6 +77,8 @@ public partial class PlayerController : EntityController
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
         eventBus.Subscribe<ResetLevelEvent>(OnResetLevel);
+        
+        eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
     }
     
     protected override void Start()
@@ -89,8 +91,6 @@ public partial class PlayerController : EntityController
         defaultScale = t.localScale;
         
         base.Start();
-        
-        LevelCompleteManager.Instance.OnPlayAgain += OnPlayAgain;
         
         IsAttached = Sheet != null;
         if (IsAttached) SheetStartPosOffset = transform.position - Sheet.transform.position;
@@ -121,17 +121,6 @@ public partial class PlayerController : EntityController
         Move();
     }
     
-    private void OnDestroy()
-    {
-        eventBus.Unsubscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
-        
-        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
-        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
-        eventBus.Unsubscribe<ResetLevelEvent>(OnResetLevel);
-        
-        LevelCompleteManager.Instance.OnPlayAgain -= OnPlayAgain;
-    }
-    
     private void OnSwitchToEdit(SwitchToEditEvent evt)
     {
         EdgeCollider.enabled = false;
@@ -158,7 +147,7 @@ public partial class PlayerController : EntityController
         Setup();
     }
     
-    private void OnPlayAgain()
+    private void OnPlayAgain(PlayAgainEvent evt)
     {
         CurrentGameState = null;
         DefaultDeathAnim(0);
@@ -195,7 +184,7 @@ public partial class PlayerController : EntityController
         
         Won = true;
         
-        PlayerManager.Instance.InvokeOnWin();
+        eventBus.Fire(new WinLevelEvent());
     }
     
     private void PlayWinSfx()
@@ -247,6 +236,17 @@ public partial class PlayerController : EntityController
     {
         CurrentFields.Clear();
         CurrentGameState = null;
+    }
+    
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
+        
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
+        eventBus.Unsubscribe<ResetLevelEvent>(OnResetLevel);
+        
+        eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
     }
     
     public override Data GetData() => new PlayerData(this);

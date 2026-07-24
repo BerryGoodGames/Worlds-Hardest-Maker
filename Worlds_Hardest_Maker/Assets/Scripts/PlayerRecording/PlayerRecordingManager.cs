@@ -33,9 +33,6 @@ public class PlayerRecordingManager : MonoBehaviour
     [SerializeField] [InitializationField] [Required] private LineRenderer recordingLinePrefab;
     [SerializeField] [InitializationField] [Required] private GameObject recordingDeathPrefab;
     
-    public event Action<Vector2> OnPathRenderUpdate = _ => { };
-    public event Action OnFinishReplay = () => { };
-    
     [HideInInspector] public bool IsReplaying;
     
     private LineRenderer lineRenderer;
@@ -65,12 +62,11 @@ public class PlayerRecordingManager : MonoBehaviour
 
     private void Start()
     {
-        // print("init");
         recordingSpriteContainer.gameObject.SetActive(displaySprites);
         recordingPathContainer.gameObject.SetActive(displayPath);
         
-        LevelCompleteManager.Instance.OnPlayAgain += OnPlayAgain;
-        LevelCompleteManager.Instance.OnReplay += OnReplay;
+        eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
+        eventBus.Subscribe<ReplayEvent>(OnReplay);
     }
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt) => OnSwitchToPlay();
@@ -82,12 +78,6 @@ public class PlayerRecordingManager : MonoBehaviour
         
         if (recordingSpriteContainer != null) recordingSpriteContainer.DestroyChildren();
         if (recordingPathContainer != null) recordingPathContainer.DestroyChildren();
-        
-        // var routine = RecordPlayer();
-        // Debug.Log("Iterator created");
-        
-        // recording = StartCoroutine(routine);
-        // Debug.Log("Coroutine started");
         
         recording = StartCoroutine(RecordPlayer());
     }
@@ -254,9 +244,12 @@ public class PlayerRecordingManager : MonoBehaviour
                         lineRenderer.endColor = successColor;
                     }
                     
-                    OnPathRenderUpdate.Invoke(recordedPositions[i].Position);
+                    eventBus.Fire(new PathRenderUpdateEvent(recordedPositions[i].Position));
                     
-                    if (IsReplaying && i == recordedPositions.Count - 1) OnFinishReplay.Invoke();
+                    if (IsReplaying && i == recordedPositions.Count - 1)
+                    {
+                        eventBus.Fire(new FinishReplayEvent());
+                    }
                 }
             )
         );
@@ -316,7 +309,7 @@ public class PlayerRecordingManager : MonoBehaviour
         if (visible) displayPathRecording = RenderPathRecording();
     }
     
-    private void OnPlayAgain()
+    private void OnPlayAgain(PlayAgainEvent evt)
     {
         SetSpriteVisible(false);
         SetPathVisible(false);
@@ -326,7 +319,7 @@ public class PlayerRecordingManager : MonoBehaviour
         IsReplaying = false;
     }
     
-    private void OnReplay()
+    private void OnReplay(ReplayEvent evt)
     {
         IsReplaying = true;
         
@@ -336,12 +329,11 @@ public class PlayerRecordingManager : MonoBehaviour
     
     private void OnDestroy()
     {
-        // print("destroyed");
         eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Unsubscribe<SetupPlaySceneEvent>(OnSwitchToPlay);
         eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
-        LevelCompleteManager.Instance.OnPlayAgain -= OnPlayAgain;
-        LevelCompleteManager.Instance.OnReplay -= OnReplay;
+        eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
+        eventBus.Unsubscribe<ReplayEvent>(OnReplay);
     }
     
     private void Awake()

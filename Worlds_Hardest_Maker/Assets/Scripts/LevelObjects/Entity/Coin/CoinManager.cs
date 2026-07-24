@@ -25,10 +25,15 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
     
     private IObjectResolver diContainer;
     
+    private EventBus eventBus;
+    
     [Inject]
-    private void Construct(IObjectResolver diContainer)
+    private void Construct(IObjectResolver diContainer, EventBus eventBus)
     {
         this.diContainer = diContainer;
+        this.eventBus = eventBus;
+        
+        eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
     }
     
     public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
@@ -117,11 +122,12 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
     
     public void ActivateAnimations() => Coins.ForEach(coin => coin.ActivateAnimation());
     
-    private void OnPlayAgain() => CollectedCoins.Clear();
+    private void OnPlayAgain(PlayAgainEvent evt) => CollectedCoins.Clear();
     
-    private void Start() => LevelCompleteManager.Instance.OnPlayAgain += OnPlayAgain;
-    
-    private void OnDestroy() => LevelCompleteManager.Instance.OnPlayAgain -= OnPlayAgain;
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
+    }
     
     private void Awake()
     {

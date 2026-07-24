@@ -9,8 +9,6 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
 {
     public static KeyManager Instance { get; private set; }
     
-    private IObjectResolver diContainer;
-    
     public Transform DefaultContainer => ReferenceManager.Instance.KeyContainer;
     
     [UsedImplicitly] public static readonly List<FieldMode> CannotPlaceFields = new();
@@ -20,14 +18,23 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
     [ReadOnly] public List<KeyController> Keys = new();
     [ReadOnly] public List<KeyController> CollectedKeys = new();
     
+    private IObjectResolver diContainer;
+    
+    private EventBus eventBus;
+    
     private IKonamiService konamiService;
     
     [Inject]
-    private void Construct(IObjectResolver diContainer, IKonamiService konamiService)
+    private void Construct(IObjectResolver diContainer, EventBus eventBus, IKonamiService konamiService)
     {
         this.diContainer = diContainer;
+        this.eventBus = eventBus;
         this.konamiService = konamiService;
+        
+        eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
     }
+    
+    private void OnPlayAgain(PlayAgainEvent evt) => CollectedKeys.Clear();
     
     private void RemoveKeyInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
@@ -136,11 +143,10 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
         return true;
     }
     
-    private void OnPlayAgain() => CollectedKeys.Clear();
-    
-    private void Start() => LevelCompleteManager.Instance.OnPlayAgain += OnPlayAgain;
-    
-    private void OnDestroy() => LevelCompleteManager.Instance.OnPlayAgain -= OnPlayAgain;
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
+    }
     
     private void Awake()
     {

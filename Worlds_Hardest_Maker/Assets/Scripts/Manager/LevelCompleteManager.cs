@@ -4,6 +4,7 @@ using DG.Tweening;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
+using VContainer;
 
 public partial class LevelCompleteManager : MonoBehaviour
 {
@@ -20,17 +21,18 @@ public partial class LevelCompleteManager : MonoBehaviour
     
     [SerializeField] [Required] private TimerController timerController;
     
-    public event Action OnPlayAgain = () => { };
-    public event Action OnReplay = () => { };
+    private EventBus eventBus;
     
-    private void Start()
+    [Inject]
+    private void Construct(EventBus eventBus)
     {
-        PlayerManager.Instance.OnWin += OnWin;
+        this.eventBus = eventBus;
         
-        PlayerRecordingManager.Instance.OnFinishReplay += OnFinishReplay;
+        eventBus.Subscribe<WinLevelEvent>(OnWinLevel);
+        eventBus.Subscribe<FinishReplayEvent>(OnFinishReplay);
     }
     
-    private void OnWin()
+    private void OnWinLevel(WinLevelEvent evt)
     {
         if (LevelSessionManager.Instance.IsEdit) return;
         
@@ -64,17 +66,17 @@ public partial class LevelCompleteManager : MonoBehaviour
     {
         levelCompleteCanvasTween.SetVisible(false);
         
-        OnPlayAgain.Invoke();
+        eventBus.Fire(new PlayAgainEvent());
     }
     
     public void OnReplayClicked()
     {
         levelCompleteCanvasTween.SetVisible(false);
         
-        OnReplay.Invoke();
+        eventBus.Fire(new ReplayEvent());
     }
     
-    private void OnFinishReplay()
+    private void OnFinishReplay(FinishReplayEvent evt)
     {
         StartCoroutine(Wait(0.7f));
         
@@ -92,7 +94,8 @@ public partial class LevelCompleteManager : MonoBehaviour
     
     private void OnDestroy()
     {
-        PlayerManager.Instance.OnWin -= OnWin;
+        eventBus.Unsubscribe<WinLevelEvent>(OnWinLevel);
+        eventBus.Unsubscribe<FinishReplayEvent>(OnFinishReplay);
         
         DOTween.Kill(gameObject);
     }
