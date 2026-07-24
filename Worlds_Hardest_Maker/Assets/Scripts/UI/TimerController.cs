@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 public class TimerController : MonoBehaviour
 {
@@ -24,16 +24,13 @@ public class TimerController : MonoBehaviour
         this.eventBus = eventBus;
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Subscribe<WinLevelEvent>(OnWinLevel);
+        eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
     }
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt) => StartTimer();
-
-    private void Start()
-    {
-        PlayerManager.Instance.OnWin += FinishTimer;
-        
-        LevelCompleteManager.Instance.OnPlayAgain += StartTimer;
-    }
+    private void OnWinLevel(WinLevelEvent evt) => FinishTimer();
+    private void OnPlayAgain(PlayAgainEvent evt) => StartTimer();
     
     public void StartTimer()
     {
@@ -88,7 +85,7 @@ public class TimerController : MonoBehaviour
     private void OnDestroy()
     {
         eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
-        
-        LevelCompleteManager.Instance.OnPlayAgain -= StartTimer;
+        eventBus.Unsubscribe<WinLevelEvent>(OnWinLevel);
+        eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
     }
 }

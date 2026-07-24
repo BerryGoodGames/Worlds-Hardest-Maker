@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 public class KeyDoorFieldController : MonoBehaviour, IResettable
 {

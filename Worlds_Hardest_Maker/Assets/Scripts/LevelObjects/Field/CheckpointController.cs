@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 public class CheckpointController : MonoBehaviour, IResettable
 {

@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using VContainer;
 
 public class SettingsManager : MonoBehaviour
 {
@@ -26,10 +27,7 @@ public class SettingsManager : MonoBehaviour
     [HideInInspector] public bool OneColorSafeFields;
     [HideInInspector] public bool ShowRoomGrid;
     
-    public event Action<float> OnSetToolbarSize = _ => { };
-    public event Action<float> OnSetInfobarSize = _ => { };
-    public event Action<bool> OnSetOneColorSafeFieldsWhenPlaying = _ => { };
-    public event Action<bool> OnSetShowRoomGrid = _ => { };
+    [Inject] private EventBus eventBus;
     
     private void Start()
     {
@@ -88,7 +86,6 @@ public class SettingsManager : MonoBehaviour
         }
     }
     
-    
     #region Graphics settings
     
     public void SetQuality(int index, bool updateDropdown)
@@ -127,7 +124,7 @@ public class SettingsManager : MonoBehaviour
     
     public void SetOneColorSafeFieldsWhenPlaying(bool oneColor, bool updateToggle)
     {
-        OnSetOneColorSafeFieldsWhenPlaying.Invoke(oneColor);
+        eventBus.Fire(new SetOneColorSafeFieldsEvent(oneColor));
         
         OneColorSafeFields = oneColor;
         
@@ -139,7 +136,7 @@ public class SettingsManager : MonoBehaviour
     
     public void SetShowRoomGrid(bool show, bool updateToggle)
     {
-        OnSetShowRoomGrid.Invoke(show);
+        eventBus.Fire(new SetShowRoomGridEvent(show));
         
         ShowRoomGrid = show;
         
@@ -224,7 +221,7 @@ public class SettingsManager : MonoBehaviour
     
     public void SetToolbarSize(float size, bool updateSlider)
     {
-        OnSetToolbarSize.Invoke(size);
+        eventBus.Fire(new SetToolbarSizeEvent(size));
         
         if (!updateSlider) return;
         
@@ -243,7 +240,7 @@ public class SettingsManager : MonoBehaviour
     
     public void SetInfobarSize(float size, bool updateSlider)
     {
-        OnSetInfobarSize.Invoke(size);
+        eventBus.Fire(new SetInfobarSizeEvent(size));
         
         if (!updateSlider) return;
         
@@ -264,5 +261,8 @@ public class SettingsManager : MonoBehaviour
     
     private void Awake() => Instance = this;
     
-    private void OnDestroy() => SavePrefs();
+    private void OnDestroy()
+    {
+        SavePrefs();
+    }
 }

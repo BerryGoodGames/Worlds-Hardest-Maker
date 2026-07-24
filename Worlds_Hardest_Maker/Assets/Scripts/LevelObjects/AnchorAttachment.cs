@@ -1,7 +1,7 @@
 using System;
 using MyBox;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 public class AnchorAttachment : MonoBehaviour
 {

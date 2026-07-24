@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using VContainer.Unity;
 
 public partial class AnchorManager : IManager<AnchorController>
 {

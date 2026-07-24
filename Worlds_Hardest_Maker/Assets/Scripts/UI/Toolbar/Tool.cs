@@ -2,7 +2,7 @@ using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
-using Zenject;
+using VContainer;
 
 public class Tool : MonoBehaviour
 {

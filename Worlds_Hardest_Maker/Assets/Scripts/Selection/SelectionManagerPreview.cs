@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using VContainer.Unity;
 
 public partial class SelectionManager
 {

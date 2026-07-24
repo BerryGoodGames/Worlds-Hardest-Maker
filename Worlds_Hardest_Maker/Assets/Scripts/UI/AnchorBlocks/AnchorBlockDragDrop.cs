@@ -3,7 +3,7 @@ using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Zenject;
+using VContainer;
 
 public class AnchorBlockDragDrop : MonoBehaviour
 {

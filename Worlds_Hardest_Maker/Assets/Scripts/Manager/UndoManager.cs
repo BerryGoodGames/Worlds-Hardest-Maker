@@ -1,15 +1,27 @@
 using System.Collections.Generic;
 using UnityEngine;
+using VContainer;
 
 public class UndoManager : MonoBehaviour
 {
     private Stack<List<Data>> gameDataStack;
     
+    private EventBus eventBus;
+    
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        
+        eventBus.Subscribe<EditActionEvent>(OnEditAction);
+    }
+    
     private void Start()
     {
-        LevelSessionEditManager.Instance.OnEditAction += PushCurrentGameData;
         LevelSessionManager.Instance.OnLevelLoaded += PushCurrentGameData;
     }
+    
+    private void OnEditAction(EditActionEvent evt) => PushCurrentGameData();
     
     private void Undo()
     {
@@ -57,4 +69,11 @@ public class UndoManager : MonoBehaviour
     }
     
     private void Awake() => gameDataStack = new();
+    
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<EditActionEvent>(OnEditAction);
+        
+        LevelSessionManager.Instance.OnLevelLoaded -= PushCurrentGameData;
+    }
 }

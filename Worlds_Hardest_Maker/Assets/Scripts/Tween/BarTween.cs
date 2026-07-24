@@ -1,6 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 /// <summary>
 ///     General tweening script for UI at the top or bottom of the screen

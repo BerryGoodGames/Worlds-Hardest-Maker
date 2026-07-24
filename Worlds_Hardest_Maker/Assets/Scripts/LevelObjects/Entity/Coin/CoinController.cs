@@ -2,7 +2,7 @@ using DG.Tweening;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 public class CoinController : EntityController, IResettable, ICollectible
 {

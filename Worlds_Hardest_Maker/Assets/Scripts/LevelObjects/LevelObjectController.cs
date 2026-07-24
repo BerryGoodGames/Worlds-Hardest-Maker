@@ -1,6 +1,6 @@
 using MyBox;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 public abstract class LevelObjectController : MonoBehaviour
 {

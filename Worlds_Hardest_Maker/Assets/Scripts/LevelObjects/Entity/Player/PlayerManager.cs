@@ -3,24 +3,21 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
-using Zenject;
+using VContainer;
+using VContainer.Unity;
 
 public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManagerPlaceRestrictable
 {
     public static PlayerManager Instance { get; private set; }
     
-    public event Action OnWin;
-    
-    public void InvokeOnWin() => OnWin?.Invoke();
-    
     [ReadOnly] public PlayerController Player;
     
     public Transform DefaultContainer => ReferenceManager.Instance.PlayerContainer;
     
-    private DiContainer diContainer;
+    private IObjectResolver diContainer;
     
     [Inject]
-    private void Construct(DiContainer diContainer)
+    private void Construct(IObjectResolver diContainer)
     {
         this.diContainer = diContainer;
     }

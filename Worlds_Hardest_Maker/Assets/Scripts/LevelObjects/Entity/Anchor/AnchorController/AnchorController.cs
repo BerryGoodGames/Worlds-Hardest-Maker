@@ -7,7 +7,7 @@ using DG.Tweening.Plugins.Options;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public partial class AnchorController : EntityController, IResettable

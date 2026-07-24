@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
-using Zenject;
+using VContainer;
+using VContainer.Unity;
 
 public partial class FieldManager : MonoBehaviour, IManager<FieldController>
 {
@@ -10,12 +11,12 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
     
     public Transform DefaultContainer => ReferenceManager.Instance.FieldContainer;
     
-    private DiContainer diContainer;
+    private IObjectResolver diContainer;
     
     private IAudioService audioService;
     
     [Inject]
-    private void Construct(DiContainer diContainer, IAudioService audioService)
+    private void Construct(IObjectResolver diContainer, IAudioService audioService)
     {
         this.diContainer = diContainer;
         this.audioService = audioService;

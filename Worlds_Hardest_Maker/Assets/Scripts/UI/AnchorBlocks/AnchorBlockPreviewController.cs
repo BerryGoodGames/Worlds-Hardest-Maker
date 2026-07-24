@@ -1,6 +1,6 @@
 using MyBox;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public class AnchorBlockPreviewController : MonoBehaviour

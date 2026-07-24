@@ -1,7 +1,7 @@
 using MyBox;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Zenject;
+using VContainer;
 
 public class ButtonController : MonoBehaviour
 {

@@ -3,7 +3,7 @@ using DG.Tweening;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 public class KeyController : EntityController, IResettable, ICollectible
 {

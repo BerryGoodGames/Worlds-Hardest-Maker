@@ -4,7 +4,7 @@ using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Zenject;
+using VContainer;
 
 public class LoadingScreen : MonoBehaviour
 {
@@ -16,7 +16,7 @@ public class LoadingScreen : MonoBehaviour
     
     [SerializeField] [InitializationField] [Required] private ChainableTween tween;
     
-    [Inject] private ZenjectSceneLoader sceneLoader;
+    // [Inject] private ZenjectSceneLoader sceneLoader;
     
     private void SetProgress(float progress) => slider.value = progress;
     
@@ -39,7 +39,7 @@ public class LoadingScreen : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         
-        AsyncOperation operation = sceneLoader.LoadSceneAsync(sceneId);
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId)!;
         
         operation.allowSceneActivation = false;
         

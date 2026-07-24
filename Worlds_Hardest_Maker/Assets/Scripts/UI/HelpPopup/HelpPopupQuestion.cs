@@ -1,7 +1,8 @@
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
-using Zenject;
+using VContainer;
+using VContainer.Unity;
 
 public class HelpPopupQuestion : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class HelpPopupQuestion : MonoBehaviour
     
     [SerializeField] [InitializationField] [Required] private RectTransform popupContainer;
     
-    [Inject] private DiContainer diContainer;
+    [Inject] private IObjectResolver diContainer;
     
     public void OnButtonClick()
     {

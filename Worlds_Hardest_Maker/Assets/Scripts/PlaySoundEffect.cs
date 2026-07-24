@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 public class PlaySoundEffect : MonoBehaviour
 {

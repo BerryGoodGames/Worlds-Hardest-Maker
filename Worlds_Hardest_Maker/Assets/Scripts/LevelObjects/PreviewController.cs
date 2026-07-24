@@ -1,7 +1,7 @@
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 /// <summary>
 ///     Controls placement, visibility and display of preview

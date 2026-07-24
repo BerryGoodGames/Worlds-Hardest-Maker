@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
-using Zenject;
+using VContainer;
+using VContainer.Unity;
 
 public class BallManager : MonoBehaviour, IManager<BallController>
 {
@@ -11,10 +12,10 @@ public class BallManager : MonoBehaviour, IManager<BallController>
     [ReadOnly] public Dictionary<AnchorController, List<BallController>> BallListSheets;
     [ReadOnly] public List<BallController> BallListGlobal;
     
-    private DiContainer diContainer;
+    private IObjectResolver diContainer;
     
     [Inject]
-    private void Construct(DiContainer diContainer)
+    private void Construct(IObjectResolver diContainer)
     {
         this.diContainer = diContainer;
     }

@@ -3,7 +3,7 @@ using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Zenject;
+using VContainer;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler

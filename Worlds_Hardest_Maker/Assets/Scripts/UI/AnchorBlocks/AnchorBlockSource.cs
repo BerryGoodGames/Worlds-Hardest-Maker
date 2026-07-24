@@ -3,19 +3,20 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Zenject;
+using VContainer;
+using VContainer.Unity;
 
 public class AnchorBlockSource : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private GameObject anchorBlockPrefab;
     [SerializeField] private bool active = true;
     
-    private DiContainer diContainer;
+    private IObjectResolver diContainer;
     
     private IAudioService audioService;
     
     [Inject]
-    private void Construct(DiContainer diContainer, IAudioService audioService)
+    private void Construct(IObjectResolver diContainer, IAudioService audioService)
     {
         this.diContainer = diContainer;
         this.audioService = audioService;

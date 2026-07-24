@@ -5,7 +5,7 @@ using Unity.Cinemachine;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
-using Zenject;
+using VContainer;
 
 public class PlaceManager : MonoBehaviour
 {
@@ -17,14 +17,14 @@ public class PlaceManager : MonoBehaviour
     [Separator("Konami sfx")] [SerializeField] private SoundEffect konamiPlaceSfx;
     [SerializeField] private PlaceSoundEffect[] customKonamiPlaceSfx;
     
-    private DiContainer diContainer;
+    private IObjectResolver diContainer;
     
     private IAudioService audioService;
     
     private IKonamiService konamiService;
     
     [Inject]
-    private void Construct(DiContainer diContainer, IAudioService audioService, IKonamiService konamiService)
+    private void Construct(IObjectResolver diContainer, IAudioService audioService, IKonamiService konamiService)
     {
         this.diContainer = diContainer;
         this.audioService = audioService;
