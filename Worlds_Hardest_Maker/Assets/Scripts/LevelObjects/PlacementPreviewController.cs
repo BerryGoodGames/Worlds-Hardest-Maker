@@ -1,5 +1,3 @@
-using System;
-
 public class PlacementPreviewController : PreviewController
 {
     protected override void Start()
@@ -17,10 +15,7 @@ public class PlacementPreviewController : PreviewController
     {
         // enable placement preview and place it at mouse
         gameObject.SetActive(true);
-        transform.position =
-            FollowMouse.GetCurrentMouseWorldPos(
-                FollowMouseComp.WorldPosition
-            );
+        transform.position = FollowMouse.GetCurrentMouseWorldPos(FollowMouseComp.WorldPosition);
     }
     
     private void OnDestroy()

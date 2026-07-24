@@ -143,7 +143,7 @@ public class PreviewController : MonoBehaviour
         if (editMode == EditModeManager.Delete)
         {
             // defaultSprite for preview when deleting
-            ApplyDefaultSprite();
+            SetDefaultSprite();
             return;
         }
         
@@ -156,7 +156,7 @@ public class PreviewController : MonoBehaviour
             SpriteRenderer.sprite = previewSprite.Sprite;
             SpriteRenderer.color = new(
                 previewSprite.Color.r, previewSprite.Color.g, previewSprite.Color.b,
-                alpha / 255f
+                alpha / 255f * previewSprite.Color.a
             );
             
             transform.localScale = previewSprite.Scale;
@@ -185,7 +185,7 @@ public class PreviewController : MonoBehaviour
         Color prefabColor = prefabRenderer.color;
         
         SpriteRenderer.sprite = prefabRenderer.sprite;
-        SpriteRenderer.color = new(prefabColor.r, prefabColor.g, prefabColor.b, alpha / 255f);
+        SpriteRenderer.color = new(prefabColor.r, prefabColor.g, prefabColor.b, alpha / 255f * prefabColor.a);
         transform.localScale = scale;
         
         UpdateRotation(true); // Idk why this does not reset rotations for one ways and conveyors
@@ -214,7 +214,7 @@ public class PreviewController : MonoBehaviour
         else transform.localRotation = rotation;
     }
     
-    private void ApplyDefaultSprite()
+    private void SetDefaultSprite()
     {
         SpriteRenderer.sprite = defaultSprite;
         SpriteRenderer.color = defaultColor;
