@@ -92,7 +92,7 @@ public class LevelSessionEditManager : MonoBehaviour
         set
         {
             editRotation = value;
-            ReferenceManager.Instance.PlacementPreview.UpdateRotation();
+            eventBus.Fire(new EditRotationChangeEvent(value));
         }
     }
     

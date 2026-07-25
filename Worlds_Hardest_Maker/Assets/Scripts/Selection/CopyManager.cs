@@ -57,7 +57,7 @@ public class CopyManager : MonoBehaviour
                 continue;
             }
             
-            if (!levelObjectController.EditMode.Copyable) continue;
+            if (!levelObjectController.EditMode.IsCopyable) continue;
             if (levelObjectController.EditMode.Attributes.IsEntity &&
                 levelObjectController is BallController { IsParentAnchorNull: false, }) continue;
             
@@ -197,15 +197,15 @@ public class CopyManager : MonoBehaviour
             
             preview.transform.localPosition = copyData.RelativePos;
             
-            PreviewController previewController = preview.GetComponent<PreviewController>();
-            
-            // set some settings in preview
-            previewController.CheckUpdateEveryFrame = false;
-            previewController.ShowSpriteWhenPasting = true;
-            previewController.RotateToEditRotation = false;
-            
-            // set spire of preview
-            previewController.SetSprite(copyData.GetEditMode());
+            // PreviewController previewController = preview.GetComponent<PreviewController>();
+            //
+            // // set some settings in preview
+            // previewController.CheckUpdateEveryFrame = false;
+            // previewController.ShowSpriteWhenPasting = true;
+            // previewController.RotateToEditRotation = false;
+            //
+            // // set sprite of preview
+            // previewController.SetSprite(copyData.GetEditMode());
         }
     }
     

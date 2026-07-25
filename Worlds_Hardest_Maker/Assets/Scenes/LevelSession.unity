@@ -21181,7 +21181,7 @@ MonoBehaviour:
   MenuTween: {fileID: 1006894551}
   KeybindBlocker: {fileID: 104472577}
   KeybindBlockerText: {fileID: 405094728}
-  PlacementPreview: {fileID: 2046466265}
+  PlacementPreview: {fileID: 0}
   ToolbarTween: {fileID: 3914619140277756240}
   InfobarEditTween: {fileID: 1060004926}
   InfobarPlayTween: {fileID: 660451852}
@@ -26389,7 +26389,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 711.39, y: -857.1536}
-  m_SizeDelta: {x: 0, y: 39.5306}
+  m_SizeDelta: {x: 51.75, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755699354
 MonoBehaviour:
@@ -30579,8 +30579,13 @@ GameObject:
   - component: {fileID: 2046466259}
   - component: {fileID: 2046466264}
   - component: {fileID: 2046466258}
-  - component: {fileID: 2046466265}
   - component: {fileID: 2046466262}
+  - component: {fileID: 2046466270}
+  - component: {fileID: 2046466269}
+  - component: {fileID: 2046466268}
+  - component: {fileID: 2046466267}
+  - component: {fileID: 2046466266}
+  - component: {fileID: 2046466265}
   m_Layer: 0
   m_Name: PlacementPreview
   m_TagString: Untagged
@@ -30685,13 +30690,14 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!224 &2046466263
-RectTransform:
+--- !u!4 &2046466263
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2046466257}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -30699,11 +30705,6 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1, y: 1}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2046466264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30735,18 +30736,75 @@ MonoBehaviour:
   m_GameObject: {fileID: 2046466257}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f22fefa4b4b36e741a501049dd967c19, type: 3}
+  m_Script: {fileID: 11500000, guid: 0881501c21b648a4eae0c1b70e1abfe5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  SpriteRenderer: {fileID: 0}
-  defaultSprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  defaultColor: {r: 0, g: 0, b: 0, a: 0.12156863}
-  alpha: 0
-  CheckUpdateEveryFrame: 1
-  ShowSpriteWhenPasting: 0
+  m_EditorClassIdentifier: Assembly-CSharp::PreviewCoordinator
+  logDebugInfo: 0
+--- !u!114 &2046466266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046466257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 011cc9f4649a4166aa2e72272628bea1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PreviewEventComponent
+--- !u!114 &2046466267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046466257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 953682d1b06943b6b4c86f7076cb8d89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PreviewFollowMouseComponent
+--- !u!114 &2046466268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046466257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da79d6f49756481e871ce73d12fa19ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PreviewAnimationComponent
+--- !u!114 &2046466269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046466257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e48b7afb17e44b409ee20a971091797f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PreviewRotationComponent
   RotateToEditRotation: 1
   smoothRotation: 1
   rotateDuration: 0.2
+--- !u!114 &2046466270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046466257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cd80623789047f58a64860a83b48c3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PreviewSpriteComponent
+  alpha: 125
+  CheckUpdateEveryFrame: 1
 --- !u!1 &2059336037
 GameObject:
   m_ObjectHideFlags: 0

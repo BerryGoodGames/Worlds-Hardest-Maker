@@ -25,10 +25,10 @@ public partial class SelectionManager
             
             diContainer.InjectGameObject(preview);
             
-            PreviewController c = preview.GetComponent<PreviewController>();
-            c.Awake_();
-            c.UpdateSprite();
-            c.UpdateRotation(smooth: false);
+            // PreviewController c = preview.GetComponent<PreviewController>();
+            // c.Awake_();
+            // c.UpdateSprite();
+            // c.UpdateRotation(smooth: false);
         }
     }
     
@@ -42,15 +42,15 @@ public partial class SelectionManager
     
     private void InitSelectedPreview() => InitPreview(GetCurrentFillRange());
     
-    public static void UpdatePreviewRotation()
-    {
-        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) preview.GetComponent<PreviewController>().UpdateRotation();
-    }
-    
-    public static void UpdatePreviewSprite()
-    {
-        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) preview.GetComponent<PreviewController>().UpdateSprite();
-    }
+    // public static void UpdatePreviewRotation()
+    // {
+    //     foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) preview.GetComponent<PreviewController>().UpdateRotation();
+    // }
+    //
+    // public static void UpdatePreviewSprite()
+    // {
+    //     foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) preview.GetComponent<PreviewController>().UpdateSprite();
+    // }
     
     private void SetPreviewVisible()
     {
@@ -67,7 +67,7 @@ public partial class SelectionManager
         DestroyPreview();
         
         // enable placement preview
-        if (!LevelSessionEditManager.Instance.Playing) ReferenceManager.Instance.PlacementPreview.Activate();
+        // if (!LevelSessionEditManager.Instance.Playing) ReferenceManager.Instance.PlacementPreview.Activate();
         
         // reset selection marking
         if (selectionOutline != null) Destroy(selectionOutline);

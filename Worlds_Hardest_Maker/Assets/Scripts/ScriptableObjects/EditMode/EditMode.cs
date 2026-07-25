@@ -1,6 +1,7 @@
 using System;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class EditMode : ScriptableObject
 {
@@ -11,10 +12,11 @@ public abstract class EditMode : ScriptableObject
     public GameObject Prefab;
     public WorldPositionType WorldPositionType = WorldPositionType.Grid;
     public bool IsDraggable;
+    public bool IsRotatable;
     public bool ShowFillPreview = true;
-    [OverrideLabel("Can use in default/non anchor attach mode")] public bool DefaultAvailable = true;
-    [OverrideLabel("Can use in anchor attach mode")] public bool AnchorAvailable = true;
-    public bool Copyable = true;
+    [FormerlySerializedAs("DefaultAvailable")] [OverrideLabel("Can use in default/non anchor attach mode")] public bool DefaultSheetAvailable = true;
+    [FormerlySerializedAs("AnchorAvailable")] [OverrideLabel("Can use in anchor attach mode")] public bool AnchorSheetAvailable = true;
+    [FormerlySerializedAs("Copyable")] public bool IsCopyable = true;
     
     public override string ToString() => name;
 }

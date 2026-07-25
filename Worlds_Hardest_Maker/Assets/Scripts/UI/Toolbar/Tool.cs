@@ -66,8 +66,8 @@ public class Tool : MonoBehaviour
     
     private void SetVisible(bool visible) => gameObject.SetActive(visible);
     
-    private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt) => SetVisible(ToolEditMode.AnchorAvailable);
-    private void OnExitAnchorAttach(ExitAnchorAttachEvent evt) => SetVisible(ToolEditMode.DefaultAvailable);
+    private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt) => SetVisible(ToolEditMode.AnchorSheetAvailable);
+    private void OnExitAnchorAttach(ExitAnchorAttachEvent evt) => SetVisible(ToolEditMode.DefaultSheetAvailable);
     
     private void OnDestroy()
     {

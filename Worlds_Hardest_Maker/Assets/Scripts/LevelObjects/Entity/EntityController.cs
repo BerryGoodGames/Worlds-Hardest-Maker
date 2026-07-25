@@ -18,7 +18,7 @@ public abstract class EntityController : LevelObjectController
     
     protected virtual void Start()
     {
-        if (!EditMode.AnchorAvailable) return;
+        if (!EditMode.AnchorSheetAvailable) return;
         
         AnchorAttachment attachment = AttachmentHolder.GetComponent<AnchorAttachment>();
         IsAttached = attachment != null;

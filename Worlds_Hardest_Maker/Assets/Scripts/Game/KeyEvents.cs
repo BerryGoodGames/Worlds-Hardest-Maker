@@ -58,7 +58,7 @@ public class KeyEvents : MonoBehaviour
         
         LevelSessionEditManager.Instance.EditRotation = (LevelSessionEditManager.Instance.EditRotation - 90) % 360;
         
-        if (SelectionManager.Instance.Selecting) SelectionManager.UpdatePreviewRotation();
+        // if (SelectionManager.Instance.Selecting) SelectionManager.UpdatePreviewRotation();
     }
     
     private static void CheckTeleportPlayer()

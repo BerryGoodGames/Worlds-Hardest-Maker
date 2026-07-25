@@ -7,8 +7,12 @@ public class LevelSessionLifetimeScope : LifetimeScope
 {
     protected override void Configure(IContainerBuilder builder)
     {
-        builder.RegisterComponentInHierarchy<KonamiManager>()
-            .As<IKonamiService>();
+        builder.RegisterComponentInHierarchy<KonamiManager>().As<IKonamiService>();
+        
+        // register preview services
+        builder.Register<IPreviewVisibilityRulesService, PreviewVisibilityRulesService>(Lifetime.Singleton);
+        builder.Register<IPreviewRotationService, PreviewRotationService>(Lifetime.Singleton);
+        builder.Register<IEditModePreviewProvider, EditModePreviewProvider>(Lifetime.Singleton);
     }
     
     protected override void Awake()

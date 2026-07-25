@@ -1,0 +1,33 @@
+using UnityEngine;
+using VContainer;
+
+/// <summary>
+///     Handles animation state for preview visibility.
+///     Uses animator to show/hide preview based on visibility rules.
+/// </summary>
+public class PreviewAnimationComponent : MonoBehaviour
+{
+    private static readonly int VISIBLE = Animator.StringToHash("Visible");
+    private Animator animator;
+    private IPreviewVisibilityRulesService visibilityService;
+
+    [Inject]
+    private void Construct(IPreviewVisibilityRulesService visibilityService)
+    {
+        this.visibilityService = visibilityService;
+    }
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        if (animator == null) return;
+
+        EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
+        bool isVisible = visibilityService.IsPreviewVisible(currentEditMode);
+        animator.SetBool(VISIBLE, isVisible);
+    }
+}
