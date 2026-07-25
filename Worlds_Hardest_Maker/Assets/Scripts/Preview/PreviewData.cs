@@ -1,17 +1,25 @@
 using UnityEngine;
 
-public struct PreviewData
+public interface IPreviewData { }
+
+public struct PreviewSpriteData : IPreviewData
 {
-    public static readonly PreviewData Default = new PreviewData
+    public static readonly PreviewSpriteData Delete = new PreviewSpriteData
     {
+        IsDelete = true,
         Sprite = null,
-        Color = Color.white,
+        Color = Color.black,
         Scale = Vector2.one,
-        ShouldRotate = true,
     };
 
+    public bool IsDelete { get; init; }
     public Sprite Sprite { get; init; }
     public Color Color { get; init; }
     public Vector2 Scale { get; init; }
-    public bool ShouldRotate { get; init; }
+}
+
+public struct PreviewRotationData : IPreviewData
+{
+    public Quaternion TargetRotation { get; init; }
+    public bool ResetRotation { get; init; }
 }

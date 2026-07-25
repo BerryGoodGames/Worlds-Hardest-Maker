@@ -1,4 +1,4 @@
-public interface IPreviewDataReceiver
+public interface IPreviewDataReceiver<in T> where T : IPreviewData
 {
-    void ApplyPreviewData(PreviewData previewData);
+    void ApplyPreviewData(T previewData);
 }

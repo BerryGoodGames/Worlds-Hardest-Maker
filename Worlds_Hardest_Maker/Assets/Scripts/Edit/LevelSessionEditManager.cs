@@ -107,6 +107,8 @@ public class LevelSessionEditManager : MonoBehaviour
         if (!LevelSessionManager.Instance.IsEdit) return;
         
         CurrentEditMode = startEditMode;
+        
+        eventBus.Fire(new EditModeInitializedEvent());
     }
     
     private void Awake()

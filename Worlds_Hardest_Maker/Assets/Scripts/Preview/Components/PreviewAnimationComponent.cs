@@ -5,6 +5,7 @@ using VContainer;
 ///     Handles animation state for preview visibility.
 ///     Uses animator to show/hide preview based on visibility rules.
 /// </summary>
+[RequireComponent(typeof(Animator))]
 public class PreviewAnimationComponent : MonoBehaviour
 {
     private static readonly int VISIBLE = Animator.StringToHash("Visible");

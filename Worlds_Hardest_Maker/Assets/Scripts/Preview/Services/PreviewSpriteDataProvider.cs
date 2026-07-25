@@ -4,20 +4,20 @@ using UnityEngine;
 ///     Implementation of edit mode preview appearance provider.
 ///     Determines sprite, color, and scale for preview display based on edit mode.
 /// </summary>
-public class EditModePreviewProvider : IEditModePreviewProvider
+public class PreviewSpriteDataProvider : IPreviewSpriteDataProvider
 {
-    public PreviewData GetPreviewData(EditMode editMode, float alpha = 1f, bool forceShowPreviewSprite = false)
+    public PreviewSpriteData GetPreviewSpriteData(EditMode editMode, float alpha = 1f, bool forceShowPreviewSprite = false)
     {
         // Delete mode uses default sprite
         if (editMode == EditModeManager.Delete)
         {
-            return PreviewData.Default;
+            return PreviewSpriteData.Delete;
         }
 
         GameObject currentPrefab = editMode.Prefab;
         if (currentPrefab == null)
         {
-            return PreviewData.Default;
+            return PreviewSpriteData.Delete;
         }
 
         // Check for PreviewSprite component on prefab
@@ -35,12 +35,11 @@ public class EditModePreviewProvider : IEditModePreviewProvider
                     alpha * previewSprite.Color.a
                 );
                 
-                return new PreviewData
+                return new PreviewSpriteData
                 {
                     Sprite = previewSprite.Sprite,
                     Color = color,
                     Scale = previewSprite.Scale,
-                    ShouldRotate = editMode.IsRotatable,
                 };
             }
         }
@@ -50,7 +49,7 @@ public class EditModePreviewProvider : IEditModePreviewProvider
         
         if (spriteRenderer == null)
         {
-            return PreviewData.Default;
+            return PreviewSpriteData.Delete;
         }
 
         Color prefabColor = spriteRenderer.color;
@@ -61,16 +60,15 @@ public class EditModePreviewProvider : IEditModePreviewProvider
             alpha * prefabColor.a
         );
         
-        return new PreviewData
+        return new PreviewSpriteData
         {
             Sprite = spriteRenderer.sprite,
             Color = finalColor,
             Scale = scale,
-            ShouldRotate = editMode.IsRotatable,
         };
     }
 
-    private (SpriteRenderer renderer, Vector2 scale) GetSpriteRendererAndScale(GameObject prefab)
+    private static (SpriteRenderer renderer, Vector2 scale) GetSpriteRendererAndScale(GameObject prefab)
     {
         // Try to get sprite renderer directly on prefab
         if (prefab.TryGetComponent(out SpriteRenderer renderer))

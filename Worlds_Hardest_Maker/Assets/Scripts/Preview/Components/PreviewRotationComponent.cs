@@ -7,42 +7,51 @@ using VContainer;
 ///     Component that applies rotation to preview based on edit mode.
 ///     Supports both immediate and smooth rotation.
 /// </summary>
-public class PreviewRotationComponent : MonoBehaviour, IPreviewDataReceiver
+public class PreviewRotationComponent : MonoBehaviour, IPreviewDataReceiver<PreviewRotationData>
 {
     public bool RotateToEditRotation = true;
     [Space] [SerializeField] private bool smoothRotation;    
     [SerializeField] [ConditionalField(nameof(smoothRotation))] [PositiveValueOnly] private float rotateDuration;
     
-    private EditMode lastEditMode;
-    
     private EventBus eventBus;
-    private IPreviewRotationService rotationService;
+    private IPreviewRotationDataProvider previewRotationDataProvider;
     
     [Inject]
-    private void Construct(EventBus eventBus, IPreviewRotationService rotationService)
+    private void Construct(EventBus eventBus, IPreviewRotationDataProvider previewRotationDataProvider)
     {
         this.eventBus = eventBus;
-        this.rotationService = rotationService;
+        this.previewRotationDataProvider = previewRotationDataProvider;
         
+        eventBus.Subscribe<EditModeInitializedEvent>(OnEditModeInitialized);
+        eventBus.Subscribe<EditModeChangeEvent>(OnEditModeChange);
         eventBus.Subscribe<EditRotationChangeEvent>(OnEditRotationChange);
     }
     
+    private void OnEditModeInitialized(EditModeInitializedEvent evt) => UpdateRotation();
+    private void OnEditModeChange(EditModeChangeEvent evt) => UpdateRotation();
     private void OnEditRotationChange(EditRotationChangeEvent evt) => UpdateRotation();
     
-    public void UpdateRotation(bool resetRotation = false, bool smooth = true)
+    private void UpdateRotation()
     {
-        print((resetRotation, smooth, RotateToEditRotation, smoothRotation));
-        if (resetRotation)
+        EditMode editMode = LevelSessionEditManager.Instance.CurrentEditMode;
+        PreviewRotationData previewRotationData = previewRotationDataProvider.GetPreviewRotationData(editMode);
+        
+        ApplyPreviewData(previewRotationData);
+    }
+    
+    public void ApplyPreviewData(PreviewRotationData previewRotationData)
+    {
+        if (previewRotationData.ResetRotation)
         {
-            transform.localRotation = Quaternion.Euler(0, 0, -90);
+            transform.localRotation = Quaternion.identity;
             return;
         }
         
         if (!RotateToEditRotation) return;
         
-        Quaternion rotation = rotationService.GetTargetRotation(true);
+        Quaternion rotation = previewRotationData.TargetRotation;
         
-        if (smoothRotation && smooth)
+        if (smoothRotation)
         {
             transform.DOKill();
             transform.DORotateQuaternion(rotation, rotateDuration)
@@ -52,17 +61,10 @@ public class PreviewRotationComponent : MonoBehaviour, IPreviewDataReceiver
         else transform.localRotation = rotation;
     }
     
-    public void ApplyPreviewData(PreviewData previewData)
-    {
-        // Store the current edit mode for later use
-        lastEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
-        
-        bool resetRotation = !previewData.ShouldRotate;
-        UpdateRotation(resetRotation);
-    }
-    
     private void OnDestroy()
     {
+        eventBus.Unsubscribe<EditModeInitializedEvent>(OnEditModeInitialized);
+        eventBus.Unsubscribe<EditModeChangeEvent>(OnEditModeChange);
         eventBus.Unsubscribe<EditRotationChangeEvent>(OnEditRotationChange);
     }
 }

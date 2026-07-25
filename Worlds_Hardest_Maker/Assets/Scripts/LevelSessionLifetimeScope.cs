@@ -11,8 +11,8 @@ public class LevelSessionLifetimeScope : LifetimeScope
         
         // register preview services
         builder.Register<IPreviewVisibilityRulesService, PreviewVisibilityRulesService>(Lifetime.Singleton);
-        builder.Register<IPreviewRotationService, PreviewRotationService>(Lifetime.Singleton);
-        builder.Register<IEditModePreviewProvider, EditModePreviewProvider>(Lifetime.Singleton);
+        builder.Register<IPreviewSpriteDataProvider, PreviewSpriteDataProvider>(Lifetime.Singleton);
+        builder.Register<IPreviewRotationDataProvider, PreviewRotationDataProvider>(Lifetime.Singleton);
     }
     
     protected override void Awake()
