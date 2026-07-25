@@ -10,10 +10,10 @@ public class PreviewAnimationComponent : MonoBehaviour
 {
     private static readonly int VISIBLE = Animator.StringToHash("Visible");
     private Animator animator;
-    private IPreviewVisibilityRulesService visibilityService;
+    private PreviewVisibilityRulesService visibilityService;
 
     [Inject]
-    private void Construct(IPreviewVisibilityRulesService visibilityService)
+    private void Construct(PreviewVisibilityRulesService visibilityService)
     {
         this.visibilityService = visibilityService;
     }

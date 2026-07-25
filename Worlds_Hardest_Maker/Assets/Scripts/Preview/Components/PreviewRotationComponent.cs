@@ -7,17 +7,17 @@ using VContainer;
 ///     Component that applies rotation to preview based on edit mode.
 ///     Supports both immediate and smooth rotation.
 /// </summary>
-public class PreviewRotationComponent : MonoBehaviour, IPreviewDataReceiver<PreviewRotationData>
+public class PreviewRotationComponent : MonoBehaviour
 {
     public bool RotateToEditRotation = true;
     [Space] [SerializeField] private bool smoothRotation;    
     [SerializeField] [ConditionalField(nameof(smoothRotation))] [PositiveValueOnly] private float rotateDuration;
     
     private EventBus eventBus;
-    private IPreviewRotationDataProvider previewRotationDataProvider;
+    private PreviewRotationDataProvider previewRotationDataProvider;
     
     [Inject]
-    private void Construct(EventBus eventBus, IPreviewRotationDataProvider previewRotationDataProvider)
+    private void Construct(EventBus eventBus, PreviewRotationDataProvider previewRotationDataProvider)
     {
         this.eventBus = eventBus;
         this.previewRotationDataProvider = previewRotationDataProvider;

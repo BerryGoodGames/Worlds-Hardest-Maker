@@ -2,7 +2,7 @@
 ///     Implementation of preview visibility rules.
 ///     Determines when previews should be shown based on game state, input, and managers.
 /// </summary>
-public class PreviewVisibilityRulesService : IPreviewVisibilityRulesService
+public class PreviewVisibilityRulesService
 {
     public bool IsPreviewVisible(EditMode editMode)
     {

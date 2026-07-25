@@ -4,7 +4,7 @@ using UnityEngine;
 ///     Implementation of edit mode preview appearance provider.
 ///     Determines sprite, color, and scale for preview display based on edit mode.
 /// </summary>
-public class PreviewSpriteDataProvider : IPreviewSpriteDataProvider
+public class PreviewSpriteDataProvider
 {
     public PreviewSpriteData GetPreviewSpriteData(EditMode editMode, float alpha = 1f, bool forceShowPreviewSprite = false)
     {

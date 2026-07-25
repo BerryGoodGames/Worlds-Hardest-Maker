@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PreviewRotationDataProvider : IPreviewRotationDataProvider
+public class PreviewRotationDataProvider
 {
     public PreviewRotationData GetPreviewRotationData(EditMode editMode)
     {

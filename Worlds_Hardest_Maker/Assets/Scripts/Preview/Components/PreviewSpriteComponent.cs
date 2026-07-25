@@ -6,7 +6,7 @@ using VContainer;
 /// 
 /// </summary>
 [RequireComponent(typeof(SpriteRenderer))]
-public class PreviewSpriteComponent : MonoBehaviour, IPreviewDataReceiver<PreviewSpriteData>
+public class PreviewSpriteComponent : MonoBehaviour
 {
     [SerializeField] [MustBeAssigned] [InitializationField] private Sprite deleteSprite;
     [Space] [SerializeField] [Range(0, 255)] private float alpha;
@@ -18,10 +18,10 @@ public class PreviewSpriteComponent : MonoBehaviour, IPreviewDataReceiver<Previe
     [ReadOnly] public bool CheckUpdateEveryFrame = true;
     
     private EventBus eventBus;
-    private IPreviewSpriteDataProvider previewSpriteDataProvider;
+    private PreviewSpriteDataProvider previewSpriteDataProvider;
     
     [Inject]
-    private void Construct(EventBus eventBus, IPreviewSpriteDataProvider previewSpriteDataProvider)
+    private void Construct(EventBus eventBus, PreviewSpriteDataProvider previewSpriteDataProvider)
     {
         this.eventBus = eventBus;
         this.previewSpriteDataProvider = previewSpriteDataProvider;
