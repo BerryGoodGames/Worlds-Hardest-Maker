@@ -45,7 +45,7 @@ public partial class SelectionManager : MonoBehaviour
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt) => OnCancelClicked();
     private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt) => OnCancelClicked();
-    private void OnEditModeChange(EditModeChangeEvent evt) => RemakePreview();
+    private void OnEditModeChange(EditModeChangeEvent evt) => RemakeFillPreview();
     
     private void Update()
     {
@@ -115,7 +115,7 @@ public partial class SelectionManager : MonoBehaviour
         
         selectionOptions.pivot = new(width > 0 ? 0 : 1, height > 0 ? 0 : 1);
         
-        RemakePreview();
+        RemakeFillPreview();
     }
     
     private void OnStartSelect(Vector2 start)

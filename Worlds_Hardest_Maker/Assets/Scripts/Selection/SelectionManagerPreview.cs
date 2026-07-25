@@ -4,7 +4,7 @@ using VContainer.Unity;
 
 public partial class SelectionManager
 {
-    private void RemakePreview()
+    private void RemakeFillPreview()
     {
         if (ReferenceManager.Instance.FillPreviewContainer.childCount == 0) return;
         DestroyPreview();

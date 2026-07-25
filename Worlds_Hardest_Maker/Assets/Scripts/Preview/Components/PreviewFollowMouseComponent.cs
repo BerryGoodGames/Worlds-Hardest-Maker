@@ -14,16 +14,9 @@ public class PreviewFollowMouseComponent : MonoBehaviour
     {
         EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
         
-        if (!SelectionManager.Instance.Selecting && hasFollowMouseComp)
+        if (hasFollowMouseComp)
         {
-            followMouseComp.WorldPosition = currentEditMode.Attributes.IsField || currentEditMode == EditModeManager.Delete
-                ? WorldPositionType.Matrix
-                : WorldPositionType.Grid;
+            followMouseComp.WorldPosition = currentEditMode.WorldPositionType;
         }
-    }
-    
-    public FollowMouse GetFollowMouseComponent()
-    {
-        return followMouseComp;
     }
 }

@@ -8,23 +8,11 @@ using VContainer;
 public class PreviewEventComponent : MonoBehaviour
 {
     [Inject] private EventBus eventBus;
-    private PreviewFollowMouseComponent followMouseComponent;
 
     private void Start()
     {
-        followMouseComponent = GetComponent<PreviewFollowMouseComponent>();
-    }
-
-    protected virtual void OnEnable()
-    {
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
-    }
-
-    protected virtual void OnDisable()
-    {
-        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
-        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
     }
 
     private void OnSwitchToPlay(SwitchToPlayEvent evt) => Hide();
@@ -34,7 +22,6 @@ public class PreviewEventComponent : MonoBehaviour
     public void Show()
     {
         gameObject.SetActive(true);
-        UpdatePositionToMouse();
     }
     
     public void Hide()
@@ -42,13 +29,9 @@ public class PreviewEventComponent : MonoBehaviour
         gameObject.SetActive(false);
     }
     
-    private void UpdatePositionToMouse()
+    private void OnDestroy()
     {
-        if (followMouseComponent == null) return;
-
-        FollowMouse followMouse = followMouseComponent.GetFollowMouseComponent();
-        if (followMouse == null) return;
-
-        transform.position = FollowMouse.GetCurrentMouseWorldPos(followMouse.WorldPosition);
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
     }
 }
