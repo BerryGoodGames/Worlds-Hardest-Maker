@@ -8,12 +8,23 @@ public class FollowMouse : MonoBehaviour
     public WorldPositionType WorldPosition;
     // ANY explains itself, GRID only round or half positions, MATRIX only round positions
     
+    public bool AllowSnapToNewCell { get; set; } = true;
+    
+    private Vector2 targetPos;
+    
     private void Update()
     {
         Vector2 pos = GetCurrentMouseWorldPos(WorldPosition);
-        if (transform.position.Equals(pos)) return;
         
-        transform.position = smooth ? Vector2.Lerp(transform.position, pos, Time.unscaledDeltaTime * speed) : pos;
+        if (AllowSnapToNewCell && !pos.Equals(targetPos))
+        {
+            targetPos = pos;
+        }
+        
+        if (!transform.position.Equals(targetPos))
+        {
+            transform.position = smooth ? Vector2.Lerp(transform.position, targetPos, Time.unscaledDeltaTime * speed) : targetPos;
+        }
     }
     
     public static Vector2 GetCurrentMouseWorldPos(WorldPositionType mode) =>

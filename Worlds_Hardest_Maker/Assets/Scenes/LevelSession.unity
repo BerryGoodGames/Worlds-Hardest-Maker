@@ -21251,7 +21251,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 711.4248
+      value: 711.425
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -30748,8 +30748,8 @@ MonoBehaviour:
   spriteComponent: {fileID: 2046466270}
   fadeOutDuration: 0.2
   blinkingDuration: 2
-  brightBlinkMultiplier: 1.1
-  darkBlinkMultiplier: 0.9
+  brightBlinkMultiplier: 1.2
+  darkBlinkMultiplier: 0.8
 --- !u!114 &2046466269
 MonoBehaviour:
   m_ObjectHideFlags: 0
