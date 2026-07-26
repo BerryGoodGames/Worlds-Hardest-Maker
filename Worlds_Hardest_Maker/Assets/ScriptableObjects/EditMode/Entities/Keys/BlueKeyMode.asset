@@ -24,7 +24,9 @@ MonoBehaviour:
   Prefab: {fileID: 2520203573058434629, guid: 65b07ce9bd0b0df4a840508e7fe1012a, type: 3}
   WorldPositionType: 1
   IsDraggable: 1
-  ShowFillPreview: 0
-  DefaultAvailable: 1
-  AnchorAvailable: 1
+  IsRotatable: 0
+  ShowFillPreview: 1
+  DefaultSheetAvailable: 1
+  AnchorSheetAvailable: 1
+  IsCopyable: 1
   KeyColor: 3
