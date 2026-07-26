@@ -33,7 +33,7 @@ public class PrefabManager : MonoBehaviour
     [Foldout("UI")] public GameObject SpaceOptionPrefab;
     [Foldout("UI")] public AlphaTween GlowPrefab;
     
-    [Foldout("UI")] public GameObject FillPreview;
+    [Foldout("UI")] public FillPreviewCoordinator FillPreview;
     [Foldout("UI")] public KeyCodeDisplay KeyCodeDisplay;
     
     #endregion

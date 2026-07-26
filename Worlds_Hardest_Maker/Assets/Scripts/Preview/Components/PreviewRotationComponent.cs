@@ -10,8 +10,8 @@ using VContainer;
 public class PreviewRotationComponent : MonoBehaviour
 {
     public bool RotateToEditRotation = true;
-    [Space] [SerializeField] private bool smoothRotation;    
-    [SerializeField] [ConditionalField(nameof(smoothRotation))] [PositiveValueOnly] private float rotateDuration;
+    [Space] [SerializeField] private bool smoothRotation = true;    
+    [SerializeField] [ConditionalField(nameof(smoothRotation))] [PositiveValueOnly] private float rotateDuration = 0.2f;
     
     private EventBus eventBus;
     private PreviewRotationDataProvider previewRotationDataProvider;
@@ -22,16 +22,12 @@ public class PreviewRotationComponent : MonoBehaviour
         this.eventBus = eventBus;
         this.previewRotationDataProvider = previewRotationDataProvider;
         
-        eventBus.Subscribe<EditModeInitializedEvent>(OnEditModeInitialized);
-        eventBus.Subscribe<EditModeChangeEvent>(OnEditModeChange);
         eventBus.Subscribe<EditRotationChangeEvent>(OnEditRotationChange);
     }
     
-    private void OnEditModeInitialized(EditModeInitializedEvent evt) => UpdateRotation();
-    private void OnEditModeChange(EditModeChangeEvent evt) => UpdateRotation();
     private void OnEditRotationChange(EditRotationChangeEvent evt) => UpdateRotation();
     
-    private void UpdateRotation()
+    public void UpdateRotation()
     {
         EditMode editMode = LevelSessionEditManager.Instance.CurrentEditMode;
         PreviewRotationData previewRotationData = previewRotationDataProvider.GetPreviewRotationData(editMode);
@@ -63,8 +59,6 @@ public class PreviewRotationComponent : MonoBehaviour
     
     private void OnDestroy()
     {
-        eventBus.Unsubscribe<EditModeInitializedEvent>(OnEditModeInitialized);
-        eventBus.Unsubscribe<EditModeChangeEvent>(OnEditModeChange);
         eventBus.Unsubscribe<EditRotationChangeEvent>(OnEditRotationChange);
     }
 }

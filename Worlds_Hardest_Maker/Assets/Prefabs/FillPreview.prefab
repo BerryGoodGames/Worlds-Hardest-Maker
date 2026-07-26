@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7528743690484159431}
   - component: {fileID: 4338054835755337212}
-  - component: {fileID: 6241604217807652297}
+  - component: {fileID: 5185087834714533127}
+  - component: {fileID: 4995871046396128744}
+  - component: {fileID: 3930856783921599848}
   m_Layer: 0
   m_Name: FillPreview
   m_TagString: Untagged
@@ -35,6 +37,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4338054835755337212
 SpriteRenderer:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -50,6 +53,11 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -71,9 +79,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 195234503
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -83,9 +93,9 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6241604217807652297
+  m_BlendShapeWeights: []
+--- !u!114 &5185087834714533127
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,15 +104,39 @@ MonoBehaviour:
   m_GameObject: {fileID: 4652236031313732080}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 987cd8b9322528a4397613092b11fe9b, type: 3}
+  m_Script: {fileID: 11500000, guid: 7cd80623789047f58a64860a83b48c3f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  SpriteRenderer: {fileID: 0}
-  defaultSprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  defaultColor: {r: 0, g: 0, b: 0, a: 0.12156863}
-  alpha: 125
+  m_EditorClassIdentifier: Assembly-CSharp::PreviewSpriteComponent
+  spriteRenderer: {fileID: 4338054835755337212}
+  deleteSprite: {fileID: 7482667652216324306, guid: ec60c8aebe4cc344dada2f9e518529ca, type: 3}
+  alpha: 120
   CheckUpdateEveryFrame: 1
-  ShowSpriteWhenPasting: 0
+--- !u!114 &4995871046396128744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4652236031313732080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e48b7afb17e44b409ee20a971091797f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PreviewRotationComponent
   RotateToEditRotation: 1
   smoothRotation: 1
   rotateDuration: 0.2
+--- !u!114 &3930856783921599848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4652236031313732080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6672b9f894e4c4386e8cb7dc594010b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FillPreviewCoordinator
+  spriteComponent: {fileID: 5185087834714533127}
+  rotationComponent: {fileID: 4995871046396128744}

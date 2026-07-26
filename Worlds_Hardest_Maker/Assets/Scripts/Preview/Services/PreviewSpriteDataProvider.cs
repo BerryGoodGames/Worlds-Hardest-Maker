@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class PreviewSpriteDataProvider
 {
-    public PreviewSpriteData GetPreviewSpriteData(EditMode editMode, float alpha = 1f, bool forceShowPreviewSprite = false)
+    public PreviewSpriteData GetPreviewSpriteData(EditMode editMode, bool forceShowPreviewSprite = false)
     {
         // Delete mode uses default sprite
         if (editMode == EditModeManager.Delete)
@@ -21,7 +21,7 @@ public class PreviewSpriteDataProvider
         }
 
         // Check for PreviewSprite component on prefab
-        if (currentPrefab.TryGetComponent(out PreviewSprite previewSprite))
+        if (currentPrefab.TryGetComponent(out PreviewSpriteConfigurator previewSprite))
         {
             bool shouldShowPreviewSprite = forceShowPreviewSprite || 
                 (!SelectionManager.Instance.Selecting && !CopyManager.Instance.Pasting);
@@ -32,7 +32,7 @@ public class PreviewSpriteDataProvider
                     previewSprite.Color.r,
                     previewSprite.Color.g,
                     previewSprite.Color.b,
-                    alpha * previewSprite.Color.a
+                    previewSprite.Color.a
                 );
                 
                 return new PreviewSpriteData
@@ -57,7 +57,7 @@ public class PreviewSpriteDataProvider
             prefabColor.r,
             prefabColor.g,
             prefabColor.b,
-            alpha * prefabColor.a
+            prefabColor.a
         );
         
         return new PreviewSpriteData

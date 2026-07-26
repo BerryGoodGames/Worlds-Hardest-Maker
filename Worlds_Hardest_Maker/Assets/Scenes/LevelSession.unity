@@ -6500,7 +6500,7 @@ MonoBehaviour:
   HeaderOptionPrefab: {fileID: 2368007494792109334, guid: a6b7a0f0fae743a45b285f8893593211, type: 3}
   SpaceOptionPrefab: {fileID: 1492080202677860167, guid: feda6681672e0d248813daa25467d30e, type: 3}
   GlowPrefab: {fileID: 1280773324893431364, guid: 0b73c19edd2884249b3552bc21e2488f, type: 3}
-  FillPreview: {fileID: 4652236031313732080, guid: 0f8817e424b9b4547b47abeab323c2e9, type: 3}
+  FillPreview: {fileID: 3930856783921599848, guid: 0f8817e424b9b4547b47abeab323c2e9, type: 3}
   KeyCodeDisplay: {fileID: 5841094401543102249, guid: 716c20ae75c69b748bdbbf197c3c9b52, type: 3}
   AnchorPathLine: {fileID: 3623682739954225413, guid: 2d57b6a63b73a8842af909bbba29453a, type: 3}
   AnchorConnector: {fileID: 1532345181}
@@ -21181,7 +21181,6 @@ MonoBehaviour:
   MenuTween: {fileID: 1006894551}
   KeybindBlocker: {fileID: 104472577}
   KeybindBlockerText: {fileID: 405094728}
-  PlacementPreview: {fileID: 0}
   ToolbarTween: {fileID: 3914619140277756240}
   InfobarEditTween: {fileID: 1060004926}
   InfobarPlayTween: {fileID: 660451852}
@@ -21255,7 +21254,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -210.57626
+      value: -210.31506
       objectReference: {fileID: 0}
     - target: {fileID: 2955345560999892006, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_LocalPosition.x
@@ -24445,6 +24444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectionOptions: {fileID: 1898372880}
   fillMouseOver: {fileID: 42787709}
+  placementPreview: {fileID: 2046466266}
 --- !u!1 &1614796946
 GameObject:
   m_ObjectHideFlags: 0
@@ -26388,8 +26388,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 711.39, y: -857.5898}
-  m_SizeDelta: {x: 0, y: 39.5306}
+  m_AnchoredPosition: {x: 711.39, y: -856.54504}
+  m_SizeDelta: {x: 51.75, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755699354
 MonoBehaviour:
@@ -27065,7 +27065,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 39.64502}
+  m_AnchoredPosition: {x: 0, y: 40.689636}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1786665322
@@ -28603,7 +28603,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 871.815, y: -857.5898}
+  m_AnchoredPosition: {x: 871.815, y: -856.54504}
   m_SizeDelta: {x: 85.34, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1919053081
@@ -30580,11 +30580,11 @@ GameObject:
   - component: {fileID: 2046466264}
   - component: {fileID: 2046466258}
   - component: {fileID: 2046466262}
+  - component: {fileID: 2046466266}
   - component: {fileID: 2046466270}
   - component: {fileID: 2046466269}
   - component: {fileID: 2046466268}
   - component: {fileID: 2046466267}
-  - component: {fileID: 2046466266}
   m_Layer: 0
   m_Name: PlacementPreview
   m_TagString: Untagged
@@ -30738,6 +30738,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 011cc9f4649a4166aa2e72272628bea1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PreviewEventComponent
+  spriteComponent: {fileID: 2046466270}
+  rotationComponent: {fileID: 2046466269}
+  animationComponent: {fileID: 2046466268}
+  followMouseComponent: {fileID: 2046466267}
 --- !u!114 &2046466267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30789,6 +30793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cd80623789047f58a64860a83b48c3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PreviewSpriteComponent
+  spriteRenderer: {fileID: 2046466259}
   deleteSprite: {fileID: 7482667652216324306, guid: ec60c8aebe4cc344dada2f9e518529ca, type: 3}
   alpha: 125
   CheckUpdateEveryFrame: 1
@@ -30895,7 +30900,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 783.205, y: -857.5898}
+  m_AnchoredPosition: {x: 783.205, y: -856.54504}
   m_SizeDelta: {x: 66.08, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2065180488

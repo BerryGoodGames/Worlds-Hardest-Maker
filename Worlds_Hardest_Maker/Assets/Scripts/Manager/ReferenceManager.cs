@@ -21,8 +21,6 @@ public class ReferenceManager : MonoBehaviour
     [Foldout("Objects")] public AlphaTween KeybindBlocker;
     [Foldout("Objects")] public TMP_Text KeybindBlockerText;
     
-    [Foldout("Objects")] public PlacementPreviewController PlacementPreview;
-    
     [Foldout("Objects")] public BarTween ToolbarTween;
     [Foldout("Objects")] public BarTween InfobarEditTween;
     [Foldout("Objects")] public BarTween InfobarPlayTween;

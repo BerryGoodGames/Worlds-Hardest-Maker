@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 
 public class CopyManager : MonoBehaviour
 {
@@ -13,6 +15,8 @@ public class CopyManager : MonoBehaviour
     [field: SerializeField] [field: MyBox.ReadOnly] public bool Pasting { get; private set; }
     
     [SerializeField] [InitializationField] [Required] private Transform previewContainer;
+    
+    [Inject] private IObjectResolver diContainer;
     
     public void Copy(Vector2 lowestPos, Vector2 highestPos)
     {
@@ -190,10 +194,12 @@ public class CopyManager : MonoBehaviour
                 ? Quaternion.Euler(0, 0, ((FieldData)copyData.Data).Rotation)
                 : Quaternion.identity;
             
-            GameObject preview = Instantiate(
+            FillPreviewCoordinator preview = Instantiate(
                 PrefabManager.Instance.FillPreview, Vector2.zero, rotation,
                 Instance.previewContainer
             );
+            
+            diContainer.InjectGameObject(preview.gameObject);
             
             preview.transform.localPosition = copyData.RelativePos;
             

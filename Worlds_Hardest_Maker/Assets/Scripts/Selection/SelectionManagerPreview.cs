@@ -4,9 +4,10 @@ using VContainer.Unity;
 
 public partial class SelectionManager
 {
-    private void RemakeFillPreview()
+    private void UpdateFillPreviews()
     {
         if (ReferenceManager.Instance.FillPreviewContainer.childCount == 0) return;
+        
         DestroyPreview();
         InitSelectedPreview();
     }
@@ -18,39 +19,30 @@ public partial class SelectionManager
         
         foreach (Vector2 pos in range)
         {
-            GameObject preview = Instantiate(
+            FillPreviewCoordinator fillPreview = Instantiate(
                 PrefabManager.Instance.FillPreview, pos, Quaternion.identity,
                 ReferenceManager.Instance.FillPreviewContainer
             );
             
-            diContainer.InjectGameObject(preview);
+            diContainer.InjectGameObject(fillPreview.gameObject);
             
-            // PreviewController c = preview.GetComponent<PreviewController>();
-            // c.Awake_();
-            // c.UpdateSprite();
-            // c.UpdateRotation(smooth: false);
+            fillPreview.UpdateSprite();
+            fillPreview.UpdateRotation();
         }
     }
     
-    private static void DestroyPreview()
+    private void DestroyPreview()
     {
         if (!LevelSessionManager.Instance.IsEdit) return;
         
         // destroy selection previews
-        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) Destroy(preview.gameObject);
+        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer)
+        {
+            Destroy(preview.gameObject);
+        }
     }
     
     private void InitSelectedPreview() => InitPreview(GetCurrentFillRange());
-    
-    // public static void UpdatePreviewRotation()
-    // {
-    //     foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) preview.GetComponent<PreviewController>().UpdateRotation();
-    // }
-    //
-    // public static void UpdatePreviewSprite()
-    // {
-    //     foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer) preview.GetComponent<PreviewController>().UpdateSprite();
-    // }
     
     private void SetPreviewVisible()
     {
@@ -67,7 +59,7 @@ public partial class SelectionManager
         DestroyPreview();
         
         // enable placement preview
-        // if (!LevelSessionEditManager.Instance.Playing) ReferenceManager.Instance.PlacementPreview.Activate();
+        if (!LevelSessionEditManager.Instance.Playing) placementPreview.Show();
         
         // reset selection marking
         if (selectionOutline != null) Destroy(selectionOutline);

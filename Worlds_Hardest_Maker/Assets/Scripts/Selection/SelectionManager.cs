@@ -14,6 +14,7 @@ public partial class SelectionManager : MonoBehaviour
 {
     [SerializeField] [InitializationField] [Required] private RectTransform selectionOptions;
     [SerializeField] [InitializationField] [Required] private MouseOverUIRect fillMouseOver;
+    [SerializeField] [InitializationField] [Required] private PlacementPreviewCoordinator placementPreview;
     
     private GameObject selectionOutline;
     private LineAnimator selectionOutlineAnim;
@@ -45,7 +46,7 @@ public partial class SelectionManager : MonoBehaviour
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt) => OnCancelClicked();
     private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt) => OnCancelClicked();
-    private void OnEditModeChange(EditModeChangeEvent evt) => RemakeFillPreview();
+    private void OnEditModeChange(EditModeChangeEvent evt) => UpdateFillPreviews();
     
     private void Update()
     {
@@ -69,7 +70,7 @@ public partial class SelectionManager : MonoBehaviour
             (Vector2 start, Vector2 end) = MouseManager.GetDragPositions(worldPositionType);
             
             // disable normal placement preview
-            ReferenceManager.Instance.PlacementPreview.gameObject.SetActive(false);
+            placementPreview.Hide();
             
             if (KeyBinds.GetKeyBindDown("Editor_Select")) OnStartSelect(start);
             else if (KeyBinds.GetKeyBindUp("Editor_Select")) OnAreaSelected(start, end);
@@ -115,7 +116,7 @@ public partial class SelectionManager : MonoBehaviour
         
         selectionOptions.pivot = new(width > 0 ? 0 : 1, height > 0 ? 0 : 1);
         
-        RemakeFillPreview();
+        UpdateFillPreviews();
     }
     
     private void OnStartSelect(Vector2 start)
