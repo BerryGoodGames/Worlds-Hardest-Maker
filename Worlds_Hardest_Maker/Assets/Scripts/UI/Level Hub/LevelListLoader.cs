@@ -29,6 +29,8 @@ public class LevelListLoader : MonoBehaviour
     
     [InitializationField] [Required] public ContentSizeFitter LevelCardContentSizeFitter;
     
+    [SerializeField] [InitializationField] [Required] private GameObject itsEmptyInHere;
+    
     private FileInfo[] prevLevelInfo;
     
     [HideInInspector] public SortSettings SortSetting = SortSettings.Name;
@@ -116,7 +118,7 @@ public class LevelListLoader : MonoBehaviour
         return levelsChanged;
     }
     
-    private void UpdateLevelCards(FileInfo[] levelInfo)
+    private void UpdateLevelCards(FileInfo[] levelInfos)
     {
         // destroy all level cards
         foreach (Transform t in levelCardContainer)
@@ -132,11 +134,22 @@ public class LevelListLoader : MonoBehaviour
             Destroy(t.gameObject);
         }
         
-        // load all levels into LevelData in array
-        LevelData[] levelDataArr = new LevelData[levelInfo.Length];
-        for (int i = 0; i < levelInfo.Length; i++)
+        // no levels to load -> it's empty in here screen
+        if (levelInfos.Length == 0)
         {
-            try { levelDataArr[i] = SaveSystem.LoadLevel(levelInfo[i].FullName); }
+            itsEmptyInHere.SetActive(true);
+            return;
+        }
+        else
+        {
+            itsEmptyInHere.SetActive(false);
+        }
+        
+        // load all levels into LevelData in array
+        LevelData[] levelDataArr = new LevelData[levelInfos.Length];
+        for (int i = 0; i < levelInfos.Length; i++)
+        {
+            try { levelDataArr[i] = SaveSystem.LoadLevel(levelInfos[i].FullName); }
             catch (Exception)
             {
                 // failed to load file -> old / corrupt file
@@ -150,7 +163,7 @@ public class LevelListLoader : MonoBehaviour
             if (levelDataArr[i] == null) continue;
             
             LevelData levelData = levelDataArr[i];
-            FileInfo levelFileInfo = levelInfo[i];
+            FileInfo levelFileInfo = levelInfos[i];
             
             LevelInfo info = levelData.Info;
             
