@@ -10,9 +10,10 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<KonamiManager>().As<IKonamiService>();
         
         // register preview services
-        builder.Register<PreviewVisibilityRulesService>(Lifetime.Singleton);
         builder.Register<PreviewSpriteDataProvider>(Lifetime.Singleton);
         builder.Register<PreviewRotationDataProvider>(Lifetime.Singleton);
+        builder.Register<PreviewVisibilityRulesService>(Lifetime.Singleton);
+        builder.Register<PreviewSpriteAlphaProvider>(Lifetime.Singleton);
     }
     
     protected override void Awake()

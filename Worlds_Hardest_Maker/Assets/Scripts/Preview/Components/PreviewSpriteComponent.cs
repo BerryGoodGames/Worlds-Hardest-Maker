@@ -10,7 +10,7 @@ public class PreviewSpriteComponent : MonoBehaviour
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer spriteRenderer;
     [Space] [SerializeField] [MustBeAssigned] [InitializationField] private Sprite deleteSprite;
-    [Space] [SerializeField] [Range(0, 255)] private float alpha = 115;
+    [field: Space] [field: SerializeField] [field: Range(0, 255)] public float Alpha { get; private set; } = 115;
     
     public bool ShowSpriteWhenPasting { get; set; }
     
@@ -42,7 +42,7 @@ public class PreviewSpriteComponent : MonoBehaviour
         Sprite appliedSprite = previewSpriteData.IsDelete ? deleteSprite : previewSpriteData.Sprite;
         
         Color appliedColor = previewSpriteData.Color;
-        appliedColor.a *= alpha / 255f;
+        appliedColor.a *= Alpha / 255f;
         
         spriteRenderer.sprite = appliedSprite;
         spriteRenderer.color = appliedColor;

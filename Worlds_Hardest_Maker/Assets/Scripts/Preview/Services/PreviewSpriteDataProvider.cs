@@ -38,7 +38,7 @@ public class PreviewSpriteDataProvider
         }
 
         // Fallback: Extract sprite from prefab or its children
-        (SpriteRenderer spriteRenderer, Vector2 scale) = GetSpriteRendererAndScale(currentPrefab);
+        (SpriteRenderer spriteRenderer, Vector2 scale) = FindSpriteRendererAndScale(currentPrefab);
         
         if (spriteRenderer == null)
         {
@@ -61,7 +61,7 @@ public class PreviewSpriteDataProvider
         };
     }
 
-    private static (SpriteRenderer renderer, Vector2 scale) GetSpriteRendererAndScale(GameObject prefab)
+    private static (SpriteRenderer renderer, Vector2 scale) FindSpriteRendererAndScale(GameObject prefab)
     {
         // Try to get sprite renderer directly on prefab
         if (prefab.TryGetComponent(out SpriteRenderer renderer))

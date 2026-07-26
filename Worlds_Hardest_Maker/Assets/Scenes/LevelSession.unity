@@ -21251,11 +21251,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 711.425
+      value: 711.4248
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -210.54892
+      value: -210.53354
       objectReference: {fileID: 0}
     - target: {fileID: 2955345560999892006, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_LocalPosition.x
@@ -26389,7 +26389,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 711.39, y: -857.4804}
+  m_AnchoredPosition: {x: 711.38995, y: -857.41895}
   m_SizeDelta: {x: 51.75, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755699354
@@ -27066,7 +27066,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 39.14322}
+  m_AnchoredPosition: {x: 0, y: 39.754272}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1786665322
@@ -28604,7 +28604,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 871.815, y: -857.4804}
+  m_AnchoredPosition: {x: 871.81494, y: -857.41895}
   m_SizeDelta: {x: 85.34, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1919053081
@@ -30580,7 +30580,6 @@ GameObject:
   - component: {fileID: 2046466259}
   - component: {fileID: 2046466264}
   - component: {fileID: 2046466258}
-  - component: {fileID: 2046466262}
   - component: {fileID: 2046466266}
   - component: {fileID: 2046466270}
   - component: {fileID: 2046466269}
@@ -30668,28 +30667,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!95 &2046466262
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2046466257}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9c0ab8fd81ba917439070392d3687189, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &2046466263
 Transform:
   m_ObjectHideFlags: 0
@@ -30767,6 +30744,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da79d6f49756481e871ce73d12fa19ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PreviewAnimationComponent
+  spriteRenderer: {fileID: 2046466259}
+  spriteComponent: {fileID: 2046466270}
+  fadeOutDuration: 0.2
+  blinkingDuration: 2
+  brightBlinkMultiplier: 1.1
+  darkBlinkMultiplier: 0.9
 --- !u!114 &2046466269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30796,7 +30779,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PreviewSpriteComponent
   spriteRenderer: {fileID: 2046466259}
   deleteSprite: {fileID: 7482667652216324306, guid: ec60c8aebe4cc344dada2f9e518529ca, type: 3}
-  alpha: 120
+  <Alpha>k__BackingField: 115
 --- !u!1 &2059336037
 GameObject:
   m_ObjectHideFlags: 0
@@ -30900,7 +30883,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 783.205, y: -857.4804}
+  m_AnchoredPosition: {x: 783.20496, y: -857.41895}
   m_SizeDelta: {x: 66.08, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2065180488

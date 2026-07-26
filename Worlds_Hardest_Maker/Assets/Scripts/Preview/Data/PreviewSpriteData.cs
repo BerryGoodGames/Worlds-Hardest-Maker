@@ -1,3 +1,4 @@
+using MyBox;
 using UnityEngine;
 
 public struct PreviewSpriteData
@@ -6,7 +7,7 @@ public struct PreviewSpriteData
     {
         IsDelete = true,
         Sprite = null,
-        Color = Color.black,
+        Color = Color.black.WithAlphaSetTo(0.8f),
         Scale = Vector2.one,
     };
     
