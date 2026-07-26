@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DG.Tweening;
 using MyBox;
 using NaughtyAttributes;
@@ -209,11 +210,42 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     
     #endregion
     
+    private bool IsBlockedByOtherUI()
+    {
+        EventSystem eventSystem = EventSystem.current;
+        if (eventSystem == null) return false;
+        
+        PointerEventData pointerEventData = new PointerEventData(eventSystem)
+        {
+            position = Input.mousePosition,
+        };
+        
+        List<RaycastResult> results = new List<RaycastResult>();
+        eventSystem.RaycastAll(pointerEventData, results);
+        
+        if (results.Count == 0) return false;
+        
+        foreach (RaycastResult result in results)
+        {
+            if (result.gameObject == gameObject || result.gameObject.transform.IsChildOf(transform))
+            {
+                return false;
+            }
+            
+            if (result.gameObject.activeInHierarchy)
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
     #region Events
     
     private void OnHover()
     {
-        if (!isCharging && !isPlaying) SetHoverAnim();
+        if (!isCharging && !isPlaying && !IsBlockedByOtherUI()) SetHoverAnim();
     }
     
     private void OnUnhover()
