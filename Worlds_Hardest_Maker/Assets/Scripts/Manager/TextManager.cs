@@ -12,8 +12,6 @@ public class TextManager : MonoBehaviour
     
     [Header("Text References")] [SerializeField] [InitializationField] [Required] private TMP_Text editModeText;
     
-    [SerializeField] [InitializationField] [Required] private TMP_Text selectingText;
-    
     [SerializeField] [InitializationField] [Required] private TMP_Text deathText;
     [SerializeField] [InitializationField] [Required] private TMP_Text coinText;
     
@@ -51,6 +49,5 @@ public class TextManager : MonoBehaviour
         
         // set edit mode text ui
         Instance.editModeText.text = $"Edit: {LevelSessionEditManager.Instance.CurrentEditMode.UIString}";
-        Instance.selectingText.text = $"Selecting: {SelectionManager.Instance.Selecting}";
     }
 }
