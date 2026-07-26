@@ -28,17 +28,10 @@ public class PreviewSpriteDataProvider
             
             if (shouldShowPreviewSprite)
             {
-                Color color = new Color(
-                    previewSprite.Color.r,
-                    previewSprite.Color.g,
-                    previewSprite.Color.b,
-                    previewSprite.Color.a
-                );
-                
                 return new PreviewSpriteData
                 {
                     Sprite = previewSprite.Sprite,
-                    Color = color,
+                    Color = previewSprite.Color,
                     Scale = previewSprite.Scale,
                 };
             }

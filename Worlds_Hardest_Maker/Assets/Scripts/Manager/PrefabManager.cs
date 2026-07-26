@@ -34,6 +34,7 @@ public class PrefabManager : MonoBehaviour
     [Foldout("UI")] public AlphaTween GlowPrefab;
     
     [Foldout("UI")] public FillPreviewCoordinator FillPreview;
+    [Foldout("UI")] public PastePreviewCoordinator PastePreview;
     [Foldout("UI")] public KeyCodeDisplay KeyCodeDisplay;
     
     #endregion

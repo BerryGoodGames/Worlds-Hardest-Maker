@@ -194,14 +194,16 @@ public class CopyManager : MonoBehaviour
                 ? Quaternion.Euler(0, 0, ((FieldData)copyData.Data).Rotation)
                 : Quaternion.identity;
             
-            FillPreviewCoordinator preview = Instantiate(
-                PrefabManager.Instance.FillPreview, Vector2.zero, rotation,
+            PastePreviewCoordinator pastePreview = Instantiate(
+                PrefabManager.Instance.PastePreview, Vector2.zero, rotation,
                 Instance.previewContainer
             );
             
-            diContainer.InjectGameObject(preview.gameObject);
+            diContainer.InjectGameObject(pastePreview.gameObject);
             
-            preview.transform.localPosition = copyData.RelativePos;
+            pastePreview.transform.localPosition = copyData.RelativePos;
+            
+            pastePreview.ApplyCopyData(copyData);
             
             // PreviewController previewController = preview.GetComponent<PreviewController>();
             //

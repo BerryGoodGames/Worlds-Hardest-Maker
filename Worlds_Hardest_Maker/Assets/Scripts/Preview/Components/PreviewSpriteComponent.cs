@@ -10,11 +10,9 @@ public class PreviewSpriteComponent : MonoBehaviour
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer spriteRenderer;
     [Space] [SerializeField] [MustBeAssigned] [InitializationField] private Sprite deleteSprite;
-    [Space] [SerializeField] [Range(0, 255)] private float alpha = 125;
+    [Space] [SerializeField] [Range(0, 255)] private float alpha = 115;
     
     public bool ShowSpriteWhenPasting { get; set; }
-
-    [ReadOnly] public bool CheckUpdateEveryFrame = true;
     
     private PreviewSpriteDataProvider previewSpriteDataProvider;
     
@@ -32,7 +30,7 @@ public class PreviewSpriteComponent : MonoBehaviour
         SetSprite(LevelSessionEditManager.Instance.CurrentEditMode);
     }
     
-    private void SetSprite(EditMode editMode)
+    public void SetSprite(EditMode editMode)
     {
         PreviewSpriteData previewSpriteData = previewSpriteDataProvider.GetPreviewSpriteData(editMode, forceShowPreviewSprite: ShowSpriteWhenPasting);
         
