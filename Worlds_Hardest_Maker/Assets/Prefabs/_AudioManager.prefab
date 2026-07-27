@@ -448,3 +448,13 @@ MonoBehaviour:
     cooldown: 0
     volume: 1
     pitch: 1
+  - Name: Toast
+    audioClip: {fileID: 8300000, guid: f63b64bbb5403864aa1fbc04494e95f9, type: 3}
+    output: {fileID: -4219647220346853951, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    mute: 0
+    playOnAwake: 0
+    loop: 0
+    allowOverlap: 1
+    cooldown: 0
+    volume: 0.45
+    pitch: 1

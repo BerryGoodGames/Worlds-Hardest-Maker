@@ -8,7 +8,7 @@ public class ToastAnimation : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform container;
     
     [Separator] [SerializeField] [PositiveValueOnly] private float swipeDuration = 0.4f;
-    [SerializeField] [PositiveValueOnly] private float fadeInDuration = 0.5f;
+    [SerializeField] [PositiveValueOnly] private float fadeInDuration = 0.4f;
     [SerializeField] [PositiveValueOnly] private float fadeOutDuration = 0.4f;
     
     private void Start() { EnterAnimation(); }
@@ -16,7 +16,7 @@ public class ToastAnimation : MonoBehaviour
     private void EnterAnimation()
     {
         canvasGroup.alpha = 0;
-        canvasGroup.DOFade(1, fadeOutDuration)
+        canvasGroup.DOFade(1, fadeInDuration)
             .SetId(gameObject)
             .SetUpdate(true);
         

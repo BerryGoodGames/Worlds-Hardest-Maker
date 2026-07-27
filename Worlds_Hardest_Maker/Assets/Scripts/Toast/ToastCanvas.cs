@@ -6,6 +6,7 @@ using VContainer.Unity;
 public class ToastCanvas : MonoBehaviour
 {
     [Inject] private IObjectResolver diContainer;
+    [Inject] private IAudioService audioService;
     
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform toastContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private ToastUI toastUIPrefab;
@@ -17,5 +18,7 @@ public class ToastCanvas : MonoBehaviour
         diContainer.InjectGameObject(newToast.gameObject);
         
         newToast.ApplyToastData(toast);
+        
+        audioService.Play("Toast");
     }
 }
