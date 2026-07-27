@@ -1,15 +1,16 @@
+using DG.Tweening;
 using MyBox;
-using NUnit.Framework.Interfaces;
 using TMPro;
-using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(ToastAnimation))]
 public class ToastUI : MonoBehaviour
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text messageText;
     [SerializeField] [InitializationField] [MustBeAssigned] private Image iconImage;
     [SerializeField] [InitializationField] [MustBeAssigned] private Image lifetimeBar;
+    [SerializeField] [InitializationField] [MustBeAssigned] private ToastAnimation animation;
     
     private float totalLifetime;
     private float timeElapsed;
@@ -37,7 +38,7 @@ public class ToastUI : MonoBehaviour
     }
     
     private void Pop()
-    {
-        Destroy(gameObject);
+    { 
+        animation.Death().OnComplete(() => Destroy(gameObject));
     }
 }
