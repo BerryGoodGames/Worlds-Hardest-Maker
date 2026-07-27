@@ -17,6 +17,7 @@ public class CopyManager : MonoBehaviour
     [SerializeField] [InitializationField] [Required] private Transform previewContainer;
     
     [Inject] private IObjectResolver diContainer;
+    [Inject] private IToastService toastService;
     
     public void Copy(Vector2 lowestPos, Vector2 highestPos)
     {
@@ -76,6 +77,8 @@ public class CopyManager : MonoBehaviour
             
             clipBoard.Add(copyData);
         }
+        
+        toastService.ShowInfo("Selection copied to clipboard", 4);
     }
     
     private static List<Vector2> HitsToPoints(Collider2D[] hits)
@@ -204,16 +207,6 @@ public class CopyManager : MonoBehaviour
             pastePreview.transform.localPosition = copyData.RelativePos;
             
             pastePreview.ApplyCopyData(copyData);
-            
-            // PreviewController previewController = preview.GetComponent<PreviewController>();
-            //
-            // // set some settings in preview
-            // previewController.CheckUpdateEveryFrame = false;
-            // previewController.ShowSpriteWhenPasting = true;
-            // previewController.RotateToEditRotation = false;
-            //
-            // // set sprite of preview
-            // previewController.SetSprite(copyData.GetEditMode());
         }
     }
     
