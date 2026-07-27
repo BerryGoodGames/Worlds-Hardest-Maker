@@ -36,7 +36,7 @@ public class ToastManager : MonoBehaviour, IToastService
             currentToastCount--;
         
             // enqueue overflowed toasts
-            if (overflowQueue.Count > 0 && currentToastCount < maxVisibleToasts)
+            while (overflowQueue.Count > 0 && currentToastCount < maxVisibleToasts)
             {
                 ToastData nextToast = overflowQueue.Dequeue();
                 toastCanvas.InstantiateToast(nextToast);
@@ -56,9 +56,11 @@ public class ToastManager : MonoBehaviour, IToastService
                 return;
             }
             
-            toastCanvas.InstantiateToast(toast);
             currentToastCount++;
         }
+        
+        // instantiate outside the lock to avoid blocking other threads
+        toastCanvas.InstantiateToast(toast);
     }
     
     public void ShowToast(string message, float duration, ToastType type)
