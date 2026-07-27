@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: SuccessTheme
   m_EditorClassIdentifier: Assembly-CSharp::ToastTheme
   Icon: {fileID: 21300000, guid: a154d0c22adaa004482204febeac6292, type: 3}
-  Color: {r: 0.28235295, g: 0.7529412, b: 0.26666668, a: 1}
+  Color: {r: 0.41135073, g: 0.84276724, b: 0, a: 1}

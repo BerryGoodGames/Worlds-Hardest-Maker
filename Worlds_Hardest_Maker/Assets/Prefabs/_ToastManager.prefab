@@ -44,3 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce592db2440425ba832253ded86e23f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ToastManager
+  toastUIPrefab: {fileID: 8736009761564660900, guid: 6a6667c8a9043084d9e70ce4f279a76a, type: 3}
+  successTheme: {fileID: 11400000, guid: 359336202ce940f4cb5bee50428a1a46, type: 2}
+  infoTheme: {fileID: 11400000, guid: 0909c34b69b1ed5449a5f97e163943b0, type: 2}
+  warningTheme: {fileID: 11400000, guid: 87b0f2e79d97eca45b93075847d217e6, type: 2}
+  errorTheme: {fileID: 11400000, guid: 59e5df3b2cb61f84a9d4f1b061ae1203, type: 2}

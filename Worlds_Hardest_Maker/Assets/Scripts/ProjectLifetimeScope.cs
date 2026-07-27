@@ -6,8 +6,9 @@ using VContainer.Unity;
 public class ProjectLifetimeScope : LifetimeScope
 {
     [Separator] [SerializeField] [MustBeAssigned] private AudioManager audioManagerPrefab;
+    [SerializeField] [MustBeAssigned] private ToastCanvas toastCanvasPrefab;
     [SerializeField] [MustBeAssigned] private ToastManager toastManagerPrefab;
-    
+
     protected override void Configure(IContainerBuilder builder)
     {
         builder.Register<EventBus>(Lifetime.Singleton);
@@ -16,6 +17,9 @@ public class ProjectLifetimeScope : LifetimeScope
             .DontDestroyOnLoad()
             .As<IAudioService>();
         
+        builder.RegisterComponentInNewPrefab(toastCanvasPrefab, Lifetime.Singleton)
+            .DontDestroyOnLoad();
+        
         builder.RegisterComponentInNewPrefab(toastManagerPrefab, Lifetime.Singleton)
             .DontDestroyOnLoad()
             .As<IToastService>();
@@ -23,6 +27,7 @@ public class ProjectLifetimeScope : LifetimeScope
         builder.RegisterBuildCallback(container =>
         {
             container.Resolve<IAudioService>();
+            container.Resolve<ToastCanvas>();
             container.Resolve<IToastService>();
         });
     }

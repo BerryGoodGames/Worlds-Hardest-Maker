@@ -49,4 +49,5 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects: []
   audioManagerPrefab: {fileID: 7094929975592231968, guid: a83944a685899094592b234bbc12b115, type: 3}
+  toastCanvasPrefab: {fileID: 8219245295570694910, guid: 514d8bf9c97e8b14c8ad41c8eb0cedb9, type: 3}
   toastManagerPrefab: {fileID: 5725449068941097850, guid: 1dc5a07a464c576479624275f8e260df, type: 3}
