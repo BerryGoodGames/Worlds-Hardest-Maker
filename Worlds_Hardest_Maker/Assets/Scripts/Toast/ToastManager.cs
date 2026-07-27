@@ -1,20 +1,64 @@
 using System;
+using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 using VContainer;
 
 public class ToastManager : MonoBehaviour, IToastService
 {
-    [Inject] private ToastCanvas toastCanvas;
+    private EventBus eventBus;
+    private ToastCanvas toastCanvas;
     
     [SerializeField] [InitializationField] [MustBeAssigned] private ToastTheme successTheme;
     [SerializeField] [InitializationField] [MustBeAssigned] private ToastTheme infoTheme;
     [SerializeField] [InitializationField] [MustBeAssigned] private ToastTheme warningTheme;
     [SerializeField] [InitializationField] [MustBeAssigned] private ToastTheme errorTheme;
     
+    [Space] [SerializeField] [PositiveValueOnly] private int maxVisibleToasts = 3;
+    
+    private int currentToastCount;
+    private readonly Queue<ToastData> overflowQueue = new();
+    
+    [Inject]
+    private void Construct(EventBus eventBus, ToastCanvas toastCanvas)
+    {
+        this.eventBus = eventBus;
+        this.toastCanvas = toastCanvas;
+        
+        eventBus.Subscribe<ToastPoppedEvent>(OnToastPopped);
+    }
+    
+    private void OnToastPopped(ToastPoppedEvent evt)
+    {
+        // synchronize in case of multiple pops fired simultaneously
+        lock (overflowQueue)
+        {
+            currentToastCount--;
+        
+            // enqueue overflowed toasts
+            if (overflowQueue.Count > 0 && currentToastCount < maxVisibleToasts)
+            {
+                ToastData nextToast = overflowQueue.Dequeue();
+                toastCanvas.InstantiateToast(nextToast);
+                
+                currentToastCount++;
+            }
+        }
+    }
+    
     public void ShowToast(ToastData toast)
     {
-        toastCanvas.InstantiateToast(toast);
+        lock (overflowQueue)
+        {
+            if (currentToastCount >= maxVisibleToasts)
+            {
+                overflowQueue.Enqueue(toast);
+                return;
+            }
+            
+            toastCanvas.InstantiateToast(toast);
+            currentToastCount++;
+        }
     }
     
     public void ShowToast(string message, float duration, ToastType type)
@@ -29,5 +73,10 @@ public class ToastManager : MonoBehaviour, IToastService
         };
         
         ShowToast(new ToastData(message, duration, theme.Icon, theme.Color));
+    }
+    
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<ToastPoppedEvent>(OnToastPopped);
     }
 }

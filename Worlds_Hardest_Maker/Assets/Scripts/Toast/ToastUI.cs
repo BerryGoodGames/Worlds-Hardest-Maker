@@ -3,6 +3,7 @@ using MyBox;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 [RequireComponent(typeof(ToastAnimation))]
 public class ToastUI : MonoBehaviour
@@ -15,6 +16,8 @@ public class ToastUI : MonoBehaviour
     private float totalLifetime;
     private float timeElapsed;
     
+    [Inject] private EventBus eventBus;
+
     private void Update()
     {
         timeElapsed += Time.deltaTime;
@@ -39,6 +42,10 @@ public class ToastUI : MonoBehaviour
     
     private void Pop()
     { 
-        animation.Death().OnComplete(() => Destroy(gameObject));
+        animation.Death().OnComplete(() =>
+        {
+            eventBus.Fire(new ToastPoppedEvent());
+            Destroy(gameObject);
+        });
     }
 }

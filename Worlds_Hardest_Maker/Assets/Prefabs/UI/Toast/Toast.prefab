@@ -209,7 +209,8 @@ MonoBehaviour:
   canvasGroup: {fileID: 4413885700903852744}
   container: {fileID: 1819482220400043892}
   swipeDuration: 1
-  fadeDuration: 0.4
+  fadeInDuration: 0.7
+  fadeOutDuration: 0.4
 --- !u!225 &4413885700903852744
 CanvasGroup:
   m_ObjectHideFlags: 0
