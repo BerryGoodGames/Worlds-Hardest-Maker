@@ -19,6 +19,7 @@ public static class KeyBinds
         { "Editor_Copy", new() { new[] { KeyCode.LeftControl, KeyCode.C, }, } },
         { "Editor_Paste", new() { new[] { KeyCode.LeftControl, KeyCode.V, }, } },
         { "Editor_Undo", new() { new[] { KeyCode.LeftControl, KeyCode.Z, }, } },
+        { "Editor_Redo", new() { new[] { KeyCode.LeftControl, KeyCode.Y, }, } },
         { "Editor_Pick", new() { new[] { KeyCode.J, }, } },
         { "Editor_Menu", new() { new[] { KeyCode.M, }, } },
         { "Editor_Save", new() { new[] { KeyCode.LeftControl, KeyCode.S, }, } },

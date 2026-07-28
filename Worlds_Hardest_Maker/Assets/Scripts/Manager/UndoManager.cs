@@ -4,7 +4,8 @@ using VContainer;
 
 public class UndoManager : MonoBehaviour
 {
-    private Stack<List<Data>> gameDataStack;
+    private Stack<List<Data>> gameDataUndoStack;
+    private Stack<List<Data>> gameDataRedoStack;
     
     private EventBus eventBus;
     
@@ -25,28 +26,35 @@ public class UndoManager : MonoBehaviour
     
     private void Undo()
     {
-        if (gameDataStack.Count < 2)
-        {
-            print("Nothing left to undo");
-            return;
-        }
+        if (gameDataUndoStack.Count <= 1) return;
         
         // remove current game data to get previous
-        gameDataStack.Pop();
+        gameDataRedoStack.Push(gameDataUndoStack.Pop());
         
-        List<Data> targetData = gameDataStack.Peek();
+        List<Data> targetData = gameDataUndoStack.Peek();
         GameManager.Instance.LoadLevelFromDataRaw(targetData);
+        
+    }
+
+    private void Redo()
+    {
+        if (gameDataRedoStack.Count <= 0) return;
+        
+        List<Data> targetData = gameDataRedoStack.Pop();
+        GameManager.Instance.LoadLevelFromDataRaw(targetData);
+        gameDataUndoStack.Push(targetData);
     }
     
     private void PushCurrentGameData()
     {
         List<Data> newData = SaveSystem.SerializeCurrentLevel();
         
-        List<Data> currentData = gameDataStack.Count > 0 ? gameDataStack.Peek() : null;
+        List<Data> currentData = gameDataUndoStack.Count > 0 ? gameDataUndoStack.Peek() : null;
         
-        if (gameDataStack.Count > 0 && CompareData(currentData, newData)) return;
+        if (gameDataUndoStack.Count > 0 && CompareData(currentData, newData)) return;
         
-        gameDataStack.Push(newData);
+        gameDataUndoStack.Push(newData);
+        gameDataRedoStack.Clear();
     }
     
     private static bool CompareData(List<Data> list1, List<Data> list2)
@@ -66,10 +74,15 @@ public class UndoManager : MonoBehaviour
     private void Update()
     {
         if (KeyBinds.GetKeyBindDown("Editor_Undo")) Undo();
+        if (KeyBinds.GetKeyBindDown("Editor_Redo")) Redo();
     }
     
-    private void Awake() => gameDataStack = new();
-    
+    private void Awake()
+    {
+        gameDataUndoStack = new();
+        gameDataRedoStack = new();
+    }
+
     private void OnDestroy()
     {
         eventBus.Unsubscribe<EditActionEvent>(OnEditAction);
