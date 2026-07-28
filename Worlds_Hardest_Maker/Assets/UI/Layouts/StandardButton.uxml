@@ -1,0 +1,8 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Styles/GlobalTheme.uss?fileID=7433441132597879392&amp;guid=c79631ac3a5aa28868bdfe3dd9e67435&amp;type=3#GlobalTheme"/>
+    <Style src="project://database/Assets/UI/Styles/StandardButton.uss?fileID=7433441132597879392&amp;guid=c2eba48682eeea81fa7ced88eac50a3e&amp;type=3#StandardButton"/>
+    <ui:VisualElement class="standard-button-container" style="flex-grow: 1;">
+        <ui:VisualElement class="standard-button-shadow" style="flex-grow: 1;"/>
+        <ui:Button text="Button" class="standard-button"/>
+    </ui:VisualElement>
+</ui:UXML>

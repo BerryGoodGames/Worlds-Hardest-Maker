@@ -1,0 +1,45 @@
+.standard-button-container {
+    width: 200px;
+    height: 50px;
+    margin: 10px;
+}
+
+.standard-button-shadow {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    right: -4px;
+    bottom: -4px;
+    background-color: var(--color-primary);
+    border-radius: var(--border-radius);
+}
+
+.standard-button {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-bg-light);
+    border-color: var(--color-primary);
+    border-width: var(--border-width);
+    border-radius: var(--border-radius);
+    color: var(--color-text-dark);
+    padding: 0;
+    margin: 0;
+    font-size: 22px;
+    -unity-text-align: middle-center;
+    transition-property: translate;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+    -unity-font-definition: url("project://database/Assets/Fonts/Baloo%20Thambi/static/BalooThambi2-Regular.ttf?fileID=12800000&guid=c9238331c2032e74fb2d68b00307f50f&type=3#BalooThambi2-Regular");
+}
+
+.standard-button:hover {
+    translate: -2px -2px;
+}
+
+.standard-button:active {
+    translate: 4px 4px;
+    transition-duration: 0.05s;
+}

@@ -1,0 +1,4 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="StandardButton" src="project://database/Assets/UI/Layouts/StandardButton.uxml?fileID=9197481963319205126&amp;guid=149c0a638fcc4499fb822f98c5e0d06d&amp;type=3#StandardButton"/>
+    <ui:Instance template="StandardButton" name="TemplateContainer" style="height: 66px; width: 223px; align-content: flex-start; align-items: flex-end; justify-content: flex-end; align-self: flex-start; flex-direction: column;"/>
+</ui:UXML>
