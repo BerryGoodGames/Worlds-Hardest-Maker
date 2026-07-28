@@ -15,6 +15,9 @@ public static class KeyBinds
         { "Movement_Down", new() { new[] { KeyCode.S, }, new[] { KeyCode.DownArrow, }, } },
         { "Movement_Left", new() { new[] { KeyCode.A, }, new[] { KeyCode.LeftArrow, }, } },
         
+        { "Level_RestartFromLastCheckpoint", new() {  new[] { KeyCode.R, }, } },
+        { "Level_RestartFromStart", new() { new[] { KeyCode.LeftControl, KeyCode.R, }, } },
+        
         { "Editor_Select", new() { new[] { KeyCode.Mouse1, }, } },
         { "Editor_Copy", new() { new[] { KeyCode.LeftControl, KeyCode.C, }, } },
         { "Editor_Paste", new() { new[] { KeyCode.LeftControl, KeyCode.V, }, } },

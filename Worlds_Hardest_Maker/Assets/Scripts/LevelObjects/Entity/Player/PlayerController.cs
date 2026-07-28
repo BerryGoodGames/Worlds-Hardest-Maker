@@ -107,6 +107,9 @@ public partial class PlayerController : EntityController
         // get movement input
         movementInput = KeyBinds.GetMovementInput();
         
+        if (KeyBinds.GetKeyBindDown("Level_RestartFromStart")) PlayManager.Instance.RestartLevel();
+        else if (KeyBinds.GetKeyBindDown("Level_RestartFromLastCheckpoint")) DieNormal();
+        
         VoidDetection();
     }
     
