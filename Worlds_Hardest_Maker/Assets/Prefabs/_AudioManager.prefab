@@ -52,11 +52,21 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: b218ba2646183ed449e81c925a1fc46a, type: 3}
     output: {fileID: 1135677753749239577, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
     mute: 0
-    playOnAwake: 1
+    playOnAwake: 0
     loop: 1
     allowOverlap: 1
     cooldown: 0
     volume: 1
+    pitch: 1
+  - Name: EditorMusic
+    audioClip: {fileID: 8300000, guid: fe1a10a15f8c5b348b83724e7fc8d047, type: 3}
+    output: {fileID: 1135677753749239577, guid: 9b06bb5b3ffa3d1498f66561dcb7d3f7, type: 2}
+    mute: 0
+    playOnAwake: 1
+    loop: 1
+    allowOverlap: 1
+    cooldown: 0
+    volume: 0.605
     pitch: 1
   - Name: Place
     audioClip: {fileID: 8300000, guid: c42d82c1311940c4bbc5d6ef166e4a3c, type: 3}
