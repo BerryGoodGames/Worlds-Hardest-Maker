@@ -88,7 +88,10 @@ public partial class AnchorManager : IManagerSelectable
         
         EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
         if (!currentEditMode.Attributes.IsAnchorRelated)
-            PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.LevelSettingsPanelController, false);
+        {
+            PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.LevelSettingsPanelController, false, false);
+            PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.TestingOptionsPanelController, false, false);
+        }
         
         PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, true);
         PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachExitButtonController, true);

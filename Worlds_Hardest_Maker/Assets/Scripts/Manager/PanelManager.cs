@@ -1,9 +1,11 @@
-using System;
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 using VContainer;
 
+/// <summary>
+/// DIESER CODE IST SO SCHLECHT HOLY SHIT ES IST ALLES SO UNÜBERSICHTLICH ZEIGE DEINEM ARBEITGEBER NIEMALS DIESEN CODE
+/// </summary>
 public class PanelManager : MonoBehaviour
 {
     public static PanelManager Instance { get; private set; }
@@ -73,6 +75,9 @@ public class PanelManager : MonoBehaviour
         PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
         SetPanelHidden(levelSettingsPanel, true);
         
+        PanelController testingOptionsPanel = ReferenceManager.Instance.TestingOptionsPanelController;
+        SetPanelHidden(testingOptionsPanel, true);
+        
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
         PanelController anchorAttachButton = ReferenceManager.Instance.AnchorAttachButtonController;
         WasAnchorPanelOpen = anchorPanel.Open;
@@ -85,6 +90,7 @@ public class PanelManager : MonoBehaviour
         // show level setting / anchor panel
         bool isEditModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
         PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
+        PanelController testingOptionsPanel = ReferenceManager.Instance.TestingOptionsPanelController;
         PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
         PanelController anchorAttachButton = ReferenceManager.Instance.AnchorAttachButtonController;
         if (isEditModeAnchorRelated)
@@ -94,7 +100,11 @@ public class PanelManager : MonoBehaviour
             
             if (AnchorManager.Instance.SelectedAnchor != null) SetPanelHidden(anchorAttachButton, false, false);
         }
-        else SetPanelHidden(levelSettingsPanel, false);
+        else
+        {
+            SetPanelHidden(levelSettingsPanel, false, false);
+            SetPanelHidden(testingOptionsPanel, false, false);
+        }
     }
     
     private void Awake()

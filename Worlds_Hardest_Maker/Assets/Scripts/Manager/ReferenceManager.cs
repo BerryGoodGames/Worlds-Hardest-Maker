@@ -29,6 +29,7 @@ public class ReferenceManager : MonoBehaviour
     [Foldout("Objects")] public TimerController TimerController;
     
     [Foldout("Objects")] public PanelController LevelSettingsPanelController;
+    [Foldout("Objects")] public PanelController TestingOptionsPanelController;
     [Foldout("Objects")] public PanelController AnchorPanelController;
     [Foldout("Objects")] public PanelController AnchorAttachButtonController;
     [Foldout("Objects")] public PanelController AnchorAttachExitButtonController;
