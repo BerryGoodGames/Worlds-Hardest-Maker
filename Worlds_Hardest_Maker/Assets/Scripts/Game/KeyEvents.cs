@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using VContainer;
 
 /// <summary>
 ///     Controls key events and manages keyboard shortcuts
@@ -10,12 +11,14 @@ public class KeyEvents : MonoBehaviour
 {
     private KeyCode[] prevHeldDownKeys = Array.Empty<KeyCode>();
     
+    [Inject] private IMouseService mouseService;
+    
     private void Update()
     {
         if (CheckKeyBindAddition()) return;
         
         // pick object
-        if (KeyBinds.GetKeyBindDown("Editor_Pick")) PickManager.PickObject(MouseManager.Instance.MouseWorldPos);
+        if (KeyBinds.GetKeyBindDown("Editor_Pick")) PickUtils.PickObject(mouseService.MouseWorldPos);
         
         bool closingPanel = CheckClosingPanel();
         
@@ -45,7 +48,7 @@ public class KeyEvents : MonoBehaviour
         if (!CopyManager.Instance.Pasting && KeyBinds.GetKeyBind("Editor_Paste")) StartCoroutine(CopyManager.Instance.PasteCoroutine());
     }
     
-    private static void CheckEditModeRotation()
+    private void CheckEditModeRotation()
     {
         if (!LevelSessionManager.Instance.IsEdit) return;
         
@@ -61,7 +64,7 @@ public class KeyEvents : MonoBehaviour
         // if (SelectionManager.Instance.Selecting) SelectionManager.UpdatePreviewRotation();
     }
     
-    private static void CheckTeleportPlayer()
+    private void CheckTeleportPlayer()
     {
         // teleport player to mouse pos
         if (!LevelSessionManager.Instance.IsEdit || !LevelSessionEditManager.Instance.Playing ||
@@ -70,12 +73,12 @@ public class KeyEvents : MonoBehaviour
         PlayerController player = PlayerManager.Instance.Player;
         if (player == null) return;
         
-        player.Rb.position = MouseManager.Instance.MouseWorldPosGrid;
+        player.Rb.position = mouseService.MouseWorldPosGrid;
         player.HasTeleported = true;
         PlayManager.Instance.Cheated = true;
     }
     
-    private static bool CheckClosingPanel()
+    private bool CheckClosingPanel()
     {
         // close panel if esc pressed
         bool closingPanel = false;
@@ -117,20 +120,8 @@ public class KeyEvents : MonoBehaviour
         
         return true;
     }
-    
-    private static KeyCode[] GetKeysDown()
-    {
-        List<KeyCode> keysDown = new();
-        
-        foreach (KeyCode keyCode in Enum.GetValues(typeof(KeyCode)))
-        {
-            if (Input.GetKey(keyCode)) keysDown.Add(keyCode);
-        }
-        
-        return keysDown.ToArray();
-    }
-    
-    private static void CheckEditModeKeyEvents()
+
+    private void CheckEditModeKeyEvents()
     {
         // check every event and set edit mode accordingly
         foreach (EditMode editMode in EditModeManager.Instance.AllEditModes)
@@ -140,5 +131,17 @@ public class KeyEvents : MonoBehaviour
             
             if (KeyBinds.GetKeyBindDown(editMode.KeyboardShortcut)) LevelSessionEditManager.Instance.CurrentEditMode = editMode;
         }
+    }
+
+    private KeyCode[] GetKeysDown()
+    {
+        List<KeyCode> keysDown = new();
+        
+        foreach (KeyCode keyCode in Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKey(keyCode)) keysDown.Add(keyCode);
+        }
+        
+        return keysDown.ToArray();
     }
 }

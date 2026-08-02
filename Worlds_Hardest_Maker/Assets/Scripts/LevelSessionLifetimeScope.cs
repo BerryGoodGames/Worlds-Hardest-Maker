@@ -14,6 +14,8 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.Register<PreviewRotationDataProvider>(Lifetime.Singleton);
         builder.Register<PreviewVisibilityRulesService>(Lifetime.Singleton);
         builder.Register<PreviewSpriteAlphaProvider>(Lifetime.Singleton);
+
+        builder.RegisterComponentInHierarchy<MouseManager>().As<IMouseService>();
     }
     
     protected override void Awake()

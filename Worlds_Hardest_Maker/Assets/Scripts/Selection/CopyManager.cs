@@ -18,6 +18,7 @@ public class CopyManager : MonoBehaviour
     
     [Inject] private IObjectResolver diContainer;
     [Inject] private IToastService toastService;
+    [Inject] private IMouseService mouseService;
     
     public void Copy(Vector2 lowestPos, Vector2 highestPos)
     {
@@ -164,7 +165,7 @@ public class CopyManager : MonoBehaviour
     {
         // // actions to actually paste
         // get position where to paste
-        Vector2 mousePos = MouseManager.Instance.MouseWorldPosMatrix;
+        Vector2 mousePos = mouseService.MouseWorldPosMatrix;
         
         // paste
         LoadClipboard(mousePos);

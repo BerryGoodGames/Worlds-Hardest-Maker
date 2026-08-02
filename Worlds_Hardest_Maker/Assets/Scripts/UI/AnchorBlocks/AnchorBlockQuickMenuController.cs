@@ -1,10 +1,13 @@
 using MyBox;
 using UnityEngine;
+using VContainer;
 
 [RequireComponent(typeof(AlphaTween))]
 public class AnchorBlockQuickMenuController : QuickMenuController
 {
     [ReadOnly] [SerializeField] private AnchorBlockController selectedAnchorBlock;
+    
+    [Inject] private IMouseService mouseService;
     
     public void OnClickDelete()
     {
@@ -35,8 +38,8 @@ public class AnchorBlockQuickMenuController : QuickMenuController
         if (Tween == null) Tween = GetComponent<AlphaTween>();
         
         // open and position quick menu
-        Vector2 mousePos = MouseManager.Instance.MouseCanvasPos;
-        mousePos.y = MouseManager.Instance.MouseCanvasPos.y - GameManager.GetCanvasDimensions().y;
+        Vector2 mousePos = mouseService.MouseCanvasPos;
+        mousePos.y = mouseService.MouseCanvasPos.y - GameManager.GetCanvasDimensions().y;
         
         selectedAnchorBlock = anchorBlock;
         ((RectTransform)transform).anchoredPosition = mousePos;

@@ -1,13 +1,17 @@
+using VContainer;
+
 /// <summary>
 ///     Implementation of preview visibility rules.
 ///     Determines when previews should be shown based on game state, input, and managers.
 /// </summary>
 public class PreviewVisibilityRulesService
 {
+    [Inject] private IMouseService mouseService;
+    
     public bool IsPreviewVisible(EditMode editMode)
     {
         // hidden when UI is hovered
-        if (MouseManager.Instance.IsUIHovered) return false;
+        if (mouseService.IsUIHovered) return false;
 
         // hidden when using hotkeys for moving/modifying/deleting
         if (KeyBinds.GetKeyBind("Editor_MoveEntity")) return false;
@@ -47,9 +51,9 @@ public class PreviewVisibilityRulesService
     {
         return editMode.WorldPositionType switch
         {
-            WorldPositionType.Any => MouseManager.Instance.MouseWorldPos,
-            WorldPositionType.Grid => MouseManager.Instance.MouseWorldPosGrid,
-            _ => MouseManager.Instance.MouseWorldPosMatrix,
+            WorldPositionType.Any => mouseService.MouseWorldPos,
+            WorldPositionType.Grid => mouseService.MouseWorldPosGrid,
+            _ => mouseService.MouseWorldPosMatrix,
         };
     }
 }

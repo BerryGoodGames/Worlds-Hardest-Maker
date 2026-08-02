@@ -2,6 +2,7 @@ using DG.Tweening;
 using MyBox;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using VContainer;
 
 /// <summary>
 ///     Controls map / camera movement
@@ -17,6 +18,8 @@ public class MapController : MonoBehaviour
     
     private Vector2? lastMousePos;
     private Camera cam;
+
+    [Inject] private IMouseService mouseService;
     
     private void Update()
     {
@@ -32,7 +35,7 @@ public class MapController : MonoBehaviour
     
     private void Zoom(float zoomInput)
     {
-        if (zoomInput == 0f || !MouseManager.Instance.IsOnScreen) return; // zoom
+        if (zoomInput == 0f || !mouseService.IsOnScreen) return; // zoom
         
         float minZoom = ZoomLimits.Min;
         float maxZoom = ZoomLimits.Max;
@@ -43,7 +46,7 @@ public class MapController : MonoBehaviour
         
         Transform t = transform;
         
-        Vector2 prevMousePos = MouseManager.Instance.MouseWorldPos;
+        Vector2 prevMousePos = mouseService.MouseWorldPos;
         Vector2 prevMouseOffsetUnits = prevMousePos - (Vector2)t.position;
         Vector2 prevMouseOffsetPixels = UnitPixelUtils.UnitToPixel(prevMouseOffsetUnits);
         
@@ -58,7 +61,7 @@ public class MapController : MonoBehaviour
         cam.DOKill();
         cam.DOOrthoSize(newOrthoSize, zoomAnimDuration).SetUpdate(true);
         t.DOKill();
-        t.DOMove(new Vector3(newCamPos.x, newCamPos.y, t.position.z), zoomAnimDuration).SetUpdate(true);
+        t.DOMove(new(newCamPos.x, newCamPos.y, t.position.z), zoomAnimDuration).SetUpdate(true);
     }
     
     private void PanCamera()

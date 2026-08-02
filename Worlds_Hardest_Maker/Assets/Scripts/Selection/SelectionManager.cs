@@ -32,12 +32,15 @@ public partial class SelectionManager : MonoBehaviour
     private IObjectResolver diContainer;
     
     private EventBus eventBus;
+
+    private IMouseService mouseService;
     
     [Inject]
-    private void Construct(IObjectResolver diContainer, EventBus eventBus)
+    private void Construct(IObjectResolver diContainer, EventBus eventBus, IMouseService mouseService)
     {
         this.diContainer = diContainer;
         this.eventBus = eventBus;
+        this.mouseService = mouseService;
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
@@ -60,14 +63,10 @@ public partial class SelectionManager : MonoBehaviour
         // update selection markings
         if (!LevelSessionEditManager.Instance.Playing
             && Selecting
-            && MouseManager.Instance.MouseDragStart != null
-            && MouseManager.Instance.MouseDragCurrent != null)
+            && mouseService.MouseDragStart != null
+            && mouseService.MouseDragCurrent != null)
         {
-            // get drag positions and world position mode
-            WorldPositionType worldPositionType =
-                LevelSessionEditManager.Instance.CurrentEditMode.GetWorldPositionType();
-            
-            (Vector2 start, Vector2 end) = MouseManager.GetDragPositions(worldPositionType);
+            (Vector2 start, Vector2 end) = mouseService.GetDragPositions();
             
             // disable normal placement preview
             placementPreview.Hide();
@@ -83,10 +82,10 @@ public partial class SelectionManager : MonoBehaviour
     
     private void LateUpdate()
     {
-        if (MouseManager.Instance.MouseDragStart == null || MouseManager.Instance.MouseDragCurrent == null) return;
+        if (mouseService.MouseDragStart == null || mouseService.MouseDragCurrent == null) return;
         
-        prevStart = ((Vector2)MouseManager.Instance.MouseDragStart).ConvertToGrid();
-        prevEnd = ((Vector2)MouseManager.Instance.MouseDragCurrent).ConvertToGrid();
+        prevStart = ((Vector2)mouseService.MouseDragStart).ConvertToGrid();
+        prevEnd = ((Vector2)mouseService.MouseDragCurrent).ConvertToGrid();
     }
     
     private void Start()

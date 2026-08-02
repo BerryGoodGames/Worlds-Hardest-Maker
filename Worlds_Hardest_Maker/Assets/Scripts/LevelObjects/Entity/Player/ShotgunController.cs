@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
+using VContainer;
 
 public class ShotgunController : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class ShotgunController : MonoBehaviour
     private ParticleSystem bulletParticle;
     
     private float currentAngle;
+    
+    [Inject] private IMouseService mouseService;
     
     private void Update()
     {
@@ -24,7 +27,7 @@ public class ShotgunController : MonoBehaviour
         void LookAtMouse()
         {
             Vector2 position = transform.position;
-            Vector2 mousePosition = MouseManager.Instance.MouseWorldPos;
+            Vector2 mousePosition = mouseService.MouseWorldPos;
             
             currentAngle = LookAt(position, mousePosition);
             transform.rotation = Quaternion.Euler(0, 0, currentAngle);

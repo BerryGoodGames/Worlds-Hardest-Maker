@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using VContainer;
 
 /// <summary>
 ///     Makes entity drag and drop when shift is pressed
@@ -9,11 +10,13 @@ public class EntityDragDrop : MonoBehaviour
     [SerializeField] private WorldPositionType worldType;
     public event Action<Vector2, Vector2> OnMove;
     
+    [Inject] private IMouseService mouseService;
+    
     protected virtual void OnMouseDrag()
     {
         if (LevelSessionEditManager.Instance.Playing || !KeyBinds.GetKeyBind("Editor_MoveEntity")) return;
         
-        Vector2 newPos = FollowMouse.GetCurrentMouseWorldPos(worldType);
+        Vector2 newPos = mouseService.GetCurrentMouseWorldPos(worldType);
         
         if (newPos == (Vector2)transform.position) return;
         

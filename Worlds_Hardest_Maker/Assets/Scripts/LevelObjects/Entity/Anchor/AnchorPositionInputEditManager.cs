@@ -12,11 +12,13 @@ public class AnchorPositionInputEditManager : MonoBehaviour
     [ReadOnly] public AnchorBlockPositionInputController CurrentEditedPositionInput;
     
     private IAudioService audioService;
+    private IMouseService mouseService;
     
     [Inject]
-    private void Construct(IAudioService audioService)
+    private void Construct(IAudioService audioService, IMouseService mouseService)
     {
         this.audioService = audioService;
+        this.mouseService = mouseService;
     }
 
     public void StartPositionInputEdit(AnchorBlockPositionInputController positionInput)
@@ -142,7 +144,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
             }
             
             // animate current & next line (only if mouse position changed)
-            Vector2 mousePos = MouseManager.Instance.MouseWorldPosGrid;
+            Vector2 mousePos = mouseService.MouseWorldPosGrid;
             
             if (previousMousePos == null || mousePos != previousMousePos)
             {
@@ -159,7 +161,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         }
         
         // apply position to position input
-        Instance.CurrentEditedPositionInput.SetPositionValues(MouseManager.Instance.MouseWorldPosGrid);
+        Instance.CurrentEditedPositionInput.SetPositionValues(mouseService.MouseWorldPosGrid);
         
         // make sure that the player can't place directly after pasting
         while (!Input.GetMouseButtonUp(0)) yield return null;

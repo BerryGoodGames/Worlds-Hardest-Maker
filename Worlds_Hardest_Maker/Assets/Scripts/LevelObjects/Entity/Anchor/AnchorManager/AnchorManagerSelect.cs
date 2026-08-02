@@ -1,5 +1,6 @@
 using MyBox;
 using UnityEngine;
+using VContainer;
 
 public partial class AnchorManager : IManagerSelectable
 {
@@ -8,6 +9,8 @@ public partial class AnchorManager : IManagerSelectable
     [field: SerializeField] [field: ReadOnly] public AnchorController SelectedAnchor { get; private set; }
     
     [HideInInspector] public float LastSelectClick = -1;
+
+    [Inject] private IMouseService mouseService;
     
     public void Select(Vector2 pos)
     {
@@ -106,7 +109,7 @@ public partial class AnchorManager : IManagerSelectable
         // select anchor
         if (!Input.GetMouseButtonDown(0) || !KeyBinds.GetKeyBind("Editor_Modify")) return;
         
-        AnchorController clickedAnchor = ((IManager<AnchorController>)Instance).Get(MouseManager.Instance.MouseWorldPosGrid);
+        AnchorController clickedAnchor = ((IManager<AnchorController>)Instance).Get(mouseService.MouseWorldPosGrid);
         
         if (clickedAnchor == null) return;
         
