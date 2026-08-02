@@ -23,13 +23,13 @@ public class CameraPlayController : MonoBehaviour
         eventBus.Subscribe<StartPlaytestEvent>(OnStartPlaytest);
         eventBus.Subscribe<SetupPlaySceneEvent>(OnSetupPlayScene);
         eventBus.Subscribe<ResetLevelEvent>(OnResetLevel);
-        eventBus.Subscribe<PathRenderUpdateEvent>(OnPathRenderUpdate);
+        eventBus.Subscribe<RecordingPathRenderUpdateEvent>(OnPathRenderUpdate);
     }
     
     private void OnStartPlaytest(StartPlaytestEvent evt) => JumpToStart();
     private void OnSetupPlayScene(SetupPlaySceneEvent evt) => JumpToStartInstant();
     private void OnResetLevel(ResetLevelEvent evt) => JumpToStart();
-    private void OnPathRenderUpdate(PathRenderUpdateEvent evt)
+    private void OnPathRenderUpdate(RecordingPathRenderUpdateEvent evt)
     {
         if (PlayerRecordingManager.Instance.IsReplaying) TrackPosition(evt.Position.GetRoom());
     }
@@ -100,7 +100,7 @@ public class CameraPlayController : MonoBehaviour
         eventBus.Unsubscribe<StartPlaytestEvent>(OnStartPlaytest);
         eventBus.Unsubscribe<SetupPlaySceneEvent>(OnSetupPlayScene);
         eventBus.Unsubscribe<ResetLevelEvent>(OnResetLevel);
-        eventBus.Unsubscribe<PathRenderUpdateEvent>(OnPathRenderUpdate);
+        eventBus.Unsubscribe<RecordingPathRenderUpdateEvent>(OnPathRenderUpdate);
     }
 }
 
