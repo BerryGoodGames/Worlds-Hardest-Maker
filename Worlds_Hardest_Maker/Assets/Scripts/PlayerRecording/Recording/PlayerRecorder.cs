@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerRecorder : IRecordingFrameProvider
+public class PlayerRecorder : IRecordingFrameStorage
 {
-    public List<RecordingFrame> RecordedPositions { get; private set; }
-    
     private readonly float recordingFrequency;
-
+    private List<RecordingFrame> recordedPositions;
+    public IReadOnlyList<RecordingFrame> RecordedPositions => recordedPositions.AsReadOnly();
+    
     public PlayerRecorder(float recordingFrequency)
     {
         this.recordingFrequency = recordingFrequency;
+    }
+    
+    public void SetFrame(int i, RecordingFrame newFrame)
+    {
+        recordedPositions[i] = newFrame;
     }
     
     public IEnumerator RecordPlayer()
@@ -20,7 +25,7 @@ public class PlayerRecorder : IRecordingFrameProvider
         
         PlayerController player = PlayerManager.Instance.Player;
         
-        RecordedPositions = new();
+        recordedPositions = new();
         
         player.OnDeathEnd += RecordDeath;
         player.OnCheckpointEnter += RecordCheckpoint;
@@ -32,14 +37,13 @@ public class PlayerRecorder : IRecordingFrameProvider
         while (!LevelSessionEditManager.Instance.Editing)
         {
             // only record if player has moved
-            bool hasMovedSinceLastFrame = (Vector2)player.transform.position != RecordedPositions[^1].Position;
-            if (RecordedPositions.Count == 0 || hasMovedSinceLastFrame)
+            if (recordedPositions.Count == 0 || (Vector2)player.transform.position != recordedPositions[^1].Position)
             {
                 RecordingFrame newFrame = new()
                 {
                     Position = player.transform.position,
                 };
-                RecordedPositions.Add(newFrame);
+                recordedPositions.Add(newFrame);
             }
             
             yield return new WaitForSeconds(recordingFrequency);
@@ -58,7 +62,7 @@ public class PlayerRecorder : IRecordingFrameProvider
                 Position = player.transform.position,
                 Died = true,
             };
-            RecordedPositions.Add(newFrame);
+            recordedPositions.Add(newFrame);
         }
         
         void RecordCheckpoint()
@@ -70,7 +74,7 @@ public class PlayerRecorder : IRecordingFrameProvider
                 Position = player.transform.position,
                 CheckpointHit = true,
             };
-            RecordedPositions.Add(newFrame);
+            recordedPositions.Add(newFrame);
         }
     }
 }

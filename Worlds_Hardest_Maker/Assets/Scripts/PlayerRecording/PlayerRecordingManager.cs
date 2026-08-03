@@ -4,6 +4,9 @@ using NaughtyAttributes;
 using UnityEngine;
 using VContainer;
 
+// TODO: serialize using nested structs
+// TODO: split into RecordingController, RecordingRenderer, RecordingVisibilityController
+// TODO: cache builtin enumerators
 public class PlayerRecordingManager : MonoBehaviour
 {
     public static PlayerRecordingManager Instance { get; private set; }
@@ -36,6 +39,10 @@ public class PlayerRecordingManager : MonoBehaviour
     private PlayerPathRenderer pathRenderer;
     private PlayerGhostRenderer ghostRenderer;
     
+    private RecordingAnalyzer analyzer;
+    
+    private RecordingRenderLoop renderLoop;
+    
     private Coroutine recording;
     private Coroutine displaySpriteRecording;
     private Coroutine displayPathRecording;
@@ -57,14 +64,23 @@ public class PlayerRecordingManager : MonoBehaviour
         eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
         eventBus.Subscribe<ReplayEvent>(OnReplay);
     }
-
-    private void Start()
+    
+    private void Awake()
     {
+        if (Instance == null) Instance = this;
+        
         playerRecorder = new(recordingFrequency);
-
-        pathRenderer = new(playerRecorder, recordingPathContainer, successColor, deathColor, minDeathColorValue);
+        
+        pathRenderer = new(playerRecorder, recordingPathContainer, successColor, deathColor, minDeathColorValue, recordingDeathPrefab, recordingLinePrefab);
         ghostRenderer = new(playerRecorder, recordingSpriteContainer, spriteFrequency, spriteMaxAlpha, spriteAmount, playerSprite);
         
+        analyzer = new();
+        
+        renderLoop = new(fixedDisplayDuration, displayDuration, displaySpeed, recordingFrequency);
+    }
+    
+    private void Start()
+    {
         recordingSpriteContainer.gameObject.SetActive(displaySprites);
         recordingPathContainer.gameObject.SetActive(displayPath);
     }
@@ -82,23 +98,21 @@ public class PlayerRecordingManager : MonoBehaviour
         recording = StartCoroutine(playerRecorder.RecordPlayer());
     }
     
-    private void OnSwitchToEdit(SwitchToEditEvent evt) => RenderRecording();
+    private void OnSwitchToEdit(SwitchToEditEvent evt) => AnalyzeAndRender();
     
-    private void RenderRecording()
+    private void AnalyzeAndRender()
     {
-        if (recordedPositions == null) return;
-        
         if (recording != null) StopCoroutine(recording);
 
-        analyzer.Analyze();
-        
+        analyzer.AnalyzeFrames(playerRecorder);
+
         if (recordingSpriteContainer.gameObject.activeSelf)
         {
-            displaySpriteRecording = StartCoroutine(ghostRenderer.RenderSpriteRecording());
+            displaySpriteRecording = StartCoroutine(ghostRenderer.RenderSpriteRecording(renderLoop));
         }
         if (recordingPathContainer.gameObject.activeSelf)
         {
-            displayPathRecording = StartCoroutine(pathRenderer.RenderPathRecording());
+            displayPathRecording = StartCoroutine(pathRenderer.RenderPathRecording(renderLoop));
         }
     }
     
@@ -115,7 +129,7 @@ public class PlayerRecordingManager : MonoBehaviour
     {
         recordingSpriteContainer.gameObject.SetActive(visible);
         
-        if (visible) displaySpriteRecording = StartCoroutine(ghostRenderer.RenderSpriteRecording());
+        if (visible) displaySpriteRecording = StartCoroutine(ghostRenderer.RenderSpriteRecording(renderLoop));
         else
         {
             if (displaySpriteRecording != null) StopCoroutine(displaySpriteRecording);
@@ -133,7 +147,7 @@ public class PlayerRecordingManager : MonoBehaviour
         
         recordingPathContainer.DestroyChildren();
         
-        if (visible) displayPathRecording = StartCoroutine(pathRenderer.RenderPathRecording());
+        if (visible) displayPathRecording = StartCoroutine(pathRenderer.RenderPathRecording(renderLoop));
     }
     
     private void OnPlayAgain(PlayAgainEvent evt)
@@ -161,10 +175,5 @@ public class PlayerRecordingManager : MonoBehaviour
         eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
         eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
         eventBus.Unsubscribe<ReplayEvent>(OnReplay);
-    }
-    
-    private void Awake()
-    {
-        if (Instance == null) Instance = this;
     }
 }

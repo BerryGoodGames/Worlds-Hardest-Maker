@@ -4,34 +4,42 @@ using LuLib.Color;
 using LuLib.Transform;
 using UnityEngine;
 
-public class PlayerPathRenderer : RecordingRenderer
+public class PlayerPathRenderer
 {
     private const float VALUE_SHIFT = 0.3090169945f;
     
+    private readonly IRecordingFrameStorage frameStorage;
     private readonly Transform recordingPathContainer;
     private readonly Color successColor;
     private readonly Color deathColor;
     private readonly float minDeathColorValue;
-
+    private readonly GameObject recordingDeathPrefab;
+    private readonly LineRenderer recordingLinePrefab;
+    
     private LineRenderer lineRenderer;
     private Color lineColor;
 
-    private List<RecordingFrame> recordedPositions => FrameProvider.RecordedPositions;
-
     public PlayerPathRenderer(
-        IRecordingFrameProvider frameProvider, 
+        IRecordingFrameStorage frameStorage, 
         Transform recordingPathContainer, 
         Color successColor, Color deathColor,
-        float minDeathColorValue) : base(frameProvider)
+        float minDeathColorValue,
+        GameObject recordingDeathPrefab,
+        LineRenderer recordingLinePrefab)
     {
+        this.frameStorage = frameStorage;
         this.recordingPathContainer = recordingPathContainer;
         this.successColor = successColor;
         this.deathColor = deathColor;
         this.minDeathColorValue = minDeathColorValue;
+        this.recordingDeathPrefab = recordingDeathPrefab;
+        this.recordingLinePrefab = recordingLinePrefab;
     }
 
-    public IEnumerator RenderPathRecording()
+    public IEnumerator RenderPathRecording(RecordingRenderLoop renderLoop)
     {
+        IReadOnlyList<RecordingFrame> recordedPositions = frameStorage.RecordedPositions;
+        
         recordingPathContainer.DestroyChildren();
         
         BeginNewLine();
@@ -39,9 +47,10 @@ public class PlayerPathRenderer : RecordingRenderer
         lineRenderer.startColor = deathColor;
         lineRenderer.endColor = deathColor;
 
-        return RenderLoop(i =>
+        return renderLoop.Play(
+            (positions, i) =>
             {
-                RecordingFrame currentFrame = recordedPositions[i];
+                RecordingFrame currentFrame = positions[i];
                 
                 // display line
                 AddLinePosition(currentFrame.Position);
@@ -51,8 +60,7 @@ public class PlayerPathRenderer : RecordingRenderer
                 {
                     if (currentFrame.Died)
                     {
-                        Instantiate(recordingDeathPrefab, recordedPositions[i].Position, Quaternion.identity,
-                            recordingPathContainer);
+                        Object.Instantiate(recordingDeathPrefab, currentFrame.Position, Quaternion.identity, recordingPathContainer);
                     }
 
                     // calculate new color
@@ -60,8 +68,7 @@ public class PlayerPathRenderer : RecordingRenderer
 
                     if (minDeathColorValue < 1)
                     {
-                        value = (lineRenderer.startColor.GetHSV().z + VALUE_SHIFT) % (1 - minDeathColorValue) +
-                                minDeathColorValue;
+                        value = (lineRenderer.startColor.GetHSV().z + VALUE_SHIFT) % (1 - minDeathColorValue) + minDeathColorValue;
                     }
 
                     Color newColor = Color.red.SetValue(value);
@@ -73,11 +80,11 @@ public class PlayerPathRenderer : RecordingRenderer
                     lineRenderer.startColor = newColor;
                     lineRenderer.endColor = newColor;
 
-                    if (recordedPositions[i].CheckpointHit) AddLinePosition(recordedPositions[i].Position);
+                    if (currentFrame.CheckpointHit) AddLinePosition(currentFrame.Position);
                 }
 
                 // change color to green when successful run starts
-                if (recordedPositions[i].StartSuccessfulLine && !recordedPositions[i].CheckpointHit)
+                if (currentFrame.StartSuccessfulLine && !currentFrame.CheckpointHit)
                 {
                     BeginNewLine();
 
@@ -85,13 +92,13 @@ public class PlayerPathRenderer : RecordingRenderer
                     lineRenderer.endColor = successColor;
                 }
 
-                eventBus.Fire(new RecordingPathRenderUpdateEvent(recordedPositions[i].Position));
-
-                if (IsReplaying && i == recordedPositions.Count - 1)
-                {
-                    eventBus.Fire(new FinishReplayEvent());
-                }
-            }
+                // eventBus.Fire(new RecordingPathRenderUpdateEvent(currentFrame.Position));
+                //
+                // if (IsReplaying && i == positions.Count - 1)
+                // {
+                //     eventBus.Fire(new FinishReplayEvent());
+                // }
+            }, recordedPositions
         );
     }
     
@@ -101,5 +108,8 @@ public class PlayerPathRenderer : RecordingRenderer
         lineRenderer.SetPosition(lineRenderer.positionCount - 1, position);
     }
     
-    private void BeginNewLine() => lineRenderer = Instantiate(recordingLinePrefab, recordingPathContainer);
+    private void BeginNewLine()
+    {
+        lineRenderer = Object.Instantiate(recordingLinePrefab, recordingPathContainer);
+    }
 }

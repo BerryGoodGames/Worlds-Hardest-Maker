@@ -4,8 +4,9 @@ using LuLib.Transform;
 using MyBox;
 using UnityEngine;
 
-public class PlayerGhostRenderer : RecordingRenderer
+public class PlayerGhostRenderer
 {
+    private readonly IRecordingFrameStorage frameStorage;
     private readonly Transform recordingSpriteContainer;
     private uint spriteFrequency = 2;
     private float spriteMaxAlpha = 0.5f;
@@ -13,13 +14,14 @@ public class PlayerGhostRenderer : RecordingRenderer
     private readonly SpriteRenderer playerPrefabSprite;
 
     public PlayerGhostRenderer(
-        IRecordingFrameProvider frameProvider,
+        IRecordingFrameStorage frameStorage,
         Transform recordingSpriteContainer,
         uint spriteFrequency,
         float spriteMaxAlpha,
         uint spriteAmount,
-        SpriteRenderer playerPrefabSprite) : base(frameProvider)
+        SpriteRenderer playerPrefabSprite)
     {
+        this.frameStorage = frameStorage;
         this.recordingSpriteContainer = recordingSpriteContainer;
         this.spriteFrequency = spriteFrequency;
         this.spriteMaxAlpha = spriteMaxAlpha;
@@ -27,9 +29,9 @@ public class PlayerGhostRenderer : RecordingRenderer
         this.playerPrefabSprite = playerPrefabSprite;
     }
     
-    public IEnumerator RenderSpriteRecording()
+    public IEnumerator RenderSpriteRecording(RecordingRenderLoop renderLoop)
     {
-        List<RecordingFrame> recordedPositions = FrameProvider.RecordedPositions;
+        IReadOnlyList<RecordingFrame> recordedPositions = frameStorage.RecordedPositions;
         
         if (recordedPositions == null) return null;
         
@@ -37,22 +39,22 @@ public class PlayerGhostRenderer : RecordingRenderer
         
         int startIndex = (int)Mathf.Max(recordedPositions.Count - spriteAmount * spriteFrequency, 0);
 
-        return RenderLoop(
-            i =>
+        return renderLoop.Play(
+            (positions, i) =>
             {
                 // display player sprite
-                float playerTrailIndex = (i - (recordedPositions.Count - (float)(spriteAmount * spriteFrequency))) /
+                float playerTrailIndex = (i - (positions.Count - (float)(spriteAmount * spriteFrequency))) /
                     spriteFrequency + 1;
 
-                if (playerTrailIndex <= 0 || (recordedPositions.Count - 1 - i) % spriteFrequency != 0) return;
+                if (playerTrailIndex <= 0 || (positions.Count - 1 - i) % spriteFrequency != 0) return;
 
-                SpriteRenderer playerTrail = Instantiate(
-                    playerPrefabSprite, recordedPositions[i].Position, Quaternion.identity, recordingSpriteContainer
+                SpriteRenderer playerTrail = Object.Instantiate(
+                    playerPrefabSprite, positions[i].Position, Quaternion.identity, recordingSpriteContainer
                 );
 
                 float alpha = playerTrailIndex * spriteMaxAlpha / spriteAmount;
                 playerTrail.SetAlpha(alpha);
-            }, startIndex
+            }, recordedPositions, startIndex
         );
     }
 }
