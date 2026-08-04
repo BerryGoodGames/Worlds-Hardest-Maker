@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public interface IRecordingFrameStorage
+public interface IRecordingFrameStorage<out T> where T : IRecordingFrame
 {
-    public IReadOnlyList<RecordingFrame> RecordedPositions { get; }
-    
-    public void SetFrame(int i, RecordingFrame newFrame);
+    public IReadOnlyList<T> Frames { get; }
 }

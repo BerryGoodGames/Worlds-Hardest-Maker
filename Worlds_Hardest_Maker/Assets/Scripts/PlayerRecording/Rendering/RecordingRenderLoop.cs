@@ -8,17 +8,16 @@ using UnityEngine;
 public class RecordingRenderLoop
 {
     [SerializeField] private bool fixedDisplayDuration;
-    [SerializeField] [ConditionalField(nameof(fixedDisplayDuration), true)] private float displaySpeed = 4;
-    [SerializeField] [ConditionalField(nameof(fixedDisplayDuration), false)] private float displayDuration = 1;
-    [SerializeField] [PositiveValueOnly] private float recordingFrequency = 0.05f;
+    [SerializeField] [ConditionalField(nameof(fixedDisplayDuration), true)] [PositiveValueOnly] private float displayFrequency = 0.0125f;
+    [SerializeField] [ConditionalField(nameof(fixedDisplayDuration), false)] [PositiveValueOnly] private float displayDuration = 1;
     
-    public IEnumerator Play(Action<IReadOnlyList<RecordingFrame>, int> action, IReadOnlyList<RecordingFrame> recordedPositions, int startIndex = 0)
+    public IEnumerator Play<T>(Action<IReadOnlyList<T>, int> action, IReadOnlyList<T> recordedPositions, int startIndex = 0) where T : IRecordingFrame
     {
         if (recordedPositions.IsNullOrEmpty()) yield break;
         
         float displayDelay = fixedDisplayDuration
             ? displayDuration / recordedPositions.Count
-            : recordingFrequency / displaySpeed;
+            : displayFrequency;
         
         for (int i = startIndex; i < recordedPositions.Count; i++)
         {

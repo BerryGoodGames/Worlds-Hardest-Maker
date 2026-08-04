@@ -1,40 +1,44 @@
 ﻿using System.Collections.Generic;
 
-public class RecordingAnalyzer
+public class RecordingAnalyzer : IRecordingFrameStorage<AnalyzedRecordingFrame>
 {
-    public void AnalyzeFrames(IRecordingFrameStorage frameStorage)
+    private AnalyzedRecordingFrame[] analyzedFrames;
+    public IReadOnlyList<AnalyzedRecordingFrame> Frames => analyzedFrames;
+    
+    public void AnalyzeFrames(IRecordingFrameStorage<RawRecordingFrame> frameStorage)
     {
-        // TODO: use analyzed frame
-        IReadOnlyList<RecordingFrame> recordedPositions = frameStorage.RecordedPositions;
+        IReadOnlyList<RawRecordingFrame> recordedPositions = frameStorage.Frames;
+        
+        analyzedFrames = new AnalyzedRecordingFrame[recordedPositions.Count];
         
         // mark successful runs
         bool currentlyInSuccessfulSegment = true;
         for (int i = recordedPositions.Count - 1; i >= 0; i--)
         {
-            RecordingFrame frame = recordedPositions[i];
-            bool startSuccessfulLine = frame.StartSuccessfulLine;
+            RawRecordingFrame frame = recordedPositions[i];
+            bool startSuccessfulRun = false;
             if (currentlyInSuccessfulSegment && frame.Died && i != recordedPositions.Count - 1)
             {
-                startSuccessfulLine = true;
+                startSuccessfulRun = true;
                 currentlyInSuccessfulSegment = false;
             }
 
             if (recordedPositions[i].CheckpointHit)
             {
-                if (currentlyInSuccessfulSegment) startSuccessfulLine = true;
+                if (currentlyInSuccessfulSegment) startSuccessfulRun = true;
 
                 currentlyInSuccessfulSegment = true;
             }
 
-            if (i == 0 && currentlyInSuccessfulSegment) startSuccessfulLine = true;
+            if (i == 0 && currentlyInSuccessfulSegment) startSuccessfulRun = true;
             
-            frameStorage.SetFrame(i, new()
+            analyzedFrames[i] = new()
             {
-                StartSuccessfulLine = startSuccessfulLine,
-                CheckpointHit = frame.CheckpointHit,
-                Died = frame.Died,
                 Position = frame.Position,
-            });
+                Died = frame.Died,
+                CheckpointHit = frame.CheckpointHit,
+                StartsSuccessfulRun = startSuccessfulRun,
+            };
         }
     }
 }

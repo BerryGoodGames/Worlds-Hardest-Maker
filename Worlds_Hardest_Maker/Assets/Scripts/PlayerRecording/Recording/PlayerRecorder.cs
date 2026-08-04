@@ -5,17 +5,12 @@ using MyBox;
 using UnityEngine;
 
 [Serializable]
-public class PlayerRecorder : IRecordingFrameStorage
+public class PlayerRecorder : IRecordingFrameStorage<RawRecordingFrame>
 {
     [SerializeField] [PositiveValueOnly] private float recordingFrequency = 0.05f;
     
-    private List<RecordingFrame> recordedPositions = new();
-    public IReadOnlyList<RecordingFrame> RecordedPositions => recordedPositions.AsReadOnly();
-    
-    public void SetFrame(int i, RecordingFrame newFrame)
-    {
-        recordedPositions[i] = newFrame;
-    }
+    private readonly List<RawRecordingFrame> recordedPositions = new();
+    public IReadOnlyList<RawRecordingFrame> Frames => recordedPositions.AsReadOnly();
     
     public IEnumerator RecordPlayer()
     {
@@ -24,7 +19,7 @@ public class PlayerRecorder : IRecordingFrameStorage
         
         PlayerController player = PlayerManager.Instance.Player;
         
-        recordedPositions = new();
+        recordedPositions.Clear();
         
         player.OnDeathEnd += RecordDeath;
         player.OnCheckpointEnter += RecordCheckpoint;
@@ -38,7 +33,7 @@ public class PlayerRecorder : IRecordingFrameStorage
             // only record if player has moved
             if (recordedPositions.Count == 0 || (Vector2)player.transform.position != recordedPositions[^1].Position)
             {
-                RecordingFrame newFrame = new()
+                RawRecordingFrame newFrame = new()
                 {
                     Position = player.transform.position,
                 };
@@ -56,7 +51,7 @@ public class PlayerRecorder : IRecordingFrameStorage
         {
             if (LevelSessionEditManager.Instance.Editing) return;
             
-            RecordingFrame newFrame = new()
+            RawRecordingFrame newFrame = new()
             {
                 Position = player.transform.position,
                 Died = true,
@@ -68,7 +63,7 @@ public class PlayerRecorder : IRecordingFrameStorage
         {
             if (LevelSessionEditManager.Instance.Editing) return;
             
-            RecordingFrame newFrame = new()
+            RawRecordingFrame newFrame = new()
             {
                 Position = player.transform.position,
                 CheckpointHit = true,

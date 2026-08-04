@@ -12,7 +12,7 @@ public class PlayerPathRenderer
 {
     private const float VALUE_SHIFT = 0.3090169945f;
     
-    private IRecordingFrameStorage frameStorage;
+    private IRecordingFrameStorage<AnalyzedRecordingFrame> frameStorage;
     [SerializeField] private Transform recordingPathContainer;
     [SerializeField] private Color successColor = Color.green;
     [SerializeField] private Color deathColor = Color.red;
@@ -23,7 +23,7 @@ public class PlayerPathRenderer
     private LineRenderer lineRenderer;
     private Color lineColor;
 
-    public void SetFrameStorage(IRecordingFrameStorage frameStorage)
+    public void SetFrameStorage(IRecordingFrameStorage<AnalyzedRecordingFrame> frameStorage)
     {
         this.frameStorage = frameStorage;
     }
@@ -51,7 +51,7 @@ public class PlayerPathRenderer
             yield break;
         }
         
-        IReadOnlyList<RecordingFrame> recordedPositions = frameStorage.RecordedPositions;
+        IReadOnlyList<AnalyzedRecordingFrame> frames = frameStorage.Frames;
         
         recordingPathContainer.DestroyChildren();
         
@@ -63,13 +63,13 @@ public class PlayerPathRenderer
         yield return renderLoop.Play(
             (positions, i) =>
             {
-                RecordingFrame currentFrame = positions[i];
+                AnalyzedRecordingFrame currentFrame = positions[i];
                 
                 // display line
                 AddLinePosition(currentFrame.Position);
 
                 // if player dies or hits checkpoint and then will die, begin new red line 
-                if (currentFrame.Died || (currentFrame.CheckpointHit && !currentFrame.StartSuccessfulLine))
+                if (currentFrame.Died || (currentFrame.CheckpointHit && !currentFrame.StartsSuccessfulRun))
                 {
                     if (currentFrame.Died)
                     {
@@ -97,7 +97,7 @@ public class PlayerPathRenderer
                 }
 
                 // change color to green when successful run starts
-                if (currentFrame.StartSuccessfulLine && !currentFrame.CheckpointHit)
+                if (currentFrame.StartsSuccessfulRun && !currentFrame.CheckpointHit)
                 {
                     BeginNewLine();
 
@@ -111,7 +111,7 @@ public class PlayerPathRenderer
                 // {
                 //     eventBus.Fire(new FinishReplayEvent());
                 // }
-            }, recordedPositions
+            }, frames
         );
     }
     

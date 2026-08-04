@@ -12,7 +12,7 @@ public class PlayerRecordingManager : MonoBehaviour
     [Separator] [SerializeField] private PlayerPathRenderer pathRenderer;    
     [SerializeField] [InitializationField] [OverrideLabel("Display path at start")] private bool displayPath = true;
     
-    [Separator] [SerializeField] private PlayerGhostRenderer ghostRenderer;
+    [Separator] [SerializeField] private PlayerGhostRenderer<RawRecordingFrame> ghostRenderer;
     [SerializeField] [InitializationField] [OverrideLabel("Display sprites at start")] private bool displaySprites = true;
 
     [Separator] [SerializeField] private RecordingRenderLoop renderLoop;
@@ -32,16 +32,11 @@ public class PlayerRecordingManager : MonoBehaviour
     {
         this.eventBus = eventBus;
         
-        // on play: stop display coroutines, start recording
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<SetupPlaySceneEvent>(OnSwitchToPlay);
-        
-        // on edit: stop recording, render path & sprites
         eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
-        
         eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
         eventBus.Subscribe<ReplayEvent>(OnReplay);
-        
         eventBus.Subscribe<TogglePlayerRecordingPathVisibilityRequest>(OnTogglePathVisibility);
         eventBus.Subscribe<TogglePlayerRecordingSpriteVisibilityRequest>(OnToggleSpriteVisibility);
     }
@@ -50,9 +45,9 @@ public class PlayerRecordingManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         
-        pathRenderer.SetFrameStorage(playerRecorder);
-        ghostRenderer.SetFrameStorage(playerRecorder);
         analyzer = new();
+        pathRenderer.SetFrameStorage(analyzer);
+        ghostRenderer.SetFrameStorage(playerRecorder);
     }
     
     private void Start()
@@ -134,20 +129,20 @@ public class PlayerRecordingManager : MonoBehaviour
     
     private void OnPlayAgain(PlayAgainEvent evt)
     {
+        StartPlayerRecording();
+        
         SetSpriteVisible(false);
         SetPathVisible(false);
-        
-        StartPlayerRecording();
         
         IsReplaying = false;
     }
     
     private void OnReplay(ReplayEvent evt)
     {
-        IsReplaying = true;
-        
         SetSpriteVisible(false);
         SetPathVisible(true);
+        
+        IsReplaying = true;
     }
     
     private void OnDestroy()

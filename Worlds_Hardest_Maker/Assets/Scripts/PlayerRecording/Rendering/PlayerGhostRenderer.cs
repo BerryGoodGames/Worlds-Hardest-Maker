@@ -7,16 +7,16 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 [Serializable]
-public class PlayerGhostRenderer
+public class PlayerGhostRenderer<T> where T : IRecordingFrame
 {
-    private IRecordingFrameStorage frameStorage;
+    private IRecordingFrameStorage<T> frameStorage;
     [SerializeField] private Transform recordingSpriteContainer;
     [SerializeField] [PositiveValueOnly] private int frequency = 2;
     [SerializeField] [Range(0, 1)] private float maxAlpha = 0.5f;
     [SerializeField] [PositiveValueOnly] private int count = 9;
     [SerializeField] private SpriteRenderer playerPrefabSprite;
 
-    public void SetFrameStorage(IRecordingFrameStorage frameStorage)
+    public void SetFrameStorage(IRecordingFrameStorage<T> frameStorage)
     {
         this.frameStorage = frameStorage;
     }
@@ -44,9 +44,9 @@ public class PlayerGhostRenderer
             yield break;
         }
         
-        IReadOnlyList<RecordingFrame> recordedPositions = frameStorage.RecordedPositions;
+        IReadOnlyList<T> frames = frameStorage.Frames;
 
-        if (recordedPositions == null)
+        if (frames == null)
         {
             Debug.LogWarning("Recorded positions not found.");
             yield break;
@@ -54,7 +54,7 @@ public class PlayerGhostRenderer
         
         recordingSpriteContainer.DestroyChildren();
         
-        int startIndex = Mathf.Max(recordedPositions.Count - count * frequency, 0);
+        int startIndex = Mathf.Max(frames.Count - count * frequency, 0);
 
         yield return renderLoop.Play(
             (positions, i) =>
@@ -71,7 +71,7 @@ public class PlayerGhostRenderer
 
                 float alpha = playerTrailIndex * maxAlpha / count;
                 playerTrail.SetAlpha(alpha);
-            }, recordedPositions, startIndex
+            }, frames, startIndex
         );
     }
 }
