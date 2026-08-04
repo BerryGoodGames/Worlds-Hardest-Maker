@@ -1,43 +1,56 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using LuLib.Color;
 using LuLib.Transform;
+using MyBox;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
+[Serializable]
 public class PlayerPathRenderer
 {
     private const float VALUE_SHIFT = 0.3090169945f;
     
-    private readonly IRecordingFrameStorage frameStorage;
-    private readonly Transform recordingPathContainer;
-    private readonly Color successColor;
-    private readonly Color deathColor;
-    private readonly float minDeathColorValue;
-    private readonly GameObject recordingDeathPrefab;
-    private readonly LineRenderer recordingLinePrefab;
+    private IRecordingFrameStorage frameStorage;
+    [SerializeField] private Transform recordingPathContainer;
+    [SerializeField] private Color successColor = Color.green;
+    [SerializeField] private Color deathColor = Color.red;
+    [SerializeField] [OverrideLabel("Min Value")] [Range(0, 1)] private float minDeathColorValue = 0.5f;
+    [SerializeField] private GameObject recordingDeathPrefab;
+    [SerializeField] private LineRenderer recordingLinePrefab;
     
     private LineRenderer lineRenderer;
     private Color lineColor;
 
-    public PlayerPathRenderer(
-        IRecordingFrameStorage frameStorage, 
-        Transform recordingPathContainer, 
-        Color successColor, Color deathColor,
-        float minDeathColorValue,
-        GameObject recordingDeathPrefab,
-        LineRenderer recordingLinePrefab)
+    public void SetFrameStorage(IRecordingFrameStorage frameStorage)
     {
         this.frameStorage = frameStorage;
-        this.recordingPathContainer = recordingPathContainer;
-        this.successColor = successColor;
-        this.deathColor = deathColor;
-        this.minDeathColorValue = minDeathColorValue;
-        this.recordingDeathPrefab = recordingDeathPrefab;
-        this.recordingLinePrefab = recordingLinePrefab;
+    }
+
+    public void SetActive(bool active)
+    {
+        recordingPathContainer.gameObject.SetActive(active);
+    }
+
+    public bool IsActive()
+    {
+        return recordingPathContainer.gameObject.activeSelf;
+    }
+
+    public void Clear()
+    {
+        recordingPathContainer.DestroyChildren();
     }
 
     public IEnumerator RenderPathRecording(RecordingRenderLoop renderLoop)
     {
+        if (frameStorage == null)
+        {
+            Debug.LogWarning("Frame storage not assigned.");
+            yield break;
+        }
+        
         IReadOnlyList<RecordingFrame> recordedPositions = frameStorage.RecordedPositions;
         
         recordingPathContainer.DestroyChildren();
@@ -47,7 +60,7 @@ public class PlayerPathRenderer
         lineRenderer.startColor = deathColor;
         lineRenderer.endColor = deathColor;
 
-        return renderLoop.Play(
+        yield return renderLoop.Play(
             (positions, i) =>
             {
                 RecordingFrame currentFrame = positions[i];

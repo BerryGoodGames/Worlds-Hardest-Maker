@@ -1,17 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 
+[Serializable]
 public class PlayerRecorder : IRecordingFrameStorage
 {
-    private readonly float recordingFrequency;
-    private List<RecordingFrame> recordedPositions;
-    public IReadOnlyList<RecordingFrame> RecordedPositions => recordedPositions.AsReadOnly();
+    [SerializeField] [PositiveValueOnly] private float recordingFrequency = 0.05f;
     
-    public PlayerRecorder(float recordingFrequency)
-    {
-        this.recordingFrequency = recordingFrequency;
-    }
+    private List<RecordingFrame> recordedPositions = new();
+    public IReadOnlyList<RecordingFrame> RecordedPositions => recordedPositions.AsReadOnly();
     
     public void SetFrame(int i, RecordingFrame newFrame)
     {

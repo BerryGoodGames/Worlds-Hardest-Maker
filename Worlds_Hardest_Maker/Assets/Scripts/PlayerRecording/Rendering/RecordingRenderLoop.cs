@@ -4,20 +4,13 @@ using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 
+[Serializable]
 public class RecordingRenderLoop
 {
-    private readonly bool fixedDisplayDuration;
-    private readonly float displayDuration;
-    private readonly float displaySpeed;
-    private readonly float recordingFrequency;
-    
-    public RecordingRenderLoop(bool fixedDisplayDuration, float displayDuration, float displaySpeed, float recordingFrequency)
-    {
-        this.fixedDisplayDuration = fixedDisplayDuration;
-        this.displayDuration = displayDuration;
-        this.displaySpeed = displaySpeed;
-        this.recordingFrequency = recordingFrequency;
-    }
+    [SerializeField] private bool fixedDisplayDuration;
+    [SerializeField] [ConditionalField(nameof(fixedDisplayDuration), true)] private float displaySpeed = 4;
+    [SerializeField] [ConditionalField(nameof(fixedDisplayDuration), false)] private float displayDuration = 1;
+    [SerializeField] [PositiveValueOnly] private float recordingFrequency = 0.05f;
     
     public IEnumerator Play(Action<IReadOnlyList<RecordingFrame>, int> action, IReadOnlyList<RecordingFrame> recordedPositions, int startIndex = 0)
     {

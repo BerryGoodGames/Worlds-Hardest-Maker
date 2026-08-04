@@ -4,7 +4,6 @@ public class RecordingAnalyzer
 {
     public void AnalyzeFrames(IRecordingFrameStorage frameStorage)
     {
-        
         // TODO: use analyzed frame
         IReadOnlyList<RecordingFrame> recordedPositions = frameStorage.RecordedPositions;
         

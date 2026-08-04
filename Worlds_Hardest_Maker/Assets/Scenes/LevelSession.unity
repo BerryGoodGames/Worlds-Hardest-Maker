@@ -5186,18 +5186,18 @@ PrefabInstance:
     - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 1614796948}
+      objectReference: {fileID: 663981674}
     - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: TogglePathVisibility
+      value: OnTogglePathVisibilityClicked
       objectReference: {fileID: 0}
     - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: PlayerRecordingManager, Assembly-CSharp
+      value: PlayerRecordingPathButton, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -5222,7 +5222,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4796778379937859287, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 663981674}
   m_SourcePrefab: {fileID: 100100000, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
 --- !u!224 &343956553 stripped
 RectTransform:
@@ -9436,6 +9439,23 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &663981668 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4796778379937859287, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+  m_PrefabInstance: {fileID: 343956552}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &663981674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663981668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7d939a38f0346fdbe149115505ae80e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRecordingPathButton
 --- !u!1001 &671852344
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17981,18 +18001,18 @@ PrefabInstance:
     - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 1614796948}
+      objectReference: {fileID: 1230571184}
     - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: ToggleSpriteVisibility
+      value: OnToggleSpriteVisibilityClicked
       objectReference: {fileID: 0}
     - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: PlayerRecordingManager, Assembly-CSharp
+      value: PlayerRecordingSpriteButton, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6428596671659184251, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -18017,7 +18037,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4796778379937859287, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1230571184}
   m_SourcePrefab: {fileID: 100100000, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
 --- !u!1 &1183487555
 GameObject:
@@ -18466,6 +18489,23 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3405460545392342685, guid: a6b7a0f0fae743a45b285f8893593211, type: 3}
   m_PrefabInstance: {fileID: 480006608}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1230571178 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4796778379937859287, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
+  m_PrefabInstance: {fileID: 1173073006}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1230571184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230571178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0ce279c7c5e470c88646b09136d49e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRecordingSpriteButton
 --- !u!1001 &1234056287
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22358,7 +22398,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -235.52612
+      value: -235.21298
       objectReference: {fileID: 0}
     - target: {fileID: 2955345560999892006, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_LocalPosition.x
@@ -25593,24 +25633,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02a0c332d7c888748ab90276af062384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recordingFrequency: 0.05
-  fixedDisplayDuration: 0
-  displaySpeed: 4
-  displayDuration: 1
+  playerRecorder:
+    recordingFrequency: 0.05
+  pathRenderer:
+    recordingPathContainer: {fileID: 427771857}
+    successColor: {r: 0, g: 1, b: 0, a: 1}
+    deathColor: {r: 1, g: 0, b: 0, a: 0.7019608}
+    minDeathColorValue: 0.5
+    recordingDeathPrefab: {fileID: 5837517203062812874, guid: 58fe4a3943baa304b90e41eeae39954d, type: 3}
+    recordingLinePrefab: {fileID: -4883994490482953050, guid: 4600c77b801e3b941bd84d9e267ed953, type: 3}
   displayPath: 1
-  successColor: {r: 0, g: 1, b: 0, a: 1}
-  deathColor: {r: 1, g: 0, b: 0, a: 0.7019608}
-  minDeathColorValue: 0.5
+  ghostRenderer:
+    recordingSpriteContainer: {fileID: 699609064}
+    frequency: 2
+    maxAlpha: 0.5
+    count: 9
+    playerPrefabSprite: {fileID: 5865789220577753341, guid: 859e4f16df8437d47bc4d015c1f55356, type: 3}
   displaySprites: 1
-  spriteFrequency: 2
-  spriteMaxAlpha: 0.3
-  spriteAmount: 6
+  renderLoop:
+    fixedDisplayDuration: 0
+    displaySpeed: 4
+    displayDuration: 1
+    recordingFrequency: 0.05
   recordingSpriteContainer: {fileID: 699609064}
   recordingPathContainer: {fileID: 427771857}
-  playerSprite: {fileID: 5865789220577753341, guid: 859e4f16df8437d47bc4d015c1f55356, type: 3}
-  recordingLinePrefab: {fileID: -4883994490482953050, guid: 4600c77b801e3b941bd84d9e267ed953, type: 3}
-  recordingDeathPrefab: {fileID: 5837517203062812874, guid: 58fe4a3943baa304b90e41eeae39954d, type: 3}
-  IsReplaying: 0
 --- !u!224 &1641938108 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7465456736653454112, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
@@ -27492,7 +27538,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 711.38995, y: -957.3892}
+  m_AnchoredPosition: {x: 711.38995, y: -956.1367}
   m_SizeDelta: {x: 51.75, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755699354
@@ -28169,7 +28215,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00018310547}
+  m_AnchoredPosition: {x: 0, y: -0.00018310547}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1786665322
@@ -28448,7 +28494,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 30, y: 30.00003}
+  m_AnchoredPosition: {x: 30, y: 30.000061}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1870882996
@@ -29707,7 +29753,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 871.815, y: -957.3892}
+  m_AnchoredPosition: {x: 871.815, y: -956.1367}
   m_SizeDelta: {x: 85.34, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1919053081
@@ -32157,7 +32203,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 783.205, y: -957.3892}
+  m_AnchoredPosition: {x: 783.205, y: -956.1367}
   m_SizeDelta: {x: 66.08, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2065180488

@@ -1,47 +1,26 @@
-using LuLib.Transform;
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using VContainer;
 
-// TODO: serialize using nested structs
 // TODO: split into RecordingController, RecordingRenderer, RecordingVisibilityController
 // TODO: cache builtin enumerators
 public class PlayerRecordingManager : MonoBehaviour
 {
     public static PlayerRecordingManager Instance { get; private set; }
     
-    [Separator("Settings")] [SerializeField] [PositiveValueOnly] private float recordingFrequency = 1;
-    [Space] [SerializeField] private bool fixedDisplayDuration;
-    [SerializeField] [ConditionalField(nameof(fixedDisplayDuration), true)] private float displaySpeed = 4;
-    [SerializeField] [ConditionalField(nameof(fixedDisplayDuration), false)] private float displayDuration = 2;
+    [SerializeField] private PlayerRecorder playerRecorder;
     
-    [Header("Path")] [SerializeField] [InitializationField] [OverrideLabel("Display at start")] private bool displayPath = true;
-    [SerializeField] private Color successColor = Color.green;
-    [SerializeField] private Color deathColor = Color.red;
-    [SerializeField] [OverrideLabel("Min Value")] [Range(0, 1)] private float minDeathColorValue;
+    [Separator] [SerializeField] private PlayerPathRenderer pathRenderer;    
+    [SerializeField] [InitializationField] [OverrideLabel("Display path at start")] private bool displayPath = true;
     
-    [Header("Sprite")] [SerializeField] [InitializationField] [OverrideLabel("Display at start")] private bool displaySprites = true;
-    [SerializeField] [OverrideLabel("Frequency")] private uint spriteFrequency = 2;
-    [SerializeField] [OverrideLabel("Max Alpha")] [Range(0, 1)] private float spriteMaxAlpha = 0.5f;
-    [SerializeField] [OverrideLabel("Amount")] private uint spriteAmount = 9;
-    
-    [Separator("References")] [SerializeField] [InitializationField] [Required] private Transform recordingSpriteContainer;
-    [SerializeField] [InitializationField] [Required] private Transform recordingPathContainer;
-    [SerializeField] [InitializationField] [Required] private SpriteRenderer playerSprite;
-    [SerializeField] [InitializationField] [Required] private LineRenderer recordingLinePrefab;
-    [SerializeField] [InitializationField] [Required] private GameObject recordingDeathPrefab;
-    
-    [HideInInspector] public bool IsReplaying;
-    
-    private PlayerRecorder playerRecorder;
+    [Separator] [SerializeField] private PlayerGhostRenderer ghostRenderer;
+    [SerializeField] [InitializationField] [OverrideLabel("Display sprites at start")] private bool displaySprites = true;
 
-    private PlayerPathRenderer pathRenderer;
-    private PlayerGhostRenderer ghostRenderer;
+    [Separator] [SerializeField] private RecordingRenderLoop renderLoop;
+    
+    public bool IsReplaying { get; set; }
     
     private RecordingAnalyzer analyzer;
-    
-    private RecordingRenderLoop renderLoop;
     
     private Coroutine recording;
     private Coroutine displaySpriteRecording;
@@ -63,26 +42,24 @@ public class PlayerRecordingManager : MonoBehaviour
         
         eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
         eventBus.Subscribe<ReplayEvent>(OnReplay);
+        
+        eventBus.Subscribe<TogglePlayerRecordingPathVisibilityRequest>(OnTogglePathVisibility);
+        eventBus.Subscribe<TogglePlayerRecordingSpriteVisibilityRequest>(OnToggleSpriteVisibility);
     }
     
     private void Awake()
     {
         if (Instance == null) Instance = this;
         
-        playerRecorder = new(recordingFrequency);
-        
-        pathRenderer = new(playerRecorder, recordingPathContainer, successColor, deathColor, minDeathColorValue, recordingDeathPrefab, recordingLinePrefab);
-        ghostRenderer = new(playerRecorder, recordingSpriteContainer, spriteFrequency, spriteMaxAlpha, spriteAmount, playerSprite);
-        
+        pathRenderer.SetFrameStorage(playerRecorder);
+        ghostRenderer.SetFrameStorage(playerRecorder);
         analyzer = new();
-        
-        renderLoop = new(fixedDisplayDuration, displayDuration, displaySpeed, recordingFrequency);
     }
     
     private void Start()
     {
-        recordingSpriteContainer.gameObject.SetActive(displaySprites);
-        recordingPathContainer.gameObject.SetActive(displayPath);
+        pathRenderer.SetActive(displayPath);
+        ghostRenderer.SetActive(displaySprites);
     }
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt) => OnSwitchToPlay();
@@ -92,8 +69,8 @@ public class PlayerRecordingManager : MonoBehaviour
         if (displaySpriteRecording != null) StopCoroutine(displaySpriteRecording);
         if (displayPathRecording != null) StopCoroutine(displayPathRecording);
         
-        if (recordingSpriteContainer != null) recordingSpriteContainer.DestroyChildren();
-        if (recordingPathContainer != null) recordingPathContainer.DestroyChildren();
+        pathRenderer.Clear();
+        ghostRenderer.Clear();
         
         recording = StartCoroutine(playerRecorder.RecordPlayer());
     }
@@ -106,11 +83,11 @@ public class PlayerRecordingManager : MonoBehaviour
 
         analyzer.AnalyzeFrames(playerRecorder);
 
-        if (recordingSpriteContainer.gameObject.activeSelf)
+        if (ghostRenderer.IsActive())
         {
             displaySpriteRecording = StartCoroutine(ghostRenderer.RenderSpriteRecording(renderLoop));
         }
-        if (recordingPathContainer.gameObject.activeSelf)
+        if (pathRenderer.IsActive())
         {
             displayPathRecording = StartCoroutine(pathRenderer.RenderPathRecording(renderLoop));
         }
@@ -123,29 +100,35 @@ public class PlayerRecordingManager : MonoBehaviour
         recording = StartCoroutine(playerRecorder.RecordPlayer());
     }
     
-    public void ToggleSpriteVisibility() => SetSpriteVisible(!recordingSpriteContainer.gameObject.activeSelf);
-    
+    private void OnToggleSpriteVisibility(TogglePlayerRecordingSpriteVisibilityRequest req)
+    {
+        SetSpriteVisible(!ghostRenderer.IsActive());
+    }
+
     public void SetSpriteVisible(bool visible)
     {
-        recordingSpriteContainer.gameObject.SetActive(visible);
+        ghostRenderer.SetActive(visible);
         
         if (visible) displaySpriteRecording = StartCoroutine(ghostRenderer.RenderSpriteRecording(renderLoop));
         else
         {
             if (displaySpriteRecording != null) StopCoroutine(displaySpriteRecording);
-            recordingSpriteContainer.DestroyChildren();
+            ghostRenderer.Clear();
         }
     }
     
-    public void TogglePathVisibility() => SetPathVisible(!recordingPathContainer.gameObject.activeSelf);
-    
+    private void OnTogglePathVisibility(TogglePlayerRecordingPathVisibilityRequest req)
+    {
+        SetPathVisible(!pathRenderer.IsActive());
+    }
+
     public void SetPathVisible(bool visible)
     {
-        recordingPathContainer.gameObject.SetActive(visible);
+        pathRenderer.SetActive(visible);
         
         if (displayPathRecording != null) StopCoroutine(displayPathRecording);
         
-        recordingPathContainer.DestroyChildren();
+        pathRenderer.Clear();
         
         if (visible) displayPathRecording = StartCoroutine(pathRenderer.RenderPathRecording(renderLoop));
     }
@@ -175,5 +158,7 @@ public class PlayerRecordingManager : MonoBehaviour
         eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
         eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
         eventBus.Unsubscribe<ReplayEvent>(OnReplay);
+        eventBus.Unsubscribe<TogglePlayerRecordingPathVisibilityRequest>(OnTogglePathVisibility);
+        eventBus.Unsubscribe<TogglePlayerRecordingSpriteVisibilityRequest>(OnToggleSpriteVisibility);
     }
 }

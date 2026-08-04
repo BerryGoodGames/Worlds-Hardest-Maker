@@ -1,58 +1,75 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using LuLib.Transform;
 using MyBox;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
+[Serializable]
 public class PlayerGhostRenderer
 {
-    private readonly IRecordingFrameStorage frameStorage;
-    private readonly Transform recordingSpriteContainer;
-    private uint spriteFrequency = 2;
-    private float spriteMaxAlpha = 0.5f;
-    private uint spriteAmount = 9;
-    private readonly SpriteRenderer playerPrefabSprite;
+    private IRecordingFrameStorage frameStorage;
+    [SerializeField] private Transform recordingSpriteContainer;
+    [SerializeField] [PositiveValueOnly] private int frequency = 2;
+    [SerializeField] [Range(0, 1)] private float maxAlpha = 0.5f;
+    [SerializeField] [PositiveValueOnly] private int count = 9;
+    [SerializeField] private SpriteRenderer playerPrefabSprite;
 
-    public PlayerGhostRenderer(
-        IRecordingFrameStorage frameStorage,
-        Transform recordingSpriteContainer,
-        uint spriteFrequency,
-        float spriteMaxAlpha,
-        uint spriteAmount,
-        SpriteRenderer playerPrefabSprite)
+    public void SetFrameStorage(IRecordingFrameStorage frameStorage)
     {
         this.frameStorage = frameStorage;
-        this.recordingSpriteContainer = recordingSpriteContainer;
-        this.spriteFrequency = spriteFrequency;
-        this.spriteMaxAlpha = spriteMaxAlpha;
-        this.spriteAmount = spriteAmount;
-        this.playerPrefabSprite = playerPrefabSprite;
+    }
+
+    public void SetActive(bool active)
+    {
+        recordingSpriteContainer.gameObject.SetActive(active);
+    }
+
+    public bool IsActive()
+    {
+        return recordingSpriteContainer.gameObject.activeSelf;
+    }
+
+    public void Clear()
+    {
+        recordingSpriteContainer.DestroyChildren();
     }
     
     public IEnumerator RenderSpriteRecording(RecordingRenderLoop renderLoop)
     {
-        IReadOnlyList<RecordingFrame> recordedPositions = frameStorage.RecordedPositions;
+        if(frameStorage == null)
+        {
+            Debug.LogWarning("Frame storage not assigned.");
+            yield break;
+        }
         
-        if (recordedPositions == null) return null;
+        IReadOnlyList<RecordingFrame> recordedPositions = frameStorage.RecordedPositions;
+
+        if (recordedPositions == null)
+        {
+            Debug.LogWarning("Recorded positions not found.");
+            yield break;
+        }
         
         recordingSpriteContainer.DestroyChildren();
         
-        int startIndex = (int)Mathf.Max(recordedPositions.Count - spriteAmount * spriteFrequency, 0);
+        int startIndex = Mathf.Max(recordedPositions.Count - count * frequency, 0);
 
-        return renderLoop.Play(
+        yield return renderLoop.Play(
             (positions, i) =>
             {
                 // display player sprite
-                float playerTrailIndex = (i - (positions.Count - (float)(spriteAmount * spriteFrequency))) /
-                    spriteFrequency + 1;
+                float playerTrailIndex = (i - (positions.Count - (float)(count * frequency))) /
+                    frequency + 1;
 
-                if (playerTrailIndex <= 0 || (positions.Count - 1 - i) % spriteFrequency != 0) return;
+                if (playerTrailIndex <= 0 || (positions.Count - 1 - i) % frequency != 0) return;
 
                 SpriteRenderer playerTrail = Object.Instantiate(
                     playerPrefabSprite, positions[i].Position, Quaternion.identity, recordingSpriteContainer
                 );
 
-                float alpha = playerTrailIndex * spriteMaxAlpha / spriteAmount;
+                float alpha = playerTrailIndex * maxAlpha / count;
                 playerTrail.SetAlpha(alpha);
             }, recordedPositions, startIndex
         );
