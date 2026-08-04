@@ -3,7 +3,6 @@ using UnityEngine;
 using VContainer;
 
 // TODO: split into RecordingController, RecordingRenderer, RecordingVisibilityController
-// TODO: cache builtin enumerators
 public class PlayerRecordingManager : MonoBehaviour
 {
     public static PlayerRecordingManager Instance { get; private set; }
@@ -93,7 +92,7 @@ public class PlayerRecordingManager : MonoBehaviour
         }
     }
     
-    public void StartPlayerRecording()
+    private void StartPlayerRecording()
     {
         if (recording != null) StopCoroutine(recording);
         
