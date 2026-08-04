@@ -105,6 +105,7 @@ public class PlayerPathRenderer
                     lineRenderer.endColor = successColor;
                 }
 
+                // TODO: re add the event firing (broken)
                 // eventBus.Fire(new RecordingPathRenderUpdateEvent(currentFrame.Position));
                 //
                 // if (IsReplaying && i == positions.Count - 1)

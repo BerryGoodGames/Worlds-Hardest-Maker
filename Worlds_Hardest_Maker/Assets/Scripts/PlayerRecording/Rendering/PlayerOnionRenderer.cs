@@ -7,7 +7,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 [Serializable]
-public class PlayerGhostRenderer<T> where T : IRecordingFrame
+public class PlayerOnionRenderer<T> where T : IRecordingFrame
 {
     private IRecordingFrameStorage<T> frameStorage;
     [SerializeField] private Transform recordingSpriteContainer;

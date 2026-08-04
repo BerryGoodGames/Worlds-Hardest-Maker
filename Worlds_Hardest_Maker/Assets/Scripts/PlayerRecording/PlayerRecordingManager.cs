@@ -1,10 +1,12 @@
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VContainer;
 
 // TODO: split into RecordingController, RecordingRenderer, RecordingVisibilityController
 public class PlayerRecordingManager : MonoBehaviour
 {
+    // TODO: use DI
     public static PlayerRecordingManager Instance { get; private set; }
     
     [SerializeField] private PlayerRecorder playerRecorder;
@@ -12,11 +14,12 @@ public class PlayerRecordingManager : MonoBehaviour
     [Separator] [SerializeField] private PlayerPathRenderer pathRenderer;    
     [SerializeField] [InitializationField] [OverrideLabel("Display path at start")] private bool displayPath = true;
     
-    [Separator] [SerializeField] private PlayerGhostRenderer<RawRecordingFrame> ghostRenderer;
+    [FormerlySerializedAs("ghostRenderer")] [Separator] [SerializeField] private PlayerOnionRenderer<RawRecordingFrame> onionRenderer;
     [SerializeField] [InitializationField] [OverrideLabel("Display sprites at start")] private bool displaySprites = true;
 
     [Separator] [SerializeField] private RecordingRenderLoop renderLoop;
     
+    // TODO: this shouldnt be modifiable
     public bool IsReplaying { get; set; }
     
     private RecordingAnalyzer analyzer;
@@ -47,13 +50,13 @@ public class PlayerRecordingManager : MonoBehaviour
         
         analyzer = new();
         pathRenderer.SetFrameStorage(analyzer);
-        ghostRenderer.SetFrameStorage(playerRecorder);
+        onionRenderer.SetFrameStorage(playerRecorder);
     }
     
     private void Start()
     {
         pathRenderer.SetActive(displayPath);
-        ghostRenderer.SetActive(displaySprites);
+        onionRenderer.SetActive(displaySprites);
     }
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt) => OnSwitchToPlay();
@@ -64,7 +67,7 @@ public class PlayerRecordingManager : MonoBehaviour
         if (displayPathRecording != null) StopCoroutine(displayPathRecording);
         
         pathRenderer.Clear();
-        ghostRenderer.Clear();
+        onionRenderer.Clear();
         
         recording = StartCoroutine(playerRecorder.RecordPlayer());
     }
@@ -77,9 +80,9 @@ public class PlayerRecordingManager : MonoBehaviour
 
         analyzer.AnalyzeFrames(playerRecorder);
 
-        if (ghostRenderer.IsActive())
+        if (onionRenderer.IsActive())
         {
-            displaySpriteRecording = StartCoroutine(ghostRenderer.RenderSpriteRecording(renderLoop));
+            displaySpriteRecording = StartCoroutine(onionRenderer.RenderSpriteRecording(renderLoop));
         }
         if (pathRenderer.IsActive())
         {
@@ -96,18 +99,19 @@ public class PlayerRecordingManager : MonoBehaviour
     
     private void OnToggleSpriteVisibility(TogglePlayerRecordingSpriteVisibilityRequest req)
     {
-        SetSpriteVisible(!ghostRenderer.IsActive());
+        SetSpriteVisible(!onionRenderer.IsActive());
     }
 
     public void SetSpriteVisible(bool visible)
     {
-        ghostRenderer.SetActive(visible);
+        // TODO: this does more than setting visibility
+        onionRenderer.SetActive(visible);
         
-        if (visible) displaySpriteRecording = StartCoroutine(ghostRenderer.RenderSpriteRecording(renderLoop));
+        if (visible) displaySpriteRecording = StartCoroutine(onionRenderer.RenderSpriteRecording(renderLoop));
         else
         {
             if (displaySpriteRecording != null) StopCoroutine(displaySpriteRecording);
-            ghostRenderer.Clear();
+            onionRenderer.Clear();
         }
     }
     
