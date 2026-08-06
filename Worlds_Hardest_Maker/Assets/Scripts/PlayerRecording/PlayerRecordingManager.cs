@@ -3,13 +3,13 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using VContainer;
 
-// TODO: split into RecordingController, RecordingRenderer, RecordingVisibilityController
+// TODO: split into RecordingRenderer, RecordingVisibilityController
 public class PlayerRecordingManager : MonoBehaviour
 {
     // TODO: use DI
     public static PlayerRecordingManager Instance { get; private set; }
     
-    [SerializeField] private PlayerRecorder playerRecorder;
+    [SerializeField] private PlayerRecordingController recordingController;
     
     [Separator] [SerializeField] private PlayerPathRenderer pathRenderer;    
     [SerializeField] [InitializationField] [OverrideLabel("Display path at start")] private bool displayPath = true;
@@ -24,7 +24,6 @@ public class PlayerRecordingManager : MonoBehaviour
     
     private RecordingAnalyzer analyzer;
     
-    private Coroutine recording;
     private Coroutine displaySpriteRecording;
     private Coroutine displayPathRecording;
     
@@ -47,10 +46,12 @@ public class PlayerRecordingManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
+
+        recordingController.SetRunner(this);
         
         analyzer = new();
         pathRenderer.SetFrameStorage(analyzer);
-        onionRenderer.SetFrameStorage(playerRecorder);
+        onionRenderer.SetFrameStorage(recordingController);
     }
     
     private void Start()
@@ -69,16 +70,16 @@ public class PlayerRecordingManager : MonoBehaviour
         pathRenderer.Clear();
         onionRenderer.Clear();
         
-        recording = StartCoroutine(playerRecorder.RecordPlayer());
+        recordingController.StartRecording();
     }
     
     private void OnSwitchToEdit(SwitchToEditEvent evt) => AnalyzeAndRender();
     
     private void AnalyzeAndRender()
     {
-        if (recording != null) StopCoroutine(recording);
+        recordingController.StopRecording();
 
-        analyzer.AnalyzeFrames(playerRecorder);
+        analyzer.AnalyzeFrames(recordingController);
 
         if (onionRenderer.IsActive())
         {
@@ -88,13 +89,6 @@ public class PlayerRecordingManager : MonoBehaviour
         {
             displayPathRecording = StartCoroutine(pathRenderer.RenderPathRecording(renderLoop));
         }
-    }
-    
-    private void StartPlayerRecording()
-    {
-        if (recording != null) StopCoroutine(recording);
-        
-        recording = StartCoroutine(playerRecorder.RecordPlayer());
     }
     
     private void OnToggleSpriteVisibility(TogglePlayerRecordingSpriteVisibilityRequest req)
@@ -133,7 +127,7 @@ public class PlayerRecordingManager : MonoBehaviour
     
     private void OnPlayAgain(PlayAgainEvent evt)
     {
-        StartPlayerRecording();
+        recordingController.StartRecording();
         
         SetSpriteVisible(false);
         SetPathVisible(false);
