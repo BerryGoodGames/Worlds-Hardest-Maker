@@ -17,8 +17,7 @@ namespace WorldsHardestMaker.PlayerRecording
     
         private EventBus eventBus;
     
-        // TODO: this shouldnt be modifiable
-        public bool IsReplaying { get; set; }
+        public bool IsReplaying { get; private set; }
     
         [Inject]
         private void Construct(EventBus eventBus)
@@ -95,6 +94,11 @@ namespace WorldsHardestMaker.PlayerRecording
         public void SetOnionVisible(bool visible)
         {
             visibilityController.SetOnionVisible(visible);
+        }
+
+        public void StopReplay()
+        {
+            IsReplaying = false;
         }
     
         private void OnDestroy()

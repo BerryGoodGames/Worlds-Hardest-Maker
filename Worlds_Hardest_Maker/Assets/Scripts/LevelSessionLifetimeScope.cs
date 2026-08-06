@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using VContainer;
 using VContainer.Unity;
+using WorldsHardestMaker.PlayerRecording;
 
 public class LevelSessionLifetimeScope : LifetimeScope
 {
@@ -16,6 +17,8 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.Register<PreviewSpriteAlphaProvider>(Lifetime.Singleton);
 
         builder.RegisterComponentInHierarchy<MouseManager>().As<IMouseService>();
+
+        builder.RegisterComponentInHierarchy<PlayerRecordingManager>().As<IRecordingService>();
     }
     
     protected override void Awake()

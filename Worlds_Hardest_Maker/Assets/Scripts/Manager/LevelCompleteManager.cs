@@ -91,7 +91,7 @@ public partial class LevelCompleteManager : MonoBehaviour
             
             levelCompleteCanvasTween.SetVisible(true);
             
-            recordingService.IsReplaying = false;
+            recordingService.StopReplay();
         }
     }
     

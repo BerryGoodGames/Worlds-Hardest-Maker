@@ -55,11 +55,11 @@ namespace WorldsHardestMaker.PlayerRecording.Rendering
         {
             if (onionRenderer.IsActive())
             {
-                onionRoutine = runner.StartCoroutine(onionRenderer.RenderSpriteRecording(renderLoop));
+                RenderOnion();
             }
             if (pathRenderer.IsActive())
             {
-                pathRoutine = runner.StartCoroutine(pathRenderer.RenderPathRecording(renderLoop));
+                RenderPath();
             }
         }
     
