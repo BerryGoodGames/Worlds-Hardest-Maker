@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using VContainer;
+using WorldsHardestMaker.PlayerRecording;
 
 public class PlayerRecordingSpriteButton : MonoBehaviour
 {
@@ -13,6 +14,6 @@ public class PlayerRecordingSpriteButton : MonoBehaviour
 
     public void OnToggleSpriteVisibilityClicked()
     {
-        eventBus.Fire(new TogglePlayerRecordingOnionVisibilityRequest());
+        eventBus.Fire(new ToggleOnionVisibilityRequest());
     }
 }

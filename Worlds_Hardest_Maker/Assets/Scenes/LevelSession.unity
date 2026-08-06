@@ -25600,7 +25600,7 @@ GameObject:
   - component: {fileID: 1614796947}
   - component: {fileID: 1614796948}
   m_Layer: 0
-  m_Name: _PlayerRecording
+  m_Name: _Recording
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25656,25 +25656,6 @@ MonoBehaviour:
       fixedDisplayDuration: 0
       displayFrequency: 0.0125
       displayDuration: 1
-  pathRenderer:
-    recordingPathContainer: {fileID: 427771857}
-    successColor: {r: 0, g: 1, b: 0, a: 1}
-    deathColor: {r: 1, g: 0, b: 0, a: 0.7019608}
-    minDeathColorValue: 0.5
-    recordingDeathPrefab: {fileID: 5837517203062812874, guid: 58fe4a3943baa304b90e41eeae39954d, type: 3}
-    recordingLinePrefab: {fileID: -4883994490482953050, guid: 4600c77b801e3b941bd84d9e267ed953, type: 3}
-  displayPath: 1
-  onionRenderer:
-    recordingOnionContainer: {fileID: 0}
-    frequency: 2
-    maxAlpha: 0.5
-    count: 9
-    playerPrefabSprite: {fileID: 5865789220577753341, guid: 859e4f16df8437d47bc4d015c1f55356, type: 3}
-  displaySprites: 1
-  renderLoop:
-    fixedDisplayDuration: 0
-    displayFrequency: 0.0125
-    displayDuration: 1
 --- !u!224 &1641938108 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7465456736653454112, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
@@ -27557,7 +27538,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 711.38995, y: -956.1367}
-  m_SizeDelta: {x: 51.75, y: 39.5306}
+  m_SizeDelta: {x: 0, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755699354
 MonoBehaviour:

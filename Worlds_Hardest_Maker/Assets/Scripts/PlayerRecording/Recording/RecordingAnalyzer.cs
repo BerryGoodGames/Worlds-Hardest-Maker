@@ -1,44 +1,47 @@
 ﻿using System.Collections.Generic;
 
-public class RecordingAnalyzer : IRecordingFrameStorage<AnalyzedRecordingFrame>
+namespace WorldsHardestMaker.PlayerRecording.Recording
 {
-    private AnalyzedRecordingFrame[] analyzedFrames;
-    public IReadOnlyList<AnalyzedRecordingFrame> Frames => analyzedFrames;
-    
-    public void AnalyzeFrames(IRecordingFrameStorage<RawRecordingFrame> frameStorage)
+    public class RecordingAnalyzer : IRecordingFrameStorage<AnalyzedFrame>
     {
-        IReadOnlyList<RawRecordingFrame> recordedPositions = frameStorage.Frames;
-        
-        analyzedFrames = new AnalyzedRecordingFrame[recordedPositions.Count];
-        
-        // mark successful runs
-        bool currentlyInSuccessfulSegment = true;
-        for (int i = recordedPositions.Count - 1; i >= 0; i--)
+        private AnalyzedFrame[] analyzedFrames;
+        public IReadOnlyList<AnalyzedFrame> Frames => analyzedFrames;
+    
+        public void AnalyzeFrames(IRecordingFrameStorage<RawFrame> frameStorage)
         {
-            RawRecordingFrame frame = recordedPositions[i];
-            bool startSuccessfulRun = false;
-            if (currentlyInSuccessfulSegment && frame.Died && i != recordedPositions.Count - 1)
+            IReadOnlyList<RawFrame> recordedPositions = frameStorage.Frames;
+        
+            analyzedFrames = new AnalyzedFrame[recordedPositions.Count];
+        
+            // mark successful runs
+            bool currentlyInSuccessfulSegment = true;
+            for (int i = recordedPositions.Count - 1; i >= 0; i--)
             {
-                startSuccessfulRun = true;
-                currentlyInSuccessfulSegment = false;
-            }
+                RawFrame frame = recordedPositions[i];
+                bool startSuccessfulRun = false;
+                if (currentlyInSuccessfulSegment && frame.Died && i != recordedPositions.Count - 1)
+                {
+                    startSuccessfulRun = true;
+                    currentlyInSuccessfulSegment = false;
+                }
 
-            if (recordedPositions[i].CheckpointHit)
-            {
-                if (currentlyInSuccessfulSegment) startSuccessfulRun = true;
+                if (recordedPositions[i].CheckpointHit)
+                {
+                    if (currentlyInSuccessfulSegment) startSuccessfulRun = true;
 
-                currentlyInSuccessfulSegment = true;
-            }
+                    currentlyInSuccessfulSegment = true;
+                }
 
-            if (i == 0 && currentlyInSuccessfulSegment) startSuccessfulRun = true;
+                if (i == 0 && currentlyInSuccessfulSegment) startSuccessfulRun = true;
             
-            analyzedFrames[i] = new()
-            {
-                Position = frame.Position,
-                Died = frame.Died,
-                CheckpointHit = frame.CheckpointHit,
-                StartsSuccessfulRun = startSuccessfulRun,
-            };
+                analyzedFrames[i] = new()
+                {
+                    Position = frame.Position,
+                    Died = frame.Died,
+                    CheckpointHit = frame.CheckpointHit,
+                    StartsSuccessfulRun = startSuccessfulRun,
+                };
+            }
         }
     }
 }

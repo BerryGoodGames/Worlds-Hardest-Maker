@@ -5,6 +5,7 @@ using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using VContainer;
+using WorldsHardestMaker.PlayerRecording;
 
 public partial class LevelCompleteManager : MonoBehaviour
 {

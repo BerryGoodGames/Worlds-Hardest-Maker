@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 
-public interface IRecordingFrameStorage<out T> where T : IRecordingFrame
+namespace WorldsHardestMaker.PlayerRecording.Recording
 {
-    public IReadOnlyList<T> Frames { get; }
+    public interface IRecordingFrameStorage<out T> where T : IRecordingFrame
+    {
+        public IReadOnlyList<T> Frames { get; }
+    }
 }

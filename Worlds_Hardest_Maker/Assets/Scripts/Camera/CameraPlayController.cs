@@ -2,6 +2,7 @@ using DG.Tweening;
 using NaughtyAttributes;
 using UnityEngine;
 using VContainer;
+using WorldsHardestMaker.PlayerRecording;
 
 public class CameraPlayController : MonoBehaviour
 {
@@ -23,13 +24,13 @@ public class CameraPlayController : MonoBehaviour
         eventBus.Subscribe<StartPlaytestEvent>(OnStartPlaytest);
         eventBus.Subscribe<SetupPlaySceneEvent>(OnSetupPlayScene);
         eventBus.Subscribe<ResetLevelEvent>(OnResetLevel);
-        eventBus.Subscribe<RecordingPathRenderUpdateEvent>(OnPathRenderUpdate);
+        eventBus.Subscribe<PathRenderUpdateEvent>(OnPathRenderUpdate);
     }
     
     private void OnStartPlaytest(StartPlaytestEvent evt) => JumpToStart();
     private void OnSetupPlayScene(SetupPlaySceneEvent evt) => JumpToStartInstant();
     private void OnResetLevel(ResetLevelEvent evt) => JumpToStart();
-    private void OnPathRenderUpdate(RecordingPathRenderUpdateEvent evt)
+    private void OnPathRenderUpdate(PathRenderUpdateEvent evt)
     {
         if (PlayerRecordingManager.Instance.IsReplaying) TrackPosition(evt.Position.GetRoom());
     }
@@ -100,7 +101,7 @@ public class CameraPlayController : MonoBehaviour
         eventBus.Unsubscribe<StartPlaytestEvent>(OnStartPlaytest);
         eventBus.Unsubscribe<SetupPlaySceneEvent>(OnSetupPlayScene);
         eventBus.Unsubscribe<ResetLevelEvent>(OnResetLevel);
-        eventBus.Unsubscribe<RecordingPathRenderUpdateEvent>(OnPathRenderUpdate);
+        eventBus.Unsubscribe<PathRenderUpdateEvent>(OnPathRenderUpdate);
     }
 }
 

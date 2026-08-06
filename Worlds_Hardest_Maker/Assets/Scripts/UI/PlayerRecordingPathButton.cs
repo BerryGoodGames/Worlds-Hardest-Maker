@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using VContainer;
+using WorldsHardestMaker.PlayerRecording;
 
 public class PlayerRecordingPathButton : MonoBehaviour
 {
@@ -13,6 +14,6 @@ public class PlayerRecordingPathButton : MonoBehaviour
 
     public void OnTogglePathVisibilityClicked()
     {
-        eventBus.Fire(new TogglePlayerRecordingPathVisibilityRequest());
+        eventBus.Fire(new TogglePathVisibilityRequest());
     }
 }
