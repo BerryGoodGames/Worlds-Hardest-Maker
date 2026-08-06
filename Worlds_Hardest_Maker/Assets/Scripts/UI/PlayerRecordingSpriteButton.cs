@@ -13,6 +13,6 @@ public class PlayerRecordingSpriteButton : MonoBehaviour
 
     public void OnToggleSpriteVisibilityClicked()
     {
-        eventBus.Fire(new TogglePlayerRecordingSpriteVisibilityRequest());
+        eventBus.Fire(new TogglePlayerRecordingOnionVisibilityRequest());
     }
 }

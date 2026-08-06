@@ -10,7 +10,7 @@ using Object = UnityEngine.Object;
 public class PlayerOnionRenderer<T> where T : IRecordingFrame
 {
     private IRecordingFrameStorage<T> frameStorage;
-    [SerializeField] private Transform recordingSpriteContainer;
+    [SerializeField] private Transform recordingOnionContainer;
     [SerializeField] [PositiveValueOnly] private int frequency = 2;
     [SerializeField] [Range(0, 1)] private float maxAlpha = 0.5f;
     [SerializeField] [PositiveValueOnly] private int count = 9;
@@ -23,17 +23,17 @@ public class PlayerOnionRenderer<T> where T : IRecordingFrame
 
     public void SetActive(bool active)
     {
-        recordingSpriteContainer.gameObject.SetActive(active);
+        recordingOnionContainer.gameObject.SetActive(active);
     }
 
     public bool IsActive()
     {
-        return recordingSpriteContainer.gameObject.activeSelf;
+        return recordingOnionContainer.gameObject.activeSelf;
     }
 
     public void Clear()
     {
-        recordingSpriteContainer.DestroyChildren();
+        recordingOnionContainer.DestroyChildren();
     }
     
     public IEnumerator RenderSpriteRecording(RecordingRenderLoop renderLoop)
@@ -52,7 +52,7 @@ public class PlayerOnionRenderer<T> where T : IRecordingFrame
             yield break;
         }
         
-        recordingSpriteContainer.DestroyChildren();
+        recordingOnionContainer.DestroyChildren();
         
         int startIndex = Mathf.Max(frames.Count - count * frequency, 0);
 
@@ -66,7 +66,7 @@ public class PlayerOnionRenderer<T> where T : IRecordingFrame
                 if (playerTrailIndex <= 0 || (positions.Count - 1 - i) % frequency != 0) return;
 
                 SpriteRenderer playerTrail = Object.Instantiate(
-                    playerPrefabSprite, positions[i].Position, Quaternion.identity, recordingSpriteContainer
+                    playerPrefabSprite, positions[i].Position, Quaternion.identity, recordingOnionContainer
                 );
 
                 float alpha = playerTrailIndex * maxAlpha / count;

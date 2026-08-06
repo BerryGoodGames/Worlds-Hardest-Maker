@@ -1,33 +1,23 @@
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 using VContainer;
 
-// TODO: split into RecordingRenderer, RecordingVisibilityController
 public class PlayerRecordingManager : MonoBehaviour
 {
     // TODO: use DI
     public static PlayerRecordingManager Instance { get; private set; }
     
     [SerializeField] private PlayerRecordingController recordingController;
-    
-    [Separator] [SerializeField] private PlayerPathRenderer pathRenderer;    
-    [SerializeField] [InitializationField] [OverrideLabel("Display path at start")] private bool displayPath = true;
-    
-    [FormerlySerializedAs("ghostRenderer")] [Separator] [SerializeField] private PlayerOnionRenderer<RawRecordingFrame> onionRenderer;
-    [SerializeField] [InitializationField] [OverrideLabel("Display sprites at start")] private bool displaySprites = true;
+    [Separator] [SerializeField] private RecordingRenderingController renderingController;
 
-    [Separator] [SerializeField] private RecordingRenderLoop renderLoop;
-    
-    // TODO: this shouldnt be modifiable
-    public bool IsReplaying { get; set; }
+    private RecordingVisibilityController visibilityController;
     
     private RecordingAnalyzer analyzer;
     
-    private Coroutine displaySpriteRecording;
-    private Coroutine displayPathRecording;
-    
     private EventBus eventBus;
+    
+    // TODO: this shouldnt be modifiable
+    public bool IsReplaying { get; set; }
     
     [Inject]
     private void Construct(EventBus eventBus)
@@ -39,36 +29,30 @@ public class PlayerRecordingManager : MonoBehaviour
         eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
         eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
         eventBus.Subscribe<ReplayEvent>(OnReplay);
-        eventBus.Subscribe<TogglePlayerRecordingPathVisibilityRequest>(OnTogglePathVisibility);
-        eventBus.Subscribe<TogglePlayerRecordingSpriteVisibilityRequest>(OnToggleSpriteVisibility);
     }
     
     private void Awake()
     {
         if (Instance == null) Instance = this;
-
-        recordingController.SetRunner(this);
         
+        visibilityController = new(renderingController, eventBus);
         analyzer = new();
-        pathRenderer.SetFrameStorage(analyzer);
-        onionRenderer.SetFrameStorage(recordingController);
+        
+        recordingController.SetRunner(this);
+        renderingController.SetRunner(this);
+        renderingController.SetFrameStorages(analyzer, recordingController);
     }
-    
+
     private void Start()
     {
-        pathRenderer.SetActive(displayPath);
-        onionRenderer.SetActive(displaySprites);
+        renderingController.Initialize();
     }
-    
+
     private void OnSwitchToPlay(SwitchToPlayEvent evt) => OnSwitchToPlay();
     private void OnSwitchToPlay(SetupPlaySceneEvent evt) => OnSwitchToPlay();
     private void OnSwitchToPlay()
     {
-        if (displaySpriteRecording != null) StopCoroutine(displaySpriteRecording);
-        if (displayPathRecording != null) StopCoroutine(displayPathRecording);
-        
-        pathRenderer.Clear();
-        onionRenderer.Clear();
+        renderingController.StopAndClearRenderings();
         
         recordingController.StartRecording();
     }
@@ -80,77 +64,46 @@ public class PlayerRecordingManager : MonoBehaviour
         recordingController.StopRecording();
 
         analyzer.AnalyzeFrames(recordingController);
-
-        if (onionRenderer.IsActive())
-        {
-            displaySpriteRecording = StartCoroutine(onionRenderer.RenderSpriteRecording(renderLoop));
-        }
-        if (pathRenderer.IsActive())
-        {
-            displayPathRecording = StartCoroutine(pathRenderer.RenderPathRecording(renderLoop));
-        }
-    }
-    
-    private void OnToggleSpriteVisibility(TogglePlayerRecordingSpriteVisibilityRequest req)
-    {
-        SetSpriteVisible(!onionRenderer.IsActive());
-    }
-
-    public void SetSpriteVisible(bool visible)
-    {
-        // TODO: this does more than setting visibility
-        onionRenderer.SetActive(visible);
         
-        if (visible) displaySpriteRecording = StartCoroutine(onionRenderer.RenderSpriteRecording(renderLoop));
-        else
-        {
-            if (displaySpriteRecording != null) StopCoroutine(displaySpriteRecording);
-            onionRenderer.Clear();
-        }
-    }
-    
-    private void OnTogglePathVisibility(TogglePlayerRecordingPathVisibilityRequest req)
-    {
-        SetPathVisible(!pathRenderer.IsActive());
-    }
-
-    public void SetPathVisible(bool visible)
-    {
-        pathRenderer.SetActive(visible);
-        
-        if (displayPathRecording != null) StopCoroutine(displayPathRecording);
-        
-        pathRenderer.Clear();
-        
-        if (visible) displayPathRecording = StartCoroutine(pathRenderer.RenderPathRecording(renderLoop));
+        renderingController.RenderAll();
     }
     
     private void OnPlayAgain(PlayAgainEvent evt)
     {
         recordingController.StartRecording();
         
-        SetSpriteVisible(false);
-        SetPathVisible(false);
+        visibilityController.SetOnionVisible(false);
+        visibilityController.SetPathVisible(false);
         
         IsReplaying = false;
     }
     
     private void OnReplay(ReplayEvent evt)
     {
-        SetSpriteVisible(false);
-        SetPathVisible(true);
+        visibilityController.SetOnionVisible(false);
+        visibilityController.SetPathVisible(true);
         
         IsReplaying = true;
     }
     
+    public void SetPathVisible(bool visible)
+    {
+        visibilityController.SetPathVisible(visible);
+    }
+
+    public void SetOnionVisible(bool visible)
+    {
+        visibilityController.SetOnionVisible(visible);
+    }
+    
     private void OnDestroy()
     {
+        visibilityController.Dispose();
+        
         eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Unsubscribe<SetupPlaySceneEvent>(OnSwitchToPlay);
         eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
         eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
         eventBus.Unsubscribe<ReplayEvent>(OnReplay);
-        eventBus.Unsubscribe<TogglePlayerRecordingPathVisibilityRequest>(OnTogglePathVisibility);
-        eventBus.Unsubscribe<TogglePlayerRecordingSpriteVisibilityRequest>(OnToggleSpriteVisibility);
     }
 }

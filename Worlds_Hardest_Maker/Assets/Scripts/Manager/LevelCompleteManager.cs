@@ -36,8 +36,8 @@ public partial class LevelCompleteManager : MonoBehaviour
     {
         if (LevelSessionManager.Instance.IsEdit) return;
         
-        PlayerRecordingManager.Instance.SetSpriteVisible(true);
         PlayerRecordingManager.Instance.SetPathVisible(true);
+        PlayerRecordingManager.Instance.SetOnionVisible(true);
         
         levelCompleteCanvasTween.SetVisible(true);
         
