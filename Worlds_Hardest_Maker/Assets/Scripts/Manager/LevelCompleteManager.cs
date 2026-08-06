@@ -21,12 +21,14 @@ public partial class LevelCompleteManager : MonoBehaviour
     [SerializeField] [Required] private TMP_Text newPBText;
     
     [SerializeField] [Required] private TimerController timerController;
-    
+
+    private IRecordingService recordingService;
     private EventBus eventBus;
     
     [Inject]
-    private void Construct(EventBus eventBus)
+    private void Construct(IRecordingService recordingService, EventBus eventBus)
     {
+        this.recordingService = recordingService;
         this.eventBus = eventBus;
         
         eventBus.Subscribe<WinLevelEvent>(OnWinLevel);
@@ -37,8 +39,8 @@ public partial class LevelCompleteManager : MonoBehaviour
     {
         if (LevelSessionManager.Instance.IsEdit) return;
         
-        PlayerRecordingManager.Instance.SetPathVisible(true);
-        PlayerRecordingManager.Instance.SetOnionVisible(true);
+        recordingService.SetPathVisible(true);
+        recordingService.SetOnionVisible(true);
         
         levelCompleteCanvasTween.SetVisible(true);
         
@@ -89,7 +91,7 @@ public partial class LevelCompleteManager : MonoBehaviour
             
             levelCompleteCanvasTween.SetVisible(true);
             
-            PlayerRecordingManager.Instance.IsReplaying = false;
+            recordingService.IsReplaying = false;
         }
     }
     

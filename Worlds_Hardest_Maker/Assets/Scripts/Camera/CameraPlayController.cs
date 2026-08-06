@@ -13,12 +13,14 @@ public class CameraPlayController : MonoBehaviour
     private float camOrthoSize;
     
     private Vector2Int currentRoom;
-    
+
+    private IRecordingService recordingService;
     private EventBus eventBus;
     
     [Inject]
-    private void Construct(EventBus eventBus)
+    private void Construct(IRecordingService recordingService, EventBus eventBus)
     {
+        this.recordingService = recordingService;
         this.eventBus = eventBus;
         
         eventBus.Subscribe<StartPlaytestEvent>(OnStartPlaytest);
@@ -32,7 +34,7 @@ public class CameraPlayController : MonoBehaviour
     private void OnResetLevel(ResetLevelEvent evt) => JumpToStart();
     private void OnPathRenderUpdate(PathRenderUpdateEvent evt)
     {
-        if (PlayerRecordingManager.Instance.IsReplaying) TrackPosition(evt.Position.GetRoom());
+        if (recordingService.IsReplaying) TrackPosition(evt.Position.GetRoom());
     }
     
     private void Awake()
@@ -43,7 +45,7 @@ public class CameraPlayController : MonoBehaviour
     
     private void Update()
     {
-        if (!LevelSessionEditManager.Instance.InPlaytest || PlayerRecordingManager.Instance.IsReplaying) return;
+        if (!LevelSessionEditManager.Instance.InPlaytest || recordingService.IsReplaying) return;
         
         Vector2Int playerRoomPos = PlayerManager.GetCurrentRoom();
         TrackPosition(playerRoomPos);

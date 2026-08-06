@@ -6,11 +6,8 @@ using WorldsHardestMaker.PlayerRecording.Rendering;
 
 namespace WorldsHardestMaker.PlayerRecording
 {
-    public class PlayerRecordingManager : MonoBehaviour
+    public class PlayerRecordingManager : MonoBehaviour, IRecordingService
     {
-        // TODO: use DI
-        public static PlayerRecordingManager Instance { get; private set; }
-    
         [SerializeField] private PlayerRecordingController recordingController;
         [Separator] [SerializeField] private RenderingController renderingController;
 
@@ -39,8 +36,6 @@ namespace WorldsHardestMaker.PlayerRecording
     
         private void Awake()
         {
-            if (Instance == null) Instance = this;
-        
             visibilityController = new(renderingController, eventBus);
             analyzer = new();
         
