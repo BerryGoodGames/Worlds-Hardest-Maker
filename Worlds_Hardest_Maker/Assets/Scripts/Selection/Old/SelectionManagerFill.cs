@@ -6,28 +6,10 @@ using VContainer.Unity;
 
 public partial class SelectionManager
 {
-    public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2)
-    {
-        bool inMatrix = LevelSessionEditManager.Instance.CurrentEditMode.GetWorldPositionType() is WorldPositionType.Matrix;
-        
-        // find bounds
-        (Vector2 lowest, Vector2 highest) = inMatrix ? GetBoundsMatrix(p1, p2) : GetBounds(p1, p2);
-        
-        // collect every pos in range
-        float increment = inMatrix ? 1 : 0.5f;
-        List<Vector2> res = new();
-        for (float x = lowest.x; x <= highest.x; x += increment)
-        {
-            for (float y = lowest.y; y <= highest.y; y += increment) res.Add(new(x, y));
-        }
-        
-        return res;
-    }
-    
     public static List<Vector2> GetCurrentFillRange()
     {
         if (SelectionStart == null || SelectionEnd == null) return null;
-        return GetFillRange((Vector2)SelectionStart, (Vector2)SelectionEnd);
+        return SelectionGeometry.GetFillRange((Vector2)SelectionStart, (Vector2)SelectionEnd);
     }
     
     public void FillSelectedArea()
@@ -40,7 +22,7 @@ public partial class SelectionManager
         selectionOptions.gameObject.SetActive(false);
     }
     
-    public void FillAreaWithFields(List<Vector2> poses, FieldMode mode)
+    public void FillAreaWithFields(List<Vector2> positions, FieldMode mode)
     {
         // set rotation
         int rotation = mode.IsRotatable
@@ -48,12 +30,12 @@ public partial class SelectionManager
             : 0;
         
         // find bounds
-        (Vector2Int lowest, Vector2Int highest) = GetBoundsMatrix(poses);
+        (Vector2Int lowest, Vector2Int highest) = SelectionGeometry.GetBoundsMatrix(positions);
         
         // check if its 1 wide
         if (lowest.x == highest.x || lowest.y == highest.y)
         {
-            foreach (Vector2 pos in poses)
+            foreach (Vector2 pos in positions)
             {
                 ManagerParameters args = new()
                 {
@@ -70,7 +52,7 @@ public partial class SelectionManager
         
         AdaptAreaToFieldType(lowest, highest, mode);
         
-        foreach (Vector2 pos in poses)
+        foreach (Vector2 pos in positions)
         {
             // set field at pos
             GameObject field = Instantiate(
@@ -99,24 +81,24 @@ public partial class SelectionManager
         FieldManager.UpdateOutlinesInArea(mode.HasOutline, lowest, highest);
     }
     
-    public void FillArea(List<Vector2> poses, EditMode editMode)
+    public void FillArea(List<Vector2> positions, EditMode editMode)
     {
-        if (poses.Count == 0) return;
+        if (positions.Count == 0) return;
         
         if (editMode.Attributes.IsField)
         {
-            FillAreaWithFields(poses, (FieldMode)editMode);
+            FillAreaWithFields(positions, (FieldMode)editMode);
             return;
         }
         
-        DeleteArea(poses);
+        DeleteArea(positions);
         
-        foreach (Vector2 pos in poses) PlaceManager.Instance.Place(editMode, pos);
+        foreach (Vector2 pos in positions) PlaceManager.Instance.Place(editMode, pos);
         
-        FieldManager.UpdateOutlinesInArea(false, poses[0].Floor(), poses.Last().Ceil());
+        FieldManager.UpdateOutlinesInArea(false, positions[0].Floor(), positions.Last().Ceil());
     }
     
-    public void FillArea(Vector2 start, Vector2 end, EditMode editMode) => FillArea(GetFillRange(start, end), editMode);
+    public void FillArea(Vector2 start, Vector2 end, EditMode editMode) => FillArea(SelectionGeometry.GetFillRange(start, end), editMode);
     
     private void AdaptAreaToFieldType(Vector2 lowestPos, Vector2 highestPos, FieldMode mode)
     {
