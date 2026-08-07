@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -7,6 +8,11 @@ public static class SelectionGeometry
     // get bounds of multiple points (in matrix)
     private static (Vector2 lowest, Vector2 highest) GetBounds(List<Vector2> points)
     {
+        if (points.Count == 0)
+        {
+            throw new ArgumentException("Could not give bounds because point list is empty.");
+        }
+        
         Vector2 lowest = points[0];
         Vector2 highest = points[0];
         
@@ -23,6 +29,13 @@ public static class SelectionGeometry
 
     public static (Vector2 lowest, Vector2 highest) GetBounds(params Vector2[] points) => GetBounds(points.ToList());
 
+    public static (Vector2 lowest, Vector2 highest) GetBoundsGrid(List<Vector2> points)
+    {
+        return GetBounds(points);
+    }
+
+    public static (Vector2 lowest, Vector2 highest) GetBoundsGrid(params Vector2[] points) => GetBoundsGrid(points.ToList());
+    
     public static (Vector2Int lowest, Vector2Int highest) GetBoundsMatrix(List<Vector2> points)
     {
         (Vector2 lowest, Vector2 highest) = GetBounds(points);
@@ -30,17 +43,22 @@ public static class SelectionGeometry
     }
 
     public static (Vector2Int lowest, Vector2Int highest) GetBoundsMatrix(params Vector2[] points) => GetBoundsMatrix(points.ToList());
-    
-    
+
     public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2)
     {
+        WorldPositionType positionType = LevelSessionEditManager.Instance.CurrentEditMode.GetWorldPositionType();
+        return GetFillRange(p1, p2, positionType);
+    }
+
+    public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2, WorldPositionType worldPositionType)
+    {
         const float matrixIncrement = 1;
-        const float gridIncrement = 1;
+        const float gridIncrement = 0.5f;
         
-        bool inMatrix = LevelSessionEditManager.Instance.CurrentEditMode.GetWorldPositionType() is WorldPositionType.Matrix;
+        bool inMatrix = worldPositionType is WorldPositionType.Matrix;
         
         // find bounds
-        (Vector2 lowest, Vector2 highest) = inMatrix ? GetBoundsMatrix(p1, p2) : GetBounds(p1, p2);
+        (Vector2 lowest, Vector2 highest) = inMatrix ? GetBoundsMatrix(p1, p2) : GetBoundsGrid(p1, p2);
         
         // collect every pos in range
         float increment = inMatrix ? matrixIncrement : gridIncrement;

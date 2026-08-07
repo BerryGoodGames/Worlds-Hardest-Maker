@@ -1,0 +1,24 @@
+{
+    "name": "WorldsHardestMaker",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:48c9f6afdac61634db0e0f241c7d4d51",
+        "GUID:776d03a35f1b52c4a9aed9f56d7b4229",
+        "GUID:386aae96df7c7e24d8e9803b02fc1bed",
+        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc",
+        "GUID:4307f53044263cf4b835bd812fc161a4",
+        "GUID:cae8513242b7e4542a08c3c02581e9e4",
+        "GUID:733501f4ec03725418bbdc45eb757dea",
+        "GUID:6a3f0e17e39666b4ca322c6b7bd80d30"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
