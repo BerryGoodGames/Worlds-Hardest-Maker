@@ -6,6 +6,11 @@ using VContainer.Unity;
 
 public partial class SelectionManager
 {
+    public List<Vector2> GetFillRange()
+    {
+        return CurrentFillRange;
+    }
+
     public List<Vector2> CurrentFillRange => selectionStateService.Start == null || selectionStateService.End == null ? null : GetCurrentFillRange();
     
     public List<Vector2> GetCurrentFillRange()
@@ -19,7 +24,15 @@ public partial class SelectionManager
         if (!Selecting) return;
         
         FillArea(CurrentFillRange, LevelSessionEditManager.Instance.CurrentEditMode);
-        ResetPreview();
+        
+        previewController.DestroyPreview();
+
+        // reset selection marking
+        if (selectionOutline != null) Destroy(selectionOutline);
+        
+        // enable placement preview
+        if (!LevelSessionEditManager.Instance.Playing) placementPreview.Show();
+        
         Selecting = false;
         selectionOptions.gameObject.SetActive(false);
     }

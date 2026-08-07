@@ -61,7 +61,13 @@ public partial class SelectionManager
     
     public void OnCancelClicked()
     {
-        ResetPreview();
+        previewController.DestroyPreview();
+
+        // enable placement preview
+        if (!LevelSessionEditManager.Instance.Playing) placementPreview.Show();
+
+        // reset selection marking
+        if (selectionOutline != null) Destroy(selectionOutline);
         
         // hide selection menu
         Instance.selectionOptions.gameObject.SetActive(false);

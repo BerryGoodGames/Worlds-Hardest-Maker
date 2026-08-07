@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
@@ -10,7 +8,7 @@ using VContainer;
 ///     Methods for filling: GetFillRange, FillArea, GetBounds, GetBoundsMatrix
 ///     <para>Attach to game manager</para>
 /// </summary>
-public partial class SelectionManager : MonoBehaviour
+public partial class SelectionManager : MonoBehaviour, IFillRangeProvider
 {
     [SerializeField] [InitializationField] [Required] private RectTransform selectionOptions;
     [SerializeField] [InitializationField] [Required] private MouseOverUIRect fillMouseOver;
@@ -29,7 +27,15 @@ public partial class SelectionManager : MonoBehaviour
     private EventBus eventBus;
     private IMouseService mouseService;
     private ISelectionState selectionStateService;
+
+    private SelectionPreviewController previewController;
     
+    private void Awake()
+    {
+        // init singleton
+        if (Instance == null) Instance = this;
+    }
+
     [Inject]
     private void Construct(IObjectResolver diContainer, EventBus eventBus, IMouseService mouseService, ISelectionState selectionStateService)
     {
@@ -40,12 +46,10 @@ public partial class SelectionManager : MonoBehaviour
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
-        eventBus.Subscribe<EditModeChangeEvent>(OnEditModeChange);
     }
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt) => OnCancelClicked();
     private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt) => OnCancelClicked();
-    private void OnEditModeChange(EditModeChangeEvent evt) => UpdateFillPreviews();
     
     private void Update()
     {
@@ -86,8 +90,10 @@ public partial class SelectionManager : MonoBehaviour
     
     private void Start()
     {
-        fillMouseOver.OnHovered += SetPreviewVisible;
-        fillMouseOver.OnUnhovered += SetPreviewInvisible;
+        previewController = new(eventBus, diContainer, this);
+        
+        fillMouseOver.OnHovered += previewController.SetPreviewVisible;
+        fillMouseOver.OnUnhovered += previewController.SetPreviewInvisible;
     }
     
     private void OnAreaSelectionChanged(Vector2 start, Vector2 end)
@@ -101,6 +107,8 @@ public partial class SelectionManager : MonoBehaviour
     
     private void OnAreaSelected(Vector2 start, Vector2 end)
     {
+        selectionStateService.EndSelection(start, end);
+        
         // called when mouse button was released and area was selected
         selectionOptions.gameObject.SetActive(true);
         float width = end.x - start.x;
@@ -113,7 +121,7 @@ public partial class SelectionManager : MonoBehaviour
         
         selectionOptions.pivot = new(width > 0 ? 0 : 1, height > 0 ? 0 : 1);
         
-        UpdateFillPreviews();
+        previewController.UpdateFillPreviews();
     }
     
     private void OnStartSelect(Vector2 start)
@@ -131,14 +139,12 @@ public partial class SelectionManager : MonoBehaviour
     
     private void OnDestroy()
     {
+        previewController.Dispose();
+        
         eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
-        eventBus.Unsubscribe<EditModeChangeEvent>(OnEditModeChange);
         eventBus.Unsubscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
-    }
-    
-    private void Awake()
-    {
-        // init singleton
-        if (Instance == null) Instance = this;
+        
+        fillMouseOver.OnHovered -= previewController.SetPreviewVisible;
+        fillMouseOver.OnUnhovered -= previewController.SetPreviewInvisible;
     }
 }
