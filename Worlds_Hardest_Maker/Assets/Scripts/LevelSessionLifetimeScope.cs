@@ -19,6 +19,8 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<MouseManager>().As<IMouseService>();
 
         builder.RegisterComponentInHierarchy<PlayerRecordingManager>().As<IRecordingService>();
+
+        builder.Register<SelectionState>(Lifetime.Singleton).As<ISelectionState>();
     }
     
     protected override void Awake()

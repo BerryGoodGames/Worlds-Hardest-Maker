@@ -9,10 +9,6 @@ public partial class SelectionManager
         // reset selection marking
         if (selectionOutline != null) Destroy(selectionOutline);
         
-        // set selection start and end
-        SelectionStart = start;
-        SelectionEnd = start;
-        
         // set new outline
         DrawManager.SetWeight(0.1f);
         DrawManager.SetFill(Color.black);
@@ -33,10 +29,6 @@ public partial class SelectionManager
     public void AnimSelectionOutline(Vector2 start, Vector2 end)
     {
         if (selectionOutlineAnim == null) return;
-        
-        // set selection start and end
-        SelectionStart = start;
-        SelectionEnd = end;
         
         // get position and stuff
         float width = end.x - start.x;

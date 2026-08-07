@@ -6,7 +6,7 @@ public partial class SelectionManager
 {
     public void OnDeleteClicked()
     {
-        DeleteArea(CurrentSelectionRange);
+        DeleteArea(CurrentFillRange);
         OnCancelClicked();
     }
     
@@ -31,7 +31,6 @@ public partial class SelectionManager
             }
             
             Destroy(collider.gameObject);
-            DestroyImmediate(collider);
         }
         
         PlayerController player = PlayerManager.Instance.Player;
@@ -46,8 +45,8 @@ public partial class SelectionManager
     
     public void OnCopyClicked()
     {
-        Vector2 lowestPos = CurrentSelectionRange[0];
-        Vector2 highestPos = CurrentSelectionRange[^1];
+        Vector2 lowestPos = CurrentFillRange[0];
+        Vector2 highestPos = CurrentFillRange[^1];
         
         CopyManager.Instance.Copy(lowestPos, highestPos);
         

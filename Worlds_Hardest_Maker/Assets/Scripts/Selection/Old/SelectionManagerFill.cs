@@ -6,17 +6,19 @@ using VContainer.Unity;
 
 public partial class SelectionManager
 {
-    public static List<Vector2> GetCurrentFillRange()
+    public List<Vector2> CurrentFillRange => selectionStateService.Start == null || selectionStateService.End == null ? null : GetCurrentFillRange();
+    
+    public List<Vector2> GetCurrentFillRange()
     {
-        if (SelectionStart == null || SelectionEnd == null) return null;
-        return SelectionGeometry.GetFillRange((Vector2)SelectionStart, (Vector2)SelectionEnd);
+        if (selectionStateService.Start == null || selectionStateService.End == null) return null;
+        return SelectionGeometry.GetFillRange((Vector2)selectionStateService.Start, (Vector2)selectionStateService.End);
     }
     
     public void FillSelectedArea()
     {
         if (!Selecting) return;
         
-        FillArea(CurrentSelectionRange, LevelSessionEditManager.Instance.CurrentEditMode);
+        FillArea(CurrentFillRange, LevelSessionEditManager.Instance.CurrentEditMode);
         ResetPreview();
         Selecting = false;
         selectionOptions.gameObject.SetActive(false);

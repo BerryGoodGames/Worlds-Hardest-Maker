@@ -20,27 +20,23 @@ public partial class SelectionManager : MonoBehaviour
     private LineAnimator selectionOutlineAnim;
     public bool Selecting { get; private set; }
     
-    public static List<Vector2> CurrentSelectionRange => SelectionStart == null || SelectionEnd == null ? null : GetCurrentFillRange();
-    
     public static SelectionManager Instance { get; private set; }
     
     private Vector2 prevStart;
     private Vector2 prevEnd;
-    public static Vector2? SelectionStart;
-    public static Vector2? SelectionEnd;
     
     private IObjectResolver diContainer;
-    
     private EventBus eventBus;
-
     private IMouseService mouseService;
+    private ISelectionState selectionStateService;
     
     [Inject]
-    private void Construct(IObjectResolver diContainer, EventBus eventBus, IMouseService mouseService)
+    private void Construct(IObjectResolver diContainer, EventBus eventBus, IMouseService mouseService, ISelectionState selectionStateService)
     {
         this.diContainer = diContainer;
         this.eventBus = eventBus;
         this.mouseService = mouseService;
+        this.selectionStateService = selectionStateService;
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
@@ -96,6 +92,8 @@ public partial class SelectionManager : MonoBehaviour
     
     private void OnAreaSelectionChanged(Vector2 start, Vector2 end)
     {
+        selectionStateService.UpdateSelection(start, end);
+        
         // called when area selection changed (lol)
         // set selection outline (if u didn't already see)
         AnimSelectionOutline(start, end);
@@ -120,6 +118,9 @@ public partial class SelectionManager : MonoBehaviour
     
     private void OnStartSelect(Vector2 start)
     {
+        // set selection start and end
+        selectionStateService.BeginSelection(start);
+        
         // called when mouse button was pressed and user starts selecting
         InitSelectionOutline(start);
         
