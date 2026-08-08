@@ -7,7 +7,7 @@ public partial class SelectionManager
     public void OnDeleteClicked()
     {
         DeleteArea(CurrentFillRange);
-        OnCancelClicked();
+        ClearSelection();
     }
     
     public static void DeleteArea(List<Vector2> poses)
@@ -50,7 +50,7 @@ public partial class SelectionManager
         
         CopyManager.Instance.Copy(lowestPos, highestPos);
         
-        OnCancelClicked();
+        ClearSelection();
     }
     
     public void OnCutClicked()
@@ -61,16 +61,18 @@ public partial class SelectionManager
     
     public void OnCancelClicked()
     {
-        previewController.DestroyPreview();
+        selectionStateService.CancelSelection();
+    }
 
-        // reset selection marking
-        if (selectionOutline != null) Destroy(selectionOutline);
-        
+    public void ClearSelection()
+    {
         // hide selection menu
         selectionOptions.gameObject.SetActive(false);
         
         Selecting = false;
         
         MenuManager.Instance.BlockMenu = false;
+        
+        eventBus.Fire(new SelectionClearedEvent());
     }
 }

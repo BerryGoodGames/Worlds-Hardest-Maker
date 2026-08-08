@@ -13,20 +13,16 @@ public partial class SelectionManager : MonoBehaviour, IFillRangeProvider
     [SerializeField] [InitializationField] [Required] private MouseOverUIRect fillMouseOver;
     [SerializeField] [InitializationField] [Required] private PlacementPreviewCoordinator placementPreview;
     
-    private GameObject selectionOutline;
-    private LineAnimator selectionOutlineAnim;
     public bool Selecting { get; private set; }
     
     public static SelectionManager Instance { get; private set; }
-    
-    // private Vector2 prevStart;
-    // private Vector2 prevEnd;
     
     private IObjectResolver diContainer;
     private EventBus eventBus;
     private ISelectionState selectionStateService;
 
     private SelectionPreviewController previewController;
+    [Space] [SerializeField] private SelectionOutlineController outlineController;
     
     private void Awake()
     {
@@ -41,34 +37,26 @@ public partial class SelectionManager : MonoBehaviour, IFillRangeProvider
         this.eventBus = eventBus;
         this.selectionStateService = selectionStateService;
         
+        previewController = new(eventBus, diContainer, this);
+        outlineController.SetEventBus(eventBus);
+        
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
         eventBus.Subscribe<SelectionStartedEvent>(OnSelectionStarted);
-        eventBus.Subscribe<SelectionUpdatedEvent>(OnSelectionUpdated);
         eventBus.Subscribe<SelectionEndedEvent>(OnSelectionEnded);
         eventBus.Subscribe<SelectionCancelledEvent>(OnSelectionCancelled);
     }
     
-    private void OnSwitchToPlay(SwitchToPlayEvent evt) => OnCancelClicked();
-    private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt) => OnCancelClicked();
-    private void OnSelectionStarted(SelectionStartedEvent evt) => OnStartSelect(evt.Start);
-    private void OnSelectionUpdated(SelectionUpdatedEvent evt) => OnAreaSelectionChanged(evt.Start, evt.End);
+    private void OnSwitchToPlay(SwitchToPlayEvent evt) => ClearSelection();
+    private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt) => ClearSelection();
+    private void OnSelectionStarted(SelectionStartedEvent evt) => OnSelectionStarted();
     private void OnSelectionEnded(SelectionEndedEvent evt) => OnAreaSelected(evt.Start, evt.End);
-    private void OnSelectionCancelled(SelectionCancelledEvent evt) => OnCancelClicked();
+    private void OnSelectionCancelled(SelectionCancelledEvent evt) => ClearSelection();
 
     private void Start()
     {
-        previewController = new(eventBus, diContainer, this);
-        
         fillMouseOver.OnHovered += previewController.SetPreviewVisible;
         fillMouseOver.OnUnhovered += previewController.SetPreviewInvisible;
-    }
-    
-    private void OnAreaSelectionChanged(Vector2 start, Vector2 end)
-    {
-        // called when area selection changed (lol)
-        // set selection outline (if u didn't already see)
-        AnimSelectionOutline(start, end);
     }
     
     private void OnAreaSelected(Vector2 start, Vector2 end)
@@ -88,11 +76,8 @@ public partial class SelectionManager : MonoBehaviour, IFillRangeProvider
         previewController.UpdateFillPreviews();
     }
     
-    private void OnStartSelect(Vector2 start)
+    private void OnSelectionStarted()
     {
-        // called when mouse button was pressed and user starts selecting
-        InitSelectionOutline(start);
-        
         selectionOptions.gameObject.SetActive(false);
         
         MenuManager.Instance.BlockMenu = true;
@@ -101,11 +86,11 @@ public partial class SelectionManager : MonoBehaviour, IFillRangeProvider
     private void OnDestroy()
     {
         previewController.Dispose();
+        outlineController.Dispose();
         
         eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Unsubscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
         eventBus.Unsubscribe<SelectionStartedEvent>(OnSelectionStarted);
-        eventBus.Unsubscribe<SelectionUpdatedEvent>(OnSelectionUpdated);
         eventBus.Unsubscribe<SelectionEndedEvent>(OnSelectionEnded);
         eventBus.Unsubscribe<SelectionCancelledEvent>(OnSelectionCancelled);
         

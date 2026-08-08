@@ -21,3 +21,5 @@ public class SelectionEndedEvent
 }
 
 public class SelectionCancelledEvent { }
+
+public class SelectionClearedEvent { }

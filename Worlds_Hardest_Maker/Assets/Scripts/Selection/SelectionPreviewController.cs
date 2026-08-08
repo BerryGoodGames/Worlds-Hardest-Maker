@@ -18,15 +18,17 @@ public class SelectionPreviewController : IDisposable
         this.fillRangeProvider = fillRangeProvider;
 
         eventBus.Subscribe<EditModeChangeEvent>(OnEditModeChange);
+        eventBus.Subscribe<SelectionClearedEvent>(OnSelectionCleared);
     }
     
     private void OnEditModeChange(EditModeChangeEvent evt) => UpdateFillPreviews();
+    private void OnSelectionCleared(SelectionClearedEvent evt) => Clear();
     
     public void UpdateFillPreviews()
     {
         if (ReferenceManager.Instance.FillPreviewContainer.childCount == 0) return;
 
-        DestroyPreview();
+        Clear();
         InstantiatePreview(fillRangeProvider.GetFillRange());
     }
 
@@ -49,7 +51,7 @@ public class SelectionPreviewController : IDisposable
         }
     }
 
-    public void DestroyPreview()
+    public void Clear()
     {
         if (!LevelSessionManager.Instance.IsEdit) return;
 
@@ -75,5 +77,6 @@ public class SelectionPreviewController : IDisposable
     public void Dispose()
     {
         eventBus.Unsubscribe<EditModeChangeEvent>(OnEditModeChange);
+        eventBus.Unsubscribe<SelectionClearedEvent>(OnSelectionCleared);
     }
 }

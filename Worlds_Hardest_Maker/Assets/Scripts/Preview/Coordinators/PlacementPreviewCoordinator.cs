@@ -48,17 +48,17 @@ public class PlacementPreviewCoordinator : MonoBehaviour
         Hide();
     }
 
-    private void OnSelectionCancelledEvent(SelectionCancelledEvent evt)
+    private void OnSelectionClearedEvent(SelectionClearedEvent evt)
     {
         Show();
     }
     
-    public void Show()
+    private void Show()
     {
         gameObject.SetActive(true);
     }
     
-    public void Hide()
+    private void Hide()
     {
         gameObject.SetActive(false);
     }
@@ -70,7 +70,7 @@ public class PlacementPreviewCoordinator : MonoBehaviour
         eventBus.Subscribe<EditModeInitializedEvent>(OnEditModeInitialized);
         eventBus.Subscribe<EditModeChangeEvent>(OnEditModeChange);
         eventBus.Subscribe<SelectionStartedEvent>(OnSelectionStartedEvent);
-        eventBus.Subscribe<SelectionCancelledEvent>(OnSelectionCancelledEvent);
+        eventBus.Subscribe<SelectionClearedEvent>(OnSelectionClearedEvent);
     }
     
     private void OnDestroy()
@@ -80,6 +80,6 @@ public class PlacementPreviewCoordinator : MonoBehaviour
         eventBus.Unsubscribe<EditModeInitializedEvent>(OnEditModeInitialized);
         eventBus.Unsubscribe<EditModeChangeEvent>(OnEditModeChange);
         eventBus.Unsubscribe<SelectionStartedEvent>(OnSelectionStartedEvent);
-        eventBus.Unsubscribe<SelectionCancelledEvent>(OnSelectionCancelledEvent);
+        eventBus.Unsubscribe<SelectionClearedEvent>(OnSelectionClearedEvent);
     }
 }

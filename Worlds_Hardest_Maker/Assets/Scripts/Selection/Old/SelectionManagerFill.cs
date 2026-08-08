@@ -23,16 +23,7 @@ public partial class SelectionManager
     {
         FillArea(CurrentFillRange, LevelSessionEditManager.Instance.CurrentEditMode);
         
-        previewController.DestroyPreview();
-
-        // reset selection marking
-        if (selectionOutline != null) Destroy(selectionOutline);
-        
-        // enable placement preview
-        if (!LevelSessionEditManager.Instance.Playing) placementPreview.Show();
-        
-        Selecting = false;
-        selectionOptions.gameObject.SetActive(false);
+        ClearSelection();
     }
     
     public void FillAreaWithFields(List<Vector2> positions, FieldMode mode)
