@@ -1,38 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using MyBox;
+using NaughtyAttributes;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using Object = UnityEngine.Object;
 
+[Serializable]
 public class SelectionPreviewController : IDisposable
-{
-    private readonly EventBus eventBus;
-    private readonly IObjectResolver diContainer;
-    private readonly IFillRangeProvider fillRangeProvider;
+{    
+    [SerializeField] [InitializationField] [Required] private MouseOverUIRect fillOptionMouseOver;
+    [SerializeField] [InitializationField] [Required] private Transform container;
+    
+    private EventBus eventBus;
+    private IObjectResolver diContainer;
+    private IFillRangeProvider fillRangeProvider;
 
-    public SelectionPreviewController(EventBus eventBus, IObjectResolver diContainer, IFillRangeProvider fillRangeProvider)
+    public void Initialize(EventBus eventBus, IObjectResolver diContainer, IFillRangeProvider fillRangeProvider)
     {
         this.eventBus = eventBus;
         this.diContainer = diContainer;
         this.fillRangeProvider = fillRangeProvider;
 
         eventBus.Subscribe<EditModeChangeEvent>(OnEditModeChange);
+        eventBus.Subscribe<SelectionEndedEvent>(OnSelectionEnded);
         eventBus.Subscribe<SelectionClearedEvent>(OnSelectionCleared);
+        
+        fillOptionMouseOver.OnHovered += SetVisible;
+        fillOptionMouseOver.OnUnhovered += SetInvisible;
     }
     
-    private void OnEditModeChange(EditModeChangeEvent evt) => UpdateFillPreviews();
+    private void OnEditModeChange(EditModeChangeEvent evt) => Refresh();
+    private void OnSelectionEnded(SelectionEndedEvent evt) => Refresh();
     private void OnSelectionCleared(SelectionClearedEvent evt) => Clear();
     
-    public void UpdateFillPreviews()
+    public void Refresh()
     {
-        if (ReferenceManager.Instance.FillPreviewContainer.childCount == 0) return;
+        if (container.childCount == 0) return;
 
         Clear();
-        InstantiatePreview(fillRangeProvider.GetFillRange());
+        Spawn(fillRangeProvider.GetFillRange());
     }
 
-    private void InstantiatePreview(List<Vector2> range)
+    private void Spawn(List<Vector2> range)
     {
         // set new previews, only if edit mode not in NoFillPreviewModes
         if (!LevelSessionEditManager.Instance.CurrentEditMode.ShowFillPreview) return;
@@ -41,7 +52,7 @@ public class SelectionPreviewController : IDisposable
         {
             FillPreviewCoordinator fillPreview = Object.Instantiate(
                 PrefabManager.Instance.FillPreview, pos, Quaternion.identity,
-                ReferenceManager.Instance.FillPreviewContainer
+                container
             );
 
             diContainer.InjectGameObject(fillPreview.gameObject);
@@ -56,27 +67,31 @@ public class SelectionPreviewController : IDisposable
         if (!LevelSessionManager.Instance.IsEdit) return;
 
         // destroy selection previews
-        foreach (Transform preview in ReferenceManager.Instance.FillPreviewContainer)
+        foreach (Transform preview in container)
         {
             Object.Destroy(preview.gameObject);
         }
     }
 
-    public void SetPreviewVisible()
+    public void SetVisible()
     {
-        if (ReferenceManager.Instance.FillPreviewContainer.childCount == 0) InstantiatePreview(fillRangeProvider.GetFillRange());
+        if (container.childCount == 0) Spawn(fillRangeProvider.GetFillRange());
 
-        ReferenceManager.Instance.FillPreviewContainer.gameObject.SetActive(true);
+        container.gameObject.SetActive(true);
     }
 
-    public void SetPreviewInvisible()
+    public void SetInvisible()
     {
-        ReferenceManager.Instance.FillPreviewContainer.gameObject.SetActive(false);
+        container.gameObject.SetActive(false);
     }
 
     public void Dispose()
     {
         eventBus.Unsubscribe<EditModeChangeEvent>(OnEditModeChange);
+        eventBus.Unsubscribe<SelectionEndedEvent>(OnSelectionEnded);
         eventBus.Unsubscribe<SelectionClearedEvent>(OnSelectionCleared);
+        
+        fillOptionMouseOver.OnHovered -= SetVisible;
+        fillOptionMouseOver.OnUnhovered -= SetInvisible;
     }
 }

@@ -6,7 +6,7 @@ public partial class SelectionManager
 {
     public void OnDeleteClicked()
     {
-        DeleteArea(CurrentFillRange);
+        DeleteArea(GetFillRange());
         ClearSelection();
     }
     
@@ -38,15 +38,18 @@ public partial class SelectionManager
         if (player != null
             && !FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(
                 player.transform.position, PlaceManager.GetCurrentSheet(), EditModeManager.Instance.AllPlayerStartFieldModes.ToArray()
-            )) PlayerManager.Instance.RemoveAtPos(player.transform.position);
+            ))
+        {
+            PlayerManager.Instance.RemoveAtPos(player.transform.position);
+        }
         
         FieldManager.UpdateOutlinesInArea(false, lowestPos, highestPos);
     }
     
     public void OnCopyClicked()
     {
-        Vector2 lowestPos = CurrentFillRange[0];
-        Vector2 highestPos = CurrentFillRange[^1];
+        Vector2 lowestPos = GetFillRange()[0];
+        Vector2 highestPos = GetFillRange()[^1];
         
         CopyManager.Instance.Copy(lowestPos, highestPos);
         
@@ -66,9 +69,6 @@ public partial class SelectionManager
 
     public void ClearSelection()
     {
-        // hide selection menu
-        selectionOptions.gameObject.SetActive(false);
-        
         Selecting = false;
         
         MenuManager.Instance.BlockMenu = false;

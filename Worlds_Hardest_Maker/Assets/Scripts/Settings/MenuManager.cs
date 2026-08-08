@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
+using VContainer;
 
 public class MenuManager : MonoBehaviour
 {
@@ -29,7 +30,19 @@ public class MenuManager : MonoBehaviour
     
     [HideInInspector] public bool IsAddingKeyBind;
     [HideInInspector] public KeyBindSetterController AddingKeyBindSetter;
-    
+
+    private EventBus eventBus;
+
+    [Inject]
+    private void Construct(EventBus eventBus)
+    {
+        this.eventBus = eventBus;
+        
+        eventBus.Subscribe<SelectionStartedEvent>(OnSelectionStarted);
+    }
+
+    private void OnSelectionStarted(SelectionStartedEvent evt) => BlockMenu = true;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -41,8 +54,6 @@ public class MenuManager : MonoBehaviour
     public void ToggleMenu() => SetMenuVisible(!menuTween.IsVisible);
     
     public void SetMenuVisible(bool visible) => menuTween.SetVisible(visible);
-    
-    #region Menu Tab
     
     public void ChangeMenuTab(MenuTab tab)
     {
@@ -75,6 +86,9 @@ public class MenuManager : MonoBehaviour
     public void ChangeMenuTab(int tab) => ChangeMenuTab((MenuTab)tab);
     
     public void ChangeMenuTab() => ChangeMenuTab(CurrentMenuTab);
-    
-    #endregion
+
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<SelectionStartedEvent>(OnSelectionStarted);
+    }
 }

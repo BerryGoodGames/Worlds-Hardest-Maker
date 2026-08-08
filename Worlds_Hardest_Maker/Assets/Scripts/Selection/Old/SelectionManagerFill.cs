@@ -8,20 +8,13 @@ public partial class SelectionManager
 {
     public List<Vector2> GetFillRange()
     {
-        return CurrentFillRange;
-    }
-
-    public List<Vector2> CurrentFillRange => selectionStateService.Start == null || selectionStateService.End == null ? null : GetCurrentFillRange();
-    
-    public List<Vector2> GetCurrentFillRange()
-    {
-        if (selectionStateService.Start == null || selectionStateService.End == null) return null;
+        if(selectionStateService.Start == null || selectionStateService.End == null) return new();
         return SelectionGeometry.GetFillRange((Vector2)selectionStateService.Start, (Vector2)selectionStateService.End);
     }
     
     public void FillSelectedArea()
     {
-        FillArea(CurrentFillRange, LevelSessionEditManager.Instance.CurrentEditMode);
+        FillArea(GetFillRange(), LevelSessionEditManager.Instance.CurrentEditMode);
         
         ClearSelection();
     }
@@ -29,9 +22,7 @@ public partial class SelectionManager
     public void FillAreaWithFields(List<Vector2> positions, FieldMode mode)
     {
         // set rotation
-        int rotation = mode.IsRotatable
-            ? LevelSessionEditManager.Instance.EditRotation
-            : 0;
+        int rotation = mode.IsRotatable ? LevelSessionEditManager.Instance.EditRotation : 0;
         
         // find bounds
         (Vector2Int lowest, Vector2Int highest) = SelectionGeometry.GetBoundsMatrix(positions);

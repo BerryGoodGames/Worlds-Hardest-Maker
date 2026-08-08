@@ -25552,6 +25552,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1609298896}
   - component: {fileID: 1609298897}
+  - component: {fileID: 1609298898}
   m_Layer: 0
   m_Name: _Selection
   m_TagString: Untagged
@@ -25586,9 +25587,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed4929a14a44f394ab8b40fe295d6385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionOptions: {fileID: 1898372880}
-  fillMouseOver: {fileID: 42787709}
-  placementPreview: {fileID: 2046466266}
+  optionsPanelController:
+    panel: {fileID: 1898372880}
+    attachment: {fileID: 1898372883}
+  previewController:
+    fillOptionMouseOver: {fileID: 42787709}
+    container: {fileID: 282166553}
+  outlineController:
+    weight: 0.1
+    animationDuration: 0.1
+    color: {r: 0, g: 0, b: 0, a: 1}
+--- !u!114 &1609298898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609298895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7241e008f20542f8966c71f80ec34e2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WorldsHardestMaker::SelectionInputController
 --- !u!1 &1614796946
 GameObject:
   m_ObjectHideFlags: 0
@@ -28214,7 +28234,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000061035156}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1786665322
@@ -29752,7 +29772,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 871.81494, y: -957.882}
+  m_AnchoredPosition: {x: 871.815, y: -957.882}
   m_SizeDelta: {x: 85.34, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1919053081
@@ -32202,7 +32222,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 783.20496, y: -957.882}
+  m_AnchoredPosition: {x: 783.205, y: -957.882}
   m_SizeDelta: {x: 66.08, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2065180488
