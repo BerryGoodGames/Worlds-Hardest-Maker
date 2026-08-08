@@ -14,7 +14,7 @@ public class SelectionState : ISelectionState
         this.eventBus = eventBus;
     }
     
-    public void BeginSelection(Vector2 start)
+    public void StartSelection(Vector2 start)
     {
         IsSelecting = true;
         Start = start;

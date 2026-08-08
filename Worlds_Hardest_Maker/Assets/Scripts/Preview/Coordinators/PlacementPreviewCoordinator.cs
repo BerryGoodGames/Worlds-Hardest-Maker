@@ -42,6 +42,16 @@ public class PlacementPreviewCoordinator : MonoBehaviour
         spriteComponent.UpdateSprite();
         rotationComponent.UpdateRotation();
     }
+
+    private void OnSelectionStartedEvent(SelectionStartedEvent evt)
+    {
+        Hide();
+    }
+
+    private void OnSelectionCancelledEvent(SelectionCancelledEvent evt)
+    {
+        Show();
+    }
     
     public void Show()
     {
@@ -59,6 +69,8 @@ public class PlacementPreviewCoordinator : MonoBehaviour
         eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
         eventBus.Subscribe<EditModeInitializedEvent>(OnEditModeInitialized);
         eventBus.Subscribe<EditModeChangeEvent>(OnEditModeChange);
+        eventBus.Subscribe<SelectionStartedEvent>(OnSelectionStartedEvent);
+        eventBus.Subscribe<SelectionCancelledEvent>(OnSelectionCancelledEvent);
     }
     
     private void OnDestroy()
@@ -67,5 +79,7 @@ public class PlacementPreviewCoordinator : MonoBehaviour
         eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
         eventBus.Unsubscribe<EditModeInitializedEvent>(OnEditModeInitialized);
         eventBus.Unsubscribe<EditModeChangeEvent>(OnEditModeChange);
+        eventBus.Unsubscribe<SelectionStartedEvent>(OnSelectionStartedEvent);
+        eventBus.Unsubscribe<SelectionCancelledEvent>(OnSelectionCancelledEvent);
     }
 }

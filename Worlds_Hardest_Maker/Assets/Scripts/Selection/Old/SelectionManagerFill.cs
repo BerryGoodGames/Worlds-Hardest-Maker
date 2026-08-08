@@ -21,8 +21,6 @@ public partial class SelectionManager
     
     public void FillSelectedArea()
     {
-        if (!Selecting) return;
-        
         FillArea(CurrentFillRange, LevelSessionEditManager.Instance.CurrentEditMode);
         
         previewController.DestroyPreview();

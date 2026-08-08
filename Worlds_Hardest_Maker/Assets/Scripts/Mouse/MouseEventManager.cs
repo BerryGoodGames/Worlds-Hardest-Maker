@@ -26,8 +26,8 @@ public class MouseEventManager : MonoBehaviour
         // track drag positions
         if (!Input.GetMouseButtonUp(0)) return;
         
-        mouseService.MouseDragStart = null;
-        mouseService.MouseDragCurrent = null;
+        mouseService.DragStart = null;
+        mouseService.DragCurrent = null;
         mouseService.MouseDragEnd = null;
         
         eventBus.Fire(new EditActionEvent());

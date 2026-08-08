@@ -4,8 +4,8 @@ using UnityEngine.EventSystems;
 
 public class MouseManager : MonoBehaviour, IMouseService
 {
-    public Vector2? MouseDragStart { get; set; }
-    public Vector2? MouseDragCurrent { get; set; }
+    public Vector2? DragStart { get; set; }
+    public Vector2? DragCurrent { get; set; }
     public Vector2? MouseDragEnd { get; set; }
     public Vector2 PrevMousePos { get; set; }
     public Vector2 MousePosDelta { get; set; } = Vector2.zero;
@@ -48,11 +48,11 @@ public class MouseManager : MonoBehaviour, IMouseService
     /// <exception cref="Exception"></exception>
     public (Vector2, Vector2) GetDragPositions()
     {
-        if (MouseDragStart == null || MouseDragCurrent == null)
+        if (DragStart == null || DragCurrent == null)
             throw new("Trying to access drag start and end positions when neither recorded");
         
-        Vector2 start = (Vector2)MouseDragStart;
-        Vector2 end = (Vector2)MouseDragCurrent;
+        Vector2 start = (Vector2)DragStart;
+        Vector2 end = (Vector2)DragCurrent;
         
         return (start.ConvertToGrid(), end.ConvertToGrid());
     }
@@ -77,8 +77,8 @@ public class MouseManager : MonoBehaviour, IMouseService
         MouseWorldPosMatrix = new(Mathf.Round(MouseWorldPos.x), Mathf.Round(MouseWorldPos.y));
         
         // update drag variables
-        if (KeyBinds.GetKeyBindDown("Editor_Select")) MouseDragStart = MouseWorldPos;
-        if (KeyBinds.GetKeyBind("Editor_Select")) MouseDragCurrent = MouseWorldPos;
+        if (KeyBinds.GetKeyBindDown("Editor_Select")) DragStart = MouseWorldPos;
+        if (KeyBinds.GetKeyBind("Editor_Select")) DragCurrent = MouseWorldPos;
         if (KeyBinds.GetKeyBindUp("Editor_Select")) MouseDragEnd = MouseWorldPos;
         
         Vector2 view = cam.ScreenToViewportPoint(Input.mousePosition);

@@ -26,7 +26,7 @@ public class SelectionStateTest
     {
         Vector2 beginPosition = new(1, 2);
         
-        selectionState.BeginSelection(beginPosition);
+        selectionState.StartSelection(beginPosition);
         
         Assert.IsTrue(selectionState.IsSelecting);
         Assert.AreEqual(beginPosition, selectionState.Start);
@@ -37,14 +37,14 @@ public class SelectionStateTest
     public void SelectionStart_IsFiringEvent()
     {
         Vector2 beginPosition = new(1, 2);
-        SelectionStartedEvent? firedEvent = null;
+        SelectionStartedEvent firedEvent = null;
         
         eventBus.Subscribe<SelectionStartedEvent>(e => firedEvent = e);
         
-        selectionState.BeginSelection(beginPosition);
+        selectionState.StartSelection(beginPosition);
         
         Assert.IsNotNull(firedEvent);
-        Assert.AreEqual(firedEvent.Value.Start, selectionState.Start);
+        Assert.AreEqual(firedEvent.Start, selectionState.Start);
     }
 
     [Test]
@@ -53,7 +53,7 @@ public class SelectionStateTest
         Vector2 start = new(1, 2);
         Vector2 end = new(3, 3);
         
-        selectionState.BeginSelection(start);
+        selectionState.StartSelection(start);
         selectionState.UpdateSelection(start, end);
         
         Assert.AreEqual(start, selectionState.Start);
@@ -65,16 +65,16 @@ public class SelectionStateTest
     {
         Vector2 start = new(1, 2);
         Vector2 end = new(3, 3);
-        SelectionUpdatedEvent? firedEvent = null;
+        SelectionUpdatedEvent firedEvent = null;
         
         eventBus.Subscribe<SelectionUpdatedEvent>(e => firedEvent = e);
         
-        selectionState.BeginSelection(start);
+        selectionState.StartSelection(start);
         selectionState.UpdateSelection(start, end);
         
         Assert.IsNotNull(firedEvent);
-        Assert.AreEqual(firedEvent.Value.Start, selectionState.Start);
-        Assert.AreEqual(firedEvent.Value.End, selectionState.End);
+        Assert.AreEqual(firedEvent.Start, selectionState.Start);
+        Assert.AreEqual(firedEvent.End, selectionState.End);
     }
 
     [Test]
@@ -83,7 +83,7 @@ public class SelectionStateTest
         Vector2 start = new(1, 2);
         Vector2 end = new(3, 3);
         
-        selectionState.BeginSelection(start);
+        selectionState.StartSelection(start);
         selectionState.UpdateSelection(start, end);
         selectionState.EndSelection(start, end);
         
@@ -96,17 +96,17 @@ public class SelectionStateTest
     {
         Vector2 start = new(1, 2);
         Vector2 end = new(3, 3);
-        SelectionEndedEvent? firedEvent = null;
+        SelectionEndedEvent firedEvent = null;
         
         eventBus.Subscribe<SelectionEndedEvent>(e => firedEvent = e);
         
-        selectionState.BeginSelection(start);
+        selectionState.StartSelection(start);
         selectionState.UpdateSelection(start, end);
         selectionState.EndSelection(start, end);
         
         Assert.IsNotNull(firedEvent);
-        Assert.AreEqual(firedEvent.Value.Start, selectionState.Start);
-        Assert.AreEqual(firedEvent.Value.End, selectionState.End);
+        Assert.AreEqual(firedEvent.Start, selectionState.Start);
+        Assert.AreEqual(firedEvent.End, selectionState.End);
     }
     
     [Test]
@@ -115,7 +115,7 @@ public class SelectionStateTest
         Vector2 start = new(1, 2);
         Vector2 end = new(3, 3);
         
-        selectionState.BeginSelection(start);
+        selectionState.StartSelection(start);
         selectionState.UpdateSelection(start, end);
         selectionState.EndSelection(start, end);
         selectionState.CancelSelection();
@@ -130,11 +130,11 @@ public class SelectionStateTest
     {
         Vector2 start = new(1, 2);
         Vector2 end = new(3, 3);
-        SelectionCancelledEvent? firedEvent = null;
+        SelectionCancelledEvent firedEvent = null;
         
         eventBus.Subscribe<SelectionCancelledEvent>(e => firedEvent = e);
         
-        selectionState.BeginSelection(start);
+        selectionState.StartSelection(start);
         selectionState.UpdateSelection(start, end);
         selectionState.EndSelection(start, end);
         selectionState.CancelSelection();

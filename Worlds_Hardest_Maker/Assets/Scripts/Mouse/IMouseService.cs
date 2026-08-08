@@ -2,8 +2,8 @@
 
 public interface IMouseService
 {
-    public Vector2? MouseDragStart { get; set; }
-    public Vector2? MouseDragCurrent { get; set; }
+    public Vector2? DragStart { get; set; }
+    public Vector2? DragCurrent { get; set; }
     public Vector2? MouseDragEnd { get; set; }
     public Vector2 PrevMousePos { get; set; }
     public Vector2 MousePosDelta { get; set; }

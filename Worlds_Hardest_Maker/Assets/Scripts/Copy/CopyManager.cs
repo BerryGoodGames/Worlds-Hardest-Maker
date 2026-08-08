@@ -22,8 +22,6 @@ public class CopyManager : MonoBehaviour
     
     public void Copy(Vector2 lowestPos, Vector2 highestPos)
     {
-        print("Calling");
-        
         if (AnchorAttachManager.Instance.InAttachMode)
         {
             Debug.Log("Cannot copy in attach mode");
@@ -44,7 +42,7 @@ public class CopyManager : MonoBehaviour
         
         if (points.Count == 0)
         {
-            print("Nothing found to copy");
+            toastService.ShowError("Nothing found to copy", 4);
             return;
         }
         
