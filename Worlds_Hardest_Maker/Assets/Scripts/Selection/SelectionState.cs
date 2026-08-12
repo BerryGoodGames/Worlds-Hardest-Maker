@@ -44,6 +44,11 @@ public class SelectionState : ISelectionStateService, IFillRangeProvider
         eventBus.Fire(new SelectionCancelledEvent());
     }
 
+    public void ClearSelection()
+    {
+        eventBus.Fire(new SelectionClearedEvent());
+    }
+
     public List<Vector2> GetFillRange()
     {
         if(Start == null || End == null) return new();

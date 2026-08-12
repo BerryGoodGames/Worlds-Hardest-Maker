@@ -7,7 +7,7 @@ public partial class SelectionManager
     public void OnDeleteClicked()
     {
         DeleteArea(fillRangeProvider.GetFillRange());
-        ClearSelection();
+        selectionStateService.ClearSelection();
     }
     
     private void DeleteArea(List<Vector2> poses)
@@ -53,7 +53,7 @@ public partial class SelectionManager
         
         CopyManager.Instance.Copy(lowestPos, highestPos);
         
-        ClearSelection();
+        selectionStateService.ClearSelection();
     }
     
     public void OnCutClicked()
@@ -65,10 +65,5 @@ public partial class SelectionManager
     public void OnCancelClicked()
     {
         selectionStateService.CancelSelection();
-    }
-
-    public void ClearSelection()
-    {
-        eventBus.Fire(new SelectionClearedEvent());
     }
 }

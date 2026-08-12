@@ -37,9 +37,9 @@ public partial class SelectionManager : MonoBehaviour
         eventBus.Subscribe<SelectionCancelledEvent>(OnSelectionCancelled);
     }
     
-    private void OnSwitchToPlay(SwitchToPlayEvent evt) => ClearSelection();
-    private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt) => ClearSelection();
-    private void OnSelectionCancelled(SelectionCancelledEvent evt) => ClearSelection();
+    private void OnSwitchToPlay(SwitchToPlayEvent evt) => selectionStateService.ClearSelection();
+    private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt) => selectionStateService.ClearSelection();
+    private void OnSelectionCancelled(SelectionCancelledEvent evt) => selectionStateService.ClearSelection();
     
     private void OnDestroy()
     {

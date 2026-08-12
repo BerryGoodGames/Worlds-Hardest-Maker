@@ -68,7 +68,7 @@ public class MouseEventManager : MonoBehaviour
             yield return null;
         }
         
-        SelectionManager.Instance.ClearSelection();
+        selectionStateService.ClearSelection();
     }
     
     private void CheckClickPlacement(EditMode editMode)

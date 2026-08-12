@@ -10,7 +10,7 @@ public partial class SelectionManager
     {
         FillArea(fillRangeProvider.GetFillRange(), LevelSessionEditManager.Instance.CurrentEditMode);
         
-        ClearSelection();
+        selectionStateService.ClearSelection();
     }
     
     private void FillAreaWithFields(List<Vector2> positions, FieldMode mode)
