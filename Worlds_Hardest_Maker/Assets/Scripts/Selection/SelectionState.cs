@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using VContainer;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class SelectionState : ISelectionState
+public class SelectionState : ISelectionStateService, IFillRangeProvider
 {
     public bool IsSelecting { get; private set; }
     public Vector2? Start { get; private set; }
@@ -42,5 +42,11 @@ public class SelectionState : ISelectionState
         End = null;
         IsSelecting = false;
         eventBus.Fire(new SelectionCancelledEvent());
+    }
+
+    public List<Vector2> GetFillRange()
+    {
+        if(Start == null || End == null) return new();
+        return SelectionGeometry.GetFillRange((Vector2)Start, (Vector2)End);
     }
 }

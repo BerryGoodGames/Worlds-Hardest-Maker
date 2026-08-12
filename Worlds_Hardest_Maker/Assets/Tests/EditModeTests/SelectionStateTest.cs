@@ -4,7 +4,7 @@ using UnityEngine;
 public class SelectionStateTest
 {
     private EventBus eventBus;
-    private ISelectionState selectionState;
+    private ISelectionStateService selectionState;
     
     [SetUp]
     public void Setup()

@@ -19,6 +19,7 @@ public class CopyManager : MonoBehaviour
     [Inject] private IObjectResolver diContainer;
     [Inject] private IToastService toastService;
     [Inject] private IMouseService mouseService;
+    [Inject] private ISelectionStateService selectionStateService;
     
     public void Copy(Vector2 lowestPos, Vector2 highestPos)
     {
@@ -110,7 +111,7 @@ public class CopyManager : MonoBehaviour
         while (!Input.GetMouseButton(0))
         {
             // cancel if these things happen
-            if (Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || LevelSessionEditManager.Instance.Playing)
+            if (Input.GetKey(KeyCode.Escape) || selectionStateService.IsSelecting || LevelSessionEditManager.Instance.Playing)
             {
                 CancelPaste();
                 yield break;

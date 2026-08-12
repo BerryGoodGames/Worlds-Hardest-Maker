@@ -3,6 +3,7 @@ using MyBox;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using VContainer;
 
 public class FieldRotation : MonoBehaviour
 {
@@ -15,6 +16,14 @@ public class FieldRotation : MonoBehaviour
     private FieldController controller;
     
     private Sequence scaleSequence;
+
+    private ISelectionStateService selectionStateService;
+
+    [Inject]
+    private void Construct(ISelectionStateService selectionStateService)
+    {
+        this.selectionStateService = selectionStateService;
+    }
     
     private void Rotate()
     {
@@ -44,7 +53,7 @@ public class FieldRotation : MonoBehaviour
     
     private void OnMouseUpAsButton()
     {
-        if (SelectionManager.Instance.Selecting || CopyManager.Instance.Pasting || LevelSessionEditManager.Instance.Playing) return;
+        if (selectionStateService.IsSelecting || CopyManager.Instance.Pasting || LevelSessionEditManager.Instance.Playing) return;
         
         if (LevelSessionEditManager.Instance.CurrentEditMode != controller.FieldMode) return;
         

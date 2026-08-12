@@ -1,19 +1,14 @@
 using UnityEngine;
 using VContainer;
 
-/// <summary>
-///     Methods for filling: GetFillRange, FillArea, GetBounds, GetBoundsMatrix
-///     <para>Attach to game manager</para>
-/// </summary>
-public partial class SelectionManager : MonoBehaviour, IFillRangeProvider
+public partial class SelectionManager : MonoBehaviour
 {
-    public bool Selecting { get; private set; }
-    
     public static SelectionManager Instance { get; private set; }
     
     private IObjectResolver diContainer;
     private EventBus eventBus;
-    private ISelectionState selectionStateService;
+    private ISelectionStateService selectionStateService;
+    private IFillRangeProvider fillRangeProvider;
 
     [SerializeField] private SelectionOptionsPanelController optionsPanelController;
     [Space] [SerializeField] private SelectionPreviewController previewController;
@@ -26,14 +21,15 @@ public partial class SelectionManager : MonoBehaviour, IFillRangeProvider
     }
 
     [Inject]
-    private void Construct(IObjectResolver diContainer, EventBus eventBus, ISelectionState selectionStateService)
+    private void Construct(IObjectResolver diContainer, EventBus eventBus, ISelectionStateService selectionStateService, IFillRangeProvider fillRangeProvider)
     {
         this.diContainer = diContainer;
         this.eventBus = eventBus;
         this.selectionStateService = selectionStateService;
+        this.fillRangeProvider = fillRangeProvider;
         
         optionsPanelController.SetEventBus(eventBus);
-        previewController.Initialize(eventBus, diContainer, this);
+        previewController.Initialize(eventBus, diContainer, fillRangeProvider);
         outlineController.SetEventBus(eventBus);
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);

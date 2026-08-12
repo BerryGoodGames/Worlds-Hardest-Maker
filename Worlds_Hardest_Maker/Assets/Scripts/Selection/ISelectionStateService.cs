@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public interface ISelectionState
+public interface ISelectionStateService
 {
     bool IsSelecting { get; }
     Vector2? Start { get; }

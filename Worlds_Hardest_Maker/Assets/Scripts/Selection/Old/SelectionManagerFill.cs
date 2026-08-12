@@ -6,20 +6,14 @@ using VContainer.Unity;
 
 public partial class SelectionManager
 {
-    public List<Vector2> GetFillRange()
-    {
-        if(selectionStateService.Start == null || selectionStateService.End == null) return new();
-        return SelectionGeometry.GetFillRange((Vector2)selectionStateService.Start, (Vector2)selectionStateService.End);
-    }
-    
     public void FillSelectedArea()
     {
-        FillArea(GetFillRange(), LevelSessionEditManager.Instance.CurrentEditMode);
+        FillArea(fillRangeProvider.GetFillRange(), LevelSessionEditManager.Instance.CurrentEditMode);
         
         ClearSelection();
     }
     
-    public void FillAreaWithFields(List<Vector2> positions, FieldMode mode)
+    private void FillAreaWithFields(List<Vector2> positions, FieldMode mode)
     {
         // set rotation
         int rotation = mode.IsRotatable ? LevelSessionEditManager.Instance.EditRotation : 0;
@@ -76,7 +70,7 @@ public partial class SelectionManager
         FieldManager.UpdateOutlinesInArea(mode.HasOutline, lowest, highest);
     }
     
-    public void FillArea(List<Vector2> positions, EditMode editMode)
+    private void FillArea(List<Vector2> positions, EditMode editMode)
     {
         if (positions.Count == 0) return;
         

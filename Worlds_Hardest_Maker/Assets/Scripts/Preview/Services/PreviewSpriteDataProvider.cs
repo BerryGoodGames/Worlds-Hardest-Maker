@@ -1,4 +1,5 @@
 using UnityEngine;
+using VContainer;
 
 /// <summary>
 ///     Implementation of edit mode preview appearance provider.
@@ -6,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class PreviewSpriteDataProvider
 {
+    [Inject] private ISelectionStateService selectionStateService;
+
     public PreviewSpriteData GetPreviewSpriteData(EditMode editMode, bool forceShowPreviewSprite = false)
     {
         // Delete mode uses default sprite
@@ -24,7 +27,7 @@ public class PreviewSpriteDataProvider
         if (currentPrefab.TryGetComponent(out PreviewSpriteConfigurator previewSprite))
         {
             bool shouldShowPreviewSprite = forceShowPreviewSprite || 
-                (!SelectionManager.Instance.Selecting && !CopyManager.Instance.Pasting);
+                (!selectionStateService.IsSelecting && !CopyManager.Instance.Pasting);
             
             if (shouldShowPreviewSprite)
             {

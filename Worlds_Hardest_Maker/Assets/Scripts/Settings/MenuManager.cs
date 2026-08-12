@@ -39,9 +39,11 @@ public class MenuManager : MonoBehaviour
         this.eventBus = eventBus;
         
         eventBus.Subscribe<SelectionStartedEvent>(OnSelectionStarted);
+        eventBus.Subscribe<SelectionClearedEvent>(OnSelectionCleared);
     }
 
     private void OnSelectionStarted(SelectionStartedEvent evt) => BlockMenu = true;
+    private void OnSelectionCleared(SelectionClearedEvent evt) => BlockMenu = false;
 
     private void Awake()
     {
@@ -90,5 +92,6 @@ public class MenuManager : MonoBehaviour
     private void OnDestroy()
     {
         eventBus.Unsubscribe<SelectionStartedEvent>(OnSelectionStarted);
+        eventBus.Unsubscribe<SelectionClearedEvent>(OnSelectionCleared);
     }
 }

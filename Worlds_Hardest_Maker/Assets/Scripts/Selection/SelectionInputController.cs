@@ -5,13 +5,13 @@ using Vector2 = UnityEngine.Vector2;
 public class SelectionInputController : MonoBehaviour
 {
     private IMouseService  mouseService;
-    private ISelectionState selectionStateService;
+    private ISelectionStateService selectionStateService;
     
     private Vector2 prevStart;
     private Vector2 prevEnd;
 
     [Inject]
-    private void Construct(IMouseService mouseService, ISelectionState selectionStateService)
+    private void Construct(IMouseService mouseService, ISelectionStateService selectionStateService)
     {
         this.mouseService = mouseService;
         this.selectionStateService = selectionStateService;

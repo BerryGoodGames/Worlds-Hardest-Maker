@@ -1,6 +1,7 @@
 using System.Collections;
 using MyBox;
 using UnityEngine;
+using VContainer;
 
 public class AnchorBlockIndexInputEditManager : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
     
     [SerializeField] [ReadOnly] private bool isEditing;
     [SerializeField] [ReadOnly] private AnchorBlockIndexInputController currentEditedIndexInput;
+    
+    [Inject] private ISelectionStateService selectionStateService;
     
     public void StartIndexInputEdit(AnchorBlockIndexInputController indexInput)
     {
@@ -54,7 +57,7 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
         while (!Input.GetMouseButton(0) || !AnchorBlockManager.IsAnyBlockHovered(true))
         {
             // cancel if these things happen
-            if (Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || LevelSessionEditManager.Instance.Playing)
+            if (Input.GetKey(KeyCode.Escape) || selectionStateService.IsSelecting || LevelSessionEditManager.Instance.Playing)
             {
                 OnEndIndexEdit();
                 yield break;

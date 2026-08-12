@@ -13,8 +13,8 @@ public class MouseEventManager : MonoBehaviour
     private bool isFullyFocused = true;
     
     [Inject] private EventBus eventBus;
-
     [Inject] private IMouseService mouseService;
+    [Inject] private ISelectionStateService selectionStateService;
     
     private void Update()
     {
@@ -41,7 +41,7 @@ public class MouseEventManager : MonoBehaviour
         // place / delete stuff
         if (mouseService.IsUIHovered
             || LevelSessionEditManager.Instance.Playing
-            || SelectionManager.Instance.Selecting
+            || selectionStateService.IsSelecting
             || CopyManager.Instance.Pasting
             || AnchorPositionInputEditManager.Instance.IsEditing) return;
         
@@ -49,7 +49,7 @@ public class MouseEventManager : MonoBehaviour
         if (!KeyBinds.GetKeyBind("Editor_MoveEntity")
             && !KeyBinds.GetKeyBind("Editor_Modify")
             && !KeyBinds.GetKeyBind("Editor_DeleteEntity")
-            && !SelectionManager.Instance.Selecting)
+            && !selectionStateService.IsSelecting)
         {
             if (Input.GetMouseButton(0)) CheckDragPlacement(editMode);
             if (Input.GetMouseButtonDown(0)) CheckClickPlacement(editMode);
@@ -85,7 +85,7 @@ public class MouseEventManager : MonoBehaviour
         
         if (!isFullyFocused) return;
         
-        if (Vector2.Distance(mouseService.MouseWorldPos, mouseService.PrevMouseWorldPos) > 1.414f)
+        if (Vector2.SqrMagnitude(mouseService.MouseWorldPos - mouseService.PrevMouseWorldPos) > 2)
         {
             PlaceManager.Instance.PlacePath(
                 editMode,

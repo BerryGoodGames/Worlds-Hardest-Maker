@@ -13,12 +13,14 @@ public class AnchorPositionInputEditManager : MonoBehaviour
     
     private IAudioService audioService;
     private IMouseService mouseService;
+    private ISelectionStateService selectionStateService;
     
     [Inject]
-    private void Construct(IAudioService audioService, IMouseService mouseService)
+    private void Construct(IAudioService audioService, IMouseService mouseService, ISelectionStateService selectionStateService)
     {
         this.audioService = audioService;
         this.mouseService = mouseService;
+        this.selectionStateService = selectionStateService;
     }
 
     public void StartPositionInputEdit(AnchorBlockPositionInputController positionInput)
@@ -137,7 +139,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         while (!Input.GetMouseButton(0))
         {
             // cancel if these things happen
-            if (Input.GetKey(KeyCode.Escape) || SelectionManager.Instance.Selecting || LevelSessionEditManager.Instance.Playing)
+            if (Input.GetKey(KeyCode.Escape) || selectionStateService.IsSelecting || LevelSessionEditManager.Instance.Playing)
             {
                 OnEndPositionEdit();
                 yield break;

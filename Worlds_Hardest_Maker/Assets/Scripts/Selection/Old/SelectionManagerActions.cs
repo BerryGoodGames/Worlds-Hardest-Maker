@@ -6,11 +6,11 @@ public partial class SelectionManager
 {
     public void OnDeleteClicked()
     {
-        DeleteArea(GetFillRange());
+        DeleteArea(fillRangeProvider.GetFillRange());
         ClearSelection();
     }
     
-    public static void DeleteArea(List<Vector2> poses)
+    private void DeleteArea(List<Vector2> poses)
     {
         // get everything in area
         if (poses.Count == 0) return;
@@ -48,8 +48,8 @@ public partial class SelectionManager
     
     public void OnCopyClicked()
     {
-        Vector2 lowestPos = GetFillRange()[0];
-        Vector2 highestPos = GetFillRange()[^1];
+        Vector2 lowestPos = fillRangeProvider.GetFillRange()[0];
+        Vector2 highestPos = fillRangeProvider.GetFillRange()[^1];
         
         CopyManager.Instance.Copy(lowestPos, highestPos);
         
@@ -69,10 +69,6 @@ public partial class SelectionManager
 
     public void ClearSelection()
     {
-        Selecting = false;
-        
-        MenuManager.Instance.BlockMenu = false;
-        
         eventBus.Fire(new SelectionClearedEvent());
     }
 }

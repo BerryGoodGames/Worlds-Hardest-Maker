@@ -7,6 +7,7 @@ using VContainer;
 public class PreviewVisibilityRulesService
 {
     [Inject] private IMouseService mouseService;
+    [Inject] private ISelectionStateService selectionStateService;
     
     public bool IsPreviewVisible(EditMode editMode)
     {
@@ -28,7 +29,7 @@ public class PreviewVisibilityRulesService
         if (AnchorPositionInputEditManager.Instance.IsEditing) return false;
 
         // during fill selection, check if mode supports fill preview
-        if (SelectionManager.Instance.Selecting)
+        if (selectionStateService.IsSelecting)
         {
             if (!editMode.ShowFillPreview) return false;
         }
