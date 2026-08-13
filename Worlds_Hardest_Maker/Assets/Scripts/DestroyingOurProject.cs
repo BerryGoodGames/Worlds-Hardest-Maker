@@ -1,4 +1,5 @@
 using UnityEngine;
+using VContainer;
 
 /// <summary>
 ///     Fills wall fields centered around (0, 0), amount based on INTENSITY
@@ -9,11 +10,13 @@ public class DestroyingOurProject : MonoBehaviour
     // ReSharper disable once InconsistentNaming
     public int INTENSITY;
     
+    [Inject] private IAreaFillService fillService;
+    
     private void Start()
     {
         print($"We're about to fill {Mathf.Pow(INTENSITY * 2 + 1, 2)} fields! (gotta go)");
         
-        SelectionManager.Instance.FillArea(
+        fillService.FillArea(
             new(-INTENSITY, -INTENSITY), new(INTENSITY, INTENSITY),
             EditModeManager.Wall
         );

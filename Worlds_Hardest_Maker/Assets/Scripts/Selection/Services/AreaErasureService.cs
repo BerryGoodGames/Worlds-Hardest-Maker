@@ -1,16 +1,12 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using VContainer;
 
-public partial class SelectionManager
+public class AreaErasureService : IAreaErasureService
 {
-    public void OnDeleteClicked()
-    {
-        DeleteArea(selectionAreaProvider.GetArea());
-        selectionStateService.ClearSelection();
-    }
+    [Inject] private IAreaQueryService areaQueryService;
     
-    // TODO: extract delete logic to service IAreaEraser
-    private void DeleteArea(SelectionArea area)
+    public void EraseArea(SelectionArea area)
     {
         IReadOnlyList<Vector2> positions = area.Positions;
         
@@ -28,7 +24,7 @@ public partial class SelectionManager
                 continue;
             }
             
-            Destroy(collider.gameObject);
+            Object.Destroy(collider.gameObject);
         }
         
         PlayerController player = PlayerManager.Instance.Player;
@@ -42,27 +38,5 @@ public partial class SelectionManager
         }
         
         FieldManager.UpdateOutlinesInArea(false, area);
-    }
-    
-    public void OnCopyClicked()
-    {
-        SelectionArea selectedArea = selectionAreaProvider.GetArea();
-        Vector2 lowestPos = selectedArea.First();
-        Vector2 highestPos = selectedArea.Last();
-        
-        CopyManager.Instance.Copy(lowestPos, highestPos);
-        
-        selectionStateService.ClearSelection();
-    }
-    
-    public void OnCutClicked()
-    {
-        OnCopyClicked();
-        OnDeleteClicked();
-    }
-    
-    public void OnCancelClicked()
-    {
-        selectionStateService.CancelSelection();
     }
 }

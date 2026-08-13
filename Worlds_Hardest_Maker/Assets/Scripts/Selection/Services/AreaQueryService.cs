@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AreaQuery : IAreaQueryService
+public class AreaQueryService : IAreaQueryService
 {
     public Collider2D[] QueryArea(SelectionArea area, LayerMask layer)
     {

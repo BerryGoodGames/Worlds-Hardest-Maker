@@ -1,19 +1,16 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
+using VContainer;
 using VContainer.Unity;
 
-public partial class SelectionManager
+public class AreaFillService : IAreaFillService
 {
-    // TODO: extract fill logic to service
-    public void FillSelectedArea()
-    {
-        FillArea(selectionAreaProvider.GetArea(), LevelSessionEditManager.Instance.CurrentEditMode);
-        
-        selectionStateService.ClearSelection();
-    }
+    [Inject] private IObjectResolver diContainer;
+    [Inject] private IAreaQueryService areaQueryService;
+    [Inject] private IAreaErasureService areaErasureService;
     
-    private void FillAreaWithFields(SelectionArea area, FieldMode mode)
+    public void FillAreaWithFields(SelectionArea area, FieldMode mode)
     {
         IReadOnlyList<Vector2> positions = area.Positions;
         
@@ -47,7 +44,7 @@ public partial class SelectionManager
         {
             // TODO: extract field instantiation logic to factory
             // set field at pos
-            GameObject field = Instantiate(
+            GameObject field = Object.Instantiate(
                 mode.Prefab, pos, Quaternion.Euler(0, 0, rotation),
                 ReferenceManager.Instance.FieldContainer
             );
@@ -67,13 +64,13 @@ public partial class SelectionManager
         {
             PlayerController player = PlayerManager.Instance.Player;
             
-            if (player != null && player.transform.position.IsBetween(lowest.ToVector2(), highest.ToVector2())) Destroy(player.gameObject);
+            if (player != null && player.transform.position.IsBetween(lowest.ToVector2(), highest.ToVector2())) Object.Destroy(player.gameObject);
         }
         
         FieldManager.UpdateOutlinesInArea(mode.HasOutline, area);
     }
-    
-    private void FillArea(SelectionArea area, EditMode editMode)
+
+    public void FillArea(SelectionArea area, EditMode editMode)
     {
         IReadOnlyList<Vector2> positions = area.Positions;
         
@@ -86,16 +83,14 @@ public partial class SelectionManager
             return;
         }
         
-        DeleteArea(area);
+        areaErasureService.EraseArea(area);
         
         foreach (Vector2 pos in positions) PlaceManager.Instance.Place(editMode, pos);
         
         FieldManager.UpdateOutlinesInArea(false, area);
     }
-    
-    public void FillArea(Vector2 start, Vector2 end, EditMode editMode) => FillArea(SelectionGeometry.GetFillArea(start, end), editMode);
 
-    private void AdaptAreaToFieldType(SelectionArea area, FieldMode mode)
+    public void AdaptAreaToFieldType(SelectionArea area, FieldMode mode)
     {
         // clear fields in area
         int fieldLayer = LayerManager.Instance.Layers.Field;
@@ -106,7 +101,7 @@ public partial class SelectionManager
         {
             if (fieldHit == null) continue;
 
-            Destroy(fieldHit.gameObject);
+            Object.Destroy(fieldHit.gameObject);
         }
 
         // clear coins + keys
@@ -130,7 +125,7 @@ public partial class SelectionManager
             if (hit == null) continue;
             if (!tagsToClear.Contains(hit.tag)) continue;
 
-            Destroy(hit.gameObject);
+            Object.Destroy(hit.gameObject);
         }
     }
 }

@@ -22,7 +22,9 @@ public class LevelSessionLifetimeScope : LifetimeScope
 
         builder.Register<SelectionState>(Lifetime.Singleton).As<ISelectionStateService, ISelectionAreaProvider>();
 
-        builder.Register<AreaQuery>(Lifetime.Singleton).As<IAreaQueryService>();
+        builder.Register<AreaQueryService>(Lifetime.Singleton).As<IAreaQueryService>();
+        builder.Register<AreaErasureService>(Lifetime.Singleton).As<IAreaErasureService>();
+        builder.Register<AreaFillService>(Lifetime.Singleton).As<IAreaFillService>();
     }
     
     protected override void Awake()
