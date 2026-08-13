@@ -45,6 +45,9 @@ public class SelectionState : ISelectionStateService, ISelectionAreaProvider
 
     public void ClearSelection()
     {
+        Start = null;
+        End = null;
+        IsSelecting = false;
         eventBus.Fire(new SelectionClearedEvent());
     }
 

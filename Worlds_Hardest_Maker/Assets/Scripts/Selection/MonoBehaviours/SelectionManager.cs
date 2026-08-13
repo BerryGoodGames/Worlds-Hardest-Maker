@@ -33,12 +33,10 @@ public class SelectionManager : MonoBehaviour
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
-        eventBus.Subscribe<SelectionCancelledEvent>(OnSelectionCancelled);
     }
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt) => selectionStateService.ClearSelection();
     private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt) => selectionStateService.ClearSelection();
-    private void OnSelectionCancelled(SelectionCancelledEvent evt) => selectionStateService.ClearSelection();
     
     private void OnDestroy()
     {
@@ -48,41 +46,41 @@ public class SelectionManager : MonoBehaviour
         
         eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Unsubscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
-        eventBus.Unsubscribe<SelectionCancelledEvent>(OnSelectionCancelled);
     }
     
-    public void OnDeleteClicked()
+    public void OnEraseClicked()
     {
         erasureService.EraseArea(selectionAreaProvider.GetArea());
         selectionStateService.ClearSelection();
     }
     
-    public void FillSelectedArea()
+    public void OnFillClicked()
     {
         fillService.FillArea(selectionAreaProvider.GetArea(), LevelSessionEditManager.Instance.CurrentEditMode);
-        
         selectionStateService.ClearSelection();
     }
     
     public void OnCopyClicked()
     {
         SelectionArea selectedArea = selectionAreaProvider.GetArea();
-        Vector2 lowestPos = selectedArea.First();
-        Vector2 highestPos = selectedArea.Last();
-        
-        CopyManager.Instance.Copy(lowestPos, highestPos);
+        CopyManager.Instance.Copy(selectedArea);
         
         selectionStateService.ClearSelection();
     }
     
     public void OnCutClicked()
     {
-        OnCopyClicked();
-        OnDeleteClicked();
+        SelectionArea selectedArea = selectionAreaProvider.GetArea();
+        CopyManager.Instance.Copy(selectedArea);        
+        
+        erasureService.EraseArea(selectionAreaProvider.GetArea());
+
+        selectionStateService.ClearSelection();
     }
     
     public void OnCancelClicked()
     {
         selectionStateService.CancelSelection();
+        selectionStateService.ClearSelection();
     }
 }

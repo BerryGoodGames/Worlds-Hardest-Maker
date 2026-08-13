@@ -21,7 +21,7 @@ public class CopyManager : MonoBehaviour
     [Inject] private IMouseService mouseService;
     [Inject] private ISelectionStateService selectionStateService;
     
-    public void Copy(Vector2 lowestPos, Vector2 highestPos)
+    public void Copy(SelectionArea area)
     {
         if (AnchorAttachManager.Instance.InAttachMode)
         {
@@ -34,6 +34,8 @@ public class CopyManager : MonoBehaviour
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
         
         // get position and size on where to get the objects
+        Vector2 lowestPos = area.Lowest;
+        Vector2 highestPos = area.Highest;
         Vector2 selectionCenter = (lowestPos + highestPos) * .5f;
         Vector2 selectionSize = highestPos - lowestPos + Vector2.one * .5f;
         

@@ -1115,8 +1115,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1609298897}
-        m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
-        m_MethodName: FillSelectedArea
+        m_TargetAssemblyTypeName: SelectionManager, WorldsHardestMaker
+        m_MethodName: OnFillClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -30621,8 +30621,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1609298897}
-        m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
-        m_MethodName: OnDeleteClicked
+        m_TargetAssemblyTypeName: SelectionManager, WorldsHardestMaker
+        m_MethodName: OnEraseClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
