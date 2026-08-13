@@ -9,6 +9,7 @@ public partial class SelectionManager : MonoBehaviour
     private EventBus eventBus;
     private ISelectionStateService selectionStateService;
     private ISelectionAreaProvider selectionAreaProvider;
+    private IAreaQueryService areaQueryService;
 
     [SerializeField] private SelectionOptionsPanelController optionsPanelController;
     [Space] [SerializeField] private SelectionPreviewController previewController;
@@ -21,12 +22,17 @@ public partial class SelectionManager : MonoBehaviour
     }
 
     [Inject]
-    private void Construct(IObjectResolver diContainer, EventBus eventBus, ISelectionStateService selectionStateService, ISelectionAreaProvider selectionAreaProvider)
+    private void Construct(IObjectResolver diContainer, 
+        EventBus eventBus, 
+        ISelectionStateService selectionStateService, 
+        ISelectionAreaProvider selectionAreaProvider,
+        IAreaQueryService areaQueryService)
     {
         this.diContainer = diContainer;
         this.eventBus = eventBus;
         this.selectionStateService = selectionStateService;
         this.selectionAreaProvider = selectionAreaProvider;
+        this.areaQueryService = areaQueryService;
         
         optionsPanelController.SetEventBus(eventBus);
         previewController.Initialize(eventBus, diContainer, selectionAreaProvider);

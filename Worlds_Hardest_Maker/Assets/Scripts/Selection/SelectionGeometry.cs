@@ -6,7 +6,7 @@ using UnityEngine;
 public static class SelectionGeometry
 {
     // get bounds of multiple points (in matrix)
-    private static (Vector2 lowest, Vector2 highest) GetBounds(IReadOnlyList<Vector2> points)
+    public static (Vector2 lowest, Vector2 highest) GetBounds(IReadOnlyList<Vector2> points)
     {
         if (points.Count == 0)
         {

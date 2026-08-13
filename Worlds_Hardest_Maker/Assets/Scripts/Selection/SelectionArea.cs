@@ -8,9 +8,17 @@ public class SelectionArea
     
     public IReadOnlyList<Vector2> Positions { get; }
     
+    public Vector2 Lowest { get; private set; }
+    public Vector2 Highest { get; private set; }
+    
     public SelectionArea(IReadOnlyList<Vector2> positions)
     {
         Positions = positions;
+        
+        if(positions.Count > 0)
+        {
+            (Lowest, Highest) = SelectionGeometry.GetBounds(positions);
+        }
     }
 
     public Vector2 First()

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public partial class SelectionManager
@@ -17,13 +16,8 @@ public partial class SelectionManager
         
         // get everything in area
         if (positions.Count == 0) return;
-        Vector2 lowestPos = positions[0];
-        Vector2 highestPos = positions.Last();
-        Vector2 castPos = (lowestPos + highestPos) * 0.5f;
-        Vector2 castSize = highestPos - lowestPos;
         
-        // TODO: extract physics query logic to a service
-        Collider2D[] hits = Physics2D.OverlapBoxAll(castPos, castSize, 0, LayerManager.Instance.Layers.LevelObjectMask);
+        Collider2D[] hits = areaQueryService.QueryArea(area, LayerManager.Instance.Layers.LevelObjectMask);
         
         // DESTROY IT MUHAHAHAHAHAHHAHAHAHAHAHAHAHAHA
         foreach (Collider2D collider in hits)
@@ -47,7 +41,7 @@ public partial class SelectionManager
             PlayerManager.Instance.RemoveAtPos(player.transform.position);
         }
         
-        FieldManager.UpdateOutlinesInArea(false, lowestPos, highestPos);
+        FieldManager.UpdateOutlinesInArea(false, area);
     }
     
     public void OnCopyClicked()

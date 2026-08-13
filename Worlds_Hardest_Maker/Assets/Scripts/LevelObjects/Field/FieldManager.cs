@@ -187,8 +187,11 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
         return res;
     }
     
-    public static void UpdateOutlinesInArea(bool hasOutline, Vector2 lowest, Vector2 highest)
+    public static void UpdateOutlinesInArea(bool hasOutline, SelectionArea area)
     {
+        Vector2 lowest = area.Lowest;
+        Vector2 highest = area.Highest;
+        
         int width = (int)highest.x - (int)lowest.x;
         int height = (int)highest.y - (int)lowest.y;
         

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using MyBox;
 using UnityEngine;
 using VContainer.Unity;
@@ -42,7 +41,7 @@ public partial class SelectionManager
             return;
         }
         
-        AdaptAreaToFieldType(lowest, highest, mode);
+        AdaptAreaToFieldType(area, mode);
         
         foreach (Vector2 pos in positions)
         {
@@ -71,7 +70,7 @@ public partial class SelectionManager
             if (player != null && player.transform.position.IsBetween(lowest.ToVector2(), highest.ToVector2())) Destroy(player.gameObject);
         }
         
-        FieldManager.UpdateOutlinesInArea(mode.HasOutline, lowest, highest);
+        FieldManager.UpdateOutlinesInArea(mode.HasOutline, area);
     }
     
     private void FillArea(SelectionArea area, EditMode editMode)
@@ -91,20 +90,17 @@ public partial class SelectionManager
         
         foreach (Vector2 pos in positions) PlaceManager.Instance.Place(editMode, pos);
         
-        FieldManager.UpdateOutlinesInArea(false, positions[0].Floor(), positions.Last().Ceil());
+        FieldManager.UpdateOutlinesInArea(false, area);
     }
     
     public void FillArea(Vector2 start, Vector2 end, EditMode editMode) => FillArea(SelectionGeometry.GetFillArea(start, end), editMode);
 
-    private void AdaptAreaToFieldType(Vector2 lowestPos, Vector2 highestPos, FieldMode mode)
+    private void AdaptAreaToFieldType(SelectionArea area, FieldMode mode)
     {
         // clear fields in area
         int fieldLayer = LayerManager.Instance.Layers.Field;
-        int fieldCount = ReferenceManager.Instance.FieldContainer.childCount;
 
-        // TODO: extract physics query logic to a service
-        Collider2D[] fieldHits = new Collider2D[fieldCount];
-        _ = Physics2D.OverlapAreaNonAlloc(lowestPos, highestPos, fieldHits, fieldLayer);
+        Collider2D[] fieldHits = areaQueryService.QueryArea(area, fieldLayer);
 
         foreach (Collider2D fieldHit in fieldHits)
         {
@@ -121,8 +117,7 @@ public partial class SelectionManager
 
         if (!clearCoins && !clearKeys) return;
 
-        // TODO: extract physics query logic to a service
-        Collider2D[] entityHits = Physics2D.OverlapAreaAll(lowestPos, highestPos, entityLayer);
+        Collider2D[] entityHits = areaQueryService.QueryArea(area, entityLayer);
 
         HashSet<string> tagsToClear = new();
         if (clearCoins) tagsToClear.Add("Coin");
