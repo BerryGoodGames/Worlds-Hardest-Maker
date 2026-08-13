@@ -6,7 +6,7 @@ using UnityEngine;
 public static class SelectionGeometry
 {
     // get bounds of multiple points (in matrix)
-    private static (Vector2 lowest, Vector2 highest) GetBounds(List<Vector2> points)
+    private static (Vector2 lowest, Vector2 highest) GetBounds(IReadOnlyList<Vector2> points)
     {
         if (points.Count == 0)
         {
@@ -29,14 +29,14 @@ public static class SelectionGeometry
 
     public static (Vector2 lowest, Vector2 highest) GetBounds(params Vector2[] points) => GetBounds(points.ToList());
 
-    public static (Vector2 lowest, Vector2 highest) GetBoundsGrid(List<Vector2> points)
+    public static (Vector2 lowest, Vector2 highest) GetBoundsGrid(IReadOnlyList<Vector2> points)
     {
         return GetBounds(points);
     }
 
     public static (Vector2 lowest, Vector2 highest) GetBoundsGrid(params Vector2[] points) => GetBoundsGrid(points.ToList());
     
-    public static (Vector2Int lowest, Vector2Int highest) GetBoundsMatrix(List<Vector2> points)
+    public static (Vector2Int lowest, Vector2Int highest) GetBoundsMatrix(IReadOnlyList<Vector2> points)
     {
         (Vector2 lowest, Vector2 highest) = GetBounds(points);
         return (Vector2Int.CeilToInt(lowest), Vector2Int.FloorToInt(highest));
@@ -44,13 +44,13 @@ public static class SelectionGeometry
 
     public static (Vector2Int lowest, Vector2Int highest) GetBoundsMatrix(params Vector2[] points) => GetBoundsMatrix(points.ToList());
 
-    public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2)
+    public static SelectionArea GetFillArea(Vector2 p1, Vector2 p2)
     {
         WorldPositionType positionType = LevelSessionEditManager.Instance.CurrentEditMode.GetWorldPositionType();
-        return GetFillRange(p1, p2, positionType);
+        return GetFillArea(p1, p2, positionType);
     }
 
-    public static List<Vector2> GetFillRange(Vector2 p1, Vector2 p2, WorldPositionType worldPositionType)
+    public static SelectionArea GetFillArea(Vector2 p1, Vector2 p2, WorldPositionType worldPositionType)
     {
         const float matrixIncrement = 1;
         const float gridIncrement = 0.5f;
@@ -68,6 +68,6 @@ public static class SelectionGeometry
             for (float y = lowest.y; y <= highest.y; y += increment) res.Add(new(x, y));
         }
         
-        return res;
+        return new(res);
     }
 }

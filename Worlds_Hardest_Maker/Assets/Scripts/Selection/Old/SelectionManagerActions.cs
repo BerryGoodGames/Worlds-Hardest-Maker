@@ -6,19 +6,23 @@ public partial class SelectionManager
 {
     public void OnDeleteClicked()
     {
-        DeleteArea(fillRangeProvider.GetFillRange());
+        DeleteArea(selectionAreaProvider.GetArea());
         selectionStateService.ClearSelection();
     }
     
-    private void DeleteArea(List<Vector2> poses)
+    // TODO: extract delete logic to service IAreaEraser
+    private void DeleteArea(SelectionArea area)
     {
+        IReadOnlyList<Vector2> positions = area.Positions;
+        
         // get everything in area
-        if (poses.Count == 0) return;
-        Vector2 lowestPos = poses[0];
-        Vector2 highestPos = poses.Last();
+        if (positions.Count == 0) return;
+        Vector2 lowestPos = positions[0];
+        Vector2 highestPos = positions.Last();
         Vector2 castPos = (lowestPos + highestPos) * 0.5f;
         Vector2 castSize = highestPos - lowestPos;
         
+        // TODO: extract physics query logic to a service
         Collider2D[] hits = Physics2D.OverlapBoxAll(castPos, castSize, 0, LayerManager.Instance.Layers.LevelObjectMask);
         
         // DESTROY IT MUHAHAHAHAHAHHAHAHAHAHAHAHAHAHA
@@ -48,8 +52,9 @@ public partial class SelectionManager
     
     public void OnCopyClicked()
     {
-        Vector2 lowestPos = fillRangeProvider.GetFillRange()[0];
-        Vector2 highestPos = fillRangeProvider.GetFillRange()[^1];
+        SelectionArea selectedArea = selectionAreaProvider.GetArea();
+        Vector2 lowestPos = selectedArea.First();
+        Vector2 highestPos = selectedArea.Last();
         
         CopyManager.Instance.Copy(lowestPos, highestPos);
         

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectionState : ISelectionStateService, IFillRangeProvider
+public class SelectionState : ISelectionStateService, ISelectionAreaProvider
 {
     public bool IsSelecting { get; private set; }
     public Vector2? Start { get; private set; }
@@ -49,9 +49,9 @@ public class SelectionState : ISelectionStateService, IFillRangeProvider
         eventBus.Fire(new SelectionClearedEvent());
     }
 
-    public List<Vector2> GetFillRange()
+    public SelectionArea GetArea()
     {
-        if(Start == null || End == null) return new();
-        return SelectionGeometry.GetFillRange((Vector2)Start, (Vector2)End);
+        if(Start == null || End == null) return SelectionArea.Empty;
+        return SelectionGeometry.GetFillArea((Vector2)Start, (Vector2)End);
     }
 }

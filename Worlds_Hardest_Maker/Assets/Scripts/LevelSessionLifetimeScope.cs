@@ -20,7 +20,7 @@ public class LevelSessionLifetimeScope : LifetimeScope
 
         builder.RegisterComponentInHierarchy<PlayerRecordingManager>().As<IRecordingService>();
 
-        builder.Register<SelectionState>(Lifetime.Singleton).As<ISelectionStateService, IFillRangeProvider>();
+        builder.Register<SelectionState>(Lifetime.Singleton).As<ISelectionStateService, ISelectionAreaProvider>();
     }
     
     protected override void Awake()

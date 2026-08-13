@@ -46,7 +46,7 @@ public class SelectionGeometryTest
     [Test]
     public void GetFillRange_Matrix_SinglePoint_ReturnsOnePosition()
     {
-        List<Vector2> result = SelectionGeometry.GetFillRange(new(2, 3), new(2, 3), WorldPositionType.Matrix);
+        IReadOnlyList<Vector2> result = SelectionGeometry.GetFillArea(new(2, 3), new(2, 3), WorldPositionType.Matrix).Positions;
 
         CollectionAssert.AreEquivalent(new[]
         {
@@ -57,7 +57,7 @@ public class SelectionGeometryTest
     [Test]
     public void GetFillRange_Grid_SinglePoint_ReturnsOnePosition()
     {
-        List<Vector2> result = SelectionGeometry.GetFillRange(new(2, 3), new(2, 3), WorldPositionType.Grid);
+        IReadOnlyList<Vector2> result = SelectionGeometry.GetFillArea(new(2, 3), new(2, 3), WorldPositionType.Grid).Positions;
 
         CollectionAssert.AreEquivalent(new[]
         {
@@ -68,7 +68,7 @@ public class SelectionGeometryTest
     [Test]
     public void GetFillRange_Grid_CorrectPositions()
     {
-        List<Vector2> result = SelectionGeometry.GetFillRange(new(-0.5f, 2), new(0.5f, 3.5f), WorldPositionType.Grid);
+        IReadOnlyList<Vector2> result = SelectionGeometry.GetFillArea(new(-0.5f, 2), new(0.5f, 3.5f), WorldPositionType.Grid).Positions;
         
         CollectionAssert.AreEquivalent(new[]
         {
@@ -90,7 +90,7 @@ public class SelectionGeometryTest
     [Test]
     public void GetFillRange_Matrix_CorrectPositions()
     {
-        List<Vector2> result = SelectionGeometry.GetFillRange(new(-1, 2), new(1, 3), WorldPositionType.Matrix);
+        IReadOnlyList<Vector2> result = SelectionGeometry.GetFillArea(new(-1, 2), new(1, 3), WorldPositionType.Matrix).Positions;
         
         CollectionAssert.AreEquivalent(new[]
         {
@@ -106,7 +106,7 @@ public class SelectionGeometryTest
     [Test]
     public void GetFillRange_TwoAdjacentMatrixCells_ReturnsFourPositions()
     {
-        List<Vector2> range = SelectionGeometry.GetFillRange(new(0, 0), new(1, 1), WorldPositionType.Matrix);
+        IReadOnlyList<Vector2> range = SelectionGeometry.GetFillArea(new(0, 0), new(1, 1), WorldPositionType.Matrix).Positions;
         Assert.AreEqual(4, range.Count);
     }
 

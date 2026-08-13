@@ -8,7 +8,7 @@ public partial class SelectionManager : MonoBehaviour
     private IObjectResolver diContainer;
     private EventBus eventBus;
     private ISelectionStateService selectionStateService;
-    private IFillRangeProvider fillRangeProvider;
+    private ISelectionAreaProvider selectionAreaProvider;
 
     [SerializeField] private SelectionOptionsPanelController optionsPanelController;
     [Space] [SerializeField] private SelectionPreviewController previewController;
@@ -21,15 +21,15 @@ public partial class SelectionManager : MonoBehaviour
     }
 
     [Inject]
-    private void Construct(IObjectResolver diContainer, EventBus eventBus, ISelectionStateService selectionStateService, IFillRangeProvider fillRangeProvider)
+    private void Construct(IObjectResolver diContainer, EventBus eventBus, ISelectionStateService selectionStateService, ISelectionAreaProvider selectionAreaProvider)
     {
         this.diContainer = diContainer;
         this.eventBus = eventBus;
         this.selectionStateService = selectionStateService;
-        this.fillRangeProvider = fillRangeProvider;
+        this.selectionAreaProvider = selectionAreaProvider;
         
         optionsPanelController.SetEventBus(eventBus);
-        previewController.Initialize(eventBus, diContainer, fillRangeProvider);
+        previewController.Initialize(eventBus, diContainer, selectionAreaProvider);
         outlineController.SetEventBus(eventBus);
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);

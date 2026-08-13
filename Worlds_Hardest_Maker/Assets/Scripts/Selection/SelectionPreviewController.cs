@@ -15,13 +15,13 @@ public class SelectionPreviewController : IDisposable
     
     private EventBus eventBus;
     private IObjectResolver diContainer;
-    private IFillRangeProvider fillRangeProvider;
+    private ISelectionAreaProvider selectionAreaProvider;
 
-    public void Initialize(EventBus eventBus, IObjectResolver diContainer, IFillRangeProvider fillRangeProvider)
+    public void Initialize(EventBus eventBus, IObjectResolver diContainer, ISelectionAreaProvider selectionAreaProvider)
     {
         this.eventBus = eventBus;
         this.diContainer = diContainer;
-        this.fillRangeProvider = fillRangeProvider;
+        this.selectionAreaProvider = selectionAreaProvider;
 
         eventBus.Subscribe<EditModeChangeEvent>(OnEditModeChange);
         eventBus.Subscribe<SelectionEndedEvent>(OnSelectionEnded);
@@ -40,15 +40,15 @@ public class SelectionPreviewController : IDisposable
         if (container.childCount == 0) return;
 
         Clear();
-        Spawn(fillRangeProvider.GetFillRange());
+        Spawn(selectionAreaProvider.GetArea());
     }
 
-    private void Spawn(List<Vector2> range)
+    private void Spawn(SelectionArea area)
     {
         // set new previews, only if edit mode not in NoFillPreviewModes
         if (!LevelSessionEditManager.Instance.CurrentEditMode.ShowFillPreview) return;
 
-        foreach (Vector2 pos in range)
+        foreach (Vector2 pos in area.Positions)
         {
             FillPreviewCoordinator fillPreview = Object.Instantiate(
                 PrefabManager.Instance.FillPreview, pos, Quaternion.identity,
@@ -75,7 +75,7 @@ public class SelectionPreviewController : IDisposable
 
     public void SetVisible()
     {
-        if (container.childCount == 0) Spawn(fillRangeProvider.GetFillRange());
+        if (container.childCount == 0) Spawn(selectionAreaProvider.GetArea());
 
         container.gameObject.SetActive(true);
     }
