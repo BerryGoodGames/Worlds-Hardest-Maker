@@ -11,8 +11,6 @@ public class ReferenceManager : MonoBehaviour
     
     [Foldout("Objects")] public Canvas Canvas;
     
-    [Foldout("Objects")] public GameObject TooltipCanvas;
-    
     [Foldout("Objects")] public GameObject Menu;
     [Foldout("Objects")] public AlphaTween MenuTween;
     

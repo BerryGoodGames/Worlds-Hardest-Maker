@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(MouseOverUIRect))]
 public class Tooltip : MonoBehaviour
 {
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform tooltipCanvas;
     [SerializeField] private GameObject tooltipPrefab;
     
     [Space] public bool CustomContainer;
@@ -47,7 +48,7 @@ public class Tooltip : MonoBehaviour
         
         tooltip = Instantiate(
             tooltipPrefab, Vector3.zero, Quaternion.identity,
-            CustomContainer ? Container : ReferenceManager.Instance.TooltipCanvas.transform
+            CustomContainer ? Container : tooltipCanvas
         );
         
         UIRestrict restrict = tooltip.GetComponent<UIRestrict>();
