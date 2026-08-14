@@ -8,8 +8,12 @@ public partial class AnchorManager : IManagerSelectable
     
     [field: SerializeField] [field: ReadOnly] public AnchorController SelectedAnchor { get; private set; }
 
-    [SerializeField] [InitializationField] [MustBeAssigned]
-    private JumpToEntity mainCameraJumper;
+    [SerializeField] [InitializationField] [MustBeAssigned] private JumpToEntity mainCameraJumper;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController levelSettingsPanelController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController testingOptionsPanelController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorPanelController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachButtonController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachExitButtonController;
     
     [HideInInspector] public float LastSelectClick = -1;
 
@@ -68,7 +72,9 @@ public partial class AnchorManager : IManagerSelectable
         ReferenceManager.Instance.AnchorCameraJumping.CameraJumpToAnchor();
         
         if (!AnchorAttachManager.Instance.InAttachMode)
-            PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, false, false);
+        {
+            PanelManager.Instance.SetPanelHidden(anchorAttachButtonController, false, false);
+        }
         
         // play sfx
         audioService.Play("AnchorBlockButton");
@@ -95,12 +101,12 @@ public partial class AnchorManager : IManagerSelectable
         EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
         if (!currentEditMode.Attributes.IsAnchorRelated)
         {
-            PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.LevelSettingsPanelController, false, false);
-            PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.TestingOptionsPanelController, false, false);
+            PanelManager.Instance.SetPanelHidden(levelSettingsPanelController, false, false);
+            PanelManager.Instance.SetPanelHidden(testingOptionsPanelController, false, false);
         }
         
-        PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, true);
-        PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachExitButtonController, true);
+        PanelManager.Instance.SetPanelHidden(anchorAttachButtonController, true);
+        PanelManager.Instance.SetPanelHidden(anchorAttachExitButtonController, true);
         AnchorAttachManager.Instance.InAttachMode = false;
         
         // play sfx

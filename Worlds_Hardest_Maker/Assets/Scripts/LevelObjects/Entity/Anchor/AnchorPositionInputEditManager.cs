@@ -11,6 +11,12 @@ public class AnchorPositionInputEditManager : MonoBehaviour
     [ReadOnly] public bool IsEditing;
     [ReadOnly] public AnchorBlockPositionInputController CurrentEditedPositionInput;
     
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController levelSettingsPanelController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController testingOptionsPanelController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorPanelController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachButtonController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachExitButtonController;
+    
     private IAudioService audioService;
     private IMouseService mouseService;
     private ISelectionStateService selectionStateService;
@@ -41,12 +47,9 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         ReferenceManager.Instance.InfobarEditTween.SetPlay(true);
         ReferenceManager.Instance.PlayButtonTween.TweenToY(-125, false);
         
-        PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
-        PanelController anchorAttachButton = ReferenceManager.Instance.AnchorAttachButtonController;
-        PanelController anchorExitAttachButton = ReferenceManager.Instance.AnchorAttachExitButtonController;
-        PanelManager.Instance.SetPanelHidden(anchorPanel, true);
-        PanelManager.Instance.SetPanelHidden(anchorAttachButton, true);
-        PanelManager.Instance.SetPanelHidden(anchorExitAttachButton, true);
+        PanelManager.Instance.SetPanelHidden(anchorPanelController, true);
+        PanelManager.Instance.SetPanelHidden(anchorAttachButtonController, true);
+        PanelManager.Instance.SetPanelHidden(anchorAttachExitButtonController, true);
     }
     
     public void OnEndPositionEdit()
@@ -61,16 +64,13 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         ReferenceManager.Instance.InfobarEditTween.SetPlay(LevelSessionEditManager.Instance.Playing);
         ReferenceManager.Instance.PlayButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
         
-        PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
-        PanelController anchorAttachButton = ReferenceManager.Instance.AnchorAttachButtonController;
-        PanelController anchorExitAttachButton = ReferenceManager.Instance.AnchorAttachExitButtonController;
-        PanelManager.Instance.SetPanelOpen(anchorPanel, LevelSessionEditManager.Instance.Editing);
+        PanelManager.Instance.SetPanelOpen(anchorPanelController, LevelSessionEditManager.Instance.Editing);
         PanelManager.Instance.SetPanelOpen(
-            anchorAttachButton, LevelSessionEditManager.Instance.Editing && !AnchorAttachManager.Instance.InAttachMode, false
+            anchorAttachButtonController, LevelSessionEditManager.Instance.Editing && !AnchorAttachManager.Instance.InAttachMode, false
         );
         
         PanelManager.Instance.SetPanelOpen(
-            anchorExitAttachButton, LevelSessionEditManager.Instance.Editing && AnchorAttachManager.Instance.InAttachMode, false
+            anchorAttachExitButtonController, LevelSessionEditManager.Instance.Editing && AnchorAttachManager.Instance.InAttachMode, false
         );
         
         AnchorManager.Instance.SelectedAnchor.RenderLines();

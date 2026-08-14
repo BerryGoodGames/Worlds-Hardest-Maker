@@ -7,6 +7,13 @@ public partial class AnchorAttachManager : MonoBehaviour
     public static AnchorAttachManager Instance { get; private set; }
     
     [ReadOnly] public bool InAttachMode;
+    
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController levelSettingsPanelController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController testingOptionsPanelController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorPanelController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachButtonController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachExitButtonController;
+    
     private static readonly int editingString = Animator.StringToHash("Editing");
     
     private EventBus eventBus;
@@ -31,10 +38,10 @@ public partial class AnchorAttachManager : MonoBehaviour
             || AnchorManager.Instance.SelectedAnchor == null
             || AnchorPositionInputEditManager.Instance.IsEditing) return;
         
-        PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, true);
-        PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachExitButtonController, false, false);
+        PanelManager.Instance.SetPanelHidden(anchorAttachButtonController, true);
+        PanelManager.Instance.SetPanelHidden(anchorAttachExitButtonController, false, false);
         
-        PanelManager.Instance.SetPanelOpen(ReferenceManager.Instance.AnchorPanelController, false, false);
+        PanelManager.Instance.SetPanelOpen(anchorPanelController, false, false);
         
         InAttachMode = true;
         
@@ -50,13 +57,15 @@ public partial class AnchorAttachManager : MonoBehaviour
         bool isModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
         
         if (LevelSessionEditManager.Instance.Editing)
-            PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachButtonController, false, false);
+        {
+            PanelManager.Instance.SetPanelHidden(anchorAttachButtonController, false, false);
+        }
         
-        PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.AnchorAttachExitButtonController, true);
+        PanelManager.Instance.SetPanelHidden(anchorAttachExitButtonController, true);
         if (!isModeAnchorRelated)
         {
-            PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.LevelSettingsPanelController, false, false);
-            PanelManager.Instance.SetPanelHidden(ReferenceManager.Instance.TestingOptionsPanelController, false, false);
+            PanelManager.Instance.SetPanelHidden(levelSettingsPanelController, false, false);
+            PanelManager.Instance.SetPanelHidden(testingOptionsPanelController, false, false);
         }
         
         InAttachMode = false;

@@ -12,6 +12,12 @@ public class PanelManager : MonoBehaviour
     
     [ReadOnly] public List<PanelController> Panels;
     
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController levelSettingsPanelController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController testingOptionsPanelController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorPanelController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachButtonController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachExitButtonController;
+    
     public bool WasAnchorPanelOpen { get; set; }
     
     private EventBus eventBus;
@@ -72,38 +78,30 @@ public class PanelManager : MonoBehaviour
     private void OnSwitchToPlay(SwitchToPlayEvent evt)
     {
         // hide all panels
-        PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
-        SetPanelHidden(levelSettingsPanel, true);
+        SetPanelHidden(levelSettingsPanelController, true);
         
-        PanelController testingOptionsPanel = ReferenceManager.Instance.TestingOptionsPanelController;
-        SetPanelHidden(testingOptionsPanel, true);
+        SetPanelHidden(testingOptionsPanelController, true);
         
-        PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
-        PanelController anchorAttachButton = ReferenceManager.Instance.AnchorAttachButtonController;
-        WasAnchorPanelOpen = anchorPanel.Open;
-        SetPanelHidden(anchorPanel, true);
-        SetPanelHidden(anchorAttachButton, true);
+        WasAnchorPanelOpen = anchorPanelController.Open;
+        SetPanelHidden(anchorPanelController, true);
+        SetPanelHidden(anchorAttachButtonController, true);
     }
     
     private void OnSwitchToEdit(SwitchToEditEvent evt)
     {
         // show level setting / anchor panel
         bool isEditModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
-        PanelController levelSettingsPanel = ReferenceManager.Instance.LevelSettingsPanelController;
-        PanelController testingOptionsPanel = ReferenceManager.Instance.TestingOptionsPanelController;
-        PanelController anchorPanel = ReferenceManager.Instance.AnchorPanelController;
-        PanelController anchorAttachButton = ReferenceManager.Instance.AnchorAttachButtonController;
         if (isEditModeAnchorRelated)
         {
-            if (WasAnchorPanelOpen) SetPanelOpen(anchorPanel, true);
-            else SetPanelHidden(anchorPanel, false);
+            if (WasAnchorPanelOpen) SetPanelOpen(anchorPanelController, true);
+            else SetPanelHidden(anchorPanelController, false);
             
-            if (AnchorManager.Instance.SelectedAnchor != null) SetPanelHidden(anchorAttachButton, false, false);
+            if (AnchorManager.Instance.SelectedAnchor != null) SetPanelHidden(anchorAttachButtonController, false, false);
         }
         else
         {
-            SetPanelHidden(levelSettingsPanel, false, false);
-            SetPanelHidden(testingOptionsPanel, false, false);
+            SetPanelHidden(levelSettingsPanelController, false, false);
+            SetPanelHidden(testingOptionsPanelController, false, false);
         }
     }
     

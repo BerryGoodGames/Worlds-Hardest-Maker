@@ -784,6 +784,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InAttachMode: 0
+  levelSettingsPanelController: {fileID: 516759321}
+  testingOptionsPanelController: {fileID: 786713975}
+  anchorPanelController: {fileID: 1661549653}
+  anchorAttachButtonController: {fileID: 374404340}
+  anchorAttachExitButtonController: {fileID: 858147039}
   anchorAttachBlocker: {fileID: 1065031678}
 --- !u!1001 &26600856
 PrefabInstance:
@@ -3240,6 +3245,7 @@ Transform:
   - {fileID: 1183487556}
   - {fileID: 1653342460}
   - {fileID: 14653669}
+  - {fileID: 1142914684}
   - {fileID: 1423632858}
   - {fileID: 1741605977}
   - {fileID: 1054767411}
@@ -3252,6 +3258,7 @@ Transform:
   - {fileID: 2112649816}
   - {fileID: 961560553}
   - {fileID: 591220726}
+  - {fileID: 1747896900}
   - {fileID: 10335410}
   - {fileID: 1593335858}
   - {fileID: 778785260}
@@ -17258,6 +17265,57 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+--- !u!1 &1142914683
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1142914684}
+  - component: {fileID: 1142914685}
+  m_Layer: 0
+  m_Name: _AnchorPositionInputEdit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1142914684
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142914683}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 198493967}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1142914685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142914683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d165ff9dbd76448419d2b5f35a5bb529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WorldsHardestMaker::AnchorPositionInputEditManager
+  IsEditing: 0
+  CurrentEditedPositionInput: {fileID: 0}
+  levelSettingsPanelController: {fileID: 516759321}
+  testingOptionsPanelController: {fileID: 786713975}
+  anchorPanelController: {fileID: 1661549653}
+  anchorAttachButtonController: {fileID: 374404340}
+  anchorAttachExitButtonController: {fileID: 858147039}
 --- !u!1001 &1148953494
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18145,7 +18203,6 @@ GameObject:
   - component: {fileID: 1183487576}
   - component: {fileID: 1183487571}
   - component: {fileID: 1183487565}
-  - component: {fileID: 1183487572}
   - component: {fileID: 1183487570}
   - component: {fileID: 1183487564}
   - component: {fileID: 1183487558}
@@ -18154,7 +18211,6 @@ GameObject:
   - component: {fileID: 1183487566}
   - component: {fileID: 1183487562}
   - component: {fileID: 1183487557}
-  - component: {fileID: 1183487560}
   - component: {fileID: 1183487577}
   - component: {fileID: 1183487578}
   m_Layer: 0
@@ -18204,19 +18260,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preventInWebGL: 1
---- !u!114 &1183487560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183487555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 048da9e1f595a00468ccd9b3b8f24370, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Panels: []
 --- !u!114 &1183487562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18331,20 +18374,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEditing: 0
   currentEditedIndexInput: {fileID: 0}
---- !u!114 &1183487572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183487555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d165ff9dbd76448419d2b5f35a5bb529, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsEditing: 0
-  CurrentEditedPositionInput: {fileID: 0}
 --- !u!114 &1183487576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22393,11 +22422,6 @@ MonoBehaviour:
   InfobarPlayTween: {fileID: 660451852}
   PlayButtonTween: {fileID: 4746071704783565827}
   TimerController: {fileID: 211911999}
-  LevelSettingsPanelController: {fileID: 516759321}
-  TestingOptionsPanelController: {fileID: 786713975}
-  AnchorPanelController: {fileID: 1661549653}
-  AnchorAttachButtonController: {fileID: 374404340}
-  AnchorAttachExitButtonController: {fileID: 858147039}
   DrawContainer: {fileID: 1552703640}
   SelectionOutlineContainer: {fileID: 1598753940}
   FillPreviewContainer: {fileID: 282166553}
@@ -25874,6 +25898,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: WorldsHardestMaker::AnchorManager
   <SelectedAnchor>k__BackingField: {fileID: 0}
   mainCameraJumper: {fileID: 519420035}
+  levelSettingsPanelController: {fileID: 516759321}
+  testingOptionsPanelController: {fileID: 786713975}
+  anchorPanelController: {fileID: 1661549653}
+  anchorAttachButtonController: {fileID: 374404340}
+  anchorAttachExitButtonController: {fileID: 858147039}
   LastSelectClick: -1
 --- !u!1001 &1660775370
 PrefabInstance:
@@ -27646,6 +27675,56 @@ MonoBehaviour:
   DrawRays: 0
   EditorLevelSessionMode: 1
   debugText: {fileID: 1281434036}
+--- !u!1 &1747896899
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1747896900}
+  - component: {fileID: 1747896901}
+  m_Layer: 0
+  m_Name: _Panel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1747896900
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1747896899}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 198493967}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1747896901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1747896899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 048da9e1f595a00468ccd9b3b8f24370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WorldsHardestMaker::PanelManager
+  Panels: []
+  levelSettingsPanelController: {fileID: 516759321}
+  testingOptionsPanelController: {fileID: 786713975}
+  anchorPanelController: {fileID: 1661549653}
+  anchorAttachButtonController: {fileID: 374404340}
+  anchorAttachExitButtonController: {fileID: 858147039}
 --- !u!1 &1755699352
 GameObject:
   m_ObjectHideFlags: 0
@@ -33328,6 +33407,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c16a2a2683b36419602bb6a0fb25ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelSettingsPanelController: {fileID: 516759321}
+  testingOptionsPanelController: {fileID: 786713975}
+  anchorPanelController: {fileID: 1661549653}
+  anchorAttachButtonController: {fileID: 374404340}
+  anchorAttachExitButtonController: {fileID: 858147039}
   startEditMode: {fileID: 11400000, guid: 7f6d1c38617e7104183dbd378764fe32, type: 2}
   <Editing>k__BackingField: 1
   <InPlaytest>k__BackingField: 0
