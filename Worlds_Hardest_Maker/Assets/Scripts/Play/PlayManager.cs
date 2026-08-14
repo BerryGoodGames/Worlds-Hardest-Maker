@@ -1,10 +1,14 @@
 using System.Collections;
+using MyBox;
 using UnityEngine;
 using VContainer;
 
 public class PlayManager : MonoBehaviour
 {
     public static PlayManager Instance { get; private set; }
+
+    [SerializeField] [InitializationField] [MustBeAssigned] private TimerController timerController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween infobarPlayTween;
     
     private EventBus eventBus;
     
@@ -16,10 +20,10 @@ public class PlayManager : MonoBehaviour
         set
         {
             cheated = value;
-            ReferenceManager.Instance.TimerController.Text.color =
+            timerController.Text.color =
                 cheated
-                    ? ReferenceManager.Instance.TimerController.CheatedTimerColor
-                    : ReferenceManager.Instance.TimerController.TimerDefaultColor;
+                    ? timerController.CheatedTimerColor
+                    : timerController.TimerDefaultColor;
         }
     }
     
@@ -78,7 +82,7 @@ public class PlayManager : MonoBehaviour
             
             yield return new WaitForEndOfFrame();
             
-            ReferenceManager.Instance.InfobarPlayTween.SetPlay(true);
+            infobarPlayTween.SetPlay(true);
             
             if (PlayerManager.Instance.Player != null) PlayerManager.Instance.Player.Setup();
             
@@ -86,7 +90,7 @@ public class PlayManager : MonoBehaviour
             CoinManager.Instance.ActivateAnimations();
             KeyManager.Instance.ActivateAnimations();
             
-            ReferenceManager.Instance.TimerController.StartTimer();
+            timerController.StartTimer();
             
             eventBus.Fire(new SetupPlaySceneEvent());
         }

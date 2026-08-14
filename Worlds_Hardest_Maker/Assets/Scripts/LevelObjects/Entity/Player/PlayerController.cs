@@ -50,6 +50,8 @@ public partial class PlayerController : EntityController
     [HideInInspector] public bool HasTeleported;
     
     private JumpToEntity mainCameraJumper;
+
+    private TimerController timerController;
     
     private EventBus eventBus;
     
@@ -82,9 +84,10 @@ public partial class PlayerController : EntityController
         eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
     }
     
-    public void Initialize(JumpToEntity mainCameraJumper)
+    public void Initialize(JumpToEntity mainCameraJumper, TimerController timerController)
     {
         this.mainCameraJumper = mainCameraJumper;
+        this.timerController = timerController;
     }
     
     protected override void Start()

@@ -14,6 +14,9 @@ public class CopyManager : MonoBehaviour
     [field: SerializeField] [field: ReadOnly] public bool Pasting { get; private set; }
     
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform previewContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween toolbarTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween infobarEditTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween playButtonTween;
     
     [Inject] private IObjectResolver diContainer;
     [Inject] private IToastService toastService;
@@ -140,9 +143,9 @@ public class CopyManager : MonoBehaviour
         CreatePreview();
         
         // hide panels
-        ReferenceManager.Instance.ToolbarTween.SetPlay(true);
-        ReferenceManager.Instance.InfobarEditTween.SetPlay(true);
-        ReferenceManager.Instance.PlayButtonTween.TweenToY(-125, false);
+        toolbarTween.SetPlay(true);
+        infobarEditTween.SetPlay(true);
+        playButtonTween.TweenToY(-125, false);
     }
     
     private void CancelPaste()
@@ -156,9 +159,9 @@ public class CopyManager : MonoBehaviour
         Pasting = false;
         
         // show panels (if in edit mode)
-        ReferenceManager.Instance.ToolbarTween.SetPlay(LevelSessionEditManager.Instance.Playing);
-        ReferenceManager.Instance.InfobarEditTween.SetPlay(LevelSessionEditManager.Instance.Playing);
-        ReferenceManager.Instance.PlayButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        toolbarTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        infobarEditTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        playButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
     }
     
     private void Paste()
@@ -177,9 +180,9 @@ public class CopyManager : MonoBehaviour
         Instance.previewContainer.position = Vector2.zero;
         
         // show bars
-        ReferenceManager.Instance.ToolbarTween.SetPlay(false);
-        ReferenceManager.Instance.InfobarEditTween.SetPlay(false);
-        ReferenceManager.Instance.PlayButtonTween.SetPlay(false);
+        toolbarTween.SetPlay(false);
+        infobarEditTween.SetPlay(false);
+        playButtonTween.SetPlay(false);
     }
     
     public void LoadClipboard(Vector2 pos)

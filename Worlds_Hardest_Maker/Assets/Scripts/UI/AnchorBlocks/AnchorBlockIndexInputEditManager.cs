@@ -9,6 +9,9 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
     
     [SerializeField] [ReadOnly] private bool isEditing;
     [SerializeField] [ReadOnly] private AnchorBlockIndexInputController currentEditedIndexInput;
+    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween toolbarTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween infobarEditTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween playButtonTween;
     
     [Inject] private ISelectionStateService selectionStateService;
     
@@ -26,9 +29,9 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
         MenuManager.Instance.BlockMenu = true;
         
         // disable panels
-        ReferenceManager.Instance.ToolbarTween.SetPlay(true);
-        ReferenceManager.Instance.InfobarEditTween.SetPlay(true);
-        ReferenceManager.Instance.PlayButtonTween.TweenToY(-125, false);
+        toolbarTween.SetPlay(true);
+        infobarEditTween.SetPlay(true);
+        playButtonTween.TweenToY(-125, false);
     }
     
     private void OnEndIndexEdit()
@@ -42,9 +45,9 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
         MenuManager.Instance.BlockMenu = false;
         
         // show panels
-        ReferenceManager.Instance.ToolbarTween.SetPlay(LevelSessionEditManager.Instance.Playing);
-        ReferenceManager.Instance.InfobarEditTween.SetPlay(LevelSessionEditManager.Instance.Playing);
-        ReferenceManager.Instance.PlayButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        toolbarTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        infobarEditTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        playButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
     }
     
     private IEnumerator EditCoroutine()

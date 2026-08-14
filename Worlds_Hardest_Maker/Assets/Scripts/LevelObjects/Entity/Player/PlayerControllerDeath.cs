@@ -116,7 +116,7 @@ public partial class PlayerController
     {
         // reset timer if no checkpoint activated
         bool hasCheckpointActivated = CurrentGameState != null;
-        if (!hasCheckpointActivated) ReferenceManager.Instance.TimerController.ResetTimer();
+        if (!hasCheckpointActivated) timerController.ResetTimer();
         
         Won = false;
         InDeathAnim = false;

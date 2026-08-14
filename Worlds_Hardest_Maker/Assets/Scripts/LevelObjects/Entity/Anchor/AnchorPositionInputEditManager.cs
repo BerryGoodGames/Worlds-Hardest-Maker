@@ -16,6 +16,9 @@ public class AnchorPositionInputEditManager : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorPanelController;
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachButtonController;
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachExitButtonController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween toolbarTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween infobarEditTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween playButtonTween;
     
     private IAudioService audioService;
     private IMouseService mouseService;
@@ -43,9 +46,9 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         MenuManager.Instance.BlockMenu = true;
         
         // disable panels
-        ReferenceManager.Instance.ToolbarTween.SetPlay(true);
-        ReferenceManager.Instance.InfobarEditTween.SetPlay(true);
-        ReferenceManager.Instance.PlayButtonTween.TweenToY(-125, false);
+        toolbarTween.SetPlay(true);
+        infobarEditTween.SetPlay(true);
+        playButtonTween.TweenToY(-125, false);
         
         PanelManager.Instance.SetPanelHidden(anchorPanelController, true);
         PanelManager.Instance.SetPanelHidden(anchorAttachButtonController, true);
@@ -60,9 +63,9 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         CurrentEditedPositionInput = null;
         
         // show panels
-        ReferenceManager.Instance.ToolbarTween.SetPlay(LevelSessionEditManager.Instance.Playing);
-        ReferenceManager.Instance.InfobarEditTween.SetPlay(LevelSessionEditManager.Instance.Playing);
-        ReferenceManager.Instance.PlayButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        toolbarTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        infobarEditTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        playButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
         
         PanelManager.Instance.SetPanelOpen(anchorPanelController, LevelSessionEditManager.Instance.Editing);
         PanelManager.Instance.SetPanelOpen(

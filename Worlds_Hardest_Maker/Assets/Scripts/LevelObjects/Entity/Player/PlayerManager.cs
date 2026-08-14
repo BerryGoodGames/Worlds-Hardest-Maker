@@ -12,7 +12,8 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     
     [ReadOnly] public PlayerController Player;
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private JumpToEntity mainCameraJumper;
+    [SerializeField] [InitializationField] [MustBeAssigned] private JumpToEntity mainCameraJumper;   
+    [SerializeField] [InitializationField] [MustBeAssigned] private TimerController timerController;
     
     public Transform DefaultContainer => ReferenceManager.Instance.PlayerContainer;
     
@@ -72,7 +73,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
         
         diContainer.InjectGameObject(newPlayer.gameObject);
         
-        newPlayer.Initialize(mainCameraJumper);
+        newPlayer.Initialize(mainCameraJumper, timerController);
         
         PlaceManager.Instance.AttachToSheet(newPlayer.gameObject, args.Sheet, false);
         newPlayer.Sheet = args.Sheet;
