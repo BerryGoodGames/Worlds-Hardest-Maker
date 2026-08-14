@@ -13,6 +13,7 @@ public class SelectionOutlineController : IDisposable
     [SerializeField] private Color color = Color.black;
     
     private EventBus eventBus;
+    private IDrawService drawService;
     
     private GameObject outline;
     private LineAnimator outlineAnimator;
@@ -34,12 +35,12 @@ public class SelectionOutlineController : IDisposable
     {
         Clear();
         
-        DrawManager.SetWeight(weight);
-        DrawManager.SetFill(color);
+        drawService.SetWeight(weight);
+        drawService.SetFill(color);
         
-        DrawManager.SetLayerName(LayerManager.Instance.SortingLayers.Line);
-        DrawManager.SetOrderInLayer(0);
-        outline = DrawManager.DrawRect(
+        drawService.SetLayerName(LayerManager.Instance.SortingLayers.Line);
+        drawService.SetOrderInLayer(0);
+        outline = drawService.DrawRect(
             start.x + 0.5f,
             start.y + 0.5f,
             -1,

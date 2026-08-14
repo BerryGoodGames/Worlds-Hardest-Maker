@@ -25,6 +25,8 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.Register<AreaQueryService>(Lifetime.Singleton).As<IAreaQueryService>();
         builder.Register<AreaErasureService>(Lifetime.Singleton).As<IAreaErasureService>();
         builder.Register<AreaFillService>(Lifetime.Singleton).As<IAreaFillService>();
+
+        builder.RegisterComponentInHierarchy<DrawManager>().As<IDrawService>();
     }
     
     protected override void Awake()

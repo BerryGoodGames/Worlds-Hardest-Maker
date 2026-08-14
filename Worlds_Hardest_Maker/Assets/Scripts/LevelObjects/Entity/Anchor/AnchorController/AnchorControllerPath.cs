@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 
 public partial class AnchorController
 {
@@ -10,6 +12,8 @@ public partial class AnchorController
     
     [SerializeField] private Color lineColor;
     [SerializeField] private float lineWeight;
+
+    [Inject] private IDrawService drawService;
     
     public void RenderLines() => StartCoroutine(RenderLinesCoroutine());
     
@@ -20,11 +24,11 @@ public partial class AnchorController
         ClearLines();
         
         // line settings
-        DrawManager.SetFill(lineColor);
-        DrawManager.SetLayerID(spriteRenderer.sortingLayerID);
-        DrawManager.SetOrderInLayer(spriteRenderer.sortingOrder - 1);
-        DrawManager.SetRoundedCorners(true);
-        DrawManager.SetWeight(lineWeight);
+        drawService.SetFill(lineColor);
+        drawService.SetLayerID(spriteRenderer.sortingLayerID);
+        drawService.SetOrderInLayer(spriteRenderer.sortingOrder - 1);
+        drawService.SetRoundedCorners(true);
+        drawService.SetWeight(lineWeight);
         
         Vector2 previousVertex = transform.position;
         
@@ -107,6 +111,8 @@ public partial class AnchorController
             PrefabManager.Instance.AnchorPathLine, Vector2.zero,
             Quaternion.identity, lineContainer
         );
+        
+        diContainer.InjectGameObject(line.gameObject);
         
         line.CreateArrowHead(previousVertex, currentVertex);
         line.CreateArrowLine(

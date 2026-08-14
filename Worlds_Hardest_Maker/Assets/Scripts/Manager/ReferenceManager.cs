@@ -1,7 +1,6 @@
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ReferenceManager : MonoBehaviour
 {
@@ -21,11 +20,7 @@ public class ReferenceManager : MonoBehaviour
     
     #region Containers
     
-    [Foldout("Containers")] public Transform DrawContainer;
-    
     [Foldout("Containers")] public Transform SelectionOutlineContainer;
-    
-    [Foldout("Containers")] public Transform FillPreviewContainer;
     
     [Foldout("Containers")] public Transform EntityContainer;
     
@@ -44,12 +39,6 @@ public class ReferenceManager : MonoBehaviour
     #endregion
     
     #region Anchor
-    
-    [Foldout("Anchor")] public PanelTween AnchorEditorButtonPanelTween;
-    
-    [Foldout("Anchor")] public PanelTween AnchorEditorPanelTween;
-    
-    [Foldout("Anchor")] public RectTransform AnchorBlockContainer;
     
     [Foldout("Anchor")] public RectTransform AnchorBlockChainContainer;
     
@@ -78,15 +67,6 @@ public class ReferenceManager : MonoBehaviour
     #region Materials
     
     [Foldout("Material")] public Material DashedLineMaterial;
-    
-    #endregion
-    
-    #region SettingInputs
-    
-    [Foldout("SettingInputs")] public TMP_Dropdown QualityDropdown;
-    [Foldout("SettingInputs")] public TMP_Dropdown ResolutionDropdown;
-    [Foldout("SettingInputs")] public Toggle FullscreenToggle;
-    [Foldout("SettingInputs")] public Toggle OneColorToggle;
     
     #endregion
     

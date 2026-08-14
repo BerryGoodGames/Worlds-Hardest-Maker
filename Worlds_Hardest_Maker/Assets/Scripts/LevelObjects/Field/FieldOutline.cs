@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
+using VContainer;
 
 /// <summary>
 ///     Attach to every field prefab variant which has outlines (see TypesWithOutlines)
@@ -28,6 +29,14 @@ public class FieldOutline : MonoBehaviour
     private AnchorController sheet;
     
     public event Action OnUpdateOutline = () => { };
+    
+    private IDrawService drawService;
+    
+    [Inject]
+    private void Construct(IDrawService drawService)
+    {
+        this.drawService = drawService;
+    }
     
     private void Awake()
     {
@@ -92,10 +101,10 @@ public class FieldOutline : MonoBehaviour
     private void DrawLine(Vector2 dir)
     {
         // draw settings
-        DrawManager.SetWeight(weight);
-        DrawManager.SetFill(color);
-        DrawManager.SetLayerName(LayerManager.Instance.SortingLayers.Outline);
-        DrawManager.SetRoundedCorners(false);
+        drawService.SetWeight(weight);
+        drawService.SetFill(color);
+        drawService.SetLayerName(LayerManager.Instance.SortingLayers.Outline);
+        drawService.SetRoundedCorners(false);
         
         Transform t = transform;
         Vector2 position = t.position;
@@ -110,7 +119,7 @@ public class FieldOutline : MonoBehaviour
             bool left = IsConnectorInDirection(Vector2.left);
             bool right = IsConnectorInDirection(Vector2.right);
             
-            LineRenderer line = DrawManager.DrawLine(
+            LineRenderer line = drawService.DrawLine(
                 position.x - halfWidth - (left ? weight : 0),
                 position.y + dir.y * 0.5f - dir.y * halfWeight,
                 position.x + halfWidth + (right ? weight : 0),
@@ -122,7 +131,7 @@ public class FieldOutline : MonoBehaviour
         }
         else if (dir.Equals(Vector2.left) || dir.Equals(Vector2.right))
         {
-            LineRenderer line = DrawManager.DrawLine(
+            LineRenderer line = drawService.DrawLine(
                 position.x + dir.x * 0.5f - dir.x * halfWeight,
                 position.y + halfHeight,
                 position.x + dir.x * 0.5f - dir.x * halfWeight,

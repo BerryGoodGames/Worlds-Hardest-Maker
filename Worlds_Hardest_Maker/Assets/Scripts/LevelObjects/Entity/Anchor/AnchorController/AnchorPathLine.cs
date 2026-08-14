@@ -2,6 +2,7 @@ using DG.Tweening;
 using LuLib.Vector;
 using MyBox;
 using UnityEngine;
+using VContainer;
 
 public class AnchorPathLine : MonoBehaviour
 {
@@ -11,6 +12,14 @@ public class AnchorPathLine : MonoBehaviour
     public (LineAnimator line1, LineAnimator line2) ArrowLines { get; set; }
     
     public AlphaTween Blur { get; private set; }
+
+    private IDrawService drawService;
+    
+    [Inject]
+    private void Construct(IDrawService drawService)
+    {
+        this.drawService = drawService;
+    }
     
     public void AnimateEnd(Vector2 end)
     {
@@ -23,7 +32,7 @@ public class AnchorPathLine : MonoBehaviour
         LineAnimator.AnimatePoint(1, end, 0.05f, Ease.Linear);
         
         (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) =
-            DrawManager.GetArrowHeadPoints(LineRenderer.GetPosition(0), end);
+            drawService.GetArrowHeadPoints(LineRenderer.GetPosition(0), end);
         
         ArrowLines.line1.AnimateAllPoints(new() { arrowCenter, arrowVertex1, }, 0.05f, Ease.Linear);
         ArrowLines.line2.AnimateAllPoints(new() { arrowCenter, arrowVertex2, }, 0.05f, Ease.Linear);
@@ -34,7 +43,7 @@ public class AnchorPathLine : MonoBehaviour
         LineAnimator.AnimatePoint(0, start, 0.05f, Ease.Linear);
         
         (Vector2 nextArrowVertex1, Vector2 nextArrowVertex2, Vector2 nextArrowCenter) =
-            DrawManager.GetArrowHeadPoints(start, LineRenderer.GetPosition(1));
+            drawService.GetArrowHeadPoints(start, LineRenderer.GetPosition(1));
         
         ArrowLines.line1.AnimateAllPoints(new() { nextArrowCenter, nextArrowVertex1, }, 0.05f, Ease.Linear);
         ArrowLines.line2.AnimateAllPoints(new() { nextArrowCenter, nextArrowVertex2, }, 0.05f, Ease.Linear);
@@ -43,18 +52,18 @@ public class AnchorPathLine : MonoBehaviour
     public void CreateArrowLine(Vector2 start, Vector2 end, bool dashed)
     {
         LineRenderer line = dashed
-            ? DrawManager.DrawLine(start, end, transform)
-            : DrawManager.DrawDashedLine(start, end, 0.2f, 0.2f, transform);
+            ? drawService.DrawLine(start, end, transform)
+            : drawService.DrawDashedLine(start, end, 0.2f, 0.2f, transform);
         
         LineAnimator = line.GetOrAddComponent<LineAnimator>();
     }
     
     public void CreateArrowHead(Vector2 start, Vector2 end)
     {
-        (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) = DrawManager.GetArrowHeadPoints(start, end);
+        (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) = drawService.GetArrowHeadPoints(start, end);
         
-        (LineRenderer line1, LineRenderer line2) = (DrawManager.DrawLine(arrowCenter, arrowVertex1, transform),
-            DrawManager.DrawLine(arrowCenter, arrowVertex2, transform));
+        (LineRenderer line1, LineRenderer line2) = (drawService.DrawLine(arrowCenter, arrowVertex1, transform),
+            drawService.DrawLine(arrowCenter, arrowVertex2, transform));
         
         ArrowLines = (line1.GetOrAddComponent<LineAnimator>(), line2.GetOrAddComponent<LineAnimator>());
     }

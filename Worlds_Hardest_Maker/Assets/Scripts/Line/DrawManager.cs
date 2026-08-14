@@ -1,19 +1,18 @@
 using System.Collections.Generic;
 using LuLib.Vector;
+using MyBox;
 using UnityEngine;
 
 /// <summary>
 ///     Renders lines / circles / rects: generates objects in container holding LineRenderers
 ///     <para>Attach to game manager</para>
 /// </summary>
-public class DrawManager : MonoBehaviour
+public class DrawManager : MonoBehaviour, IDrawService
 {
-    private static DrawManager instance;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform drawContainer;
     
     private void Awake()
     {
-        instance ??= this;
-        
         LayerID = SortingLayer.NameToID(LayerManager.Instance.SortingLayers.Default);
     }
     
@@ -27,7 +26,7 @@ public class DrawManager : MonoBehaviour
     /// <summary>
     ///     Generates object containing a LineRenderer forming a rectangle
     /// </summary>
-    public static LineRenderer DrawRect(
+    public LineRenderer DrawRect(
         float x, float y,
         float width, float height,
         bool alignCenter = false,
@@ -37,8 +36,8 @@ public class DrawManager : MonoBehaviour
         // generate object
         LineRenderer rect = NewDrawObject("DrawRect", parent);
         rect.positionCount = 5;
-        rect.sortingOrder = instance.OrderInLayer;
-        rect.sortingLayerID = instance.LayerID;
+        rect.sortingOrder = OrderInLayer;
+        rect.sortingLayerID = LayerID;
         
         // get positions
         Vector2[] positions =
@@ -68,12 +67,12 @@ public class DrawManager : MonoBehaviour
     /// <summary>
     ///     Generates object containing a LineRenderer forming a circle
     /// </summary>
-    public static LineRenderer DrawCircle(Vector2 origin, float radius, Transform parent = null)
+    public LineRenderer DrawCircle(Vector2 origin, float radius, Transform parent = null)
     {
         // generate object
         LineRenderer circle = NewDrawObject("DrawCircle", parent);
-        circle.sortingOrder = instance.OrderInLayer;
-        circle.sortingLayerID = instance.LayerID;
+        circle.sortingOrder = OrderInLayer;
+        circle.sortingLayerID = LayerID;
         
         // get points of circle
         const int STEPS = 100;
@@ -89,26 +88,28 @@ public class DrawManager : MonoBehaviour
     /// <summary>
     ///     Generates object containing a LineRenderer forming a circle
     /// </summary>
-    public static LineRenderer DrawCircle(float x, float y, float radius, Transform parent = null) => DrawCircle(new(x, y), radius, parent);
+    public LineRenderer DrawCircle(float x, float y, float radius, Transform parent = null) => DrawCircle(new(x, y), radius, parent);
     
     /// <summary>
     ///     Generates object containing a LineRenderer
     /// </summary>
-    public static LineRenderer DrawLine(float x1, float y1, float x2, float y2, Transform parent = null) =>
-        DrawLine(new(x1, y1), new(x2, y2), parent);
-    
-    
-    /// <summary>
-    ///     Generates object containing a LineRenderer
-    /// </summary>
-    public static LineRenderer DrawLine(Vector2 point1, Vector2 point2, Transform parent = null)
+    public LineRenderer DrawLine(float x1, float y1, float x2, float y2, Transform parent = null)
     {
-        if (parent == null) parent = ReferenceManager.Instance.DrawContainer;
+        return DrawLine(new(x1, y1), new(x2, y2), parent);
+    }
+
+
+    /// <summary>
+    ///     Generates object containing a LineRenderer
+    /// </summary>
+    public LineRenderer DrawLine(Vector2 point1, Vector2 point2, Transform parent = null)
+    {
+        if (parent == null) parent = drawContainer;
         
         // generate object
         LineRenderer line = NewDrawObject("DrawLine", parent);
-        line.sortingOrder = instance.OrderInLayer;
-        line.sortingLayerID = instance.LayerID;
+        line.sortingOrder = OrderInLayer;
+        line.sortingLayerID = LayerID;
         line.positionCount = 2;
         
         line.SetPosition(0, point1);
@@ -117,12 +118,12 @@ public class DrawManager : MonoBehaviour
         return line;
     }
     
-    public static LineRenderer DrawDashedLine(
+    public LineRenderer DrawDashedLine(
         Vector2 start, Vector2 end, float width, float spacing,
         Transform parent = null
     )
     {
-        if (parent == null) parent = ReferenceManager.Instance.DrawContainer;
+        if (parent == null) parent = drawContainer;
         
         // generate object
         LineRenderer line = DrawLine(start, end, parent);
@@ -135,7 +136,7 @@ public class DrawManager : MonoBehaviour
         return line;
     }
     
-    public static (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) GetArrowHeadPoints(
+    public (Vector2 arrowVertex1, Vector2 arrowVertex2, Vector2 arrowCenter) GetArrowHeadPoints(
         Vector2 start,
         Vector2 end
     )
@@ -156,10 +157,10 @@ public class DrawManager : MonoBehaviour
         return (arrowVertex1, arrowVertex2, arrowCenter);
     }
     
-    private static LineRenderer NewDrawObject(string name, Transform parent)
+    private LineRenderer NewDrawObject(string name, Transform parent)
     {
         // DrawContainer is default container
-        if (parent == null) parent = ReferenceManager.Instance.DrawContainer;
+        if (parent == null) parent = drawContainer;
         
         GameObject stroke = new()
         {
@@ -170,17 +171,17 @@ public class DrawManager : MonoBehaviour
         LineRenderer line = stroke.AddComponent<LineRenderer>();
         line.material = MaterialManager.Instance.LineMaterial;
         
-        line.startWidth = instance.Weight;
-        line.endWidth = instance.Weight;
+        line.startWidth = Weight;
+        line.endWidth = Weight;
         
-        line.startColor = instance.Fill;
-        line.endColor = instance.Fill;
+        line.startColor = Fill;
+        line.endColor = Fill;
         
-        line.numCapVertices = instance.RoundedCorners ? 5 : 0;
+        line.numCapVertices = RoundedCorners ? 5 : 0;
         return line;
     }
     
-    public static List<Vector2> GetCirclePoints(Vector2 origin, float radius, int accuracy)
+    public List<Vector2> GetCirclePoints(Vector2 origin, float radius, int accuracy)
     {
         List<Vector2> points = new();
         for (int currentStep = 0; currentStep <= accuracy; currentStep++)
@@ -200,16 +201,16 @@ public class DrawManager : MonoBehaviour
         return points;
     }
     
-    public static void SetFill(float r, float g, float b) => instance.Fill = new(r, g, b);
+    public void SetFill(float r, float g, float b) => Fill = new(r, g, b);
     
-    public static void SetFill(Color color) => instance.Fill = color;
+    public void SetFill(Color color) => Fill = color;
     
-    public static void SetWeight(float setWeight) => instance.Weight = setWeight;
+    public void SetWeight(float setWeight) => Weight = setWeight;
     
-    public static void SetRoundedCorners(bool set) => instance.RoundedCorners = set;
+    public void SetRoundedCorners(bool set) => RoundedCorners = set;
     
-    public static void SetLayerID(int id) => instance.LayerID = id;
-    public static void SetLayerName(string name) => instance.LayerID = SortingLayer.NameToID(name);
+    public void SetLayerID(int id) => LayerID = id;
+    public void SetLayerName(string name) => LayerID = SortingLayer.NameToID(name);
     
-    public static void SetOrderInLayer(int order) => instance.OrderInLayer = order;
+    public void SetOrderInLayer(int order) => OrderInLayer = order;
 }
