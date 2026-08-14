@@ -1,9 +1,9 @@
-using NaughtyAttributes;
+using MyBox;
 using UnityEngine;
 
 public class KeySneezeParticles : MonoBehaviour
 {
-    [SerializeField] [Required] private ParticleSystem particles;
+    [SerializeField] [MustBeAssigned] private ParticleSystem particles;
     
     public void Particles()
     {

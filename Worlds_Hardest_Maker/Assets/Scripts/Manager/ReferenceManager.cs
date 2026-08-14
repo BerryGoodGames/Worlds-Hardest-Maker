@@ -9,8 +9,6 @@ public class ReferenceManager : MonoBehaviour
     
     #region Objects
     
-    [Foldout("Objects")] public JumpToEntity MainCameraJumper;
-    
     [Foldout("Objects")] public Canvas Canvas;
     
     [Foldout("Objects")] public GameObject TooltipCanvas;

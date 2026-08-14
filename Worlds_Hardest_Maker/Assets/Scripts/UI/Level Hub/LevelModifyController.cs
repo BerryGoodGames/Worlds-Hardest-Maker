@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Linq;
 using MyBox;
-using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,13 +12,13 @@ public class LevelModifyController : MonoBehaviour
     
     [HideInInspector] public LevelCardController CurrentCard;
     
-    [Separator("References")] [SerializeField] [InitializationField] [Required] private TMP_InputField levelNameText;
-    [SerializeField] [InitializationField] [Required] private TMP_InputField descriptionText;
-    [SerializeField] [InitializationField] [Required] private TMP_InputField creatorText;
-    [Space] [InitializationField] [Required] public MoveRelativeTween LevelModifyStartTween;
-    [InitializationField] [Required] public MoveRelativeTween LevelModifyBackTween;
-    [SerializeField] [InitializationField] [Required] private Toggle resetPlayStats;
-    [SerializeField] [InitializationField] [Required] private Toggle resetEditorStats;
+    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_InputField levelNameText;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_InputField descriptionText;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_InputField creatorText;
+    [Space] [InitializationField] [MustBeAssigned] public MoveRelativeTween LevelModifyStartTween;
+    [InitializationField] [MustBeAssigned] public MoveRelativeTween LevelModifyBackTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Toggle resetPlayStats;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Toggle resetEditorStats;
     
     public void SaveLevelSettings()
     {

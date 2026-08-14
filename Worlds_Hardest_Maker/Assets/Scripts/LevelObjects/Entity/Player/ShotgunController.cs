@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using VContainer;
 
@@ -8,7 +7,7 @@ public class ShotgunController : MonoBehaviour
 {
     [SerializeField] [PositiveValueOnly] private float ballLaunchStrength;
     
-    [SerializeField] [InitializationField] [Required] private ParticleSystem fireParticles;
+    [SerializeField] [InitializationField] [MustBeAssigned] private ParticleSystem fireParticles;
     
     private ParticleSystem bulletParticle;
     

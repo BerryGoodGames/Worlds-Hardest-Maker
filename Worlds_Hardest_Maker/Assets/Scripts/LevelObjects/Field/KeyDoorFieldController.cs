@@ -1,19 +1,18 @@
 using DG.Tweening;
 using JetBrains.Annotations;
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using VContainer;
 
 public class KeyDoorFieldController : MonoBehaviour, IResettable
 {
-    [SerializeField] [InitializationField] [Required] private Animator animator;
-    [SerializeField] [InitializationField] [Required] private Collider2D keyDoorCollider;
-    [SerializeField] [InitializationField] [Required] private SpriteRenderer spriteRenderer;
-    [SerializeField] [InitializationField] [Required] private FieldOutline fieldOutline;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Animator animator;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Collider2D keyDoorCollider;
+    [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer spriteRenderer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private FieldOutline fieldOutline;
     [SerializeField] [InitializationField] [PositiveValueOnly] private float fadeDuration;
     
-    [Separator] [MyBox.ReadOnly] [UsedImplicitly] public bool Unlocked;
+    [Separator] [ReadOnly] [UsedImplicitly] public bool Unlocked;
     public KeyColor Color;
     
     private static readonly int unlockedString = Animator.StringToHash("Unlocked");

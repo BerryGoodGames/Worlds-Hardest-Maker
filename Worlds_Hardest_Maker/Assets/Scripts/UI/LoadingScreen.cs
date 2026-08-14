@@ -1,10 +1,8 @@
 using System.Collections;
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using VContainer;
 
 public class LoadingScreen : MonoBehaviour
 {
@@ -12,9 +10,9 @@ public class LoadingScreen : MonoBehaviour
     
     [SerializeField] [PositiveValueOnly] private float duration = 1;
     
-    [Separator("References")] [SerializeField] [InitializationField] [Required] private Slider slider;
+    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private Slider slider;
     
-    [SerializeField] [InitializationField] [Required] private ChainableTween tween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private ChainableTween tween;
     
     // [Inject] private ZenjectSceneLoader sceneLoader;
     

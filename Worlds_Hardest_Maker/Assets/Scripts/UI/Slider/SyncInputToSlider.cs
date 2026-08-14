@@ -1,5 +1,4 @@
 using MyBox;
-using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,9 +9,9 @@ using UnityEditor.Events;
 [RequireComponent(typeof(TMPDecimalInputAdjuster))]
 public class SyncInputToSlider : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [Required] private TMPDecimalInputAdjuster numberSettings;
-    [InitializationField] [Required] public TMP_InputField Input;
-    [Separator] [InitializationField] [Required] public Slider Slider;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMPDecimalInputAdjuster numberSettings;
+    [InitializationField] [MustBeAssigned] public TMP_InputField Input;
+    [Separator] [InitializationField] [MustBeAssigned] public Slider Slider;
     
     [SerializeField] [InitializationField] private uint decimals = 2;
     

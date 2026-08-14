@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Avocado.DependenciesVisualizer.Base.Editor.Scripts.Models;
 using Avocado.DependenciesVisualizer.Base.Editor.Scripts.State;
-using DependenciesVisualizer.Base.Editor;
 using UnityEditor;
 using UnityEditor.Compilation;
 using UnityEngine;

@@ -1,5 +1,4 @@
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using VContainer;
 
@@ -9,11 +8,11 @@ using VContainer;
 /// </summary>
 public class LevelSessionSettingsSetup : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [Required] private SettingsManager settingsManager;
-    [SerializeField] [InitializationField] [Required] private ToolbarSizing toolbarSpacing;
-    [SerializeField] [InitializationField] [Required] private InfobarResize infobarPlayResize;
-    [SerializeField] [InitializationField] [Required] private InfobarResize infobarEditResize;
-    [SerializeField] [InitializationField] [Required] private RoomOutlineGenerator roomOutlines;
+    [SerializeField] [InitializationField] [MustBeAssigned] private SettingsManager settingsManager;
+    [SerializeField] [InitializationField] [MustBeAssigned] private ToolbarSizing toolbarSpacing;
+    [SerializeField] [InitializationField] [MustBeAssigned] private InfobarResize infobarPlayResize;
+    [SerializeField] [InitializationField] [MustBeAssigned] private InfobarResize infobarEditResize;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RoomOutlineGenerator roomOutlines;
     
     private EventBus eventBus;
     

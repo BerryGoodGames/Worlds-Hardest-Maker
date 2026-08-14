@@ -2,7 +2,6 @@ using System;
 using System.Reflection;
 using JetBrains.Annotations;
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditorInternal;
@@ -15,8 +14,8 @@ public class LayerManager : MonoBehaviour
     public LayerVariables Layers;
     public SortingLayerVariables SortingLayers;
     
-    [field: SerializeField] [field: MyBox.ReadOnly] public string[] AllSortingLayerNames { get; private set; }
-    [field: SerializeField] [field: MyBox.ReadOnly] public int[] AllSortingLayerIDs { get; private set; }
+    [field: SerializeField] [field: ReadOnly] public string[] AllSortingLayerNames { get; private set; }
+    [field: SerializeField] [field: ReadOnly] public int[] AllSortingLayerIDs { get; private set; }
     
     private void Awake()
     {
@@ -57,17 +56,17 @@ public class LayerManager : MonoBehaviour
 [Serializable]
 public class LayerVariables
 {
-    [InitializationField] [Required] public LayerMask Default;
-    [InitializationField] [Required] public LayerMask TransparentFX;
-    [InitializationField] [Required] public LayerMask IgnoreRaycast;
-    [InitializationField] [Required] public LayerMask Water;
-    [InitializationField] [Required] public LayerMask UI;
-    [InitializationField] [Required] public LayerMask Entity;
-    [InitializationField] [Required] public LayerMask Player;
-    [InitializationField] [Required] public LayerMask Void;
-    [InitializationField] [Required] public LayerMask Field;
-    [InitializationField] [Required] public LayerMask Background;
-    [InitializationField] [Required] public LayerMask DoNotCollide;
+    [InitializationField] [MustBeAssigned] public LayerMask Default;
+    [InitializationField] [MustBeAssigned] public LayerMask TransparentFX;
+    [InitializationField] [MustBeAssigned] public LayerMask IgnoreRaycast;
+    [InitializationField] [MustBeAssigned] public LayerMask Water;
+    [InitializationField] [MustBeAssigned] public LayerMask UI;
+    [InitializationField] [MustBeAssigned] public LayerMask Entity;
+    [InitializationField] [MustBeAssigned] public LayerMask Player;
+    [InitializationField] [MustBeAssigned] public LayerMask Void;
+    [InitializationField] [MustBeAssigned] public LayerMask Field;
+    [InitializationField] [MustBeAssigned] public LayerMask Background;
+    [InitializationField] [MustBeAssigned] public LayerMask DoNotCollide;
     
     public LayerMask LevelObjectMask => Entity | Player | Void | Field;
 }
@@ -75,19 +74,19 @@ public class LayerVariables
 [Serializable]
 public class SortingLayerVariables
 {
-    [InitializationField] [Required] public string Background;
-    [InitializationField] [Required] public string AnchorBelow;
-    [InitializationField] [Required] public string Field;
-    [InitializationField] [Required] public string Coin;
-    [InitializationField] [Required] public string Key;
-    [InitializationField] [Required] public string Player;
-    [InitializationField] [Required] public string Default;
-    [InitializationField] [Required] public string Outline;
-    [InitializationField] [Required] public string Anchor;
-    [InitializationField] [Required] public string Ball;
-    [InitializationField] [Required] public string AnchorAbove;
-    [InitializationField] [Required] public string PlayerPlayMode;
-    [InitializationField] [Required] public string FillPreview;
-    [InitializationField] [Required] public string PlacementPreview;
-    [InitializationField] [Required] public string Line;
+    [InitializationField] [MustBeAssigned] public string Background;
+    [InitializationField] [MustBeAssigned] public string AnchorBelow;
+    [InitializationField] [MustBeAssigned] public string Field;
+    [InitializationField] [MustBeAssigned] public string Coin;
+    [InitializationField] [MustBeAssigned] public string Key;
+    [InitializationField] [MustBeAssigned] public string Player;
+    [InitializationField] [MustBeAssigned] public string Default;
+    [InitializationField] [MustBeAssigned] public string Outline;
+    [InitializationField] [MustBeAssigned] public string Anchor;
+    [InitializationField] [MustBeAssigned] public string Ball;
+    [InitializationField] [MustBeAssigned] public string AnchorAbove;
+    [InitializationField] [MustBeAssigned] public string PlayerPlayMode;
+    [InitializationField] [MustBeAssigned] public string FillPreview;
+    [InitializationField] [MustBeAssigned] public string PlacementPreview;
+    [InitializationField] [MustBeAssigned] public string Line;
 }

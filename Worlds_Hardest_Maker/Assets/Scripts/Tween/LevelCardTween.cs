@@ -13,9 +13,9 @@ public class LevelCardTween : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         Required]
     private RectTransform levelCard;
     
-    [SerializeField] [InitializationField] [Required] private RectTransform card;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform card;
     
-    [SerializeField] [InitializationField] [Required] private ContentSizeFitter extendedArea;
+    [SerializeField] [InitializationField] [MustBeAssigned] private ContentSizeFitter extendedArea;
     
     [Separator] [SerializeField] [PositiveValueOnly] private float hoverScale;
     

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using MyBox;
-using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,9 +9,9 @@ public class KeyBindSetterController : MonoBehaviour
 {
     [HideInInspector] public KeyBind KeyBind;
     
-    [Separator("References")] [SerializeField] [InitializationField] [Required] private TMP_Text keyBindName;
-    [SerializeField] [InitializationField] [Required] private RectTransform displayContainer;
-    [SerializeField] [InitializationField] [Required] private KeyCodeDisplay keyCodeDisplayPrefab;
+    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text keyBindName;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform displayContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private KeyCodeDisplay keyCodeDisplayPrefab;
     [Space] [SerializeField] private List<Tooltip> buttonTooltips;
     
     [HideInInspector] public RectTransform TooltipContainer;

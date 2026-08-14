@@ -1,5 +1,4 @@
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 using VContainer;
@@ -20,7 +19,7 @@ public class IntervalRandomAnimation : MonoBehaviour
     
     [FormerlySerializedAs("TriggerOnlyAtPlayMode")] [SerializeField] private bool triggerOnlyAtPlayMode;
     
-    [FormerlySerializedAs("SoundEffect")] [SerializeField] [Required] private SoundEffect soundEffect;
+    [FormerlySerializedAs("SoundEffect")] [SerializeField] [MustBeAssigned] private SoundEffect soundEffect;
     
     private int lastTrigger;
     

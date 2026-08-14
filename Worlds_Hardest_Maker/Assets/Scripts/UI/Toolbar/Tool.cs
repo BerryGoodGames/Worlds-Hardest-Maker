@@ -1,12 +1,11 @@
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 using VContainer;
 
 public class Tool : MonoBehaviour
 {
-    [DisplayInspector] [InitializationField] [Required] public EditMode ToolEditMode;
+    [DisplayInspector] [InitializationField] [MustBeAssigned] public EditMode ToolEditMode;
     
     [Separator] [OverrideLabel("Fade Tween")] [SerializeField] private AlphaTween anim;
     [FormerlySerializedAs("selectionSquare")] [SerializeField] private ToolSelectionSquare toolSelectionSquare;

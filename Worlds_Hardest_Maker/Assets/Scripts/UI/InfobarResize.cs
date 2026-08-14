@@ -1,5 +1,4 @@
 using MyBox;
-using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 
@@ -8,7 +7,7 @@ public class InfobarResize : MonoBehaviour
     public float InfobarHeight;
     public GameObject[] InfoTexts;
     
-    [Required] [SerializeField] private CustomFitter fitter;
+    [MustBeAssigned] [SerializeField] private CustomFitter fitter;
     
     [ButtonMethod]
     public void UpdateSize()

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using MyBox;
-using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -12,16 +11,16 @@ public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance { get; private set; }
     
-    [SerializeField] [InitializationField] [Required] private AudioMixer mainMixer;
-    [SerializeField] [InitializationField] [Required] private SyncInputToSlider musicSlider;
-    [SerializeField] [InitializationField] [Required] private SyncInputToSlider soundEffectSlider;
-    [SerializeField] [InitializationField] [Required] private SyncInputToSlider toolbarSizeSlider;
-    [SerializeField] [InitializationField] [Required] private SyncInputToSlider infobarSizeSlider;
-    [SerializeField] [InitializationField] [Required] private TMP_Dropdown qualityDropdown;
-    [SerializeField] [InitializationField] [Required] private TMP_Dropdown resolutionDropdown;
-    [SerializeField] [InitializationField] [Required] private Toggle fullscreenToggle;
-    [SerializeField] [InitializationField] [Required] private Toggle oneColorToggle;
-    [SerializeField] [InitializationField] [Required] private Toggle showRoomGridToggle;
+    [SerializeField] [InitializationField] [MustBeAssigned] private AudioMixer mainMixer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private SyncInputToSlider musicSlider;
+    [SerializeField] [InitializationField] [MustBeAssigned] private SyncInputToSlider soundEffectSlider;
+    [SerializeField] [InitializationField] [MustBeAssigned] private SyncInputToSlider toolbarSizeSlider;
+    [SerializeField] [InitializationField] [MustBeAssigned] private SyncInputToSlider infobarSizeSlider;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Dropdown qualityDropdown;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Dropdown resolutionDropdown;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Toggle fullscreenToggle;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Toggle oneColorToggle;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Toggle showRoomGridToggle;
     
     private Resolution[] resolutions;
     [HideInInspector] public bool OneColorSafeFields;

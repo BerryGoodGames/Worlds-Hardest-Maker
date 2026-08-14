@@ -1,6 +1,5 @@
 using DG.Tweening;
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using VContainer;
@@ -11,7 +10,7 @@ public class FieldRotation : MonoBehaviour
     [SerializeField] private Vector3 rotateAngle = new(0, 0, -90);
     [SerializeField] private float animationScale = 1.2f;
     [SerializeField] private bool disableCollision;
-    [SerializeField] [ConditionalField(nameof(disableCollision))] [Required] private BoxCollider2D boxCollider;
+    [SerializeField] [ConditionalField(nameof(disableCollision))] [MustBeAssigned] private BoxCollider2D boxCollider;
     
     private FieldController controller;
     

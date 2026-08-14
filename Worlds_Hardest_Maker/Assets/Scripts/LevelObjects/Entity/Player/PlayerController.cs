@@ -1,21 +1,20 @@
 using System;
 using System.Collections.Generic;
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Rendering;
 using VContainer;
 
 public partial class PlayerController : EntityController
 {
-    [Separator] [SerializeField] [InitializationField] [Required] private BoxCollider2D centerCollider;
+    [Separator] [SerializeField] [InitializationField] [MustBeAssigned] private BoxCollider2D centerCollider;
     [Space] [Separator("Water settings")] [SerializeField] private Transform waterLevel;
     
     [Separator("Death settings")] [SerializeField] [PositiveValueOnly] private float defaultDeathFadeDuration;
     [SerializeField] [PositiveValueOnly] private float voidFallDuration;
     
-    [Separator] [SerializeField] [Required] private ParticleSystem confetti1;
-    [SerializeField] [Required] private ParticleSystem confetti2;
+    [Separator] [SerializeField] [MustBeAssigned] private ParticleSystem confetti1;
+    [SerializeField] [MustBeAssigned] private ParticleSystem confetti2;
     
     [HideInInspector] public Rigidbody2D Rb;
     
@@ -26,7 +25,7 @@ public partial class PlayerController : EntityController
     
     public ShotgunController Shotgun { get; private set; }
     
-    [MyBox.ReadOnly] public int Deaths;
+    [ReadOnly] public int Deaths;
     
     [HideInInspector] public List<FieldController> CurrentFields;
     
@@ -50,13 +49,15 @@ public partial class PlayerController : EntityController
     
     [HideInInspector] public bool HasTeleported;
     
+    private JumpToEntity mainCameraJumper;
+    
     private EventBus eventBus;
     
     private IKonamiService konamiService;
     
     public static float Speed => LevelSettings.Instance.PlayerSpeed;
     
-    [MyBox.ReadOnly] public List<FieldController> CurrentPlatforms;
+    [ReadOnly] public List<FieldController> CurrentPlatforms;
     
     private static readonly int pickedUp = Animator.StringToHash("PickedUp");
     
@@ -79,6 +80,11 @@ public partial class PlayerController : EntityController
         eventBus.Subscribe<ResetLevelEvent>(OnResetLevel);
         
         eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
+    }
+    
+    public void Initialize(JumpToEntity mainCameraJumper)
+    {
+        this.mainCameraJumper = mainCameraJumper;
     }
     
     protected override void Start()
@@ -209,8 +215,10 @@ public partial class PlayerController : EntityController
     
     public void DestroySelf(bool removeTargetFromCamera = true)
     {
-        if (removeTargetFromCamera && ReferenceManager.Instance.MainCameraJumper.GetTarget("Player") == gameObject)
-            ReferenceManager.Instance.MainCameraJumper.RemoveTarget("Player");
+        if (removeTargetFromCamera && mainCameraJumper.GetTarget("Player") == gameObject)
+        {
+            mainCameraJumper.RemoveTarget("Player");
+        }
         
         Destroy(gameObject);
     }

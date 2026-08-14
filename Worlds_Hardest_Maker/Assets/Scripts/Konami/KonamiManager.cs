@@ -1,4 +1,4 @@
-using NaughtyAttributes;
+using MyBox;
 using UnityEngine;
 using VContainer;
 
@@ -11,7 +11,7 @@ public class KonamiManager : MonoBehaviour, IKonamiService
     
     private EventBus eventBus;
     
-    [SerializeField] [Required] private KonamiCodeActivationAnimation activationAlert;
+    [SerializeField] [MustBeAssigned] private KonamiCodeActivationAnimation activationAlert;
     
     private int keyIndex;
     

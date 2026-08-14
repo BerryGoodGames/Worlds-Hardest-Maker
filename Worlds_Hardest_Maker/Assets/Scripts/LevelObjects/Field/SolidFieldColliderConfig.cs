@@ -1,10 +1,9 @@
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 
 public class SolidFieldColliderConfig : MonoBehaviour
 {
-    [SerializeField] [Required] private PolygonCollider2D polygonCollider;
+    [SerializeField] [MustBeAssigned] private PolygonCollider2D polygonCollider;
     [Space] [SerializeField] [PositiveValueOnly] private float size;
     [SerializeField] [PositiveValueOnly] private float cornerCut;
     

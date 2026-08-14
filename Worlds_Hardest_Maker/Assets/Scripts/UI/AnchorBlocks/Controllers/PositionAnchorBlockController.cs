@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public abstract class PositionAnchorBlockController : AnchorBlockController, IPointerEnterHandler, IPointerExitHandler
 {
-    [Separator("Position")] [InitializationField] [Required] public AnchorBlockPositionInputController PositionInput;
+    [Separator("Position")] [InitializationField] [MustBeAssigned] public AnchorBlockPositionInputController PositionInput;
     
     public List<AnchorPathLine> Lines { get; set; }
     

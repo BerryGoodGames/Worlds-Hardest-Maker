@@ -1,5 +1,4 @@
 using MyBox;
-using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ public class DropdownSpacebar : MonoBehaviour
 {
     [SerializeField] [InitializationField] [OverrideLabel("Open on spacebar press")] private bool open = true;
     
-    [Separator] [SerializeField] [InitializationField] [Required] private TMP_Dropdown dropdown;
+    [Separator] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Dropdown dropdown;
     
     private void Update()
     {

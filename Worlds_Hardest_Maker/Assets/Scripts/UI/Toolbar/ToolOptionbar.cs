@@ -1,19 +1,18 @@
 using System;
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 
 [ExecuteAlways]
 public class ToolOptionbar : MonoBehaviour
 {
-    [MyBox.ReadOnly] public Tool Root;
+    [ReadOnly] public Tool Root;
     
     [Separator] [SerializeField] private RectTransform toolPrefab;
     
-    [SerializeField] [InitializationField] [Required] private RectTransform hoveringHitbox;
-    [SerializeField] [InitializationField] [Required] private VerticalLayoutGroup optionsLayoutGroup;
-    [SerializeField] [InitializationField] [Required] private AlphaTween anim;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform hoveringHitbox;
+    [SerializeField] [InitializationField] [MustBeAssigned] private VerticalLayoutGroup optionsLayoutGroup;
+    [SerializeField] [InitializationField] [MustBeAssigned] private AlphaTween anim;
     
     [Separator] [PositiveValueOnly] [SerializeField] private float width;
     

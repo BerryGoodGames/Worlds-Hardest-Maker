@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -12,9 +11,9 @@ public class CopyManager : MonoBehaviour
     
     private readonly List<CopyData> clipBoard = new();
     
-    [field: SerializeField] [field: MyBox.ReadOnly] public bool Pasting { get; private set; }
+    [field: SerializeField] [field: ReadOnly] public bool Pasting { get; private set; }
     
-    [SerializeField] [InitializationField] [Required] private Transform previewContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform previewContainer;
     
     [Inject] private IObjectResolver diContainer;
     [Inject] private IToastService toastService;

@@ -10,7 +10,7 @@ public class LevelSessionEditManager : MonoBehaviour
     
     #region Variables & properties
     
-    [SerializeField] [Required] [InitializationField] private EditMode startEditMode;
+    [SerializeField] [MustBeAssigned] [InitializationField] private EditMode startEditMode;
     private EditMode currentEditMode;
     [CanBeNull] private EditMode prevEditMode;
     

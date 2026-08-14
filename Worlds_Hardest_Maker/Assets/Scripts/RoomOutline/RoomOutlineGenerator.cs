@@ -1,13 +1,12 @@
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using VContainer;
 
 public class RoomOutlineGenerator : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [Required] private MapController map;
-    [SerializeField] [InitializationField] [Required] private RoomOutline roomOutlinePrefab;
-    [SerializeField] [InitializationField] [Required] private Camera cam;
+    [SerializeField] [InitializationField] [MustBeAssigned] private MapController map;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RoomOutline roomOutlinePrefab;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Camera cam;
     
     private Vector2 prevPosition;
     

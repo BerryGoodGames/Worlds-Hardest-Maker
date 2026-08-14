@@ -5,20 +5,19 @@ using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using VContainer;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public partial class AnchorController : EntityController, IResettable
 {
-    [Separator] [InitializationField] [Required] public Transform AttachmentContainer;
-    [InitializationField] [Required] public SyncTransform AttachmentContainerSyncTransform;
-    [InitializationField] [Required] public Animator Animator;
-    [InitializationField] [Required] public AnchorAttachFade AttachFade;
+    [Separator] [InitializationField] [MustBeAssigned] public Transform AttachmentContainer;
+    [InitializationField] [MustBeAssigned] public SyncTransform AttachmentContainerSyncTransform;
+    [InitializationField] [MustBeAssigned] public Animator Animator;
+    [InitializationField] [MustBeAssigned] public AnchorAttachFade AttachFade;
     
-    [MyBox.ReadOnly] public int SortingLayerID;
-    [MyBox.ReadOnly] public int OrderInLayer;
+    [ReadOnly] public int SortingLayerID;
+    [ReadOnly] public int OrderInLayer;
     
     [HideInInspector] public List<Transform> Balls = new();
     public LinkedList<AnchorBlock> Blocks = new();

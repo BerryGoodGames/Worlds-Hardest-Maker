@@ -1,11 +1,10 @@
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AnchorBlockDirectionColor : AnchorBlockColorController
 {
-    [SerializeField] [InitializationField] [Required] private Image backgroundImage;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Image backgroundImage;
     
     public override void UpdateColor()
     {

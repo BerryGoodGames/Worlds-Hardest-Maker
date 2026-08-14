@@ -1,6 +1,5 @@
 using DG.Tweening;
 using MyBox;
-using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,15 +8,15 @@ public class MainMenuManager : MonoBehaviour
 {
     public static MainMenuManager Instance { get; private set; }
     
-    [SerializeField] [InitializationField] [Required] private LoadingScreen loadingScreen;
-    [Space] [SerializeField] [InitializationField] [Required] private MoveRelativeTween levelhubOpenTween;
-    [SerializeField] [InitializationField] [Required] private MoveRelativeTween optionsOpenTween;
-    [SerializeField] [InitializationField] [Required] private MoveRelativeTween creditsEnterTween;
-    [SerializeField] [InitializationField] [Required] private MoveRelativeTween creditsExitTween;
-    [SerializeField] [InitializationField] [Required] private TMP_Text creditsButtonText;
-    [SerializeField] [InitializationField] [Required] private MoveRelativeTween levelHubButtonExitTween;
-    [SerializeField] [InitializationField] [Required] private Button levelHubButton;
-    [SerializeField] [InitializationField] [Required] private Button optionsButton;
+    [SerializeField] [InitializationField] [MustBeAssigned] private LoadingScreen loadingScreen;
+    [Space] [SerializeField] [InitializationField] [MustBeAssigned] private MoveRelativeTween levelhubOpenTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private MoveRelativeTween optionsOpenTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private MoveRelativeTween creditsEnterTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private MoveRelativeTween creditsExitTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text creditsButtonText;
+    [SerializeField] [InitializationField] [MustBeAssigned] private MoveRelativeTween levelHubButtonExitTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Button levelHubButton;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Button optionsButton;
     
     private bool isCreditsOpen;
     private Tween creditsTween;

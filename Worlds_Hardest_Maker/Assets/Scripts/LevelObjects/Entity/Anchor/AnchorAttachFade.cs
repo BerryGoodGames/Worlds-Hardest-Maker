@@ -1,11 +1,10 @@
 using DG.Tweening;
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 
 public class AnchorAttachFade : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [Required] private Transform container;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform container;
     [Separator] [SerializeField] private float fadeDuration = 0.2f;
     [SerializeField] private float fadeInScalar = 1;
     [SerializeField] private float fadeOutScalar = 0.3f;

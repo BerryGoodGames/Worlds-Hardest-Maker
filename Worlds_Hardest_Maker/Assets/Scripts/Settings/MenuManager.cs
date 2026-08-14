@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using NaughtyAttributes;
+using MyBox;
 using UnityEngine;
 using VContainer;
 
@@ -16,11 +16,11 @@ public class MenuManager : MonoBehaviour
         KeyBinds = 3,
     }
     
-    [Header("Constants & References")] [SerializeField] [Required] private AlphaTween menuTween;
-    [SerializeField] [Required] private GameObject graphicSettingsUI;
-    [SerializeField] [Required] private GameObject uiSettingsUI;
-    [SerializeField] [Required] private GameObject soundSettingsUI;
-    [SerializeField] [Required] private GameObject keyBindSettingsUI;
+    [Header("Constants & References")] [SerializeField] [MustBeAssigned] private AlphaTween menuTween;
+    [SerializeField] [MustBeAssigned] private GameObject graphicSettingsUI;
+    [SerializeField] [MustBeAssigned] private GameObject uiSettingsUI;
+    [SerializeField] [MustBeAssigned] private GameObject soundSettingsUI;
+    [SerializeField] [MustBeAssigned] private GameObject keyBindSettingsUI;
     
     [Space] [Header("Variables")] public MenuTab CurrentMenuTab;
     

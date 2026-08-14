@@ -1,10 +1,9 @@
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 
 public class RoomOutline : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [Required] private SpriteRenderer top, left, bottom, right;
+    [SerializeField] [InitializationField] [MustBeAssigned] private SpriteRenderer top, left, bottom, right;
     
     public void SetDimensions(int width, int height)
     {

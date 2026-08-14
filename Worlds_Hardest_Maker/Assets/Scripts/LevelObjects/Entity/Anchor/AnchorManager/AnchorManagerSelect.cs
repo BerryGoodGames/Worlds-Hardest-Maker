@@ -7,6 +7,9 @@ public partial class AnchorManager : IManagerSelectable
     private const float DOUBLE_CLICK_THRESHOLD = 0.4f;
     
     [field: SerializeField] [field: ReadOnly] public AnchorController SelectedAnchor { get; private set; }
+
+    [SerializeField] [InitializationField] [MustBeAssigned]
+    private JumpToEntity mainCameraJumper;
     
     [HideInInspector] public float LastSelectClick = -1;
 
@@ -61,7 +64,7 @@ public partial class AnchorManager : IManagerSelectable
         
         AnchorBlockManager.LoadAnchorBlocks(anchor);
         
-        ReferenceManager.Instance.MainCameraJumper.SetTarget("Anchor", anchor.gameObject);
+        mainCameraJumper.SetTarget("Anchor", anchor.gameObject);
         ReferenceManager.Instance.AnchorCameraJumping.CameraJumpToAnchor();
         
         if (!AnchorAttachManager.Instance.InAttachMode)
@@ -87,7 +90,7 @@ public partial class AnchorManager : IManagerSelectable
         // enable "no anchor selected" screen
         ReferenceManager.Instance.AnchorNoAnchorSelectedScreen.SetVisible(true);
         
-        ReferenceManager.Instance.MainCameraJumper.RemoveTarget("Anchor");
+        mainCameraJumper.RemoveTarget("Anchor");
         
         EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
         if (!currentEditMode.Attributes.IsAnchorRelated)

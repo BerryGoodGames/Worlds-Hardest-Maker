@@ -1,15 +1,14 @@
 using System;
 using DG.Tweening;
 using MyBox;
-using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 
 public partial class LevelCompleteManager
 {
-    [Separator("Animation settings")] [SerializeField] [Required] private TMP_Text levelNameLabel;
-    [SerializeField] [Required] private TMP_Text deathCountLabel;
-    [SerializeField] [Required] private TMP_Text timeLabel;
+    [Separator("Animation settings")] [SerializeField] [MustBeAssigned] private TMP_Text levelNameLabel;
+    [SerializeField] [MustBeAssigned] private TMP_Text deathCountLabel;
+    [SerializeField] [MustBeAssigned] private TMP_Text timeLabel;
     [Space] [SerializeField] [PositiveValueOnly] private float startDelay = 0.8f;
     [SerializeField] private Ease appearEase = Ease.OutCirc;
     [SerializeField] [PositiveValueOnly] private float appearDuration = 0.8f;

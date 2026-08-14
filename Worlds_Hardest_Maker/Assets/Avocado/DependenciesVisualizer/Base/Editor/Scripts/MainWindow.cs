@@ -1,7 +1,6 @@
 #pragma warning disable CS0649
 using System.Collections.Generic;
 using Avocado.DependenciesVisualizer.Base.Editor.Scripts.Models;
-using DependenciesVisualizer.Base.Editor.Scripts;
 using DependenciesVisualizer.Base.Editor.Scripts.Commands;
 using UnityEditor;
 using UnityEngine;

@@ -1,6 +1,5 @@
 using JetBrains.Annotations;
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 
 public class ToolbarSizing : MonoBehaviour
@@ -9,7 +8,7 @@ public class ToolbarSizing : MonoBehaviour
     
     [Space] public float ToolbarHeight;
     
-    [Required] [SerializeField] private CustomFitter fitter;
+    [MustBeAssigned] [SerializeField] private CustomFitter fitter;
     
     [ButtonMethod]
     public void UpdateSize()

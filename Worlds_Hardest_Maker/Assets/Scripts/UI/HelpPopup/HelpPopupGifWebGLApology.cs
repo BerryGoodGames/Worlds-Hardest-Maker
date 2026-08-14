@@ -1,11 +1,11 @@
-using NaughtyAttributes;
+using MyBox;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HelpPopupGifWebGLApology : MonoBehaviour
 {
-    [SerializeField] [Required] private GameObject webGLApologyContainer;
-    [SerializeField] [Required] private RawImage videoImage;
+    [SerializeField] [MustBeAssigned] private GameObject webGLApologyContainer;
+    [SerializeField] [MustBeAssigned] private RawImage videoImage;
     
     private void Start()
     {

@@ -1,12 +1,11 @@
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using VContainer;
 
 public class PlayModeBlocker : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [Required] private RectTransform cutout;
-    [SerializeField] [InitializationField] [Required] private RectTransform blackScreen;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform cutout;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform blackScreen;
     
     private EventBus eventBus;
     

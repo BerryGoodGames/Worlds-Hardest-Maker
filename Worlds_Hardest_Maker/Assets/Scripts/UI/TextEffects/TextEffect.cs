@@ -1,11 +1,11 @@
-using NaughtyAttributes;
+using MyBox;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public abstract class TextEffect : MonoBehaviour
 {
-    [FormerlySerializedAs("textComponent")] [SerializeField] [Required] protected TMP_Text TextComponent;
+    [FormerlySerializedAs("textComponent")] [SerializeField] [MustBeAssigned] protected TMP_Text TextComponent;
     [SerializeField] private float speed = 1;
     
     private void Update()

@@ -1,18 +1,16 @@
-using System;
 using System.Collections;
 using DG.Tweening;
 using JetBrains.Annotations;
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 using VContainer;
 
 public class KonamiCodeActivationAnimation : MonoBehaviour
 {
-    [SerializeField] [Required] private AlphaTween blockerTween;
-    [SerializeField] [Required] private AlphaTween alertTween;
-    [SerializeField] [Required] private AlphaTween continueButtonTween;
+    [SerializeField] [MustBeAssigned] private AlphaTween blockerTween;
+    [SerializeField] [MustBeAssigned] private AlphaTween alertTween;
+    [SerializeField] [MustBeAssigned] private AlphaTween continueButtonTween;
     [FormerlySerializedAs("delay")] [Separator] [SerializeField] [PositiveValueOnly] private float soundDelay = 0.3f;
     [SerializeField] [PositiveValueOnly] private float alertDuration = 1f;
     [SerializeField] [PositiveValueOnly] private float alertStartScale = 4f;

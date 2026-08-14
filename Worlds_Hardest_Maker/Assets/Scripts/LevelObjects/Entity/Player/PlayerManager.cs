@@ -12,6 +12,8 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     
     [ReadOnly] public PlayerController Player;
     
+    [SerializeField] [InitializationField] [MustBeAssigned] private JumpToEntity mainCameraJumper;
+    
     public Transform DefaultContainer => ReferenceManager.Instance.PlayerContainer;
     
     private IObjectResolver diContainer;
@@ -44,7 +46,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
             PlayerController newPlayer = ((IManager<PlayerController>)this).InstantiateInSheet(args);
             
             // set target of camera
-            ReferenceManager.Instance.MainCameraJumper.SetTarget("Player", newPlayer.gameObject);
+            mainCameraJumper.SetTarget("Player", newPlayer.gameObject);
             
             Player = newPlayer;
         }
@@ -69,6 +71,8 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
         );
         
         diContainer.InjectGameObject(newPlayer.gameObject);
+        
+        newPlayer.Initialize(mainCameraJumper);
         
         PlaceManager.Instance.AttachToSheet(newPlayer.gameObject, args.Sheet, false);
         newPlayer.Sheet = args.Sheet;

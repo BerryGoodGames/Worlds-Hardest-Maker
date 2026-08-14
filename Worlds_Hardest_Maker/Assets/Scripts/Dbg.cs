@@ -42,7 +42,7 @@ public class Dbg : MonoBehaviour
     
     [MyBox.Foldout("Other")] public LevelSessionMode EditorLevelSessionMode;
     
-    [MyBox.Foldout("References")] [SerializeField] [Required] private TMP_Text debugText;
+    [MyBox.Foldout("References")] [SerializeField] [MustBeAssigned] private TMP_Text debugText;
     
     private Camera cam;
     

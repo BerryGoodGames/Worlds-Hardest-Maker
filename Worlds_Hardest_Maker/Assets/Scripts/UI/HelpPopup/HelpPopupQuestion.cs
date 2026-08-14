@@ -1,14 +1,13 @@
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
 public class HelpPopupQuestion : MonoBehaviour
 {
-    [SerializeField] [InitializationField] [Required] private HelpPopup popup;
+    [SerializeField] [InitializationField] [MustBeAssigned] private HelpPopup popup;
     
-    [SerializeField] [InitializationField] [Required] private RectTransform popupContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform popupContainer;
     
     [Inject] private IObjectResolver diContainer;
     

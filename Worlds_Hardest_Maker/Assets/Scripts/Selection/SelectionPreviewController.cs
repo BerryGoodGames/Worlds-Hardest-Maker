@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -10,8 +8,8 @@ using Object = UnityEngine.Object;
 [Serializable]
 public class SelectionPreviewController : IDisposable
 {    
-    [SerializeField] [InitializationField] [Required] private MouseOverUIRect fillOptionMouseOver;
-    [SerializeField] [InitializationField] [Required] private Transform container;
+    [SerializeField] [InitializationField] [MustBeAssigned] private MouseOverUIRect fillOptionMouseOver;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform container;
     
     private EventBus eventBus;
     private IObjectResolver diContainer;

@@ -1,7 +1,6 @@
 using System.Collections;
 using DG.Tweening;
 using MyBox;
-using NaughtyAttributes;
 using UnityEngine;
 using VContainer;
 
@@ -10,14 +9,14 @@ public class KeyController : EntityController, IResettable, ICollectible
     private EventBus eventBus;
     
     [Separator] [SerializeField] [PositiveValueOnly] private float fadeDuration = 0.5f;
-    [Separator] [MyBox.ReadOnly] public KeyColor Color;
-    [MyBox.ReadOnly] public Vector2 InitialPosition;
-    [MyBox.ReadOnly] public bool Collected;
+    [Separator] [ReadOnly] public KeyColor Color;
+    [ReadOnly] public Vector2 InitialPosition;
+    [ReadOnly] public bool Collected;
     
-    [Separator] [InitializationField] [Required] public SpriteRenderer SpriteRenderer;
+    [Separator] [InitializationField] [MustBeAssigned] public SpriteRenderer SpriteRenderer;
     
-    [InitializationField] [Required] public Animator Animator;
-    [InitializationField] [Required] public IntervalRandomAnimation KonamiAnimation;
+    [InitializationField] [MustBeAssigned] public Animator Animator;
+    [InitializationField] [MustBeAssigned] public IntervalRandomAnimation KonamiAnimation;
     
     private static readonly int playingString = Animator.StringToHash("Playing");
     private static readonly int pickedUpString = Animator.StringToHash("PickedUp");

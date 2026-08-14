@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using DG.Tweening;
-using NaughtyAttributes;
+using MyBox;
 using TMPro;
 using UnityEngine;
 using VContainer;
@@ -11,16 +11,16 @@ public partial class LevelCompleteManager : MonoBehaviour
 {
     public static LevelCompleteManager Instance { get; private set; }
     
-    [SerializeField] [Required] private AlphaTween levelCompleteCanvasTween;
-    [SerializeField] [Required] private TMP_Text levelNameText;
-    [SerializeField] [Required] private TMP_Text deathCountText;
-    [SerializeField] [Required] private TMP_Text timeText;
+    [SerializeField] [MustBeAssigned] private AlphaTween levelCompleteCanvasTween;
+    [SerializeField] [MustBeAssigned] private TMP_Text levelNameText;
+    [SerializeField] [MustBeAssigned] private TMP_Text deathCountText;
+    [SerializeField] [MustBeAssigned] private TMP_Text timeText;
     
-    [SerializeField] [Required] private TMP_Text pbLabel;
-    [SerializeField] [Required] private TMP_Text pbText;
-    [SerializeField] [Required] private TMP_Text newPBText;
+    [SerializeField] [MustBeAssigned] private TMP_Text pbLabel;
+    [SerializeField] [MustBeAssigned] private TMP_Text pbText;
+    [SerializeField] [MustBeAssigned] private TMP_Text newPBText;
     
-    [SerializeField] [Required] private TimerController timerController;
+    [SerializeField] [MustBeAssigned] private TimerController timerController;
 
     private IRecordingService recordingService;
     private EventBus eventBus;
