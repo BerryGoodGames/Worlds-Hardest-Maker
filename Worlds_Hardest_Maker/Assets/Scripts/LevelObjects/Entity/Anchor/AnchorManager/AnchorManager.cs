@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 using VContainer;
 
@@ -8,11 +9,17 @@ public partial class AnchorManager : MonoBehaviour
     
     private static readonly int selectedString = Animator.StringToHash("Selected");
     private static readonly int playingString = Animator.StringToHash("Playing");
+
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform anchorContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private JumpToEntity mainCameraJumper;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController levelSettingsPanelController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController testingOptionsPanelController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorPanelController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachButtonController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachExitButtonController;
     
     private IObjectResolver diContainer;
-    
     private EventBus eventBus;
-    
     private IAudioService audioService;
     
     [Inject]
@@ -82,7 +89,7 @@ public partial class AnchorManager : MonoBehaviour
         UpdateBlockListInSelectedAnchor();
         
         // let anchors start executing
-        foreach (Transform t in ReferenceManager.Instance.AnchorContainer)
+        foreach (Transform t in anchorContainer)
         {
             AnchorParentController parent = t.GetComponent<AnchorParentController>();
             AnchorController anchor = parent.Child;

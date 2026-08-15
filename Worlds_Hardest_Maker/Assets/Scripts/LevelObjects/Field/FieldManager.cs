@@ -11,7 +11,9 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
     public static FieldManager Instance { get; private set; }
     
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform playerContainer;
-    [SerializeField] [InitializationField] [MustBeAssigned] private Transform fieldContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform fieldContainer;   
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform coinContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyContainer;
     
     private IObjectResolver diContainer;
     
@@ -43,11 +45,11 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
         
         if (CoinManager.CannotPlaceFields.Contains(args.FieldMode))
             // remove coin if wall is placed
-            GameManager.RemoveObjectInContainerIntersect(args.Position, ReferenceManager.Instance.CoinContainer);
+            GameManager.RemoveObjectInContainerIntersect(args.Position, coinContainer);
         
         if (KeyManager.CannotPlaceFields.Contains(args.FieldMode))
             // remove key if wall is placed
-            GameManager.RemoveObjectInContainerIntersect(args.Position, ReferenceManager.Instance.KeyContainer);
+            GameManager.RemoveObjectInContainerIntersect(args.Position, keyContainer);
         
         return field;
     }

@@ -18,20 +18,6 @@ public class ReferenceManager : MonoBehaviour
     
     #endregion
     
-    #region Containers
-    
-    [Foldout("Containers")] public Transform AnchorContainer;
-    
-    [Foldout("Containers")] public Transform BallContainer;
-    
-    [Foldout("Containers")] public Transform CoinContainer;
-    
-    [Foldout("Containers")] public Transform KeyContainer;
-    
-    [Foldout("Containers")] public Transform FieldContainer;
-    
-    #endregion
-    
     #region Anchor
     
     [Foldout("Anchor")] public RectTransform AnchorBlockChainContainer;

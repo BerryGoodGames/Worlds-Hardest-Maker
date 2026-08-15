@@ -1,7 +1,11 @@
+using MyBox;
 using UnityEngine;
 
 public class ConfirmQuitPromptController : WarningConfirmPromptController
 {
+    // TODO: weird dependency
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform fieldContainer;
+    
     public override void OpenPrompt()
     {
         if (CheckOpenPrompt()) base.OpenPrompt();
@@ -26,9 +30,9 @@ public class ConfirmQuitPromptController : WarningConfirmPromptController
         return true;
     }
     
-    private static bool DoesGoalExist()
+    private bool DoesGoalExist()
     {
-        foreach (Transform field in ReferenceManager.Instance.FieldContainer)
+        foreach (Transform field in fieldContainer)
         {
             if (field.CompareTag("Goal")) return true;
         }

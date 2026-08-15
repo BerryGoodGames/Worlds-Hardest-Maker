@@ -14,7 +14,9 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     
     [SerializeField] [InitializationField] [MustBeAssigned] private JumpToEntity mainCameraJumper;   
     [SerializeField] [InitializationField] [MustBeAssigned] private TimerController timerController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private Transform playerContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform playerContainer;    
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform coinContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyContainer;
     
     private IObjectResolver diContainer;
     
@@ -35,8 +37,8 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
         if (args.SurroundWithStartFields && !canPlaceInSheet) SetSurroundingStartFieldsInSheet(position, args.Sheet);
         
         // clear area from coins and keys
-        GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.CoinContainer);
-        GameManager.RemoveObjectInContainer(position, ReferenceManager.Instance.KeyContainer);
+        GameManager.RemoveObjectInContainer(position, coinContainer);
+        GameManager.RemoveObjectInContainer(position, keyContainer);
         
         // if player already exists, just move it
         if (Player != null) Player.ReSet(args);

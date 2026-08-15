@@ -5,8 +5,6 @@ using VContainer.Unity;
 
 public partial class AnchorManager : IManager<AnchorController>
 {
-    public Transform DefaultContainer => ReferenceManager.Instance.AnchorContainer;
-    
     public AnchorController SetInSheet(ManagerParameters args)
     {
         if (((IManager<AnchorController>)this).IsThereInSheet(args.Position, args.Sheet)) return null;
@@ -72,7 +70,7 @@ public partial class AnchorManager : IManager<AnchorController>
     {
         AnchorController anchor = Instantiate(
             PrefabManager.Instance.Anchor, Vector2.zero, Quaternion.identity,
-            DefaultContainer
+            anchorContainer
         ).Child;
         
         diContainer.InjectGameObject(anchor.gameObject);
@@ -82,7 +80,7 @@ public partial class AnchorManager : IManager<AnchorController>
     
     public List<Data> Serialize(List<Data> levelData)
     {
-        foreach (Transform anchor in ReferenceManager.Instance.AnchorContainer)
+        foreach (Transform anchor in anchorContainer)
         {
             AnchorData anchorData = new(anchor.GetComponent<AnchorParentController>().Child);
             levelData.Add(anchorData);

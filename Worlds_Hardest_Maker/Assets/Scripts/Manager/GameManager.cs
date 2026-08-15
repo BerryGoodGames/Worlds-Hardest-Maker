@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform entityContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform fieldContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private LoadingScreen loadingScreen;
     [SerializeField] [InitializationField] [MustBeAssigned] private ChainableTween swipeTween;
     
@@ -179,7 +180,7 @@ public class GameManager : MonoBehaviour
         
         List<Transform> containers = new()
         {
-            ReferenceManager.Instance.FieldContainer,
+            fieldContainer,
         };
         
         foreach (Transform t in entityContainer) containers.Add(t);

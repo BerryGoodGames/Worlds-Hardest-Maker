@@ -7,6 +7,8 @@ using VContainer.Unity;
 public class BallManager : MonoBehaviour, IManager<BallController>
 {
     public static BallManager Instance { get; private set; }
+
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform ballContainer;
     
     [ReadOnly] public List<BallController> BallList;
     [ReadOnly] public Dictionary<AnchorController, List<BallController>> BallListSheets;
@@ -21,8 +23,6 @@ public class BallManager : MonoBehaviour, IManager<BallController>
     }
 
     #region Set, Get
-    
-    public Transform DefaultContainer => ReferenceManager.Instance.BallContainer;
     
     public BallController SetInSheet(ManagerParameters args)
     {
@@ -65,7 +65,7 @@ public class BallManager : MonoBehaviour, IManager<BallController>
     
     public BallController InstantiateInSheet(ManagerParameters args)
     {
-        Transform container = args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer;
+        Transform container = args.Sheet == null ? ballContainer : args.Sheet.AttachmentContainer;
         
         GameObject ball = Instantiate(
             PrefabManager.Instance.Ball,

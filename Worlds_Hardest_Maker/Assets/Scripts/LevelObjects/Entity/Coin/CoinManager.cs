@@ -11,10 +11,10 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
     
     [UsedImplicitly] public static readonly List<FieldMode> CannotPlaceFields = new();
     
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform coinContainer;
+    
     [ReadOnly] public List<CoinController> Coins = new();
     [ReadOnly] public List<CoinController> CollectedCoins = new();
-    
-    public Transform DefaultContainer => ReferenceManager.Instance.CoinContainer;
     
     private int TotalCoins => Coins.Count;
     
@@ -24,7 +24,6 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
     private static readonly int PLAYING = Animator.StringToHash("Playing");
     
     private IObjectResolver diContainer;
-    
     private EventBus eventBus;
     
     [Inject]
@@ -88,7 +87,7 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
         CoinController coin = Instantiate(
             PrefabManager.Instance.Coin,
             args.Position, Quaternion.identity,
-            args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
+            args.Sheet == null ? coinContainer : args.Sheet.AttachmentContainer
         );
         
         diContainer.InjectGameObject(coin.gameObject);

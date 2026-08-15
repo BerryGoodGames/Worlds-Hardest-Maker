@@ -7,13 +7,6 @@ public partial class AnchorManager : IManagerSelectable
     private const float DOUBLE_CLICK_THRESHOLD = 0.4f;
     
     [field: SerializeField] [field: ReadOnly] public AnchorController SelectedAnchor { get; private set; }
-
-    [SerializeField] [InitializationField] [MustBeAssigned] private JumpToEntity mainCameraJumper;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController levelSettingsPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController testingOptionsPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachButtonController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachExitButtonController;
     
     [HideInInspector] public float LastSelectClick = -1;
 

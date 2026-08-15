@@ -9,11 +9,11 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
 {
     public static KeyManager Instance { get; private set; }
     
-    public Transform DefaultContainer => ReferenceManager.Instance.KeyContainer;
-    
     [UsedImplicitly] public static readonly List<FieldMode> CannotPlaceFields = new();
     
     private static readonly int playing = Animator.StringToHash("Playing");
+    
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyContainer;
     
     [ReadOnly] public List<KeyController> Keys = new();
     [ReadOnly] public List<KeyController> CollectedKeys = new();
@@ -101,7 +101,7 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
         KeyController key = Instantiate(
             args.KeyColor.GetPrefabKey(),
             args.Position, Quaternion.identity,
-            args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
+            args.Sheet == null ? keyContainer : args.Sheet.AttachmentContainer
         );
         
         diContainer.InjectGameObject(key.gameObject);
