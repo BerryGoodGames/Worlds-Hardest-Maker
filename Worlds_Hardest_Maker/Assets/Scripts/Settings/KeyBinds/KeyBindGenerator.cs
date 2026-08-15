@@ -7,7 +7,7 @@ using VContainer.Unity;
 
 public class KeyBindGenerator : MonoBehaviour
 {
-    [Separator("References")] [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text categoryHeader;
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_Text categoryHeader;
     [SerializeField] [InitializationField] [MustBeAssigned] private KeyBindSetterController keyBindSetter;
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform tooltipContainer;
     

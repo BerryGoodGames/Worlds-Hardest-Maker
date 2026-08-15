@@ -57,12 +57,12 @@ public partial class AnchorManager : IManagerSelectable
         anchor.SetLinesActive(true);
         
         // disable "no anchor selected" screen
-        ReferenceManager.Instance.AnchorNoAnchorSelectedScreen.SetVisible(false);
+        anchorNoAnchorSelectedScreen.SetVisible(false);
         
-        AnchorBlockManager.LoadAnchorBlocks(anchor);
+        AnchorBlockManager.Instance.LoadAnchorBlocks(anchor);
         
         mainCameraJumper.SetTarget("Anchor", anchor.gameObject);
-        ReferenceManager.Instance.AnchorCameraJumping.CameraJumpToAnchor();
+        anchorCameraJumping.CameraJumpToAnchor();
         
         if (!AnchorAttachManager.Instance.InAttachMode)
         {
@@ -84,10 +84,10 @@ public partial class AnchorManager : IManagerSelectable
         SelectedAnchor.SetLinesActive(false);
         SelectedAnchor = null;
         
-        AnchorBlockManager.EmptyAnchorChains();
+        AnchorBlockManager.Instance.EmptyAnchorChains();
         
         // enable "no anchor selected" screen
-        ReferenceManager.Instance.AnchorNoAnchorSelectedScreen.SetVisible(true);
+        anchorNoAnchorSelectedScreen.SetVisible(true);
         
         mainCameraJumper.RemoveTarget("Anchor");
         

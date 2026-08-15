@@ -62,9 +62,9 @@ public class AnchorBlockPreviewController : MonoBehaviour
     
     public void OnUnhover()
     {
-        if (AnchorBlockManager.IsConnectorHovered) return;
-        if (AnchorBlockManager.IsPeriblockerHovered) return;
-        if (AnchorBlockManager.IsBlockHovered(GetChainIndex())) return;
+        if (AnchorBlockManager.Instance.IsConnectorHovered) return;
+        if (AnchorBlockManager.Instance.IsPeriblockerHovered) return;
+        if (AnchorBlockManager.Instance.IsBlockHovered(GetChainIndex())) return;
         
         Deactivate();
         AnchorBlockManager.Instance.HoveredBlockIndex = -1;
@@ -74,16 +74,16 @@ public class AnchorBlockPreviewController : MonoBehaviour
     
     private void Update()
     {
-        if (AnchorBlockManager.IsPreviewHovered && AnchorBlockManager.Instance.HoveredBlockIndex == -1)
+        if (AnchorBlockManager.Instance.IsPreviewHovered && AnchorBlockManager.Instance.HoveredBlockIndex == -1)
             // correct mistake of overriding index to -1
             AnchorBlockManager.Instance.HoveredBlockIndex = GetChainIndex();
     }
     
     private void LateUpdate()
     {
-        if (activated && !AnchorBlockManager.IsPreviewHovered &&
-            !AnchorBlockManager.IsConnectorHovered &&
-            !AnchorBlockManager.IsPeriblockerHovered && !AnchorBlockManager.IsAnyBlockHovered()) Deactivate();
+        if (activated && !AnchorBlockManager.Instance.IsPreviewHovered &&
+            !AnchorBlockManager.Instance.IsConnectorHovered &&
+            !AnchorBlockManager.Instance.IsPeriblockerHovered && !AnchorBlockManager.Instance.IsAnyBlockHovered()) Deactivate();
     }
     
     private void Awake()

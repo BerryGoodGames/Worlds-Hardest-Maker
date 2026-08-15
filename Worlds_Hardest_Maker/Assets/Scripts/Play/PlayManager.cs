@@ -9,6 +9,7 @@ public class PlayManager : MonoBehaviour
 
     [SerializeField] [InitializationField] [MustBeAssigned] private TimerController timerController;
     [SerializeField] [InitializationField] [MustBeAssigned] private BarTween infobarPlayTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private AlphaTween menuTween;
     
     private EventBus eventBus;
     
@@ -129,7 +130,7 @@ public class PlayManager : MonoBehaviour
         KeyManager.Instance.ActivateAnimations();
         
         // close menu
-        ReferenceManager.Instance.MenuTween.SetVisible(false);
+        menuTween.SetVisible(false);
     }
     
     private void OnDestroy()

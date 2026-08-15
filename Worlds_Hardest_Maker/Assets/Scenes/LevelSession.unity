@@ -3293,6 +3293,7 @@ Transform:
   - {fileID: 1653342460}
   - {fileID: 14653669}
   - {fileID: 1142914684}
+  - {fileID: 2034570633}
   - {fileID: 1828823673}
   - {fileID: 180705321}
   - {fileID: 1423632858}
@@ -17367,6 +17368,7 @@ MonoBehaviour:
   toolbarTween: {fileID: 3914619140277756240}
   infobarEditTween: {fileID: 1060004926}
   playButtonTween: {fileID: 4746071704783565827}
+  mainChainController: {fileID: 1265522667}
 --- !u!1001 &1148953494
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18297,7 +18299,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1183487556}
-  - component: {fileID: 1183487565}
   - component: {fileID: 1183487558}
   - component: {fileID: 1183487563}
   - component: {fileID: 1183487566}
@@ -18376,21 +18377,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e857c19149fcc48a9099e8fdc54e93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1183487565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183487555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7d227163df871943b4cf6b778b8d67d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DraggingBlock: 0
-  DraggedBlock: {fileID: 0}
-  HoveredBlockIndex: -1
 --- !u!114 &1183487566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22482,17 +22468,11 @@ MonoBehaviour:
   KeybindBlocker: {fileID: 104472577}
   KeybindBlockerText: {fileID: 405094728}
   AnchorBlockChainContainer: {fileID: 1786665321}
-  AnchorBlockSourceContainer: {fileID: 1925573845}
   AnchorBlockQuickMenu: {fileID: 2089172587}
   MainChainController: {fileID: 1265522667}
   CustomFitter: {fileID: 1786665322}
   AnchorBlockConnectorController: {fileID: 412315148}
   AnchorBlockPreview: {fileID: 760941648}
-  AnchorBlockPeriblocker: {fileID: 1009501808}
-  AnchorCameraJumping: {fileID: 1162396418}
-  AnchorNoAnchorSelectedScreen: {fileID: 572843087}
-  AnchorInPlayModeScreen: {fileID: 1056971106}
-  DashedLineMaterial: {fileID: 2100000, guid: d23ae6dfc7563674f9337a8777f1b2dd, type: 2}
 --- !u!224 &1475299346 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7465456736653454112, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
@@ -24589,6 +24569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timerController: {fileID: 211911999}
   infobarPlayTween: {fileID: 660451852}
+  menuTween: {fileID: 1006894551}
 --- !u!1001 &1593768060
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25997,6 +25978,10 @@ MonoBehaviour:
   anchorPanelController: {fileID: 1661549653}
   anchorAttachButtonController: {fileID: 374404340}
   anchorAttachExitButtonController: {fileID: 858147039}
+  mainChainController: {fileID: 1265522667}
+  anchorCameraJumping: {fileID: 1162396418}
+  anchorNoAnchorSelectedScreen: {fileID: 572843087}
+  anchorInPlayModeScreen: {fileID: 1056971106}
   <SelectedAnchor>k__BackingField: {fileID: 0}
   LastSelectClick: -1
 --- !u!1001 &1660775370
@@ -32236,6 +32221,59 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4459959278281149799, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
   m_PrefabInstance: {fileID: 2013750488}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2034570632
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2034570633}
+  - component: {fileID: 2034570634}
+  m_Layer: 0
+  m_Name: _AnchorBlock
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2034570633
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034570632}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 198493967}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2034570634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034570632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d227163df871943b4cf6b778b8d67d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WorldsHardestMaker::AnchorBlockManager
+  mainChainController: {fileID: 1265522667}
+  anchorBlockSourceContainer: {fileID: 1925573845}
+  customFitter: {fileID: 1786665322}
+  anchorBlockConnectorController: {fileID: 412315148}
+  anchorBlockPreview: {fileID: 760941648}
+  anchorBlockPeriblocker: {fileID: 1009501808}
+  DraggingBlock: 0
+  DraggedBlock: {fileID: 0}
+  HoveredBlockIndex: -1
 --- !u!224 &2035723349 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4653093268516543856, guid: 2cf07100149b6a945a6198e047bafb65, type: 3}

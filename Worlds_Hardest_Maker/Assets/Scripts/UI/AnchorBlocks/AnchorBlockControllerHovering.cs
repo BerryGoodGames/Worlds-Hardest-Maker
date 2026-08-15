@@ -34,8 +34,8 @@ public abstract partial class AnchorBlockController
         if (IsSource) return;
         if (!IsInChain()) return;
         
-        if (AnchorBlockManager.IsPeriblockerHovered) return;
-        if (AnchorBlockManager.IsPreviewHovered) return;
+        if (AnchorBlockManager.Instance.IsPeriblockerHovered) return;
+        if (AnchorBlockManager.Instance.IsPreviewHovered) return;
         
         AnchorBlockManager.Instance.HoveredBlockIndex = -1;
     }

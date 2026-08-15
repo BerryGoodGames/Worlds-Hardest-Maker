@@ -19,6 +19,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private BarTween toolbarTween;
     [SerializeField] [InitializationField] [MustBeAssigned] private BarTween infobarEditTween;
     [SerializeField] [InitializationField] [MustBeAssigned] private BarTween playButtonTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private ChainController mainChainController;
     
     private IAudioService audioService;
     private IMouseService mouseService;
@@ -97,7 +98,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         bool gotNextController = false;
         bool onlyMoveSecondArrow = false;
         
-        foreach (AnchorBlockController currentAnchorBlock in ReferenceManager.Instance.MainChainController.Children)
+        foreach (AnchorBlockController currentAnchorBlock in mainChainController.Children)
         {
             // skip anchor blocks before this anchor blocks
             if (currentAnchorBlock == anchorBlockController)
@@ -122,10 +123,10 @@ public class AnchorPositionInputEditManager : MonoBehaviour
                 // get first position block after loop block
             {
                 for (int i = AnchorManager.Instance.SelectedAnchor.LoopBlockIndex;
-                     i < ReferenceManager.Instance.MainChainController.Children.Count;
+                     i < mainChainController.Children.Count;
                      i++)
                 {
-                    AnchorBlockController anchorBlock = ReferenceManager.Instance.MainChainController.Children[i];
+                    AnchorBlockController anchorBlock = mainChainController.Children[i];
                     
                     if (anchorBlock is not PositionAnchorBlockController controller) continue;
                     

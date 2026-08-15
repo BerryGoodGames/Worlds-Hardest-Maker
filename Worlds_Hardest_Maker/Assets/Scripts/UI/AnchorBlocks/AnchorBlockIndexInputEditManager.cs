@@ -57,7 +57,7 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
         OnStartIndexEdit();
         
         // wait until clicked, cancel if esc is pressed
-        while (!Input.GetMouseButton(0) || !AnchorBlockManager.IsAnyBlockHovered(true))
+        while (!Input.GetMouseButton(0) || !AnchorBlockManager.Instance.IsAnyBlockHovered(true))
         {
             // cancel if these things happen
             if (Input.GetKey(KeyCode.Escape) || selectionStateService.IsSelecting || LevelSessionEditManager.Instance.Playing)

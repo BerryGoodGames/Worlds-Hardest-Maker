@@ -55,7 +55,7 @@ public partial class AnchorManager
         CheckWarningsForEach((i, node) => CheckStartRotatingWarningsBlock(i, node, ref canStartRotateWork));
     }
     
-    private static bool CheckStartRotatingWarningsBlock(int i, LinkedListNode<AnchorBlock> currentNode, ref bool canStartRotateWork)
+    private bool CheckStartRotatingWarningsBlock(int i, LinkedListNode<AnchorBlock> currentNode, ref bool canStartRotateWork)
     {
         AnchorBlock block = currentNode.Value;
         
@@ -71,7 +71,7 @@ public partial class AnchorManager
             
             // update if it can't rotate
             case AnchorBlock.Type.StartRotating:
-                ReferenceManager.Instance.MainChainController.Children[i].SetWarning(!canStartRotateWork);
+                mainChainController.Children[i].SetWarning(!canStartRotateWork);
                 break;
         }
         

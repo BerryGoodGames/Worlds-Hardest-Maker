@@ -11,7 +11,6 @@ public partial class AnchorBlockManager
     public bool ExecuteConnectorOnHover { get; set; }
     public bool ExecuteConnectorOnUnhover { get; set; }
     
-    
     private void HoveringLateUpdate()
     {
         // OnUnhover always before OnHover
@@ -24,19 +23,19 @@ public partial class AnchorBlockManager
         
         if (ExecutePreviewOnUnhover)
         {
-            ReferenceManager.Instance.AnchorBlockPreview.OnUnhover();
+            anchorBlockPreview.OnUnhover();
             ExecutePreviewOnUnhover = false;
         }
         
         if (ExecutePeriblockerOnUnhover)
         {
-            ReferenceManager.Instance.AnchorBlockPeriblocker.OnUnhover();
+            anchorBlockPeriblocker.OnUnhover();
             ExecutePeriblockerOnUnhover = false;
         }
         
         if (ExecuteConnectorOnUnhover)
         {
-            ReferenceManager.Instance.AnchorBlockConnectorController.OnUnhover();
+            anchorBlockConnectorController.OnUnhover();
             ExecuteConnectorOnUnhover = false;
         }
         
@@ -50,7 +49,7 @@ public partial class AnchorBlockManager
         
         if (!ExecuteConnectorOnHover) return;
         
-        ReferenceManager.Instance.AnchorBlockConnectorController.OnHover();
+        anchorBlockConnectorController.OnHover();
         ExecuteConnectorOnHover = false;
     }
 }

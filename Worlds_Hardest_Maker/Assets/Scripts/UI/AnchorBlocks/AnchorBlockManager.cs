@@ -7,14 +7,21 @@ using VContainer;
 
 public partial class AnchorBlockManager : MonoBehaviour
 {
-    public static AnchorBlockManager Instance { get; private set; }
+    public static AnchorBlockManager Instance { get; private set; }   
+    
+    [SerializeField] [InitializationField] [MustBeAssigned] private ChainController mainChainController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform anchorBlockSourceContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private CustomFitter customFitter;
+    [SerializeField] [InitializationField] [MustBeAssigned] private AnchorBlockConnectorController anchorBlockConnectorController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private AnchorBlockPreviewController anchorBlockPreview;
+    [SerializeField] [InitializationField] [MustBeAssigned] private AnchorBlockPeriblockerController anchorBlockPeriblocker;
     
     [ReadOnly] public bool DraggingBlock;
     [ReadOnly] public AnchorBlockController DraggedBlock;
     
-    public static bool IsConnectorHovered => ReferenceManager.Instance.AnchorBlockConnectorController.MouseOverUIRect.Over;
-    public static bool IsPreviewHovered => ReferenceManager.Instance.AnchorBlockPreview.MouseOverUIRect.Over;
-    public static bool IsPeriblockerHovered => ReferenceManager.Instance.AnchorBlockPreview.Periblocker.MouseOverUIRect.Over;
+    public bool IsConnectorHovered => anchorBlockConnectorController.MouseOverUIRect.Over;
+    public bool IsPreviewHovered => anchorBlockPreview.MouseOverUIRect.Over;
+    public bool IsPeriblockerHovered => anchorBlockPreview.Periblocker.MouseOverUIRect.Over;
     
     private IAudioService audioService;
     
@@ -35,7 +42,7 @@ public partial class AnchorBlockManager : MonoBehaviour
     /// </param>
     /// <param name="paramChain">
     ///     The chain the anchor block gets inserted to, if nothing passed then
-    ///     <c>ReferenceManager.Instance.MainChainController</c> is passed
+    ///     <c>mainChainController</c> is passed
     /// </param>
     /// <param name="siblingIndex">
     ///     The sibling index the anchor block gets inserted at, if nothing passed then anchor block
@@ -47,7 +54,7 @@ public partial class AnchorBlockManager : MonoBehaviour
     )
     {
         if (anchorBlock == null) anchorBlock = Instance.DraggedBlock;
-        if (paramChain == null) paramChain = ReferenceManager.Instance.MainChainController;
+        if (paramChain == null) paramChain = mainChainController;
         
         // move dragged block to this string
         Transform anchorBlockTransform = anchorBlock.transform;
@@ -57,18 +64,18 @@ public partial class AnchorBlockManager : MonoBehaviour
         if (siblingIndex > 0) anchorBlockTransform.SetSiblingIndex(siblingIndex);
         
         // disable preview
-        ReferenceManager.Instance.AnchorBlockPreview.Deactivate();
+        anchorBlockPreview.Deactivate();
         
         // reset tracking of hovered block
-        Instance.HoveredBlockIndex = -1;
+        HoveredBlockIndex = -1;
         
         // update position of connector
-        ReferenceManager.Instance.AnchorBlockConnectorController.UpdateY();
+        anchorBlockConnectorController.UpdateY();
         
         LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)stringTransform);
         
         // update list of blocks in anchor
-        ReferenceManager.Instance.MainChainController.UpdateChildrenArray();
+        mainChainController.UpdateChildrenArray();
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
         
         // check warnings
@@ -101,9 +108,9 @@ public partial class AnchorBlockManager : MonoBehaviour
     /// <summary>
     ///     Checks if dragged block is over any block and returns the hovered block if successful
     /// </summary>
-    public static bool IsAnyBlockHovered(bool includeLockedBlocks = false) => GetOverdraggedBlock(includeLockedBlocks) != null;
+    public bool IsAnyBlockHovered(bool includeLockedBlocks = false) => GetOverdraggedBlock(includeLockedBlocks) != null;
     
-    public static bool IsBlockHovered(int stringIndex)
+    public bool IsBlockHovered(int stringIndex)
     {
         AnchorBlockController overdraggedBlock = GetOverdraggedBlock(true);
         
@@ -115,10 +122,9 @@ public partial class AnchorBlockManager : MonoBehaviour
     /// <summary>
     ///     Returns the block the user is currently dragging the dragged block into (or null is failed)
     /// </summary>
-    public static AnchorBlockController GetOverdraggedBlock(bool includeLockedBlocks = false)
+    public AnchorBlockController GetOverdraggedBlock(bool includeLockedBlocks = false)
     {
-        ChainController mainChain = ReferenceManager.Instance.MainChainController;
-        AnchorBlockController[] anchorBlocksInChain = mainChain.GetComponentsInChildren<AnchorBlockController>();
+        AnchorBlockController[] anchorBlocksInChain = mainChainController.GetComponentsInChildren<AnchorBlockController>();
         
         foreach (AnchorBlockController anchorBlock in anchorBlocksInChain)
         {
@@ -148,7 +154,7 @@ public partial class AnchorBlockManager : MonoBehaviour
     /// <summary>
     ///     Destroys loose strings, destroys all anchor blocks in main string, destroys anchor connectors
     /// </summary>
-    public static void EmptyAnchorChains()
+    public void EmptyAnchorChains()
     {
         // destroy loose strings (ignore main string and anchor connector)
         List<GameObject> strings = new();
@@ -158,7 +164,7 @@ public partial class AnchorBlockManager : MonoBehaviour
         
         // destroy anchor blocks in main string (ignore start block and preview)
         List<GameObject> anchorBlocks = new();
-        foreach (Transform anchorBlock in ReferenceManager.Instance.MainChainController.transform) anchorBlocks.Add(anchorBlock.gameObject);
+        foreach (Transform anchorBlock in mainChainController.transform) anchorBlocks.Add(anchorBlock.gameObject);
         
         for (int i = 1; i < anchorBlocks.Count; i++)
         {
@@ -176,7 +182,7 @@ public partial class AnchorBlockManager : MonoBehaviour
     ///     <para>Anchor, from which the blocks are fetched</para>
     ///     If nothing passed, selected anchor gets passed instead
     /// </param>
-    public static void LoadAnchorBlocks(AnchorController anchor = null)
+    public void LoadAnchorBlocks(AnchorController anchor = null)
     {
         // check for null
         if (anchor == null)
@@ -204,18 +210,15 @@ public partial class AnchorBlockManager : MonoBehaviour
         AnchorManager.Instance.CheckStackOverflowWarnings();
         
         // update UI
-        RectTransform stringController = (RectTransform)ReferenceManager.Instance.MainChainController.transform;
+        RectTransform stringController = (RectTransform)mainChainController.transform;
         LayoutRebuilder.ForceRebuildLayoutImmediate(stringController);
-        ReferenceManager.Instance.CustomFitter.UpdateSize();
+        customFitter.UpdateSize();
     }
     
-    private static void UpdateSourceBlocksLayout()
-    {
-        // Get the reference to the container that holds the anchor block sources
-        RectTransform sourceContainer = ReferenceManager.Instance.AnchorBlockSourceContainer;
-        
+    private void UpdateSourceBlocksLayout()
+    {        
         // Get all the AnchorBlockSource components that are children of the sourceContainer
-        AnchorBlockSource[] sources = sourceContainer.GetComponentsInChildren<AnchorBlockSource>();
+        AnchorBlockSource[] sources = anchorBlockSourceContainer.GetComponentsInChildren<AnchorBlockSource>();
         
         // Iterate through each AnchorBlockSource component
         foreach (AnchorBlockSource source in sources)

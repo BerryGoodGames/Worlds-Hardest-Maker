@@ -17,6 +17,10 @@ public partial class AnchorManager : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorPanelController;
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachButtonController;
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachExitButtonController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private ChainController mainChainController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private AnchorCameraJumping anchorCameraJumping;
+    [SerializeField] [InitializationField] [MustBeAssigned] private AlphaTween anchorNoAnchorSelectedScreen;
+    [SerializeField] [InitializationField] [MustBeAssigned] private AlphaTween anchorInPlayModeScreen;
     
     private IObjectResolver diContainer;
     private EventBus eventBus;
@@ -39,12 +43,12 @@ public partial class AnchorManager : MonoBehaviour
         GameManager.DeselectInputs();
         UpdateBlockListInSelectedAnchor();
         StartExecuting();
-        ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(true);
+        anchorInPlayModeScreen.SetVisible(true);
     }
     
     private void OnSwitchToEdit(SwitchToEditEvent evt)
     {
-        ReferenceManager.Instance.AnchorInPlayModeScreen.SetVisible(false);
+        anchorInPlayModeScreen.SetVisible(false);
     }
     
     private void OnPlaytest(StartPlaytestEvent evt)
@@ -67,8 +71,8 @@ public partial class AnchorManager : MonoBehaviour
     {
         if (SelectedAnchor == null) return;
         
-        ReferenceManager.Instance.MainChainController.UpdateChildrenArray();
-        List<AnchorBlock> blocksInChain = ReferenceManager.Instance.MainChainController.GetAnchorBlocks(SelectedAnchor);
+        mainChainController.UpdateChildrenArray();
+        List<AnchorBlock> blocksInChain = mainChainController.GetAnchorBlocks(SelectedAnchor);
         
         SelectedAnchor.Blocks = new(blocksInChain);
     }
