@@ -3253,6 +3253,7 @@ Transform:
   - {fileID: 1054767411}
   - {fileID: 1153312830}
   - {fileID: 483670037}
+  - {fileID: 1216610403}
   - {fileID: 261002466}
   - {fileID: 766166136}
   - {fileID: 930056954}
@@ -4130,6 +4131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f2714199ba2e442ad4b4508d6b2e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityContainer: {fileID: 174963465}
   loadingScreen: {fileID: 1920386819}
   swipeTween: {fileID: 1905408752}
   autoSaveInterval: 60
@@ -12041,6 +12043,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   mainCameraJumper: {fileID: 519420035}
   timerController: {fileID: 211911999}
+  playerContainer: {fileID: 2131202556}
 --- !u!1 &786713973
 GameObject:
   m_ObjectHideFlags: 0
@@ -18242,7 +18245,6 @@ GameObject:
   - component: {fileID: 1183487556}
   - component: {fileID: 1183487576}
   - component: {fileID: 1183487565}
-  - component: {fileID: 1183487564}
   - component: {fileID: 1183487558}
   - component: {fileID: 1183487563}
   - component: {fileID: 1183487567}
@@ -18320,18 +18322,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53e857c19149fcc48a9099e8fdc54e93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1183487564
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1183487555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80568ab1dce3ae647b030d3b8a41b5ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1183487565
@@ -18587,6 +18577,52 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 754391215707131478, guid: 4cd72d9d09a44b1479ba2f7c81b66de0, type: 3}
   m_PrefabInstance: {fileID: 1213305449}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1216610402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1216610403}
+  - component: {fileID: 1216610404}
+  m_Layer: 0
+  m_Name: _Field
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1216610403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216610402}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 198493967}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1216610404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216610402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80568ab1dce3ae647b030d3b8a41b5ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WorldsHardestMaker::FieldManager
+  playerContainer: {fileID: 2131202556}
+  fieldContainer: {fileID: 480599885}
 --- !u!224 &1222438011 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3405460545392342685, guid: a6b7a0f0fae743a45b285f8893593211, type: 3}
@@ -22418,9 +22454,6 @@ MonoBehaviour:
   MenuTween: {fileID: 1006894551}
   KeybindBlocker: {fileID: 104472577}
   KeybindBlockerText: {fileID: 405094728}
-  SelectionOutlineContainer: {fileID: 1598753940}
-  EntityContainer: {fileID: 174963465}
-  PlayerContainer: {fileID: 2131202556}
   AnchorContainer: {fileID: 3469053329403155091}
   BallContainer: {fileID: 473813362}
   CoinContainer: {fileID: 222980750}
@@ -25672,6 +25705,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed4929a14a44f394ab8b40fe295d6385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fieldContainer: {fileID: 480599885}
+  playerContainer: {fileID: 2131202556}
   optionsPanelController:
     panel: {fileID: 1898372880}
     attachment: {fileID: 1898372883}
@@ -25679,6 +25714,7 @@ MonoBehaviour:
     fillOptionMouseOver: {fileID: 42787709}
     container: {fileID: 282166553}
   outlineController:
+    selectionOutlineContainer: {fileID: 1598753940}
     weight: 0.1
     animationDuration: 0.1
     color: {r: 0, g: 0, b: 0, a: 1}

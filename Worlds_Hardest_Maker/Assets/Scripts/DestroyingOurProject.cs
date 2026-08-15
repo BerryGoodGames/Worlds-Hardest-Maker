@@ -1,3 +1,4 @@
+using MyBox;
 using UnityEngine;
 using VContainer;
 
@@ -10,6 +11,9 @@ public class DestroyingOurProject : MonoBehaviour
     // ReSharper disable once InconsistentNaming
     public int INTENSITY;
     
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform fieldContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform playerContainer;
+    
     [Inject] private IAreaFillService fillService;
     
     private void Start()
@@ -18,7 +22,7 @@ public class DestroyingOurProject : MonoBehaviour
         
         fillService.FillArea(
             new(-INTENSITY, -INTENSITY), new(INTENSITY, INTENSITY),
-            EditModeManager.Wall
+            EditModeManager.Wall, fieldContainer, playerContainer
         );
         
         SaveSystem.SaveCurrentLevel();

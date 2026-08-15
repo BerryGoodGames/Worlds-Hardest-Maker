@@ -1,16 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using Object = UnityEngine.Object;
 
+[Serializable]
 public class AreaFillService : IAreaFillService
 {
     [Inject] private IObjectResolver diContainer;
     [Inject] private IAreaQueryService areaQueryService;
     [Inject] private IAreaErasureService areaErasureService;
     
-    public void FillAreaWithFields(SelectionArea area, FieldMode mode)
+    public void FillAreaWithFields(SelectionArea area, FieldMode mode, Transform fieldContainer, Transform playerContainer)
     {
         IReadOnlyList<Vector2> positions = area.Positions;
         
@@ -46,12 +49,13 @@ public class AreaFillService : IAreaFillService
             // set field at pos
             GameObject field = Object.Instantiate(
                 mode.Prefab, pos, Quaternion.Euler(0, 0, rotation),
-                ReferenceManager.Instance.FieldContainer
+                fieldContainer
             );
             
             diContainer.InjectGameObject(field);
             
             FieldController fieldController = field.GetComponent<FieldController>();
+            fieldController.Initialize(playerContainer);
             fieldController.FieldMode = mode;
             
             if (field.TryGetComponent(out ColorCalibration calibrator)) calibrator.Apply(SettingsManager.Instance.OneColorSafeFields);
@@ -70,7 +74,7 @@ public class AreaFillService : IAreaFillService
         FieldManager.UpdateOutlinesInArea(mode.HasOutline, area);
     }
 
-    public void FillArea(SelectionArea area, EditMode editMode)
+    public void FillArea(SelectionArea area, EditMode editMode, Transform fieldContainer, Transform playerContainer)
     {
         IReadOnlyList<Vector2> positions = area.Positions;
         
@@ -79,7 +83,7 @@ public class AreaFillService : IAreaFillService
         // TODO: somehow use strategy pattern to avoid this if statement
         if (editMode.Attributes.IsField)
         {
-            FillAreaWithFields(area, (FieldMode)editMode);
+            FillAreaWithFields(area, (FieldMode)editMode, fieldContainer, playerContainer);
             return;
         }
         

@@ -8,6 +8,7 @@ using Object = UnityEngine.Object;
 [Serializable]
 public class SelectionOutlineController : IDisposable
 {
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform selectionOutlineContainer;
     [SerializeField] [PositiveValueOnly] private float weight = 0.1f;
     [SerializeField] [PositiveValueOnly] private float animationDuration = 0.1f;
     [SerializeField] private Color color = Color.black;
@@ -18,20 +19,21 @@ public class SelectionOutlineController : IDisposable
     private GameObject outline;
     private LineAnimator outlineAnimator;
 
-    private void OnSelectionStarted(SelectionStartedEvent evt) => InitializeOutline(evt.Start);
+    private void OnSelectionStarted(SelectionStartedEvent evt) => CreateOutline(evt.Start);
     private void OnSelectionUpdated(SelectionUpdatedEvent evt) => AnimateOutline(evt.Start, evt.End);
     private void OnSelectionCleared(SelectionClearedEvent evt) => Clear();
 
-    public void SetEventBus(EventBus eventBus)
+    public void Initialize(EventBus eventBus, IDrawService drawService)
     {
         this.eventBus = eventBus;
-        
+        this.drawService = drawService;
+
         eventBus.Subscribe<SelectionStartedEvent>(OnSelectionStarted);
         eventBus.Subscribe<SelectionUpdatedEvent>(OnSelectionUpdated);
         eventBus.Subscribe<SelectionClearedEvent>(OnSelectionCleared);
     }
 
-    private void InitializeOutline(Vector2 start)
+    private void CreateOutline(Vector2 start)
     {
         Clear();
         
@@ -45,7 +47,7 @@ public class SelectionOutlineController : IDisposable
             start.y + 0.5f,
             -1,
             -1,
-            false, ReferenceManager.Instance.SelectionOutlineContainer
+            false, selectionOutlineContainer
         ).gameObject;
         
         outlineAnimator = outline.AddComponent<LineAnimator>();

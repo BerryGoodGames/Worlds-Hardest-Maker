@@ -104,14 +104,14 @@ public class PlayManager : MonoBehaviour
     private void OnSwitchToEdit(SwitchToEditEvent evt)
     {
         Cheated = false;
-        FieldManager.ApplySafeFieldsColor(false);
+        FieldManager.Instance.ApplySafeFieldsColor(false);
     }
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt)
     {
         if (SettingsManager.Instance.OneColorSafeFields)
         {
-            FieldManager.ApplySafeFieldsColor(true);
+            FieldManager.Instance.ApplySafeFieldsColor(true);
         }
     }
     

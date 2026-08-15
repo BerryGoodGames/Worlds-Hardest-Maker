@@ -14,8 +14,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     
     [SerializeField] [InitializationField] [MustBeAssigned] private JumpToEntity mainCameraJumper;   
     [SerializeField] [InitializationField] [MustBeAssigned] private TimerController timerController;
-    
-    public Transform DefaultContainer => ReferenceManager.Instance.PlayerContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform playerContainer;
     
     private IObjectResolver diContainer;
     
@@ -68,12 +67,12 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
         PlayerController newPlayer = Instantiate(
             PrefabManager.Instance.Player,
             args.Position, Quaternion.identity,
-            DefaultContainer
+            playerContainer
         );
         
         diContainer.InjectGameObject(newPlayer.gameObject);
         
-        newPlayer.Initialize(mainCameraJumper, timerController);
+        newPlayer.Initialize(mainCameraJumper, timerController, playerContainer);
         
         PlaceManager.Instance.AttachToSheet(newPlayer.gameObject, args.Sheet, false);
         newPlayer.Sheet = args.Sheet;
@@ -145,7 +144,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     public void RemoveAtPos(Vector2 position)
     {
         // remove player only if at pos
-        foreach (Transform player in DefaultContainer)
+        foreach (Transform player in playerContainer)
         {
             if ((Vector2)player.position == position) player.GetComponent<PlayerController>().DestroySelf();
         }

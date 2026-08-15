@@ -1,3 +1,4 @@
+using MyBox;
 using UnityEngine;
 using VContainer;
 
@@ -9,7 +10,9 @@ public class SelectionManager : MonoBehaviour
     private IAreaFillService fillService;
     private IAreaErasureService erasureService;
 
-    [SerializeField] private SelectionOptionsPanelController optionsPanelController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform fieldContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform playerContainer;
+    [Space] [SerializeField] private SelectionOptionsPanelController optionsPanelController;
     [Space] [SerializeField] private SelectionPreviewController previewController;
     [Space] [SerializeField] private SelectionOutlineController outlineController;
 
@@ -19,7 +22,8 @@ public class SelectionManager : MonoBehaviour
         ISelectionStateService selectionStateService, 
         ISelectionAreaProvider selectionAreaProvider,
         IAreaFillService fillService,
-        IAreaErasureService erasureService)
+        IAreaErasureService erasureService,
+        IDrawService drawService)
     {
         this.eventBus = eventBus;
         this.selectionStateService = selectionStateService;
@@ -29,7 +33,7 @@ public class SelectionManager : MonoBehaviour
 
         optionsPanelController.SetEventBus(eventBus);
         previewController.Initialize(eventBus, diContainer, selectionAreaProvider);
-        outlineController.SetEventBus(eventBus);
+        outlineController.Initialize(eventBus, drawService);
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
@@ -56,7 +60,7 @@ public class SelectionManager : MonoBehaviour
     
     public void OnFillClicked()
     {
-        fillService.FillArea(selectionAreaProvider.GetArea(), LevelSessionEditManager.Instance.CurrentEditMode);
+        fillService.FillArea(selectionAreaProvider.GetArea(), LevelSessionEditManager.Instance.CurrentEditMode, fieldContainer, playerContainer);
         selectionStateService.ClearSelection();
     }
     

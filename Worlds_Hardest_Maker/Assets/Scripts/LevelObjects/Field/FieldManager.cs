@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using MyBox;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -9,7 +10,8 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
 {
     public static FieldManager Instance { get; private set; }
     
-    public Transform DefaultContainer => ReferenceManager.Instance.FieldContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform playerContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform fieldContainer;
     
     private IObjectResolver diContainer;
     
@@ -86,12 +88,15 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
         GameObject prefab = args.FieldMode.Prefab;
         GameObject res = Instantiate(
             prefab, args.Position, Quaternion.Euler(0, 0, args.Rotation),
-            args.Sheet == null ? DefaultContainer : args.Sheet.AttachmentContainer
+            args.Sheet == null ? fieldContainer : args.Sheet.AttachmentContainer
         );
         
         diContainer.InjectGameObject(res);
         
         FieldController fieldController = res.GetComponent<FieldController>();
+        
+        fieldController.Initialize(playerContainer);
+        
         fieldController.FieldMode = args.FieldMode;
         
         PlaceManager.Instance.AttachToSheet(res, args.Sheet);
@@ -101,7 +106,7 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
     
     public List<Data> Serialize(List<Data> levelData)
     {
-        foreach (Transform field in ReferenceManager.Instance.FieldContainer)
+        foreach (Transform field in fieldContainer)
         {
             FieldController controller = field.GetComponent<FieldController>();
             
@@ -158,9 +163,9 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
         if (((IManager<FieldController>)this).Set(args) is not null && playSound) audioService.Play(PlaceManager.Instance.GetSfx(mode));
     }
     
-    public static void ApplySafeFieldsColor(bool oneColor)
+    public void ApplySafeFieldsColor(bool oneColor)
     {
-        ColorCalibration[] colorCalibrations = ReferenceManager.Instance.FieldContainer.GetComponentsInChildren<ColorCalibration>();
+        ColorCalibration[] colorCalibrations = fieldContainer.GetComponentsInChildren<ColorCalibration>();
         
         foreach (ColorCalibration field in colorCalibrations) field.Apply(oneColor);
     }

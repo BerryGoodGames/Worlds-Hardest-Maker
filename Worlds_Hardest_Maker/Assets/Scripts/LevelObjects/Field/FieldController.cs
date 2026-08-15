@@ -3,9 +3,16 @@ using UnityEngine;
 
 public class FieldController : LevelObjectController
 {
+    private Transform playerContainer;
+    
     [HideInInspector] public FieldMode FieldMode;
     
     [HideInInspector] public Vector2 InitialPosition;
+    
+    public void Initialize(Transform playerContainer)
+    {
+        this.playerContainer = playerContainer;
+    }
     
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -55,7 +62,7 @@ public class FieldController : LevelObjectController
         {
             yield return new WaitForEndOfFrame();
             
-            player.transform.SetParent(ReferenceManager.Instance.PlayerContainer);
+            player.transform.SetParent(playerContainer);
         }
     }
     

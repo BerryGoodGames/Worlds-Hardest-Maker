@@ -20,12 +20,6 @@ public class ReferenceManager : MonoBehaviour
     
     #region Containers
     
-    [Foldout("Containers")] public Transform SelectionOutlineContainer;
-    
-    [Foldout("Containers")] public Transform EntityContainer;
-    
-    [Foldout("Containers")] public Transform PlayerContainer;
-    
     [Foldout("Containers")] public Transform AnchorContainer;
     
     [Foldout("Containers")] public Transform BallContainer;

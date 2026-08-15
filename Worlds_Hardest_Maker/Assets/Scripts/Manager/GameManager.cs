@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     
+    [SerializeField] [InitializationField] [MustBeAssigned] private Transform entityContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private LoadingScreen loadingScreen;
     [SerializeField] [InitializationField] [MustBeAssigned] private ChainableTween swipeTween;
     
@@ -181,7 +182,7 @@ public class GameManager : MonoBehaviour
             ReferenceManager.Instance.FieldContainer,
         };
         
-        foreach (Transform t in ReferenceManager.Instance.EntityContainer) containers.Add(t);
+        foreach (Transform t in entityContainer) containers.Add(t);
         
         foreach (Transform container in containers)
         {

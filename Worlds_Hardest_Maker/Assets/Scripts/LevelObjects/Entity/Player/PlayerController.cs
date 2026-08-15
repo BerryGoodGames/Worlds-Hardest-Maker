@@ -52,6 +52,8 @@ public partial class PlayerController : EntityController
     private JumpToEntity mainCameraJumper;
 
     private TimerController timerController;
+
+    private Transform playerContainer;
     
     private EventBus eventBus;
     
@@ -84,10 +86,11 @@ public partial class PlayerController : EntityController
         eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
     }
     
-    public void Initialize(JumpToEntity mainCameraJumper, TimerController timerController)
+    public void Initialize(JumpToEntity mainCameraJumper, TimerController timerController, Transform playerContainer)
     {
         this.mainCameraJumper = mainCameraJumper;
         this.timerController = timerController;
+        this.playerContainer = playerContainer;
     }
     
     protected override void Start()
@@ -180,7 +183,7 @@ public partial class PlayerController : EntityController
         bool willBeAttached = args.Sheet != null;
         
         if (willBeAttached) PlaceManager.Instance.AttachToSheet(gameObject, args.Sheet, false);
-        else PlaceManager.Detach(gameObject, PlayerManager.Instance.DefaultContainer);
+        else PlaceManager.Detach(gameObject, playerContainer);
         
         Sheet = args.Sheet;
         
