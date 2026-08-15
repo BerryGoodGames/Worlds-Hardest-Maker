@@ -10,6 +10,7 @@ using UnityEngine;
 public class DrawManager : MonoBehaviour, IDrawService
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform drawContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Material dashedLineMaterial;
     
     private void Awake()
     {
@@ -130,8 +131,7 @@ public class DrawManager : MonoBehaviour, IDrawService
         
         DashedLineController dashedLineController = line.gameObject.AddComponent<DashedLineController>();
         
-        dashedLineController.Width = width;
-        dashedLineController.Spacing = spacing;
+        dashedLineController.Initialize(spacing, width, dashedLineMaterial);
         
         return line;
     }

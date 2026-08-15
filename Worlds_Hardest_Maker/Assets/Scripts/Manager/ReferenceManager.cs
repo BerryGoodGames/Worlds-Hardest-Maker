@@ -44,12 +44,6 @@ public class ReferenceManager : MonoBehaviour
     
     #endregion
     
-    #region Materials
-    
-    [Foldout("Material")] public Material DashedLineMaterial;
-    
-    #endregion
-    
     private void Awake()
     {
         if (Instance == null) Instance = this;

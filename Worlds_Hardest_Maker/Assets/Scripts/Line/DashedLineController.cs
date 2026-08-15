@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class DashedLineController : MonoBehaviour
 {
-    [Separator("Settings")] public float Spacing;
-    public float Width;
+    private float spacing;
+    private float width;
+    private Material dashedLineMaterial;
     
     private LineRenderer lineRenderer;
     
@@ -19,8 +20,15 @@ public class DashedLineController : MonoBehaviour
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.material = ReferenceManager.Instance.DashedLineMaterial;
+        lineRenderer.material = dashedLineMaterial;
         CalculateDashes();
+    }
+
+    public void Initialize(float spacing, float width, Material dashedLineMaterial)
+    {
+        this.spacing = spacing;
+        this.width = width;
+        this.dashedLineMaterial = dashedLineMaterial;
     }
     
     private void LateUpdate()
@@ -42,9 +50,9 @@ public class DashedLineController : MonoBehaviour
     public void CalculateDashes()
     {
         Vector2 totalArc = point1 - point0;
-        float lineSpacing = Spacing + Width / 2;
+        float lineSpacing = spacing + width / 2;
         float lineAmount = totalArc.magnitude / lineSpacing;
-        float lineWidth = Width / lineSpacing;
+        float lineWidth = width / lineSpacing;
         
         lineRenderer.material.SetFloat(amountID, lineAmount);
         lineRenderer.material.SetFloat(widthID, lineWidth);

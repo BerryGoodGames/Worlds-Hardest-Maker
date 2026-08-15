@@ -17617,6 +17617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: WorldsHardestMaker::DrawManager
   drawContainer: {fileID: 1552703640}
+  dashedLineMaterial: {fileID: 2100000, guid: d23ae6dfc7563674f9337a8777f1b2dd, type: 2}
 --- !u!1 &1162396413
 GameObject:
   m_ObjectHideFlags: 0
@@ -22480,7 +22481,6 @@ MonoBehaviour:
   MenuTween: {fileID: 1006894551}
   KeybindBlocker: {fileID: 104472577}
   KeybindBlockerText: {fileID: 405094728}
-  FieldContainer: {fileID: 480599885}
   AnchorBlockChainContainer: {fileID: 1786665321}
   AnchorBlockSourceContainer: {fileID: 1925573845}
   AnchorBlockQuickMenu: {fileID: 2089172587}
