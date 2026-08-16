@@ -45,11 +45,11 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
         
         if (CoinManager.CannotPlaceFields.Contains(args.FieldMode))
             // remove coin if wall is placed
-            GameManager.RemoveObjectInContainerIntersect(args.Position, coinContainer);
+            GameManager.Instance.RemoveObjectInContainerIntersect(args.Position, coinContainer);
         
         if (KeyManager.CannotPlaceFields.Contains(args.FieldMode))
             // remove key if wall is placed
-            GameManager.RemoveObjectInContainerIntersect(args.Position, keyContainer);
+            GameManager.Instance.RemoveObjectInContainerIntersect(args.Position, keyContainer);
         
         return field;
     }

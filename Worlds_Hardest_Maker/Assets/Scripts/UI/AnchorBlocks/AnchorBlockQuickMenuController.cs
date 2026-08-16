@@ -39,7 +39,7 @@ public class AnchorBlockQuickMenuController : QuickMenuController
         
         // open and position quick menu
         Vector2 mousePos = mouseService.MouseCanvasPos;
-        mousePos.y = mouseService.MouseCanvasPos.y - GameManager.GetCanvasDimensions().y;
+        mousePos.y = mouseService.MouseCanvasPos.y - GameManager.Instance.GetCanvasDimensions().y;
         
         selectedAnchorBlock = anchorBlock;
         ((RectTransform)transform).anchoredPosition = mousePos;

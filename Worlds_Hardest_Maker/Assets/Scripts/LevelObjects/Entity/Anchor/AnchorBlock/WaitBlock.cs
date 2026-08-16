@@ -50,7 +50,7 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
         WaitBlockController controller = (WaitBlockController)c;
         controller.DurationInput.text = input.ToString();
         controller.UnitInput.value =
-            GameManager.GetDropdownValue(WaitBlockController.GetOption(unit), controller.UnitInput);
+            GameManager.Instance.GetDropdownValue(WaitBlockController.GetOption(unit), controller.UnitInput);
     }
     
     public override AnchorBlockData GetData() => new WaitBlockData(IsLocked, input, unit);

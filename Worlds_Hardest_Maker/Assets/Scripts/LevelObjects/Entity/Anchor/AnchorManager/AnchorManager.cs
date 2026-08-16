@@ -40,7 +40,7 @@ public partial class AnchorManager : MonoBehaviour
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt)
     {
-        GameManager.DeselectInputs();
+        GameManager.Instance.DeselectInputs();
         UpdateBlockListInSelectedAnchor();
         StartExecuting();
         anchorInPlayModeScreen.SetVisible(true);

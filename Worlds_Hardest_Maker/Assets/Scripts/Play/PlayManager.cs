@@ -9,6 +9,7 @@ public class PlayManager : MonoBehaviour
 
     [SerializeField] [InitializationField] [MustBeAssigned] private TimerController timerController;
     [SerializeField] [InitializationField] [MustBeAssigned] private BarTween infobarPlayTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject menu;
     [SerializeField] [InitializationField] [MustBeAssigned] private AlphaTween menuTween;
     
     private EventBus eventBus;
@@ -38,7 +39,7 @@ public class PlayManager : MonoBehaviour
     
     public void TogglePlay(bool playtest)
     {
-        if (ReferenceManager.Instance.Menu.activeSelf) return;
+        if (menu.activeSelf) return;
         
         LevelSessionEditManager.Instance.Playing = !LevelSessionEditManager.Instance.Playing;
         LevelSessionEditManager.Instance.InPlaytest = LevelSessionEditManager.Instance.Playing && playtest;

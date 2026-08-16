@@ -11,6 +11,7 @@ public partial class AnchorBlockManager : MonoBehaviour
     
     [SerializeField] [InitializationField] [MustBeAssigned] private ChainController mainChainController;
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform anchorBlockSourceContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform anchorBlockChainContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private CustomFitter customFitter;
     [SerializeField] [InitializationField] [MustBeAssigned] private AnchorBlockConnectorController anchorBlockConnectorController;
     [SerializeField] [InitializationField] [MustBeAssigned] private AnchorBlockPreviewController anchorBlockPreview;
@@ -158,7 +159,7 @@ public partial class AnchorBlockManager : MonoBehaviour
     {
         // destroy loose strings (ignore main string and anchor connector)
         List<GameObject> strings = new();
-        foreach (Transform s in ReferenceManager.Instance.AnchorBlockChainContainer) strings.Add(s.gameObject);
+        foreach (Transform s in anchorBlockChainContainer) strings.Add(s.gameObject);
         
         for (int i = 2; i < strings.Count; i++) DestroyImmediate(strings[i]);
         
@@ -201,7 +202,11 @@ public partial class AnchorBlockManager : MonoBehaviour
         // create objects
         AnchorBlock[] blocks = anchor.Blocks.ToArray();
         
-        foreach (AnchorBlock t in blocks) t.CreateAnchorBlockObject();
+        foreach (AnchorBlock t in blocks)
+        {
+            t.CreateAnchorBlockObject(mainChainController.transform, anchorBlockChainContainer,
+                anchorBlockConnectorController);
+        }
         
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
         

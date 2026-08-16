@@ -33,9 +33,7 @@ public abstract class AnchorBlock
     public abstract Type ImplementedBlockType { get; }
     protected abstract GameObject Prefab { get; }
     
-    public void CreateAnchorBlockObject() => CreateAnchorBlockObject(ReferenceManager.Instance.MainChainController.transform);
-    
-    private void CreateAnchorBlockObject(Transform parent)
+    public void CreateAnchorBlockObject(Transform parent, RectTransform chainContainer, AnchorBlockConnectorController connectorController)
     {
         // create object
         GameObject anchorBlock = Object.Instantiate(Prefab, parent);
@@ -48,14 +46,14 @@ public abstract class AnchorBlock
         
         // restrict
         UIRestrictInRectTransform restrict = anchorBlock.GetComponent<UIRestrictInRectTransform>();
-        restrict.RectTransform = ReferenceManager.Instance.AnchorBlockChainContainer;
+        restrict.RectTransform = chainContainer;
         
         // rebuild
         RectTransform anchorBlockRectTransform = (RectTransform)anchorBlock.transform;
         LayoutRebuilder.ForceRebuildLayoutImmediate(anchorBlockRectTransform);
         
         // move anchor connector
-        ReferenceManager.Instance.AnchorBlockConnectorController.UpdateYAtEndOfFrame();
+        connectorController.UpdateYAtEndOfFrame();
     }
     
     public abstract void Execute();

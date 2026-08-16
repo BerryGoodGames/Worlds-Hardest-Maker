@@ -20,7 +20,7 @@ public class SetEaseBlock : AnchorBlock, IPassiveAnchorBlock
     protected override void SetControllerValues(AnchorBlockController c)
     {
         SetEaseBlockController controller = (SetEaseBlockController)c;
-        controller.Input.value = GameManager.GetDropdownValue(SetEaseBlockController.GetOption(ease), controller.Input);
+        controller.Input.value = GameManager.Instance.GetDropdownValue(SetEaseBlockController.GetOption(ease), controller.Input);
     }
     
     public override AnchorBlockData GetData() => new SetEaseBlockData(IsLocked, ease);

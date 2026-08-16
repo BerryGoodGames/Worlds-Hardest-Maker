@@ -37,8 +37,8 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
         if (args.SurroundWithStartFields && !canPlaceInSheet) SetSurroundingStartFieldsInSheet(position, args.Sheet);
         
         // clear area from coins and keys
-        GameManager.RemoveObjectInContainer(position, coinContainer);
-        GameManager.RemoveObjectInContainer(position, keyContainer);
+        GameManager.Instance.RemoveObjectInContainer(position, coinContainer);
+        GameManager.Instance.RemoveObjectInContainer(position, keyContainer);
         
         // if player already exists, just move it
         if (Player != null) Player.ReSet(args);

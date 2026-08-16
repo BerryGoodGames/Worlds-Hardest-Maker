@@ -3316,8 +3316,8 @@ Transform:
   - {fileID: 1593335858}
   - {fileID: 778785260}
   - {fileID: 1614796947}
-  - {fileID: 460672423}
   - {fileID: 1470478673}
+  - {fileID: 460672423}
   - {fileID: 1609298896}
   - {fileID: 208659020}
   - {fileID: 1420917101}
@@ -4185,6 +4185,7 @@ MonoBehaviour:
   fieldContainer: {fileID: 480599885}
   loadingScreen: {fileID: 1920386819}
   swipeTween: {fileID: 1905408752}
+  canvas: {fileID: 1436984679}
   autoSaveInterval: 60
 --- !u!224 &280441807 stripped
 RectTransform:
@@ -15479,6 +15480,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MouseOverUIRect: {fileID: 0}
+  mainChainController: {fileID: 1265522667}
+  anchorBlockPreview: {fileID: 760941648}
 --- !u!114 &1009501809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17934,9 +17937,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6647066676833249867, guid: ce5a8d62650143e49967f0d0f6db564a, type: 3}
+      propertyPath: mainChain
+      value: 
+      objectReference: {fileID: 1265522661}
+    - target: {fileID: 6647066676833249867, guid: ce5a8d62650143e49967f0d0f6db564a, type: 3}
       propertyPath: detectionHeight
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 6647066676833249867, guid: ce5a8d62650143e49967f0d0f6db564a, type: 3}
+      propertyPath: anchorBlockPreviewController
+      value: 
+      objectReference: {fileID: 760941648}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22464,7 +22475,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Canvas: {fileID: 1436984678}
   Menu: {fileID: 1006894544}
-  MenuTween: {fileID: 1006894551}
   KeybindBlocker: {fileID: 104472577}
   KeybindBlockerText: {fileID: 405094728}
   AnchorBlockChainContainer: {fileID: 1786665321}
@@ -22555,7 +22565,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -235.64932
+      value: -235.48749
       objectReference: {fileID: 0}
     - target: {fileID: 2955345560999892006, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_LocalPosition.x
@@ -24569,6 +24579,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timerController: {fileID: 211911999}
   infobarPlayTween: {fileID: 660451852}
+  menu: {fileID: 1006894544}
   menuTween: {fileID: 1006894551}
 --- !u!1001 &1593768060
 PrefabInstance:
@@ -27843,7 +27854,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 711.39, y: -957.882}
+  m_AnchoredPosition: {x: 711.39, y: -957.23474}
   m_SizeDelta: {x: 51.75, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755699354
@@ -28849,7 +28860,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 30, y: 30.000092}
+  m_AnchoredPosition: {x: 30, y: 30.000122}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1870882996
@@ -30108,7 +30119,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 871.815, y: -957.882}
+  m_AnchoredPosition: {x: 871.815, y: -957.23474}
   m_SizeDelta: {x: 85.34, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1919053081
@@ -32267,6 +32278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: WorldsHardestMaker::AnchorBlockManager
   mainChainController: {fileID: 1265522667}
   anchorBlockSourceContainer: {fileID: 1925573845}
+  anchorBlockChainContainer: {fileID: 1786665321}
   customFitter: {fileID: 1786665322}
   anchorBlockConnectorController: {fileID: 412315148}
   anchorBlockPreview: {fileID: 760941648}
@@ -32605,7 +32617,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 783.205, y: -957.882}
+  m_AnchoredPosition: {x: 783.205, y: -957.23474}
   m_SizeDelta: {x: 66.08, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2065180488
@@ -34425,6 +34437,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6977027752273439767, guid: 5e47406772147a64aa16d7a8ef659ac2, type: 3}
+      propertyPath: menu
+      value: 
+      objectReference: {fileID: 1006894544}
     - target: {fileID: 6977027752273439767, guid: 5e47406772147a64aa16d7a8ef659ac2, type: 3}
       propertyPath: charge
       value: 

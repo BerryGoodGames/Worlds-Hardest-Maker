@@ -8,7 +8,8 @@ using VContainer;
 [RequireComponent(typeof(MouseOverUIRect))]
 public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform top;
+    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject menu;
+    [Separator] [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform top;
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform button;
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform bottom;
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform chargebar;
@@ -52,7 +53,7 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     
     private void Update()
     {
-        if (!ReferenceManager.Instance.Menu.activeSelf)
+        if (!menu.activeSelf)
         {
             if ((KeyBinds.GetKeyBindDown("Editor_PlayLevel") || mouseDown) && !isCharging)
             {

@@ -22,7 +22,7 @@ public class MouseManager : MonoBehaviour, IMouseService
         set => mouseWorldPos = value;
     }
     
-    public Vector2 MouseCanvasPos => GameManager.ScreenToMainCanvas(Input.mousePosition);
+    public Vector2 MouseCanvasPos => GameManager.Instance.ScreenToMainCanvas(Input.mousePosition);
     
     public Vector2 PrevMouseWorldPos { get; set; }
     public Vector2 MouseWorldPosGrid { get; set; }

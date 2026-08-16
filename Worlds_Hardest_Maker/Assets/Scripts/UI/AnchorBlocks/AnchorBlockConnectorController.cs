@@ -1,10 +1,14 @@
 using System.Collections;
+using MyBox;
 using UnityEngine;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public class AnchorBlockConnectorController : MonoBehaviour
 {
     [HideInInspector] public MouseOverUIRect MouseOverUIRect;
+
+    [SerializeField] [InitializationField] [MustBeAssigned] private AnchorBlockPreviewController anchorBlockPreviewController;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform mainChain;
     
     private void Start()
     {
@@ -16,25 +20,23 @@ public class AnchorBlockConnectorController : MonoBehaviour
     
     public void OnHover()
     {
-        AnchorBlockManager.Instance.HoveredBlockIndex =
-            ReferenceManager.Instance.MainChainController.transform.childCount - 2;
+        AnchorBlockManager.Instance.HoveredBlockIndex = mainChain.childCount - 2;
         
-        ReferenceManager.Instance.AnchorBlockPreview.Activate();
+        anchorBlockPreviewController.Activate();
     }
     
     public void OnUnhover()
     {
         AnchorBlockManager.Instance.HoveredBlockIndex = -1;
-        ReferenceManager.Instance.AnchorBlockPreview.Deactivate();
+        anchorBlockPreviewController.Deactivate();
     }
     
     public void UpdateY()
     {
         // move anchor connector
-        RectTransform mainChainRectTransform = (RectTransform)ReferenceManager.Instance.MainChainController.transform;
-        float anchorY = mainChainRectTransform.localPosition.y;
+        float anchorY = mainChain.localPosition.y;
         
-        foreach (RectTransform anchorBlockInChain in mainChainRectTransform)
+        foreach (RectTransform anchorBlockInChain in mainChain)
         {
             // ignore preview object
             if (anchorBlockInChain.CompareTag("AnchorBlockPreview")) continue;
@@ -44,10 +46,8 @@ public class AnchorBlockConnectorController : MonoBehaviour
             anchorY -= height;
         }
         
-        RectTransform anchorConnectorRt =
-            (RectTransform)ReferenceManager.Instance.AnchorBlockConnectorController.transform;
-        
-        anchorConnectorRt.localPosition = new(anchorConnectorRt.localPosition.x, anchorY);
+        RectTransform rt = (RectTransform)transform;
+        rt.localPosition = new(rt.localPosition.x, anchorY);
     }
     
     public void UpdateHeight(Vector2 mouseOffset)
@@ -74,8 +74,7 @@ public class AnchorBlockConnectorController : MonoBehaviour
     {
         if (MouseOverUIRect.Over && AnchorBlockManager.Instance.HoveredBlockIndex == -1)
         {
-            AnchorBlockManager.Instance.HoveredBlockIndex =
-                ReferenceManager.Instance.MainChainController.transform.childCount - 2;
+            AnchorBlockManager.Instance.HoveredBlockIndex = mainChain.childCount - 2;
         }
     }
 }

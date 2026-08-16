@@ -37,7 +37,7 @@ public class SetRotationBlock : AnchorBlock, IPassiveAnchorBlock
         SetRotationBlockController controller = (SetRotationBlockController)c;
         controller.SpeedInput.text = input.ToString();
         controller.UnitInput.value =
-            GameManager.GetDropdownValue(SetRotationBlockController.GetOption(unit), controller.UnitInput);
+            GameManager.Instance.GetDropdownValue(SetRotationBlockController.GetOption(unit), controller.UnitInput);
     }
     
     public override AnchorBlockData GetData() => new SetRotationBlockData(IsLocked, input, unit);

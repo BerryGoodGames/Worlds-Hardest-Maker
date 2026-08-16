@@ -34,7 +34,7 @@ public class SetSpeedBlock : AnchorBlock, IPassiveAnchorBlock
         
         controller.SpeedInput.text = input.ToString();
         controller.UnitInput.value =
-            GameManager.GetDropdownValue(SetSpeedBlockController.GetOption(unit), controller.UnitInput);
+            GameManager.Instance.GetDropdownValue(SetSpeedBlockController.GetOption(unit), controller.UnitInput);
     }
     
     public void Print() => Debug.Log((input, unit));

@@ -15,10 +15,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform fieldContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private LoadingScreen loadingScreen;
     [SerializeField] [InitializationField] [MustBeAssigned] private ChainableTween swipeTween;
+    [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform canvas;
     
     [Separator("Save")] [SerializeField] [PositiveValueOnly] private float autoSaveInterval = 300;
-    
-    private RectTransform canvasRT;
     
     private void Awake()
     {
@@ -35,8 +34,6 @@ public class GameManager : MonoBehaviour
     
     private void Start()
     {
-        canvasRT = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>();
-        
         if (!LevelSessionManager.IsSessionFromEditor)
         {
             // user loaded editor scene from main menu
@@ -150,21 +147,21 @@ public class GameManager : MonoBehaviour
     
     #endregion
     
-    public static void SetCameraUnitWidth(float width)
+    public void SetCameraUnitWidth(float width)
     {
         Camera cam = Camera.main;
         if (cam != null) cam.orthographicSize = width * 0.5f / cam.aspect;
         else throw new Exception($"Couldn't set camera width (in units) to {width} because main camera is null");
     }
     
-    public static void SetCameraUnitHeight(float height)
+    public void SetCameraUnitHeight(float height)
     {
         Camera cam = Camera.main;
         if (cam != null) cam.orthographicSize = height * 0.5f;
         else throw new Exception($"Couldn't set camera height (in units) to {height} because main camera is null");
     }
     
-    public static Vector2 ScreenToMainCanvas(Vector2 position) => position * (Instance.canvasRT.sizeDelta / new Vector2(Screen.width, Screen.height));
+    public Vector2 ScreenToMainCanvas(Vector2 position) => position * (canvas.sizeDelta / new Vector2(Screen.width, Screen.height));
     
     public void ClearLevel()
     {
@@ -191,7 +188,7 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    public static void RemoveObjectInContainer(Vector2 position, Transform container)
+    public void RemoveObjectInContainer(Vector2 position, Transform container)
     {
         Collider2D[] hits = new Collider2D[container.childCount];
         _ = Physics2D.OverlapCircleNonAlloc(position, 0.005f, hits, 128);
@@ -205,7 +202,7 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    public static void RemoveObjectInContainerIntersect(Vector2 position, Transform container)
+    public void RemoveObjectInContainerIntersect(Vector2 position, Transform container)
     {
         Vector2[] deltas =
         {
@@ -230,19 +227,19 @@ public class GameManager : MonoBehaviour
         if (LevelSessionManager.Instance.LevelSessionPath != string.Empty) SaveSystem.SaveCurrentLevel();
     }
     
-    public static void DeselectInputs()
+    public void DeselectInputs()
     {
         EventSystem eventSystem = EventSystem.current;
         if (!eventSystem.alreadySelecting) eventSystem.SetSelectedGameObject(null);
     }
     
-    public static Vector2 GetCanvasDimensions()
+    public Vector2 GetCanvasDimensions()
     {
-        Rect canvas = ReferenceManager.Instance.Canvas.GetComponent<RectTransform>().rect;
-        return new(canvas.width, canvas.height);
+        Rect canvasRt = canvas.rect;
+        return new(canvasRt.width, canvasRt.height);
     }
     
-    public static int GetDropdownValue(string option, TMP_Dropdown dropdown)
+    public int GetDropdownValue(string option, TMP_Dropdown dropdown)
     {
         for (int i = 0; i < dropdown.options.Count; i++)
         {

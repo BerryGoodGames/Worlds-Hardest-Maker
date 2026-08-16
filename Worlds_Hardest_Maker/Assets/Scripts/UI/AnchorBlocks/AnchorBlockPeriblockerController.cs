@@ -1,9 +1,13 @@
+using MyBox;
 using UnityEngine;
 
 [RequireComponent(typeof(MouseOverUIRect))]
 public class AnchorBlockPeriblockerController : MonoBehaviour
 {
     [HideInInspector] public MouseOverUIRect MouseOverUIRect;
+
+    [SerializeField] [InitializationField] [MustBeAssigned] private ChainController mainChainController;    
+    [SerializeField] [InitializationField] [MustBeAssigned] private AnchorBlockPreviewController anchorBlockPreview;
     
     /// <summary>
     ///     Resizes itself to <c>anchorBlock</c>
@@ -20,7 +24,7 @@ public class AnchorBlockPeriblockerController : MonoBehaviour
             (width, height) = (anchorBlockRect.width, anchorBlockRect.height);
         }
         
-        ((RectTransform)transform).sizeDelta = new Vector2(width, height);
+        ((RectTransform)transform).sizeDelta = new(width, height);
     }
     
     public void UpdateSize(int stringIndex)
@@ -31,17 +35,15 @@ public class AnchorBlockPeriblockerController : MonoBehaviour
             return;
         }
         
-        ChainController mainChain = ReferenceManager.Instance.MainChainController;
-        AnchorBlockController hoveredBlock = mainChain.GetAnchorBlockByChainIndex(stringIndex);
+        AnchorBlockController hoveredBlock = mainChainController.GetAnchorBlockByChainIndex(stringIndex);
         UpdateSize(hoveredBlock);
     }
     
     public void UpdateSize()
     {
-        Transform mainChain = ReferenceManager.Instance.MainChainController.transform;
         int anchorBlockIndex = AnchorBlockManager.Instance.HoveredBlockIndex;
         
-        if (anchorBlockIndex >= mainChain.childCount - 2)
+        if (anchorBlockIndex >= mainChainController.transform.childCount - 2)
         {
             UpdateSize(null);
             return;
@@ -53,12 +55,13 @@ public class AnchorBlockPeriblockerController : MonoBehaviour
     public void OnUnhover()
     {
         // check if any hoverable object is hovered (anchor blocks or anchor connector or periblocker)
-        if (AnchorBlockManager.Instance.IsAnyBlockHovered() || AnchorBlockManager.Instance.IsConnectorHovered ||
-            AnchorBlockManager.Instance.IsPeriblockerHovered) return;
+        if (AnchorBlockManager.Instance.IsAnyBlockHovered() 
+            || AnchorBlockManager.Instance.IsConnectorHovered 
+            || AnchorBlockManager.Instance.IsPeriblockerHovered) return;
         
         // disable preview
         AnchorBlockManager.Instance.HoveredBlockIndex = -1;
-        ReferenceManager.Instance.AnchorBlockPreview.Deactivate();
+        anchorBlockPreview.Deactivate();
     }
     
     public void Init()
