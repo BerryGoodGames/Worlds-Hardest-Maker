@@ -5,7 +5,6 @@ public class DashedLineController : MonoBehaviour
 {
     private float spacing;
     private float width;
-    private Material dashedLineMaterial;
     
     private LineRenderer lineRenderer;
     
@@ -20,7 +19,6 @@ public class DashedLineController : MonoBehaviour
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.material = dashedLineMaterial;
         CalculateDashes();
     }
 
@@ -28,7 +26,7 @@ public class DashedLineController : MonoBehaviour
     {
         this.spacing = spacing;
         this.width = width;
-        this.dashedLineMaterial = dashedLineMaterial;
+        lineRenderer.material = dashedLineMaterial;
     }
     
     private void LateUpdate()
