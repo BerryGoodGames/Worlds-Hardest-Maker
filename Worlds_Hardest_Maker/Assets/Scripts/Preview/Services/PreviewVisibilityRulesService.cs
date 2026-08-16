@@ -9,6 +9,7 @@ public class PreviewVisibilityRulesService
 {
     [Inject] private IMouseService mouseService;
     [Inject] private ISelectionStateService selectionStateService;
+    [Inject] private ICopyPasteService copyPasteService;
     
     public bool IsPreviewVisible(EditMode editMode)
     {
@@ -24,7 +25,7 @@ public class PreviewVisibilityRulesService
         if (AnchorBlockManager.Instance.DraggingBlock) return false;
 
         // hidden during copy/paste operations
-        if (CopyManager.Instance.Pasting) return false;
+        if (copyPasteService.IsPasting) return false;
 
         // hidden during anchor position editing
         if (AnchorPositionInputEditManager.Instance.IsEditing) return false;

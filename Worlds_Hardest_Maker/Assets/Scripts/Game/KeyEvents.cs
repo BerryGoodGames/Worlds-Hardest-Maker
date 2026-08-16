@@ -12,6 +12,7 @@ public class KeyEvents : MonoBehaviour
     private KeyCode[] prevHeldDownKeys = Array.Empty<KeyCode>();
     
     [Inject] private IMouseService mouseService;
+    [Inject] private ICopyPasteService copyPasteService;
     
     private void Update()
     {
@@ -45,7 +46,7 @@ public class KeyEvents : MonoBehaviour
         if (KeyBinds.GetKeyBindDown("Editor_SaveLevel")) SaveSystem.SaveCurrentLevel();
         
         // paste
-        if (!CopyManager.Instance.Pasting && KeyBinds.GetKeyBind("Editor_Paste")) StartCoroutine(CopyManager.Instance.PasteCoroutine());
+        if (!copyPasteService.IsPasting && KeyBinds.GetKeyBind("Editor_Paste")) StartCoroutine(copyPasteService.PasteCoroutine());
     }
     
     private void CheckEditModeRotation()

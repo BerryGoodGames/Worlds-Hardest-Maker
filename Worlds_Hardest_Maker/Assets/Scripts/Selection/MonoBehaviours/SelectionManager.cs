@@ -11,6 +11,7 @@ namespace WorldsHardestMaker.Selection
         private ISelectionAreaProvider selectionAreaProvider;
         private IAreaFillService fillService;
         private IAreaErasureService erasureService;
+        private ICopyPasteService copyPasteService;
 
         [SerializeField] [InitializationField] [MustBeAssigned] private Transform fieldContainer;
         [SerializeField] [InitializationField] [MustBeAssigned] private Transform playerContainer;
@@ -25,13 +26,15 @@ namespace WorldsHardestMaker.Selection
             ISelectionAreaProvider selectionAreaProvider,
             IAreaFillService fillService,
             IAreaErasureService erasureService,
-            IDrawService drawService)
+            IDrawService drawService,
+            ICopyPasteService copyPasteService)
         {
             this.eventBus = eventBus;
             this.selectionStateService = selectionStateService;
             this.selectionAreaProvider = selectionAreaProvider;
             this.fillService = fillService;
             this.erasureService = erasureService;
+            this.copyPasteService = copyPasteService;
 
             optionsPanelController.SetEventBus(eventBus);
             previewController.Initialize(eventBus, diContainer, selectionAreaProvider);
@@ -69,7 +72,7 @@ namespace WorldsHardestMaker.Selection
         public void OnCopyClicked()
         {
             SelectionArea selectedArea = selectionAreaProvider.GetArea();
-            CopyManager.Instance.Copy(selectedArea);
+            copyPasteService.Copy(selectedArea);
         
             selectionStateService.ClearSelection();
         }
@@ -77,9 +80,8 @@ namespace WorldsHardestMaker.Selection
         public void OnCutClicked()
         {
             SelectionArea selectedArea = selectionAreaProvider.GetArea();
-            CopyManager.Instance.Copy(selectedArea);        
-        
-            erasureService.EraseArea(selectionAreaProvider.GetArea());
+            copyPasteService.Copy(selectedArea);        
+            erasureService.EraseArea(selectedArea);
 
             selectionStateService.ClearSelection();
         }

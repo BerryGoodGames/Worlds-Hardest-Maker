@@ -9,6 +9,7 @@ using WorldsHardestMaker.Selection;
 public class PreviewSpriteDataProvider
 {
     [Inject] private ISelectionStateService selectionStateService;
+    [Inject] private ICopyPasteService copyPasteService;
 
     public PreviewSpriteData GetPreviewSpriteData(EditMode editMode, bool forceShowPreviewSprite = false)
     {
@@ -28,7 +29,7 @@ public class PreviewSpriteDataProvider
         if (currentPrefab.TryGetComponent(out PreviewSpriteConfigurator previewSprite))
         {
             bool shouldShowPreviewSprite = forceShowPreviewSprite || 
-                (!selectionStateService.IsSelecting && !CopyManager.Instance.Pasting);
+                (!selectionStateService.IsSelecting && !copyPasteService.IsPasting);
             
             if (shouldShowPreviewSprite)
             {

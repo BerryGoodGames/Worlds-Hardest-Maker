@@ -28,6 +28,8 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.Register<AreaFillService>(Lifetime.Singleton).As<IAreaFillService>();
 
         builder.RegisterComponentInHierarchy<DrawManager>().As<IDrawService>();
+
+        builder.RegisterComponentInHierarchy<CopyPasteManager>().As<ICopyPasteService>();
     }
     
     protected override void Awake()

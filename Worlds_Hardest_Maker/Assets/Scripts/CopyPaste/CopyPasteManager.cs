@@ -6,13 +6,12 @@ using VContainer;
 using VContainer.Unity;
 using WorldsHardestMaker.Selection;
 
-public class CopyManager : MonoBehaviour
+public class CopyPasteManager : MonoBehaviour, ICopyPasteService
 {
-    public static CopyManager Instance { get; private set; }
-    
     private readonly List<CopyData> clipBoard = new();
     
-    [field: SerializeField] [field: ReadOnly] public bool Pasting { get; private set; }
+    [SerializeField] [ReadOnly] private bool isPasting;
+    public bool IsPasting => isPasting;
     
     [SerializeField] [InitializationField] [MustBeAssigned] private PastePreviewCoordinator pastePreviewPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform previewContainer;
@@ -131,13 +130,13 @@ public class CopyManager : MonoBehaviour
         // make sure that the player can't place directly after pasting
         while (!Input.GetMouseButtonUp(0)) yield return null;
         
-        Pasting = false;
+        isPasting = false;
     }
     
     private void StartPaste()
     {
         // // actions the frame the user starts pasting
-        Pasting = true;
+        isPasting = true;
         
         // block menu from being opened and some other stuff
         MenuManager.Instance.BlockMenu = true;
@@ -157,8 +156,8 @@ public class CopyManager : MonoBehaviour
         
         ClearPreview();
         
-        Instance.previewContainer.position = Vector2.zero;
-        Pasting = false;
+        previewContainer.position = Vector2.zero;
+        isPasting = false;
         
         // show panels (if in edit mode)
         toolbarTween.SetPlay(LevelSessionEditManager.Instance.Playing);
@@ -179,7 +178,7 @@ public class CopyManager : MonoBehaviour
         MenuManager.Instance.BlockMenu = false;
         
         ClearPreview();
-        Instance.previewContainer.position = Vector2.zero;
+        previewContainer.position = Vector2.zero;
         
         // show bars
         toolbarTween.SetPlay(false);
@@ -205,7 +204,7 @@ public class CopyManager : MonoBehaviour
             
             PastePreviewCoordinator pastePreview = Instantiate(
                 pastePreviewPrefab, Vector2.zero, rotation,
-                Instance.previewContainer
+                previewContainer
             );
             
             diContainer.InjectGameObject(pastePreview.gameObject);
@@ -216,14 +215,8 @@ public class CopyManager : MonoBehaviour
         }
     }
     
-    private static void ClearPreview()
+    private void ClearPreview()
     {
-        foreach (Transform child in Instance.previewContainer) Destroy(child.gameObject);
-    }
-    
-    private void Awake()
-    {
-        if (Instance == null) Instance = this;
-        else Destroy(this);
+        foreach (Transform child in previewContainer) Destroy(child.gameObject);
     }
 }

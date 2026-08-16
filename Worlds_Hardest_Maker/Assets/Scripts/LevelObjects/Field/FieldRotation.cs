@@ -18,11 +18,13 @@ public class FieldRotation : MonoBehaviour
     private Sequence scaleSequence;
 
     private ISelectionStateService selectionStateService;
+    private ICopyPasteService copyPasteService;
 
     [Inject]
-    private void Construct(ISelectionStateService selectionStateService)
+    private void Construct(ISelectionStateService selectionStateService, ICopyPasteService copyPasteService)
     {
         this.selectionStateService = selectionStateService;
+        this.copyPasteService = copyPasteService;
     }
     
     private void Rotate()
@@ -53,7 +55,7 @@ public class FieldRotation : MonoBehaviour
     
     private void OnMouseUpAsButton()
     {
-        if (selectionStateService.IsSelecting || CopyManager.Instance.Pasting || LevelSessionEditManager.Instance.Playing) return;
+        if (selectionStateService.IsSelecting || copyPasteService.IsPasting || LevelSessionEditManager.Instance.Playing) return;
         
         if (LevelSessionEditManager.Instance.CurrentEditMode != controller.FieldMode) return;
         

@@ -16,6 +16,7 @@ public class MouseEventManager : MonoBehaviour
     [Inject] private EventBus eventBus;
     [Inject] private IMouseService mouseService;
     [Inject] private ISelectionStateService selectionStateService;
+    [Inject] private ICopyPasteService copyPasteService;
     
     private void Update()
     {
@@ -43,7 +44,7 @@ public class MouseEventManager : MonoBehaviour
         if (mouseService.IsUIHovered
             || LevelSessionEditManager.Instance.Playing
             || selectionStateService.IsSelecting
-            || CopyManager.Instance.Pasting
+            || copyPasteService.IsPasting
             || AnchorPositionInputEditManager.Instance.IsEditing) return;
         
         // if none of the relevant keys is held, check field placement + entity placement
