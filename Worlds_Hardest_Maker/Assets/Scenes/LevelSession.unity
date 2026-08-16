@@ -3303,6 +3303,7 @@ Transform:
   - {fileID: 1054767411}
   - {fileID: 1153312830}
   - {fileID: 483670037}
+  - {fileID: 2120583833}
   - {fileID: 1216610403}
   - {fileID: 261002466}
   - {fileID: 1480132166}
@@ -6527,7 +6528,7 @@ GameObject:
   - component: {fileID: 441104388}
   - component: {fileID: 441104389}
   m_Layer: 0
-  m_Name: CopyPreview
+  m_Name: PastePreview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17292,9 +17293,6 @@ MonoBehaviour:
   anchorPanelController: {fileID: 1661549653}
   anchorAttachButtonController: {fileID: 374404340}
   anchorAttachExitButtonController: {fileID: 858147039}
-  toolbarTween: {fileID: 3914619140277756240}
-  infobarEditTween: {fileID: 1060004926}
-  playButtonTween: {fileID: 4746071704783565827}
   mainChainController: {fileID: 1265522667}
 --- !u!1001 &1148953494
 PrefabInstance:
@@ -25696,7 +25694,7 @@ MonoBehaviour:
   optionsPanelController:
     panel: {fileID: 1898372880}
     attachment: {fileID: 1898372883}
-  previewController:
+  previewService:
     fillPreviewPrefab: {fileID: 3930856783921599848, guid: 0f8817e424b9b4547b47abeab323c2e9, type: 3}
     fillOptionMouseOver: {fileID: 42787709}
     container: {fileID: 282166553}
@@ -26986,7 +26984,7 @@ GameObject:
   - component: {fileID: 1709400181}
   - component: {fileID: 1709400182}
   m_Layer: 0
-  m_Name: _Copy
+  m_Name: _CopyPaste
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27019,7 +27017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3937e6e0e3128a41a456eee94ca9929, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Pasting>k__BackingField: 0
+  isPasting: 0
   pastePreviewPrefab: {fileID: 3059235107453308756, guid: d0d83e03c7ffdfa41b423eb62f8ab024, type: 3}
   previewContainer: {fileID: 441104387}
   toolbarTween: {fileID: 3914619140277756240}
@@ -28651,9 +28649,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: WorldsHardestMaker::AnchorBlockIndexInputEditManager
   isEditing: 0
   currentEditedIndexInput: {fileID: 0}
-  toolbarTween: {fileID: 3914619140277756240}
-  infobarEditTween: {fileID: 1060004926}
-  playButtonTween: {fileID: 4746071704783565827}
 --- !u!1 &1837256742 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 754391215707131479, guid: 4cd72d9d09a44b1479ba2f7c81b66de0, type: 3}
@@ -34107,6 +34102,53 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
+--- !u!1 &2120583832
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2120583833}
+  - component: {fileID: 2120583834}
+  m_Layer: 0
+  m_Name: _EditModeUIBlockerService
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2120583833
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120583832}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 198493967}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2120583834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120583832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18ba00f5236841269ae593e2bc1d42ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WorldsHardestMaker::EditModeUIBlockerService
+  toolbarTween: {fileID: 3914619140277756240}
+  infobarEditTween: {fileID: 1060004926}
+  playButtonTween: {fileID: 4746071704783565827}
 --- !u!1 &2123048977
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,21 +17,23 @@ public class AnchorPositionInputEditManager : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorPanelController;
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachButtonController;
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachExitButtonController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween toolbarTween;
-    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween infobarEditTween;
-    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween playButtonTween;
     [SerializeField] [InitializationField] [MustBeAssigned] private ChainController mainChainController;
     
     private IAudioService audioService;
     private IMouseService mouseService;
     private ISelectionStateService selectionStateService;
+    private IEditModeUIBlockerService uiBlockerService;
     
     [Inject]
-    private void Construct(IAudioService audioService, IMouseService mouseService, ISelectionStateService selectionStateService)
+    private void Construct(IAudioService audioService, 
+        IMouseService mouseService, 
+        ISelectionStateService selectionStateService,
+        IEditModeUIBlockerService uiBlockerService)
     {
         this.audioService = audioService;
         this.mouseService = mouseService;
         this.selectionStateService = selectionStateService;
+        this.uiBlockerService = uiBlockerService;
     }
 
     public void StartPositionInputEdit(AnchorBlockPositionInputController positionInput)
@@ -44,13 +46,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
     {
         IsEditing = true;
         
-        // block menu from opening
-        MenuManager.Instance.BlockMenu = true;
-        
-        // disable panels
-        toolbarTween.SetPlay(true);
-        infobarEditTween.SetPlay(true);
-        playButtonTween.TweenToY(-125, false);
+        uiBlockerService.BlockAndDisable();
         
         PanelManager.Instance.SetPanelHidden(anchorPanelController, true);
         PanelManager.Instance.SetPanelHidden(anchorAttachButtonController, true);
@@ -64,10 +60,12 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         IsEditing = false;
         CurrentEditedPositionInput = null;
         
-        // show panels
-        toolbarTween.SetPlay(LevelSessionEditManager.Instance.Playing);
-        infobarEditTween.SetPlay(LevelSessionEditManager.Instance.Playing);
-        playButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        uiBlockerService.ReleaseAndShow();
+        // original:
+        // toolbarTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        // infobarEditTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        // playButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        // no Menu.BlockMenu = false ! TODO: check if working
         
         PanelManager.Instance.SetPanelOpen(anchorPanelController, LevelSessionEditManager.Instance.Editing);
         PanelManager.Instance.SetPanelOpen(

@@ -30,6 +30,8 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<DrawManager>().As<IDrawService>();
 
         builder.RegisterComponentInHierarchy<CopyPasteManager>().As<ICopyPasteService>();
+
+        builder.RegisterComponentInHierarchy<EditModeUIBlockerService>().As<IEditModeUIBlockerService>();
     }
     
     protected override void Awake()

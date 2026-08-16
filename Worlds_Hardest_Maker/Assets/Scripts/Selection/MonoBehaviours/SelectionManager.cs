@@ -1,5 +1,6 @@
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VContainer;
 
 namespace WorldsHardestMaker.Selection
@@ -16,7 +17,7 @@ namespace WorldsHardestMaker.Selection
         [SerializeField] [InitializationField] [MustBeAssigned] private Transform fieldContainer;
         [SerializeField] [InitializationField] [MustBeAssigned] private Transform playerContainer;
         [Space] [SerializeField] private SelectionOptionsPanelController optionsPanelController;
-        [Space] [SerializeField] private SelectionPreviewController previewController;
+        [Space] [SerializeField] private SelectionPreviewService previewService;
         [Space] [SerializeField] private SelectionOutlineController outlineController;
 
         [Inject]
@@ -37,7 +38,7 @@ namespace WorldsHardestMaker.Selection
             this.copyPasteService = copyPasteService;
 
             optionsPanelController.SetEventBus(eventBus);
-            previewController.Initialize(eventBus, diContainer, selectionAreaProvider);
+            previewService.Initialize(eventBus, diContainer, selectionAreaProvider);
             outlineController.Initialize(eventBus, drawService);
         
             eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
@@ -50,7 +51,7 @@ namespace WorldsHardestMaker.Selection
         private void OnDestroy()
         {
             optionsPanelController.Dispose();
-            previewController.Dispose();
+            previewService.Dispose();
             outlineController.Dispose();
         
             eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);

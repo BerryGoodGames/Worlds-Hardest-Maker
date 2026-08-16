@@ -10,11 +10,9 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
     
     [SerializeField] [ReadOnly] private bool isEditing;
     [SerializeField] [ReadOnly] private AnchorBlockIndexInputController currentEditedIndexInput;
-    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween toolbarTween;
-    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween infobarEditTween;
-    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween playButtonTween;
     
     [Inject] private ISelectionStateService selectionStateService;
+    [Inject] private IEditModeUIBlockerService uiBlockerService;
     
     public void StartIndexInputEdit(AnchorBlockIndexInputController indexInput)
     {
@@ -26,13 +24,7 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
     {
         isEditing = true;
         
-        // block menu from opening
-        MenuManager.Instance.BlockMenu = true;
-        
-        // disable panels
-        toolbarTween.SetPlay(true);
-        infobarEditTween.SetPlay(true);
-        playButtonTween.TweenToY(-125, false);
+        uiBlockerService.BlockAndDisable();
     }
     
     private void OnEndIndexEdit()
@@ -42,13 +34,7 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
         isEditing = false;
         currentEditedIndexInput = null;
         
-        // release menu
-        MenuManager.Instance.BlockMenu = false;
-        
-        // show panels
-        toolbarTween.SetPlay(LevelSessionEditManager.Instance.Playing);
-        infobarEditTween.SetPlay(LevelSessionEditManager.Instance.Playing);
-        playButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        uiBlockerService.ReleaseAndShow();
     }
     
     private IEnumerator EditCoroutine()

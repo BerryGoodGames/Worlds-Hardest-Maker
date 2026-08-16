@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 namespace WorldsHardestMaker.Selection
 {
     [Serializable]
-    public class SelectionPreviewController : IDisposable
+    public class SelectionPreviewService : IDisposable
     {    
         [SerializeField] [InitializationField] [MustBeAssigned] private FillPreviewCoordinator fillPreviewPrefab;
         [SerializeField] [InitializationField] [MustBeAssigned] private MouseOverUIRect fillOptionMouseOver;
