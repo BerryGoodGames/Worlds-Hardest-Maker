@@ -4,7 +4,7 @@ using UnityEngine;
 public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock
 {
     public override Type ImplementedBlockType => Type.Move;
-    protected override GameObject Prefab => PrefabManager.Instance.MoveBlockPrefab;
+    protected override GameObject Prefab => Anchor.PrefabProvider.MoveBlockPrefab;
     
     #region Constructors
     

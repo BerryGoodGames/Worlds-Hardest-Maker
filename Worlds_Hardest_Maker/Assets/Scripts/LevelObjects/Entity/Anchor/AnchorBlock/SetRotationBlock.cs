@@ -12,7 +12,7 @@ public class SetRotationBlock : AnchorBlock, IPassiveAnchorBlock
     
     public const Type BLOCK_TYPE = Type.SetRotation;
     public override Type ImplementedBlockType => BLOCK_TYPE;
-    protected override GameObject Prefab => PrefabManager.Instance.SetRotationSpeedBlockPrefab;
+    protected override GameObject Prefab => Anchor.PrefabProvider.SetRotationSpeedBlockPrefab;
     
     private readonly float input;
     private readonly Unit unit;

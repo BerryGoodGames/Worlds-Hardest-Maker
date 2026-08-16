@@ -7,7 +7,7 @@ public class StopRotatingBlock : AnchorBlock, IActiveAnchorBlock
     
     public const Type BLOCK_TYPE = Type.StopRotating;
     public override Type ImplementedBlockType => BLOCK_TYPE;
-    protected override GameObject Prefab => PrefabManager.Instance.StopRotatingBlockPrefab;
+    protected override GameObject Prefab => Anchor.PrefabProvider.StopRotatingBlockPrefab;
     
     public override void Execute()
     {

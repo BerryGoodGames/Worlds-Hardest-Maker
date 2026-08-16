@@ -5,7 +5,7 @@ public class RotateBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
 {
     public const Type BLOCK_TYPE = Type.Rotate;
     public override Type ImplementedBlockType => BLOCK_TYPE;
-    protected override GameObject Prefab => PrefabManager.Instance.RotateBlockPrefab;
+    protected override GameObject Prefab => Anchor.PrefabProvider.RotateBlockPrefab;
     
     private readonly float iterations;
     

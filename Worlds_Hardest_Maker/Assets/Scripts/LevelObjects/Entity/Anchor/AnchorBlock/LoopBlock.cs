@@ -4,7 +4,7 @@ public class LoopBlock : AnchorBlock, IPassiveAnchorBlock
 {
     public const Type BLOCK_TYPE = Type.Loop;
     public override Type ImplementedBlockType => BLOCK_TYPE;
-    protected override GameObject Prefab => PrefabManager.Instance.GoToBlockPrefab;
+    protected override GameObject Prefab => Anchor.PrefabProvider.GoToBlockPrefab;
     
     public LoopBlock(AnchorController anchor, bool isLocked) : base(anchor, isLocked) { }
     

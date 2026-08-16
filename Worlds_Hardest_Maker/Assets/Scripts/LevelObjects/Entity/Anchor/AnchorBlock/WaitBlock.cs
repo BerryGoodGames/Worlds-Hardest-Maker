@@ -22,7 +22,7 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
     
     public const Type BLOCK_TYPE = Type.Wait;
     public override Type ImplementedBlockType => BLOCK_TYPE;
-    protected override GameObject Prefab => PrefabManager.Instance.WaitBlockPrefab;
+    protected override GameObject Prefab => Anchor.PrefabProvider.WaitBlockPrefab;
     
     private readonly float input;
     

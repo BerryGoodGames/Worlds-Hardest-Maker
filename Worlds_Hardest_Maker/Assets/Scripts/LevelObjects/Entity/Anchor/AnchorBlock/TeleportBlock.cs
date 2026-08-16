@@ -5,7 +5,7 @@ public class TeleportBlock : PositionAnchorBlock, IActiveAnchorBlock
     public TeleportBlock(AnchorController anchor, bool isLocked, Vector2 target) : base(anchor, isLocked, target) { }
     
     public override Type ImplementedBlockType => Type.Teleport;
-    protected override GameObject Prefab => PrefabManager.Instance.TeleportBlockPrefab;
+    protected override GameObject Prefab => Anchor.PrefabProvider.TeleportBlockPrefab;
     
     public override void Execute()
     {

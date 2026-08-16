@@ -7,7 +7,7 @@ public class StartRotatingBlock : AnchorBlock, IActiveAnchorBlock
     
     public const Type BLOCK_TYPE = Type.StartRotating;
     public override Type ImplementedBlockType => BLOCK_TYPE;
-    protected override GameObject Prefab => PrefabManager.Instance.StartRotatingBlockPrefab;
+    protected override GameObject Prefab => Anchor.PrefabProvider.StartRotatingBlockPrefab;
     
     public override void Execute()
     {

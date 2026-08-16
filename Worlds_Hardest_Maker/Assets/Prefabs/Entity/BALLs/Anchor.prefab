@@ -314,6 +314,19 @@ MonoBehaviour:
   AttachmentContainerSyncTransform: {fileID: 192380122639183852}
   Animator: {fileID: 2695958956081501589}
   AttachFade: {fileID: 3789915255164817463}
+  <PrefabProvider>k__BackingField:
+    goToBlockPrefab: {fileID: 7403852272629114467, guid: e4eea3214032b514ab4c089e417fd85a, type: 3}
+    moveBlockPrefab: {fileID: 7145782815987990204, guid: 5346f04c8b83e9548809042eeb5d8ce8, type: 3}
+    teleportBlockPrefab: {fileID: 182472844863961304, guid: 9b162963ad136c04e8e828889f7ad4b2, type: 3}
+    rotateBlockPrefab: {fileID: 1825512037137797739, guid: 8da422c085be186488ff0f11e83a2fd9, type: 3}
+    startRotatingBlockPrefab: {fileID: 1109251508889321668, guid: aebdd729b1a104041ad26b4b60a0fde8, type: 3}
+    stopRotatingBlockPrefab: {fileID: 6834736096933721540, guid: 3126a29611824c549b6cd4cdb63e5c29, type: 3}
+    moveAndRotateBlockPrefab: {fileID: 3085765387000724420, guid: 18d3a92829e7f19459d641511239e03b, type: 3}
+    setRotationSpeedBlockPrefab: {fileID: 611930546777769608, guid: 42159a5ef8862134f91330cbb90985f3, type: 3}
+    setDirectionBlockPrefab: {fileID: 4088375560753239173, guid: 3b94a36061818f141940b9248b5bb80c, type: 3}
+    setSpeedBlockPrefab: {fileID: 3450903711411163847, guid: 7edbb5bebcee48949bbe3261c9fc344b, type: 3}
+    setEaseBlockPrefab: {fileID: 8329645871710002658, guid: e185995d2e010c8488437a6cf9f52955, type: 3}
+    waitBlockPrefab: {fileID: 3782719288217473487, guid: 70e8213d3f95e0647b91d34d1f75ab8f, type: 3}
   SortingLayerID: 0
   OrderInLayer: 0
   Balls: []

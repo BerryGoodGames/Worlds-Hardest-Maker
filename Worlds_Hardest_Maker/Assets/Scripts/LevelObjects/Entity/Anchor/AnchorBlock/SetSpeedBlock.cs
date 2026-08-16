@@ -10,7 +10,7 @@ public class SetSpeedBlock : AnchorBlock, IPassiveAnchorBlock
     
     public const Type BLOCK_TYPE = Type.SetSpeed;
     public override Type ImplementedBlockType => BLOCK_TYPE;
-    protected override GameObject Prefab => PrefabManager.Instance.SetSpeedBlockPrefab;
+    protected override GameObject Prefab => Anchor.PrefabProvider.SetSpeedBlockPrefab;
     
     private readonly float input;
     private readonly Unit unit;

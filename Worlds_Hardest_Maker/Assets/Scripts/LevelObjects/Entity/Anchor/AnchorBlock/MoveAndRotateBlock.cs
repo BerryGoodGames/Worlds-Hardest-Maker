@@ -6,7 +6,7 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
 {
     public const Type BLOCK_TYPE = Type.MoveAndRotate;
     public override Type ImplementedBlockType => Type.MoveAndRotate;
-    protected override GameObject Prefab => PrefabManager.Instance.MoveAndRotateBlockPrefab;
+    protected override GameObject Prefab => Anchor.PrefabProvider.MoveAndRotateBlockPrefab;
     
     private readonly float iterations;
     
