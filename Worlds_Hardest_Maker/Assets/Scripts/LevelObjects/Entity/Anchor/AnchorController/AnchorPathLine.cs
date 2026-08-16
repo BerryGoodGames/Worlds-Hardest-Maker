@@ -12,6 +12,8 @@ public class AnchorPathLine : MonoBehaviour
     public (LineAnimator line1, LineAnimator line2) ArrowLines { get; set; }
     
     public AlphaTween Blur { get; private set; }
+    
+    [SerializeField] [InitializationField] [MustBeAssigned] private AlphaTween glowPrefab;
 
     private IDrawService drawService;
     
@@ -86,7 +88,7 @@ public class AnchorPathLine : MonoBehaviour
         if (Blur == null)
         {
             Blur = Instantiate(
-                PrefabManager.Instance.GlowPrefab, glowStart, Quaternion.Euler(0, 0, glowRotation),
+                glowPrefab, glowStart, Quaternion.Euler(0, 0, glowRotation),
                 transform
             );
         }

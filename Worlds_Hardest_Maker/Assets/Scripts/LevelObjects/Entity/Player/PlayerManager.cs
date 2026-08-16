@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     
     [ReadOnly] public PlayerController Player;
     
+    [SerializeField] [InitializationField] [MustBeAssigned] private PlayerController playerPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private JumpToEntity mainCameraJumper;   
     [SerializeField] [InitializationField] [MustBeAssigned] private TimerController timerController;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform playerContainer;    
@@ -67,7 +68,7 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     public PlayerController InstantiateInSheet(ManagerParameters args)
     {
         PlayerController newPlayer = Instantiate(
-            PrefabManager.Instance.Player,
+            playerPrefab,
             args.Position, Quaternion.identity,
             playerContainer
         );

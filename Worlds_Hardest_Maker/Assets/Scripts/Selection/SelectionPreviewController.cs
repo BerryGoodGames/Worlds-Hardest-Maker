@@ -8,6 +8,7 @@ using Object = UnityEngine.Object;
 [Serializable]
 public class SelectionPreviewController : IDisposable
 {    
+    [SerializeField] [InitializationField] [MustBeAssigned] private FillPreviewCoordinator fillPreviewPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private MouseOverUIRect fillOptionMouseOver;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform container;
     
@@ -49,7 +50,7 @@ public class SelectionPreviewController : IDisposable
         foreach (Vector2 pos in area.Positions)
         {
             FillPreviewCoordinator fillPreview = Object.Instantiate(
-                PrefabManager.Instance.FillPreview, pos, Quaternion.identity,
+                fillPreviewPrefab, pos, Quaternion.identity,
                 container
             );
 

@@ -8,6 +8,8 @@ public class BallManager : MonoBehaviour, IManager<BallController>
 {
     public static BallManager Instance { get; private set; }
 
+    // TODO: why is this a GameObject and not a BallController?
+    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject ballPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform ballContainer;
     
     [ReadOnly] public List<BallController> BallList;
@@ -68,7 +70,7 @@ public class BallManager : MonoBehaviour, IManager<BallController>
         Transform container = args.Sheet == null ? ballContainer : args.Sheet.AttachmentContainer;
         
         GameObject ball = Instantiate(
-            PrefabManager.Instance.Ball,
+            ballPrefab,
             args.Position, Quaternion.identity,
             container
         );

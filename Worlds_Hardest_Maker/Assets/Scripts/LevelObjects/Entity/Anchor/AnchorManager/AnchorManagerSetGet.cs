@@ -69,7 +69,7 @@ public partial class AnchorManager : IManager<AnchorController>
     public AnchorController InstantiateInSheet(ManagerParameters args)
     {
         AnchorController anchor = Instantiate(
-            PrefabManager.Instance.Anchor, Vector2.zero, Quaternion.identity,
+            anchorPrefab, Vector2.zero, Quaternion.identity,
             anchorContainer
         ).Child;
         

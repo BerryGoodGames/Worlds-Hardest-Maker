@@ -248,6 +248,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 738456d7da144a24ca279ab94e4ca35a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropdownOptionPrefab: {fileID: 1907364329714027423, guid: 24b9ec516d577f24c945d6c9c774b1da, type: 3}
+  checkboxOptionPrefab: {fileID: 1652224904760726094, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
+  sliderOptionPrefab: {fileID: 7103981387723352099, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
+  numberInputOptionPrefab: {fileID: 3637377166554687212, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
+  headerOptionPrefab: {fileID: 2368007494792109334, guid: a6b7a0f0fae743a45b285f8893593211, type: 3}
+  spaceOptionPrefab: {fileID: 1492080202677860167, guid: feda6681672e0d248813daa25467d30e, type: 3}
+  container: {fileID: 917516803659758717}
   label: 
   Version: 0
   amount: 1
@@ -257,4 +264,3 @@ MonoBehaviour:
   sliderWidth: 400
   sliderSize: 10
   numberInputWidth: 250
-  container: {fileID: 917516803659758717}

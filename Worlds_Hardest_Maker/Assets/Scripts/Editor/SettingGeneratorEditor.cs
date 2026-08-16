@@ -12,6 +12,13 @@ public class SettingGeneratorEditor : Editor
     private SerializedProperty fontSize;
     private SerializedProperty height;
     
+    private SerializedProperty dropdownOptionPrefab;
+    private SerializedProperty checkboxOptionPrefab;
+    private SerializedProperty sliderOptionPrefab;
+    private SerializedProperty numberInputOptionPrefab;
+    private SerializedProperty headerOptionPrefab;
+    private SerializedProperty spaceOptionPrefab;
+    
     private SerializedProperty container;
     
     private SerializedProperty dropdownWidth;
@@ -31,6 +38,13 @@ public class SettingGeneratorEditor : Editor
         fontSize = serializedObject.FindProperty("fontSize");
         height = serializedObject.FindProperty("height");
         
+        dropdownOptionPrefab = serializedObject.FindProperty("dropdownOptionPrefab");
+        checkboxOptionPrefab = serializedObject.FindProperty("checkboxOptionPrefab");
+        sliderOptionPrefab = serializedObject.FindProperty("sliderOptionPrefab");
+        numberInputOptionPrefab = serializedObject.FindProperty("numberInputOptionPrefab");
+        headerOptionPrefab = serializedObject.FindProperty("headerOptionPrefab");
+        spaceOptionPrefab = serializedObject.FindProperty("spaceOptionPrefab");
+        
         container = serializedObject.FindProperty("container");
         
         dropdownWidth = serializedObject.FindProperty("dropdownWidth");
@@ -47,6 +61,12 @@ public class SettingGeneratorEditor : Editor
         
         serializedObject.Update();
         
+        EditorGUILayout.PropertyField(dropdownOptionPrefab);
+        EditorGUILayout.PropertyField(checkboxOptionPrefab);
+        EditorGUILayout.PropertyField(sliderOptionPrefab);
+        EditorGUILayout.PropertyField(numberInputOptionPrefab);
+        EditorGUILayout.PropertyField(headerOptionPrefab);
+        EditorGUILayout.PropertyField(spaceOptionPrefab);
         EditorGUILayout.PropertyField(container);
         
         EditorGUILayout.Space();

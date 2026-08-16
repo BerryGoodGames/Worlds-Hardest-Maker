@@ -10,6 +10,7 @@ public partial class AnchorManager : MonoBehaviour
     private static readonly int selectedString = Animator.StringToHash("Selected");
     private static readonly int playingString = Animator.StringToHash("Playing");
 
+    [SerializeField] [InitializationField] [MustBeAssigned] private AnchorParentController anchorPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform anchorContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private JumpToEntity mainCameraJumper;
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController levelSettingsPanelController;

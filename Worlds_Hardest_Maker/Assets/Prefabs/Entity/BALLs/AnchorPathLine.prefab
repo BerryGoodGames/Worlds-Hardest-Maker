@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 588dea26dc3235040a7db2ddc930d7a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  glowPrefab: {fileID: 1280773324893431364, guid: 0b73c19edd2884249b3552bc21e2488f, type: 3}

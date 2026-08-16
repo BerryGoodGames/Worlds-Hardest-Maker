@@ -8,6 +8,7 @@ using VContainer.Unity;
 
 public partial class AnchorController
 {
+    [SerializeField] [InitializationField] [MustBeAssigned] private AnchorPathLine anchorPathLinePrefab;
     [Separator("Path settings")] [SerializeField] private Transform lineContainer;
     
     [SerializeField] private Color lineColor;
@@ -108,7 +109,7 @@ public partial class AnchorController
     )
     {
         AnchorPathLine line = Instantiate(
-            PrefabManager.Instance.AnchorPathLine, Vector2.zero,
+            anchorPathLinePrefab, Vector2.zero,
             Quaternion.identity, lineContainer
         );
         

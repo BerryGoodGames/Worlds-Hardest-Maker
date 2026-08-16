@@ -13,6 +13,11 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
     
     private static readonly int playing = Animator.StringToHash("Playing");
     
+    [SerializeField] [InitializationField] [MustBeAssigned] private KeyController grayKeyPrefab;
+    [SerializeField] [InitializationField] [MustBeAssigned] private KeyController redKeyPrefab;
+    [SerializeField] [InitializationField] [MustBeAssigned] private KeyController blueKeyPrefab;
+    [SerializeField] [InitializationField] [MustBeAssigned] private KeyController greenKeyPrefab;
+    [SerializeField] [InitializationField] [MustBeAssigned] private KeyController yellowKeyPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyContainer;
     
     [ReadOnly] public List<KeyController> Keys = new();
@@ -99,7 +104,7 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
     public KeyController InstantiateInSheet(ManagerParameters args)
     {
         KeyController key = Instantiate(
-            args.KeyColor.GetPrefabKey(),
+            GetPrefabKey(args.KeyColor),
             args.Position, Quaternion.identity,
             args.Sheet == null ? keyContainer : args.Sheet.AttachmentContainer
         );
@@ -156,4 +161,18 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
     
     public void ActivateAnimations() => Keys.ForEach(key => key.ActivateAnimation());
     public bool CorrespondsToEditMode(EditMode compare) => compare.Attributes.IsKey;
+    
+    private KeyController GetPrefabKey(KeyColor color)
+    {
+        Dictionary<KeyColor, KeyController> prefabs = new()
+        {
+            { KeyColor.Gray, grayKeyPrefab },
+            { KeyColor.Red, redKeyPrefab },
+            { KeyColor.Blue, blueKeyPrefab },
+            { KeyColor.Green, greenKeyPrefab },
+            { KeyColor.Yellow, yellowKeyPrefab },
+        };
+        
+        return prefabs[color];
+    }
 }

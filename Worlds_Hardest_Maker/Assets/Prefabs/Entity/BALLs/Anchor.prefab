@@ -325,6 +325,7 @@ MonoBehaviour:
   Ease: 0
   Attachments: []
   Rb: {fileID: 0}
+  anchorPathLinePrefab: {fileID: 3623682739954225413, guid: 2d57b6a63b73a8842af909bbba29453a, type: 3}
   lineContainer: {fileID: 6016487082984928425}
   lineColor: {r: 0.9843138, g: 0.54509807, b: 0.14117648, a: 1}
   lineWeight: 0.1

@@ -1,3 +1,4 @@
+using MyBox;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,8 +13,14 @@ public class SettingGenerator : MonoBehaviour
         Header,
         Space,
     }
-    
-    #region Fields
+
+    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject dropdownOptionPrefab;
+    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject checkboxOptionPrefab;
+    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject sliderOptionPrefab;
+    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject numberInputOptionPrefab;
+    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject headerOptionPrefab;
+    [SerializeField] [InitializationField] [MustBeAssigned] private GameObject spaceOptionPrefab;
+    [Space] [SerializeField] [InitializationField] [MustBeAssigned] private Transform container;
     
     #region Options
     
@@ -40,10 +47,6 @@ public class SettingGenerator : MonoBehaviour
     
     #endregion
     
-    [Space] [SerializeField] private Transform container;
-    
-    #endregion
-    
     #if UNITY_EDITOR
     public void GenerateSetting()
     {
@@ -53,7 +56,7 @@ public class SettingGenerator : MonoBehaviour
             return;
         }
         
-        GameObject prefab = Version.GetPrefab();
+        GameObject prefab = GetPrefab(Version);
         
         // iterate for the amount
         for (int i = 0; i < amount; i++)
@@ -113,6 +116,38 @@ public class SettingGenerator : MonoBehaviour
             
             case SettingVersion.Space: break;
         }
+    }
+    
+    private GameObject GetPrefab(SettingVersion version)
+    {
+        GameObject prefab;
+        switch (version)
+        {
+            case SettingVersion.Dropdown:
+                prefab = dropdownOptionPrefab;
+                break;
+            case SettingVersion.Checkbox:
+                prefab = checkboxOptionPrefab;
+                break;
+            case SettingVersion.Slider:
+                prefab = sliderOptionPrefab;
+                break;
+            case SettingVersion.NumberInput:
+                prefab = numberInputOptionPrefab;
+                break;
+            case SettingVersion.Header:
+                prefab = headerOptionPrefab;
+                break;
+            case SettingVersion.Space:
+                prefab = spaceOptionPrefab;
+                break;
+            default:
+                Debug.LogWarning($"You probably forgot to put a prefab for {version} here, defaulted to dropdown");
+                prefab = dropdownOptionPrefab;
+                break;
+        }
+        
+        return prefab;
     }
     #endif
 }

@@ -13,6 +13,7 @@ public class CopyManager : MonoBehaviour
     
     [field: SerializeField] [field: ReadOnly] public bool Pasting { get; private set; }
     
+    [SerializeField] [InitializationField] [MustBeAssigned] private PastePreviewCoordinator pastePreviewPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform previewContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private BarTween toolbarTween;
     [SerializeField] [InitializationField] [MustBeAssigned] private BarTween infobarEditTween;
@@ -202,7 +203,7 @@ public class CopyManager : MonoBehaviour
                 : Quaternion.identity;
             
             PastePreviewCoordinator pastePreview = Instantiate(
-                PrefabManager.Instance.PastePreview, Vector2.zero, rotation,
+                pastePreviewPrefab, Vector2.zero, rotation,
                 Instance.previewContainer
             );
             

@@ -3254,6 +3254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56ec6e4e17b7a264a882d0f51ea6539a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: WorldsHardestMaker::BallManager
+  ballPrefab: {fileID: 6481791030330069436, guid: 1ecb51dd2ee9f29488eaa421ed43b3d6, type: 3}
   ballContainer: {fileID: 473813362}
   BallList: []
   BallListGlobal: []
@@ -6022,7 +6023,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6647066676833249867, guid: ce5a8d62650143e49967f0d0f6db564a, type: 3}
   m_PrefabInstance: {fileID: 1166401077}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1532345181}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 798f56165aea853478069bdad725359f, type: 3}
@@ -6941,27 +6942,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c21a44711b7534cae1cebc458efe6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 7464887056985239508, guid: 8b35e9f8e793281489f59c83ce103156, type: 3}
-  Anchor: {fileID: 5924628306729880733, guid: d8a4218bce541fe4c928de7a522407dd, type: 3}
-  Ball: {fileID: 6481791030330069436, guid: 1ecb51dd2ee9f29488eaa421ed43b3d6, type: 3}
-  Coin: {fileID: 2938817021750922450, guid: 5e13d2eae759f3643b04b6e7dc5cefe2, type: 3}
-  GrayKey: {fileID: 1590087564945206395, guid: f216fe92c2f2b2d47a292fc4bb779cdd, type: 3}
-  RedKey: {fileID: 4457252020392113727, guid: f88dbe36182b75f41a25a8147e62bff1, type: 3}
-  GreenKey: {fileID: 3784020625643728093, guid: ebbfc5e2a760abd489911d3a04e6d453, type: 3}
-  BlueKey: {fileID: 5639957879942203877, guid: 65b07ce9bd0b0df4a840508e7fe1012a, type: 3}
-  YellowKey: {fileID: 189741875888370271, guid: b82300a84e5b00947b3af5aadb9f2227, type: 3}
-  DropdownOptionPrefab: {fileID: 1907364329714027423, guid: 24b9ec516d577f24c945d6c9c774b1da, type: 3}
-  CheckboxOptionPrefab: {fileID: 1652224904760726094, guid: 33e3c7f1ad2818c4184c20488fe54ebe, type: 3}
-  SliderOptionPrefab: {fileID: 7103981387723352099, guid: d2bb851f9f541234ca6fb594792f1d95, type: 3}
-  NumberInputOptionPrefab: {fileID: 3637377166554687212, guid: d94b0da4ff3b31249b4cc7dba64e07e5, type: 3}
-  HeaderOptionPrefab: {fileID: 2368007494792109334, guid: a6b7a0f0fae743a45b285f8893593211, type: 3}
-  SpaceOptionPrefab: {fileID: 1492080202677860167, guid: feda6681672e0d248813daa25467d30e, type: 3}
-  GlowPrefab: {fileID: 1280773324893431364, guid: 0b73c19edd2884249b3552bc21e2488f, type: 3}
-  FillPreview: {fileID: 3930856783921599848, guid: 0f8817e424b9b4547b47abeab323c2e9, type: 3}
-  PastePreview: {fileID: 3059235107453308756, guid: d0d83e03c7ffdfa41b423eb62f8ab024, type: 3}
-  KeyCodeDisplay: {fileID: 5841094401543102249, guid: 716c20ae75c69b748bdbbf197c3c9b52, type: 3}
-  AnchorPathLine: {fileID: 3623682739954225413, guid: 2d57b6a63b73a8842af909bbba29453a, type: 3}
-  AnchorConnector: {fileID: 1532345181}
   GoToBlockPrefab: {fileID: 7403852272629114467, guid: e4eea3214032b514ab4c089e417fd85a, type: 3}
   MoveBlockPrefab: {fileID: 7145782815987990204, guid: 5346f04c8b83e9548809042eeb5d8ce8, type: 3}
   TeleportBlockPrefab: {fileID: 182472844863961304, guid: 9b162963ad136c04e8e828889f7ad4b2, type: 3}
@@ -12093,6 +12073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: WorldsHardestMaker::PlayerManager
   Player: {fileID: 0}
+  playerPrefab: {fileID: 7464887056985239508, guid: 8b35e9f8e793281489f59c83ce103156, type: 3}
   mainCameraJumper: {fileID: 519420035}
   timerController: {fileID: 211911999}
   playerContainer: {fileID: 2131202556}
@@ -21824,6 +21805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 092d61bd825f6b34896a983dc2feaed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coinPrefab: {fileID: 2938817021750922450, guid: 5e13d2eae759f3643b04b6e7dc5cefe2, type: 3}
   coinContainer: {fileID: 222980750}
   Coins: []
   CollectedCoins: []
@@ -22532,6 +22514,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60985bee1906b534ca9cd36a88d86ad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: WorldsHardestMaker::KeyManager
+  grayKeyPrefab: {fileID: 1590087564945206395, guid: f216fe92c2f2b2d47a292fc4bb779cdd, type: 3}
+  redKeyPrefab: {fileID: 4457252020392113727, guid: f88dbe36182b75f41a25a8147e62bff1, type: 3}
+  blueKeyPrefab: {fileID: 5639957879942203877, guid: 65b07ce9bd0b0df4a840508e7fe1012a, type: 3}
+  greenKeyPrefab: {fileID: 3784020625643728093, guid: ebbfc5e2a760abd489911d3a04e6d453, type: 3}
+  yellowKeyPrefab: {fileID: 189741875888370271, guid: b82300a84e5b00947b3af5aadb9f2227, type: 3}
   keyContainer: {fileID: 139186754}
   Keys: []
   CollectedKeys: []
@@ -22565,7 +22552,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9202453823601424, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -235.48749
+      value: -235.40262
       objectReference: {fileID: 0}
     - target: {fileID: 2955345560999892006, guid: 54d3d4728f592a04f857137ca107d406, type: 3}
       propertyPath: m_LocalPosition.x
@@ -23988,11 +23975,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!1 &1532345181 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 852198969889836897, guid: ce5a8d62650143e49967f0d0f6db564a, type: 3}
-  m_PrefabInstance: {fileID: 1166401077}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1552703639
 GameObject:
   m_ObjectHideFlags: 0
@@ -25772,6 +25754,7 @@ MonoBehaviour:
     panel: {fileID: 1898372880}
     attachment: {fileID: 1898372883}
   previewController:
+    fillPreviewPrefab: {fileID: 3930856783921599848, guid: 0f8817e424b9b4547b47abeab323c2e9, type: 3}
     fillOptionMouseOver: {fileID: 42787709}
     container: {fileID: 282166553}
   outlineController:
@@ -25982,6 +25965,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c12359574e278e4593dd4c56e6489eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: WorldsHardestMaker::AnchorManager
+  anchorPrefab: {fileID: 5924628306729880733, guid: d8a4218bce541fe4c928de7a522407dd, type: 3}
   anchorContainer: {fileID: 3469053329403155091}
   mainCameraJumper: {fileID: 519420035}
   levelSettingsPanelController: {fileID: 516759321}
@@ -27093,6 +27077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Pasting>k__BackingField: 0
+  pastePreviewPrefab: {fileID: 3059235107453308756, guid: d0d83e03c7ffdfa41b423eb62f8ab024, type: 3}
   previewContainer: {fileID: 441104387}
   toolbarTween: {fileID: 3914619140277756240}
   infobarEditTween: {fileID: 1060004926}
@@ -27854,7 +27839,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 711.39, y: -957.23474}
+  m_AnchoredPosition: {x: 711.39, y: -956.8952}
   m_SizeDelta: {x: 51.75, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755699354
@@ -28860,7 +28845,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 30, y: 30.000122}
+  m_AnchoredPosition: {x: 30, y: 30.000092}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1870882996
@@ -30119,7 +30104,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 871.815, y: -957.23474}
+  m_AnchoredPosition: {x: 871.815, y: -956.8952}
   m_SizeDelta: {x: 85.34, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1919053081
@@ -32617,7 +32602,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 783.205, y: -957.23474}
+  m_AnchoredPosition: {x: 783.205, y: -956.8952}
   m_SizeDelta: {x: 66.08, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2065180488
