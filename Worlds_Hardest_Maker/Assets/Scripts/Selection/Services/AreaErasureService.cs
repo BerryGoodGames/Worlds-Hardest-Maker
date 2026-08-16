@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using VContainer;
+using WorldsHardestMaker.Selection;
 
 public class AreaErasureService : IAreaErasureService
 {

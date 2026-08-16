@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using WorldsHardestMaker.Selection;
 
 public class AreaQueryService : IAreaQueryService
 {

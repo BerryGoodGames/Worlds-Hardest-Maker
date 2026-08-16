@@ -1,5 +1,6 @@
 using UnityEngine;
 using VContainer;
+using WorldsHardestMaker.Selection;
 
 /// <summary>
 ///     Implementation of edit mode preview appearance provider.

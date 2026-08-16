@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using VContainer;
 using VContainer.Unity;
 using WorldsHardestMaker.PlayerRecording;
+using WorldsHardestMaker.Selection;
 
 public class LevelSessionLifetimeScope : LifetimeScope
 {

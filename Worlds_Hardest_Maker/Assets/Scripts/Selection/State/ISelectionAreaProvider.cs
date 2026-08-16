@@ -1,4 +1,7 @@
-﻿public interface ISelectionAreaProvider
+﻿namespace WorldsHardestMaker.Selection
 {
-    public SelectionArea GetArea();
+    public interface ISelectionAreaProvider
+    {
+        public SelectionArea GetArea();
+    }
 }

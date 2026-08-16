@@ -2,46 +2,49 @@
 using VContainer;
 using Vector2 = UnityEngine.Vector2;
 
-public class SelectionInputController : MonoBehaviour
+namespace WorldsHardestMaker.Selection
 {
-    private IMouseService  mouseService;
-    private ISelectionStateService selectionStateService;
-    
-    private Vector2 prevStart;
-    private Vector2 prevEnd;
-
-    [Inject]
-    private void Construct(IMouseService mouseService, ISelectionStateService selectionStateService)
+    public class SelectionInputController : MonoBehaviour
     {
-        this.mouseService = mouseService;
-        this.selectionStateService = selectionStateService;
-    }
+        private IMouseService  mouseService;
+        private ISelectionStateService selectionStateService;
     
-    private void Update()
-    {
-        if (!LevelSessionManager.Instance.IsEdit || AnchorAttachManager.Instance.InAttachMode) return;
+        private Vector2 prevStart;
+        private Vector2 prevEnd;
 
-        bool playing = LevelSessionEditManager.Instance.Playing;
-        
-        if (!playing && KeyBinds.GetKeyBindDown("Editor_Select"))
+        [Inject]
+        private void Construct(IMouseService mouseService, ISelectionStateService selectionStateService)
         {
-            Vector2 start = mouseService.DragStart ?? mouseService.MouseWorldPos;
-            selectionStateService.StartSelection(start);
+            this.mouseService = mouseService;
+            this.selectionStateService = selectionStateService;
         }
-        
-        // update selection markings
-        if (!playing
-            && selectionStateService.IsSelecting
-            && mouseService.DragStart != null
-            && mouseService.DragCurrent != null)
+    
+        private void Update()
         {
-            (Vector2 start, Vector2 end) = mouseService.GetDragPositions();
-            
-            if (KeyBinds.GetKeyBindUp("Editor_Select")) selectionStateService.EndSelection(start, end);
-            
-            if (!prevStart.Equals(start) || !prevEnd.Equals(end)) selectionStateService.UpdateSelection(start, end);
-        }
+            if (!LevelSessionManager.Instance.IsEdit || AnchorAttachManager.Instance.InAttachMode) return;
+
+            bool playing = LevelSessionEditManager.Instance.Playing;
         
-        if (Input.GetKeyDown(KeyCode.Escape)) selectionStateService.CancelSelection();
+            if (!playing && KeyBinds.GetKeyBindDown("Editor_Select"))
+            {
+                Vector2 start = mouseService.DragStart ?? mouseService.MouseWorldPos;
+                selectionStateService.StartSelection(start);
+            }
+        
+            // update selection markings
+            if (!playing
+                && selectionStateService.IsSelecting
+                && mouseService.DragStart != null
+                && mouseService.DragCurrent != null)
+            {
+                (Vector2 start, Vector2 end) = mouseService.GetDragPositions();
+            
+                if (KeyBinds.GetKeyBindUp("Editor_Select")) selectionStateService.EndSelection(start, end);
+            
+                if (!prevStart.Equals(start) || !prevEnd.Equals(end)) selectionStateService.UpdateSelection(start, end);
+            }
+        
+            if (Input.GetKeyDown(KeyCode.Escape)) selectionStateService.CancelSelection();
+        }
     }
 }

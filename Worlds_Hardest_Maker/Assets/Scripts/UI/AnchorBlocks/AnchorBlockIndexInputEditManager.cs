@@ -2,6 +2,7 @@ using System.Collections;
 using MyBox;
 using UnityEngine;
 using VContainer;
+using WorldsHardestMaker.Selection;
 
 public class AnchorBlockIndexInputEditManager : MonoBehaviour
 {

@@ -5,6 +5,7 @@ using MyBox;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using WorldsHardestMaker.Selection;
 
 public partial class FieldManager : MonoBehaviour, IManager<FieldController>
 {

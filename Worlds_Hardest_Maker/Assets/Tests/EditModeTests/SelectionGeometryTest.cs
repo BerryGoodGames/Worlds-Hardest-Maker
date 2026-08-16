@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
+using WorldsHardestMaker.Selection;
 
 public class SelectionGeometryTest
 {

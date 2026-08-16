@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using UnityEngine;
+using WorldsHardestMaker.Selection;
 
 public class SelectionStateTest
 {
