@@ -27018,11 +27018,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPasting: 0
-  pastePreviewPrefab: {fileID: 3059235107453308756, guid: d0d83e03c7ffdfa41b423eb62f8ab024, type: 3}
-  previewContainer: {fileID: 441104387}
-  toolbarTween: {fileID: 3914619140277756240}
-  infobarEditTween: {fileID: 1060004926}
-  playButtonTween: {fileID: 4746071704783565827}
+  pastePreviewService:
+    container: {fileID: 441104387}
+    pastePreviewPrefab: {fileID: 3059235107453308756, guid: d0d83e03c7ffdfa41b423eb62f8ab024, type: 3}
 --- !u!1001 &1722792344
 PrefabInstance:
   m_ObjectHideFlags: 0

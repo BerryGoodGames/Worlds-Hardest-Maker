@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 using VContainer;
-using VContainer.Unity;
 using WorldsHardestMaker.Selection;
 
 public class CopyPasteManager : MonoBehaviour, ICopyPasteService
@@ -13,22 +12,20 @@ public class CopyPasteManager : MonoBehaviour, ICopyPasteService
     [SerializeField] [ReadOnly] private bool isPasting;
     public bool IsPasting => isPasting;
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private PastePreviewCoordinator pastePreviewPrefab;
-    [SerializeField] [InitializationField] [MustBeAssigned] private Transform previewContainer;
-    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween toolbarTween;
-    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween infobarEditTween;
-    [SerializeField] [InitializationField] [MustBeAssigned] private BarTween playButtonTween;
+    [Space] [SerializeField] private PastePreviewService pastePreviewService;
     
     [Inject] private IObjectResolver diContainer;
     [Inject] private IToastService toastService;
     [Inject] private IMouseService mouseService;
     [Inject] private ISelectionStateService selectionStateService;
+    [Inject] private IAreaQueryService areaQueryService;
+    [Inject] private IEditModeUIBlockerService uiBlockerService;
     
     public void Copy(SelectionArea area)
     {
         if (AnchorAttachManager.Instance.InAttachMode)
         {
-            Debug.Log("Cannot copy in attach mode");
+            toastService.ShowError("Cannot copy in attach mode", 4);
             return;
         }
         
@@ -36,13 +33,7 @@ public class CopyPasteManager : MonoBehaviour, ICopyPasteService
         
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
         
-        // get position and size on where to get the objects
-        Vector2 lowestPos = area.Lowest;
-        Vector2 highestPos = area.Highest;
-        Vector2 selectionCenter = (lowestPos + highestPos) * .5f;
-        Vector2 selectionSize = highestPos - lowestPos + Vector2.one * .5f;
-        
-        Collider2D[] hits = Physics2D.OverlapBoxAll(selectionCenter, selectionSize, 0, LayerManager.Instance.Layers.LevelObjectMask); // get objects
+        Collider2D[] hits = areaQueryService.QueryArea(area, LayerManager.Instance.Layers.LevelObjectMask);
         
         List<Vector2> points = HitsToPoints(hits);
         
@@ -138,31 +129,18 @@ public class CopyPasteManager : MonoBehaviour, ICopyPasteService
         // // actions the frame the user starts pasting
         isPasting = true;
         
-        // block menu from being opened and some other stuff
-        MenuManager.Instance.BlockMenu = true;
+        pastePreviewService.CreatePreview(clipBoard);
         
-        CreatePreview();
-        
-        // hide panels
-        toolbarTween.SetPlay(true);
-        infobarEditTween.SetPlay(true);
-        playButtonTween.TweenToY(-125, false);
+        uiBlockerService.BlockAndDisable();
     }
     
     private void CancelPaste()
     {
-        // // actions the frame the user cancels pasting via esc, playing or selecting sth
-        MenuManager.Instance.BlockMenu = false;
-        
-        ClearPreview();
-        
-        previewContainer.position = Vector2.zero;
         isPasting = false;
         
-        // show panels (if in edit mode)
-        toolbarTween.SetPlay(LevelSessionEditManager.Instance.Playing);
-        infobarEditTween.SetPlay(LevelSessionEditManager.Instance.Playing);
-        playButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        pastePreviewService.ClearPreview();
+        
+        uiBlockerService.ReleaseAndShow();
     }
     
     private void Paste()
@@ -174,49 +152,19 @@ public class CopyPasteManager : MonoBehaviour, ICopyPasteService
         // paste
         LoadClipboard(mousePos);
         
-        // remove some blocks etc.
-        MenuManager.Instance.BlockMenu = false;
+        pastePreviewService.ClearPreview();
         
-        ClearPreview();
-        previewContainer.position = Vector2.zero;
-        
-        // show bars
-        toolbarTween.SetPlay(false);
-        infobarEditTween.SetPlay(false);
-        playButtonTween.SetPlay(false);
+        uiBlockerService.ReleaseAndShow();
+        // original:
+        // toolbarTween.SetPlay(false);
+        // infobarEditTween.SetPlay(false);
+        // playButtonTween.SetPlay(false);
+        // TODO: check if uiBlockerService is equivalent
     }
     
     public void LoadClipboard(Vector2 pos)
     {
         // just load clipboard to pos
         foreach (CopyData copyData in clipBoard) copyData.Paste(pos);
-    }
-    
-    private void CreatePreview()
-    {
-        ClearPreview();
-        
-        foreach (CopyData copyData in clipBoard)
-        {
-            Quaternion rotation = copyData.Data.GetType() == typeof(FieldData)
-                ? Quaternion.Euler(0, 0, ((FieldData)copyData.Data).Rotation)
-                : Quaternion.identity;
-            
-            PastePreviewCoordinator pastePreview = Instantiate(
-                pastePreviewPrefab, Vector2.zero, rotation,
-                previewContainer
-            );
-            
-            diContainer.InjectGameObject(pastePreview.gameObject);
-            
-            pastePreview.transform.localPosition = copyData.RelativePos;
-            
-            pastePreview.ApplyCopyData(copyData);
-        }
-    }
-    
-    private void ClearPreview()
-    {
-        foreach (Transform child in previewContainer) Destroy(child.gameObject);
     }
 }
