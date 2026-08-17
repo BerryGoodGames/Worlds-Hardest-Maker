@@ -10,6 +10,7 @@ using UnityEngine;
 public class DrawManager : MonoBehaviour, IDrawService
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform drawContainer;
+    [SerializeField] [InitializationField] [MustBeAssigned] private Material lineMaterial;
     [SerializeField] [InitializationField] [MustBeAssigned] private Material dashedLineMaterial;
     
     private void Awake()
@@ -169,7 +170,7 @@ public class DrawManager : MonoBehaviour, IDrawService
         };
         
         LineRenderer line = stroke.AddComponent<LineRenderer>();
-        line.material = MaterialManager.Instance.LineMaterial;
+        line.material = lineMaterial;
         
         line.startWidth = Weight;
         line.endWidth = Weight;

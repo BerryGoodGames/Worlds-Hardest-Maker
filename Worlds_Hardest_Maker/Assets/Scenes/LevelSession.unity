@@ -3312,7 +3312,6 @@ Transform:
   - {fileID: 1891358465}
   - {fileID: 2112649816}
   - {fileID: 961560553}
-  - {fileID: 591220726}
   - {fileID: 1747896900}
   - {fileID: 10335410}
   - {fileID: 1593335858}
@@ -9095,51 +9094,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576560726}
   m_CullTransparentMesh: 1
---- !u!1 &591220725
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 591220726}
-  - component: {fileID: 591220727}
-  m_Layer: 0
-  m_Name: _Material
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &591220726
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 591220725}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 198493967}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &591220727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 591220725}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb436eff1b9298c4b8358435376c658f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!224 &604415928 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4653093268516543856, guid: 2cf07100149b6a945a6198e047bafb65, type: 3}
@@ -17544,6 +17498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: WorldsHardestMaker::DrawManager
   drawContainer: {fileID: 1552703640}
+  lineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   dashedLineMaterial: {fileID: 2100000, guid: d23ae6dfc7563674f9337a8777f1b2dd, type: 2}
 --- !u!1 &1162396413
 GameObject:
@@ -27779,7 +27734,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 711.39, y: -956.8952}
-  m_SizeDelta: {x: 0, y: 39.5306}
+  m_SizeDelta: {x: 51.75, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755699354
 MonoBehaviour:
