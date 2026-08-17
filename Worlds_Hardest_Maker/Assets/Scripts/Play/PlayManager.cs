@@ -41,10 +41,10 @@ public class PlayManager : MonoBehaviour
     {
         if (menu.activeSelf) return;
         
-        LevelSessionEditManager.Instance.Playing = !LevelSessionEditManager.Instance.Playing;
-        LevelSessionEditManager.Instance.InPlaytest = LevelSessionEditManager.Instance.Playing && playtest;
+        LevelSessionEditManager.Instance.IsPlaying = !LevelSessionEditManager.Instance.IsPlaying;
+        LevelSessionEditManager.Instance.IsPlaytesting = LevelSessionEditManager.Instance.IsPlaying && playtest;
         
-        if (LevelSessionEditManager.Instance.Playing)
+        if (LevelSessionEditManager.Instance.IsPlaying)
         {
             eventBus.Fire(new SwitchToPlayEvent());
         }
@@ -53,7 +53,7 @@ public class PlayManager : MonoBehaviour
             eventBus.Fire(new SwitchToEditEvent());
         }
         
-        if (LevelSessionEditManager.Instance.InPlaytest) eventBus.Fire(new StartPlaytestEvent());
+        if (LevelSessionEditManager.Instance.IsPlaytesting) eventBus.Fire(new StartPlaytestEvent());
         
         eventBus.Fire(new TogglePlayEditEvent());
     }
@@ -79,8 +79,8 @@ public class PlayManager : MonoBehaviour
         
         IEnumerator SetupPlayScene()
         {
-            LevelSessionEditManager.Instance.Playing = true;
-            LevelSessionEditManager.Instance.InPlaytest = true;
+            LevelSessionEditManager.Instance.IsPlaying = true;
+            LevelSessionEditManager.Instance.IsPlaytesting = true;
             
             yield return new WaitForEndOfFrame();
             

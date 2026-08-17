@@ -30,7 +30,7 @@ public partial class AnchorManager : IManagerSelectable
         // switch to edit mode to anchor if not already
         if (!LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated)
         {
-            LevelSessionEditManager.Instance.CurrentEditMode = EditModeManager.Anchor;
+            LevelSessionEditManager.Instance.SetEditMode(EditModeManager.Anchor);
             switchedEditMode = true;
         }
         
@@ -50,7 +50,7 @@ public partial class AnchorManager : IManagerSelectable
         }
         
         // continue only if in edit mode
-        if (LevelSessionEditManager.Instance.Playing) return;
+        if (LevelSessionEditManager.Instance.IsPlaying) return;
         
         SelectedAnchor = anchor;
         anchor.Animator.SetBool(selectedString, true);
@@ -80,7 +80,7 @@ public partial class AnchorManager : IManagerSelectable
         if (AnchorAttachManager.Instance.InAttachMode) AnchorAttachManager.Instance.ExitAttachMode();
         
         SelectedAnchor.Animator.SetBool(selectedString, false);
-        SelectedAnchor.Animator.SetBool(playingString, LevelSessionEditManager.Instance.Playing);
+        SelectedAnchor.Animator.SetBool(playingString, LevelSessionEditManager.Instance.IsPlaying);
         SelectedAnchor.SetLinesActive(false);
         SelectedAnchor = null;
         

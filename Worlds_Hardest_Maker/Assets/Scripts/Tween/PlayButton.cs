@@ -59,7 +59,7 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             {
                 shouldTogglePlay = true;
                 
-                if (LevelSessionEditManager.Instance.Editing) OnStartCharge();
+                if (LevelSessionEditManager.Instance.IsEditing) OnStartCharge();
             }
             
             if ((KeyBinds.GetKeyBindUp("Editor_PlayLevel") || mouseUp) && shouldTogglePlay)
@@ -263,7 +263,7 @@ public class PlayButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     
     private void OnPlay()
     {
-        if (!isCharging && !LevelSessionEditManager.Instance.Playing) return;
+        if (!isCharging && !LevelSessionEditManager.Instance.IsPlaying) return;
         
         PlayAnim();
         isPlaying = true;

@@ -56,7 +56,7 @@ public class FieldRotation : MonoBehaviour
     
     private void OnMouseUpAsButton()
     {
-        if (selectionStateService.IsSelecting || copyPasteService.IsPasting || LevelSessionEditManager.Instance.Playing) return;
+        if (selectionStateService.IsSelecting || copyPasteService.IsPasting || LevelSessionEditManager.Instance.IsPlaying) return;
         
         if (LevelSessionEditManager.Instance.CurrentEditMode != controller.FieldMode) return;
         

@@ -43,7 +43,7 @@ public class MouseEventManager : MonoBehaviour
         
         // place / delete stuff
         if (mouseService.IsUIHovered
-            || LevelSessionEditManager.Instance.Playing
+            || LevelSessionEditManager.Instance.IsPlaying
             || selectionStateService.IsSelecting
             || copyPasteService.IsPasting
             || AnchorPositionInputEditManager.Instance.IsEditing) return;

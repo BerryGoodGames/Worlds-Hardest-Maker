@@ -23,7 +23,7 @@ namespace WorldsHardestMaker.Selection
         {
             if (!LevelSessionManager.Instance.IsEdit || AnchorAttachManager.Instance.InAttachMode) return;
 
-            bool playing = LevelSessionEditManager.Instance.Playing;
+            bool playing = LevelSessionEditManager.Instance.IsPlaying;
         
             if (!playing && KeyBinds.GetKeyBindDown("Editor_Select"))
             {

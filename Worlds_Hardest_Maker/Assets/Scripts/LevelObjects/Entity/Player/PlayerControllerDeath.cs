@@ -11,7 +11,7 @@ public partial class PlayerController
         // avoid dying while in animation
         if (!InDeathAnim) DefaultDeathAnim();
         
-        if (LevelSessionEditManager.Instance.Playing)
+        if (LevelSessionEditManager.Instance.IsPlaying)
         {
             // sfx and death counter
             audioService.Play(soundEffect);
@@ -54,7 +54,7 @@ public partial class PlayerController
         Rb.simulated = false;
         InDeathAnim = true;
         
-        if (LevelSessionEditManager.Instance.Playing)
+        if (LevelSessionEditManager.Instance.IsPlaying)
         {
             Deaths++;
             if (!LevelSessionManager.Instance.IsEdit) LevelSessionManager.Instance.Deaths++;
@@ -87,7 +87,7 @@ public partial class PlayerController
         spriteRenderer.color = color;
         
         // fade out again
-        if (IsAttached && LevelSessionEditManager.Instance.Editing)
+        if (IsAttached && LevelSessionEditManager.Instance.IsEditing)
         {
             AnchorAttachment attachment = GetComponent<AnchorAttachment>();
             AnchorAttachFade fade = attachment.Anchor.AttachFade;
@@ -124,7 +124,7 @@ public partial class PlayerController
         
         Vector2 spawnPos = CurrentRunStartPos;
         
-        if (LevelSessionEditManager.Instance.Editing) spawnPos = StartPos;
+        if (LevelSessionEditManager.Instance.IsEditing) spawnPos = StartPos;
         
         OnDeathEnd.Invoke();
         

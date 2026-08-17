@@ -14,7 +14,7 @@ public class EntityDragDrop : MonoBehaviour
     
     protected virtual void OnMouseDrag()
     {
-        if (LevelSessionEditManager.Instance.Playing || !KeyBinds.GetKeyBind("Editor_MoveEntity")) return;
+        if (LevelSessionEditManager.Instance.IsPlaying || !KeyBinds.GetKeyBind("Editor_MoveEntity")) return;
         
         Vector2 newPos = mouseService.GetCurrentMouseWorldPos(worldType);
         

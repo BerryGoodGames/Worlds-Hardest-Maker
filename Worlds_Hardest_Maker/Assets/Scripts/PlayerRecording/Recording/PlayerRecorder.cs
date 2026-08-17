@@ -30,7 +30,7 @@ namespace WorldsHardestMaker.PlayerRecording.Recording
             while (player.InDeathAnim) yield return null;
         
             // save positions of player
-            while (!LevelSessionEditManager.Instance.Editing)
+            while (!LevelSessionEditManager.Instance.IsEditing)
             {
                 // only record if player has moved
                 if (recordedPositions.Count == 0 || (Vector2)player.transform.position != recordedPositions[^1].Position)
@@ -51,7 +51,7 @@ namespace WorldsHardestMaker.PlayerRecording.Recording
         
             void RecordDeath()
             {
-                if (LevelSessionEditManager.Instance.Editing) return;
+                if (LevelSessionEditManager.Instance.IsEditing) return;
             
                 RawFrame newFrame = new()
                 {
@@ -63,7 +63,7 @@ namespace WorldsHardestMaker.PlayerRecording.Recording
         
             void RecordCheckpoint()
             {
-                if (LevelSessionEditManager.Instance.Editing) return;
+                if (LevelSessionEditManager.Instance.IsEditing) return;
             
                 RawFrame newFrame = new()
                 {

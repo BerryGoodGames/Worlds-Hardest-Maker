@@ -45,7 +45,7 @@ public class CameraPlayController : MonoBehaviour
     
     private void Update()
     {
-        if (!LevelSessionEditManager.Instance.InPlaytest || recordingService.IsReplaying) return;
+        if (!LevelSessionEditManager.Instance.IsPlaytesting || recordingService.IsReplaying) return;
         
         Vector2Int playerRoomPos = PlayerManager.GetCurrentRoom();
         TrackPosition(playerRoomPos);

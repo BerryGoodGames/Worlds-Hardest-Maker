@@ -33,7 +33,7 @@ public partial class AnchorAttachManager : MonoBehaviour
     
     public void EnterAttachMode()
     {
-        if (LevelSessionEditManager.Instance.Playing
+        if (LevelSessionEditManager.Instance.IsPlaying
             || !LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated
             || AnchorManager.Instance.SelectedAnchor == null
             || AnchorPositionInputEditManager.Instance.IsEditing) return;
@@ -45,7 +45,7 @@ public partial class AnchorAttachManager : MonoBehaviour
         
         InAttachMode = true;
         
-        LevelSessionEditManager.Instance.CurrentEditMode = EditModeManager.Ball;
+        LevelSessionEditManager.Instance.SetEditMode(EditModeManager.Ball);
         
         HighlightAnchor(AnchorManager.Instance.SelectedAnchor);
         
@@ -56,7 +56,7 @@ public partial class AnchorAttachManager : MonoBehaviour
     {
         bool isModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
         
-        if (LevelSessionEditManager.Instance.Editing)
+        if (LevelSessionEditManager.Instance.IsEditing)
         {
             PanelManager.Instance.SetPanelHidden(anchorAttachButtonController, false, false);
         }

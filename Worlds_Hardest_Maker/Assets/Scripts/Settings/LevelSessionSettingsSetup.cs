@@ -47,7 +47,7 @@ public class LevelSessionSettingsSetup : MonoBehaviour
     
     private void SetOneColorSafeFieldsWhenPlaying(SetOneColorSafeFieldsEvent evt)
     {
-        FieldManager.Instance.ApplySafeFieldsColor(LevelSessionEditManager.Instance.Playing && evt.IsOneColor);
+        FieldManager.Instance.ApplySafeFieldsColor(LevelSessionEditManager.Instance.IsPlaying && evt.IsOneColor);
     }
     
     private void SetShowRoomGrid(SetShowRoomGridEvent evt)

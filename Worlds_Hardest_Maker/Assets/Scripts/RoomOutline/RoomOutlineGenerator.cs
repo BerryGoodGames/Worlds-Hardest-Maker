@@ -97,7 +97,7 @@ public class RoomOutlineGenerator : MonoBehaviour
     {
         if (!LevelSessionManager.Instance.IsEdit) return;
         
-        SetActive(enabled && !(LevelSessionEditManager.Instance.Playing && LevelSessionEditManager.Instance.InPlaytest));
+        SetActive(enabled && !(LevelSessionEditManager.Instance.IsPlaying && LevelSessionEditManager.Instance.IsPlaytesting));
     }
     
     private void SetActive(bool active) => gameObject.SetActive(active);

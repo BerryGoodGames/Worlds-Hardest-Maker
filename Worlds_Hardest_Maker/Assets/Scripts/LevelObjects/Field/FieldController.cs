@@ -40,7 +40,7 @@ public class FieldController : LevelObjectController
         player.transform.SetParent(transform);
         
         // fade out again
-        if (!player.IsAttached || !LevelSessionEditManager.Instance.Editing || AnchorAttachManager.Instance.InAttachMode) return;
+        if (!player.IsAttached || !LevelSessionEditManager.Instance.IsEditing || AnchorAttachManager.Instance.InAttachMode) return;
         
         AnchorAttachment attachment = GetComponent<AnchorAttachment>();
         AnchorAttachFade fade = attachment.Anchor.AttachFade;

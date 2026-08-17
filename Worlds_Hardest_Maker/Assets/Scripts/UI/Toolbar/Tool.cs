@@ -40,7 +40,7 @@ public class Tool : MonoBehaviour
     {
         ToolbarManager.DeselectAll();
         SetSelected(true);
-        if (setEditModeVariable) LevelSessionEditManager.Instance.CurrentEditMode = ToolEditMode;
+        if (setEditModeVariable) LevelSessionEditManager.Instance.SetEditMode(ToolEditMode);
     }
     
     public void SwitchGameMode() => SwitchGameMode(true);

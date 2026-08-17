@@ -35,7 +35,7 @@ public class BarTween : MonoBehaviour
         eventBus.Subscribe<TogglePlayEditEvent>(OnTogglePlayEdit);
     }
     
-    private void OnTogglePlayEdit(TogglePlayEditEvent evt) => SetPlay(LevelSessionEditManager.Instance.Playing);
+    private void OnTogglePlayEdit(TogglePlayEditEvent evt) => SetPlay(LevelSessionEditManager.Instance.IsPlaying);
 
     public void SetPlay(bool play)
     {
@@ -80,7 +80,7 @@ public class BarTween : MonoBehaviour
     {
         rt = (RectTransform)transform;
         
-        if (LevelSessionEditManager.Instance.Playing) rt.anchoredPosition = new(rt.anchoredPosition.x, isVisibleOnlyOnEdit ? invisibleY : visibleY);
+        if (LevelSessionEditManager.Instance.IsPlaying) rt.anchoredPosition = new(rt.anchoredPosition.x, isVisibleOnlyOnEdit ? invisibleY : visibleY);
         else rt.anchoredPosition = new(rt.anchoredPosition.x, !isVisibleOnlyOnEdit ? invisibleY : visibleY);
     }
     

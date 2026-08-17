@@ -47,7 +47,7 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
         while (!Input.GetMouseButton(0) || !AnchorBlockManager.Instance.IsAnyBlockHovered(true))
         {
             // cancel if these things happen
-            if (Input.GetKey(KeyCode.Escape) || selectionStateService.IsSelecting || LevelSessionEditManager.Instance.Playing)
+            if (Input.GetKey(KeyCode.Escape) || selectionStateService.IsSelecting || LevelSessionEditManager.Instance.IsPlaying)
             {
                 OnEndIndexEdit();
                 yield break;

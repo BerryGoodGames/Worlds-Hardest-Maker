@@ -39,7 +39,7 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
         FieldController field = ((IManager<FieldController>)this).InstantiateInSheet(args);
         
         if (field.TryGetComponent(out ColorCalibration calibration))
-            calibration.Apply(LevelSessionEditManager.Instance.Playing && SettingsManager.Instance.OneColorSafeFields);
+            calibration.Apply(LevelSessionEditManager.Instance.IsPlaying && SettingsManager.Instance.OneColorSafeFields);
         
         // remove player if at changed pos
         if (!args.FieldMode.IsStartFieldForPlayer) PlayerManager.Instance.RemoveAtPosIntersectInSheet(args.Position, args.Sheet);

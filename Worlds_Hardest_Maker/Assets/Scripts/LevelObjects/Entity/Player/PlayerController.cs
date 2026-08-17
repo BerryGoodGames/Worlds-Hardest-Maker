@@ -107,7 +107,7 @@ public partial class PlayerController : EntityController
         IsAttached = Sheet != null;
         if (IsAttached) SheetStartPosOffset = transform.position - Sheet.transform.position;
         
-        EdgeCollider.enabled = LevelSessionEditManager.Instance.Playing;
+        EdgeCollider.enabled = LevelSessionEditManager.Instance.IsPlaying;
         
         ApplyCurrentGameState();
         
@@ -171,7 +171,7 @@ public partial class PlayerController : EntityController
     
     private void OnKonamiStateChanged(KonamiStateChangedEvent evt)
     {
-        Shotgun.gameObject.SetActive((!LevelSessionManager.Instance.IsEdit || LevelSessionEditManager.Instance.Playing) && evt.Active);
+        Shotgun.gameObject.SetActive((!LevelSessionManager.Instance.IsEdit || LevelSessionEditManager.Instance.IsPlaying) && evt.Active);
     }
     
     public void ReSet(ManagerParameters args)
@@ -245,7 +245,7 @@ public partial class PlayerController : EntityController
         sortingGroup = GetComponent<SortingGroup>();
         Shotgun = GetComponentInChildren<ShotgunController>(true);
         Shotgun.gameObject.SetActive(
-            isEdit ? LevelSessionEditManager.Instance.Playing && konamiService.IsKonamiActive : konamiService.IsKonamiActive
+            isEdit ? LevelSessionEditManager.Instance.IsPlaying && konamiService.IsKonamiActive : konamiService.IsKonamiActive
         );
     }
     

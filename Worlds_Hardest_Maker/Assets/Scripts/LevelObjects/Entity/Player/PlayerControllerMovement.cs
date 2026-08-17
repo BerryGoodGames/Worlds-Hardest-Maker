@@ -10,7 +10,7 @@ public partial class PlayerController
         
         Vector2 totalMovement = Vector2.zero;
         
-        if (LevelSessionEditManager.Instance.Playing)
+        if (LevelSessionEditManager.Instance.IsPlaying)
         {
             if (IsOnMode(EditModeManager.Ice)) IcePhysics();
             else AddMovement(ref totalMovement);

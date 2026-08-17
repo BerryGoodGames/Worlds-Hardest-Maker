@@ -36,13 +36,13 @@ public class KeyEvents : MonoBehaviour
         CheckEditorKeyBinds();
         
         // check edit mode toggling if no ctrl and not playing
-        if (!KeyBinds.GetKeyBind("Editor_Modify") && !LevelSessionEditManager.Instance.Playing && Input.anyKeyDown) CheckEditModeKeyEvents();
+        if (!KeyBinds.GetKeyBind("Editor_Modify") && !LevelSessionEditManager.Instance.IsPlaying && Input.anyKeyDown) CheckEditModeKeyEvents();
     }
     
     private void CheckEditorKeyBinds()
     {
         // keyboard shortcuts with ctrl
-        if (LevelSessionEditManager.Instance.Playing) return;
+        if (LevelSessionEditManager.Instance.IsPlaying) return;
         
         if (KeyBinds.GetKeyBindDown("Editor_SaveLevel")) SaveSystem.SaveCurrentLevel();
         
@@ -69,7 +69,7 @@ public class KeyEvents : MonoBehaviour
     private void CheckTeleportPlayer()
     {
         // teleport player to mouse pos
-        if (!LevelSessionManager.Instance.IsEdit || !LevelSessionEditManager.Instance.Playing ||
+        if (!LevelSessionManager.Instance.IsEdit || !LevelSessionEditManager.Instance.IsPlaying ||
             !KeyBinds.GetKeyBindDown("Editor_TeleportPlayer")) return;
         
         PlayerController player = PlayerManager.Instance.Player;
@@ -131,7 +131,7 @@ public class KeyEvents : MonoBehaviour
             // key doors do not have key binds hahahahhahahah
             if (editMode.Attributes.IsKeyDoor) continue;
             
-            if (KeyBinds.GetKeyBindDown(editMode.KeyboardShortcut)) LevelSessionEditManager.Instance.CurrentEditMode = editMode;
+            if (KeyBinds.GetKeyBindDown(editMode.KeyboardShortcut)) LevelSessionEditManager.Instance.SetEditMode(editMode);
         }
     }
 

@@ -24,8 +24,8 @@ public class EditModeUIBlockerService : MonoBehaviour, IEditModeUIBlockerService
         MenuManager.Instance.BlockMenu = false;
         
         // show panels
-        toolbarTween.SetPlay(LevelSessionEditManager.Instance.Playing);
-        infobarEditTween.SetPlay(LevelSessionEditManager.Instance.Playing);
-        playButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
+        toolbarTween.SetPlay(LevelSessionEditManager.Instance.IsPlaying);
+        infobarEditTween.SetPlay(LevelSessionEditManager.Instance.IsPlaying);
+        playButtonTween.SetPlay(LevelSessionEditManager.Instance.IsPlaying);
     }
 }

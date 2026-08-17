@@ -14,6 +14,6 @@ public static class PickUtils
             return;
         }
         
-        LevelSessionEditManager.Instance.CurrentEditMode = levelObject.EditMode;
+        LevelSessionEditManager.Instance.SetEditMode(levelObject.EditMode);
     }
 }

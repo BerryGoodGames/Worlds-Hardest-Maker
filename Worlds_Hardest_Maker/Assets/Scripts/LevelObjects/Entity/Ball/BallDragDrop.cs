@@ -7,7 +7,7 @@ public class BallDragDrop : EntityDragDrop
     
     protected override void OnMouseDrag()
     {
-        if (LevelSessionEditManager.Instance.Playing || !KeyBinds.GetKeyBind("Editor_MoveEntity")) return;
+        if (LevelSessionEditManager.Instance.IsPlaying || !KeyBinds.GetKeyBind("Editor_MoveEntity")) return;
         
         if (ballController.IsParentAnchorNull)
         {

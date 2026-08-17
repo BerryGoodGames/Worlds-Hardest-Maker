@@ -65,7 +65,7 @@ namespace WorldsHardestMaker.CopyPaste
                 // cancel if these things happen
                 if (Input.GetKey(KeyCode.Escape) 
                     || selectionStateService.IsSelecting 
-                    || LevelSessionEditManager.Instance.Playing)
+                    || LevelSessionEditManager.Instance.IsPlaying)
                 {
                     CancelPaste();
                     yield break;

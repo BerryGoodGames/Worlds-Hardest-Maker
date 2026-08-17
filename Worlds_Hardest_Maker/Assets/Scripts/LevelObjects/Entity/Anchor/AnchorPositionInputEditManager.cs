@@ -67,13 +67,13 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         // playButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
         // no Menu.BlockMenu = false ! TODO: check if working
         
-        PanelManager.Instance.SetPanelOpen(anchorPanelController, LevelSessionEditManager.Instance.Editing);
+        PanelManager.Instance.SetPanelOpen(anchorPanelController, LevelSessionEditManager.Instance.IsEditing);
         PanelManager.Instance.SetPanelOpen(
-            anchorAttachButtonController, LevelSessionEditManager.Instance.Editing && !AnchorAttachManager.Instance.InAttachMode, false
+            anchorAttachButtonController, LevelSessionEditManager.Instance.IsEditing && !AnchorAttachManager.Instance.InAttachMode, false
         );
         
         PanelManager.Instance.SetPanelOpen(
-            anchorAttachExitButtonController, LevelSessionEditManager.Instance.Editing && AnchorAttachManager.Instance.InAttachMode, false
+            anchorAttachExitButtonController, LevelSessionEditManager.Instance.IsEditing && AnchorAttachManager.Instance.InAttachMode, false
         );
         
         AnchorManager.Instance.SelectedAnchor.RenderLines();
@@ -142,7 +142,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         while (!Input.GetMouseButton(0))
         {
             // cancel if these things happen
-            if (Input.GetKey(KeyCode.Escape) || selectionStateService.IsSelecting || LevelSessionEditManager.Instance.Playing)
+            if (Input.GetKey(KeyCode.Escape) || selectionStateService.IsSelecting || LevelSessionEditManager.Instance.IsPlaying)
             {
                 OnEndPositionEdit();
                 yield break;

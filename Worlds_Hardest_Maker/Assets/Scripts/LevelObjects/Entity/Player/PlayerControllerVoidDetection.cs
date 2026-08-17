@@ -23,7 +23,7 @@ public partial class PlayerController
     }
     
     private bool CheckVoidDetection() =>
-        LevelSessionEditManager.Instance.Editing
+        LevelSessionEditManager.Instance.IsEditing
         || InDeathAnim
         || IsStandingOnPlatform
         || !IsCollidingWithVoid(transform.position);

@@ -52,7 +52,7 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
         
         CoinController coin = InstantiateInSheet(args);
         
-        coin.Animator.SetBool(PLAYING, LevelSessionEditManager.Instance.Playing);
+        coin.Animator.SetBool(PLAYING, LevelSessionEditManager.Instance.IsPlaying);
         
         PlaceManager.Instance.AttachToSheet(coin.gameObject, args.Sheet);
         

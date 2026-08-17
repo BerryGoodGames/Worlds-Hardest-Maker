@@ -37,7 +37,7 @@ public class IntervalRandomAnimation : MonoBehaviour
     
     private void FixedUpdate()
     {
-        if (triggerOnlyAtPlayMode && !LevelSessionEditManager.Instance.Playing) return;
+        if (triggerOnlyAtPlayMode && !LevelSessionEditManager.Instance.IsPlaying) return;
         
         if (lastTrigger >= intervalSeconds / Time.fixedDeltaTime * limitDeviation) CheckAnimationTrigger();
         
