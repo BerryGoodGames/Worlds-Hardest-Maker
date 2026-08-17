@@ -1,13 +1,16 @@
 using UnityEngine;
 
-public struct CopyData
+namespace WorldsHardestMaker.CopyPaste
 {
-    public readonly Data Data;
-    public readonly Vector2 RelativePos;
-    
-    public CopyData(Data data, Vector2 relativePos)
+    public struct CopyData
     {
-        Data = data;
-        RelativePos = relativePos;
+        public readonly Data Data;
+        public readonly Vector2 RelativePos;
+    
+        public CopyData(Data data, Vector2 relativePos)
+        {
+            Data = data;
+            RelativePos = relativePos;
+        }
     }
 }

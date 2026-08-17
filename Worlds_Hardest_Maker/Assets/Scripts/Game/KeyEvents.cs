@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using VContainer;
+using WorldsHardestMaker.CopyPaste;
 
 /// <summary>
 ///     Controls key events and manages keyboard shortcuts

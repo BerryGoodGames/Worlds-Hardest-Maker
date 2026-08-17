@@ -1,5 +1,6 @@
 using MyBox;
 using UnityEngine;
+using WorldsHardestMaker.CopyPaste;
 
 [RequireComponent(typeof(PreviewSpriteComponent))]
 [RequireComponent(typeof(PreviewRotationComponent))]

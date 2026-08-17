@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using VContainer;
 using VContainer.Unity;
+using WorldsHardestMaker.CopyPaste;
 using WorldsHardestMaker.PlayerRecording;
 using WorldsHardestMaker.Selection;
 
