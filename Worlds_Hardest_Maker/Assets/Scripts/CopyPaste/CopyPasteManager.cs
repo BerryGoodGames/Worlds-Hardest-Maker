@@ -7,19 +7,19 @@ using WorldsHardestMaker.Selection;
 
 public class CopyPasteManager : MonoBehaviour, ICopyPasteService
 {
-    private readonly List<CopyData> clipBoard = new();
+    private readonly List<CopyData> clipboard = new();
     
     [SerializeField] [ReadOnly] private bool isPasting;
     public bool IsPasting => isPasting;
     
     [Space] [SerializeField] private PastePreviewService pastePreviewService;
-    
-    [Inject] private IObjectResolver diContainer;
+
+    [Inject] private EventBus eventBus;
     [Inject] private IToastService toastService;
     [Inject] private IMouseService mouseService;
     [Inject] private ISelectionStateService selectionStateService;
-    [Inject] private IAreaQueryService areaQueryService;
     [Inject] private IEditModeUIBlockerService uiBlockerService;
+    [Inject] private CopyDataFactory copyDataFactory;
     
     public void Copy(SelectionArea area)
     {
@@ -29,61 +29,19 @@ public class CopyPasteManager : MonoBehaviour, ICopyPasteService
             return;
         }
         
-        clipBoard.Clear();
-        
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
-        
-        Collider2D[] hits = areaQueryService.QueryArea(area, LayerManager.Instance.Layers.LevelObjectMask);
-        
-        List<Vector2> points = HitsToPoints(hits);
-        
-        if (points.Count == 0)
+
+        List<CopyData> newClipboardData = copyDataFactory.FromArea(area);
+        if (newClipboardData.Count == 0)
         {
             toastService.ShowError("Nothing found to copy", 4);
             return;
         }
         
-        (Vector2 lowest, Vector2 highest) = SelectionGeometry.GetBoundsMatrix(points);
-        
-        // center and size of actual controllers user selected
-        Vector2 castCenter = ((lowest + highest) / 2).Floor();
-        
-        foreach (Collider2D hit in hits)
-        {
-            if (hit == null) continue;
-            
-            if (!hit.TryGetComponent(out LevelObjectController levelObjectController))
-            {
-                Debug.LogWarning($"Could not find level object controller on hit while copying: {hit.name}");
-                continue;
-            }
-
-            if (!levelObjectController.IsCopyableNow()) continue;
-            
-            Data data = levelObjectController.GetData();
-            
-            Vector2 pos = levelObjectController.transform.position;
-            Vector2 relativePos = pos - castCenter;
-            
-            CopyData copyData = new(data, relativePos);
-            
-            clipBoard.Add(copyData);
-        }
+        clipboard.Clear();
+        clipboard.AddRange(newClipboardData);
         
         toastService.ShowInfo("Selection copied to clipboard", 4);
-    }
-    
-    private static List<Vector2> HitsToPoints(Collider2D[] hits)
-    {
-        List<Vector2> points = new();
-        foreach (Collider2D hit in hits)
-        {
-            if (hit == null) continue;
-            
-            points.Add(hit.transform.position);
-        }
-        
-        return points;
     }
     
     public IEnumerator PasteCoroutine()
@@ -95,7 +53,7 @@ public class CopyPasteManager : MonoBehaviour, ICopyPasteService
         }
         
         // check if there smth. in clipboard
-        if (clipBoard.Count == 0) yield break;
+        if (clipboard.Count == 0) yield break;
         
         StartPaste();
         
@@ -125,7 +83,7 @@ public class CopyPasteManager : MonoBehaviour, ICopyPasteService
         // // actions the frame the user starts pasting
         isPasting = true;
         
-        pastePreviewService.CreatePreview(clipBoard);
+        pastePreviewService.CreatePreview(clipboard);
         
         uiBlockerService.BlockAndDisable();
     }
@@ -145,8 +103,7 @@ public class CopyPasteManager : MonoBehaviour, ICopyPasteService
         // get position where to paste
         Vector2 mousePos = mouseService.MouseWorldPosMatrix;
         
-        // paste
-        LoadClipboard(mousePos);
+        PasteClipboard(mousePos);
         
         pastePreviewService.ClearPreview();
         
@@ -156,11 +113,16 @@ public class CopyPasteManager : MonoBehaviour, ICopyPasteService
         // infobarEditTween.SetPlay(false);
         // playButtonTween.SetPlay(false);
         // TODO: check if uiBlockerService is equivalent
+        
+        eventBus.Fire(new EditActionEvent());
     }
     
-    public void LoadClipboard(Vector2 pos)
+    private void PasteClipboard(Vector2 centerPosition)
     {
-        // just load clipboard to pos
-        foreach (CopyData copyData in clipBoard) copyData.Paste(pos);
+        foreach (CopyData copyData in clipboard)
+        {
+            Vector2 position = centerPosition + copyData.RelativePos;
+            copyData.Data.ImportToLevel(position);
+        }
     }
 }

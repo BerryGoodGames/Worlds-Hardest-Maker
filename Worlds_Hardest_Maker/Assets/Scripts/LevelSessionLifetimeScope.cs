@@ -32,6 +32,8 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<CopyPasteManager>().As<ICopyPasteService>();
 
         builder.RegisterComponentInHierarchy<EditModeUIBlockerService>().As<IEditModeUIBlockerService>();
+
+        builder.Register<CopyDataFactory>(Lifetime.Transient);
     }
     
     protected override void Awake()
