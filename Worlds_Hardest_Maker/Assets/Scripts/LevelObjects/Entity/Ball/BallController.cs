@@ -80,4 +80,9 @@ public class BallController : EntityController
         StartLocalPosition = transform.parent.localPosition;
         StartWorldPosition = transform.parent.position;
     }
+
+    public override bool IsCopyableNow()
+    {
+        return IsParentAnchorNull && base.IsCopyableNow();
+    }
 }

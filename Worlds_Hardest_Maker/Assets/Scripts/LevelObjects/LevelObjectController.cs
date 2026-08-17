@@ -25,6 +25,11 @@ public abstract class LevelObjectController : MonoBehaviour
         audioService.Play(PlaceManager.Instance.GetSfx(EditModeManager.Delete));
         Destroy(gameObject);
     }
+
+    public virtual bool IsCopyableNow()
+    {
+        return EditMode.IsCopyable && IManager.IsInSheet(this, null);
+    }
     
     public static bool TryGetController(Component component, out LevelObjectController controller) =>
         component.TryGetComponent(out controller)

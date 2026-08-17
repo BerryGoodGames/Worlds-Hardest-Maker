@@ -57,12 +57,8 @@ public class CopyPasteManager : MonoBehaviour, ICopyPasteService
                 Debug.LogWarning($"Could not find level object controller on hit while copying: {hit.name}");
                 continue;
             }
-            
-            if (!levelObjectController.EditMode.IsCopyable) continue;
-            if (levelObjectController.EditMode.Attributes.IsEntity &&
-                levelObjectController is BallController { IsParentAnchorNull: false, }) continue;
-            
-            if (!IManager.IsInSheet(levelObjectController, null)) continue;
+
+            if (!levelObjectController.IsCopyableNow()) continue;
             
             Data data = levelObjectController.GetData();
             
