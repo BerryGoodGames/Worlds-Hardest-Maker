@@ -33476,7 +33476,7 @@ MonoBehaviour:
   anchorAttachButtonController: {fileID: 374404340}
   anchorAttachExitButtonController: {fileID: 858147039}
   startEditMode: {fileID: 11400000, guid: 7f6d1c38617e7104183dbd378764fe32, type: 2}
-  <IsEditing>k__BackingField: 0
+  <IsEditing>k__BackingField: 1
   <IsPlaytesting>k__BackingField: 0
   editRotation: 270
 --- !u!1 &2113693783

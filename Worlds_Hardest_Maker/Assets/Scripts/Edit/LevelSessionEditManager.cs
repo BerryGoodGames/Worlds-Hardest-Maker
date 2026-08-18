@@ -14,7 +14,9 @@ public class LevelSessionEditManager : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachExitButtonController;
     [SerializeField] [MustBeAssigned] [InitializationField] private EditMode startEditMode;
 
-    [field: SerializeField] [field: ReadOnly] public bool IsEditing { get; set; }
+    [field: SerializeField]
+    [field: ReadOnly]
+    public bool IsEditing { get; set; } = true;
     
     public bool IsPlaying
     {
@@ -106,7 +108,7 @@ public class LevelSessionEditManager : MonoBehaviour
     {
         if (!LevelSessionManager.Instance.IsEdit) return;
         
-        CurrentEditMode = startEditMode;
+        SetEditMode(startEditMode);
         
         eventBus.Fire(new EditModeInitializedEvent());
     }
