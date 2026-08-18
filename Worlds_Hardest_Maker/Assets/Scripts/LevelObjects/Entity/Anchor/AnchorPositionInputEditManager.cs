@@ -23,17 +23,20 @@ public class AnchorPositionInputEditManager : MonoBehaviour
     private IMouseService mouseService;
     private ISelectionStateService selectionStateService;
     private IEditModeUIBlockerService uiBlockerService;
+    private IPanelService panelService;
     
     [Inject]
     private void Construct(IAudioService audioService, 
         IMouseService mouseService, 
         ISelectionStateService selectionStateService,
-        IEditModeUIBlockerService uiBlockerService)
+        IEditModeUIBlockerService uiBlockerService,
+        IPanelService panelService)
     {
         this.audioService = audioService;
         this.mouseService = mouseService;
         this.selectionStateService = selectionStateService;
         this.uiBlockerService = uiBlockerService;
+        this.panelService = panelService;
     }
 
     public void StartPositionInputEdit(AnchorBlockPositionInputController positionInput)
@@ -48,9 +51,9 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         
         uiBlockerService.BlockAndDisable();
         
-        PanelManager.Instance.SetPanelHidden(anchorPanelController, true);
-        PanelManager.Instance.SetPanelHidden(anchorAttachButtonController, true);
-        PanelManager.Instance.SetPanelHidden(anchorAttachExitButtonController, true);
+        panelService.SetPanelHidden(anchorPanelController, true);
+        panelService.SetPanelHidden(anchorAttachButtonController, true);
+        panelService.SetPanelHidden(anchorAttachExitButtonController, true);
     }
     
     public void OnEndPositionEdit()
@@ -67,12 +70,12 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         // playButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
         // no Menu.BlockMenu = false ! TODO: check if working
         
-        PanelManager.Instance.SetPanelOpen(anchorPanelController, LevelSessionEditManager.Instance.IsEditing);
-        PanelManager.Instance.SetPanelOpen(
+        panelService.SetPanelOpen(anchorPanelController, LevelSessionEditManager.Instance.IsEditing);
+        panelService.SetPanelOpen(
             anchorAttachButtonController, LevelSessionEditManager.Instance.IsEditing && !AnchorAttachManager.Instance.InAttachMode, false
         );
         
-        PanelManager.Instance.SetPanelOpen(
+        panelService.SetPanelOpen(
             anchorAttachExitButtonController, LevelSessionEditManager.Instance.IsEditing && AnchorAttachManager.Instance.InAttachMode, false
         );
         

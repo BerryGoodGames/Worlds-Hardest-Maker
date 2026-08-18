@@ -37,6 +37,7 @@ public class LevelSessionEditManager : MonoBehaviour
     }
     
     [Inject] private EventBus eventBus;
+    [Inject] private IPanelService panelService;
     
     [CanBeNull] private EditMode prevEditMode;
     public EditMode CurrentEditMode { get; private set; }
@@ -80,17 +81,17 @@ public class LevelSessionEditManager : MonoBehaviour
         {
             if (isAnchorRelated)
             {
-                PanelManager.Instance.SetPanelHidden(anchorPanelController, false);
+                panelService.SetPanelHidden(anchorPanelController, false);
 
                 if (AnchorManager.Instance.SelectedAnchor)
                 {
-                    PanelManager.Instance.SetPanelHidden(anchorAttachButtonController, false, false);
+                    panelService.SetPanelHidden(anchorAttachButtonController, false, false);
                 }
             }
             else
             {
-                PanelManager.Instance.SetPanelHidden(levelSettingsPanelController, false, false);
-                PanelManager.Instance.SetPanelHidden(testingOptionsPanelController, false, false);
+                panelService.SetPanelHidden(levelSettingsPanelController, false, false);
+                panelService.SetPanelHidden(testingOptionsPanelController, false, false);
             }
         }
 

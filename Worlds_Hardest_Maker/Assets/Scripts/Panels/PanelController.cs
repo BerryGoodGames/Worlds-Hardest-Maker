@@ -18,7 +18,8 @@ public class PanelController : MonoBehaviour, IPanel
     
     [field: SerializeField] [field: InitializationField] public bool CloseOnEscape { get; private set; }
 
-    [Inject] private PanelRegistry registry;
+    [Inject] private PanelRegistry panelRegistry;
+    [Inject] private IPanelService panelService;
     
     public void ToggleOpen(bool noAnimation = false) => SetOpen(!Open, noAnimation);
     
@@ -59,16 +60,16 @@ public class PanelController : MonoBehaviour, IPanel
     {
         if (hasButtonPanelTween && !buttonPanelTween.Open) return;
         
-        PanelManager.Instance.SetPanelOpen(this, !Open, hideOtherPanels);
+        panelService.SetPanelOpen(this, !Open, hideOtherPanels);
     }
 
     private void OnEnable()
     {
-        registry.Register(this);
+        panelRegistry.Register(this);
     }
 
     private void OnDisable()
     {
-        registry.Unregister(this);
+        panelRegistry.Unregister(this);
     }
 }

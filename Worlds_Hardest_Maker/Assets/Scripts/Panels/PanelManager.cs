@@ -7,8 +7,6 @@ using VContainer;
 /// </summary>
 public class PanelManager : MonoBehaviour, IPanelService
 {
-    public static PanelManager Instance { get; private set; }
-    
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController levelSettingsPanelController;
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController testingOptionsPanelController;
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorPanelController;
@@ -17,19 +15,8 @@ public class PanelManager : MonoBehaviour, IPanelService
 
     private bool wasAnchorPanelOpen;
     
-    private EventBus eventBus;
-    private IPanelRegistry panelRegistry;
-    
-    [Inject]
-    private void Construct(EventBus eventBus,
-        IPanelRegistry panelRegistry)
-    {
-        this.eventBus = eventBus;
-        this.panelRegistry = panelRegistry;
-        
-        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
-        eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
-    }
+    [Inject] private EventBus eventBus;
+    [Inject] private IPanelRegistry panelRegistry;
     
     public void SetPanelOpen(IPanel panel, bool open, bool hideOtherPanels = true)
     {
@@ -121,13 +108,14 @@ public class PanelManager : MonoBehaviour, IPanelService
             SetPanelHidden(testingOptionsPanelController, false, false);
         }
     }
-    
-    private void Awake()
+
+    private void OnEnable()
     {
-        if (Instance == null) Instance = this;
+        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
     }
-    
-    private void OnDestroy()
+
+    private void OnDisable()
     {
         eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);

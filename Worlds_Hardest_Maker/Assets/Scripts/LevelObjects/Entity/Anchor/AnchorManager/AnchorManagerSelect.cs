@@ -11,6 +11,7 @@ public partial class AnchorManager : IManagerSelectable
     [HideInInspector] public float LastSelectClick = -1;
 
     [Inject] private IMouseService mouseService;
+    [Inject] private IPanelService panelService;
     
     public void Select(Vector2 pos)
     {
@@ -66,7 +67,7 @@ public partial class AnchorManager : IManagerSelectable
         
         if (!AnchorAttachManager.Instance.InAttachMode)
         {
-            PanelManager.Instance.SetPanelHidden(anchorAttachButtonController, false, false);
+            panelService.SetPanelHidden(anchorAttachButtonController, false, false);
         }
         
         // play sfx
@@ -94,12 +95,12 @@ public partial class AnchorManager : IManagerSelectable
         EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
         if (!currentEditMode.Attributes.IsAnchorRelated)
         {
-            PanelManager.Instance.SetPanelHidden(levelSettingsPanelController, false, false);
-            PanelManager.Instance.SetPanelHidden(testingOptionsPanelController, false, false);
+            panelService.SetPanelHidden(levelSettingsPanelController, false, false);
+            panelService.SetPanelHidden(testingOptionsPanelController, false, false);
         }
         
-        PanelManager.Instance.SetPanelHidden(anchorAttachButtonController, true);
-        PanelManager.Instance.SetPanelHidden(anchorAttachExitButtonController, true);
+        panelService.SetPanelHidden(anchorAttachButtonController, true);
+        panelService.SetPanelHidden(anchorAttachExitButtonController, true);
         AnchorAttachManager.Instance.InAttachMode = false;
         
         // play sfx

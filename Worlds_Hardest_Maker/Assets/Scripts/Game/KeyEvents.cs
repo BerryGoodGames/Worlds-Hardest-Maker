@@ -14,6 +14,7 @@ public class KeyEvents : MonoBehaviour
     
     [Inject] private IMouseService mouseService;
     [Inject] private ICopyPasteService copyPasteService;
+    [Inject] private IPanelService panelService;
     
     private void Update()
     {
@@ -22,7 +23,7 @@ public class KeyEvents : MonoBehaviour
         // pick object
         if (KeyBinds.GetKeyBindDown("Editor_Pick")) PickUtils.PickObject(mouseService.MouseWorldPos);
         
-        bool closingPanel = PanelManager.Instance.TryCloseOnEscape();
+        bool closingPanel = panelService.TryCloseOnEscape();
         
         // toggle menu
         if (!closingPanel

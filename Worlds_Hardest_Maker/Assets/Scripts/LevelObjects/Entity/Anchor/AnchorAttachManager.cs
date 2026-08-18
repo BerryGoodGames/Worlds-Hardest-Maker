@@ -17,11 +17,14 @@ public partial class AnchorAttachManager : MonoBehaviour
     private static readonly int editingString = Animator.StringToHash("Editing");
     
     private EventBus eventBus;
+    private IPanelService panelService;
     
     [Inject]
-    private void Construct(EventBus eventBus)
+    private void Construct(EventBus eventBus,
+        IPanelService panelService)
     {
         this.eventBus = eventBus;
+        this.panelService = panelService;
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
     }
@@ -38,10 +41,10 @@ public partial class AnchorAttachManager : MonoBehaviour
             || AnchorManager.Instance.SelectedAnchor == null
             || AnchorPositionInputEditManager.Instance.IsEditing) return;
         
-        PanelManager.Instance.SetPanelHidden(anchorAttachButtonController, true);
-        PanelManager.Instance.SetPanelHidden(anchorAttachExitButtonController, false, false);
+        panelService.SetPanelHidden(anchorAttachButtonController, true);
+        panelService.SetPanelHidden(anchorAttachExitButtonController, false, false);
         
-        PanelManager.Instance.SetPanelOpen(anchorPanelController, false, false);
+        panelService.SetPanelOpen(anchorPanelController, false, false);
         
         InAttachMode = true;
         
@@ -58,14 +61,14 @@ public partial class AnchorAttachManager : MonoBehaviour
         
         if (LevelSessionEditManager.Instance.IsEditing)
         {
-            PanelManager.Instance.SetPanelHidden(anchorAttachButtonController, false, false);
+            panelService.SetPanelHidden(anchorAttachButtonController, false, false);
         }
         
-        PanelManager.Instance.SetPanelHidden(anchorAttachExitButtonController, true);
+        panelService.SetPanelHidden(anchorAttachExitButtonController, true);
         if (!isModeAnchorRelated)
         {
-            PanelManager.Instance.SetPanelHidden(levelSettingsPanelController, false, false);
-            PanelManager.Instance.SetPanelHidden(testingOptionsPanelController, false, false);
+            panelService.SetPanelHidden(levelSettingsPanelController, false, false);
+            panelService.SetPanelHidden(testingOptionsPanelController, false, false);
         }
         
         InAttachMode = false;
