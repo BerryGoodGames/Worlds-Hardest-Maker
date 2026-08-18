@@ -11,17 +11,26 @@ public class PanelController : MonoBehaviour, IPanel
     
     [SerializeField] [InitializationField] [CanBeNull] private PanelTween buttonPanelTween;
     private bool hasButtonPanelTween;
-    
-    [field: Separator("Initial settings")] [field: SerializeField] [field: InitializationField] public bool Open { get; private set; }
-    
-    [field: SerializeField] [field: InitializationField] public bool Hidden { get; private set; }
-    
-    [field: SerializeField] [field: InitializationField] public bool CloseOnEscape { get; private set; }
+
+    [field: Separator("Initial settings")]
+    [field: SerializeField]
+    [field: InitializationField]
+    public bool Open { get; private set; }
+
+    [field: SerializeField]
+    [field: InitializationField]
+    public bool Hidden { get; private set; }
+
+    [field: SerializeField]
+    [field: InitializationField]
+    public bool CloseOnEscape { get; private set; }
+
+    [field: SerializeField]
+    [field: InitializationField]
+    public PanelExclusionGroup ExclusionGroup { get; private set; } = PanelExclusionGroup.EditMain;
 
     [Inject] private IPanelRegistry panelRegistry;
     [Inject] private IPanelService panelService;
-    
-    public void ToggleOpen(bool noAnimation = false) => SetOpen(!Open, noAnimation);
     
     public void SetOpen(bool open, bool noAnimation = false)
     {
@@ -33,8 +42,6 @@ public class PanelController : MonoBehaviour, IPanel
         // un-hide panel if hidden
         if (Open && Hidden) SetHidden(false, noAnimation);
     }
-    
-    public void ToggleHidden(bool noAnimation = false) => SetHidden(!Hidden, noAnimation);
     
     public void SetHidden(bool hidden, bool noAnimation = false)
     {
@@ -56,11 +63,11 @@ public class PanelController : MonoBehaviour, IPanel
         if (hasButtonPanelTween) buttonPanelTween.SetOpen(!Hidden, true);
     }
     
-    public void OnButtonToggle(bool hideOtherPanels = true)
+    public void OnButtonToggle()
     {
         if (hasButtonPanelTween && !buttonPanelTween.Open) return;
         
-        panelService.SetPanelOpen(this, !Open, hideOtherPanels);
+        panelService.SetPanelOpen(this, !Open);
     }
 
     private void OnEnable()

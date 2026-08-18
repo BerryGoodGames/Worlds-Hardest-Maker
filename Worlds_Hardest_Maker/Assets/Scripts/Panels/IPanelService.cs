@@ -1,8 +1,8 @@
 ﻿public interface IPanelService
 {
-    public void SetPanelOpen(IPanel panel, bool open, bool hideOtherPanels = true);
+    public void SetPanelOpen(IPanel panel, bool open, bool noAnimation = false);
 
-    public void SetPanelHidden(IPanel panel, bool hidden, bool hideOtherPanels = true);
+    public void SetPanelHidden(IPanel panel, bool hidden, bool noAnimation = false);
 
     public void CloseAllPanels();
 

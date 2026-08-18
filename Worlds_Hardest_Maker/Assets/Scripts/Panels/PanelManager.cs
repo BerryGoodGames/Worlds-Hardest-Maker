@@ -6,50 +6,62 @@ using VContainer;
 /// </summary>
 public class PanelManager : MonoBehaviour, IPanelService
 {
+    [Inject] private EventBus eventBus;
     [Inject] private IPanelRegistry panelRegistry;
     
-    public void SetPanelOpen(IPanel panel, bool open, bool hideOtherPanels = true)
+    public void SetPanelOpen(IPanel panel, bool open, bool noAnimation = true)
     {
         panel.SetOpen(open);
         
-        // if opening panel, hide every other panel
-        if (!open) return;
-        
-        if (!hideOtherPanels) return;
-        
-        foreach (IPanel otherPanel in panelRegistry.RegisteredPanels)
+        if (!open)
         {
-            if (otherPanel == panel) continue;
-            
-            otherPanel.SetHidden(true);
+            eventBus.Fire(new PanelClosedEvent(panel));
+            return;
         }
+
+        HideExclusionGroupSiblings(panel, noAnimation);
+
+        // if (!hideOtherPanels) return;
+        //
+        // foreach (IPanel otherPanel in panelRegistry.RegisteredPanels)
+        // {
+        //     if (otherPanel == panel) continue;
+        //     
+        //     otherPanel.SetHidden(true);
+        // }
     }
     
-    public void SetPanelHidden(IPanel panel, bool hidden, bool hideOtherPanels = true)
+    public void SetPanelHidden(IPanel panel, bool hidden, bool noAnimation = true)
     {
-        panel.SetHidden(hidden);
+        panel.SetHidden(hidden, noAnimation);
         
-        // if showing panel, hide every other panel
-        if (hidden) return;
-        
-        if (!hideOtherPanels) return;
-        
-        foreach (IPanel otherPanel in panelRegistry.RegisteredPanels)
-        {
-            if (otherPanel == panel) continue;
-            
-            otherPanel.SetHidden(true);
-        }
+        // // if showing panel, hide every other panel
+        // if (hidden) return;
+        //
+        // if (!noAnimation) return;
+        //
+        // foreach (IPanel otherPanel in panelRegistry.RegisteredPanels)
+        // {
+        //     if (otherPanel == panel) continue;
+        //     
+        //     otherPanel.SetHidden(true);
+        // }
     }
     
     public void CloseAllPanels()
     {
-        foreach (IPanel panel in panelRegistry.RegisteredPanels) SetPanelOpen(panel, false);
+        foreach (IPanel panel in panelRegistry.RegisteredPanels)
+        {
+            SetPanelOpen(panel, false);
+        }
     }
     
     public void HideAllPanels()
     {
-        foreach (IPanel panel in panelRegistry.RegisteredPanels) SetPanelHidden(panel, true);
+        foreach (IPanel panel in panelRegistry.RegisteredPanels)
+        {
+            panel.SetHidden(true);
+        }
     }
 
     public bool TryCloseOnEscape()
@@ -67,5 +79,22 @@ public class PanelManager : MonoBehaviour, IPanelService
         }
         
         return closingPanel;
+    }
+    
+    private void HideExclusionGroupSiblings(IPanel panel, bool noAnimation)
+    {
+        if (panel.ExclusionGroup == PanelExclusionGroup.None)
+            return;
+
+        foreach (IPanel otherPanel in panelRegistry.RegisteredPanels)
+        {
+            if (otherPanel == panel) continue;
+
+            if (otherPanel.ExclusionGroup != panel.ExclusionGroup) continue;
+
+            if (otherPanel.Hidden) continue;
+
+            otherPanel.SetHidden(true, noAnimation);
+        }
     }
 }

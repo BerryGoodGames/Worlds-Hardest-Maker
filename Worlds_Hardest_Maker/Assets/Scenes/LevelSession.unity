@@ -784,11 +784,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InAttachMode: 0
-  levelSettingsPanelController: {fileID: 516759321}
-  testingOptionsPanelController: {fileID: 786713975}
-  anchorPanelController: {fileID: 1661549653}
-  anchorAttachButtonController: {fileID: 374404340}
-  anchorAttachExitButtonController: {fileID: 858147039}
   anchorAttachBlocker: {fileID: 1065031678}
 --- !u!1001 &26600856
 PrefabInstance:
@@ -5875,6 +5870,7 @@ MonoBehaviour:
   <Open>k__BackingField: 0
   <Hidden>k__BackingField: 1
   <CloseOnEscape>k__BackingField: 0
+  <ExclusionGroup>k__BackingField: 1
 --- !u!1 &405094726
 GameObject:
   m_ObjectHideFlags: 0
@@ -7829,6 +7825,7 @@ MonoBehaviour:
   <Open>k__BackingField: 0
   <Hidden>k__BackingField: 0
   <CloseOnEscape>k__BackingField: 0
+  <ExclusionGroup>k__BackingField: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -12034,6 +12031,7 @@ MonoBehaviour:
   <Open>k__BackingField: 0
   <Hidden>k__BackingField: 0
   <CloseOnEscape>k__BackingField: 0
+  <ExclusionGroup>k__BackingField: 1
 --- !u!114 &786713976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13497,6 +13495,7 @@ MonoBehaviour:
   <Open>k__BackingField: 0
   <Hidden>k__BackingField: 1
   <CloseOnEscape>k__BackingField: 0
+  <ExclusionGroup>k__BackingField: 1
 --- !u!114 &858147040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16302,9 +16301,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 516759321}
-        m_TargetAssemblyTypeName: PanelController, Assembly-CSharp
+        m_TargetAssemblyTypeName: PanelController, WorldsHardestMaker
         m_MethodName: OnButtonToggle
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -16793,9 +16792,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 786713975}
-        m_TargetAssemblyTypeName: PanelController, Assembly-CSharp
+        m_TargetAssemblyTypeName: PanelController, WorldsHardestMaker
         m_MethodName: OnButtonToggle
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -17242,11 +17241,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: WorldsHardestMaker::AnchorPositionInputEditManager
   IsEditing: 0
   CurrentEditedPositionInput: {fileID: 0}
-  levelSettingsPanelController: {fileID: 516759321}
-  testingOptionsPanelController: {fileID: 786713975}
-  anchorPanelController: {fileID: 1661549653}
-  anchorAttachButtonController: {fileID: 374404340}
-  anchorAttachExitButtonController: {fileID: 858147039}
   mainChainController: {fileID: 1265522667}
 --- !u!1001 &1148953494
 PrefabInstance:
@@ -17586,9 +17580,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1661549653}
-        m_TargetAssemblyTypeName: PanelController, Assembly-CSharp
+        m_TargetAssemblyTypeName: PanelController, WorldsHardestMaker
         m_MethodName: OnButtonToggle
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -25864,11 +25858,6 @@ MonoBehaviour:
   anchorPrefab: {fileID: 5924628306729880733, guid: d8a4218bce541fe4c928de7a522407dd, type: 3}
   anchorContainer: {fileID: 3469053329403155091}
   mainCameraJumper: {fileID: 519420035}
-  levelSettingsPanelController: {fileID: 516759321}
-  testingOptionsPanelController: {fileID: 786713975}
-  anchorPanelController: {fileID: 1661549653}
-  anchorAttachButtonController: {fileID: 374404340}
-  anchorAttachExitButtonController: {fileID: 858147039}
   mainChainController: {fileID: 1265522667}
   anchorCameraJumping: {fileID: 1162396418}
   anchorNoAnchorSelectedScreen: {fileID: 572843087}
@@ -26586,6 +26575,7 @@ MonoBehaviour:
   <Open>k__BackingField: 0
   <Hidden>k__BackingField: 1
   <CloseOnEscape>k__BackingField: 1
+  <ExclusionGroup>k__BackingField: 1
 --- !u!1001 &1675906581
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27705,11 +27695,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f67dd17fe8524f94af1b27414f7fdde6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: WorldsHardestMaker::PanelVisibilityCoordinator
-  levelSettingsPanelController: {fileID: 516759321}
-  testingOptionsPanelController: {fileID: 786713975}
-  anchorPanelController: {fileID: 1661549653}
-  anchorAttachButtonController: {fileID: 374404340}
-  anchorAttachExitButtonController: {fileID: 858147039}
+  rules:
+  - uiState: 0
+    visiblePanels: []
+  - uiState: 1
+    visiblePanels:
+    - {fileID: 516759321}
+    - {fileID: 786713975}
+  - uiState: 2
+    visiblePanels:
+    - {fileID: 1661549653}
+    - {fileID: 374404340}
+  - uiState: 3
+    visiblePanels:
+    - {fileID: 1661549653}
+    - {fileID: 858147039}
+  - uiState: 4
+    visiblePanels:
+    - {fileID: 1661549653}
 --- !u!1 &1755699352
 GameObject:
   m_ObjectHideFlags: 0
@@ -27746,7 +27749,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 711.39, y: -956.8952}
-  m_SizeDelta: {x: 0, y: 39.5306}
+  m_SizeDelta: {x: 51.75, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755699354
 MonoBehaviour:
@@ -33470,11 +33473,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c16a2a2683b36419602bb6a0fb25ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelSettingsPanelController: {fileID: 516759321}
-  testingOptionsPanelController: {fileID: 786713975}
-  anchorPanelController: {fileID: 1661549653}
-  anchorAttachButtonController: {fileID: 374404340}
-  anchorAttachExitButtonController: {fileID: 858147039}
   startEditMode: {fileID: 11400000, guid: 7f6d1c38617e7104183dbd378764fe32, type: 2}
   <IsEditing>k__BackingField: 1
   <IsPlaytesting>k__BackingField: 0
