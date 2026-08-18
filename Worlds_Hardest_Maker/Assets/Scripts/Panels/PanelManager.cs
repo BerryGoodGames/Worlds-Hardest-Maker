@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 using VContainer;
@@ -6,32 +5,33 @@ using VContainer;
 /// <summary>
 /// DIESER CODE IST SO SCHLECHT HOLY SHIT ES IST ALLES SO UNÜBERSICHTLICH ZEIGE DEINEM ARBEITGEBER NIEMALS DIESEN CODE
 /// </summary>
-public class PanelManager : MonoBehaviour
+public class PanelManager : MonoBehaviour, IPanelService
 {
     public static PanelManager Instance { get; private set; }
-    
-    [ReadOnly] public List<PanelController> Panels;
     
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController levelSettingsPanelController;
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController testingOptionsPanelController;
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorPanelController;
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachButtonController;
     [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachExitButtonController;
-    
-    public bool WasAnchorPanelOpen { get; set; }
+
+    private bool wasAnchorPanelOpen;
     
     private EventBus eventBus;
+    private IPanelRegistry panelRegistry;
     
     [Inject]
-    private void Construct(EventBus eventBus)
+    private void Construct(EventBus eventBus,
+        IPanelRegistry panelRegistry)
     {
         this.eventBus = eventBus;
+        this.panelRegistry = panelRegistry;
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
     }
     
-    public void SetPanelOpen(PanelController panel, bool open, bool hideOtherPanels = true)
+    public void SetPanelOpen(IPanel panel, bool open, bool hideOtherPanels = true)
     {
         panel.SetOpen(open);
         
@@ -40,15 +40,15 @@ public class PanelManager : MonoBehaviour
         
         if (!hideOtherPanels) return;
         
-        foreach (PanelController panelController in Panels)
+        foreach (IPanel otherPanel in panelRegistry.RegisteredPanels)
         {
-            if (panelController == panel) continue;
+            if (otherPanel == panel) continue;
             
-            panelController.SetHidden(true);
+            otherPanel.SetHidden(true);
         }
     }
     
-    public void SetPanelHidden(PanelController panel, bool hidden, bool hideOtherPanels = true)
+    public void SetPanelHidden(IPanel panel, bool hidden, bool hideOtherPanels = true)
     {
         panel.SetHidden(hidden);
         
@@ -57,22 +57,22 @@ public class PanelManager : MonoBehaviour
         
         if (!hideOtherPanels) return;
         
-        foreach (PanelController panelController in Panels)
+        foreach (IPanel otherPanel in panelRegistry.RegisteredPanels)
         {
-            if (panelController == panel) continue;
+            if (otherPanel == panel) continue;
             
-            panelController.SetHidden(true);
+            otherPanel.SetHidden(true);
         }
     }
     
     public void CloseAllPanels()
     {
-        foreach (PanelController panel in Panels) SetPanelOpen(panel, false);
+        foreach (IPanel panel in panelRegistry.RegisteredPanels) SetPanelOpen(panel, false);
     }
     
     public void HideAllPanels()
     {
-        foreach (PanelController panel in Panels) SetPanelHidden(panel, true);
+        foreach (IPanel panel in panelRegistry.RegisteredPanels) SetPanelHidden(panel, true);
     }
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt)
@@ -82,7 +82,7 @@ public class PanelManager : MonoBehaviour
         
         SetPanelHidden(testingOptionsPanelController, true);
         
-        WasAnchorPanelOpen = anchorPanelController.Open;
+        wasAnchorPanelOpen = anchorPanelController.Open;
         SetPanelHidden(anchorPanelController, true);
         SetPanelHidden(anchorAttachButtonController, true);
     }
@@ -93,7 +93,7 @@ public class PanelManager : MonoBehaviour
         bool isEditModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
         if (isEditModeAnchorRelated)
         {
-            if (WasAnchorPanelOpen) SetPanelOpen(anchorPanelController, true);
+            if (wasAnchorPanelOpen) SetPanelOpen(anchorPanelController, true);
             else SetPanelHidden(anchorPanelController, false);
             
             if (AnchorManager.Instance.SelectedAnchor != null) SetPanelHidden(anchorAttachButtonController, false, false);

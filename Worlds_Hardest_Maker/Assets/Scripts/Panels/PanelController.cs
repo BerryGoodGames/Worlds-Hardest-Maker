@@ -1,9 +1,10 @@
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
+using VContainer;
 
 [RequireComponent(typeof(PanelTween))]
-public class PanelController : MonoBehaviour
+public class PanelController : MonoBehaviour, IPanel
 {
     [SerializeField] [InitializationField] [CanBeNull] private PanelTween panelTween;
     private bool hasPanelTween;
@@ -16,6 +17,8 @@ public class PanelController : MonoBehaviour
     [field: SerializeField] [field: InitializationField] public bool Hidden { get; private set; }
     
     [field: SerializeField] [field: InitializationField] public bool CloseOnEscape { get; private set; }
+
+    [Inject] private PanelRegistry registry;
     
     public void ToggleOpen(bool noAnimation = false) => SetOpen(!Open, noAnimation);
     
@@ -27,7 +30,7 @@ public class PanelController : MonoBehaviour
         if (hasPanelTween) panelTween.SetOpen(Open, noAnimation);
         
         // un-hide panel if hidden
-        if (Open & Hidden) SetHidden(false, noAnimation);
+        if (Open && Hidden) SetHidden(false, noAnimation);
     }
     
     public void ToggleHidden(bool noAnimation = false) => SetHidden(!Hidden, noAnimation);
@@ -45,9 +48,6 @@ public class PanelController : MonoBehaviour
     
     private void Start()
     {
-        // track this in manager list
-        PanelManager.Instance.Panels.Add(this);
-        
         hasPanelTween = panelTween != null;
         hasButtonPanelTween = buttonPanelTween != null;
         
@@ -61,8 +61,14 @@ public class PanelController : MonoBehaviour
         
         PanelManager.Instance.SetPanelOpen(this, !Open, hideOtherPanels);
     }
-    
-    private void OnDestroy() =>
-        // track this in manager list
-        PanelManager.Instance.Panels.Remove(this);
+
+    private void OnEnable()
+    {
+        registry.Register(this);
+    }
+
+    private void OnDisable()
+    {
+        registry.Unregister(this);
+    }
 }

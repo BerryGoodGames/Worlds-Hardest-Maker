@@ -35,6 +35,9 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<EditModeUIBlockerService>().As<IEditModeUIBlockerService>();
 
         builder.Register<CopyDataFactory>(Lifetime.Transient);
+
+        builder.RegisterComponentInHierarchy<PanelManager>().As<IPanelService>();
+        builder.Register<PanelRegistry>(Lifetime.Singleton).As<IPanelRegistry>();
     }
     
     protected override void Awake()

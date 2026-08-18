@@ -14,6 +14,7 @@ public class KeyEvents : MonoBehaviour
     
     [Inject] private IMouseService mouseService;
     [Inject] private ICopyPasteService copyPasteService;
+    [Inject] private IPanelRegistry panelRegistry;
     
     private void Update()
     {
@@ -87,7 +88,7 @@ public class KeyEvents : MonoBehaviour
         
         if (!Input.GetKeyDown(KeyCode.Escape)) return false;
         
-        foreach (PanelController panel in PanelManager.Instance.Panels)
+        foreach (IPanel panel in panelRegistry.RegisteredPanels)
         {
             if (!panel.Open || !panel.CloseOnEscape) continue;
             
