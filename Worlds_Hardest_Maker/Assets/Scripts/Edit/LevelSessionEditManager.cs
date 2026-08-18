@@ -84,11 +84,7 @@ public class LevelSessionEditManager : MonoBehaviour
 
                 if (AnchorManager.Instance.SelectedAnchor)
                 {
-                    PanelManager.Instance.SetPanelHidden(
-                        AnchorAttachManager.Instance.InAttachMode
-                            ? anchorAttachExitButtonController
-                            : anchorAttachButtonController, false, false
-                    );
+                    PanelManager.Instance.SetPanelHidden(anchorAttachButtonController, false, false);
                 }
             }
             else

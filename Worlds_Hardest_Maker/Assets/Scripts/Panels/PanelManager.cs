@@ -74,6 +74,23 @@ public class PanelManager : MonoBehaviour, IPanelService
     {
         foreach (IPanel panel in panelRegistry.RegisteredPanels) SetPanelHidden(panel, true);
     }
+
+    public bool TryCloseOnEscape()
+    {
+        bool closingPanel = false;
+        
+        if (!Input.GetKeyDown(KeyCode.Escape)) return false;
+        
+        foreach (IPanel panel in panelRegistry.RegisteredPanels)
+        {
+            if (!panel.Open || !panel.CloseOnEscape) continue;
+            
+            SetPanelOpen(panel, false);
+            closingPanel = true;
+        }
+        
+        return closingPanel;
+    }
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt)
     {

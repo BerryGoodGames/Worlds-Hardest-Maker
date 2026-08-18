@@ -14,7 +14,6 @@ public class KeyEvents : MonoBehaviour
     
     [Inject] private IMouseService mouseService;
     [Inject] private ICopyPasteService copyPasteService;
-    [Inject] private IPanelRegistry panelRegistry;
     
     private void Update()
     {
@@ -23,7 +22,7 @@ public class KeyEvents : MonoBehaviour
         // pick object
         if (KeyBinds.GetKeyBindDown("Editor_Pick")) PickUtils.PickObject(mouseService.MouseWorldPos);
         
-        bool closingPanel = CheckClosingPanel();
+        bool closingPanel = PanelManager.Instance.TryCloseOnEscape();
         
         // toggle menu
         if (!closingPanel
@@ -79,24 +78,6 @@ public class KeyEvents : MonoBehaviour
         player.Rb.position = mouseService.MouseWorldPosGrid;
         player.HasTeleported = true;
         PlayManager.Instance.Cheated = true;
-    }
-    
-    private bool CheckClosingPanel()
-    {
-        // close panel if esc pressed
-        bool closingPanel = false;
-        
-        if (!Input.GetKeyDown(KeyCode.Escape)) return false;
-        
-        foreach (IPanel panel in panelRegistry.RegisteredPanels)
-        {
-            if (!panel.Open || !panel.CloseOnEscape) continue;
-            
-            PanelManager.Instance.SetPanelOpen(panel, false);
-            closingPanel = true;
-        }
-        
-        return closingPanel;
     }
     
     private bool CheckKeyBindAddition()
