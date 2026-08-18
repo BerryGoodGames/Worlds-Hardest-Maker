@@ -7,11 +7,6 @@ public class LevelSessionEditManager : MonoBehaviour
 {
     public static LevelSessionEditManager Instance { get; private set; }
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController levelSettingsPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController testingOptionsPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachButtonController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachExitButtonController;
     [SerializeField] [MustBeAssigned] [InitializationField] private EditMode startEditMode;
 
     [field: SerializeField]
@@ -39,7 +34,6 @@ public class LevelSessionEditManager : MonoBehaviour
     }
     
     [Inject] private EventBus eventBus;
-    [Inject] private IPanelService panelService;
     
     [CanBeNull] private EditMode prevEditMode;
     public EditMode CurrentEditMode { get; private set; }
@@ -76,25 +70,6 @@ public class LevelSessionEditManager : MonoBehaviour
         {
             AnchorManager.Instance.SelectedAnchor.GetComponent<Animator>()
                 .SetBool(editingString, isAnchorRelated || inAttachMode);
-        }
-
-        // open corresponding panel
-        if (!AnchorAttachManager.Instance.InAttachMode)
-        {
-            if (isAnchorRelated)
-            {
-                panelService.SetPanelHidden(anchorPanelController, false);
-
-                if (AnchorManager.Instance.SelectedAnchor)
-                {
-                    panelService.SetPanelHidden(anchorAttachButtonController, false, false);
-                }
-            }
-            else
-            {
-                panelService.SetPanelHidden(levelSettingsPanelController, false, false);
-                panelService.SetPanelHidden(testingOptionsPanelController, false, false);
-            }
         }
 
         // enable/disable anchor path

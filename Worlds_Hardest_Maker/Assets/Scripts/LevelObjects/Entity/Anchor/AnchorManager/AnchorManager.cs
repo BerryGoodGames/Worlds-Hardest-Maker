@@ -13,11 +13,6 @@ public partial class AnchorManager : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private AnchorParentController anchorPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform anchorContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private JumpToEntity mainCameraJumper;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController levelSettingsPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController testingOptionsPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachButtonController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachExitButtonController;
     [SerializeField] [InitializationField] [MustBeAssigned] private ChainController mainChainController;
     [SerializeField] [InitializationField] [MustBeAssigned] private AnchorCameraJumping anchorCameraJumping;
     [SerializeField] [InitializationField] [MustBeAssigned] private AlphaTween anchorNoAnchorSelectedScreen;

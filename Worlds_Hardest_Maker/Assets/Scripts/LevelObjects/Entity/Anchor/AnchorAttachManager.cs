@@ -8,23 +8,14 @@ public partial class AnchorAttachManager : MonoBehaviour
     
     [ReadOnly] public bool InAttachMode;
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController levelSettingsPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController testingOptionsPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachButtonController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachExitButtonController;
-    
     private static readonly int editingString = Animator.StringToHash("Editing");
     
     private EventBus eventBus;
-    private IPanelService panelService;
     
     [Inject]
-    private void Construct(EventBus eventBus,
-        IPanelService panelService)
+    private void Construct(EventBus eventBus)
     {
         this.eventBus = eventBus;
-        this.panelService = panelService;
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
     }
@@ -41,11 +32,6 @@ public partial class AnchorAttachManager : MonoBehaviour
             || AnchorManager.Instance.SelectedAnchor == null
             || AnchorPositionInputEditManager.Instance.IsEditing) return;
         
-        panelService.SetPanelHidden(anchorAttachButtonController, true);
-        panelService.SetPanelHidden(anchorAttachExitButtonController, false, false);
-        
-        panelService.SetPanelOpen(anchorPanelController, false, false);
-        
         InAttachMode = true;
         
         LevelSessionEditManager.Instance.SetEditMode(EditModeManager.Ball);
@@ -57,24 +43,11 @@ public partial class AnchorAttachManager : MonoBehaviour
     
     public void ExitAttachMode()
     {
-        bool isModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
-        
-        if (LevelSessionEditManager.Instance.IsEditing)
-        {
-            panelService.SetPanelHidden(anchorAttachButtonController, false, false);
-        }
-        
-        panelService.SetPanelHidden(anchorAttachExitButtonController, true);
-        if (!isModeAnchorRelated)
-        {
-            panelService.SetPanelHidden(levelSettingsPanelController, false, false);
-            panelService.SetPanelHidden(testingOptionsPanelController, false, false);
-        }
-        
         InAttachMode = false;
         
         if (AnchorManager.Instance.SelectedAnchor)
         {
+            bool isModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
             AnchorManager.Instance.SelectedAnchor.GetComponent<Animator>().SetBool(editingString, isModeAnchorRelated);
             AnchorManager.Instance.SelectedAnchor.SetLinesActive(isModeAnchorRelated);
         }

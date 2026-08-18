@@ -11,7 +11,6 @@ public partial class AnchorManager : IManagerSelectable
     [HideInInspector] public float LastSelectClick = -1;
 
     [Inject] private IMouseService mouseService;
-    [Inject] private IPanelService panelService;
     
     public void Select(Vector2 pos)
     {
@@ -65,13 +64,10 @@ public partial class AnchorManager : IManagerSelectable
         mainCameraJumper.SetTarget("Anchor", anchor.gameObject);
         anchorCameraJumping.CameraJumpToAnchor();
         
-        if (!AnchorAttachManager.Instance.InAttachMode)
-        {
-            panelService.SetPanelHidden(anchorAttachButtonController, false, false);
-        }
-        
         // play sfx
         audioService.Play("AnchorBlockButton");
+        
+        eventBus.Fire(new AnchorSelectedEvent());
     }
     
     public void DeselectAnchor()
@@ -92,19 +88,12 @@ public partial class AnchorManager : IManagerSelectable
         
         mainCameraJumper.RemoveTarget("Anchor");
         
-        EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
-        if (!currentEditMode.Attributes.IsAnchorRelated)
-        {
-            panelService.SetPanelHidden(levelSettingsPanelController, false, false);
-            panelService.SetPanelHidden(testingOptionsPanelController, false, false);
-        }
-        
-        panelService.SetPanelHidden(anchorAttachButtonController, true);
-        panelService.SetPanelHidden(anchorAttachExitButtonController, true);
         AnchorAttachManager.Instance.InAttachMode = false;
         
         // play sfx
         audioService.Play("AnchorDeselect");
+        
+        eventBus.Fire(new AnchorDeselectedEvent());
     }
     
     private void CheckAnchorSelection()

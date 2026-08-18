@@ -12,31 +12,26 @@ public class AnchorPositionInputEditManager : MonoBehaviour
     [ReadOnly] public bool IsEditing;
     [ReadOnly] public AnchorBlockPositionInputController CurrentEditedPositionInput;
     
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController levelSettingsPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController testingOptionsPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachButtonController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachExitButtonController;
     [SerializeField] [InitializationField] [MustBeAssigned] private ChainController mainChainController;
-    
+
+    private EventBus eventBus;
     private IAudioService audioService;
     private IMouseService mouseService;
     private ISelectionStateService selectionStateService;
     private IEditModeUIBlockerService uiBlockerService;
-    private IPanelService panelService;
     
     [Inject]
-    private void Construct(IAudioService audioService, 
+    private void Construct(EventBus eventBus,
+        IAudioService audioService, 
         IMouseService mouseService, 
         ISelectionStateService selectionStateService,
-        IEditModeUIBlockerService uiBlockerService,
-        IPanelService panelService)
+        IEditModeUIBlockerService uiBlockerService)
     {
+        this.eventBus = eventBus;
         this.audioService = audioService;
         this.mouseService = mouseService;
         this.selectionStateService = selectionStateService;
         this.uiBlockerService = uiBlockerService;
-        this.panelService = panelService;
     }
 
     public void StartPositionInputEdit(AnchorBlockPositionInputController positionInput)
@@ -45,18 +40,16 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         StartCoroutine(EditCoroutine());
     }
     
-    public void OnStartPositionEdit()
+    private void OnStartPositionEdit()
     {
         IsEditing = true;
         
         uiBlockerService.BlockAndDisable();
         
-        panelService.SetPanelHidden(anchorPanelController, true);
-        panelService.SetPanelHidden(anchorAttachButtonController, true);
-        panelService.SetPanelHidden(anchorAttachExitButtonController, true);
+        eventBus.Fire(new AnchorPositionEditStartedEvent());
     }
     
-    public void OnEndPositionEdit()
+    private void OnEndPositionEdit()
     {
         if (!IsEditing) return;
         
@@ -70,16 +63,9 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         // playButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
         // no Menu.BlockMenu = false ! TODO: check if working
         
-        panelService.SetPanelOpen(anchorPanelController, LevelSessionEditManager.Instance.IsEditing);
-        panelService.SetPanelOpen(
-            anchorAttachButtonController, LevelSessionEditManager.Instance.IsEditing && !AnchorAttachManager.Instance.InAttachMode, false
-        );
-        
-        panelService.SetPanelOpen(
-            anchorAttachExitButtonController, LevelSessionEditManager.Instance.IsEditing && AnchorAttachManager.Instance.InAttachMode, false
-        );
-        
         AnchorManager.Instance.SelectedAnchor.RenderLines();
+        
+        eventBus.Fire(new AnchorPositionEditEndedEvent());
     }
     
     private IEnumerator EditCoroutine()
@@ -169,12 +155,12 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         }
         
         // apply position to position input
-        Instance.CurrentEditedPositionInput.SetPositionValues(mouseService.MouseWorldPosGrid);
+        CurrentEditedPositionInput.SetPositionValues(mouseService.MouseWorldPosGrid);
         
         // make sure that the player can't place directly after pasting
         while (!Input.GetMouseButtonUp(0)) yield return null;
         
-        Instance.OnEndPositionEdit();
+        OnEndPositionEdit();
         
         // play sfx
         audioService.Play(PlaceManager.Instance.DefaultPlaceSfx);
