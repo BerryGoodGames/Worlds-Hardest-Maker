@@ -1,4 +1,3 @@
-using MyBox;
 using UnityEngine;
 using VContainer;
 
@@ -7,15 +6,6 @@ using VContainer;
 /// </summary>
 public class PanelManager : MonoBehaviour, IPanelService
 {
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController levelSettingsPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController testingOptionsPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorPanelController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachButtonController;
-    [SerializeField] [InitializationField] [MustBeAssigned] private PanelController anchorAttachExitButtonController;
-
-    private bool wasAnchorPanelOpen;
-    
-    [Inject] private EventBus eventBus;
     [Inject] private IPanelRegistry panelRegistry;
     
     public void SetPanelOpen(IPanel panel, bool open, bool hideOtherPanels = true)
@@ -77,47 +67,5 @@ public class PanelManager : MonoBehaviour, IPanelService
         }
         
         return closingPanel;
-    }
-    
-    private void OnSwitchToPlay(SwitchToPlayEvent evt)
-    {
-        // hide all panels
-        SetPanelHidden(levelSettingsPanelController, true);
-        
-        SetPanelHidden(testingOptionsPanelController, true);
-        
-        wasAnchorPanelOpen = anchorPanelController.Open;
-        SetPanelHidden(anchorPanelController, true);
-        SetPanelHidden(anchorAttachButtonController, true);
-    }
-    
-    private void OnSwitchToEdit(SwitchToEditEvent evt)
-    {
-        // show level setting / anchor panel
-        bool isEditModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
-        if (isEditModeAnchorRelated)
-        {
-            if (wasAnchorPanelOpen) SetPanelOpen(anchorPanelController, true);
-            else SetPanelHidden(anchorPanelController, false);
-            
-            if (AnchorManager.Instance.SelectedAnchor != null) SetPanelHidden(anchorAttachButtonController, false, false);
-        }
-        else
-        {
-            SetPanelHidden(levelSettingsPanelController, false, false);
-            SetPanelHidden(testingOptionsPanelController, false, false);
-        }
-    }
-
-    private void OnEnable()
-    {
-        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
-        eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
-    }
-
-    private void OnDisable()
-    {
-        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
-        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
     }
 }

@@ -27658,6 +27658,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1747896900}
   - component: {fileID: 1747896901}
+  - component: {fileID: 1747896902}
   m_Layer: 0
   m_Name: _Panel
   m_TagString: Untagged
@@ -27692,7 +27693,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 048da9e1f595a00468ccd9b3b8f24370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: WorldsHardestMaker::PanelManager
-  Panels: []
+--- !u!114 &1747896902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1747896899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f67dd17fe8524f94af1b27414f7fdde6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WorldsHardestMaker::PanelVisibilityCoordinator
   levelSettingsPanelController: {fileID: 516759321}
   testingOptionsPanelController: {fileID: 786713975}
   anchorPanelController: {fileID: 1661549653}
@@ -27734,7 +27746,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 711.39, y: -956.8952}
-  m_SizeDelta: {x: 51.75, y: 39.5306}
+  m_SizeDelta: {x: 0, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755699354
 MonoBehaviour:
@@ -33464,8 +33476,8 @@ MonoBehaviour:
   anchorAttachButtonController: {fileID: 374404340}
   anchorAttachExitButtonController: {fileID: 858147039}
   startEditMode: {fileID: 11400000, guid: 7f6d1c38617e7104183dbd378764fe32, type: 2}
-  <Editing>k__BackingField: 1
-  <InPlaytest>k__BackingField: 0
+  <IsEditing>k__BackingField: 0
+  <IsPlaytesting>k__BackingField: 0
   editRotation: 270
 --- !u!1 &2113693783
 GameObject:

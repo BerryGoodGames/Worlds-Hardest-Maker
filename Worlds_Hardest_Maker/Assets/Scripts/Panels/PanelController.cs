@@ -18,7 +18,7 @@ public class PanelController : MonoBehaviour, IPanel
     
     [field: SerializeField] [field: InitializationField] public bool CloseOnEscape { get; private set; }
 
-    [Inject] private PanelRegistry panelRegistry;
+    [Inject] private IPanelRegistry panelRegistry;
     [Inject] private IPanelService panelService;
     
     public void ToggleOpen(bool noAnimation = false) => SetOpen(!Open, noAnimation);
