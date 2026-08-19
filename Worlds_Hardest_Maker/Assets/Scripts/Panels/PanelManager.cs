@@ -48,7 +48,7 @@ public class PanelManager : MonoBehaviour, IPanelService
         
         foreach (IPanel panel in panelRegistry.RegisteredPanels)
         {
-            if (!panel.Open || !panel.CloseOnEscape) continue;
+            if (!panel.IsOpen || !panel.CloseOnEscape) continue;
             
             SetPanelOpen(panel, false);
             closingPanel = true;
@@ -60,7 +60,9 @@ public class PanelManager : MonoBehaviour, IPanelService
     private void HideExclusionGroupSiblings(IPanel panel)
     {
         if (panel.ExclusionGroup == PanelExclusionGroup.None)
+        {
             return;
+        }
 
         foreach (IPanel otherPanel in panelRegistry.RegisteredPanels)
         {
@@ -68,7 +70,7 @@ public class PanelManager : MonoBehaviour, IPanelService
 
             if (otherPanel.ExclusionGroup != panel.ExclusionGroup) continue;
 
-            if (otherPanel.Hidden) continue;
+            if (otherPanel.IsHidden) continue;
 
             otherPanel.SetHidden(true);
         }

@@ -1,7 +1,7 @@
 ﻿public interface IPanel
 {
-    public bool Open { get; }
-    public bool Hidden { get; }
+    public bool IsOpen { get; }
+    public bool IsHidden { get; }
     public bool CloseOnEscape { get; }
     public PanelExclusionGroup ExclusionGroup { get; }
 

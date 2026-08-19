@@ -1,25 +1,29 @@
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VContainer;
 
-[RequireComponent(typeof(PanelTween))]
+[RequireComponent(typeof(PanelTween))] // TODO: contradiction
 public class PanelController : MonoBehaviour, IPanel
 {
     [SerializeField] [InitializationField] [CanBeNull] private PanelTween panelTween;
     private bool hasPanelTween;
     
+    // TODO: separate button animations from panel animations
     [SerializeField] [InitializationField] [CanBeNull] private PanelTween buttonPanelTween;
     private bool hasButtonPanelTween;
 
+    [field: FormerlySerializedAs("<Open>k__BackingField")]
     [field: Separator("Initial settings")]
     [field: SerializeField]
     [field: InitializationField]
-    public bool Open { get; private set; }
+    public bool IsOpen { get; private set; }
 
+    [field: FormerlySerializedAs("<Hidden>k__BackingField")]
     [field: SerializeField]
     [field: InitializationField]
-    public bool Hidden { get; private set; }
+    public bool IsHidden { get; private set; }
 
     [field: SerializeField]
     [field: InitializationField]
@@ -35,23 +39,23 @@ public class PanelController : MonoBehaviour, IPanel
     public void SetOpen(bool open)
     {
         // open/close panel
-        Open = open;
+        IsOpen = open;
         
-        if (hasPanelTween) panelTween.SetOpen(Open);
+        if (hasPanelTween) panelTween.SetOpen(IsOpen);
         
         // un-hide panel if hidden
-        if (Open && Hidden) SetHidden(false);
+        if (IsOpen && IsHidden) SetHidden(false);
     }
     
     public void SetHidden(bool hidden)
     {
         // hide/show button
-        Hidden = hidden;
+        IsHidden = hidden;
         
         // close panel if open
-        if (Hidden && Open) SetOpen(false);
+        if (IsHidden && IsOpen) SetOpen(false);
         
-        if (hasButtonPanelTween) buttonPanelTween.SetOpen(!Hidden);
+        if (hasButtonPanelTween) buttonPanelTween.SetOpen(!IsHidden);
     }
     
     private void Start()
@@ -59,15 +63,15 @@ public class PanelController : MonoBehaviour, IPanel
         hasPanelTween = panelTween != null;
         hasButtonPanelTween = buttonPanelTween != null;
         
-        if (hasPanelTween) panelTween.SetOpen(Open, true);
-        if (hasButtonPanelTween) buttonPanelTween.SetOpen(!Hidden, true);
+        if (hasPanelTween) panelTween.SetOpen(IsOpen, true);
+        if (hasButtonPanelTween) buttonPanelTween.SetOpen(!IsHidden, true);
     }
     
     public void OnButtonToggle()
     {
         if (hasButtonPanelTween && !buttonPanelTween.Open) return;
         
-        panelService.SetPanelOpen(this, !Open);
+        panelService.SetPanelOpen(this, !IsOpen);
     }
 
     private void OnEnable()
