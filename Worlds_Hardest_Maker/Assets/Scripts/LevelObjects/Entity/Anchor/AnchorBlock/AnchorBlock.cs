@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
+using VContainer.Unity;
 
 public abstract class AnchorBlock
 {
@@ -33,10 +35,15 @@ public abstract class AnchorBlock
     public abstract Type ImplementedBlockType { get; }
     protected abstract GameObject Prefab { get; }
     
-    public void CreateAnchorBlockObject(Transform parent, RectTransform chainContainer, AnchorBlockConnectorController connectorController)
+    public void CreateAnchorBlockObject(Transform parent, 
+        RectTransform chainContainer, 
+        AnchorBlockConnectorController connectorController,
+        IObjectResolver diContainer)
     {
         // create object
         GameObject anchorBlock = Object.Instantiate(Prefab, parent);
+        
+        diContainer.InjectGameObject(anchorBlock);
         
         // set values in object
         Controller = anchorBlock.GetComponent<AnchorBlockController>();

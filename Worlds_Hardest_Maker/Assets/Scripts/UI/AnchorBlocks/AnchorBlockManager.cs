@@ -24,11 +24,13 @@ public partial class AnchorBlockManager : MonoBehaviour
     public bool IsPreviewHovered => anchorBlockPreview.MouseOverUIRect.Over;
     public bool IsPeriblockerHovered => anchorBlockPreview.Periblocker.MouseOverUIRect.Over;
     
+    private IObjectResolver diContainer;
     private IAudioService audioService;
     
     [Inject]
-    private void Construct(IAudioService audioService)
+    private void Construct(IObjectResolver diContainer, IAudioService audioService)
     {
+        this.diContainer = diContainer;
         this.audioService = audioService;
     }
 
@@ -204,8 +206,10 @@ public partial class AnchorBlockManager : MonoBehaviour
         
         foreach (AnchorBlock t in blocks)
         {
-            t.CreateAnchorBlockObject(mainChainController.transform, anchorBlockChainContainer,
-                anchorBlockConnectorController);
+            t.CreateAnchorBlockObject(mainChainController.transform, 
+                anchorBlockChainContainer,
+                anchorBlockConnectorController,
+                diContainer);
         }
         
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();

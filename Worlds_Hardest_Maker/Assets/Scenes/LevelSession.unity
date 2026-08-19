@@ -27705,14 +27705,16 @@ MonoBehaviour:
   - uiState: 2
     visiblePanels:
     - {fileID: 1661549653}
-    - {fileID: 374404340}
   - uiState: 3
     visiblePanels:
     - {fileID: 1661549653}
-    - {fileID: 858147039}
+    - {fileID: 374404340}
   - uiState: 4
     visiblePanels:
     - {fileID: 1661549653}
+    - {fileID: 858147039}
+  - uiState: 5
+    visiblePanels: []
 --- !u!1 &1755699352
 GameObject:
   m_ObjectHideFlags: 0

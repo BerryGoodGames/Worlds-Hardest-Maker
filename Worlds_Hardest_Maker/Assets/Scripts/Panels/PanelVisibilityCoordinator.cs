@@ -7,18 +7,19 @@ public class PanelVisibilityCoordinator : MonoBehaviour
 {
     [SerializeField] private List<PanelVisibilityRule> rules;
 
-    private PanelUIState? currentState;
+    private PanelUIState currentState;
+    private readonly PanelUIStateService stateService = new();
     
     [Inject] private EventBus eventBus;
     [Inject] private IPanelService panelService;
-    [Inject] private IPanelRegistry panelRegistry; // need later for loops and such
+    [Inject] private IPanelRegistry panelRegistry;
     
-    private void ApplyState(PanelUIState newState)
+    private void ApplyCurrentState()
     {
-        IReadOnlyCollection<IPanel> oldVisiblePanels = currentState.HasValue
-            ? GetVisiblePanels(currentState.Value)
-            : new List<IPanel>();
-
+        PanelUIState newState = stateService.GetCurrentUIState();
+        
+        IReadOnlyCollection<IPanel> oldVisiblePanels = GetVisiblePanels(currentState);
+        
         IReadOnlyCollection<IPanel> newVisiblePanels = GetVisiblePanels(newState);
 
         foreach (IPanel panel in oldVisiblePanels)
@@ -61,9 +62,7 @@ public class PanelVisibilityCoordinator : MonoBehaviour
 
     private void RestoreCurrentState()
     {
-        if (!currentState.HasValue) return;
-
-        IReadOnlyCollection<IPanel> visiblePanels = GetVisiblePanels(currentState.Value);
+        IReadOnlyCollection<IPanel> visiblePanels = GetVisiblePanels(currentState);
 
         foreach (IPanel panel in panelRegistry.RegisteredPanels)
         {
@@ -76,135 +75,16 @@ public class PanelVisibilityCoordinator : MonoBehaviour
         RestoreCurrentState();
     }
     
-    private void OnSwitchToPlay(SwitchToPlayEvent evt) => ApplyState(PanelUIState.Playing);
-    private void OnSwitchToEdit(SwitchToEditEvent evt) => ApplyState(CurrentEditState());
-    private void OnEditModeInitialized(EditModeInitializedEvent evt) => ApplyState(CurrentEditState());
-    private void OnEditModeChange(EditModeChangeEvent evt) => ApplyState(CurrentEditState());
-    private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt) => ApplyState(PanelUIState.EditingAnchorAttach);
-    private void OnExitAnchorAttach(ExitAnchorAttachEvent evt) => ApplyState(CurrentEditState());
-    private void OnAnchorSelected(AnchorSelectedEvent evt) => ApplyState(PanelUIState.EditingAnchor);
-    private void OnAnchorDeselected(AnchorDeselectedEvent evt) => ApplyState(CurrentEditState());
-    private void OnAnchorPositionEditStarted(AnchorPositionEditStartedEvent evt) => ApplyState(PanelUIState.EditingAnchorPositionInputEdit);
-    private void OnAnchorPositionEditEnded(AnchorPositionEditEndedEvent evt) => ApplyState(CurrentEditState());
-
-    private PanelUIState CurrentEditState()
-    {
-        bool isAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
-        return isAnchorRelated ? PanelUIState.EditingAnchor : PanelUIState.EditingGeneral;
-    }
-    
-    // private void OnSwitchToPlay(SwitchToPlayEvent evt)
-    // {
-    //     // hide all panels
-    //     panelService.SetPanelHidden(levelSettingsPanelController, true, true);
-    //     
-    //     panelService.SetPanelHidden(testingOptionsPanelController, true, true);
-    //     
-    //     wasAnchorPanelOpen = anchorPanelController.Open;
-    //     panelService.SetPanelHidden(anchorPanelController, true, true);
-    //     panelService.SetPanelHidden(anchorAttachButtonController, true, true);
-    // }
-    //
-    // private void OnSwitchToEdit(SwitchToEditEvent evt)
-    // {
-    //     // show level setting / anchor panel
-    //     bool isEditModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
-    //     if (isEditModeAnchorRelated)
-    //     {
-    //         if (wasAnchorPanelOpen) panelService.SetPanelOpen(anchorPanelController, true, true);
-    //         else panelService.SetPanelHidden(anchorPanelController, false, true);
-    //         
-    //         if (AnchorManager.Instance.SelectedAnchor != null) panelService.SetPanelHidden(anchorAttachButtonController, false, false);
-    //     }
-    //     else
-    //     {
-    //         panelService.SetPanelHidden(levelSettingsPanelController, false, false);
-    //         panelService.SetPanelHidden(testingOptionsPanelController, false, false);
-    //     }
-    // }
-    //
-    // private void OnEditModeChange(EditModeChangeEvent evt)
-    // {
-    //     // open corresponding panel
-    //     if (!AnchorAttachManager.Instance.InAttachMode)
-    //     {
-    //         if (evt.NewEditMode.Attributes.IsAnchorRelated)
-    //         {
-    //             panelService.SetPanelHidden(anchorPanelController, false, true);
-    //
-    //             if (AnchorManager.Instance.SelectedAnchor)
-    //             {
-    //                 panelService.SetPanelHidden(anchorAttachButtonController, false, false);
-    //             }
-    //         }
-    //         else
-    //         {
-    //             panelService.SetPanelHidden(levelSettingsPanelController, false, false);
-    //             panelService.SetPanelHidden(testingOptionsPanelController, false, false);
-    //         }
-    //     }
-    // }
-    //
-    // private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt)
-    // {
-    //     panelService.SetPanelHidden(anchorAttachButtonController, true, true);
-    //     panelService.SetPanelHidden(anchorAttachExitButtonController, false, false);
-    //     
-    //     panelService.SetPanelOpen(anchorPanelController, false, false);
-    // }
-    //
-    // private void OnExitAnchorAttach(ExitAnchorAttachEvent evt)
-    // {
-    //     if (LevelSessionEditManager.Instance.IsEditing)
-    //     {
-    //         panelService.SetPanelHidden(anchorAttachButtonController, false, false);
-    //     }
-    //     
-    //     panelService.SetPanelHidden(anchorAttachExitButtonController, true, true);
-    //     if (!LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated)
-    //     {
-    //         panelService.SetPanelHidden(levelSettingsPanelController, false, false);
-    //         panelService.SetPanelHidden(testingOptionsPanelController, false, false);
-    //     }
-    // }
-    //
-    // private void OnAnchorSelected(AnchorSelectedEvent evt)
-    // {
-    //     if (!AnchorAttachManager.Instance.InAttachMode)
-    //     {
-    //         panelService.SetPanelHidden(anchorAttachButtonController, false, false);
-    //     }
-    // }
-    //
-    // private void OnAnchorDeselected(AnchorDeselectedEvent evt)
-    // {
-    //     EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
-    //     if (!currentEditMode.Attributes.IsAnchorRelated)
-    //     {
-    //         panelService.SetPanelHidden(levelSettingsPanelController, false, false);
-    //         panelService.SetPanelHidden(testingOptionsPanelController, false, false);
-    //     }
-    //     
-    //     panelService.SetPanelHidden(anchorAttachButtonController, true, true);
-    //     panelService.SetPanelHidden(anchorAttachExitButtonController, true, true);
-    // }
-    //
-    // private void OnAnchorPositionEditStarted(AnchorPositionEditStartedEvent evt)
-    // {
-    //     panelService.SetPanelHidden(anchorPanelController, true, true);
-    //     panelService.SetPanelHidden(anchorAttachButtonController, true, true);
-    //     panelService.SetPanelHidden(anchorAttachExitButtonController, true, true);
-    // }
-    //
-    // private void OnAnchorPositionEditEnded(AnchorPositionEditEndedEvent evt)
-    // {
-    //     bool isEditing = LevelSessionEditManager.Instance.IsEditing;
-    //     bool isAttaching = AnchorAttachManager.Instance.InAttachMode;
-    //     
-    //     panelService.SetPanelOpen(anchorPanelController, isEditing, true);
-    //     panelService.SetPanelOpen(anchorAttachButtonController, isEditing && !isAttaching, false);
-    //     panelService.SetPanelOpen(anchorAttachExitButtonController, isEditing && isAttaching, false);
-    // }
+    private void OnSwitchToPlay(SwitchToPlayEvent evt) => ApplyCurrentState();
+    private void OnSwitchToEdit(SwitchToEditEvent evt) => ApplyCurrentState();
+    private void OnEditModeInitialized(EditModeInitializedEvent evt) => ApplyCurrentState();
+    private void OnEditModeChange(EditModeChangeEvent evt) => ApplyCurrentState();
+    private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt) => ApplyCurrentState();
+    private void OnExitAnchorAttach(ExitAnchorAttachEvent evt) => ApplyCurrentState();
+    private void OnAnchorSelected(AnchorSelectedEvent evt) => ApplyCurrentState();
+    private void OnAnchorDeselected(AnchorDeselectedEvent evt) => ApplyCurrentState();
+    private void OnAnchorPositionEditStarted(AnchorPositionEditStartedEvent evt) => ApplyCurrentState();
+    private void OnAnchorPositionEditEnded(AnchorPositionEditEndedEvent evt) => ApplyCurrentState();
     
     private void OnEnable()
     {
