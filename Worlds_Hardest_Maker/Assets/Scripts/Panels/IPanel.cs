@@ -5,7 +5,7 @@
     public bool CloseOnEscape { get; }
     public PanelExclusionGroup ExclusionGroup { get; }
 
-    public void SetOpen(bool open, bool noAnimation = false);
+    public void SetOpen(bool open);
 
-    public void SetHidden(bool hidden, bool noAnimation = false);
+    public void SetHidden(bool hidden);
 }

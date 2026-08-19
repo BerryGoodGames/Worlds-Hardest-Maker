@@ -32,26 +32,26 @@ public class PanelController : MonoBehaviour, IPanel
     [Inject] private IPanelRegistry panelRegistry;
     [Inject] private IPanelService panelService;
     
-    public void SetOpen(bool open, bool noAnimation = false)
+    public void SetOpen(bool open)
     {
         // open/close panel
         Open = open;
         
-        if (hasPanelTween) panelTween.SetOpen(Open, noAnimation);
+        if (hasPanelTween) panelTween.SetOpen(Open);
         
         // un-hide panel if hidden
-        if (Open && Hidden) SetHidden(false, noAnimation);
+        if (Open && Hidden) SetHidden(false);
     }
     
-    public void SetHidden(bool hidden, bool noAnimation = false)
+    public void SetHidden(bool hidden)
     {
         // hide/show button
         Hidden = hidden;
         
         // close panel if open
-        if (Hidden && Open) SetOpen(false, noAnimation);
+        if (Hidden && Open) SetOpen(false);
         
-        if (hasButtonPanelTween) buttonPanelTween.SetOpen(!Hidden, noAnimation);
+        if (hasButtonPanelTween) buttonPanelTween.SetOpen(!Hidden);
     }
     
     private void Start()

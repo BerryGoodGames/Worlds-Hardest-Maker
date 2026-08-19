@@ -1,15 +1,12 @@
 using UnityEngine;
 using VContainer;
 
-/// <summary>
-/// DIESER CODE IST SO SCHLECHT HOLY SHIT ES IST ALLES SO UNÜBERSICHTLICH ZEIGE DEINEM ARBEITGEBER NIEMALS DIESEN CODE
-/// </summary>
 public class PanelManager : MonoBehaviour, IPanelService
 {
     [Inject] private EventBus eventBus;
     [Inject] private IPanelRegistry panelRegistry;
     
-    public void SetPanelOpen(IPanel panel, bool open, bool noAnimation = true)
+    public void SetPanelOpen(IPanel panel, bool open)
     {
         panel.SetOpen(open);
         
@@ -19,33 +16,12 @@ public class PanelManager : MonoBehaviour, IPanelService
             return;
         }
 
-        HideExclusionGroupSiblings(panel, noAnimation);
-
-        // if (!hideOtherPanels) return;
-        //
-        // foreach (IPanel otherPanel in panelRegistry.RegisteredPanels)
-        // {
-        //     if (otherPanel == panel) continue;
-        //     
-        //     otherPanel.SetHidden(true);
-        // }
+        HideExclusionGroupSiblings(panel);
     }
     
-    public void SetPanelHidden(IPanel panel, bool hidden, bool noAnimation = true)
+    public void SetPanelHidden(IPanel panel, bool hidden)
     {
-        panel.SetHidden(hidden, noAnimation);
-        
-        // // if showing panel, hide every other panel
-        // if (hidden) return;
-        //
-        // if (!noAnimation) return;
-        //
-        // foreach (IPanel otherPanel in panelRegistry.RegisteredPanels)
-        // {
-        //     if (otherPanel == panel) continue;
-        //     
-        //     otherPanel.SetHidden(true);
-        // }
+        panel.SetHidden(hidden);
     }
     
     public void CloseAllPanels()
@@ -81,7 +57,7 @@ public class PanelManager : MonoBehaviour, IPanelService
         return closingPanel;
     }
     
-    private void HideExclusionGroupSiblings(IPanel panel, bool noAnimation)
+    private void HideExclusionGroupSiblings(IPanel panel)
     {
         if (panel.ExclusionGroup == PanelExclusionGroup.None)
             return;
@@ -94,7 +70,7 @@ public class PanelManager : MonoBehaviour, IPanelService
 
             if (otherPanel.Hidden) continue;
 
-            otherPanel.SetHidden(true, noAnimation);
+            otherPanel.SetHidden(true);
         }
     }
 }
