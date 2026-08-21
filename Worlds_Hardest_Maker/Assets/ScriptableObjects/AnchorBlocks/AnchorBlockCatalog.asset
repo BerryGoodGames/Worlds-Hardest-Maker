@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa76a55cc4f1457a87554456b7449b71, type: 3}
+  m_Name: AnchorBlockCatalog
+  m_EditorClassIdentifier: WorldsHardestMaker::AnchorBlockCatalog
+  Definitions:
+  - {fileID: 11400000, guid: efbacb42d74efe042ba0782f1bf7d3a6, type: 2}
+  - {fileID: 11400000, guid: 6449cc7d1ee2c2544adbf83d0726a114, type: 2}
+  - {fileID: 11400000, guid: ac09f9025690f7c42997ebe5b38cff61, type: 2}
+  - {fileID: 11400000, guid: 8f585190770883641bc075be80766470, type: 2}
+  - {fileID: 11400000, guid: e45ff79d38b4da74dba190db32649a93, type: 2}
+  - {fileID: 11400000, guid: 2328a2c730ada8041a655eaa0d263d41, type: 2}
+  - {fileID: 11400000, guid: b336d83fcee6330459d245edb4f4f61a, type: 2}
+  - {fileID: 11400000, guid: 191bce49327d1414b9c0cd3e7a2f4088, type: 2}
+  - {fileID: 11400000, guid: 7b446186c0fc25041b6295af37b0e493, type: 2}
+  - {fileID: 11400000, guid: b280c1ac2e022a4498af018ed353e73d, type: 2}
+  - {fileID: 11400000, guid: de5c6c7e66ffdf84283fe46452ae3355, type: 2}
+  - {fileID: 11400000, guid: a7bd95a7850ca1949ac204b8879074da, type: 2}
