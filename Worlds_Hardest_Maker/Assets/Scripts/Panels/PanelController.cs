@@ -11,13 +11,11 @@ public class PanelController : MonoBehaviour, IPanel
     [SerializeField] [InitializationField] [MustBeAssigned]
     private PanelTween buttonPanelTween;
 
-    [field: FormerlySerializedAs("<Open>k__BackingField")]
     [field: Separator("Initial settings")]
     [field: SerializeField]
     [field: InitializationField]
     public bool IsOpen { get; private set; }
 
-    [field: FormerlySerializedAs("<Hidden>k__BackingField")]
     [field: SerializeField]
     [field: InitializationField]
     public bool IsHidden { get; private set; }
