@@ -5862,15 +5862,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 374404329}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e714ac66438a88439f8af1b75dbe4a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 43ab92b3c9404e5fb89cdb91194a56a9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  panelTween: {fileID: 0}
-  buttonPanelTween: {fileID: 374404339}
-  <Open>k__BackingField: 0
-  <Hidden>k__BackingField: 1
-  <CloseOnEscape>k__BackingField: 0
-  <ExclusionGroup>k__BackingField: 1
+  m_EditorClassIdentifier: WorldsHardestMaker::HideableUIElement
+  <IsHidden>k__BackingField: 1
 --- !u!1 &405094726
 GameObject:
   m_ObjectHideFlags: 0
@@ -7820,10 +7815,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e714ac66438a88439f8af1b75dbe4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelTween: {fileID: 516759320}
   buttonPanelTween: {fileID: 1060779469}
-  <Open>k__BackingField: 0
-  <Hidden>k__BackingField: 0
+  <IsOpen>k__BackingField: 0
+  <IsHidden>k__BackingField: 0
   <CloseOnEscape>k__BackingField: 0
   <ExclusionGroup>k__BackingField: 1
 --- !u!1 &519420028
@@ -12026,10 +12020,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e714ac66438a88439f8af1b75dbe4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelTween: {fileID: 786713976}
   buttonPanelTween: {fileID: 1101738709}
-  <Open>k__BackingField: 0
-  <Hidden>k__BackingField: 0
+  <IsOpen>k__BackingField: 0
+  <IsHidden>k__BackingField: 0
   <CloseOnEscape>k__BackingField: 0
   <ExclusionGroup>k__BackingField: 1
 --- !u!114 &786713976
@@ -13466,7 +13459,7 @@ PrefabInstance:
       addedObject: {fileID: 858147040}
     - targetCorrespondingSourceObject: {fileID: 4796778379937859287, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 858147039}
+      addedObject: {fileID: 858147044}
   m_SourcePrefab: {fileID: 100100000, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
 --- !u!224 &858147037 stripped
 RectTransform:
@@ -13478,24 +13471,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4796778379937859287, guid: 8a9ce1039e8c5c947999afaf70cabfb1, type: 3}
   m_PrefabInstance: {fileID: 858147036}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &858147039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 858147038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e714ac66438a88439f8af1b75dbe4a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panelTween: {fileID: 0}
-  buttonPanelTween: {fileID: 858147040}
-  <Open>k__BackingField: 0
-  <Hidden>k__BackingField: 1
-  <CloseOnEscape>k__BackingField: 0
-  <ExclusionGroup>k__BackingField: 1
 --- !u!114 &858147040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13630,6 +13605,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &858147044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858147038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43ab92b3c9404e5fb89cdb91194a56a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WorldsHardestMaker::HideableUIElement
+  <IsHidden>k__BackingField: 1
 --- !u!224 &863848187 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7465456736653454112, guid: 0b92636a5377f1e4abe827699a8c53e6, type: 3}
@@ -26570,10 +26558,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e714ac66438a88439f8af1b75dbe4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelTween: {fileID: 1661549652}
   buttonPanelTween: {fileID: 1162396417}
-  <Open>k__BackingField: 0
-  <Hidden>k__BackingField: 1
+  <IsOpen>k__BackingField: 0
+  <IsHidden>k__BackingField: 1
   <CloseOnEscape>k__BackingField: 1
   <ExclusionGroup>k__BackingField: 1
 --- !u!1001 &1675906581
@@ -27698,23 +27685,32 @@ MonoBehaviour:
   rules:
   - uiState: 0
     visiblePanels: []
+    visibleButtons: []
   - uiState: 1
     visiblePanels:
     - {fileID: 516759321}
     - {fileID: 786713975}
+    visibleButtons: []
   - uiState: 2
     visiblePanels:
     - {fileID: 1661549653}
+    visibleButtons: []
   - uiState: 3
     visiblePanels:
     - {fileID: 1661549653}
+    visibleButtons:
     - {fileID: 374404340}
   - uiState: 4
     visiblePanels:
     - {fileID: 1661549653}
-    - {fileID: 858147039}
+    visibleButtons:
+    - {fileID: 858147044}
   - uiState: 5
     visiblePanels: []
+    visibleButtons: []
+  managedButtons:
+  - {fileID: 374404340}
+  - {fileID: 858147044}
 --- !u!1 &1755699352
 GameObject:
   m_ObjectHideFlags: 0
@@ -28428,7 +28424,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000061035156}
   m_SizeDelta: {x: 0, y: 700}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1786665322

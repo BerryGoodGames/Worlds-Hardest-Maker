@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MyBox;
 using UnityEngine;
 using VContainer;
 
 public class PanelVisibilityCoordinator : MonoBehaviour
 {
     [SerializeField] private List<PanelVisibilityRule> rules;
-
+    [Separator] [SerializeField] private List<HideableUIElement> managedButtons;
+    
     private PanelUIState currentState;
     private readonly PanelUIStateService stateService = new();
     
@@ -18,55 +20,88 @@ public class PanelVisibilityCoordinator : MonoBehaviour
     {
         PanelUIState newState = stateService.GetCurrentUIState();
         
-        IReadOnlyCollection<IPanel> oldVisiblePanels = GetVisiblePanels(currentState);
+        IReadOnlyCollection<IHideableUI> oldVisibleElements = GetVisibleElements(currentState);
         
-        IReadOnlyCollection<IPanel> newVisiblePanels = GetVisiblePanels(newState);
+        IReadOnlyCollection<IHideableUI> newVisibleElements = GetVisibleElements(newState);
 
-        foreach (IPanel panel in oldVisiblePanels)
+        foreach (IPanel panel in panelRegistry.RegisteredPanels)
         {
-            if (!newVisiblePanels.Contains(panel))
-            {
-                panelService.SetPanelHidden(panel, true);
-            }
+            // if (!newVisibleElements.Contains(panel))
+            // {
+            //     panelService.SetPanelHidden(panel, oldVisibleElements.Contains(panel));
+            // }
+
+            bool inOld = oldVisibleElements.Contains(panel);
+            bool inNew = newVisibleElements.Contains(panel);
+
+            if (inOld && inNew) continue;
+            
+            panelService.SetPanelHidden(panel, !inNew);
         }
 
-        foreach (IPanel panel in newVisiblePanels)
+        // foreach (IPanel panel in panelRegistry.RegisteredPanels)
+        // {
+        //     if (!oldVisibleElements.Contains(panel))
+        //     {
+        //         panelService.SetPanelHidden(panel, newVisibleElements.Contains(panel));
+        //     }
+        // }
+        
+        foreach (HideableUIElement button in managedButtons)
         {
-            if (!oldVisiblePanels.Contains(panel))
-            {
-                panelService.SetPanelHidden(panel, false);
-            }
+            // if (!newVisibleElements.Contains(button))
+            // {
+            //     button.SetHidden(oldVisibleElements.Contains(button));
+            // }
+            
+            bool inOld = oldVisibleElements.Contains(button);
+            bool inNew = newVisibleElements.Contains(button);
+
+            if (inOld && inNew) continue;
+            
+            button.SetHidden(!inNew);
         }
+
+        // foreach (HideableUIElement button in managedButtons)
+        // {
+        //     if (!oldVisibleElements.Contains(button))
+        //     {
+        //         button.SetHidden(newVisibleElements.Contains(button));
+        //     }
+        // }
 
         currentState = newState;
     }
     
-    private IReadOnlyCollection<IPanel> GetVisiblePanels(PanelUIState? state)
+    private IReadOnlyCollection<IHideableUI> GetVisibleElements(PanelUIState? state)
     {
         if (state == null)
         {
-            return new List<IPanel>();
+            return new List<IHideableUI>();
         }
 
         PanelVisibilityRule rule = rules.Find(r => r.UIState == state.Value);
 
         if (rule == null)
         {
-            return new List<IPanel>();
+            return new List<IHideableUI>();
         }
 
-        return rule.VisiblePanels
-            .Cast<IPanel>()
-            .ToList();
+        return rule.VisibleElements.ToList();
     }
 
     private void RestoreCurrentState()
     {
-        IReadOnlyCollection<IPanel> visiblePanels = GetVisiblePanels(currentState);
-
+        IReadOnlyCollection<IHideableUI> visibleElements = GetVisibleElements(currentState);
+        
         foreach (IPanel panel in panelRegistry.RegisteredPanels)
         {
-            panelService.SetPanelHidden(panel, !visiblePanels.Contains(panel));
+            panelService.SetPanelHidden(panel, !visibleElements.Contains(panel));
+        }
+
+        foreach (HideableUIElement button in managedButtons)
+        {
+            button.SetHidden(!visibleElements.Contains(button));
         }
     }
 
