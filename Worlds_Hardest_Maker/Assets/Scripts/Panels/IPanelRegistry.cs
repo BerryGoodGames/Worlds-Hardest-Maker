@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 
-public interface IPanelRegistry
+namespace WorldsHardestMaker.Panels
 {
-    public IReadOnlyCollection<IPanel> RegisteredPanels { get; }
+    public interface IPanelRegistry
+    {
+        public IReadOnlyCollection<IPanel> RegisteredPanels { get; }
 
-    public void Register(IPanel panel);
-    public void Unregister(IPanel panel);
+        public void Register(IPanel panel);
+        public void Unregister(IPanel panel);
+    }
 }

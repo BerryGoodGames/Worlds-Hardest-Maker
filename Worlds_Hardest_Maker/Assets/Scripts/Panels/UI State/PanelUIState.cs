@@ -1,9 +1,12 @@
-﻿public enum PanelUIState
+﻿namespace WorldsHardestMaker.Panels
 {
-    Playing,
-    EditingGeneral,
-    EditingAnchor,
-    EditingAnchorSelected,
-    EditingAnchorAttaching,
-    EditingAnchorPositionInputEditing,
+    public enum PanelUIState
+    {
+        Playing,
+        EditingGeneral,
+        EditingAnchor,
+        EditingAnchorSelected,
+        EditingAnchorAttaching,
+        EditingAnchorPositionInputEditing,
+    }
 }

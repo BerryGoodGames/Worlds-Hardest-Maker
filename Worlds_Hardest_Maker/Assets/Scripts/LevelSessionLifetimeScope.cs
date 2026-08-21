@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using VContainer;
 using VContainer.Unity;
 using WorldsHardestMaker.CopyPaste;
+using WorldsHardestMaker.Panels;
 using WorldsHardestMaker.PlayerRecording;
 using WorldsHardestMaker.Selection;
 

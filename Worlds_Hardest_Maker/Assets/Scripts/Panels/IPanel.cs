@@ -1,8 +1,11 @@
-﻿public interface IPanel : IHideableUI
+﻿namespace WorldsHardestMaker.Panels
 {
-    public bool IsOpen { get; }
-    public bool CloseOnEscape { get; }
-    public PanelExclusionGroup ExclusionGroup { get; }
+    public interface IPanel : IHideableUI
+    {
+        public bool IsOpen { get; }
+        public bool CloseOnEscape { get; }
+        public PanelExclusionGroup ExclusionGroup { get; }
 
-    public void SetOpen(bool open);
+        public void SetOpen(bool open);
+    }
 }

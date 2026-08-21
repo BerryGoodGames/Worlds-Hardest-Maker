@@ -1,78 +1,81 @@
 using UnityEngine;
 using VContainer;
 
-public class PanelManager : MonoBehaviour, IPanelService
+namespace WorldsHardestMaker.Panels
 {
-    [Inject] private EventBus eventBus;
-    [Inject] private IPanelRegistry panelRegistry;
-    
-    public void SetPanelOpen(IPanel panel, bool open)
+    public class PanelManager : MonoBehaviour, IPanelService
     {
-        panel.SetOpen(open);
-        
-        if (!open)
+        [Inject] private EventBus eventBus;
+        [Inject] private IPanelRegistry panelRegistry;
+    
+        public void SetPanelOpen(IPanel panel, bool open)
         {
-            eventBus.Fire(new PanelClosedEvent(panel));
-            return;
+            panel.SetOpen(open);
+        
+            if (!open)
+            {
+                eventBus.Fire(new PanelClosedEvent(panel));
+                return;
+            }
+
+            HideExclusionGroupSiblings(panel);
+        }
+    
+        public void SetPanelHidden(IPanel panel, bool hidden)
+        {
+            panel.SetHidden(hidden);
+        }
+    
+        public void CloseAllPanels()
+        {
+            foreach (IPanel panel in panelRegistry.RegisteredPanels)
+            {
+                SetPanelOpen(panel, false);
+            }
+        }
+    
+        public void HideAllPanels()
+        {
+            foreach (IPanel panel in panelRegistry.RegisteredPanels)
+            {
+                panel.SetHidden(true);
+            }
         }
 
-        HideExclusionGroupSiblings(panel);
-    }
-    
-    public void SetPanelHidden(IPanel panel, bool hidden)
-    {
-        panel.SetHidden(hidden);
-    }
-    
-    public void CloseAllPanels()
-    {
-        foreach (IPanel panel in panelRegistry.RegisteredPanels)
+        public bool TryCloseOnEscape()
         {
-            SetPanelOpen(panel, false);
-        }
-    }
-    
-    public void HideAllPanels()
-    {
-        foreach (IPanel panel in panelRegistry.RegisteredPanels)
-        {
-            panel.SetHidden(true);
-        }
-    }
-
-    public bool TryCloseOnEscape()
-    {
-        bool closingPanel = false;
+            bool closingPanel = false;
         
-        if (!Input.GetKeyDown(KeyCode.Escape)) return false;
+            if (!Input.GetKeyDown(KeyCode.Escape)) return false;
         
-        foreach (IPanel panel in panelRegistry.RegisteredPanels)
-        {
-            if (!panel.IsOpen || !panel.CloseOnEscape) continue;
+            foreach (IPanel panel in panelRegistry.RegisteredPanels)
+            {
+                if (!panel.IsOpen || !panel.CloseOnEscape) continue;
             
-            SetPanelOpen(panel, false);
-            closingPanel = true;
-        }
+                SetPanelOpen(panel, false);
+                closingPanel = true;
+            }
         
-        return closingPanel;
-    }
-    
-    private void HideExclusionGroupSiblings(IPanel panel)
-    {
-        if (panel.ExclusionGroup == PanelExclusionGroup.None)
-        {
-            return;
+            return closingPanel;
         }
-
-        foreach (IPanel otherPanel in panelRegistry.RegisteredPanels)
+    
+        private void HideExclusionGroupSiblings(IPanel panel)
         {
-            if (otherPanel == panel) continue;
+            if (panel.ExclusionGroup == PanelExclusionGroup.None)
+            {
+                return;
+            }
 
-            if (otherPanel.ExclusionGroup != panel.ExclusionGroup) continue;
+            foreach (IPanel otherPanel in panelRegistry.RegisteredPanels)
+            {
+                if (otherPanel == panel) continue;
 
-            if (otherPanel.IsHidden) continue;
+                if (otherPanel.ExclusionGroup != panel.ExclusionGroup) continue;
 
-            otherPanel.SetHidden(true);
+                if (otherPanel.IsHidden) continue;
+
+                otherPanel.SetHidden(true);
+            }
         }
     }
 }

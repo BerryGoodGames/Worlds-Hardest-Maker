@@ -1,12 +1,15 @@
-﻿public interface IPanelService
+﻿namespace WorldsHardestMaker.Panels
 {
-    public void SetPanelOpen(IPanel panel, bool open);
+    public interface IPanelService
+    {
+        public void SetPanelOpen(IPanel panel, bool open);
 
-    public void SetPanelHidden(IPanel panel, bool hidden);
+        public void SetPanelHidden(IPanel panel, bool hidden);
 
-    public void CloseAllPanels();
+        public void CloseAllPanels();
 
-    public void HideAllPanels();
+        public void HideAllPanels();
 
-    public bool TryCloseOnEscape();
+        public bool TryCloseOnEscape();
+    }
 }

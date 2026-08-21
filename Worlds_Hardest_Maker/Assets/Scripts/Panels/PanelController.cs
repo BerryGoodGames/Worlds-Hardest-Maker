@@ -1,78 +1,80 @@
 using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 using VContainer;
 
-[RequireComponent(typeof(PanelTween))]
-public class PanelController : MonoBehaviour, IPanel
-{ 
-    private PanelTween panelTween;
+namespace WorldsHardestMaker.Panels
+{
+    [RequireComponent(typeof(PanelTween))]
+    public class PanelController : MonoBehaviour, IPanel
+    { 
+        private PanelTween panelTween;
 
-    [SerializeField] [InitializationField] [MustBeAssigned]
-    private PanelTween buttonPanelTween;
+        [SerializeField] [InitializationField] [MustBeAssigned]
+        private PanelTween buttonPanelTween;
 
-    [field: Separator("Initial settings")]
-    [field: SerializeField]
-    [field: InitializationField]
-    public bool IsOpen { get; private set; }
+        [field: Separator("Initial settings")]
+        [field: SerializeField]
+        [field: InitializationField]
+        public bool IsOpen { get; private set; }
 
-    [field: SerializeField]
-    [field: InitializationField]
-    public bool IsHidden { get; private set; }
+        [field: SerializeField]
+        [field: InitializationField]
+        public bool IsHidden { get; private set; }
 
-    [field: SerializeField]
-    [field: InitializationField]
-    public bool CloseOnEscape { get; private set; }
+        [field: SerializeField]
+        [field: InitializationField]
+        public bool CloseOnEscape { get; private set; }
 
-    [field: SerializeField]
-    [field: InitializationField]
-    public PanelExclusionGroup ExclusionGroup { get; private set; } = PanelExclusionGroup.EditMain;
+        [field: SerializeField]
+        [field: InitializationField]
+        public PanelExclusionGroup ExclusionGroup { get; private set; } = PanelExclusionGroup.EditMain;
 
-    [Inject] private IPanelRegistry panelRegistry;
-    [Inject] private IPanelService panelService;
+        [Inject] private IPanelRegistry panelRegistry;
+        [Inject] private IPanelService panelService;
 
-    private void Awake()
-    {
-        panelTween = GetComponent<PanelTween>();
-    }
-
-    public void SetOpen(bool open)
-    {
-        // open/close panel
-        IsOpen = open;
-        panelTween.SetOpen(IsOpen);
-        
-        // un-hide panel if hidden
-        if (IsOpen && IsHidden) SetHidden(false);
-    }
-    
-    public void SetHidden(bool hidden)
-    {
-        // hide/show button
-        IsHidden = hidden;
-        buttonPanelTween.SetOpen(!IsHidden);
-        
-        // close panel if open
-        if (IsHidden && IsOpen) SetOpen(false);
-    }
-    
-    public void OnButtonToggle()
-    {
-        if (buttonPanelTween.Open)
+        private void Awake()
         {
-            panelService.SetPanelOpen(this, !IsOpen);
+            panelTween = GetComponent<PanelTween>();
         }
-    }
 
-    private void OnEnable()
-    {
-        panelRegistry.Register(this);
-        panelTween.SetOpen(IsOpen, true);
-        buttonPanelTween.SetOpen(!IsHidden, true);
-    }
+        public void SetOpen(bool open)
+        {
+            // open/close panel
+            IsOpen = open;
+            panelTween.SetOpen(IsOpen);
+        
+            // un-hide panel if hidden
+            if (IsOpen && IsHidden) SetHidden(false);
+        }
+    
+        public void SetHidden(bool hidden)
+        {
+            // hide/show button
+            IsHidden = hidden;
+            buttonPanelTween.SetOpen(!IsHidden);
+        
+            // close panel if open
+            if (IsHidden && IsOpen) SetOpen(false);
+        }
+    
+        public void OnButtonToggle()
+        {
+            if (buttonPanelTween.Open)
+            {
+                panelService.SetPanelOpen(this, !IsOpen);
+            }
+        }
 
-    private void OnDisable()
-    {
-        panelRegistry.Unregister(this);
+        private void OnEnable()
+        {
+            panelRegistry.Register(this);
+            panelTween.SetOpen(IsOpen, true);
+            buttonPanelTween.SetOpen(!IsHidden, true);
+        }
+
+        private void OnDisable()
+        {
+            panelRegistry.Unregister(this);
+        }
     }
 }

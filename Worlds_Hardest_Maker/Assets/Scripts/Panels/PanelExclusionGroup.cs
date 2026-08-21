@@ -1,5 +1,8 @@
-﻿public enum PanelExclusionGroup
+﻿namespace WorldsHardestMaker.Panels
 {
-    None,
-    EditMain
+    public enum PanelExclusionGroup
+    {
+        None,
+        EditMain
+    }
 }

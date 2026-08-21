@@ -1,9 +1,12 @@
-﻿public class PanelClosedEvent
+﻿namespace WorldsHardestMaker.Panels
 {
-    public IPanel ClosedPanel { get; private set; }
-
-    public PanelClosedEvent(IPanel closedPanel)
+    public class PanelClosedEvent
     {
-        ClosedPanel = closedPanel;
+        public IPanel ClosedPanel { get; private set; }
+
+        public PanelClosedEvent(IPanel closedPanel)
+        {
+            ClosedPanel = closedPanel;
+        }
     }
 }
