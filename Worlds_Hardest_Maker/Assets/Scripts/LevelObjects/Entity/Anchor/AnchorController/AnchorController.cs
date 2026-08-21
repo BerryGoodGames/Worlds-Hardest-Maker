@@ -51,6 +51,7 @@ public partial class AnchorController : EntityController, IResettable
 
     private IObjectResolver diContainer;
     private EventBus eventBus;
+    private IDrawService drawService;
     
     public int LoopBlockIndex { get; set; } = -1;
     
@@ -60,13 +61,15 @@ public partial class AnchorController : EntityController, IResettable
     public override EditMode EditMode => EditModeManager.Anchor;
     
     [Inject]
-    private void Construct(IObjectResolver diContainer, EventBus eventBus)
+    private void Construct(IObjectResolver diContainer, EventBus eventBus, IDrawService drawService)
     {
         this.diContainer = diContainer;
         this.eventBus = eventBus;
+        this.drawService = drawService;
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
+        eventBus.Subscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
     }
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt) => AttachFade.FadeIn();
@@ -256,6 +259,7 @@ public partial class AnchorController : EntityController, IResettable
         
         eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
+        eventBus.Unsubscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
         
         ((IResettable)this).Unsubscribe(eventBus);
     }

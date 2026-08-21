@@ -14,10 +14,16 @@ public partial class AnchorController
     [SerializeField] private Color lineColor;
     [SerializeField] private float lineWeight;
 
-    [Inject] private IDrawService drawService;
-    
+    private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt)
+    {
+        if(AnchorManager.Instance.SelectedAnchor == this)
+        {
+            RenderLines();
+        }
+    }
+
     public void RenderLines() => StartCoroutine(RenderLinesCoroutine());
-    
+
     private IEnumerator RenderLinesCoroutine()
     {
         yield return new WaitForEndOfFrame();
