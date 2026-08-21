@@ -4,14 +4,19 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "WorldsHardestMaker"
+        "WorldsHardestMaker",
+        "DOTween.Modules",
+        "NaughtyAttributes.Core",
+        "NaughtyAttributes.Editor",
+        "NaughtyAttributes.Test"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "nunit.framework.dll"
+        "nunit.framework.dll",
+        "DOTween.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [

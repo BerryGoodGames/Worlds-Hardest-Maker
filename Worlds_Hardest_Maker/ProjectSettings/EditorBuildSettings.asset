@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LevelSession.unity
     guid: 40997ff46f977bf4fba6b91086315055
+  - enabled: 1
+    path: Assets/Scenes/AnchorBlockSmokeTestScene.unity
+    guid: 151c92c292aff2749909c1b15e193c2a
   m_configObjects: {}
