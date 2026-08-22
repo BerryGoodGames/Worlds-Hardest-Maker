@@ -3,31 +3,31 @@ using UnityEngine;
 
 public class StartRotatingBlock : AnchorBlock
 {
-    public StartRotatingBlock(AnchorController anchor, bool isLocked) : base(anchor, isLocked) { }
+    public StartRotatingBlock(bool isLocked) : base(isLocked) { }
 
     public override string TypeID => "StartRotating";
 
-    public override void Execute()
+    public override void Execute(IAnchorBlockExecutionContext ctx)
     {
         // ignore if already infinitely rotating or no speed defined
-        if (Anchor.RotationTween is not { hasLoops: true, } &&
-            Anchor.RotationSpeedUnit is RotationUnit.Degrees or RotationUnit.Iterations)
+        if (ctx.RotationTween is not { hasLoops: true, } &&
+            ctx.RotationUnit is RotationUnit.Degrees or RotationUnit.Iterations)
         {
-            float speed = SetRotationBlock.GetSpeed(Anchor.RotationInput, Anchor.RotationSpeedUnit);
+            float speed = SetRotationBlock.GetSpeed(ctx.RotationInput, ctx.RotationUnit);
             
             float duration = 360 / speed;
             
             // negate rotation depending on direction
-            int direction = Anchor.IsClockwise ? -1 : 1;
+            int direction = ctx.IsClockwise ? -1 : 1;
             
-            Anchor.RotationTween.Kill();
-            Anchor.RotationTween = Anchor.transform.DORotate(360 * direction * Vector3.forward, duration, RotateMode.FastBeyond360)
+            ctx.RotationTween.Kill();
+            ctx.RotationTween = ctx.Transform.DORotate(360 * direction * Vector3.forward, duration, RotateMode.FastBeyond360)
                 .SetRelative()
                 .SetLoops(-1)
                 .SetEase(Ease.Linear);
         }
         
-        Anchor.FinishCurrentExecution();
+        ctx.FinishCurrentExecution();
     }
     
     protected override void SetControllerValues(AnchorBlockController c) { }

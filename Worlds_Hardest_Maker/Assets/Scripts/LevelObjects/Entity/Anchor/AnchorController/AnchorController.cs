@@ -9,7 +9,7 @@ using UnityEngine;
 using VContainer;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
-public partial class AnchorController : EntityController, IResettable
+public partial class AnchorController : EntityController, IResettable, IAnchorBlockExecutionContext
 {
     [Separator] [InitializationField] [MustBeAssigned] public Transform AttachmentContainer;
     [InitializationField] [MustBeAssigned] public SyncTransform AttachmentContainerSyncTransform;
@@ -21,23 +21,27 @@ public partial class AnchorController : EntityController, IResettable
     
     [HideInInspector] public List<Transform> Balls = new();
     public LinkedList<AnchorBlock> Blocks = new();
-    
-    [HideInInspector] public SetSpeedBlock.Unit SpeedUnit;
-    [HideInInspector] public RotationUnit RotationSpeedUnit;
-    [HideInInspector] public float SpeedInput;
-    [HideInInspector] public float RotationInput;
-    [HideInInspector] public bool IsClockwise;
     public LinkedListNode<AnchorBlock> LoopBlockNode;
-    public TweenerCore<Quaternion, Vector3, QuaternionOptions> RotationTween;
-    [HideInInspector] public Ease Ease;
+
+    public Component TweenComponent => this;
+    public MonoBehaviour CoroutineRunner => this;
+    public Transform Transform => transform;
+    public float ZAngle => transform.eulerAngles.z;
+    public SetSpeedBlock.Unit SpeedUnit { get; set; }
+    public float SpeedInput { get; set; }
+    public RotationUnit RotationUnit { get; set; }
+    public float RotationInput { get; set; }
+    public bool IsClockwise { get; set; }
+    public Tween RotationTween { get; set; }
+    public Ease Ease { get; set; }
+
+    public Coroutine WaitCoroutine { get; set; }
     
     public Vector2 StartPosition { get; private set; }
     private Quaternion startRotation;
     
     public AnchorBlock CurrentExecutingBlock;
     public LinkedListNode<AnchorBlock> CurrentExecutingNode;
-    
-    public Coroutine WaitCoroutine;
     
     public List<AnchorAttachment> Attachments;
     
@@ -133,7 +137,7 @@ public partial class AnchorController : EntityController, IResettable
         
         CurrentExecutingNode = Blocks.First;
         CurrentExecutingBlock = CurrentExecutingNode.Value;
-        CurrentExecutingBlock.Execute();
+        CurrentExecutingBlock.Execute(this);
     }
     
     public void FinishCurrentExecution()
@@ -155,7 +159,7 @@ public partial class AnchorController : EntityController, IResettable
         {
             // execute next block
             CurrentExecutingBlock = CurrentExecutingNode.Value;
-            CurrentExecutingBlock.Execute();
+            CurrentExecutingBlock.Execute(this);
         }
     }
     
@@ -184,10 +188,9 @@ public partial class AnchorController : EntityController, IResettable
         
         CurrentExecutingBlock = CurrentExecutingNode!.Value;
         
-        CurrentExecutingBlock.Execute();
+        CurrentExecutingBlock.Execute(this);
     }
-    
-    
+
     public void StoreCurrentLoopIndex() =>
         // for some reason, LoopBlock can't access its node in the list Blocks
         // so the anchor has to store the index himself

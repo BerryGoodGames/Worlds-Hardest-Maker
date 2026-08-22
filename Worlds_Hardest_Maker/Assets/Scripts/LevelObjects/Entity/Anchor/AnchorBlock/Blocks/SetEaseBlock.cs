@@ -5,17 +5,17 @@ public class SetEaseBlock : AnchorBlock
 {
     private readonly Ease ease;
     
-    public SetEaseBlock(AnchorController anchor, bool isLocked, Ease ease) : base(anchor, isLocked)
+    public SetEaseBlock(bool isLocked, Ease ease) : base(isLocked)
     {
         this.ease = ease;
     }
 
     public override string TypeID => "SetEase";
 
-    public override void Execute()
+    public override void Execute(IAnchorBlockExecutionContext ctx)
     {
-        Anchor.Ease = ease;
-        Anchor.FinishCurrentExecution();
+        ctx.Ease = ease;
+        ctx.FinishCurrentExecution();
     }
     
     protected override void SetControllerValues(AnchorBlockController c)

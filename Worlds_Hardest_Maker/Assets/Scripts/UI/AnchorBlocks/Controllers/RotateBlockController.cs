@@ -9,6 +9,6 @@ public class RotateBlockController : AnchorBlockController
     {
         float iterations = IterationsInput.GetFloatInput();
         
-        return new RotateBlock(anchorController, IsLocked, iterations);
+        return new RotateBlock(IsLocked, iterations);
     }
 }

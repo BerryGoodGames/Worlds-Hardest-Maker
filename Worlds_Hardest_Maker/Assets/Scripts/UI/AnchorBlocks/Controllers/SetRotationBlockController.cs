@@ -22,9 +22,11 @@ public class SetRotationBlockController : AnchorBlockController
         return unitOptions[selectedUnitString];
     }
     
-    public override AnchorBlock GetAnchorBlock(AnchorController anchorController) =>
-        new SetRotationBlock(anchorController, IsLocked, SpeedInput.GetFloatInput(), GetUnit());
-    
+    public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
+    {
+        return new SetRotationBlock(IsLocked, SpeedInput.GetFloatInput(), GetUnit());
+    }
+
     public static string GetOption(RotationUnit unit) => unitOptions.FirstOrDefault(x => x.Value == unit).Key;
     
     public void UpdateWarnings()

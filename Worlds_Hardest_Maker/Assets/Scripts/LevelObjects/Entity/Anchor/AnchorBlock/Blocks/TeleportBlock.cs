@@ -6,10 +6,10 @@ public class TeleportBlock : PositionAnchorBlock
 
     public override string TypeID => "Teleport";
 
-    public override void Execute()
+    public override void Execute(IAnchorBlockExecutionContext ctx)
     {
-        Anchor.transform.position = TargetAbsolute;
-        Anchor.FinishCurrentExecution();
+        ctx.Position = TargetAbsolute;
+        ctx.FinishCurrentExecution();
     }
     
     protected override void SetControllerValues(AnchorBlockController c)

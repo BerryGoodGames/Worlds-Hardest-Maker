@@ -25,7 +25,7 @@ public class SetSpeedBlockController : AnchorBlockController
     {
         float time = SpeedInput.GetFloatInput();
         
-        return new SetSpeedBlock(anchorController, IsLocked, time, GetUnit());
+        return new SetSpeedBlock(IsLocked, time, GetUnit());
     }
     
     public static string GetOption(SetSpeedBlock.Unit unit) => unitOptions.FirstOrDefault(x => x.Value == unit).Key;

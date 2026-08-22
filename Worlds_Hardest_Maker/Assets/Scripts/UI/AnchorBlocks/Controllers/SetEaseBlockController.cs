@@ -20,7 +20,7 @@ public class SetEaseBlockController : AnchorBlockController
     {
         string selectedValue = Input.options[Input.value].text;
         Ease ease = easeOptions[selectedValue];
-        return new SetEaseBlock(anchorController, IsLocked, ease);
+        return new SetEaseBlock(IsLocked, ease);
     }
     
     public static string GetOption(Ease ease) => easeOptions.FirstOrDefault(x => x.Value == ease).Key;

@@ -14,10 +14,10 @@ public partial class AnchorManager : IManager<AnchorController>
         anchor.AttachmentContainerSyncTransform.Sync();
         
         // default blocks
-        anchor.AppendBlock(new SetSpeedBlock(anchor, true, 5, SetSpeedBlock.Unit.UnitsPerSecond));
-        anchor.AppendBlock(new SetRotationBlock(anchor, true, 1, RotationUnit.Iterations));
-        anchor.AppendBlock(new SetDirectionBlock(anchor, true, true));
-        anchor.AppendBlock(new SetEaseBlock(anchor, true, Ease.Linear));
+        anchor.AppendBlock(new SetSpeedBlock(true, 5, SetSpeedBlock.Unit.UnitsPerSecond));
+        anchor.AppendBlock(new SetRotationBlock(true, 1, RotationUnit.Iterations));
+        anchor.AppendBlock(new SetDirectionBlock(true, true));
+        anchor.AppendBlock(new SetEaseBlock(true, Ease.Linear));
         
         BallManager.Instance.BallListSheets.Add(anchor, new());
         

@@ -5,7 +5,7 @@ public class SetRotationBlock : AnchorBlock, IRotationUnitBlock
     private readonly float input;
     private readonly RotationUnit unit;
     
-    public SetRotationBlock(AnchorController anchor, bool isLocked, float input, RotationUnit unit) : base(anchor, isLocked)
+    public SetRotationBlock(bool isLocked, float input, RotationUnit unit) : base(isLocked)
     {
         this.input = input;
         this.unit = unit;
@@ -13,11 +13,11 @@ public class SetRotationBlock : AnchorBlock, IRotationUnitBlock
 
     public override string TypeID => "SetRotation";
 
-    public override void Execute()
+    public override void Execute(IAnchorBlockExecutionContext ctx)
     {
-        Anchor.RotationSpeedUnit = unit;
-        Anchor.RotationInput = input;
-        Anchor.FinishCurrentExecution();
+        ctx.RotationUnit = unit;
+        ctx.RotationInput = input;
+        ctx.FinishCurrentExecution();
     }
     
     protected override void SetControllerValues(AnchorBlockController c)

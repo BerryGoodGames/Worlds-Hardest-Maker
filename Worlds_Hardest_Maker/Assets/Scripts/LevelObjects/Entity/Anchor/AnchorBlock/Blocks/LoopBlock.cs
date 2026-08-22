@@ -1,14 +1,14 @@
 public class LoopBlock : AnchorBlock
 {
-    public LoopBlock(AnchorController anchor, bool isLocked) : base(anchor, isLocked) { }
+    public LoopBlock(bool isLocked) : base(isLocked) { }
 
     public override string TypeID => "Loop";
 
-    public override void Execute()
+    public override void Execute(IAnchorBlockExecutionContext ctx)
     {
         // set loop block node of anchor
-        Anchor.StoreCurrentLoopIndex();
-        Anchor.FinishCurrentExecution();
+        ctx.StoreCurrentLoopIndex();
+        ctx.FinishCurrentExecution();
     }
     
     protected override void SetControllerValues(AnchorBlockController c) { }

@@ -7,18 +7,18 @@ public class MoveBlock : PositionAnchorBlock
 
     public override string TypeID => "Move";
 
-    public override void Execute()
+    public override void Execute(IAnchorBlockExecutionContext ctx)
     {
         float duration;
-        float dist = Vector2.Distance(TargetAbsolute, Anchor.transform.position);
+        float dist = Vector2.Distance(TargetAbsolute, ctx.Position);
         
-        if (Anchor.SpeedUnit is SetSpeedBlock.Unit.UnitsPerSecond) duration = dist / Anchor.SpeedInput;
-        else duration = Anchor.SpeedInput;
-        
-        Anchor.DOKill();
-        Anchor.transform.DOMove(TargetAbsolute, duration)
-            .SetEase(Anchor.Ease)
-            .OnComplete(Anchor.FinishCurrentExecution);
+        if (ctx.SpeedUnit is SetSpeedBlock.Unit.UnitsPerSecond) duration = dist / ctx.SpeedInput;
+        else duration = ctx.SpeedInput;
+
+        ctx.TweenComponent.DOKill();
+        ctx.Transform.DOMove(TargetAbsolute, duration)
+            .SetEase(ctx.Ease)
+            .OnComplete(ctx.FinishCurrentExecution);
     }
     
     protected override void SetControllerValues(AnchorBlockController c)

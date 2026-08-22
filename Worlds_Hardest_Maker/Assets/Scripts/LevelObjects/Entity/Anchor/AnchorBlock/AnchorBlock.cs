@@ -5,14 +5,12 @@ using VContainer.Unity;
 
 public abstract class AnchorBlock
 {
-    protected AnchorController Anchor;
-    protected bool IsLocked;
+    protected readonly bool IsLocked;
     
     public AnchorBlockController Controller { get; set; }
     
-    protected AnchorBlock(AnchorController anchor, bool isLocked)
+    protected AnchorBlock(bool isLocked)
     {
-        Anchor = anchor;
         IsLocked = isLocked;
     }
     
@@ -48,7 +46,7 @@ public abstract class AnchorBlock
         connectorController.UpdateYAtEndOfFrame();
     }
     
-    public abstract void Execute();
+    public abstract void Execute(IAnchorBlockExecutionContext ctx);
     protected abstract void SetControllerValues(AnchorBlockController c);
     public abstract AnchorBlockData GetData();
 }

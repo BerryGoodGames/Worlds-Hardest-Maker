@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class StopRotatingBlock : AnchorBlock
 {
-    public StopRotatingBlock(AnchorController anchor, bool isLocked) : base(anchor, isLocked) { }
+    public StopRotatingBlock(bool isLocked) : base(isLocked) { }
 
     public override string TypeID => "StopRotating";
 
-    public override void Execute()
+    public override void Execute(IAnchorBlockExecutionContext ctx)
     {
-        Anchor.RotationTween.Kill();
-        Anchor.FinishCurrentExecution();
+        ctx.RotationTween.Kill();
+        ctx.FinishCurrentExecution();
     }
     
     protected override void SetControllerValues(AnchorBlockController c) { }

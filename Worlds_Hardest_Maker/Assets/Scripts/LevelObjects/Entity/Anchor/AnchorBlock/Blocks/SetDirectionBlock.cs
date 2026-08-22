@@ -1,20 +1,18 @@
-using UnityEngine;
-
 public class SetDirectionBlock : AnchorBlock
 {
-    private bool isClockwise;
+    private readonly bool isClockwise;
     
-    public SetDirectionBlock(AnchorController anchor, bool isLocked, bool isClockwise) : base(anchor, isLocked)
+    public SetDirectionBlock(bool isLocked, bool isClockwise) : base(isLocked)
     {
         this.isClockwise = isClockwise;
     }
 
     public override string TypeID => "SetDirection";
 
-    public override void Execute()
+    public override void Execute(IAnchorBlockExecutionContext ctx)
     {
-        Anchor.IsClockwise = isClockwise;
-        Anchor.FinishCurrentExecution();
+        ctx.IsClockwise = isClockwise;
+        ctx.FinishCurrentExecution();
     }
     
     protected override void SetControllerValues(AnchorBlockController c)

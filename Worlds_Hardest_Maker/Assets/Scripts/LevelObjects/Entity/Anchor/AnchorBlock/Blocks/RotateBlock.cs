@@ -7,35 +7,35 @@ public class RotateBlock : AnchorBlock, IDurationBlock
     
     public bool HasCurrentlyDuration => iterations > 0;
     
-    public RotateBlock(AnchorController anchor, bool isLocked, float iterations) : base(anchor, isLocked) => this.iterations = iterations;
+    public RotateBlock(bool isLocked, float iterations) : base(isLocked) => this.iterations = iterations;
 
     public override string TypeID => "Rotate";
 
-    public override void Execute()
+    public override void Execute(IAnchorBlockExecutionContext ctx)
     {
         float duration;
         
-        if (Anchor.RotationSpeedUnit is RotationUnit.Degrees or RotationUnit.Iterations)
+        if (ctx.RotationUnit is RotationUnit.Degrees or RotationUnit.Iterations)
         {
-            float speed = SetRotationBlock.GetSpeed(Anchor.RotationInput, Anchor.RotationSpeedUnit);
+            float speed = SetRotationBlock.GetSpeed(ctx.RotationInput, ctx.RotationUnit);
             
-            float currentZ = Anchor.transform.localRotation.eulerAngles.z;
+            float currentZ = ctx.ZAngle;
             float targetZ = currentZ + iterations * 360;
             float distance = targetZ - currentZ;
             
             duration = distance / speed;
         }
-        else duration = Anchor.RotationInput;
+        else duration = ctx.RotationInput;
         
         // negate rotation depending on direction
-        int direction = Anchor.IsClockwise ? -1 : 1;
+        int direction = ctx.IsClockwise ? -1 : 1;
         
-        Anchor.RotationTween.Kill();
-        Anchor.RotationTween.Kill();
-        Anchor.RotationTween = Anchor.transform.DORotate(iterations * 360 * direction * Vector3.forward, duration, RotateMode.FastBeyond360)
+        ctx.RotationTween.Kill();
+        ctx.RotationTween.Kill();
+        ctx.RotationTween = ctx.Transform.DORotate(iterations * 360 * direction * Vector3.forward, duration, RotateMode.FastBeyond360)
             .SetRelative()
-            .SetEase(Anchor.Ease)
-            .OnComplete(Anchor.FinishCurrentExecution);
+            .SetEase(ctx.Ease)
+            .OnComplete(ctx.FinishCurrentExecution);
     }
     
     protected override void SetControllerValues(AnchorBlockController c)

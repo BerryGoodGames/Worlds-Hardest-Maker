@@ -26,7 +26,7 @@ public class WaitBlock : AnchorBlock, IDurationBlock
     
     public bool HasCurrentlyDuration => input > 0;
     
-    public WaitBlock(AnchorController anchor, bool isLocked, float input, Unit unit) : base(anchor, isLocked)
+    public WaitBlock(bool isLocked, float input, Unit unit) : base(isLocked)
     {
         this.input = input;
         this.unit = unit;
@@ -34,13 +34,16 @@ public class WaitBlock : AnchorBlock, IDurationBlock
 
     public override string TypeID => "Wait";
     
-    public override void Execute() => Anchor.WaitCoroutine = Anchor.StartCoroutine(WaitCoroutine());
-    
-    private IEnumerator WaitCoroutine()
+    public override void Execute(IAnchorBlockExecutionContext ctx)
+    {
+        ctx.WaitCoroutine = ctx.CoroutineRunner.StartCoroutine(WaitCoroutine(ctx));
+    }
+
+    private IEnumerator WaitCoroutine(IAnchorBlockExecutionContext ctx)
     {
         yield return new WaitForSeconds(input * factors[unit]);
         
-        Anchor.FinishCurrentExecution();
+        ctx.FinishCurrentExecution();
     }
     
     protected override void SetControllerValues(AnchorBlockController c)

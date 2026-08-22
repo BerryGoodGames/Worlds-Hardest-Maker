@@ -27,7 +27,7 @@ public class WaitBlockController : AnchorBlockController
     {
         float waitTime = DurationInput.GetFloatInput();
         
-        return new WaitBlock(anchorController, IsLocked, waitTime, GetUnit());
+        return new WaitBlock(IsLocked, waitTime, GetUnit());
     }
     
     public static string GetOption(WaitBlock.Unit unit) => unitOptions.FirstOrDefault(x => x.Value == unit).Key;

@@ -20,56 +20,56 @@ public class MoveAndRotateBlock : PositionAnchorBlock
 
     public override string TypeID => "MoveAndRotate";
 
-    public override void Execute()
+    public override void Execute(IAnchorBlockExecutionContext ctx)
     {
         // get move duration
         float moveDuration;
-        float dist = Vector2.Distance(TargetAbsolute, Anchor.transform.position);
+        float dist = Vector2.Distance(TargetAbsolute, ctx.Position);
         
-        if (Anchor.SpeedUnit is SetSpeedBlock.Unit.UnitsPerSecond)
+        if (ctx.SpeedUnit is SetSpeedBlock.Unit.UnitsPerSecond)
         {
-            float speed = Anchor.SpeedInput;
+            float speed = ctx.SpeedInput;
             
             moveDuration = dist / speed;
         }
-        else moveDuration = Anchor.SpeedInput;
+        else moveDuration = ctx.SpeedInput;
         
         // get rotate duration
         float rotateDuration;
         if (adaptRotation) rotateDuration = moveDuration;
-        else if (Anchor.RotationSpeedUnit is RotationUnit.Degrees or RotationUnit.Iterations)
+        else if (ctx.RotationUnit is RotationUnit.Degrees or RotationUnit.Iterations)
         {
-            float speed = SetRotationBlock.GetSpeed(Anchor.RotationInput, Anchor.RotationSpeedUnit);
+            float speed = SetRotationBlock.GetSpeed(ctx.RotationInput, ctx.RotationUnit);
             
-            float currentZ = Anchor.transform.localRotation.eulerAngles.z;
+            float currentZ = ctx.ZAngle;
             float targetZ = currentZ + iterations * 360;
             float distance = targetZ - currentZ;
             
             rotateDuration = distance / speed;
         }
-        else rotateDuration = Anchor.RotationInput;
+        else rotateDuration = ctx.RotationInput;
         
-        Anchor.transform.DOMove(TargetAbsolute, moveDuration)
-            .SetEase(Anchor.Ease)
+        ctx.Transform.DOMove(TargetAbsolute, moveDuration)
+            .SetEase(ctx.Ease)
             .OnComplete(
                 () =>
                 {
-                    if (rotateDuration < moveDuration || Math.Abs(rotateDuration - moveDuration) < 0.001) Anchor.FinishCurrentExecution();
+                    if (rotateDuration < moveDuration || Math.Abs(rotateDuration - moveDuration) < 0.001) ctx.FinishCurrentExecution();
                 }
             );
         
         // negate rotation depending on direction
-        int direction = Anchor.IsClockwise ? -1 : 1;
+        int direction = ctx.IsClockwise ? -1 : 1;
         
-        Anchor.RotationTween.Kill();
-        Anchor.RotationTween = Anchor.transform
+        ctx.RotationTween.Kill();
+        ctx.RotationTween = ctx.Transform
             .DORotate(iterations * 360 * direction * Vector3.forward, rotateDuration, RotateMode.FastBeyond360)
             .SetRelative()
-            .SetEase(Anchor.Ease)
+            .SetEase(ctx.Ease)
             .OnComplete(
                 () =>
                 {
-                    if (rotateDuration > moveDuration) Anchor.FinishCurrentExecution();
+                    if (rotateDuration > moveDuration) ctx.FinishCurrentExecution();
                 }
             );
     }

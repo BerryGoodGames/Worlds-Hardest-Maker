@@ -37,7 +37,7 @@ public class LoopBlockData : AnchorBlockData
 {
     public LoopBlockData(bool isLocked) : base(isLocked) { }
     
-    public override AnchorBlock GetBlock(AnchorController anchor) => new LoopBlock(anchor, IsLocked);
+    public override AnchorBlock GetBlock(AnchorController anchor) => new LoopBlock(IsLocked);
 }
 
 [Serializable]
@@ -45,7 +45,7 @@ public class StartRotatingBlockData : AnchorBlockData
 {
     public StartRotatingBlockData(bool isLocked) : base(isLocked) { }
     
-    public override AnchorBlock GetBlock(AnchorController anchor) => new StartRotatingBlock(anchor, IsLocked);
+    public override AnchorBlock GetBlock(AnchorController anchor) => new StartRotatingBlock(IsLocked);
 }
 
 [Serializable]
@@ -53,7 +53,7 @@ public class StopRotatingBlockData : AnchorBlockData
 {
     public StopRotatingBlockData(bool isLocked) : base(isLocked) { }
     
-    public override AnchorBlock GetBlock(AnchorController anchor) => new StopRotatingBlock(anchor, IsLocked);
+    public override AnchorBlock GetBlock(AnchorController anchor) => new StopRotatingBlock(IsLocked);
 }
 
 [Serializable]
@@ -62,7 +62,7 @@ public class RotateBlockData : AnchorBlockData
     private readonly float iterations;
     public RotateBlockData(bool isLocked, float iterations) : base(isLocked) => this.iterations = iterations;
     
-    public override AnchorBlock GetBlock(AnchorController anchor) => new RotateBlock(anchor, IsLocked, iterations);
+    public override AnchorBlock GetBlock(AnchorController anchor) => new RotateBlock(IsLocked, iterations);
 }
 
 [Serializable]
@@ -95,7 +95,7 @@ public class SetRotationBlockData : AnchorBlockData
         this.unit = (int)unit;
     }
     
-    public override AnchorBlock GetBlock(AnchorController anchor) => new SetRotationBlock(anchor, IsLocked, input, (RotationUnit)unit);
+    public override AnchorBlock GetBlock(AnchorController anchor) => new SetRotationBlock(IsLocked, input, (RotationUnit)unit);
 }
 
 [Serializable]
@@ -105,7 +105,7 @@ public class SetDirectionBlockData : AnchorBlockData
     
     public SetDirectionBlockData(bool isLocked, bool isClockwise) : base(isLocked) => this.isClockwise = isClockwise;
     
-    public override AnchorBlock GetBlock(AnchorController anchor) => new SetDirectionBlock(anchor, IsLocked, isClockwise);
+    public override AnchorBlock GetBlock(AnchorController anchor) => new SetDirectionBlock(IsLocked, isClockwise);
 }
 
 [Serializable]
@@ -114,7 +114,7 @@ public class SetEaseBlockData : AnchorBlockData
     private readonly int ease;
     public SetEaseBlockData(bool isLocked, Ease ease) : base(isLocked) => this.ease = (int)ease;
     
-    public override AnchorBlock GetBlock(AnchorController anchor) => new SetEaseBlock(anchor, IsLocked, (Ease)ease);
+    public override AnchorBlock GetBlock(AnchorController anchor) => new SetEaseBlock(IsLocked, (Ease)ease);
 }
 
 [Serializable]
@@ -129,7 +129,7 @@ public class SetSpeedBlockData : AnchorBlockData
         this.type = (int)type;
     }
     
-    public override AnchorBlock GetBlock(AnchorController anchor) => new SetSpeedBlock(anchor, IsLocked, input, (SetSpeedBlock.Unit)type);
+    public override AnchorBlock GetBlock(AnchorController anchor) => new SetSpeedBlock(IsLocked, input, (SetSpeedBlock.Unit)type);
 }
 
 [Serializable]
@@ -144,5 +144,5 @@ public class WaitBlockData : AnchorBlockData
         this.unit = (int)unit;
     }
     
-    public override AnchorBlock GetBlock(AnchorController anchor) => new WaitBlock(anchor, IsLocked, input, (WaitBlock.Unit)unit);
+    public override AnchorBlock GetBlock(AnchorController anchor) => new WaitBlock(IsLocked, input, (WaitBlock.Unit)unit);
 }

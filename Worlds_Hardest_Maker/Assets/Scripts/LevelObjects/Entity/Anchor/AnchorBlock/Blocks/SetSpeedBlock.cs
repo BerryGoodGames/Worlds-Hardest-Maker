@@ -11,7 +11,7 @@ public class SetSpeedBlock : AnchorBlock
     private readonly float input;
     private readonly Unit unit;
     
-    public SetSpeedBlock(AnchorController anchor, bool isLocked, float input, Unit unit) : base(anchor, isLocked)
+    public SetSpeedBlock(bool isLocked, float input, Unit unit) : base(isLocked)
     {
         this.input = input;
         this.unit = unit;
@@ -19,11 +19,11 @@ public class SetSpeedBlock : AnchorBlock
 
     public override string TypeID => "SetSpeed";
 
-    public override void Execute()
+    public override void Execute(IAnchorBlockExecutionContext ctx)
     {
-        Anchor.SpeedUnit = unit;
-        Anchor.SpeedInput = input;
-        Anchor.FinishCurrentExecution();
+        ctx.SpeedUnit = unit;
+        ctx.SpeedInput = input;
+        ctx.FinishCurrentExecution();
     }
     
     protected override void SetControllerValues(AnchorBlockController c)
