@@ -20,7 +20,7 @@ public class SetRotationBlock : AnchorBlock, IRotationUnitBlock
         ctx.FinishCurrentExecution();
     }
     
-    protected override void SetControllerValues(AnchorBlockController c)
+    public override void SetControllerValues(AnchorBlockController c)
     {
         SetRotationBlockController controller = (SetRotationBlockController)c;
         controller.SpeedInput.text = input.ToString();

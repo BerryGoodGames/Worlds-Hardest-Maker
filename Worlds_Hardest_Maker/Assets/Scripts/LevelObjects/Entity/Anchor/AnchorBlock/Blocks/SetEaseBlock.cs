@@ -18,7 +18,7 @@ public class SetEaseBlock : AnchorBlock
         ctx.FinishCurrentExecution();
     }
     
-    protected override void SetControllerValues(AnchorBlockController c)
+    public override void SetControllerValues(AnchorBlockController c)
     {
         SetEaseBlockController controller = (SetEaseBlockController)c;
         controller.Input.value = GameManager.Instance.GetDropdownValue(SetEaseBlockController.GetOption(ease), controller.Input);

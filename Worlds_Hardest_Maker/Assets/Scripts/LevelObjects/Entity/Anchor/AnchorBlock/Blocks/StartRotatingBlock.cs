@@ -30,7 +30,7 @@ public class StartRotatingBlock : AnchorBlock
         ctx.FinishCurrentExecution();
     }
     
-    protected override void SetControllerValues(AnchorBlockController c) { }
+    public override void SetControllerValues(AnchorBlockController c) { }
     
     public override AnchorBlockData GetData() => new StartRotatingBlockData(IsLocked);
 }

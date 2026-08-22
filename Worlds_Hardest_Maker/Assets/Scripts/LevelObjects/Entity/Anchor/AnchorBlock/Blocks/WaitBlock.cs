@@ -46,7 +46,7 @@ public class WaitBlock : AnchorBlock, IDurationBlock
         ctx.FinishCurrentExecution();
     }
     
-    protected override void SetControllerValues(AnchorBlockController c)
+    public override void SetControllerValues(AnchorBlockController c)
     {
         WaitBlockController controller = (WaitBlockController)c;
         controller.DurationInput.text = input.ToString();

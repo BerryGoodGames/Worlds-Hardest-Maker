@@ -12,7 +12,7 @@ public class TeleportBlock : PositionAnchorBlock
         ctx.FinishCurrentExecution();
     }
     
-    protected override void SetControllerValues(AnchorBlockController c)
+    public override void SetControllerValues(AnchorBlockController c)
     {
         TeleportBlockController controller = (TeleportBlockController)c;
         controller.PositionInput.SetPositionValues(TargetAbsolute);

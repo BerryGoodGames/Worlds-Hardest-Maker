@@ -26,7 +26,7 @@ public class SetSpeedBlock : AnchorBlock
         ctx.FinishCurrentExecution();
     }
     
-    protected override void SetControllerValues(AnchorBlockController c)
+    public override void SetControllerValues(AnchorBlockController c)
     {
         SetSpeedBlockController controller = (SetSpeedBlockController)c;
         

@@ -74,7 +74,7 @@ public class MoveAndRotateBlock : PositionAnchorBlock
             );
     }
     
-    protected override void SetControllerValues(AnchorBlockController c)
+    public override void SetControllerValues(AnchorBlockController c)
     {
         MoveAndRotateBlockController controller = (MoveAndRotateBlockController)c;
         controller.PositionInput.SetPositionValues(TargetAbsolute);

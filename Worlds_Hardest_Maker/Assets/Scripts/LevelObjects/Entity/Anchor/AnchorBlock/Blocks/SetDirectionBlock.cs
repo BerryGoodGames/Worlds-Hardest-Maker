@@ -15,7 +15,7 @@ public class SetDirectionBlock : AnchorBlock
         ctx.FinishCurrentExecution();
     }
     
-    protected override void SetControllerValues(AnchorBlockController c)
+    public override void SetControllerValues(AnchorBlockController c)
     {
         SetDirectionBlockController controller = (SetDirectionBlockController)c;
         controller.DirectionInput.IsClockwise = isClockwise;

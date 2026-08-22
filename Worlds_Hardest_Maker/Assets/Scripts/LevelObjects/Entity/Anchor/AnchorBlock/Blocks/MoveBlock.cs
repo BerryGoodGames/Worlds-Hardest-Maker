@@ -21,7 +21,7 @@ public class MoveBlock : PositionAnchorBlock
             .OnComplete(ctx.FinishCurrentExecution);
     }
     
-    protected override void SetControllerValues(AnchorBlockController c)
+    public override void SetControllerValues(AnchorBlockController c)
     {
         MoveBlockController controller = (MoveBlockController)c;
         controller.PositionInput.SetPositionValues(TargetAbsolute);

@@ -38,7 +38,7 @@ public class RotateBlock : AnchorBlock, IDurationBlock
             .OnComplete(ctx.FinishCurrentExecution);
     }
     
-    protected override void SetControllerValues(AnchorBlockController c)
+    public override void SetControllerValues(AnchorBlockController c)
     {
         RotateBlockController controller = (RotateBlockController)c;
         controller.IterationsInput.text = iterations.ToString();

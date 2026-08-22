@@ -27,12 +27,14 @@ public partial class AnchorBlockManager : MonoBehaviour
     
     private IObjectResolver diContainer;
     private IAudioService audioService;
+    private AnchorBlockViewFactory anchorBlockViewFactory;
     
     [Inject]
-    private void Construct(IObjectResolver diContainer, IAudioService audioService)
+    private void Construct(IObjectResolver diContainer, IAudioService audioService, AnchorBlockViewFactory anchorBlockViewFactory)
     {
         this.diContainer = diContainer;
         this.audioService = audioService;
+        this.anchorBlockViewFactory = anchorBlockViewFactory;
     }
 
     #region Block insertion
@@ -207,11 +209,11 @@ public partial class AnchorBlockManager : MonoBehaviour
         
         foreach (AnchorBlock t in blocks)
         {
-            t.CreateAnchorBlockObject(mainChainController.transform, 
+            anchorBlockViewFactory.Create(mainChainController.transform, 
                 anchorBlockChainContainer,
                 anchorBlockConnectorController,
                 anchorBlockCatalog,
-                diContainer);
+                t);
         }
         
         AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
