@@ -32172,6 +32172,7 @@ MonoBehaviour:
   anchorBlockConnectorController: {fileID: 412315148}
   anchorBlockPreview: {fileID: 760941648}
   anchorBlockPeriblocker: {fileID: 1009501808}
+  anchorBlockCatalog: {fileID: 11400000, guid: a345d0ffd12aceb47afc5d72cbac5067, type: 2}
   DraggingBlock: 0
   DraggedBlock: {fileID: 0}
   HoveredBlockIndex: -1

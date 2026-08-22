@@ -5,7 +5,7 @@ public class StopRotatingBlock : AnchorBlock
 {
     public StopRotatingBlock(AnchorController anchor, bool isLocked) : base(anchor, isLocked) { }
 
-    public override string TypeID => "StopRotation";
+    public override string TypeID => "StopRotating";
 
     public override void Execute()
     {
