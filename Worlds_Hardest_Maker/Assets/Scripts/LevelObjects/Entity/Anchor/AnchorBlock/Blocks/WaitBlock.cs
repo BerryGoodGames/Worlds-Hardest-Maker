@@ -4,29 +4,21 @@ using UnityEngine;
 
 public class WaitBlock : AnchorBlock, IDurationBlock
 {
-    public enum Unit
+    private static readonly Dictionary<TimeUnit, float> factors = new()
     {
-        Seconds,
-        Minutes,
-        Hours,
-        Days,
-    }
-    
-    private static readonly Dictionary<Unit, float> factors = new()
-    {
-        { Unit.Seconds, 1 },
-        { Unit.Minutes, 60 },
-        { Unit.Hours, 3600 },
-        { Unit.Days, 86400 },
+        { TimeUnit.Seconds, 1 },
+        { TimeUnit.Minutes, 60 },
+        { TimeUnit.Hours, 3600 },
+        { TimeUnit.Days, 86400 },
     };
     
     private readonly float input;
     
-    private readonly Unit unit;
+    private readonly TimeUnit unit;
     
     public bool HasCurrentlyDuration => input > 0;
     
-    public WaitBlock(bool isLocked, float input, Unit unit) : base(isLocked)
+    public WaitBlock(bool isLocked, float input, TimeUnit unit) : base(isLocked)
     {
         this.input = input;
         this.unit = unit;
@@ -50,8 +42,8 @@ public class WaitBlock : AnchorBlock, IDurationBlock
     {
         WaitBlockController controller = (WaitBlockController)c;
         controller.DurationInput.text = input.ToString();
-        controller.UnitInput.value =
-            GameManager.Instance.GetDropdownValue(WaitBlockController.GetOption(unit), controller.UnitInput);
+        string selectedLabel = WaitBlockController.unitOptions.GetLabel(unit);
+        controller.UnitInput.value = GameManager.Instance.GetDropdownValue(selectedLabel, controller.UnitInput);
     }
     
     public override AnchorBlockData GetData() => new WaitBlockData(IsLocked, input, unit);

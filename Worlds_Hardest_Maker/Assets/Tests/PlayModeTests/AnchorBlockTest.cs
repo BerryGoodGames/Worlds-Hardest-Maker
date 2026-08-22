@@ -214,7 +214,7 @@ public sealed class AnchorBlockTests
         // SetSpeed -> Move -> Loop -> Move. Once the first Move finishes,
         // the anchor reaches the Loop and then executes the block after it again.
         anchor.Blocks = new LinkedList<AnchorBlock>();
-        anchor.AppendBlock(new SetSpeedBlock(false, 1000f, SetSpeedBlock.Unit.UnitsPerSecond));
+        anchor.AppendBlock(new SetSpeedBlock(false, 1000f, MovementUnit.UnitsPerSecond));
         anchor.AppendBlock(new LoopBlock(false));
         anchor.AppendBlock(new MoveBlock(anchor, false, new Vector2(0.1f, 0f)));
         anchor.AppendBlock(new MoveBlock(anchor, false, new Vector2(0.2f, 0f)));
@@ -416,9 +416,9 @@ public sealed class AnchorBlockTests
         anchor.AppendBlock(new StartRotatingBlock(false));
         anchor.AppendBlock(new StopRotatingBlock(false));
         anchor.AppendBlock(new MoveAndRotateBlock(anchor, false, new Vector2(3f, 0f), 1f, false));
-        anchor.AppendBlock(new WaitBlock(false, 0.01f, WaitBlock.Unit.Seconds));
+        anchor.AppendBlock(new WaitBlock(false, 0.01f, TimeUnit.Seconds));
         anchor.AppendBlock(new SetEaseBlock(false, Ease.InBack));
-        anchor.AppendBlock(new SetSpeedBlock(false, 5f, SetSpeedBlock.Unit.UnitsPerSecond));
+        anchor.AppendBlock(new SetSpeedBlock(false, 5f, MovementUnit.UnitsPerSecond));
         anchor.AppendBlock(new SetRotationBlock(false, 1f, RotationUnit.Iterations));
         anchor.AppendBlock(new SetDirectionBlock(false, true));
     }

@@ -2,16 +2,10 @@ using UnityEngine;
 
 public class SetSpeedBlock : AnchorBlock
 {
-    public enum Unit
-    {
-        UnitsPerSecond,
-        SecondsToFinish,
-    }
-    
     private readonly float input;
-    private readonly Unit unit;
+    private readonly MovementUnit unit;
     
-    public SetSpeedBlock(bool isLocked, float input, Unit unit) : base(isLocked)
+    public SetSpeedBlock(bool isLocked, float input, MovementUnit unit) : base(isLocked)
     {
         this.input = input;
         this.unit = unit;
@@ -31,8 +25,8 @@ public class SetSpeedBlock : AnchorBlock
         SetSpeedBlockController controller = (SetSpeedBlockController)c;
         
         controller.SpeedInput.text = input.ToString();
-        controller.UnitInput.value =
-            GameManager.Instance.GetDropdownValue(SetSpeedBlockController.GetOption(unit), controller.UnitInput);
+        string selectedLabel = SetSpeedBlockController.UnitOptions.GetLabel(unit);
+        controller.UnitInput.value = GameManager.Instance.GetDropdownValue(selectedLabel, controller.UnitInput);
     }
     
     public void Print() => Debug.Log((input, unit));

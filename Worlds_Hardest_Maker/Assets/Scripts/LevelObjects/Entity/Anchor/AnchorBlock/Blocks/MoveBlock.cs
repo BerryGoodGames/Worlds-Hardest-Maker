@@ -12,7 +12,7 @@ public class MoveBlock : PositionAnchorBlock
         float duration;
         float dist = Vector2.Distance(TargetAbsolute, ctx.Position);
         
-        if (ctx.SpeedUnit is SetSpeedBlock.Unit.UnitsPerSecond) duration = dist / ctx.SpeedInput;
+        if (ctx.SpeedUnit is MovementUnit.UnitsPerSecond) duration = dist / ctx.SpeedInput;
         else duration = ctx.SpeedInput;
 
         ctx.TweenComponent.DOKill();

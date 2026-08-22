@@ -1,24 +1,22 @@
-using System.Collections.Generic;
-using System.Linq;
 using MyBox;
 using TMPro;
 
 public class SetSpeedBlockController : AnchorBlockController
 {
-    private static readonly Dictionary<string, SetSpeedBlock.Unit> unitOptions = new()
+    public static readonly UnitDropdownMap<MovementUnit> UnitOptions = new()
     {
-        { "m / s", SetSpeedBlock.Unit.UnitsPerSecond },
-        { "s", SetSpeedBlock.Unit.SecondsToFinish },
+        { "m / s", MovementUnit.UnitsPerSecond },
+        { "s", MovementUnit.SecondsToFinish },
     };
     
     [Separator("Specifics")] [InitializationField] public TMP_InputField SpeedInput;
     
     [InitializationField] public TMP_Dropdown UnitInput;
     
-    private SetSpeedBlock.Unit GetUnit()
+    private MovementUnit GetUnit()
     {
         string selectedUnitString = UnitInput.options[UnitInput.value].text;
-        return unitOptions[selectedUnitString];
+        return UnitOptions[selectedUnitString];
     }
     
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
@@ -26,7 +24,5 @@ public class SetSpeedBlockController : AnchorBlockController
         float time = SpeedInput.GetFloatInput();
         
         return new SetSpeedBlock(IsLocked, time, GetUnit());
-    }
-    
-    public static string GetOption(SetSpeedBlock.Unit unit) => unitOptions.FirstOrDefault(x => x.Value == unit).Key;
+    } 
 }

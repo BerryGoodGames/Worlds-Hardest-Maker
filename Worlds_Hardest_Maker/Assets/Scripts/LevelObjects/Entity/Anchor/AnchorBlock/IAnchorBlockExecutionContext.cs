@@ -15,7 +15,7 @@ public interface IAnchorBlockExecutionContext
     }
     public float ZAngle { get; }
     
-    public SetSpeedBlock.Unit SpeedUnit { get; set; }
+    public MovementUnit SpeedUnit { get; set; }
     public float SpeedInput { get; set; }
     
     public RotationUnit RotationUnit { get; set; }

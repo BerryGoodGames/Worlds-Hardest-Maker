@@ -1,23 +1,21 @@
-using System.Collections.Generic;
-using System.Linq;
 using MyBox;
 using TMPro;
 
 public class WaitBlockController : AnchorBlockController
 {
-    private static readonly Dictionary<string, WaitBlock.Unit> unitOptions = new()
+    public static readonly UnitDropdownMap<TimeUnit> unitOptions = new()
     {
-        { "s", WaitBlock.Unit.Seconds },
-        { "min", WaitBlock.Unit.Minutes },
-        { "h", WaitBlock.Unit.Hours },
-        { "d", WaitBlock.Unit.Days },
+        { "s", TimeUnit.Seconds },
+        { "min", TimeUnit.Minutes },
+        { "h", TimeUnit.Hours },
+        { "d", TimeUnit.Days },
     };
     
     [Separator("Specifics")] [InitializationField] public TMP_InputField DurationInput;
     
     [InitializationField] public TMP_Dropdown UnitInput;
     
-    private WaitBlock.Unit GetUnit()
+    private TimeUnit GetUnit()
     {
         string selectedUnitString = UnitInput.options[UnitInput.value].text;
         return unitOptions[selectedUnitString];
@@ -29,6 +27,4 @@ public class WaitBlockController : AnchorBlockController
         
         return new WaitBlock(IsLocked, waitTime, GetUnit());
     }
-    
-    public static string GetOption(WaitBlock.Unit unit) => unitOptions.FirstOrDefault(x => x.Value == unit).Key;
 }

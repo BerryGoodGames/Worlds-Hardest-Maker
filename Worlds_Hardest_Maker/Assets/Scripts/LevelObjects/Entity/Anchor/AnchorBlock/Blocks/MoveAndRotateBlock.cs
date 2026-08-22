@@ -26,7 +26,7 @@ public class MoveAndRotateBlock : PositionAnchorBlock
         float moveDuration;
         float dist = Vector2.Distance(TargetAbsolute, ctx.Position);
         
-        if (ctx.SpeedUnit is SetSpeedBlock.Unit.UnitsPerSecond)
+        if (ctx.SpeedUnit is MovementUnit.UnitsPerSecond)
         {
             float speed = ctx.SpeedInput;
             

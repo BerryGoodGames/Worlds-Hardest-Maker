@@ -123,13 +123,13 @@ public class SetSpeedBlockData : AnchorBlockData
     private readonly float input;
     private readonly int type;
     
-    public SetSpeedBlockData(bool isLocked, float input, SetSpeedBlock.Unit type) : base(isLocked)
+    public SetSpeedBlockData(bool isLocked, float input, MovementUnit type) : base(isLocked)
     {
         this.input = input;
         this.type = (int)type;
     }
     
-    public override AnchorBlock GetBlock(AnchorController anchor) => new SetSpeedBlock(IsLocked, input, (SetSpeedBlock.Unit)type);
+    public override AnchorBlock GetBlock(AnchorController anchor) => new SetSpeedBlock(IsLocked, input, (MovementUnit)type);
 }
 
 [Serializable]
@@ -138,11 +138,11 @@ public class WaitBlockData : AnchorBlockData
     private readonly float input;
     private readonly int unit;
     
-    public WaitBlockData(bool isLocked, float input, WaitBlock.Unit unit) : base(isLocked)
+    public WaitBlockData(bool isLocked, float input, TimeUnit unit) : base(isLocked)
     {
         this.input = input;
         this.unit = (int)unit;
     }
     
-    public override AnchorBlock GetBlock(AnchorController anchor) => new WaitBlock(IsLocked, input, (WaitBlock.Unit)unit);
+    public override AnchorBlock GetBlock(AnchorController anchor) => new WaitBlock(IsLocked, input, (TimeUnit)unit);
 }

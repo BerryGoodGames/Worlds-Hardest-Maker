@@ -1,11 +1,9 @@
-using System.Collections.Generic;
-using System.Linq;
 using MyBox;
 using TMPro;
 
 public class SetRotationBlockController : AnchorBlockController
 {
-    private static readonly Dictionary<string, RotationUnit> unitOptions = new()
+    public static readonly UnitDropdownMap<RotationUnit> UnitOptions = new()
     {
         { "deg / s", RotationUnit.Degrees },
         { "it / s", RotationUnit.Iterations },
@@ -19,15 +17,13 @@ public class SetRotationBlockController : AnchorBlockController
     private RotationUnit GetUnit()
     {
         string selectedUnitString = UnitInput.options[UnitInput.value].text;
-        return unitOptions[selectedUnitString];
+        return UnitOptions[selectedUnitString];
     }
     
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
     {
         return new SetRotationBlock(IsLocked, SpeedInput.GetFloatInput(), GetUnit());
     }
-
-    public static string GetOption(RotationUnit unit) => unitOptions.FirstOrDefault(x => x.Value == unit).Key;
     
     public void UpdateWarnings()
     {

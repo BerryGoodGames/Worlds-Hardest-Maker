@@ -27,7 +27,7 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
     public MonoBehaviour CoroutineRunner => this;
     public Transform Transform => transform;
     public float ZAngle => transform.eulerAngles.z;
-    public SetSpeedBlock.Unit SpeedUnit { get; set; }
+    public MovementUnit SpeedUnit { get; set; }
     public float SpeedInput { get; set; }
     public RotationUnit RotationUnit { get; set; }
     public float RotationInput { get; set; }

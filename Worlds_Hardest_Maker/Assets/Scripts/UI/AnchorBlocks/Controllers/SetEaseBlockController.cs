@@ -1,12 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using MyBox;
 using TMPro;
 
 public class SetEaseBlockController : AnchorBlockController
 {
-    private static readonly Dictionary<string, Ease> easeOptions = new()
+    public static readonly UnitDropdownMap<Ease> EaseOptions = new()
     {
         { "linear", Ease.Linear },
         { "ease-out", Ease.OutCubic },
@@ -19,9 +17,7 @@ public class SetEaseBlockController : AnchorBlockController
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController)
     {
         string selectedValue = Input.options[Input.value].text;
-        Ease ease = easeOptions[selectedValue];
+        Ease ease = EaseOptions[selectedValue];
         return new SetEaseBlock(IsLocked, ease);
     }
-    
-    public static string GetOption(Ease ease) => easeOptions.FirstOrDefault(x => x.Value == ease).Key;
 }

@@ -21,7 +21,8 @@ public class SetEaseBlock : AnchorBlock
     public override void SetControllerValues(AnchorBlockController c)
     {
         SetEaseBlockController controller = (SetEaseBlockController)c;
-        controller.Input.value = GameManager.Instance.GetDropdownValue(SetEaseBlockController.GetOption(ease), controller.Input);
+        string selectedLabel = SetEaseBlockController.EaseOptions.GetLabel(ease);
+        controller.Input.value = GameManager.Instance.GetDropdownValue(selectedLabel, controller.Input);
     }
     
     public override AnchorBlockData GetData() => new SetEaseBlockData(IsLocked, ease);
