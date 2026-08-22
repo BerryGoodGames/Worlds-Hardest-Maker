@@ -80,12 +80,16 @@ public partial class AnchorController
     )
     {
         if (anchorBlock is PositionAnchorBlock positionAnchorBlock)
-            ParsePositionBlockForPath(ref positionAnchorBlock, index, hasRendered, lineList, ref previousVertex, ref isFirstPositionBlockAfterLoop);
-        
+        {
+            ParsePositionBlockForPath(ref positionAnchorBlock, index, hasRendered, lineList, ref previousVertex,
+                ref isFirstPositionBlockAfterLoop);
+        }
         // track loop index if LoopBlock
-        else if (anchorBlock.ImplementedBlockType is AnchorBlock.Type.Loop)
+        else if (anchorBlock.TypeID.Equals("Loop"))
+        {
             // track loop index
             loopIndex = index;
+        }
     }
     
     private void ParsePositionBlockForPath(
@@ -124,7 +128,7 @@ public partial class AnchorController
         line.CreateArrowHead(previousVertex, currentVertex);
         line.CreateArrowLine(
             previousVertex, currentVertex,
-            positionAnchorBlock.ImplementedBlockType is not AnchorBlock.Type.Teleport
+            !positionAnchorBlock.TypeID.Equals("Teleport")
         );
         
         line.CreateBlur();

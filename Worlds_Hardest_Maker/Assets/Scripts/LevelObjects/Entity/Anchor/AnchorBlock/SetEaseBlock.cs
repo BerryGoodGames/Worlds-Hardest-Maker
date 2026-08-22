@@ -1,16 +1,17 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class SetEaseBlock : AnchorBlock, IPassiveAnchorBlock
+public class SetEaseBlock : AnchorBlock
 {
-    public const Type BLOCK_TYPE = Type.Ease;
-    public override Type ImplementedBlockType => BLOCK_TYPE;
-    protected override GameObject Prefab => Anchor.PrefabProvider.SetEaseBlockPrefab;
-    
     private readonly Ease ease;
     
-    public SetEaseBlock(AnchorController anchor, bool isLocked, Ease ease) : base(anchor, isLocked) => this.ease = ease;
-    
+    public SetEaseBlock(AnchorController anchor, bool isLocked, Ease ease) : base(anchor, isLocked)
+    {
+        this.ease = ease;
+    }
+
+    public override string TypeID => "SetEase";
+
     public override void Execute()
     {
         Anchor.Ease = ease;

@@ -16,6 +16,7 @@ public partial class AnchorBlockManager : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private AnchorBlockConnectorController anchorBlockConnectorController;
     [SerializeField] [InitializationField] [MustBeAssigned] private AnchorBlockPreviewController anchorBlockPreview;
     [SerializeField] [InitializationField] [MustBeAssigned] private AnchorBlockPeriblockerController anchorBlockPeriblocker;
+    [SerializeField] [InitializationField] [MustBeAssigned] private AnchorBlockCatalog anchorBlockCatalog;
     
     [ReadOnly] public bool DraggingBlock;
     [ReadOnly] public AnchorBlockController DraggedBlock;
@@ -209,6 +210,7 @@ public partial class AnchorBlockManager : MonoBehaviour
             t.CreateAnchorBlockObject(mainChainController.transform, 
                 anchorBlockChainContainer,
                 anchorBlockConnectorController,
+                anchorBlockCatalog,
                 diContainer);
         }
         

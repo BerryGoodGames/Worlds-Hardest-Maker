@@ -1,18 +1,16 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class RotateBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
+public class RotateBlock : AnchorBlock, IDurationBlock
 {
-    public const Type BLOCK_TYPE = Type.Rotate;
-    public override Type ImplementedBlockType => BLOCK_TYPE;
-    protected override GameObject Prefab => Anchor.PrefabProvider.RotateBlockPrefab;
-    
     private readonly float iterations;
     
     public bool HasCurrentlyDuration => iterations > 0;
     
     public RotateBlock(AnchorController anchor, bool isLocked, float iterations) : base(anchor, isLocked) => this.iterations = iterations;
-    
+
+    public override string TypeID => "Rotate";
+
     public override void Execute()
     {
         float duration;

@@ -1,14 +1,12 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class StartRotatingBlock : AnchorBlock, IActiveAnchorBlock
+public class StartRotatingBlock : AnchorBlock
 {
     public StartRotatingBlock(AnchorController anchor, bool isLocked) : base(anchor, isLocked) { }
-    
-    public const Type BLOCK_TYPE = Type.StartRotating;
-    public override Type ImplementedBlockType => BLOCK_TYPE;
-    protected override GameObject Prefab => Anchor.PrefabProvider.StartRotatingBlockPrefab;
-    
+
+    public override string TypeID => "StartRotating";
+
     public override void Execute()
     {
         // ignore if already infinitely rotating or no speed defined

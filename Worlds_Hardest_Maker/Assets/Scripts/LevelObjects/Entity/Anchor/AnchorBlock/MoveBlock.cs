@@ -1,23 +1,18 @@
 using DG.Tweening;
 using UnityEngine;
 
-public class MoveBlock : PositionAnchorBlock, IActiveAnchorBlock
+public class MoveBlock : PositionAnchorBlock
 {
-    public override Type ImplementedBlockType => Type.Move;
-    protected override GameObject Prefab => Anchor.PrefabProvider.MoveBlockPrefab;
-    
-    #region Constructors
-    
     public MoveBlock(AnchorController anchor, bool isLocked, Vector2 target) : base(anchor, isLocked, target) { }
-    
-    #endregion
-    
+
+    public override string TypeID => "Move";
+
     public override void Execute()
     {
         float duration;
         float dist = Vector2.Distance(TargetAbsolute, Anchor.transform.position);
         
-        if (Anchor.SpeedUnit is SetSpeedBlock.Unit.Speed) duration = dist / Anchor.SpeedInput;
+        if (Anchor.SpeedUnit is SetSpeedBlock.Unit.UnitsPerSecond) duration = dist / Anchor.SpeedInput;
         else duration = Anchor.SpeedInput;
         
         Anchor.DOKill();

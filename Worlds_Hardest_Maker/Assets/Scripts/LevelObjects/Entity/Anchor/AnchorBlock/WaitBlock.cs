@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
+public class WaitBlock : AnchorBlock, IDurationBlock
 {
     public enum Unit
     {
@@ -20,10 +20,6 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
         { Unit.Days, 86400 },
     };
     
-    public const Type BLOCK_TYPE = Type.Wait;
-    public override Type ImplementedBlockType => BLOCK_TYPE;
-    protected override GameObject Prefab => Anchor.PrefabProvider.WaitBlockPrefab;
-    
     private readonly float input;
     
     private readonly Unit unit;
@@ -35,6 +31,8 @@ public class WaitBlock : AnchorBlock, IActiveAnchorBlock, IDurationBlock
         this.input = input;
         this.unit = unit;
     }
+
+    public override string TypeID => "Wait";
     
     public override void Execute() => Anchor.WaitCoroutine = Anchor.StartCoroutine(WaitCoroutine());
     

@@ -1,13 +1,9 @@
-using UnityEngine;
-
-public class LoopBlock : AnchorBlock, IPassiveAnchorBlock
+public class LoopBlock : AnchorBlock
 {
-    public const Type BLOCK_TYPE = Type.Loop;
-    public override Type ImplementedBlockType => BLOCK_TYPE;
-    protected override GameObject Prefab => Anchor.PrefabProvider.GoToBlockPrefab;
-    
     public LoopBlock(AnchorController anchor, bool isLocked) : base(anchor, isLocked) { }
-    
+
+    public override string TypeID => "Loop";
+
     public override void Execute()
     {
         // set loop block node of anchor

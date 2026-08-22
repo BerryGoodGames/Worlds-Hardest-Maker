@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa76a55cc4f1457a87554456b7449b71, type: 3}
   m_Name: AnchorBlockCatalog
   m_EditorClassIdentifier: WorldsHardestMaker::AnchorBlockCatalog
-  Definitions:
+  definitions:
   - {fileID: 11400000, guid: efbacb42d74efe042ba0782f1bf7d3a6, type: 2}
   - {fileID: 11400000, guid: 6449cc7d1ee2c2544adbf83d0726a114, type: 2}
   - {fileID: 11400000, guid: ac09f9025690f7c42997ebe5b38cff61, type: 2}

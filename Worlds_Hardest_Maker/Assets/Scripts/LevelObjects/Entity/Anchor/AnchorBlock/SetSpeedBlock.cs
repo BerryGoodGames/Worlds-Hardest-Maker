@@ -1,16 +1,12 @@
 using UnityEngine;
 
-public class SetSpeedBlock : AnchorBlock, IPassiveAnchorBlock
+public class SetSpeedBlock : AnchorBlock
 {
     public enum Unit
     {
-        Speed,
-        Time,
+        UnitsPerSecond,
+        SecondsToFinish,
     }
-    
-    public const Type BLOCK_TYPE = Type.SetSpeed;
-    public override Type ImplementedBlockType => BLOCK_TYPE;
-    protected override GameObject Prefab => Anchor.PrefabProvider.SetSpeedBlockPrefab;
     
     private readonly float input;
     private readonly Unit unit;
@@ -20,7 +16,9 @@ public class SetSpeedBlock : AnchorBlock, IPassiveAnchorBlock
         this.input = input;
         this.unit = unit;
     }
-    
+
+    public override string TypeID => "SetSpeed";
+
     public override void Execute()
     {
         Anchor.SpeedUnit = unit;

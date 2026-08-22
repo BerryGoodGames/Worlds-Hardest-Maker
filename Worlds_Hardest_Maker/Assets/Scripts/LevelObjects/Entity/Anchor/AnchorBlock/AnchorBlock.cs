@@ -5,22 +5,6 @@ using VContainer.Unity;
 
 public abstract class AnchorBlock
 {
-    public enum Type
-    {
-        Loop,
-        Move,
-        Teleport,
-        Rotate,
-        StartRotating,
-        StopRotating,
-        MoveAndRotate,
-        Wait,
-        Ease,
-        SetSpeed,
-        SetRotation,
-        SetDirection,
-    }
-    
     protected AnchorController Anchor;
     protected bool IsLocked;
     
@@ -32,16 +16,17 @@ public abstract class AnchorBlock
         IsLocked = isLocked;
     }
     
-    public abstract Type ImplementedBlockType { get; }
-    protected abstract GameObject Prefab { get; }
+    public abstract string TypeID { get; }
     
     public void CreateAnchorBlockObject(Transform parent, 
         RectTransform chainContainer, 
         AnchorBlockConnectorController connectorController,
+        AnchorBlockCatalog catalog,
         IObjectResolver diContainer)
     {
         // create object
-        GameObject anchorBlock = Object.Instantiate(Prefab, parent);
+        GameObject prefab = catalog.GetPrefabByID(TypeID);
+        GameObject anchorBlock = Object.Instantiate(prefab, parent);
         
         diContainer.InjectGameObject(anchorBlock);
         

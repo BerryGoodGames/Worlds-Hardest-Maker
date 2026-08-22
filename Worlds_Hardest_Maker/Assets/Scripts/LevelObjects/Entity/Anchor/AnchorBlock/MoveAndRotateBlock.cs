@@ -2,17 +2,11 @@ using System;
 using DG.Tweening;
 using UnityEngine;
 
-public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
+public class MoveAndRotateBlock : PositionAnchorBlock
 {
-    public const Type BLOCK_TYPE = Type.MoveAndRotate;
-    public override Type ImplementedBlockType => Type.MoveAndRotate;
-    protected override GameObject Prefab => Anchor.PrefabProvider.MoveAndRotateBlockPrefab;
-    
     private readonly float iterations;
     
     private readonly bool adaptRotation;
-    
-    #region Constructors
     
     public MoveAndRotateBlock(
         AnchorController anchor, bool isLocked, Vector2 target, float iterations,
@@ -23,16 +17,16 @@ public class MoveAndRotateBlock : PositionAnchorBlock, IActiveAnchorBlock
         this.iterations = iterations;
         this.adaptRotation = adaptRotation;
     }
-    
-    #endregion
-    
+
+    public override string TypeID => "MoveAndRotate";
+
     public override void Execute()
     {
         // get move duration
         float moveDuration;
         float dist = Vector2.Distance(TargetAbsolute, Anchor.transform.position);
         
-        if (Anchor.SpeedUnit is SetSpeedBlock.Unit.Speed)
+        if (Anchor.SpeedUnit is SetSpeedBlock.Unit.UnitsPerSecond)
         {
             float speed = Anchor.SpeedInput;
             

@@ -28,7 +28,7 @@ public partial class AnchorManager
         AnchorBlock block = currentNode.Value;
         
         // detect loop block
-        if (block.ImplementedBlockType is AnchorBlock.Type.Loop)
+        if (block.TypeID.Equals("Loop"))
         {
             loopingDetected = true;
             loopBlock = block;
@@ -59,9 +59,9 @@ public partial class AnchorManager
     {
         AnchorBlock block = currentNode.Value;
         
-        switch (block.ImplementedBlockType)
+        switch (block.TypeID)
         {
-            case AnchorBlock.Type.SetRotation:
+            case "SetRotation":
             {
                 // update if start rotating blocks can work
                 SetRotationBlock setRotationBlock = (SetRotationBlock)block;
@@ -70,7 +70,7 @@ public partial class AnchorManager
             }
             
             // update if it can't rotate
-            case AnchorBlock.Type.StartRotating:
+            case "StartRotating":
                 mainChainController.Children[i].SetWarning(!canStartRotateWork);
                 break;
         }

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class SetRotationBlock : AnchorBlock, IPassiveAnchorBlock
+public class SetRotationBlock : AnchorBlock
 {
     public enum Unit
     {
@@ -9,10 +9,6 @@ public class SetRotationBlock : AnchorBlock, IPassiveAnchorBlock
         Degrees,
         Time,
     }
-    
-    public const Type BLOCK_TYPE = Type.SetRotation;
-    public override Type ImplementedBlockType => BLOCK_TYPE;
-    protected override GameObject Prefab => Anchor.PrefabProvider.SetRotationSpeedBlockPrefab;
     
     private readonly float input;
     private readonly Unit unit;
@@ -22,7 +18,9 @@ public class SetRotationBlock : AnchorBlock, IPassiveAnchorBlock
         this.input = input;
         this.unit = unit;
     }
-    
+
+    public override string TypeID => "SetRotation";
+
     public override void Execute()
     {
         Anchor.RotationSpeedUnit = unit;

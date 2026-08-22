@@ -1,15 +1,16 @@
 using UnityEngine;
 
-public class SetDirectionBlock : AnchorBlock, IPassiveAnchorBlock
+public class SetDirectionBlock : AnchorBlock
 {
     private bool isClockwise;
     
-    public SetDirectionBlock(AnchorController anchor, bool isLocked, bool isClockwise) : base(anchor, isLocked) => this.isClockwise = isClockwise;
-    
-    public override Type ImplementedBlockType => Type.SetDirection;
-    protected override GameObject Prefab => Anchor.PrefabProvider.SetDirectionBlockPrefab;
-    
-    
+    public SetDirectionBlock(AnchorController anchor, bool isLocked, bool isClockwise) : base(anchor, isLocked)
+    {
+        this.isClockwise = isClockwise;
+    }
+
+    public override string TypeID => "SetDirection";
+
     public override void Execute()
     {
         Anchor.IsClockwise = isClockwise;

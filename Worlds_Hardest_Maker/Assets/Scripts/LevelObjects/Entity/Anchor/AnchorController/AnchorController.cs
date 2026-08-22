@@ -16,8 +16,6 @@ public partial class AnchorController : EntityController, IResettable
     [InitializationField] [MustBeAssigned] public Animator Animator;
     [InitializationField] [MustBeAssigned] public AnchorAttachFade AttachFade;
     
-    [field: SerializeField] public AnchorBlockPrefabProvider PrefabProvider { get; set; }
-    
     [ReadOnly] public int SortingLayerID;
     [ReadOnly] public int OrderInLayer;
     

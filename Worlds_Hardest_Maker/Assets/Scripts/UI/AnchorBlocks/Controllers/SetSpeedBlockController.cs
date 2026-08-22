@@ -7,8 +7,8 @@ public class SetSpeedBlockController : AnchorBlockController
 {
     private static readonly Dictionary<string, SetSpeedBlock.Unit> unitOptions = new()
     {
-        { "m / s", SetSpeedBlock.Unit.Speed },
-        { "s", SetSpeedBlock.Unit.Time },
+        { "m / s", SetSpeedBlock.Unit.UnitsPerSecond },
+        { "s", SetSpeedBlock.Unit.SecondsToFinish },
     };
     
     [Separator("Specifics")] [InitializationField] public TMP_InputField SpeedInput;
