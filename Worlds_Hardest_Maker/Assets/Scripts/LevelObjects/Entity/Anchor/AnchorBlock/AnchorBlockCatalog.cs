@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AnchorBlockCatalog", menuName = "ScriptableObjects/Anchor Blocks/Catalog")]
 public class AnchorBlockCatalog : ScriptableObject
 {
-    [SerializeField] private List<AnchorBlockDefinition> definitions;
+    [SerializeField] private List<AnchorBlockDefinition> definitions = new();
     
     private readonly Dictionary<string, AnchorBlockDefinition> idToDefinitionMap = new();
 
