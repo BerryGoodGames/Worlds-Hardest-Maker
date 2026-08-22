@@ -41,6 +41,7 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.Register<PanelRegistry>(Lifetime.Singleton).As<IPanelRegistry>();
 
         builder.Register<AnchorBlockViewFactory>(Lifetime.Singleton).AsSelf();
+        builder.Register<AnchorChainDropTargetResolver>(Lifetime.Singleton).AsSelf();
     }
     
     protected override void Awake()
