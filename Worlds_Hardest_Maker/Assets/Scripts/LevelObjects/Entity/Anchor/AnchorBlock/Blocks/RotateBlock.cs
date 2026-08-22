@@ -15,7 +15,7 @@ public class RotateBlock : AnchorBlock, IDurationBlock
     {
         float duration;
         
-        if (Anchor.RotationSpeedUnit is SetRotationBlock.Unit.Degrees or SetRotationBlock.Unit.Iterations)
+        if (Anchor.RotationSpeedUnit is RotationUnit.Degrees or RotationUnit.Iterations)
         {
             float speed = SetRotationBlock.GetSpeed(Anchor.RotationInput, Anchor.RotationSpeedUnit);
             

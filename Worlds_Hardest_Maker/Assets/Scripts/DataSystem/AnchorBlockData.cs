@@ -89,13 +89,13 @@ public class SetRotationBlockData : AnchorBlockData
     private readonly float input;
     private readonly int unit;
     
-    public SetRotationBlockData(bool isLocked, float input, SetRotationBlock.Unit unit) : base(isLocked)
+    public SetRotationBlockData(bool isLocked, float input, RotationUnit unit) : base(isLocked)
     {
         this.input = input;
         this.unit = (int)unit;
     }
     
-    public override AnchorBlock GetBlock(AnchorController anchor) => new SetRotationBlock(anchor, IsLocked, input, (SetRotationBlock.Unit)unit);
+    public override AnchorBlock GetBlock(AnchorController anchor) => new SetRotationBlock(anchor, IsLocked, input, (RotationUnit)unit);
 }
 
 [Serializable]

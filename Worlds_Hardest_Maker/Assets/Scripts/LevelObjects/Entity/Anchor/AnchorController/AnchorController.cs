@@ -23,7 +23,7 @@ public partial class AnchorController : EntityController, IResettable
     public LinkedList<AnchorBlock> Blocks = new();
     
     [HideInInspector] public SetSpeedBlock.Unit SpeedUnit;
-    [HideInInspector] public SetRotationBlock.Unit RotationSpeedUnit;
+    [HideInInspector] public RotationUnit RotationSpeedUnit;
     [HideInInspector] public float SpeedInput;
     [HideInInspector] public float RotationInput;
     [HideInInspector] public bool IsClockwise;

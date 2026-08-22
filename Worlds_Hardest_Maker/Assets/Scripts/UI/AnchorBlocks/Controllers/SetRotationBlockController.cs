@@ -5,18 +5,18 @@ using TMPro;
 
 public class SetRotationBlockController : AnchorBlockController
 {
-    private static readonly Dictionary<string, SetRotationBlock.Unit> unitOptions = new()
+    private static readonly Dictionary<string, RotationUnit> unitOptions = new()
     {
-        { "deg / s", SetRotationBlock.Unit.Degrees },
-        { "it / s", SetRotationBlock.Unit.Iterations },
-        { "s", SetRotationBlock.Unit.Time },
+        { "deg / s", RotationUnit.Degrees },
+        { "it / s", RotationUnit.Iterations },
+        { "s", RotationUnit.Time },
     };
     
     [Separator("Specifics")] [InitializationField] [AutoProperty] public TMP_InputField SpeedInput;
     
     [InitializationField] public TMP_Dropdown UnitInput;
     
-    private SetRotationBlock.Unit GetUnit()
+    private RotationUnit GetUnit()
     {
         string selectedUnitString = UnitInput.options[UnitInput.value].text;
         return unitOptions[selectedUnitString];
@@ -25,7 +25,7 @@ public class SetRotationBlockController : AnchorBlockController
     public override AnchorBlock GetAnchorBlock(AnchorController anchorController) =>
         new SetRotationBlock(anchorController, IsLocked, SpeedInput.GetFloatInput(), GetUnit());
     
-    public static string GetOption(SetRotationBlock.Unit unit) => unitOptions.FirstOrDefault(x => x.Value == unit).Key;
+    public static string GetOption(RotationUnit unit) => unitOptions.FirstOrDefault(x => x.Value == unit).Key;
     
     public void UpdateWarnings()
     {

@@ -37,7 +37,7 @@ public class MoveAndRotateBlock : PositionAnchorBlock
         // get rotate duration
         float rotateDuration;
         if (adaptRotation) rotateDuration = moveDuration;
-        else if (Anchor.RotationSpeedUnit is SetRotationBlock.Unit.Degrees or SetRotationBlock.Unit.Iterations)
+        else if (Anchor.RotationSpeedUnit is RotationUnit.Degrees or RotationUnit.Iterations)
         {
             float speed = SetRotationBlock.GetSpeed(Anchor.RotationInput, Anchor.RotationSpeedUnit);
             

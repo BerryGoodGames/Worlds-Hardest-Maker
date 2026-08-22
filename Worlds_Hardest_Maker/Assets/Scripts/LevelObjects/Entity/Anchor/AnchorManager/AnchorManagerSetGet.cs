@@ -15,7 +15,7 @@ public partial class AnchorManager : IManager<AnchorController>
         
         // default blocks
         anchor.AppendBlock(new SetSpeedBlock(anchor, true, 5, SetSpeedBlock.Unit.UnitsPerSecond));
-        anchor.AppendBlock(new SetRotationBlock(anchor, true, 1, SetRotationBlock.Unit.Iterations));
+        anchor.AppendBlock(new SetRotationBlock(anchor, true, 1, RotationUnit.Iterations));
         anchor.AppendBlock(new SetDirectionBlock(anchor, true, true));
         anchor.AppendBlock(new SetEaseBlock(anchor, true, Ease.Linear));
         

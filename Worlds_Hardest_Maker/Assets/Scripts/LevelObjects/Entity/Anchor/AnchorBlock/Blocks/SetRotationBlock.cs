@@ -1,19 +1,11 @@
 using System;
-using UnityEngine;
 
-public class SetRotationBlock : AnchorBlock
+public class SetRotationBlock : AnchorBlock, IRotationUnitBlock
 {
-    public enum Unit
-    {
-        Iterations,
-        Degrees,
-        Time,
-    }
-    
     private readonly float input;
-    private readonly Unit unit;
+    private readonly RotationUnit unit;
     
-    public SetRotationBlock(AnchorController anchor, bool isLocked, float input, Unit unit) : base(anchor, isLocked)
+    public SetRotationBlock(AnchorController anchor, bool isLocked, float input, RotationUnit unit) : base(anchor, isLocked)
     {
         this.input = input;
         this.unit = unit;
@@ -28,8 +20,6 @@ public class SetRotationBlock : AnchorBlock
         Anchor.FinishCurrentExecution();
     }
     
-    public Unit GetUnit() => unit;
-    
     protected override void SetControllerValues(AnchorBlockController c)
     {
         SetRotationBlockController controller = (SetRotationBlockController)c;
@@ -39,13 +29,16 @@ public class SetRotationBlock : AnchorBlock
     }
     
     public override AnchorBlockData GetData() => new SetRotationBlockData(IsLocked, input, unit);
+
+    public RotationUnit RotationUnit => unit;
     
-    
-    public static float GetSpeed(float input, Unit unit) =>
-        unit switch
+    public static float GetSpeed(float input, RotationUnit unit)
+    {
+        return unit switch
         {
-            Unit.Iterations => input * 360,
-            Unit.Degrees => input,
+            RotationUnit.Iterations => input * 360,
+            RotationUnit.Degrees => input,
             _ => throw new Exception("Cannot calculate rotation speed if given unit is Unit.Time"),
         };
+    }
 }

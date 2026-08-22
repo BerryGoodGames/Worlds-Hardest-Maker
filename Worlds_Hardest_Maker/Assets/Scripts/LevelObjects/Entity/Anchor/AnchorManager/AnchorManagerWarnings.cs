@@ -58,23 +58,19 @@ public partial class AnchorManager
     private bool CheckStartRotatingWarningsBlock(int i, LinkedListNode<AnchorBlock> currentNode, ref bool canStartRotateWork)
     {
         AnchorBlock block = currentNode.Value;
-        
-        switch (block.TypeID)
+
+        if (block is IRotationUnitBlock rotationUnitBlock && block.TypeID == "SetRotation")
         {
-            case "SetRotation":
-            {
-                // update if start rotating blocks can work
-                SetRotationBlock setRotationBlock = (SetRotationBlock)block;
-                canStartRotateWork = setRotationBlock.GetUnit() != SetRotationBlock.Unit.Time;
-                break;
-            }
-            
-            // update if it can't rotate
-            case "StartRotating":
-                mainChainController.Children[i].SetWarning(!canStartRotateWork);
-                break;
+            // update if start rotating blocks can work
+            canStartRotateWork = rotationUnitBlock.RotationUnit != RotationUnit.Time;
         }
         
+        // update if it can't rotate
+        if (block.TypeID == "StartRotating")
+        {
+            mainChainController.Children[i].SetWarning(!canStartRotateWork);
+        }
+
         return false;
     }
     

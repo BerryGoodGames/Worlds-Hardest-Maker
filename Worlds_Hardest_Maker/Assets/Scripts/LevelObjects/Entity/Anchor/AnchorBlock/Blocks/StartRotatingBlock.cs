@@ -11,7 +11,7 @@ public class StartRotatingBlock : AnchorBlock
     {
         // ignore if already infinitely rotating or no speed defined
         if (Anchor.RotationTween is not { hasLoops: true, } &&
-            Anchor.RotationSpeedUnit is SetRotationBlock.Unit.Degrees or SetRotationBlock.Unit.Iterations)
+            Anchor.RotationSpeedUnit is RotationUnit.Degrees or RotationUnit.Iterations)
         {
             float speed = SetRotationBlock.GetSpeed(Anchor.RotationInput, Anchor.RotationSpeedUnit);
             
