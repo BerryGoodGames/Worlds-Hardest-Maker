@@ -43,25 +43,13 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.Register<AnchorBlockViewFactory>(Lifetime.Singleton).AsSelf();
         builder.Register<AnchorChainDropTargetResolver>(Lifetime.Singleton).AsSelf();
 
-        builder.RegisterComponentInHierarchy<CoinManager>()
-            .As<ILevelObjectManager>()
-            .As<ILevelObjectSerializer>();
-        builder.RegisterComponentInHierarchy<BallManager>()
-            .As<ILevelObjectManager>()
-            .As<ILevelObjectSerializer>();
-        builder.RegisterComponentInHierarchy<AnchorManager>()
-            .As<ILevelObjectManager>()
-            .As<ILevelObjectSerializer>();
-        builder.RegisterComponentInHierarchy<PlayerManager>()
-            .As<ILevelObjectManager>()
-            .As<ILevelObjectSerializer>();
-        builder.RegisterComponentInHierarchy<KeyManager>()
-            .As<ILevelObjectManager>()
-            .As<ILevelObjectSerializer>();
-        builder.RegisterComponentInHierarchy<FieldManager>()
-            .As<ILevelObjectManager>()
-            .As<ILevelObjectSerializer>();
-        builder.Register<DeleteFieldManager>(Lifetime.Singleton).As<ILevelObjectManager>();
+        builder.RegisterComponentInHierarchy<CoinManager>().AsImplementedInterfaces();
+        builder.RegisterComponentInHierarchy<BallManager>().AsImplementedInterfaces();
+        builder.RegisterComponentInHierarchy<AnchorManager>().AsImplementedInterfaces();
+        builder.RegisterComponentInHierarchy<PlayerManager>().AsImplementedInterfaces();
+        builder.RegisterComponentInHierarchy<KeyManager>().AsImplementedInterfaces();
+        builder.RegisterComponentInHierarchy<FieldManager>().AsImplementedInterfaces();
+        builder.Register<DeleteFieldManager>(Lifetime.Singleton).AsImplementedInterfaces();
 
         builder.Register<SaveSystem>(Lifetime.Singleton);
     }

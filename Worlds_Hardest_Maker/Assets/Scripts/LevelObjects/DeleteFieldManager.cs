@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class DeleteFieldManager : ILevelObjectManager
+public class DeleteFieldManager : ILevelObjectPlacer
 {
     public bool CanHandle(EditMode editMode)
     {
@@ -18,15 +18,5 @@ public class DeleteFieldManager : ILevelObjectManager
         bool deletedField = FieldManager.Instance.Remove(matrixPosition, true, request.Sheet);
 
         return deletedField;
-    }
-
-    public LevelObjectController Query(Vector2 position, AnchorController sheet)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public bool Remove(Vector2 position, AnchorController sheet)
-    {
-        throw new System.NotImplementedException();
     }
 }

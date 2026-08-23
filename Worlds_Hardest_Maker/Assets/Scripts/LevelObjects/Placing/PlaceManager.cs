@@ -19,18 +19,18 @@ public class PlaceManager : MonoBehaviour
     
     private IObjectResolver diContainer;
     private IAudioService audioService;
-    private IReadOnlyList<ILevelObjectManager> managers;
+    private IReadOnlyList<ILevelObjectPlacer> placers;
     private IKonamiService konamiService;
     
     [Inject]
     private void Construct(IObjectResolver diContainer, 
         IAudioService audioService, 
-        IReadOnlyList<ILevelObjectManager> managers, 
+        IReadOnlyList<ILevelObjectPlacer> placers, 
         IKonamiService konamiService)
     {
         this.diContainer = diContainer;
         this.audioService = audioService;
-        this.managers = managers;
+        this.placers = placers;
         this.konamiService = konamiService;
     }
 
@@ -53,14 +53,14 @@ public class PlaceManager : MonoBehaviour
             Sheet = GetCurrentSheet(),
         };
 
-        ILevelObjectManager manager = managers.FirstOrDefault(m => m.CanHandle(editMode));
-        if (manager == null)
+        ILevelObjectPlacer placer = placers.FirstOrDefault(m => m.CanHandle(editMode));
+        if (placer == null)
         {
             throw new ArgumentOutOfRangeException(nameof(editMode),
                 "No ILevelObjectManager registered for this edit mode");
         }
         
-        bool placeSuccessful = manager.Place(request);
+        bool placeSuccessful = placer.Place(request);
         if (placeSuccessful && playSound) audioService.Play(GetSfx(editMode));
     }
     
