@@ -3,7 +3,8 @@ using DG.Tweening;
 using UnityEngine;
 using VContainer.Unity;
 
-public partial class AnchorManager : IManager<AnchorController>, ILevelObjectManager, ILevelObjectSerializer
+public partial class AnchorManager : IManager<AnchorController>, 
+    ILevelObjectManager
 {
     public AnchorController SetInSheet(ManagerParameters args)
     {
@@ -78,21 +79,6 @@ public partial class AnchorManager : IManager<AnchorController>, ILevelObjectMan
         return anchor;
     }
 
-    public LevelObjectController PlaceLevelObject(ManagerParameters args) => SetInSheet(args);
-
-    public List<Data> Serialize(List<Data> levelData)
-    {
-        foreach (Transform anchor in anchorContainer)
-        {
-            AnchorData anchorData = new(anchor.GetComponent<AnchorParentController>().Child);
-            levelData.Add(anchorData);
-        }
-        
-        return levelData;
-    }
-    
-    public bool CorrespondsToEditMode(EditMode compare) => compare == EditModeManager.Anchor;
-    
     public bool CanHandle(EditMode editMode)
     {
         return editMode == EditModeManager.Anchor;
@@ -126,6 +112,13 @@ public partial class AnchorManager : IManager<AnchorController>, ILevelObjectMan
 
     public IEnumerable<Data> Serialize()
     {
-        throw new System.NotImplementedException();
+        List<Data> levelData = new();
+        foreach (Transform anchor in anchorContainer)
+        {
+            AnchorData anchorData = new(anchor.GetComponent<AnchorParentController>().Child);
+            levelData.Add(anchorData);
+        }
+        
+        return levelData;
     }
 }

@@ -8,8 +8,7 @@ using VContainer.Unity;
 public class CoinManager : MonoBehaviour, 
     IManager<CoinController>, 
     IManagerPlaceRestrictable, 
-    ILevelObjectManager,
-    ILevelObjectSerializer
+    ILevelObjectManager
 {
     public static CoinManager Instance { get; private set; }
     
@@ -100,21 +99,6 @@ public class CoinManager : MonoBehaviour,
         return coin;
     }
     
-    public LevelObjectController PlaceLevelObject(ManagerParameters args) => SetInSheet(args);
-    
-    public List<Data> Serialize(List<Data> levelData)
-    {
-        foreach (CoinController coin in Coins)
-        {
-            if (coin.IsAttached) continue;
-            
-            CoinData coinData = new(coin);
-            levelData.Add(coinData);
-        }
-        
-        return levelData;
-    }
-    
     public void UncollectCoinAtPos(Vector2 position)
     {
         for (int i = CollectedCoins.Count - 1; i >= 0; i--)
@@ -140,8 +124,6 @@ public class CoinManager : MonoBehaviour,
         // init singleton
         if (Instance == null) Instance = this;
     }
-    
-    public bool CorrespondsToEditMode(EditMode compare) => compare == EditModeManager.Coin;
     
     public bool CanHandle(EditMode editMode)
     {
@@ -171,15 +153,15 @@ public class CoinManager : MonoBehaviour,
 
     public IEnumerable<Data> Serialize()
     {
-        List<Data> result = new();
+        List<Data> levelData = new();
         foreach (CoinController coin in Coins)
         {
             if (coin.IsAttached) continue;
             
             CoinData coinData = new(coin);
-            result.Add(coinData);
+            levelData.Add(coinData);
         }
         
-        return result;
+        return levelData;
     }
 }

@@ -6,8 +6,7 @@ using VContainer.Unity;
 
 public class BallManager : MonoBehaviour, 
     IManager<BallController>, 
-    ILevelObjectManager,
-    ILevelObjectSerializer
+    ILevelObjectManager
 {
     public static BallManager Instance { get; private set; }
 
@@ -83,22 +82,6 @@ public class BallManager : MonoBehaviour,
         return ball.GetComponentInChildren<BallController>();
     }
     
-    public LevelObjectController PlaceLevelObject(ManagerParameters args) => SetInSheet(args);
-    
-    public List<Data> Serialize(List<Data> levelData)
-    {
-        if (BallListGlobal == null) return levelData;
-        foreach (BallController ball in BallListGlobal)
-        {
-            if (ball.IsAttached) continue;
-            
-            BallData ballData = (BallData)ball.GetData();
-            levelData.Add(ballData);
-        }
-        
-        return levelData;
-    }
-    
     #endregion
     
     private void Start()
@@ -112,8 +95,6 @@ public class BallManager : MonoBehaviour,
         // init singleton
         if (Instance == null) Instance = this;
     }
-    
-    public bool CorrespondsToEditMode(EditMode compare) => compare == EditModeManager.Ball;
     
     public bool CanHandle(EditMode editMode)
     {
@@ -143,6 +124,17 @@ public class BallManager : MonoBehaviour,
 
     public IEnumerable<Data> Serialize()
     {
-        throw new System.NotImplementedException();
+        List<Data> levelData = new();
+
+        if (BallListGlobal == null) return levelData;
+        foreach (BallController ball in BallListGlobal)
+        {
+            if (ball.IsAttached) continue;
+            
+            BallData ballData = (BallData)ball.GetData();
+            levelData.Add(ballData);
+        }
+        
+        return levelData;
     }
 }

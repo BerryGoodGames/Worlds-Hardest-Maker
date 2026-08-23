@@ -9,8 +9,7 @@ using WorldsHardestMaker.Selection;
 
 public partial class FieldManager : MonoBehaviour, 
     IManager<FieldController>, 
-    ILevelObjectManager,
-    ILevelObjectSerializer
+    ILevelObjectManager
 {
     public static FieldManager Instance { get; private set; }
     
@@ -99,23 +98,6 @@ public partial class FieldManager : MonoBehaviour,
         PlaceManager.Instance.AttachToSheet(res, args.Sheet);
         
         return fieldController;
-    }
-    
-    public LevelObjectController PlaceLevelObject(ManagerParameters args) => SetInSheet(args);
-    
-    public List<Data> Serialize(List<Data> levelData)
-    {
-        foreach (Transform field in fieldContainer)
-        {
-            FieldController controller = field.GetComponent<FieldController>();
-            
-            if (controller.IsAttached) continue;
-            
-            FieldData fieldData = new(controller);
-            levelData.Add(fieldData);
-        }
-        
-        return levelData;
     }
     
     public bool Remove(Vector2 position, bool updateOutlines = false, [CanBeNull] AnchorController sheet = null)
@@ -259,8 +241,6 @@ public partial class FieldManager : MonoBehaviour,
         if (Instance == null) Instance = this;
     }
     
-    public bool CorrespondsToEditMode(EditMode compare) => compare.Attributes.IsField;
-    
     public bool CanHandle(EditMode editMode)
     {
         return editMode.Attributes.IsField;
@@ -298,6 +278,17 @@ public partial class FieldManager : MonoBehaviour,
 
     public IEnumerable<Data> Serialize()
     {
-        throw new System.NotImplementedException();
+        List<Data> levelData = new();
+        foreach (Transform field in fieldContainer)
+        {
+            FieldController controller = field.GetComponent<FieldController>();
+            
+            if (controller.IsAttached) continue;
+            
+            FieldData fieldData = new(controller);
+            levelData.Add(fieldData);
+        }
+        
+        return levelData;
     }
 }

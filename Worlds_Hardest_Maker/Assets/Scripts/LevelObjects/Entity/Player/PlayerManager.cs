@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using MyBox;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -9,8 +10,7 @@ using VContainer.Unity;
 public class PlayerManager : MonoBehaviour, 
     IManager<PlayerController>, 
     IManagerPlaceRestrictable, 
-    ILevelObjectManager,
-    ILevelObjectSerializer
+    ILevelObjectManager
 {
     public static PlayerManager Instance { get; private set; }
     
@@ -89,18 +89,6 @@ public class PlayerManager : MonoBehaviour,
     
     public bool IsThere(Vector2 position) => Instance.Player != null && (Vector2)Instance.Player.transform.position == position;
     public bool IsThereInSheet(Vector2 position, AnchorController sheet) => IsThere(position) && Instance.Player.Sheet == sheet;
-    
-    public LevelObjectController PlaceLevelObject(ManagerParameters args) => SetInSheet(args);
-    
-    public List<Data> Serialize(List<Data> levelData)
-    {
-        if (Player == null || Player.IsAttached) return levelData;
-        
-        PlayerData playerData = new(Player);
-        levelData.Add(playerData);
-        
-        return levelData;
-    }
     
     public bool CanPlace(Vector2 position)
     {
@@ -222,8 +210,6 @@ public class PlayerManager : MonoBehaviour,
         if (Instance == null) Instance = this;
     }
     
-    public bool CorrespondsToEditMode(EditMode compare) => compare == EditModeManager.Player;
-    
     public bool CanHandle(EditMode editMode)
     {
         return editMode == EditModeManager.Player;
@@ -254,6 +240,12 @@ public class PlayerManager : MonoBehaviour,
 
     public IEnumerable<Data> Serialize()
     {
-        throw new NotImplementedException();
+        List<Data> levelData = new();
+        if (Player == null || Player.IsAttached) return levelData;
+        
+        PlayerData playerData = new(Player);
+        levelData.Add(playerData);
+        
+        return levelData;
     }
 }

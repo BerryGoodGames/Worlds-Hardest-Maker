@@ -1,11 +1,8 @@
-using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
 public interface IManager
 {
-    public bool CorrespondsToEditMode(EditMode compare);
-    
     public static bool IsInSheet(Component controller, AnchorController sheet)
     {
         bool globalSheet = sheet == null;
@@ -17,10 +14,6 @@ public interface IManager
         bool hasAttachment = (hasEntityController ? entityController.AttachmentHolder : controller).TryGetComponent(out AnchorAttachment attachment);
         return (globalSheet && !hasAttachment) || (hasAttachment && !globalSheet && attachment.Anchor == sheet);
     }
-    
-    public LevelObjectController PlaceLevelObject(ManagerParameters args);
-    
-    public List<Data> Serialize(List<Data> levelData);
 }
 
 public interface IManager<out T> : IManager where T : LevelObjectController

@@ -8,8 +8,7 @@ using VContainer.Unity;
 public class KeyManager : MonoBehaviour, 
     IManager<KeyController>, 
     IManagerPlaceRestrictable, 
-    ILevelObjectManager,
-    ILevelObjectSerializer
+    ILevelObjectManager
 {
     public static KeyManager Instance { get; private set; }
     
@@ -120,21 +119,6 @@ public class KeyManager : MonoBehaviour,
     
     public bool IsThereInSheet(Vector2 position, AnchorController sheet) => GetInSheet(position, sheet) != null;
     
-    public LevelObjectController PlaceLevelObject(ManagerParameters args) => SetInSheet(args);
-    
-    public List<Data> Serialize(List<Data> levelData)
-    {
-        foreach (KeyController key in Keys)
-        {
-            if (key.IsAttached) continue;
-            
-            KeyData keyData = new(key);
-            levelData.Add(keyData);
-        }
-        
-        return levelData;
-    }
-    
     public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
     
     public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>
@@ -166,7 +150,6 @@ public class KeyManager : MonoBehaviour,
     }
     
     public void ActivateAnimations() => Keys.ForEach(key => key.ActivateAnimation());
-    public bool CorrespondsToEditMode(EditMode compare) => compare.Attributes.IsKey;
     
     private KeyController GetPrefabKey(KeyColor color)
     {
@@ -212,6 +195,15 @@ public class KeyManager : MonoBehaviour,
 
     public IEnumerable<Data> Serialize()
     {
-        throw new System.NotImplementedException();
+        List<Data> levelData = new();
+        foreach (KeyController key in Keys)
+        {
+            if (key.IsAttached) continue;
+            
+            KeyData keyData = new(key);
+            levelData.Add(keyData);
+        }
+        
+        return levelData;
     }
 }
