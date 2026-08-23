@@ -19,13 +19,23 @@ public class AreaErasureService : IAreaErasureService
         // DESTROY IT MUHAHAHAHAHAHHAHAHAHAHAHAHAHAHA
         foreach (Collider2D collider in hits)
         {
-            if (collider.CompareTag("AnchorObject"))
+            // if (collider.CompareTag("AnchorObject"))
+            // {
+            //     collider.GetComponent<AnchorController>().Delete();
+            //     continue;
+            // }
+            //
+            // Object.Destroy(collider.gameObject);
+
+            // TODO: test this
+            if(LevelObjectController.TryGetController(collider, out LevelObjectController controller))
             {
-                collider.GetComponent<AnchorController>().Delete();
-                continue;
+                controller.Delete();
             }
-            
-            Object.Destroy(collider.gameObject);
+            else
+            {
+                Debug.LogWarning("Found hit with no leve object component, ignoring hit");
+            }
         }
         
         PlayerController player = PlayerManager.Instance.Player;
