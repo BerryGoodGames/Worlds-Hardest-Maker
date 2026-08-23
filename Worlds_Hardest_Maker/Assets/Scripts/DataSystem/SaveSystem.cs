@@ -5,10 +5,13 @@ using System.Runtime.Serialization.Formatters.Binary;
 using JetBrains.Annotations;
 using SFB;
 using UnityEngine;
+using VContainer;
 using Application = UnityEngine.Application;
 
-public static class SaveSystem
+public class SaveSystem
 {
+    [Inject] private IReadOnlyList<ILevelObjectSerializer> serializers;
+    
     public static string LevelSavePath
     {
         get
@@ -22,9 +25,9 @@ public static class SaveSystem
         }
     }
     
-    public static void SaveCurrentLevel() => SaveCurrentLevel(LevelSessionManager.Instance.LevelSessionPath);
+    public void SaveCurrentLevel() => SaveCurrentLevel(LevelSessionManager.Instance.LevelSessionPath);
     
-    public static void SaveCurrentLevel(string path)
+    private void SaveCurrentLevel(string path)
     {
         // check if user didn't pick any path
         if (path.Equals(""))
@@ -56,23 +59,13 @@ public static class SaveSystem
         SerializeLevelData(path, levelData);
     }
     
-    public static List<Data> SerializeCurrentLevel()
+    public List<Data> SerializeCurrentLevel()
     {
         List<Data> levelData = new();
         
-        List<IManager> managers = new()
+        foreach (ILevelObjectSerializer serializer in serializers)
         {
-            PlayerManager.Instance,
-            BallManager.Instance,
-            CoinManager.Instance,
-            AnchorManager.Instance,
-            KeyManager.Instance,
-            FieldManager.Instance,
-        };
-        
-        foreach (IManager manager in managers)
-        {
-            levelData = manager.Serialize(levelData);
+            levelData.AddRange(serializer.Serialize());
         }
         
         // serialize current level settings

@@ -42,6 +42,28 @@ public class LevelSessionLifetimeScope : LifetimeScope
 
         builder.Register<AnchorBlockViewFactory>(Lifetime.Singleton).AsSelf();
         builder.Register<AnchorChainDropTargetResolver>(Lifetime.Singleton).AsSelf();
+
+        builder.RegisterComponentInHierarchy<CoinManager>()
+            .As<ILevelObjectManager>()
+            .As<ILevelObjectSerializer>();
+        builder.RegisterComponentInHierarchy<BallManager>()
+            .As<ILevelObjectManager>()
+            .As<ILevelObjectSerializer>();
+        builder.RegisterComponentInHierarchy<AnchorManager>()
+            .As<ILevelObjectManager>()
+            .As<ILevelObjectSerializer>();
+        builder.RegisterComponentInHierarchy<PlayerManager>()
+            .As<ILevelObjectManager>()
+            .As<ILevelObjectSerializer>();
+        builder.RegisterComponentInHierarchy<KeyManager>()
+            .As<ILevelObjectManager>()
+            .As<ILevelObjectSerializer>();
+        builder.RegisterComponentInHierarchy<FieldManager>()
+            .As<ILevelObjectManager>()
+            .As<ILevelObjectSerializer>();
+        builder.Register<DeletionManager>(Lifetime.Singleton).As<ILevelObjectManager>();
+
+        builder.Register<SaveSystem>(Lifetime.Singleton);
     }
     
     protected override void Awake()

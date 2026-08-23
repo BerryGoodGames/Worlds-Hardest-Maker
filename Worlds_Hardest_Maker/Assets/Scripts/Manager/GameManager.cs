@@ -6,6 +6,7 @@ using MyBox;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using VContainer;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private RectTransform canvas;
     
     [Separator("Save")] [SerializeField] [PositiveValueOnly] private float autoSaveInterval = 300;
+
+    [Inject] private SaveSystem saveSystem;
     
     private void Awake()
     {
@@ -79,7 +82,7 @@ public class GameManager : MonoBehaviour
         if (levelObjects.Count == 0)
         {
             // newly created level
-            levelData.Objects = SaveSystem.SerializeCurrentLevel();
+            levelData.Objects = saveSystem.SerializeCurrentLevel();
             
             SaveSystem.SerializeLevelData(levelPath, levelData);
             yield break;
@@ -139,7 +142,7 @@ public class GameManager : MonoBehaviour
             // wait for next auto save
             yield return new WaitForSecondsRealtime(autoSaveInterval);
             
-            SaveSystem.SaveCurrentLevel();
+            saveSystem.SaveCurrentLevel();
         }
         
         // ReSharper disable once IteratorNeverReturns
@@ -224,7 +227,7 @@ public class GameManager : MonoBehaviour
     public void BackupLevel()
     {
         // save level if any path given
-        if (LevelSessionManager.Instance.LevelSessionPath != string.Empty) SaveSystem.SaveCurrentLevel();
+        if (LevelSessionManager.Instance.LevelSessionPath != string.Empty) saveSystem.SaveCurrentLevel();
     }
     
     public void DeselectInputs()

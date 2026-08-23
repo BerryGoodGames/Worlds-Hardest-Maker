@@ -5,7 +5,11 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceRestrictable
+public class KeyManager : MonoBehaviour, 
+    IManager<KeyController>, 
+    IManagerPlaceRestrictable, 
+    ILevelObjectManager,
+    ILevelObjectSerializer
 {
     public static KeyManager Instance { get; private set; }
     
@@ -176,5 +180,30 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
         };
         
         return prefabs[color];
+    }
+
+    public bool CanHandle(EditMode editMode)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public LevelObjectController Place(PlacementRequest request)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public LevelObjectController Query(Vector2 position, AnchorController sheet)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public bool Remove(Vector2 position, AnchorController sheet)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public IEnumerable<Data> Serialize()
+    {
+        throw new System.NotImplementedException();
     }
 }

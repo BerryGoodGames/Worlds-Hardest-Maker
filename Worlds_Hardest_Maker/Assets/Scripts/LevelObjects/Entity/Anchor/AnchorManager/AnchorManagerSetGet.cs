@@ -3,7 +3,7 @@ using DG.Tweening;
 using UnityEngine;
 using VContainer.Unity;
 
-public partial class AnchorManager : IManager<AnchorController>
+public partial class AnchorManager : IManager<AnchorController>, ILevelObjectManager, ILevelObjectSerializer
 {
     public AnchorController SetInSheet(ManagerParameters args)
     {
@@ -92,4 +92,29 @@ public partial class AnchorManager : IManager<AnchorController>
     }
     
     public bool CorrespondsToEditMode(EditMode compare) => compare == EditModeManager.Anchor;
+    
+    public bool CanHandle(EditMode editMode)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public LevelObjectController Place(PlacementRequest request)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public LevelObjectController Query(Vector2 position, AnchorController sheet)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public bool Remove(Vector2 position, AnchorController sheet)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public IEnumerable<Data> Serialize()
+    {
+        throw new System.NotImplementedException();
+    }
 }

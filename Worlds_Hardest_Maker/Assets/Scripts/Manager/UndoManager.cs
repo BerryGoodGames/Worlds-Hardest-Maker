@@ -8,11 +8,13 @@ public class UndoManager : MonoBehaviour
     private Stack<List<Data>> gameDataRedoStack;
     
     private EventBus eventBus;
+    private SaveSystem saveSystem;
     
     [Inject]
-    private void Construct(EventBus eventBus)
+    private void Construct(EventBus eventBus, SaveSystem saveSystem)
     {
         this.eventBus = eventBus;
+        this.saveSystem = saveSystem;
         
         eventBus.Subscribe<EditActionEvent>(OnEditAction);
     }
@@ -47,7 +49,7 @@ public class UndoManager : MonoBehaviour
     
     private void PushCurrentGameData()
     {
-        List<Data> newData = SaveSystem.SerializeCurrentLevel();
+        List<Data> newData = saveSystem.SerializeCurrentLevel();
         
         List<Data> currentData = gameDataUndoStack.Count > 0 ? gameDataUndoStack.Peek() : null;
         

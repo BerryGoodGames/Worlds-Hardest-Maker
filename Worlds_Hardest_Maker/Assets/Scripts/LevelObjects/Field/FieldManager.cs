@@ -7,7 +7,10 @@ using VContainer;
 using VContainer.Unity;
 using WorldsHardestMaker.Selection;
 
-public partial class FieldManager : MonoBehaviour, IManager<FieldController>
+public partial class FieldManager : MonoBehaviour, 
+    IManager<FieldController>, 
+    ILevelObjectManager,
+    ILevelObjectSerializer
 {
     public static FieldManager Instance { get; private set; }
     
@@ -280,4 +283,29 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
     }
     
     public bool CorrespondsToEditMode(EditMode compare) => compare.Attributes.IsField;
+    
+    public bool CanHandle(EditMode editMode)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public LevelObjectController Place(PlacementRequest request)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public LevelObjectController Query(Vector2 position, AnchorController sheet)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public bool Remove(Vector2 position, AnchorController sheet)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public IEnumerable<Data> Serialize()
+    {
+        throw new System.NotImplementedException();
+    }
 }

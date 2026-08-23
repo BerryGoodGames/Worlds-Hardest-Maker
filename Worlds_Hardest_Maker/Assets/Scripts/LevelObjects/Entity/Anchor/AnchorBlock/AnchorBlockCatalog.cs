@@ -13,8 +13,8 @@ public class AnchorBlockCatalog : ScriptableObject
     {
         if (!idToDefinitionMap.TryGetValue(typeID, out AnchorBlockDefinition definition))
         {
-            throw new ArgumentOutOfRangeException(
-                $"Could not get prefab for anchor block, given type ID ({typeID}) does not exist");
+            throw new ArgumentOutOfRangeException(nameof(typeID),
+                $"Could not get prefab for anchor block, given type ID does not exist");
         }
         return definition.Prefab;
     }

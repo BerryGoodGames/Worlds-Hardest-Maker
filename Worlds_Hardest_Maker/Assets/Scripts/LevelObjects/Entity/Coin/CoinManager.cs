@@ -5,7 +5,11 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlaceRestrictable
+public class CoinManager : MonoBehaviour, 
+    IManager<CoinController>, 
+    IManagerPlaceRestrictable, 
+    ILevelObjectManager,
+    ILevelObjectSerializer
 {
     public static CoinManager Instance { get; private set; }
     
@@ -138,4 +142,38 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
     }
     
     public bool CorrespondsToEditMode(EditMode compare) => compare == EditModeManager.Coin;
+    
+    public bool CanHandle(EditMode editMode)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public LevelObjectController Place(PlacementRequest request)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public LevelObjectController Query(Vector2 position, AnchorController sheet)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public bool Remove(Vector2 position, AnchorController sheet)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public IEnumerable<Data> Serialize()
+    {
+        List<Data> result = new();
+        foreach (CoinController coin in Coins)
+        {
+            if (coin.IsAttached) continue;
+            
+            CoinData coinData = new(coin);
+            result.Add(coinData);
+        }
+        
+        return result;
+    }
 }

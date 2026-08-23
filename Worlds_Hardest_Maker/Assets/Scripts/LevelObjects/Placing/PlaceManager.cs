@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Cinemachine;
 using JetBrains.Annotations;
 using MyBox;
@@ -17,16 +18,19 @@ public class PlaceManager : MonoBehaviour
     [SerializeField] private PlaceSoundEffect[] customKonamiPlaceSfx;
     
     private IObjectResolver diContainer;
-    
     private IAudioService audioService;
-    
+    private IReadOnlyList<ILevelObjectManager> managers;
     private IKonamiService konamiService;
     
     [Inject]
-    private void Construct(IObjectResolver diContainer, IAudioService audioService, IKonamiService konamiService)
+    private void Construct(IObjectResolver diContainer, 
+        IAudioService audioService, 
+        IReadOnlyList<ILevelObjectManager> managers, 
+        IKonamiService konamiService)
     {
         this.diContainer = diContainer;
         this.audioService = audioService;
+        this.managers = managers;
         this.konamiService = konamiService;
     }
 
@@ -39,72 +43,91 @@ public class PlaceManager : MonoBehaviour
     /// <param name="playSound">if it should play the place sound</param>
     public void Place(EditMode editMode, Vector2 position, int rotation = 0, bool playSound = false)
     {
-        if (AnchorBlockManager.Instance.DraggingBlock) return;
-        
-        Vector2 gridPosition = position.ConvertToGrid();
-        Vector2Int matrixPosition = position.ConvertToMatrix();
-        
-        // check field placement
-        if (editMode.Attributes.IsField)
+        PlacementRequest request = new()
         {
-            FieldMode mode = (FieldMode)editMode;
-            FieldManager.Instance.Place(mode, rotation, playSound, matrixPosition);
-            return;
-        }
-        
-        AnchorController sheet = GetCurrentSheet();
-        
-        if (editMode ==
-            // check field deletion
-            EditModeManager.Delete)
-        {
-            // remove player if at deleted pos
-            PlayerManager.Instance.RemoveAtPosIntersectInSheet(matrixPosition, sheet);
-            
-            // delete field
-            bool deletedField = FieldManager.Instance.Remove(matrixPosition, true, sheet);
-            
-            if (deletedField && playSound) audioService.Play(GetSfx(editMode));
-            
-            return;
-        }
-        
-        List<IManager> managers = new()
-        {
-            PlayerManager.Instance,
-            BallManager.Instance,
-            CoinManager.Instance,
-            AnchorManager.Instance,
-            KeyManager.Instance,
+            EditMode = editMode,
+            Position = position,
+            Rotation = rotation,
+            Sheet = GetCurrentSheet(),
+            SurroundWithStartFields = true,
         };
-        
-        foreach (IManager manager in managers)
+
+        ILevelObjectManager manager = managers.FirstOrDefault(m => m.CanHandle(editMode));
+        if (manager == null)
         {
-            if (CheckManagerPlacement(editMode, playSound, manager, gridPosition)) break;
+            throw new ArgumentOutOfRangeException(nameof(editMode),
+                "No ILevelObjectManager registered for this edit mode");
         }
+        
+        LevelObjectController placed = manager.Place(request);
+        if (placed != null && playSound) audioService.Play(GetSfx(editMode));
+
+        // if (AnchorBlockManager.Instance.DraggingBlock) return;
+        //
+        // Vector2 gridPosition = position.ConvertToGrid();
+        // Vector2Int matrixPosition = position.ConvertToMatrix();
+        //
+        // // check field placement
+        // if (editMode.Attributes.IsField)
+        // {
+        //     FieldMode mode = (FieldMode)editMode;
+        //     FieldManager.Instance.Place(mode, rotation, playSound, matrixPosition);
+        //     return;
+        // }
+        //
+        // AnchorController sheet = GetCurrentSheet();
+        //
+        // if (editMode ==
+        //     // check field deletion
+        //     EditModeManager.Delete)
+        // {
+        //     // remove player if at deleted pos
+        //     PlayerManager.Instance.RemoveAtPosIntersectInSheet(matrixPosition, sheet);
+        //     
+        //     // delete field
+        //     bool deletedField = FieldManager.Instance.Remove(matrixPosition, true, sheet);
+        //     
+        //     if (deletedField && playSound) audioService.Play(GetSfx(editMode));
+        //     
+        //     return;
+        // }
+        //
+        // List<IManager> managers = new()
+        // {
+        //     PlayerManager.Instance,
+        //     BallManager.Instance,
+        //     CoinManager.Instance,
+        //     AnchorManager.Instance,
+        //     KeyManager.Instance,
+        // };
+        //
+        // foreach (IManager manager in managers)
+        // {
+        //     if (CheckManagerPlacement(editMode, playSound, manager, gridPosition)) break;
+        // }
     }
     
-    private bool CheckManagerPlacement(EditMode editMode, bool playSound, IManager manager, Vector2 gridPosition)
-    {
-        if (!manager.CorrespondsToEditMode(editMode)) return false;
-        
-        ManagerParameters args = ManagerParameters.GetCurrentSheetParams(new() { Position = gridPosition, SurroundWithStartFields = true, });
-        if (editMode.Attributes.IsKey) args.KeyColor = ((KeyMode)editMode).KeyColor;
-        
-        LevelObjectController result = manager.PlaceLevelObject(args);
-        
-        if (result is null || !playSound) return true;
-        
-        audioService.Play(GetSfx(editMode));
-
-        if (editMode == EditModeManager.Anchor)
-        {
-            AnchorManager.Instance.Select((AnchorController)result);
-            AnchorManager.Instance.LastSelectClick = Time.time;
-        }
-        
-        return true;
-    }
+    // private bool CheckManagerPlacement(EditMode editMode, bool playSound, IManager manager, Vector2 gridPosition)
+    // {
+    //     if (!manager.CorrespondsToEditMode(editMode)) return false;
+    //     
+    //     ManagerParameters args = ManagerParameters.GetCurrentSheetParams(new() { Position = gridPosition, SurroundWithStartFields = true, });
+    //     if (editMode.Attributes.IsKey) args.KeyColor = ((KeyMode)editMode).KeyColor;
+    //     
+    //     LevelObjectController result = manager.PlaceLevelObject(args);
+    //     
+    //     if (result is null || !playSound) return true;
+    //     
+    //     audioService.Play(GetSfx(editMode));
+    //
+    //     if (editMode == EditModeManager.Anchor)
+    //     {
+    //         AnchorManager.Instance.Select((AnchorController)result);
+    //         AnchorManager.Instance.LastSelectClick = Time.time;
+    //     }
+    //     
+    //     return true;
+    // }
     
     public void PlacePath(EditMode editMode, Vector2 start, Vector2 end, int rotation = 0, bool playSound = false)
     {

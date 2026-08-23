@@ -6,7 +6,11 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManagerPlaceRestrictable
+public class PlayerManager : MonoBehaviour, 
+    IManager<PlayerController>, 
+    IManagerPlaceRestrictable, 
+    ILevelObjectManager,
+    ILevelObjectSerializer
 {
     public static PlayerManager Instance { get; private set; }
     
@@ -219,4 +223,29 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     }
     
     public bool CorrespondsToEditMode(EditMode compare) => compare == EditModeManager.Player;
+    
+    public bool CanHandle(EditMode editMode)
+    {
+        throw new NotImplementedException();
+    }
+
+    public LevelObjectController Place(PlacementRequest request)
+    {
+        throw new NotImplementedException();
+    }
+
+    public LevelObjectController Query(Vector2 position, AnchorController sheet)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool Remove(Vector2 position, AnchorController sheet)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<Data> Serialize()
+    {
+        throw new NotImplementedException();
+    }
 }

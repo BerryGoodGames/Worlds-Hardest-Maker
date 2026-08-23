@@ -16,6 +16,7 @@ public class KeyEvents : MonoBehaviour
     [Inject] private IMouseService mouseService;
     [Inject] private ICopyPasteService copyPasteService;
     [Inject] private IPanelService panelService;
+    [Inject] private SaveSystem saveSystem;
     
     private void Update()
     {
@@ -46,7 +47,7 @@ public class KeyEvents : MonoBehaviour
         // keyboard shortcuts with ctrl
         if (LevelSessionEditManager.Instance.IsPlaying) return;
         
-        if (KeyBinds.GetKeyBindDown("Editor_SaveLevel")) SaveSystem.SaveCurrentLevel();
+        if (KeyBinds.GetKeyBindDown("Editor_SaveLevel")) saveSystem.SaveCurrentLevel();
         
         // paste
         if (!copyPasteService.IsPasting && KeyBinds.GetKeyBind("Editor_Paste")) StartCoroutine(copyPasteService.PasteCoroutine());

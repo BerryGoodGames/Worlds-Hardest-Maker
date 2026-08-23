@@ -15,6 +15,7 @@ public class DestroyingOurProject : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform playerContainer;
     
     [Inject] private IAreaFillService fillService;
+    [Inject] private SaveSystem saveSystem;
     
     private void Start()
     {
@@ -25,6 +26,6 @@ public class DestroyingOurProject : MonoBehaviour
             EditModeManager.Wall, fieldContainer, playerContainer
         );
         
-        SaveSystem.SaveCurrentLevel();
+        saveSystem.SaveCurrentLevel();
     }
 }
