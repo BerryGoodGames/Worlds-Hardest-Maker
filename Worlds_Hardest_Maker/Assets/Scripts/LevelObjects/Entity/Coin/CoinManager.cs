@@ -96,6 +96,8 @@ public class CoinManager : MonoBehaviour, IManager<CoinController>, IManagerPlac
         return coin;
     }
     
+    public LevelObjectController PlaceLevelObject(ManagerParameters args) => SetInSheet(args);
+    
     public List<Data> Serialize(List<Data> levelData)
     {
         foreach (CoinController coin in Coins)

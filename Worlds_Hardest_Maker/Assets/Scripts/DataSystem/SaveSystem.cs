@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using JetBrains.Annotations;
 using SFB;
@@ -73,11 +72,7 @@ public static class SaveSystem
         
         foreach (IManager manager in managers)
         {
-            Type type = manager.GetType();
-            
-            MethodInfo methodInfo = type.GetMethod(nameof(IManager<LevelObjectController>.Serialize));
-            
-            levelData = (List<Data>)methodInfo!.Invoke(manager, new object[] { levelData, });
+            levelData = manager.Serialize(levelData);
         }
         
         // serialize current level settings

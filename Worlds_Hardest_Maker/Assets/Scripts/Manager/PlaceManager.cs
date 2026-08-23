@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Unity.Cinemachine;
 using JetBrains.Annotations;
 using MyBox;
@@ -92,17 +91,17 @@ public class PlaceManager : MonoBehaviour
         ManagerParameters args = ManagerParameters.GetCurrentSheetParams(new() { Position = gridPosition, SurroundWithStartFields = true, });
         if (editMode.Attributes.IsKey) args.KeyColor = ((KeyMode)editMode).KeyColor;
         
-        MethodInfo setMethod = manager.GetType().GetMethod(nameof(IManager<LevelObjectController>.SetInSheet));
-        object result = setMethod.Invoke(manager, new object[] { args, });
+        LevelObjectController result = manager.PlaceLevelObject(args);
         
         if (result is null || !playSound) return true;
         
         audioService.Play(GetSfx(editMode));
-        
-        if (editMode != EditModeManager.Anchor) return true;
-        
-        AnchorManager.Instance.Select((AnchorController)result);
-        AnchorManager.Instance.LastSelectClick = Time.time;
+
+        if (editMode == EditModeManager.Anchor)
+        {
+            AnchorManager.Instance.Select((AnchorController)result);
+            AnchorManager.Instance.LastSelectClick = Time.time;
+        }
         
         return true;
     }

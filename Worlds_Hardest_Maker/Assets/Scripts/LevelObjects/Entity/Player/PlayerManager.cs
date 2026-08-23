@@ -86,6 +86,8 @@ public class PlayerManager : MonoBehaviour, IManager<PlayerController>, IManager
     public bool IsThere(Vector2 position) => Instance.Player != null && (Vector2)Instance.Player.transform.position == position;
     public bool IsThereInSheet(Vector2 position, AnchorController sheet) => IsThere(position) && Instance.Player.Sheet == sheet;
     
+    public LevelObjectController PlaceLevelObject(ManagerParameters args) => SetInSheet(args);
+    
     public List<Data> Serialize(List<Data> levelData)
     {
         if (Player == null || Player.IsAttached) return levelData;

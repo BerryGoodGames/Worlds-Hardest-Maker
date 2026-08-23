@@ -107,6 +107,8 @@ public partial class FieldManager : MonoBehaviour, IManager<FieldController>
         return fieldController;
     }
     
+    public LevelObjectController PlaceLevelObject(ManagerParameters args) => SetInSheet(args);
+    
     public List<Data> Serialize(List<Data> levelData)
     {
         foreach (Transform field in fieldContainer)

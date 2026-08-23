@@ -80,6 +80,8 @@ public class BallManager : MonoBehaviour, IManager<BallController>
         return ball.GetComponentInChildren<BallController>();
     }
     
+    public LevelObjectController PlaceLevelObject(ManagerParameters args) => SetInSheet(args);
+    
     public List<Data> Serialize(List<Data> levelData)
     {
         if (BallListGlobal == null) return levelData;

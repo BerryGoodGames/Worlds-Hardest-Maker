@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
-using VContainer;
 using VContainer.Unity;
 
 public partial class AnchorController

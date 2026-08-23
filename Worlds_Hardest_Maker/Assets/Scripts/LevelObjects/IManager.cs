@@ -17,6 +17,10 @@ public interface IManager
         bool hasAttachment = (hasEntityController ? entityController.AttachmentHolder : controller).TryGetComponent(out AnchorAttachment attachment);
         return (globalSheet && !hasAttachment) || (hasAttachment && !globalSheet && attachment.Anchor == sheet);
     }
+    
+    public LevelObjectController PlaceLevelObject(ManagerParameters args);
+    
+    public List<Data> Serialize(List<Data> levelData);
 }
 
 public interface IManager<out T> : IManager where T : LevelObjectController
@@ -32,8 +36,6 @@ public interface IManager<out T> : IManager where T : LevelObjectController
     
     public bool IsThere(Vector2 position) => Get(position) != null;
     public bool IsThereInSheet(Vector2 position, [CanBeNull] AnchorController sheet) => GetInSheet(position, sheet) != null;
-    
-    public List<Data> Serialize(List<Data> levelData);
 }
 
 public struct ManagerParameters

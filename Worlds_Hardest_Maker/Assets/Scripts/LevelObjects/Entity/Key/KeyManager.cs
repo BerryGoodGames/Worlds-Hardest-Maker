@@ -116,6 +116,8 @@ public class KeyManager : MonoBehaviour, IManager<KeyController>, IManagerPlaceR
     
     public bool IsThereInSheet(Vector2 position, AnchorController sheet) => GetInSheet(position, sheet) != null;
     
+    public LevelObjectController PlaceLevelObject(ManagerParameters args) => SetInSheet(args);
+    
     public List<Data> Serialize(List<Data> levelData)
     {
         foreach (KeyController key in Keys)

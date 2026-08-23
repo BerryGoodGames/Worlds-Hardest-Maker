@@ -77,7 +77,9 @@ public partial class AnchorManager : IManager<AnchorController>
         
         return anchor;
     }
-    
+
+    public LevelObjectController PlaceLevelObject(ManagerParameters args) => SetInSheet(args);
+
     public List<Data> Serialize(List<Data> levelData)
     {
         foreach (Transform anchor in anchorContainer)
