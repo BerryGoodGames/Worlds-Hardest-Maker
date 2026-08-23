@@ -117,12 +117,18 @@ public class BallManager : MonoBehaviour,
     
     public bool CanHandle(EditMode editMode)
     {
-        throw new System.NotImplementedException();
+        return editMode == EditModeManager.Ball;
     }
 
-    public LevelObjectController Place(PlacementRequest request)
+    public bool Place(PlacementRequest request)
     {
-        throw new System.NotImplementedException();
+        Vector2 gridPosition = request.Position.ConvertToGrid();
+        ManagerParameters args = ManagerParameters.FromCurrentSheet(new()
+        {
+            Position = gridPosition
+        });
+        
+        return SetInSheet(args);
     }
 
     public LevelObjectController Query(Vector2 position, AnchorController sheet)

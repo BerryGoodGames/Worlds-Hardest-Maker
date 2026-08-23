@@ -95,12 +95,23 @@ public partial class AnchorManager : IManager<AnchorController>, ILevelObjectMan
     
     public bool CanHandle(EditMode editMode)
     {
-        throw new System.NotImplementedException();
+        return editMode == EditModeManager.Anchor;
     }
 
-    public LevelObjectController Place(PlacementRequest request)
+    public bool Place(PlacementRequest request)
     {
-        throw new System.NotImplementedException();
+        Vector2 gridPosition = request.Position.ConvertToGrid();
+        ManagerParameters args = ManagerParameters.FromCurrentSheet(new()
+        {
+            Position = gridPosition
+        });
+        
+        LevelObjectController result = SetInSheet(args);
+        
+        Select((AnchorController)result);
+        LastSelectClick = Time.time;
+        
+        return result;
     }
 
     public LevelObjectController Query(Vector2 position, AnchorController sheet)

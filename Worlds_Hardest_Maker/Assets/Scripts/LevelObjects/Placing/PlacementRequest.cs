@@ -7,5 +7,4 @@ public readonly struct PlacementRequest
     public int Rotation { get; init; }
     public EditMode EditMode { get; init; }
     [CanBeNull] public AnchorController Sheet { get; init; }
-    public bool SurroundWithStartFields { get; init; }
 }

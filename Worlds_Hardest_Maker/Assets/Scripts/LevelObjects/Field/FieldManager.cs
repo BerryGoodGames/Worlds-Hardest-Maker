@@ -19,16 +19,7 @@ public partial class FieldManager : MonoBehaviour,
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform coinContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyContainer;
     
-    private IObjectResolver diContainer;
-    
-    private IAudioService audioService;
-    
-    [Inject]
-    private void Construct(IObjectResolver diContainer, IAudioService audioService)
-    {
-        this.diContainer = diContainer;
-        this.audioService = audioService;
-    }
+    [Inject] private IObjectResolver diContainer;
     
     public FieldController SetInSheet(ManagerParameters args)
     {
@@ -157,20 +148,6 @@ public partial class FieldManager : MonoBehaviour,
         return fieldDestroyed;
     }
     
-    public void Place(FieldMode mode, int rotation, bool playSound, Vector2Int matrixPosition)
-    {
-        if (!mode.IsRotatable) rotation = 0;
-        
-        ManagerParameters args = new()
-        {
-            Position = matrixPosition,
-            FieldMode = mode,
-            Rotation = rotation,
-        };
-        
-        if (((IManager<FieldController>)this).Set(args) is not null && playSound) audioService.Play(PlaceManager.Instance.GetSfx(mode));
-    }
-    
     public void ApplySafeFieldsColor(bool oneColor)
     {
         ColorCalibration[] colorCalibrations = fieldContainer.GetComponentsInChildren<ColorCalibration>();
@@ -286,12 +263,27 @@ public partial class FieldManager : MonoBehaviour,
     
     public bool CanHandle(EditMode editMode)
     {
-        throw new System.NotImplementedException();
+        return editMode.Attributes.IsField;
     }
 
-    public LevelObjectController Place(PlacementRequest request)
+    public bool Place(PlacementRequest request)
     {
-        throw new System.NotImplementedException();
+        FieldMode mode = (FieldMode)request.EditMode;
+        int rotation = request.Rotation;
+        Vector2 position = request.Position.ConvertToMatrix();
+        
+        if (!mode.IsRotatable) rotation = 0;
+        
+        ManagerParameters args = new()
+        {
+            Position = position,
+            FieldMode = mode,
+            Rotation = rotation,
+        };
+
+        FieldController placedField = ((IManager<FieldController>)this).Set(args);
+
+        return placedField;
     }
 
     public LevelObjectController Query(Vector2 position, AnchorController sheet)

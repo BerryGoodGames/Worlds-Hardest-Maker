@@ -61,7 +61,7 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<FieldManager>()
             .As<ILevelObjectManager>()
             .As<ILevelObjectSerializer>();
-        builder.Register<DeletionManager>(Lifetime.Singleton).As<ILevelObjectManager>();
+        builder.Register<DeleteFieldManager>(Lifetime.Singleton).As<ILevelObjectManager>();
 
         builder.Register<SaveSystem>(Lifetime.Singleton);
     }

@@ -25,13 +25,13 @@ public interface IManager
 
 public interface IManager<out T> : IManager where T : LevelObjectController
 {
-    public T Set(ManagerParameters args) => SetInSheet(ManagerParameters.GetCurrentSheetParams(args));
+    public T Set(ManagerParameters args) => SetInSheet(ManagerParameters.FromCurrentSheet(args));
     public T SetInSheet(ManagerParameters args);
     
     public T Get(Vector2 position) => GetInSheet(position, PlaceManager.GetCurrentSheet());
     public T GetInSheet(Vector2 position, [CanBeNull] AnchorController sheet);
     
-    public T Instantiate(ManagerParameters args) => InstantiateInSheet(ManagerParameters.GetCurrentSheetParams(args));
+    public T Instantiate(ManagerParameters args) => InstantiateInSheet(ManagerParameters.FromCurrentSheet(args));
     public T InstantiateInSheet(ManagerParameters args);
     
     public bool IsThere(Vector2 position) => Get(position) != null;
@@ -47,7 +47,7 @@ public struct ManagerParameters
     public bool SurroundWithStartFields { get; set; }
     public AnchorController Sheet { get; set; }
     
-    public static ManagerParameters GetCurrentSheetParams(ManagerParameters args)
+    public static ManagerParameters FromCurrentSheet(ManagerParameters args)
     {
         args.Sheet = PlaceManager.GetCurrentSheet();
         return args;
