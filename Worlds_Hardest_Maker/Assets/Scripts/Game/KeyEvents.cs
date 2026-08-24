@@ -60,8 +60,8 @@ public class KeyEvents : MonoBehaviour
         // rotate if current edit mode is field and rotatable
         EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
         
-        if (!currentEditMode.Attributes.IsField
-            || !((FieldMode)currentEditMode).IsRotatable
+        if (currentEditMode is not FieldMode fieldMode
+            || !fieldMode.IsRotatable
             || !KeyBinds.GetKeyBindDown("Editor_Rotate")) return;
         
         LevelSessionEditManager.Instance.EditRotation = (LevelSessionEditManager.Instance.EditRotation - 90) % 360;
@@ -114,7 +114,7 @@ public class KeyEvents : MonoBehaviour
         foreach (EditMode editMode in EditModeManager.Instance.AllEditModes)
         {
             // key doors do not have key binds hahahahhahahah
-            if (editMode.Attributes.IsKeyDoor) continue;
+            if (editMode is KeyDoorMode) continue;
             
             if (KeyBinds.GetKeyBindDown(editMode.KeyboardShortcut)) LevelSessionEditManager.Instance.SetEditMode(editMode);
         }

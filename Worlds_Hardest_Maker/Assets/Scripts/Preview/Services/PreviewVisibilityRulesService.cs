@@ -43,7 +43,7 @@ public class PreviewVisibilityRulesService
             return CoinManager.Instance.CanPlace(GetCurrentMousePosition(editMode));
         }
         
-        if (editMode.Attributes.IsKey)
+        if (editMode is KeyMode)
         {
             return KeyManager.Instance.CanPlace(GetCurrentMousePosition(editMode));
         }

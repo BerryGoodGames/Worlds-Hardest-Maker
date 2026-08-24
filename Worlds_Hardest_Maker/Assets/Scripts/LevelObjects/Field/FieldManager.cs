@@ -243,7 +243,7 @@ public partial class FieldManager : MonoBehaviour,
     
     public bool CanHandle(EditMode editMode)
     {
-        return editMode.Attributes.IsField;
+        return editMode is FieldMode;
     }
 
     public bool Place(PlacementRequest request)

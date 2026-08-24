@@ -82,9 +82,9 @@ public class AreaFillService : IAreaFillService
         if (positions.Count == 0) return;
         
         // TODO: somehow use strategy pattern to avoid this if statement
-        if (editMode.Attributes.IsField)
+        if (editMode is FieldMode fieldMode)
         {
-            FillAreaWithFields(area, (FieldMode)editMode, fieldContainer, playerContainer);
+            FillAreaWithFields(area, fieldMode, fieldContainer, playerContainer);
             return;
         }
         
