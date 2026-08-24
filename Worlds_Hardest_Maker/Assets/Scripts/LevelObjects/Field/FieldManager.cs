@@ -268,12 +268,12 @@ public partial class FieldManager : MonoBehaviour,
 
     public LevelObjectController Query(Vector2 position, AnchorController sheet)
     {
-        throw new System.NotImplementedException();
+        return GetInSheet(position, sheet);
     }
 
     public bool Remove(Vector2 position, AnchorController sheet)
     {
-        throw new System.NotImplementedException();
+        return Remove(position, true, sheet);
     }
 
     public IEnumerable<Data> Serialize()

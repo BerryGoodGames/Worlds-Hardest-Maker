@@ -102,12 +102,17 @@ public partial class AnchorManager : IManager<AnchorController>,
 
     public LevelObjectController Query(Vector2 position, AnchorController sheet)
     {
-        throw new System.NotImplementedException();
+        return GetInSheet(position, sheet);
     }
 
     public bool Remove(Vector2 position, AnchorController sheet)
     {
-        throw new System.NotImplementedException();
+        AnchorController anchor = GetInSheet(position, sheet);
+        
+        if (anchor == null) return false;
+        
+        Remove(anchor);
+        return true;
     }
 
     public IEnumerable<Data> Serialize()

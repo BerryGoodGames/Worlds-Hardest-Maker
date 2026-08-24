@@ -67,7 +67,7 @@ public class PlayerManager : MonoBehaviour,
         return ((IManager<PlayerController>)this).Set(args);
     }
     
-    public PlayerController GetInSheet(Vector2 position, AnchorController sheet) => throw new NotImplementedException();
+    public PlayerController GetInSheet(Vector2 position, AnchorController sheet) => IsThereInSheet(position, sheet) ? Player : null;
     
     public PlayerController InstantiateInSheet(ManagerParameters args)
     {
@@ -230,12 +230,14 @@ public class PlayerManager : MonoBehaviour,
 
     public LevelObjectController Query(Vector2 position, AnchorController sheet)
     {
-        throw new NotImplementedException();
+        return GetInSheet(position, sheet);
     }
 
     public bool Remove(Vector2 position, AnchorController sheet)
     {
-        throw new NotImplementedException();
+        bool existed = GetInSheet(position, sheet) != null;
+        RemoveAtPosInSheet(position, sheet);
+        return existed;
     }
 
     public IEnumerable<Data> Serialize()

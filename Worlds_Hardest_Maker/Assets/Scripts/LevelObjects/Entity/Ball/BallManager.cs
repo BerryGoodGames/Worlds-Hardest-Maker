@@ -25,8 +25,6 @@ public class BallManager : MonoBehaviour,
     {
         this.diContainer = diContainer;
     }
-
-    #region Set, Get
     
     public BallController SetInSheet(ManagerParameters args)
     {
@@ -82,8 +80,6 @@ public class BallManager : MonoBehaviour,
         return ball.GetComponentInChildren<BallController>();
     }
     
-    #endregion
-    
     private void Start()
     {
         BallListSheets = new();
@@ -114,12 +110,17 @@ public class BallManager : MonoBehaviour,
 
     public LevelObjectController Query(Vector2 position, AnchorController sheet)
     {
-        throw new System.NotImplementedException();
+        return GetInSheet(position, sheet);
     }
 
     public bool Remove(Vector2 position, AnchorController sheet)
     {
-        throw new System.NotImplementedException();
+        BallController ball = GetInSheet(position, sheet);
+
+        if (ball == null) return false;
+
+        ball.Delete();
+        return true;
     }
 
     public IEnumerable<Data> Serialize()

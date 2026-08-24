@@ -167,7 +167,7 @@ public class KeyManager : MonoBehaviour,
 
     public bool CanHandle(EditMode editMode)
     {
-        return editMode.Attributes.IsKey;
+        return editMode is KeyMode;
     }
 
     public bool Place(PlacementRequest request)
@@ -185,12 +185,17 @@ public class KeyManager : MonoBehaviour,
 
     public LevelObjectController Query(Vector2 position, AnchorController sheet)
     {
-        throw new System.NotImplementedException();
+        return GetInSheet(position, sheet);
     }
 
     public bool Remove(Vector2 position, AnchorController sheet)
     {
-        throw new System.NotImplementedException();
+        KeyController key = GetInSheet(position, sheet);
+
+        if (key == null) return false;
+        
+        key.Delete();
+        return true;
     }
 
     public IEnumerable<Data> Serialize()

@@ -143,12 +143,17 @@ public class CoinManager : MonoBehaviour,
 
     public LevelObjectController Query(Vector2 position, AnchorController sheet)
     {
-        throw new System.NotImplementedException();
+        return GetInSheet(position, sheet);
     }
 
     public bool Remove(Vector2 position, AnchorController sheet)
     {
-        throw new System.NotImplementedException();
+        CoinController coin = GetInSheet(position, sheet);
+
+        if (coin == null) return false;
+
+        coin.Delete();
+        return true;
     }
 
     public IEnumerable<Data> Serialize()
