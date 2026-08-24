@@ -12,23 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4d22bdb2497c3f44a556b2f13b74c1c, type: 3}
   m_Name: IceMode
   m_EditorClassIdentifier: 
-  Attributes:
-    IsField: 1
-    IsKeyDoor: 0
-    IsEntity: 0
-    IsKey: 0
-    IsAnchorRelated: 0
   Tag: Ice
   UIString: Ice
   KeyboardShortcut: EditMode_Ice
   Prefab: {fileID: 3023231347907058821, guid: 9a32a2a0dd3a7e94faed61a05f0a2940, type: 3}
   WorldPositionType: 2
   IsDraggable: 1
-  ShowFillPreview: 1
-  DefaultAvailable: 1
-  AnchorAvailable: 1
-  HasOutline: 0
   IsRotatable: 0
+  ShowFillPreview: 1
+  IsAnchorRelated: 0
+  DefaultSheetAvailable: 1
+  AnchorSheetAvailable: 1
+  IsCopyable: 1
+  HasOutline: 0
   IsSolid: 0
   IsStartFieldForPlayer: 0
   IsSafeForPlayer: 0

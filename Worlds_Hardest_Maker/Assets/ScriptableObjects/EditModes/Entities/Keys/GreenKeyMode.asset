@@ -12,12 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee10b2f0f44aaef439be2527abe38fe3, type: 3}
   m_Name: GreenKeyMode
   m_EditorClassIdentifier: 
-  Attributes:
-    IsField: 0
-    IsKeyDoor: 0
-    IsEntity: 1
-    IsKey: 1
-    IsAnchorRelated: 0
   Tag: GreenKey
   UIString: Green Key
   KeyboardShortcut: EditMode_GreenKey
@@ -26,6 +20,7 @@ MonoBehaviour:
   IsDraggable: 1
   IsRotatable: 0
   ShowFillPreview: 1
+  IsAnchorRelated: 0
   DefaultSheetAvailable: 1
   AnchorSheetAvailable: 1
   IsCopyable: 1

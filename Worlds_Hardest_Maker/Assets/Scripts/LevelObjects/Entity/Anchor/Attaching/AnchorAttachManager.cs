@@ -28,7 +28,7 @@ public partial class AnchorAttachManager : MonoBehaviour
     public void EnterAttachMode()
     {
         if (LevelSessionEditManager.Instance.IsPlaying
-            || !LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated
+            || !LevelSessionEditManager.Instance.CurrentEditMode.IsAnchorRelated
             || AnchorManager.Instance.SelectedAnchor == null
             || AnchorPositionInputEditManager.Instance.IsEditing) return;
         
@@ -47,7 +47,7 @@ public partial class AnchorAttachManager : MonoBehaviour
         
         if (AnchorManager.Instance.SelectedAnchor)
         {
-            bool isModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated;
+            bool isModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.IsAnchorRelated;
             AnchorManager.Instance.SelectedAnchor.GetComponent<Animator>().SetBool(editingString, isModeAnchorRelated);
             AnchorManager.Instance.SelectedAnchor.SetLinesActive(isModeAnchorRelated);
         }

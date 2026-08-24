@@ -12,18 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f041760253b70d7499053ed8ce865ebe, type: 3}
   m_Name: CoinMode
   m_EditorClassIdentifier: 
-  Attributes:
-    IsField: 0
-    IsKeyDoor: 0
-    IsEntity: 1
-    IsKey: 0
-    IsAnchorRelated: 0
   Tag: Coin
   UIString: Coin
   KeyboardShortcut: EditMode_Coin
   Prefab: {fileID: 8839871402222588891, guid: 5e13d2eae759f3643b04b6e7dc5cefe2, type: 3}
   WorldPositionType: 1
   IsDraggable: 1
+  IsRotatable: 0
   ShowFillPreview: 1
-  DefaultAvailable: 1
-  AnchorAvailable: 1
+  IsAnchorRelated: 0
+  DefaultSheetAvailable: 1
+  AnchorSheetAvailable: 1
+  IsCopyable: 1

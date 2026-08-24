@@ -12,24 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4d22bdb2497c3f44a556b2f13b74c1c, type: 3}
   m_Name: WallMode
   m_EditorClassIdentifier: 
-  Attributes:
-    IsField: 1
-    IsKeyDoor: 0
-    IsEntity: 0
-    IsKey: 0
-    IsAnchorRelated: 0
   Tag: Wall
   UIString: Wall
   KeyboardShortcut: EditMode_Wall
   Prefab: {fileID: 1031238968843851723, guid: f2f9e8d6109dcd34b8d358eb36346713, type: 3}
   WorldPositionType: 2
   IsDraggable: 1
-  ShowFillPreview: 1
-  DefaultAvailable: 1
-  AnchorAvailable: 1
-  Copyable: 1
-  HasOutline: 1
   IsRotatable: 0
+  ShowFillPreview: 1
+  IsAnchorRelated: 0
+  DefaultSheetAvailable: 1
+  AnchorSheetAvailable: 1
+  IsCopyable: 1
+  HasOutline: 1
   IsSolid: 1
   IsStartFieldForPlayer: 0
   IsSafeForPlayer: 0

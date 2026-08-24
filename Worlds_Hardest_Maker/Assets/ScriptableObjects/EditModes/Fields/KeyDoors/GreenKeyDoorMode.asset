@@ -12,24 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff996cab3b807a438d0dce0ab4e4aa2, type: 3}
   m_Name: GreenKeyDoorMode
   m_EditorClassIdentifier: 
-  Attributes:
-    IsField: 1
-    IsKeyDoor: 1
-    IsEntity: 0
-    IsKey: 0
-    IsAnchorRelated: 0
   Tag: GreenKeyDoor
   UIString: Green Key Door
   KeyboardShortcut: 
   Prefab: {fileID: 1233153997321535447, guid: c9035405865ebe54c9663401f4d79bc5, type: 3}
   WorldPositionType: 2
   IsDraggable: 1
-  ShowFillPreview: 1
-  DefaultAvailable: 1
-  AnchorAvailable: 1
-  Copyable: 1
-  HasOutline: 1
   IsRotatable: 0
+  ShowFillPreview: 1
+  IsAnchorRelated: 0
+  DefaultSheetAvailable: 1
+  AnchorSheetAvailable: 1
+  IsCopyable: 1
+  HasOutline: 1
   IsSolid: 1
   IsStartFieldForPlayer: 0
   IsSafeForPlayer: 0

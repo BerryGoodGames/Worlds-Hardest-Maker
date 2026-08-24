@@ -122,7 +122,6 @@ public class EditModeManager : MonoBehaviour
         
         // cache AllFieldModes
         AllFieldModes = AllEditModes
-            .Where(editMode => editMode is FieldMode)
             .OfType<FieldMode>()
             .ToList();
         

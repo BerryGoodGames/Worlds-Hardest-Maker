@@ -12,19 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3926d48c58a6cc949939865509a98e95, type: 3}
   m_Name: DeleteMode
   m_EditorClassIdentifier: 
-  Attributes:
-    IsField: 0
-    IsKeyDoor: 0
-    IsEntity: 0
-    IsKey: 0
-    IsAnchorRelated: 0
   Tag: 
   UIString: Delete
   KeyboardShortcut: EditMode_Delete
   Prefab: {fileID: 0}
   WorldPositionType: 2
   IsDraggable: 1
+  IsRotatable: 0
   ShowFillPreview: 1
-  DefaultAvailable: 1
-  AnchorAvailable: 1
-  Copyable: 0
+  IsAnchorRelated: 0
+  DefaultSheetAvailable: 1
+  AnchorSheetAvailable: 1
+  IsCopyable: 1

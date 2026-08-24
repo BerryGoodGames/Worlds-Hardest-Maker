@@ -9,7 +9,6 @@ public sealed class KeyMode : EntityMode
     protected override void Reset()
     {
         base.Reset();
-        Attributes.IsKey = true;
         ShowFillPreview = false;
     }
 }

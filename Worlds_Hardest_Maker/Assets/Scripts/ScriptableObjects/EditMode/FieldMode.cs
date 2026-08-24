@@ -12,7 +12,6 @@ public class FieldMode : EditMode
     
     protected virtual void Reset()
     {
-        Attributes.IsField = true;
         WorldPositionType = WorldPositionType.Matrix;
         IsDraggable = true;
     }

@@ -28,7 +28,7 @@ public partial class AnchorManager : IManagerSelectable
         
         bool switchedEditMode = false;
         // switch to edit mode to anchor if not already
-        if (!LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated)
+        if (!LevelSessionEditManager.Instance.CurrentEditMode.IsAnchorRelated)
         {
             LevelSessionEditManager.Instance.SetEditMode(EditModeManager.Anchor);
             switchedEditMode = true;

@@ -89,7 +89,7 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
         Ease = Ease.Linear;
         
         if (!LevelSessionManager.Instance.IsEdit) return;
-        Animator.SetBool(editingString, LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated);
+        Animator.SetBool(editingString, LevelSessionEditManager.Instance.CurrentEditMode.IsAnchorRelated);
     }
     
     protected override void Start()
@@ -233,7 +233,7 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
         Animator.SetBool(playingString, false);
         
         if (AnchorManager.Instance.SelectedAnchor == this
-            && LevelSessionEditManager.Instance.CurrentEditMode.Attributes.IsAnchorRelated) SetLinesActive(true);
+            && LevelSessionEditManager.Instance.CurrentEditMode.IsAnchorRelated) SetLinesActive(true);
     }
     
     private void UpdateStartValues()

@@ -9,7 +9,6 @@ public sealed class KeyDoorMode : FieldMode
     protected override void Reset()
     {
         base.Reset();
-        Attributes.IsKeyDoor = true;
         HasOutline = true;
         IsSolid = true;
     }

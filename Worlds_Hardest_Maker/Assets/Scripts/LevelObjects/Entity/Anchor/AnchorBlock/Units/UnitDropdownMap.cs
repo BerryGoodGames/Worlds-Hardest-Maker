@@ -4,7 +4,7 @@ using System.Linq;
 
 public class UnitDropdownMap<TEnum> : IEnumerable<KeyValuePair<string, TEnum>>
 {
-    private Dictionary<string, TEnum> options;
+    private readonly Dictionary<string, TEnum> options = new();
     
     public TEnum this[string name] => options[name];
     
