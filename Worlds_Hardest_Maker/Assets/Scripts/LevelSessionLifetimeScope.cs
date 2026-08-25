@@ -45,24 +45,28 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.Register<AnchorBlockViewFactory>(Lifetime.Singleton).AsSelf();
         builder.Register<AnchorChainDropTargetResolver>(Lifetime.Singleton).AsSelf();
 
+        // level object registering
         builder.RegisterComponentInHierarchy<CoinManager>().AsImplementedInterfaces();
-        builder.RegisterComponentInHierarchy<BallManager>().AsImplementedInterfaces();
-        builder.RegisterComponentInHierarchy<AnchorManager>().AsImplementedInterfaces();
-        builder.RegisterComponentInHierarchy<PlayerManager>().AsImplementedInterfaces();
-        builder.RegisterComponentInHierarchy<KeyManager>().AsImplementedInterfaces();
-        builder.RegisterComponentInHierarchy<FieldManager>().AsImplementedInterfaces();
-        builder.Register<DeleteFieldManager>(Lifetime.Singleton).AsImplementedInterfaces();
-
         builder.Register<CoinQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<CoinController>>().AsSelf();
-        builder.Register<KeyQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<KeyController>>().AsSelf();
-        builder.Register<PlayerQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<PlayerController>>();
-        builder.Register<BallQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<BallController>>();
-        builder.Register<AnchorQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<AnchorController>>();
-        builder.Register<FieldQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<FieldController>>().AsSelf();
-        
         builder.Register<CoinPlacementRules>(Lifetime.Singleton).AsSelf();
-        builder.Register<KeyPlacementRules>(Lifetime.Singleton).AsSelf();
+        
+        builder.RegisterComponentInHierarchy<BallManager>().AsImplementedInterfaces();
+        builder.Register<BallQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<BallController>>();
+        
+        builder.RegisterComponentInHierarchy<AnchorManager>().AsImplementedInterfaces();
+        builder.Register<AnchorQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<AnchorController>>();
+        
+        builder.RegisterComponentInHierarchy<PlayerManager>().AsImplementedInterfaces();
+        builder.Register<PlayerQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<PlayerController>>();
         builder.Register<PlayerPlacementRules>(Lifetime.Singleton).AsSelf();
+        
+        builder.RegisterComponentInHierarchy<KeyManager>().AsImplementedInterfaces();
+        builder.Register<KeyQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<KeyController>>().AsSelf();
+        builder.Register<KeyPlacementRules>(Lifetime.Singleton).AsSelf();
+        
+        builder.RegisterComponentInHierarchy<FieldManager>().AsImplementedInterfaces();
+        builder.Register<FieldQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<FieldController>>().AsSelf();
+        builder.Register<DeleteFieldManager>(Lifetime.Singleton).AsImplementedInterfaces();
 
         builder.Register<SaveSystem>(Lifetime.Singleton);
     }
