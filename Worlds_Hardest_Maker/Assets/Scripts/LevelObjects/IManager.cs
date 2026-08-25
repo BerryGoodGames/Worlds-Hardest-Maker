@@ -1,22 +1,6 @@
-using JetBrains.Annotations;
 using UnityEngine;
 
-public interface IManager
-{
-    public static bool IsInSheet(Component controller, AnchorController sheet)
-    {
-        bool globalSheet = sheet == null;
-        
-        bool hasEntityController = EntityController.TryGetController(controller, out EntityController entityController);
-        
-        if (hasEntityController && !entityController.IsAttachable) return globalSheet;
-        
-        bool hasAttachment = (hasEntityController ? entityController.AttachmentHolder : controller).TryGetComponent(out AnchorAttachment attachment);
-        return (globalSheet && !hasAttachment) || (hasAttachment && !globalSheet && attachment.Anchor == sheet);
-    }
-}
-
-public interface IManager<out T> : IManager where T : LevelObjectController
+public interface IManager<out T> where T : LevelObjectController
 {
     public T Set(ManagerParameters args) => SetInSheet(ManagerParameters.FromCurrentSheet(args));
     public T SetInSheet(ManagerParameters args);

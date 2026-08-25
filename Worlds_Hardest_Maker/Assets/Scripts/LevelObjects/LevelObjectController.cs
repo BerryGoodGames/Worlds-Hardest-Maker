@@ -28,7 +28,7 @@ public abstract class LevelObjectController : MonoBehaviour
 
     public virtual bool IsCopyableNow()
     {
-        return EditMode.IsCopyable && IManager.IsInSheet(this, null);
+        return EditMode.IsCopyable && ILevelObjectQuery.Exists(this, null);
     }
     
     public static bool TryGetController(Component component, out LevelObjectController controller) =>

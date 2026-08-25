@@ -36,7 +36,7 @@ public partial class PlayerController
         {
             // check if current field is type
             FieldMode currentFieldType = field.FieldMode;
-            if (currentFieldType == mode && IManager.IsInSheet(field, sheet)) return true;
+            if (currentFieldType == mode && ILevelObjectQuery.Exists(field, sheet)) return true;
         }
         
         return false;

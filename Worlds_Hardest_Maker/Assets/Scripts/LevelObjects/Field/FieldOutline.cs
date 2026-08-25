@@ -156,7 +156,7 @@ public class FieldOutline : MonoBehaviour
             if (updateNeighbor && r.transform.TryGetComponent(out FieldOutline outlineNeighbor)) outlineNeighbor.UpdateOutline();
             
             if (!connectorTags.Contains(r.collider.tag)
-                || !IManager.IsInSheet(r.collider, sheet)) continue;
+                || !ILevelObjectQuery.Exists(r.collider, sheet)) continue;
             
             return true;
         }

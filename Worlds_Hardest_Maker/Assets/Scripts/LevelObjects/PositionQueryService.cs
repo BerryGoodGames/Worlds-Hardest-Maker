@@ -9,7 +9,7 @@ public class PositionQueryService : IPositionQueryService
         {
             if (!hit.CompareTag(tag)) continue;
             if (!hit.TryGetComponent(out T obj)) continue;
-            if (IManager.IsInSheet(obj, sheet) || IManager.IsInSheet(obj.transform.parent, sheet)) return obj;
+            if (ILevelObjectQuery.Exists(obj, sheet) || ILevelObjectQuery.Exists(obj.transform.parent, sheet)) return obj;
         }
     
         return null;
@@ -21,7 +21,7 @@ public class PositionQueryService : IPositionQueryService
         foreach (Collider2D hit in hits)
         {
             if (!hit.TryGetComponent(out T obj)) continue;
-            if (IManager.IsInSheet(obj, sheet) || IManager.IsInSheet(obj.transform.parent, sheet)) return obj;
+            if (ILevelObjectQuery.Exists(obj, sheet) || ILevelObjectQuery.Exists(obj.transform.parent, sheet)) return obj;
         }
     
         return null;
