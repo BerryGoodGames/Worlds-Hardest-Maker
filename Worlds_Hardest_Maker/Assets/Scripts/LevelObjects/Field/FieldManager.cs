@@ -9,7 +9,8 @@ using WorldsHardestMaker.Selection;
 
 public partial class FieldManager : MonoBehaviour, 
     IManager<FieldController>, 
-    ILevelObjectManager
+    ILevelObjectManager,
+    IFieldQueryService
 {
     public static FieldManager Instance { get; private set; }
     

@@ -54,6 +54,8 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.Register<DeleteFieldManager>(Lifetime.Singleton).AsImplementedInterfaces();
 
         builder.Register<CoinPlacementRules>(Lifetime.Singleton).AsSelf();
+        builder.Register<KeyPlacementRules>(Lifetime.Singleton).AsSelf();
+        builder.Register<PlayerPlacementRules>(Lifetime.Singleton).AsSelf();
 
         builder.Register<SaveSystem>(Lifetime.Singleton);
     }

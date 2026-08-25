@@ -23,6 +23,7 @@ public class PlayerManager : MonoBehaviour,
     
     [Inject] private IObjectResolver diContainer;
     [Inject] private IPositionQueryService positionQueryService;
+    [Inject] private PlayerPlacementRules placementRules;
     
     public PlayerController SetInSheet(ManagerParameters args)
     {
@@ -30,7 +31,7 @@ public class PlayerManager : MonoBehaviour,
         
         if (IsThereInSheet(position, args.Sheet)) return null;
         
-        bool canPlaceInSheet = CanPlaceInSheet(position, args.Sheet);
+        bool canPlaceInSheet = placementRules.CanPlaceInSheet(position, args.Sheet);
         
         if (args.SurroundWithStartFields && !canPlaceInSheet) SetSurroundingStartFieldsInSheet(position, args.Sheet);
         
@@ -82,28 +83,6 @@ public class PlayerManager : MonoBehaviour,
     
     public bool IsThere(Vector2 position) => Instance.Player != null && (Vector2)Instance.Player.transform.position == position;
     public bool IsThereInSheet(Vector2 position, AnchorController sheet) => IsThere(position) && Instance.Player.Sheet == sheet;
-    
-    // TODO: extract placement rules
-    public bool CanPlace(Vector2 position)
-    {
-        print(IsThere(position));
-        print(
-            FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(
-                position, PlaceManager.GetCurrentSheet(), EditModeManager.Instance.AllPlayerStartFieldModes.ToArray()
-            )
-        );
-        
-        // conditions: no player there, position is covered with possible start fields
-        return !IsThere(position) &&
-               FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(
-                   position, PlaceManager.GetCurrentSheet(), EditModeManager.Instance.AllPlayerStartFieldModes.ToArray()
-               );
-    }
-    
-    public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>
-        // conditions: no player there, position is covered with possible start fields
-        !IsThereInSheet(position, sheet) &&
-        FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(position, sheet, EditModeManager.Instance.AllPlayerStartFieldModes.ToArray());
     
     private static List<FieldController> SetSurroundingStartFieldsInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {

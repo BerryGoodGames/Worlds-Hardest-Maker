@@ -5,7 +5,6 @@ public class KeyPlacementRules
 {
     private readonly IPlayerQueryService playerQueryService;
     private readonly IKeyQueryService keyQueryService;
-
     
     public bool CanPlaceInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
