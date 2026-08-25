@@ -7,14 +7,10 @@ using VContainer.Unity;
 
 public class KeyManager : MonoBehaviour, 
     IManager<KeyController>, 
-    IManagerPlaceRestrictable, 
-    ILevelObjectManager
+    ILevelObjectManager,
+    IKeyQueryService
 {
     public static KeyManager Instance { get; private set; }
-    
-    [UsedImplicitly] public static readonly List<FieldMode> CannotPlaceFields = new();
-    
-    private static readonly int playing = Animator.StringToHash("Playing");
     
     [SerializeField] [InitializationField] [MustBeAssigned] private KeyController grayKeyPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private KeyController redKeyPrefab;
@@ -26,21 +22,16 @@ public class KeyManager : MonoBehaviour,
     [ReadOnly] public List<KeyController> Keys = new();
     [ReadOnly] public List<KeyController> CollectedKeys = new();
     
-    private IObjectResolver diContainer;
+    [Inject] private IObjectResolver diContainer;
     private EventBus eventBus;
-    private IKonamiService konamiService;
-    private IPositionQueryService positionQueryService;
+    [Inject] private IKonamiService konamiService;
+    [Inject] private IPositionQueryService positionQueryService;
+    [Inject] private KeyPlacementRules placementRules;
     
     [Inject]
-    private void Construct(IObjectResolver diContainer, 
-        EventBus eventBus, 
-        IKonamiService konamiService,
-        IPositionQueryService positionQueryService)
+    private void Construct(EventBus eventBus)
     {
-        this.diContainer = diContainer;
         this.eventBus = eventBus;
-        this.konamiService = konamiService;
-        this.positionQueryService = positionQueryService;
         
         eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
     }
@@ -70,12 +61,6 @@ public class KeyManager : MonoBehaviour,
         KeyController key = InstantiateInSheet(args);
         
         key.Color = args.KeyColor;
-        
-        // setup idle animation
-        key.Animator.SetBool(playing, LevelSessionEditManager.Instance.IsPlaying);
-        
-        // setup konami code animation
-        key.KonamiAnimation.enabled = konamiService.IsKonamiActive;
         
         PlaceManager.Instance.AttachToSheet(key.gameObject, args.Sheet);
         
@@ -115,12 +100,9 @@ public class KeyManager : MonoBehaviour,
     public bool IsThereInSheet(Vector2 position, AnchorController sheet) => GetInSheet(position, sheet) != null;
     
     public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
-    
+
     public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>
-        // conditions: no key there, covered by canplacefield or default, no player there
-        !PlayerManager.Instance.IsThere(position)
-        && !IsThereInSheet(position, sheet)
-        && !FieldManager.Instance.IntersectingAnyFieldsAtPos(position, sheet, CannotPlaceFields.ToArray());
+        placementRules.CanPlaceInSheet(position, sheet);
     
     public bool AllKeysCollected(KeyColor color)
     {

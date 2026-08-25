@@ -2,7 +2,7 @@ using MyBox;
 using UnityEngine;
 using VContainer;
 
-public partial class AnchorManager : IManagerSelectable
+public partial class AnchorManager
 {
     private const float DOUBLE_CLICK_THRESHOLD = 0.4f;
     

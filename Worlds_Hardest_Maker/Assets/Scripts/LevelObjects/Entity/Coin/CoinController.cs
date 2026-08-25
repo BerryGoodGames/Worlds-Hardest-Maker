@@ -42,6 +42,8 @@ public class CoinController : EntityController, IResettable, ICollectible
         base.Start();
         
         ((IResettable)this).Subscribe(eventBus);
+        
+        Animator.SetBool(playingString, LevelSessionEditManager.Instance.IsPlaying);
     }
     
     private void OnDestroy()

@@ -7,12 +7,10 @@ using VContainer.Unity;
 
 public class CoinManager : MonoBehaviour, 
     IManager<CoinController>, 
-    IManagerPlaceRestrictable, 
-    ILevelObjectManager
+    ILevelObjectManager,
+    ICoinQueryService
 {
     public static CoinManager Instance { get; private set; }
-    
-    [UsedImplicitly] public static readonly List<FieldMode> CannotPlaceFields = new();
     
     [SerializeField] [InitializationField] [MustBeAssigned] private CoinController coinPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform coinContainer;
@@ -25,29 +23,22 @@ public class CoinManager : MonoBehaviour,
     public int CoinsNeededFinal =>
         Mathf.Min(LevelSettings.Instance.IsCoinsNeededLimited ? LevelSettings.Instance.CoinsNeeded : TotalCoins, TotalCoins);
     
-    private static readonly int PLAYING = Animator.StringToHash("Playing");
-    
-    private IObjectResolver diContainer;
+    [Inject] private IObjectResolver diContainer;
     private EventBus eventBus;
-    private IPositionQueryService positionQueryService;
+    [Inject] private IPositionQueryService positionQueryService;
+    [Inject] private CoinPlacementRules placementRules;
     
     [Inject]
-    private void Construct(IObjectResolver diContainer, EventBus eventBus, IPositionQueryService positionQueryService)
+    private void Construct(EventBus eventBus)
     {
-        this.diContainer = diContainer;
         this.eventBus = eventBus;
-        this.positionQueryService = positionQueryService;
         
         eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
     }
     
     public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
-    
-    public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>
-        // conditions: no coin there, doesn't intersect with any walls etc, no player there
-        !((IManager<CoinController>)this).IsThereInSheet(position, sheet)
-        && !FieldManager.Instance.IntersectingAnyFieldsAtPos(position, sheet, CannotPlaceFields.ToArray())
-        && !PlayerManager.Instance.IsThere(position);
+
+    public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) => placementRules.CanPlaceInSheet(position, sheet);
     
     public CoinController SetInSheet(ManagerParameters args)
     {
@@ -56,8 +47,6 @@ public class CoinManager : MonoBehaviour,
         if (!CanPlaceInSheet(matrixPosition, args.Sheet)) return null;
         
         CoinController coin = InstantiateInSheet(args);
-        
-        coin.Animator.SetBool(PLAYING, LevelSessionEditManager.Instance.IsPlaying);
         
         PlaceManager.Instance.AttachToSheet(coin.gameObject, args.Sheet);
         
@@ -166,5 +155,10 @@ public class CoinManager : MonoBehaviour,
         }
         
         return levelData;
+    }
+
+    public bool IsThereInSheet(Vector2 position, AnchorController sheet)
+    {
+        return Query(position, sheet) != null;
     }
 }

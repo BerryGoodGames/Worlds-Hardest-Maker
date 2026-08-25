@@ -108,29 +108,5 @@ public class AreaFillService : IAreaFillService
 
             Object.Destroy(fieldHit.gameObject);
         }
-
-        // clear coins + keys
-        int entityLayer = LayerManager.Instance.Layers.Entity;
-
-        bool clearCoins = CoinManager.CannotPlaceFields.Contains(mode);
-        bool clearKeys = KeyManager.CannotPlaceFields.Contains(mode);
-
-        if (!clearCoins && !clearKeys) return;
-
-        Collider2D[] entityHits = areaQueryService.QueryArea(area, entityLayer);
-
-        HashSet<string> tagsToClear = new();
-        if (clearCoins) tagsToClear.Add("Coin");
-        if (clearKeys) tagsToClear.Add("Key");
-
-        if (tagsToClear.Count == 0) return;
-
-        foreach (Collider2D hit in entityHits)
-        {
-            if (hit == null) continue;
-            if (!tagsToClear.Contains(hit.tag)) continue;
-
-            Object.Destroy(hit.gameObject);
-        }
     }
 }

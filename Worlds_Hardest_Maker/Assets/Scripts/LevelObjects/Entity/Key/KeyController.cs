@@ -6,8 +6,6 @@ using VContainer;
 
 public class KeyController : EntityController, IResettable, ICollectible
 {
-    private EventBus eventBus;
-    
     [Separator] [SerializeField] [PositiveValueOnly] private float fadeDuration = 0.5f;
     [Separator] [ReadOnly] public KeyColor Color;
     [ReadOnly] public Vector2 InitialPosition;
@@ -32,10 +30,15 @@ public class KeyController : EntityController, IResettable, ICollectible
             _ => throw new("There is no edit mode assigned for color " + Color),
         };
     
+    private EventBus eventBus;
+    private IKonamiService konamiService;
+
     [Inject]
-    private void Construct(EventBus eventBus)
+    private void Construct(EventBus eventBus, IKonamiService konamiService)
     {
         this.eventBus = eventBus;
+        this.konamiService = konamiService;
+        
         eventBus.Subscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
     }
@@ -57,6 +60,9 @@ public class KeyController : EntityController, IResettable, ICollectible
         base.Start();
         
         ((IResettable)this).Subscribe(eventBus);
+        
+        Animator.SetBool(playingString, LevelSessionEditManager.Instance.IsPlaying);
+        KonamiAnimation.enabled = konamiService.IsKonamiActive;
     }
     
     private void OnDestroy()

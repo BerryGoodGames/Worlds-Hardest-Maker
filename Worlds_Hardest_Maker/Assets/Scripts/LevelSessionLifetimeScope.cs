@@ -53,6 +53,8 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<FieldManager>().AsImplementedInterfaces();
         builder.Register<DeleteFieldManager>(Lifetime.Singleton).AsImplementedInterfaces();
 
+        builder.Register<CoinPlacementRules>(Lifetime.Singleton).AsSelf();
+
         builder.Register<SaveSystem>(Lifetime.Singleton);
     }
     

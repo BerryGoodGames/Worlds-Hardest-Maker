@@ -37,15 +37,7 @@ public partial class FieldManager : MonoBehaviour,
         
         // remove player if at changed pos
         if (!args.FieldMode.IsStartFieldForPlayer) PlayerManager.Instance.RemoveAtPosIntersectInSheet(args.Position, args.Sheet);
-        
-        if (CoinManager.CannotPlaceFields.Contains(args.FieldMode))
-            // remove coin if wall is placed
-            GameManager.Instance.RemoveObjectInContainerIntersect(args.Position, coinContainer);
-        
-        if (KeyManager.CannotPlaceFields.Contains(args.FieldMode))
-            // remove key if wall is placed
-            GameManager.Instance.RemoveObjectInContainerIntersect(args.Position, keyContainer);
-        
+
         return field;
     }
 

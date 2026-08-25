@@ -46,14 +46,3 @@ public struct ManagerParameters
         return args;
     }
 }
-
-public interface IManagerSelectable
-{
-    public void Select(Vector2 position);
-}
-
-public interface IManagerPlaceRestrictable
-{
-    public bool CanPlace(Vector2 position);
-    public bool CanPlaceInSheet(Vector2 position, [CanBeNull] AnchorController sheet);
-}

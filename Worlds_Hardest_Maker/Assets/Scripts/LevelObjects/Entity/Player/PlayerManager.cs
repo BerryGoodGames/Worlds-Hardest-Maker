@@ -7,8 +7,8 @@ using VContainer.Unity;
 
 public class PlayerManager : MonoBehaviour, 
     IManager<PlayerController>, 
-    IManagerPlaceRestrictable, 
-    ILevelObjectManager
+    ILevelObjectManager,
+    IPlayerQueryService
 {
     public static PlayerManager Instance { get; private set; }
     
@@ -83,6 +83,7 @@ public class PlayerManager : MonoBehaviour,
     public bool IsThere(Vector2 position) => Instance.Player != null && (Vector2)Instance.Player.transform.position == position;
     public bool IsThereInSheet(Vector2 position, AnchorController sheet) => IsThere(position) && Instance.Player.Sheet == sheet;
     
+    // TODO: extract placement rules
     public bool CanPlace(Vector2 position)
     {
         print(IsThere(position));
