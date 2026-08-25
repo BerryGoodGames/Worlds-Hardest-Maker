@@ -19,6 +19,7 @@ public partial class FieldManager : MonoBehaviour,
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyContainer;
     
     [Inject] private IObjectResolver diContainer;
+    [Inject] private IPositionQueryService positionQueryService;
     
     public FieldController SetInSheet(ManagerParameters args)
     {
@@ -47,22 +48,17 @@ public partial class FieldManager : MonoBehaviour,
         
         return field;
     }
-    
+
     public FieldController GetInSheet(Vector2 position, AnchorController sheet)
     {
-        // get all collisions from layers Field and Void
-        Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Field)
-            .Concat(Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Void)).ToArray();
+        FieldController inFieldLayer = positionQueryService.QueryPosition<FieldController>(position, 
+            0.1f, 
+            LayerManager.Instance.Layers.Field, 
+            sheet);
         
-        foreach (Collider2D c in collidedGameObjects)
-        {
-            // check if field
-            if (!c.TryGetComponent(out FieldController f)) continue;
-            
-            if (IManager.IsInSheet(f, sheet)) return f;
-        }
+        if (inFieldLayer != null) return inFieldLayer;
         
-        return null;
+        return positionQueryService.QueryPosition<FieldController>(position, 0.1f, LayerManager.Instance.Layers.Void, sheet);
     }
     
     public FieldController Get(Vector2 position)

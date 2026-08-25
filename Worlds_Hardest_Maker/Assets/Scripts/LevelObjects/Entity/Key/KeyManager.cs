@@ -27,17 +27,20 @@ public class KeyManager : MonoBehaviour,
     [ReadOnly] public List<KeyController> CollectedKeys = new();
     
     private IObjectResolver diContainer;
-    
     private EventBus eventBus;
-    
     private IKonamiService konamiService;
+    private IPositionQueryService positionQueryService;
     
     [Inject]
-    private void Construct(IObjectResolver diContainer, EventBus eventBus, IKonamiService konamiService)
+    private void Construct(IObjectResolver diContainer, 
+        EventBus eventBus, 
+        IKonamiService konamiService,
+        IPositionQueryService positionQueryService)
     {
         this.diContainer = diContainer;
         this.eventBus = eventBus;
         this.konamiService = konamiService;
+        this.positionQueryService = positionQueryService;
         
         eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
     }
@@ -81,16 +84,8 @@ public class KeyManager : MonoBehaviour,
     
     public KeyController GetInSheet(Vector2 position, AnchorController sheet)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f, LayerManager.Instance.Layers.Entity);
-        
-        foreach (Collider2D hit in hits)
-        {
-            if (!hit.CompareTag("Key")) continue;
-            if (!hit.TryGetComponent(out KeyController key)) continue;
-            if (IManager.IsInSheet(key, sheet)) return key;
-        }
-        
-        return null;
+        return positionQueryService.QueryPosition<KeyController>(position, 0.01f, LayerManager.Instance.Layers.Entity,
+            "Key", sheet);
     }
     
     public KeyController Get(Vector2 position)

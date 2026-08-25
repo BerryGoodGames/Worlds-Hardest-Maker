@@ -29,12 +29,14 @@ public class CoinManager : MonoBehaviour,
     
     private IObjectResolver diContainer;
     private EventBus eventBus;
+    private IPositionQueryService positionQueryService;
     
     [Inject]
-    private void Construct(IObjectResolver diContainer, EventBus eventBus)
+    private void Construct(IObjectResolver diContainer, EventBus eventBus, IPositionQueryService positionQueryService)
     {
         this.diContainer = diContainer;
         this.eventBus = eventBus;
+        this.positionQueryService = positionQueryService;
         
         eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
     }
@@ -64,15 +66,11 @@ public class CoinManager : MonoBehaviour,
     
     public CoinController GetInSheet(Vector2 position, AnchorController sheet)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Entity);
-        foreach (Collider2D hit in hits)
-        {
-            if (!hit.CompareTag("Coin")) continue;
-            if (!hit.TryGetComponent(out CoinController coin)) continue;
-            if (IManager.IsInSheet(coin, sheet)) return coin;
-        }
-        
-        return null;
+        return positionQueryService.QueryPosition<CoinController>(position, 
+            0.1f, 
+            LayerManager.Instance.Layers.Entity,
+            "Coin",
+            sheet);
     }
     
     public CoinController Get(Vector2 position)

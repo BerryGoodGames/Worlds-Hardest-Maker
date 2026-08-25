@@ -21,13 +21,8 @@ public class PlayerManager : MonoBehaviour,
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform coinContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyContainer;
     
-    private IObjectResolver diContainer;
-    
-    [Inject]
-    private void Construct(IObjectResolver diContainer)
-    {
-        this.diContainer = diContainer;
-    }
+    [Inject] private IObjectResolver diContainer;
+    [Inject] private IPositionQueryService positionQueryService;
     
     public PlayerController SetInSheet(ManagerParameters args)
     {
@@ -145,17 +140,10 @@ public class PlayerManager : MonoBehaviour,
         }
     }
     
-    public void RemoveAtPosInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
+    private void RemoveAtPositionInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Player);
-        foreach (Collider2D hit in hits)
-        {
-            if (!hit.CompareTag("PlayerCenterCollider")) continue;
-            if (!hit.transform.parent.TryGetComponent(out PlayerController player)) continue;
-            if (!IManager.IsInSheet(player, sheet)) continue;
-            
-            player.DestroySelf();
-        }
+        PlayerController player = positionQueryService.QueryPosition<PlayerController>(position, 0.1f, LayerManager.Instance.Layers.Player, "PlayerCenterCollider", sheet);
+        player?.DestroySelf();
     }
     
     public void RemoveAtPosIntersect(Vector2 position)
@@ -179,7 +167,7 @@ public class PlayerManager : MonoBehaviour,
             new(-0.5f, 0.5f), new(0, 0.5f), new(0.5f, 0.5f),
         };
         
-        foreach (Vector2 d in deltas) RemoveAtPosInSheet(position + d, sheet);
+        foreach (Vector2 d in deltas) RemoveAtPositionInSheet(position + d, sheet);
     }
     
     public bool IsThereIntersect(Vector2 position)
@@ -234,7 +222,7 @@ public class PlayerManager : MonoBehaviour,
     public bool Remove(Vector2 position, AnchorController sheet)
     {
         bool existed = GetInSheet(position, sheet) != null;
-        RemoveAtPosInSheet(position, sheet);
+        RemoveAtPositionInSheet(position, sheet);
         return existed;
     }
 

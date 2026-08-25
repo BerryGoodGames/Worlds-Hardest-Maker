@@ -18,13 +18,8 @@ public class BallManager : MonoBehaviour,
     [ReadOnly] public Dictionary<AnchorController, List<BallController>> BallListSheets;
     [ReadOnly] public List<BallController> BallListGlobal;
     
-    private IObjectResolver diContainer;
-    
-    [Inject]
-    private void Construct(IObjectResolver diContainer)
-    {
-        this.diContainer = diContainer;
-    }
+    [Inject] private IObjectResolver diContainer;
+    [Inject] private IPositionQueryService positionQueryService;
     
     public BallController SetInSheet(ManagerParameters args)
     {
@@ -54,15 +49,11 @@ public class BallManager : MonoBehaviour,
     
     public BallController GetInSheet(Vector2 position, AnchorController sheet)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f, LayerManager.Instance.Layers.Entity);
-        foreach (Collider2D hit in hits)
-        {
-            if (!hit.CompareTag("BallObject")) continue;
-            if (!hit.TryGetComponent(out BallController ball)) continue;
-            if (IManager.IsInSheet(ball.transform.parent, sheet)) return ball;
-        }
-        
-        return null;
+        return positionQueryService.QueryPosition<BallController>(position,
+            0.01f,
+            LayerManager.Instance.Layers.Entity,
+            "BallObject",
+            sheet);
     }
     
     public BallController InstantiateInSheet(ManagerParameters args)
