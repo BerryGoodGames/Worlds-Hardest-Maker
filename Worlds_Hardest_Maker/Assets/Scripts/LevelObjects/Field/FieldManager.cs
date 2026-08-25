@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using VContainer;
-using VContainer.Unity;
 using WorldsHardestMaker.Selection;
 
 public partial class FieldManager : MonoBehaviour, 
@@ -21,6 +19,14 @@ public partial class FieldManager : MonoBehaviour,
     [Inject] private IObjectResolver diContainer;
     [Inject] private IPositionQueryService positionQueryService;
     [Inject] private FieldQueryService fieldQueryService;
+    private FieldFactory fieldFactory;
+
+    [Inject]
+    private void Construct(FieldFactory fieldFactory)
+    {
+        this.fieldFactory = fieldFactory;
+        this.fieldFactory.Initialize(fieldContainer, playerContainer);
+    }
     
     public FieldController SetInSheet(ManagerParameters args)
     {
@@ -44,23 +50,7 @@ public partial class FieldManager : MonoBehaviour,
     
     public FieldController InstantiateInSheet(ManagerParameters args)
     {
-        GameObject prefab = args.FieldMode.Prefab;
-        GameObject res = Instantiate(
-            prefab, args.Position, Quaternion.Euler(0, 0, args.Rotation),
-            args.Sheet == null ? fieldContainer : args.Sheet.AttachmentContainer
-        );
-        
-        diContainer.InjectGameObject(res);
-        
-        FieldController fieldController = res.GetComponent<FieldController>();
-        
-        fieldController.Initialize(playerContainer);
-        
-        fieldController.FieldMode = args.FieldMode;
-        
-        PlaceManager.Instance.AttachToSheet(res, args.Sheet);
-        
-        return fieldController;
+        return fieldFactory.Create(args);
     }
     
     public bool Remove(Vector2 position, bool updateOutlines = false, [CanBeNull] AnchorController sheet = null)

@@ -26,13 +26,16 @@ public class CoinManager : MonoBehaviour,
     [Inject] private IPositionQueryService positionQueryService;
     [Inject] private CoinQueryService coinQueryService;
     [Inject] private CoinPlacementRules placementRules;
+    private CoinFactory coinFactory;
     
     [Inject]
-    private void Construct(EventBus eventBus)
+    private void Construct(EventBus eventBus, CoinFactory coinFactory)
     {
         this.eventBus = eventBus;
-        
         eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
+
+        this.coinFactory = coinFactory;
+        coinFactory.Initialize(coinPrefab, coinContainer);
     }
     
     public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
@@ -54,15 +57,7 @@ public class CoinManager : MonoBehaviour,
     
     public CoinController InstantiateInSheet(ManagerParameters args)
     {
-        CoinController coin = Instantiate(
-            coinPrefab,
-            args.Position, Quaternion.identity,
-            args.Sheet == null ? coinContainer : args.Sheet.AttachmentContainer
-        );
-        
-        diContainer.InjectGameObject(coin.gameObject);
-        
-        return coin;
+        return coinFactory.Create(args);
     }
     
     public void UncollectCoinAtPos(Vector2 position)

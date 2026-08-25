@@ -20,6 +20,14 @@ public class BallManager : MonoBehaviour,
     
     [Inject] private IObjectResolver diContainer;
     [Inject] private ILevelObjectQuery<BallController> ballQueryService;
+    private BallFactory ballFactory;
+
+    [Inject]
+    private void Construct(BallFactory ballFactory)
+    {
+        this.ballFactory = ballFactory;
+        ballFactory.Initialize(ballPrefab, ballContainer);
+    }
     
     public BallController SetInSheet(ManagerParameters args)
     {
@@ -49,17 +57,7 @@ public class BallManager : MonoBehaviour,
     
     public BallController InstantiateInSheet(ManagerParameters args)
     {
-        Transform container = args.Sheet == null ? ballContainer : args.Sheet.AttachmentContainer;
-        
-        GameObject ball = Instantiate(
-            ballPrefab,
-            args.Position, Quaternion.identity,
-            container
-        );
-        
-        diContainer.InjectGameObject(ball);
-        
-        return ball.GetComponentInChildren<BallController>();
+        return ballFactory.Create(args);
     }
     
     private void Start()

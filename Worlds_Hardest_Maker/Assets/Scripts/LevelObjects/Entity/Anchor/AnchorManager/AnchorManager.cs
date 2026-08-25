@@ -22,15 +22,18 @@ public partial class AnchorManager : MonoBehaviour
     private EventBus eventBus;
     [Inject] private IAudioService audioService;
     [Inject] private ILevelObjectQuery<AnchorController> anchorQueryService;
+    private AnchorFactory anchorFactory;
     
     [Inject]
-    private void Construct(EventBus eventBus)
+    private void Construct(EventBus eventBus, AnchorFactory anchorFactory)
     {
         this.eventBus = eventBus;
-        
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
         eventBus.Subscribe<StartPlaytestEvent>(OnPlaytest);
+
+        this.anchorFactory = anchorFactory;
+        anchorFactory.Initialize(anchorPrefab, anchorContainer);
     }
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt)

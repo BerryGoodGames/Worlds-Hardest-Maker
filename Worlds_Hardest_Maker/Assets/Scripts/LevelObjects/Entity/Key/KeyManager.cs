@@ -27,13 +27,16 @@ public class KeyManager : MonoBehaviour,
     [Inject] private IPositionQueryService positionQueryService;
     [Inject] private KeyQueryService keyQueryService;
     [Inject] private KeyPlacementRules placementRules;
+    private KeyFactory keyFactory;
     
     [Inject]
-    private void Construct(EventBus eventBus)
+    private void Construct(EventBus eventBus, KeyFactory keyFactory)
     {
         this.eventBus = eventBus;
-        
         eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
+
+        this.keyFactory = keyFactory;
+        keyFactory.Initialize(grayKeyPrefab, redKeyPrefab, blueKeyPrefab, greenKeyPrefab, yellowKeyPrefab, keyContainer);
     }
     
     private void OnPlayAgain(PlayAgainEvent evt) => CollectedKeys.Clear();
@@ -69,15 +72,7 @@ public class KeyManager : MonoBehaviour,
     
     public KeyController InstantiateInSheet(ManagerParameters args)
     {
-        KeyController key = Instantiate(
-            GetPrefabKey(args.KeyColor),
-            args.Position, Quaternion.identity,
-            args.Sheet == null ? keyContainer : args.Sheet.AttachmentContainer
-        );
-        
-        diContainer.InjectGameObject(key.gameObject);
-        
-        return key;
+        return keyFactory.Create(args);
     }
     
     public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
@@ -108,20 +103,6 @@ public class KeyManager : MonoBehaviour,
     }
     
     public void ActivateAnimations() => Keys.ForEach(key => key.ActivateAnimation());
-    
-    private KeyController GetPrefabKey(KeyColor color)
-    {
-        Dictionary<KeyColor, KeyController> prefabs = new()
-        {
-            { KeyColor.Gray, grayKeyPrefab },
-            { KeyColor.Red, redKeyPrefab },
-            { KeyColor.Blue, blueKeyPrefab },
-            { KeyColor.Green, greenKeyPrefab },
-            { KeyColor.Yellow, yellowKeyPrefab },
-        };
-        
-        return prefabs[color];
-    }
 
     public bool CanHandle(EditMode editMode)
     {

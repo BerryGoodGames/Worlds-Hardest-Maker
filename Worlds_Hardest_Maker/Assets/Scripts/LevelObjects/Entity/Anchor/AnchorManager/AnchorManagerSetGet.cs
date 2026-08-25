@@ -43,14 +43,7 @@ public partial class AnchorManager : IManager<AnchorController>,
     
     public AnchorController InstantiateInSheet(ManagerParameters args)
     {
-        AnchorController anchor = Instantiate(
-            anchorPrefab, Vector2.zero, Quaternion.identity,
-            anchorContainer
-        ).Child;
-        
-        diContainer.InjectGameObject(anchor.gameObject);
-        
-        return anchor;
+        return anchorFactory.Create(args);
     }
 
     public bool CanHandle(EditMode editMode)

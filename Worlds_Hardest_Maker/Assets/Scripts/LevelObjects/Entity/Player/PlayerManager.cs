@@ -24,6 +24,14 @@ public class PlayerManager : MonoBehaviour,
     [Inject] private IPositionQueryService positionQueryService;
     [Inject] private ILevelObjectQuery<PlayerController> playerQueryService;
     [Inject] private PlayerPlacementRules placementRules;
+    private PlayerFactory playerFactory;
+
+    [Inject]
+    private void Construct(PlayerFactory playerFactory)
+    {
+        this.playerFactory = playerFactory;
+        playerFactory.Initialize(playerPrefab, mainCameraJumper, timerController, playerContainer);
+    }
     
     public PlayerController SetInSheet(ManagerParameters args)
     {
@@ -63,20 +71,7 @@ public class PlayerManager : MonoBehaviour,
     
     public PlayerController InstantiateInSheet(ManagerParameters args)
     {
-        PlayerController newPlayer = Instantiate(
-            playerPrefab,
-            args.Position, Quaternion.identity,
-            playerContainer
-        );
-        
-        diContainer.InjectGameObject(newPlayer.gameObject);
-        
-        newPlayer.Initialize(mainCameraJumper, timerController, playerContainer);
-        
-        PlaceManager.Instance.AttachToSheet(newPlayer.gameObject, args.Sheet, false);
-        newPlayer.Sheet = args.Sheet;
-        
-        return newPlayer;
+        return playerFactory.Create(args);
     }
     
     private static List<FieldController> SetSurroundingStartFieldsInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
