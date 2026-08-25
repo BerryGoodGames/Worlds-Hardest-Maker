@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class KeyPlacementRules
 {
-    private readonly IKeyQueryService keyQueryService;
-    private readonly IPlayerQueryService playerQueryService;
+    private readonly ILevelObjectQuery<KeyController> keyQueryService;
+    private readonly ILevelObjectQuery<PlayerController> playerQueryService;
     
-    public KeyPlacementRules(IKeyQueryService keyQueryService, IPlayerQueryService playerQueryService)
+    public KeyPlacementRules(ILevelObjectQuery<KeyController> keyQueryService, ILevelObjectQuery<PlayerController> playerQueryService)
     {
         this.keyQueryService = keyQueryService;
         this.playerQueryService = playerQueryService;
@@ -14,6 +14,6 @@ public class KeyPlacementRules
     
     public bool CanPlaceInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
-        return !playerQueryService.IsThereInSheet(position, sheet) && !keyQueryService.IsThereInSheet(position, sheet);
+        return !playerQueryService.Exists(position, sheet) && !keyQueryService.Exists(position, sheet);
     }
 }

@@ -2,10 +2,10 @@
 
 public class CoinPlacementRules
 {
-    private readonly ICoinQueryService coinQueryService;
-    private readonly IPlayerQueryService playerQueryService;
+    private readonly ILevelObjectQuery<CoinController> coinQueryService;
+    private readonly ILevelObjectQuery<PlayerController> playerQueryService;
 
-    public CoinPlacementRules(ICoinQueryService coinQueryService, IPlayerQueryService playerQueryService)
+    public CoinPlacementRules(ILevelObjectQuery<CoinController> coinQueryService, ILevelObjectQuery<PlayerController> playerQueryService)
     {
         this.coinQueryService = coinQueryService;
         this.playerQueryService = playerQueryService;
@@ -13,6 +13,6 @@ public class CoinPlacementRules
     
     public bool CanPlaceInSheet(Vector2 position, AnchorController sheet)
     {
-        return !coinQueryService.IsThereInSheet(position, sheet) && !playerQueryService.IsThereInSheet(position, sheet);
+        return !coinQueryService.Exists(position, sheet) && !playerQueryService.Exists(position, sheet);
     }
 }

@@ -7,8 +7,7 @@ using VContainer.Unity;
 
 public class KeyManager : MonoBehaviour, 
     IManager<KeyController>, 
-    ILevelObjectManager,
-    IKeyQueryService
+    ILevelObjectManager
 {
     public static KeyManager Instance { get; private set; }
     
@@ -26,6 +25,7 @@ public class KeyManager : MonoBehaviour,
     private EventBus eventBus;
     [Inject] private IKonamiService konamiService;
     [Inject] private IPositionQueryService positionQueryService;
+    [Inject] private ILevelObjectQuery<KeyController> keyQueryService;
     [Inject] private KeyPlacementRules placementRules;
     
     [Inject]
@@ -69,8 +69,7 @@ public class KeyManager : MonoBehaviour,
     
     public KeyController GetInSheet(Vector2 position, AnchorController sheet)
     {
-        return positionQueryService.QueryPosition<KeyController>(position, 0.01f, LayerManager.Instance.Layers.Entity,
-            "Key", sheet);
+        return keyQueryService.Find(position, sheet);
     }
     
     public KeyController Get(Vector2 position)

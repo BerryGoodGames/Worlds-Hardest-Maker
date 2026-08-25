@@ -2,10 +2,10 @@
 
 public class PlayerPlacementRules
 {
-    private readonly IPlayerQueryService playerQueryService;
+    private readonly ILevelObjectQuery<PlayerController> playerQueryService;
     private readonly IFieldQueryService fieldQueryService;
 
-    public PlayerPlacementRules(IPlayerQueryService playerQueryService, IFieldQueryService fieldQueryService)
+    public PlayerPlacementRules(ILevelObjectQuery<PlayerController> playerQueryService, IFieldQueryService fieldQueryService)
     {
         this.playerQueryService = playerQueryService;
         this.fieldQueryService = fieldQueryService;
@@ -13,7 +13,7 @@ public class PlayerPlacementRules
     
     public bool CanPlaceInSheet(Vector2 position, AnchorController sheet)
     {
-        return !playerQueryService.IsThereInSheet(position, sheet) &&
+        return !playerQueryService.Exists(position, sheet) &&
                fieldQueryService.IsPosCoveredWithFieldTypeInSheet(position, sheet,
                    EditModeManager.Instance.AllPlayerStartFieldModes.ToArray());
     }

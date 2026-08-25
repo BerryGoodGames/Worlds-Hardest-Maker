@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using VContainer;
@@ -7,8 +6,7 @@ using VContainer.Unity;
 
 public class CoinManager : MonoBehaviour, 
     IManager<CoinController>, 
-    ILevelObjectManager,
-    ICoinQueryService
+    ILevelObjectManager
 {
     public static CoinManager Instance { get; private set; }
     
@@ -26,6 +24,7 @@ public class CoinManager : MonoBehaviour,
     [Inject] private IObjectResolver diContainer;
     private EventBus eventBus;
     [Inject] private IPositionQueryService positionQueryService;
+    [Inject] private ILevelObjectQuery<CoinController> coinQueryService;
     [Inject] private CoinPlacementRules placementRules;
     
     [Inject]
@@ -55,11 +54,7 @@ public class CoinManager : MonoBehaviour,
     
     public CoinController GetInSheet(Vector2 position, AnchorController sheet)
     {
-        return positionQueryService.QueryPosition<CoinController>(position, 
-            0.1f, 
-            LayerManager.Instance.Layers.Entity,
-            "Coin",
-            sheet);
+        return coinQueryService.Find(position, sheet);
     }
     
     public CoinController Get(Vector2 position)
@@ -152,10 +147,5 @@ public class CoinManager : MonoBehaviour,
         }
         
         return levelData;
-    }
-
-    public bool IsThereInSheet(Vector2 position, AnchorController sheet)
-    {
-        return Query(position, sheet) != null;
     }
 }

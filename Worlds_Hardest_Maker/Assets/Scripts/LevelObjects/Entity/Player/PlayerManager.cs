@@ -7,8 +7,7 @@ using VContainer.Unity;
 
 public class PlayerManager : MonoBehaviour, 
     IManager<PlayerController>, 
-    ILevelObjectManager,
-    IPlayerQueryService
+    ILevelObjectManager
 {
     public static PlayerManager Instance { get; private set; }
     
@@ -23,6 +22,7 @@ public class PlayerManager : MonoBehaviour,
     
     [Inject] private IObjectResolver diContainer;
     [Inject] private IPositionQueryService positionQueryService;
+    [Inject] private ILevelObjectQuery<PlayerController> playerQueryService;
     [Inject] private PlayerPlacementRules placementRules;
     
     public PlayerController SetInSheet(ManagerParameters args)
@@ -60,8 +60,9 @@ public class PlayerManager : MonoBehaviour,
         ManagerParameters args = new() { Position = position, SurroundWithStartFields = true, };
         return ((IManager<PlayerController>)this).Set(args);
     }
-    
-    public PlayerController GetInSheet(Vector2 position, AnchorController sheet) => IsThereInSheet(position, sheet) ? Player : null;
+
+    public PlayerController GetInSheet(Vector2 position, AnchorController sheet) =>
+        playerQueryService.Find(position, sheet);
     
     public PlayerController InstantiateInSheet(ManagerParameters args)
     {
@@ -80,9 +81,7 @@ public class PlayerManager : MonoBehaviour,
         
         return newPlayer;
     }
-    
-    public bool IsThere(Vector2 position) => Instance.Player != null && (Vector2)Instance.Player.transform.position == position;
-    public bool IsThereInSheet(Vector2 position, AnchorController sheet) => IsThere(position) && Instance.Player.Sheet == sheet;
+    public bool IsThereInSheet(Vector2 position, AnchorController sheet) => playerQueryService.Exists(position, sheet);
     
     private static List<FieldController> SetSurroundingStartFieldsInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
@@ -161,7 +160,8 @@ public class PlayerManager : MonoBehaviour,
         
         foreach (Vector2 d in deltas)
         {
-            if (IsThere(position + d)) return true;
+            bool isThere = Player != null && (Vector2)Player.transform.position == position + d;
+            if (isThere) return true;
         }
         
         return false;

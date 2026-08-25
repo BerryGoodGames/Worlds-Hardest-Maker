@@ -53,6 +53,10 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<FieldManager>().AsImplementedInterfaces();
         builder.Register<DeleteFieldManager>(Lifetime.Singleton).AsImplementedInterfaces();
 
+        builder.Register<CoinQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<CoinController>>();
+        builder.Register<KeyQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<KeyController>>();
+        builder.Register<PlayerQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<PlayerController>>();
+        
         builder.Register<CoinPlacementRules>(Lifetime.Singleton).AsSelf();
         builder.Register<KeyPlacementRules>(Lifetime.Singleton).AsSelf();
         builder.Register<PlayerPlacementRules>(Lifetime.Singleton).AsSelf();
