@@ -75,13 +75,8 @@ public class KeyManager : MonoBehaviour,
     
     public KeyController Get(Vector2 position)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f, LayerManager.Instance.Layers.Entity);
-        foreach (Collider2D hit in hits)
-        {
-            if (hit.TryGetComponent(out KeyController controller)) return controller;
-        }
-        
-        return null;
+        return positionQueryService.QueryPositionAny<KeyController>(position, 0.01f,
+            LayerManager.Instance.Layers.Entity);
     }
     
     public KeyController InstantiateInSheet(ManagerParameters args)

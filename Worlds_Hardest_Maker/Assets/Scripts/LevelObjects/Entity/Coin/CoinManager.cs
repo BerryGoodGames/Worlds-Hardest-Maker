@@ -64,13 +64,8 @@ public class CoinManager : MonoBehaviour,
     
     public CoinController Get(Vector2 position)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Entity);
-        foreach (Collider2D hit in hits)
-        {
-            if (hit.TryGetComponent(out CoinController c)) return c;
-        }
-        
-        return null;
+        return positionQueryService.QueryPositionAny<CoinController>(position, 0.1f,
+            LayerManager.Instance.Layers.Entity);
     }
     
     public CoinController InstantiateInSheet(ManagerParameters args)

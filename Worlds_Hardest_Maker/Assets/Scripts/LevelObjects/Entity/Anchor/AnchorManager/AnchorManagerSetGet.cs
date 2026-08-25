@@ -37,26 +37,12 @@ public partial class AnchorManager : IManager<AnchorController>,
         return null;
     }
     
-    public void Remove(Vector2 position)
-    {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f, 128);
-        
-        foreach (Collider2D hit in hits)
-        {
-            // check tag
-            if (!hit.transform.parent.CompareTag("Anchor")) continue;
-            
-            Remove(hit.GetComponent<AnchorController>());
-            break;
-        }
-    }
-    
     public void Remove(AnchorController anchor)
     {
         // deselect anchor first, if selected
-        if (Instance.SelectedAnchor != null)
+        if (SelectedAnchor != null)
         {
-            if (Instance.SelectedAnchor == anchor) Instance.DeselectAnchor();
+            if (SelectedAnchor == anchor) DeselectAnchor();
         }
         
         BallManager.Instance.BallListSheets.Remove(anchor);

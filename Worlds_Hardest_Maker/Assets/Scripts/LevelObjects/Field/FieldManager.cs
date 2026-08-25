@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using MyBox;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -50,22 +51,21 @@ public partial class FieldManager : MonoBehaviour,
             sheet);
         
         if (inFieldLayer != null) return inFieldLayer;
-        
-        return positionQueryService.QueryPosition<FieldController>(position, 0.1f, LayerManager.Instance.Layers.Void, sheet);
+
+        return positionQueryService.QueryPosition<FieldController>(position, 0.1f, LayerManager.Instance.Layers.Void,
+            sheet);
     }
     
     public FieldController Get(Vector2 position)
     {
-        // get all collisions from layers Field and Void
-        Collider2D[] collidedGameObjects = Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Field)
-            .Concat(Physics2D.OverlapCircleAll(position, 0.1f, LayerManager.Instance.Layers.Void)).ToArray();
-        
-        foreach (Collider2D c in collidedGameObjects)
-        {
-            if (c.TryGetComponent(out FieldController f)) return f;
-        }
-        
-        return null;
+        FieldController inFieldLayer = positionQueryService.QueryPositionAny<FieldController>(position,
+            0.1f,
+            LayerManager.Instance.Layers.Field);
+
+        if (inFieldLayer != null) return inFieldLayer;
+
+        return positionQueryService.QueryPositionAny<FieldController>(position, 0.1f,
+            LayerManager.Instance.Layers.Void);
     }
     
     public FieldController InstantiateInSheet(ManagerParameters args)

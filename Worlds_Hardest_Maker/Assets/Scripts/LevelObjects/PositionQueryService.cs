@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 
 public class PositionQueryService : IPositionQueryService
 {
@@ -24,6 +25,17 @@ public class PositionQueryService : IPositionQueryService
             if (IManager.IsInSheet(obj, sheet) || IManager.IsInSheet(obj.transform.parent, sheet)) return obj;
         }
     
+        return null;
+    }
+
+    public T QueryPositionAny<T>(Vector2 position, float radius, LayerMask layer) where T : Component
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(position, radius, layer);
+        foreach (Collider2D hit in hits)
+        {
+            if (hit.TryGetComponent(out T controller)) return controller;
+        }
+        
         return null;
     }
 }
