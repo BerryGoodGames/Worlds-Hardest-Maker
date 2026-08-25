@@ -23,7 +23,7 @@ public class BallManager : MonoBehaviour,
     
     public BallController SetInSheet(ManagerParameters args)
     {
-        if (GetInSheet(args.Position, args.Sheet) != null) return null;
+        if (ballQueryService.Exists(args.Position, args.Sheet)) return null;
         
         BallController ballController = InstantiateInSheet(args);
         
@@ -99,7 +99,7 @@ public class BallManager : MonoBehaviour,
 
     public bool Remove(Vector2 position, AnchorController sheet)
     {
-        BallController ball = GetInSheet(position, sheet);
+        BallController ball = ballQueryService.Find(position, sheet);
 
         if (ball == null) return false;
 

@@ -39,7 +39,7 @@ public partial class FieldManager
         
         foreach (Vector2Int d in deltas)
         {
-            FieldController neighbor = GetInSheet(position + d, sheet);
+            FieldController neighbor = fieldQueryService.Find(position + d, sheet);
             if (neighbor != null) neighbors.Add(neighbor);
         }
         

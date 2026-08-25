@@ -29,7 +29,7 @@ public class PlayerManager : MonoBehaviour,
     {
         Vector2 position = args.Position;
         
-        if (IsThereInSheet(position, args.Sheet)) return null;
+        if (playerQueryService.Exists(position, args.Sheet)) return null;
         
         bool canPlaceInSheet = placementRules.CanPlaceInSheet(position, args.Sheet);
         
@@ -81,7 +81,6 @@ public class PlayerManager : MonoBehaviour,
         
         return newPlayer;
     }
-    public bool IsThereInSheet(Vector2 position, AnchorController sheet) => playerQueryService.Exists(position, sheet);
     
     private static List<FieldController> SetSurroundingStartFieldsInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
@@ -198,7 +197,7 @@ public class PlayerManager : MonoBehaviour,
 
     public bool Remove(Vector2 position, AnchorController sheet)
     {
-        bool existed = GetInSheet(position, sheet) != null;
+        bool existed = playerQueryService.Exists(position, sheet);
         RemoveAtPositionInSheet(position, sheet);
         return existed;
     }

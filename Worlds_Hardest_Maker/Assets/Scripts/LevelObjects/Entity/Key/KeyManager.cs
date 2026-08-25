@@ -40,7 +40,7 @@ public class KeyManager : MonoBehaviour,
     
     private void RemoveKeyInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
-        KeyController key = GetInSheet(position, sheet);
+        KeyController key = keyQueryService.Find(position, sheet);
         
         if (key == null) return;
         
@@ -90,8 +90,6 @@ public class KeyManager : MonoBehaviour,
         
         return key;
     }
-    
-    public bool IsThereInSheet(Vector2 position, AnchorController sheet) => GetInSheet(position, sheet) != null;
     
     public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
 
@@ -158,7 +156,7 @@ public class KeyManager : MonoBehaviour,
 
     public bool Remove(Vector2 position, AnchorController sheet)
     {
-        KeyController key = GetInSheet(position, sheet);
+        KeyController key = keyQueryService.Find(position, sheet);
 
         if (key == null) return false;
         

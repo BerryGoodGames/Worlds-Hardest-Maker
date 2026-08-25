@@ -24,7 +24,7 @@ public partial class FieldManager : MonoBehaviour,
     
     public FieldController SetInSheet(ManagerParameters args)
     {
-        FieldController fieldAtPosition = GetInSheet(args.Position, args.Sheet);
+        FieldController fieldAtPosition = fieldQueryService.Find(args.Position, args.Sheet);
         if (fieldAtPosition is not null && fieldAtPosition.FieldMode == args.FieldMode) return null;
         
         // remove any field at pos
@@ -82,7 +82,7 @@ public partial class FieldManager : MonoBehaviour,
     
     public bool Remove(Vector2 position, bool updateOutlines = false, [CanBeNull] AnchorController sheet = null)
     {
-        FieldController field = GetInSheet(position, sheet);
+        FieldController field = fieldQueryService.Find(position, sheet);
         
         PlayerController player = PlayerManager.Instance.Player;
         if (player != null && player.CurrentPlatforms.Contains(field))

@@ -8,7 +8,7 @@ public partial class AnchorManager : IManager<AnchorController>,
 {
     public AnchorController SetInSheet(ManagerParameters args)
     {
-        if (((IManager<AnchorController>)this).IsThereInSheet(args.Position, args.Sheet)) return null;
+        if (anchorQueryService.Exists(args.Position, args.Sheet)) return null;
         
         AnchorController anchor = InstantiateInSheet(args);
         anchor.transform.position = args.Position;
@@ -81,7 +81,7 @@ public partial class AnchorManager : IManager<AnchorController>,
 
     public bool Remove(Vector2 position, AnchorController sheet)
     {
-        AnchorController anchor = GetInSheet(position, sheet);
+        AnchorController anchor = anchorQueryService.Find(position, sheet);
         
         if (anchor == null) return false;
         

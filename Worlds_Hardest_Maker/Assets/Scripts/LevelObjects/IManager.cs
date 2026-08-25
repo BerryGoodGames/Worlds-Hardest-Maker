@@ -24,11 +24,7 @@ public interface IManager<out T> : IManager where T : LevelObjectController
     public T Get(Vector2 position) => GetInSheet(position, PlaceManager.GetCurrentSheet());
     public T GetInSheet(Vector2 position, [CanBeNull] AnchorController sheet);
     
-    public T Instantiate(ManagerParameters args) => InstantiateInSheet(ManagerParameters.FromCurrentSheet(args));
     public T InstantiateInSheet(ManagerParameters args);
-    
-    public bool IsThere(Vector2 position) => Get(position) != null;
-    public bool IsThereInSheet(Vector2 position, [CanBeNull] AnchorController sheet) => GetInSheet(position, sheet) != null;
 }
 
 public struct ManagerParameters

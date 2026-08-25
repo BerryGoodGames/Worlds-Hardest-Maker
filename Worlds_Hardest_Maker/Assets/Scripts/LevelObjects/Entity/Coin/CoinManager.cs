@@ -122,7 +122,7 @@ public class CoinManager : MonoBehaviour,
 
     public bool Remove(Vector2 position, AnchorController sheet)
     {
-        CoinController coin = GetInSheet(position, sheet);
+        CoinController coin = coinQueryService.Find(position, sheet);
 
         if (coin == null) return false;
 
