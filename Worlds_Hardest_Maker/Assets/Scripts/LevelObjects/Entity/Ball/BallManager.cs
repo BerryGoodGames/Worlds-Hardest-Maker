@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 using VContainer;
-using VContainer.Unity;
 
 public class BallManager : MonoBehaviour, 
     IManager<BallController>, 
@@ -33,7 +32,7 @@ public class BallManager : MonoBehaviour,
     {
         if (ballQueryService.Exists(args.Position, args.Sheet)) return null;
         
-        BallController ballController = InstantiateInSheet(args);
+        BallController ballController = ballFactory.Create(args);
         
         // setup parent
         if (AnchorAttachManager.Instance.InAttachMode)
@@ -53,11 +52,6 @@ public class BallManager : MonoBehaviour,
         PlaceManager.Instance.AttachToSheet(ballController.LevelObject, args.Sheet);
         
         return ballController;
-    }
-    
-    public BallController InstantiateInSheet(ManagerParameters args)
-    {
-        return ballFactory.Create(args);
     }
     
     private void Start()

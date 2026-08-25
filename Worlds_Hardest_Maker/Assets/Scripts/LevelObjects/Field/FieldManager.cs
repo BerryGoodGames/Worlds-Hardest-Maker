@@ -37,7 +37,7 @@ public partial class FieldManager : MonoBehaviour,
         Remove(args.Position, true, args.Sheet);
         
         // place field according to edit mode
-        FieldController field = ((IManager<FieldController>)this).InstantiateInSheet(args);
+        FieldController field = fieldFactory.Create(args);
         
         if (field.TryGetComponent(out ColorCalibration calibration))
             calibration.Apply(LevelSessionEditManager.Instance.IsPlaying && SettingsManager.Instance.OneColorSafeFields);
@@ -46,11 +46,6 @@ public partial class FieldManager : MonoBehaviour,
         if (!args.FieldMode.IsStartFieldForPlayer) PlayerManager.Instance.RemoveAtPosIntersectInSheet(args.Position, args.Sheet);
 
         return field;
-    }
-    
-    public FieldController InstantiateInSheet(ManagerParameters args)
-    {
-        return fieldFactory.Create(args);
     }
     
     public bool Remove(Vector2 position, bool updateOutlines = false, [CanBeNull] AnchorController sheet = null)

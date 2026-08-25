@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
-using VContainer.Unity;
 
 public partial class AnchorManager : IManager<AnchorController>, 
     ILevelObjectManager
@@ -10,7 +9,7 @@ public partial class AnchorManager : IManager<AnchorController>,
     {
         if (anchorQueryService.Exists(args.Position, args.Sheet)) return null;
         
-        AnchorController anchor = InstantiateInSheet(args);
+        AnchorController anchor = anchorFactory.Create(args);
         anchor.transform.position = args.Position;
         anchor.AttachmentContainerSyncTransform.Sync();
         
@@ -39,11 +38,6 @@ public partial class AnchorManager : IManager<AnchorController>,
         Destroy(anchor.transform.parent.gameObject);
         
         audioService.Play(PlaceManager.Instance.GetSfx(EditModeManager.Delete));
-    }
-    
-    public AnchorController InstantiateInSheet(ManagerParameters args)
-    {
-        return anchorFactory.Create(args);
     }
 
     public bool CanHandle(EditMode editMode)

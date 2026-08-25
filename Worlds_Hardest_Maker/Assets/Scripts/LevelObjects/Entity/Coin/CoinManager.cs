@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 using VContainer;
-using VContainer.Unity;
 
 public class CoinManager : MonoBehaviour, 
     IManager<CoinController>, 
@@ -48,16 +47,11 @@ public class CoinManager : MonoBehaviour,
         
         if (!CanPlaceInSheet(matrixPosition, args.Sheet)) return null;
         
-        CoinController coin = InstantiateInSheet(args);
+        CoinController coin = coinFactory.Create(args);
         
         PlaceManager.Instance.AttachToSheet(coin.gameObject, args.Sheet);
         
         return coin;
-    }
-    
-    public CoinController InstantiateInSheet(ManagerParameters args)
-    {
-        return coinFactory.Create(args);
     }
     
     public void UncollectCoinAtPos(Vector2 position)

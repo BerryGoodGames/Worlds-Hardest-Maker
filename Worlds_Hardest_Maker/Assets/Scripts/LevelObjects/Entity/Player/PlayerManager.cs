@@ -3,7 +3,6 @@ using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using VContainer;
-using VContainer.Unity;
 
 public class PlayerManager : MonoBehaviour, 
     IManager<PlayerController>, 
@@ -52,7 +51,7 @@ public class PlayerManager : MonoBehaviour,
         else
         {
             // place player
-            PlayerController newPlayer = ((IManager<PlayerController>)this).InstantiateInSheet(args);
+            PlayerController newPlayer = playerFactory.Create(args);
             
             // set target of camera
             mainCameraJumper.SetTarget("Player", newPlayer.gameObject);
@@ -67,11 +66,6 @@ public class PlayerManager : MonoBehaviour,
     {
         ManagerParameters args = new() { Position = position, SurroundWithStartFields = true, };
         return ((IManager<PlayerController>)this).Set(args);
-    }
-    
-    public PlayerController InstantiateInSheet(ManagerParameters args)
-    {
-        return playerFactory.Create(args);
     }
     
     private static List<FieldController> SetSurroundingStartFieldsInSheet(Vector2 position, [CanBeNull] AnchorController sheet)

@@ -3,7 +3,6 @@ using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using VContainer;
-using VContainer.Unity;
 
 public class KeyManager : MonoBehaviour, 
     IManager<KeyController>, 
@@ -61,18 +60,13 @@ public class KeyManager : MonoBehaviour,
         // remove other key (which has mby other color)
         RemoveKeyInSheet(args.Position, args.Sheet);
         
-        KeyController key = InstantiateInSheet(args);
+        KeyController key = keyFactory.Create(args);
         
         key.Color = args.KeyColor;
         
         PlaceManager.Instance.AttachToSheet(key.gameObject, args.Sheet);
         
         return key;
-    }
-    
-    public KeyController InstantiateInSheet(ManagerParameters args)
-    {
-        return keyFactory.Create(args);
     }
     
     public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
