@@ -6,6 +6,7 @@ using WorldsHardestMaker.Selection;
 public class AreaErasureService : IAreaErasureService
 {
     [Inject] private IAreaQueryService areaQueryService;
+    [Inject] private FieldQueryService fieldQueryService;
     
     public void EraseArea(SelectionArea area)
     {
@@ -41,7 +42,7 @@ public class AreaErasureService : IAreaErasureService
         PlayerController player = PlayerManager.Instance.Player;
         
         if (player != null
-            && !FieldManager.Instance.IsPosCoveredWithFieldTypeInSheet(
+            && !fieldQueryService.IsPosCoveredWithFieldTypeInSheet(
                 player.transform.position, PlaceManager.GetCurrentSheet(), EditModeManager.Instance.AllPlayerStartFieldModes.ToArray()
             ))
         {

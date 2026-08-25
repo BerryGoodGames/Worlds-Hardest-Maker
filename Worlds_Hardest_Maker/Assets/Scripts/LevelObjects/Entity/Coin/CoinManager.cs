@@ -120,11 +120,6 @@ public class CoinManager : MonoBehaviour,
         return PlacementResult.FromController(result);
     }
 
-    public LevelObjectController Query(Vector2 position, AnchorController sheet)
-    {
-        return GetInSheet(position, sheet);
-    }
-
     public bool Remove(Vector2 position, AnchorController sheet)
     {
         CoinController coin = GetInSheet(position, sheet);

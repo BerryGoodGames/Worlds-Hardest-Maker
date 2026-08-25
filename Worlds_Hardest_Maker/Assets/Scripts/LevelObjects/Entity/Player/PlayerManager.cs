@@ -196,11 +196,6 @@ public class PlayerManager : MonoBehaviour,
         return PlacementResult.FromController(result);
     }
 
-    public LevelObjectController Query(Vector2 position, AnchorController sheet)
-    {
-        return GetInSheet(position, sheet);
-    }
-
     public bool Remove(Vector2 position, AnchorController sheet)
     {
         bool existed = GetInSheet(position, sheet) != null;

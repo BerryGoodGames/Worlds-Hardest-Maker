@@ -27,14 +27,7 @@ public partial class AnchorManager : IManager<AnchorController>,
     
     public AnchorController GetInSheet(Vector2 position, AnchorController sheet)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.01f);
-        
-        foreach (Collider2D hit in hits)
-        {
-            if (hit.transform.parent.CompareTag("Anchor")) return hit.gameObject.GetComponent<AnchorController>();
-        }
-        
-        return null;
+        return anchorQueryService.Find(position, sheet);
     }
     
     public void Remove(AnchorController anchor)
@@ -84,11 +77,6 @@ public partial class AnchorManager : IManager<AnchorController>,
         LastSelectClick = Time.time;
 
         return PlacementResult.FromController(result);
-    }
-
-    public LevelObjectController Query(Vector2 position, AnchorController sheet)
-    {
-        return GetInSheet(position, sheet);
     }
 
     public bool Remove(Vector2 position, AnchorController sheet)

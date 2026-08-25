@@ -56,6 +56,9 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.Register<CoinQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<CoinController>>();
         builder.Register<KeyQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<KeyController>>();
         builder.Register<PlayerQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<PlayerController>>();
+        builder.Register<BallQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<BallController>>();
+        builder.Register<AnchorQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<AnchorController>>();
+        builder.Register<FieldQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<FieldController>>().AsSelf();
         
         builder.Register<CoinPlacementRules>(Lifetime.Singleton).AsSelf();
         builder.Register<KeyPlacementRules>(Lifetime.Singleton).AsSelf();

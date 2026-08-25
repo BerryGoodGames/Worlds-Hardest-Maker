@@ -19,7 +19,7 @@ public class BallManager : MonoBehaviour,
     [ReadOnly] public List<BallController> BallListGlobal;
     
     [Inject] private IObjectResolver diContainer;
-    [Inject] private IPositionQueryService positionQueryService;
+    [Inject] private ILevelObjectQuery<BallController> ballQueryService;
     
     public BallController SetInSheet(ManagerParameters args)
     {
@@ -49,11 +49,7 @@ public class BallManager : MonoBehaviour,
     
     public BallController GetInSheet(Vector2 position, AnchorController sheet)
     {
-        return positionQueryService.QueryPosition<BallController>(position,
-            0.01f,
-            LayerManager.Instance.Layers.Entity,
-            "BallObject",
-            sheet);
+        return ballQueryService.Find(position, sheet);
     }
     
     public BallController InstantiateInSheet(ManagerParameters args)
@@ -99,11 +95,6 @@ public class BallManager : MonoBehaviour,
         BallController result = SetInSheet(args);
 
         return PlacementResult.FromController(result);
-    }
-
-    public LevelObjectController Query(Vector2 position, AnchorController sheet)
-    {
-        return GetInSheet(position, sheet);
     }
 
     public bool Remove(Vector2 position, AnchorController sheet)

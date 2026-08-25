@@ -3,9 +3,9 @@
 public class PlayerPlacementRules
 {
     private readonly ILevelObjectQuery<PlayerController> playerQueryService;
-    private readonly IFieldQueryService fieldQueryService;
+    private readonly FieldQueryService fieldQueryService;
 
-    public PlayerPlacementRules(ILevelObjectQuery<PlayerController> playerQueryService, IFieldQueryService fieldQueryService)
+    public PlayerPlacementRules(ILevelObjectQuery<PlayerController> playerQueryService, FieldQueryService fieldQueryService)
     {
         this.playerQueryService = playerQueryService;
         this.fieldQueryService = fieldQueryService;

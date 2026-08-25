@@ -18,16 +18,15 @@ public partial class AnchorManager : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private AlphaTween anchorNoAnchorSelectedScreen;
     [SerializeField] [InitializationField] [MustBeAssigned] private AlphaTween anchorInPlayModeScreen;
     
-    private IObjectResolver diContainer;
+    [Inject] private IObjectResolver diContainer;
     private EventBus eventBus;
-    private IAudioService audioService;
+    [Inject] private IAudioService audioService;
+    [Inject] private ILevelObjectQuery<AnchorController> anchorQueryService;
     
     [Inject]
-    private void Construct(IObjectResolver diContainer, EventBus eventBus, IAudioService audioService)
+    private void Construct(EventBus eventBus)
     {
-        this.diContainer = diContainer;
         this.eventBus = eventBus;
-        this.audioService = audioService;
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);

@@ -9,8 +9,7 @@ using WorldsHardestMaker.Selection;
 
 public partial class FieldManager : MonoBehaviour, 
     IManager<FieldController>, 
-    ILevelObjectManager,
-    IFieldQueryService
+    ILevelObjectManager
 {
     public static FieldManager Instance { get; private set; }
     
@@ -21,6 +20,7 @@ public partial class FieldManager : MonoBehaviour,
     
     [Inject] private IObjectResolver diContainer;
     [Inject] private IPositionQueryService positionQueryService;
+    [Inject] private ILevelObjectQuery<FieldController> fieldQueryService;
     
     public FieldController SetInSheet(ManagerParameters args)
     {
@@ -44,15 +44,7 @@ public partial class FieldManager : MonoBehaviour,
 
     public FieldController GetInSheet(Vector2 position, AnchorController sheet)
     {
-        FieldController inFieldLayer = positionQueryService.QueryPosition<FieldController>(position, 
-            0.1f, 
-            LayerManager.Instance.Layers.Field, 
-            sheet);
-        
-        if (inFieldLayer != null) return inFieldLayer;
-
-        return positionQueryService.QueryPosition<FieldController>(position, 0.1f, LayerManager.Instance.Layers.Void,
-            sheet);
+        return fieldQueryService.Find(position, sheet);
     }
     
     public FieldController Get(Vector2 position)
@@ -122,28 +114,6 @@ public partial class FieldManager : MonoBehaviour,
         ColorCalibration[] colorCalibrations = fieldContainer.GetComponentsInChildren<ColorCalibration>();
         
         foreach (ColorCalibration field in colorCalibrations) field.Apply(oneColor);
-    }
-    
-    public List<FieldController> GetFieldsAtGridPosInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
-    {
-        Vector2Int[] checkPoses =
-        {
-            Vector2Int.FloorToInt(position),
-            new(Mathf.CeilToInt(position.x), Mathf.FloorToInt(position.y)),
-            new(Mathf.FloorToInt(position.x), Mathf.CeilToInt(position.y)),
-            Vector2Int.CeilToInt(position),
-        };
-        
-        checkPoses = checkPoses.Distinct().ToArray();
-        
-        List<FieldController> res = new();
-        foreach (Vector2Int checkPosition in checkPoses)
-        {
-            FieldController field = GetInSheet(checkPosition, sheet);
-            if (field != null) res.Add(field);
-        }
-        
-        return res;
     }
     
     public static void UpdateOutlinesInArea(bool hasOutline, SelectionArea area)
@@ -251,11 +221,6 @@ public partial class FieldManager : MonoBehaviour,
         FieldController placedField = ((IManager<FieldController>)this).Set(args);
 
         return PlacementResult.FromController(placedField);
-    }
-
-    public LevelObjectController Query(Vector2 position, AnchorController sheet)
-    {
-        return GetInSheet(position, sheet);
     }
 
     public bool Remove(Vector2 position, AnchorController sheet)

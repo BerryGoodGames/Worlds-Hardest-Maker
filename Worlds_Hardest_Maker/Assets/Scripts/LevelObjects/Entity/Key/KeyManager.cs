@@ -156,11 +156,6 @@ public class KeyManager : MonoBehaviour,
         return PlacementResult.FromController(result);
     }
 
-    public LevelObjectController Query(Vector2 position, AnchorController sheet)
-    {
-        return GetInSheet(position, sheet);
-    }
-
     public bool Remove(Vector2 position, AnchorController sheet)
     {
         KeyController key = GetInSheet(position, sheet);
