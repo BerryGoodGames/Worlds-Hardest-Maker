@@ -20,7 +20,7 @@ public partial class FieldManager : MonoBehaviour,
     
     [Inject] private IObjectResolver diContainer;
     [Inject] private IPositionQueryService positionQueryService;
-    [Inject] private ILevelObjectQuery<FieldController> fieldQueryService;
+    [Inject] private FieldQueryService fieldQueryService;
     
     public FieldController SetInSheet(ManagerParameters args)
     {
@@ -40,23 +40,6 @@ public partial class FieldManager : MonoBehaviour,
         if (!args.FieldMode.IsStartFieldForPlayer) PlayerManager.Instance.RemoveAtPosIntersectInSheet(args.Position, args.Sheet);
 
         return field;
-    }
-
-    public FieldController GetInSheet(Vector2 position, AnchorController sheet)
-    {
-        return fieldQueryService.Find(position, sheet);
-    }
-    
-    public FieldController Get(Vector2 position)
-    {
-        FieldController inFieldLayer = positionQueryService.QueryPositionAny<FieldController>(position,
-            0.1f,
-            LayerManager.Instance.Layers.Field);
-
-        if (inFieldLayer != null) return inFieldLayer;
-
-        return positionQueryService.QueryPositionAny<FieldController>(position, 0.1f,
-            LayerManager.Instance.Layers.Void);
     }
     
     public FieldController InstantiateInSheet(ManagerParameters args)
@@ -116,7 +99,7 @@ public partial class FieldManager : MonoBehaviour,
         foreach (ColorCalibration field in colorCalibrations) field.Apply(oneColor);
     }
     
-    public static void UpdateOutlinesInArea(bool hasOutline, SelectionArea area)
+    public void UpdateOutlinesInArea(bool hasOutline, SelectionArea area)
     {
         Vector2 lowest = area.Lowest;
         Vector2 highest = area.Highest;
@@ -168,9 +151,9 @@ public partial class FieldManager : MonoBehaviour,
         }
     }
     
-    private static void UpdateOutlinesSingle(Vector2 origin, params Vector2[] directions)
+    private void UpdateOutlinesSingle(Vector2 origin, params Vector2[] directions)
     {
-        FieldController lowestField = Instance.Get(Vector2Int.RoundToInt(origin));
+        FieldController lowestField = fieldQueryService.FindAny(Vector2Int.RoundToInt(origin));
         
         if (!lowestField.TryGetComponent(out FieldOutline foComp)) return;
         

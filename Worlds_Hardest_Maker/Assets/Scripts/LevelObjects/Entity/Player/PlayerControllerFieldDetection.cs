@@ -85,6 +85,4 @@ public partial class PlayerController
         
         return null;
     }
-    
-    public FieldController GetCurrentField() => FieldManager.Instance.Get(Vector2Int.RoundToInt(transform.position));
 }

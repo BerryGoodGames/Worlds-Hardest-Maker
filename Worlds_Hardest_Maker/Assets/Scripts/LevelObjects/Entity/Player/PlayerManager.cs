@@ -60,9 +60,6 @@ public class PlayerManager : MonoBehaviour,
         ManagerParameters args = new() { Position = position, SurroundWithStartFields = true, };
         return ((IManager<PlayerController>)this).Set(args);
     }
-
-    public PlayerController GetInSheet(Vector2 position, AnchorController sheet) =>
-        playerQueryService.Find(position, sheet);
     
     public PlayerController InstantiateInSheet(ManagerParameters args)
     {

@@ -24,7 +24,7 @@ public class CoinManager : MonoBehaviour,
     [Inject] private IObjectResolver diContainer;
     private EventBus eventBus;
     [Inject] private IPositionQueryService positionQueryService;
-    [Inject] private ILevelObjectQuery<CoinController> coinQueryService;
+    [Inject] private CoinQueryService coinQueryService;
     [Inject] private CoinPlacementRules placementRules;
     
     [Inject]
@@ -50,17 +50,6 @@ public class CoinManager : MonoBehaviour,
         PlaceManager.Instance.AttachToSheet(coin.gameObject, args.Sheet);
         
         return coin;
-    }
-    
-    public CoinController GetInSheet(Vector2 position, AnchorController sheet)
-    {
-        return coinQueryService.Find(position, sheet);
-    }
-    
-    public CoinController Get(Vector2 position)
-    {
-        return positionQueryService.QueryPositionAny<CoinController>(position, 0.1f,
-            LayerManager.Instance.Layers.Entity);
     }
     
     public CoinController InstantiateInSheet(ManagerParameters args)

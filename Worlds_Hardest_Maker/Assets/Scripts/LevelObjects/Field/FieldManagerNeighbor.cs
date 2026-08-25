@@ -18,7 +18,7 @@ public partial class FieldManager
         
         foreach (Vector2Int d in deltas)
         {
-            FieldController neighbor = Get(position + d);
+            FieldController neighbor = fieldQueryService.FindAny(position + d);
             if (neighbor != null) neighbors.Add(neighbor);
         }
         

@@ -56,8 +56,9 @@ public partial class PlayerController : EntityController
     private Transform playerContainer;
     
     private EventBus eventBus;
-    
-    private IKonamiService konamiService;
+    [Inject] private IKonamiService konamiService;
+    [Inject] private CoinQueryService coinQueryService;
+    [Inject] private KeyQueryService keyQueryService;
     
     public static float Speed => LevelSettings.Instance.PlayerSpeed;
     
@@ -72,10 +73,9 @@ public partial class PlayerController : EntityController
     public override EditMode EditMode => EditModeManager.Player;
     
     [Inject]
-    private void Construct(EventBus eventBus, IKonamiService konamiService)
+    private void Construct(EventBus eventBus)
     {
         this.eventBus = eventBus;
-        this.konamiService = konamiService;
         
         eventBus.Subscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
         

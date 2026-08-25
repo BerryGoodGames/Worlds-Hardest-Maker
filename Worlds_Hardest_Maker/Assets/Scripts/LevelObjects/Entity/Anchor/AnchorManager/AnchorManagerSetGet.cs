@@ -25,11 +25,6 @@ public partial class AnchorManager : IManager<AnchorController>,
         return anchor;
     }
     
-    public AnchorController GetInSheet(Vector2 position, AnchorController sheet)
-    {
-        return anchorQueryService.Find(position, sheet);
-    }
-    
     public void Remove(AnchorController anchor)
     {
         // deselect anchor first, if selected

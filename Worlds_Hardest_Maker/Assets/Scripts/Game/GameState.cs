@@ -7,6 +7,7 @@ using UnityEngine;
 public class GameState
 {
     public CheckpointController Checkpoint;
+    // TODO: should these be positions? CoinControllers make more sense
     public List<Vector2> CollectedCoins;
     public List<Vector2> CollectedKeys;
 }

@@ -107,7 +107,7 @@ public partial class PlayerController
         
         foreach (Vector2 coinPos in CurrentGameState.CollectedCoins)
         {
-            CoinController coin = CoinManager.Instance.Get(coinPos);
+            CoinController coin = coinQueryService.FindAny(coinPos);
             if (coin != null) CoinManager.Instance.CollectedCoins.Add(coin);
         }
     }

@@ -25,7 +25,7 @@ public class KeyManager : MonoBehaviour,
     private EventBus eventBus;
     [Inject] private IKonamiService konamiService;
     [Inject] private IPositionQueryService positionQueryService;
-    [Inject] private ILevelObjectQuery<KeyController> keyQueryService;
+    [Inject] private KeyQueryService keyQueryService;
     [Inject] private KeyPlacementRules placementRules;
     
     [Inject]
@@ -65,17 +65,6 @@ public class KeyManager : MonoBehaviour,
         PlaceManager.Instance.AttachToSheet(key.gameObject, args.Sheet);
         
         return key;
-    }
-    
-    public KeyController GetInSheet(Vector2 position, AnchorController sheet)
-    {
-        return keyQueryService.Find(position, sheet);
-    }
-    
-    public KeyController Get(Vector2 position)
-    {
-        return positionQueryService.QueryPositionAny<KeyController>(position, 0.01f,
-            LayerManager.Instance.Layers.Entity);
     }
     
     public KeyController InstantiateInSheet(ManagerParameters args)

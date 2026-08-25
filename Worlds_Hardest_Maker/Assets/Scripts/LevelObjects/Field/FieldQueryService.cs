@@ -88,6 +88,18 @@ public class FieldQueryService : ILevelObjectQuery<FieldController>
             sheet);
     }
 
+    public FieldController FindAny(Vector2 position)
+    {
+        FieldController inFieldLayer = positionQueryService.QueryPositionAny<FieldController>(position,
+            0.1f,
+            LayerManager.Instance.Layers.Field);
+
+        if (inFieldLayer != null) return inFieldLayer;
+
+        return positionQueryService.QueryPositionAny<FieldController>(position, 0.1f,
+            LayerManager.Instance.Layers.Void);
+    }
+
     public bool Exists(Vector2 position, AnchorController sheet)
     {
         return Find(position, sheet) != null;

@@ -12,13 +12,6 @@ public partial class AnchorManager
 
     [Inject] private IMouseService mouseService;
     
-    public void Select(Vector2 pos)
-    {
-        AnchorController anchor = ((IManager<AnchorController>)this).Get(pos);
-        
-        Instance.Select(anchor);
-    }
-    
     public void Select(AnchorController anchor, bool toggleDeselect = true)
     {
         if (anchor == null) return;
@@ -101,7 +94,7 @@ public partial class AnchorManager
         // select anchor
         if (!Input.GetMouseButtonDown(0) || !KeyBinds.GetKeyBind("Editor_Modify")) return;
         
-        AnchorController clickedAnchor = ((IManager<AnchorController>)Instance).Get(mouseService.MouseWorldPosGrid);
+        AnchorController clickedAnchor = anchorQueryService.Find(mouseService.MouseWorldPosGrid, PlaceManager.GetCurrentSheet());
         
         if (clickedAnchor == null) return;
         

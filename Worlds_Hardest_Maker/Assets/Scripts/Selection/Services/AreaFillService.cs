@@ -72,7 +72,7 @@ public class AreaFillService : IAreaFillService
             if (player != null && player.transform.position.IsBetween(lowest.ToVector2(), highest.ToVector2())) Object.Destroy(player.gameObject);
         }
         
-        FieldManager.UpdateOutlinesInArea(mode.HasOutline, area);
+        FieldManager.Instance.UpdateOutlinesInArea(mode.HasOutline, area);
     }
 
     public void FillArea(SelectionArea area, EditMode editMode, Transform fieldContainer, Transform playerContainer)
@@ -92,7 +92,7 @@ public class AreaFillService : IAreaFillService
         
         foreach (Vector2 pos in positions) PlaceManager.Instance.Place(editMode, pos);
         
-        FieldManager.UpdateOutlinesInArea(false, area);
+        FieldManager.Instance.UpdateOutlinesInArea(false, area);
     }
 
     public void AdaptAreaToFieldType(SelectionArea area, FieldMode mode)

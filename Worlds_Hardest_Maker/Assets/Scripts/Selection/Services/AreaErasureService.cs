@@ -49,6 +49,6 @@ public class AreaErasureService : IAreaErasureService
             PlayerManager.Instance.RemoveAtPos(player.transform.position);
         }
         
-        FieldManager.UpdateOutlinesInArea(false, area);
+        FieldManager.Instance.UpdateOutlinesInArea(false, area);
     }
 }

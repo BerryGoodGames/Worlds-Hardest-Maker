@@ -47,11 +47,6 @@ public class BallManager : MonoBehaviour,
         return ballController;
     }
     
-    public BallController GetInSheet(Vector2 position, AnchorController sheet)
-    {
-        return ballQueryService.Find(position, sheet);
-    }
-    
     public BallController InstantiateInSheet(ManagerParameters args)
     {
         Transform container = args.Sheet == null ? ballContainer : args.Sheet.AttachmentContainer;

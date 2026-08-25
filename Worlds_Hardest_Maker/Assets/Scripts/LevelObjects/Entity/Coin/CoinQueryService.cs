@@ -18,6 +18,12 @@ public class CoinQueryService : ILevelObjectQuery<CoinController>
             sheet);
     }
 
+    public CoinController FindAny(Vector2 position)
+    {
+        return positionQueryService.QueryPositionAny<CoinController>(position, 0.1f,
+            LayerManager.Instance.Layers.Entity);
+    }
+
     public bool Exists(Vector2 position, AnchorController sheet)
     {
         return Find(position, sheet) != null;

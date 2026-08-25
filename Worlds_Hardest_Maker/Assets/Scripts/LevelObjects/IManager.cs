@@ -21,9 +21,6 @@ public interface IManager<out T> : IManager where T : LevelObjectController
     public T Set(ManagerParameters args) => SetInSheet(ManagerParameters.FromCurrentSheet(args));
     public T SetInSheet(ManagerParameters args);
     
-    public T Get(Vector2 position) => GetInSheet(position, PlaceManager.GetCurrentSheet());
-    public T GetInSheet(Vector2 position, [CanBeNull] AnchorController sheet);
-    
     public T InstantiateInSheet(ManagerParameters args);
 }
 

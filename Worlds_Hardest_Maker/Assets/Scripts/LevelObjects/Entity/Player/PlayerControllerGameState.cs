@@ -81,7 +81,7 @@ public partial class PlayerController
         
         foreach (Vector2 coinCollectedPos in CurrentGameState.CollectedCoins)
         {
-            CoinController coin = CoinManager.Instance.Get(coinCollectedPos);
+            CoinController coin = coinQueryService.FindAny(coinCollectedPos);
             if (coin == null) throw new Exception("Passed game state has null value for coin");
             
             CoinManager.Instance.CollectedCoins.Add(coin);
@@ -89,7 +89,7 @@ public partial class PlayerController
         
         foreach (Vector2 keyCollectedPos in CurrentGameState.CollectedKeys)
         {
-            KeyController key = KeyManager.Instance.Get(keyCollectedPos);
+            KeyController key = keyQueryService.FindAny(keyCollectedPos);
             if (key == null) throw new Exception("Passed game state has null value for key");
             
             KeyManager.Instance.CollectedKeys.Add(key);
