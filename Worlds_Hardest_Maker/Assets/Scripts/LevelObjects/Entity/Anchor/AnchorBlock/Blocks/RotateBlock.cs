@@ -31,7 +31,6 @@ public class RotateBlock : AnchorBlock, IDurationBlock
         int direction = ctx.IsClockwise ? -1 : 1;
         
         ctx.RotationTween.Kill();
-        ctx.RotationTween.Kill();
         ctx.RotationTween = ctx.Transform.DORotate(iterations * 360 * direction * Vector3.forward, duration, RotateMode.FastBeyond360)
             .SetRelative()
             .SetEase(ctx.Ease)

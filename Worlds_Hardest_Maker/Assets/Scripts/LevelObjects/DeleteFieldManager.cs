@@ -7,7 +7,7 @@ public class DeleteFieldManager : ILevelObjectPlacer
         return editMode == EditModeManager.Delete;
     }
 
-    public bool Place(PlacementRequest request)
+    public PlacementResult Place(PlacementRequest request)
     {
         Vector2 matrixPosition = request.Position.ConvertToMatrix();
         
@@ -17,6 +17,6 @@ public class DeleteFieldManager : ILevelObjectPlacer
         // delete field
         bool deletedField = FieldManager.Instance.Remove(matrixPosition, true, request.Sheet);
 
-        return deletedField;
+        return new(deletedField, null);
     }
 }

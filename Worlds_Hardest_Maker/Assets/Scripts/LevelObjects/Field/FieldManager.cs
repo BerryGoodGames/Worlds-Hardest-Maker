@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using MyBox;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -96,7 +95,6 @@ public partial class FieldManager : MonoBehaviour,
         PlayerController player = PlayerManager.Instance.Player;
         if (player != null && player.CurrentPlatforms.Contains(field))
         {
-            print("Calling from remove");
             field.OnPlayerExited();
         }
         
@@ -235,7 +233,7 @@ public partial class FieldManager : MonoBehaviour,
         return editMode is FieldMode;
     }
 
-    public bool Place(PlacementRequest request)
+    public PlacementResult Place(PlacementRequest request)
     {
         FieldMode mode = (FieldMode)request.EditMode;
         int rotation = request.Rotation;
@@ -252,7 +250,7 @@ public partial class FieldManager : MonoBehaviour,
 
         FieldController placedField = ((IManager<FieldController>)this).Set(args);
 
-        return placedField;
+        return PlacementResult.FromController(placedField);
     }
 
     public LevelObjectController Query(Vector2 position, AnchorController sheet)

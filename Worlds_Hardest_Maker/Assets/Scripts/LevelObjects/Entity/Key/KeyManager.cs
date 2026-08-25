@@ -142,7 +142,7 @@ public class KeyManager : MonoBehaviour,
         return editMode is KeyMode;
     }
 
-    public bool Place(PlacementRequest request)
+    public PlacementResult Place(PlacementRequest request)
     {
         Vector2 gridPosition = request.Position.ConvertToGrid();
         ManagerParameters args = ManagerParameters.FromCurrentSheet(new()
@@ -151,8 +151,10 @@ public class KeyManager : MonoBehaviour,
         });
         
         args.KeyColor = ((KeyMode)request.EditMode).KeyColor;
-        
-        return SetInSheet(args);
+
+        KeyController result = SetInSheet(args);
+
+        return PlacementResult.FromController(result);
     }
 
     public LevelObjectController Query(Vector2 position, AnchorController sheet)

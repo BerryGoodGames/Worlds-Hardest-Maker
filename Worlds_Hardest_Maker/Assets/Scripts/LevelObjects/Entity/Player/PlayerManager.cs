@@ -181,7 +181,7 @@ public class PlayerManager : MonoBehaviour,
         return editMode == EditModeManager.Player;
     }
 
-    public bool Place(PlacementRequest request)
+    public PlacementResult Place(PlacementRequest request)
     {
         Vector2 gridPosition = request.Position.ConvertToGrid();
         
@@ -190,8 +190,10 @@ public class PlayerManager : MonoBehaviour,
             Position = gridPosition, 
             SurroundWithStartFields = true,
         });
-        
-        return SetInSheet(args);
+
+        PlayerController result = SetInSheet(args);
+
+        return PlacementResult.FromController(result);
     }
 
     public LevelObjectController Query(Vector2 position, AnchorController sheet)

@@ -70,7 +70,7 @@ public partial class AnchorManager : IManager<AnchorController>,
         return editMode == EditModeManager.Anchor;
     }
 
-    public bool Place(PlacementRequest request)
+    public PlacementResult Place(PlacementRequest request)
     {
         Vector2 gridPosition = request.Position.ConvertToGrid();
         ManagerParameters args = ManagerParameters.FromCurrentSheet(new()
@@ -82,8 +82,8 @@ public partial class AnchorManager : IManager<AnchorController>,
         
         Select((AnchorController)result);
         LastSelectClick = Time.time;
-        
-        return result;
+
+        return PlacementResult.FromController(result);
     }
 
     public LevelObjectController Query(Vector2 position, AnchorController sheet)

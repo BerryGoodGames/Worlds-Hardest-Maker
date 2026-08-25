@@ -112,7 +112,7 @@ public class CoinManager : MonoBehaviour,
         return editMode == EditModeManager.Coin;
     }
 
-    public bool Place(PlacementRequest request)
+    public PlacementResult Place(PlacementRequest request)
     {
         Vector2 gridPosition = request.Position.ConvertToGrid();
         ManagerParameters args = ManagerParameters.FromCurrentSheet(new()
@@ -120,7 +120,9 @@ public class CoinManager : MonoBehaviour,
             Position = gridPosition
         });
         
-        return SetInSheet(args);
+        CoinController result = SetInSheet(args);
+
+        return PlacementResult.FromController(result);
     }
 
     public LevelObjectController Query(Vector2 position, AnchorController sheet)

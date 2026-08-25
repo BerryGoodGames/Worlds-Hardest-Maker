@@ -88,7 +88,7 @@ public class BallManager : MonoBehaviour,
         return editMode == EditModeManager.Ball;
     }
 
-    public bool Place(PlacementRequest request)
+    public PlacementResult Place(PlacementRequest request)
     {
         Vector2 gridPosition = request.Position.ConvertToGrid();
         ManagerParameters args = ManagerParameters.FromCurrentSheet(new()
@@ -96,7 +96,9 @@ public class BallManager : MonoBehaviour,
             Position = gridPosition
         });
         
-        return SetInSheet(args);
+        BallController result = SetInSheet(args);
+
+        return PlacementResult.FromController(result);
     }
 
     public LevelObjectController Query(Vector2 position, AnchorController sheet)
