@@ -29,15 +29,10 @@ public class AreaFillService : IAreaFillService
         {
             foreach (Vector2 pos in positions)
             {
-                ManagerParameters args = new()
-                {
-                    Position = pos.ConvertToMatrix(),
-                    FieldMode = mode,
-                    Rotation = rotation,
-                    Sheet = PlaceManager.GetCurrentSheet()
-                };
-                
-                FieldManager.Instance.SetInSheet(args);
+                FieldManager.Instance.CreateNew(pos.ConvertToMatrix(),
+                    rotation,
+                    PlaceManager.GetCurrentSheet(),
+                    mode);
             }
             
             return;

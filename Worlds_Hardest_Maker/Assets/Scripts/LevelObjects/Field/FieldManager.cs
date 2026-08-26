@@ -26,22 +26,25 @@ public partial class FieldManager : MonoBehaviour, ILevelObjectPlacer, ILevelObj
         this.fieldFactory.Initialize(fieldContainer, playerContainer);
     }
     
-    public FieldController SetInSheet(ManagerParameters args)
+    public FieldController CreateNew(Vector2 position, int rotation, [CanBeNull] AnchorController sheet, FieldMode fieldMode)
     {
-        FieldController fieldAtPosition = fieldQueryService.Find(args.Position, args.Sheet);
-        if (fieldAtPosition is not null && fieldAtPosition.FieldMode == args.FieldMode) return null;
+        FieldController fieldAtPosition = fieldQueryService.Find(position, sheet);
+        if (fieldAtPosition is not null && fieldAtPosition.FieldMode == fieldMode) return null;
         
         // remove any field at pos
-        Remove(args.Position, true, args.Sheet);
+        Remove(position, true, sheet);
         
         // place field according to edit mode
-        FieldController field = fieldFactory.Create(args);
+        FieldController field = fieldFactory.Create(position, rotation, sheet, fieldMode);
         
         if (field.TryGetComponent(out ColorCalibration calibration))
-            calibration.Apply(LevelSessionEditManager.Instance.IsPlaying && SettingsManager.Instance.OneColorSafeFields);
+        {
+            calibration.Apply(LevelSessionEditManager.Instance.IsPlaying &&
+                              SettingsManager.Instance.OneColorSafeFields);
+        }
         
         // remove player if at changed pos
-        if (!args.FieldMode.IsStartFieldForPlayer) PlayerManager.Instance.RemoveAtPosIntersectInSheet(args.Position, args.Sheet);
+        if (!fieldMode.IsStartFieldForPlayer) PlayerManager.Instance.RemoveAtPosIntersectInSheet(position, sheet);
 
         return field;
     }
@@ -176,16 +179,8 @@ public partial class FieldManager : MonoBehaviour, ILevelObjectPlacer, ILevelObj
         Vector2 position = request.Position.ConvertToMatrix();
         
         if (!mode.IsRotatable) rotation = 0;
-        
-        ManagerParameters args = new()
-        {
-            Position = position,
-            FieldMode = mode,
-            Rotation = rotation,
-            Sheet = PlaceManager.GetCurrentSheet()
-        };
 
-        FieldController placedField = SetInSheet(args);
+        FieldController placedField = CreateNew(position, rotation, PlaceManager.GetCurrentSheet(), mode);
 
         return PlacementResult.FromController(placedField);
     }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -111,7 +112,7 @@ public partial class PlayerController : EntityController
         
         ApplyCurrentGameState();
         
-        if (!LevelSessionManager.Instance.IsEdit) OnSwitchToPlay(new SwitchToPlayEvent());
+        if (!LevelSessionManager.Instance.IsEdit) OnSwitchToPlay(new());
     }
     
     private void Update()
@@ -174,21 +175,21 @@ public partial class PlayerController : EntityController
         Shotgun.gameObject.SetActive((!LevelSessionManager.Instance.IsEdit || LevelSessionEditManager.Instance.IsPlaying) && evt.Active);
     }
     
-    public void ReSet(ManagerParameters args)
+    public void ReSet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
         // calls when the player is placed, when there was already one existing, hence re-setting it
-        transform.position = args.Position;
-        StartPos = args.Position;
+        transform.position = position;
+        StartPos = position;
         
-        bool willBeAttached = args.Sheet != null;
+        bool willBeAttached = sheet != null;
         
-        if (willBeAttached) PlaceManager.Instance.AttachToSheet(gameObject, args.Sheet, false);
+        if (willBeAttached) PlaceManager.Instance.AttachToSheet(gameObject, sheet, false);
         else PlaceManager.Detach(gameObject, playerContainer);
         
-        Sheet = args.Sheet;
+        Sheet = sheet;
         
         IsAttached = Sheet != null;
-        if (IsAttached) SheetStartPosOffset = transform.position - Sheet.transform.position;
+        if (IsAttached) SheetStartPosOffset = transform.position - Sheet!.transform.position;
     }
     
     public void Win()

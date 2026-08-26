@@ -25,27 +25,16 @@ public class FieldData : AttachableData
     
     public override void ImportToLevel(AnchorController sheet)
     {
-        ManagerParameters args = new()
-        {
-            Position = new(Position[0], Position[1]),
-            FieldMode = EditModeManager.GetFieldMode(FieldMode),
-            Rotation = Rotation,
-            Sheet = sheet,
-        };
+        Vector2 position = new(Position[0], Position[1]);
+        FieldMode mode = EditModeManager.GetFieldMode(FieldMode);
         
-        FieldManager.Instance.SetInSheet(args);
+        FieldManager.Instance.CreateNew(position, Rotation, sheet, mode);
     }
     
     public override void ImportToLevel(Vector2 pos)
     {
-        ManagerParameters args = new()
-        {
-            Position = pos,
-            FieldMode = EditModeManager.GetFieldMode(FieldMode),
-            Rotation = Rotation,
-        };
-        
-        FieldManager.Instance.SetInSheet(ManagerParameters.FromCurrentSheet(args));
+        FieldMode mode = EditModeManager.GetFieldMode(FieldMode);
+        FieldManager.Instance.CreateNew(pos, Rotation, PlaceManager.GetCurrentSheet(), mode);
     }
     
     public override EditMode GetEditMode() => EditModeManager.GetFieldMode(FieldMode);

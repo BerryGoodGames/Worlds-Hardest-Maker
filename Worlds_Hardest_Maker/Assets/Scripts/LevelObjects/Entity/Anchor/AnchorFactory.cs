@@ -2,7 +2,7 @@
 using VContainer;
 using VContainer.Unity;
 
-public class AnchorFactory : ILevelObjectFactory<AnchorController>
+public class AnchorFactory
 {
     private readonly IObjectResolver diContainer;
     
@@ -20,7 +20,7 @@ public class AnchorFactory : ILevelObjectFactory<AnchorController>
         this.anchorContainer = anchorContainer;
     }
     
-    public AnchorController Create(ManagerParameters args)
+    public AnchorController Create()
     {
         AnchorController anchor = Object.Instantiate(
             anchorPrefab, Vector2.zero, Quaternion.identity,

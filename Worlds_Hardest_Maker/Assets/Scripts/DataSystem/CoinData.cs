@@ -20,19 +20,14 @@ public class CoinData : AttachableData
     
     public override void ImportToLevel(AnchorController sheet)
     {
-        ManagerParameters args = new()
-        {
-            Position = new(Position[0], Position[1]),
-            Sheet = sheet,
-        };
-        
-        CoinManager.Instance.SetInSheet(args);
+        Vector2 position = new(Position[0], Position[1]);
+
+        CoinManager.Instance.CreateNew(position, sheet);
     }
     
     public override void ImportToLevel(Vector2 pos)
     {
-        ManagerParameters args = new() { Position = pos, };
-        CoinManager.Instance.SetInSheet(ManagerParameters.FromCurrentSheet(args));
+        CoinManager.Instance.CreateNew(pos, PlaceManager.GetCurrentSheet());
     }
     
     public override EditMode GetEditMode() => EditModeManager.Coin;

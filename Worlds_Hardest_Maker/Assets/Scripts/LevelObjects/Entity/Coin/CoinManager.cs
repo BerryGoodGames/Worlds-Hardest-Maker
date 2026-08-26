@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using VContainer;
@@ -35,42 +36,29 @@ public class CoinManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
         coinFactory.Initialize(coinPrefab, coinContainer);
     }
     
-    public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
-
-    public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) => placementRules.CanPlaceInSheet(position, sheet);
-    
-    public CoinController SetInSheet(ManagerParameters args)
-    {
-        Vector2 matrixPosition = args.Position.ConvertToGrid();
-        
-        if (!CanPlaceInSheet(matrixPosition, args.Sheet)) return null;
-        
-        CoinController coin = coinFactory.Create(args);
-        
-        PlaceManager.Instance.AttachToSheet(coin.gameObject, args.Sheet);
-        
-        return coin;
-    }
-    
-    public void UncollectCoinAtPos(Vector2 position)
-    {
-        for (int i = CollectedCoins.Count - 1; i >= 0; i--)
-        {
-            CoinController c = CollectedCoins[i];
-            if (c.InitialPosition == position) CollectedCoins.Remove(c);
-        }
-    }
-    
-    public bool AllCoinsCollected() => CollectedCoins.Count >= CoinsNeededFinal;
-    
-    public void ActivateAnimations() => Coins.ForEach(coin => coin.ActivateAnimation());
-    
     private void OnPlayAgain(PlayAgainEvent evt) => CollectedCoins.Clear();
     
     private void OnDestroy()
     {
         eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
     }
+    
+    public CoinController CreateNew(Vector2 position, [CanBeNull] AnchorController sheet)
+    {
+        Vector2 gridPosition = position.ConvertToGrid();
+        
+        if (!placementRules.CanPlaceInSheet(gridPosition, sheet)) return null;
+
+        CoinController coin = coinFactory.Create(gridPosition, sheet);
+        
+        PlaceManager.Instance.AttachToSheet(coin.gameObject, sheet);
+        
+        return coin;
+    }
+    
+    public bool AllCoinsCollected() => CollectedCoins.Count >= CoinsNeededFinal;
+    
+    public void ActivateAnimations() => Coins.ForEach(coin => coin.ActivateAnimation());
     
     private void Awake()
     {
@@ -86,12 +74,8 @@ public class CoinManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
     public PlacementResult Place(PlacementRequest request)
     {
         Vector2 gridPosition = request.Position.ConvertToGrid();
-        ManagerParameters args = ManagerParameters.FromCurrentSheet(new()
-        {
-            Position = gridPosition
-        });
         
-        CoinController result = SetInSheet(args);
+        CoinController result = CreateNew(gridPosition, PlaceManager.GetCurrentSheet());
 
         return PlacementResult.FromController(result);
     }

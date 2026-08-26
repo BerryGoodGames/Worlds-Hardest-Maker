@@ -38,6 +38,11 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
     
     private void OnPlayAgain(PlayAgainEvent evt) => CollectedKeys.Clear();
     
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
+    }
+    
     private void RemoveKeyInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
     {
         KeyController key = keyQueryService.Find(position, sheet);
@@ -51,26 +56,21 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
         DestroyImmediate(key.transform.gameObject);
     }
     
-    public KeyController SetInSheet(ManagerParameters args)
+    public KeyController CreateNew(Vector2 position, [CanBeNull] AnchorController sheet, KeyColor keyColor)
     {
-        if (!CanPlaceInSheet(args.Position, args.Sheet)) return null;
+        if (!placementRules.CanPlaceInSheet(position, sheet)) return null;
         
         // remove other key (which has mby other color)
-        RemoveKeyInSheet(args.Position, args.Sheet);
+        RemoveKeyInSheet(position, sheet);
         
-        KeyController key = keyFactory.Create(args);
+        KeyController key = keyFactory.Create(position, sheet, keyColor);
         
-        key.Color = args.KeyColor;
+        key.Color = keyColor;
         
-        PlaceManager.Instance.AttachToSheet(key.gameObject, args.Sheet);
+        PlaceManager.Instance.AttachToSheet(key.gameObject, sheet);
         
         return key;
     }
-    
-    public bool CanPlace(Vector2 position) => CanPlaceInSheet(position, PlaceManager.GetCurrentSheet());
-
-    public bool CanPlaceInSheet(Vector2 position, AnchorController sheet) =>
-        placementRules.CanPlaceInSheet(position, sheet);
     
     public bool AllKeysCollected(KeyColor color)
     {
@@ -81,11 +81,6 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
         }
         
         return true;
-    }
-    
-    private void OnDestroy()
-    {
-        eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
     }
     
     private void Awake()
@@ -104,14 +99,10 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
     public PlacementResult Place(PlacementRequest request)
     {
         Vector2 gridPosition = request.Position.ConvertToGrid();
-        ManagerParameters args = ManagerParameters.FromCurrentSheet(new()
-        {
-            Position = gridPosition
-        });
-        
-        args.KeyColor = ((KeyMode)request.EditMode).KeyColor;
+        AnchorController sheet = PlaceManager.GetCurrentSheet();
+        KeyColor keyColor = ((KeyMode)request.EditMode).KeyColor;
 
-        KeyController result = SetInSheet(args);
+        KeyController result = CreateNew(gridPosition, sheet, keyColor);
 
         return PlacementResult.FromController(result);
     }

@@ -15,19 +15,14 @@ public class BallData : AttachableData
     
     public override void ImportToLevel(Vector2 pos)
     {
-        ManagerParameters args = new() { Position = pos, };
-        BallManager.Instance.SetInSheet(args);
+        BallManager.Instance.CreateNew(pos, null);
     }
     
     public override void ImportToLevel(AnchorController sheet)
     {
-        ManagerParameters args = new()
-        {
-            Position = new(position[0], position[1]),
-            Sheet = sheet,
-        };
+        Vector2 position = new(this.position[0], this.position[1]);
         
-        BallManager.Instance.SetInSheet(args);
+        BallManager.Instance.CreateNew(position, sheet);
     }
     
     public override EditMode GetEditMode() => EditModeManager.Ball;

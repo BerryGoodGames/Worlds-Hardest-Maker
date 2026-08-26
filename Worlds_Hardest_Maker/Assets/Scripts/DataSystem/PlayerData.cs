@@ -18,13 +18,9 @@ public class PlayerData : AttachableData
     
     public override void ImportToLevel(AnchorController sheet)
     {
-        ManagerParameters args = new()
-        {
-            Position = new(StartPosition[0], StartPosition[1]),
-            Sheet = sheet,
-        };
+        Vector2 position = new(StartPosition[0], StartPosition[1]);
         
-        PlayerManager.Instance.SetInSheet(args);
+        PlayerManager.Instance.CreateNew(position, sheet, false);
     }
     
     public override void ImportToLevel(Vector2 pos) => PlayerManager.Instance.Set(pos);

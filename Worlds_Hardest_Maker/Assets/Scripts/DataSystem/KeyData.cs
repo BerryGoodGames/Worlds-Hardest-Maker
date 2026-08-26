@@ -22,25 +22,15 @@ public class KeyData : AttachableData
     
     public override void ImportToLevel(Vector2 pos)
     {
-        ManagerParameters args = new()
-        {
-            Position = pos,
-            KeyColor = Color,
-        };
-        
-        KeyManager.Instance.SetInSheet(args);
+        // TODO: should this be in current sheet instead?
+        KeyManager.Instance.CreateNew(pos, null, Color);
     }
     
     public override void ImportToLevel(AnchorController sheet)
     {
-        ManagerParameters args = new()
-        {
-            Position = new(Position[0], Position[1]),
-            KeyColor = Color,
-            Sheet = sheet,
-        };
-        
-        KeyManager.Instance.SetInSheet(args);
+        Vector2 position = new(Position[0], Position[1]);
+
+        KeyManager.Instance.CreateNew(position, sheet, Color);
     }
     
     public override EditMode GetEditMode() =>

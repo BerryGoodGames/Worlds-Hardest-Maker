@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-public class CoinFactory : ILevelObjectFactory<CoinController>
+public class CoinFactory
 {
     private readonly IObjectResolver diContainer;
     
@@ -20,12 +21,12 @@ public class CoinFactory : ILevelObjectFactory<CoinController>
         this.coinContainer = coinContainer;
     }
     
-    public CoinController Create(ManagerParameters args)
+    public CoinController Create(Vector2 position, [CanBeNull] AnchorController sheet)
     {
         CoinController coin = Object.Instantiate(
             coinPrefab,
-            args.Position, Quaternion.identity,
-            args.Sheet == null ? coinContainer : args.Sheet.AttachmentContainer
+            position, Quaternion.identity,
+            sheet == null ? coinContainer : sheet.AttachmentContainer
         );
         
         diContainer.InjectGameObject(coin.gameObject);

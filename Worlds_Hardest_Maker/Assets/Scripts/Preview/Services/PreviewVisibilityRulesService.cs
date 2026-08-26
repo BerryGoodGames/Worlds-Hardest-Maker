@@ -11,6 +11,8 @@ public class PreviewVisibilityRulesService
     [Inject] private IMouseService mouseService;
     [Inject] private ISelectionStateService selectionStateService;
     [Inject] private ICopyPasteService copyPasteService;
+    [Inject] private CoinPlacementRules coinPlacementRules;
+    [Inject] private KeyPlacementRules keyPlacementRules;
     
     public bool IsPreviewVisible(EditMode editMode)
     {
@@ -40,12 +42,12 @@ public class PreviewVisibilityRulesService
         // mode-specific visibility checks
         if (editMode == EditModeManager.Coin)
         {
-            return CoinManager.Instance.CanPlace(GetCurrentMousePosition(editMode));
+            return coinPlacementRules.CanPlaceInSheet(GetCurrentMousePosition(editMode), PlaceManager.GetCurrentSheet());
         }
         
         if (editMode is KeyMode)
         {
-            return KeyManager.Instance.CanPlace(GetCurrentMousePosition(editMode));
+            return keyPlacementRules.CanPlaceInSheet(GetCurrentMousePosition(editMode), PlaceManager.GetCurrentSheet());
         }
 
         return true;

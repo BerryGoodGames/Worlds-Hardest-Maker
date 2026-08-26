@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-public class FieldFactory : ILevelObjectFactory<FieldController>
+public class FieldFactory
 {
     private readonly IObjectResolver diContainer;
         
@@ -20,12 +21,12 @@ public class FieldFactory : ILevelObjectFactory<FieldController>
         this.playerContainer = playerContainer;
     }
     
-    public FieldController Create(ManagerParameters args)
+    public FieldController Create(Vector2 position, int rotation, [CanBeNull] AnchorController sheet, FieldMode fieldMode)
     {
-        GameObject prefab = args.FieldMode.Prefab;
+        GameObject prefab = fieldMode.Prefab;
         GameObject res = Object.Instantiate(
-            prefab, args.Position, Quaternion.Euler(0, 0, args.Rotation),
-            args.Sheet == null ? fieldContainer : args.Sheet.AttachmentContainer
+            prefab, position, Quaternion.Euler(0, 0, rotation),
+            sheet == null ? fieldContainer : sheet.AttachmentContainer
         );
 
         diContainer.InjectGameObject(res);
@@ -34,9 +35,9 @@ public class FieldFactory : ILevelObjectFactory<FieldController>
 
         fieldController.Initialize(playerContainer);
 
-        fieldController.FieldMode = args.FieldMode;
+        fieldController.FieldMode = fieldMode;
 
-        PlaceManager.Instance.AttachToSheet(res, args.Sheet);
+        PlaceManager.Instance.AttachToSheet(res, sheet);
 
         return fieldController;
     }

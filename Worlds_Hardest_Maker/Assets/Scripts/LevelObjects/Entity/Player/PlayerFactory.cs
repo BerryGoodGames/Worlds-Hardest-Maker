@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-public class PlayerFactory : ILevelObjectFactory<PlayerController>
+public class PlayerFactory
 {
     private readonly IObjectResolver diContainer;
     
@@ -24,11 +25,11 @@ public class PlayerFactory : ILevelObjectFactory<PlayerController>
         this.playerContainer = playerContainer;
     }
     
-    public PlayerController Create(ManagerParameters args)
+    public PlayerController Create(Vector2 position, [CanBeNull] AnchorController sheet)
     {
         PlayerController newPlayer = Object.Instantiate(
             playerPrefab,
-            args.Position, Quaternion.identity,
+            position, Quaternion.identity,
             playerContainer
         );
         
@@ -36,8 +37,8 @@ public class PlayerFactory : ILevelObjectFactory<PlayerController>
         
         newPlayer.Initialize(mainCameraJumper, timerController, playerContainer);
         
-        PlaceManager.Instance.AttachToSheet(newPlayer.gameObject, args.Sheet, false);
-        newPlayer.Sheet = args.Sheet;
+        PlaceManager.Instance.AttachToSheet(newPlayer.gameObject, sheet, false);
+        newPlayer.Sheet = sheet;
         
         return newPlayer;
     }

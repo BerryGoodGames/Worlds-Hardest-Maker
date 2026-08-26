@@ -30,26 +30,24 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
         playerFactory.Initialize(playerPrefab, mainCameraJumper, timerController, playerContainer);
     }
     
-    public PlayerController SetInSheet(ManagerParameters args)
+    public PlayerController CreateNew(Vector2 position, [CanBeNull] AnchorController sheet, bool surroundWithStartFields)
     {
-        Vector2 position = args.Position;
+        if (playerQueryService.Exists(position, sheet)) return null;
         
-        if (playerQueryService.Exists(position, args.Sheet)) return null;
+        bool canPlaceInSheet = placementRules.CanPlaceInSheet(position, sheet);
         
-        bool canPlaceInSheet = placementRules.CanPlaceInSheet(position, args.Sheet);
-        
-        if (args.SurroundWithStartFields && !canPlaceInSheet) SetSurroundingStartFieldsInSheet(position, args.Sheet);
+        if (surroundWithStartFields && !canPlaceInSheet) SetSurroundingStartFieldsInSheet(position, sheet);
         
         // clear area from coins and keys
         GameManager.Instance.RemoveObjectInContainer(position, coinContainer);
         GameManager.Instance.RemoveObjectInContainer(position, keyContainer);
         
         // if player already exists, just move it
-        if (Player != null) Player.ReSet(args);
+        if (Player != null) Player.ReSet(position, sheet);
         else
         {
             // place player
-            PlayerController newPlayer = playerFactory.Create(args);
+            PlayerController newPlayer = playerFactory.Create(position, sheet);
             
             // set target of camera
             mainCameraJumper.SetTarget("Player", newPlayer.gameObject);
@@ -62,9 +60,7 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
     
     public PlayerController Set(Vector2 position)
     {
-        ManagerParameters args = new() { Position = position, SurroundWithStartFields = true, };
-        args = ManagerParameters.FromCurrentSheet(args);
-        return SetInSheet(args);
+        return CreateNew(position, PlaceManager.GetCurrentSheet(), true);
     }
     
     private static List<FieldController> SetSurroundingStartFieldsInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
@@ -81,14 +77,9 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
         
         foreach (Vector2Int checkPosition in checkPoses)
         {
-            ManagerParameters args = new()
-            {
-                Position = checkPosition,
-                FieldMode = EditModeManager.Start,
-                Sheet = sheet,
-            };
+            FieldController newField = FieldManager.Instance.CreateNew(checkPosition, 0, sheet, EditModeManager.Start);
             
-            result.Add(FieldManager.Instance.SetInSheet(args));
+            result.Add(newField);
         }
         
         return result;
@@ -168,14 +159,8 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
     public PlacementResult Place(PlacementRequest request)
     {
         Vector2 gridPosition = request.Position.ConvertToGrid();
-        
-        ManagerParameters args = ManagerParameters.FromCurrentSheet(new()
-        {
-            Position = gridPosition, 
-            SurroundWithStartFields = true,
-        });
 
-        PlayerController result = SetInSheet(args);
+        PlayerController result = CreateNew(gridPosition, PlaceManager.GetCurrentSheet(), true);
 
         return PlacementResult.FromController(result);
     }

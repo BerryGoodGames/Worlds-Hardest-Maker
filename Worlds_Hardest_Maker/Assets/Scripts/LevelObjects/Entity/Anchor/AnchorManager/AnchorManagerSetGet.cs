@@ -1,15 +1,17 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public partial class AnchorManager : ILevelObjectPlacer, ILevelObjectSerializer
 {
-    public AnchorController SetInSheet(ManagerParameters args)
+    public AnchorController CreateNew(Vector2 position, [CanBeNull] AnchorController sheet)
     {
-        if (anchorQueryService.Exists(args.Position, args.Sheet)) return null;
+        if (anchorQueryService.Exists(position, sheet)) return null;
         
-        AnchorController anchor = anchorFactory.Create(args);
-        anchor.transform.position = args.Position;
+        AnchorController anchor = anchorFactory.Create();
+        // TODO: should position setting be in factory?
+        anchor.transform.position = position;
         anchor.AttachmentContainerSyncTransform.Sync();
         
         // default blocks
@@ -47,12 +49,8 @@ public partial class AnchorManager : ILevelObjectPlacer, ILevelObjectSerializer
     public PlacementResult Place(PlacementRequest request)
     {
         Vector2 gridPosition = request.Position.ConvertToGrid();
-        ManagerParameters args = ManagerParameters.FromCurrentSheet(new()
-        {
-            Position = gridPosition
-        });
         
-        LevelObjectController result = SetInSheet(args);
+        LevelObjectController result = CreateNew(gridPosition, PlaceManager.GetCurrentSheet());
         
         Select((AnchorController)result);
         LastSelectClick = Time.time;

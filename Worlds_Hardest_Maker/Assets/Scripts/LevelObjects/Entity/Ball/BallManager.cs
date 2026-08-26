@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using VContainer;
@@ -25,21 +26,21 @@ public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
         this.ballFactory = ballFactory;
         ballFactory.Initialize(ballPrefab, ballContainer);
     }
-    
-    public BallController SetInSheet(ManagerParameters args)
+
+    public BallController CreateNew(Vector2 position, [CanBeNull] AnchorController sheet)
     {
-        if (ballQueryService.Exists(args.Position, args.Sheet)) return null;
+        if (ballQueryService.Exists(position, sheet)) return null;
         
-        BallController ballController = ballFactory.Create(args);
+        BallController ballController = ballFactory.Create(position, sheet);
         
         // setup parent
         if (AnchorAttachManager.Instance.InAttachMode)
         {
-            ballController.ParentAnchor = args.Sheet;
-            args.Sheet.Balls.Add(ballController.LevelObject.transform);
+            ballController.ParentAnchor = sheet;
+            sheet!.Balls.Add(ballController.LevelObject.transform);
         }
         
-        ballController.transform.position = args.Position;
+        ballController.transform.position = position;
         
         // track ball positions in all the layers
         BallList.Add(ballController);
@@ -47,7 +48,7 @@ public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
         if (AnchorAttachManager.Instance.InAttachMode) BallListSheets[AnchorManager.Instance.SelectedAnchor].Add(ballController);
         else BallListGlobal.Add(ballController);
         
-        PlaceManager.Instance.AttachToSheet(ballController.LevelObject, args.Sheet);
+        PlaceManager.Instance.AttachToSheet(ballController.LevelObject, sheet);
         
         return ballController;
     }
@@ -72,13 +73,14 @@ public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
     public PlacementResult Place(PlacementRequest request)
     {
         Vector2 gridPosition = request.Position.ConvertToGrid();
-        ManagerParameters args = ManagerParameters.FromCurrentSheet(new()
-        {
-            Position = gridPosition
-        });
+        // ManagerParameters args = ManagerParameters.FromCurrentSheet(new()
+        // {
+        //     Position = gridPosition
+        // });
+        //
+        // BallController result = SetInSheet(args);
+        BallController result = CreateNew(gridPosition, request.Sheet);
         
-        BallController result = SetInSheet(args);
-
         return PlacementResult.FromController(result);
     }
 

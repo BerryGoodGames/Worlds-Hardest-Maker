@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-public class KeyFactory : ILevelObjectFactory<KeyController>
+public class KeyFactory
 {
     private readonly IObjectResolver diContainer;
     
@@ -35,12 +36,12 @@ public class KeyFactory : ILevelObjectFactory<KeyController>
         this.keyContainer = keyContainer;
     }
     
-    public KeyController Create(ManagerParameters args)
+    public KeyController Create(Vector2 position, [CanBeNull] AnchorController sheet, KeyColor keyColor)
     {
         KeyController key = Object.Instantiate(
-            GetPrefabKey(args.KeyColor),
-            args.Position, Quaternion.identity,
-            args.Sheet == null ? keyContainer : args.Sheet.AttachmentContainer
+            GetPrefabKey(keyColor),
+            position, Quaternion.identity,
+            sheet == null ? keyContainer : sheet.AttachmentContainer
         );
         
         diContainer.InjectGameObject(key.gameObject);

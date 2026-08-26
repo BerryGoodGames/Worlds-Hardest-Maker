@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-public class BallFactory : ILevelObjectFactory<BallController>
+public class BallFactory
 {
     private readonly IObjectResolver diContainer;
     
@@ -20,13 +21,13 @@ public class BallFactory : ILevelObjectFactory<BallController>
         this.ballContainer = ballContainer;
     }
     
-    public BallController Create(ManagerParameters args)
+    public BallController Create(Vector2 position, [CanBeNull] AnchorController sheet)
     {
-        Transform container = args.Sheet == null ? ballContainer : args.Sheet.AttachmentContainer;
+        Transform container = sheet == null ? ballContainer : sheet.AttachmentContainer;
         
         GameObject ball = Object.Instantiate(
             ballPrefab,
-            args.Position, Quaternion.identity,
+            position, Quaternion.identity,
             container
         );
         
