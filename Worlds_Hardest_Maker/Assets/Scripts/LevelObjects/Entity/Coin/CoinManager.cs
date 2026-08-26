@@ -3,9 +3,7 @@ using MyBox;
 using UnityEngine;
 using VContainer;
 
-public class CoinManager : MonoBehaviour, 
-    IManager<CoinController>, 
-    ILevelObjectManager
+public class CoinManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerializer
 {
     public static CoinManager Instance { get; private set; }
     
@@ -96,16 +94,6 @@ public class CoinManager : MonoBehaviour,
         CoinController result = SetInSheet(args);
 
         return PlacementResult.FromController(result);
-    }
-
-    public bool Remove(Vector2 position, AnchorController sheet)
-    {
-        CoinController coin = coinQueryService.Find(position, sheet);
-
-        if (coin == null) return false;
-
-        coin.Delete();
-        return true;
     }
 
     public IEnumerable<Data> Serialize()

@@ -4,9 +4,7 @@ using MyBox;
 using UnityEngine;
 using VContainer;
 
-public class PlayerManager : MonoBehaviour, 
-    IManager<PlayerController>, 
-    ILevelObjectManager
+public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerializer
 {
     public static PlayerManager Instance { get; private set; }
     
@@ -65,7 +63,8 @@ public class PlayerManager : MonoBehaviour,
     public PlayerController Set(Vector2 position)
     {
         ManagerParameters args = new() { Position = position, SurroundWithStartFields = true, };
-        return ((IManager<PlayerController>)this).Set(args);
+        args = ManagerParameters.FromCurrentSheet(args);
+        return SetInSheet(args);
     }
     
     private static List<FieldController> SetSurroundingStartFieldsInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
@@ -89,7 +88,7 @@ public class PlayerManager : MonoBehaviour,
                 Sheet = sheet,
             };
             
-            result.Add(((IManager<FieldController>)FieldManager.Instance).SetInSheet(args));
+            result.Add(FieldManager.Instance.SetInSheet(args));
         }
         
         return result;
@@ -179,13 +178,6 @@ public class PlayerManager : MonoBehaviour,
         PlayerController result = SetInSheet(args);
 
         return PlacementResult.FromController(result);
-    }
-
-    public bool Remove(Vector2 position, AnchorController sheet)
-    {
-        bool existed = playerQueryService.Exists(position, sheet);
-        RemoveAtPositionInSheet(position, sheet);
-        return existed;
     }
 
     public IEnumerable<Data> Serialize()

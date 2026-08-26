@@ -1,11 +1,5 @@
 using UnityEngine;
 
-public interface IManager<out T> where T : LevelObjectController
-{
-    public T Set(ManagerParameters args) => SetInSheet(ManagerParameters.FromCurrentSheet(args));
-    public T SetInSheet(ManagerParameters args);
-}
-
 public struct ManagerParameters
 {
     public Vector2 Position { get; set; }

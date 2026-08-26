@@ -3,9 +3,7 @@ using MyBox;
 using UnityEngine;
 using VContainer;
 
-public class BallManager : MonoBehaviour, 
-    IManager<BallController>, 
-    ILevelObjectManager
+public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerializer
 {
     public static BallManager Instance { get; private set; }
 
@@ -82,16 +80,6 @@ public class BallManager : MonoBehaviour,
         BallController result = SetInSheet(args);
 
         return PlacementResult.FromController(result);
-    }
-
-    public bool Remove(Vector2 position, AnchorController sheet)
-    {
-        BallController ball = ballQueryService.Find(position, sheet);
-
-        if (ball == null) return false;
-
-        ball.Delete();
-        return true;
     }
 
     public IEnumerable<Data> Serialize()

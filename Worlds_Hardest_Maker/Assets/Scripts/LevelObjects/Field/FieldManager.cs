@@ -5,9 +5,7 @@ using UnityEngine;
 using VContainer;
 using WorldsHardestMaker.Selection;
 
-public partial class FieldManager : MonoBehaviour, 
-    IManager<FieldController>, 
-    ILevelObjectManager
+public partial class FieldManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerializer
 {
     public static FieldManager Instance { get; private set; }
     
@@ -184,16 +182,12 @@ public partial class FieldManager : MonoBehaviour,
             Position = position,
             FieldMode = mode,
             Rotation = rotation,
+            Sheet = PlaceManager.GetCurrentSheet()
         };
 
-        FieldController placedField = ((IManager<FieldController>)this).Set(args);
+        FieldController placedField = SetInSheet(args);
 
         return PlacementResult.FromController(placedField);
-    }
-
-    public bool Remove(Vector2 position, AnchorController sheet)
-    {
-        return Remove(position, true, sheet);
     }
 
     public IEnumerable<Data> Serialize()

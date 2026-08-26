@@ -33,7 +33,7 @@ public class FieldData : AttachableData
             Sheet = sheet,
         };
         
-        ((IManager<FieldController>)FieldManager.Instance).SetInSheet(args);
+        FieldManager.Instance.SetInSheet(args);
     }
     
     public override void ImportToLevel(Vector2 pos)
@@ -45,7 +45,7 @@ public class FieldData : AttachableData
             Rotation = Rotation,
         };
         
-        ((IManager<FieldController>)FieldManager.Instance).Set(args);
+        FieldManager.Instance.SetInSheet(ManagerParameters.FromCurrentSheet(args));
     }
     
     public override EditMode GetEditMode() => EditModeManager.GetFieldMode(FieldMode);

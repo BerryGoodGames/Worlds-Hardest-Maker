@@ -387,7 +387,7 @@ public sealed class AnchorBlockTests
             Position = config.anchorSpawnPosition,
         };
 
-        AnchorController anchor = ((IManager<AnchorController>)AnchorManager.Instance).SetInSheet(args);
+        AnchorController anchor = AnchorManager.Instance.SetInSheet(args);
         Assert.IsNotNull(
             anchor,
             "Could not create the smoke-test anchor. Pick an empty anchorSpawnPosition in the config asset."

@@ -4,9 +4,7 @@ using MyBox;
 using UnityEngine;
 using VContainer;
 
-public class KeyManager : MonoBehaviour, 
-    IManager<KeyController>, 
-    ILevelObjectManager
+public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerializer
 {
     public static KeyManager Instance { get; private set; }
     
@@ -116,16 +114,6 @@ public class KeyManager : MonoBehaviour,
         KeyController result = SetInSheet(args);
 
         return PlacementResult.FromController(result);
-    }
-
-    public bool Remove(Vector2 position, AnchorController sheet)
-    {
-        KeyController key = keyQueryService.Find(position, sheet);
-
-        if (key == null) return false;
-        
-        key.Delete();
-        return true;
     }
 
     public IEnumerable<Data> Serialize()

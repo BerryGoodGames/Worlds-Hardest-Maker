@@ -34,9 +34,10 @@ public class AreaFillService : IAreaFillService
                     Position = pos.ConvertToMatrix(),
                     FieldMode = mode,
                     Rotation = rotation,
+                    Sheet = PlaceManager.GetCurrentSheet()
                 };
                 
-                ((IManager<FieldController>)FieldManager.Instance).Set(args);
+                FieldManager.Instance.SetInSheet(args);
             }
             
             return;

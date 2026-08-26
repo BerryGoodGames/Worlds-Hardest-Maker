@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public partial class AnchorManager : IManager<AnchorController>, 
-    ILevelObjectManager
+public partial class AnchorManager : ILevelObjectPlacer, ILevelObjectSerializer
 {
     public AnchorController SetInSheet(ManagerParameters args)
     {
@@ -59,16 +58,6 @@ public partial class AnchorManager : IManager<AnchorController>,
         LastSelectClick = Time.time;
 
         return PlacementResult.FromController(result);
-    }
-
-    public bool Remove(Vector2 position, AnchorController sheet)
-    {
-        AnchorController anchor = anchorQueryService.Find(position, sheet);
-        
-        if (anchor == null) return false;
-        
-        Remove(anchor);
-        return true;
     }
 
     public IEnumerable<Data> Serialize()

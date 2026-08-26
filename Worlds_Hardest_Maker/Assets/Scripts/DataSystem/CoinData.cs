@@ -26,13 +26,13 @@ public class CoinData : AttachableData
             Sheet = sheet,
         };
         
-        ((IManager<CoinController>)CoinManager.Instance).SetInSheet(args);
+        CoinManager.Instance.SetInSheet(args);
     }
     
     public override void ImportToLevel(Vector2 pos)
     {
         ManagerParameters args = new() { Position = pos, };
-        ((IManager<CoinController>)CoinManager.Instance).Set(args);
+        CoinManager.Instance.SetInSheet(ManagerParameters.FromCurrentSheet(args));
     }
     
     public override EditMode GetEditMode() => EditModeManager.Coin;

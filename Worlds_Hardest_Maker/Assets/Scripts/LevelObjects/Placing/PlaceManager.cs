@@ -57,7 +57,7 @@ public class PlaceManager : MonoBehaviour
         if (placer == null)
         {
             throw new ArgumentOutOfRangeException(nameof(editMode),
-                "No ILevelObjectManager registered for this edit mode");
+                "No ILevelObjectPlacer registered for this edit mode");
         }
         
         bool placeSuccessful = placer.Place(request);
