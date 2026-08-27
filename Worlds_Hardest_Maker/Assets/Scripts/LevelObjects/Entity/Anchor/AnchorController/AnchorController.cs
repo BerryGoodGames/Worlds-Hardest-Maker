@@ -140,7 +140,7 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
     
     public void FinishCurrentExecution()
     {
-        if (CurrentExecutingBlock == null)
+        if (CurrentExecutingNode == null)
         {
             Debug.LogWarning("There was a FinishCurrentExecution() call, although there is no execution to finish");
             return;
@@ -151,6 +151,7 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
         if (CurrentExecutingNode == null)
         {
             // arrived at end of chain
+            CurrentExecutingBlock = null;
             JumpToLoopIndex();
         }
         else
@@ -163,9 +164,13 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
     
     private void JumpToLoopIndex()
     {
-        // jump to block AFTER loop index, if existent
-        if (LoopBlockNode == null) return;
-        
+        // jump to block AFTER loop index, if existant
+        if (LoopBlockNode == null)
+        {
+            CurrentExecutingBlock = null;
+            return;
+        }
+    
         CurrentExecutingNode = LoopBlockNode.Next;
         
         // only execute if there is a non-passive block after loop block
@@ -178,14 +183,17 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
                 hasActiveBlockAfter = true;
                 break;
             }
-            
             currentNode = currentNode.Next;
         }
-        
-        if (!hasActiveBlockAfter) return;
-        
+    
+        if (!hasActiveBlockAfter)
+        {
+            CurrentExecutingBlock = null;
+            CurrentExecutingNode = null;
+            return;
+        }
+    
         CurrentExecutingBlock = CurrentExecutingNode!.Value;
-        
         CurrentExecutingBlock.Execute(this);
     }
 
