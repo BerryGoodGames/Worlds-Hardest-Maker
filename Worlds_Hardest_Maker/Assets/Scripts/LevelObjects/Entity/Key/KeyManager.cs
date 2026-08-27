@@ -24,6 +24,7 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
     [Inject] private KeyQueryService keyQueryService;
     [Inject] private KeyPlacementRules placementRules;
     private KeyFactory keyFactory;
+    [Inject] private IAttachmentService attachmentService;
     
     [Inject]
     private void Construct(EventBus eventBus, KeyFactory keyFactory)
@@ -66,7 +67,7 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
         
         key.Color = keyColor;
         
-        PlaceManager.Instance.AttachToSheet(key.gameObject, sheet);
+        if(sheet is AnchorSheet anchorSheet) attachmentService.Attach(key, anchorSheet.Anchor);
         
         return key;
     }

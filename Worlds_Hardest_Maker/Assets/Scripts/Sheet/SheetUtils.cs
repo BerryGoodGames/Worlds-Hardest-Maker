@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public static class SheetUtils
@@ -21,7 +22,7 @@ public static class SheetUtils
         return (globalSheet && !hasAttachment) || (hasAttachment && !globalSheet && attachment.Anchor == sheet);
     }
 
-    [CanBeNull]
+    [CanBeNull] [Obsolete]
     public static AnchorController ToAnchorOrNull(this ISheet sheet)
     {
         if (sheet is AnchorSheet anchorSheet) return anchorSheet.Anchor;

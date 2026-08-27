@@ -5,6 +5,7 @@ using VContainer.Unity;
 public class FieldFactory
 {
     private readonly IObjectResolver diContainer;
+    private readonly IAttachmentService attachmentService;
         
     private Transform fieldContainer;
     private Transform playerContainer;
@@ -37,7 +38,7 @@ public class FieldFactory
 
         fieldController.FieldMode = fieldMode;
 
-        PlaceManager.Instance.AttachToSheet(res, sheet);
+        if(sheet is AnchorSheet anchorSheet) attachmentService.Attach(fieldController, anchorSheet.Anchor);
 
         return fieldController;
     }

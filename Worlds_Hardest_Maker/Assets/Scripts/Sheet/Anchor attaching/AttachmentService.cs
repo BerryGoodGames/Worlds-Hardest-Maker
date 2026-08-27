@@ -11,14 +11,14 @@ public class AttachmentService : IAttachmentService
         this.diContainer = diContainer;
     }
 
-    public void Attach(LevelObjectController target, AnchorController anchor)
+    public void Attach(LevelObjectController target, AnchorController anchor, bool forceNewParent = true)
     {
         AnchorAttachment attachment = target.gameObject.GetOrAddComponent<AnchorAttachment>();
         
         diContainer.Inject(attachment);
 
         attachment.Anchor = anchor;
-        target.transform.SetParent(anchor.AttachmentContainer);
+        if (forceNewParent) target.transform.SetParent(anchor.AttachmentContainer);
         anchor.RegisterAttachment(attachment);
     }
 

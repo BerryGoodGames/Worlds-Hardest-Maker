@@ -76,30 +76,6 @@ public class PlaceManager : MonoBehaviour
             ? new AnchorSheet(AnchorManager.Instance.SelectedAnchor)
             : GlobalSheet.Instance;
     }
-
-    public void AttachToSheet(GameObject obj, ISheet sheet, bool forceParent = true)
-    {
-        if (sheet == null) return;
-        
-        AnchorAttachment attachment = obj.GetOrAddComponent<AnchorAttachment>();
-        
-        diContainer.Inject(attachment);
-        
-        attachment.Anchor = sheet.ToAnchorOrNull();
-        
-        if (forceParent && obj.transform.parent != sheet.ToAnchorOrNull()!.AttachmentContainer) obj.transform.SetParent(sheet.ToAnchorOrNull()!.AttachmentContainer);
-    }
-    
-    public static void Detach(GameObject obj, Transform container)
-    {
-        if (obj.TryGetComponent(out AnchorAttachment attachment))
-        {
-            attachment.ReturnToOriginalLayer();
-            Destroy(attachment);
-        }
-        
-        obj.transform.SetParent(container);
-    }
     
     public static void RemoveEntitiesAt(Vector2 position, LayerMask entityLayer)
     {

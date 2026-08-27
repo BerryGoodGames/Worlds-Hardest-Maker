@@ -24,6 +24,7 @@ public class CoinManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
     [Inject] private CoinQueryService coinQueryService;
     [Inject] private CoinPlacementRules placementRules;
     private CoinFactory coinFactory;
+    [Inject] private IAttachmentService attachmentService;
     
     [Inject]
     private void Construct(EventBus eventBus, CoinFactory coinFactory)
@@ -49,8 +50,8 @@ public class CoinManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
         if (!placementRules.CanPlaceInSheet(gridPosition, sheet)) return null;
 
         CoinController coin = coinFactory.Create(gridPosition, sheet);
-        
-        PlaceManager.Instance.AttachToSheet(coin.gameObject, sheet);
+
+        if (sheet is AnchorSheet anchorSheet) attachmentService.Attach(coin, anchorSheet.Anchor);
         
         return coin;
     }

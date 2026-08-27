@@ -59,6 +59,7 @@ public partial class PlayerController : EntityController
     [Inject] private IKonamiService konamiService;
     [Inject] private CoinQueryService coinQueryService;
     [Inject] private KeyQueryService keyQueryService;
+    [Inject] private IAttachmentService attachmentService;
     
     public static float Speed => LevelSettings.Instance.PlayerSpeed;
     
@@ -180,10 +181,8 @@ public partial class PlayerController : EntityController
         transform.position = position;
         StartPos = position;
         
-        bool willBeAttached = sheet != null;
-        
-        if (willBeAttached) PlaceManager.Instance.AttachToSheet(gameObject, sheet, false);
-        else PlaceManager.Detach(gameObject, playerContainer);
+        if (sheet is AnchorSheet anchorSheet) attachmentService.Attach(this, anchorSheet.Anchor, false);
+        else attachmentService.Detach(this, playerContainer);
         
         Sheet = sheet;
         

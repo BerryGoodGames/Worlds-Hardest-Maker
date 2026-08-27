@@ -18,6 +18,7 @@ public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
     [Inject] private IObjectResolver diContainer;
     [Inject] private ILevelObjectQuery<BallController> ballQueryService;
     private BallFactory ballFactory;
+    [Inject] private IAttachmentService attachmentService;
 
     [Inject]
     private void Construct(BallFactory ballFactory)
@@ -47,7 +48,7 @@ public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
         if (AnchorAttachManager.Instance.InAttachMode) BallListSheets[AnchorManager.Instance.SelectedAnchor].Add(ballController);
         else BallListGlobal.Add(ballController);
         
-        PlaceManager.Instance.AttachToSheet(ballController.LevelObject, sheet);
+        if (sheet is AnchorSheet anchorSheet) attachmentService.Attach(ballController, anchorSheet.Anchor);
         
         return ballController;
     }

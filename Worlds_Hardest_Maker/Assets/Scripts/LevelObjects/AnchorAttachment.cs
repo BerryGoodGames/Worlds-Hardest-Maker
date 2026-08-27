@@ -82,8 +82,6 @@ public class AnchorAttachment : MonoBehaviour
     
     private void Start()
     {
-        Anchor.RegisterAttachment(this);
-        
         if (!TryGetComponent(out AnchorAttachable))
         {
             Debug.LogError("Object with anchor attachment is not anchor attachable");
@@ -137,8 +135,6 @@ public class AnchorAttachment : MonoBehaviour
 
     private void OnDestroy()
     {
-        Anchor.UnregisterAttachment(this);
-
         if (AnchorAttachable.HasOutline)
         {
             AnchorAttachable.OutlineComp.OnUpdateOutline -= UpdateOutlineLayers;
