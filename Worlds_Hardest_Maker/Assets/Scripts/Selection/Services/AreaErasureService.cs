@@ -15,7 +15,7 @@ public class AreaErasureService : IAreaErasureService
         // get everything in area
         if (positions.Count == 0) return;
         
-        Collider2D[] hits = areaQueryService.QueryArea(area, LayerManager.Instance.Layers.LevelObjectMask);
+        Collider2D[] hits = areaQueryService.QueryArea(area, LayerManager.Instance.Layers.LevelObjectMask, PlaceManager.GetCurrentSheet());
         
         // DESTROY IT MUHAHAHAHAHAHHAHAHAHAHAHAHAHAHA
         foreach (Collider2D collider in hits)

@@ -96,12 +96,12 @@ public class AreaFillService : IAreaFillService
         // clear fields in area
         int fieldLayer = LayerManager.Instance.Layers.Field;
 
-        Collider2D[] fieldHits = areaQueryService.QueryArea(area, fieldLayer);
+        Collider2D[] fieldHits = areaQueryService.QueryArea(area, fieldLayer, PlaceManager.GetCurrentSheet());
 
         foreach (Collider2D fieldHit in fieldHits)
         {
             if (fieldHit == null) continue;
-
+            
             Object.Destroy(fieldHit.gameObject);
         }
     }
