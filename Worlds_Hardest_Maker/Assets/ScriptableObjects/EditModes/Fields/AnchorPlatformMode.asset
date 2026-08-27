@@ -21,7 +21,7 @@ MonoBehaviour:
   IsRotatable: 0
   ShowFillPreview: 1
   IsAnchorRelated: 0
-  DefaultSheetAvailable: 1
+  DefaultSheetAvailable: 0
   AnchorSheetAvailable: 1
   IsCopyable: 1
   HasOutline: 0

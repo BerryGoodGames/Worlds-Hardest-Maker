@@ -7360,6 +7360,32 @@ MonoBehaviour:
   GreenKeyDoorMode: {fileID: 11400000, guid: d9318d81940df454d8ed78711d884fbf, type: 2}
   BlueKeyDoorMode: {fileID: 11400000, guid: 4567debbc05ecef4d8e3761f4701e3f0, type: 2}
   YellowKeyDoorMode: {fileID: 11400000, guid: 0b7aff1f6e6a46245b1f2a320cfa0e94, type: 2}
+  allEditModes:
+  - {fileID: 11400000, guid: 9fe34bd3bd1a37a4b81b2f66ef1408de, type: 2}
+  - {fileID: 11400000, guid: bb5a5352386d4ed48a97f299cea1064c, type: 2}
+  - {fileID: 11400000, guid: 5f529b599c7f2cc4f945cd3c06616399, type: 2}
+  - {fileID: 11400000, guid: 820f079b8d2f93549a5600bab42ff6d4, type: 2}
+  - {fileID: 11400000, guid: c851c90262203bf4aa4b5b4b346e2d09, type: 2}
+  - {fileID: 11400000, guid: 7b531457a471cee4dab2eb47004fd0b4, type: 2}
+  - {fileID: 11400000, guid: 87270c94bb8c747458613afdead09061, type: 2}
+  - {fileID: 11400000, guid: 7c61ee16294786f4abcc5703f34b05ef, type: 2}
+  - {fileID: 11400000, guid: c1c5b07f4d2689c43bfa76c1748ab9d6, type: 2}
+  - {fileID: 11400000, guid: 7f6d1c38617e7104183dbd378764fe32, type: 2}
+  - {fileID: 11400000, guid: c4f8199b55bdb6d42b0de6508470d358, type: 2}
+  - {fileID: 11400000, guid: 4567debbc05ecef4d8e3761f4701e3f0, type: 2}
+  - {fileID: 11400000, guid: 0420d71e3a3c01a4ea9a7cc251afec33, type: 2}
+  - {fileID: 11400000, guid: d9318d81940df454d8ed78711d884fbf, type: 2}
+  - {fileID: 11400000, guid: a3faff58cb4a81743ae962ef71ace8bc, type: 2}
+  - {fileID: 11400000, guid: 0b7aff1f6e6a46245b1f2a320cfa0e94, type: 2}
+  - {fileID: 11400000, guid: 502c43094cc9e144eb1964faea5f7643, type: 2}
+  - {fileID: 11400000, guid: c74791aa25500ea4389942703e44d4ad, type: 2}
+  - {fileID: 11400000, guid: 939858190fd748a4c99155df0b0a17f3, type: 2}
+  - {fileID: 11400000, guid: e97cfa9a1ad7c8f44a766f77084bd7ac, type: 2}
+  - {fileID: 11400000, guid: 592c468b613e2d3419495eb6666c0d35, type: 2}
+  - {fileID: 11400000, guid: fc22b38975ac1f14d9efdba0a8e52138, type: 2}
+  - {fileID: 11400000, guid: ff97ebd6cb13a3d40ae065c07e09055d, type: 2}
+  - {fileID: 11400000, guid: 02797eb62b4540c48aa2b77062f0d0ee, type: 2}
+  - {fileID: 11400000, guid: 86913c56d50e11c4a8a884a466aecbf4, type: 2}
 --- !u!1001 &495253798
 PrefabInstance:
   m_ObjectHideFlags: 0

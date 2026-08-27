@@ -59,7 +59,7 @@ public class FieldQueryService : ILevelObjectQuery<FieldController>
         return true;
     }
     
-    public bool IsPosCoveredWithFieldTypeInSheet(Vector2 position, AnchorController sheet, params FieldMode[] t)
+    public bool IsPosCoveredWithFieldTypeInSheet(Vector2 position, AnchorController sheet, IEnumerable<FieldMode> t)
     {
         List<FieldMode> types = t.ToList();
         List<FieldController> intersectingFields = FindFieldsAtGridPosInSheet(position, sheet);

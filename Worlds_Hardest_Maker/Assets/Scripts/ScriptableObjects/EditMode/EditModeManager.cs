@@ -59,43 +59,38 @@ public class EditModeManager : MonoBehaviour
     public static KeyDoorMode GreenKeyDoor => Instance.GreenKeyDoorMode;
     public static KeyDoorMode BlueKeyDoor => Instance.BlueKeyDoorMode;
     public static KeyDoorMode YellowKeyDoor => Instance.YellowKeyDoorMode;
+
+    [SerializeField] private List<EditMode> allEditModes;
+    private List<FieldMode> allFieldModes;
+    private List<FieldMode> allPlayerStartFieldModes;
+
+    public IReadOnlyList<EditMode> AllEditModes => allEditModes;
+    public IReadOnlyList<FieldMode> AllFieldModes => allFieldModes;
+    public IReadOnlyList<FieldMode> AllPlayerStartFieldModes => allPlayerStartFieldModes;
     
-    public List<EditMode> AllEditModes { get; private set; }
-    public List<FieldMode> AllFieldModes { get; private set; }
-    public List<FieldMode> AllPlayerStartFieldModes { get; private set; }
-    
-    public static EditMode GetEditMode(string editModeName)
+    public EditMode GetEditMode(string editModeName)
     {
-        try
+        // TODO: do not use the asset name, instead tag
+        EditMode editMode = allEditModes.First(e => e.name == editModeName);
+        
+        if (editMode == null)
         {
-            EditMode editMode = Instance.AllEditModes.First(e => e.name == editModeName);
-            
-            if (editMode == null) throw new();
-            
-            return editMode;
+            throw new ArgumentOutOfRangeException(nameof(editModeName), $"No existing field mode with the name {editModeName}");
         }
-        catch (Exception)
-        {
-            Console.WriteLine($"Edit mode with name \"{editModeName}\" was not found");
-            throw;
-        }
+        
+        return editMode;
     }
     
-    public static FieldMode GetFieldMode(string fieldModeName)
+    public FieldMode GetFieldMode(string fieldModeName)
     {
-        try
+        FieldMode fieldMode = allFieldModes.FirstOrDefault(e => e.name == fieldModeName);
+        
+        if (fieldMode == null)
         {
-            FieldMode fieldMode = Instance.AllFieldModes.First(e => e.name == fieldModeName);
-            
-            if (fieldMode == null) throw new();
-            
-            return fieldMode;
+            throw new ArgumentOutOfRangeException(nameof(fieldModeName), $"No existing field mode with the name {fieldModeName}");
         }
-        catch (Exception)
-        {
-            Console.WriteLine($"Field mode with name \"{fieldModeName}\" was not found");
-            throw;
-        }
+        
+        return fieldMode;
     }
     
     private void Awake()
@@ -103,30 +98,12 @@ public class EditModeManager : MonoBehaviour
         if (Instance != null) return;
         
         Instance = this;
-        AllEditModes = new()
-        {
-            Delete,
-            AnchorFloor,
-            Wall,
-            Start, Goal, Checkpoint,
-            Void,
-            OneWay,
-            Conveyor,
-            Water, Ice,
-            Player,
-            Anchor, Ball,
-            Coin,
-            GrayKey, RedKey, GreenKey, BlueKey, YellowKey,
-            GrayKeyDoor, RedKeyDoor, GreenKeyDoor, BlueKeyDoor, YellowKeyDoor,
-        };
         
-        // cache AllFieldModes
-        AllFieldModes = AllEditModes
+        allFieldModes = allEditModes
             .OfType<FieldMode>()
             .ToList();
         
-        // cache AllPlayerStartFieldModes
-        AllPlayerStartFieldModes = AllFieldModes
+        allPlayerStartFieldModes = allFieldModes
             .Where(fieldMode => fieldMode.IsStartFieldForPlayer)
             .ToList();
     }
