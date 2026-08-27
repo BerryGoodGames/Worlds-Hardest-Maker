@@ -10,7 +10,7 @@ public partial class FieldManager
         return GetNeighbors(position);
     }
     
-    public List<FieldController> GetNeighbors(Vector2 position)
+    public List<FieldController> GetNeighbors(Vector2Int position)
     {
         Vector2Int[] deltas = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left, };
         

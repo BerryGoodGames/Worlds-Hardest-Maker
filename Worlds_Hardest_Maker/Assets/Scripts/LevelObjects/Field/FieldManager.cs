@@ -70,7 +70,7 @@ public partial class FieldManager : MonoBehaviour, ILevelObjectPlacer, ILevelObj
         if (!updateOutlines) return fieldDestroyed;
         
         // Update outlines beside removed field
-        foreach (FieldController neighbor in GetNeighbors(position))
+        foreach (FieldController neighbor in GetNeighborsInSheet(position.ConvertToMatrix(), PlaceManager.GetCurrentSheet()))
         {
             if (neighbor.TryGetComponent(out FieldOutline comp)) comp.UpdateOutline();
         }
@@ -181,7 +181,7 @@ public partial class FieldManager : MonoBehaviour, ILevelObjectPlacer, ILevelObj
         if (!mode.IsRotatable) rotation = 0;
 
         FieldController placedField = CreateNew(position, rotation, PlaceManager.GetCurrentSheet(), mode);
-
+        
         return PlacementResult.FromController(placedField);
     }
 

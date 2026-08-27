@@ -15,7 +15,8 @@ public class BallQueryService : ILevelObjectQuery<BallController>
             0.01f,
             LayerManager.Instance.Layers.Entity,
             "BallObject",
-            sheet);
+            sheet,
+            SheetUtils.SheetCheckingScope.Parent);
     }
 
     public bool Exists(Vector2 position, AnchorController sheet)

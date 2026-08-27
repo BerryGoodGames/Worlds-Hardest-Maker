@@ -153,10 +153,12 @@ public class FieldOutline : MonoBehaviour
         
         foreach (RaycastHit2D r in hits)
         {
+            if (!SheetUtils.Exists(r.collider, sheet)) continue;
+            
             if (updateNeighbor && r.transform.TryGetComponent(out FieldOutline outlineNeighbor)) outlineNeighbor.UpdateOutline();
             
             if (!connectorTags.Contains(r.collider.tag)
-                || !ILevelObjectQuery.Exists(r.collider, sheet)) continue;
+                || !SheetUtils.Exists(r.collider, sheet)) continue;
             
             return true;
         }
@@ -166,13 +168,12 @@ public class FieldOutline : MonoBehaviour
     
     private void ClearLines()
     {
-        // clear lines
         foreach (Transform child in lineContainer.transform) Destroy(child.gameObject);
+        LineRenderers = Array.Empty<LineRenderer>();
     }
     
     private void ClearLineInDirection(Vector2 dir)
     {
-        // clear line
         foreach (Transform child in lineContainer.transform)
         {
             if ((Vector2)child.gameObject.transform.localPosition != dir) continue;

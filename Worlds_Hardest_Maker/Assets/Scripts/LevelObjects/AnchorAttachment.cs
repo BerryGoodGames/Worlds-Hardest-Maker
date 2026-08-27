@@ -13,6 +13,9 @@ public class AnchorAttachment : MonoBehaviour
     [Space] [ReadOnly] public int SortingLayerID;
     [ReadOnly] public int OrderInLayer;
     [ReadOnly] public float Opacity;
+
+    private int sortingOrder;
+    private string sortingLayerName;
     
     private EventBus eventBus;
     
@@ -96,10 +99,10 @@ public class AnchorAttachment : MonoBehaviour
         OrderInLayer = AnchorAttachable.HasSortingGroup ? AnchorAttachable.SortingGroup.sortingOrder : AnchorAttachable.MainSprite.sortingOrder;
         Opacity = AnchorAttachable.MainSprite.color.a;
         
-        int sortingOrder = Array.IndexOf(LayerManager.Instance.AllSortingLayerIDs, SortingLayerID) * INTERNAL_LAYER_OFFSET
+        sortingOrder = Array.IndexOf(LayerManager.Instance.AllSortingLayerIDs, SortingLayerID) * INTERNAL_LAYER_OFFSET
                            + Math.Min(OrderInLayer, INTERNAL_LAYER_OFFSET - 1);
         
-        string sortingLayerName = AnchorAttachManager.Instance.InAttachMode || !LevelSessionManager.Instance.IsEdit
+        sortingLayerName = AnchorAttachManager.Instance.InAttachMode || !LevelSessionManager.Instance.IsEdit
             ? LayerManager.Instance.SortingLayers.AnchorAbove
             : LayerManager.Instance.SortingLayers.AnchorBelow;
         
@@ -118,22 +121,28 @@ public class AnchorAttachment : MonoBehaviour
             
             AnchorAttachable.OutlineComp.OnUpdateOutline += UpdateOutlineLayers;
         }
-        
-        return;
-        
-        void UpdateOutlineLayers() =>
-            AnchorAttachable.OutlineComp.LineRenderers.ForEach(
-                line =>
-                {
-                    line.sortingOrder = sortingOrder;
-                    line.sortingLayerName = sortingLayerName;
-                }
-            );
     }
-    
+     
+    private void UpdateOutlineLayers()
+    {
+        AnchorAttachable.OutlineComp.LineRenderers.ForEach(line =>
+            {
+                if (line == null) return;
+                
+                line.sortingOrder = sortingOrder; 
+                line.sortingLayerName = sortingLayerName;
+            }
+        );
+    }
+
     private void OnDestroy()
     {
         Anchor.Attachments.Remove(this);
+
+        if (AnchorAttachable.HasOutline)
+        {
+            AnchorAttachable.OutlineComp.OnUpdateOutline -= UpdateOutlineLayers;
+        }
 
         eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
