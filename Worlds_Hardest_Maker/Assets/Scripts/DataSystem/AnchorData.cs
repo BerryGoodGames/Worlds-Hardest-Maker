@@ -35,7 +35,7 @@ public class AnchorData : NonAttachableData
     
     private void SaveAttachments(AnchorController controller)
     {
-        List<AnchorAttachment> attachments = controller.Attachments;
+        IReadOnlyList<AnchorAttachment> attachments = controller.Attachments;
         this.attachments = new AttachableData[attachments.Count];
         for (int i = 0; i < attachments.Count; i++) this.attachments[i] = (AttachableData)attachments[i].Controller.GetData();
     }

@@ -41,7 +41,11 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
     public AnchorBlock CurrentExecutingBlock;
     public LinkedListNode<AnchorBlock> CurrentExecutingNode;
     
-    public List<AnchorAttachment> Attachments;
+    // TODO: extract into registry
+    private readonly List<AnchorAttachment> attachments;
+    public IReadOnlyList<AnchorAttachment> Attachments => attachments;
+    public void RegisterAttachment(AnchorAttachment a) => attachments.Add(a);
+    public void UnregisterAttachment(AnchorAttachment a) => attachments.Remove(a);
     
     [HideInInspector] public Rigidbody2D Rb;
     private SpriteRenderer spriteRenderer;

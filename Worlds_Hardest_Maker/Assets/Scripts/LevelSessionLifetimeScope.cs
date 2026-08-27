@@ -42,6 +42,8 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<PanelManager>().As<IPanelService>();
         builder.Register<PanelRegistry>(Lifetime.Singleton).As<IPanelRegistry>();
 
+        builder.Register<AttachmentService>(Lifetime.Singleton).As<IAttachmentService>();
+        
         builder.Register<AnchorBlockViewFactory>(Lifetime.Singleton).AsSelf();
         builder.Register<AnchorChainDropTargetResolver>(Lifetime.Singleton).AsSelf();
 

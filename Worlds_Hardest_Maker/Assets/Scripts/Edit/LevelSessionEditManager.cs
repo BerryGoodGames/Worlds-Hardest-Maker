@@ -66,6 +66,7 @@ public class LevelSessionEditManager : MonoBehaviour
             anim.SetBool(editingString, isAnchorRelated);
         }
 
+        // TODO: move to event bus
         if (AnchorManager.Instance.SelectedAnchor)
         {
             AnchorManager.Instance.SelectedAnchor.GetComponent<Animator>()

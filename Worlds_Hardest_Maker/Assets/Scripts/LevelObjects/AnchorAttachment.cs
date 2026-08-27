@@ -82,7 +82,7 @@ public class AnchorAttachment : MonoBehaviour
     
     private void Start()
     {
-        Anchor.Attachments.Add(this);
+        Anchor.RegisterAttachment(this);
         
         if (!TryGetComponent(out AnchorAttachable))
         {
@@ -137,7 +137,7 @@ public class AnchorAttachment : MonoBehaviour
 
     private void OnDestroy()
     {
-        Anchor.Attachments.Remove(this);
+        Anchor.UnregisterAttachment(this);
 
         if (AnchorAttachable.HasOutline)
         {
