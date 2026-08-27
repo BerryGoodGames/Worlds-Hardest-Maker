@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using VContainer;
@@ -43,7 +42,7 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
         eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
     }
     
-    private void RemoveKeyInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
+    private void RemoveKeyInSheet(Vector2 position, ISheet sheet)
     {
         KeyController key = keyQueryService.Find(position, sheet);
         
@@ -56,7 +55,7 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
         DestroyImmediate(key.transform.gameObject);
     }
     
-    public KeyController CreateNew(Vector2 position, [CanBeNull] AnchorController sheet, KeyColor keyColor)
+    public KeyController CreateNew(Vector2 position, ISheet sheet, KeyColor keyColor)
     {
         if (!placementRules.CanPlaceInSheet(position, sheet)) return null;
         
@@ -99,7 +98,7 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
     public PlacementResult Place(PlacementRequest request)
     {
         Vector2 gridPosition = request.Position.ConvertToGrid();
-        AnchorController sheet = PlaceManager.GetCurrentSheet();
+        ISheet sheet = PlaceManager.GetCurrentSheet();
         KeyColor keyColor = ((KeyMode)request.EditMode).KeyColor;
 
         KeyController result = CreateNew(gridPosition, sheet, keyColor);

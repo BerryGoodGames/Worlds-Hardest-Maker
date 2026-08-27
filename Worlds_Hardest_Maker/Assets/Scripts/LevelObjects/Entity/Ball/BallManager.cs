@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using VContainer;
@@ -27,7 +26,7 @@ public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
         ballFactory.Initialize(ballPrefab, ballContainer);
     }
 
-    public BallController CreateNew(Vector2 position, [CanBeNull] AnchorController sheet)
+    public BallController CreateNew(Vector2 position, ISheet sheet)
     {
         if (ballQueryService.Exists(position, sheet)) return null;
         
@@ -36,8 +35,8 @@ public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
         // setup parent
         if (AnchorAttachManager.Instance.InAttachMode)
         {
-            ballController.ParentAnchor = sheet;
-            sheet!.Balls.Add(ballController.LevelObject.transform);
+            ballController.ParentAnchor = sheet.ToAnchorOrNull();
+            sheet.ToAnchorOrNull()!.Balls.Add(ballController.LevelObject.transform);
         }
         
         ballController.transform.position = position;

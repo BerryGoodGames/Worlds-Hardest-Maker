@@ -26,7 +26,7 @@ public class KeyData : AttachableData
         KeyManager.Instance.CreateNew(pos, null, Color);
     }
     
-    public override void ImportToLevel(AnchorController sheet)
+    public override void ImportToLevel(ISheet sheet)
     {
         Vector2 position = new(Position[0], Position[1]);
 

@@ -11,7 +11,7 @@ public partial class PlayerController
             if (CurrentGameState != null && CurrentGameState.Checkpoint != null) return CurrentGameState.Checkpoint.transform.position;
             if (Sheet == null) return StartPos;
             
-            Transform sheetTransform = Sheet.transform;
+            Transform sheetTransform = Sheet.ToAnchorOrNull()!.transform;
             Vector2 offsetPos = sheetTransform.position + Quaternion.Euler(0, 0, sheetTransform.eulerAngles.z) * SheetStartPosOffset;
             return offsetPos;
         }

@@ -18,7 +18,7 @@ public class BallData : AttachableData
         BallManager.Instance.CreateNew(pos, null);
     }
     
-    public override void ImportToLevel(AnchorController sheet)
+    public override void ImportToLevel(ISheet sheet)
     {
         Vector2 position = new(this.position[0], this.position[1]);
         

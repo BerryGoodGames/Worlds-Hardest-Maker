@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using UnityEngine;
+﻿using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
@@ -21,12 +20,13 @@ public class FieldFactory
         this.playerContainer = playerContainer;
     }
     
-    public FieldController Create(Vector2 position, int rotation, [CanBeNull] AnchorController sheet, FieldMode fieldMode)
+    public FieldController Create(Vector2 position, int rotation, ISheet sheet, FieldMode fieldMode)
     {
         GameObject prefab = fieldMode.Prefab;
+        AnchorController oldSheet = sheet.ToAnchorOrNull();
         GameObject res = Object.Instantiate(
             prefab, position, Quaternion.Euler(0, 0, rotation),
-            sheet == null ? fieldContainer : sheet.AttachmentContainer
+            oldSheet == null ? fieldContainer : oldSheet.AttachmentContainer
         );
 
         diContainer.InjectGameObject(res);

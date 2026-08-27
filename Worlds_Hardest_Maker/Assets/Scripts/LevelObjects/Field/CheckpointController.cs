@@ -10,7 +10,7 @@ public class CheckpointController : MonoBehaviour, IResettable
     private static bool reusableCheckpoints = true;
     
     [ReadOnly] public bool IsAttached;
-    [ReadOnly] [CanBeNull] public AnchorController Sheet;
+    [ReadOnly] [CanBeNull] public ISheet Sheet;
     
     public static bool ReusableCheckpoints
     {
@@ -106,7 +106,8 @@ public class CheckpointController : MonoBehaviour, IResettable
         anim = GetComponent<CheckpointTween>();
         
         IsAttached = TryGetComponent(out AnchorAttachment attachment);
-        if (IsAttached) Sheet = attachment.Anchor;
+        // TODO refactor: creation of new anchor sheet
+        if (IsAttached) Sheet = new AnchorSheet(attachment.Anchor);
         
         ((IResettable)this).Subscribe(eventBus);
     }

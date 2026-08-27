@@ -11,7 +11,7 @@ public class PlayerPlacementRules
         this.fieldQueryService = fieldQueryService;
     }
     
-    public bool CanPlaceInSheet(Vector2 position, AnchorController sheet)
+    public bool CanPlaceInSheet(Vector2 position, ISheet sheet)
     {
         return !playerQueryService.Exists(position, sheet) &&
                fieldQueryService.IsPosCoveredWithFieldTypeInSheet(position, sheet, EditModeManager.Instance.AllPlayerStartFieldModes);

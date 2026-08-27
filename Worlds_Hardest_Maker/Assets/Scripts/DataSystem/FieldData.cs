@@ -23,7 +23,7 @@ public class FieldData : AttachableData
         FieldMode = field.FieldMode.ToString();
     }
     
-    public override void ImportToLevel(AnchorController sheet)
+    public override void ImportToLevel(ISheet sheet)
     {
         Vector2 position = new(Position[0], Position[1]);
         FieldMode mode = EditModeManager.Instance.GetFieldMode(FieldMode);

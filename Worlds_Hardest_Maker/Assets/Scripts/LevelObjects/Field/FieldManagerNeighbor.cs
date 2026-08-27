@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 
 public partial class FieldManager
@@ -25,13 +24,13 @@ public partial class FieldManager
         return neighbors;
     }
     
-    public List<FieldController> GetNeighborsInSheet(GameObject field, [CanBeNull] AnchorController sheet)
+    public List<FieldController> GetNeighborsInSheet(GameObject field, ISheet sheet)
     {
         Vector2Int position = Vector2Int.RoundToInt(field.transform.position);
         return GetNeighborsInSheet(position, sheet);
     }
     
-    public List<FieldController> GetNeighborsInSheet(Vector2Int position, [CanBeNull] AnchorController sheet)
+    public List<FieldController> GetNeighborsInSheet(Vector2Int position, ISheet sheet)
     {
         Vector2Int[] deltas = { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left, };
         

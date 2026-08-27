@@ -9,7 +9,7 @@ public class BallQueryService : ILevelObjectQuery<BallController>
         this.positionQueryService = positionQueryService;
     }
     
-    public BallController Find(Vector2 position, AnchorController sheet)
+    public BallController Find(Vector2 position, ISheet sheet)
     {
         return positionQueryService.QueryPosition<BallController>(position,
             0.01f,
@@ -19,7 +19,7 @@ public class BallQueryService : ILevelObjectQuery<BallController>
             SheetUtils.SheetCheckingScope.Parent);
     }
 
-    public bool Exists(Vector2 position, AnchorController sheet)
+    public bool Exists(Vector2 position, ISheet sheet)
     {
         return Find(position, sheet) != null;
     }

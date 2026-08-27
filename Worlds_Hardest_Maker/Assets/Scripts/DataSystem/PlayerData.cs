@@ -16,7 +16,7 @@ public class PlayerData : AttachableData
         StartPosition[1] = controller.StartPos.y;
     }
     
-    public override void ImportToLevel(AnchorController sheet)
+    public override void ImportToLevel(ISheet sheet)
     {
         Vector2 position = new(StartPosition[0], StartPosition[1]);
         

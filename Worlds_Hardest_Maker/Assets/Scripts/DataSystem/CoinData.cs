@@ -18,7 +18,7 @@ public class CoinData : AttachableData
         Position[1] = controllerPosition.y;
     }
     
-    public override void ImportToLevel(AnchorController sheet)
+    public override void ImportToLevel(ISheet sheet)
     {
         Vector2 position = new(Position[0], Position[1]);
 

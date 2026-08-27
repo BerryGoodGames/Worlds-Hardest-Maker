@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using UnityEngine;
 
 public class FieldQueryService : ILevelObjectQuery<FieldController>
@@ -12,7 +11,7 @@ public class FieldQueryService : ILevelObjectQuery<FieldController>
         this.positionQueryService = positionQueryService;
     }
     
-    private List<FieldController> FindFieldsAtGridPosInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
+    private List<FieldController> FindFieldsAtGridPosInSheet(Vector2 position, ISheet sheet)
     {
         Vector2Int[] checkPoses =
         {
@@ -34,7 +33,7 @@ public class FieldQueryService : ILevelObjectQuery<FieldController>
         return res;
     }
     
-    public bool IntersectingAnyFieldsAtPos(Vector2 position, [CanBeNull] AnchorController sheet, params FieldMode[] t)
+    public bool IntersectingAnyFieldsAtPos(Vector2 position, ISheet sheet, params FieldMode[] t)
     {
         List<FieldMode> modes = t.ToList();
         
@@ -47,7 +46,7 @@ public class FieldQueryService : ILevelObjectQuery<FieldController>
         return false;
     }
     
-    public bool IntersectingEveryFieldAtPos(Vector2 position, [CanBeNull] AnchorController sheet, params FieldMode[] t)
+    public bool IntersectingEveryFieldAtPos(Vector2 position, ISheet sheet, params FieldMode[] t)
     {
         List<FieldMode> types = t.ToList();
         List<FieldController> intersectingFields = FindFieldsAtGridPosInSheet(position, sheet);
@@ -59,7 +58,7 @@ public class FieldQueryService : ILevelObjectQuery<FieldController>
         return true;
     }
     
-    public bool IsPosCoveredWithFieldTypeInSheet(Vector2 position, AnchorController sheet, IEnumerable<FieldMode> t)
+    public bool IsPosCoveredWithFieldTypeInSheet(Vector2 position, ISheet sheet, IEnumerable<FieldMode> t)
     {
         List<FieldMode> types = t.ToList();
         List<FieldController> intersectingFields = FindFieldsAtGridPosInSheet(position, sheet);
@@ -75,7 +74,7 @@ public class FieldQueryService : ILevelObjectQuery<FieldController>
         return true;
     }
 
-    public FieldController Find(Vector2 position, AnchorController sheet)
+    public FieldController Find(Vector2 position, ISheet sheet)
     {
         FieldController inFieldLayer = positionQueryService.QueryPosition<FieldController>(position, 
             0.1f, 
@@ -100,7 +99,7 @@ public class FieldQueryService : ILevelObjectQuery<FieldController>
             LayerManager.Instance.Layers.Void);
     }
 
-    public bool Exists(Vector2 position, AnchorController sheet)
+    public bool Exists(Vector2 position, ISheet sheet)
     {
         return Find(position, sheet) != null;
     }

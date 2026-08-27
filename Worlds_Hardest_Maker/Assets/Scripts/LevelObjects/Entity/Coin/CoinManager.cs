@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using VContainer;
@@ -43,7 +42,7 @@ public class CoinManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
         eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
     }
     
-    public CoinController CreateNew(Vector2 position, [CanBeNull] AnchorController sheet)
+    public CoinController CreateNew(Vector2 position, ISheet sheet)
     {
         Vector2 gridPosition = position.ConvertToGrid();
         

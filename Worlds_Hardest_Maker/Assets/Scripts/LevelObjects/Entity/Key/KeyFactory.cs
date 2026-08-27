@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -36,12 +35,13 @@ public class KeyFactory
         this.keyContainer = keyContainer;
     }
     
-    public KeyController Create(Vector2 position, [CanBeNull] AnchorController sheet, KeyColor keyColor)
+    public KeyController Create(Vector2 position, ISheet sheet, KeyColor keyColor)
     {
+        AnchorController oldSheet = sheet.ToAnchorOrNull();
         KeyController key = Object.Instantiate(
             GetPrefabKey(keyColor),
             position, Quaternion.identity,
-            sheet == null ? keyContainer : sheet.AttachmentContainer
+            oldSheet == null ? keyContainer : oldSheet.AttachmentContainer
         );
         
         diContainer.InjectGameObject(key.gameObject);

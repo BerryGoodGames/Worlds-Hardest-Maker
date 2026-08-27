@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using VContainer;
@@ -26,7 +25,7 @@ public partial class FieldManager : MonoBehaviour, ILevelObjectPlacer, ILevelObj
         this.fieldFactory.Initialize(fieldContainer, playerContainer);
     }
     
-    public FieldController CreateNew(Vector2 position, int rotation, [CanBeNull] AnchorController sheet, FieldMode fieldMode)
+    public FieldController CreateNew(Vector2 position, int rotation, ISheet sheet, FieldMode fieldMode)
     {
         FieldController fieldAtPosition = fieldQueryService.Find(position, sheet);
         if (fieldAtPosition is not null && fieldAtPosition.FieldMode == fieldMode) return null;
@@ -49,7 +48,7 @@ public partial class FieldManager : MonoBehaviour, ILevelObjectPlacer, ILevelObj
         return field;
     }
     
-    public bool Remove(Vector2 position, bool updateOutlines = false, [CanBeNull] AnchorController sheet = null)
+    public bool Remove(Vector2 position, bool updateOutlines = false, ISheet sheet = null)
     {
         FieldController field = fieldQueryService.Find(position, sheet);
         

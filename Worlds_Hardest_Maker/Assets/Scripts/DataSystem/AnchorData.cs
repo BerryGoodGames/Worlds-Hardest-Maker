@@ -80,7 +80,8 @@ public class AnchorData : NonAttachableData
     {
         AnchorController anchor = AnchorManager.Instance.CreateNew(pos, PlaceManager.GetCurrentSheet());
         
-        foreach (AttachableData data in attachments) data.ImportToLevel(anchor);
+        // TODO refactor: creation of new anchor sheet
+        foreach (AttachableData data in attachments) data.ImportToLevel(new AnchorSheet(anchor));
         
         if (LevelSessionManager.Instance.IsEdit) AnchorAttachManager.Dehighlight(anchor);
         

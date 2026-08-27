@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -106,7 +105,7 @@ public partial class PlayerController : EntityController
         base.Start();
         
         IsAttached = Sheet != null;
-        if (IsAttached) SheetStartPosOffset = transform.position - Sheet.transform.position;
+        if (IsAttached) SheetStartPosOffset = transform.position - Sheet.ToAnchorOrNull()!.transform.position;
         
         EdgeCollider.enabled = LevelSessionEditManager.Instance.IsPlaying;
         
@@ -175,7 +174,7 @@ public partial class PlayerController : EntityController
         Shotgun.gameObject.SetActive((!LevelSessionManager.Instance.IsEdit || LevelSessionEditManager.Instance.IsPlaying) && evt.Active);
     }
     
-    public void ReSet(Vector2 position, [CanBeNull] AnchorController sheet)
+    public void ReSet(Vector2 position, ISheet sheet)
     {
         // calls when the player is placed, when there was already one existing, hence re-setting it
         transform.position = position;
@@ -189,7 +188,7 @@ public partial class PlayerController : EntityController
         Sheet = sheet;
         
         IsAttached = Sheet != null;
-        if (IsAttached) SheetStartPosOffset = transform.position - Sheet!.transform.position;
+        if (IsAttached) SheetStartPosOffset = transform.position - Sheet.ToAnchorOrNull()!.transform.position;
     }
     
     public void Win()
@@ -273,6 +272,6 @@ public partial class PlayerController : EntityController
     {
         StartPos = transform.position;
         
-        if (IsAttached) SheetStartPosOffset = transform.position - Sheet.transform.position;
+        if (IsAttached) SheetStartPosOffset = transform.position - Sheet.ToAnchorOrNull()!.transform.position;
     }
 }

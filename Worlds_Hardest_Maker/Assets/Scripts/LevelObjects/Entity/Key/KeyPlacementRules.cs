@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class KeyPlacementRules
 {
@@ -12,7 +11,7 @@ public class KeyPlacementRules
         this.playerQueryService = playerQueryService;
     }
     
-    public bool CanPlaceInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
+    public bool CanPlaceInSheet(Vector2 position, ISheet sheet)
     {
         return !playerQueryService.Exists(position, sheet) && !keyQueryService.Exists(position, sheet);
     }

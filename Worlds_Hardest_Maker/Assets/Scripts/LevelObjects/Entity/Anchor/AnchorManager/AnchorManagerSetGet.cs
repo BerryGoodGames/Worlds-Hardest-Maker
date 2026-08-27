@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using DG.Tweening;
-using JetBrains.Annotations;
 using UnityEngine;
 
 public partial class AnchorManager : ILevelObjectPlacer, ILevelObjectSerializer
 {
-    public AnchorController CreateNew(Vector2 position, [CanBeNull] AnchorController sheet)
+    public AnchorController CreateNew(Vector2 position, ISheet sheet)
     {
         if (anchorQueryService.Exists(position, sheet)) return null;
         

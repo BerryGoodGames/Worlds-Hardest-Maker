@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using UnityEngine;
+﻿using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
@@ -21,12 +20,13 @@ public class CoinFactory
         this.coinContainer = coinContainer;
     }
     
-    public CoinController Create(Vector2 position, [CanBeNull] AnchorController sheet)
+    public CoinController Create(Vector2 position, ISheet sheet)
     {
+        AnchorController oldSheet = sheet.ToAnchorOrNull();
         CoinController coin = Object.Instantiate(
             coinPrefab,
             position, Quaternion.identity,
-            sheet == null ? coinContainer : sheet.AttachmentContainer
+            oldSheet == null ? coinContainer : oldSheet.AttachmentContainer
         );
         
         diContainer.InjectGameObject(coin.gameObject);

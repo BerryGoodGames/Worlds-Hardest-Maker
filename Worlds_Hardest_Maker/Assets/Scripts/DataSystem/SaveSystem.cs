@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using JetBrains.Annotations;
 using SFB;
 using UnityEngine;
 using VContainer;
@@ -196,7 +195,7 @@ public abstract class Data
 [Serializable]
 public abstract class AttachableData : Data
 {
-    public abstract void ImportToLevel([CanBeNull] AnchorController sheet);
+    public abstract void ImportToLevel(ISheet sheet);
 }
 
 [Serializable]

@@ -2,12 +2,12 @@
 
 public class PlayerQueryService : ILevelObjectQuery<PlayerController>
 {
-    public PlayerController Find(Vector2 position, AnchorController sheet)
+    public PlayerController Find(Vector2 position, ISheet sheet)
     {
         return Exists(position, sheet) ? PlayerManager.Instance.Player : null;
     }
 
-    public bool Exists(Vector2 position, AnchorController sheet)
+    public bool Exists(Vector2 position, ISheet sheet)
     {
         PlayerController player = PlayerManager.Instance.Player;
         if (player == null) return false;

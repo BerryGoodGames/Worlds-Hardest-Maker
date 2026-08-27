@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using VContainer;
@@ -30,7 +29,7 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
         playerFactory.Initialize(playerPrefab, mainCameraJumper, timerController, playerContainer);
     }
     
-    public PlayerController CreateNew(Vector2 position, [CanBeNull] AnchorController sheet, bool surroundWithStartFields)
+    public PlayerController CreateNew(Vector2 position, ISheet sheet, bool surroundWithStartFields)
     {
         if (playerQueryService.Exists(position, sheet)) return null;
         
@@ -63,7 +62,7 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
         return CreateNew(position, PlaceManager.GetCurrentSheet(), true);
     }
     
-    private static List<FieldController> SetSurroundingStartFieldsInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
+    private static List<FieldController> SetSurroundingStartFieldsInSheet(Vector2 position, ISheet sheet)
     {
         List<FieldController> result = new();
         
@@ -94,7 +93,7 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
         }
     }
     
-    private void RemoveAtPositionInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
+    private void RemoveAtPositionInSheet(Vector2 position, ISheet sheet)
     {
         PlayerController player = positionQueryService.QueryPosition<PlayerController>(position, 0.1f, LayerManager.Instance.Layers.Player, "PlayerCenterCollider", sheet);
         player?.DestroySelf();
@@ -112,7 +111,7 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
         foreach (Vector2 d in deltas) RemoveAtPos(position + d);
     }
     
-    public void RemoveAtPosIntersectInSheet(Vector2 position, [CanBeNull] AnchorController sheet)
+    public void RemoveAtPosIntersectInSheet(Vector2 position, ISheet sheet)
     {
         Vector2[] deltas =
         {

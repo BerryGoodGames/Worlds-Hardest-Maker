@@ -7,7 +7,7 @@ public class PositionQueryService : IPositionQueryService
         float radius, 
         LayerMask layer, 
         string tag, 
-        AnchorController sheet,
+        ISheet sheet,
         SheetUtils.SheetCheckingScope scope = SheetUtils.SheetCheckingScope.Self) where T : Component
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(position, radius, layer);
@@ -24,7 +24,7 @@ public class PositionQueryService : IPositionQueryService
     public T QueryPosition<T>(Vector2 position, 
         float radius, 
         LayerMask layer, 
-        AnchorController sheet,
+        ISheet sheet,
         SheetUtils.SheetCheckingScope scope = SheetUtils.SheetCheckingScope.Self) where T : Component
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(position, radius, layer);
@@ -48,7 +48,7 @@ public class PositionQueryService : IPositionQueryService
         return null;
     }
     
-    private static bool MatchesSheet<T>(T obj, AnchorController sheet, SheetUtils.SheetCheckingScope scope) where T : Component
+    private static bool MatchesSheet<T>(T obj, ISheet sheet, SheetUtils.SheetCheckingScope scope) where T : Component
     {
         return scope switch
         {

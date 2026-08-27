@@ -11,7 +11,7 @@ public class CoinPlacementRules
         this.playerQueryService = playerQueryService;
     }
     
-    public bool CanPlaceInSheet(Vector2 position, AnchorController sheet)
+    public bool CanPlaceInSheet(Vector2 position, ISheet sheet)
     {
         return !coinQueryService.Exists(position, sheet) && !playerQueryService.Exists(position, sheet);
     }

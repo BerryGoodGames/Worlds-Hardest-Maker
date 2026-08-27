@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Cinemachine;
-using JetBrains.Annotations;
 using MyBox;
 using UnityEngine;
 using VContainer;
@@ -71,10 +70,14 @@ public class PlaceManager : MonoBehaviour
         LineForEach(start, end, pos => Place(editMode, pos, rotation));
     }
     
-    [CanBeNull]
-    public static AnchorController GetCurrentSheet() => AnchorAttachManager.Instance.InAttachMode ? AnchorManager.Instance.SelectedAnchor : null;
-    
-    public void AttachToSheet(GameObject obj, [CanBeNull] AnchorController sheet, bool forceParent = true)
+    public static ISheet GetCurrentSheet()
+    {
+        return AnchorAttachManager.Instance.InAttachMode
+            ? new AnchorSheet(AnchorManager.Instance.SelectedAnchor)
+            : GlobalSheet.Instance;
+    }
+
+    public void AttachToSheet(GameObject obj, ISheet sheet, bool forceParent = true)
     {
         if (sheet == null) return;
         
@@ -82,9 +85,9 @@ public class PlaceManager : MonoBehaviour
         
         diContainer.Inject(attachment);
         
-        attachment.Anchor = sheet;
+        attachment.Anchor = sheet.ToAnchorOrNull();
         
-        if (forceParent && obj.transform.parent != sheet.AttachmentContainer) obj.transform.SetParent(sheet.AttachmentContainer);
+        if (forceParent && obj.transform.parent != sheet.ToAnchorOrNull()!.AttachmentContainer) obj.transform.SetParent(sheet.ToAnchorOrNull()!.AttachmentContainer);
     }
     
     public static void Detach(GameObject obj, Transform container)

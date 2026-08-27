@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using UnityEngine;
+﻿using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
@@ -21,9 +20,10 @@ public class BallFactory
         this.ballContainer = ballContainer;
     }
     
-    public BallController Create(Vector2 position, [CanBeNull] AnchorController sheet)
+    public BallController Create(Vector2 position, ISheet sheet)
     {
-        Transform container = sheet == null ? ballContainer : sheet.AttachmentContainer;
+        AnchorController oldSheet = sheet.ToAnchorOrNull();
+        Transform container = oldSheet == null ? ballContainer : oldSheet.AttachmentContainer;
         
         GameObject ball = Object.Instantiate(
             ballPrefab,

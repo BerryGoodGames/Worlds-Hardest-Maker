@@ -8,11 +8,11 @@ public abstract class EntityController : LevelObjectController
     [FormerlySerializedAs("isAttachable")] [InitializationField] public bool IsAttachable = true;
     [EnableIf(nameof(IsAttachable))] [InitializationField] public Transform AttachmentHolder;
     
-    [MyBox.ReadOnly] public AnchorController Sheet;
+    [MyBox.ReadOnly] public ISheet Sheet;
     
     public override void Delete()
     {
-        if ((IsAttached && Sheet.IsAttaching)
+        if ((IsAttached && Sheet.ToAnchorOrNull()!.IsAttaching)
             || (!IsAttached && !AnchorAttachManager.Instance.InAttachMode)) base.Delete();
     }
     
@@ -23,7 +23,8 @@ public abstract class EntityController : LevelObjectController
         AnchorAttachment attachment = AttachmentHolder.GetComponent<AnchorAttachment>();
         IsAttached = attachment != null;
         
-        if (IsAttached) Sheet = attachment.Anchor;
+        // TODO refactor: registering?
+        if (IsAttached) Sheet = new AnchorSheet(attachment.Anchor);
     }
     
     public static bool TryGetController(Component component, out EntityController entityController) =>

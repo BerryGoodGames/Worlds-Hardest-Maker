@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using UnityEngine;
+﻿using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
@@ -25,7 +24,7 @@ public class PlayerFactory
         this.playerContainer = playerContainer;
     }
     
-    public PlayerController Create(Vector2 position, [CanBeNull] AnchorController sheet)
+    public PlayerController Create(Vector2 position, ISheet sheet)
     {
         PlayerController newPlayer = Object.Instantiate(
             playerPrefab,

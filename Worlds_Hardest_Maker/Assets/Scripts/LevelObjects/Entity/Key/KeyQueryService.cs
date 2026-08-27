@@ -9,7 +9,7 @@ public class KeyQueryService : ILevelObjectQuery<KeyController>
         this.positionQueryService = positionQueryService;
     }
     
-    public KeyController Find(Vector2 position, AnchorController sheet)
+    public KeyController Find(Vector2 position, ISheet sheet)
     {
         return positionQueryService.QueryPosition<KeyController>(position, 0.01f, LayerManager.Instance.Layers.Entity,
             "Key", sheet);
@@ -21,7 +21,7 @@ public class KeyQueryService : ILevelObjectQuery<KeyController>
             LayerManager.Instance.Layers.Entity);
     }
 
-    public bool Exists(Vector2 position, AnchorController sheet)
+    public bool Exists(Vector2 position, ISheet sheet)
     {
         return Find(position, sheet) != null;
     }

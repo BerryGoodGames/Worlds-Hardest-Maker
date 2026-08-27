@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 
 public partial class PlayerController
@@ -30,7 +29,7 @@ public partial class PlayerController
         return false;
     }
     
-    public bool IsOnFieldInSheet(FieldMode mode, [CanBeNull] AnchorController sheet)
+    public bool IsOnFieldInSheet(FieldMode mode, ISheet sheet)
     {
         foreach (FieldController field in CurrentFields)
         {
