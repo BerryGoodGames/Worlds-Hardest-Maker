@@ -60,6 +60,9 @@ public partial class PlayerController : EntityController
     [Inject] private CoinQueryService coinQueryService;
     [Inject] private KeyQueryService keyQueryService;
     [Inject] private IAttachmentService attachmentService;
+    [Inject] private ILevelObjectRegistry<CoinController> coinRegistry;
+    [Inject] private ILevelObjectRegistry<BallController> ballRegistry;
+    [Inject] private ILevelObjectRegistry<KeyController> keyRegistry;
     
     public static float Speed => LevelSettings.Instance.PlayerSpeed;
     

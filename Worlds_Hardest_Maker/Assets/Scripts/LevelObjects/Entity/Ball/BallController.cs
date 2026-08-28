@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class BallController : EntityController
     private Rigidbody2D rb;
     
     private EventBus eventBus;
+    [Inject] private ILevelObjectRegistry<BallController> ballRegistry;
     
     [Inject]
     private void Construct(EventBus eventBus)
@@ -33,7 +35,12 @@ public class BallController : EntityController
     }
     
     private void OnSwitchToEdit(SwitchToEditEvent evt) => ResetPosition();
-    
+
+    private void Awake()
+    {
+        ballRegistry.Register(this);
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -54,7 +61,7 @@ public class BallController : EntityController
     
     private void OnDestroy()
     {
-        BallManager.Instance.BallList.Remove(this);
+        ballRegistry.Unregister(this);
         
         if (ParentAnchor != null)
         {

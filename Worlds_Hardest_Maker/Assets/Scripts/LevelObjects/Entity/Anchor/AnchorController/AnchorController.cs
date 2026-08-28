@@ -53,9 +53,9 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
     private static readonly int editingString = Animator.StringToHash("Editing");
     private static readonly int playingString = Animator.StringToHash("Playing");
 
-    private IObjectResolver diContainer;
+    [Inject] private IObjectResolver diContainer;
     private EventBus eventBus;
-    private IDrawService drawService;
+    [Inject] private IDrawService drawService;
     
     public int LoopBlockIndex { get; set; } = -1;
     
@@ -65,11 +65,9 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
     public override EditMode EditMode => EditModeManager.Anchor;
     
     [Inject]
-    private void Construct(IObjectResolver diContainer, EventBus eventBus, IDrawService drawService)
+    private void Construct(EventBus eventBus)
     {
-        this.diContainer = diContainer;
         this.eventBus = eventBus;
-        this.drawService = drawService;
         
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);

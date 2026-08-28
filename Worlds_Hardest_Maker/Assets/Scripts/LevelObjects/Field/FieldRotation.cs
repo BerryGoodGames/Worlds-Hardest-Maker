@@ -18,15 +18,8 @@ public class FieldRotation : MonoBehaviour
     
     private Sequence scaleSequence;
 
-    private ISelectionStateService selectionStateService;
-    private ICopyPasteService copyPasteService;
-
-    [Inject]
-    private void Construct(ISelectionStateService selectionStateService, ICopyPasteService copyPasteService)
-    {
-        this.selectionStateService = selectionStateService;
-        this.copyPasteService = copyPasteService;
-    }
+    [Inject] private ISelectionStateService selectionStateService;
+    [Inject] private ICopyPasteService copyPasteService;
     
     private void Rotate()
     {

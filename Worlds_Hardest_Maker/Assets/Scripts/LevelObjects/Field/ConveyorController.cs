@@ -10,13 +10,7 @@ public class ConveyorController : MonoBehaviour
     
     public float Rotation => transform.rotation.eulerAngles.z;
     
-    private EventBus eventBus;
-    
-    [Inject]
-    private void Construct(EventBus eventBus)
-    {
-        this.eventBus = eventBus;
-    }
+    [Inject] private EventBus eventBus;
 
     private void Start()
     {

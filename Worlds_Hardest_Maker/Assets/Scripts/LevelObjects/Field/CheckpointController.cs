@@ -27,16 +27,8 @@ public class CheckpointController : MonoBehaviour, IResettable
     
     private CheckpointTween anim;
     
-    private EventBus eventBus;
-    
-    private IAudioService audioService;
-    
-    [Inject]
-    private void Construct(EventBus eventBus, IAudioService audioService)
-    {
-        this.eventBus = eventBus;
-        this.audioService = audioService;
-    }
+    [Inject] private EventBus eventBus;
+    [Inject] private IAudioService audioService;
     
     private void OnTriggerEnter2D(Collider2D collision)
     {

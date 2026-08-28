@@ -14,6 +14,7 @@ public class ShotgunController : MonoBehaviour
     private float currentAngle;
     
     [Inject] private IMouseService mouseService;
+    [Inject] private ILevelObjectRegistry<BallController> ballRegistry;
     
     private void Update()
     {
@@ -42,9 +43,9 @@ public class ShotgunController : MonoBehaviour
         main.startRotationZ = currentAngle / 180 * Mathf.PI;
         
         // load colliders for bullet to check
-        for (int i = 0; i < BallManager.Instance.BallList.Count; i++)
+        for (int i = 0; i < ballRegistry.All.Count; i++)
         {
-            BallController ball = BallManager.Instance.BallList[i];
+            BallController ball = ballRegistry.All[i];
             bulletParticle.trigger.SetCollider(i, ball.GetComponent<CircleCollider2D>());
         }
         

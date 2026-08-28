@@ -16,7 +16,6 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform coinContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyContainer;
     
-    [Inject] private IObjectResolver diContainer;
     [Inject] private IPositionQueryService positionQueryService;
     [Inject] private ILevelObjectQuery<PlayerController> playerQueryService;
     [Inject] private PlayerPlacementRules placementRules;

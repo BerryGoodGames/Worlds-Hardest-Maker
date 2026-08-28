@@ -30,13 +30,7 @@ public class FieldOutline : MonoBehaviour
     
     public event Action OnUpdateOutline = () => { };
     
-    private IDrawService drawService;
-    
-    [Inject]
-    private void Construct(IDrawService drawService)
-    {
-        this.drawService = drawService;
-    }
+    [Inject] private IDrawService drawService;
     
     private void Awake()
     {

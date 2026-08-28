@@ -18,7 +18,6 @@ public partial class AnchorManager : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private AlphaTween anchorNoAnchorSelectedScreen;
     [SerializeField] [InitializationField] [MustBeAssigned] private AlphaTween anchorInPlayModeScreen;
     
-    [Inject] private IObjectResolver diContainer;
     private EventBus eventBus;
     [Inject] private IAudioService audioService;
     [Inject] private ILevelObjectQuery<AnchorController> anchorQueryService;

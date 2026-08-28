@@ -52,10 +52,14 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.Register<CoinQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<CoinController>>().AsSelf();
         builder.Register<CoinFactory>(Lifetime.Singleton).AsSelf();
         builder.Register<CoinPlacementRules>(Lifetime.Singleton).AsSelf();
+        builder.Register<LevelObjectRegistry<CoinController>>(Lifetime.Singleton)
+            .As<ILevelObjectRegistry<CoinController>>();
         
         builder.RegisterComponentInHierarchy<BallManager>().AsImplementedInterfaces();
         builder.Register<BallQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<BallController>>();
         builder.Register<BallFactory>(Lifetime.Singleton).AsSelf();
+        builder.Register<LevelObjectRegistry<BallController>>(Lifetime.Singleton)
+            .As<ILevelObjectRegistry<BallController>>();
         
         builder.RegisterComponentInHierarchy<AnchorManager>().AsImplementedInterfaces();
         builder.Register<AnchorQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<AnchorController>>();
@@ -70,6 +74,8 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.Register<KeyQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<KeyController>>().AsSelf();
         builder.Register<KeyFactory>(Lifetime.Singleton).AsSelf();
         builder.Register<KeyPlacementRules>(Lifetime.Singleton).AsSelf();
+        builder.Register<LevelObjectRegistry<KeyController>>(Lifetime.Singleton)
+            .As<ILevelObjectRegistry<KeyController>>();
         
         builder.RegisterComponentInHierarchy<FieldManager>().AsImplementedInterfaces();
         builder.Register<FieldQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<FieldController>>().AsSelf();

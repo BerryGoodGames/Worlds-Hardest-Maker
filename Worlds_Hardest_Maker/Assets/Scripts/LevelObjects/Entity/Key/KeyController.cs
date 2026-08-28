@@ -31,13 +31,13 @@ public class KeyController : EntityController, IResettable, ICollectible
         };
     
     private EventBus eventBus;
-    private IKonamiService konamiService;
+    [Inject] private IKonamiService konamiService;
+    [Inject] private ILevelObjectRegistry<KeyController> keyRegistry;
 
     [Inject]
-    private void Construct(EventBus eventBus, IKonamiService konamiService)
+    private void Construct(EventBus eventBus)
     {
         this.eventBus = eventBus;
-        this.konamiService = konamiService;
         
         eventBus.Subscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
@@ -48,9 +48,8 @@ public class KeyController : EntityController, IResettable, ICollectible
     private void Awake()
     {
         InitialPosition = transform.position;
-        
-        // cache key controller
-        KeyManager.Instance.Keys.Add(this);
+
+        keyRegistry.Register(this);
         
         SetOrderInLayer();
     }
@@ -67,7 +66,7 @@ public class KeyController : EntityController, IResettable, ICollectible
     
     private void OnDestroy()
     {
-        KeyManager.Instance.Keys.Remove(this);
+        keyRegistry.Unregister(this);
         
         ((IResettable)this).Unsubscribe(eventBus);
         
@@ -89,7 +88,7 @@ public class KeyController : EntityController, IResettable, ICollectible
     private void SetOrderInLayer()
     {
         int highestOrder = 0;
-        foreach (KeyController key in KeyManager.Instance.Keys)
+        foreach (KeyController key in keyRegistry.All)
         {
             int order = key.SpriteRenderer.sortingOrder;
             if (order > highestOrder) highestOrder = order;

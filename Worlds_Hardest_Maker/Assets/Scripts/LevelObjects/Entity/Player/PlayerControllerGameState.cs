@@ -65,7 +65,7 @@ public partial class PlayerController
     
     private void ResetCoinsToCurrentGameState()
     {
-        foreach (CoinController coin in CoinManager.Instance.Coins)
+        foreach (CoinController coin in coinRegistry.All)
         {
             if (!coin.ShouldRespawn()) continue;
             
@@ -101,7 +101,7 @@ public partial class PlayerController
     
     private void ResetKeysToCurrentGameState()
     {
-        foreach (KeyController key in KeyManager.Instance.Keys)
+        foreach (KeyController key in keyRegistry.All)
         {
             if (!key.ShouldRespawn()) continue;
             

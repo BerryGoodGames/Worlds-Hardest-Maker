@@ -11,11 +11,9 @@ public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
     [SerializeField] [InitializationField] [MustBeAssigned] private GameObject ballPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform ballContainer;
     
-    [ReadOnly] public List<BallController> BallList;
     [ReadOnly] public Dictionary<AnchorController, List<BallController>> BallListSheets;
     [ReadOnly] public List<BallController> BallListGlobal;
     
-    [Inject] private IObjectResolver diContainer;
     [Inject] private ILevelObjectQuery<BallController> ballQueryService;
     private BallFactory ballFactory;
     [Inject] private IAttachmentService attachmentService;
@@ -41,9 +39,6 @@ public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
         }
         
         ballController.transform.position = position;
-        
-        // track ball positions in all the layers
-        BallList.Add(ballController);
         
         if (AnchorAttachManager.Instance.InAttachMode) BallListSheets[AnchorManager.Instance.SelectedAnchor].Add(ballController);
         else BallListGlobal.Add(ballController);

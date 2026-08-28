@@ -14,25 +14,11 @@ public class AnchorPositionInputEditManager : MonoBehaviour
     
     [SerializeField] [InitializationField] [MustBeAssigned] private ChainController mainChainController;
 
-    private EventBus eventBus;
-    private IAudioService audioService;
-    private IMouseService mouseService;
-    private ISelectionStateService selectionStateService;
-    private IEditModeUIBlockerService uiBlockerService;
-    
-    [Inject]
-    private void Construct(EventBus eventBus,
-        IAudioService audioService, 
-        IMouseService mouseService, 
-        ISelectionStateService selectionStateService,
-        IEditModeUIBlockerService uiBlockerService)
-    {
-        this.eventBus = eventBus;
-        this.audioService = audioService;
-        this.mouseService = mouseService;
-        this.selectionStateService = selectionStateService;
-        this.uiBlockerService = uiBlockerService;
-    }
+    [Inject] private EventBus eventBus;
+    [Inject] private IAudioService audioService;
+    [Inject] private IMouseService mouseService;
+    [Inject] private ISelectionStateService selectionStateService;
+    [Inject] private IEditModeUIBlockerService uiBlockerService;
 
     public void StartPositionInputEdit(AnchorBlockPositionInputController positionInput)
     {

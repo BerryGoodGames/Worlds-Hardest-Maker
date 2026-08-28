@@ -17,13 +17,7 @@ public class KeyDoorFieldController : MonoBehaviour, IResettable
     
     private static readonly int unlockedString = Animator.StringToHash("Unlocked");
     
-    private EventBus eventBus;
-    
-    [Inject]
-    private void Construct(EventBus eventBus)
-    {
-        this.eventBus = eventBus;
-    }
+    [Inject] private EventBus eventBus;
     
     public void SetLocked(bool locked)
     {

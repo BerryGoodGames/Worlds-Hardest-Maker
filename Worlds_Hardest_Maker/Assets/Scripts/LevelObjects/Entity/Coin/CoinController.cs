@@ -19,6 +19,7 @@ public class CoinController : EntityController, IResettable, ICollectible
     public override EditMode EditMode => EditModeManager.Coin;
     
     private EventBus eventBus;
+    [Inject] private ILevelObjectRegistry<CoinController> coinRegistry;
     
     [Inject]
     private void Construct(EventBus eventBus)
@@ -33,8 +34,8 @@ public class CoinController : EntityController, IResettable, ICollectible
     private void Awake()
     {
         InitialPosition = transform.position;
-        
-        CoinManager.Instance.Coins.Add(this);
+
+        coinRegistry.Register(this);
     }
     
     protected override void Start()
@@ -49,7 +50,7 @@ public class CoinController : EntityController, IResettable, ICollectible
     private void OnDestroy()
     {
         // un-cache coin
-        CoinManager.Instance.Coins.Remove(this);
+        coinRegistry.Unregister(this);
         
         ((IResettable)this).Unsubscribe(eventBus);
         eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);

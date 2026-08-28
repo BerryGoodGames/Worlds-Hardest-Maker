@@ -16,22 +16,9 @@ public class PlaceManager : MonoBehaviour
     [Separator("Konami sfx")] [SerializeField] private SoundEffect konamiPlaceSfx;
     [SerializeField] private PlaceSoundEffect[] customKonamiPlaceSfx;
     
-    private IObjectResolver diContainer;
-    private IAudioService audioService;
-    private IReadOnlyList<ILevelObjectPlacer> placers;
-    private IKonamiService konamiService;
-    
-    [Inject]
-    private void Construct(IObjectResolver diContainer, 
-        IAudioService audioService, 
-        IReadOnlyList<ILevelObjectPlacer> placers, 
-        IKonamiService konamiService)
-    {
-        this.diContainer = diContainer;
-        this.audioService = audioService;
-        this.placers = placers;
-        this.konamiService = konamiService;
-    }
+    [Inject] private IAudioService audioService;
+    [Inject] private IReadOnlyList<ILevelObjectPlacer> placers;
+    [Inject] private IKonamiService konamiService;
 
     /// <summary>
     ///     Places edit mode at position

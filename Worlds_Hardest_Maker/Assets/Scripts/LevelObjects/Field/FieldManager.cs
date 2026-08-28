@@ -13,8 +13,6 @@ public partial class FieldManager : MonoBehaviour, ILevelObjectPlacer, ILevelObj
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform coinContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyContainer;
     
-    [Inject] private IObjectResolver diContainer;
-    [Inject] private IPositionQueryService positionQueryService;
     [Inject] private FieldQueryService fieldQueryService;
     private FieldFactory fieldFactory;
 

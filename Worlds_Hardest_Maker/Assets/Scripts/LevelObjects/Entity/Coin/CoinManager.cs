@@ -10,21 +10,18 @@ public class CoinManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
     [SerializeField] [InitializationField] [MustBeAssigned] private CoinController coinPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform coinContainer;
     
-    [ReadOnly] public List<CoinController> Coins = new();
     [ReadOnly] public List<CoinController> CollectedCoins = new();
     
-    private int TotalCoins => Coins.Count;
+    private int TotalCoins => coinRegistry.All.Count;
     
     public int CoinsNeededFinal =>
         Mathf.Min(LevelSettings.Instance.IsCoinsNeededLimited ? LevelSettings.Instance.CoinsNeeded : TotalCoins, TotalCoins);
     
-    [Inject] private IObjectResolver diContainer;
     private EventBus eventBus;
-    [Inject] private IPositionQueryService positionQueryService;
-    [Inject] private CoinQueryService coinQueryService;
     [Inject] private CoinPlacementRules placementRules;
     private CoinFactory coinFactory;
     [Inject] private IAttachmentService attachmentService;
+    [Inject] private ILevelObjectRegistry<CoinController> coinRegistry;
     
     [Inject]
     private void Construct(EventBus eventBus, CoinFactory coinFactory)
@@ -58,7 +55,7 @@ public class CoinManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
     
     public bool AllCoinsCollected() => CollectedCoins.Count >= CoinsNeededFinal;
     
-    public void ActivateAnimations() => Coins.ForEach(coin => coin.ActivateAnimation());
+    public void ActivateAnimations() => coinRegistry.All.ForEach(coin => coin.ActivateAnimation());
     
     private void Awake()
     {
@@ -83,7 +80,7 @@ public class CoinManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
     public IEnumerable<Data> Serialize()
     {
         List<Data> levelData = new();
-        foreach (CoinController coin in Coins)
+        foreach (CoinController coin in coinRegistry.All)
         {
             if (coin.IsAttached) continue;
             

@@ -14,17 +14,14 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
     [SerializeField] [InitializationField] [MustBeAssigned] private KeyController yellowKeyPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyContainer;
     
-    [ReadOnly] public List<KeyController> Keys = new();
     [ReadOnly] public List<KeyController> CollectedKeys = new();
     
-    [Inject] private IObjectResolver diContainer;
     private EventBus eventBus;
-    [Inject] private IKonamiService konamiService;
-    [Inject] private IPositionQueryService positionQueryService;
     [Inject] private KeyQueryService keyQueryService;
     [Inject] private KeyPlacementRules placementRules;
     private KeyFactory keyFactory;
     [Inject] private IAttachmentService attachmentService;
+    [Inject] private ILevelObjectRegistry<KeyController> keyRegistry;
     
     [Inject]
     private void Construct(EventBus eventBus, KeyFactory keyFactory)
@@ -49,9 +46,6 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
         
         if (key == null) return;
         
-        // un-cache
-        Keys.Remove(key);
-        
         // destroy
         DestroyImmediate(key.transform.gameObject);
     }
@@ -75,7 +69,7 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
     public bool AllKeysCollected(KeyColor color)
     {
         // check if every key of specific color is picked up
-        foreach (KeyController key in Keys)
+        foreach (KeyController key in keyRegistry.All)
         {
             if (!key.Collected && key.Color == color) return false;
         }
@@ -89,7 +83,7 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
         if (Instance == null) Instance = this;
     }
     
-    public void ActivateAnimations() => Keys.ForEach(key => key.ActivateAnimation());
+    public void ActivateAnimations() => keyRegistry.All.ForEach(key => key.ActivateAnimation());
 
     public bool CanHandle(EditMode editMode)
     {
@@ -110,7 +104,7 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
     public IEnumerable<Data> Serialize()
     {
         List<Data> levelData = new();
-        foreach (KeyController key in Keys)
+        foreach (KeyController key in keyRegistry.All)
         {
             if (key.IsAttached) continue;
             

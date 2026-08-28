@@ -25,13 +25,7 @@ public class IntervalRandomAnimation : MonoBehaviour
     
     private Animator anim;
     
-    private IAudioService audioService;
-    
-    [Inject]
-    private void Construct(IAudioService audioService)
-    {
-        this.audioService = audioService;
-    }
+    [Inject] private IAudioService audioService;
 
     private void Awake() => anim = GetComponent<Animator>();
     
