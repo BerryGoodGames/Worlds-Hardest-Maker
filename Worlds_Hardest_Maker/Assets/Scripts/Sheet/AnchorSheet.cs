@@ -12,8 +12,7 @@ public sealed class AnchorSheet : ISheet
     public Transform Container => Anchor.AttachmentContainer;
     public bool IsGlobal => false;
     
-    public bool Equals(ISheet other)
-    {
-        return other is AnchorSheet anchorSheet && anchorSheet.Anchor == Anchor;
-    }
+    public bool Equals(ISheet other) => other is AnchorSheet a && a.Anchor == Anchor;
+    public override bool Equals(object obj) => obj is ISheet other && Equals(other);
+    public override int GetHashCode() => Anchor.GetHashCode();
 }

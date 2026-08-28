@@ -25,6 +25,7 @@ public abstract class EntityController : LevelObjectController
         
         // TODO refactor: registering?
         if (IsAttached) Sheet = new AnchorSheet(attachment.Anchor);
+        else Sheet = GlobalSheet.Instance;
     }
     
     public static bool TryGetController(Component component, out EntityController entityController) =>
