@@ -14,6 +14,8 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
     [InitializationField] [MustBeAssigned] public Animator Animator;
     [InitializationField] [MustBeAssigned] public AnchorAttachFade AttachFade;
     
+    public AnchorSheet OwnSheet { get; private set; }
+    
     [ReadOnly] public int SortingLayerID;
     [ReadOnly] public int OrderInLayer;
     
@@ -79,6 +81,8 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
     
     private void Awake()
     {
+        OwnSheet = new(this);
+        
         Rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         entityDragDrop = GetComponent<EntityDragDrop>();

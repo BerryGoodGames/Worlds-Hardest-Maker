@@ -96,10 +96,9 @@ public class CheckpointController : MonoBehaviour, IResettable
     private void Start()
     {
         anim = GetComponent<CheckpointTween>();
-        
-        IsAttached = TryGetComponent(out AnchorAttachment attachment);
-        // TODO refactor: creation of new anchor sheet
-        if (IsAttached) Sheet = new AnchorSheet(attachment.Anchor);
+
+        Sheet = SheetUtils.ResolveFor(this);
+        IsAttached = Sheet is AnchorSheet;
         
         ((IResettable)this).Subscribe(eventBus);
     }

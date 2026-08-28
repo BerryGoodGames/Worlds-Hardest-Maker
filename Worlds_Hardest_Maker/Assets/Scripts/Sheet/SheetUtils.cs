@@ -19,4 +19,11 @@ public static class SheetUtils
 
         return (globalSheet && !hasAttachment) || (hasAttachment && sheet is AnchorSheet anchorSheet && anchorSheet.Anchor == attachment.Anchor);
     }
+    
+    public static ISheet ResolveFor(Component component)
+    {
+        return component.TryGetComponent(out AnchorAttachment attachment)
+            ? attachment.Anchor.OwnSheet
+            : GlobalSheet.Instance;
+    }
 }

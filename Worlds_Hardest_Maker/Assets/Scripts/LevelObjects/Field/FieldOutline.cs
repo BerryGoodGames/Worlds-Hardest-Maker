@@ -53,9 +53,8 @@ public class FieldOutline : MonoBehaviour
     {
         // get components if not already cached
         LineRenderers ??= GetComponentsInChildren<LineRenderer>();
-        
-        // TODO refactor: creation of new anchor sheet (wrong)
-        sheet = TryGetComponent(out AnchorAttachment attach) ? new AnchorSheet(attach.Anchor) : GlobalSheet.Instance;
+
+        sheet = SheetUtils.ResolveFor(this);
         
         UpdateAlpha();
         

@@ -60,7 +60,7 @@ public class PlaceManager : MonoBehaviour
     public static ISheet GetCurrentSheet()
     {
         return AnchorAttachManager.Instance.InAttachMode
-            ? new AnchorSheet(AnchorManager.Instance.SelectedAnchor)
+            ? AnchorManager.Instance.SelectedAnchor.OwnSheet
             : GlobalSheet.Instance;
     }
     

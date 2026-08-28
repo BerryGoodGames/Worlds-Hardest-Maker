@@ -20,12 +20,8 @@ public abstract class EntityController : LevelObjectController
     {
         if (!EditMode.AnchorSheetAvailable) return;
         
-        AnchorAttachment attachment = AttachmentHolder.GetComponent<AnchorAttachment>();
-        IsAttached = attachment != null;
-        
-        // TODO refactor: registering?
-        if (IsAttached) Sheet = new AnchorSheet(attachment.Anchor);
-        else Sheet = GlobalSheet.Instance;
+        Sheet = SheetUtils.ResolveFor(AttachmentHolder);
+        IsAttached = Sheet is AnchorSheet;
     }
     
     public static bool TryGetController(Component component, out EntityController entityController) =>
