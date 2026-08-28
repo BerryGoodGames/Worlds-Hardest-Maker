@@ -19,7 +19,8 @@ public partial class AnchorManager : ILevelObjectPlacer, ILevelObjectSerializer
         anchor.AppendBlock(new SetDirectionBlock(true, true));
         anchor.AppendBlock(new SetEaseBlock(true, Ease.Linear));
         
-        BallManager.Instance.BallListSheets.Add(anchor, new());
+        // TODO: need to add bucket to sheet scoped registry?
+        // BallManager.Instance.BallListSheets.Add(anchor, new());
         
         return anchor;
     }
@@ -32,7 +33,8 @@ public partial class AnchorManager : ILevelObjectPlacer, ILevelObjectSerializer
             if (SelectedAnchor == anchor) DeselectAnchor();
         }
         
-        BallManager.Instance.BallListSheets.Remove(anchor);
+        // TODO: need to remove bucket from sheet scoped registry?
+        // BallManager.Instance.BallListSheets.Remove(anchor);
         
         // destroy anchor
         Destroy(anchor.transform.parent.gameObject);

@@ -10,9 +10,9 @@ public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
     // TODO: why is this a GameObject and not a BallController?
     [SerializeField] [InitializationField] [MustBeAssigned] private GameObject ballPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform ballContainer;
-    
-    [ReadOnly] public Dictionary<AnchorController, List<BallController>> BallListSheets;
-    [ReadOnly] public List<BallController> BallListGlobal;
+
+    private readonly SheetScopedRegistry<BallController> ballsBySheet = new();
+    public void RemoveFromSheetRegistry(BallController ball) => ballsBySheet.RemoveItem(ball.Sheet, ball);
     
     [Inject] private ILevelObjectQuery<BallController> ballQueryService;
     private BallFactory ballFactory;
@@ -39,19 +39,12 @@ public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
         }
         
         ballController.transform.position = position;
-        
-        if (AnchorAttachManager.Instance.InAttachMode) BallListSheets[AnchorManager.Instance.SelectedAnchor].Add(ballController);
-        else BallListGlobal.Add(ballController);
+
+        ballsBySheet.AddItem(sheet, ballController);
         
         if (sheet is AnchorSheet anchorSheet2) attachmentService.Attach(ballController, anchorSheet2.Anchor);
         
         return ballController;
-    }
-    
-    private void Start()
-    {
-        BallListSheets = new();
-        BallListGlobal = new();
     }
     
     private void Awake()
@@ -68,12 +61,6 @@ public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
     public PlacementResult Place(PlacementRequest request)
     {
         Vector2 gridPosition = request.Position.ConvertToGrid();
-        // ManagerParameters args = ManagerParameters.FromCurrentSheet(new()
-        // {
-        //     Position = gridPosition
-        // });
-        //
-        // BallController result = SetInSheet(args);
         BallController result = CreateNew(gridPosition, request.Sheet);
         
         return PlacementResult.FromController(result);
@@ -83,8 +70,7 @@ public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
     {
         List<Data> levelData = new();
 
-        if (BallListGlobal == null) return levelData;
-        foreach (BallController ball in BallListGlobal)
+        foreach (BallController ball in ballsBySheet.Get(GlobalSheet.Instance))
         {
             if (ball.IsAttached) continue;
             

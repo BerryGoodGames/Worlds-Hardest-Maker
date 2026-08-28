@@ -66,12 +66,8 @@ public class BallController : EntityController
         if (ParentAnchor != null)
         {
             ParentAnchor.Balls.Remove(transform.parent);
-            
-            // remove ball from parent anchor cache list
-            ref Dictionary<AnchorController, List<BallController>> ballList = ref BallManager.Instance.BallListSheets;
-            if (ballList.ContainsKey(ParentAnchor)) ballList[ParentAnchor].Remove(this);
         }
-        else BallManager.Instance.BallListGlobal.Remove(this);
+        BallManager.Instance.RemoveFromSheetRegistry(this);
         
         Destroy(transform.parent.gameObject);
         
