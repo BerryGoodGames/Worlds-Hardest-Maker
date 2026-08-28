@@ -34,10 +34,10 @@ public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
         BallController ballController = ballFactory.Create(position, sheet);
         
         // setup parent
-        if (AnchorAttachManager.Instance.InAttachMode)
+        if (sheet is AnchorSheet anchorSheet1)
         {
-            ballController.ParentAnchor = sheet.ToAnchorOrNull();
-            sheet.ToAnchorOrNull()!.Balls.Add(ballController.LevelObject.transform);
+            ballController.ParentAnchor = anchorSheet1.Anchor;
+            anchorSheet1.Anchor.Balls.Add(ballController.LevelObject.transform);
         }
         
         ballController.transform.position = position;
@@ -48,7 +48,7 @@ public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
         if (AnchorAttachManager.Instance.InAttachMode) BallListSheets[AnchorManager.Instance.SelectedAnchor].Add(ballController);
         else BallListGlobal.Add(ballController);
         
-        if (sheet is AnchorSheet anchorSheet) attachmentService.Attach(ballController, anchorSheet.Anchor);
+        if (sheet is AnchorSheet anchorSheet2) attachmentService.Attach(ballController, anchorSheet2.Anchor);
         
         return ballController;
     }

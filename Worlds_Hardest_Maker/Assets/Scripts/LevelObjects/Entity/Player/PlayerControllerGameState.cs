@@ -9,11 +9,14 @@ public partial class PlayerController
         get
         {
             if (CurrentGameState != null && CurrentGameState.Checkpoint != null) return CurrentGameState.Checkpoint.transform.position;
-            if (Sheet == null) return StartPos;
+            if (Sheet is AnchorSheet anchorSheet)
+            {
+                Transform sheetTransform = anchorSheet.Anchor.transform;
+                Vector2 offsetPos = sheetTransform.position + Quaternion.Euler(0, 0, sheetTransform.eulerAngles.z) * SheetStartPosOffset;
+                return offsetPos;
+            }
             
-            Transform sheetTransform = Sheet.ToAnchorOrNull()!.transform;
-            Vector2 offsetPos = sheetTransform.position + Quaternion.Euler(0, 0, sheetTransform.eulerAngles.z) * SheetStartPosOffset;
-            return offsetPos;
+            return StartPos;
         }
     }
     

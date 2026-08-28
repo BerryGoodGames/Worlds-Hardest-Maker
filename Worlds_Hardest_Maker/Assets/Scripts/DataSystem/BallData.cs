@@ -15,7 +15,7 @@ public class BallData : AttachableData
     
     public override void ImportToLevel(Vector2 pos)
     {
-        BallManager.Instance.CreateNew(pos, null);
+        BallManager.Instance.CreateNew(pos, GlobalSheet.Instance);
     }
     
     public override void ImportToLevel(ISheet sheet)

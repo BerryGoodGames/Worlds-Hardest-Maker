@@ -105,8 +105,11 @@ public partial class PlayerController : EntityController
         
         base.Start();
         
-        IsAttached = Sheet != null;
-        if (IsAttached) SheetStartPosOffset = transform.position - Sheet.ToAnchorOrNull()!.transform.position;
+        IsAttached = !Sheet.IsGlobal;
+        if (Sheet is AnchorSheet anchorSheet)
+        {
+            SheetStartPosOffset = transform.position - anchorSheet.Anchor.transform.position;
+        }
         
         EdgeCollider.enabled = LevelSessionEditManager.Instance.IsPlaying;
         
@@ -181,13 +184,13 @@ public partial class PlayerController : EntityController
         transform.position = position;
         StartPos = position;
         
-        if (sheet is AnchorSheet anchorSheet) attachmentService.Attach(this, anchorSheet.Anchor, false);
+        if (sheet is AnchorSheet anchorSheet1) attachmentService.Attach(this, anchorSheet1.Anchor, false);
         else attachmentService.Detach(this, playerContainer);
         
         Sheet = sheet;
         
-        IsAttached = Sheet != null;
-        if (IsAttached) SheetStartPosOffset = transform.position - Sheet.ToAnchorOrNull()!.transform.position;
+        IsAttached = !Sheet.IsGlobal;
+        if (Sheet is AnchorSheet anchorSheet2) SheetStartPosOffset = transform.position - anchorSheet2.Anchor.transform.position;
     }
     
     public void Win()
@@ -271,6 +274,6 @@ public partial class PlayerController : EntityController
     {
         StartPos = transform.position;
         
-        if (IsAttached) SheetStartPosOffset = transform.position - Sheet.ToAnchorOrNull()!.transform.position;
+        if (Sheet is AnchorSheet anchorSheet) SheetStartPosOffset = transform.position - anchorSheet.Anchor.transform.position;
     }
 }

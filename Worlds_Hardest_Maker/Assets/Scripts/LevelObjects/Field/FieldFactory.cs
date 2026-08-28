@@ -24,10 +24,9 @@ public class FieldFactory
     public FieldController Create(Vector2 position, int rotation, ISheet sheet, FieldMode fieldMode)
     {
         GameObject prefab = fieldMode.Prefab;
-        AnchorController oldSheet = sheet.ToAnchorOrNull();
         GameObject res = Object.Instantiate(
             prefab, position, Quaternion.Euler(0, 0, rotation),
-            oldSheet == null ? fieldContainer : oldSheet.AttachmentContainer
+            sheet is AnchorSheet anchorSheet1 ? anchorSheet1.Container : fieldContainer
         );
 
         diContainer.InjectGameObject(res);
@@ -38,7 +37,7 @@ public class FieldFactory
 
         fieldController.FieldMode = fieldMode;
 
-        if(sheet is AnchorSheet anchorSheet) attachmentService.Attach(fieldController, anchorSheet.Anchor);
+        if(sheet is AnchorSheet anchorSheet2) attachmentService.Attach(fieldController, anchorSheet2.Anchor);
 
         return fieldController;
     }

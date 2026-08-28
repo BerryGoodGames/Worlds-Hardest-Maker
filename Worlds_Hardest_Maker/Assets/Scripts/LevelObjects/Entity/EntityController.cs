@@ -12,7 +12,7 @@ public abstract class EntityController : LevelObjectController
     
     public override void Delete()
     {
-        if ((IsAttached && Sheet.ToAnchorOrNull()!.IsAttaching)
+        if ((IsAttached && Sheet is AnchorSheet anchorSheet && anchorSheet.Anchor.IsAttaching)
             || (!IsAttached && !AnchorAttachManager.Instance.InAttachMode)) base.Delete();
     }
     

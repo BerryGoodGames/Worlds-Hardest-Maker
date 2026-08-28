@@ -22,8 +22,7 @@ public class BallFactory
     
     public BallController Create(Vector2 position, ISheet sheet)
     {
-        AnchorController oldSheet = sheet.ToAnchorOrNull();
-        Transform container = oldSheet == null ? ballContainer : oldSheet.AttachmentContainer;
+        Transform container = sheet is AnchorSheet anchorSheet ? anchorSheet.Container : ballContainer;
         
         GameObject ball = Object.Instantiate(
             ballPrefab,

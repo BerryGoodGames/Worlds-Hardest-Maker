@@ -22,11 +22,10 @@ public class CoinFactory
     
     public CoinController Create(Vector2 position, ISheet sheet)
     {
-        AnchorController oldSheet = sheet.ToAnchorOrNull();
         CoinController coin = Object.Instantiate(
             coinPrefab,
             position, Quaternion.identity,
-            oldSheet == null ? coinContainer : oldSheet.AttachmentContainer
+            sheet is AnchorSheet anchorSheet ? anchorSheet.Container : coinContainer
         );
         
         diContainer.InjectGameObject(coin.gameObject);

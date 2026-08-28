@@ -37,11 +37,10 @@ public class KeyFactory
     
     public KeyController Create(Vector2 position, ISheet sheet, KeyColor keyColor)
     {
-        AnchorController oldSheet = sheet.ToAnchorOrNull();
         KeyController key = Object.Instantiate(
             GetPrefabKey(keyColor),
             position, Quaternion.identity,
-            oldSheet == null ? keyContainer : oldSheet.AttachmentContainer
+            sheet is AnchorSheet anchorSheet ? anchorSheet.Container : keyContainer
         );
         
         diContainer.InjectGameObject(key.gameObject);

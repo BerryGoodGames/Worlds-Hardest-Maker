@@ -1,6 +1,4 @@
-﻿using System;
-using JetBrains.Annotations;
-using UnityEngine;
+﻿using UnityEngine;
 
 public static class SheetUtils
 {
@@ -11,7 +9,7 @@ public static class SheetUtils
     
     public static bool Exists(Component controller, ISheet sheet)
     {
-        bool globalSheet = sheet == null;
+        bool globalSheet = sheet.IsGlobal;
         
         bool hasEntityController = EntityController.TryGetController(controller, out EntityController entityController);
         
@@ -19,13 +17,6 @@ public static class SheetUtils
         
         bool hasAttachment = (hasEntityController ? entityController.AttachmentHolder : controller).TryGetComponent(out AnchorAttachment attachment);
 
-        return (globalSheet && !hasAttachment) || (hasAttachment && !globalSheet && attachment.Anchor == sheet);
-    }
-
-    [CanBeNull] [Obsolete]
-    public static AnchorController ToAnchorOrNull(this ISheet sheet)
-    {
-        if (sheet is AnchorSheet anchorSheet) return anchorSheet.Anchor;
-        return null;
+        return (globalSheet && !hasAttachment) || (hasAttachment && sheet is AnchorSheet anchorSheet && anchorSheet.Anchor == attachment.Anchor);
     }
 }
