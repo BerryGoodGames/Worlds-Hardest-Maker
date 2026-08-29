@@ -50,7 +50,7 @@ public class KeyEvents : MonoBehaviour
         if (KeyBinds.GetKeyBindDown("Editor_SaveLevel")) saveSystem.SaveCurrentLevel();
         
         // paste
-        if (!copyPasteService.IsPasting && KeyBinds.GetKeyBind("Editor_Paste")) StartCoroutine(copyPasteService.PasteCoroutine());
+        if (!copyPasteService.IsPasting && KeyBinds.GetKeyBindDown("Editor_Paste")) StartCoroutine(copyPasteService.PasteCoroutine());
     }
     
     private void CheckEditModeRotation()

@@ -48,14 +48,17 @@ namespace WorldsHardestMaker.CopyPaste
     
         public IEnumerator PasteCoroutine()
         {
+            if (clipboard.Count == 0)
+            {
+                toastService.ShowWarning("Clipboard is empty", 4);
+                yield break;
+            }
+            
             if (AnchorAttachManager.Instance.InAttachMode)
             {
                 toastService.ShowError("Cannot paste in attach mode", 4);
                 yield break;
             }
-        
-            // check if there smth. in clipboard
-            if (clipboard.Count == 0) yield break;
         
             StartPaste();
         
