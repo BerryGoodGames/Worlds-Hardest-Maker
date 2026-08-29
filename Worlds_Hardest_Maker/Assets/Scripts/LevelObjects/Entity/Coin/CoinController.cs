@@ -34,12 +34,12 @@ public class CoinController : EntityController, IResettable, ICollectible
     private void Awake()
     {
         InitialPosition = transform.position;
-
-        coinRegistry.Register(this);
     }
     
     protected override void Start()
     {
+        coinRegistry.Register(this);
+        
         base.Start();
         
         ((IResettable)this).Subscribe(eventBus);

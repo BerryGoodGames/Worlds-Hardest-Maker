@@ -48,14 +48,14 @@ public class KeyController : EntityController, IResettable, ICollectible
     private void Awake()
     {
         InitialPosition = transform.position;
-
-        keyRegistry.Register(this);
-        
-        SetOrderInLayer();
     }
     
     protected override void Start()
     {
+        keyRegistry.Register(this);
+        
+        SetOrderInLayer();
+        
         base.Start();
         
         ((IResettable)this).Subscribe(eventBus);
