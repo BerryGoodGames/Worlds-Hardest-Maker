@@ -43,7 +43,7 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
     public AnchorBlock CurrentExecutingBlock;
     public LinkedListNode<AnchorBlock> CurrentExecutingNode;
     
-    private readonly List<AnchorAttachment> attachments;
+    private readonly List<AnchorAttachment> attachments = new();
     public IReadOnlyList<AnchorAttachment> Attachments => attachments;
     public void RegisterAttachment(AnchorAttachment a) => attachments.Add(a);
     public void UnregisterAttachment(AnchorAttachment a) => attachments.Remove(a);
