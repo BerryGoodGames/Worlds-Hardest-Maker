@@ -52,7 +52,7 @@ public partial class PlayerController
         groundedMatrix[y][x] = isPlatformThere || !isVoidThere;
         
         // add to fall positions if corner is over void
-        if (!groundedMatrix[y][x] && x != 1 && y != 1) fallPositions.Add(checkPosition);
+        if (!groundedMatrix[y][x] && x != 1 && y != 1 && isVoidThere) fallPositions.Add(checkPosition);
     }
     
     private static bool IsPlatformThere(Vector2 checkPosition)
