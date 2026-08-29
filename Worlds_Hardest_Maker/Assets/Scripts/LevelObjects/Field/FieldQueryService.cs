@@ -13,15 +13,7 @@ public class FieldQueryService : ILevelObjectQuery<FieldController>
     
     private List<FieldController> FindFieldsAtGridPosInSheet(Vector2 position, ISheet sheet)
     {
-        Vector2Int[] checkPoses =
-        {
-            Vector2Int.FloorToInt(position),
-            new(Mathf.CeilToInt(position.x), Mathf.FloorToInt(position.y)),
-            new(Mathf.FloorToInt(position.x), Mathf.CeilToInt(position.y)),
-            Vector2Int.CeilToInt(position),
-        };
-        
-        checkPoses = checkPoses.Distinct().ToArray();
+        Vector2Int[] checkPoses = position.GetIntersectionPositions().Distinct().ToArray();
         
         List<FieldController> res = new();
         foreach (Vector2Int checkPosition in checkPoses)

@@ -1,3 +1,4 @@
+using System;
 using MyBox;
 using UnityEngine;
 using VContainer;
@@ -13,13 +14,21 @@ using WorldsHardestMaker.Selection;
 [RequireComponent(typeof(PreviewFollowMouseComponent))]
 public class PlacementPreviewCoordinator : MonoBehaviour
 {
-    [SerializeField] [MustBeAssigned] [InitializationField] private PreviewSpriteComponent spriteComponent;
-    [SerializeField] [MustBeAssigned] [InitializationField] private PreviewRotationComponent rotationComponent;
-    [SerializeField] [MustBeAssigned] [InitializationField] private PreviewAnimationComponent animationComponent;
-    [SerializeField] [MustBeAssigned] [InitializationField] private PreviewFollowMouseComponent followMouseComponent;
+    private PreviewSpriteComponent spriteComponent;
+    private PreviewRotationComponent rotationComponent;
+    private PreviewAnimationComponent animationComponent;
+    private PreviewFollowMouseComponent followMouseComponent;
     
     [Inject] private EventBus eventBus;
-    
+
+    private void Awake()
+    {
+        spriteComponent = GetComponent<PreviewSpriteComponent>();
+        rotationComponent = GetComponent<PreviewRotationComponent>();
+        animationComponent = GetComponent<PreviewAnimationComponent>();
+        followMouseComponent = GetComponent<PreviewFollowMouseComponent>();
+    }
+
     private void OnSwitchToPlay(SwitchToPlayEvent evt)
     {
         Hide();

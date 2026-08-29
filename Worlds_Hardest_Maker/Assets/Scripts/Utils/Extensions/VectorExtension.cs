@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -77,7 +78,7 @@ public static class VectorExtension
         return onScreen;
     }
     
-    public static int GetIntersectionCount(this Vector2 position)
+    public static IEnumerable<Vector2Int> GetIntersectionPositions(this Vector2 position)
     {
         Vector2Int[] checkPoses =
         {
@@ -87,7 +88,12 @@ public static class VectorExtension
             Vector2Int.CeilToInt(position),
         };
         
-        return checkPoses.Distinct().ToArray().Length;
+        return checkPoses.Distinct();
+    }
+
+    public static int GetIntersectionCount(this Vector2 position)
+    {
+        return position.GetIntersectionPositions().Count();
     }
     
     public static Vector2Int GetRoom(this Vector3 position) =>

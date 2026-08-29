@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class PlayerPlacementRules
 {
@@ -15,5 +17,13 @@ public class PlayerPlacementRules
     {
         return !playerQueryService.Exists(position, sheet) &&
                fieldQueryService.IsPosCoveredWithFieldTypeInSheet(position, sheet, EditModeManager.Instance.AllPlayerStartFieldModes);
+    }
+    
+    public IEnumerable<Vector2Int> GetAutoPlacedStartFieldPositions(Vector2 position, ISheet sheet)
+    {
+        if (playerQueryService.Exists(position, sheet)) return Array.Empty<Vector2Int>();
+        if (CanPlaceInSheet(position, sheet)) return Array.Empty<Vector2Int>();
+
+        return position.GetIntersectionPositions();
     }
 }

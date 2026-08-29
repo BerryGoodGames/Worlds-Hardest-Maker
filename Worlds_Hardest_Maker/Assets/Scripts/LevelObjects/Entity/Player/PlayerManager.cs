@@ -32,9 +32,10 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
     {
         if (playerQueryService.Exists(position, sheet)) return null;
         
-        bool canPlaceInSheet = placementRules.CanPlaceInSheet(position, sheet);
-        
-        if (surroundWithStartFields && !canPlaceInSheet) SetSurroundingStartFieldsInSheet(position, sheet);
+        if (surroundWithStartFields)
+        {
+            CreateStartFields(placementRules.GetAutoPlacedStartFieldPositions(position, sheet), sheet);
+        }
         
         // clear area from coins and keys
         GameManager.Instance.RemoveObjectInContainer(position, coinContainer);
@@ -56,6 +57,11 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
         return Player;
     }
     
+    private static void CreateStartFields(IEnumerable<Vector2Int> positions, ISheet sheet)
+    {
+        foreach (Vector2Int pos in positions) FieldManager.Instance.CreateNew(pos, 0, sheet, EditModeManager.Start);
+    }
+    
     public PlayerController Set(Vector2 position)
     {
         return CreateNew(position, PlaceManager.GetCurrentSheet(), true);
@@ -65,13 +71,7 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
     {
         List<FieldController> result = new();
         
-        Vector2Int[] checkPoses =
-        {
-            Vector2Int.FloorToInt(position),
-            new(Mathf.CeilToInt(position.x), Mathf.FloorToInt(position.y)),
-            new(Mathf.FloorToInt(position.x), Mathf.CeilToInt(position.y)),
-            Vector2Int.CeilToInt(position),
-        };
+        IEnumerable<Vector2Int> checkPoses = position.GetIntersectionPositions();
         
         foreach (Vector2Int checkPosition in checkPoses)
         {

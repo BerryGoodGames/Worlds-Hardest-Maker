@@ -17,4 +17,9 @@ public class FillPreviewCoordinator : MonoBehaviour
     {
         rotationComponent.UpdateRotation();
     }
+
+    public void SetSprite(EditMode editMode)
+    {
+        spriteComponent.SetSprite(editMode);
+    }
 }

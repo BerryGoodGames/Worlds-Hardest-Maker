@@ -14695,6 +14695,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 941291332}
   m_CullTransparentMesh: 1
+--- !u!1 &941557812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 941557813}
+  m_Layer: 0
+  m_Name: PlacementPreviewContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &941557813
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941557812}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2046466263}
+  - {fileID: 1977326655}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &950099648
 GameObject:
   m_ObjectHideFlags: 0
@@ -27782,7 +27815,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 711.39, y: -956.8952}
-  m_SizeDelta: {x: 51.75, y: 39.5306}
+  m_SizeDelta: {x: 0, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755699354
 MonoBehaviour:
@@ -30806,6 +30839,37 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3489530221478452483, guid: aca75156de832af4ba3916b4c52d9678, type: 3}
   m_PrefabInstance: {fileID: 707144014}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1977326654
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1977326655}
+  m_Layer: 0
+  m_Name: StartFieldPreviewContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1977326655
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977326654}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 941557813}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1992008940
 GameObject:
   m_ObjectHideFlags: 0
@@ -32244,6 +32308,7 @@ GameObject:
   - component: {fileID: 2046466269}
   - component: {fileID: 2046466268}
   - component: {fileID: 2046466267}
+  - component: {fileID: 2046466271}
   m_Layer: 0
   m_Name: PlacementPreview
   m_TagString: Untagged
@@ -32334,12 +32399,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2046466257}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 941557813}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2046466264
 MonoBehaviour:
@@ -32439,6 +32504,20 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2046466259}
   deleteSprite: {fileID: 7482667652216324306, guid: ec60c8aebe4cc344dada2f9e518529ca, type: 3}
   <Alpha>k__BackingField: 115
+--- !u!114 &2046466271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046466257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1aa5e2f65294ab8b65185990a817dab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WorldsHardestMaker::PlayerStartFieldPreviewCoordinator
+  startFieldPreviewPrefab: {fileID: 3930856783921599848, guid: 0f8817e424b9b4547b47abeab323c2e9, type: 3}
+  container: {fileID: 1977326655}
 --- !u!1 &2059336037
 GameObject:
   m_ObjectHideFlags: 0
@@ -36999,7 +37078,7 @@ SceneRoots:
   - {fileID: 1773312748}
   - {fileID: 198493967}
   - {fileID: 519420032}
-  - {fileID: 2046466263}
+  - {fileID: 941557813}
   - {fileID: 441104387}
   - {fileID: 203673672}
   - {fileID: 1552703640}
