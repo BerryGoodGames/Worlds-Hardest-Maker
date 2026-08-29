@@ -96,7 +96,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7465456736653454119}
         m_TargetAssemblyTypeName: Tool, Assembly-CSharp
-        m_MethodName: SwitchGameMode
+        m_MethodName: SetToolbarToThis
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

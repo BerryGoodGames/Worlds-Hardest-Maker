@@ -10,9 +10,10 @@ public class FieldFactory
     private Transform fieldContainer;
     private Transform playerContainer;
 
-    public FieldFactory(IObjectResolver diContainer)
+    public FieldFactory(IObjectResolver diContainer, IAttachmentService attachmentService)
     {
         this.diContainer = diContainer;
+        this.attachmentService = attachmentService;
     }
 
     public void Initialize(Transform fieldContainer, Transform playerContainer)

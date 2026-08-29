@@ -22,6 +22,10 @@ public class Tool : MonoBehaviour
     private void Construct(EventBus eventBus)
     {
         this.eventBus = eventBus;
+        
+        eventBus.Subscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
+        eventBus.Subscribe<ExitAnchorAttachEvent>(OnExitAnchorAttach);
+        eventBus.Subscribe<EditModeChangeEvent>(OnEditModeChange);
     }
 
     private void Awake() => InOptionbar = transform.parent.CompareTag("OptionContainer");
@@ -31,19 +35,24 @@ public class Tool : MonoBehaviour
         MouseOverUIRect = GetComponent<MouseOverUIRect>();
         
         OnExitAnchorAttach(new ExitAnchorAttachEvent());
-        
-        eventBus.Subscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
-        eventBus.Subscribe<ExitAnchorAttachEvent>(OnExitAnchorAttach);
     }
     
-    public void SwitchGameMode(bool setEditModeVariable)
+    public void SetToolbarToThis(bool setEditModeVariable)
     {
         ToolbarManager.DeselectAll();
         SetSelected(true);
         if (setEditModeVariable) LevelSessionEditManager.Instance.SetEditMode(ToolEditMode);
     }
     
-    public void SwitchGameMode() => SwitchGameMode(true);
+    public void SetToolbarToThis() => SetToolbarToThis(true);
+
+    private void UpdateBasedOnEditMode(EditMode editMode)
+    {
+        if (editMode == ToolEditMode)
+        {
+            SetToolbarToThis(false);
+        }
+    }
     
     public void SetSelected(bool selected)
     {
@@ -65,12 +74,24 @@ public class Tool : MonoBehaviour
     
     private void SetVisible(bool visible) => gameObject.SetActive(visible);
     
-    private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt) => SetVisible(ToolEditMode.AnchorSheetAvailable);
-    private void OnExitAnchorAttach(ExitAnchorAttachEvent evt) => SetVisible(ToolEditMode.DefaultSheetAvailable);
+    private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt)
+    {
+        SetVisible(ToolEditMode.AnchorSheetAvailable);
+        UpdateBasedOnEditMode(LevelSessionEditManager.Instance.CurrentEditMode);
+    }
+
+    private void OnExitAnchorAttach(ExitAnchorAttachEvent evt)
+    {
+        SetVisible(ToolEditMode.DefaultSheetAvailable);
+        UpdateBasedOnEditMode(LevelSessionEditManager.Instance.CurrentEditMode);
+    }
+
+    private void OnEditModeChange(EditModeChangeEvent evt) => UpdateBasedOnEditMode(evt.NewEditMode);
     
     private void OnDestroy()
     {
         eventBus.Unsubscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
         eventBus.Unsubscribe<ExitAnchorAttachEvent>(OnExitAnchorAttach);
+        eventBus.Unsubscribe<EditModeChangeEvent>(OnEditModeChange);
     }
 }

@@ -74,6 +74,7 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
         eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
         eventBus.Subscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
         eventBus.Subscribe<EditModeChangeEvent>(OnEditModeChange);
+        eventBus.Subscribe<AnchorSelectedEvent>(OnAnchorSelected);
     }
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt) => AttachFade.FadeIn();
@@ -81,16 +82,22 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
 
     private void OnEditModeChange(EditModeChangeEvent evt)
     {
-        // enable/disable outlines and panel when switching to/away from anchors or ball
-        bool isAnchorRelated = evt.NewEditMode.IsAnchorRelated;
-        bool inAttachMode = AnchorAttachManager.Instance.InAttachMode;
-        Animator.SetBool(editingString, isAnchorRelated || (IsSelected && inAttachMode));
-        
-        // enable/disable anchor path
-        if (IsSelected && !AnchorAttachManager.Instance.InAttachMode)
-        {
-            SetLinesActive(isAnchorRelated);
-        }
+        // // enable/disable outlines and panel when switching to/away from anchors or ball
+        // bool isAnchorRelated = evt.NewEditMode.IsAnchorRelated;
+        // bool inAttachMode = AnchorAttachManager.Instance.InAttachMode;
+        // Animator.SetBool(editingString, isAnchorRelated || (IsSelected && inAttachMode));
+        //
+        // // enable/disable anchor path
+        // if (IsSelected && !AnchorAttachManager.Instance.InAttachMode)
+        // {
+        //     SetLinesActive(isAnchorRelated);
+        // }
+    }
+
+    private void OnAnchorSelected(AnchorSelectedEvent evt)
+    {
+        Animator.SetBool(editingString, IsSelected);
+        SetLinesActive(IsSelected);
     }
     
     private void Awake()
@@ -109,7 +116,7 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
         Ease = Ease.Linear;
         
         if (!LevelSessionManager.Instance.IsEdit) return;
-        Animator.SetBool(editingString, LevelSessionEditManager.Instance.CurrentEditMode.IsAnchorRelated);
+        Animator.SetBool(editingString, true);
     }
     
     protected override void Start()
@@ -260,8 +267,7 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
         ResetExecution();
         Animator.SetBool(playingString, false);
         
-        if (AnchorManager.Instance.SelectedAnchor == this
-            && LevelSessionEditManager.Instance.CurrentEditMode.IsAnchorRelated) SetLinesActive(true);
+        if (IsSelected) SetLinesActive(true);
     }
     
     private void UpdateStartValues()
@@ -288,6 +294,7 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
         eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
         eventBus.Unsubscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
         eventBus.Unsubscribe<EditModeChangeEvent>(OnEditModeChange);
+        eventBus.Unsubscribe<AnchorSelectedEvent>(OnAnchorSelected);
         
         ((IResettable)this).Unsubscribe(eventBus);
     }

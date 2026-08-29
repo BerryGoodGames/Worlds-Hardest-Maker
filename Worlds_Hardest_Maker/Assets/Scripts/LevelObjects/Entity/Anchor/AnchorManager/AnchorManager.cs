@@ -99,8 +99,7 @@ public partial class AnchorManager : MonoBehaviour
             
             anchor.SetLinesActive(false);
             
-            if (SelectedAnchor == anchor &&
-                LevelSessionEditManager.Instance.CurrentEditMode.IsAnchorRelated) continue;
+            if (SelectedAnchor == anchor) continue;
             
             anchor.Animator.SetBool(playingString, true);
         }

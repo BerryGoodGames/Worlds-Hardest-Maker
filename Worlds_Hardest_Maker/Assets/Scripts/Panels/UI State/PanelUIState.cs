@@ -4,7 +4,6 @@
     {
         Playing,
         EditingGeneral,
-        EditingAnchor,
         EditingAnchorSelected,
         EditingAnchorAttaching,
         EditingAnchorPositionInputEditing,

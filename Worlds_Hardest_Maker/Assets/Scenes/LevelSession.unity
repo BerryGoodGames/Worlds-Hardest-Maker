@@ -27761,19 +27761,19 @@ MonoBehaviour:
     visibleButtons: []
   - uiState: 2
     visiblePanels:
-    - {fileID: 1661549653}
-    visibleButtons: []
-  - uiState: 3
-    visiblePanels:
+    - {fileID: 516759321}
+    - {fileID: 786713975}
     - {fileID: 1661549653}
     visibleButtons:
     - {fileID: 374404340}
-  - uiState: 4
+  - uiState: 3
     visiblePanels:
+    - {fileID: 516759321}
+    - {fileID: 786713975}
     - {fileID: 1661549653}
     visibleButtons:
     - {fileID: 858147044}
-  - uiState: 5
+  - uiState: 4
     visiblePanels: []
     visibleButtons: []
   managedButtons:
@@ -27815,7 +27815,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 711.39, y: -956.8952}
-  m_SizeDelta: {x: 0, y: 39.5306}
+  m_SizeDelta: {x: 51.75, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755699354
 MonoBehaviour:

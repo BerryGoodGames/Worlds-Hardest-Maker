@@ -19,14 +19,6 @@ public partial class AnchorManager
         // stop if attaching to other anchor
         if (AnchorAttachManager.Instance.InAttachMode && !anchor.IsAttaching) return;
         
-        bool switchedEditMode = false;
-        // switch to edit mode to anchor if not already
-        if (!LevelSessionEditManager.Instance.CurrentEditMode.IsAnchorRelated)
-        {
-            LevelSessionEditManager.Instance.SetEditMode(EditModeManager.Anchor);
-            switchedEditMode = true;
-        }
-        
         if (SelectedAnchor != null)
         {
             UpdateBlockListInSelectedAnchor();
@@ -36,7 +28,7 @@ public partial class AnchorManager
         }
         
         // deselect anchor if "selected" again by the user (but only if edit mode before was anchor or currently attaching)
-        if (toggleDeselect && SelectedAnchor == anchor && (!switchedEditMode || anchor.IsAttaching))
+        if (toggleDeselect && SelectedAnchor == anchor)
         {
             DeselectAnchor();
             return;

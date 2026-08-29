@@ -80,7 +80,7 @@ public class AnchorAttachment : MonoBehaviour
         }
     }
     
-    private void Start()
+    private void Awake()
     {
         if (!TryGetComponent(out AnchorAttachable))
         {

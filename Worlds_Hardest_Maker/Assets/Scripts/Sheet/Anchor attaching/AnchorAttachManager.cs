@@ -8,8 +8,6 @@ public partial class AnchorAttachManager : MonoBehaviour
     
     [ReadOnly] public bool InAttachMode;
     
-    private static readonly int editingString = Animator.StringToHash("Editing");
-    
     private EventBus eventBus;
     
     [Inject]
@@ -28,13 +26,10 @@ public partial class AnchorAttachManager : MonoBehaviour
     public void EnterAttachMode()
     {
         if (LevelSessionEditManager.Instance.IsPlaying
-            || !LevelSessionEditManager.Instance.CurrentEditMode.IsAnchorRelated
             || AnchorManager.Instance.SelectedAnchor == null
             || AnchorPositionInputEditManager.Instance.IsEditing) return;
         
         InAttachMode = true;
-        
-        LevelSessionEditManager.Instance.SetEditMode(EditModeManager.Ball);
         
         HighlightAnchor(AnchorManager.Instance.SelectedAnchor);
         
@@ -45,19 +40,10 @@ public partial class AnchorAttachManager : MonoBehaviour
     {
         InAttachMode = false;
         
-        if (AnchorManager.Instance.SelectedAnchor)
-        {
-            bool isModeAnchorRelated = LevelSessionEditManager.Instance.CurrentEditMode.IsAnchorRelated;
-            AnchorManager.Instance.SelectedAnchor.GetComponent<Animator>().SetBool(editingString, isModeAnchorRelated);
-            AnchorManager.Instance.SelectedAnchor.SetLinesActive(isModeAnchorRelated);
-        }
-        
         Dehighlight(AnchorManager.Instance.SelectedAnchor);
         
         eventBus.Fire(new ExitAnchorAttachEvent());
     }
-    
-    public static Transform GetCurrentAnchorContainer() => Instance.InAttachMode ? AnchorManager.Instance.SelectedAnchor.AttachmentContainer : null;
     
     private void Awake()
     {
