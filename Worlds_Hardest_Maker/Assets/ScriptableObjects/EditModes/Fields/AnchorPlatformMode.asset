@@ -20,11 +20,10 @@ MonoBehaviour:
   IsDraggable: 1
   IsRotatable: 0
   ShowFillPreview: 1
-  IsAnchorRelated: 0
   DefaultSheetAvailable: 0
   AnchorSheetAvailable: 1
   IsCopyable: 1
-  HasOutline: 0
+  HasOutline: 1
   IsSolid: 0
   IsStartFieldForPlayer: 0
   IsSafeForPlayer: 0

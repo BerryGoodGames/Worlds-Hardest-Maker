@@ -7,6 +7,8 @@ public abstract class LevelObjectController : MonoBehaviour
     [ReadOnly] public bool IsAttached;
     
     public abstract EditMode EditMode { get; }
+
+    public virtual Transform AttachmentTarget => transform;
     
     protected IAudioService audioService;
     

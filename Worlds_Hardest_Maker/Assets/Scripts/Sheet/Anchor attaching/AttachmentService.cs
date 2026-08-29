@@ -13,28 +13,30 @@ public class AttachmentService : IAttachmentService
 
     public void Attach(LevelObjectController target, AnchorController anchor, bool forceNewParent = true)
     {
-        AnchorAttachment attachment = target.gameObject.GetOrAddComponent<AnchorAttachment>();
-        
+        Transform attachTransform = target.AttachmentTarget;
+        AnchorAttachment attachment = attachTransform.gameObject.GetOrAddComponent<AnchorAttachment>();
+
         diContainer.Inject(attachment);
 
         attachment.Anchor = anchor;
-        if (forceNewParent) target.transform.SetParent(anchor.AttachmentContainer);
+        if (forceNewParent) attachTransform.SetParent(anchor.AttachmentContainer);
         anchor.RegisterAttachment(attachment);
     }
 
     public void Detach(LevelObjectController target, Transform globalFallbackContainer)
     {
-        if (!target.TryGetComponent(out AnchorAttachment attachment)) return;
+        Transform attachTransform = target.AttachmentTarget;
+        if (!attachTransform.TryGetComponent(out AnchorAttachment attachment)) return;
 
         attachment.Anchor.UnregisterAttachment(attachment);
         attachment.ReturnToOriginalLayer();
         Object.Destroy(attachment);
-        target.transform.SetParent(globalFallbackContainer);
+        attachTransform.SetParent(globalFallbackContainer);
     }
 
     public bool IsAttachedTo(LevelObjectController target, ISheet sheet)
     {
-        return target.TryGetComponent(out AnchorAttachment attachment)
+        return target.AttachmentTarget.TryGetComponent(out AnchorAttachment attachment)
             ? sheet is AnchorSheet a && a.Anchor == attachment.Anchor
             : sheet.IsGlobal;
     }

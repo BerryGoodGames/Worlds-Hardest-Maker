@@ -8,6 +8,8 @@ public abstract class EntityController : LevelObjectController
     [FormerlySerializedAs("isAttachable")] [InitializationField] public bool IsAttachable = true;
     [EnableIf(nameof(IsAttachable))] [InitializationField] public Transform AttachmentHolder;
     
+    public override Transform AttachmentTarget => AttachmentHolder != null ? AttachmentHolder : transform;
+    
     [MyBox.ReadOnly] public ISheet Sheet;
     
     public override void Delete()

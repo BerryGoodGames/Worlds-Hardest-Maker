@@ -26,16 +26,14 @@ public class FieldOutline : MonoBehaviour
     
     [HideInInspector] public LineRenderer[] LineRenderers;
     
-    private ISheet sheet;
-    
+    private ISheet Sheet => SheetUtils.ResolveFor(this);
+
     public event Action OnUpdateOutline = () => { };
-    
+
     [Inject] private IDrawService drawService;
-    
+
     private void Awake()
     {
-        sheet = SheetUtils.ResolveFor(this);
-        
         // create line container which has this transform as parent
         lineContainer = new("LineContainer")
         {
@@ -45,19 +43,19 @@ public class FieldOutline : MonoBehaviour
                 localPosition = Vector2.zero,
             },
         };
-        
+    
         if (connectToOwnTag) connectorTags.Add(transform.tag);
-        
+    
         if (TryGetComponent(out spriteRenderer)) hasSpriteRenderer = true;
     }
-    
+
     private void Start()
     {
         // get components if not already cached
         LineRenderers ??= GetComponentsInChildren<LineRenderer>();
-        
+    
         UpdateAlpha();
-        
+    
         if (UpdateOnStart) UpdateOutline(true);
     }
     
@@ -147,12 +145,12 @@ public class FieldOutline : MonoBehaviour
         
         foreach (RaycastHit2D r in hits)
         {
-            if (!SheetUtils.Exists(r.collider, sheet)) continue;
+            if (!SheetUtils.Exists(r.collider, Sheet)) continue;
             
             if (updateNeighbor && r.transform.TryGetComponent(out FieldOutline outlineNeighbor)) outlineNeighbor.UpdateOutline();
             
             if (!connectorTags.Contains(r.collider.tag)
-                || !SheetUtils.Exists(r.collider, sheet)) continue;
+                || !SheetUtils.Exists(r.collider, Sheet)) continue;
             
             return true;
         }

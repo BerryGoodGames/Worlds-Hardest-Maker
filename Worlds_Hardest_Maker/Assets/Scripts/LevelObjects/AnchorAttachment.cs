@@ -140,6 +140,8 @@ public class AnchorAttachment : MonoBehaviour
             AnchorAttachable.OutlineComp.OnUpdateOutline -= UpdateOutlineLayers;
         }
 
+        if (Anchor != null) Anchor.UnregisterAttachment(this);
+
         eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
     }
