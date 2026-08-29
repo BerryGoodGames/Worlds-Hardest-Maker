@@ -41,9 +41,7 @@ public class LevelSessionEditManager : MonoBehaviour
     public void SetEditMode(EditMode editMode)
     {
         if (!LevelSessionManager.Instance.IsEdit) return;
-
-        int editingString = Animator.StringToHash("Editing");
-
+        
         CurrentEditMode = editMode;
 
         // invoke OnEditModeChanged
@@ -54,30 +52,30 @@ public class LevelSessionEditManager : MonoBehaviour
 
         prevEditMode = CurrentEditMode;
 
-        // select edit mode in toolbar
-        ToolbarManager.SelectEditMode(editMode);
-
-        // enable/disable outlines and panel when switching to/away from anchors or ball
-        bool isAnchorRelated = CurrentEditMode.IsAnchorRelated;
-        bool inAttachMode = AnchorAttachManager.Instance.InAttachMode;
-        foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
-        {
-            Animator anim = anchor.GetComponentInChildren<Animator>();
-            anim.SetBool(editingString, isAnchorRelated);
-        }
-
-        // TODO: move to event bus
-        if (AnchorManager.Instance.SelectedAnchor)
-        {
-            AnchorManager.Instance.SelectedAnchor.GetComponent<Animator>()
-                .SetBool(editingString, isAnchorRelated || inAttachMode);
-        }
-
-        // enable/disable anchor path
-        if (AnchorManager.Instance.SelectedAnchor && !AnchorAttachManager.Instance.InAttachMode)
-        {
-            AnchorManager.Instance.SelectedAnchor.SetLinesActive(isAnchorRelated);
-        }
+        // TODO: moved to event bus, check if working
+        // // select edit mode in toolbar
+        // ToolbarManager.SelectEditMode(editMode);
+        //
+        // // enable/disable outlines and panel when switching to/away from anchors or ball
+        // bool isAnchorRelated = CurrentEditMode.IsAnchorRelated;
+        // bool inAttachMode = AnchorAttachManager.Instance.InAttachMode;
+        // foreach (GameObject anchor in GameObject.FindGameObjectsWithTag("Anchor"))
+        // {
+        //     Animator anim = anchor.GetComponentInChildren<Animator>();
+        //     anim.SetBool(editingString, isAnchorRelated);
+        // }
+        //
+        // if (AnchorManager.Instance.SelectedAnchor)
+        // {
+        //     AnchorManager.Instance.SelectedAnchor.GetComponent<Animator>()
+        //         .SetBool(editingString, isAnchorRelated || inAttachMode);
+        // }
+        //
+        // // enable/disable anchor path
+        // if (AnchorManager.Instance.SelectedAnchor && !AnchorAttachManager.Instance.InAttachMode)
+        // {
+        //     AnchorManager.Instance.SelectedAnchor.SetLinesActive(isAnchorRelated);
+        // }
     }
 
     private void Start()

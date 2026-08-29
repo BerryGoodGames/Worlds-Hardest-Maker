@@ -34,6 +34,8 @@ public class FieldOutline : MonoBehaviour
     
     private void Awake()
     {
+        sheet = SheetUtils.ResolveFor(this);
+        
         // create line container which has this transform as parent
         lineContainer = new("LineContainer")
         {
@@ -53,8 +55,6 @@ public class FieldOutline : MonoBehaviour
     {
         // get components if not already cached
         LineRenderers ??= GetComponentsInChildren<LineRenderer>();
-
-        sheet = SheetUtils.ResolveFor(this);
         
         UpdateAlpha();
         

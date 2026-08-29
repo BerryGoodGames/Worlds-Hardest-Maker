@@ -8,16 +8,7 @@ public partial class AnchorManager : ILevelObjectPlacer, ILevelObjectSerializer
     {
         if (anchorQueryService.Exists(position, sheet)) return null;
         
-        AnchorController anchor = anchorFactory.Create();
-        // TODO: should position setting be in factory?
-        anchor.transform.position = position;
-        anchor.AttachmentContainerSyncTransform.Sync();
-        
-        // default blocks
-        anchor.AppendBlock(new SetSpeedBlock(true, 5, MovementUnit.UnitsPerSecond));
-        anchor.AppendBlock(new SetRotationBlock(true, 1, RotationUnit.Iterations));
-        anchor.AppendBlock(new SetDirectionBlock(true, true));
-        anchor.AppendBlock(new SetEaseBlock(true, Ease.Linear));
+        AnchorController anchor = anchorFactory.Create(position);
         
         // TODO: need to add bucket to sheet scoped registry?
         // BallManager.Instance.BallListSheets.Add(anchor, new());

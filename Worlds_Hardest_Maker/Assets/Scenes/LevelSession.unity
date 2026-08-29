@@ -3251,8 +3251,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: WorldsHardestMaker::BallManager
   ballPrefab: {fileID: 6481791030330069436, guid: 1ecb51dd2ee9f29488eaa421ed43b3d6, type: 3}
   ballContainer: {fileID: 473813362}
-  BallList: []
-  BallListGlobal: []
 --- !u!1 &198493966
 GameObject:
   m_ObjectHideFlags: 0
@@ -14726,7 +14724,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 0, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 203673672}
@@ -21711,7 +21709,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinPrefab: {fileID: 2938817021750922450, guid: 5e13d2eae759f3643b04b6e7dc5cefe2, type: 3}
   coinContainer: {fileID: 222980750}
-  Coins: []
   CollectedCoins: []
 --- !u!1001 &1423999261
 PrefabInstance:
@@ -22424,7 +22421,6 @@ MonoBehaviour:
   greenKeyPrefab: {fileID: 3784020625643728093, guid: ebbfc5e2a760abd489911d3a04e6d453, type: 3}
   yellowKeyPrefab: {fileID: 189741875888370271, guid: b82300a84e5b00947b3af5aadb9f2227, type: 3}
   keyContainer: {fileID: 139186754}
-  Keys: []
   CollectedKeys: []
 --- !u!1001 &1492703522
 PrefabInstance:
@@ -27786,7 +27782,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 711.39, y: -956.8952}
-  m_SizeDelta: {x: 0, y: 39.5306}
+  m_SizeDelta: {x: 51.75, y: 39.5306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1755699354
 MonoBehaviour:

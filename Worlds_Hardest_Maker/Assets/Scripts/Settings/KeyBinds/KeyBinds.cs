@@ -61,7 +61,6 @@ public static class KeyBinds
     
     public static bool GetKeyBindDown(string keyBindName)
     {
-        // TODO
         List<KeyCode[]> combinations = keyBindToKeyCode[keyBindName];
         foreach (KeyCode[] combination in combinations)
         {

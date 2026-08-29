@@ -29,7 +29,7 @@ public partial class FieldManager : MonoBehaviour, ILevelObjectPlacer, ILevelObj
         if (fieldAtPosition is not null && fieldAtPosition.FieldMode == fieldMode) return null;
         
         // remove any field at pos
-        Remove(position, true, sheet);
+        Remove(position, sheet, true);
         
         // place field according to edit mode
         FieldController field = fieldFactory.Create(position, rotation, sheet, fieldMode);
@@ -46,7 +46,7 @@ public partial class FieldManager : MonoBehaviour, ILevelObjectPlacer, ILevelObj
         return field;
     }
     
-    public bool Remove(Vector2 position, bool updateOutlines = false, ISheet sheet = null)
+    public bool Remove(Vector2 position, ISheet sheet, bool updateOutlines = false)
     {
         FieldController field = fieldQueryService.Find(position, sheet);
         

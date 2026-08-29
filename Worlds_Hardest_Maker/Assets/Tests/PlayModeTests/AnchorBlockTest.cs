@@ -382,7 +382,7 @@ public sealed class AnchorBlockTests
     {
         Assert.IsNotNull(AnchorManager.Instance, "AnchorManager is missing.");
 
-        AnchorController anchor = AnchorManager.Instance.CreateNew(config.anchorSpawnPosition, null);
+        AnchorController anchor = AnchorManager.Instance.CreateNew(config.anchorSpawnPosition, GlobalSheet.Instance);
         Assert.IsNotNull(
             anchor,
             "Could not create the smoke-test anchor. Pick an empty anchorSpawnPosition in the config asset."

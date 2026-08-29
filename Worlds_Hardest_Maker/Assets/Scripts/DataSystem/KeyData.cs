@@ -22,8 +22,7 @@ public class KeyData : AttachableData
     
     public override void ImportToLevel(Vector2 pos)
     {
-        // TODO: should this be in current sheet instead?
-        KeyManager.Instance.CreateNew(pos, null, Color);
+        KeyManager.Instance.CreateNew(pos, GlobalSheet.Instance, Color);
     }
     
     public override void ImportToLevel(ISheet sheet)

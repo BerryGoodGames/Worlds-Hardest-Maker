@@ -13,6 +13,7 @@ public class AreaFillService : IAreaFillService
     [Inject] private IObjectResolver diContainer;
     [Inject] private IAreaQueryService areaQueryService;
     [Inject] private IAreaErasureService areaErasureService;
+    [Inject] private FieldFactory fieldFactory;
     
     public void FillAreaWithFields(SelectionArea area, FieldMode mode, Transform fieldContainer, Transform playerContainer)
     {
@@ -42,22 +43,11 @@ public class AreaFillService : IAreaFillService
         
         foreach (Vector2 pos in positions)
         {
-            // TODO: extract field instantiation logic to factory
-            // set field at pos
-            GameObject field = Object.Instantiate(
-                mode.Prefab, pos, Quaternion.Euler(0, 0, rotation),
-                fieldContainer
-            );
+            FieldController newField = fieldFactory.Create(pos, rotation, GlobalSheet.Instance, mode);
             
-            diContainer.InjectGameObject(field);
+            if (newField.TryGetComponent(out ColorCalibration calibrator)) calibrator.Apply(SettingsManager.Instance.OneColorSafeFields);
             
-            FieldController fieldController = field.GetComponent<FieldController>();
-            fieldController.Initialize(playerContainer);
-            fieldController.FieldMode = mode;
-            
-            if (field.TryGetComponent(out ColorCalibration calibrator)) calibrator.Apply(SettingsManager.Instance.OneColorSafeFields);
-            
-            if (field.TryGetComponent(out FieldOutline foComp)) foComp.UpdateOnStart = false;
+            if (newField.TryGetComponent(out FieldOutline foComp)) foComp.UpdateOnStart = false;
         }
         
         // remove player if at changed pos

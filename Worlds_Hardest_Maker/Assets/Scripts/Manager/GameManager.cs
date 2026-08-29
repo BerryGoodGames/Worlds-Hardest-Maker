@@ -120,16 +120,16 @@ public class GameManager : MonoBehaviour
                 continue;
             }
             
-            if (levelObject is AttachableData attachableData) attachableData.ImportToLevel(null);
+            if (levelObject is AttachableData attachableData) attachableData.ImportToLevel(GlobalSheet.Instance);
             else if (levelObject is NonAttachableData nonAttachableData) nonAttachableData.ImportToLevel();
         }
         
         
         // load fields
-        foreach (FieldData field in fieldData) field.ImportToLevel(null);
+        foreach (FieldData field in fieldData) field.ImportToLevel(GlobalSheet.Instance);
         
         // load player last
-        playerData?.ImportToLevel(null);
+        playerData?.ImportToLevel(GlobalSheet.Instance);
         
         // load level settings
         levelSettingsData?.ImportToLevel();

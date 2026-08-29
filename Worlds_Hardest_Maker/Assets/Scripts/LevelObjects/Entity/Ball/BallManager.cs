@@ -7,7 +7,6 @@ public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
 {
     public static BallManager Instance { get; private set; }
 
-    // TODO: why is this a GameObject and not a BallController?
     [SerializeField] [InitializationField] [MustBeAssigned] private GameObject ballPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform ballContainer;
 

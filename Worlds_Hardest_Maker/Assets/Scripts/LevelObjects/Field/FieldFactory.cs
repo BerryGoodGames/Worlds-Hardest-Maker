@@ -23,9 +23,8 @@ public class FieldFactory
     
     public FieldController Create(Vector2 position, int rotation, ISheet sheet, FieldMode fieldMode)
     {
-        GameObject prefab = fieldMode.Prefab;
         GameObject res = Object.Instantiate(
-            prefab, position, Quaternion.Euler(0, 0, rotation),
+            fieldMode.Prefab, position, Quaternion.Euler(0, 0, rotation),
             sheet is AnchorSheet anchorSheet1 ? anchorSheet1.Container : fieldContainer
         );
 

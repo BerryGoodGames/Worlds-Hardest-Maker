@@ -15,7 +15,7 @@ public partial class AnchorController
 
     private void OnEnterAnchorAttach(EnterAnchorAttachEvent evt)
     {
-        if(AnchorManager.Instance.SelectedAnchor == this)
+        if(IsSelected)
         {
             RenderLines();
         }

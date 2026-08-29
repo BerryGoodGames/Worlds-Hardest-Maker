@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
@@ -20,14 +21,22 @@ public class AnchorFactory
         this.anchorContainer = anchorContainer;
     }
     
-    public AnchorController Create()
+    public AnchorController Create(Vector2 position)
     {
         AnchorController anchor = Object.Instantiate(
-            anchorPrefab, Vector2.zero, Quaternion.identity,
+            anchorPrefab, position, Quaternion.identity,
             anchorContainer
         ).Child;
         
         diContainer.InjectGameObject(anchor.gameObject);
+        
+        anchor.AttachmentContainerSyncTransform.Sync();
+        
+        // default blocks
+        anchor.AppendBlock(new SetSpeedBlock(true, 5, MovementUnit.UnitsPerSecond));
+        anchor.AppendBlock(new SetRotationBlock(true, 1, RotationUnit.Iterations));
+        anchor.AppendBlock(new SetDirectionBlock(true, true));
+        anchor.AppendBlock(new SetEaseBlock(true, Ease.Linear));
         
         return anchor;
     }

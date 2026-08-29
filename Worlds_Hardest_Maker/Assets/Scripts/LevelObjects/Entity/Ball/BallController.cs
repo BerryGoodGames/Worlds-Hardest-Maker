@@ -36,13 +36,10 @@ public class BallController : EntityController
     
     private void OnSwitchToEdit(SwitchToEditEvent evt) => ResetPosition();
 
-    private void Awake()
-    {
-        ballRegistry.Register(this);
-    }
-
     protected override void Start()
     {
+        ballRegistry.Register(this);
+        
         base.Start();
         
         rb = GetComponent<Rigidbody2D>();

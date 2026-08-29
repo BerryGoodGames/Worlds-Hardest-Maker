@@ -15,7 +15,7 @@ public class DeleteFieldManager : ILevelObjectPlacer
         PlayerManager.Instance.RemoveAtPosIntersectInSheet(matrixPosition, request.Sheet);
         
         // delete field
-        bool deletedField = FieldManager.Instance.Remove(matrixPosition, true, request.Sheet);
+        bool deletedField = FieldManager.Instance.Remove(matrixPosition, request.Sheet, true);
 
         return new(deletedField, null);
     }

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class ConfirmQuitPromptController : WarningConfirmPromptController
 {
-    // TODO: weird dependency
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform fieldContainer;
     
     public override void OpenPrompt()

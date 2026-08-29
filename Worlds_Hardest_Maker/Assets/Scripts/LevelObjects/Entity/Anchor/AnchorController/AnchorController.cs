@@ -43,7 +43,6 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
     public AnchorBlock CurrentExecutingBlock;
     public LinkedListNode<AnchorBlock> CurrentExecutingNode;
     
-    // TODO: extract into registry
     private readonly List<AnchorAttachment> attachments;
     public IReadOnlyList<AnchorAttachment> Attachments => attachments;
     public void RegisterAttachment(AnchorAttachment a) => attachments.Add(a);
@@ -74,10 +73,25 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
         eventBus.Subscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
+        eventBus.Subscribe<EditModeChangeEvent>(OnEditModeChange);
     }
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt) => AttachFade.FadeIn();
     private void OnSwitchToEdit(SwitchToEditEvent evt) => AttachFade.FadeIn();
+
+    private void OnEditModeChange(EditModeChangeEvent evt)
+    {
+        // enable/disable outlines and panel when switching to/away from anchors or ball
+        bool isAnchorRelated = evt.NewEditMode.IsAnchorRelated;
+        bool inAttachMode = AnchorAttachManager.Instance.InAttachMode;
+        Animator.SetBool(editingString, isAnchorRelated || (IsSelected && inAttachMode));
+        
+        // enable/disable anchor path
+        if (IsSelected && !AnchorAttachManager.Instance.InAttachMode)
+        {
+            SetLinesActive(isAnchorRelated);
+        }
+    }
     
     private void Awake()
     {
@@ -273,6 +287,7 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
         eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
         eventBus.Unsubscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
+        eventBus.Unsubscribe<EditModeChangeEvent>(OnEditModeChange);
         
         ((IResettable)this).Unsubscribe(eventBus);
     }
