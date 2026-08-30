@@ -73,26 +73,21 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
         eventBus.Subscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
-        eventBus.Subscribe<EditModeChangeEvent>(OnEditModeChange);
         eventBus.Subscribe<AnchorSelectedEvent>(OnAnchorSelected);
+        eventBus.Subscribe<ResetLevelEvent>(OnResetLevel);
+        eventBus.Subscribe<SetupPlaySceneEvent>(OnSetupPlayScene);
     }
     
-    private void OnSwitchToPlay(SwitchToPlayEvent evt) => AttachFade.FadeIn();
-    private void OnSwitchToEdit(SwitchToEditEvent evt) => AttachFade.FadeIn();
-
-    private void OnEditModeChange(EditModeChangeEvent evt)
+    private void OnSwitchToPlay(SwitchToPlayEvent evt)
     {
-        // // enable/disable outlines and panel when switching to/away from anchors or ball
-        // bool isAnchorRelated = evt.NewEditMode.IsAnchorRelated;
-        // bool inAttachMode = AnchorAttachManager.Instance.InAttachMode;
-        // Animator.SetBool(editingString, isAnchorRelated || (IsSelected && inAttachMode));
-        //
-        // // enable/disable anchor path
-        // if (IsSelected && !AnchorAttachManager.Instance.InAttachMode)
-        // {
-        //     SetLinesActive(isAnchorRelated);
-        // }
+        AttachFade.FadeIn();
+        
+        StartExecuting();
+        SetLinesActive(false);
+        if (!IsSelected) Animator.SetBool(playingString, true);
     }
+
+    private void OnSwitchToEdit(SwitchToEditEvent evt) => AttachFade.FadeIn();
 
     private void OnAnchorSelected(AnchorSelectedEvent evt)
     {
@@ -100,6 +95,20 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
         SetLinesActive(IsSelected);
     }
     
+    private void OnResetLevel(ResetLevelEvent evt)
+    {
+        StartExecuting();
+        SetLinesActive(false);
+        if (!IsSelected) Animator.SetBool(playingString, true);
+    }
+
+    private void OnSetupPlayScene(SetupPlaySceneEvent evt)
+    {
+        StartExecuting();
+        SetLinesActive(false);
+        if (!IsSelected) Animator.SetBool(playingString, true);
+    }
+
     private void Awake()
     {
         OwnSheet = new(this);
@@ -293,8 +302,9 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
         eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
         eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
         eventBus.Unsubscribe<EnterAnchorAttachEvent>(OnEnterAnchorAttach);
-        eventBus.Unsubscribe<EditModeChangeEvent>(OnEditModeChange);
         eventBus.Unsubscribe<AnchorSelectedEvent>(OnAnchorSelected);
+        eventBus.Unsubscribe<ResetLevelEvent>(OnResetLevel);
+        eventBus.Unsubscribe<SetupPlaySceneEvent>(OnSetupPlayScene);
         
         ((IResettable)this).Unsubscribe(eventBus);
     }

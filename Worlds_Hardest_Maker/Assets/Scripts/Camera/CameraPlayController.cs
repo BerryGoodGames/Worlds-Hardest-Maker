@@ -47,7 +47,7 @@ public class CameraPlayController : MonoBehaviour
     {
         if (!LevelSessionEditManager.Instance.IsPlaytesting || recordingService.IsReplaying) return;
         
-        Vector2Int playerRoomPos = PlayerManager.GetCurrentRoom();
+        Vector2Int playerRoomPos = PlayerManager.Instance.GetCurrentRoom();
         TrackPosition(playerRoomPos);
     }
     
@@ -68,7 +68,7 @@ public class CameraPlayController : MonoBehaviour
         if (smoothMovement && !instant) cam.DOOrthoSize(camOrthoSize, movementDuration).SetEase(Ease.InOutCubic).SetUpdate(true);
         else cam.orthographicSize = camOrthoSize;
         
-        currentRoom = PlayerManager.GetStartRoom();
+        currentRoom = PlayerManager.Instance.GetStartRoom();
         JumpToRoom(currentRoom, instant);
     }
     

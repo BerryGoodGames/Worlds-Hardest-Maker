@@ -57,9 +57,9 @@ public class AnchorBlockIndexInputEditManager : MonoBehaviour
         }
         
         // apply index to index input
-        Instance.currentEditedIndexInput.SetIndexValue(AnchorBlockManager.Instance.HoveredBlockIndex);
+        currentEditedIndexInput.SetIndexValue(AnchorBlockManager.Instance.HoveredBlockIndex);
         
-        Instance.OnEndIndexEdit();
+        OnEndIndexEdit();
         
         // make sure that the player can't place directly after pasting
         while (!Input.GetMouseButtonUp(0)) yield return null;

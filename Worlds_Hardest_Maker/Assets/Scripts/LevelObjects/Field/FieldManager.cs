@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
@@ -12,17 +13,38 @@ public partial class FieldManager : MonoBehaviour, ILevelObjectPlacer, ILevelObj
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform fieldContainer;   
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform coinContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyContainer;
-    
+
+    private EventBus eventBus;
     [Inject] private FieldQueryService fieldQueryService;
     private FieldFactory fieldFactory;
 
     [Inject]
-    private void Construct(FieldFactory fieldFactory)
+    private void Construct(EventBus eventBus, FieldFactory fieldFactory)
     {
+        this.eventBus = eventBus;
+        eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
+        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        
         this.fieldFactory = fieldFactory;
         this.fieldFactory.Initialize(fieldContainer, playerContainer);
     }
+
+    private void OnSwitchToEdit(SwitchToEditEvent evt) => ApplySafeFieldsColor(false);
     
+    private void OnSwitchToPlay(SwitchToPlayEvent evt)
+    {
+        if (SettingsManager.Instance.OneColorSafeFields)
+        {
+            ApplySafeFieldsColor(true);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+    }
+
     public FieldController CreateNew(Vector2 position, int rotation, ISheet sheet, FieldMode fieldMode)
     {
         FieldController fieldAtPosition = fieldQueryService.Find(position, sheet);

@@ -59,21 +59,15 @@ public partial class AnchorManager
     {
         if (SelectedAnchor == null) return;
         
-        if (AnchorAttachManager.Instance.InAttachMode) AnchorAttachManager.Instance.ExitAttachMode();
-        
         SelectedAnchor.Animator.SetBool(selectedString, false);
         SelectedAnchor.Animator.SetBool(playingString, LevelSessionEditManager.Instance.IsPlaying);
         SelectedAnchor.SetLinesActive(false);
         SelectedAnchor = null;
         
-        AnchorBlockManager.Instance.EmptyAnchorChains();
-        
         // enable "no anchor selected" screen
         anchorNoAnchorSelectedScreen.SetVisible(true);
         
         mainCameraJumper.RemoveTarget("Anchor");
-        
-        AnchorAttachManager.Instance.InAttachMode = false;
         
         // play sfx
         audioService.Play("AnchorDeselect");
@@ -92,17 +86,17 @@ public partial class AnchorManager
         
         // check double click
         float currentTime = Time.time;
-        float deltaClickTime = Instance.LastSelectClick < 0 ? 0 : currentTime - Instance.LastSelectClick;
-        if (deltaClickTime < DOUBLE_CLICK_THRESHOLD && Instance.SelectedAnchor == clickedAnchor && !AnchorAttachManager.Instance.InAttachMode)
+        float deltaClickTime = LastSelectClick < 0 ? 0 : currentTime - LastSelectClick;
+        if (deltaClickTime < DOUBLE_CLICK_THRESHOLD && SelectedAnchor == clickedAnchor && !AnchorAttachManager.Instance.InAttachMode)
         {
             AnchorAttachManager.Instance.EnterAttachMode();
             audioService.Play("ButtonClick");
         }
         else
         {
-            Instance.Select(clickedAnchor);
+            Select(clickedAnchor);
             
-            Instance.LastSelectClick = currentTime;
+            LastSelectClick = currentTime;
         }
     }
 }

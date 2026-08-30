@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
@@ -15,19 +16,30 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform playerContainer;    
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform coinContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyContainer;
-    
+
+    private EventBus eventBus;
     [Inject] private IPositionQueryService positionQueryService;
     [Inject] private ILevelObjectQuery<PlayerController> playerQueryService;
     [Inject] private PlayerPlacementRules placementRules;
     private PlayerFactory playerFactory;
 
     [Inject]
-    private void Construct(PlayerFactory playerFactory)
+    private void Construct(EventBus eventBus, PlayerFactory playerFactory)
     {
+        this.eventBus = eventBus;
+        eventBus.Subscribe<ResetLevelEvent>(OnResetLevel);
+        
         this.playerFactory = playerFactory;
         playerFactory.Initialize(playerPrefab, mainCameraJumper, timerController, playerContainer);
     }
-    
+
+    private void OnResetLevel(ResetLevelEvent evt) => Player?.Setup();
+
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<ResetLevelEvent>(OnResetLevel);
+    }
+
     public PlayerController CreateNew(Vector2 position, ISheet sheet, bool surroundWithStartFields)
     {
         if (playerQueryService.Exists(position, sheet)) return null;
@@ -140,8 +152,8 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
         return false;
     }
     
-    public static Vector2Int GetCurrentRoom() => Instance.Player != null ? Instance.Player.GetCurrentRoom() : Vector2Int.zero;
-    public static Vector2Int GetStartRoom() => Instance.Player != null ? Instance.Player.GetStartRoom() : Vector2Int.zero;
+    public Vector2Int GetCurrentRoom() => Player != null ? Player.GetCurrentRoom() : Vector2Int.zero;
+    public Vector2Int GetStartRoom() => Player != null ? Player.GetStartRoom() : Vector2Int.zero;
     
     private void Awake()
     {

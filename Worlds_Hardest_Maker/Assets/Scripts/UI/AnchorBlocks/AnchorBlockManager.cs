@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MyBox;
@@ -24,17 +25,23 @@ public partial class AnchorBlockManager : MonoBehaviour
     public bool IsConnectorHovered => anchorBlockConnectorController.MouseOverUIRect.Over;
     public bool IsPreviewHovered => anchorBlockPreview.MouseOverUIRect.Over;
     public bool IsPeriblockerHovered => anchorBlockPreview.Periblocker.MouseOverUIRect.Over;
-    
-    private IObjectResolver diContainer;
-    private IAudioService audioService;
-    private AnchorBlockViewFactory anchorBlockViewFactory;
+
+    private EventBus eventBus;
+    [Inject] private IAudioService audioService;
+    [Inject] private AnchorBlockViewFactory anchorBlockViewFactory;
     
     [Inject]
-    private void Construct(IObjectResolver diContainer, IAudioService audioService, AnchorBlockViewFactory anchorBlockViewFactory)
+    private void Construct(EventBus eventBus)
     {
-        this.diContainer = diContainer;
-        this.audioService = audioService;
-        this.anchorBlockViewFactory = anchorBlockViewFactory;
+        this.eventBus = eventBus;
+        eventBus.Subscribe<AnchorDeselectedEvent>(OnAnchorDeselected);
+    }
+
+    private void OnAnchorDeselected(AnchorDeselectedEvent evt) => EmptyAnchorChains();
+
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<AnchorDeselectedEvent>(OnAnchorDeselected);
     }
 
     #region Block insertion
@@ -59,7 +66,7 @@ public partial class AnchorBlockManager : MonoBehaviour
         ChainController paramChain = null, int siblingIndex = -1
     )
     {
-        if (anchorBlock == null) anchorBlock = Instance.DraggedBlock;
+        if (anchorBlock == null) anchorBlock = DraggedBlock;
         if (paramChain == null) paramChain = mainChainController;
         
         // move dragged block to this string
@@ -108,7 +115,7 @@ public partial class AnchorBlockManager : MonoBehaviour
     {
         if (!IsAnyBlockHovered() && !IsPreviewHovered && !IsPeriblockerHovered) return;
         
-        InsertAnchorBlockIntoChain(siblingIndex: Instance.HoveredBlockIndex + 1);
+        InsertAnchorBlockIntoChain(siblingIndex: HoveredBlockIndex + 1);
     }
     
     /// <summary>
@@ -136,7 +143,7 @@ public partial class AnchorBlockManager : MonoBehaviour
         {
             MouseOverUIRect mouseOver = anchorBlock.GetComponent<MouseOverUIRect>();
             
-            if (!mouseOver.Over || Instance.DraggedBlock == anchorBlock ||
+            if (!mouseOver.Over || DraggedBlock == anchorBlock ||
                 (anchorBlock.IsLocked && !includeLockedBlocks)) continue;
             
             return anchorBlock;

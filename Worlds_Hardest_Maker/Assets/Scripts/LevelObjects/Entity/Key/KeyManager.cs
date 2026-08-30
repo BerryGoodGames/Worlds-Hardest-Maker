@@ -28,16 +28,22 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
     {
         this.eventBus = eventBus;
         eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
+        eventBus.Subscribe<ResetLevelEvent>(OnResetLevel);
+        eventBus.Subscribe<SetupPlaySceneEvent>(OnSetupPlayScene);
 
         this.keyFactory = keyFactory;
         keyFactory.Initialize(grayKeyPrefab, redKeyPrefab, blueKeyPrefab, greenKeyPrefab, yellowKeyPrefab, keyContainer);
     }
     
     private void OnPlayAgain(PlayAgainEvent evt) => CollectedKeys.Clear();
+    private void OnResetLevel(ResetLevelEvent evt) => ActivateAnimations();
+    private void OnSetupPlayScene(SetupPlaySceneEvent evt) => ActivateAnimations();
     
     private void OnDestroy()
     {
         eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
+        eventBus.Unsubscribe<ResetLevelEvent>(OnResetLevel);
+        eventBus.Unsubscribe<SetupPlaySceneEvent>(OnSetupPlayScene);
     }
     
     private void RemoveKeyInSheet(Vector2 position, ISheet sheet)

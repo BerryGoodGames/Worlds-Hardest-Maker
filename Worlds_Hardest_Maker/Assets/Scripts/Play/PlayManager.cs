@@ -71,8 +71,6 @@ public class PlayManager : MonoBehaviour
         if (!LevelSessionManager.Instance.IsEdit) StartCoroutine(SetupPlayScene());
         
         eventBus.Subscribe<SwitchToEditEvent>(OnSwitchToEdit);
-        eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
-        
         eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
         
         return;
@@ -88,58 +86,31 @@ public class PlayManager : MonoBehaviour
             
             if (PlayerManager.Instance.Player != null) PlayerManager.Instance.Player.Setup();
             
-            AnchorManager.Instance.StartExecuting();
-            CoinManager.Instance.ActivateAnimations();
-            KeyManager.Instance.ActivateAnimations();
-            
             timerController.StartTimer();
             
             eventBus.Fire(new SetupPlaySceneEvent());
         }
     }
     
-    private void OnKonamiStateChanged(KonamiStateChangedEvent evt)
-    {
-        Cheated = true;
-    }
-    
-    private void OnSwitchToEdit(SwitchToEditEvent evt)
-    {
-        Cheated = false;
-        FieldManager.Instance.ApplySafeFieldsColor(false);
-    }
-    
-    private void OnSwitchToPlay(SwitchToPlayEvent evt)
-    {
-        if (SettingsManager.Instance.OneColorSafeFields)
-        {
-            FieldManager.Instance.ApplySafeFieldsColor(true);
-        }
-    }
-    
+    private void OnKonamiStateChanged(KonamiStateChangedEvent evt) => Cheated = true;
+
+    private void OnSwitchToEdit(SwitchToEditEvent evt) => Cheated = false;
+
     private void OnPlayAgain(PlayAgainEvent evt) => RestartLevel();
     
     public void RestartLevel()
     {
-        // reset game
-        eventBus.Fire(new ResetLevelEvent());
-        
-        // start again
-        if (PlayerManager.Instance.Player != null) PlayerManager.Instance.Player.Setup();
-        AnchorManager.Instance.StartExecuting();
-        CoinManager.Instance.ActivateAnimations();
-        KeyManager.Instance.ActivateAnimations();
-        
         // close menu
         menuTween.SetVisible(false);
+        
+        // reset game
+        eventBus.Fire(new ResetLevelEvent());
     }
     
     private void OnDestroy()
     {
         eventBus.Unsubscribe<KonamiStateChangedEvent>(OnKonamiStateChanged);
         eventBus.Unsubscribe<SwitchToEditEvent>(OnSwitchToEdit);
-        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
-        
         eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
     }
 }

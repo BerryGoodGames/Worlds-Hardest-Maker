@@ -14,13 +14,24 @@ public partial class AnchorAttachManager : MonoBehaviour
     private void Construct(EventBus eventBus)
     {
         this.eventBus = eventBus;
-        
         eventBus.Subscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Subscribe<AnchorDeselectedEvent>(OnAnchorDeselected);
     }
     
     private void OnSwitchToPlay(SwitchToPlayEvent evt)
     {
         if (InAttachMode) ExitAttachMode();
+    }
+
+    private void OnAnchorDeselected(AnchorDeselectedEvent evt)
+    {
+        if (InAttachMode) ExitAttachMode();
+    }
+
+    private void OnDestroy()
+    {
+        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
+        eventBus.Unsubscribe<AnchorDeselectedEvent>(OnAnchorDeselected);
     }
     
     public void EnterAttachMode()
@@ -48,10 +59,5 @@ public partial class AnchorAttachManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
-    }
-    
-    private void OnDestroy()
-    {
-        eventBus.Unsubscribe<SwitchToPlayEvent>(OnSwitchToPlay);
     }
 }

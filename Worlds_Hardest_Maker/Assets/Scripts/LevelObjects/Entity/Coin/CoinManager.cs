@@ -28,16 +28,22 @@ public class CoinManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
     {
         this.eventBus = eventBus;
         eventBus.Subscribe<PlayAgainEvent>(OnPlayAgain);
+        eventBus.Subscribe<ResetLevelEvent>(OnResetLevel);
+        eventBus.Subscribe<SetupPlaySceneEvent>(OnSetupPlayScene);
 
         this.coinFactory = coinFactory;
         coinFactory.Initialize(coinPrefab, coinContainer);
     }
     
     private void OnPlayAgain(PlayAgainEvent evt) => CollectedCoins.Clear();
+    private void OnResetLevel(ResetLevelEvent evt) => ActivateAnimations();
+    private void OnSetupPlayScene(SetupPlaySceneEvent evt) => ActivateAnimations();
     
     private void OnDestroy()
     {
         eventBus.Unsubscribe<PlayAgainEvent>(OnPlayAgain);
+        eventBus.Unsubscribe<ResetLevelEvent>(OnResetLevel);
+        eventBus.Unsubscribe<SetupPlaySceneEvent>(OnSetupPlayScene);
     }
     
     public CoinController CreateNew(Vector2 position, ISheet sheet)

@@ -5,9 +5,9 @@ public partial class AnchorAttachManager
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private GameObject anchorAttachBlocker;
     
-    public static void HighlightAnchor(AnchorController anchor)
+    public void HighlightAnchor(AnchorController anchor)
     {
-        if (Instance != null) Instance.anchorAttachBlocker.SetActive(true);
+        anchorAttachBlocker.SetActive(true);
         
         anchor.MergeToLayer();
         anchor.Attachments.ForEach(attachment => attachment.MergeToLayer());
@@ -15,9 +15,9 @@ public partial class AnchorAttachManager
         anchor.AttachFade.FadeIn();
     }
     
-    public static void Dehighlight(AnchorController anchor)
+    public void Dehighlight(AnchorController anchor)
     {
-        if (Instance != null) Instance.anchorAttachBlocker.SetActive(false);
+        anchorAttachBlocker.SetActive(false);
         
         anchor.ResetLayer();
         anchor.Attachments.ForEach(attachment => attachment.ResetLayer());

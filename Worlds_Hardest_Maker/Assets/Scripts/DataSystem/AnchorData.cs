@@ -82,7 +82,7 @@ public class AnchorData : NonAttachableData
         
         foreach (AttachableData data in attachments) data.ImportToLevel(anchor.OwnSheet);
         
-        if (LevelSessionManager.Instance.IsEdit) AnchorAttachManager.Dehighlight(anchor);
+        if (LevelSessionManager.Instance.IsEdit) AnchorAttachManager.Instance.Dehighlight(anchor);
         
         anchor.Blocks = LoadBlocks(anchor);
     }

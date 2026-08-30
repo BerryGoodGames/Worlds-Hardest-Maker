@@ -41,12 +41,12 @@ public class TextManager : MonoBehaviour
             playerCoinsCollected = "-";
         }
         
-        Instance.deathText.text = $"Deaths: {playerDeaths}";
-        Instance.coinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.CoinsNeededFinal}";
+        deathText.text = $"Deaths: {playerDeaths}";
+        coinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.CoinsNeededFinal}";
         
         if (!LevelSessionManager.Instance.IsEdit) return;
         
         // set edit mode text ui
-        Instance.editModeText.text = $"Edit: {LevelSessionEditManager.Instance.CurrentEditMode.UIString}";
+        editModeText.text = $"Edit: {LevelSessionEditManager.Instance.CurrentEditMode.UIString}";
     }
 }
