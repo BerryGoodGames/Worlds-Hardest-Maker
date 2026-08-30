@@ -78,6 +78,7 @@ public class PreviewOutlineComponent : MonoBehaviour
     [Inject] private IDrawService drawService;
     [Inject] private PreviewOutlineDataProvider dataProvider;
     [Inject] private SceneOutlineConnectivityProvider sceneConnectivityProvider;
+    [Inject] private PreviewVisibilityRulesService visibilityService;
 
     public void SetBatchProvider(IOutlineConnectivityProvider provider) =>
         batchProvider = provider ?? NullOutlineConnectivityProvider.Instance;
@@ -161,7 +162,16 @@ public class PreviewOutlineComponent : MonoBehaviour
 
     private void Update()
     {
-        EditMode currentEditMode = GetTrackedEditMode(); // <-- was LevelSessionEditManager.Instance.CurrentEditMode directly
+        EditMode currentEditMode = GetTrackedEditMode();
+
+        // respect the same rules the sprite/animation preview already follows
+        if (!visibilityService.IsPreviewVisible(currentEditMode))
+        {
+            if (hasTopology || LineContainerHasChildren()) ClearLines();
+            hasTopology = false; // force a fresh recompute next time it becomes visible
+            return;
+        }
+
         Vector2 topologyPosition = GetTopologyPosition();
         Vector2 currentPosition = transform.position;
 
@@ -170,4 +180,6 @@ public class PreviewOutlineComponent : MonoBehaviour
 
         if (topologyChanged || currentPosition != lastDrawnPosition) DrawSegments(currentPosition);
     }
+    
+    private bool LineContainerHasChildren() => lineContainer != null && lineContainer.childCount > 0;
 }
