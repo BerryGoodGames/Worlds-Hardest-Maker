@@ -32324,6 +32324,7 @@ GameObject:
   - component: {fileID: 2046466269}
   - component: {fileID: 2046466268}
   - component: {fileID: 2046466267}
+  - component: {fileID: 2046466271}
   m_Layer: 0
   m_Name: PlacementPreview
   m_TagString: Untagged
@@ -32515,6 +32516,18 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2046466259}
   deleteSprite: {fileID: 7482667652216324306, guid: ec60c8aebe4cc344dada2f9e518529ca, type: 3}
   <Alpha>k__BackingField: 115
+--- !u!114 &2046466271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046466257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a587fe9b2f4d978913d2eed0d69094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WorldsHardestMaker::PreviewOutlineComponent
 --- !u!1 &2059336037
 GameObject:
   m_ObjectHideFlags: 0

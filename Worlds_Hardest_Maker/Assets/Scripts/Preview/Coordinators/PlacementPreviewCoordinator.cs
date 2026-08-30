@@ -18,7 +18,8 @@ public class PlacementPreviewCoordinator : MonoBehaviour
     private PreviewRotationComponent rotationComponent;
     private PreviewAnimationComponent animationComponent;
     private PreviewFollowMouseComponent followMouseComponent;
-    
+    private PreviewOutlineComponent outlineComponent;
+
     [Inject] private EventBus eventBus;
 
     private void Awake()
@@ -27,6 +28,7 @@ public class PlacementPreviewCoordinator : MonoBehaviour
         rotationComponent = GetComponent<PreviewRotationComponent>();
         animationComponent = GetComponent<PreviewAnimationComponent>();
         followMouseComponent = GetComponent<PreviewFollowMouseComponent>();
+        outlineComponent = gameObject.GetOrAddComponent<PreviewOutlineComponent>();
     }
 
     private void OnSwitchToPlay(SwitchToPlayEvent evt)
@@ -45,12 +47,14 @@ public class PlacementPreviewCoordinator : MonoBehaviour
     {
         spriteComponent.UpdateSprite();
         rotationComponent.UpdateRotation();
+        outlineComponent.UpdateOutline();
     }
-    
+
     private void OnEditModeChange(EditModeChangeEvent evt)
     {
         spriteComponent.UpdateSprite();
         rotationComponent.UpdateRotation();
+        outlineComponent.UpdateOutline();
     }
 
     private void OnSelectionStartedEvent(SelectionStartedEvent evt)

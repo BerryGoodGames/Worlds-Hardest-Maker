@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5185087834714533127}
   - component: {fileID: 4995871046396128744}
   - component: {fileID: 3930856783921599848}
+  - component: {fileID: 8424612129548664316}
   m_Layer: 0
   m_Name: FillPreview
   m_TagString: Untagged
@@ -109,8 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PreviewSpriteComponent
   spriteRenderer: {fileID: 4338054835755337212}
   deleteSprite: {fileID: 7482667652216324306, guid: ec60c8aebe4cc344dada2f9e518529ca, type: 3}
-  alpha: 120
-  CheckUpdateEveryFrame: 1
+  <Alpha>k__BackingField: 115
 --- !u!114 &4995871046396128744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,3 +140,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FillPreviewCoordinator
   spriteComponent: {fileID: 5185087834714533127}
   rotationComponent: {fileID: 4995871046396128744}
+  outlineComponent: {fileID: 8424612129548664316}
+--- !u!114 &8424612129548664316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4652236031313732080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a587fe9b2f4d978913d2eed0d69094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: WorldsHardestMaker::PreviewOutlineComponent

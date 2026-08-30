@@ -83,9 +83,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4469964617920377410, guid: 3bf059eec99069c43abe9e2fd2acefd2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5609101509398338398}
-    - targetCorrespondingSourceObject: {fileID: 4469964617920377410, guid: 3bf059eec99069c43abe9e2fd2acefd2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 833755099069481825}
   m_SourcePrefab: {fileID: 100100000, guid: 3bf059eec99069c43abe9e2fd2acefd2, type: 3}
 --- !u!1 &1031238968843851723 stripped
 GameObject:
@@ -111,19 +108,3 @@ MonoBehaviour:
   connectToOwnTag: 1
   UpdateOnStart: 1
   LineRenderers: []
---- !u!114 &833755099069481825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1031238968843851723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e527362bc3264a14f835b8d0e129f50c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Sprite: {fileID: 21300000, guid: 4736c0712910db04cbe44bf03d6115de, type: 3}
-  Color: {r: 0.7137255, g: 0.6901961, b: 0.9803922, a: 1}
-  Scale: {x: 1, y: 1}
-  Rotate: 0

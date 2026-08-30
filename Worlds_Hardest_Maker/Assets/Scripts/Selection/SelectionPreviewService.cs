@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 using VContainer;
@@ -46,8 +47,10 @@ namespace WorldsHardestMaker.Selection
 
         private void Spawn(SelectionArea area)
         {
-            // set new previews, only if edit mode not in NoFillPreviewModes
             if (!LevelSessionEditManager.Instance.CurrentEditMode.ShowFillPreview) return;
+
+            EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
+            IOutlineConnectivityProvider batchProvider = BuildBatchProvider(area, currentEditMode);
 
             foreach (Vector2 pos in area.Positions)
             {
@@ -60,7 +63,20 @@ namespace WorldsHardestMaker.Selection
 
                 fillPreview.UpdateSprite();
                 fillPreview.UpdateRotation();
+                fillPreview.SetOutlineBatchProvider(batchProvider);
+                fillPreview.UpdateOutline();
             }
+        }
+        
+        private static IOutlineConnectivityProvider BuildBatchProvider(SelectionArea area, EditMode editMode)
+        {
+            if (editMode is not FieldMode fieldMode) return NullOutlineConnectivityProvider.Instance;
+
+            Dictionary<Vector2Int, string> positionToTag = new();
+            foreach (Vector2 pos in area.Positions) positionToTag[Vector2Int.RoundToInt(pos)] = fieldMode.Tag;
+
+            // Fill previews are static and already in world/matrix space, so no moving origin is needed.
+            return new BatchOutlineConnectivityProvider(positionToTag);
         }
 
         public void Clear()
@@ -76,9 +92,12 @@ namespace WorldsHardestMaker.Selection
 
         public void SetVisible()
         {
-            if (container.childCount == 0) Spawn(selectionAreaProvider.GetArea());
-
+            // Activate first: instantiating children under an inactive parent defers their
+            // Awake/OnEnable/Start, which previously left PreviewOutlineComponent's line
+            // container uninitialized when Spawn() tried to use it immediately.
             container.gameObject.SetActive(true);
+
+            if (container.childCount == 0) Spawn(selectionAreaProvider.GetArea());
         }
 
         public void SetInvisible()
