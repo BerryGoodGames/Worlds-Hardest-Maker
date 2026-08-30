@@ -1,5 +1,4 @@
-﻿// File: Preview/Data/PreviewOutlineData.cs
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public struct PreviewOutlineData

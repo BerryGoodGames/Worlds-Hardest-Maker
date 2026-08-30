@@ -31,7 +31,11 @@ public class CameraPlayController : MonoBehaviour
     
     private void OnStartPlaytest(StartPlaytestEvent evt) => JumpToStart();
     private void OnSetupPlayScene(SetupPlaySceneEvent evt) => JumpToStartInstant();
-    private void OnResetLevel(ResetLevelEvent evt) => JumpToStart();
+    private void OnResetLevel(ResetLevelEvent evt)
+    {
+        if(LevelSessionEditManager.Instance.IsPlaytesting || LevelSessionManager.Instance.LevelSessionMode is LevelSessionMode.Play) JumpToStart();
+    }
+
     private void OnPathRenderUpdate(PathRenderUpdateEvent evt)
     {
         if (recordingService.IsReplaying) TrackPosition(evt.Position.GetRoom());
@@ -77,6 +81,7 @@ public class CameraPlayController : MonoBehaviour
     
     private void JumpToRoom(Vector2Int cell, bool instant = false)
     {
+        print("a");
         int roomWidth = LevelSettings.Instance.RoomWidth;
         int roomHeight = LevelSettings.Instance.RoomHeight;
         

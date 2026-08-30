@@ -10,9 +10,6 @@ public class PreviewOutlineDataProvider
         if (editMode is not FieldMode fieldMode || !fieldMode.HasOutline || fieldMode.Prefab == null)
             return PreviewOutlineData.None;
 
-        // If the same field mode is already placed here, placing again would be a no-op
-        // (see FieldManager.CreateNew's own early-out for this exact condition) — showing an
-        // outline here would misleadingly suggest something is about to change.
         FieldController existing = fieldQueryService.Find(position, sheet);
         if (existing != null && existing.FieldMode == fieldMode) return PreviewOutlineData.None;
 

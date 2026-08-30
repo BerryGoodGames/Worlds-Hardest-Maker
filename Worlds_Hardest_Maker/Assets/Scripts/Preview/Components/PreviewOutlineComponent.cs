@@ -64,12 +64,6 @@ public class PreviewOutlineComponent : MonoBehaviour
     private EditMode fixedEditMode;
     private bool hasFixedEditMode;
 
-    /// <summary>
-    ///     Locks this outline to always use the given edit mode instead of tracking
-    ///     LevelSessionEditManager.Instance.CurrentEditMode every frame. Use this for
-    ///     previews whose type is fixed (paste, fill) so they don't reconnect to whatever
-    ///     tool happens to be selected in the toolbar.
-    /// </summary>
     public void SetFixedEditMode(EditMode editMode)
     {
         fixedEditMode = editMode;
@@ -94,13 +88,6 @@ public class PreviewOutlineComponent : MonoBehaviour
         DrawSegments(transform.position);
     }
 
-    /// <summary>
-    ///     The position connectivity should be evaluated against. For a preview that follows
-    ///     the mouse this is the destination cell it's tweening toward, not wherever it
-    ///     currently sits mid-animation — connectivity raycasts only make sense at grid-aligned
-    ///     positions. Static ghosts (fill/paste previews) have no FollowMouse and just use their
-    ///     own (unmoving) position.
-    /// </summary>
     private Vector2 GetTopologyPosition()
     {
         FollowMouse follow = FollowMouseComponent;
@@ -136,11 +123,6 @@ public class PreviewOutlineComponent : MonoBehaviour
         }
     }
 
-    /// <summary>
-    ///     Redraws the already-decided segments at the given (possibly mid-tween) position, so
-    ///     the outline always visually tracks the sprite instead of freezing between topology
-    ///     updates.
-    /// </summary>
     private void DrawSegments(Vector2 position)
     {
         lastDrawnPosition = position;
