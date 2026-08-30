@@ -22,6 +22,12 @@ namespace WorldsHardestMaker.CopyPaste
         [Inject] private ISelectionStateService selectionStateService;
         [Inject] private IEditModeUIBlockerService uiBlockerService;
         [Inject] private CopyDataFactory copyDataFactory;
+
+        [Inject]
+        private void Construct(IObjectResolver diContainer)
+        {
+            pastePreviewService.Initialize(diContainer);
+        }
     
         public void Copy(SelectionArea area)
         {

@@ -60,6 +60,26 @@ public class PreviewOutlineComponent : MonoBehaviour
             return followMouse;
         }
     }
+    
+    private EditMode fixedEditMode;
+    private bool hasFixedEditMode;
+
+    /// <summary>
+    ///     Locks this outline to always use the given edit mode instead of tracking
+    ///     LevelSessionEditManager.Instance.CurrentEditMode every frame. Use this for
+    ///     previews whose type is fixed (paste, fill) so they don't reconnect to whatever
+    ///     tool happens to be selected in the toolbar.
+    /// </summary>
+    public void SetFixedEditMode(EditMode editMode)
+    {
+        fixedEditMode = editMode;
+        hasFixedEditMode = true;
+    }
+
+    private EditMode GetTrackedEditMode() =>
+        hasFixedEditMode ? fixedEditMode : LevelSessionEditManager.Instance.CurrentEditMode;
+
+    public void UpdateOutline() => UpdateOutline(GetTrackedEditMode());
 
     [Inject] private IDrawService drawService;
     [Inject] private PreviewOutlineDataProvider dataProvider;
@@ -67,8 +87,6 @@ public class PreviewOutlineComponent : MonoBehaviour
 
     public void SetBatchProvider(IOutlineConnectivityProvider provider) =>
         batchProvider = provider ?? NullOutlineConnectivityProvider.Instance;
-
-    public void UpdateOutline() => UpdateOutline(LevelSessionEditManager.Instance.CurrentEditMode);
 
     public void UpdateOutline(EditMode editMode)
     {
@@ -161,7 +179,7 @@ public class PreviewOutlineComponent : MonoBehaviour
 
     private void Update()
     {
-        EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
+        EditMode currentEditMode = GetTrackedEditMode(); // <-- was LevelSessionEditManager.Instance.CurrentEditMode directly
         Vector2 topologyPosition = GetTopologyPosition();
         Vector2 currentPosition = transform.position;
 
