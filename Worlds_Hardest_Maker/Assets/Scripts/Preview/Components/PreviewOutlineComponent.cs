@@ -1,23 +1,11 @@
-﻿// File: Preview/Components/PreviewOutlineComponent.cs
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using VContainer;
 
-/// <summary>
-///     Draws live outlines on a preview ghost, using the same geometry as real placed fields.
-///     Connectivity is resolved against the real scene plus an optional batch of sibling ghosts
-///     (set via <see cref="SetBatchProvider"/>), instead of colliders that don't exist yet.
-/// </summary>
 public class PreviewOutlineComponent : MonoBehaviour
 {
     private Transform lineContainer;
 
-    /// <summary>
-    ///     Lazily created on first use rather than in Awake. Awake is deferred by Unity when an
-    ///     object is instantiated under a currently-inactive parent, and preview ghosts are
-    ///     sometimes spawned and immediately configured before their container is activated —
-    ///     so this must not assume Awake has already run.
-    /// </summary>
     private Transform LineContainer
     {
         get
@@ -26,74 +14,137 @@ public class PreviewOutlineComponent : MonoBehaviour
             {
                 GameObject container = new("OutlineLineContainer")
                 {
-                    transform =
-                    {
-                        parent = transform,
-                        localPosition = Vector2.zero,
-                    },
+                    transform = { parent = transform, localPosition = Vector2.zero, },
                 };
-
                 lineContainer = container.transform;
             }
-
             return lineContainer;
+        }
+    }
+
+    private readonly struct OutlineSegment
+    {
+        public readonly Vector2 Direction;
+        public readonly bool LeftConnected;
+        public readonly bool RightConnected;
+
+        public OutlineSegment(Vector2 direction, bool leftConnected, bool rightConnected)
+        {
+            Direction = direction;
+            LeftConnected = leftConnected;
+            RightConnected = rightConnected;
         }
     }
 
     private IOutlineConnectivityProvider batchProvider = NullOutlineConnectivityProvider.Instance;
 
-    private Vector2 lastPosition;
-    private EditMode lastEditMode;
-    private bool hasRenderedOnce;
+    private readonly List<OutlineSegment> segments = new();
+    private PreviewOutlineData currentData;
+    private bool hasTopology;
+    private Vector2 lastTopologyPosition;
+    private EditMode lastTopologyEditMode;
+    private Vector2 lastDrawnPosition;
+
+    private FollowMouse followMouse;
+    private bool triedGetFollowMouse;
+
+    private FollowMouse FollowMouseComponent
+    {
+        get
+        {
+            if (!triedGetFollowMouse)
+            {
+                TryGetComponent(out followMouse);
+                triedGetFollowMouse = true;
+            }
+            return followMouse;
+        }
+    }
 
     [Inject] private IDrawService drawService;
     [Inject] private PreviewOutlineDataProvider dataProvider;
     [Inject] private SceneOutlineConnectivityProvider sceneConnectivityProvider;
 
-    public void SetBatchProvider(IOutlineConnectivityProvider provider)
-    {
+    public void SetBatchProvider(IOutlineConnectivityProvider provider) =>
         batchProvider = provider ?? NullOutlineConnectivityProvider.Instance;
-    }
 
     public void UpdateOutline() => UpdateOutline(LevelSessionEditManager.Instance.CurrentEditMode);
 
     public void UpdateOutline(EditMode editMode)
     {
-        hasRenderedOnce = true;
-        lastPosition = transform.position;
-        lastEditMode = editMode;
+        RecomputeTopology(editMode, GetTopologyPosition());
+        DrawSegments(transform.position);
+    }
 
-        ClearLines();
+    /// <summary>
+    ///     The position connectivity should be evaluated against. For a preview that follows
+    ///     the mouse this is the destination cell it's tweening toward, not wherever it
+    ///     currently sits mid-animation — connectivity raycasts only make sense at grid-aligned
+    ///     positions. Static ghosts (fill/paste previews) have no FollowMouse and just use their
+    ///     own (unmoving) position.
+    /// </summary>
+    private Vector2 GetTopologyPosition()
+    {
+        FollowMouse follow = FollowMouseComponent;
+        return follow != null ? follow.TargetPosition : transform.position;
+    }
 
-        PreviewOutlineData data = dataProvider.GetOutlineData(editMode);
-        if (!data.Enabled) return;
+    private void RecomputeTopology(EditMode editMode, Vector2 position)
+    {
+        hasTopology = true;
+        lastTopologyEditMode = editMode;
+        lastTopologyPosition = position;
 
-        Vector2 position = transform.position;
-        Vector2 localScale = transform.localScale;
+        segments.Clear();
+
         ISheet sheet = PlaceManager.GetCurrentSheet();
+        currentData = dataProvider.GetOutlineData(editMode, position, sheet);
+        if (!currentData.Enabled) return;
 
         foreach (Vector2 dir in OutlineGeometry.Directions)
         {
-            if (HasConnector(position, dir, data.ConnectorTags, sheet)) continue;
+            if (HasConnector(position, dir, currentData.ConnectorTags, sheet)) continue;
 
             bool leftConnected = false;
             bool rightConnected = false;
 
             if (dir.Equals(Vector2.up) || dir.Equals(Vector2.down))
             {
-                leftConnected = HasConnector(position, Vector2.left, data.ConnectorTags, sheet);
-                rightConnected = HasConnector(position, Vector2.right, data.ConnectorTags, sheet);
+                leftConnected = HasConnector(position, Vector2.left, currentData.ConnectorTags, sheet);
+                rightConnected = HasConnector(position, Vector2.right, currentData.ConnectorTags, sheet);
             }
 
-            drawService.SetWeight(data.Weight);
-            drawService.SetFill(data.Color);
+            segments.Add(new(dir, leftConnected, rightConnected));
+        }
+    }
+
+    /// <summary>
+    ///     Redraws the already-decided segments at the given (possibly mid-tween) position, so
+    ///     the outline always visually tracks the sprite instead of freezing between topology
+    ///     updates.
+    /// </summary>
+    private void DrawSegments(Vector2 position)
+    {
+        lastDrawnPosition = position;
+
+        ClearLines();
+        if (!hasTopology || !currentData.Enabled) return;
+
+        Vector2 localScale = transform.localScale;
+
+        foreach (OutlineSegment segment in segments)
+        {
+            drawService.SetWeight(currentData.Weight);
+            drawService.SetFill(currentData.Color);
             drawService.SetLayerName(LayerManager.Instance.SortingLayers.Outline);
             drawService.SetRoundedCorners(false);
 
-            (Vector2 start, Vector2 end) = OutlineGeometry.GetLinePoints(position, localScale, data.Weight, dir, leftConnected, rightConnected);
+            (Vector2 start, Vector2 end) = OutlineGeometry.GetLinePoints(
+                position, localScale, currentData.Weight, segment.Direction, segment.LeftConnected, segment.RightConnected
+            );
 
             LineRenderer line = drawService.DrawLine(start.x, start.y, end.x, end.y, LineContainer);
-            line.useWorldSpace = false;
+            line.useWorldSpace = true;
         }
     }
 
@@ -111,10 +162,12 @@ public class PreviewOutlineComponent : MonoBehaviour
     private void Update()
     {
         EditMode currentEditMode = LevelSessionEditManager.Instance.CurrentEditMode;
+        Vector2 topologyPosition = GetTopologyPosition();
         Vector2 currentPosition = transform.position;
 
-        if (hasRenderedOnce && currentPosition == lastPosition && currentEditMode == lastEditMode) return;
+        bool topologyChanged = !hasTopology || topologyPosition != lastTopologyPosition || currentEditMode != lastTopologyEditMode;
+        if (topologyChanged) RecomputeTopology(currentEditMode, topologyPosition);
 
-        UpdateOutline(currentEditMode);
+        if (topologyChanged || currentPosition != lastDrawnPosition) DrawSegments(currentPosition);
     }
 }
