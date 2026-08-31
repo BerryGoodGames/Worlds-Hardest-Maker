@@ -7,6 +7,8 @@ public class AreaErasureService : IAreaErasureService
 {
     [Inject] private IAreaQueryService areaQueryService;
     [Inject] private FieldQueryService fieldQueryService;
+    [Inject] private IFieldManager fieldManager;
+    [Inject] private IPlayerManager playerManager;
     
     public void EraseArea(SelectionArea area)
     {
@@ -20,15 +22,6 @@ public class AreaErasureService : IAreaErasureService
         // DESTROY IT MUHAHAHAHAHAHHAHAHAHAHAHAHAHAHA
         foreach (Collider2D collider in hits)
         {
-            // if (collider.CompareTag("AnchorObject"))
-            // {
-            //     collider.GetComponent<AnchorController>().Delete();
-            //     continue;
-            // }
-            //
-            // Object.Destroy(collider.gameObject);
-
-            // TODO: test this
             if(LevelObjectController.TryGetController(collider, out LevelObjectController controller))
             {
                 controller.Delete();
@@ -39,16 +32,16 @@ public class AreaErasureService : IAreaErasureService
             }
         }
         
-        PlayerController player = PlayerManager.Instance.Player;
+        PlayerController player = playerManager.Player;
         ISheet currentSheet = PlaceManager.GetCurrentSheet();
         IEnumerable<FieldMode> startFieldModes = EditModeManager.Instance.AllPlayerStartFieldModes;
         
         if (player != null
             && !fieldQueryService.IsPosCoveredWithFieldTypeInSheet(player.transform.position, currentSheet, startFieldModes))
         {
-            PlayerManager.Instance.RemoveAtPos(player.transform.position);
+            playerManager.RemoveAtPos(player.transform.position);
         }
         
-        FieldManager.Instance.UpdateOutlinesInArea(false, area);
+        fieldManager.UpdateOutlinesInArea(false, area);
     }
 }

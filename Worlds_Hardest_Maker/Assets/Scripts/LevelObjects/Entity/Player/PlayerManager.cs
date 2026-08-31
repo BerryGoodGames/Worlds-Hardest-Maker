@@ -1,14 +1,13 @@
-using System;
 using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 using VContainer;
 
-public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerializer
+public class PlayerManager : MonoBehaviour, IPlayerManager, ILevelObjectPlacer, ILevelObjectSerializer
 {
     public static PlayerManager Instance { get; private set; }
     
-    [ReadOnly] public PlayerController Player;
+    [ReadOnly] public PlayerController Player { get; private set; }
     
     [SerializeField] [InitializationField] [MustBeAssigned] private PlayerController playerPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private JumpToEntity mainCameraJumper;   
@@ -22,6 +21,7 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
     [Inject] private ILevelObjectQuery<PlayerController> playerQueryService;
     [Inject] private PlayerPlacementRules placementRules;
     private PlayerFactory playerFactory;
+    [Inject] private IFieldManager fieldManager;
 
     [Inject]
     private void Construct(EventBus eventBus, PlayerFactory playerFactory)
@@ -69,9 +69,9 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
         return Player;
     }
     
-    private static void CreateStartFields(IEnumerable<Vector2Int> positions, ISheet sheet)
+    private void CreateStartFields(IEnumerable<Vector2Int> positions, ISheet sheet)
     {
-        foreach (Vector2Int pos in positions) FieldManager.Instance.CreateNew(pos, 0, sheet, EditModeManager.Start);
+        foreach (Vector2Int pos in positions) fieldManager.CreateNew(pos, 0, sheet, EditModeManager.Start);
     }
     
     public PlayerController Set(Vector2 position)
@@ -79,7 +79,7 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
         return CreateNew(position, PlaceManager.GetCurrentSheet(), true);
     }
     
-    private static List<FieldController> SetSurroundingStartFieldsInSheet(Vector2 position, ISheet sheet)
+    private List<FieldController> SetSurroundingStartFieldsInSheet(Vector2 position, ISheet sheet)
     {
         List<FieldController> result = new();
         
@@ -87,7 +87,7 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
         
         foreach (Vector2Int checkPosition in checkPoses)
         {
-            FieldController newField = FieldManager.Instance.CreateNew(checkPosition, 0, sheet, EditModeManager.Start);
+            FieldController newField = fieldManager.CreateNew(checkPosition, 0, sheet, EditModeManager.Start);
             
             result.Add(newField);
         }
@@ -158,9 +158,16 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
         return false;
     }
     
-    public Vector2Int GetCurrentRoom() => Player != null ? Player.GetCurrentRoom() : Vector2Int.zero;
-    public Vector2Int GetStartRoom() => Player != null ? Player.GetStartRoom() : Vector2Int.zero;
-    
+    public Vector2Int GetCurrentRoom()
+    {
+        return Player != null ? Player.GetCurrentRoom() : Vector2Int.zero;
+    }
+
+    public Vector2Int GetStartRoom()
+    {
+        return Player != null ? Player.GetStartRoom() : Vector2Int.zero;
+    }
+
     private void Awake()
     {
         // init singleton

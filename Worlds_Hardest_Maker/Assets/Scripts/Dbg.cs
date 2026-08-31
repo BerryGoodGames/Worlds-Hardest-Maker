@@ -5,6 +5,7 @@ using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Windows;
+using VContainer;
 using Input = UnityEngine.Input;
 using Object = UnityEngine.Object;
 
@@ -46,6 +47,8 @@ public class Dbg : MonoBehaviour
     
     private Camera cam;
     
+    [Inject] private IPlayerManager playerManager;
+    
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -85,7 +88,7 @@ public class Dbg : MonoBehaviour
                 // ignored
             }
         }
-        else if (autoPlacePlayer) PlayerManager.Instance.Set(Vector2.zero);
+        else if (autoPlacePlayer) playerManager.Set(Vector2.zero);
         #endif
     }
     
@@ -104,7 +107,7 @@ public class Dbg : MonoBehaviour
                 DbgTextMode.Custom => string.Empty,
                 DbgTextMode.Count => Count,
                 DbgTextMode.FPS => Mathf.Round(1 / Time.unscaledDeltaTime),
-                DbgTextMode.PlayerPosition => (Vector2)PlayerManager.Instance.Player.transform.position,
+                DbgTextMode.PlayerPosition => (Vector2)playerManager.Player.transform.position,
                 DbgTextMode.MousePositionUnits => (Vector2)cam.ScreenToWorldPoint(Input.mousePosition),
                 DbgTextMode.MousePositionPixels => (Vector2)Input.mousePosition,
                 _ => throw new ArgumentOutOfRangeException(),

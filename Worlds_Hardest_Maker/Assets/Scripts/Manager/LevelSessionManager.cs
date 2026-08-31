@@ -30,6 +30,7 @@ public class LevelSessionManager : MonoBehaviour
     public Action OnLevelLoaded = () => { Instance.BestCompletionTime = Instance.LoadedLevelData.Info.BestCompletionTime; };
     
     private EventBus eventBus;
+    [Inject] private IPlayerManager playerManager;
     
     [Inject]
     private void Construct(EventBus eventBus)
@@ -50,7 +51,7 @@ public class LevelSessionManager : MonoBehaviour
         else
         {
             PlayTime += TimeSpan.FromSeconds(Time.unscaledDeltaTime);
-            if (PlayerManager.Instance.Player != null && !PlayerManager.Instance.Player.Won) PlayRunTime += TimeSpan.FromSeconds(Time.deltaTime);
+            if (playerManager.Player != null && !playerManager.Player.Won) PlayRunTime += TimeSpan.FromSeconds(Time.deltaTime);
         }
     }
     

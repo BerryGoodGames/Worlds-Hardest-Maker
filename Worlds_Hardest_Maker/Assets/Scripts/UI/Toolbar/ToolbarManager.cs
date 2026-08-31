@@ -1,17 +1,20 @@
+using MyBox;
 using UnityEngine;
 
 public class ToolbarManager : MonoBehaviour
 {
-    public static GameObject[] Tools;
+    [Tag] [SerializeField] [InitializationField] private string toolTag;
+    
+    private static GameObject[] tools;
 
     private void Start()
     {
-        Tools = GameObject.FindGameObjectsWithTag("Tool");
+        tools = GameObject.FindGameObjectsWithTag(toolTag);
     }
 
     public static void DeselectAll()
     {
-        foreach (GameObject t in Tools)
+        foreach (GameObject t in tools)
         {
             Tool tool = t.GetComponent<Tool>();
             tool.SetSelected(false);

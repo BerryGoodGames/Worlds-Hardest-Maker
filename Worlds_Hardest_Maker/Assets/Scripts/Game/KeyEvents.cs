@@ -17,6 +17,7 @@ public class KeyEvents : MonoBehaviour
     [Inject] private ICopyPasteService copyPasteService;
     [Inject] private IPanelService panelService;
     [Inject] private SaveSystem saveSystem;
+    [Inject] private IPlayerManager playerManager;
     
     private void Update()
     {
@@ -78,7 +79,7 @@ public class KeyEvents : MonoBehaviour
         if (!LevelSessionManager.Instance.IsEdit || !LevelSessionEditManager.Instance.IsPlaying ||
             !KeyBinds.GetKeyBindDown("Editor_TeleportPlayer")) return;
         
-        PlayerController player = PlayerManager.Instance.Player;
+        PlayerController player = playerManager.Player;
         if (player == null) return;
         
         player.Rb.position = mouseService.MouseWorldPosGrid;

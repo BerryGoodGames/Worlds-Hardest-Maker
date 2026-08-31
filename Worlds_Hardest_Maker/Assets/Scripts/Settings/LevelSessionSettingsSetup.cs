@@ -15,6 +15,7 @@ public class LevelSessionSettingsSetup : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private RoomOutlineGenerator roomOutlines;
     
     private EventBus eventBus;
+    [Inject] private IFieldManager fieldManager;
     
     [Inject]
     private void Construct(EventBus eventBus)
@@ -47,7 +48,7 @@ public class LevelSessionSettingsSetup : MonoBehaviour
     
     private void SetOneColorSafeFieldsWhenPlaying(SetOneColorSafeFieldsEvent evt)
     {
-        FieldManager.Instance.ApplySafeFieldsColor(LevelSessionEditManager.Instance.IsPlaying && evt.IsOneColor);
+        fieldManager.ApplySafeFieldsColor(LevelSessionEditManager.Instance.IsPlaying && evt.IsOneColor);
     }
     
     private void SetShowRoomGrid(SetShowRoomGridEvent evt)

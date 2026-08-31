@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using VContainer;
 
 public class FieldController : LevelObjectController
 {
@@ -8,6 +9,9 @@ public class FieldController : LevelObjectController
     [HideInInspector] public FieldMode FieldMode;
     
     [HideInInspector] public Vector2 InitialPosition;
+    
+    // TODO: check if injected
+    [Inject] private IPlayerManager playerManager;
     
     public void Initialize(Transform playerContainer)
     {
@@ -24,7 +28,7 @@ public class FieldController : LevelObjectController
     private void OnTriggerExit2D(Collider2D other)
     {
         if (!other.CompareTag("PlayerCenterCollider")
-            || !PlayerManager.Instance.Player.CurrentPlatforms.Contains(this)) return;
+            || !playerManager.Player.CurrentPlatforms.Contains(this)) return;
         
         OnPlayerExited();
     }
@@ -33,7 +37,7 @@ public class FieldController : LevelObjectController
     {
         if (FieldMode.IsSolid || !IsAttached || !FieldMode.CarryPlayer) return;
         
-        PlayerController player = PlayerManager.Instance.Player;
+        PlayerController player = playerManager.Player;
         
         if (!player.CurrentPlatforms.Contains(this)) player.CurrentPlatforms.Add(this);
         
@@ -49,7 +53,7 @@ public class FieldController : LevelObjectController
     
     public void OnPlayerExited()
     {
-        PlayerController player = PlayerManager.Instance.Player;
+        PlayerController player = playerManager.Player;
         
         if (player == null) return;
         

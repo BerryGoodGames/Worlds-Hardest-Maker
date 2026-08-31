@@ -29,6 +29,7 @@ public class CheckpointController : MonoBehaviour, IResettable
     
     [Inject] private EventBus eventBus;
     [Inject] private IAudioService audioService;
+    [Inject] private IFieldManager fieldManager;
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -55,7 +56,7 @@ public class CheckpointController : MonoBehaviour, IResettable
     {
         Activate();
         
-        List<FieldController> neighbors = FieldManager.Instance.GetNeighborsInSheet(gameObject, Sheet);
+        List<FieldController> neighbors = fieldManager.GetNeighborsInSheet(gameObject, Sheet);
         foreach (FieldController n in neighbors)
         {
             if (!n.TryGetComponent(out CheckpointController checkpoint) || checkpoint.Activated) continue;

@@ -14,13 +14,13 @@ public class CameraPlayController : MonoBehaviour
     
     private Vector2Int currentRoom;
 
-    private IRecordingService recordingService;
     private EventBus eventBus;
+    [Inject] private IRecordingService recordingService;
+    [Inject] private IPlayerManager playerManager;
     
     [Inject]
-    private void Construct(IRecordingService recordingService, EventBus eventBus)
+    private void Construct(EventBus eventBus)
     {
-        this.recordingService = recordingService;
         this.eventBus = eventBus;
         
         eventBus.Subscribe<StartPlaytestEvent>(OnStartPlaytest);
@@ -51,7 +51,7 @@ public class CameraPlayController : MonoBehaviour
     {
         if (!LevelSessionEditManager.Instance.IsPlaytesting || recordingService.IsReplaying) return;
         
-        Vector2Int playerRoomPos = PlayerManager.Instance.GetCurrentRoom();
+        Vector2Int playerRoomPos = playerManager.GetCurrentRoom();
         TrackPosition(playerRoomPos);
     }
     
@@ -72,7 +72,7 @@ public class CameraPlayController : MonoBehaviour
         if (smoothMovement && !instant) cam.DOOrthoSize(camOrthoSize, movementDuration).SetEase(Ease.InOutCubic).SetUpdate(true);
         else cam.orthographicSize = camOrthoSize;
         
-        currentRoom = PlayerManager.Instance.GetStartRoom();
+        currentRoom = playerManager.GetStartRoom();
         JumpToRoom(currentRoom, instant);
     }
     

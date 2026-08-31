@@ -1,9 +1,13 @@
 using MyBox;
 using UnityEngine;
+using VContainer;
 
 public class ConfirmQuitPromptController : WarningConfirmPromptController
 {
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform fieldContainer;
+    
+    // TODO: check if injected
+    [Inject] private IPlayerManager playerManager;
     
     public override void OpenPrompt()
     {
@@ -15,7 +19,7 @@ public class ConfirmQuitPromptController : WarningConfirmPromptController
     {
         if (!LevelSessionManager.Instance.IsEdit) return false;
         
-        if (PlayerManager.Instance.Player == null)
+        if (playerManager.Player == null)
         {
             ConfirmationText.text = "Are you sure you want to quit?";
             WarningText.text = "The level does not contain a player!";

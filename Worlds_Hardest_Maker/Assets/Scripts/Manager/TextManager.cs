@@ -2,10 +2,13 @@ using System;
 using MyBox;
 using TMPro;
 using UnityEngine;
+using VContainer;
 
 public class TextManager : MonoBehaviour
 {
     private static TextManager Instance { get; set; } // singleton
+    
+    [Inject] private IPlayerManager playerManager;
     
     #region Text References
     
@@ -30,7 +33,7 @@ public class TextManager : MonoBehaviour
         
         try
         {
-            PlayerController currentPlayer = PlayerManager.Instance.Player;
+            PlayerController currentPlayer = playerManager.Player;
             playerDeaths = currentPlayer.Deaths;
             playerCoinsCollected = CoinManager.Instance.CollectedCoins.Count;
         }

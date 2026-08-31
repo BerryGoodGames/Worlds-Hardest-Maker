@@ -14,6 +14,8 @@ public class AreaFillService : IAreaFillService
     [Inject] private IAreaQueryService areaQueryService;
     [Inject] private IAreaErasureService areaErasureService;
     [Inject] private FieldFactory fieldFactory;
+    [Inject] private IFieldManager fieldManager;
+    [Inject] private IPlayerManager playerManager;
     
     public void FillAreaWithFields(SelectionArea area, FieldMode mode, Transform fieldContainer, Transform playerContainer)
     {
@@ -30,7 +32,7 @@ public class AreaFillService : IAreaFillService
         {
             foreach (Vector2 pos in positions)
             {
-                FieldManager.Instance.CreateNew(pos.ConvertToMatrix(),
+                fieldManager.CreateNew(pos.ConvertToMatrix(),
                     rotation,
                     PlaceManager.GetCurrentSheet(),
                     mode);
@@ -53,12 +55,12 @@ public class AreaFillService : IAreaFillService
         // remove player if at changed pos
         if (!mode.IsStartFieldForPlayer)
         {
-            PlayerController player = PlayerManager.Instance.Player;
+            PlayerController player = playerManager.Player;
             
             if (player != null && player.transform.position.IsBetween(lowest.ToVector2(), highest.ToVector2())) Object.Destroy(player.gameObject);
         }
         
-        FieldManager.Instance.UpdateOutlinesInArea(mode.HasOutline, area);
+        fieldManager.UpdateOutlinesInArea(mode.HasOutline, area);
     }
 
     public void FillArea(SelectionArea area, EditMode editMode, Transform fieldContainer, Transform playerContainer)
@@ -78,7 +80,7 @@ public class AreaFillService : IAreaFillService
         
         foreach (Vector2 pos in positions) PlaceManager.Instance.Place(editMode, pos);
         
-        FieldManager.Instance.UpdateOutlinesInArea(false, area);
+        fieldManager.UpdateOutlinesInArea(false, area);
     }
 
     public void AdaptAreaToFieldType(SelectionArea area, FieldMode mode)

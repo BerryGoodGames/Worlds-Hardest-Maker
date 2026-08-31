@@ -4,7 +4,7 @@ using UnityEngine;
 using VContainer;
 using WorldsHardestMaker.Selection;
 
-public partial class FieldManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerializer
+public partial class FieldManager : MonoBehaviour, IFieldManager, ILevelObjectPlacer, ILevelObjectSerializer
 {
     public static FieldManager Instance { get; private set; }
     
@@ -16,6 +16,7 @@ public partial class FieldManager : MonoBehaviour, ILevelObjectPlacer, ILevelObj
     private EventBus eventBus;
     [Inject] private FieldQueryService fieldQueryService;
     private FieldFactory fieldFactory;
+    [Inject] private IPlayerManager playerManager;
 
     [Inject]
     private void Construct(EventBus eventBus, FieldFactory fieldFactory)
@@ -62,7 +63,7 @@ public partial class FieldManager : MonoBehaviour, ILevelObjectPlacer, ILevelObj
         }
         
         // remove player if at changed pos
-        if (!fieldMode.IsStartFieldForPlayer) PlayerManager.Instance.RemoveAtPosIntersectInSheet(position, sheet);
+        if (!fieldMode.IsStartFieldForPlayer) playerManager.RemoveAtPosIntersectInSheet(position, sheet);
 
         return field;
     }
@@ -71,7 +72,7 @@ public partial class FieldManager : MonoBehaviour, ILevelObjectPlacer, ILevelObj
     {
         FieldController field = fieldQueryService.Find(position, sheet);
         
-        PlayerController player = PlayerManager.Instance.Player;
+        PlayerController player = playerManager.Player;
         if (player != null && player.CurrentPlatforms.Contains(field))
         {
             field.OnPlayerExited();

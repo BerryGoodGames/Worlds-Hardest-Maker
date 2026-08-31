@@ -1,19 +1,22 @@
 using UnityEngine;
+using VContainer;
 
 [DefaultExecutionOrder(-1)]
 public class OneWayController : MonoBehaviour
 {
-
     [SerializeField] private float offset;
     
     private BoxCollider2D collider;
     private Transform playerTransform;
     private Rigidbody2D playerCollider;
     
+    // MAKE SURE THIS IS INJECTED
+    [Inject] private IPlayerManager playerManager;
+    
     void Start()
     {
         collider = GetComponentInChildren<BoxCollider2D>();
-        playerTransform = PlayerManager.Instance.Player.transform;
+        playerTransform = playerManager.Player.transform;
         playerCollider = playerTransform.GetComponent<Rigidbody2D>();
     }
 

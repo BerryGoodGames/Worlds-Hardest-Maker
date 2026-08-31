@@ -33,6 +33,7 @@ public class KeyController : EntityController, IResettable, ICollectible
     private EventBus eventBus;
     [Inject] private IKonamiService konamiService;
     [Inject] private ILevelObjectRegistry<KeyController> keyRegistry;
+    [Inject] private IPlayerManager playerManager;
 
     [Inject]
     private void Construct(EventBus eventBus)
@@ -134,7 +135,7 @@ public class KeyController : EntityController, IResettable, ICollectible
     
     public bool ShouldRespawn()
     {
-        PlayerController player = PlayerManager.Instance.Player;
+        PlayerController player = playerManager.Player;
         if (player == null)
         {
             Debug.LogWarning("Could not find player");
