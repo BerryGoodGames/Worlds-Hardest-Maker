@@ -56,6 +56,12 @@ public class SaveSystem
         };
         
         SerializeLevelData(path, levelData);
+        
+        // reset deltas to zero, avoid adding multiple times when saving again in the future
+        LevelSessionManager.Instance.EditTime = TimeSpan.Zero;
+        LevelSessionManager.Instance.PlayTime = TimeSpan.Zero;
+        LevelSessionManager.Instance.Deaths = 0;
+        LevelSessionManager.Instance.Completions = 0;
     }
     
     public List<Data> SerializeCurrentLevel()
