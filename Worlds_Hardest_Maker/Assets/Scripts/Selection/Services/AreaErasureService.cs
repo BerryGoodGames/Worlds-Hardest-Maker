@@ -40,12 +40,11 @@ public class AreaErasureService : IAreaErasureService
         }
         
         PlayerController player = PlayerManager.Instance.Player;
-        Vector2 playerPosition = player.transform.position;
         ISheet currentSheet = PlaceManager.GetCurrentSheet();
         IEnumerable<FieldMode> startFieldModes = EditModeManager.Instance.AllPlayerStartFieldModes;
         
         if (player != null
-            && !fieldQueryService.IsPosCoveredWithFieldTypeInSheet(playerPosition, currentSheet, startFieldModes))
+            && !fieldQueryService.IsPosCoveredWithFieldTypeInSheet(player.transform.position, currentSheet, startFieldModes))
         {
             PlayerManager.Instance.RemoveAtPos(player.transform.position);
         }

@@ -106,7 +106,13 @@ public class PlayerManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeri
     
     private void RemoveAtPositionInSheet(Vector2 position, ISheet sheet)
     {
-        PlayerController player = positionQueryService.QueryPosition<PlayerController>(position, 0.1f, LayerManager.Instance.Layers.Player, "PlayerCenterCollider", sheet);
+        PlayerController player = positionQueryService.QueryPosition<PlayerController>(
+            position, 0.1f, 
+            LayerManager.Instance.Layers.Player, 
+            "PlayerCenterCollider", 
+            sheet,
+            SheetUtils.SheetCheckingScope.Parent,
+            IPositionQueryService.ComponentCheckingScope.Parent);
         player?.DestroySelf();
     }
     
