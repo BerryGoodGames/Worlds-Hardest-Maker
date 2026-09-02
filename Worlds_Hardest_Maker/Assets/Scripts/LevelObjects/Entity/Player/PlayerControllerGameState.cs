@@ -33,14 +33,14 @@ public partial class PlayerController
     
     private GameState GetGameStateNow()
     {
-        CoinManager.Instance.CollectedCoins.RemoveAll(e => e == null);
+        coinManager.RemoveCollectedCoinNulls();
         keyManager.RemoveCollectedKeyNulls();
         
         // serialize game state
         // convert collectedCoins and collectedKeys to List<Vector2>
         List<Vector2> coinPositions = new();
         
-        foreach (CoinController c in CoinManager.Instance.CollectedCoins) coinPositions.Add(c.InitialPosition);
+        foreach (CoinController c in coinManager.CollectedCoins) coinPositions.Add(c.InitialPosition);
         
         List<Vector2> keyPositions = new();
         foreach (KeyController key in keyManager.CollectedKeys) keyPositions.Add(key.InitialPosition);
@@ -58,7 +58,7 @@ public partial class PlayerController
     public void OnResetLevel(ResetLevelEvent evt)
     {
         DieNormal();
-        CoinManager.Instance.CollectedCoins.Clear();
+        coinManager.ClearCollectedCoins();
         keyManager.ClearCollectedKeys();
         CurrentGameState = null;
     }
@@ -69,7 +69,7 @@ public partial class PlayerController
         {
             if (!coin.ShouldRespawn()) continue;
             
-            CoinManager.Instance.CollectedCoins.Remove(coin);
+            coinManager.UncollectCoin(coin);
             
             coin.PickedUp = false;
             
@@ -87,7 +87,7 @@ public partial class PlayerController
             CoinController coin = coinQueryService.FindAny(coinCollectedPos);
             if (coin == null) throw new Exception("Passed game state has null value for coin");
             
-            CoinManager.Instance.CollectedCoins.Add(coin);
+            coinManager.CollectCoin(coin);
         }
         
         foreach (Vector2 keyCollectedPos in CurrentGameState.CollectedKeys)

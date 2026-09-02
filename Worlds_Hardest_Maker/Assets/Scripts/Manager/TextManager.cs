@@ -9,6 +9,7 @@ public class TextManager : MonoBehaviour
     private static TextManager Instance { get; set; } // singleton
     
     [Inject] private IPlayerProvider playerProvider;
+    [Inject] private ICoinManager coinManager;
     
     #region Text References
     
@@ -35,7 +36,7 @@ public class TextManager : MonoBehaviour
         {
             PlayerController currentPlayer = playerProvider.Player;
             playerDeaths = currentPlayer.Deaths;
-            playerCoinsCollected = CoinManager.Instance.CollectedCoins.Count;
+            playerCoinsCollected = coinManager.CollectedCoins.Count;
         }
         catch (Exception)
         {
@@ -45,7 +46,7 @@ public class TextManager : MonoBehaviour
         }
         
         deathText.text = $"Deaths: {playerDeaths}";
-        coinText.text = $"Coins: {playerCoinsCollected}/{CoinManager.Instance.CoinsNeededFinal}";
+        coinText.text = $"Coins: {playerCoinsCollected}/{coinManager.CoinsNeededFinal}";
         
         if (!LevelSessionManager.Instance.IsEdit) return;
         

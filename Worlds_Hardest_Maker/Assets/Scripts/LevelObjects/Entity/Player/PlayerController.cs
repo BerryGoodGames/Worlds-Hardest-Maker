@@ -63,6 +63,7 @@ public partial class PlayerController : EntityController
     [Inject] private ILevelObjectRegistry<CoinController> coinRegistry;
     [Inject] private ILevelObjectRegistry<BallController> ballRegistry;
     [Inject] private ILevelObjectRegistry<KeyController> keyRegistry;
+    [Inject] private ICoinManager coinManager;
     [Inject] private IKeyManager keyManager;
     
     public static float Speed => LevelSettings.Instance.PlayerSpeed;
@@ -243,7 +244,7 @@ public partial class PlayerController : EntityController
     {
         bool isEdit = LevelSessionManager.Instance.IsEdit;
         
-        CoinManager.Instance.CollectedCoins = new();
+        coinManager.ClearCollectedCoins();
         
         Rb = GetComponent<Rigidbody2D>();
         EdgeCollider = GetComponent<EdgeCollider2D>();

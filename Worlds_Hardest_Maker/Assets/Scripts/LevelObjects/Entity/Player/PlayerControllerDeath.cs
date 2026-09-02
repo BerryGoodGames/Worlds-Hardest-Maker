@@ -101,14 +101,14 @@ public partial class PlayerController
     {
         // update coin counter
         bool hasCheckpointActivated = CurrentGameState != null;
-        CoinManager.Instance.CollectedCoins.Clear();
+        coinManager.ClearCollectedCoins();
         
         if (!hasCheckpointActivated) return;
         
         foreach (Vector2 coinPos in CurrentGameState.CollectedCoins)
         {
             CoinController coin = coinQueryService.FindAny(coinPos);
-            if (coin != null) CoinManager.Instance.CollectedCoins.Add(coin);
+            if (coin != null) coinManager.CollectCoin(coin);
         }
     }
     

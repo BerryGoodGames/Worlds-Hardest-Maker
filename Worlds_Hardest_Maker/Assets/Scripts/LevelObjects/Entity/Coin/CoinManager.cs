@@ -3,20 +3,21 @@ using MyBox;
 using UnityEngine;
 using VContainer;
 
-public class CoinManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerializer
+public class CoinManager : MonoBehaviour, ICoinManager, ILevelObjectPlacer, ILevelObjectSerializer
 {
     public static CoinManager Instance { get; private set; }
     
     [SerializeField] [InitializationField] [MustBeAssigned] private CoinController coinPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform coinContainer;
     
-    [ReadOnly] public List<CoinController> CollectedCoins = new();
+    private readonly List<CoinController> collectedCoins = new();
+    public IReadOnlyList<CoinController> CollectedCoins => collectedCoins;
     
     private int TotalCoins => coinRegistry.All.Count;
     
     public int CoinsNeededFinal =>
         Mathf.Min(LevelSettings.Instance.IsCoinsNeededLimited ? LevelSettings.Instance.CoinsNeeded : TotalCoins, TotalCoins);
-    
+
     private EventBus eventBus;
     [Inject] private CoinPlacementRules placementRules;
     private CoinFactory coinFactory;
@@ -35,7 +36,7 @@ public class CoinManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
         coinFactory.Initialize(coinPrefab, coinContainer);
     }
     
-    private void OnPlayAgain(PlayAgainEvent evt) => CollectedCoins.Clear();
+    private void OnPlayAgain(PlayAgainEvent evt) => collectedCoins.Clear();
     private void OnResetLevel(ResetLevelEvent evt) => ActivateAnimations();
     private void OnSetupPlayScene(SetupPlaySceneEvent evt) => ActivateAnimations();
     
@@ -59,8 +60,28 @@ public class CoinManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerial
         return coin;
     }
     
-    public bool AllCoinsCollected() => CollectedCoins.Count >= CoinsNeededFinal;
+    public void CollectCoin(CoinController coin)
+    {
+        collectedCoins.Add(coin);
+    }
+
+    public void UncollectCoin(CoinController coin)
+    {
+        collectedCoins.Remove(coin);
+    }
     
+    public bool AllCoinsCollected() => collectedCoins.Count >= CoinsNeededFinal;
+    
+    public void RemoveCollectedCoinNulls()
+    {
+        collectedCoins.RemoveAll(coin => coin == null);
+    }
+
+    public void ClearCollectedCoins()
+    {
+        collectedCoins.Clear();
+    }
+
     public void ActivateAnimations() => coinRegistry.All.ForEach(coin => coin.ActivateAnimation());
     
     private void Awake()

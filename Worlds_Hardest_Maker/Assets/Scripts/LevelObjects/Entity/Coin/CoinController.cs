@@ -1,3 +1,4 @@
+using System.Linq;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
@@ -21,6 +22,7 @@ public class CoinController : EntityController, IResettable, ICollectible
     private EventBus eventBus;
     [Inject] private ILevelObjectRegistry<CoinController> coinRegistry;
     [Inject] private IPlayerProvider playerProvider;
+    [Inject] private ICoinManager coinManager;
     
     [Inject]
     private void Construct(EventBus eventBus)
@@ -67,12 +69,12 @@ public class CoinController : EntityController, IResettable, ICollectible
         if (!collision.TryGetComponent(out PlayerController controller)) return;
         
         // check if that player hasn't picked coin up yet
-        if (CoinManager.Instance.CollectedCoins.Contains(this)) return;
+        if (coinManager.CollectedCoins.Any(c => c == this)) return;
         
         Collect();
         
         // check if player is in goal while collecting coin
-        if (!CoinManager.Instance.AllCoinsCollected()) return;
+        if (!coinManager.AllCoinsCollected()) return;
         
         foreach (FieldController field in controller.CurrentFields)
         {
@@ -86,7 +88,7 @@ public class CoinController : EntityController, IResettable, ICollectible
     
     public void Collect()
     {
-        CoinManager.Instance.CollectedCoins.Add(this);
+        coinManager.CollectCoin(this);
         
         // coin counter, sfx, animation
         audioService.Play("PlaceCoin");
