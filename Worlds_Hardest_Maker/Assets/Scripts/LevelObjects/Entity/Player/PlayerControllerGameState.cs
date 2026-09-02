@@ -34,7 +34,7 @@ public partial class PlayerController
     private GameState GetGameStateNow()
     {
         CoinManager.Instance.CollectedCoins.RemoveAll(e => e == null);
-        KeyManager.Instance.CollectedKeys.RemoveAll(e => e == null);
+        keyManager.RemoveCollectedKeyNulls();
         
         // serialize game state
         // convert collectedCoins and collectedKeys to List<Vector2>
@@ -43,7 +43,7 @@ public partial class PlayerController
         foreach (CoinController c in CoinManager.Instance.CollectedCoins) coinPositions.Add(c.InitialPosition);
         
         List<Vector2> keyPositions = new();
-        foreach (KeyController key in KeyManager.Instance.CollectedKeys) keyPositions.Add(key.InitialPosition);
+        foreach (KeyController key in keyManager.CollectedKeys) keyPositions.Add(key.InitialPosition);
         
         GameState res = new()
         {
@@ -59,7 +59,7 @@ public partial class PlayerController
     {
         DieNormal();
         CoinManager.Instance.CollectedCoins.Clear();
-        KeyManager.Instance.CollectedKeys.Clear();
+        keyManager.ClearCollectedKeys();
         CurrentGameState = null;
     }
     
@@ -95,7 +95,7 @@ public partial class PlayerController
             KeyController key = keyQueryService.FindAny(keyCollectedPos);
             if (key == null) throw new Exception("Passed game state has null value for key");
             
-            KeyManager.Instance.CollectedKeys.Add(key);
+            keyManager.CollectKey(key);
         }
     }
     
@@ -105,7 +105,7 @@ public partial class PlayerController
         {
             if (!key.ShouldRespawn()) continue;
             
-            KeyManager.Instance.CollectedKeys.Remove(key);
+            keyManager.UncollectKey(key);
             
             key.Collected = false;
             key.Animator.SetBool(pickedUp, false);

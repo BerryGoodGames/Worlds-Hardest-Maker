@@ -150,7 +150,7 @@ public partial class PlayerController
             foreach (GameObject door in GameObject.FindGameObjectsWithTag(tag))
             {
                 KeyDoorFieldController comp = door.GetComponent<KeyDoorFieldController>();
-                if (!KeyManager.Instance.AllKeysCollected(comp.Color)) comp.SetLocked(true);
+                if (!keyManager.AllKeysCollected(comp.Color)) comp.SetLocked(true);
             }
         }
     }

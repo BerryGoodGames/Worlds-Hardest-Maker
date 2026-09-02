@@ -34,6 +34,7 @@ public class KeyController : EntityController, IResettable, ICollectible
     [Inject] private IKonamiService konamiService;
     [Inject] private ILevelObjectRegistry<KeyController> keyRegistry;
     [Inject] private IPlayerProvider playerProvider;
+    [Inject] private IKeyManager keyManager;
 
     [Inject]
     private void Construct(EventBus eventBus)
@@ -100,7 +101,7 @@ public class KeyController : EntityController, IResettable, ICollectible
     
     public void Collect()
     {
-        KeyManager.Instance.CollectedKeys.Add(this);
+        keyManager.CollectKey(this);
         
         // pickup animation and sound
         Animator.SetBool(pickedUpString, true);
@@ -111,9 +112,9 @@ public class KeyController : EntityController, IResettable, ICollectible
         UnlockKeyDoors();
     }
     
-    public void UnlockKeyDoors()
+    private void UnlockKeyDoors()
     {
-        if (!KeyManager.Instance.AllKeysCollected(Color)) return;
+        if (!keyManager.AllKeysCollected(Color)) return;
         
         string tagColor = Color switch
         {

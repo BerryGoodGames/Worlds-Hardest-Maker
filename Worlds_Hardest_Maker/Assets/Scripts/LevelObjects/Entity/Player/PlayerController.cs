@@ -63,6 +63,7 @@ public partial class PlayerController : EntityController
     [Inject] private ILevelObjectRegistry<CoinController> coinRegistry;
     [Inject] private ILevelObjectRegistry<BallController> ballRegistry;
     [Inject] private ILevelObjectRegistry<KeyController> keyRegistry;
+    [Inject] private IKeyManager keyManager;
     
     public static float Speed => LevelSettings.Instance.PlayerSpeed;
     

@@ -3,7 +3,7 @@ using MyBox;
 using UnityEngine;
 using VContainer;
 
-public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerializer
+public class KeyManager : MonoBehaviour, IKeyManager, ILevelObjectPlacer, ILevelObjectSerializer
 {
     public static KeyManager Instance { get; private set; }
     
@@ -14,7 +14,8 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
     [SerializeField] [InitializationField] [MustBeAssigned] private KeyController yellowKeyPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyContainer;
     
-    [ReadOnly] public List<KeyController> CollectedKeys = new();
+    [ReadOnly] public List<KeyController> collectedKeys = new();
+    public IReadOnlyList<KeyController> CollectedKeys => collectedKeys;
     
     private EventBus eventBus;
     [Inject] private KeyQueryService keyQueryService;
@@ -35,7 +36,7 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
         keyFactory.Initialize(grayKeyPrefab, redKeyPrefab, blueKeyPrefab, greenKeyPrefab, yellowKeyPrefab, keyContainer);
     }
     
-    private void OnPlayAgain(PlayAgainEvent evt) => CollectedKeys.Clear();
+    private void OnPlayAgain(PlayAgainEvent evt) => collectedKeys.Clear();
     private void OnResetLevel(ResetLevelEvent evt) => ActivateAnimations();
     private void OnSetupPlayScene(SetupPlaySceneEvent evt) => ActivateAnimations();
     
@@ -71,7 +72,7 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
         
         return key;
     }
-    
+
     public bool AllKeysCollected(KeyColor color)
     {
         // check if every key of specific color is picked up
@@ -90,6 +91,26 @@ public class KeyManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSeriali
     }
     
     public void ActivateAnimations() => keyRegistry.All.ForEach(key => key.ActivateAnimation());
+    
+    public void CollectKey(KeyController key)
+    {
+        collectedKeys.Add(key);
+    }
+    
+    public void UncollectKey(KeyController key)
+    {
+        collectedKeys.Remove(key);
+    }
+    
+    public void RemoveCollectedKeyNulls()
+    {
+        collectedKeys.RemoveAll(key => key == null);
+    }
+
+    public void ClearCollectedKeys()
+    {
+        collectedKeys.Clear();
+    }
 
     public bool CanHandle(EditMode editMode)
     {
