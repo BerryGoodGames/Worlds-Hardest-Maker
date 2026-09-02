@@ -12,11 +12,11 @@ namespace WorldsHardestMaker.Panels
         [Separator] [SerializeField] private List<HideableUIElement> managedButtons;
     
         private PanelUIState currentState;
-        private readonly PanelUIStateService stateService = new();
     
         [Inject] private EventBus eventBus;
         [Inject] private IPanelService panelService;
         [Inject] private IPanelRegistry panelRegistry;
+        [Inject] private PanelUIStateService stateService;
     
         private void ApplyCurrentState()
         {

@@ -41,6 +41,8 @@ public class LevelSessionLifetimeScope : LifetimeScope
 
         builder.RegisterComponentInHierarchy<PanelManager>().As<IPanelService>();
         builder.Register<PanelRegistry>(Lifetime.Singleton).As<IPanelRegistry>();
+
+        builder.Register<PanelUIStateService>(Lifetime.Transient).AsSelf();
         
         builder.Register<AttachmentService>(Lifetime.Singleton).As<IAttachmentService>();
         

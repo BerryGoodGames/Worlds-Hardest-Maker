@@ -22,6 +22,7 @@ namespace WorldsHardestMaker.CopyPaste
         [Inject] private ISelectionStateService selectionStateService;
         [Inject] private IEditModeUIBlockerService uiBlockerService;
         [Inject] private CopyDataFactory copyDataFactory;
+        [Inject] private IAnchorManager anchorManager;
 
         [Inject]
         private void Construct(IObjectResolver diContainer)
@@ -37,7 +38,7 @@ namespace WorldsHardestMaker.CopyPaste
                 return;
             }
         
-            AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+            anchorManager.UpdateBlockListInSelectedAnchor();
 
             List<CopyData> newClipboardData = copyDataFactory.FromArea(area);
             if (newClipboardData.Count == 0)

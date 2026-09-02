@@ -103,7 +103,7 @@ public class PreviewOutlineComponent : MonoBehaviour
 
         segments.Clear();
 
-        ISheet sheet = PlaceManager.GetCurrentSheet();
+        ISheet sheet = PlaceManager.Instance.GetCurrentSheet();
         currentData = dataProvider.GetOutlineData(editMode, position, sheet);
         if (!currentData.Enabled) return;
 

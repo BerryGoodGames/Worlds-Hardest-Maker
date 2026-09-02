@@ -19,6 +19,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
     [Inject] private IMouseService mouseService;
     [Inject] private ISelectionStateService selectionStateService;
     [Inject] private IEditModeUIBlockerService uiBlockerService;
+    [Inject] private IAnchorManager anchorManager;
 
     public void StartPositionInputEdit(AnchorBlockPositionInputController positionInput)
     {
@@ -49,7 +50,7 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         // playButtonTween.SetPlay(LevelSessionEditManager.Instance.Playing);
         // no Menu.BlockMenu = false ! TODO: check if working
         
-        AnchorManager.Instance.SelectedAnchor.RenderLines();
+        anchorManager.SelectedAnchor.RenderLines();
         
         eventBus.Fire(new AnchorPositionEditEndedEvent());
     }
@@ -93,10 +94,10 @@ public class AnchorPositionInputEditManager : MonoBehaviour
         if (!gotNextController)
             // check if loop block is present
         {
-            if (AnchorManager.Instance.SelectedAnchor.LoopBlockIndex != -1)
+            if (anchorManager.SelectedAnchor.LoopBlockIndex != -1)
                 // get first position block after loop block
             {
-                for (int i = AnchorManager.Instance.SelectedAnchor.LoopBlockIndex;
+                for (int i = anchorManager.SelectedAnchor.LoopBlockIndex;
                      i < mainChainController.Children.Count;
                      i++)
                 {

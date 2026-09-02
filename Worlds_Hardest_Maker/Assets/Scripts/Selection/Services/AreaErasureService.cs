@@ -18,7 +18,7 @@ public class AreaErasureService : IAreaErasureService
         // get everything in area
         if (positions.Count == 0) return;
         
-        Collider2D[] hits = areaQueryService.QueryArea(area, LayerManager.Instance.Layers.LevelObjectMask, PlaceManager.GetCurrentSheet());
+        Collider2D[] hits = areaQueryService.QueryArea(area, LayerManager.Instance.Layers.LevelObjectMask, PlaceManager.Instance.GetCurrentSheet());
         
         // DESTROY IT MUHAHAHAHAHAHHAHAHAHAHAHAHAHAHA
         foreach (Collider2D collider in hits)
@@ -34,7 +34,7 @@ public class AreaErasureService : IAreaErasureService
         }
         
         PlayerController player = playerProvider.Player;
-        ISheet currentSheet = PlaceManager.GetCurrentSheet();
+        ISheet currentSheet = PlaceManager.Instance.GetCurrentSheet();
         IEnumerable<FieldMode> startFieldModes = EditModeManager.Instance.AllPlayerStartFieldModes;
         
         if (player != null

@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     [Inject] private SaveSystem saveSystem;
     [Inject] private IPlayerProvider playerProvider;
+    [Inject] private IAnchorManager anchorManager;
     
     private void Awake()
     {
@@ -169,11 +170,11 @@ public class GameManager : MonoBehaviour
     
     public void ClearLevel()
     {
-        if (AnchorManager.Instance.SelectedAnchor != null)
+        if (anchorManager.SelectedAnchor != null)
         {
             if (AnchorAttachManager.Instance.InAttachMode) AnchorAttachManager.Instance.ExitAttachMode();
             
-            AnchorManager.Instance.DeselectAnchor();
+            anchorManager.DeselectAnchor();
         }
         
         

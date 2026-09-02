@@ -9,6 +9,7 @@ public partial class AnchorAttachManager : MonoBehaviour
     [ReadOnly] public bool InAttachMode;
     
     private EventBus eventBus;
+    [Inject] private IAnchorManager anchorManager;
     
     [Inject]
     private void Construct(EventBus eventBus)
@@ -37,12 +38,12 @@ public partial class AnchorAttachManager : MonoBehaviour
     public void EnterAttachMode()
     {
         if (LevelSessionEditManager.Instance.IsPlaying
-            || AnchorManager.Instance.SelectedAnchor == null
+            || anchorManager.SelectedAnchor == null
             || AnchorPositionInputEditManager.Instance.IsEditing) return;
         
         InAttachMode = true;
         
-        HighlightAnchor(AnchorManager.Instance.SelectedAnchor);
+        HighlightAnchor(anchorManager.SelectedAnchor);
         
         eventBus.Fire(new EnterAnchorAttachEvent());
     }
@@ -51,7 +52,7 @@ public partial class AnchorAttachManager : MonoBehaviour
     {
         InAttachMode = false;
         
-        Dehighlight(AnchorManager.Instance.SelectedAnchor);
+        Dehighlight(anchorManager.SelectedAnchor);
         
         eventBus.Fire(new ExitAnchorAttachEvent());
     }

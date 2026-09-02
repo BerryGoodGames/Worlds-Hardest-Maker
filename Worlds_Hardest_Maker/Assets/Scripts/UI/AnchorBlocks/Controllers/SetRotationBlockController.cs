@@ -1,5 +1,6 @@
 using MyBox;
 using TMPro;
+using VContainer;
 
 public class SetRotationBlockController : AnchorBlockController
 {
@@ -13,6 +14,9 @@ public class SetRotationBlockController : AnchorBlockController
     [Separator("Specifics")] [InitializationField] [AutoProperty] public TMP_InputField SpeedInput;
     
     [InitializationField] public TMP_Dropdown UnitInput;
+
+    // TODO: check if injected
+    [Inject] private IAnchorManager anchorManager;
     
     private RotationUnit GetUnit()
     {
@@ -27,7 +31,7 @@ public class SetRotationBlockController : AnchorBlockController
     
     public void UpdateWarnings()
     {
-        AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
-        AnchorManager.Instance.CheckStartRotatingWarnings();
+        anchorManager.UpdateBlockListInSelectedAnchor();
+        anchorManager.CheckStartRotatingWarnings();
     }
 }

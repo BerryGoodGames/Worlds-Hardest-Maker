@@ -3,7 +3,7 @@ using MyBox;
 using UnityEngine;
 using VContainer;
 
-public partial class AnchorManager : MonoBehaviour
+public partial class AnchorManager : MonoBehaviour, IAnchorManager
 {
     public static AnchorManager Instance { get; private set; }
     

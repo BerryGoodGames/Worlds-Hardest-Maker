@@ -3,7 +3,7 @@ using MyBox;
 using UnityEngine;
 using VContainer;
 
-public class BallManager : MonoBehaviour, ILevelObjectPlacer, ILevelObjectSerializer
+public class BallManager : MonoBehaviour, IBallManager, ILevelObjectPlacer, ILevelObjectSerializer
 {
     public static BallManager Instance { get; private set; }
 

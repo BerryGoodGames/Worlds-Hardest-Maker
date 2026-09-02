@@ -42,12 +42,12 @@ public class PreviewVisibilityRulesService
         // mode-specific visibility checks
         if (editMode == EditModeManager.Coin)
         {
-            return coinPlacementRules.CanPlaceInSheet(GetCurrentMousePosition(editMode), PlaceManager.GetCurrentSheet());
+            return coinPlacementRules.CanPlaceInSheet(GetCurrentMousePosition(editMode), PlaceManager.Instance.GetCurrentSheet());
         }
         
         if (editMode is KeyMode)
         {
-            return keyPlacementRules.CanPlaceInSheet(GetCurrentMousePosition(editMode), PlaceManager.GetCurrentSheet());
+            return keyPlacementRules.CanPlaceInSheet(GetCurrentMousePosition(editMode), PlaceManager.Instance.GetCurrentSheet());
         }
 
         return true;

@@ -1,9 +1,13 @@
 using MyBox;
 using UnityEngine;
+using VContainer;
 
 public class BallDragDrop : EntityDragDrop
 {
     [AutoProperty] [SerializeField] private BallController ballController;
+
+    // TODO: check if injected
+    [Inject] private IAnchorManager anchorManager;
     
     protected override void OnMouseDrag()
     {
@@ -11,7 +15,7 @@ public class BallDragDrop : EntityDragDrop
         
         if (ballController.IsParentAnchorNull)
         {
-            if (AnchorManager.Instance.SelectedAnchor == null) base.OnMouseDrag();
+            if (anchorManager.SelectedAnchor == null) base.OnMouseDrag();
         }
         else if (ballController.ParentAnchor.IsSelected) base.OnMouseDrag();
         

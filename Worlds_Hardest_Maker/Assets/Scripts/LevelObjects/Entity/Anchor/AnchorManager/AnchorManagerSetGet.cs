@@ -42,7 +42,7 @@ public partial class AnchorManager : ILevelObjectPlacer, ILevelObjectSerializer
     {
         Vector2 gridPosition = request.Position.ConvertToGrid();
         
-        LevelObjectController result = CreateNew(gridPosition, PlaceManager.GetCurrentSheet());
+        LevelObjectController result = CreateNew(gridPosition, PlaceManager.Instance.GetCurrentSheet());
         
         Select((AnchorController)result);
         LastSelectClick = Time.time;

@@ -2,11 +2,18 @@
 {
     public class PanelUIStateService
     {
+        private readonly IAnchorManager anchorManager;
+        
+        public PanelUIStateService(IAnchorManager anchorManager)
+        {
+            this.anchorManager = anchorManager;
+        }
+        
         public PanelUIState GetCurrentUIState()
         {
             if (LevelSessionEditManager.Instance.IsPlaying) return PanelUIState.Playing;
         
-            bool isAnchorSelected = AnchorManager.Instance.SelectedAnchor != null;
+            bool isAnchorSelected = anchorManager.SelectedAnchor != null;
             bool isAttaching = AnchorAttachManager.Instance.InAttachMode;
             bool isPositionInputEditing = AnchorPositionInputEditManager.Instance.IsEditing;
         

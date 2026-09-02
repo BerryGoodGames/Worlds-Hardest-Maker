@@ -17,7 +17,7 @@ namespace WorldsHardestMaker.CopyPaste
         {
             List<CopyData> result = new();
         
-            Collider2D[] hits = areaQueryService.QueryArea(area, LayerManager.Instance.Layers.LevelObjectMask, PlaceManager.GetCurrentSheet());
+            Collider2D[] hits = areaQueryService.QueryArea(area, LayerManager.Instance.Layers.LevelObjectMask, PlaceManager.Instance.GetCurrentSheet());
         
             List<Vector2> points = HitsToPoints(hits);
         

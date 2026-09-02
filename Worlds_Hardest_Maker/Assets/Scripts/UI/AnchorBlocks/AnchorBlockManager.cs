@@ -29,6 +29,7 @@ public partial class AnchorBlockManager : MonoBehaviour
     private EventBus eventBus;
     [Inject] private IAudioService audioService;
     [Inject] private AnchorBlockViewFactory anchorBlockViewFactory;
+    [Inject] private IAnchorManager anchorManager;
     
     [Inject]
     private void Construct(EventBus eventBus)
@@ -50,7 +51,7 @@ public partial class AnchorBlockManager : MonoBehaviour
     ///     Inserts given anchor block into given string at given index
     /// </summary>
     /// <param name="anchorBlock">
-    ///     The anchor block to insert, if nothing passed then <c>AnchorManager.Instance.DraggedBlock</c>
+    ///     The anchor block to insert, if nothing passed then <c>anchorManager.DraggedBlock</c>
     ///     is passed
     /// </param>
     /// <param name="paramChain">
@@ -89,16 +90,16 @@ public partial class AnchorBlockManager : MonoBehaviour
         
         // update list of blocks in anchor
         mainChainController.UpdateChildrenArray();
-        AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+        anchorManager.UpdateBlockListInSelectedAnchor();
         
         // check warnings
-        AnchorManager.Instance.CheckStartRotatingWarnings();
-        AnchorManager.Instance.CheckStackOverflowWarnings();
+        anchorManager.CheckStartRotatingWarnings();
+        anchorManager.CheckStackOverflowWarnings();
         
         // track loop block index
-        if (anchorBlock is LoopBlockController) AnchorManager.Instance.SelectedAnchor.LoopBlockIndex = siblingIndex;
+        if (anchorBlock is LoopBlockController) anchorManager.SelectedAnchor.LoopBlockIndex = siblingIndex;
         
-        AnchorController selectedAnchor = AnchorManager.Instance.SelectedAnchor;
+        AnchorController selectedAnchor = anchorManager.SelectedAnchor;
         selectedAnchor.RenderLines();
         
         // highlight arrow
@@ -200,13 +201,13 @@ public partial class AnchorBlockManager : MonoBehaviour
         // check for null
         if (anchor == null)
         {
-            if (AnchorManager.Instance.SelectedAnchor == null)
+            if (anchorManager.SelectedAnchor == null)
             {
                 Debug.LogWarning("Tried to load anchor blocks, but both argument and selected anchor are null");
                 return;
             }
             
-            anchor = AnchorManager.Instance.SelectedAnchor;
+            anchor = anchorManager.SelectedAnchor;
         }
         
         EmptyAnchorChains();
@@ -223,11 +224,11 @@ public partial class AnchorBlockManager : MonoBehaviour
                 t);
         }
         
-        AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+        anchorManager.UpdateBlockListInSelectedAnchor();
         
         // update warnings
-        AnchorManager.Instance.CheckStartRotatingWarnings();
-        AnchorManager.Instance.CheckStackOverflowWarnings();
+        anchorManager.CheckStartRotatingWarnings();
+        anchorManager.CheckStackOverflowWarnings();
         
         // update UI
         RectTransform stringController = (RectTransform)mainChainController.transform;

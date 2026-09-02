@@ -33,7 +33,7 @@ public class AreaFillService : IAreaFillService
             {
                 fieldManager.CreateNew(pos.ConvertToMatrix(),
                     rotation,
-                    PlaceManager.GetCurrentSheet(),
+                    PlaceManager.Instance.GetCurrentSheet(),
                     mode);
             }
             
@@ -87,7 +87,7 @@ public class AreaFillService : IAreaFillService
         // clear fields in area
         int fieldLayer = LayerManager.Instance.Layers.Field;
 
-        Collider2D[] fieldHits = areaQueryService.QueryArea(area, fieldLayer, PlaceManager.GetCurrentSheet());
+        Collider2D[] fieldHits = areaQueryService.QueryArea(area, fieldLayer, PlaceManager.Instance.GetCurrentSheet());
 
         foreach (Collider2D fieldHit in fieldHits)
         {

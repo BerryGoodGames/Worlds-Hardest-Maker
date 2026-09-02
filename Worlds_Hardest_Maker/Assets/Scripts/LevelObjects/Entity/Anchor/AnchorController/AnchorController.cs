@@ -57,10 +57,11 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
     [Inject] private IObjectResolver diContainer;
     private EventBus eventBus;
     [Inject] private IDrawService drawService;
+    [Inject] private IAnchorManager anchorManager;
     
     public int LoopBlockIndex { get; set; } = -1;
     
-    public bool IsSelected => AnchorManager.Instance.SelectedAnchor == this;
+    public bool IsSelected => anchorManager.SelectedAnchor == this;
     public bool IsAttaching => AnchorAttachManager.Instance.InAttachMode && IsSelected;
     
     public override EditMode EditMode => EditModeManager.Anchor;
@@ -288,7 +289,7 @@ public partial class AnchorController : EntityController, IResettable, IAnchorBl
         LoopBlockNode = null;
     }
     
-    public override void Delete() => AnchorManager.Instance.Remove(this);
+    public override void Delete() => anchorManager.Remove(this);
     
     public override Data GetData() => new AnchorData(this);
     

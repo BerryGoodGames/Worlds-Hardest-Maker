@@ -78,7 +78,7 @@ public class AnchorData : NonAttachableData
     
     public override void ImportToLevel(Vector2 pos)
     {
-        AnchorController anchor = AnchorManager.Instance.CreateNew(pos, PlaceManager.GetCurrentSheet());
+        AnchorController anchor = AnchorManager.Instance.CreateNew(pos, PlaceManager.Instance.GetCurrentSheet());
         
         foreach (AttachableData data in attachments) data.ImportToLevel(anchor.OwnSheet);
         

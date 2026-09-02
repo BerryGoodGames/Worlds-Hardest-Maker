@@ -80,7 +80,7 @@ public partial class AnchorManager
         // select anchor
         if (!Input.GetMouseButtonDown(0) || !KeyBinds.GetKeyBind("Editor_Modify")) return;
         
-        AnchorController clickedAnchor = anchorQueryService.Find(mouseService.MouseWorldPosGrid, PlaceManager.GetCurrentSheet());
+        AnchorController clickedAnchor = anchorQueryService.Find(mouseService.MouseWorldPosGrid, PlaceManager.Instance.GetCurrentSheet());
         
         if (clickedAnchor == null) return;
         

@@ -99,7 +99,7 @@ public class CoinManager : MonoBehaviour, ICoinManager, ILevelObjectPlacer, ILev
     {
         Vector2 gridPosition = request.Position.ConvertToGrid();
         
-        CoinController result = CreateNew(gridPosition, PlaceManager.GetCurrentSheet());
+        CoinController result = CreateNew(gridPosition, PlaceManager.Instance.GetCurrentSheet());
 
         return PlacementResult.FromController(result);
     }

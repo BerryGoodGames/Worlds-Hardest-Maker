@@ -10,6 +10,7 @@ using Application = UnityEngine.Application;
 public class SaveSystem
 {
     [Inject] private IReadOnlyList<ILevelObjectSerializer> serializers;
+    [Inject] private IAnchorManager anchorManager;
     
     public static string LevelSavePath
     {
@@ -35,7 +36,7 @@ public class SaveSystem
             return;
         }
         
-        AnchorManager.Instance.UpdateBlockListInSelectedAnchor();
+        anchorManager.UpdateBlockListInSelectedAnchor();
         
         // setup level data
         LevelInfo levelInfo = LevelSessionManager.Instance.LoadedLevelData.Info;

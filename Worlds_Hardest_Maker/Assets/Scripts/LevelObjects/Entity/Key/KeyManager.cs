@@ -120,7 +120,7 @@ public class KeyManager : MonoBehaviour, IKeyManager, ILevelObjectPlacer, ILevel
     public PlacementResult Place(PlacementRequest request)
     {
         Vector2 gridPosition = request.Position.ConvertToGrid();
-        ISheet sheet = PlaceManager.GetCurrentSheet();
+        ISheet sheet = PlaceManager.Instance.GetCurrentSheet();
         KeyColor keyColor = ((KeyMode)request.EditMode).KeyColor;
 
         KeyController result = CreateNew(gridPosition, sheet, keyColor);

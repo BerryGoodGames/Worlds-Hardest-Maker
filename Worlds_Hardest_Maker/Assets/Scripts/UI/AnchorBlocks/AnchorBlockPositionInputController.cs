@@ -2,6 +2,7 @@ using System.Globalization;
 using MyBox;
 using TMPro;
 using UnityEngine;
+using VContainer;
 
 public class AnchorBlockPositionInputController : MonoBehaviour
 {
@@ -12,15 +13,18 @@ public class AnchorBlockPositionInputController : MonoBehaviour
     [field: InitializationField]
     [field: MustBeAssigned]
     public PositionAnchorBlockController AnchorBlockController { get; private set; }
+
+    // TODO: check if injected
+    [Inject] private IAnchorManager anchorManager;
     
-    public void OnValueChanged() => AnchorManager.Instance.UpdateSelectedAnchorLines();
+    public void OnValueChanged() => anchorManager.UpdateSelectedAnchorLines();
     
     public void OnButtonClicked() => AnchorPositionInputEditManager.Instance.StartPositionInputEdit(this);
     
     public void SetPositionValues(Vector2 position)
     {
         // subtract anchor origin point
-        position -= (Vector2)AnchorManager.Instance.SelectedAnchor.transform.position;
+        position -= (Vector2)anchorManager.SelectedAnchor.transform.position;
         
         InputX.text = position.x.ToString();
         InputY.text = position.y.ToString();

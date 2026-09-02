@@ -44,7 +44,7 @@ public class PlayerStartFieldPreviewCoordinator : MonoBehaviour
         if (currentEditMode != EditModeManager.Player) return false;
         if (!visibilityRulesService.IsPreviewVisible(currentEditMode)) return false;
 
-        return placementRules.GetAutoPlacedStartFieldPositions(mouseGridPos, PlaceManager.GetCurrentSheet()).Any();
+        return placementRules.GetAutoPlacedStartFieldPositions(mouseGridPos, PlaceManager.Instance.GetCurrentSheet()).Any();
     }
 
     private static Vector2Int[] GetCorners(Vector2 position)

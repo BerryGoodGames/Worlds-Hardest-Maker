@@ -27,7 +27,7 @@ public class CoinData : AttachableData
     
     public override void ImportToLevel(Vector2 pos)
     {
-        CoinManager.Instance.CreateNew(pos, PlaceManager.GetCurrentSheet());
+        CoinManager.Instance.CreateNew(pos, PlaceManager.Instance.GetCurrentSheet());
     }
     
     public override EditMode GetEditMode() => EditModeManager.Coin;

@@ -34,7 +34,7 @@ public class FieldData : AttachableData
     public override void ImportToLevel(Vector2 pos)
     {
         FieldMode mode = EditModeManager.Instance.GetFieldMode(FieldMode);
-        FieldManager.Instance.CreateNew(pos, Rotation, PlaceManager.GetCurrentSheet(), mode);
+        FieldManager.Instance.CreateNew(pos, Rotation, PlaceManager.Instance.GetCurrentSheet(), mode);
     }
     
     public override EditMode GetEditMode() => EditModeManager.Instance.GetFieldMode(FieldMode);

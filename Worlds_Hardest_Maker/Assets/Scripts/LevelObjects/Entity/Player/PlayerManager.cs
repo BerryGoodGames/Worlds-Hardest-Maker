@@ -76,7 +76,7 @@ public class PlayerManager : MonoBehaviour,
     
     public PlayerController Set(Vector2 position)
     {
-        return CreateNew(position, PlaceManager.GetCurrentSheet(), true);
+        return CreateNew(position, PlaceManager.Instance.GetCurrentSheet(), true);
     }
     
     public void RemoveAtPos(Vector2 position)
@@ -167,7 +167,7 @@ public class PlayerManager : MonoBehaviour,
     {
         Vector2 gridPosition = request.Position.ConvertToGrid();
 
-        PlayerController result = CreateNew(gridPosition, PlaceManager.GetCurrentSheet(), true);
+        PlayerController result = CreateNew(gridPosition, PlaceManager.Instance.GetCurrentSheet(), true);
 
         return PlacementResult.FromController(result);
     }

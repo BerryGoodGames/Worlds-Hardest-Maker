@@ -19,6 +19,7 @@ public class PlaceManager : MonoBehaviour
     [Inject] private IAudioService audioService;
     [Inject] private IReadOnlyList<ILevelObjectPlacer> placers;
     [Inject] private IKonamiService konamiService;
+    [Inject] private IAnchorManager anchorManager;
 
     /// <summary>
     ///     Places edit mode at position
@@ -57,10 +58,10 @@ public class PlaceManager : MonoBehaviour
         LineForEach(start, end, pos => Place(editMode, pos, rotation));
     }
     
-    public static ISheet GetCurrentSheet()
+    public ISheet GetCurrentSheet()
     {
         return AnchorAttachManager.Instance.InAttachMode
-            ? AnchorManager.Instance.SelectedAnchor.OwnSheet
+            ? anchorManager.SelectedAnchor.OwnSheet
             : GlobalSheet.Instance;
     }
     

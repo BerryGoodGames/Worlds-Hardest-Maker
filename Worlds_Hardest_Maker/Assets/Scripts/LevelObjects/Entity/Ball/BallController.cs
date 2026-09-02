@@ -22,6 +22,7 @@ public class BallController : EntityController
     
     private EventBus eventBus;
     [Inject] private ILevelObjectRegistry<BallController> ballRegistry;
+    [Inject] private IBallManager ballManager;
     
     [Inject]
     private void Construct(EventBus eventBus)
@@ -64,7 +65,7 @@ public class BallController : EntityController
         {
             ParentAnchor.Balls.Remove(transform.parent);
         }
-        BallManager.Instance.RemoveFromSheetRegistry(this);
+        ballManager.RemoveFromSheetRegistry(this);
         
         Destroy(transform.parent.gameObject);
         
