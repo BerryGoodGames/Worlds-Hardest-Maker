@@ -8,7 +8,7 @@ public class TextManager : MonoBehaviour
 {
     private static TextManager Instance { get; set; } // singleton
     
-    [Inject] private IPlayerManager playerManager;
+    [Inject] private IPlayerProvider playerProvider;
     
     #region Text References
     
@@ -33,7 +33,7 @@ public class TextManager : MonoBehaviour
         
         try
         {
-            PlayerController currentPlayer = playerManager.Player;
+            PlayerController currentPlayer = playerProvider.Player;
             playerDeaths = currentPlayer.Deaths;
             playerCoinsCollected = CoinManager.Instance.CollectedCoins.Count;
         }

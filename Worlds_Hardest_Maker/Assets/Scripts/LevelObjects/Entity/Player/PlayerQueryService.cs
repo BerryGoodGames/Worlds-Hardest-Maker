@@ -2,21 +2,21 @@
 
 public class PlayerQueryService : ILevelObjectQuery<PlayerController>
 {
-    private readonly IPlayerManager playerManager;
+    private readonly IPlayerProvider playerProvider;
 
-    public PlayerQueryService(IPlayerManager playerManager)
+    public PlayerQueryService(IPlayerProvider playerProvider)
     {
-        this.playerManager = playerManager;
+        this.playerProvider = playerProvider;
     }
     
     public PlayerController Find(Vector2 position, ISheet sheet)
     {
-        return Exists(position, sheet) ? playerManager.Player : null;
+        return Exists(position, sheet) ? playerProvider.Player : null;
     }
 
     public bool Exists(Vector2 position, ISheet sheet)
     {
-        PlayerController player = playerManager.Player;
+        PlayerController player = playerProvider.Player;
         if (player == null) return false;
         if (player.Sheet != sheet) return false;
         if ((Vector2)player.transform.position != position) return false;

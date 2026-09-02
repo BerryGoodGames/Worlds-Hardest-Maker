@@ -20,7 +20,7 @@ public class CoinController : EntityController, IResettable, ICollectible
     
     private EventBus eventBus;
     [Inject] private ILevelObjectRegistry<CoinController> coinRegistry;
-    [Inject] private IPlayerManager playerManager;
+    [Inject] private IPlayerProvider playerProvider;
     
     [Inject]
     private void Construct(EventBus eventBus)
@@ -97,7 +97,7 @@ public class CoinController : EntityController, IResettable, ICollectible
     
     public bool ShouldRespawn()
     {
-        PlayerController player = playerManager.Player;
+        PlayerController player = playerProvider.Player;
         if (player == null)
         {
             Debug.LogWarning("Could not find player");

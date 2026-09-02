@@ -72,6 +72,8 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.Register<PlayerQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<PlayerController>>();
         builder.Register<PlayerFactory>(Lifetime.Singleton).AsSelf();
         builder.Register<PlayerPlacementRules>(Lifetime.Singleton).AsSelf();
+        builder.Register<PlayerStartFieldResolver>(Lifetime.Singleton).AsSelf();
+        builder.Register<CurrentPlayerProvider>(Lifetime.Singleton).As<IPlayerProvider>();
         
         builder.RegisterComponentInHierarchy<KeyManager>().AsImplementedInterfaces();
         builder.Register<KeyQueryService>(Lifetime.Singleton).As<ILevelObjectQuery<KeyController>>().AsSelf();

@@ -3,11 +3,12 @@ using MyBox;
 using UnityEngine;
 using VContainer;
 
-public class PlayerManager : MonoBehaviour, IPlayerManager, ILevelObjectPlacer, ILevelObjectSerializer
+public class PlayerManager : MonoBehaviour, 
+    IPlayerManager, 
+    ILevelObjectPlacer, 
+    ILevelObjectSerializer
 {
     public static PlayerManager Instance { get; private set; }
-    
-    [ReadOnly] public PlayerController Player { get; private set; }
     
     [SerializeField] [InitializationField] [MustBeAssigned] private PlayerController playerPrefab;
     [SerializeField] [InitializationField] [MustBeAssigned] private JumpToEntity mainCameraJumper;   
@@ -16,12 +17,13 @@ public class PlayerManager : MonoBehaviour, IPlayerManager, ILevelObjectPlacer, 
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform coinContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyContainer;
 
+    [Inject] private IObjectResolver diContainer;
     private EventBus eventBus;
     [Inject] private IPositionQueryService positionQueryService;
     [Inject] private ILevelObjectQuery<PlayerController> playerQueryService;
     [Inject] private PlayerPlacementRules placementRules;
     private PlayerFactory playerFactory;
-    [Inject] private IFieldManager fieldManager;
+    [Inject] private IPlayerProvider playerProvider;
 
     [Inject]
     private void Construct(EventBus eventBus, PlayerFactory playerFactory)
@@ -33,7 +35,10 @@ public class PlayerManager : MonoBehaviour, IPlayerManager, ILevelObjectPlacer, 
         playerFactory.Initialize(playerPrefab, mainCameraJumper, timerController, playerContainer);
     }
 
-    private void OnResetLevel(ResetLevelEvent evt) => Player?.Setup();
+    private void OnResetLevel(ResetLevelEvent evt)
+    {
+        if (playerProvider.HasPlayer) playerProvider.Player.Setup();
+    }
 
     private void OnDestroy()
     {
@@ -46,7 +51,7 @@ public class PlayerManager : MonoBehaviour, IPlayerManager, ILevelObjectPlacer, 
         
         if (surroundWithStartFields)
         {
-            CreateStartFields(placementRules.GetAutoPlacedStartFieldPositions(position, sheet), sheet);
+            diContainer.Resolve<PlayerStartFieldResolver>().OnPlayerPlaced(position, sheet);
         }
         
         // clear area from coins and keys
@@ -54,7 +59,7 @@ public class PlayerManager : MonoBehaviour, IPlayerManager, ILevelObjectPlacer, 
         GameManager.Instance.RemoveObjectInContainer(position, keyContainer);
         
         // if player already exists, just move it
-        if (Player != null) Player.ReSet(position, sheet);
+        if (playerProvider.HasPlayer) playerProvider.Player.ReSet(position, sheet);
         else
         {
             // place player
@@ -63,36 +68,15 @@ public class PlayerManager : MonoBehaviour, IPlayerManager, ILevelObjectPlacer, 
             // set target of camera
             mainCameraJumper.SetTarget("Player", newPlayer.gameObject);
             
-            Player = newPlayer;
+            playerProvider.SetPlayer(newPlayer);
         }
         
-        return Player;
-    }
-    
-    private void CreateStartFields(IEnumerable<Vector2Int> positions, ISheet sheet)
-    {
-        foreach (Vector2Int pos in positions) fieldManager.CreateNew(pos, 0, sheet, EditModeManager.Start);
+        return playerProvider.Player;
     }
     
     public PlayerController Set(Vector2 position)
     {
         return CreateNew(position, PlaceManager.GetCurrentSheet(), true);
-    }
-    
-    private List<FieldController> SetSurroundingStartFieldsInSheet(Vector2 position, ISheet sheet)
-    {
-        List<FieldController> result = new();
-        
-        IEnumerable<Vector2Int> checkPoses = position.GetIntersectionPositions();
-        
-        foreach (Vector2Int checkPosition in checkPoses)
-        {
-            FieldController newField = fieldManager.CreateNew(checkPosition, 0, sheet, EditModeManager.Start);
-            
-            result.Add(newField);
-        }
-        
-        return result;
     }
     
     public void RemoveAtPos(Vector2 position)
@@ -151,7 +135,7 @@ public class PlayerManager : MonoBehaviour, IPlayerManager, ILevelObjectPlacer, 
         
         foreach (Vector2 d in deltas)
         {
-            bool isThere = Player != null && (Vector2)Player.transform.position == position + d;
+            bool isThere = playerProvider.HasPlayer && (Vector2)playerProvider.Player.transform.position == position + d;
             if (isThere) return true;
         }
         
@@ -160,12 +144,12 @@ public class PlayerManager : MonoBehaviour, IPlayerManager, ILevelObjectPlacer, 
     
     public Vector2Int GetCurrentRoom()
     {
-        return Player != null ? Player.GetCurrentRoom() : Vector2Int.zero;
+        return playerProvider.HasPlayer ? playerProvider.Player.GetCurrentRoom() : Vector2Int.zero;
     }
 
     public Vector2Int GetStartRoom()
     {
-        return Player != null ? Player.GetStartRoom() : Vector2Int.zero;
+        return playerProvider.HasPlayer ? playerProvider.Player.GetStartRoom() : Vector2Int.zero;
     }
 
     private void Awake()
@@ -191,9 +175,9 @@ public class PlayerManager : MonoBehaviour, IPlayerManager, ILevelObjectPlacer, 
     public IEnumerable<Data> Serialize()
     {
         List<Data> levelData = new();
-        if (Player == null || Player.IsAttached) return levelData;
+        if (!playerProvider.HasPlayer || playerProvider.Player.IsAttached) return levelData;
         
-        PlayerData playerData = new(Player);
+        PlayerData playerData = new(playerProvider.Player);
         levelData.Add(playerData);
         
         return levelData;

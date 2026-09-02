@@ -11,12 +11,12 @@ public class OneWayController : MonoBehaviour
     private Rigidbody2D playerCollider;
     
     // MAKE SURE THIS IS INJECTED
-    [Inject] private IPlayerManager playerManager;
+    [Inject] private IPlayerProvider playerProvider;
     
     void Start()
     {
         collider = GetComponentInChildren<BoxCollider2D>();
-        playerTransform = playerManager.Player.transform;
+        playerTransform = playerProvider.Player.transform;
         playerCollider = playerTransform.GetComponent<Rigidbody2D>();
     }
 

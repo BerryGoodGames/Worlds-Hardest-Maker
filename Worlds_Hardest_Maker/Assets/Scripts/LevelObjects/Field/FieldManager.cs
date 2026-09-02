@@ -13,10 +13,11 @@ public partial class FieldManager : MonoBehaviour, IFieldManager, ILevelObjectPl
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform coinContainer;
     [SerializeField] [InitializationField] [MustBeAssigned] private Transform keyContainer;
 
+    [Inject] private IObjectResolver diContainer;
     private EventBus eventBus;
     [Inject] private FieldQueryService fieldQueryService;
     private FieldFactory fieldFactory;
-    [Inject] private IPlayerManager playerManager;
+    [Inject] private IPlayerProvider playerProvider;
 
     [Inject]
     private void Construct(EventBus eventBus, FieldFactory fieldFactory)
@@ -62,8 +63,7 @@ public partial class FieldManager : MonoBehaviour, IFieldManager, ILevelObjectPl
                               SettingsManager.Instance.OneColorSafeFields);
         }
         
-        // remove player if at changed pos
-        if (!fieldMode.IsStartFieldForPlayer) playerManager.RemoveAtPosIntersectInSheet(position, sheet);
+        diContainer.Resolve<PlayerStartFieldResolver>().OnFieldPlaced(position, sheet, fieldMode);
 
         return field;
     }
@@ -72,7 +72,7 @@ public partial class FieldManager : MonoBehaviour, IFieldManager, ILevelObjectPl
     {
         FieldController field = fieldQueryService.Find(position, sheet);
         
-        PlayerController player = playerManager.Player;
+        PlayerController player = playerProvider.Player;
         if (player != null && player.CurrentPlatforms.Contains(field))
         {
             field.OnPlayerExited();

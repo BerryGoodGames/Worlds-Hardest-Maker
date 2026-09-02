@@ -8,6 +8,7 @@ public class AreaErasureService : IAreaErasureService
     [Inject] private IAreaQueryService areaQueryService;
     [Inject] private FieldQueryService fieldQueryService;
     [Inject] private IFieldManager fieldManager;
+    [Inject] private IPlayerProvider playerProvider;
     [Inject] private IPlayerManager playerManager;
     
     public void EraseArea(SelectionArea area)
@@ -32,7 +33,7 @@ public class AreaErasureService : IAreaErasureService
             }
         }
         
-        PlayerController player = playerManager.Player;
+        PlayerController player = playerProvider.Player;
         ISheet currentSheet = PlaceManager.GetCurrentSheet();
         IEnumerable<FieldMode> startFieldModes = EditModeManager.Instance.AllPlayerStartFieldModes;
         

@@ -19,9 +19,9 @@ namespace WorldsHardestMaker.PlayerRecording.Recording
             this.runner = runner;
         }
 
-        public void Initialize(IPlayerManager playerManager)
+        public void Initialize(IPlayerProvider playerProvider)
         {
-            recorder.Initialize(playerManager);
+            recorder.Initialize(playerProvider);
         }
 
         public void SetRunner(MonoBehaviour runner)

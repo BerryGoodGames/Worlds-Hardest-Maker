@@ -13,7 +13,7 @@ public class PlayManager : MonoBehaviour
     [SerializeField] [InitializationField] [MustBeAssigned] private AlphaTween menuTween;
     
     private EventBus eventBus;
-    [Inject] private IPlayerManager playerManager;
+    [Inject] private IPlayerProvider playerProvider;
     
     private bool cheated;
     
@@ -85,7 +85,7 @@ public class PlayManager : MonoBehaviour
             
             infobarPlayTween.SetPlay(true);
             
-            if (playerManager.Player != null) playerManager.Player.Setup();
+            if (playerProvider.HasPlayer) playerProvider.Player.Setup();
             
             timerController.StartTimer();
             

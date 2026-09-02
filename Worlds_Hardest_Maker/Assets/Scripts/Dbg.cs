@@ -48,6 +48,7 @@ public class Dbg : MonoBehaviour
     private Camera cam;
     
     [Inject] private IPlayerManager playerManager;
+    [Inject] private IPlayerProvider playerProvider;
     
     private void Awake()
     {
@@ -107,7 +108,7 @@ public class Dbg : MonoBehaviour
                 DbgTextMode.Custom => string.Empty,
                 DbgTextMode.Count => Count,
                 DbgTextMode.FPS => Mathf.Round(1 / Time.unscaledDeltaTime),
-                DbgTextMode.PlayerPosition => (Vector2)playerManager.Player.transform.position,
+                DbgTextMode.PlayerPosition => (Vector2)playerProvider.Player.transform.position,
                 DbgTextMode.MousePositionUnits => (Vector2)cam.ScreenToWorldPoint(Input.mousePosition),
                 DbgTextMode.MousePositionPixels => (Vector2)Input.mousePosition,
                 _ => throw new ArgumentOutOfRangeException(),

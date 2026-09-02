@@ -14,19 +14,19 @@ namespace WorldsHardestMaker.PlayerRecording.Recording
         private readonly List<RawFrame> recordedPositions = new();
         public IReadOnlyList<RawFrame> Frames => recordedPositions.AsReadOnly();
         
-        private IPlayerManager playerManager;
+        private IPlayerProvider playerProvider;
 
-        public void Initialize(IPlayerManager playerManager)
+        public void Initialize(IPlayerProvider playerProvider)
         {
-            this.playerManager = playerManager;
+            this.playerProvider = playerProvider;
         }
     
         public IEnumerator Record()
         {
-            if (playerManager.Player == null) yield return new WaitForEndOfFrame();
-            if (playerManager.Player == null) yield break;
+            if (!playerProvider.HasPlayer) yield return new WaitForEndOfFrame();
+            if (!playerProvider.HasPlayer) yield break;
         
-            PlayerController player = playerManager.Player;
+            PlayerController player = playerProvider.Player;
         
             recordedPositions.Clear();
         

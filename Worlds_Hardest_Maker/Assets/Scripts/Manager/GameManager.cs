@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     [Separator("Save")] [SerializeField] [PositiveValueOnly] private float autoSaveInterval = 300;
 
     [Inject] private SaveSystem saveSystem;
-    [Inject] private IPlayerManager playerManager;
+    [Inject] private IPlayerProvider playerProvider;
     
     private void Awake()
     {
@@ -177,7 +177,7 @@ public class GameManager : MonoBehaviour
         }
         
         
-        if (playerManager.Player != null) playerManager.Player.DestroySelf();
+        if (playerProvider.HasPlayer) playerProvider.Player.DestroySelf();
         
         List<Transform> containers = new()
         {

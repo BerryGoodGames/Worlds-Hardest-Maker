@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 using VContainer;
-using VContainer.Unity;
 using WorldsHardestMaker.Selection;
 using Object = UnityEngine.Object;
 
@@ -15,7 +14,7 @@ public class AreaFillService : IAreaFillService
     [Inject] private IAreaErasureService areaErasureService;
     [Inject] private FieldFactory fieldFactory;
     [Inject] private IFieldManager fieldManager;
-    [Inject] private IPlayerManager playerManager;
+    [Inject] private IPlayerProvider playerProvider;
     
     public void FillAreaWithFields(SelectionArea area, FieldMode mode, Transform fieldContainer, Transform playerContainer)
     {
@@ -55,7 +54,7 @@ public class AreaFillService : IAreaFillService
         // remove player if at changed pos
         if (!mode.IsStartFieldForPlayer)
         {
-            PlayerController player = playerManager.Player;
+            PlayerController player = playerProvider.Player;
             
             if (player != null && player.transform.position.IsBetween(lowest.ToVector2(), highest.ToVector2())) Object.Destroy(player.gameObject);
         }

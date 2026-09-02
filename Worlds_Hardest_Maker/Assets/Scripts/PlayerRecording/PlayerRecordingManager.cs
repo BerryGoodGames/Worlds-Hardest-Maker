@@ -16,7 +16,7 @@ namespace WorldsHardestMaker.PlayerRecording
         private RecordingAnalyzer analyzer;
     
         private EventBus eventBus;
-        [Inject] private IPlayerManager playerManager;
+        [Inject] private IPlayerProvider playerProvider;
     
         public bool IsReplaying { get; private set; }
     
@@ -39,7 +39,7 @@ namespace WorldsHardestMaker.PlayerRecording
             visibilityController = new(renderingController, eventBus);
             analyzer = new();
         
-            recordingController.Initialize(playerManager);
+            recordingController.Initialize(playerProvider);
             recordingController.SetRunner(this);
             renderingController.SetRunner(this);
             renderingController.SetFrameStorages(analyzer, recordingController);
