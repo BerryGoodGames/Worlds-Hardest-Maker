@@ -28,6 +28,8 @@ public class LevelListLoader : MonoBehaviour
     
     [InitializationField] [MustBeAssigned] public ContentSizeFitter LevelCardContentSizeFitter;
     
+    [SerializeField] [InitializationField] [MustBeAssigned] private TMP_InputField downloadLevelPromptText;
+    
     [SerializeField] [InitializationField] [MustBeAssigned] private GameObject itsEmptyInHere;
     
     private FileInfo[] prevLevelInfo;
@@ -42,6 +44,7 @@ public class LevelListLoader : MonoBehaviour
     };
     
     [Inject] private IObjectResolver diContainer;
+    [Inject] private OnlineLevelService onlineLevelService;
     
     private void Awake()
     {
@@ -199,6 +202,27 @@ public class LevelListLoader : MonoBehaviour
     public void UpdateSortSetting() => SortSetting = stringToSetting[sortInput.options[sortInput.value].text];
     
     public void UpdateSortOrder() => IsDescending = sortOrderButton.IsUp;
+
+    public void DownloadLevelFromPrompt()
+    {
+        DownloadLevel(downloadLevelPromptText.text.Trim());
+    }
+    
+    public void DownloadLevel(string code)
+    {
+        onlineLevelService.DownloadLevel(code).ContinueWith(task =>
+        {
+            if (task.IsFaulted)
+            {
+                Debug.LogError($"Failed to download level: {task.Exception?.Message}");
+                return;
+            }
+
+            string localPath = task.Result;
+            Debug.Log($"Level downloaded and saved to: {localPath}");
+            Refresh(true);
+        });
+    }
 }
 
 public enum SortSettings

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Supabase.Postgrest.Attributes;
 using Client = Supabase.Client;
 
-[Table("levels")]
+// NOTE: [Table("levels")] belongs on OnlineLevelRecord, not here — see below.
 public class OnlineLevelService
 {
     private readonly Client supabase;
@@ -26,7 +25,7 @@ public class OnlineLevelService
         await EnsureSignedIn();
 
         string userId = supabase.Auth.CurrentUser!.Id;
-        string code = GenerateUniqueCode();
+        string code = await GenerateUniqueCode();
         string storagePath = $"{code}.whm";
 
         byte[] fileBytes = await File.ReadAllBytesAsync(localPath);
@@ -45,7 +44,19 @@ public class OnlineLevelService
             Published = true,
         };
 
-        await supabase.From<OnlineLevelRecord>().Insert(record);
+        try
+        {
+            await supabase.From<OnlineLevelRecord>().Insert(record);
+        }
+        catch (Exception e)
+        {
+            // Roll back the storage upload if the DB insert fails (e.g. unique constraint race),
+            // otherwise we leak an orphaned file with no record pointing to it.
+            try { await supabase.Storage.From("levels").Remove(new System.Collections.Generic.List<string> { storagePath }); }
+            catch { /* best-effort cleanup, ignore secondary failure */ }
+
+            throw new Exception($"Failed to publish level: {e.Message}", e);
+        }
 
         return code;
     }
@@ -71,22 +82,29 @@ public class OnlineLevelService
 
         return localPath;
     }
-    
-    private static string GenerateUniqueCode()
+
+    private async Task<string> GenerateUniqueCode()
     {
-        string code;
-        do
+        const int MAX_ATTEMPTS = 10;
+
+        for (int attempt = 0; attempt < MAX_ATTEMPTS; attempt++)
         {
-            code = GenerateRandomCode();
-        } while (DoesCodeExist(code));
-        return code;
+            string code = GenerateRandomCode();
+            if (!await DoesCodeExist(code)) return code;
+        }
+
+        // Astronomically unlikely with a 6-char/33-symbol alphabet, but fail loudly rather than
+        // silently handing out a colliding code.
+        throw new Exception($"Could not generate a unique level code after {MAX_ATTEMPTS} attempts");
     }
-    
-    private static bool DoesCodeExist(string code)
+
+    private async Task<bool> DoesCodeExist(string code)
     {
-        // This is a placeholder for the actual implementation that checks if the code exists in the database.
-        // You would typically call your database service here to check for the existence of the code.
-        throw new NotImplementedException("Code existence check not implemented.");
+        OnlineLevelRecord existing = await supabase.From<OnlineLevelRecord>()
+            .Where(r => r.Code == code)
+            .Single();
+
+        return existing != null;
     }
 
     private static string GenerateRandomCode()

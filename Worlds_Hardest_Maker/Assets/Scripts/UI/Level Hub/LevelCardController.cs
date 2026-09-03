@@ -6,6 +6,7 @@ using SFB;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using VContainer;
 
 public class LevelCardController : MonoBehaviour, IPointerClickHandler
 {
@@ -87,6 +88,8 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
     [HideInInspector] public string LevelPath;
     
     public string LevelName => Path.GetFileName(LevelPath);
+
+    [Inject] private OnlineLevelService onlineLevelService;
     
     public void EditLevel()
     {
@@ -106,6 +109,24 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
         TransitionManager.Instance.LevelSessionMode = LevelSessionMode.Play;
         TransitionManager.Instance.RoomSize = Vector2Int.zero;
         MainMenuManager.Instance.OpenLevelScene();
+    }
+
+    public void UploadLevel()
+    {
+        onlineLevelService.UploadLevel(LevelPath, Name, Description).ContinueWith(task =>
+        {
+            if (task.IsCompletedSuccessfully)
+            {
+                string code = task.Result;
+                Debug.Log($"Level uploaded successfully. Join code: {code}");
+                // LevelHubManager.Instance.ShowUploadSuccessPrompt(code);
+            }
+            else
+            {
+                Debug.LogError($"Failed to upload level: {task.Exception}");
+                // LevelHubManager.Instance.ShowUploadFailurePrompt();
+            }
+        });
     }
     
     public void OpenDeleteWarning()

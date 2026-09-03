@@ -11,9 +11,10 @@ public class LevelHubManager : MonoBehaviour
     [InitializationField] [MustBeAssigned] public WarningConfirmPromptController DeleteWarningPrompt;
     [InitializationField] [MustBeAssigned] public AlphaTween DeleteWarningBlockerTween;
     
-    [InitializationField] [MustBeAssigned] public Transform TooltipContainer;
+    [InitializationField] [MustBeAssigned] public WarningConfirmPromptController DownloadLevelPrompt;
+    [InitializationField] [MustBeAssigned] public AlphaTween DownloadLevelBlockerTween;
     
-    [InitializationField] [MustBeAssigned] public SmoothScrollRect LevelListScrollRect;
+    [InitializationField] [MustBeAssigned] public Transform TooltipContainer;
     
     [HideInInspector] public LevelCardController CurrentDeletingLevelCard;
     
@@ -66,6 +67,18 @@ public class LevelHubManager : MonoBehaviour
         
         if (CurrentDeletingLevelCard != null) CurrentDeletingLevelCard.DeleteLevel();
         CurrentDeletingLevelCard = null;
+    }
+
+    public void DownloadLevel()
+    {
+        DownloadLevelPrompt.OpenPrompt();
+        DownloadLevelBlockerTween.SetVisible(true);
+    }
+    
+    public void CancelDownload()
+    {
+        DownloadLevelPrompt.ClosePrompt();
+        DownloadLevelBlockerTween.SetVisible(false);
     }
     
     private void Awake()
