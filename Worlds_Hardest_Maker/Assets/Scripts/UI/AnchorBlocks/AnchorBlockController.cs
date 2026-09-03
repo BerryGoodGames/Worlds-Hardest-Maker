@@ -20,7 +20,7 @@ public abstract partial class AnchorBlockController : MonoBehaviour
     public AnchorBlock Block { get; set; }
     
     [Inject] private IAudioService audioService;
-    [Inject] private IAnchorManager anchorManager;
+    [Inject] protected IAnchorManager AnchorManager;
     
     public abstract AnchorBlock GetAnchorBlock(AnchorController anchorController);
     
@@ -47,8 +47,8 @@ public abstract partial class AnchorBlockController : MonoBehaviour
             input.InputField.onValueChanged.AddListener(
                 _ =>
                 {
-                    anchorManager.UpdateBlockListInSelectedAnchor();
-                    anchorManager.CheckStackOverflowWarnings();
+                    AnchorManager.UpdateBlockListInSelectedAnchor();
+                    AnchorManager.CheckStackOverflowWarnings();
                 }
             );
         }
@@ -67,14 +67,14 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         {
             ReferenceManager.Instance.MainChainController.UpdateChildrenArray();
             
-            anchorManager.UpdateBlockListInSelectedAnchor();
-            anchorManager.CheckStackOverflowWarnings();
+            AnchorManager.UpdateBlockListInSelectedAnchor();
+            AnchorManager.CheckStackOverflowWarnings();
             
             ReferenceManager.Instance.AnchorBlockConnectorController.UpdateY();
             
-            anchorManager.UpdateSelectedAnchorLines();
+            AnchorManager.UpdateSelectedAnchorLines();
             
-            if (this is LoopBlockController) anchorManager.SelectedAnchor.LoopBlockIndex = -1;
+            if (this is LoopBlockController) AnchorManager.SelectedAnchor.LoopBlockIndex = -1;
         }
         
         Destroy(gameObject);
@@ -95,14 +95,14 @@ public abstract partial class AnchorBlockController : MonoBehaviour
         restrict.enabled = true;
         
         // re-render path lines
-        anchorManager.UpdateBlockListInSelectedAnchor();
-        anchorManager.SelectedAnchor.RenderLines();
+        AnchorManager.UpdateBlockListInSelectedAnchor();
+        AnchorManager.SelectedAnchor.RenderLines();
         
-        anchorManager.CheckStackOverflowWarnings();
+        AnchorManager.CheckStackOverflowWarnings();
         
         ReferenceManager.Instance.AnchorBlockConnectorController.UpdateY();
         
-        if (this is LoopBlockController) anchorManager.SelectedAnchor.LoopBlockIndex = -1;
+        if (this is LoopBlockController) AnchorManager.SelectedAnchor.LoopBlockIndex = -1;
         
         SetWarning(false);
         

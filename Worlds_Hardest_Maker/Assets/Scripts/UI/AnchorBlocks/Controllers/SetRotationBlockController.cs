@@ -16,7 +16,7 @@ public class SetRotationBlockController : AnchorBlockController
     [InitializationField] public TMP_Dropdown UnitInput;
 
     // TODO: check if injected
-    [Inject] private IAnchorManager anchorManager;
+    // [Inject] private IAnchorManager anchorManager;
     
     private RotationUnit GetUnit()
     {
@@ -31,7 +31,7 @@ public class SetRotationBlockController : AnchorBlockController
     
     public void UpdateWarnings()
     {
-        anchorManager.UpdateBlockListInSelectedAnchor();
-        anchorManager.CheckStartRotatingWarnings();
+        AnchorManager.UpdateBlockListInSelectedAnchor();
+        AnchorManager.CheckStartRotatingWarnings();
     }
 }
