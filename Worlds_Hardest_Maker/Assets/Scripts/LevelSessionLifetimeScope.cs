@@ -90,7 +90,6 @@ public class LevelSessionLifetimeScope : LifetimeScope
         builder.Register<DeleteFieldManager>(Lifetime.Singleton).AsImplementedInterfaces();
 
         builder.Register<SaveSystem>(Lifetime.Singleton).AsSelf();
-        builder.Register<OnlineLevelService>(Lifetime.Singleton).AsSelf();
     }
     
     protected override void Awake()
