@@ -113,7 +113,7 @@ public class LevelCardController : MonoBehaviour, IPointerClickHandler
 
     public void UploadLevel()
     {
-        onlineLevelService.UploadLevel(LevelPath, Name, Description).ContinueWith(task =>
+        onlineLevelService.UploadLevel(LevelPath).ContinueWith(task =>
         {
             if (task.IsCompletedSuccessfully)
             {

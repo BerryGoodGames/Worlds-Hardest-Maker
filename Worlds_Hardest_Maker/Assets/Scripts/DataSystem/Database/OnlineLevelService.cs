@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using UnityEngine;
 using Client = Supabase.Client;
+using Random = System.Random;
 
 // NOTE: [Table("levels")] belongs on OnlineLevelRecord, not here — see below.
 public class OnlineLevelService
@@ -20,13 +22,14 @@ public class OnlineLevelService
     }
 
     /// <summary>Uploads the level file at localPath, creates a DB record, returns the join code.</summary>
-    public async Task<string> UploadLevel(string localPath, string name, string description)
+    public async Task<string> UploadLevel(string localPath)
     {
         await EnsureSignedIn();
 
-        string userId = supabase.Auth.CurrentUser!.Id;
+        Guid id = Guid.NewGuid();
         string code = await GenerateUniqueCode();
-        string storagePath = $"{code}.whm";
+        string storagePath = $"{id}.lvl";
+        Debug.Log((id, storagePath));
 
         byte[] fileBytes = await File.ReadAllBytesAsync(localPath);
 
@@ -36,12 +39,9 @@ public class OnlineLevelService
 
         OnlineLevelRecord record = new()
         {
-            Name = name,
-            Description = description,
-            AuthorId = Guid.Parse(userId),
-            FilePath = storagePath,
+            Id = id,
+            StoragePath = storagePath,
             Code = code,
-            Published = true,
         };
 
         try
@@ -72,13 +72,13 @@ public class OnlineLevelService
 
         byte[] fileBytes = await supabase.Storage
             .From("levels")
-            .Download(response.FilePath, (Supabase.Storage.TransformOptions)null);
+            .Download(response.StoragePath, (Supabase.Storage.TransformOptions)null);
 
-        string localPath = Path.Combine(SaveSystem.LevelSavePath, $"{response.Name}.lvl");
+        string localPath = Path.Combine(SaveSystem.LevelSavePath, $"{response.Id}.lvl");
         await File.WriteAllBytesAsync(localPath, fileBytes);
 
         // fire-and-forget, don't block the download on this
-        _ = supabase.Rpc("increment_level_downloads", new { p_code = code });
+        // _ = supabase.Rpc("increment_level_downloads", new { p_code = code });
 
         return localPath;
     }
